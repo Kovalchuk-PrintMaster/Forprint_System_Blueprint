@@ -1,0 +1,324 @@
+ownership:
+  architecture_decision:
+    owner: forprint_system_blueprint
+    consumers:
+    - forprint_project_inspector
+  module_definition:
+    owner: forprint_system_blueprint
+    consumers:
+    - forprint_project_inspector
+    - forprint_crm
+  data_flow_definition:
+    owner: forprint_system_blueprint
+    consumers:
+    - forprint_project_inspector
+    - forprint_crm
+  contract_definition:
+    owner: forprint_system_blueprint
+    consumers:
+    - forprint_project_inspector
+  client:
+    owner: forprint_operational_registry
+    consumers:
+    - forprint_crm
+    - accounting_registry_service
+    - telegram_bot
+    - website
+    - logistics_service
+  order:
+    owner: forprint_operational_registry
+    consumers:
+    - forprint_crm
+    - accounting_registry_service
+    - forprint_prepress_hub
+    - warehouse_service
+    - logistics_service
+    - telegram_bot
+  client_interaction:
+    owner: forprint_operational_registry
+    consumers:
+    - forprint_crm
+    - telegram_bot
+  material_catalog:
+    owner: forprint_library
+    consumers:
+    - calculator_engine
+    - forprint_prepress_hub
+    - warehouse_service
+    - forprint_crm
+  product_catalog:
+    owner: forprint_library
+    consumers:
+    - calculator_engine
+    - website
+    - forprint_crm
+    - telegram_bot
+  machine_capability:
+    owner: forprint_library
+    consumers:
+    - calculator_engine
+    - forprint_prepress_hub
+  quote_draft:
+    owner: calculator_engine
+    consumers:
+    - forprint_crm
+    - forprint_operational_registry
+    - accounting_registry_service
+    - telegram_bot
+    - website
+  material_consumption_estimate:
+    owner: calculator_engine
+    consumers:
+    - warehouse_service
+    - forprint_crm
+  prepress_report:
+    owner: forprint_prepress_hub
+    consumers:
+    - forprint_crm
+    - forprint_operational_registry
+    - telegram_bot
+  print_ready_file:
+    owner: forprint_prepress_hub
+    consumers:
+    - forprint_crm
+    - telegram_bot
+  invoice:
+    owner: accounting_registry_service
+    consumers:
+    - forprint_crm
+    - telegram_bot
+    - website
+    - forprint_operational_registry
+  payment_status:
+    owner: accounting_registry_service
+    consumers:
+    - forprint_crm
+    - telegram_bot
+    - website
+    - forprint_operational_registry
+  material_stock:
+    owner: warehouse_service
+    consumers:
+    - forprint_crm
+    - calculator_engine
+  material_reservation:
+    owner: warehouse_service
+    consumers:
+    - forprint_crm
+    - forprint_operational_registry
+  delivery_status:
+    owner: logistics_service
+    consumers:
+    - forprint_crm
+    - telegram_bot
+    - website
+    - forprint_operational_registry
+  backup_status_report:
+    owner: cloud_backup_manager
+    consumers:
+    - forprint_crm
+    - forprint_project_inspector
+  impact_rule:
+    owner: forprint_system_blueprint
+    consumers: []
+  module_guide:
+    owner: forprint_system_blueprint
+    consumers: []
+  mermaid_diagram:
+    owner: forprint_system_blueprint
+    consumers: []
+  architecture_change_prompt:
+    owner: forprint_system_blueprint
+    consumers: []
+  module_manifest:
+    owner: forprint_project_inspector
+    consumers: []
+  module_status_report:
+    owner: forprint_project_inspector
+    consumers: []
+  inspection_report:
+    owner: forprint_project_inspector
+    consumers: []
+  architecture_health_report:
+    owner: forprint_project_inspector
+    consumers: []
+  integration_gap_report:
+    owner: forprint_project_inspector
+    consumers: []
+  runtime_health_event:
+    owner: production_runtime_inspector
+    consumers: []
+  production_health_report:
+    owner: production_runtime_inspector
+    consumers: []
+  crm_dashboard_view:
+    owner: forprint_crm
+    consumers: []
+  business_workflow_state:
+    owner: forprint_crm
+    consumers: []
+  management_report:
+    owner: forprint_crm
+    consumers: []
+  business_command:
+    owner: forprint_crm
+    consumers: []
+  human_dashboard:
+    owner: forprint_crm
+    consumers: []
+  workflow_decision:
+    owner: forprint_crm
+    consumers: []
+  order_status_history:
+    owner: forprint_operational_registry
+    consumers: []
+  order_context:
+    owner: forprint_operational_registry
+    consumers: []
+  client_history:
+    owner: forprint_operational_registry
+    consumers: []
+  client_context:
+    owner: forprint_operational_registry
+    consumers: []
+  print_mode:
+    owner: forprint_library
+    consumers: []
+  document_template:
+    owner: forprint_library
+    consumers: []
+  technical_card:
+    owner: forprint_library
+    consumers: []
+  price_breakdown:
+    owner: calculator_engine
+    consumers: []
+  product_configuration:
+    owner: calculator_engine
+    consumers: []
+  prepress_file:
+    owner: forprint_prepress_hub
+    consumers: []
+  file_preview:
+    owner: forprint_prepress_hub
+    consumers: []
+  accounting_document:
+    owner: accounting_registry_service
+    consumers: []
+  one_c_sync_event:
+    owner: accounting_registry_service
+    consumers: []
+  accounting_export:
+    owner: accounting_registry_service
+    consumers: []
+  telegram_dialog_state:
+    owner: telegram_bot
+    consumers: []
+  bot_action_log:
+    owner: telegram_bot
+    consumers: []
+  client_request:
+    owner: telegram_bot
+    consumers: []
+  workflow_command:
+    owner: telegram_bot
+    consumers: []
+  ai_assisted_task_request:
+    owner: telegram_bot
+    consumers: []
+  website_content:
+    owner: website
+    consumers: []
+  public_product_page:
+    owner: website
+    consumers: []
+  website_request:
+    owner: website
+    consumers: []
+  inventory_movement:
+    owner: warehouse_service
+    consumers: []
+  purchase_request:
+    owner: warehouse_service
+    consumers: []
+  inventory_availability_report:
+    owner: warehouse_service
+    consumers: []
+  delivery_request:
+    owner: logistics_service
+    consumers: []
+  logistics_provider_adapter:
+    owner: logistics_service
+    consumers: []
+  delivery_label:
+    owner: logistics_service
+    consumers: []
+  delivery_cost_estimate:
+    owner: logistics_service
+    consumers: []
+  package_description:
+    owner: logistics_service
+    consumers: []
+  backup_plan:
+    owner: cloud_backup_manager
+    consumers: []
+  backup_snapshot:
+    owner: cloud_backup_manager
+    consumers: []
+  backup_inventory:
+    owner: cloud_backup_manager
+    consumers: []
+  backup_source_descriptor:
+    owner: cloud_backup_manager
+    consumers: []
+  integration_request:
+    owner: forprint_integration_gateway
+    consumers:
+    - forprint_integration_gateway
+    - forprint_crm
+    - forprint_project_inspector
+  routed_module_request:
+    owner: forprint_integration_gateway
+    consumers:
+    - calculator_engine
+    - forprint_operational_registry
+    - warehouse_service
+    - accounting_registry_service
+  integration_response:
+    owner: forprint_integration_gateway
+    consumers:
+    - forprint_crm
+    - telegram_bot
+    - website
+    - forprint_project_inspector
+  validation_error:
+    owner: forprint_integration_gateway
+    consumers:
+    - forprint_crm
+    - telegram_bot
+    - website
+    - forprint_project_inspector
+  routing_rule:
+    owner: forprint_integration_gateway
+    consumers:
+    - forprint_system_blueprint
+    - forprint_project_inspector
+  correlation_context:
+    owner: forprint_integration_gateway
+    consumers:
+    - forprint_crm
+    - forprint_project_inspector
+  idempotency_record:
+    owner: forprint_integration_gateway
+    consumers:
+    - forprint_project_inspector
+  integration_audit_event:
+    owner: forprint_integration_gateway
+    consumers:
+    - forprint_crm
+    - forprint_project_inspector
+  security_filter_event:
+    owner: forprint_integration_gateway
+    consumers:
+    - forprint_project_inspector
+    - forprint_crm

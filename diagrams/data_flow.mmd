@@ -1,0 +1,12 @@
+graph TD
+    Library[ForPrint Library] --> Calculator[Calculator Engine]
+    Library --> Prepress[Prepress Hub]
+    Calculator --> CRM[ForPrint CRM]
+    Telegram[Telegram Bot] --> CRM
+    Website[Website] --> CRM
+    CRM --> OperationalRegistry[Operational Registry]
+    OperationalRegistry --> Accounting[Accounting Registry / 1C]
+    OperationalRegistry --> Prepress
+    CRM --> Warehouse[Warehouse Service]
+    CRM --> Logistics[Logistics Service]
+    Backup[Cloud Backup Manager] --> CRM

@@ -1,0 +1,377 @@
+modules:
+- id: forprint_system_blueprint
+  title: ForPrint System Blueprint
+  type: architecture_truth_layer
+  status: active_development
+  role: 'Верхній шар архітектурної правди: модулі, межі, дані, контракти, потоки, правила впливу змін, module guides.
+
+    '
+  owns:
+  - architecture_decision
+  - module_definition
+  - data_flow_definition
+  - contract_definition
+  - impact_rule
+  consumes: []
+  provides:
+  - module_guide
+  - mermaid_diagram
+  - architecture_change_prompt
+  must_not_own:
+  - client
+  - order
+  - invoice
+  - material_stock
+- id: forprint_project_inspector
+  title: ForPrint Project Inspector
+  type: architecture_compliance_checker
+  status: planned
+  role: 'Перевіряє відповідність реальних модулів Blueprint: manifests, reports, контракти, інтеграційні розриви, architecture drift.
+
+    '
+  owns:
+  - inspection_report
+  consumes:
+  - module_definition
+  - contract_definition
+  - data_flow_definition
+  - module_manifest
+  - module_status_report
+  provides:
+  - architecture_health_report
+  - integration_gap_report
+  must_not_own:
+  - module_definition
+  - client
+  - order
+- id: production_runtime_inspector
+  title: ForPrint Production Runtime Inspector
+  type: production_monitoring
+  status: future
+  role: 'Майбутній інспектор продакшену: контроль живої системи, помилок, деградацій, проблем інтеграції, runtime-подій.
+
+    '
+  owns:
+  - runtime_health_event
+  consumes:
+  - architecture_health_report
+  - module_status_report
+  provides:
+  - production_health_report
+  must_not_own:
+  - architecture_decision
+- id: forprint_integration_gateway
+  title: ForPrint Integration Gateway
+  type: integration_gateway_and_message_router
+  status: planned
+  role: 'Транспортно-контрактний шар між модулями: приймає запити, перевіряє їх за контрактами, нормалізує payload, додає correlation/idempotency context, маршрутизує до цільових модулів і повертає стандартизовані відповіді або помилки. Не приймає бізнес-рішень і не володіє предметними даними.'
+  owns:
+  - integration_request
+  - routed_module_request
+  - integration_response
+  - validation_error
+  - routing_rule
+  - correlation_context
+  - idempotency_record
+  - integration_audit_event
+  - security_filter_event
+  consumes:
+  - contract_definition
+  - data_flow_definition
+  - website_request
+  - client_request
+  - workflow_command
+  - business_command
+  - quote_draft
+  - price_breakdown
+  - material_consumption_estimate
+  provides:
+  - routed_module_request
+  - integration_response
+  - validation_error
+  - integration_audit_event
+  - security_filter_event
+  must_not_own:
+  - client
+  - order
+  - quote_draft
+  - invoice
+  - payment_status
+  - material_catalog
+  - material_stock
+  - prepress_file
+  - print_ready_file
+  - business_workflow_state
+- id: forprint_crm
+  title: ForPrint CRM
+  type: business_orchestration_ui
+  status: planned
+  role: 'Бізнес-диригент, людський інтерфейс, прикладний оркестратор процесів, аналітика, звіти, контроль заявок і статусів. Не є фізичним сховищем усіх клієнтів і замовлень.
+
+    '
+  owns:
+  - crm_dashboard_view
+  - business_workflow_state
+  - management_report
+  consumes:
+  - client
+  - order
+  - quote_draft
+  - prepress_report
+  - invoice
+  - payment_status
+  - material_reservation
+  - delivery_status
+  provides:
+  - business_command
+  - human_dashboard
+  - workflow_decision
+  must_not_own:
+  - canonical_client_registry
+  - canonical_order_registry
+  - material_catalog
+  - accounting_document
+  - print_ready_file
+- id: forprint_operational_registry
+  title: ForPrint Operational Registry
+  type: operational_data_registry
+  status: planned
+  role: 'Канонічний реєстр операційних бізнес-записів: клієнти, замовлення, взаємодії, робочі статуси, історія виконання.
+
+    '
+  owns:
+  - client
+  - order
+  - client_interaction
+  - order_status_history
+  consumes:
+  - quote_draft
+  - prepress_report
+  - payment_status
+  - delivery_status
+  provides:
+  - client
+  - order
+  - order_context
+  - client_history
+  must_not_own:
+  - material_catalog
+  - invoice
+  - machine_capability
+- id: forprint_library
+  title: ForPrint Library
+  type: canonical_reference_library
+  status: active_development
+  role: 'Джерело правди для довідників, матеріалів, технічних карт, шаблонів документів, номенклатури, режимів друку, машинних можливостей.
+
+    '
+  owns:
+  - material_catalog
+  - product_catalog
+  - machine_capability
+  - print_mode
+  - document_template
+  - technical_card
+  consumes: []
+  provides:
+  - material_catalog
+  - product_catalog
+  - machine_capability
+  - print_mode
+  - document_template
+  must_not_own:
+  - client
+  - order
+  - invoice
+  - payment_status
+- id: calculator_engine
+  title: ForPrint Calculator Engine
+  type: calculation_service
+  status: active_development
+  role: 'Прикладна математика: калькуляції, попередні кошториси, розрахунок вартості, витрат матеріалів, конфігурацій продукту.
+
+    '
+  owns:
+  - quote_draft
+  - price_breakdown
+  - material_consumption_estimate
+  - product_configuration
+  consumes:
+  - material_catalog
+  - product_catalog
+  - machine_capability
+  - print_mode
+  - client_context
+  provides:
+  - quote_draft
+  - price_breakdown
+  - material_consumption_estimate
+  must_not_own:
+  - client
+  - order
+  - invoice
+  - payment_status
+  - prepress_file
+- id: forprint_prepress_hub
+  title: ForPrint Prepress Hub
+  type: prepress_file_service
+  status: active_development
+  role: 'Прийом, аналіз і підготовка файлів до друку: перевірка готовності, автоматична обробка, прев''ю, print-ready файли.
+
+    '
+  owns:
+  - prepress_file
+  - prepress_report
+  - print_ready_file
+  - file_preview
+  consumes:
+  - order_context
+  - material_catalog
+  - machine_capability
+  - print_mode
+  provides:
+  - prepress_report
+  - print_ready_file
+  - file_preview
+  must_not_own:
+  - client
+  - invoice
+  - material_stock
+- id: accounting_registry_service
+  title: ForPrint Accounting Registry Service
+  type: accounting_registry
+  status: active_development
+  role: 'Бухгалтерський і 1С-сумісний контур: рахунки, оплати, акти, бухгалтерські документи, експорт або синхронізація з 1С.
+
+    '
+  owns:
+  - invoice
+  - payment_status
+  - accounting_document
+  - one_c_sync_event
+  consumes:
+  - order
+  - client
+  - quote_draft
+  provides:
+  - invoice
+  - payment_status
+  - accounting_export
+  must_not_own:
+  - material_catalog
+  - prepress_file
+  - print_ready_file
+- id: telegram_bot
+  title: ForPrint Telegram Bot
+  type: client_interface_and_action_runner
+  status: active_development
+  role: 'Клієнтський інтерфейс, оператор сценаріїв і AI-assisted виконавець дій через дозволені контракти інших модулів. Не є джерелом правди.
+
+    '
+  owns:
+  - telegram_dialog_state
+  - bot_action_log
+  consumes:
+  - client_context
+  - order_context
+  - quote_draft
+  - prepress_report
+  - delivery_status
+  provides:
+  - client_request
+  - workflow_command
+  - ai_assisted_task_request
+  must_not_own:
+  - material_catalog
+  - canonical_client_registry
+  - canonical_order_registry
+  - invoice
+  - payment_status
+- id: website
+  title: ForPrint Website
+  type: public_and_client_web_interface
+  status: existing_basic
+  role: 'Публічний сайт і майбутній клієнтський веб-інтерфейс. Має використовувати CRM / registry / calculator / prepress через адаптери, а не тримати дубльовану правду.
+
+    '
+  owns:
+  - website_content
+  - public_product_page
+  consumes:
+  - product_catalog
+  - client_context
+  - order_context
+  - quote_draft
+  provides:
+  - website_request
+  must_not_own:
+  - canonical_client_registry
+  - canonical_order_registry
+  - material_catalog
+- id: warehouse_service
+  title: ForPrint Warehouse Service
+  type: warehouse_and_inventory_service
+  status: planned
+  role: 'Склад: залишки, резервування, рух матеріалів, списання, мінімальні залишки, заявки на закупівлю.
+
+    '
+  owns:
+  - material_stock
+  - material_reservation
+  - inventory_movement
+  - purchase_request
+  consumes:
+  - material_catalog
+  - order
+  - material_consumption_estimate
+  provides:
+  - material_stock
+  - material_reservation
+  - inventory_availability_report
+  must_not_own:
+  - material_catalog
+  - invoice
+  - client
+- id: logistics_service
+  title: ForPrint Logistics Service
+  type: delivery_and_logistics_service
+  status: planned
+  role: 'Доставка і логістика: Нова пошта, Укрпошта, таксі, кур''єри, статуси відправок, інтеграційні ключі і адаптери.
+
+    '
+  owns:
+  - delivery_request
+  - delivery_status
+  - logistics_provider_adapter
+  consumes:
+  - order
+  - client
+  - package_description
+  provides:
+  - delivery_status
+  - delivery_label
+  - delivery_cost_estimate
+  must_not_own:
+  - invoice
+  - material_catalog
+  - order
+- id: cloud_backup_manager
+  title: Cloud Backup Manager
+  type: backup_service
+  status: active_development
+  role: 'Резервне копіювання локальних і хмарних даних: бази даних, файли клієнтів, архіви, конфігурації, контроль наявності backup-знімків.
+
+    '
+  owns:
+  - backup_plan
+  - backup_snapshot
+  - backup_inventory
+  consumes:
+  - backup_source_descriptor
+  provides:
+  - backup_status_report
+  - backup_inventory
+  must_not_own:
+  - client
+  - order
+  - invoice

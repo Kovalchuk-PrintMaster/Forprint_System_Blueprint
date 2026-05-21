@@ -1,0 +1,26 @@
+prompt_routes:
+  outgoing_root: coordination/outgoing_prompts
+  incoming_root: coordination/incoming_requests
+  review_packets_root: coordination/review_packets
+
+  routing_policy:
+    default_transport: git
+    default_status_flow: [drafts, approved, sent]
+    incoming_status_flow: [new, reviewed, archived]
+    review_packet_status_flow: [new, processed, archived]
+
+  rules:
+    - id: blueprint_change_to_module_prompt
+      description: Якщо Blueprint змінює межі або контракт модуля, формується outgoing prompt для цього модуля.
+      source: forprint_system_blueprint
+      targets: any_impacted_module
+
+    - id: module_uncertainty_to_blueprint_request
+      description: Якщо дочірній модуль впирається в неоднозначну архітектуру, він формує incoming request до Blueprint.
+      source: any_module
+      targets: [forprint_system_blueprint]
+
+    - id: review_packet_for_architecture_audit
+      description: Якщо треба проаналізувати фрагмент діалогу, коду або архів, він кладеться у review_packets відповідного модуля.
+      source: human_or_module
+      targets: [forprint_system_blueprint]

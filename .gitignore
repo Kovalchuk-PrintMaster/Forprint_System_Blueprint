@@ -1,0 +1,94 @@
+# ForPrint System Blueprint — local/runtime files
+# Keep the repository clean: commit architecture sources, docs, diagrams and tests;
+# do not commit virtual environments, caches, build artifacts, secrets or temporary files.
+
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.pyre/
+.tox/
+.nox/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+
+# Python packaging/build artifacts
+*.egg-info/
+build/
+dist/
+.eggs/
+*.egg
+pip-wheel-metadata/
+
+# Virtual environments
+.venv/
+.venv_*/
+.venv_blueprint/
+venv/
+ENV/
+env/
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+*.sqlite
+*.sqlite3
+*.db
+
+# Local logs, temp files and backups
+logs/
+tmp/
+temp/
+*.log
+*.tmp
+*.temp
+*.bak
+*.backup
+*.orig
+*.rej
+*.swp
+*.swo
+*~
+
+# Local archives / transfer packages
+# Review packets should be unpacked and summarized before commit.
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+*.rar
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Project-specific accidental backup folders
+*.backup_before_*/
+*.backup_*/
+backup_before_*/
+backups/
+_quarantine/
+quarantine_tmp/
+
+# Do NOT ignore architecture sources:
+# - machine/*.yaml
+# - human/*.md
+# - diagrams/*.mmd
+# - module_guides/*.md
+# - adr/*.md
+# - scripts/*.py
+# - tests/*.py

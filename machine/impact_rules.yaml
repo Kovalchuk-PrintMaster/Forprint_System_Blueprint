@@ -1,0 +1,167 @@
+impact_rules:
+- id: module_definition_changed
+  when_changed:
+  - module_definition
+  notify_modules:
+  - forprint_project_inspector
+  - forprint_crm
+  required_actions:
+  - review_module_guides
+  - regenerate_diagrams
+  - run_blueprint_validation
+- id: contract_changed
+  when_changed:
+  - contract_definition
+  notify_modules:
+  - forprint_project_inspector
+  required_actions:
+  - review_consumed_contracts
+  - update_module_manifest
+  - run_integration_tests
+- id: material_catalog_changed
+  when_changed:
+  - material_catalog
+  notify_modules:
+  - calculator_engine
+  - forprint_prepress_hub
+  - warehouse_service
+  - forprint_crm
+  required_actions:
+  - review_consumed_contracts
+  - update_status_report
+  - run_tests
+- id: machine_capability_changed
+  when_changed:
+  - machine_capability
+  - print_mode
+  notify_modules:
+  - calculator_engine
+  - forprint_prepress_hub
+  - forprint_crm
+  required_actions:
+  - review_calculation_logic
+  - review_prepress_rules
+  - run_tests
+- id: quote_contract_changed
+  when_changed:
+  - quote_draft
+  - price_breakdown
+  - material_consumption_estimate
+  notify_modules:
+  - forprint_crm
+  - forprint_operational_registry
+  - accounting_registry_service
+  - warehouse_service
+  - telegram_bot
+  - website
+  required_actions:
+  - review_quote_contracts
+  - update_module_guides
+  - run_tests
+- id: order_model_changed
+  when_changed:
+  - order
+  - order_context
+  - order_status_history
+  notify_modules:
+  - forprint_crm
+  - accounting_registry_service
+  - forprint_prepress_hub
+  - warehouse_service
+  - logistics_service
+  - telegram_bot
+  - website
+  required_actions:
+  - review_order_lifecycle
+  - update_status_report
+  - run_tests
+- id: prepress_contract_changed
+  when_changed:
+  - prepress_report
+  - print_ready_file
+  - file_preview
+  notify_modules:
+  - forprint_crm
+  - telegram_bot
+  - forprint_operational_registry
+  required_actions:
+  - review_file_flow
+  - update_guides
+  - run_tests
+- id: accounting_contract_changed
+  when_changed:
+  - invoice
+  - payment_status
+  - accounting_document
+  - one_c_sync_event
+  notify_modules:
+  - forprint_crm
+  - forprint_operational_registry
+  - telegram_bot
+  - website
+  required_actions:
+  - review_financial_status_flow
+  - review_1c_export
+  - run_tests
+- id: warehouse_contract_changed
+  when_changed:
+  - material_stock
+  - material_reservation
+  - inventory_movement
+  notify_modules:
+  - forprint_crm
+  - calculator_engine
+  - forprint_operational_registry
+  required_actions:
+  - review_reservation_flow
+  - update_module_guides
+  - run_tests
+- id: logistics_contract_changed
+  when_changed:
+  - delivery_request
+  - delivery_status
+  - delivery_label
+  - delivery_cost_estimate
+  notify_modules:
+  - forprint_crm
+  - telegram_bot
+  - website
+  - forprint_operational_registry
+  required_actions:
+  - review_delivery_flow
+  - update_module_guides
+  - run_tests
+- id: backup_policy_changed
+  when_changed:
+  - backup_plan
+  - backup_source_descriptor
+  notify_modules:
+  - cloud_backup_manager
+  - forprint_crm
+  - forprint_project_inspector
+  required_actions:
+  - review_backup_sources
+  - run_backup_inventory_check
+- id: contract_changed_requires_gateway_review
+  when_changed:
+  - contract_definition
+  - data_flow_definition
+  notify_modules:
+  - forprint_integration_gateway
+  - forprint_project_inspector
+  - forprint_crm
+  required_actions:
+  - review_routing_rules
+  - update_validation_schema
+  - run_gateway_contract_tests
+- id: integration_validation_errors_require_contract_review
+  when_changed:
+  - validation_error
+  - security_filter_event
+  notify_modules:
+  - forprint_integration_gateway
+  - forprint_project_inspector
+  required_actions:
+  - review_failed_payloads
+  - check_source_module_contract
+  - update_blueprint_if_contract_is_incomplete

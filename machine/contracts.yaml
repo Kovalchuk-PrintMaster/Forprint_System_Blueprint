@@ -1,0 +1,345 @@
+contracts:
+- id: blueprint_to_module_guide.v1
+  title: Blueprint to Module Guide
+  provider: forprint_system_blueprint
+  consumer: any_module
+  version: v1
+  status: active_development
+  data_objects:
+  - module_guide
+  - architecture_change_prompt
+  description: Генерація guide/prompts для окремих модулів з YAML Blueprint.
+- id: blueprint_to_inspector_architecture.v1
+  title: Blueprint to Inspector Architecture Contract
+  provider: forprint_system_blueprint
+  consumer: forprint_project_inspector
+  version: v1
+  status: planned
+  data_objects:
+  - module_definition
+  - data_flow_definition
+  - contract_definition
+  - impact_rule
+  description: Inspector читає архітектурну правду з Blueprint.
+- id: module_to_inspector_manifest.v1
+  title: Module Manifest to Inspector
+  provider: any_module
+  consumer: forprint_project_inspector
+  version: v1
+  status: planned
+  data_objects:
+  - module_manifest
+  - module_status_report
+  description: Кожен модуль надає manifest і status report для перевірки.
+- id: library_to_calculator_catalog.v1
+  title: Library Catalogs to Calculator
+  provider: forprint_library
+  consumer: calculator_engine
+  version: v1
+  status: active_development
+  data_objects:
+  - material_catalog
+  - product_catalog
+  - machine_capability
+  - print_mode
+  description: Calculator отримує довідники, матеріали, продукти і можливості обладнання.
+- id: library_to_prepress_capabilities.v1
+  title: Library Capabilities to Prepress
+  provider: forprint_library
+  consumer: forprint_prepress_hub
+  version: v1
+  status: active_development
+  data_objects:
+  - material_catalog
+  - machine_capability
+  - print_mode
+  description: Prepress отримує технічні обмеження і режими обробки.
+- id: library_to_warehouse_materials.v1
+  title: Library Materials to Warehouse
+  provider: forprint_library
+  consumer: warehouse_service
+  version: v1
+  status: planned
+  data_objects:
+  - material_catalog
+  description: Warehouse використовує канонічні матеріали з Library.
+- id: calculator_to_crm_quote.v1
+  title: Calculator Quote to CRM
+  provider: calculator_engine
+  consumer: forprint_crm
+  version: v1
+  status: active_development
+  data_objects:
+  - quote_draft
+  - price_breakdown
+  - material_consumption_estimate
+  description: CRM отримує кошторис і деталізацію ціни для показу людині.
+- id: calculator_to_registry_quote.v1
+  title: Calculator Quote to Operational Registry
+  provider: calculator_engine
+  consumer: forprint_operational_registry
+  version: v1
+  status: planned
+  data_objects:
+  - quote_draft
+  - product_configuration
+  description: Operational Registry зберігає прив'язку кошторису до замовлення.
+- id: crm_to_operational_registry_command.v1
+  title: CRM Command to Operational Registry
+  provider: forprint_crm
+  consumer: forprint_operational_registry
+  version: v1
+  status: planned
+  data_objects:
+  - business_command
+  - workflow_decision
+  description: CRM диригує створенням / зміною операційних записів.
+- id: operational_registry_to_prepress_order_context.v1
+  title: Operational Registry Order Context to Prepress
+  provider: forprint_operational_registry
+  consumer: forprint_prepress_hub
+  version: v1
+  status: planned
+  data_objects:
+  - order_context
+  description: Prepress отримує контекст замовлення для обробки файлів.
+- id: prepress_to_crm_report.v1
+  title: Prepress Report to CRM
+  provider: forprint_prepress_hub
+  consumer: forprint_crm
+  version: v1
+  status: active_development
+  data_objects:
+  - prepress_report
+  - file_preview
+  - print_ready_file
+  description: CRM бачить стан підготовки файлів.
+- id: operational_registry_to_accounting_order.v1
+  title: Operational Registry Order to Accounting
+  provider: forprint_operational_registry
+  consumer: accounting_registry_service
+  version: v1
+  status: planned
+  data_objects:
+  - order
+  - client
+  - quote_draft
+  description: Accounting отримує дані для рахунку / акта / 1С.
+- id: accounting_to_crm_financial_status.v1
+  title: Accounting Financial Status to CRM
+  provider: accounting_registry_service
+  consumer: forprint_crm
+  version: v1
+  status: active_development
+  data_objects:
+  - invoice
+  - payment_status
+  - accounting_document
+  description: CRM показує фінансовий статус замовлення.
+- id: accounting_to_one_c_export.v1
+  title: Accounting Export to 1C
+  provider: accounting_registry_service
+  consumer: external_1c
+  version: v1
+  status: planned
+  data_objects:
+  - accounting_export
+  - one_c_sync_event
+  description: Передача бухгалтерських даних у 1С або сумісний обмінний формат.
+- id: telegram_to_crm_request.v1
+  title: Telegram Request to CRM
+  provider: telegram_bot
+  consumer: forprint_crm
+  version: v1
+  status: active_development
+  data_objects:
+  - client_request
+  - workflow_command
+  - ai_assisted_task_request
+  description: Telegram Bot передає бізнес-запит у CRM / диригентський контур.
+- id: website_to_crm_request.v1
+  title: Website Request to CRM
+  provider: website
+  consumer: forprint_crm
+  version: v1
+  status: planned
+  data_objects:
+  - website_request
+  description: Сайт передає заявки або запити в CRM.
+- id: crm_to_warehouse_reservation.v1
+  title: CRM to Warehouse Reservation
+  provider: forprint_crm
+  consumer: warehouse_service
+  version: v1
+  status: planned
+  data_objects:
+  - business_command
+  - material_consumption_estimate
+  description: CRM ініціює резерв матеріалів через Warehouse Service.
+- id: warehouse_to_crm_inventory_status.v1
+  title: Warehouse Inventory Status to CRM
+  provider: warehouse_service
+  consumer: forprint_crm
+  version: v1
+  status: planned
+  data_objects:
+  - material_stock
+  - material_reservation
+  - inventory_availability_report
+  description: CRM бачить залишки, резерви і ризики складу.
+- id: crm_to_logistics_delivery.v1
+  title: CRM to Logistics Delivery Request
+  provider: forprint_crm
+  consumer: logistics_service
+  version: v1
+  status: planned
+  data_objects:
+  - business_command
+  - delivery_request
+  description: CRM ініціює доставку через Logistics Service.
+- id: logistics_to_crm_delivery_status.v1
+  title: Logistics Delivery Status to CRM
+  provider: logistics_service
+  consumer: forprint_crm
+  version: v1
+  status: planned
+  data_objects:
+  - delivery_status
+  - delivery_label
+  - delivery_cost_estimate
+  description: CRM отримує статус доставки і документи.
+- id: backup_to_crm_status.v1
+  title: Backup Status to CRM
+  provider: cloud_backup_manager
+  consumer: forprint_crm
+  version: v1
+  status: planned
+  data_objects:
+  - backup_status_report
+  - backup_inventory
+  description: CRM або dashboard бачить статус резервного копіювання.
+- id: blueprint_to_integration_gateway_contracts.v1
+  title: Blueprint Contracts to Integration Gateway
+  provider: forprint_system_blueprint
+  consumer: forprint_integration_gateway
+  version: v1
+  status: planned
+  data_objects:
+  - contract_definition
+  - data_flow_definition
+  - routing_rule
+  description: Integration Gateway отримує з Blueprint опис контрактів, потоків і базових правил маршрутизації.
+- id: website_to_integration_gateway_request.v1
+  title: Website Request to Integration Gateway
+  provider: website
+  consumer: forprint_integration_gateway
+  version: v1
+  status: planned
+  data_objects:
+  - website_request
+  - integration_request
+  description: Сайт передає запит не напряму в предметний модуль, а в Integration Gateway для валідації і маршрутизації.
+- id: telegram_to_integration_gateway_request.v1
+  title: Telegram Request to Integration Gateway
+  provider: telegram_bot
+  consumer: forprint_integration_gateway
+  version: v1
+  status: planned
+  data_objects:
+  - client_request
+  - workflow_command
+  - ai_assisted_task_request
+  - integration_request
+  description: Telegram Bot передає нестандартні або міжмодульні запити через Integration Gateway.
+- id: crm_to_integration_gateway_command.v1
+  title: CRM Command to Integration Gateway
+  provider: forprint_crm
+  consumer: forprint_integration_gateway
+  version: v1
+  status: planned
+  data_objects:
+  - business_command
+  - workflow_decision
+  - integration_request
+  description: CRM як бізнес-диригент відправляє технічні команди через Integration Gateway, а не напряму в усі модулі.
+- id: calculator_to_integration_gateway_result.v1
+  title: Calculator Result to Integration Gateway
+  provider: calculator_engine
+  consumer: forprint_integration_gateway
+  version: v1
+  status: planned
+  data_objects:
+  - quote_draft
+  - price_breakdown
+  - material_consumption_estimate
+  - integration_response
+  description: 'Calculator повертає результат у Gateway, який далі маршрутизує наслідки: CRM, registry, warehouse, accounting.'
+- id: integration_gateway_to_calculator_request.v1
+  title: Integration Gateway to Calculator Request
+  provider: forprint_integration_gateway
+  consumer: calculator_engine
+  version: v1
+  status: planned
+  data_objects:
+  - routed_module_request
+  - product_configuration
+  - correlation_context
+  description: Gateway передає Calculator тільки валідований розрахунковий запит.
+- id: integration_gateway_to_operational_registry_command.v1
+  title: Integration Gateway to Operational Registry Command
+  provider: forprint_integration_gateway
+  consumer: forprint_operational_registry
+  version: v1
+  status: planned
+  data_objects:
+  - routed_module_request
+  - quote_draft
+  - product_configuration
+  - correlation_context
+  description: Gateway передає валідовані команди на створення або оновлення операційних записів.
+- id: integration_gateway_to_warehouse_reservation.v1
+  title: Integration Gateway to Warehouse Reservation
+  provider: forprint_integration_gateway
+  consumer: warehouse_service
+  version: v1
+  status: planned
+  data_objects:
+  - routed_module_request
+  - material_consumption_estimate
+  - correlation_context
+  description: Gateway передає складському модулю валідований запит на резерв матеріалів.
+- id: integration_gateway_to_accounting_invoice_request.v1
+  title: Integration Gateway to Accounting Invoice Request
+  provider: forprint_integration_gateway
+  consumer: accounting_registry_service
+  version: v1
+  status: planned
+  data_objects:
+  - routed_module_request
+  - quote_draft
+  - client
+  - order
+  - correlation_context
+  description: Gateway передає бухгалтерському модулю валідований запит на формування рахунку або бухгалтерського запису.
+- id: integration_gateway_to_crm_status.v1
+  title: Integration Gateway to CRM Status
+  provider: forprint_integration_gateway
+  consumer: forprint_crm
+  version: v1
+  status: planned
+  data_objects:
+  - integration_response
+  - validation_error
+  - integration_audit_event
+  description: CRM отримує стандартизований стан маршрутизації, помилки валідації і події інтеграційного шару.
+- id: integration_gateway_to_inspector_audit.v1
+  title: Integration Gateway to Inspector Audit
+  provider: forprint_integration_gateway
+  consumer: forprint_project_inspector
+  version: v1
+  status: planned
+  data_objects:
+  - integration_audit_event
+  - validation_error
+  - security_filter_event
+  description: Inspector отримує інтеграційні події для пошуку architecture drift, неправильних payload і слабких контрактів.

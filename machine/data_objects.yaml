@@ -1,0 +1,755 @@
+data_objects:
+- id: architecture_decision
+  owner: forprint_system_blueprint
+  description: Архітектурне рішення, яке впливає на побудову системи.
+  canonical_fields:
+  - adr_id
+  - title
+  - status
+  - date
+  - context
+  - decision
+  - consequences
+- id: module_definition
+  owner: forprint_system_blueprint
+  description: Канонічний опис модуля в архітектурі ForPrint.
+  canonical_fields:
+  - module_id
+  - title
+  - type
+  - status
+  - role
+  - owns
+  - consumes
+  - provides
+  - must_not_own
+- id: data_flow_definition
+  owner: forprint_system_blueprint
+  description: Опис потоку даних між модулями.
+  canonical_fields:
+  - flow_id
+  - source
+  - target
+  - data_objects
+  - contract
+  - status
+  - criticality
+- id: contract_definition
+  owner: forprint_system_blueprint
+  description: Опис контракту між модулями.
+  canonical_fields:
+  - contract_id
+  - provider
+  - consumer
+  - version
+  - data_objects
+  - status
+- id: impact_rule
+  owner: forprint_system_blueprint
+  description: Правило визначення модулів, яких зачіпає зміна об'єкта або контракту.
+  canonical_fields:
+  - rule_id
+  - when_changed
+  - notify_modules
+  - required_actions
+- id: module_guide
+  owner: forprint_system_blueprint
+  description: Людський guide / prompt для окремого модуля.
+  canonical_fields:
+  - module_id
+  - role
+  - allowed_responsibilities
+  - forbidden_responsibilities
+  - contracts
+  - open_questions
+- id: mermaid_diagram
+  owner: forprint_system_blueprint
+  description: Автоматично або напівавтоматично згенерована Mermaid-діаграма.
+  canonical_fields:
+  - diagram_id
+  - source_yaml
+  - generated_at
+  - content
+- id: architecture_change_prompt
+  owner: forprint_system_blueprint
+  description: Промт / завдання для модуля після зміни архітектури.
+  canonical_fields:
+  - prompt_id
+  - target_modules
+  - reason
+  - source_change
+  - requested_actions
+  - status
+- id: module_manifest
+  owner: forprint_project_inspector
+  description: Файл декларації реального модуля, який порівнюється з Blueprint.
+  canonical_fields:
+  - module_id
+  - implemented_contracts
+  - provided_objects
+  - consumed_objects
+  - status
+- id: module_status_report
+  owner: forprint_project_inspector
+  description: Звіт модуля про стан реалізації.
+  canonical_fields:
+  - module_id
+  - progress_summary
+  - tests
+  - integration_contracts
+  - open_questions
+- id: inspection_report
+  owner: forprint_project_inspector
+  description: Результат перевірки модуля або групи модулів.
+  canonical_fields:
+  - inspection_id
+  - module_id
+  - result
+  - findings
+  - recommendations
+- id: architecture_health_report
+  owner: forprint_project_inspector
+  description: Загальний звіт про стан архітектурного здоров'я системи.
+  canonical_fields:
+  - report_id
+  - checked_at
+  - ok_modules
+  - warning_modules
+  - critical_modules
+  - gaps
+- id: integration_gap_report
+  owner: forprint_project_inspector
+  description: Звіт про невідповідність або відсутній інтеграційний контракт.
+  canonical_fields:
+  - gap_id
+  - source_module
+  - target_module
+  - expected_contract
+  - actual_state
+- id: runtime_health_event
+  owner: production_runtime_inspector
+  description: Подія здоров'я живої продакшен-системи.
+  canonical_fields:
+  - event_id
+  - module_id
+  - severity
+  - message
+  - detected_at
+- id: production_health_report
+  owner: production_runtime_inspector
+  description: Звіт про стан живої системи.
+  canonical_fields:
+  - report_id
+  - generated_at
+  - incidents
+  - degraded_modules
+  - recommendations
+- id: crm_dashboard_view
+  owner: forprint_crm
+  description: Представлення даних для людського інтерфейсу CRM.
+  canonical_fields:
+  - view_id
+  - user_role
+  - widgets
+  - filters
+  - source_modules
+- id: business_workflow_state
+  owner: forprint_crm
+  description: Робочий стан бізнес-процесу на рівні диригування.
+  canonical_fields:
+  - workflow_id
+  - related_order_id
+  - current_step
+  - responsible_module
+  - next_actions
+- id: management_report
+  owner: forprint_crm
+  description: Управлінський звіт для людини.
+  canonical_fields:
+  - report_id
+  - period
+  - metrics
+  - risks
+  - recommendations
+- id: business_command
+  owner: forprint_crm
+  description: Команда, яку CRM надсилає предметному модулю.
+  canonical_fields:
+  - command_id
+  - target_module
+  - action
+  - payload
+  - created_by
+  - status
+- id: human_dashboard
+  owner: forprint_crm
+  description: Людський dashboard для перегляду стану бізнесу або архітектури.
+  canonical_fields:
+  - dashboard_id
+  - title
+  - sections
+  - source_reports
+- id: workflow_decision
+  owner: forprint_crm
+  description: Рішення в бізнес-процесі, яке направляє подальші дії.
+  canonical_fields:
+  - decision_id
+  - workflow_id
+  - selected_option
+  - reason
+  - created_at
+- id: client
+  owner: forprint_operational_registry
+  description: Клієнт або організація, яка замовляє продукт.
+  canonical_fields:
+  - client_id
+  - name
+  - contact_channels
+  - status
+  - created_at
+- id: order
+  owner: forprint_operational_registry
+  description: Підтверджене або робоче замовлення.
+  canonical_fields:
+  - order_id
+  - client_id
+  - status
+  - items
+  - total_amount
+  - created_at
+- id: client_interaction
+  owner: forprint_operational_registry
+  description: Історія взаємодії з клієнтом.
+  canonical_fields:
+  - interaction_id
+  - client_id
+  - channel
+  - message_summary
+  - created_at
+- id: order_status_history
+  owner: forprint_operational_registry
+  description: Історія зміни статусів замовлення.
+  canonical_fields:
+  - event_id
+  - order_id
+  - old_status
+  - new_status
+  - changed_at
+  - reason
+- id: order_context
+  owner: forprint_operational_registry
+  description: Контекст замовлення для інших модулів.
+  canonical_fields:
+  - order_id
+  - client_id
+  - product_configuration
+  - current_status
+  - linked_files
+- id: client_history
+  owner: forprint_operational_registry
+  description: Агрегована історія клієнта.
+  canonical_fields:
+  - client_id
+  - orders
+  - interactions
+  - financial_summary
+- id: client_context
+  owner: forprint_operational_registry
+  description: Мінімальний контекст клієнта для розрахунків, сайту або бота.
+  canonical_fields:
+  - client_id
+  - client_type
+  - pricing_profile
+  - communication_preferences
+- id: material_catalog
+  owner: forprint_library
+  description: Канонічний каталог матеріалів.
+  canonical_fields:
+  - material_id
+  - name
+  - category
+  - thickness
+  - density
+  - compatible_machines
+  - status
+- id: product_catalog
+  owner: forprint_library
+  description: Каталог продуктів / рекламно-інформаційних виробів.
+  canonical_fields:
+  - product_id
+  - name
+  - category
+  - configurable_options
+  - status
+- id: machine_capability
+  owner: forprint_library
+  description: Можливості обладнання, режими, обмеження, сумісність.
+  canonical_fields:
+  - machine_id
+  - capability_id
+  - supported_materials
+  - max_size
+  - print_modes
+- id: print_mode
+  owner: forprint_library
+  description: Режим друку або виробничої операції.
+  canonical_fields:
+  - mode_id
+  - name
+  - machine_id
+  - quality_profile
+  - constraints
+- id: document_template
+  owner: forprint_library
+  description: Шаблон документа, бланку або звіту.
+  canonical_fields:
+  - template_id
+  - title
+  - version
+  - status
+  - file_ref
+- id: technical_card
+  owner: forprint_library
+  description: Технічна карта виконання продукту або операції.
+  canonical_fields:
+  - technical_card_id
+  - product_id
+  - steps
+  - materials
+  - machine_modes
+- id: quote_draft
+  owner: calculator_engine
+  description: Попередній розрахунок вартості.
+  canonical_fields:
+  - quote_id
+  - client_id
+  - product_configuration
+  - price
+  - material_consumption
+  - validity_period
+- id: price_breakdown
+  owner: calculator_engine
+  description: Деталізація ціни.
+  canonical_fields:
+  - quote_id
+  - components
+  - margin
+  - discounts
+  - total
+- id: material_consumption_estimate
+  owner: calculator_engine
+  description: Оцінка витрат матеріалів для замовлення або кошторису.
+  canonical_fields:
+  - estimate_id
+  - quote_id
+  - material_id
+  - quantity
+  - unit
+  - waste_percent
+- id: product_configuration
+  owner: calculator_engine
+  description: Обрана конфігурація продукту для розрахунку.
+  canonical_fields:
+  - configuration_id
+  - product_id
+  - options
+  - quantities
+  - constraints
+- id: prepress_file
+  owner: forprint_prepress_hub
+  description: Вхідний файл клієнта або робочий файл для додрукарської підготовки.
+  canonical_fields:
+  - file_id
+  - order_id
+  - source
+  - file_type
+  - checksum
+  - status
+- id: prepress_report
+  owner: forprint_prepress_hub
+  description: Результат аналізу файлу.
+  canonical_fields:
+  - report_id
+  - file_id
+  - readiness
+  - issues
+  - recommended_actions
+- id: print_ready_file
+  owner: forprint_prepress_hub
+  description: Файл, підготовлений до друку.
+  canonical_fields:
+  - file_id
+  - order_id
+  - output_profile
+  - checksum
+  - generated_at
+- id: file_preview
+  owner: forprint_prepress_hub
+  description: Прев'ю результату обробки файлу.
+  canonical_fields:
+  - preview_id
+  - file_id
+  - image_ref
+  - generated_at
+- id: invoice
+  owner: accounting_registry_service
+  description: Рахунок на оплату.
+  canonical_fields:
+  - invoice_id
+  - order_id
+  - client_id
+  - amount
+  - status
+  - issued_at
+- id: payment_status
+  owner: accounting_registry_service
+  description: Стан оплати.
+  canonical_fields:
+  - payment_id
+  - invoice_id
+  - order_id
+  - amount
+  - status
+  - paid_at
+- id: accounting_document
+  owner: accounting_registry_service
+  description: Акт, видаткова, бухгалтерський документ або інший фінансовий запис.
+  canonical_fields:
+  - document_id
+  - document_type
+  - order_id
+  - client_id
+  - status
+  - external_ref
+- id: one_c_sync_event
+  owner: accounting_registry_service
+  description: Подія експорту або синхронізації з 1С.
+  canonical_fields:
+  - event_id
+  - external_system
+  - entity_type
+  - entity_id
+  - status
+  - error_message
+- id: accounting_export
+  owner: accounting_registry_service
+  description: Експортований пакет даних для бухгалтерії або 1С.
+  canonical_fields:
+  - export_id
+  - format
+  - period
+  - file_ref
+  - generated_at
+- id: telegram_dialog_state
+  owner: telegram_bot
+  description: Стан діалогу з клієнтом у Telegram.
+  canonical_fields:
+  - chat_id
+  - client_id
+  - current_step
+  - last_intent
+  - updated_at
+- id: bot_action_log
+  owner: telegram_bot
+  description: Лог дій, які ініціював Telegram Bot.
+  canonical_fields:
+  - action_id
+  - chat_id
+  - action
+  - target_module
+  - status
+  - created_at
+- id: client_request
+  owner: telegram_bot
+  description: Запит клієнта, прийнятий через Telegram.
+  canonical_fields:
+  - request_id
+  - client_id
+  - raw_text
+  - detected_intent
+  - created_at
+- id: workflow_command
+  owner: telegram_bot
+  description: Команда робочого сценарію, ініційована ботом.
+  canonical_fields:
+  - command_id
+  - target_module
+  - scenario
+  - payload
+  - confidence
+- id: ai_assisted_task_request
+  owner: telegram_bot
+  description: Запит до AI для нестандартної задачі через дозволені інструменти бота.
+  canonical_fields:
+  - task_id
+  - context
+  - requested_action
+  - allowed_tools
+  - safety_limits
+- id: website_content
+  owner: website
+  description: Контент сайту.
+  canonical_fields:
+  - content_id
+  - page
+  - title
+  - body
+  - status
+- id: public_product_page
+  owner: website
+  description: Публічна сторінка продукту.
+  canonical_fields:
+  - page_id
+  - product_id
+  - seo_title
+  - content
+  - status
+- id: website_request
+  owner: website
+  description: Запит, отриманий через сайт.
+  canonical_fields:
+  - request_id
+  - client_id
+  - form_type
+  - payload
+  - created_at
+- id: material_stock
+  owner: warehouse_service
+  description: Залишок матеріалу на складі.
+  canonical_fields:
+  - stock_id
+  - material_id
+  - location
+  - quantity
+  - unit
+  - updated_at
+- id: material_reservation
+  owner: warehouse_service
+  description: Резерв матеріалу під замовлення.
+  canonical_fields:
+  - reservation_id
+  - order_id
+  - material_id
+  - quantity
+  - status
+- id: inventory_movement
+  owner: warehouse_service
+  description: Рух матеріалу на складі.
+  canonical_fields:
+  - movement_id
+  - material_id
+  - quantity
+  - movement_type
+  - reason
+  - created_at
+- id: purchase_request
+  owner: warehouse_service
+  description: Заявка на закупівлю матеріалу.
+  canonical_fields:
+  - request_id
+  - material_id
+  - requested_quantity
+  - reason
+  - status
+- id: inventory_availability_report
+  owner: warehouse_service
+  description: Звіт про доступність матеріалів.
+  canonical_fields:
+  - report_id
+  - generated_at
+  - items
+  - risks
+- id: delivery_request
+  owner: logistics_service
+  description: Запит на доставку.
+  canonical_fields:
+  - delivery_id
+  - order_id
+  - provider
+  - destination
+  - package_description
+  - status
+- id: delivery_status
+  owner: logistics_service
+  description: Статус доставки.
+  canonical_fields:
+  - delivery_id
+  - provider
+  - status
+  - tracking_number
+  - updated_at
+- id: logistics_provider_adapter
+  owner: logistics_service
+  description: Адаптер до Нової пошти, Укрпошти, таксі або кур'єра.
+  canonical_fields:
+  - adapter_id
+  - provider
+  - capabilities
+  - auth_profile
+  - status
+- id: delivery_label
+  owner: logistics_service
+  description: Етикетка / ТТН / документ доставки.
+  canonical_fields:
+  - label_id
+  - delivery_id
+  - file_ref
+  - generated_at
+- id: delivery_cost_estimate
+  owner: logistics_service
+  description: Попередня оцінка вартості доставки.
+  canonical_fields:
+  - estimate_id
+  - provider
+  - package_description
+  - cost
+  - currency
+- id: package_description
+  owner: logistics_service
+  description: Опис пакування для доставки; у майбутньому може перейти в окремий packaging module.
+  canonical_fields:
+  - package_id
+  - order_id
+  - dimensions
+  - weight
+  - fragility
+  - notes
+- id: backup_plan
+  owner: cloud_backup_manager
+  description: План резервного копіювання.
+  canonical_fields:
+  - plan_id
+  - sources
+  - targets
+  - schedule
+  - retention
+- id: backup_snapshot
+  owner: cloud_backup_manager
+  description: Конкретний backup-знімок.
+  canonical_fields:
+  - snapshot_id
+  - plan_id
+  - created_at
+  - size
+  - checksum
+  - target
+- id: backup_inventory
+  owner: cloud_backup_manager
+  description: Інвентаризація наявних backup-знімків.
+  canonical_fields:
+  - inventory_id
+  - target
+  - snapshots
+  - generated_at
+- id: backup_source_descriptor
+  owner: cloud_backup_manager
+  description: Опис джерела, яке треба резервувати.
+  canonical_fields:
+  - source_id
+  - path
+  - type
+  - priority
+  - include_rules
+  - exclude_rules
+- id: backup_status_report
+  owner: cloud_backup_manager
+  description: Звіт про стан резервного копіювання.
+  canonical_fields:
+  - report_id
+  - generated_at
+  - ok_targets
+  - failed_targets
+  - warnings
+- id: integration_request
+  owner: forprint_integration_gateway
+  description: Уніфікований вхідний запит між модулями або з зовнішнього інтерфейсу.
+  canonical_fields:
+  - request_id
+  - source_module
+  - target_capability
+  - contract_id
+  - payload
+  - correlation_id
+  - idempotency_key
+  - created_at
+- id: routed_module_request
+  owner: forprint_integration_gateway
+  description: Запит, який пройшов валідацію і готовий до передачі конкретному модулю.
+  canonical_fields:
+  - request_id
+  - source_module
+  - target_module
+  - target_action
+  - validated_payload
+  - correlation_id
+  - route_id
+- id: integration_response
+  owner: forprint_integration_gateway
+  description: Стандартизована відповідь на міжмодульний запит.
+  canonical_fields:
+  - response_id
+  - request_id
+  - status
+  - result_payload
+  - error_code
+  - correlation_id
+  - created_at
+- id: validation_error
+  owner: forprint_integration_gateway
+  description: Помилка валідації запиту до передачі в цільовий модуль.
+  canonical_fields:
+  - error_id
+  - request_id
+  - field
+  - message
+  - severity
+  - suggested_action
+- id: routing_rule
+  owner: forprint_integration_gateway
+  description: Правило маршрутизації запиту до потрібного модуля або capability.
+  canonical_fields:
+  - route_id
+  - source_module
+  - target_module
+  - contract_id
+  - condition
+  - status
+- id: correlation_context
+  owner: forprint_integration_gateway
+  description: Контекст трасування одного бізнес-сценарію через кілька модулів.
+  canonical_fields:
+  - correlation_id
+  - root_request_id
+  - related_requests
+  - created_at
+  - status
+- id: idempotency_record
+  owner: forprint_integration_gateway
+  description: Запис для захисту від повторного виконання одного і того самого запиту.
+  canonical_fields:
+  - idempotency_key
+  - request_hash
+  - first_seen_at
+  - last_result_ref
+  - status
+- id: integration_audit_event
+  owner: forprint_integration_gateway
+  description: Аудит-подія маршрутизації, відмови, повтору або помилки інтеграційного шару.
+  canonical_fields:
+  - event_id
+  - request_id
+  - source_module
+  - target_module
+  - event_type
+  - severity
+  - created_at
+- id: security_filter_event
+  owner: forprint_integration_gateway
+  description: 'Подія захисного фільтра: підозрілий payload, injection-like input, rate-limit або заблокований запит.'
+  canonical_fields:
+  - event_id
+  - request_id
+  - source_module
+  - risk_type
+  - action_taken
+  - created_at

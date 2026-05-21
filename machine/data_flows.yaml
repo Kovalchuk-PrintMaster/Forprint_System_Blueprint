@@ -1,0 +1,313 @@
+data_flows:
+- id: blueprint_generates_module_guides
+  source: forprint_system_blueprint
+  target: any_module
+  data_objects:
+  - module_guide
+  - architecture_change_prompt
+  contract: blueprint_to_module_guide.v1
+  status: active_development
+  criticality: high
+- id: blueprint_to_project_inspector
+  source: forprint_system_blueprint
+  target: forprint_project_inspector
+  data_objects:
+  - module_definition
+  - data_flow_definition
+  - contract_definition
+  - impact_rule
+  contract: blueprint_to_inspector_architecture.v1
+  status: planned
+  criticality: high
+- id: modules_to_project_inspector
+  source: any_module
+  target: forprint_project_inspector
+  data_objects:
+  - module_manifest
+  - module_status_report
+  contract: module_to_inspector_manifest.v1
+  status: planned
+  criticality: high
+- id: library_catalogs_to_calculator
+  source: forprint_library
+  target: calculator_engine
+  data_objects:
+  - material_catalog
+  - product_catalog
+  - machine_capability
+  - print_mode
+  contract: library_to_calculator_catalog.v1
+  status: active_development
+  criticality: high
+- id: library_capabilities_to_prepress
+  source: forprint_library
+  target: forprint_prepress_hub
+  data_objects:
+  - material_catalog
+  - machine_capability
+  - print_mode
+  contract: library_to_prepress_capabilities.v1
+  status: active_development
+  criticality: high
+- id: library_materials_to_warehouse
+  source: forprint_library
+  target: warehouse_service
+  data_objects:
+  - material_catalog
+  contract: library_to_warehouse_materials.v1
+  status: planned
+  criticality: high
+- id: calculator_quote_to_crm
+  source: calculator_engine
+  target: forprint_crm
+  data_objects:
+  - quote_draft
+  - price_breakdown
+  - material_consumption_estimate
+  contract: calculator_to_crm_quote.v1
+  status: active_development
+  criticality: high
+- id: calculator_quote_to_operational_registry
+  source: calculator_engine
+  target: forprint_operational_registry
+  data_objects:
+  - quote_draft
+  - product_configuration
+  contract: calculator_to_registry_quote.v1
+  status: planned
+  criticality: high
+- id: crm_commands_operational_registry
+  source: forprint_crm
+  target: forprint_operational_registry
+  data_objects:
+  - business_command
+  - workflow_decision
+  contract: crm_to_operational_registry_command.v1
+  status: planned
+  criticality: high
+- id: operational_order_context_to_prepress
+  source: forprint_operational_registry
+  target: forprint_prepress_hub
+  data_objects:
+  - order_context
+  contract: operational_registry_to_prepress_order_context.v1
+  status: planned
+  criticality: high
+- id: prepress_report_to_crm
+  source: forprint_prepress_hub
+  target: forprint_crm
+  data_objects:
+  - prepress_report
+  - file_preview
+  - print_ready_file
+  contract: prepress_to_crm_report.v1
+  status: active_development
+  criticality: high
+- id: operational_order_to_accounting
+  source: forprint_operational_registry
+  target: accounting_registry_service
+  data_objects:
+  - order
+  - client
+  - quote_draft
+  contract: operational_registry_to_accounting_order.v1
+  status: planned
+  criticality: high
+- id: accounting_financial_status_to_crm
+  source: accounting_registry_service
+  target: forprint_crm
+  data_objects:
+  - invoice
+  - payment_status
+  - accounting_document
+  contract: accounting_to_crm_financial_status.v1
+  status: active_development
+  criticality: high
+- id: accounting_export_to_one_c
+  source: accounting_registry_service
+  target: external_1c
+  data_objects:
+  - accounting_export
+  - one_c_sync_event
+  contract: accounting_to_one_c_export.v1
+  status: planned
+  criticality: high
+- id: telegram_requests_to_crm
+  source: telegram_bot
+  target: forprint_crm
+  data_objects:
+  - client_request
+  - workflow_command
+  - ai_assisted_task_request
+  contract: telegram_to_crm_request.v1
+  status: active_development
+  criticality: high
+- id: website_requests_to_crm
+  source: website
+  target: forprint_crm
+  data_objects:
+  - website_request
+  contract: website_to_crm_request.v1
+  status: planned
+  criticality: medium
+- id: crm_reservation_request_to_warehouse
+  source: forprint_crm
+  target: warehouse_service
+  data_objects:
+  - business_command
+  - material_consumption_estimate
+  contract: crm_to_warehouse_reservation.v1
+  status: planned
+  criticality: high
+- id: warehouse_status_to_crm
+  source: warehouse_service
+  target: forprint_crm
+  data_objects:
+  - material_stock
+  - material_reservation
+  - inventory_availability_report
+  contract: warehouse_to_crm_inventory_status.v1
+  status: planned
+  criticality: high
+- id: crm_delivery_request_to_logistics
+  source: forprint_crm
+  target: logistics_service
+  data_objects:
+  - business_command
+  - delivery_request
+  contract: crm_to_logistics_delivery.v1
+  status: planned
+  criticality: medium
+- id: logistics_status_to_crm
+  source: logistics_service
+  target: forprint_crm
+  data_objects:
+  - delivery_status
+  - delivery_label
+  - delivery_cost_estimate
+  contract: logistics_to_crm_delivery_status.v1
+  status: planned
+  criticality: medium
+- id: backup_status_to_crm
+  source: cloud_backup_manager
+  target: forprint_crm
+  data_objects:
+  - backup_status_report
+  - backup_inventory
+  contract: backup_to_crm_status.v1
+  status: planned
+  criticality: medium
+- id: blueprint_contracts_to_integration_gateway
+  source: forprint_system_blueprint
+  target: forprint_integration_gateway
+  data_objects:
+  - contract_definition
+  - data_flow_definition
+  - routing_rule
+  contract: blueprint_to_integration_gateway_contracts.v1
+  status: planned
+  criticality: high
+- id: website_requests_to_integration_gateway
+  source: website
+  target: forprint_integration_gateway
+  data_objects:
+  - website_request
+  - integration_request
+  contract: website_to_integration_gateway_request.v1
+  status: planned
+  criticality: high
+- id: telegram_requests_to_integration_gateway
+  source: telegram_bot
+  target: forprint_integration_gateway
+  data_objects:
+  - client_request
+  - workflow_command
+  - ai_assisted_task_request
+  - integration_request
+  contract: telegram_to_integration_gateway_request.v1
+  status: planned
+  criticality: high
+- id: crm_commands_to_integration_gateway
+  source: forprint_crm
+  target: forprint_integration_gateway
+  data_objects:
+  - business_command
+  - workflow_decision
+  - integration_request
+  contract: crm_to_integration_gateway_command.v1
+  status: planned
+  criticality: high
+- id: integration_gateway_routes_to_calculator
+  source: forprint_integration_gateway
+  target: calculator_engine
+  data_objects:
+  - routed_module_request
+  - product_configuration
+  - correlation_context
+  contract: integration_gateway_to_calculator_request.v1
+  status: planned
+  criticality: high
+- id: calculator_result_to_integration_gateway
+  source: calculator_engine
+  target: forprint_integration_gateway
+  data_objects:
+  - quote_draft
+  - price_breakdown
+  - material_consumption_estimate
+  - integration_response
+  contract: calculator_to_integration_gateway_result.v1
+  status: planned
+  criticality: high
+- id: integration_gateway_routes_to_operational_registry
+  source: forprint_integration_gateway
+  target: forprint_operational_registry
+  data_objects:
+  - routed_module_request
+  - quote_draft
+  - product_configuration
+  - correlation_context
+  contract: integration_gateway_to_operational_registry_command.v1
+  status: planned
+  criticality: high
+- id: integration_gateway_routes_to_warehouse
+  source: forprint_integration_gateway
+  target: warehouse_service
+  data_objects:
+  - routed_module_request
+  - material_consumption_estimate
+  - correlation_context
+  contract: integration_gateway_to_warehouse_reservation.v1
+  status: planned
+  criticality: high
+- id: integration_gateway_routes_to_accounting
+  source: forprint_integration_gateway
+  target: accounting_registry_service
+  data_objects:
+  - routed_module_request
+  - quote_draft
+  - client
+  - order
+  - correlation_context
+  contract: integration_gateway_to_accounting_invoice_request.v1
+  status: planned
+  criticality: high
+- id: integration_gateway_status_to_crm
+  source: forprint_integration_gateway
+  target: forprint_crm
+  data_objects:
+  - integration_response
+  - validation_error
+  - integration_audit_event
+  contract: integration_gateway_to_crm_status.v1
+  status: planned
+  criticality: medium
+- id: integration_gateway_audit_to_inspector
+  source: forprint_integration_gateway
+  target: forprint_project_inspector
+  data_objects:
+  - integration_audit_event
+  - validation_error
+  - security_filter_event
+  contract: integration_gateway_to_inspector_audit.v1
+  status: planned
+  criticality: medium

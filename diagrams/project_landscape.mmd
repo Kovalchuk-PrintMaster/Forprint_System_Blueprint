@@ -1,0 +1,31 @@
+flowchart TD
+    Root["/srv/software_development/forprint-project"]
+
+    Root --> Blueprint["forprint_system_blueprint
+active"]
+    Root --> Calculator["calculator_engine
+active"]
+    Root --> Library["forprint_library
+active"]
+    Root --> Accounting["forprint_accounting_registry_service
+active"]
+    Root --> Telegram["telegram_bot
+active / legacy-rich"]
+    Root --> CRM["forprint_crm
+empty / planned"]
+    Root --> Gateway["forprint_integration_gateway
+empty / planned"]
+    Root --> Prepress["forprint_prepress_hub
+empty / planned"]
+
+    External["/opt/forprint-utils/cloud_backup_manager
+external support module"]
+    Blueprint -. tracks .-> External
+
+    Blueprint -->|defines architecture for| Calculator
+    Blueprint -->|defines architecture for| Library
+    Blueprint -->|defines architecture for| Accounting
+    Blueprint -->|defines architecture for| Telegram
+    Blueprint -->|defines architecture for| CRM
+    Blueprint -->|defines architecture for| Gateway
+    Blueprint -->|defines architecture for| Prepress
