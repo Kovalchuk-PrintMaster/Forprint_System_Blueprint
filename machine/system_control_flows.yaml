@@ -1,0 +1,90 @@
+control_flows:
+  - id: blueprint_to_module_guides
+    title: Blueprint generates module guides
+    source: forprint_system_blueprint
+    target_type: all_modules
+    flow_type: architecture_guidance
+    status: active
+    description: >-
+      Blueprint формує module_guides, які можна передавати окремим помічникам
+      або розробникам для вирівнювання напрямку роботи.
+
+  - id: modules_to_blueprint_requests
+    title: Modules send architecture clarification requests
+    source_type: all_modules
+    target: forprint_system_blueprint
+    flow_type: architecture_feedback
+    status: planned_manual
+    description: >-
+      Якщо модуль стикається з неоднозначністю, він має створити запит у
+      coordination/incoming_requests/<module_id>/new/.
+
+  - id: blueprint_to_project_inspector
+    title: Blueprint provides expected architecture to Inspector
+    source: forprint_system_blueprint
+    target: forprint_project_inspector
+    flow_type: compliance_source
+    status: planned
+    description: >-
+      Project Inspector читає machine/*.yaml і порівнює очікувану архітектуру
+      з module manifests та status reports.
+
+  - id: modules_to_project_inspector
+    title: Modules provide manifests and status reports
+    source_type: all_modules
+    target: forprint_project_inspector
+    flow_type: compliance_input
+    status: planned
+    description: >-
+      Кожен модуль надає forprint_module_manifest.yaml і
+      reports/forprint_module_status.json для перевірки.
+
+  - id: crm_to_integration_gateway
+    title: CRM sends business commands through Integration Gateway
+    source: forprint_crm
+    target: forprint_integration_gateway
+    flow_type: business_command_transport
+    status: planned
+    description: >-
+      CRM визначає бізнес-дію, але технічну маршрутизацію і payload validation
+      виконує Integration Gateway.
+
+  - id: channels_to_integration_gateway
+    title: Customer channels send normalized requests through Gateway
+    source_type: customer_channels
+    target: forprint_integration_gateway
+    flow_type: channel_request_transport
+    status: planned
+    description: >-
+      Telegram Bot і Website не повинні напряму зшиватися з усіма сервісами.
+      Вони мають передавати запити через погоджені контракти.
+
+  - id: integration_gateway_to_domain_modules
+    title: Gateway routes validated requests to domain modules
+    source: forprint_integration_gateway
+    target_type: domain_execution_modules
+    flow_type: routed_module_request
+    status: planned
+    description: >-
+      Gateway маршрутизує валідні запити до Calculator, Prepress, Warehouse,
+      Logistics, Accounting або інших сервісів згідно з routing rules.
+
+  - id: registries_to_crm
+    title: Registries provide canonical data to CRM
+    source_type: canonical_registries
+    target: forprint_crm
+    flow_type: business_read_model
+    status: planned
+    description: >-
+      CRM показує клієнтів, замовлення, оплату і статуси, але не обов’язково
+      фізично володіє цими даними.
+
+  - id: library_to_domain_modules
+    title: Library provides catalogs and technical truth
+    source: forprint_library
+    target_type: domain_execution_modules
+    flow_type: canonical_catalog_feed
+    status: active_development
+    description: >-
+      Calculator, Prepress, Warehouse та інші модулі споживають довідники,
+      техкарти і contract definitions із Library.

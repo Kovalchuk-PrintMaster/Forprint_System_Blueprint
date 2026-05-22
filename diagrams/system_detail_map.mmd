@@ -1,0 +1,65 @@
+
+```mermaid
+flowchart TD
+    Blueprint[ForPrint System Blueprint<br/>Architecture truth source]
+
+    ProjectInspector[ForPrint Project Inspector<br/>Architecture compliance]
+    RuntimeInspector[Production Runtime Inspector<br/>Runtime health]
+
+    Gateway[ForPrint Integration Gateway<br/>Validation + Routing]
+
+    CRM[ForPrint CRM<br/>Business orchestration + UI]
+
+    OperationalRegistry[ForPrint Operational Registry<br/>Client / Order / Task truth]
+    Accounting[Accounting Registry Service<br/>Invoice / Payment / 1C]
+
+    Library[ForPrint Library<br/>Catalogs / Templates / Contracts]
+
+    Calculator[Calculator Engine<br/>Quotes / Prices / Estimates]
+    Prepress[ForPrint Prepress Hub<br/>File analysis / Preparation]
+    Warehouse[Warehouse Service<br/>Stock / Reservation]
+    Logistics[Logistics Service<br/>Delivery]
+    Backup[Cloud Backup Manager<br/>Backup / Restore]
+
+    Bot[Telegram Bot<br/>Customer channel]
+    Website[Website<br/>Customer portal]
+
+    Blueprint -->|module guides / expected architecture| ProjectInspector
+    Blueprint -->|module guides| CRM
+    Blueprint -->|module guides| Gateway
+    Blueprint -->|module guides| Library
+    Blueprint -->|module guides| Calculator
+    Blueprint -->|module guides| Prepress
+
+    ProjectInspector -->|architecture drift report| CRM
+    RuntimeInspector -->|runtime health report| CRM
+
+    Bot -->|customer request| Gateway
+    Website -->|web request| Gateway
+    CRM -->|business command| Gateway
+
+    Gateway -->|validated request| Calculator
+    Gateway -->|validated request| Prepress
+    Gateway -->|reservation request| Warehouse
+    Gateway -->|invoice request| Accounting
+    Gateway -->|delivery request| Logistics
+
+    Library -->|catalogs / contracts| Calculator
+    Library -->|technical rules| Prepress
+    Library -->|material catalog| Warehouse
+
+    Calculator -->|quote / estimate| Gateway
+    Prepress -->|analysis / prepared file status| Gateway
+    Warehouse -->|reservation status| Gateway
+    Accounting -->|invoice / payment status| Gateway
+    Logistics -->|delivery status| Gateway
+
+    Gateway -->|status / result| CRM
+
+    OperationalRegistry -->|client / order / task truth| CRM
+    Accounting -->|accounting truth| CRM
+    CRM -->|operational command| OperationalRegistry
+
+    Backup -.->|infrastructure support| OperationalRegistry
+    Backup -.->|infrastructure support| Accounting
+    Backup -.->|infrastructure support| Library

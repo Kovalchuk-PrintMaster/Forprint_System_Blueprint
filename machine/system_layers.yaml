@@ -1,0 +1,99 @@
+system_layers:
+  - id: architecture_governance
+    title: Architecture Governance Layer
+    purpose: >-
+      Визначає, як система має бути побудована, які модулі існують,
+      які контракти діють і хто чим володіє.
+    modules:
+      - forprint_system_blueprint
+    must_not_do:
+      - execute_business_processes
+      - route_runtime_payloads
+      - own_operational_data
+
+  - id: architecture_compliance
+    title: Architecture Compliance Layer
+    purpose: >-
+      Перевіряє, чи фактичні модулі відповідають архітектурній правді Blueprint.
+    modules:
+      - forprint_project_inspector
+      - production_runtime_inspector
+    must_not_do:
+      - invent_architecture_without_blueprint
+      - replace_business_crm
+      - silently_repair_modules_without_approval
+
+  - id: integration_transport
+    title: Integration Transport Layer
+    purpose: >-
+      Приймає, валідовує, нормалізує і маршрутизує запити між модулями.
+    modules:
+      - forprint_integration_gateway
+    must_not_do:
+      - make_business_decisions
+      - own_catalogs
+      - own_client_or_order_truth
+
+  - id: business_orchestration
+    title: Business Orchestration Layer
+    purpose: >-
+      Керує бізнес-процесами, показує dashboard, формує управлінську картину
+      і допомагає людям працювати з системою.
+    modules:
+      - forprint_crm
+    must_not_do:
+      - become_physical_owner_of_everything
+      - duplicate_all_registries
+      - bypass_contracts
+
+  - id: canonical_registries
+    title: Canonical Registry Layer
+    purpose: >-
+      Зберігає канонічні операційні та бухгалтерські сутності.
+    modules:
+      - forprint_operational_registry
+      - accounting_registry_service
+    must_not_do:
+      - replace_blueprint
+      - replace_library_catalogs
+      - become_ui_or_workflow_director
+
+  - id: canonical_knowledge
+    title: Canonical Knowledge and Catalog Layer
+    purpose: >-
+      Зберігає довідники, каталоги, шаблони, техкарти, semantic registry,
+      versioning і contract definitions.
+    modules:
+      - forprint_library
+    must_not_do:
+      - own_runtime_orders
+      - own_payments
+      - own_client_interactions
+
+  - id: domain_execution
+    title: Domain Execution Layer
+    purpose: >-
+      Виконує предметну роботу: розрахунки, препрес, склад, логістика,
+      резервне копіювання.
+    modules:
+      - calculator_engine
+      - forprint_prepress_hub
+      - warehouse_service
+      - logistics_service
+      - cloud_backup_manager
+    must_not_do:
+      - become_business_orchestrator
+      - own_unrelated_canonical_data
+      - bypass_integration_contracts
+
+  - id: customer_channels
+    title: Customer and Operator Channel Layer
+    purpose: >-
+      Дає клієнтам і операторам точки входу в систему.
+    modules:
+      - telegram_bot
+      - website
+    must_not_do:
+      - become_source_of_truth
+      - own_prices_or_materials
+      - own_accounting_truth
