@@ -1,0 +1,96 @@
+prompt_dispatch:
+  - id: 2026-05-22-align-calculator-engine-with-blueprint
+    target_module: calculator_engine
+    batch: first_module_alignment
+    status: draft
+    priority: high
+    prompt_file: coordination/outgoing_prompts/calculator_engine/drafts/2026-05-22-align-calculator-engine-with-blueprint.md
+    expected_response_type: module_alignment_report
+    expected_response_location: coordination/incoming_requests/calculator_engine/new/
+    purpose: >-
+      Вирівняти Calculator Engine як calculation-focused service і не допустити,
+      щоб він став CRM, складом, бухгалтерією або власником каталогів.
+
+  - id: 2026-05-22-align-crm-with-blueprint
+    target_module: forprint_crm
+    batch: first_module_alignment
+    status: draft
+    priority: high
+    prompt_file: coordination/outgoing_prompts/forprint_crm/drafts/2026-05-22-align-crm-with-blueprint.md
+    expected_response_type: module_alignment_report
+    expected_response_location: coordination/incoming_requests/forprint_crm/new/
+    purpose: >-
+      Вирівняти CRM як business orchestration UI/dashboard і не допустити,
+      щоб CRM стала фізичним власником усіх даних.
+
+  - id: 2026-05-22-align-library-with-blueprint
+    target_module: forprint_library
+    batch: first_module_alignment
+    status: draft
+    priority: high
+    prompt_file: coordination/outgoing_prompts/forprint_library/drafts/2026-05-22-align-library-with-blueprint.md
+    expected_response_type: module_alignment_report
+    expected_response_location: coordination/incoming_requests/forprint_library/new/
+    purpose: >-
+      Вирівняти Library як canonical knowledge/catalog/template/contract layer
+      і не допустити перетворення Library на операційну базу всього.
+
+  - id: 2026-05-22-align-telegram-bot-with-blueprint
+    target_module: telegram_bot
+    batch: first_module_alignment
+    status: draft
+    priority: high
+    prompt_file: coordination/outgoing_prompts/telegram_bot/drafts/2026-05-22-align-telegram-bot-with-blueprint.md
+    expected_response_type: module_alignment_report
+    expected_response_location: coordination/incoming_requests/telegram_bot/new/
+    purpose: >-
+      Вирівняти Telegram Bot як channel/workflow client/AI-assisted interface
+      і не допустити перетворення бота на source of truth або god module.
+
+  - id: 2026-05-22-align-accounting-registry-with-blueprint
+    target_module: accounting_registry_service
+    batch: second_module_alignment
+    status: draft
+    priority: high
+    prompt_file: coordination/outgoing_prompts/accounting_registry_service/drafts/2026-05-22-align-accounting-registry-with-blueprint.md
+    expected_response_type: module_alignment_report
+    expected_response_location: coordination/incoming_requests/accounting_registry_service/new/
+    purpose: >-
+      Вирівняти Accounting Registry як accounting/1C boundary і не допустити,
+      щоб він став CRM або загальним operational registry.
+
+  - id: 2026-05-22-align-prepress-hub-with-blueprint
+    target_module: forprint_prepress_hub
+    batch: second_module_alignment
+    status: draft
+    priority: high
+    prompt_file: coordination/outgoing_prompts/forprint_prepress_hub/drafts/2026-05-22-align-prepress-hub-with-blueprint.md
+    expected_response_type: module_alignment_report
+    expected_response_location: coordination/incoming_requests/forprint_prepress_hub/new/
+    purpose: >-
+      Вирівняти Prepress Hub як file analysis/preparation service і не допустити,
+      щоб він став CRM, калькулятором або production manager.
+
+  - id: 2026-05-22-align-integration-gateway-with-blueprint
+    target_module: forprint_integration_gateway
+    batch: second_module_alignment
+    status: draft
+    priority: high
+    prompt_file: coordination/outgoing_prompts/forprint_integration_gateway/drafts/2026-05-22-align-integration-gateway-with-blueprint.md
+    expected_response_type: module_alignment_report
+    expected_response_location: coordination/incoming_requests/forprint_integration_gateway/new/
+    purpose: >-
+      Вирівняти Integration Gateway як validation/normalization/routing layer
+      і не допустити, щоб він став бізнес-мозком системи.
+
+  - id: 2026-05-22-align-operational-registry-with-blueprint
+    target_module: forprint_operational_registry
+    batch: second_module_alignment
+    status: draft
+    priority: high
+    prompt_file: coordination/outgoing_prompts/forprint_operational_registry/drafts/2026-05-22-align-operational-registry-with-blueprint.md
+    expected_response_type: module_alignment_report
+    expected_response_location: coordination/incoming_requests/forprint_operational_registry/new/
+    purpose: >-
+      Визначити Operational Registry як canonical operational data registry
+      для client/order/task/status, щоб CRM не стала фізичним власником усього.

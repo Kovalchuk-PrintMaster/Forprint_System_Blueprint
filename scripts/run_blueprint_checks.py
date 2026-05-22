@@ -149,10 +149,15 @@ def build_checks() -> list[CheckDefinition]:
                 python,
                 "scripts/validate_module_manifest.py",
                 "module_manifests/examples/calculator_engine.forprint_module_manifest.example.yaml",
-            ],
+			],
+		),
+		CheckDefinition(
+			check_id="prompt_dispatch_validation",
+			title="Prompt dispatch validation",
+			expected_result="Prompt dispatch index валідний",
+			command=[python, "scripts/validate_prompt_dispatch_index.py"],
         ),
     ]
-
 
 def detect_status(return_code: int, combined_output: str) -> str:
     """Визначає статус перевірки за кодом повернення і текстом виводу."""
