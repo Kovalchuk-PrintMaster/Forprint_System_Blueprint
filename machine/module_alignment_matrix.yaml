@@ -1,0 +1,150 @@
+module_alignment:
+  - module_id: forprint_system_blueprint
+    correct_role: architecture_truth_source
+    priority: critical_now
+    current_status: active_development
+    drift_risk: low
+    required_next_action: continue_building_alignment_layer
+    notes:
+      - "Є центральним джерелом архітектурної правди."
+      - "Не має виконувати бізнес-процеси або production-routing."
+
+  - module_id: forprint_project_inspector
+    correct_role: architecture_compliance_reviewer
+    priority: high_next
+    current_status: planned
+    drift_risk: medium
+    required_next_action: start_after_module_manifests_are_seeded
+    notes:
+      - "Має перевіряти реальні модулі проти Blueprint."
+      - "Не має самостійно вигадувати архітектуру."
+
+  - module_id: production_runtime_inspector
+    correct_role: runtime_health_and_production_monitor
+    priority: later
+    current_status: planned
+    drift_risk: low
+    required_next_action: keep_as_future_layer
+    notes:
+      - "Потрібен пізніше, коли буде production-runtime."
+      - "Не плутати з Project Inspector."
+
+  - module_id: forprint_integration_gateway
+    correct_role: contract_transport_and_validation_layer
+    priority: high_next
+    current_status: planned_directory_exists
+    drift_risk: medium
+    required_next_action: define_manifest_and_minimal_contracts_before_coding
+    notes:
+      - "Має валідовувати, нормалізувати і маршрутизувати запити."
+      - "Не має приймати бізнес-рішення замість CRM."
+
+  - module_id: forprint_crm
+    correct_role: business_orchestration_ui_and_dashboard
+    priority: high_next
+    current_status: planned_directory_exists
+    drift_risk: high
+    required_next_action: clarify_crm_as_business_director_not_data_owner_of_everything
+    notes:
+      - "CRM має бути диригентом бізнес-процесів і людським інтерфейсом."
+      - "Не має ставати фізичним власником усіх клієнтів, замовлень, оплат і довідників."
+
+  - module_id: forprint_operational_registry
+    correct_role: canonical_operational_data_registry
+    priority: high_next
+    current_status: planned
+    drift_risk: medium
+    required_next_action: define_scope_before_crm_expands
+    notes:
+      - "Має володіти client/order/task/status на операційному рівні."
+      - "Потрібен, щоб CRM не перетворився на сховище всього."
+
+  - module_id: forprint_library
+    correct_role: canonical_catalogs_templates_contracts_and_semantic_registry
+    priority: active_support
+    current_status: active_development
+    drift_risk: medium
+    required_next_action: align_library_scope_and_prevent_operational_data_expansion
+    notes:
+      - "Правильний напрямок: semantic registry, contracts, templates, versioning."
+      - "Не має ставати операційною базою замовлень або оплат."
+
+  - module_id: calculator_engine
+    correct_role: calculation_engine_for_quotes_prices_and_material_estimates
+    priority: active_support
+    current_status: active_development
+    drift_risk: high
+    required_next_action: ensure_catalogs_are_consumed_from_library_not_owned_by_calculator
+    notes:
+      - "Має рахувати price breakdown, quote draft, material consumption."
+      - "Не має ставати CRM, складом, каталогом матеріалів або бухгалтерією."
+
+  - module_id: forprint_prepress_hub
+    correct_role: prepress_file_analysis_and_preparation_service
+    priority: active_support
+    current_status: active_development_start
+    drift_risk: medium
+    required_next_action: define_manifest_and_prepress_data_objects
+    notes:
+      - "Має працювати з файлами, prepress analysis, preview, prepared print file."
+      - "Не має самостійно керувати замовленням або оплатою."
+
+  - module_id: accounting_registry_service
+    correct_role: accounting_registry_and_1c_integration_boundary
+    priority: active_support
+    current_status: active_development
+    drift_risk: medium
+    required_next_action: align_terms_from_orchestrator_to_gateway_and_contracts
+    notes:
+      - "Правильна модель: raw 1C snapshot → staging → audit → normalized registry."
+      - "Не має ставати загальним operational registry."
+
+  - module_id: telegram_bot
+    correct_role: telegram_channel_workflow_client_and_ai_assisted_interface
+    priority: active_support
+    current_status: active_development
+    drift_risk: high
+    required_next_action: prevent_bot_from_becoming_source_of_truth
+    notes:
+      - "Має збирати дані, вести сценарії, передавати запити."
+      - "Не має володіти цінами, оплатами, матеріалами чи фінальними order-status."
+
+  - module_id: website
+    correct_role: web_channel_and_customer_portal
+    priority: medium
+    current_status: existing_basic_site
+    drift_risk: medium
+    required_next_action: treat_as_thin_client_to_registry_crm_gateway
+    notes:
+      - "Сайт має бути каналом доступу, а не окремою ізольованою CRM."
+      - "Кабінет клієнта має читати дані через узгоджені контракти."
+
+  - module_id: warehouse_service
+    correct_role: material_stock_reservation_and_inventory_service
+    priority: medium_next
+    current_status: planned
+    drift_risk: medium
+    required_next_action: define_before_material_reservation_is_needed_in_calculator_flow
+    notes:
+      - "Має відповідати за залишки, резерви, списання, рух матеріалів."
+      - "Не вішати склад на Telegram Bot або Calculator."
+
+  - module_id: logistics_service
+    correct_role: shipping_delivery_and_carrier_integration_service
+    priority: later_medium
+    current_status: planned
+    drift_risk: low
+    required_next_action: keep_as_planned_until_order_flow_is_clear
+    notes:
+      - "Нова пошта, Укрпошта, таксі, кур’єри."
+      - "Не змішувати з CRM або Bot."
+
+  - module_id: cloud_backup_manager
+    correct_role: infrastructure_backup_restore_and_inventory_service
+    priority: infrastructure_support
+    current_status: active_development
+    drift_risk: low
+    required_next_action: connect_later_via_backup_contracts_not_business_logic
+    notes:
+      - "Корисний інфраструктурний сервіс."
+      - "Не має брати участь у бізнес-рішеннях або order workflow."
