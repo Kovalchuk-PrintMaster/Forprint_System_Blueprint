@@ -227,6 +227,7 @@ checksum.
 
 telegram_bot
 website
+mobile_app
 
 Роль:
 
@@ -266,3 +267,9 @@ ForPrint треба розвивати не як один великий мон�
 2. Вирівняти CRM / Library / Calculator / Telegram Bot.
 3. Підготувати Project Inspector.
 4. Поступово деталізувати Integration Gateway.
+
+Mobile App
+
+`mobile_app` поки має статус `deferred_planned`.
+
+Це майбутній клієнтський канал, але його активна розробка не стартує до повноцінного запуску Calculator 

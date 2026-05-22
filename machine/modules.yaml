@@ -3,9 +3,7 @@ modules:
   title: ForPrint System Blueprint
   type: architecture_truth_layer
   status: active_development
-  role: 'Верхній шар архітектурної правди: модулі, межі, дані, контракти, потоки, правила впливу змін, module guides.
-
-    '
+  role: 'Верхній шар архітектурної правди: модулі, межі, дані, контракти, потоки, правила впливу змін, module guides.'
   owns:
   - architecture_decision
   - module_definition
@@ -26,9 +24,7 @@ modules:
   title: ForPrint Project Inspector
   type: architecture_compliance_checker
   status: planned
-  role: 'Перевіряє відповідність реальних модулів Blueprint: manifests, reports, контракти, інтеграційні розриви, architecture drift.
-
-    '
+  role: 'Перевіряє відповідність реальних модулів Blueprint: manifests, reports, контракти, інтеграційні розриви, architecture drift.'
   owns:
   - inspection_report
   consumes:
@@ -48,9 +44,7 @@ modules:
   title: ForPrint Production Runtime Inspector
   type: production_monitoring
   status: future
-  role: 'Майбутній інспектор продакшену: контроль живої системи, помилок, деградацій, проблем інтеграції, runtime-подій.
-
-    '
+  role: 'Майбутній інспектор продакшену: контроль живої системи, помилок, деградацій, проблем інтеграції, runtime-подій.'
   owns:
   - runtime_health_event
   consumes:
@@ -106,9 +100,7 @@ modules:
   title: ForPrint CRM
   type: business_orchestration_ui
   status: planned
-  role: 'Бізнес-диригент, людський інтерфейс, прикладний оркестратор процесів, аналітика, звіти, контроль заявок і статусів. Не є фізичним сховищем усіх клієнтів і замовлень.
-
-    '
+  role: 'Бізнес-диригент, людський інтерфейс, прикладний оркестратор процесів, аналітика, звіти, контроль заявок і статусів. Не є фізичним сховищем усіх клієнтів і замовлень.'
   owns:
   - crm_dashboard_view
   - business_workflow_state
@@ -136,9 +128,7 @@ modules:
   title: ForPrint Operational Registry
   type: operational_data_registry
   status: planned
-  role: 'Канонічний реєстр операційних бізнес-записів: клієнти, замовлення, взаємодії, робочі статуси, історія виконання.
-
-    '
+  role: 'Канонічний реєстр операційних бізнес-записів: клієнти, замовлення, взаємодії, робочі статуси, історія виконання.'
   owns:
   - client
   - order
@@ -162,9 +152,7 @@ modules:
   title: ForPrint Library
   type: canonical_reference_library
   status: active_development
-  role: 'Джерело правди для довідників, матеріалів, технічних карт, шаблонів документів, номенклатури, режимів друку, машинних можливостей.
-
-    '
+  role: 'Джерело правди для довідників, матеріалів, технічних карт, шаблонів документів, номенклатури, режимів друку, машинних можливостей.'
   owns:
   - material_catalog
   - product_catalog
@@ -188,9 +176,7 @@ modules:
   title: ForPrint Calculator Engine
   type: calculation_service
   status: active_development
-  role: 'Прикладна математика: калькуляції, попередні кошториси, розрахунок вартості, витрат матеріалів, конфігурацій продукту.
-
-    '
+  role: 'Прикладна математика: калькуляції, попередні кошториси, розрахунок вартості, витрат матеріалів, конфігурацій продукту.'
   owns:
   - quote_draft
   - price_breakdown
@@ -216,9 +202,7 @@ modules:
   title: ForPrint Prepress Hub
   type: prepress_file_service
   status: active_development
-  role: 'Прийом, аналіз і підготовка файлів до друку: перевірка готовності, автоматична обробка, прев''ю, print-ready файли.
-
-    '
+  role: 'Прийом, аналіз і підготовка файлів до друку: перевірка готовності, автоматична обробка, прев''ю, print-ready файли.'
   owns:
   - prepress_file
   - prepress_report
@@ -241,9 +225,7 @@ modules:
   title: ForPrint Accounting Registry Service
   type: accounting_registry
   status: active_development
-  role: 'Бухгалтерський і 1С-сумісний контур: рахунки, оплати, акти, бухгалтерські документи, експорт або синхронізація з 1С.
-
-    '
+  role: 'Бухгалтерський і 1С-сумісний контур: рахунки, оплати, акти, бухгалтерські документи, експорт або синхронізація з 1С.'
   owns:
   - invoice
   - payment_status
@@ -265,9 +247,7 @@ modules:
   title: ForPrint Telegram Bot
   type: client_interface_and_action_runner
   status: active_development
-  role: 'Клієнтський інтерфейс, оператор сценаріїв і AI-assisted виконавець дій через дозволені контракти інших модулів. Не є джерелом правди.
-
-    '
+  role: 'Клієнтський інтерфейс, оператор сценаріїв і AI-assisted виконавець дій через дозволені контракти інших модулів. Не є джерелом правди.'
   owns:
   - telegram_dialog_state
   - bot_action_log
@@ -291,9 +271,7 @@ modules:
   title: ForPrint Website
   type: public_and_client_web_interface
   status: existing_basic
-  role: 'Публічний сайт і майбутній клієнтський веб-інтерфейс. Має використовувати CRM / registry / calculator / prepress через адаптери, а не тримати дубльовану правду.
-
-    '
+  role: 'Публічний сайт і майбутній клієнтський веб-інтерфейс. Має використовувати CRM / registry / calculator / prepress через адаптери, а не тримати дубльовану правду.'
   owns:
   - website_content
   - public_product_page
@@ -312,9 +290,7 @@ modules:
   title: ForPrint Warehouse Service
   type: warehouse_and_inventory_service
   status: planned
-  role: 'Склад: залишки, резервування, рух матеріалів, списання, мінімальні залишки, заявки на закупівлю.
-
-    '
+  role: 'Склад: залишки, резервування, рух матеріалів, списання, мінімальні залишки, заявки на закупівлю.'
   owns:
   - material_stock
   - material_reservation
@@ -336,9 +312,7 @@ modules:
   title: ForPrint Logistics Service
   type: delivery_and_logistics_service
   status: planned
-  role: 'Доставка і логістика: Нова пошта, Укрпошта, таксі, кур''єри, статуси відправок, інтеграційні ключі і адаптери.
-
-    '
+  role: 'Доставка і логістика: Нова пошта, Укрпошта, таксі, кур''єри, статуси відправок, інтеграційні ключі і адаптери.'
   owns:
   - delivery_request
   - delivery_status
@@ -359,9 +333,7 @@ modules:
   title: Cloud Backup Manager
   type: backup_service
   status: active_development
-  role: 'Резервне копіювання локальних і хмарних даних: бази даних, файли клієнтів, архіви, конфігурації, контроль наявності backup-знімків.
-
-    '
+  role: 'Резервне копіювання локальних і хмарних даних: бази даних, файли клієнтів, архіви, конфігурації, контроль наявності backup-знімків.'
   owns:
   - backup_plan
   - backup_snapshot
@@ -375,3 +347,17 @@ modules:
   - client
   - order
   - invoice
+- id: mobile_app
+  title: ForPrint Mobile App
+  type: customer_channel
+  status: deferred_planned
+  layer: customer_channels
+  priority: deferred_until_calculator_ready
+  description: >-
+      Майбутній мобільний клієнтський канал ForPrint. Поки не бере участі
+      в активній розробці. Розробка стартує тільки після повноцінного запуску
+      Calculator Engine.
+  owns: []
+  consumes: []
+  provides: []
+  must_not_own: []

@@ -148,3 +148,14 @@ module_alignment:
     notes:
       - "Корисний інфраструктурний сервіс."
       - "Не має брати участь у бізнес-рішеннях або order workflow."
+
+  - module_id: mobile_app
+    correct_role: future_mobile_customer_channel
+    priority: deferred_until_calculator_ready
+    current_status: deferred_planned
+    drift_risk: low
+    required_next_action: keep_as_architecture_placeholder_only
+    notes:
+      - "Mobile App буде окремим клієнтським каналом поряд із Website і Telegram Bot."
+      - "Активну розробку не починати до повноцінного запуску Calculator Engine."
+      - "До старту розробки не створювати складну логіку, БД або окремі workflows для mobile_app."
