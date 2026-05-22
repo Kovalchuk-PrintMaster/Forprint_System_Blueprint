@@ -1,0 +1,34 @@
+module_id: example_module_id
+# Має збігатися з machine/modules.yaml у ForPrint System Blueprint.
+
+title: Example ForPrint Module
+status: planned
+implementation_root: /srv/software_development/forprint-project/example_module_id
+
+blueprint_reference:
+  blueprint_repo: git@github.com:Kovalchuk-PrintMaster/Forprint_System_Blueprint.git
+  module_guide: module_guides/example_module_id.md
+  expected_contract: module_to_inspector_manifest.v1
+
+responsibilities:
+  owns: []
+  consumes: []
+  provides: []
+  must_not_own: []
+
+contracts:
+  consumes: []
+  provides: []
+
+runtime:
+  entrypoints: []
+  healthcheck: null
+
+reports:
+  status_report: reports/forprint_module_status.json
+
+notes:
+  - >-
+    Якщо модуль потребує нового data object або contract, не додавай його тільки
+    локально. Спочатку сформуй запит до ForPrint System Blueprint через
+    coordination/incoming_requests/<module_id>/new/.

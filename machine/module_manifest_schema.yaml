@@ -1,0 +1,33 @@
+## Файл: `machine/module_manifest_schema.yaml`
+
+schema_id: forprint_module_manifest.v1
+status: active_development
+purpose: >-
+  Мінімальна machine-readable структура, яку має підтримувати кожен
+  forprint_module_manifest.yaml у дочірніх ForPrint-модулях.
+required_top_level_fields:
+  - module_id
+  - title
+  - status
+  - implementation_root
+  - responsibilities
+  - contracts
+  - reports
+responsibilities_fields:
+  - owns
+  - consumes
+  - provides
+  - must_not_own
+contracts_fields:
+  - consumes
+  - provides
+validation_rules:
+  - module_id_must_exist_in_machine_modules_yaml
+  - all_data_objects_must_exist_in_machine_data_objects_yaml
+  - all_contracts_must_exist_in_machine_contracts_yaml
+  - manifest_must_not_claim_forbidden_ownership
+  - manifest_should_not_claim_unknown_responsibilities_without_blueprint_update
+notes:
+  - >-
+    Schema наразі описовий і легкий. Жорстку JSON Schema можна додати пізніше,
+    коли стабілізуємо формат по перших реальних модулях.

@@ -1,7 +1,7 @@
 PYTHON=.venv_blueprint/bin/python
 PIP=.venv_blueprint/bin/pip
 
-.PHONY: install test lint format validate diagrams guides check clean
+.PHONY: install test lint format validate diagrams guides manifest-example check clean
 
 install:
 	$(PIP) install --upgrade pip
@@ -25,9 +25,12 @@ diagrams:
 guides:
 	$(PYTHON) scripts/generate_module_guides.py
 
-check: lint test validate diagrams guides
+manifest-example:
+	$(PYTHON) scripts/validate_module_manifest.py module_manifests/examples/calculator_engine.forprint_module_manifest.example.yaml
+
+check: lint test validate diagrams guides manifest-example
 
 clean:
-	find . -type d -name "__pycache__" -prune -exec rm -rf {} +
-	find . -type d -name ".pytest_cache" -prune -exec rm -rf {} +
-	find . -type d -name "*.egg-info" -prune -exec rm -rf {} +
+	rm -rf .pytest_cache .ruff_cache .mypy_cache htmlcov .coverage
+	find scripts tests -type d -name "__pycache__" -prune -exec rm -rf {} \;
+	find . -maxdepth 1 -type d -name "*.egg-info" -prune -exec rm -rf {} \;
