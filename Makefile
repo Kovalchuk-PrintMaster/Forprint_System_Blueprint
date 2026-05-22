@@ -1,7 +1,7 @@
 PYTHON=.venv_blueprint/bin/python
 PIP=.venv_blueprint/bin/pip
 
-.PHONY: install test lint format validate diagrams guides manifest-example check clean
+.PHONY: install test lint format validate diagrams guides manifest-example check check-report clean
 
 install:
 	$(PIP) install --upgrade pip
@@ -29,6 +29,9 @@ manifest-example:
 	$(PYTHON) scripts/validate_module_manifest.py module_manifests/examples/calculator_engine.forprint_module_manifest.example.yaml
 
 check: lint test validate diagrams guides manifest-example
+
+check-report:
+	$(PYTHON) scripts/run_blueprint_checks.py
 
 clean:
 	rm -rf .pytest_cache .ruff_cache .mypy_cache htmlcov .coverage
