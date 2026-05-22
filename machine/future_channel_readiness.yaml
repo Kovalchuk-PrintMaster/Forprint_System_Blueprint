@@ -1,0 +1,51 @@
+future_channel_readiness:
+  - future_module_id: mobile_app
+    status: deferred_planned
+    start_condition: calculator_engine_fully_operational
+    current_development_role: none
+    architectural_role: future_customer_channel
+    compatibility_principle: >-
+      Mobile App не розробляється зараз, але всі customer-facing контракти
+      мають бути channel-agnostic, щоб у майбутньому Mobile App міг
+      підключитися без перепроєктування CRM, Gateway, Operational Registry
+      або Calculator Engine.
+
+    must_be_considered_by:
+      - forprint_crm
+      - forprint_integration_gateway
+      - forprint_operational_registry
+      - calculator_engine
+      - telegram_bot
+      - website
+
+    design_constraints:
+      - >-
+        Не створювати контракти, які жорстко привʼязані тільки до Telegram Bot
+        або тільки до Website, якщо логіка стосується клієнтського каналу загалом.
+      - >-
+        Для клієнтських каналів використовувати узагальнені поняття:
+        customer_channel, customer_channel_request, customer_action,
+        customer_session, customer_notification.
+      - >-
+        Quote/order/status flow має бути придатним для повторного використання
+        Website, Telegram Bot і майбутнім Mobile App.
+      - >-
+        Mobile App не має отримувати власну окрему бізнес-логіку, якщо така
+        логіка вже має жити в CRM, Gateway, Operational Registry або Calculator.
+      - >-
+        Якщо новий контракт створюється для Website або Telegram Bot, треба
+        перевірити, чи не правильніше назвати його customer_channel_*.
+
+    not_allowed_now:
+      - create_mobile_app_repository
+      - create_mobile_app_database
+      - create_mobile_app_workflows
+      - create_mobile_specific_business_logic
+      - prioritize_mobile_ui_design_before_calculator_ready
+
+    future_allowed_after_start_condition:
+      - create_mobile_app_module_manifest
+      - define_mobile_specific_ui_flows
+      - connect_mobile_app_to_gateway
+      - connect_mobile_app_to_crm_read_models
+      - connect_mobile_app_to_quote_and_order_status_flow
