@@ -2,11 +2,13 @@ prompt_dispatch:
   - id: 2026-05-22-align-calculator-engine-with-blueprint
     target_module: calculator_engine
     batch: first_module_alignment
-    status: approved
+    status: reviewed
     priority: high
-    prompt_file: coordination/outgoing_prompts/calculator_engine/drafts/2026-05-22-align-calculator-engine-with-blueprint.md
+    prompt_file: coordination/outgoing_prompts/calculator_engine/approved/2026-05-22-align-calculator-engine-with-blueprint.md
     expected_response_type: module_alignment_report
-    expected_response_location: coordination/outgoing_prompts/calculator_engine/approved/2026-05-22-align-calculator-engine-with-blueprint.md
+    expected_response_location: coordination/incoming_requests/calculator_engine/new/
+    response_file: coordination/incoming_requests/calculator_engine/new/2026-05-23-calculator-engine-alignment-report.md
+    review_file: human/calculator_alignment_review.md
     purpose: >-
       Вирівняти Calculator Engine як calculation-focused service і не допустити,
       щоб він став CRM, складом, бухгалтерією або власником каталогів.

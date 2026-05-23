@@ -1,0 +1,135 @@
+calculator_alignment_review:
+  id: 2026-05-23-calculator-engine-alignment-review
+  module_id: calculator_engine
+  source_report: coordination/incoming_requests/calculator_engine/new/2026-05-23-calculator-engine-alignment-report.md
+  source_prompt_id: 2026-05-22-align-calculator-engine-with-blueprint
+  review_status: reviewed
+  reviewed_at: '2026-05-23'
+
+  overall_assessment:
+    status: generally_good_with_controlled_drift_risk
+    module_direction_is_correct: true
+    urgent_architecture_drift: false
+    safe_to_continue_current_development: true
+    blueprint_update_needed: true
+    summary: >-
+      Calculator Engine залишається переважно calculation-focused service.
+      Поточні ризики контрольовані, але потрібно офіційно закріпити, що локальні
+      catalog tables є cache/projection, а не canonical truth.
+
+  accepted_calculator_owned_objects:
+    - quote_draft
+    - price_breakdown
+    - product_configuration
+    - calculation_execution_snapshot
+    - calculation_specific_pricing_rules
+    - catalog_sync_audit
+    - technical_imposition_job_shell
+
+  accepted_non_canonical_local_projections:
+    - material_category
+    - material
+    - operation_type
+    - product_type
+    - product_template
+    - ui_brand
+    - ui_skin
+    - imported_catalog_structures
+    - template_visibility_projection
+
+  required_safe_corrections:
+    - id: classify_local_catalog_tables_as_non_canonical
+      priority: high
+      action: >-
+        У Calculator documentation/manifest прямо вказати, що Library-sourced
+        catalog tables є imported calculation input / local projection / cache.
+
+    - id: restrict_library_sourced_admin_editing
+      priority: medium
+      action: >-
+        Дані з source_system=library не мають поводитися як local master data.
+        Manual edits мають бути або обмежені, або явно позначені як override.
+
+    - id: define_material_consumption_estimate_contract
+      priority: high
+      action: >-
+        Винести material_consumption_estimate з embedded quote lines у
+        dedicated system-level output contract.
+
+    - id: keep_customer_order_context_snapshot_only
+      priority: high
+      action: >-
+        customer_ref, external_customer_id та order context у Calculator мають
+        лишатися snapshot/request context, а не local CRM/Registry.
+
+    - id: keep_imposition_job_technical_only
+      priority: medium
+      action: >-
+        ImpositionJob у Calculator може бути technical shell, але не має ставати
+        canonical prepress storage або owner of file lifecycle.
+
+    - id: move_external_intake_behind_gateway_later
+      priority: high
+      action: >-
+        Поточний direct external intake допустимий на development етапі, але
+        production flow має поступово перейти через forprint_integration_gateway.
+
+  contract_gaps:
+    - id: material_consumption_estimate_contract
+      priority: high
+      proposed_contract: calculator_to_registry_material_consumption_estimate.v1
+      producer: calculator_engine
+      likely_consumers:
+        - forprint_crm
+        - forprint_operational_registry
+        - warehouse_service
+        - accounting_registry_service
+      status: needs_blueprint_definition
+
+    - id: library_to_calculator_catalog_projection_contract
+      priority: high
+      proposed_contract: library_to_calculator_catalog_projection.v1
+      producer: forprint_library
+      likely_consumers:
+        - calculator_engine
+      status: needs_blueprint_definition
+
+    - id: gateway_to_calculator_trusted_handoff_contract
+      priority: medium
+      proposed_contract: integration_gateway_to_calculator_trusted_handoff.v1
+      producer: forprint_integration_gateway
+      likely_consumers:
+        - calculator_engine
+      status: needs_later_definition
+
+  open_blueprint_questions:
+    - id: brand_channel_defaults_owner
+      question: >-
+        Хто є canonical owner для brand/channel defaults: Library, CRM,
+        окремий channel configuration registry або Calculator projection?
+
+    - id: machine_capabilities_and_print_modes_owner
+      question: >-
+        Підтвердити, що machine capabilities і print modes canonically owned by
+        ForPrint Library, а Calculator тільки споживає projection/cache.
+
+    - id: product_template_operation_rules_boundary
+      question: >-
+        Визначити, які product template operation rules мають бути Library-owned,
+        а які можуть бути Calculator-owned calculation overlays.
+
+    - id: calculation_job_registry_boundary
+      question: >-
+        Чи CalculationJob лишається тільки calculator-local execution snapshot,
+        чи частина summary/status має дзеркалитися в Operational Registry?
+
+    - id: imposition_prepress_boundary
+      question: >-
+        Де довгостроково має жити imposition/prepress orchestration: Calculator,
+        Prepress Hub або окремий контракт між ними?
+
+  next_actions:
+    - update_calculator_module_guide
+    - define_material_consumption_estimate_data_object_or_contract
+    - keep_prompt_dispatch_record_as_reviewed
+    - proceed_to_forprint_crm_alignment_after_calculator_intake
