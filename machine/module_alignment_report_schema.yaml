@@ -1,0 +1,58 @@
+schema_id: module_alignment_report.v1
+status: active_development
+purpose: >-
+  Описує мінімальну структуру alignment report, який дочірній модуль
+  повертає у відповідь на prompt із ForPrint System Blueprint.
+
+required_sections:
+  - metadata
+  - current_state
+  - current_architectural_role
+  - data_currently_owned_by_this_module
+  - data_consumed_from_other_modules
+  - data_provided_to_other_modules
+  - detected_architecture_drift
+  - contract_gaps
+  - safe_next_corrections
+  - actions_that_require_blueprint_decision
+  - open_questions_for_blueprint
+  - recommended_module_priority
+  - summary
+
+metadata_required_fields:
+  - report_id
+  - module_id
+  - source_prompt_id
+  - report_status
+  - created_at
+  - prepared_by
+  - target_blueprint_version
+
+allowed_report_statuses:
+  - new
+  - reviewed
+  - archived
+
+allowed_drift_severity:
+  - low
+  - medium
+  - high
+
+allowed_recommended_priority:
+  - active_support
+  - high_next
+  - medium
+  - later
+  - pause
+
+summary_required_fields:
+  - module_direction_is_correct
+  - urgent_architecture_drift
+  - safe_to_continue_current_development
+  - blueprint_update_needed
+
+notes:
+  - >-
+    На першому етапі alignment report може бути Markdown-документом за шаблоном.
+    Машинну JSON/YAML-форму можна додати пізніше, коли стабілізуємо перші
+    реальні відповіді від активних модулів.
