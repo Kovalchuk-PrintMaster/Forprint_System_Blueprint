@@ -30,11 +30,13 @@ prompt_dispatch:
   - id: 2026-05-22-align-library-with-blueprint
     target_module: forprint_library
     batch: first_module_alignment
-    status: approved
+    status: reviewed
     priority: high
     prompt_file: coordination/outgoing_prompts/forprint_library/approved/2026-05-22-align-library-with-blueprint.md
     expected_response_type: module_alignment_report
     expected_response_location: coordination/incoming_requests/forprint_library/new/
+    response_file: coordination/incoming_requests/forprint_library/new/2026-05-23-forprint-library-alignment-report.md
+    review_file: human/library_alignment_review.md
     purpose: >-
       Вирівняти Library як canonical knowledge/catalog/template/contract layer
       і не допустити перетворення Library на операційну базу всього.

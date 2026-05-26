@@ -1,0 +1,275 @@
+library_alignment_review:
+  id: 2026-05-23-forprint-library-alignment-review
+  module_id: forprint_library
+  source_report: coordination/incoming_requests/forprint_library/new/2026-05-23-forprint-library-alignment-report.md
+  source_prompt_id: 2026-05-22-align-library-with-blueprint
+  review_status: reviewed
+  reviewed_at: '2026-05-23'
+
+  overall_assessment:
+    status: good_alignment_with_strict_non_operational_boundary
+    module_direction_is_correct: true
+    urgent_architecture_drift: false
+    safe_to_continue_current_development: true
+    blueprint_update_needed: true
+    summary: >-
+      ForPrint Library приймає Blueprint-напрямок: Library має бути canonical
+      catalog, template, technical card, semantic registry, alias registry,
+      contract definition, versioning and migration graph layer. Library не має
+      ставати operational database для orders, clients, payments, warehouse
+      balances, production runtime або uploaded file lifecycle.
+
+  accepted_library_role:
+    - canonical_catalog_layer
+    - semantic_registry
+    - alias_registry
+    - contract_registry
+    - contract_versioning_layer
+    - migration_graph_foundation
+    - technical_documentation_template_registry
+    - change_manifest_source
+    - validation_schema_definition_source
+
+  accepted_canonical_ownership_zones:
+    catalogs:
+      - product_types
+      - material_types
+      - material_canonical_properties
+      - print_technologies
+      - postpress_technologies
+      - equipment_machine_capability_definitions
+      - print_modes
+      - file_format_definitions
+      - color_modes
+      - measurement_units
+      - currencies_as_allowed_values
+      - reusable_product_option_definitions
+
+    templates_and_technical_cards:
+      - product_technical_cards
+      - print_preparation_templates
+      - prepress_requirements
+      - print_sheet_templates
+      - product_parameter_templates
+      - validation_templates
+      - partner_integration_documentation_templates
+      - human_readable_specification_packages
+      - machine_readable_specification_packages
+
+    contract_definitions:
+      - contract_codes
+      - contract_versions
+      - json_schema_definitions
+      - human_readable_contract_docs
+      - valid_examples
+      - invalid_examples
+      - contract_changelog
+      - machine_readable_changelog
+      - migration_rules
+      - compatibility_policies
+      - activation_policies
+      - deprecation_policies
+      - blocking_policies
+
+    semantic_registry_and_aliases:
+      - stable_semantic_identifiers
+      - semantic_values
+      - legacy_field_aliases
+      - legacy_id_mappings
+      - historical_compatibility_mappings
+
+  must_not_own_runtime_objects:
+    - client_order
+    - customer_profile
+    - customer_interaction_history
+    - payment
+    - invoice_runtime_record
+    - warehouse_stock_balance
+    - warehouse_reservation
+    - warehouse_writeoff_event
+    - production_job
+    - production_queue_item
+    - delivery_runtime_status
+    - uploaded_client_file_instance
+    - prepress_runtime_file_result
+    - machine_repair_runtime_event
+    - operator_work_shift
+    - global_logs_from_all_modules
+
+  required_contract_directions:
+    for_calculator_engine:
+      - calculator.quote_request.v1
+      - calculator.quote_response.v1
+      - calculator.material_usage_estimate.v1
+      - calculator.deadline_estimate.v1
+      - calculator.price_breakdown.v1
+
+    for_prepress_hub:
+      - prepress.job_request.v1
+      - prepress.job_response.v1
+      - prepress.file_check_result.v1
+      - prepress.warning.v1
+      - prepress.error.v1
+      - prepress.output_file_manifest.v1
+
+    for_warehouse_service:
+      - warehouse.availability_request.v1
+      - warehouse.availability_response.v1
+      - warehouse.reserve_material_request.v1
+      - warehouse.writeoff_request.v1
+
+    for_crm:
+      - library_to_crm_catalog_reference.v1
+      - library_order_form_definition.v1
+      - library_product_template_reference.v1
+
+    for_integration_gateway:
+      - partner_integration_contract_index.v1
+      - accepted_schema_versions.v1
+      - deprecated_blocked_contract_versions.v1
+
+    for_project_inspector:
+      - canonical_module_contract_index.v1
+      - expected_schema_index.v1
+      - semantic_id_registry_snapshot.v1
+      - migration_graph_status.v1
+
+  impact_rules_needed:
+    contract_changes:
+      - contract_version_changes
+      - field_added
+      - field_removed
+      - field_becomes_required
+      - field_becomes_optional
+      - field_type_changes
+      - enum_values_change
+      - validation_rules_change
+      - response_status_codes_change
+      - error_warning_codes_change
+
+    semantic_registry_changes:
+      - semantic_attribute_introduced
+      - semantic_attribute_deprecated
+      - alias_mapping_changes
+      - legacy_id_mapping_changes
+      - semantic_value_renamed
+      - semantic_value_archived
+      - semantic_id_relationship_changes
+
+    catalog_changes:
+      - product_type_changes
+      - material_definition_changes
+      - material_compatibility_changes
+      - print_technology_changes
+      - machine_capability_changes
+      - print_mode_changes
+      - unit_currency_policy_changes
+      - required_product_attributes_change
+
+    technical_card_template_changes:
+      - technical_card_version_changes
+      - process_steps_change
+      - required_prepress_checks_change
+      - print_preparation_template_changes
+      - output_format_expectations_change
+      - required_machine_capability_changes
+
+    migration_graph_changes:
+      - migration_path_added
+      - migration_path_removed
+      - migration_path_becomes_lossy
+      - legacy_version_becomes_read_only
+      - legacy_version_becomes_blocked_for_input
+      - historical_compatibility_policy_changes
+
+  activation_policy:
+    recommended_lifecycle:
+      - draft
+      - approved
+      - staged
+      - syncing
+      - active
+    rule: >-
+      Critical Library changes should not become active automatically. They
+      should pass through approval/staging/syncing before becoming active for
+      dependent modules.
+
+  open_blueprint_questions:
+    - id: library_access_path
+      question: >-
+        Should internal modules consume Library directly, or only through
+        Integration Gateway / approved interfaces?
+
+    - id: runtime_product_availability_owner
+      question: >-
+        Which module owns runtime product availability for production planning?
+        Library owns capability definitions, not runtime availability.
+
+    - id: partner_contract_adoption_status_owner
+      question: >-
+        Which module owns partner-specific contract adoption status?
+
+    - id: generated_partner_documentation_packages
+      question: >-
+        Should Library own only canonical source definitions, or also generated
+        partner documentation packages?
+
+    - id: historical_archive_reading_owner
+      question: >-
+        Should historical archive reading belong to Library, or to a future
+        migration/history service?
+
+    - id: library_operational_registry_relationship
+      question: >-
+        Confirm official split: Library = canonical definitions,
+        Operational Registry = runtime operational state and events.
+
+    - id: library_accounting_registry_relationship
+      question: >-
+        Confirm official split: Library = accounting contract schemas and
+        reference definitions, Accounting Registry = invoices/payments/events.
+
+    - id: forprint_sync_manager_first_class_module
+      question: >-
+        Should forprint_sync_manager become a separate first-class module in
+        Blueprint? Library defines desired state; Sync Manager would coordinate
+        bringing internal modules to that state.
+
+  required_safe_corrections:
+    - id: document_library_non_operational_boundary
+      priority: high
+      action: >-
+        У Library README/docs зафіксувати: Library defines canonical definitions
+        and schemas; it does not own runtime business state.
+
+    - id: create_impact_rules_for_library_changes
+      priority: high
+      action: >-
+        Додати impact rules для contract, semantic registry, catalog,
+        technical card/template і migration graph changes.
+
+    - id: define_library_to_calculator_contracts
+      priority: high
+      action: >-
+        Підготувати contracts для catalog projection, quote request/response,
+        material usage estimate і price breakdown.
+
+    - id: define_library_to_crm_catalog_reference
+      priority: high
+      action: >-
+        Підготувати contract для CRM catalog/reference consumption без дублювання
+        canonical catalog у CRM.
+
+    - id: keep_sync_manager_as_open_question
+      priority: medium
+      action: >-
+        Не створювати forprint_sync_manager одразу як активний модуль, але
+        зафіксувати його як можливий майбутній first-class module.
+
+  next_actions:
+    - update_library_module_guide
+    - define_library_impact_rules
+    - define_initial_library_contracts_for_calculator_and_crm
+    - keep_forprint_sync_manager_as_open_blueprint_question
+    - keep_prompt_dispatch_record_as_reviewed
+    - proceed_to_integration_gateway_alignment
