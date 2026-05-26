@@ -40,6 +40,8 @@ def test_alignment_execution_plan_has_next_manual_action() -> None:
     next_action = plan_data["alignment_execution_plan"]["next_manual_action"]
 
     assert next_action["module_id"] == "forprint_integration_gateway"
-    assert next_action["action"] == "send_approved_prompt_to_module_chat"
+    assert next_action["action"] == "send_approved_bootstrap_prompt_to_new_module_chat"
     assert "/approved/" in next_action["prompt_file"]
-    assert next_action["prompt_file"].endswith("align-integration-gateway-with-blueprint.md")
+    assert next_action["prompt_file"].endswith(
+        "bootstrap-integration-gateway-from-blueprint.md"
+    )

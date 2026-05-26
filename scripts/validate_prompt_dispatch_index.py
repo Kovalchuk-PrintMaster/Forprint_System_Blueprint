@@ -61,6 +61,7 @@ from scripts.blueprint_utils import ValidationResult, load_yaml, project_root
 
 ALLOWED_STATUSES = {"draft", "approved", "sent", "reviewed", "archived"}
 ALLOWED_PRIORITIES = {"critical", "high", "medium", "low"}
+ALLOWED_RESPONSE_TYPES = {"module_alignment_report", "module_bootstrap_plan"}
 
 
 def _items(data: dict[str, Any], key: str) -> list[dict[str, Any]]:
@@ -137,10 +138,10 @@ def validate_prompt_dispatch_index(root: Path | None = None) -> ValidationResult
                 f"{response_location}"
             )
 
-        if item.get("expected_response_type") != "module_alignment_report":
-            warnings.append(
-                f"prompt '{prompt_id}' has non-standard expected_response_type: "
-                f"{item.get('expected_response_type')}"
+        response_type = item.get("expected_response_type")
+        if response_type not in ALLOWED_RESPONSE_TYPES:
+            errors.append(
+                f"prompt '{prompt_id}' has invalid expected_response_type: {response_type}"
             )
 
     return ValidationResult(ok=not errors, errors=errors, warnings=warnings)
