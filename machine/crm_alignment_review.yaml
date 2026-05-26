@@ -1,0 +1,226 @@
+crm_alignment_review:
+  id: 2026-05-23-forprint-crm-alignment-review
+  module_id: forprint_crm
+  source_report: coordination/incoming_requests/forprint_crm/new/2026-05-23-forprint-crm-alignment-report.md
+  source_prompt_id: 2026-05-22-align-crm-with-blueprint
+  review_status: reviewed
+  reviewed_at: '2026-05-23'
+
+  overall_assessment:
+    status: good_alignment_with_high_monolith_risk_controlled
+    module_direction_is_correct: true
+    urgent_architecture_drift: false
+    safe_to_continue_current_development: true
+    blueprint_update_needed: true
+    summary: >-
+      ForPrint CRM приймає Blueprint-напрямок: CRM має бути business
+      orchestration layer, human-facing management UI, dashboard and analytics
+      surface, але не фізичним власником усіх операційних, бухгалтерських,
+      catalog або integration даних.
+
+  accepted_crm_role:
+    - business_orchestration
+    - workflow_coordination
+    - human_ui
+    - analytics_dashboard
+    - operator_interface
+    - management_reporting
+    - manual_review_interface
+    - architecture_health_view_from_inspector_reports
+
+  accepted_crm_owned_data:
+    - dashboard_layout_settings
+    - user_specific_views_and_filters
+    - saved_report_presets
+    - crm_ui_preferences
+    - dashboard_widgets_configuration
+    - management_comments_and_notes
+    - manual_review_board_configuration
+    - business_decision_drafts
+    - workflow_command_history
+    - crm_notification_preferences
+    - non_canonical_dashboard_projections
+    - analytics_snapshots
+    - operator_workspace_state
+    - internal_crm_reminders
+    - manager_review_queues
+    - dashboard_annotations
+
+  must_read_or_display_only:
+    from_forprint_operational_registry:
+      - clients
+      - orders
+      - order_statuses
+      - operational_tasks
+      - workflow_statuses
+      - deadlines
+      - responsible_users
+      - production_lifecycle_state
+
+    from_accounting_registry_service:
+      - invoices
+      - payments
+      - payment_statuses
+      - debts
+      - prepayments
+      - accounting_related_order_status
+      - one_c_synchronization_state
+      - financial_document_registry
+
+    from_forprint_library:
+      - product_catalog_names
+      - material_names
+      - templates
+      - technical_document_references
+      - machine_capability_references
+      - nomenclature_references
+      - allowed_product_material_naming
+
+    from_forprint_project_inspector:
+      - module_health
+      - architecture_drift_reports
+      - integration_gaps
+      - stale_module_reports
+      - failed_tests
+      - module_alignment_warnings
+      - global_blueprint_review_status
+
+    from_forprint_integration_gateway:
+      - execution_results
+      - routed_command_statuses
+      - external_module_response_summaries
+      - failed_command_attempts
+      - integration_error_messages
+
+  required_contracts:
+    - id: operational_registry_to_crm_dashboard_snapshot.v1
+      source: forprint_operational_registry
+      target: forprint_crm
+      purpose: provide_clients_orders_tasks_statuses_for_crm_dashboard
+      priority: high
+      status: needs_blueprint_definition
+
+    - id: accounting_registry_to_crm_finance_summary.v1
+      source: accounting_registry_service
+      target: forprint_crm
+      purpose: provide_invoices_payments_debts_prepayment_summaries
+      priority: high
+      status: needs_blueprint_definition
+
+    - id: library_to_crm_catalog_reference.v1
+      source: forprint_library
+      target: forprint_crm
+      purpose: provide_product_material_template_naming_and_references
+      priority: high
+      status: needs_blueprint_definition
+
+    - id: project_inspector_to_crm_architecture_health.v1
+      source: forprint_project_inspector
+      target: forprint_crm
+      purpose: provide_module_health_architecture_drift_integration_gaps
+      priority: medium
+      status: needs_later_definition
+
+    - id: crm_to_integration_gateway_command.v1
+      source: forprint_crm
+      target: forprint_integration_gateway
+      purpose: send_business_commands_without_bypassing_gateway
+      priority: high
+      status: needs_blueprint_definition
+
+    - id: integration_gateway_to_crm_command_result.v1
+      source: forprint_integration_gateway
+      target: forprint_crm
+      purpose: return_command_execution_results
+      priority: high
+      status: needs_blueprint_definition
+
+    - id: crm_dashboard_projection.v1
+      source: forprint_crm
+      target: forprint_crm
+      purpose: define_non_canonical_cached_dashboard_and_reporting_projections
+      priority: medium
+      status: internal_crm_contract_needed
+
+  required_safe_corrections:
+    - id: document_crm_boundaries
+      priority: high
+      action: >-
+        У CRM README/docs додати явне правило: CRM is not the physical owner
+        of all system data.
+
+    - id: start_with_dashboard_projection_models
+      priority: high
+      action: >-
+        Перші CRM-моделі мають бути dashboard/reporting/workflow-oriented:
+        DashboardWidget, DashboardLayout, SavedReport, ReportSnapshot,
+        CRMUserNote, CRMCommandLog, ExternalModuleStatusProjection.
+
+    - id: avoid_canonical_models_at_start
+      priority: high
+      action: >-
+        Не починати CRM із canonical Client/Order/Invoice/Payment/Material
+        моделей, якщо вони не позначені як temporary/projection/cache.
+
+    - id: prepare_placeholder_adapters
+      priority: medium
+      action: >-
+        Підготувати placeholder adapters/clients для Operational Registry,
+        Accounting Registry, Library, Project Inspector і Integration Gateway.
+
+    - id: route_commands_through_gateway
+      priority: high
+      action: >-
+        CRM workflow/execution commands мають іти через Integration Gateway,
+        а не напряму в Calculator, Prepress, Accounting, Telegram чи Website.
+
+  open_blueprint_questions:
+    - id: operational_registry_canonical_ownership
+      question: >-
+        Чи forprint_operational_registry офіційно є canonical owner для clients,
+        orders, tasks і operational statuses?
+
+    - id: order_creation_flow
+      question: >-
+        Чи CRM створює orders напряму, чи надсилає order creation command до
+        Operational Registry через Integration Gateway?
+
+    - id: manual_decision_records_owner
+      question: >-
+        Де живуть canonical manual decision records: CRM чи Operational Registry?
+
+    - id: crm_vs_gateway_boundary
+      question: >-
+        Яка точна межа між CRM business workflow coordination і Gateway
+        execution routing?
+
+    - id: dashboard_projection_storage
+      question: >-
+        Dashboard projections зберігати в CRM database чи генерувати on demand
+        із Registry APIs?
+
+    - id: identity_access_owner
+      question: >-
+        Хто володіє user/employee/operator identity: CRM, Operational Registry
+        або майбутній Identity/Access module?
+
+    - id: first_crm_dashboard_priority
+      question: >-
+        Який перший CRM dashboard потрібен: orders dashboard, finance dashboard,
+        module health dashboard або executive overview?
+
+    - id: inspector_reports_delivery_mode
+      question: >-
+        Project Inspector reports мають push-итися в CRM чи CRM має pull-ити їх
+        із Inspector?
+
+    - id: minimum_contracts_before_crm_implementation
+      question: >-
+        Які minimum contracts мають існувати до старту CRM implementation?
+
+  next_actions:
+    - update_crm_module_guide
+    - define_initial_crm_contracts
+    - confirm_operational_registry_as_canonical_owner
+    - keep_prompt_dispatch_record_as_reviewed
+    - proceed_to_forprint_library_alignment

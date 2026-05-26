@@ -33,14 +33,12 @@ def test_alignment_execution_plan_prompt_files_exist_when_defined() -> None:
             if prompt_id is not None:
                 assert prompt_id in known_prompt_ids
 
-
 def test_alignment_execution_plan_has_next_manual_action() -> None:
     root = Path(__file__).resolve().parents[1]
     plan_data = _load_yaml(root / "machine/module_alignment_execution_plan.yaml")
 
     next_action = plan_data["alignment_execution_plan"]["next_manual_action"]
 
-    assert next_action["module_id"] == "forprint_crm"
-    assert next_action["action"] == "send_approved_prompt_to_module_chat"
-    assert "/approved/" in next_action["prompt_file"]
-    assert next_action["prompt_file"].endswith("align-crm-with-blueprint.md")
+    assert next_action["module_id"] == "forprint_library"
+    assert next_action["action"] == "approve_next_core_alignment_prompt"
+    assert next_action["prompt_file"].endswith("align-library-with-blueprint.md")

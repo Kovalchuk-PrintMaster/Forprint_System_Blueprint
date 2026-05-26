@@ -16,11 +16,13 @@ prompt_dispatch:
   - id: 2026-05-22-align-crm-with-blueprint
     target_module: forprint_crm
     batch: first_module_alignment
-    status: approved
+    status: reviewed
     priority: high
     prompt_file: coordination/outgoing_prompts/forprint_crm/approved/2026-05-22-align-crm-with-blueprint.md
     expected_response_type: module_alignment_report
     expected_response_location: coordination/incoming_requests/forprint_crm/new/
+    response_file: coordination/incoming_requests/forprint_crm/new/2026-05-23-forprint-crm-alignment-report.md
+    review_file: human/crm_alignment_review.md
     purpose: >-
       Вирівняти CRM як business orchestration UI/dashboard і не допустити,
       щоб CRM стала фізичним власником усіх даних.
