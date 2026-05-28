@@ -20,11 +20,15 @@ def test_gateway_bootstrap_prompt_is_registered() -> None:
     )
 
     assert prompt["target_module"] == "forprint_integration_gateway"
-    assert prompt["status"] == "approved"
+    assert prompt["status"] == "reviewed"
     assert prompt["expected_response_type"] == "module_bootstrap_plan"
     assert prompt["prompt_file"].endswith(
         "2026-05-23-bootstrap-integration-gateway-from-blueprint.md"
     )
+    assert prompt["response_file"].endswith(
+        "2026-05-28-integration-gateway-v0-2-stabilization-report.md"
+    )
+    assert prompt["review_file"] == "human/integration_gateway_v0_2_review.md"
 
 
 def test_gateway_old_alignment_prompt_is_archived() -> None:

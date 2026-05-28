@@ -61,7 +61,12 @@ from scripts.blueprint_utils import ValidationResult, load_yaml, project_root
 
 ALLOWED_STATUSES = {"draft", "approved", "sent", "reviewed", "archived"}
 ALLOWED_PRIORITIES = {"critical", "high", "medium", "low"}
-ALLOWED_RESPONSE_TYPES = {"module_alignment_report", "module_bootstrap_plan"}
+ALLOWED_RESPONSE_TYPES = {
+    "module_alignment_report",
+    "module_bootstrap_plan",
+    "module_boundary_correction_report",
+    "module_stabilization_completion_report",
+}
 
 
 def _items(data: dict[str, Any], key: str) -> list[dict[str, Any]]:

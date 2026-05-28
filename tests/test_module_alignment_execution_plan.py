@@ -39,9 +39,8 @@ def test_alignment_execution_plan_has_next_manual_action() -> None:
 
     next_action = plan_data["alignment_execution_plan"]["next_manual_action"]
 
-    assert next_action["module_id"] == "forprint_integration_gateway"
-    assert next_action["action"] == "send_approved_bootstrap_prompt_to_new_module_chat"
-    assert "/approved/" in next_action["prompt_file"]
+    assert next_action["module_id"] == "accounting_registry_service"
+    assert next_action["action"] == "send_approved_boundary_correction_prompt_to_accounting_module_chat"
     assert next_action["prompt_file"].endswith(
-        "bootstrap-integration-gateway-from-blueprint.md"
+        "2026-05-28-accounting-registry-boundary-correction.md"
     )

@@ -65,6 +65,20 @@ prompt_dispatch:
       Вирівняти Accounting Registry як accounting/1C boundary і не допустити,
       щоб він став CRM або загальним operational registry.
 
+  - id: 2026-05-28-accounting-registry-boundary-correction
+    target_module: accounting_registry_service
+    batch: accounting_boundary_correction
+    status: approved
+    priority: high
+    prompt_file: coordination/outgoing_prompts/accounting_registry_service/approved/2026-05-28-accounting-registry-boundary-correction.md
+    expected_response_type: module_boundary_correction_report
+    expected_response_location: coordination/incoming_requests/accounting_registry_service/new/
+    purpose: >-
+      Підтягнути ForPrint Accounting Registry Service до Blueprint boundaries:
+      зафіксувати його як accounting/1C/invoice/payment truth service і не
+      допустити drift у CRM, Operational Registry, Library або general business
+      database.
+
   - id: 2026-05-22-align-prepress-hub-with-blueprint
     target_module: forprint_prepress_hub
     batch: second_module_alignment
@@ -92,9 +106,11 @@ prompt_dispatch:
   - id: 2026-05-23-bootstrap-integration-gateway-from-blueprint
     target_module: forprint_integration_gateway
     batch: gateway_bootstrap
-    status: approved
+    status: reviewed
     priority: high
     prompt_file: coordination/outgoing_prompts/forprint_integration_gateway/approved/2026-05-23-bootstrap-integration-gateway-from-blueprint.md
+    response_file: coordination/incoming_requests/forprint_integration_gateway/new/2026-05-28-integration-gateway-v0-2-stabilization-report.md
+    review_file: human/integration_gateway_v0_2_review.md
     expected_response_type: module_bootstrap_plan
     expected_response_location: coordination/incoming_requests/forprint_integration_gateway/new/
     purpose: >-
