@@ -1,0 +1,206 @@
+module_git_sources:
+  version: "0.1"
+  purpose: >
+    Registry of ForPrint module repositories and local paths used by
+    ForPrint System Blueprint / future Control Plane to collect module
+    coordination status through Git.
+
+  default_branch: main
+  default_coordination_root: coordination
+  default_status_file: coordination/status/current_status.yaml
+  default_prompt_index: coordination/prompts/index.yaml
+  default_report_index: coordination/reports/index.yaml
+
+  modules:
+    - module_id: forprint_system_blueprint
+      module_name: ForPrint System Blueprint
+      priority: p0
+      development_status: active_development
+      local_path: /srv/software_development/forprint-project/forprint_system_blueprint
+      repo_url: git@github.com:Kovalchuk-PrintMaster/Forprint_System_Blueprint.git
+      branch: main
+      coordination_root: coordination
+      status_file: coordination/status/current_status.yaml
+      prompt_index: coordination/prompts/index.yaml
+      report_index: coordination/reports/index.yaml
+      repo_status: confirmed
+      notes: >
+        Central architecture and coordination repository. Currently also keeps
+        the module coordination standard and execution queue.
+
+    - module_id: calculator_engine
+      module_name: Calculator Engine
+      priority: p0
+      development_status: active_development
+      local_path: /srv/software_development/forprint-project/calculator_engine/app
+      repo_url: git@github.com:Kovalchuk-PrintMaster/Calculator_Engine.git
+      branch: main
+      coordination_root: coordination
+      status_file: coordination/status/current_status.yaml
+      prompt_index: coordination/prompts/index.yaml
+      report_index: coordination/reports/index.yaml
+      repo_status: confirmed
+      notes: >
+        Primary order/calculation formalization point. Local path currently
+        points to the active app directory used for development.
+
+    - module_id: forprint_accounting_registry_service
+      module_name: ForPrint Accounting Registry Service
+      priority: selective
+      development_status: sandbox_1c_import_export_ready
+      local_path: /srv/software_development/forprint-project/forprint_accounting_registry_service
+      repo_url: git@github.com:Kovalchuk-PrintMaster/Forprint_Accounting_Registry_Service.git
+      branch: main
+      coordination_root: coordination
+      status_file: coordination/status/current_status.yaml
+      prompt_index: coordination/prompts/index.yaml
+      report_index: coordination/reports/index.yaml
+      repo_status: confirmed
+      waiting_for: real_sanitized_one_c_export_samples
+      notes: >
+        v0.5 accepted. Maintains sandbox 1C import/export/parser/mapping
+        readiness. Further v0.6 work is conditional on real sanitized 1C samples.
+
+    - module_id: forprint_operational_registry
+      module_name: ForPrint Operational Registry
+      priority: p1
+      development_status: reference_ready_storage_ready
+      local_path: /srv/software_development/forprint-project/forprint_operational_registry
+      repo_url: git@github.com:Kovalchuk-PrintMaster/Forprint_Operational_Registry.git
+      branch: main
+      coordination_root: coordination
+      status_file: coordination/status/current_status.yaml
+      prompt_index: coordination/prompts/index.yaml
+      report_index: coordination/reports/index.yaml
+      repo_status: confirmed
+      notes: >
+        Internal ForPrint DB/data custodian. Next planned direction is v0.6
+        Core ForPrint Data Model Expansion.
+
+    - module_id: forprint_library
+      module_name: ForPrint Library
+      priority: p1
+      development_status: active_development
+      local_path: /srv/software_development/forprint-project/forprint_library
+      repo_url: git@github.com:Kovalchuk-PrintMaster/Forprint_Library.git
+      branch: main
+      coordination_root: coordination
+      status_file: coordination/status/current_status.yaml
+      prompt_index: coordination/prompts/index.yaml
+      report_index: coordination/reports/index.yaml
+      repo_status: confirmed
+      notes: >
+        Canonical semantic/catalog authority. Owns product/service/material/
+        operation IDs, aliases, definitions, contracts and catalog semantics.
+
+    - module_id: forprint_integration_gateway
+      module_name: ForPrint Integration Gateway
+      priority: hold
+      development_status: paused_after_v0_2
+      local_path: /srv/software_development/forprint-project/forprint_integration_gateway
+      repo_url: git@github.com:Kovalchuk-PrintMaster/Forprint_Integration_Gateway.git
+      branch: main
+      coordination_root: coordination
+      status_file: coordination/status/current_status.yaml
+      prompt_index: coordination/prompts/index.yaml
+      report_index: coordination/reports/index.yaml
+      repo_status: confirmed
+      notes: >
+        Runtime validation/routing/idempotency/correlation foundation exists.
+        Hold until real runtime handoff is needed.
+
+    - module_id: forprint_prepress_hub
+      module_name: ForPrint Prepress Hub
+      priority: p2
+      development_status: bootstrap_or_alignment_needed
+      local_path: /srv/software_development/forprint-project/forprint_prepress_hub
+      repo_url: null
+      branch: main
+      coordination_root: coordination
+      status_file: coordination/status/current_status.yaml
+      prompt_index: coordination/prompts/index.yaml
+      report_index: coordination/reports/index.yaml
+      repo_status: confirm_required
+      notes: >
+        Local directory is known. Git remote should be confirmed before
+        automated pull/status aggregation.
+
+    - module_id: telegram_bot
+      module_name: Telegram Bot
+      priority: p0
+      development_status: active_development
+      local_path: /srv/software_development/forprint-project/telegram_bot
+      repo_url: null
+      branch: main
+      coordination_root: coordination
+      status_file: coordination/status/current_status.yaml
+      prompt_index: coordination/prompts/index.yaml
+      report_index: coordination/reports/index.yaml
+      repo_status: confirm_required
+      notes: >
+        Customer channel adapter. Repo URL and exact local path should be
+        confirmed before aggregation. Must remain channel adapter, not business
+        truth owner.
+
+    - module_id: forprint_crm
+      module_name: ForPrint CRM
+      priority: p2
+      development_status: planned_or_alignment_needed
+      local_path: /srv/software_development/forprint-project/forprint_crm
+      repo_url: null
+      branch: main
+      coordination_root: coordination
+      status_file: coordination/status/current_status.yaml
+      prompt_index: coordination/prompts/index.yaml
+      report_index: coordination/reports/index.yaml
+      repo_status: confirm_required
+      notes: >
+        Future human-facing dashboard/workflow coordination layer. Must not own
+        internal DB or become operational truth.
+
+    - module_id: cloud_backup_manager
+      module_name: Cloud Backup Manager
+      priority: p2
+      development_status: active_utility
+      local_path: /opt/forprint-utils/cloud_backup_manager
+      repo_url: git@github.com:Kovalchuk-PrintMaster/Cloud_Backup_Manager.git
+      branch: main
+      coordination_root: coordination
+      status_file: coordination/status/current_status.yaml
+      prompt_index: coordination/prompts/index.yaml
+      report_index: coordination/reports/index.yaml
+      repo_status: confirmed
+      notes: >
+        Infrastructure utility. Not part of core business flow, but useful for
+        backup/status coordination.
+
+    - module_id: website
+      module_name: Website
+      priority: p2
+      development_status: planned_or_existing_external
+      local_path: null
+      repo_url: null
+      branch: main
+      coordination_root: coordination
+      status_file: coordination/status/current_status.yaml
+      prompt_index: coordination/prompts/index.yaml
+      report_index: coordination/reports/index.yaml
+      repo_status: confirm_required
+      notes: >
+        Customer channel. Exact local path and repository should be confirmed.
+
+    - module_id: mobile_app
+      module_name: Mobile App
+      priority: deferred
+      development_status: planned_deferred_until_calculator_ready
+      local_path: null
+      repo_url: null
+      branch: main
+      coordination_root: coordination
+      status_file: coordination/status/current_status.yaml
+      prompt_index: coordination/prompts/index.yaml
+      report_index: coordination/reports/index.yaml
+      repo_status: planned_not_created
+      notes: >
+        Future customer channel. Must be kept in architecture as deferred.
+        Development starts only after Calculator is mature.
