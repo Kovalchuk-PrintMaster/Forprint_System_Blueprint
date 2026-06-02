@@ -1,0 +1,25 @@
+global_directives:
+  version: "0.1"
+  scope: global
+  source_module: forprint_system_blueprint
+  description: >
+    Global outbound directives from ForPrint System Blueprint to all active
+    ForPrint modules.
+
+  active:
+    - directive_id: "2026-06-02__global__directive__module-coordination-standard-v1"
+      status: active
+      priority: p0
+      created_at: "2026-06-02"
+      applies_to:
+        - all_active_modules
+      file: "coordination/directives/global/active/2026-06-02__global__directive__module-coordination-standard-v1.md"
+      summary: >
+        All active ForPrint modules must apply the Module Coordination Standard:
+        coordination/status, prompts, reports, indexes and current module state.
+      requires_acknowledgement: true
+      expected_module_action: >
+        Add/update coordination directory and report completion through
+        coordination/reports/index.yaml and current_status.yaml.
+
+  archived: []

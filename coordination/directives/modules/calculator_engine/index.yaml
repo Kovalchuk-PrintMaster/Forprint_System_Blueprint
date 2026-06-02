@@ -1,0 +1,25 @@
+module_directives:
+  version: "0.1"
+  module_id: calculator_engine
+  source_module: forprint_system_blueprint
+  description: >
+    Outbound directives from ForPrint System Blueprint specifically for
+    Calculator Engine.
+
+  active:
+    - directive_id: "2026-06-02__calculator_engine__directive__coordination-pull-and-calculator-focus-v1"
+      status: active
+      priority: p0
+      created_at: "2026-06-02"
+      file: "coordination/directives/modules/calculator_engine/active/2026-06-02__calculator_engine__directive__coordination-pull-and-calculator-focus-v1.md"
+      summary: >
+        Calculator Engine must apply the coordination standard and continue
+        toward CalculationOutputPackage / Quote / OrderDraft / downstream
+        handoff while keeping local catalog data as non-canonical projection.
+      requires_acknowledgement: true
+      expected_report_id: "2026-06-02__calculator_engine__report__coordination-pull-and-calculator-focus"
+      expected_module_action: >
+        Apply coordination standard, update module status, and prepare next
+        Calculator macro pack around structured calculation/order output.
+
+  archived: []
