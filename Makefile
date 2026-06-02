@@ -1,7 +1,7 @@
 PYTHON=.venv_blueprint/bin/python
 PIP=.venv_blueprint/bin/pip
 
-.PHONY: install test lint format validate diagrams guides manifest-example prompt-dispatch check check-report clean 
+.PHONY: install test lint format validate diagrams guides manifest-example prompt-dispatch check check-report clean
 
 install:
 	$(PIP) install --upgrade pip

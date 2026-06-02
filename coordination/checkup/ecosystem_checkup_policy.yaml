@@ -1,0 +1,36 @@
+ecosystem_checkup_policy:
+  version: "0.1"
+  status: planned_skeleton
+  future_command_name: ecosystem-check
+
+  purpose: >
+    Define the future ecosystem-level checkup process for ForPrint module
+    coordination. This is a policy skeleton, not a full automation engine.
+
+  planned_checks:
+    - module_repo_pull_status
+    - coordination_files_present
+    - current_status_loaded
+    - prompt_index_loaded
+    - report_index_loaded
+    - active_global_instructions_seen
+    - active_module_instructions_seen
+    - module_priority_vs_activity
+    - stale_high_priority_module
+    - blocked_questions_present
+    - failed_check_report_detected
+    - module_moving_outside_priority
+
+  first_test_module: calculator_engine
+
+  current_manual_flow:
+    - update ForPrint System Blueprint
+    - module pulls Blueprint updates
+    - module checks global policy and directives
+    - module updates coordination files
+    - Blueprint collector reads module status
+    - owner and Blueprint assistant review snapshot
+
+  future_outputs:
+    - reports/ecosystem_checkup/ecosystem_checkup.json
+    - reports/ecosystem_checkup/ecosystem_checkup.md

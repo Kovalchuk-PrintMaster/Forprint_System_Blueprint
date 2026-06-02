@@ -42,21 +42,24 @@ Calculator Engine must not wait for the owner to manually announce every new Blu
 After pulling ForPrint System Blueprint updates, the module assistant should check:
 
 ```text
+coordination/global_policy/
+coordination/standards/
 coordination/directives/global/index.yaml
 coordination/directives/modules/calculator_engine/index.yaml
-```
 
-If new active directives are found, the module assistant should:
+If new or updated global policy, standards or active directives are found, the module assistant should:
 
-```text
-1. Read the referenced directive files.
+1. Read the relevant files.
 2. Compare them with local module status.
 3. Apply allowed coordination updates.
 4. Record acknowledgement or questions in the module coordination files.
 5. Reference directive_id in reports when the work responds to a directive.
-```
 
 In the first stage this process is manual, but the file structure must support future automation.
+
+
+---
+
 
 ## Required coordination action
 

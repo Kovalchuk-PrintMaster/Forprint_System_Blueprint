@@ -1,0 +1,36 @@
+module_activity_thresholds:
+  version: "0.1"
+  status: draft_policy
+
+  description: >
+    Draft thresholds for future ecosystem checkups. These values are not yet
+    enforced automatically.
+
+  thresholds:
+    p0:
+      warning_after_days_without_report: 3
+      critical_after_days_without_report: 7
+
+    p1:
+      warning_after_days_without_report: 7
+      critical_after_days_without_report: 14
+
+    p2:
+      warning_after_days_without_report: 14
+      critical_after_days_without_report: 30
+
+    hold:
+      warning_after_days_without_report: null
+      critical_after_days_without_report: null
+
+    deferred:
+      warning_after_days_without_report: null
+      critical_after_days_without_report: null
+
+  interpretation:
+    warning: >
+      Module may need attention, but this is not yet a critical problem.
+
+    critical: >
+      Module priority and inactivity conflict. Owner / Blueprint assistant should
+      review whether the module is blocked, forgotten or intentionally paused.
