@@ -2,6 +2,7 @@ PYTHON=.venv_blueprint/bin/python
 PIP=.venv_blueprint/bin/pip
 
 .PHONY: install test lint lint-fix format validate diagrams guides manifest-example prompt-dispatch check check-report clean
+		coordination-check coordination-fix
 
 install:
 	$(PIP) install --upgrade pip
@@ -11,10 +12,10 @@ test:
 	$(PYTHON) -m pytest -q
 
 lint:
-	$(PYTHON) -m ruff check scripts tests
+	$(PYTHON) -m ruff check scripts tests tools
 
 lint-fix:
-	$(PYTHON) -m ruff check scripts tests --fix
+	$(PYTHON) -m ruff check scripts tests tools --fix
 
 format:
 	$(PYTHON) -m black scripts tests
@@ -43,3 +44,9 @@ clean:
 	rm -rf .pytest_cache .ruff_cache .mypy_cache htmlcov .coverage
 	find scripts tests -type d -name "__pycache__" -prune -exec rm -rf {} \;
 	find . -maxdepth 1 -type d -name "*.egg-info" -prune -exec rm -rf {} \;
+
+coordination-check:
+	$(PYTHON) scripts/check_coordination_metadata.py --module-root .
+
+coordination-fix:
+	$(PYTHON) scripts/fix_coordination_metadata.py --module-root .
