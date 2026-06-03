@@ -94,3 +94,24 @@ It helps catch simple metadata mistakes early.
 
 
 ---
+
+## Post-commit finalization
+
+The fixer may update commit metadata only when explicitly requested.
+
+Allowed command pattern:
+
+```text
+scripts/fix_coordination_metadata.py --module-root <module> --update-git-commit
+
+The fixer may mark reports as pushed only when explicitly requested and only when Git confirms that local HEAD is not ahead of upstream.
+
+Allowed command pattern:
+
+scripts/fix_coordination_metadata.py --module-root <module> --update-git-commit --mark-pushed-if-upstream-clean
+
+The fixer must not claim that a report is pushed without checking Git upstream state.
+
+
+---
+

@@ -456,12 +456,45 @@ def _git_head(module_root: Path) -> str | None:
         return None
     return result.stdout.strip()
 
+def _git_upstream_ahead_behind(module_root: Path) -> tuple[int, int] | None:
+    result = subprocess.run(
+        ["git", "-C", str(module_root), "rev-list", "--left-right", "--count", "HEAD...@{upstream}"],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode != 0:
+        return None
+
+    parts = result.stdout.strip().split()
+    if len(parts) != 2:
+        return None
+
+    ahead, behind = int(parts[0]), int(parts[1])
+    return ahead, behind
+
+
+def _is_head_pushed_to_upstream(module_root: Path) -> bool | None:
+    ahead_behind = _git_upstream_ahead_behind(module_root)
+    if ahead_behind is None:
+        return None
+
+    ahead, _behind = ahead_behind
+    return ahead == 0
 
 def fix_module_coordination_metadata(
     module_root: Path,
     update_git_commit: bool = False,
+    mark_pushed_if_upstream_clean: bool = False,
 ) -> CoordinationFixResult:
     module_root = module_root.resolve()
+
+    current_commit = _git_head(module_root) if update_git_commit else None
+    head_pushed = (
+        _is_head_pushed_to_upstream(module_root)
+        if mark_pushed_if_upstream_clean
+        else None
+    )
 
     changed_files: list[str] = []
     skipped: list[str] = []
@@ -481,9 +514,8 @@ def fix_module_coordination_metadata(
             changed = True
 
         if update_git_commit and current_status.get("last_commit") == "pending":
-            commit = _git_head(module_root)
-            if commit:
-                current_status["last_commit"] = commit
+            if current_commit:
+                current_status["last_commit"] = current_commit
                 changed = True
             else:
                 warnings.append("Could not read git HEAD for last_commit update")
@@ -514,14 +546,28 @@ def fix_module_coordination_metadata(
         if isinstance(reports, list):
             deduped, changed = _dedupe_exact_entries(reports)
             if update_git_commit:
-                commit = _git_head(module_root)
-                if commit:
+                if current_commit:
                     for report in deduped:
                         if report.get("commit") == "pending":
-                            report["commit"] = commit
+                            report["commit"] = current_commit
                             changed = True
                 else:
                     warnings.append("Could not read git HEAD for report commit update")
+
+            if mark_pushed_if_upstream_clean:
+                if head_pushed is True:
+                    for report in deduped:
+                        if report.get("pushed") is False:
+                            report["pushed"] = True
+                            changed = True
+                elif head_pushed is False:
+                    warnings.append(
+                        "Git HEAD is not fully pushed to upstream; pushed flags were not changed"
+                    )
+                else:
+                    warnings.append(
+                        "Could not determine upstream push status; pushed flags were not changed"
+                    )
 
             if changed:
                 report_index["reports"] = deduped
@@ -538,3 +584,5 @@ def fix_module_coordination_metadata(
         skipped=skipped,
         warnings=warnings,
     )
+
+

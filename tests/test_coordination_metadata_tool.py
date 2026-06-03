@@ -1,3 +1,4 @@
+import subprocess
 from pathlib import Path
 
 import yaml
@@ -222,3 +223,52 @@ def test_coordination_metadata_fixer_normalizes_priority_alias(
 
     assert "coordination/status/current_status.yaml" in fix_result.changed_files
     assert fixed["priority"] == "p0"
+
+def test_coordination_metadata_fixer_can_update_pending_commit_with_git_head(
+    tmp_path: Path,
+) -> None:
+    module_root = make_minimal_module(tmp_path)
+
+    # create git repository for HEAD lookup
+
+    subprocess.run(["git", "init"], cwd=module_root, check=True, capture_output=True)
+    subprocess.run(
+        ["git", "config", "user.email", "test@example.com"],
+        cwd=module_root,
+        check=True,
+    )
+    subprocess.run(
+        ["git", "config", "user.name", "Test User"],
+        cwd=module_root,
+        check=True,
+    )
+    subprocess.run(["git", "add", "."], cwd=module_root, check=True)
+    subprocess.run(
+        ["git", "commit", "-m", "Initial test commit"],
+        cwd=module_root,
+        check=True,
+        capture_output=True,
+    )
+
+    status_path = module_root / "coordination/status/current_status.yaml"
+    status = yaml.safe_load(status_path.read_text(encoding="utf-8"))
+    status["last_commit"] = "pending"
+    status_path.write_text(yaml.safe_dump(status, sort_keys=False), encoding="utf-8")
+
+    report_path = module_root / "coordination/reports/index.yaml"
+    reports = yaml.safe_load(report_path.read_text(encoding="utf-8"))
+    reports["reports"][0]["commit"] = "pending"
+    report_path.write_text(yaml.safe_dump(reports, sort_keys=False), encoding="utf-8")
+
+    fix_result = fix_module_coordination_metadata(
+        module_root,
+        update_git_commit=True,
+    )
+
+    fixed_status = yaml.safe_load(status_path.read_text(encoding="utf-8"))
+    fixed_reports = yaml.safe_load(report_path.read_text(encoding="utf-8"))
+
+    assert "coordination/status/current_status.yaml" in fix_result.changed_files
+    assert "coordination/reports/index.yaml" in fix_result.changed_files
+    assert fixed_status["last_commit"] != "pending"
+    assert fixed_reports["reports"][0]["commit"] != "pending"
