@@ -10,6 +10,26 @@ This document defines the preferred baseline structure for ForPrint module repos
 
 It is a target direction, not a command to immediately rewrite every existing project.
 
+## Important adoption rule
+
+This baseline must not be applied as a destructive or large refactor without explicit Blueprint approval.
+
+Existing modules may keep their current structure if changing it would create unnecessary risk.
+
+For existing modules, the expected first step is an alignment assessment:
+
+```text
+what already matches the baseline;
+what can be safely improved now;
+what should be deferred;
+what module-specific structure should remain;
+what questions need Blueprint decision.
+
+For new modules, this baseline should be used as the preferred starting structure.
+
+
+---
+
 ## Preferred baseline
 
 ```text

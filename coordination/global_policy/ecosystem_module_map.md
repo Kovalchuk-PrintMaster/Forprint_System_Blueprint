@@ -16,6 +16,7 @@ It defines module roles and prevents modules from taking ownership of responsibi
 
 | Module | Strategic role | Must not become |
 |---|---|---|
+| forprint_strategic_control_plane | Future strategic governance, priority control, ecosystem status aggregation and decision-support layer | Active runtime orchestrator before core modules are alive |
 | forprint_system_blueprint | Architecture, boundaries, execution queue, coordination standards | Runtime service |
 | forprint_operational_registry | Internal DB/data custodian | Calculator, CRM, Library, 1C adapter |
 | forprint_library | Canonical semantic/catalog authority | Operational DB |
@@ -68,6 +69,22 @@ Blueprint collector
 snapshot report
 
 After the Calculator loop is stable, the same pattern can be applied to other modules.
+
+
+---
+
+## Strategic Control Plane
+
+ForPrint Strategic Control Plane is planned as a future high-priority governance module.
+
+Current status:
+
+```text
+planned_high_priority_deferred_until_core_modules_alive
+
+It must not be actively implemented yet.
+
+Current governance remains with the owner / mentor, architectural assistant and ForPrint System Blueprint.
 
 
 ---

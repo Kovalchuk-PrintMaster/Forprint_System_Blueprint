@@ -60,6 +60,25 @@ In the first stage this process is manual, but the file structure must support f
 
 ---
 
+## Standards adoption rule
+
+Global policy and standards are currently used as orientation and alignment baseline.
+
+Calculator Engine should not perform large repository restructuring only because a global standard exists.
+
+The expected action is:
+
+```text
+1. read global_policy and standards;
+2. compare them with current Calculator structure;
+3. report alignment status;
+4. apply only small safe coordination updates;
+5. ask Blueprint before large structural changes.
+
+For this step, the only required structural change is the coordination/self-check layer described in this directive.
+
+
+---
 
 ## Required coordination action
 

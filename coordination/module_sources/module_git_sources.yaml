@@ -204,3 +204,23 @@ module_git_sources:
       notes: >
         Future customer channel. Must be kept in architecture as deferred.
         Development starts only after Calculator is mature.
+
+    - module_id: forprint_strategic_control_plane
+      module_name: ForPrint Strategic Control Plane
+      aliases:
+        - forprint_control_plane
+        - ForPrint Control Plane
+      priority: deferred
+      development_status: planned_high_priority_deferred_until_core_modules_alive
+      local_path: /srv/software_development/forprint-project/forprint_strategic_control_plane
+      repo_url: null
+      branch: main
+      coordination_root: coordination
+      status_file: coordination/status/current_status.yaml
+      prompt_index: coordination/prompts/index.yaml
+      report_index: coordination/reports/index.yaml
+      repo_status: planned_directory_created
+      notes: >
+        Future strategic governance/control module. Local directory exists, but
+        active implementation is deferred until core ForPrint modules are alive
+        and the coordination/status loop is stable.
