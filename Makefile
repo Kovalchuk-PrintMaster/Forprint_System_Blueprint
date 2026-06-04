@@ -2,7 +2,7 @@ PYTHON=.venv_blueprint/bin/python
 PIP=.venv_blueprint/bin/pip
 
 .PHONY: install test lint lint-fix format validate diagrams guides manifest-example prompt-dispatch check check-report clean
-		coordination-check coordination-fix
+		coordination-check coordination-fix module-policy-generate module-policy-check
 
 install:
 	$(PIP) install --upgrade pip
@@ -50,3 +50,9 @@ coordination-check:
 
 coordination-fix:
 	$(PYTHON) scripts/fix_coordination_metadata.py --module-root .
+
+	module-policy-generate:
+	$(PYTHON) scripts/generate_module_policy_docs.py
+
+module-policy-check:
+	$(PYTHON) scripts/generate_module_policy_docs.py --check

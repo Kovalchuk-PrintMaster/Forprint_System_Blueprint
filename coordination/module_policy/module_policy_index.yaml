@@ -1,0 +1,376 @@
+module_policy_index:
+  version: "0.1"
+  status: active
+  source_module: forprint_system_blueprint
+  purpose: >
+    Blueprint-owned strategic policy index for ForPrint modules. This file is
+    the machine-readable source for generated module policy documents.
+
+  adoption_mode: >
+    Module policy is strategic guidance. It does not automatically authorize
+    large refactors. Modules should compare this policy with their current
+    implementation and report alignment, conflicts or questions.
+
+  modules:
+    - module_id: forprint_system_blueprint
+      module_name: ForPrint System Blueprint
+      priority: p0
+      development_status: active_governance
+      strategic_role: >
+        Architecture, ownership boundaries, execution queue, coordination
+        standards, module policy and project-wide governance.
+      main_goals:
+        - Maintain global ForPrint architecture.
+        - Keep module boundaries explicit.
+        - Maintain global policy, module policy and coordination standards.
+        - Collect module status and support owner/mentor decisions.
+      owns:
+        - architecture_policy
+        - module_boundaries
+        - execution_queue
+        - coordination_standards
+        - module_policy
+        - module_source_registry
+        - coordination_metadata_tools
+      must_not_own:
+        - runtime_business_logic
+        - production_order_processing
+        - accounting_posting
+        - customer_channel_runtime
+      next_focus:
+        - Stabilize module policy for all active modules.
+        - Keep coordination metadata validator/fixer central.
+        - Prepare future ecosystem-check foundation.
+
+    - module_id: calculator_engine
+      module_name: Calculator Engine
+      priority: p0
+      development_status: active_development
+      strategic_role: >
+        Primary calculation and order formalization module.
+      main_goals:
+        - Produce CalculationOutputPackage.
+        - Produce QuoteDraft / CommercialOfferDraft.
+        - Produce OrderDraft / OrderCreationDraft.
+        - Preserve price breakdown and material consumption estimates.
+        - Support local non-canonical catalog projections while Library is not ready.
+      owns:
+        - calculation_logic
+        - calculation_output_package
+        - quote_draft
+        - order_draft
+        - price_breakdown
+        - material_consumption_estimate
+        - calculation_warnings
+      must_not_own:
+        - canonical_client_registry
+        - canonical_order_registry
+        - canonical_catalog_truth
+        - accounting_truth
+        - one_c_synchronization
+        - warehouse_stock_truth
+        - prepress_lifecycle
+        - crm_workflow
+      next_focus:
+        - Harden CalculationOutputPackage / Quote / OrderDraft Foundation.
+        - Keep local catalog fixtures non-canonical.
+        - Prepare downstream-ready structured output.
+
+    - module_id: forprint_operational_registry
+      module_name: ForPrint Operational Registry
+      priority: p1
+      development_status: reference_ready_storage_ready
+      strategic_role: >
+        Main physical/internal ForPrint DB and operational data custodian.
+      main_goals:
+        - Own internal ForPrint DB storage foundation.
+        - Store ClientAccount, ClientGroup, requests, orders, contacts and operational events.
+        - Provide clean data access for other modules.
+        - Remain 1C-aware and sync-friendly.
+      owns:
+        - internal_forprint_db
+        - client_account_records
+        - client_group_records
+        - operational_orders
+        - customer_requests
+        - operational_events
+        - operational_tasks
+        - operational_blockers
+        - logistics_addresses
+      must_not_own:
+        - calculator_logic
+        - canonical_catalog_semantics
+        - one_c_adapter_logic
+        - crm_dashboard
+        - customer_channel_runtime
+      next_focus:
+        - Core ForPrint Data Model Expansion.
+        - Add ClientAccount / ClientGroup / Contact relationship policy.
+        - Prepare request/order lifecycle for analytics.
+
+    - module_id: forprint_library
+      module_name: ForPrint Library
+      priority: p1
+      development_status: active_development
+      strategic_role: >
+        Canonical semantic, catalog, naming, alias and contract-definition
+        authority for products, services, materials, operations and templates.
+      main_goals:
+        - Own canonical product/service/material/operation IDs.
+        - Maintain aliases and naming rules.
+        - Provide semantic resolution for module ambiguity.
+        - Keep contract definitions and catalog semantics versioned.
+      owns:
+        - product_catalog_semantics
+        - service_catalog_semantics
+        - material_catalog_semantics
+        - operation_catalog_semantics
+        - aliases
+        - templates
+        - technical_cards
+        - contract_definitions
+      must_not_own:
+        - operational_orders
+        - client_database
+        - accounting_truth
+        - production_runtime
+        - crm_workflow
+      next_focus:
+        - Canonical Product/Service ID and Alias Governance.
+        - Define ambiguity routing and approval lifecycle.
+        - Prepare contract registry direction.
+
+    - module_id: forprint_accounting_registry_service
+      module_name: ForPrint Accounting Registry Service
+      priority: selective
+      development_status: sandbox_1c_import_export_ready
+      strategic_role: >
+        Accounting boundary and 1C synchronization/staging module.
+      main_goals:
+        - Maintain accounting-only references and 1C staging.
+        - Support sanitized import/export experiments.
+        - Prepare mappings and reconciliation logic.
+        - Keep live 1C write and automatic posting forbidden until explicitly approved.
+      owns:
+        - accounting_references
+        - one_c_raw_snapshot
+        - one_c_staging_record
+        - one_c_mapping_record
+        - import_job
+        - export_job
+        - reconciliation_job
+        - sandbox_one_c_io
+      must_not_own:
+        - operational_client_registry
+        - operational_order_registry
+        - canonical_catalog_truth
+        - crm_workflow
+        - calculator_logic
+        - warehouse_stock_truth
+      next_focus:
+        - Maintain v0.5 sandbox readiness.
+        - Wait for real sanitized 1C samples before v0.6.
+        - Do not proceed to live 1C integration yet.
+
+    - module_id: forprint_integration_gateway
+      module_name: ForPrint Integration Gateway
+      priority: hold
+      development_status: paused_after_v0_2
+      strategic_role: >
+        Future runtime validation, normalization, routing, idempotency and
+        correlation layer between channels, CRM and internal modules.
+      main_goals:
+        - Keep transport/validation boundary ready.
+        - Avoid business workflow ownership.
+        - Wait until real runtime handoff is needed.
+      owns:
+        - integration_request_envelope
+        - integration_response_envelope
+        - routing_rule
+        - validation_error
+        - idempotency_boundary
+        - correlation_context
+      must_not_own:
+        - business_workflow_decisions
+        - client_registry
+        - order_registry
+        - catalog_truth
+        - accounting_truth
+        - crm_dashboard
+      next_focus:
+        - Hold active development.
+        - Re-activate when Calculator/Operational Registry handoff needs runtime transport.
+
+    - module_id: telegram_bot
+      module_name: Telegram Bot
+      priority: p0
+      development_status: active_development
+      strategic_role: >
+        Current main customer channel adapter for Telegram communication.
+      main_goals:
+        - Collect customer request information.
+        - Keep channel-specific UI separate from business logic.
+        - Hand off structured request/calculation context to Calculator.
+        - Avoid becoming CRM or internal DB owner.
+      owns:
+        - telegram_channel_adapter
+        - telegram_dialog_flow
+        - telegram_message_ui
+        - telegram_user_interaction_shell
+      must_not_own:
+        - canonical_client_registry
+        - canonical_order_registry
+        - calculator_logic
+        - accounting_truth
+        - operational_db
+        - catalog_truth
+      next_focus:
+        - Keep order-intake/customer-request flow moving.
+        - Prepare channel-agnostic request handoff to Calculator.
+        - Plan gradual move away from Supabase toward internal DB/Operational Registry.
+
+    - module_id: forprint_crm
+      module_name: ForPrint CRM
+      priority: p2
+      development_status: planned_or_alignment_needed
+      strategic_role: >
+        Future human-facing dashboard, business workflow coordination and
+        analytics interface.
+      main_goals:
+        - Provide human UI for workflow coordination.
+        - Show dashboards and analytics.
+        - Help operators resolve ambiguous cases.
+        - Avoid becoming physical database owner.
+      owns:
+        - human_dashboard
+        - workflow_coordination_ui
+        - operator_decision_views
+        - analytics_views
+      must_not_own:
+        - internal_forprint_db
+        - canonical_client_registry
+        - calculator_logic
+        - accounting_truth
+        - catalog_truth
+      next_focus:
+        - Keep planned/alignment status.
+        - Activate after core data and Calculator outputs are clearer.
+
+    - module_id: forprint_prepress_hub
+      module_name: ForPrint Prepress Hub
+      priority: p2
+      development_status: bootstrap_or_alignment_needed
+      strategic_role: >
+        Future prepress/file preparation and production-readiness support module.
+      main_goals:
+        - Prepare file/prepress lifecycle.
+        - Track prepress requirements and blockers.
+        - Support station/preset/hotfolder direction later.
+      owns:
+        - prepress_file_readiness
+        - prepress_requirements
+        - prepress_blockers
+        - station_preset_policy
+        - hotfolder_direction
+      must_not_own:
+        - calculator_logic
+        - accounting_truth
+        - operational_order_registry
+        - canonical_catalog_truth
+        - crm_workflow
+      next_focus:
+        - Keep bootstrap/alignment status.
+        - Use Calculator prepress requirement drafts later.
+
+    - module_id: forprint_strategic_control_plane
+      module_name: ForPrint Strategic Control Plane
+      priority: deferred
+      development_status: planned_high_priority_deferred_until_core_modules_alive
+      strategic_role: >
+        Future strategic governance, priority control, ecosystem status
+        aggregation and decision-support layer.
+      main_goals:
+        - Track strategic goals and module priorities.
+        - Detect stale high-priority modules.
+        - Support owner/mentor decisions.
+        - Coordinate future ecosystem-level control loops.
+      owns:
+        - strategic_control_policy
+        - ecosystem_status_aggregation
+        - priority_control_rules
+        - future_control_plane_workflows
+      must_not_own:
+        - runtime_orchestration_now
+        - business_workflow_runtime_now
+        - production_automation_now
+        - accounting_posting
+        - operational_db
+      next_focus:
+        - Stay planned/deferred.
+        - Do not start active implementation until core modules are alive.
+
+    - module_id: cloud_backup_manager
+      module_name: Cloud Backup Manager
+      priority: p2
+      development_status: active_utility
+      strategic_role: >
+        Infrastructure backup utility for project/server safety.
+      main_goals:
+        - Backup important project/server data.
+        - Provide health/status checks for backup flows.
+        - Stay outside core business workflow ownership.
+      owns:
+        - backup_jobs
+        - backup_targets
+        - backup_sources
+        - backup_health_reports
+      must_not_own:
+        - business_workflow
+        - client_registry
+        - order_registry
+        - accounting_truth
+        - catalog_truth
+      next_focus:
+        - Keep as utility module.
+        - Later align coordination reporting with Blueprint.
+
+    - module_id: mobile_app
+      module_name: Mobile App
+      priority: deferred
+      development_status: planned_deferred_until_calculator_ready
+      strategic_role: >
+        Future customer channel/client interface.
+      main_goals:
+        - Remain planned until Calculator is mature.
+        - Use channel-agnostic contracts later.
+      owns:
+        - mobile_customer_channel_future
+      must_not_own:
+        - calculator_logic
+        - operational_db
+        - accounting_truth
+        - catalog_truth
+        - crm_workflow
+      next_focus:
+        - Keep deferred.
+        - Do not start development yet.
+
+    - module_id: website
+      module_name: Website
+      priority: p2
+      development_status: planned_or_existing_external
+      strategic_role: >
+        Customer web channel/interface.
+      main_goals:
+        - Serve as future/request customer channel.
+        - Use same channel-agnostic Gateway/Calculator/Operational Registry contracts later.
+      owns:
+        - website_customer_channel
+      must_not_own:
+        - calculator_logic
+        - operational_db
+        - accounting_truth
+        - catalog_truth
+      next_focus:
+        - Confirm current repository/path.
+        - Align later after Calculator channel handoff is clearer.
