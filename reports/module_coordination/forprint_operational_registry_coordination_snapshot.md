@@ -1,6 +1,6 @@
 # Module Coordination Snapshot — forprint_operational_registry
 
-- Generated at: `2026-06-08T16:15:21.034909+00:00`
+- Generated at: `2026-06-08T19:33:37.003046+00:00`
 - Module name: `ForPrint Operational Registry`
 - Local path: `/srv/software_development/forprint-project/forprint_operational_registry`
 - Repository: `git@github.com:Kovalchuk-PrintMaster/Forprint_Operational_Registry.git`
@@ -30,8 +30,8 @@ Already up to date.
 
 - module_status: `active`
 - priority: `p0`
-- current_phase: `client_account_card_foundation_v0_1`
-- last_completed_step: `client_account_card_foundation_ready`
+- current_phase: `data_foundation_strategy_v0_1`
+- last_completed_step: `data_foundation_strategy_ready`
 - recommended_next_step: `['Pause after ClientAccount Card Foundation v0.1 until Blueprint approves next foundation step.', 'Recommended next candidate: Operational Analytics and Workflow Foundation v0.1.']`
 
 ## Notes
