@@ -1,0 +1,248 @@
+{
+  "module_id": "forprint_library",
+  "module_name": "ForPrint Library",
+  "generated_at": "2026-06-09T15:20:18.846059+00:00",
+  "local_path": "/srv/software_development/forprint-project/forprint_library",
+  "repo_url": "git@github.com:Kovalchuk-PrintMaster/Forprint_Library.git",
+  "branch": "main",
+  "repo_status": "confirmed",
+  "pull": {
+    "attempted": true,
+    "ok": true,
+    "returncode": 0,
+    "stdout": "Already up to date.",
+    "stderr": ""
+  },
+  "coordination_ready": true,
+  "missing_files": [],
+  "loaded_files": [
+    "coordination/status/current_status.yaml",
+    "coordination/prompts/index.yaml",
+    "coordination/reports/index.yaml"
+  ],
+  "current_status": {
+    "module_id": "forprint_library",
+    "status": "shared_operational_dictionary_v0_1_ready_pending_blueprint_review",
+    "stage": "shared_operational_dictionary_v0_1_checkpoint_c",
+    "updated_at": "2026-06-09T15:18:52.703286+00:00",
+    "owner_module": "forprint_library",
+    "current_focus": [
+      "shared operational dictionary v0.1",
+      "canonical enum and status definitions",
+      "dictionary resolver and terminal preview",
+      "dictionary architecture policy documentation",
+      "coordination report for Blueprint review"
+    ],
+    "boundary_confirmation": {
+      "owns": [
+        "canonical catalog semantics",
+        "stable catalog IDs",
+        "aliases",
+        "contract definitions"
+      ],
+      "does_not_own": [
+        "clients",
+        "orders",
+        "payments",
+        "warehouse stock truth",
+        "production runtime",
+        "1C synchronization",
+        "CRM workflow",
+        "Telegram runtime",
+        "Calculator logic"
+      ]
+    },
+    "catalog_seed_v0_1": {
+      "catalog_status": "draft_canonical_seed",
+      "schema_status": "unstable_v0_1",
+      "usage": "allowed_for_projection_use",
+      "contract_status": "not_final_contract",
+      "owner_module": "forprint_library",
+      "projection_use_allowed_for": [
+        "calculator_engine",
+        "telegram_bot",
+        "forprint_operational_registry",
+        "forprint_accounting_registry_service",
+        "forprint_prepress_hub"
+      ]
+    },
+    "checkpoint_a": {
+      "coordination_structure": "done",
+      "makefile_standard": "done",
+      "check_report": "done",
+      "commit": "e2f9302"
+    },
+    "checkpoint_b": {
+      "catalog_seed": "done",
+      "schemas": "done",
+      "component_catalogs": "done",
+      "validation_tests": "done",
+      "check_report_catalog_validation": "done",
+      "commit": "bb7a317"
+    },
+    "checkpoint_c": {
+      "docs_policy_pack": "done",
+      "architecture_tests": "done",
+      "commit": "967d74a"
+    },
+    "checkpoint_d": {
+      "final_report_and_status": "in_progress",
+      "reports_index": "in_progress",
+      "final_check": "pending",
+      "commit": "pending"
+    },
+    "next_recommended_step": {
+      "status": "wait_for_blueprint_review",
+      "options": [
+        "align Operational Registry local enum values with Library dictionary IDs",
+        "create Blueprint module directive index for forprint_library",
+        "define projection export contract for consuming modules",
+        "extend dictionary aliases based on real sanitized module usage"
+      ]
+    },
+    "current_phase": "shared_operational_dictionary_v0_1",
+    "last_completed_step": "shared_operational_dictionary_ready",
+    "shared_operational_dictionary_v0_1": {
+      "dictionary_status": "draft_shared_operational_dictionary_v0_1",
+      "schema_status": "unstable_v0_1",
+      "usage": "allowed_for_projection_use",
+      "contract_status": "not_final_contract",
+      "owner_module": "forprint_library",
+      "unit_dictionary_status": "not_final_inventory_unit_system",
+      "dictionary_groups_count": 18,
+      "dictionary_files": "done",
+      "schemas": "done",
+      "loader_validation": "done",
+      "resolver": "done",
+      "terminal_preview": "done",
+      "examples": "done",
+      "architecture_docs": "done",
+      "check_report_extension": "done",
+      "coordination_report": "done"
+    },
+    "shared_operational_dictionary_checkpoints": {
+      "checkpoint_a": {
+        "name": "dictionary_files_and_schemas",
+        "status": "done",
+        "commit": "18900ee"
+      },
+      "checkpoint_b": {
+        "name": "resolver_examples_and_preview",
+        "status": "done",
+        "commit": "2fc7694"
+      },
+      "checkpoint_c": {
+        "name": "docs_check_report_and_coordination",
+        "status": "in_progress_until_final_commit",
+        "commit": "pending"
+      }
+    },
+    "module_name": "ForPrint Library",
+    "module_status": "active",
+    "priority": "p0",
+    "last_report_id": "2026-06-09__forprint_library__report__shared-operational-dictionary-v0-1",
+    "last_commit": "5c7c230",
+    "branch": "main",
+    "checks": {
+      "lint": "ok",
+      "tests": "ok_76_passed",
+      "check_report": "ok",
+      "dictionary_preview": "ok",
+      "coordination_check": "pending_blueprint_recheck"
+    },
+    "boundary": {
+      "no_foreign_ownership": true,
+      "no_production_api": true,
+      "no_live_write": true,
+      "no_real_integrations": true
+    },
+    "validation": {
+      "make_check": "ok",
+      "make_check_report": "ok",
+      "dictionary_preview": "ok",
+      "coordination_metadata": "pending_blueprint_recheck"
+    },
+    "boundaries": {
+      "operational_orders_added": false,
+      "real_clients_added": false,
+      "real_payments_added": false,
+      "real_material_stock_added": false,
+      "real_product_catalog_added": false,
+      "real_1c_sync_added": false,
+      "calculator_formulas_added": false,
+      "telegram_runtime_added": false,
+      "crm_dashboard_added": false,
+      "warehouse_stock_truth_added": false
+    },
+    "recommended_next_step": [
+      "Pass shared operational dictionary v0.1 to Blueprint for review.",
+      "Recommended next candidate: Operational Registry mapping from local draft statuses/types to Library canonical dictionary IDs."
+    ]
+  },
+  "prompt_index": {
+    "module_id": "forprint_library",
+    "index_type": "received_prompts",
+    "updated_at": "2026-06-05",
+    "items": []
+  },
+  "report_index": {
+    "module_id": "forprint_library",
+    "index_type": "coordination_reports",
+    "updated_at": "2026-06-09",
+    "completion_reports": [
+      {
+        "id": "2026-06-06__forprint_library__report__catalog-seed-v0-1-and-coordination-bootstrap",
+        "path": "coordination/reports/completion/2026-06-06__forprint_library__report__catalog-seed-v0-1-and-coordination-bootstrap.md",
+        "status": "completed",
+        "checkpoint": "checkpoint_d",
+        "summary": "Canonical Catalog Seed v0.1 and coordination bootstrap completion report."
+      },
+      {
+        "id": "2026-06-09__forprint_library__report__shared-operational-dictionary-v0-1",
+        "path": "coordination/reports/completion/2026-06-09__forprint_library__report__shared-operational-dictionary-v0-1.md",
+        "status": "completed",
+        "phase": "shared_operational_dictionary_v0_1",
+        "summary": "Shared Operational Dictionary v0.1 completion report."
+      }
+    ],
+    "commit_reports": [
+      {
+        "id": "checkpoint_a",
+        "commit": "e2f9302",
+        "message": "Bootstrap Library coordination and check report standard",
+        "status": "pushed"
+      },
+      {
+        "id": "checkpoint_b",
+        "commit": "bb7a317",
+        "message": "Add Library canonical catalog seed v0.1",
+        "status": "pushed"
+      },
+      {
+        "id": "checkpoint_c",
+        "commit": "967d74a",
+        "message": "Document Library catalog boundaries and dependent usage",
+        "status": "pushed"
+      },
+      {
+        "id": "shared_dictionary_checkpoint_a",
+        "commit": "18900ee",
+        "message": "Add shared operational dictionary files",
+        "status": "pushed"
+      },
+      {
+        "id": "shared_dictionary_checkpoint_b",
+        "commit": "2fc7694",
+        "message": "Add shared dictionary resolver and preview",
+        "status": "pushed"
+      },
+      {
+        "id": "shared_dictionary_checkpoint_c",
+        "commit": "pending",
+        "message": "Finalize shared operational dictionary checkpoint",
+        "status": "pending_final_commit"
+      }
+    ]
+  },
+  "notes": "Canonical semantic/catalog authority. Owns product/service/material/ operation IDs, aliases, definitions, contracts and catalog semantics.\n"
+}
