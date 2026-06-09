@@ -3,6 +3,7 @@ PIP=.venv_blueprint/bin/pip
 
 .PHONY: install test lint lint-fix format validate diagrams guides manifest-example prompt-dispatch check check-report clean
 		coordination-check coordination-fix module-policy-generate module-policy-check
+		module-governance-audit
 
 install:
 	$(PIP) install --upgrade pip
@@ -56,3 +57,6 @@ coordination-fix:
 
 module-policy-check:
 	$(PYTHON) scripts/generate_module_policy_docs.py --check
+
+module-governance-audit:
+	$(PYTHON) scripts/audit_module_governance.py

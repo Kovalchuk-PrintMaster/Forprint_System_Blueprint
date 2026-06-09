@@ -115,7 +115,7 @@ def build_checks() -> list[CheckDefinition]:
             check_id="ruff_lint",
             title="Ruff lint",
             expected_result="Немає lint-помилок у scripts/tests",
-            command=[python, "-m", "ruff", "check", "scripts", "tests"],
+            command=[python, "-m", "ruff", "check", "scripts", "tests", "tools"],
         ),
         CheckDefinition(
             check_id="pytest",
@@ -149,13 +149,19 @@ def build_checks() -> list[CheckDefinition]:
                 python,
                 "scripts/validate_module_manifest.py",
                 "module_manifests/examples/calculator_engine.forprint_module_manifest.example.yaml",
-			],
-		),
-		CheckDefinition(
-			check_id="prompt_dispatch_validation",
-			title="Prompt dispatch validation",
-			expected_result="Prompt dispatch index валідний",
-			command=[python, "scripts/validate_prompt_dispatch_index.py"],
+            ],
+        ),
+        CheckDefinition(
+            check_id="prompt_dispatch_validation",
+            title="Prompt dispatch validation",
+            expected_result="Prompt dispatch index валідний",
+            command=[python, "scripts/validate_prompt_dispatch_index.py"],
+        ),
+        CheckDefinition(
+            check_id="module_governance_audit",
+            title="Module governance audit",
+            expected_result="Governance audit report generated",
+            command=[python, "scripts/audit_module_governance.py"],
         ),
     ]
 
@@ -266,7 +272,7 @@ def render_text_table(results: list[CheckResult], use_color: bool = True) -> str
     def row(values: list[str]) -> str:
         # Окремий цикл потрібен, бо colored status має ANSI-коди і реальна довжина відрізняється.
         final_cells: list[str] = []
-        
+
         for index, value in enumerate(values):
             raw_value = value
             if index == 2:
