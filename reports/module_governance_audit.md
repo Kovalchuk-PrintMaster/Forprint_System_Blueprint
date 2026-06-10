@@ -1,11 +1,11 @@
 # ForPrint Module Governance Audit
 
-Generated at: `2026-06-10T06:06:47.857485+00:00`
+Generated at: `2026-06-10T06:33:19.905867+00:00`
 
 ## Summary
 
-- `OK`: 2
-- `NEEDS_ALIGNMENT`: 9
+- `OK`: 3
+- `NEEDS_ALIGNMENT`: 8
 - `WARN`: 2
 - `DEFERRED`: 0
 
@@ -35,7 +35,7 @@ Generated at: `2026-06-10T06:06:47.857485+00:00`
 
 | Module | Status | Missing files | Missing targets | Notes |
 |---|---:|---:|---:|---|
-| `calculator_engine` | `NEEDS_ALIGNMENT` | `forprint_module_manifest.yaml` | `check-report`<br>`status-report`<br>`coordination-fix`<br>`module-policy-check`<br>`governance-check` | - |
+| `calculator_engine` | `OK` | - | - | - |
 | `cloud_backup_manager` | `NEEDS_ALIGNMENT` | `Makefile`<br>`forprint_module_manifest.yaml`<br>`coordination/status/current_status.yaml`<br>`coordination/prompts/index.yaml`<br>`coordination/reports/index.yaml`<br>`coordination/status/next_questions_for_blueprint.md` | `check`<br>`check-report`<br>`status-report`<br>`blueprint-pull`<br>`blueprint-check`<br>`blueprint-sync-directives`<br>`coordination-check`<br>`coordination-fix`<br>`module-policy-check`<br>`governance-check` | - |
 | `forprint_accounting_registry_service` | `NEEDS_ALIGNMENT` | `coordination/status/current_status.yaml`<br>`coordination/prompts/index.yaml`<br>`coordination/reports/index.yaml`<br>`coordination/status/next_questions_for_blueprint.md` | `status-report`<br>`blueprint-pull`<br>`blueprint-check`<br>`blueprint-sync-directives`<br>`coordination-check`<br>`coordination-fix`<br>`module-policy-check`<br>`governance-check` | - |
 | `forprint_crm` | `NEEDS_ALIGNMENT` | `Makefile`<br>`forprint_module_manifest.yaml`<br>`coordination/status/current_status.yaml`<br>`coordination/prompts/index.yaml`<br>`coordination/reports/index.yaml`<br>`coordination/status/next_questions_for_blueprint.md` | `check`<br>`check-report`<br>`status-report`<br>`blueprint-pull`<br>`blueprint-check`<br>`blueprint-sync-directives`<br>`coordination-check`<br>`coordination-fix`<br>`module-policy-check`<br>`governance-check` | - |
