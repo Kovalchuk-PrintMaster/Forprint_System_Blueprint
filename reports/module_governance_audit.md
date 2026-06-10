@@ -1,11 +1,11 @@
 # ForPrint Module Governance Audit
 
-Generated at: `2026-06-10T05:50:27.351990+00:00`
+Generated at: `2026-06-10T06:06:47.857485+00:00`
 
 ## Summary
 
-- `OK`: 1
-- `NEEDS_ALIGNMENT`: 10
+- `OK`: 2
+- `NEEDS_ALIGNMENT`: 9
 - `WARN`: 2
 - `DEFERRED`: 0
 
@@ -40,7 +40,7 @@ Generated at: `2026-06-10T05:50:27.351990+00:00`
 | `forprint_accounting_registry_service` | `NEEDS_ALIGNMENT` | `coordination/status/current_status.yaml`<br>`coordination/prompts/index.yaml`<br>`coordination/reports/index.yaml`<br>`coordination/status/next_questions_for_blueprint.md` | `status-report`<br>`blueprint-pull`<br>`blueprint-check`<br>`blueprint-sync-directives`<br>`coordination-check`<br>`coordination-fix`<br>`module-policy-check`<br>`governance-check` | - |
 | `forprint_crm` | `NEEDS_ALIGNMENT` | `Makefile`<br>`forprint_module_manifest.yaml`<br>`coordination/status/current_status.yaml`<br>`coordination/prompts/index.yaml`<br>`coordination/reports/index.yaml`<br>`coordination/status/next_questions_for_blueprint.md` | `check`<br>`check-report`<br>`status-report`<br>`blueprint-pull`<br>`blueprint-check`<br>`blueprint-sync-directives`<br>`coordination-check`<br>`coordination-fix`<br>`module-policy-check`<br>`governance-check` | - |
 | `forprint_integration_gateway` | `NEEDS_ALIGNMENT` | `coordination/status/current_status.yaml`<br>`coordination/prompts/index.yaml`<br>`coordination/reports/index.yaml`<br>`coordination/status/next_questions_for_blueprint.md` | `status-report`<br>`blueprint-pull`<br>`blueprint-check`<br>`blueprint-sync-directives`<br>`coordination-check`<br>`coordination-fix`<br>`module-policy-check`<br>`governance-check` | - |
-| `forprint_library` | `NEEDS_ALIGNMENT` | - | `governance-check` | - |
+| `forprint_library` | `OK` | - | - | - |
 | `forprint_operational_registry` | `OK` | - | - | - |
 | `forprint_prepress_hub` | `NEEDS_ALIGNMENT` | `Makefile`<br>`forprint_module_manifest.yaml`<br>`coordination/status/current_status.yaml`<br>`coordination/prompts/index.yaml`<br>`coordination/reports/index.yaml`<br>`coordination/status/next_questions_for_blueprint.md` | `check`<br>`check-report`<br>`status-report`<br>`blueprint-pull`<br>`blueprint-check`<br>`blueprint-sync-directives`<br>`coordination-check`<br>`coordination-fix`<br>`module-policy-check`<br>`governance-check` | - |
 | `forprint_strategic_control_plane` | `NEEDS_ALIGNMENT` | `Makefile`<br>`forprint_module_manifest.yaml`<br>`coordination/status/current_status.yaml`<br>`coordination/prompts/index.yaml`<br>`coordination/reports/index.yaml`<br>`coordination/status/next_questions_for_blueprint.md` | `check`<br>`check-report`<br>`status-report`<br>`blueprint-pull`<br>`blueprint-check`<br>`blueprint-sync-directives`<br>`coordination-check`<br>`coordination-fix`<br>`module-policy-check`<br>`governance-check` | - |
