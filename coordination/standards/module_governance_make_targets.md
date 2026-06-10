@@ -72,3 +72,18 @@ It must not fake success for broken behavior.
 
 
 ---
+
+## Outgoing prompt pull targets
+
+Active modules that receive Blueprint-driven work prompts should also provide:
+
+```text
+make blueprint-prompts-list
+make blueprint-prompt
+
+These targets are defined by:
+
+coordination/standards/module_outgoing_prompt_pull_protocol.md
+
+They are part of the push-pull module coordination loop, but they are rolled out gradually and are not yet part of the base governance audit requirement for every module.
+

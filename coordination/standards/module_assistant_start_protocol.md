@@ -59,3 +59,18 @@ start production integrations;
 overwrite module-specific coordination blocks.
 
 ---
+
+## Prompt-driven work startup
+
+If the module receives work through Blueprint outgoing prompts, the assistant must run:
+
+```bash
+make governance-check
+make blueprint-prompts-list
+make blueprint-prompt
+git status --short
+
+The assistant should then execute only the active prompt intended for its own module.
+
+Long implementation prompts should not be manually copied into module chats when a Blueprint outgoing prompt is available.
+

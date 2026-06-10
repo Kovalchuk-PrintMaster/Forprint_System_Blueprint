@@ -1,6 +1,6 @@
 # Prompt: ForPrint Integration Gateway v0.3 — Channel Intake and Operational Handoff Contracts
 
-Generated: `{now}`
+Generated: `2026-06-10T13:49:51.350526+00:00`
 
 ## Target module
 
