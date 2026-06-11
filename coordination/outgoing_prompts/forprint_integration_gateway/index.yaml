@@ -1,18 +1,30 @@
 module: forprint_integration_gateway
-updated_at: "2026-06-11T14:19:25.968805+00:00"
+updated_at: "2026-06-11T14:45:49.474923+00:00"
 
 active_prompts:
-  - prompt_id: gateway_channel_intake_operational_handoff_contracts_v0_3
-    status: ready_for_module_pull
-    file: drafts/2026-06-10__gateway__channel_intake_operational_handoff_contracts_v0_3.md
-    target_module: forprint_integration_gateway
-    phase: channel_intake_operational_handoff_contracts_v0_3
-    priority: high
-    requires_governance_check: true
-    requires_no_live_integrations: true
+
+prompt_id: gateway_v0_3_1_coordination_records_fix
+status: ready_for_module_pull
+file: drafts/2026-06-11__gateway__v0_3_1_coordination_records_fix.md
+target_module: forprint_integration_gateway
+phase: channel_intake_operational_handoff_contracts_v0_3_coordination_fix
+priority: high
+requires_governance_check: true
+requires_no_live_integrations: true
+
+completed_prompts:
+
+prompt_id: gateway_channel_intake_operational_handoff_contracts_v0_3
+status: completed_pending_coordination_record_fix
+implementation_commit: 3b4707a
+finalization_commit: 4b7821f
+note: >
+Gateway v0.3 implementation accepted in principle.
+Coordination records require cleanup before Blueprint final acceptance.
 
 review_notes:
-  - note_id: gateway_v0_3_review_lessons
-    file: notes/2026-06-11__gateway__v0_3_review_lessons.md
-    status: active
-    applies_to_future_prompts: true
+
+note_id: gateway_v0_3_review_lessons
+file: notes/2026-06-11__gateway__v0_3_review_lessons.md
+status: active
+applies_to_future_prompts: true
