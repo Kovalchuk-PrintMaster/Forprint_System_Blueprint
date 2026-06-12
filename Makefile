@@ -1,7 +1,7 @@
 PYTHON=.venv_blueprint/bin/python
 PIP=.venv_blueprint/bin/pip
 
-.PHONY: install test lint lint-fix format validate diagrams guides manifest-example prompt-dispatch check check-report clean
+.PHONY: install test lint lint-fix format validate diagrams guides manifest-example prompt-dispatch outgoing-prompts check check-report clean
 		coordination-check coordination-fix module-policy-generate module-policy-check
 		module-governance-audit
 
@@ -36,9 +36,12 @@ manifest-example:
 prompt-dispatch:
 	$(PYTHON) scripts/validate_prompt_dispatch_index.py
 
-check: lint-fix lint test validate diagrams guides manifest-example prompt-dispatch
+outgoing-prompts:
+	$(PYTHON) scripts/validate_outgoing_prompts.py
 
-check-report:
+check: lint-fix lint test validate diagrams guides manifest-example prompt-dispatch outgoing-prompts
+
+check-report: outgoing-prompts
 	$(PYTHON) scripts/run_blueprint_checks.py
 
 clean:
