@@ -5,6 +5,7 @@ import argparse
 import importlib.util
 import json
 import sys
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -16,6 +17,10 @@ PLANNED_COORDINATION_FILES = [
     "coordination/reports/index.yaml",
     "coordination/status/next_questions_for_blueprint.md",
 ]
+
+
+def _utc_now() -> str:
+    return datetime.now(UTC).isoformat()
 
 
 def _load_validator_module() -> Any:
@@ -83,7 +88,19 @@ def _normalize_boundary_confirmation(boundary: dict[str, Any]) -> dict[str, Any]
     return normalized
 
 
-def build_planned_updates(frontmatter: dict[str, Any]) -> dict[str, Any]:
+def _relative_report_path(report_path: Path, module_root: Path) -> str:
+    try:
+        return str(report_path.resolve().relative_to(module_root.resolve()))
+    except ValueError:
+        return str(report_path)
+
+
+def build_planned_updates(
+    frontmatter: dict[str, Any],
+    *,
+    report_path: Path | None = None,
+    module_root: Path | None = None,
+) -> dict[str, Any]:
     checks = frontmatter.get("checks", {})
     boundary = frontmatter.get("boundary_confirmation", {})
     normalized_boundary = (
@@ -93,11 +110,14 @@ def build_planned_updates(frontmatter: dict[str, Any]) -> dict[str, Any]:
     )
 
     report_file = frontmatter.get("report_file")
+    if not report_file and report_path is not None and module_root is not None:
+        report_file = _relative_report_path(report_path, module_root)
     if not report_file:
         report_file = f"coordination/reports/{frontmatter['report_id']}_completion.md"
 
     implementation_commit = frontmatter["implementation_commit"]
     completion_report_commit = frontmatter.get("completion_report_commit")
+    last_commit = completion_report_commit or implementation_commit
 
     prompt_record: dict[str, Any] = {
         "prompt_id": frontmatter["prompt_id"],
@@ -131,7 +151,7 @@ def build_planned_updates(frontmatter: dict[str, Any]) -> dict[str, Any]:
             "module_id": frontmatter["target_module"],
             "current_phase": frontmatter["phase"],
             "last_completed_step": frontmatter["completed_step"],
-            "last_commit": completion_report_commit or implementation_commit,
+            "last_commit": last_commit,
             "checks": checks,
             "boundary_confirmation": normalized_boundary,
         },
@@ -141,12 +161,134 @@ def build_planned_updates(frontmatter: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _read_yaml_mapping(path: Path) -> dict[str, Any]:
+    if not path.exists():
+        return {}
+
+    data = yaml.safe_load(path.read_text(encoding="utf-8"))
+    if data is None:
+        return {}
+
+    if not isinstance(data, dict):
+        raise ValueError(f"YAML root must be a mapping: {path}")
+
+    return data
+
+
+def _write_yaml_mapping(path: Path, data: dict[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        yaml.safe_dump(data, allow_unicode=True, sort_keys=False),
+        encoding="utf-8",
+    )
+
+
+def _upsert_record(records: list[Any], key: str, record: dict[str, Any]) -> list[dict[str, Any]]:
+    normalized_records: list[dict[str, Any]] = []
+    replaced = False
+
+    for existing in records:
+        if not isinstance(existing, dict):
+            continue
+
+        if existing.get(key) == record[key]:
+            normalized_records.append(record)
+            replaced = True
+        else:
+            normalized_records.append(existing)
+
+    if not replaced:
+        normalized_records.append(record)
+
+    return normalized_records
+
+
+def _write_current_status(module_root: Path, planned_updates: dict[str, Any]) -> Path:
+    path = module_root / "coordination/status/current_status.yaml"
+    current = _read_yaml_mapping(path)
+    current.update(planned_updates["current_status"])
+    current["last_updated"] = _utc_now()
+
+    _write_yaml_mapping(path, current)
+    return path
+
+
+def _write_prompts_index(module_root: Path, planned_updates: dict[str, Any]) -> Path:
+    path = module_root / "coordination/prompts/index.yaml"
+    record = planned_updates["prompts_index_record"]
+
+    data = _read_yaml_mapping(path)
+    data["module_id"] = planned_updates["current_status"]["module_id"]
+    data["updated_at"] = _utc_now()
+    data["prompts"] = _upsert_record(data.get("prompts", []), "prompt_id", record)
+
+    _write_yaml_mapping(path, data)
+    return path
+
+
+def _write_reports_index(module_root: Path, planned_updates: dict[str, Any]) -> Path:
+    path = module_root / "coordination/reports/index.yaml"
+    record = planned_updates["reports_index_record"]
+
+    data = _read_yaml_mapping(path)
+    data["module_id"] = planned_updates["current_status"]["module_id"]
+    data["updated_at"] = _utc_now()
+    data["reports"] = _upsert_record(data.get("reports", []), "report_id", record)
+
+    _write_yaml_mapping(path, data)
+    return path
+
+
+def _write_next_questions(module_root: Path, planned_updates: dict[str, Any]) -> Path:
+    path = module_root / "coordination/status/next_questions_for_blueprint.md"
+    path.parent.mkdir(parents=True, exist_ok=True)
+
+    module_id = planned_updates["current_status"]["module_id"]
+    phase = planned_updates["current_status"]["current_phase"]
+    completed_step = planned_updates["current_status"]["last_completed_step"]
+    questions = planned_updates.get("next_questions_for_blueprint", [])
+
+    lines = [
+        "# Next questions for ForPrint System Blueprint",
+        "",
+        f"Module: `{module_id}`",
+        f"Phase: `{phase}`",
+        f"Completed step: `{completed_step}`",
+        "",
+        "## Questions",
+        "",
+    ]
+
+    if questions:
+        lines.extend(f"- {question}" for question in questions)
+    else:
+        lines.append("- No open questions.")
+
+    lines.append("")
+    path.write_text("\n".join(lines), encoding="utf-8")
+    return path
+
+
+def write_planned_updates(module_root: Path, planned_updates: dict[str, Any]) -> list[str]:
+    written_paths = [
+        _write_current_status(module_root, planned_updates),
+        _write_prompts_index(module_root, planned_updates),
+        _write_reports_index(module_root, planned_updates),
+        _write_next_questions(module_root, planned_updates),
+    ]
+
+    return [str(path) for path in written_paths]
+
+
 def apply_prompt_completion_report(
     report_path: Path,
     *,
     expected_module: str | None = None,
     write: bool = False,
+    module_root: Path | None = None,
 ) -> dict[str, Any]:
+    module_root = module_root or Path.cwd()
+
     validator = _load_validator_module()
     issues = validator.validate_completion_report(
         report_path,
@@ -162,17 +304,24 @@ def apply_prompt_completion_report(
         }
 
     frontmatter = _extract_frontmatter(report_path)
-    planned_updates = build_planned_updates(frontmatter)
+    planned_updates = build_planned_updates(
+        frontmatter,
+        report_path=report_path,
+        module_root=module_root,
+    )
 
     if write:
+        written_files = write_planned_updates(module_root, planned_updates)
         return {
-            "ok": False,
+            "ok": True,
             "mode": "write",
             "report_path": str(report_path),
-            "issues": [
-                "write mode is intentionally not implemented in this template checkpoint"
-            ],
-            "planned_files": PLANNED_COORDINATION_FILES,
+            "target_module": frontmatter["target_module"],
+            "prompt_id": frontmatter["prompt_id"],
+            "report_id": frontmatter["report_id"],
+            "phase": frontmatter["phase"],
+            "completed_step": frontmatter["completed_step"],
+            "written_files": written_files,
             "planned_updates": planned_updates,
         }
 
@@ -192,14 +341,19 @@ def apply_prompt_completion_report(
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Dry-run apply ForPrint module prompt completion report."
+        description="Apply ForPrint module prompt completion report."
     )
     parser.add_argument("report_path", help="Path to completion report markdown file.")
     parser.add_argument("--module-id", default=None, help="Expected target_module value.")
     parser.add_argument(
+        "--module-root",
+        default=".",
+        help="Module repository root. Defaults to current working directory.",
+    )
+    parser.add_argument(
         "--write",
         action="store_true",
-        help="Reserved for future write mode. Currently blocked.",
+        help="Write coordination files. Without this flag the command runs dry-run only.",
     )
     args = parser.parse_args()
 
@@ -212,6 +366,7 @@ def main() -> int:
         report_path,
         expected_module=args.module_id,
         write=args.write,
+        module_root=Path(args.module_root),
     )
 
     print(json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True))
@@ -219,7 +374,11 @@ def main() -> int:
     if not result["ok"]:
         return 1
 
-    print("✅ Completion report dry-run apply passed")
+    if args.write:
+        print("✅ Completion report write apply passed")
+    else:
+        print("✅ Completion report dry-run apply passed")
+
     return 0
 
 

@@ -15,7 +15,7 @@ coordination-records-check:
 prompt-completion-apply:
 	test -n "$(REPORT)" || (echo "REPORT=<path> is required" && exit 1)
 	$(PYTHON) scripts/validate_prompt_completion_report.py "$(REPORT)"
-	$(PYTHON) scripts/apply_prompt_completion_report.py "$(REPORT)"
+	$(PYTHON) scripts/apply_prompt_completion_report.py "$(REPORT)" --write
 
 .PHONY: prompt-completion-check
 prompt-completion-check:

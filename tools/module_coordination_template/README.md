@@ -45,3 +45,19 @@ Current checkpoint behavior:
 - prints dry-run JSON summary;
 - does not write coordination files yet;
 - blocks --write mode intentionally.
+
+## Completion report write apply template
+
+The apply template now supports controlled write mode:
+
+```bash
+python scripts/apply_prompt_completion_report.py coordination/reports/<file>.md --write
+
+Write mode updates only these coordination files:
+
+coordination/status/current_status.yaml
+coordination/prompts/index.yaml
+coordination/reports/index.yaml
+coordination/status/next_questions_for_blueprint.md
+
+The script upserts prompt/report records by id instead of duplicating them.
