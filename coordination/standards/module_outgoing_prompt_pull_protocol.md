@@ -91,3 +91,27 @@ Boundary
 This protocol does not allow modules to self-assign architecture work.
 
 Blueprint remains the source of module directives and outgoing prompts.
+
+<!-- module_prompt_workflow_automation_v0_1 -->
+
+Workflow Automation v0.1 extension
+
+Every active governance-aligned module should expose:
+
+make blueprint-prompts-list
+make blueprint-prompt
+make blueprint-prompt-check
+
+The prompt reader must:
+
+- pull the local Blueprint checkout first when requested by Make target;
+- read only the module's own outgoing prompt index;
+- prefer active prompts with status `ready_for_module_pull`;
+- validate referenced prompt files exist;
+- tolerate supported index shapes only;
+- fail clearly on malformed YAML;
+- fail clearly on unknown module id;
+- never execute prompt contents;
+- print prompt contents for the assistant/operator to read.
+
+Blueprint must validate outgoing prompt indexes before they are consumed by module assistants.

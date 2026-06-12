@@ -1,0 +1,20 @@
+# ForPrint module coordination record targets.
+
+Expected variable:
+PYTHON
+
+.PHONY: coordination-records-refresh
+coordination-records-refresh:
+	$(PYTHON) scripts/update_module_coordination_records.py
+
+.PHONY: coordination-records-check
+coordination-records-check:
+	$(PYTHON) scripts/check_module_coordination_records.py
+
+.PHONY: prompt-completion-apply
+prompt-completion-apply:
+	$(PYTHON) scripts/apply_prompt_completion_report.py $(REPORT)
+
+.PHONY: prompt-completion-check
+prompt-completion-check:
+	$(PYTHON) scripts/check_module_coordination_records.py

@@ -1,0 +1,20 @@
+# ForPrint module prompt pull targets.
+
+Expected variables:
+PYTHON
+BLUEPRINT_DIR
+
+.PHONY: blueprint-prompts-list
+blueprint-prompts-list:
+	$(MAKE) blueprint-pull
+	$(PYTHON) scripts/read_blueprint_outgoing_prompt.py --list
+
+.PHONY: blueprint-prompt
+blueprint-prompt:
+	$(MAKE) blueprint-pull
+	$(PYTHON) scripts/read_blueprint_outgoing_prompt.py
+
+.PHONY: blueprint-prompt-check
+blueprint-prompt-check:
+	$(MAKE) blueprint-pull
+	$(PYTHON) scripts/read_blueprint_outgoing_prompt.py --check
