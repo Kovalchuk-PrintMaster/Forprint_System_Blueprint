@@ -158,6 +158,12 @@ def build_checks() -> list[CheckDefinition]:
             command=[python, "scripts/validate_prompt_dispatch_index.py"],
         ),
         CheckDefinition(
+            check_id="outgoing_prompts_validation",
+            title="Outgoing prompts validation",
+            expected_result="Outgoing prompt indexes and files are valid",
+            command=[python, "scripts/validate_outgoing_prompts.py"],
+        ),
+        CheckDefinition(
             check_id="module_governance_audit",
             title="Module governance audit",
             expected_result="Governance audit report generated",

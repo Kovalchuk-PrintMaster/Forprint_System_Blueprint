@@ -41,7 +41,7 @@ outgoing-prompts:
 
 check: lint-fix lint test validate diagrams guides manifest-example prompt-dispatch outgoing-prompts
 
-check-report: outgoing-prompts
+check-report:
 	$(PYTHON) scripts/run_blueprint_checks.py
 
 clean:
