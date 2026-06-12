@@ -58,3 +58,36 @@ coordination/status/next_questions_for_blueprint.md
 Rule
 
 Human-readable report text may be flexible. YAML frontmatter must be strict.
+
+Completion report validation v0.1
+
+Completion reports should be validated before they are used to update module coordination records.
+
+The validator must check:
+
+- frontmatter exists;
+- frontmatter YAML is valid;
+- report_id is present;
+- prompt_id is present;
+- target_module is present;
+- phase is present;
+- completed_step is present;
+- status is supported;
+- implementation_commit is present;
+- required checks are ok;
+- required boundary confirmations are safe;
+- next_questions_for_blueprint is a list when present;
+- unresolved placeholders are absent;
+- forbidden non-canonical module ids are absent.
+
+The validator may support both boundary flag styles:
+
+production_api_added: false
+
+and:
+
+no_production_api_added: true
+
+The canonical module template should keep this command available:
+
+make prompt-completion-check REPORT=coordination/reports/<file>.md
