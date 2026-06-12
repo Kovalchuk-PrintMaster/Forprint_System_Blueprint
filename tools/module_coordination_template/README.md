@@ -27,3 +27,21 @@ Expected usage:
 python scripts/validate_prompt_completion_report.py coordination/reports/<file>.md --module-id <module_id>
 
 The validator reads strict YAML frontmatter from a completion report and does not parse free-form human prose.
+
+## Completion report dry-run apply template
+
+Template script:
+
+```text
+tools/module_coordination_template/apply_prompt_completion_report.py
+When copied into a module, the expected module-side path is:
+
+scripts/apply_prompt_completion_report.py
+
+Current checkpoint behavior:
+
+- validates completion report frontmatter;
+- builds normalized planned updates;
+- prints dry-run JSON summary;
+- does not write coordination files yet;
+- blocks --write mode intentionally.
