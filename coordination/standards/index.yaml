@@ -1,0 +1,112 @@
+standards_index_version: v0_1
+status: active
+updated_at: '2026-06-15T15:34:33.730853+00:00'
+default_semantics: advisory_guidance_gradual_alignment
+policy:
+  continuous_read_required: true
+  advisory_by_default: true
+  not_active_prompt: true
+  gradual_alignment_required: true
+  hard_enforcement_requires_prompt_or_directive: true
+module_expectations:
+  should_list_standards: true
+  should_check_standards_visibility: true
+  should_report_reviewed_standards_in_completion_reports: true
+  should_apply_standards_only_in_small_safe_steps: true
+  should_report_conflicts_to_blueprint: true
+standards:
+- standard_id: standards_readme
+  file: README.md
+  title: Standards Readme
+  status: advisory_guidance
+  adoption_mode: gradual_alignment
+- standard_id: configuration_policy
+  file: configuration_policy.md
+  title: Configuration Policy
+  status: target_standard
+  adoption_mode: gradual_alignment
+- standard_id: coordination_metadata_policy
+  file: coordination_metadata_policy.md
+  title: Coordination Metadata Policy
+  status: target_standard
+  adoption_mode: reference_only
+- standard_id: current_status_extension_policy
+  file: current_status_extension_policy.md
+  title: Current Status Extension Policy
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: directive_index_schema
+  file: directive_index_schema.md
+  title: Directive Index Schema
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: make_command_standard
+  file: make_command_standard.md
+  title: Make Command Standard
+  status: target_standard
+  adoption_mode: gradual_alignment
+- standard_id: module_alignment_policy
+  file: module_alignment_policy.md
+  title: Module Alignment Policy
+  status: advisory_guidance
+  adoption_mode: gradual_alignment
+- standard_id: module_assistant_start_protocol
+  file: module_assistant_start_protocol.md
+  title: Module Assistant Start Protocol
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: module_coordination_records_protocol
+  file: module_coordination_records_protocol.md
+  title: Module Coordination Records Protocol
+  status: draft
+  adoption_mode: gradual_alignment
+- standard_id: module_governance_make_targets
+  file: module_governance_make_targets.md
+  title: Module Governance Make Targets
+  status: target_standard
+  adoption_mode: gradual_alignment
+- standard_id: module_governance_protocol
+  file: module_governance_protocol.md
+  title: Module Governance Protocol
+  status: active_standard
+  adoption_mode: reference_only
+- standard_id: module_make_target_contract
+  file: module_make_target_contract.md
+  title: Module Make Target Contract
+  status: draft
+  adoption_mode: gradual_alignment
+- standard_id: module_outgoing_prompt_pull_protocol
+  file: module_outgoing_prompt_pull_protocol.md
+  title: Module Outgoing Prompt Pull Protocol
+  status: active_standard
+  adoption_mode: reference_only
+- standard_id: module_pre_commit_protocol
+  file: module_pre_commit_protocol.md
+  title: Module Pre Commit Protocol
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: module_prompt_completion_protocol
+  file: module_prompt_completion_protocol.md
+  title: Module Prompt Completion Protocol
+  status: draft
+  adoption_mode: gradual_alignment
+- standard_id: module_standards_awareness_protocol
+  file: module_standards_awareness_protocol.md
+  title: Module Standards Awareness Protocol
+  status: active_standard
+  adoption_mode: reference_only
+- standard_id: project_structure_standard
+  file: project_structure_standard.md
+  title: Project Structure Standard
+  status: target_standard
+  adoption_mode: gradual_alignment
+- standard_id: repository_structure_baseline
+  file: repository_structure_baseline.md
+  title: Repository Structure Baseline
+  status: target_standard
+  adoption_mode: gradual_alignment
+- standard_id: testing_and_check_report_standard
+  file: testing_and_check_report_standard.md
+  title: Testing And Check Report Standard
+  status: target_standard
+  adoption_mode: reference_only

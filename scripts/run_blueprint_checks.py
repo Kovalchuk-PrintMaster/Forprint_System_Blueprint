@@ -164,6 +164,12 @@ def build_checks() -> list[CheckDefinition]:
             command=[python, "scripts/validate_outgoing_prompts.py"],
         ),
         CheckDefinition(
+            check_id="standards_index_validation",
+            title="Standards index validation",
+            expected_result="Blueprint standards index is readable and advisory semantics are explicit",
+            command=[python, "scripts/validate_standards_index.py"],
+        ),
+        CheckDefinition(
             check_id="module_governance_audit",
             title="Module governance audit",
             expected_result="Governance audit report generated",
