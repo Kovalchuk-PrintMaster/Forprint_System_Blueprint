@@ -61,3 +61,20 @@ coordination/reports/index.yaml
 coordination/status/next_questions_for_blueprint.md
 
 The script upserts prompt/report records by id instead of duplicating them.
+
+## Standards metadata in completion reports
+
+Completion reports may include machine-readable standards metadata in YAML frontmatter:
+
+```yaml
+standards_reviewed:
+  - coordination/standards/index.yaml
+  - coordination/standards/module_standards_awareness_protocol.md
+
+standards_alignment_notes:
+  - "Standards were reviewed as advisory guidance."
+  - "No destructive refactor was performed."
+
+  When these fields are present, the validator checks their structure and the apply template carries them into coordination/reports/index.yaml.
+
+The fields are optional for older reports, but expected for new prompts that explicitly involve standards visibility.

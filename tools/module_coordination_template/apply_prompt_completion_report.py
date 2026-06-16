@@ -95,6 +95,12 @@ def _relative_report_path(report_path: Path, module_root: Path) -> str:
         return str(report_path)
 
 
+def _copy_optional_standards_metadata(frontmatter: dict[str, Any], record: dict[str, Any]) -> None:
+    for key in ("standards_reviewed", "standards_alignment_notes"):
+        value = frontmatter.get(key)
+        if value is not None:
+            record[key] = value
+
 def build_planned_updates(
     frontmatter: dict[str, Any],
     *,
@@ -145,6 +151,8 @@ def build_planned_updates(
 
     if completion_report_commit:
         report_record["completion_report_commit"] = completion_report_commit
+
+    _copy_optional_standards_metadata(frontmatter, report_record)
 
     return {
         "current_status": {

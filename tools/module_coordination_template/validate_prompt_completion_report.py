@@ -218,6 +218,75 @@ def _validate_next_questions(path: Path, data: dict[str, Any]) -> list[str]:
     return issues
 
 
+def _validate_standards_reviewed(path: Path, data: dict[str, Any]) -> list[str]:
+    has_reviewed = "standards_reviewed" in data
+    has_notes = "standards_alignment_notes" in data
+
+    if not has_reviewed and not has_notes:
+        return []
+
+    issues: list[str] = []
+
+    if not has_reviewed:
+        issues.append(_issue(path, "`standards_reviewed` is required when standards metadata is present"))
+    if not has_notes:
+        issues.append(_issue(path, "`standards_alignment_notes` is required when standards metadata is present"))
+
+    reviewed = data.get("standards_reviewed")
+    if has_reviewed:
+        if not isinstance(reviewed, list) or not reviewed:
+            issues.append(_issue(path, "`standards_reviewed` must be a non-empty list when present"))
+        else:
+            for index, item in enumerate(reviewed):
+                if isinstance(item, str):
+                    if not item.strip():
+                        issues.append(_issue(path, f"`standards_reviewed[{index}]` must be non-empty"))
+                    continue
+
+                if isinstance(item, dict):
+                    standard_id = item.get("standard_id")
+                    file_path = item.get("file")
+                    has_identity = (
+                        isinstance(standard_id, str)
+                        and bool(standard_id.strip())
+                    ) or (
+                        isinstance(file_path, str)
+                        and bool(file_path.strip())
+                    )
+                    if not has_identity:
+                        issues.append(
+                            _issue(
+                                path,
+                                f"`standards_reviewed[{index}]` must include non-empty `standard_id` or `file`",
+                            )
+                        )
+                    continue
+
+                issues.append(
+                    _issue(
+                        path,
+                        f"`standards_reviewed[{index}]` must be a string or mapping",
+                    )
+                )
+
+    return issues
+
+
+def _validate_standards_alignment_notes(path: Path, data: dict[str, Any]) -> list[str]:
+    if "standards_alignment_notes" not in data:
+        return []
+
+    notes = data["standards_alignment_notes"]
+    if not isinstance(notes, list) or not notes:
+        return [_issue(path, "`standards_alignment_notes` must be a non-empty list when present")]
+
+    issues: list[str] = []
+    for index, note in enumerate(notes):
+        if not isinstance(note, str) or not note.strip():
+            issues.append(_issue(path, f"`standards_alignment_notes[{index}]` must be a non-empty string"))
+
+    return issues
+
 def validate_completion_report(path: Path, expected_module: str | None = None) -> list[str]:
     text = path.read_text(encoding="utf-8")
 
@@ -234,6 +303,8 @@ def validate_completion_report(path: Path, expected_module: str | None = None) -
     issues.extend(_validate_checks(path, data))
     issues.extend(_validate_boundary_confirmation(path, data))
     issues.extend(_validate_next_questions(path, data))
+    issues.extend(_validate_standards_reviewed(path, data))
+    issues.extend(_validate_standards_alignment_notes(path, data))
 
     return issues
 
