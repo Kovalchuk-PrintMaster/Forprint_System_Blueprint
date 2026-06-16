@@ -1,0 +1,20 @@
+# ForPrint module standards visibility targets.
+
+Expected variables:
+PYTHON
+BLUEPRINT_DIR
+
+.PHONY: blueprint-standards-list
+blueprint-standards-list:
+	$(MAKE) blueprint-pull
+	$(PYTHON) scripts/read_blueprint_standards.py --blueprint-dir "$(BLUEPRINT_DIR)" --list
+
+.PHONY: blueprint-standards-check
+blueprint-standards-check:
+	$(MAKE) blueprint-pull
+	$(PYTHON) scripts/check_blueprint_standards.py --blueprint-dir "$(BLUEPRINT_DIR)" --module-root .
+
+.PHONY: blueprint-standards-sync
+blueprint-standards-sync:
+	$(MAKE) blueprint-pull
+	$(PYTHON) scripts/sync_blueprint_standards_snapshot.py --blueprint-dir "$(BLUEPRINT_DIR)" --module-root .

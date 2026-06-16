@@ -170,6 +170,12 @@ def build_checks() -> list[CheckDefinition]:
             command=[python, "scripts/validate_standards_index.py"],
         ),
         CheckDefinition(
+            check_id="module_standards_template_validation",
+            title="Module standards template validation",
+            expected_result="Module standards visibility template is valid",
+            command=[python, "scripts/validate_module_standards_template.py"],
+        ),
+        CheckDefinition(
             check_id="module_governance_audit",
             title="Module governance audit",
             expected_result="Governance audit report generated",
