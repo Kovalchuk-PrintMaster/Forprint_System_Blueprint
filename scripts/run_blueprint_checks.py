@@ -176,6 +176,12 @@ def build_checks() -> list[CheckDefinition]:
             command=[python, "scripts/validate_module_standards_template.py"],
         ),
         CheckDefinition(
+            check_id="instruction_intake_validation",
+            title="Instruction intake validation",
+            expected_result="Assistant instruction intake protocol is valid",
+            command=[python, "scripts/validate_instruction_intake.py"],
+        ),
+        CheckDefinition(
             check_id="module_governance_audit",
             title="Module governance audit",
             expected_result="Governance audit report generated",

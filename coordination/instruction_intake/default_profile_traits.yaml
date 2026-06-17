@@ -1,0 +1,75 @@
+profile_traits_version: v0_1
+status: active
+profiles_are_composable: true
+presets_are_examples_not_rigid_types: true
+
+dimensions:
+  maturity:
+    allowed:
+      - bootstrap
+      - foundation_building
+      - active_development
+      - stabilization
+      - standardization
+      - production_preparation
+      - maintenance
+      - helper
+  business_criticality:
+    allowed:
+      - core
+      - supporting
+      - peripheral
+      - low
+  complexity:
+    allowed:
+      - low
+      - medium
+      - high
+      - very_high
+  automation_level:
+    allowed:
+      - light
+      - medium
+      - strong
+      - advanced
+  standards_strictness:
+    allowed:
+      - advisory_only
+      - growing
+      - strict
+      - release_blocking
+  prompt_priority:
+    allowed:
+      - low
+      - medium
+      - high
+      - critical
+  cleanup_priority:
+    allowed:
+      - low
+      - medium
+      - high
+  feedback_required:
+    allowed:
+      - true
+      - false
+
+example_presets:
+  core_active_development:
+    maturity: active_development
+    business_criticality: core
+    complexity: high
+    automation_level: medium
+    standards_strictness: growing
+    prompt_priority: high
+    cleanup_priority: medium
+    feedback_required: true
+  lightweight_helper:
+    maturity: helper
+    business_criticality: low
+    complexity: low
+    automation_level: light
+    standards_strictness: advisory_only
+    prompt_priority: high
+    cleanup_priority: low
+    feedback_required: false

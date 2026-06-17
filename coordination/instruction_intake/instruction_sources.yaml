@@ -1,0 +1,106 @@
+instruction_intake_version: v0_1
+status: active
+source_of_truth: forprint_system_blueprint
+
+freshness_policy:
+  read_blueprint_source_on_each_prompt: true
+  local_snapshots_are_audit_only: true
+  do_not_use_stale_local_snapshots_as_truth: true
+
+priority_order:
+  - priority: 0
+    source_id: instruction_intake
+    title: Assistant instruction intake protocol
+    behavior: entry_point
+  - priority: 10
+    source_id: global_policy
+    title: Global policy and ecosystem constraints
+    behavior: hard_constraint
+  - priority: 20
+    source_id: active_directives
+    title: Active directives
+    behavior: mandatory_when_active
+  - priority: 30
+    source_id: module_policy
+    title: Module policy and ownership boundaries
+    behavior: module_boundary
+  - priority: 40
+    source_id: outgoing_prompt
+    title: Direct outgoing module prompt
+    behavior: current_task
+  - priority: 50
+    source_id: standards
+    title: Standards and target guidance
+    behavior: advisory_by_default
+  - priority: 60
+    source_id: current_status_and_reports
+    title: Current module status and completion history
+    behavior: historical_context
+  - priority: 70
+    source_id: local_implementation
+    title: Local code, tests and docs
+    behavior: implementation_context
+
+source_roots:
+  - source_id: instruction_intake
+    path: coordination/instruction_intake
+    path_kind: blueprint_relative
+    required: true
+  - source_id: global_policy
+    path: coordination/global_policy
+    path_kind: blueprint_relative
+    required: true
+  - source_id: active_directives
+    path: coordination/directives
+    path_kind: blueprint_relative
+    required: true
+  - source_id: module_policy
+    path: coordination/module_policy
+    path_kind: blueprint_relative
+    required: true
+  - source_id: outgoing_prompt
+    path: coordination/outgoing_prompts
+    path_kind: blueprint_relative
+    required: true
+  - source_id: standards
+    path: coordination/standards/index.yaml
+    path_kind: blueprint_relative
+    required: true
+  - source_id: coordination_template
+    path: tools/module_coordination_template
+    path_kind: blueprint_relative
+    required: true
+  - source_id: standards_template
+    path: tools/module_standards_template
+    path_kind: blueprint_relative
+    required: true
+
+feedback_paths:
+  questions_for_blueprint:
+    module_relative_path: coordination/status/next_questions_for_blueprint.md
+  completion_report:
+    module_relative_path: coordination/reports
+  reports_index:
+    module_relative_path: coordination/reports/index.yaml
+  prompts_index:
+    module_relative_path: coordination/prompts/index.yaml
+
+required_completion_metadata:
+  instruction_sources_reviewed:
+    required_for_new_intake_prompts: true
+  standards_reviewed:
+    required_for_standards_prompts: true
+  standards_alignment_notes:
+    required_for_standards_prompts: true
+  next_questions_for_blueprint:
+    required_when_conflicts_exist: true
+
+module_profile_dimensions:
+  - maturity
+  - business_criticality
+  - complexity
+  - automation_level
+  - standards_strictness
+  - prompt_priority
+  - cleanup_priority
+  - feedback_required
