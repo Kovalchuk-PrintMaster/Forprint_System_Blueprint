@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import json
 import re
 from dataclasses import asdict, dataclass
@@ -14,6 +15,17 @@ MODULE_SOURCES = ROOT / "coordination" / "module_sources" / "module_git_sources.
 
 REPORT_JSON = ROOT / "reports" / "module_governance_audit.json"
 REPORT_MD = ROOT / "reports" / "module_governance_audit.md"
+
+def _resolve_report_paths(report_dir: Path | None) -> tuple[Path, Path]:
+    """Resolve audit report paths."""
+
+    if report_dir is None:
+        return REPORT_JSON, REPORT_MD
+
+    return (
+        report_dir / "module_governance_audit.json",
+        report_dir / "module_governance_audit.md",
+    )
 
 REQUIRED_FILES = [
     "Makefile",
@@ -245,8 +257,8 @@ def _summary(results: list[ModuleAuditResult]) -> dict[str, int]:
     return summary
 
 
-def _write_json(results: list[ModuleAuditResult]) -> None:
-    REPORT_JSON.parent.mkdir(parents=True, exist_ok=True)
+def _write_json(results: list[ModuleAuditResult], report_json: Path) -> None:
+    report_json.parent.mkdir(parents=True, exist_ok=True)
 
     payload = {
         "generated_at": datetime.now(UTC).isoformat(),
@@ -257,14 +269,14 @@ def _write_json(results: list[ModuleAuditResult]) -> None:
         "modules": [asdict(result) for result in results],
     }
 
-    REPORT_JSON.write_text(
+    report_json.write_text(
         json.dumps(payload, indent=2, ensure_ascii=False) + "\n",
         encoding="utf-8",
     )
 
 
-def _write_markdown(results: list[ModuleAuditResult]) -> None:
-    REPORT_MD.parent.mkdir(parents=True, exist_ok=True)
+def _write_markdown(results: list[ModuleAuditResult], report_md: Path) -> None:
+    report_md.parent.mkdir(parents=True, exist_ok=True)
 
     lines = [
         "# ForPrint Module Governance Audit",
@@ -306,23 +318,47 @@ def _write_markdown(results: list[ModuleAuditResult]) -> None:
         )
 
     lines.append("")
-    REPORT_MD.write_text("\n".join(lines), encoding="utf-8")
+    report_md.write_text("\n".join(lines), encoding="utf-8")
 
+def build_cli() -> argparse.ArgumentParser:
+    """Build command-line parser for the governance audit."""
 
-def main() -> int:
+    parser = argparse.ArgumentParser(description="Audit ForPrint module governance.")
+    parser.add_argument(
+        "--no-write",
+        action="store_true",
+        help="Run audit without writing reports/module_governance_audit.* files.",
+    )
+    parser.add_argument(
+        "--report-dir",
+        type=Path,
+        default=None,
+        help="Directory for generated audit reports. Defaults to reports/.",
+    )
+    return parser
+
+def main(argv: list[str] | None = None) -> int:
+    args = build_cli().parse_args(argv)
+
     modules = _load_modules()
     results = [_audit_module(module) for module in modules]
+    report_json, report_md = _resolve_report_paths(args.report_dir)
 
-    _write_json(results)
-    _write_markdown(results)
+    if not args.no_write:
+        _write_json(results, report_json)
+        _write_markdown(results, report_md)
 
     print("ForPrint Module Governance Audit")
     print(f"Modules checked: {len(results)}")
+
     for status, count in _summary(results).items():
         print(f"  - {status}: {count}")
 
-    print(f"JSON report: {REPORT_JSON}")
-    print(f"Markdown report: {REPORT_MD}")
+    if args.no_write:
+        print("Report writing: disabled")
+    else:
+        print(f"JSON report: {report_json}")
+        print(f"Markdown report: {report_md}")
 
     return 0
 

@@ -190,8 +190,8 @@ def build_checks() -> list[CheckDefinition]:
         CheckDefinition(
             check_id="module_governance_audit",
             title="Module governance audit",
-            expected_result="Governance audit report generated",
-            command=[python, "scripts/audit_module_governance.py"],
+            expected_result="Governance audit runs without dirtying tracked reports",
+            command=[python, "scripts/audit_module_governance.py", "--no-write"],
         ),
     ]
 

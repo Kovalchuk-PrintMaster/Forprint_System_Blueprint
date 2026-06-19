@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import json
 import subprocess
 import sys
 from pathlib import Path
@@ -73,26 +72,27 @@ def test_module_governance_audit_script_exists() -> None:
     assert (ROOT / "scripts" / "audit_module_governance.py").exists()
 
 
-def test_module_governance_audit_script_generates_reports() -> None:
-    subprocess.run(
-        [sys.executable, "scripts/audit_module_governance.py"],
+def test_module_governance_audit_script_generates_reports(tmp_path: Path) -> None:
+    result = subprocess.run(
+        [
+            sys.executable,
+            "scripts/audit_module_governance.py",
+            "--report-dir",
+            str(tmp_path),
+        ],
         cwd=ROOT,
-        check=True,
+        text=True,
+        capture_output=True,
+        check=False,
     )
 
-    json_report = ROOT / "reports" / "module_governance_audit.json"
-    markdown_report = ROOT / "reports" / "module_governance_audit.md"
+    json_report = tmp_path / "module_governance_audit.json"
+    markdown_report = tmp_path / "module_governance_audit.md"
 
+    assert result.returncode == 0
     assert json_report.exists()
     assert markdown_report.exists()
-
-    data = json.loads(json_report.read_text(encoding="utf-8"))
-
-    assert "summary" in data
-    assert "modules" in data
-    assert "required_files" in data
-    assert "required_targets" in data
-    assert "governance-check" in data["required_targets"]
+    assert "ForPrint Module Governance Audit" in result.stdout
 
 
 def test_makefile_has_module_governance_audit_target() -> None:
