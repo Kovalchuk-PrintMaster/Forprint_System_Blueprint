@@ -42,7 +42,7 @@ outgoing-prompts:
 standards-index:
 	$(PYTHON) scripts/validate_standards_index.py
 
-check: lint-fix lint test validate diagrams guides manifest-example prompt-dispatch outgoing-prompts standards-index module-standards-template instruction-intake
+check: lint-fix lint test validate diagrams guides manifest-example prompt-dispatch outgoing-prompts standards-index module-standards-template instruction-intake completion-packet-template
 
 check-report:
 	$(PYTHON) scripts/run_blueprint_checks.py
@@ -74,3 +74,7 @@ module-standards-template:
 .PHONY: instruction-intake
 instruction-intake:
 	$(PYTHON) scripts/validate_instruction_intake.py
+
+.PHONY: completion-packet-template
+completion-packet-template:
+	$(PYTHON) scripts/validate_completion_packet_template.py

@@ -91,3 +91,71 @@ no_production_api_added: true
 The canonical module template should keep this command available:
 
 make prompt-completion-check REPORT=coordination/reports/<file>.md
+
+Completion packet workflow v0.2
+
+Status: preferred workflow for new module completion automation.
+
+The v0.1 YAML-frontmatter completion report remains supported for legacy module templates. For new module rollout work, the preferred workflow is a completion packet.
+
+A completion packet is a small structured YAML file that contains enough information to generate or update all required coordination records.
+
+Required packet fields:
+
+completion_id:
+module_id:
+module_name:
+phase:
+prompt_id:
+report_id:
+report_path:
+created_at:
+summary:
+implemented:
+checks:
+instruction_sources_reviewed:
+standards_reviewed:
+standards_alignment_notes:
+boundary_confirmation:
+current_outputs:
+next_recommended_steps:
+next_questions_for_blueprint:
+
+Required automation targets:
+
+completion-packet-validate
+completion-packet-apply
+
+Required coordination outputs:
+
+coordination/reports/completion/<report>.md
+coordination/reports/index.yaml
+coordination/status/current_status.yaml
+coordination/status/current_status.md when present
+coordination/status/next_questions_for_blueprint.md when questions are present
+
+Required validation rules:
+
+packet root is a YAML mapping;
+all required fields are present;
+report_path is under coordination/reports/completion/;
+checks include check_report, tests, and governance_check;
+instruction_sources_reviewed is non-empty;
+standards_reviewed is non-empty;
+standards_alignment_notes is non-empty;
+boundary_confirmation contains machine-readable safe boundary flags;
+next_questions_for_blueprint is a list.
+
+Required idempotency rules:
+
+applying the same packet twice must not duplicate report index entries;
+applying the same packet twice must not duplicate Markdown blocks;
+applying the same packet twice must not rewrite files only because of timestamps;
+automation must avoid generated runtime reports under reports/;
+timestamps should come from packet fields, not from current wall-clock time.
+
+Blueprint reference template:
+
+tools/completion_packet_template/
+
+Modules may adapt the reference scripts to their local coordination schema, but must preserve the packet contract, validation behavior, idempotency behavior, boundary confirmation, reviewed instruction metadata and reviewed standards metadata.

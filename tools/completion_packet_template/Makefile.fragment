@@ -1,0 +1,13 @@
+# Completion packet template targets.
+
+Copy/adapt into a module Makefile.
+
+PACKET ?= coordination/completion_packets/examples/example_completion_packet.yaml
+
+.PHONY: completion-packet-validate
+completion-packet-validate:
+	$(PYTHON) scripts/validate_completion_packet.py $(PACKET)
+
+.PHONY: completion-packet-apply
+completion-packet-apply:
+	$(PYTHON) scripts/apply_completion_packet.py $(PACKET)

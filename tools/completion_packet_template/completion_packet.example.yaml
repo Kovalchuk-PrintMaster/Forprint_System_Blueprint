@@ -1,0 +1,60 @@
+completion_id: example_completion_packet_v0_1
+module_id: example_module_id
+module_name: Example Module
+phase: example_phase_v0_1
+prompt_id: example_prompt_v0_1
+report_id: 2026-06-18__example_module__report__example-phase-v0-1
+report_path: coordination/reports/completion/2026-06-18__example_module__report__example-phase-v0-1.md
+created_at: '2026-06-18'
+summary: >
+  Example completion packet demonstrating the required ForPrint module
+  completion automation contract.
+
+implemented:
+  - Added example implementation item.
+  - Added example coordination update.
+
+checks:
+  check_report: ok
+  tests: ok
+  governance_check: ok
+  boundary: ok
+
+instruction_sources_reviewed:
+  - forprint_system_blueprint/coordination/instruction_intake/assistant_reading_order.md
+  - forprint_system_blueprint/coordination/instruction_intake/instruction_sources.yaml
+
+standards_reviewed:
+  - forprint_system_blueprint/coordination/standards/index.yaml
+  - forprint_system_blueprint/coordination/standards/module_prompt_completion_protocol.md
+
+standards_alignment_notes:
+  - Completion packet includes reviewed instruction sources.
+  - Completion packet includes reviewed standards.
+  - Completion automation must be idempotent.
+  - Boundary confirmation is machine-readable.
+
+boundary_confirmation:
+  no_production_api: true
+  no_live_external_integrations: true
+  no_real_1c_sync: true
+  no_production_write: true
+  no_automatic_posting: true
+  no_accounting_payment_truth: true
+  no_crm_dashboard: true
+  no_telegram_runtime_ui: true
+  no_calculator_final_price_ownership: true
+  no_library_catalog_ownership: true
+  no_warehouse_stock_truth: true
+  no_prepress_lifecycle_ownership: true
+
+current_outputs:
+  - coordination/reports/completion/2026-06-18__example_module__report__example-phase-v0-1.md
+  - coordination/reports/index.yaml
+  - coordination/status/current_status.yaml
+
+next_recommended_steps:
+  - Review the generated completion report.
+  - Keep runtime work deferred until approved.
+
+next_questions_for_blueprint: []

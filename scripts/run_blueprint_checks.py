@@ -182,6 +182,12 @@ def build_checks() -> list[CheckDefinition]:
             command=[python, "scripts/validate_instruction_intake.py"],
         ),
         CheckDefinition(
+            check_id="completion_packet_template_validation",
+            title="Completion packet template validation",
+            expected_result="Completion packet template contract and files are valid",
+            command=[python, "scripts/validate_completion_packet_template.py"],
+        ),
+        CheckDefinition(
             check_id="module_governance_audit",
             title="Module governance audit",
             expected_result="Governance audit report generated",
