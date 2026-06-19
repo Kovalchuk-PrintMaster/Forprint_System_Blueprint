@@ -50,51 +50,62 @@ Use the local completion packet automation for the final completion report.
 
 Do not manually update all coordination files one by one unless the completion packet automation itself requires a targeted repair.
 
+## Make-first workflow requirement
+
+This prompt must follow the Blueprint Make Command Standard v0.2.
+
+Do not rely on long raw command sequences as the normal workflow.
+
+Before implementing the main scope, add or align the module Makefile with the standard high-level workflow targets if they are missing:
+
+```text
+blueprint-prompts-list
+blueprint-prompts-check
+blueprint-prompts-sync
+blueprint-prompts
+prompt-read
+blueprint-sync
+module-start
+module-sync
+module-validate
+module-finish
+report-clean
+completion-packet-check
+
+The exact implementation may remain module-specific, but the external command names must be standardized.
+
+Required start command:
+
+make module-start
+
+Required finalization command:
+
+make module-finish PACKET=coordination/completion_packets/examples/local_operator_command_query_readiness_v0_1.yaml
+
+Required validation command:
+
+make module-validate
+
 ## Required starting verification
 
-Run first:
+Run the standardized start workflow:
 
 ```bash
-cd /srv/software_development/forprint-project/forprint_operational_registry
+make module-start
 
-git pull --ff-only
-git status --short
-git log -5 --oneline
+Expected behavior:
 
-git -C /srv/software_development/forprint-project/forprint_system_blueprint pull --ff-only
-git -C /srv/software_development/forprint-project/forprint_system_blueprint log -1 --oneline
+Blueprint repository is pulled.
+Blueprint paths are checked.
+Blueprint directives sync is executed or clearly deferred.
+Blueprint instruction intake is listed, checked and synchronized.
+Blueprint standards are listed, checked and synchronized.
+Blueprint outgoing prompts are listed, checked and synchronized.
+Module coordination metadata is checked.
+Current module status is shown.
+The active prompt is readable through make prompt-read.
 
-make blueprint-instruction-sync
-make blueprint-standards-sync
-make blueprint-instruction-check
-make blueprint-standards-check
-
-make completion-packet-validate PACKET=coordination/completion_packets/examples/local_launch_readiness_v0_1.yaml
-make completion-packet-apply PACKET=coordination/completion_packets/examples/local_launch_readiness_v0_1.yaml
-make completion-packet-apply PACKET=coordination/completion_packets/examples/local_launch_readiness_v0_1.yaml
-
-make check-report
-make check
-make governance-check
-
-git restore reports/operational_registry_check_report.json \
-            reports/operational_registry_check_report.md \
-            reports/operational_registry_module_status.json 2>/dev/null || true
-
-git status --short
-```
-
-Expected baseline:
-
-* Blueprint commit is `e12167b` or newer approved commit.
-* `make check-report`: OK
-* `make check`: OK, 232 passed or more
-* `make governance-check`: OK
-* completion packet apply is idempotent
-* Blueprint snapshot sync is idempotent
-* no dirty generated reports remain after cleanup
-
-If this baseline is not green, stop and repair the baseline before starting new work.
+If any required target is missing, implement or safely defer it according to the Blueprint Make Command Standard v0.2 before continuing.
 
 ## Required Blueprint standard review
 
@@ -310,28 +321,27 @@ The second apply must report no semantic changes.
 
 ## Required final validation
 
-Run:
+Use the standardized finish workflow:
 
 ```bash
-make blueprint-instruction-sync
-make blueprint-standards-sync
-make blueprint-instruction-check
-make blueprint-standards-check
+make module-finish PACKET=coordination/completion_packets/examples/local_operator_command_query_readiness_v0_1.yaml
 
-make completion-packet-validate PACKET=coordination/completion_packets/examples/local_operator_command_query_readiness_v0_1.yaml
-make completion-packet-apply PACKET=coordination/completion_packets/examples/local_operator_command_query_readiness_v0_1.yaml
-make completion-packet-apply PACKET=coordination/completion_packets/examples/local_operator_command_query_readiness_v0_1.yaml
+Then run:
 
-make check-report
-make check
-make governance-check
-
-git restore reports/operational_registry_check_report.json \
-            reports/operational_registry_check_report.md \
-            reports/operational_registry_module_status.json 2>/dev/null || true
-
+make module-validate
 git status --short
-```
+
+Expected behavior:
+
+completion packet validates;
+completion packet applies;
+completion packet apply is idempotent;
+check-report passes;
+check passes;
+governance-check passes;
+report-clean leaves the working tree reviewable;
+status-report shows the updated phase;
+no generated runtime reports remain dirty unless intentionally tracked as source-of-truth.
 
 ## Final response required
 
