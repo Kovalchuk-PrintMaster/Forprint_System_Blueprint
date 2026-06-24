@@ -282,6 +282,39 @@ module_policy_index:
         - Keep bootstrap/alignment status.
         - Use Calculator prepress requirement drafts later.
 
+    - module_id: forprint_project_inspector
+      module_name: ForPrint Project Inspector
+      priority: p2
+      development_status: planned_bootstrap_pending
+      strategic_role: >
+        Future project-level verification and inspection module for ForPrint
+        repository structure, Makefile standards, coordination metadata,
+        module readiness and cross-module advisory reports.
+      main_goals:
+        - Inspect module alignment with Blueprint standards.
+        - Audit Makefile standard adoption across modules.
+        - Aggregate module readiness and coordination status.
+        - Provide read-only project verification reports.
+        - Prepare migration of temporary Blueprint project verification scripts.
+      owns:
+        - project_structure_verification
+        - module_makefile_standard_audit
+        - coordination_metadata_audit
+        - module_readiness_summary
+        - cross_module_advisory_reports
+      must_not_own:
+        - architecture_policy
+        - module_business_logic
+        - production_runtime_control
+        - operational_order_truth
+        - accounting_truth
+        - warehouse_stock_truth
+        - live_integrations
+      next_focus:
+        - Keep bootstrap pending.
+        - Define read-only project verification scope.
+        - Prepare portable verification scripts migrated from Blueprint later.
+
     - module_id: forprint_strategic_control_plane
       module_name: ForPrint Strategic Control Plane
       priority: deferred

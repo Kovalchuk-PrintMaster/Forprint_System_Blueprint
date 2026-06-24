@@ -58,7 +58,7 @@ coordination-check:
 coordination-fix:
 	$(PYTHON) scripts/fix_coordination_metadata.py --module-root .
 
-	module-policy-generate:
+module-policy-generate:
 	$(PYTHON) scripts/generate_module_policy_docs.py
 
 module-policy-check:
