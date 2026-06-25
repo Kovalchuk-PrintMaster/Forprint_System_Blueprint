@@ -1,7 +1,7 @@
 PYTHON=.venv_blueprint/bin/python
 PIP=.venv_blueprint/bin/pip
 
-.PHONY:  diagrams guides manifest-example prompt-dispatch outgoing-prompts  check check-report
+.PHONY: guides manifest-example prompt-dispatch outgoing-prompts  check check-report
 	install
 	test
 	lint
@@ -13,6 +13,7 @@ PIP=.venv_blueprint/bin/pip
 	module-governance-audit
 	standards-index
 	standards standards-check
+	diagrams diagrams-check diagrams-list
 
 install:
 	$(PIP) install --upgrade pip
@@ -35,6 +36,19 @@ validate:
 
 diagrams:
 	$(PYTHON) scripts/generate_mermaid.py
+
+diagrams-check: diagrams
+	@test -r diagrams/README.md || (echo "FAILED: diagrams/README.md is missing."; exit 1)
+	@test -r diagrams/index.yaml || (echo "FAILED: diagrams/index.yaml is missing."; exit 1)
+	@test -s diagrams/module_graph.mmd || (echo "FAILED: diagrams/module_graph.mmd is missing or empty."; exit 1)
+	@test -s diagrams/ownership_map.mmd || (echo "FAILED: diagrams/ownership_map.mmd is missing or empty."; exit 1)
+	@test -s diagrams/data_flow.mmd || (echo "FAILED: diagrams/data_flow.mmd is missing or empty."; exit 1)
+	@test -s diagrams/project_landscape.mmd || (echo "FAILED: diagrams/project_landscape.mmd is missing or empty."; exit 1)
+	@test -s diagrams/system_detail_map.mmd || (echo "FAILED: diagrams/system_detail_map.mmd is missing or empty."; exit 1)
+	@echo "OK: Blueprint diagram artifacts are generated and documented."
+
+diagrams-list:
+	@find diagrams -maxdepth 1 -type f | sort
 
 guides:
 	$(PYTHON) scripts/generate_module_guides.py
