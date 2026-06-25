@@ -17,6 +17,7 @@
 - pytest;
 - scripts/validate_blueprint.py;
 - scripts/generate_mermaid.py;
+- scripts/validation/validate_diagrams_index.py;
 - scripts/generate_module_guides.py;
 - scripts/validate_module_manifest.py;
 - module_manifests/examples/calculator_engine.forprint_module_manifest.example.yaml.
@@ -134,6 +135,12 @@ def build_checks() -> list[CheckDefinition]:
             title="Mermaid generation",
             expected_result="Діаграми згенеровано без помилок",
             command=[python, "scripts/generate_mermaid.py"],
+        ),
+        CheckDefinition(
+            check_id="diagrams_index_validation",
+            title="Diagrams index validation",
+            expected_result="Blueprint diagram artifacts are indexed and valid",
+            command=[python, "scripts/validation/validate_diagrams_index.py"],
         ),
         CheckDefinition(
             check_id="module_guides_generation",
