@@ -86,14 +86,19 @@ def _standards_files(root: Path) -> set[str]:
     standards_root = root / STANDARDS_DIR
     files: set[str] = set()
 
-    for path in standards_root.iterdir():
+    for path in standards_root.rglob("*"):
         if not path.is_file():
             continue
-        if path.name == "index.yaml":
+
+        relative_path = path.relative_to(standards_root)
+
+        if relative_path.as_posix() == "index.yaml":
             continue
+
         if path.suffix not in {".md", ".yaml", ".yml"}:
             continue
-        files.add(path.name)
+
+        files.add(relative_path.as_posix())
 
     return files
 
