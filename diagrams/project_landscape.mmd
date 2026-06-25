@@ -1,31 +1,42 @@
 flowchart TD
     Root["/srv/software_development/forprint-project"]
 
-    Root --> Blueprint["forprint_system_blueprint
-active"]
-    Root --> Calculator["calculator_engine
-active"]
-    Root --> Library["forprint_library
-active"]
-    Root --> Accounting["forprint_accounting_registry_service
-active"]
-    Root --> Telegram["telegram_bot
-active / legacy-rich"]
-    Root --> CRM["forprint_crm
-empty / planned"]
-    Root --> Gateway["forprint_integration_gateway
-empty / planned"]
-    Root --> Prepress["forprint_prepress_hub
-empty / planned"]
+    Root --> Blueprint["forprint_system_blueprint<br/>active / architecture control"]
+    Root --> Library["forprint_library<br/>active / semantic catalog"]
+    Root --> Calculator["calculator_engine<br/>active / pricing and drafts"]
+    Root --> OperationalRegistry["forprint_operational_registry<br/>active / operational truth"]
+    Root --> Accounting["forprint_accounting_registry_service<br/>active / accounting and 1C staging"]
+    Root --> Gateway["forprint_integration_gateway<br/>active / integration boundary"]
+    Root --> Telegram["telegram_bot<br/>active / legacy-rich channel"]
+    Root --> Prepress["forprint_prepress_hub<br/>created / prepress domain"]
+    Root --> CRM["forprint_crm<br/>planned / operator UI and workflow"]
+    Root --> ProjectInspector["forprint_project_inspector<br/>planned / architecture inspection"]
 
-    External["/opt/forprint-utils/cloud_backup_manager
-external support module"]
-    Blueprint -. tracks .-> External
+    PlannedWarehouse["warehouse_service<br/>planned"]
+    PlannedLogistics["logistics_service<br/>planned"]
+    PlannedRuntimeInspector["production_runtime_inspector<br/>planned"]
+    PlannedMobile["mobile_app<br/>deferred"]
+    Website["website<br/>existing / channel"]
 
-    Blueprint -->|defines architecture for| Calculator
+    Root -. planned .-> PlannedWarehouse
+    Root -. planned .-> PlannedLogistics
+    Root -. planned .-> PlannedRuntimeInspector
+    Root -. deferred .-> PlannedMobile
+    Root -. channel .-> Website
+
+    ExternalBackup["/opt/forprint-utils/cloud_backup_manager<br/>external support module"]
+    Blueprint -. tracks .-> ExternalBackup
+
     Blueprint -->|defines architecture for| Library
+    Blueprint -->|defines architecture for| Calculator
+    Blueprint -->|defines architecture for| OperationalRegistry
     Blueprint -->|defines architecture for| Accounting
-    Blueprint -->|defines architecture for| Telegram
-    Blueprint -->|defines architecture for| CRM
     Blueprint -->|defines architecture for| Gateway
+    Blueprint -->|defines architecture for| Telegram
     Blueprint -->|defines architecture for| Prepress
+    Blueprint -->|defines architecture for| CRM
+    Blueprint -->|defines architecture for| ProjectInspector
+    Blueprint -->|defines future architecture for| PlannedWarehouse
+    Blueprint -->|defines future architecture for| PlannedLogistics
+    Blueprint -->|defines future architecture for| PlannedRuntimeInspector
+    Blueprint -->|defers until readiness| PlannedMobile

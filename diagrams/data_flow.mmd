@@ -1,12 +1,36 @@
 graph TD
-    Library[ForPrint Library] --> Calculator[Calculator Engine]
-    Library --> Prepress[Prepress Hub]
-    Calculator --> CRM[ForPrint CRM]
-    Telegram[Telegram Bot] --> CRM
-    Website[Website] --> CRM
-    CRM --> OperationalRegistry[Operational Registry]
-    OperationalRegistry --> Accounting[Accounting Registry / 1C]
-    OperationalRegistry --> Prepress
-    CRM --> Warehouse[Warehouse Service]
-    CRM --> Logistics[Logistics Service]
-    Backup[Cloud Backup Manager] --> CRM
+    Library[ForPrint Library<br/>semantic/catalog truth] --> Calculator[Calculator Engine<br/>calculation packages and drafts]
+    Library --> Prepress[ForPrint Prepress Hub<br/>file analysis and preparation]
+    Library --> Warehouse[Warehouse Service<br/>materials and stock]
+
+    Telegram[Telegram Bot<br/>customer channel] --> Gateway[ForPrint Integration Gateway<br/>validation, routing, handoff reliability]
+    Website[Website<br/>customer channel] --> Gateway
+    Mobile[Mobile App<br/>future channel] -. future .-> Gateway
+
+    CRM[ForPrint CRM<br/>operator UI and workflow views] --> Gateway
+
+    Gateway --> Calculator
+    Calculator --> Gateway
+
+    Gateway --> OperationalRegistry[ForPrint Operational Registry<br/>operational truth]
+    OperationalRegistry --> Gateway
+
+    Gateway --> Accounting[Accounting Registry Service<br/>invoice, payment, 1C staging truth]
+    Accounting --> Gateway
+
+    Gateway --> Prepress
+    Prepress --> Gateway
+
+    Gateway --> Warehouse
+    Warehouse --> Gateway
+
+    Gateway --> Logistics[Logistics Service<br/>delivery truth]
+    Logistics --> Gateway
+
+    OperationalRegistry --> CRM
+    Accounting --> CRM
+    Gateway --> CRM
+
+    ProjectInspector[ForPrint Project Inspector<br/>architecture compliance] -. audit .-> CRM
+    RuntimeInspector[Production Runtime Inspector<br/>runtime health] -. health .-> CRM
+    Backup[Cloud Backup Manager<br/>backup and restore support] -. infrastructure status .-> CRM

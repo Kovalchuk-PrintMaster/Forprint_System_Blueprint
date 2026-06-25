@@ -1,64 +1,76 @@
-
 flowchart TD
-    Blueprint[ForPrint System Blueprint<br/>Architecture truth source]
+    Blueprint[ForPrint System Blueprint<br/>Architecture, standards and module guidance]
 
-    ProjectInspector[ForPrint Project Inspector<br/>Architecture compliance]
-    RuntimeInspector[Production Runtime Inspector<br/>Runtime health]
+    ProjectInspector[ForPrint Project Inspector<br/>Architecture compliance inspection]
+    RuntimeInspector[Production Runtime Inspector<br/>Runtime health and availability]
 
-    Gateway[ForPrint Integration Gateway<br/>Validation + Routing]
+    Gateway[ForPrint Integration Gateway<br/>Validation, routing, idempotency and delivery ledger]
 
-    CRM[ForPrint CRM<br/>Business orchestration + UI]
+    CRM[ForPrint CRM<br/>Operator UI, workflow views and coordination]
 
-    OperationalRegistry[ForPrint Operational Registry<br/>Client / Order / Task truth]
-    Accounting[Accounting Registry Service<br/>Invoice / Payment / 1C]
+    OperationalRegistry[ForPrint Operational Registry<br/>Canonical operational truth<br/>clients / requests / orders / tasks]
+    Accounting[Accounting Registry Service<br/>Accounting truth<br/>invoices / payments / 1C staging]
 
-    Library[ForPrint Library<br/>Catalogs / Templates / Contracts]
+    Library[ForPrint Library<br/>Semantic and catalog truth<br/>materials / products / templates / capabilities]
 
-    Calculator[Calculator Engine<br/>Quotes / Prices / Estimates]
-    Prepress[ForPrint Prepress Hub<br/>File analysis / Preparation]
-    Warehouse[Warehouse Service<br/>Stock / Reservation]
-    Logistics[Logistics Service<br/>Delivery]
-    Backup[Cloud Backup Manager<br/>Backup / Restore]
+    Calculator[Calculator Engine<br/>Calculation packages, quote drafts and order drafts]
+    Prepress[ForPrint Prepress Hub<br/>File analysis, preparation and print-ready artifacts]
+    Warehouse[Warehouse Service<br/>Stock, inventory movement and reservations]
+    Logistics[Logistics Service<br/>Delivery requests, labels and statuses]
+    Backup[Cloud Backup Manager<br/>Backup and restore support]
 
-    Bot[Telegram Bot<br/>Customer channel]
-    Website[Website<br/>Customer portal]
+    Telegram[Telegram Bot<br/>Customer channel]
+    Website[Website<br/>Customer channel]
+    Mobile[Mobile App<br/>Future customer channel]
 
-    Blueprint -->|module guides / expected architecture| ProjectInspector
-    Blueprint -->|module guides| CRM
+    Blueprint -->|module guides / standards / policies| ProjectInspector
     Blueprint -->|module guides| Gateway
+    Blueprint -->|module guides| CRM
+    Blueprint -->|module guides| OperationalRegistry
+    Blueprint -->|module guides| Accounting
     Blueprint -->|module guides| Library
     Blueprint -->|module guides| Calculator
     Blueprint -->|module guides| Prepress
+    Blueprint -->|future module guides| Warehouse
+    Blueprint -->|future module guides| Logistics
+    Blueprint -. deferred until readiness .-> Mobile
 
-    ProjectInspector -->|architecture drift report| CRM
-    RuntimeInspector -->|runtime health report| CRM
+    ProjectInspector -->|architecture drift reports| CRM
+    RuntimeInspector -->|runtime health reports| CRM
 
-    Bot -->|customer request| Gateway
-    Website -->|web request| Gateway
-    CRM -->|business command| Gateway
+    Telegram -->|customer request envelope| Gateway
+    Website -->|web request envelope| Gateway
+    Mobile -. future request envelope .-> Gateway
+    CRM -->|business command envelope| Gateway
 
-    Gateway -->|validated request| Calculator
-    Gateway -->|validated request| Prepress
+    Gateway -->|validated calculation request| Calculator
+    Calculator -->|calculation result / quote draft| Gateway
+
+    Gateway -->|operational command| OperationalRegistry
+    OperationalRegistry -->|operational status / read model| Gateway
+
+    Gateway -->|invoice or payment-status request| Accounting
+    Accounting -->|accounting status / invoice result| Gateway
+
+    Gateway -->|prepress request| Prepress
+    Prepress -->|prepress report / file status| Gateway
+
     Gateway -->|reservation request| Warehouse
-    Gateway -->|invoice request| Accounting
+    Warehouse -->|stock / reservation status| Gateway
+
     Gateway -->|delivery request| Logistics
-
-    Library -->|catalogs / contracts| Calculator
-    Library -->|technical rules| Prepress
-    Library -->|material catalog| Warehouse
-
-    Calculator -->|quote / estimate| Gateway
-    Prepress -->|analysis / prepared file status| Gateway
-    Warehouse -->|reservation status| Gateway
-    Accounting -->|invoice / payment status| Gateway
     Logistics -->|delivery status| Gateway
 
-    Gateway -->|status / result| CRM
+    Gateway -->|status / result / manual review signal| CRM
 
-    OperationalRegistry -->|client / order / task truth| CRM
-    Accounting -->|accounting truth| CRM
-    CRM -->|operational command| OperationalRegistry
+    Library -->|catalog references / contracts| Calculator
+    Library -->|technical cards / capabilities| Prepress
+    Library -->|material catalog references| Warehouse
 
-    Backup -.->|infrastructure support| OperationalRegistry
-    Backup -.->|infrastructure support| Accounting
-    Backup -.->|infrastructure support| Library
+    OperationalRegistry -->|client / order / task truth views| CRM
+    Accounting -->|invoice / payment truth views| CRM
+
+    Backup -. infrastructure support .-> OperationalRegistry
+    Backup -. infrastructure support .-> Accounting
+    Backup -. infrastructure support .-> Library
+    Backup -. infrastructure support .-> Gateway
