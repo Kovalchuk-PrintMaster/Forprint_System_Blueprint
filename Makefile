@@ -1,9 +1,18 @@
 PYTHON=.venv_blueprint/bin/python
 PIP=.venv_blueprint/bin/pip
 
-.PHONY: install test lint lint-fix format validate diagrams guides manifest-example prompt-dispatch outgoing-prompts standards-index check check-report clean
-		coordination-check coordination-fix module-policy-generate module-policy-check
-		module-governance-audit
+.PHONY:  diagrams guides manifest-example prompt-dispatch outgoing-prompts  check check-report
+	install
+	test
+	lint
+	lint-fix
+	format
+	validate
+	clean
+	coordination-check coordination-fix module-policy-generate module-policy-check
+	module-governance-audit
+	standards-index
+	standards standards-check
 
 install:
 	$(PIP) install --upgrade pip
@@ -41,6 +50,11 @@ outgoing-prompts:
 
 standards-index:
 	$(PYTHON) scripts/validate_standards_index.py
+
+standards:
+	$(PYTHON) scripts/validate_standards_index.py
+
+standards-check: standards
 
 check: lint-fix lint test validate diagrams guides manifest-example prompt-dispatch outgoing-prompts standards-index module-standards-template instruction-intake completion-packet-template
 
