@@ -143,6 +143,8 @@ checks include check_report, tests, and governance_check;
 instruction_sources_reviewed is non-empty;
 standards_reviewed is non-empty;
 standards_alignment_notes is non-empty;
+standards_reviewed may include specific standard files or thematic standards package directories;
+modules that touch runtime integration, Gateway, data ownership, queues, databases, external tools, BI, authentication or cross-module handoff should include modular_topology_and_resilience and third_party_reuse when relevant;
 boundary_confirmation contains machine-readable safe boundary flags;
 next_questions_for_blueprint is a list.
 
@@ -159,3 +161,17 @@ Blueprint reference template:
 tools/completion_packet_template/
 
 Modules may adapt the reference scripts to their local coordination schema, but must preserve the packet contract, validation behavior, idempotency behavior, boundary confirmation, reviewed instruction metadata and reviewed standards metadata.
+
+Recommended standards metadata example:
+
+```yaml
+standards_reviewed:
+  - forprint_system_blueprint/coordination/standards/index.yaml
+  - forprint_system_blueprint/coordination/standards/module_prompt_completion_protocol.md
+  - forprint_system_blueprint/coordination/standards/modular_topology_and_resilience/
+  - forprint_system_blueprint/coordination/standards/third_party_reuse/
+
+standards_alignment_notes:
+  - "No destructive rewrite was performed."
+  - "Reviewed modular topology and resilience standards for ownership and handoff boundaries."
+  - "Reviewed third-party reuse policy; no new production third-party dependency was introduced."

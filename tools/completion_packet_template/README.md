@@ -2,7 +2,7 @@
 
 Status: reference template v0.1
 
-Purpose
+## Purpose
 
 This template defines the preferred ForPrint module workflow for completing prompts with a small structured YAML packet instead of manually editing every coordination file.
 
@@ -35,24 +35,24 @@ Required packet fields
 
 The packet must include:
 
-completion_id:
-module_id:
-module_name:
-phase:
-prompt_id:
-report_id:
-report_path:
-created_at:
-summary:
-implemented:
-checks:
-instruction_sources_reviewed:
-standards_reviewed:
-standards_alignment_notes:
-boundary_confirmation:
-current_outputs:
-next_recommended_steps:
-next_questions_for_blueprint:
+completion_id
+module_id
+module_name
+phase
+prompt_id
+report_id
+report_path
+created_at
+summary
+implemented
+checks
+instruction_sources_reviewed
+standards_reviewed
+standards_alignment_notes
+boundary_confirmation
+current_outputs
+next_recommended_steps
+next_questions_for_blueprint
 Required metadata
 
 The packet must include non-empty lists for:
@@ -66,6 +66,16 @@ This ensures every completion record can answer:
 which assistant instruction sources were reviewed;
 which Blueprint/module standards were reviewed;
 how the work aligned with those standards.
+
+standards_reviewed may include specific files or thematic standards packages.
+
+Examples:
+
+standards_reviewed:
+  - forprint_system_blueprint/coordination/standards/index.yaml
+  - forprint_system_blueprint/coordination/standards/module_prompt_completion_protocol.md
+  - forprint_system_blueprint/coordination/standards/modular_topology_and_resilience/
+  - forprint_system_blueprint/coordination/standards/third_party_reuse/
 Boundary confirmation
 
 The packet must include machine-readable boundary confirmation.
@@ -122,6 +132,17 @@ Completion packet example validation
 If the module also has Blueprint snapshot sync, it should add an idempotency check equivalent to:
 
 Blueprint sync idempotency
+Standards packages
+
+Completion packets should gradually report reviewed standards packages when relevant.
+
+Important packages include:
+
+forprint_system_blueprint/coordination/standards/modular_topology_and_resilience/
+forprint_system_blueprint/coordination/standards/third_party_reuse/
+
+Modules that touch runtime integration, Gateway, data ownership, queues, databases, external tools, BI, authentication or cross-module handoff should normally include these packages in standards_reviewed.
+
 Reference implementation
 
 This template includes reference scripts:

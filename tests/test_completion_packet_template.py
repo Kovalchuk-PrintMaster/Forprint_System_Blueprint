@@ -37,6 +37,14 @@ def test_completion_packet_example_has_required_metadata() -> None:
     assert packet["standards_reviewed"]
     assert packet["standards_alignment_notes"]
     assert packet["boundary_confirmation"]["no_production_api"] is True
+    assert (
+        "forprint_system_blueprint/coordination/standards/modular_topology_and_resilience/"
+        in packet["standards_reviewed"]
+    )
+    assert (
+        "forprint_system_blueprint/coordination/standards/third_party_reuse/"
+        in packet["standards_reviewed"]
+    )
 
 
 def test_completion_packet_reference_scripts_exist() -> None:
