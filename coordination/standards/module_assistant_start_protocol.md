@@ -8,6 +8,10 @@ Active Blueprint standard / gradual adoption
 
 Every module assistant must start work by refreshing its understanding of the current ForPrint architecture and module-specific instructions.
 
+A ForPrint module is not a standalone application.
+
+A module is a node in the ForPrint ecosystem and must respect global architecture, module ownership and active Blueprint guidance.
+
 ## Required start checklist
 
 Before changing code, the assistant must check:
@@ -24,10 +28,40 @@ Before changing code, the assistant must check:
 10. Reports index.
 11. Next questions for Blueprint.
 12. Latest check-report.
+13. Blueprint standards visibility.
+14. Relevant architecture standards packages.
 
-## Preferred command
+## Global ForPrint architecture context
 
-```bash
+At startup, a module assistant should remember:
+
+```text
+ForPrint System Blueprint owns architecture and standards.
+ForPrint Library owns semantic and catalog meaning.
+Calculator Engine owns calculation outputs and drafts.
+ForPrint Operational Registry owns operational truth.
+ForPrint Accounting Registry Service owns accounting and 1C staging truth.
+ForPrint Integration Gateway owns transport and handoff reliability.
+CRM owns human-facing workflow views and coordination UI.
+Channel modules own channel shells, not canonical business truth.
+
+A module must not silently take ownership of another module's canonical data.
+
+Required standards awareness
+
+At startup, mature module assistants should be able to see:
+
+coordination/standards/index.yaml
+coordination/standards/README.md
+coordination/standards/module_standards_awareness_protocol.md
+coordination/standards/modular_topology_and_resilience/
+coordination/standards/third_party_reuse/
+
+The following packages are especially important for modules that touch runtime integration, data ownership, external tools, Gateway, databases, reporting, queues or cross-module handoff:
+
+coordination/standards/modular_topology_and_resilience/
+coordination/standards/third_party_reuse/
+Preferred command
 make governance-check
 Fallback command sequence
 make blueprint-pull
@@ -36,6 +70,12 @@ make blueprint-sync-directives
 make module-policy-check
 make coordination-check
 make status-report
+
+If the module has make-first standards support, it should also support or gradually add:
+
+make blueprint-standards-list
+make blueprint-standards-check
+make blueprint-standards-sync
 Required behavior
 
 If the module cannot perform one of these checks yet, it must clearly print:
@@ -48,23 +88,10 @@ MISSING_NEEDS_ALIGNMENT
 
 It must not silently skip the check.
 
-Non-goals
-
-The start protocol must not:
-
-commit changes;
-push changes;
-run destructive migrations;
-start production integrations;
-overwrite module-specific coordination blocks.
-
----
-
-## Prompt-driven work startup
+Prompt-driven work startup
 
 If the module receives work through Blueprint outgoing prompts, the assistant must run:
 
-```bash
 make governance-check
 make blueprint-prompts-list
 make blueprint-prompt
@@ -74,3 +101,22 @@ The assistant should then execute only the active prompt intended for its own mo
 
 Long implementation prompts should not be manually copied into module chats when a Blueprint outgoing prompt is available.
 
+Third-party tools at startup
+
+If the task involves a new database, message broker, BI tool, auth provider, ERP/PIM/CRM integration, automation platform or external service, the assistant must classify it using:
+
+coordination/standards/third_party_reuse/third_party_reuse_policy.md
+
+A module assistant must not introduce a production third-party dependency as a hidden architecture decision.
+
+Non-goals
+
+The start protocol must not:
+
+commit changes;
+push changes;
+run destructive migrations;
+start production integrations;
+overwrite module-specific coordination blocks;
+silently redesign global architecture;
+introduce third-party core dependencies without Blueprint approval.

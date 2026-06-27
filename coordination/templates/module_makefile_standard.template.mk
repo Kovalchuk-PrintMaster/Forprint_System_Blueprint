@@ -353,7 +353,7 @@ blueprint-instruction:
 # Result: operator can see available standard documents.
 .PHONY: blueprint-standards-list
 blueprint-standards-list:
-	@find "$(BLUEPRINT_ROOT)/coordination/standards" -maxdepth 1 -type f | sort
+	@find "$(BLUEPRINT_ROOT)/coordination/standards" -maxdepth 2 -type f | sort
 
 # Purpose: verify Blueprint standards are readable.
 # Result: standards index and standard documents are readable.
@@ -361,6 +361,8 @@ blueprint-standards-list:
 blueprint-standards-check:
 	@test -f "$(BLUEPRINT_ROOT)/coordination/standards/index.yaml"
 	@test -f "$(BLUEPRINT_ROOT)/coordination/standards/make_command_standard.md"
+	@test -d "$(BLUEPRINT_ROOT)/coordination/standards/modular_topology_and_resilience"
+	@test -d "$(BLUEPRINT_ROOT)/coordination/standards/third_party_reuse"
 	@echo "$(COLOR_GREEN)Blueprint standards are readable.$(COLOR_RESET)"
 
 # Purpose: synchronize Blueprint standards snapshot.
