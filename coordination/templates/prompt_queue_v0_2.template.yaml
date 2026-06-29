@@ -1,0 +1,23 @@
+schema_version: prompt_queue_v0_2
+module: forprint_module
+
+prompt_queue:
+  - prompt_id: example_prompt_v0_1
+    sequence: 1
+    title: Example Prompt v0.1
+    file: approved/2026-01-01__module__example_prompt_v0_1.md
+    target_module: forprint_module
+    phase: example_prompt_v0_1
+    priority: normal
+
+    module_execution:
+      status: ready_for_module_pull
+      completion_commit: null
+      completion_report: null
+      completed_at: null
+
+    blueprint_review:
+      status: not_started
+      acceptance_commit: null
+      accepted_at: null
+      review_notes: null
