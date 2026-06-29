@@ -23,6 +23,10 @@ MODULE_ID ?= forprint_module
 MODULE_NAME ?= ForPrint Module
 PYTHON ?= python
 BLUEPRINT_ROOT ?= /srv/software_development/forprint-project/forprint_system_blueprint
+BLUEPRINT_PYTHON ?= $(BLUEPRINT_ROOT)/.venv_blueprint/bin/python
+BLUEPRINT_PROMPT_QUEUE_VALIDATOR ?= $(BLUEPRINT_ROOT)/scripts/coordination/validate_prompt_queue.py
+BLUEPRINT_PROMPT_DASHBOARD_RENDERER ?= $(BLUEPRINT_ROOT)/scripts/coordination/render_prompt_dashboard.py
+BLUEPRINT_NEXT_PROMPT_RESOLVER ?= $(BLUEPRINT_ROOT)/scripts/coordination/resolve_next_prompt.py
 
 REPORTS_DIR ?= reports
 COORDINATION_DIR ?= coordination
@@ -80,6 +84,11 @@ help:
 	@echo "  make blueprint-standards"
 	@echo "  make blueprint-prompts"
 	@echo "  make prompt-read"
+	@echo ""
+	@echo "  make prompt-queue-validate"
+	@echo "  make prompt-dashboard"
+	@echo "  make prompt-next"
+	@echo "  make prompt-read-next"
 	@echo ""
 	@echo "Workflow:"
 	@echo "  make module-start"
@@ -422,6 +431,8 @@ blueprint-prompts:
 	$(MAKE) blueprint-prompts-list
 	$(MAKE) blueprint-prompts-check
 	$(MAKE) blueprint-prompts-sync
+	$(MAKE) prompt-queue-validate
+	$(MAKE) prompt-dashboard
 
 # Purpose: show the active prompt for the module assistant.
 # Result: active local synced prompt is printed to console.
@@ -430,6 +441,42 @@ prompt-read:
 	@test -n "$$(find "$(LOCAL_PROMPTS_DIR)" -maxdepth 1 -type f -name '*.md' -print -quit)" || \
 		(echo "$(COLOR_RED)No local prompt found. Run make blueprint-prompts-sync first.$(COLOR_RESET)"; exit 1)
 	@sed -n '1,260p' "$$(find "$(LOCAL_PROMPTS_DIR)" -maxdepth 1 -type f -name '*.md' | sort | head -n 1)"
+
+# Purpose: validate Blueprint Prompt Queue v0.2 indexes.
+# Result: prompt queue indexes are valid or legacy indexes are clearly skipped.
+.PHONY: prompt-queue-validate
+prompt-queue-validate:
+		@if [ -x "$(BLUEPRINT_PYTHON)" ] && [ -f "$(BLUEPRINT_PROMPT_QUEUE_VALIDATOR)" ]; then \
+				"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_PROMPT_QUEUE_VALIDATOR)" --root "$(BLUEPRINT_ROOT)"; \
+		else \
+				echo "$(COLOR_YELLOW)DEFERRED: Blueprint Prompt Queue validator is not available yet.$(COLOR_RESET)"; \
+		fi
+
+# Purpose: render the Blueprint prompt queue dashboard for this module.
+# Result: operator can see prompt order, execution state, Blueprint review state and next prompt.
+.PHONY: prompt-dashboard
+prompt-dashboard:
+		@if [ -x "$(BLUEPRINT_PYTHON)" ] && [ -f "$(BLUEPRINT_PROMPT_DASHBOARD_RENDERER)" ]; then \
+				if [ "$(NO_COLOR)" = "1" ]; then \
+						"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_PROMPT_DASHBOARD_RENDERER)" --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --no-color; \
+				else \
+						"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_PROMPT_DASHBOARD_RENDERER)" --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)"; \
+				fi; \
+		else \
+				echo "$(COLOR_YELLOW)DEFERRED: Blueprint Prompt Queue dashboard renderer is not available yet.$(COLOR_RESET)"; \
+		fi
+
+# Purpose: resolve the next ready Blueprint prompt for this module.
+# Result: prints the next prompt metadata and path or fails if the module is not migrated/has no ready prompt.
+.PHONY: prompt-next
+prompt-next:
+		"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_NEXT_PROMPT_RESOLVER)" --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)"
+
+# Purpose: read the next ready Blueprint prompt for this module.
+# Result: prints next prompt metadata and prompt file content.
+.PHONY: prompt-read-next
+prompt-read-next:
+		"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_NEXT_PROMPT_RESOLVER)" --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --read
 
 # =============================================================================
 # 13 Blueprint outgoing prompts FINISH

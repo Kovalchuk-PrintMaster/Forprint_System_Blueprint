@@ -195,6 +195,10 @@ make blueprint-prompts-check
 make blueprint-prompts-sync
 make blueprint-prompts
 make prompt-read
+make prompt-queue-validate
+make prompt-dashboard
+make prompt-next
+make prompt-read-next
 
 make blueprint-sync
 
@@ -652,6 +656,100 @@ print the prompt to console.
 ```
 
 If there are multiple active prompts, the command should clearly report them and require `PROMPT=...` or use a documented priority rule.
+
+### prompt-queue-validate
+
+Purpose:
+
+```text
+Validate Blueprint Prompt Queue v0.2 indexes.
+```
+
+Expected behavior:
+
+```text
+Runs the Blueprint prompt queue validator.
+Prompt Queue v0.2 indexes are checked strictly.
+Legacy outgoing prompt indexes may be reported as skipped during gradual migration.
+```
+
+Recommended command behavior:
+
+```make
+prompt-queue-validate:
+        $(BLUEPRINT_PYTHON) $(BLUEPRINT_ROOT)/scripts/coordination/validate_prompt_queue.py --root "$(BLUEPRINT_ROOT)"
+```
+
+### prompt-dashboard
+
+Purpose:
+
+```text
+Show a human-readable prompt queue dashboard for the module.
+```
+
+Expected behavior:
+
+```text
+Displays prompt sequence, prompt id, priority, module execution status,
+module completion commit, Blueprint review status, Blueprint acceptance commit,
+prompt file and next prompt.
+```
+
+Recommended command behavior:
+
+```make
+prompt-dashboard:
+        $(BLUEPRINT_PYTHON) $(BLUEPRINT_ROOT)/scripts/coordination/render_prompt_dashboard.py --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)"
+```
+
+If `NO_COLOR=1` is provided, color output should be disabled.
+
+### prompt-next
+
+Purpose:
+
+```text
+Resolve the next ready prompt for the module from Prompt Queue v0.2.
+```
+
+Expected behavior:
+
+```text
+Reads coordination/outgoing_prompts/<module>/index.yaml.
+Selects the first prompt by sequence where module_execution.status is ready_for_module_pull.
+Prints concise prompt metadata and the resolved prompt path.
+```
+
+Recommended command behavior:
+
+```make
+prompt-next:
+        $(BLUEPRINT_PYTHON) $(BLUEPRINT_ROOT)/scripts/coordination/resolve_next_prompt.py --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)"
+```
+
+### prompt-read-next
+
+Purpose:
+
+```text
+Read the next ready prompt for the module from Prompt Queue v0.2.
+```
+
+Expected behavior:
+
+```text
+Resolves the next ready prompt and prints its metadata plus prompt file content.
+This target should replace hardcoded active prompt reads after a module is migrated
+to Prompt Queue v0.2.
+```
+
+Recommended command behavior:
+
+```make
+prompt-read-next:
+        $(BLUEPRINT_PYTHON) $(BLUEPRINT_ROOT)/scripts/coordination/resolve_next_prompt.py --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --read
+```
 
 ## blueprint-sync
 
