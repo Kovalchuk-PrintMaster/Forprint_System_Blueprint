@@ -171,6 +171,12 @@ def build_checks() -> list[CheckDefinition]:
             command=[python, "scripts/validate_outgoing_prompts.py"],
         ),
         CheckDefinition(
+            check_id="prompt_queue_validation",
+            title="Prompt Queue validation",
+            expected_result="Prompt Queue v0.2 indexes are valid and legacy indexes are skipped",
+            command=[python, "scripts/coordination/validate_prompt_queue.py"],
+        ),
+        CheckDefinition(
             check_id="standards_index_validation",
             title="Standards index validation",
             expected_result="Blueprint standards index is readable and advisory semantics are explicit",

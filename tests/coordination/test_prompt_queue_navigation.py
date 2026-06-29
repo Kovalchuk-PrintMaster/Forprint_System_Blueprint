@@ -6,6 +6,7 @@ from scripts.coordination.render_prompt_dashboard import (
     render_dashboard,
     resolve_next_prompt,
 )
+from scripts.coordination.resolve_next_prompt import resolve_next_prompt_summary
 from scripts.coordination.validate_prompt_queue import validate_root
 
 
@@ -168,3 +169,14 @@ def test_resolve_next_prompt_returns_first_ready_prompt(tmp_path: Path) -> None:
 
     assert next_prompt is not None
     assert next_prompt["prompt_id"] == "library_reference_contract_foundation_v0_2"
+
+def test_resolve_next_prompt_summary_points_to_ready_prompt(tmp_path: Path) -> None:
+    _write_valid_prompt_queue(tmp_path)
+
+    summary = resolve_next_prompt_summary(tmp_path, "forprint_library")
+
+    assert summary.sequence == 2
+    assert summary.prompt_id == "library_reference_contract_foundation_v0_2"
+    assert summary.priority == "high"
+    assert summary.file == "approved/2026-06-29__library__reference_contract_v0_2.md"
+    assert summary.path.exists()

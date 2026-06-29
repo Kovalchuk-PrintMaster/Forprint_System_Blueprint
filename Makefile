@@ -1,5 +1,6 @@
 PYTHON=.venv_blueprint/bin/python
 PIP=.venv_blueprint/bin/pip
+MODULE ?= forprint_library
 
 .PHONY: guides manifest-example prompt-dispatch outgoing-prompts  check check-report
 	install
@@ -56,6 +57,24 @@ prompt-dispatch:
 outgoing-prompts:
 	$(PYTHON) scripts/validate_outgoing_prompts.py
 
+.PHONY: prompt-queue-validate prompt-dashboard prompt-next prompt-read-next
+
+prompt-queue-validate:
+	$(PYTHON) scripts/coordination/validate_prompt_queue.py
+
+prompt-dashboard:
+	@if [ "$(NO_COLOR)" = "1" ]; then \
+		$(PYTHON) scripts/coordination/render_prompt_dashboard.py --module "$(MODULE)" --no-color; \
+	else \
+		$(PYTHON) scripts/coordination/render_prompt_dashboard.py --module "$(MODULE)"; \
+	fi
+
+prompt-next:
+	$(PYTHON) scripts/coordination/resolve_next_prompt.py --module "$(MODULE)"
+
+prompt-read-next:
+	$(PYTHON) scripts/coordination/resolve_next_prompt.py --module "$(MODULE)" --read
+
 standards-index:
 	$(PYTHON) scripts/validate_standards_index.py
 
@@ -64,7 +83,8 @@ standards:
 
 standards-check: standards
 
-check: lint-fix lint test validate diagrams guides manifest-example prompt-dispatch outgoing-prompts standards-index module-standards-template instruction-intake completion-packet-template
+check: lint-fix lint test validate diagrams guides manifest-example prompt-dispatch outgoing-prompts
+	standards-index module-standards-template instruction-intake completion-packet-template
 
 check-report:
 	$(PYTHON) scripts/run_blueprint_checks.py
