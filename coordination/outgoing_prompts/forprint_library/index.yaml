@@ -1,20 +1,43 @@
-active_prompts:
+schema_version: prompt_queue_v0_2
+module: forprint_library
+
+prompt_queue:
   - prompt_id: library_make_first_semantic_reference_readiness_v0_1
-    status: ready_for_module_pull
+    sequence: 1
+    title: Library Make-First Semantic Reference Readiness v0.1
     file: approved/2026-06-23__library__make_first_semantic_reference_readiness_v0_1.md
     target_module: forprint_library
     phase: make_first_semantic_reference_readiness_v0_1
     priority: high
-    requires_governance_check: true
-    requires_no_live_integrations: true
-    requires_completion_packet: false
+
+    module_execution:
+      status: completed_by_module
+      completion_commit: "935e51b"
+      completion_report: coordination/reports/completion/2026-06-25__forprint_library__report__make-first-semantic-reference-readiness-v0-1.md
+      completed_at: null
+
+    blueprint_review:
+      status: accepted_by_blueprint
+      acceptance_commit: null
+      accepted_at: null
+      review_notes: null
+
   - prompt_id: library_reference_contract_foundation_v0_2
-    status: ready_for_module_pull
+    sequence: 2
+    title: Library Reference Contract Foundation v0.2
     file: approved/2026-06-29__library__reference_contract_foundation_v0_2.md
     target_module: forprint_library
     phase: reference_contract_foundation_v0_2
     priority: high
-    requires_governance_check: true
-    requires_no_live_integrations: true
-    requires_completion_packet: false
 
+    module_execution:
+      status: ready_for_module_pull
+      completion_commit: null
+      completion_report: null
+      completed_at: null
+
+    blueprint_review:
+      status: not_started
+      acceptance_commit: null
+      accepted_at: null
+      review_notes: null
