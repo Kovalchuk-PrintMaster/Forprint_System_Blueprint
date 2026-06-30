@@ -1,134 +1,342 @@
-PYTHON=.venv_blueprint/bin/python
-PIP=.venv_blueprint/bin/pip
+PYTHON ?= .venv_blueprint/bin/python
+PIP ?= .venv_blueprint/bin/pip
+
 MODULE ?= forprint_library
 SCOPE ?= bootstrap
 LIMIT ?= 40
 
-.PHONY: guides manifest-example prompt-dispatch outgoing-prompts  check check-report
-	install
-	test
-	lint
-	lint-fix
-	format
-	validate
-	clean
-	coordination-check coordination-fix module-policy-generate module-policy-check
-	module-governance-audit
-	standards-index
-	standards standards-check
-	diagrams diagrams-check diagrams-list
+# =============================================================================
 
+# 00 Environment / constants START
+
+# =============================================================================
+
+BLUEPRINT_MODULE_MANIFEST_EXAMPLE ?= module_manifests/examples/calculator_engine.forprint_module_manifest.example.yaml
+
+# =============================================================================
+
+# 00 Environment / constants FINISH
+
+# =============================================================================
+
+# =============================================================================
+
+# 01 Help / navigation START
+
+# =============================================================================
+
+.PHONY: help
+	help:
+	@echo "ForPrint System Blueprint Make targets"
+	@echo ""
+	@echo "Install / bootstrap:"
+	@echo "  make install"
+	@echo ""
+	@echo "Lint / tests / validation:"
+	@echo "  make lint"
+	@echo "  make lint-fix"
+	@echo "  make format"
+	@echo "  make test"
+	@echo "  make validate"
+	@echo "  make check"
+	@echo "  make check-report"
+	@echo ""
+	@echo "Blueprint artifacts:"
+	@echo "  make diagrams"
+	@echo "  make diagrams-check"
+	@echo "  make diagrams-list"
+	@echo "  make guides"
+	@echo "  make manifest-example"
+	@echo ""
+	@echo "Prompt queue:"
+	@echo "  make prompt-queue-validate"
+	@echo "  make prompt-dashboard MODULE=forprint_library"
+	@echo "  make prompt-next MODULE=forprint_library"
+	@echo "  make prompt-read-next MODULE=forprint_library"
+	@echo ""
+	@echo "Coordination document awareness:"
+	@echo "  make document-manifest"
+	@echo "  make document-awareness MODULE=forprint_library LIMIT=20"
+	@echo "  make context-bundle MODULE=forprint_library SCOPE=bootstrap LIMIT=10"
+	@echo "  make context-bundle-print MODULE=forprint_library SCOPE=bootstrap LIMIT=10"
+	@echo ""
+	@echo "Standards / governance:"
+	@echo "  make standards-index"
+	@echo "  make standards"
+	@echo "  make standards-check"
+	@echo "  make module-standards-template"
+	@echo "  make instruction-intake"
+	@echo "  make completion-packet-template"
+	@echo "  make coordination-check"
+	@echo "  make coordination-fix"
+	@echo "  make module-policy-generate"
+	@echo "  make module-policy-check"
+	@echo "  make module-governance-audit"
+	@echo ""
+	@echo "Cleanup:"
+	@echo "  make clean"
+
+# =============================================================================
+
+# 01 Help / navigation FINISH
+
+# =============================================================================
+
+# =============================================================================
+
+# 02 Install / bootstrap START
+
+# =============================================================================
+
+.PHONY: install
 install:
 	$(PIP) install --upgrade pip
 	$(PIP) install -e ".[dev]"
 
-test:
-	$(PYTHON) -m pytest -q
+# =============================================================================
 
+# 02 Install / bootstrap FINISH
+
+# =============================================================================
+
+# =============================================================================
+
+# 06 Syntax / formatting / lint START
+
+# =============================================================================
+
+.PHONY: lint
 lint:
 	$(PYTHON) -m ruff check scripts tests tools
 
+.PHONY: lint-fix
 lint-fix:
 	$(PYTHON) -m ruff check scripts tests tools --fix
 
+.PHONY: format
 format:
 	$(PYTHON) -m black scripts tests
 
+# =============================================================================
+
+# 06 Syntax / formatting / lint FINISH
+
+# =============================================================================
+
+# =============================================================================
+
+# 07 Tests START
+
+# =============================================================================
+
+.PHONY: test
+test:
+	$(PYTHON) -m pytest -q
+
+# =============================================================================
+
+# 07 Tests FINISH
+
+# =============================================================================
+
+# =============================================================================
+
+# 08 Validation / check reports START
+
+# =============================================================================
+
+.PHONY: validate
 validate:
 	$(PYTHON) scripts/validate_blueprint.py
 
+.PHONY: check
+check:
+	$(MAKE) lint-fix
+	$(MAKE) lint
+	$(MAKE) test
+	$(MAKE) validate
+	$(MAKE) diagrams-check
+	$(MAKE) guides
+	$(MAKE) manifest-example
+	$(MAKE) prompt-dispatch
+	$(MAKE) outgoing-prompts
+	$(MAKE) prompt-queue-validate
+	$(MAKE) document-manifest
+	$(MAKE) context-bundle
+	$(MAKE) standards-index
+	$(MAKE) module-standards-template
+	$(MAKE) instruction-intake
+	$(MAKE) completion-packet-template
+
+.PHONY: check-report
+check-report:
+	$(PYTHON) scripts/run_blueprint_checks.py
+
+# =============================================================================
+
+# 08 Validation / check reports FINISH
+
+# =============================================================================
+
+# =============================================================================
+
+# 09 Status / generated reports / cleanup START
+
+# =============================================================================
+
+.PHONY: clean
+clean:
+	rm -rf .pytest_cache .ruff_cache .mypy_cache htmlcov .coverage
+	find scripts tests -type d -name "**pycache**" -prune -exec rm -rf {} ;
+	find . -maxdepth 1 -type d -name "*.egg-info" -prune -exec rm -rf {} ;
+
+# =============================================================================
+
+# 09 Status / generated reports / cleanup FINISH
+
+# =============================================================================
+
+# =============================================================================
+
+# 10 Blueprint validation / generation START
+
+# =============================================================================
+
+.PHONY: diagrams
 diagrams:
 	$(PYTHON) scripts/generate_mermaid.py
 
+.PHONY: diagrams-check
 diagrams-check: diagrams
 	$(PYTHON) scripts/validation/validate_diagrams_index.py
 	@echo "OK: Blueprint diagram artifacts are generated and documented."
 
+.PHONY: diagrams-list
 diagrams-list:
 	@find diagrams -maxdepth 1 -type f | sort
 
+.PHONY: guides
 guides:
 	$(PYTHON) scripts/generate_module_guides.py
 
+.PHONY: manifest-example
 manifest-example:
-	$(PYTHON) scripts/validate_module_manifest.py module_manifests/examples/calculator_engine.forprint_module_manifest.example.yaml
+	$(PYTHON) scripts/validate_module_manifest.py "$(BLUEPRINT_MODULE_MANIFEST_EXAMPLE)"
 
+# =============================================================================
+
+# 10 Blueprint validation / generation FINISH
+
+# =============================================================================
+
+# =============================================================================
+
+# 11 Prompt dispatch / outgoing prompts START
+
+# =============================================================================
+
+.PHONY: prompt-dispatch
 prompt-dispatch:
 	$(PYTHON) scripts/validate_prompt_dispatch_index.py
 
+.PHONY: outgoing-prompts
 outgoing-prompts:
 	$(PYTHON) scripts/validate_outgoing_prompts.py
 
-.PHONY: prompt-queue-validate prompt-dashboard prompt-next prompt-read-next
+# =============================================================================
 
+# 11 Prompt dispatch / outgoing prompts FINISH
+
+# =============================================================================
+
+# =============================================================================
+
+# 12 Prompt Queue navigation START
+
+# =============================================================================
+
+.PHONY: prompt-queue-validate
 prompt-queue-validate:
 	$(PYTHON) scripts/coordination/validate_prompt_queue.py
 
+.PHONY: prompt-dashboard
 prompt-dashboard:
-	@if [ "$(NO_COLOR)" = "1" ]; then \
-		$(PYTHON) scripts/coordination/render_prompt_dashboard.py --module "$(MODULE)" --no-color; \
-	else \
-		$(PYTHON) scripts/coordination/render_prompt_dashboard.py --module "$(MODULE)"; \
+	@if [ "$(NO_COLOR)" = "1" ]; then
+	$(PYTHON) scripts/coordination/render_prompt_dashboard.py --module "$(MODULE)" --no-color;
+	else
+	$(PYTHON) scripts/coordination/render_prompt_dashboard.py --module "$(MODULE)";
 	fi
 
+.PHONY: prompt-next
 prompt-next:
 	$(PYTHON) scripts/coordination/resolve_next_prompt.py --module "$(MODULE)"
 
+.PHONY: prompt-read-next
 prompt-read-next:
 	$(PYTHON) scripts/coordination/resolve_next_prompt.py --module "$(MODULE)" --read
 
-.PHONY: document-manifest document-awareness context-bundle context-bundle-print
+# =============================================================================
 
+# 12 Prompt Queue navigation FINISH
+
+# =============================================================================
+
+# =============================================================================
+
+# 13 Coordination document awareness START
+
+# =============================================================================
+
+.PHONY: document-manifest
 document-manifest:
 	$(PYTHON) scripts/coordination/build_document_manifest.py --no-write
 
+.PHONY: document-manifest-write
+document-manifest-write:
+	$(PYTHON) scripts/coordination/build_document_manifest.py
+
+.PHONY: document-awareness
 document-awareness:
-	@if [ "$(NO_COLOR)" = "1" ]; then \
-		$(PYTHON) scripts/coordination/render_document_awareness_dashboard.py --module "$(MODULE)" --no-color --limit "$(LIMIT)"; \
-	else \
-		$(PYTHON) scripts/coordination/render_document_awareness_dashboard.py --module "$(MODULE)" --limit "$(LIMIT)"; \
+	@if [ "$(NO_COLOR)" = "1" ]; then
+	$(PYTHON) scripts/coordination/render_document_awareness_dashboard.py --module "$(MODULE)" --no-color --limit "$(LIMIT)";
+	else
+	$(PYTHON) scripts/coordination/render_document_awareness_dashboard.py --module "$(MODULE)" --limit "$(LIMIT)";
 	fi
 
+.PHONY: context-bundle
 context-bundle:
 	$(PYTHON) scripts/coordination/build_context_bundle.py --module "$(MODULE)" --scope "$(SCOPE)" --limit "$(LIMIT)" --no-write
 
+.PHONY: context-bundle-write
+context-bundle-write:
+	$(PYTHON) scripts/coordination/build_context_bundle.py --module "$(MODULE)" --scope "$(SCOPE)" --limit "$(LIMIT)"
+
+.PHONY: context-bundle-print
 context-bundle-print:
 	$(PYTHON) scripts/coordination/build_context_bundle.py --module "$(MODULE)" --scope "$(SCOPE)" --limit "$(LIMIT)" --print
 
+# =============================================================================
+
+# 13 Coordination document awareness FINISH
+
+# =============================================================================
+
+# =============================================================================
+
+# 14 Standards / templates / instruction intake START
+
+# =============================================================================
+
+.PHONY: standards-index
 standards-index:
 	$(PYTHON) scripts/validate_standards_index.py
 
+.PHONY: standards
 standards:
 	$(PYTHON) scripts/validate_standards_index.py
 
+.PHONY: standards-check
 standards-check: standards
-
-check: lint-fix lint test validate diagrams guides manifest-example prompt-dispatch outgoing-prompts
-	standards-index module-standards-template instruction-intake completion-packet-template
-	prompt-queue-validate document-manifest context-bundle
-
-check-report:
-	$(PYTHON) scripts/run_blueprint_checks.py
-
-clean:
-	rm -rf .pytest_cache .ruff_cache .mypy_cache htmlcov .coverage
-	find scripts tests -type d -name "__pycache__" -prune -exec rm -rf {} \;
-	find . -maxdepth 1 -type d -name "*.egg-info" -prune -exec rm -rf {} \;
-
-coordination-check:
-	$(PYTHON) scripts/check_coordination_metadata.py --module-root .
-
-coordination-fix:
-	$(PYTHON) scripts/fix_coordination_metadata.py --module-root .
-
-module-policy-generate:
-	$(PYTHON) scripts/generate_module_policy_docs.py
-
-module-policy-check:
-	$(PYTHON) scripts/generate_module_policy_docs.py --check
-
-module-governance-audit:
-	$(PYTHON) scripts/audit_module_governance.py
 
 .PHONY: module-standards-template
 module-standards-template:
@@ -141,3 +349,45 @@ instruction-intake:
 .PHONY: completion-packet-template
 completion-packet-template:
 	$(PYTHON) scripts/validate_completion_packet_template.py
+
+# =============================================================================
+
+# 14 Standards / templates / instruction intake FINISH
+
+# =============================================================================
+
+# =============================================================================
+
+# 15 Coordination metadata / module policy / governance START
+
+# =============================================================================
+
+.PHONY: coordination-check
+coordination-check:
+	$(PYTHON) scripts/check_coordination_metadata.py --module-root .
+
+.PHONY: coordination-fix
+coordination-fix:
+	$(PYTHON) scripts/fix_coordination_metadata.py --module-root .
+
+.PHONY: module-policy-generate
+module-policy-generate:
+	$(PYTHON) scripts/generate_module_policy_docs.py
+
+.PHONY: module-policy-check
+module-policy-check:
+	$(PYTHON) scripts/generate_module_policy_docs.py --check
+
+.PHONY: module-governance-audit
+module-governance-audit:
+	$(PYTHON) scripts/audit_module_governance.py
+
+.PHONY: module-governance-audit-check
+module-governance-audit-check:
+	$(PYTHON) scripts/audit_module_governance.py --no-write
+
+# =============================================================================
+
+# 15 Coordination metadata / module policy / governance FINISH
+
+# =============================================================================
