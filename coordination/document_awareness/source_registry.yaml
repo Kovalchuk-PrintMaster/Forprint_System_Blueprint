@@ -1,0 +1,75 @@
+schema_version: coordination_document_source_registry_v0_1
+
+sources:
+  - source_id: global_policy
+    path: coordination/global_policy
+    priority: critical
+    applies_to: all
+    action: must_review_before_work
+    include_patterns:
+      - "*.md"
+      - "*.yaml"
+      - "*.yml"
+    exclude_patterns:
+      - ".gitkeep"
+
+  - source_id: standards
+    path: coordination/standards
+    priority: high
+    applies_to: all
+    action: review_before_next_prompt
+    include_patterns:
+      - "*.md"
+      - "*.yaml"
+      - "*.yml"
+    exclude_patterns:
+      - ".gitkeep"
+
+  - source_id: instruction_intake
+    path: coordination/instruction_intake
+    priority: high
+    applies_to: all
+    action: review_before_next_prompt
+    include_patterns:
+      - "*.md"
+      - "*.yaml"
+      - "*.yml"
+    exclude_patterns:
+      - ".gitkeep"
+
+  - source_id: module_policy
+    path: coordination/module_policy
+    priority: critical
+    applies_to: module_specific
+    action: must_review_before_work
+    include_patterns:
+      - "*.md"
+      - "*.yaml"
+      - "*.yml"
+    exclude_patterns:
+      - ".gitkeep"
+
+  - source_id: outgoing_prompts
+    path: coordination/outgoing_prompts
+    priority: critical
+    applies_to: module_specific
+    action: prompt_queue_control
+    include_patterns:
+      - "*.md"
+      - "*.yaml"
+      - "*.yml"
+    exclude_patterns:
+      - ".gitkeep"
+
+  - source_id: templates
+    path: coordination/templates
+    priority: normal
+    applies_to: all
+    action: review_when_relevant
+    include_patterns:
+      - "*.md"
+      - "*.yaml"
+      - "*.yml"
+      - "*.mk"
+    exclude_patterns:
+      - ".gitkeep"
