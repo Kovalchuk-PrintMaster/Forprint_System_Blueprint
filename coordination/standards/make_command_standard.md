@@ -236,6 +236,8 @@ MODULE_ID=forprint_module
 SCOPE=bootstrap
 LIMIT=40
 NO_COLOR=1
+MODULE_DOCUMENT_AWARENESS_LEDGER=coordination/blueprint_awareness/make_command_standard.md
+MODULE_DOCUMENT_AWARENESS_LEDGER=coordination/blueprint_awareness/document_review_ledger.yaml
 ```
 
 A module may define `BLUEPRINT_ROOT` internally.
@@ -732,13 +734,14 @@ Compares the current Blueprint document manifest with the module awareness ledge
 Shows new, changed, in-progress, acknowledged, applied and deferred documents.
 Filters module-specific sources by MODULE_ID.
 Limits detail output by LIMIT.
+Uses the module-local MODULE_DOCUMENT_AWARENESS_LEDGER for review state.
 ```
 
 Recommended command behavior:
 
 ```make
 document-awareness:
-        $(BLUEPRINT_PYTHON) $(BLUEPRINT_ROOT)/scripts/coordination/render_document_awareness_dashboard.py --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --limit "$(LIMIT)"
+        $(BLUEPRINT_PYTHON) $(BLUEPRINT_ROOT)/scripts/coordination/render_document_awareness_dashboard.py --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --ledger "$(MODULE_DOCUMENT_AWARENESS_LEDGER)" --limit "$(LIMIT)"
 ```
 
 If ` by LIMIT.
@@ -771,7 +774,8 @@ Recommended command behavior:
 
 ```make
 context-bundle:
-        $(BLUEPRINT_PYTHON) $(BLUEPRINT_ROOT)/scripts/coordination/build_context_bundle.py --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --scope "$(SCOPE)" --limit "$(LIMIT)" --no-write
+        $(BLUEPRINT_PYTHON) $(BLUEPRINT_ROOT)/scripts/coordination/build_context_bundle.py --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)"
+        --ledger "$(MODULE_DOCUMENT_AWARENESS_LEDGER)" --scope "$(SCOPE)" --limit "$(LIMIT)" --no-write
 ```
 
 ### context-bundle-write
@@ -793,7 +797,8 @@ Recommended command behavior:
 
 ```make
 context-bundle-write:
-        $(BLUEPRINT_PYTHON) $(BLUEPRINT_ROOT)/scripts/coordination/build_context_bundle.py --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --scope "$(SCOPE)" --limit "$(LIMIT)"
+        $(BLUEPRINT_PYTHON) $(BLUEPRINT_ROOT)/scripts/coordination/build_context_bundle.py --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)"
+        --ledger "$(MODULE_DOCUMENT_AWARENESS_LEDGER)" --scope "$(SCOPE)" --limit "$(LIMIT)"
 ```
 
 ### context-bundle-print
@@ -815,7 +820,8 @@ Recommended command behavior:
 
 ```make
 context-bundle-print:
-        $(BLUEPRINT_PYTHON) $(BLUEPRINT_ROOT)/scripts/coordination/build_context_bundle.py --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --scope "$(SCOPE)" --limit "$(LIMIT)" --print
+        $(BLUEPRINT_PYTHON) $(BLUEPRINT_ROOT)/scripts/coordination/build_context_bundle.py --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)"
+        --ledger "$(MODULE_DOCUMENT_AWARENESS_LEDGER)" --scope "$(SCOPE)" --limit "$(LIMIT)" --print
 ```
 
 ## blueprint-sync

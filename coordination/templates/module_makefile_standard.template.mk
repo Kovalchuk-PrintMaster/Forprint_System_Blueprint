@@ -36,6 +36,7 @@ LIMIT ?= 40
 
 REPORTS_DIR ?= reports
 COORDINATION_DIR ?= coordination
+MODULE_DOCUMENT_AWARENESS_LEDGER ?= $(CURDIR)/$(COORDINATION_DIR)/blueprint_awareness/document_review_ledger.yaml
 PROMPTS_DIR ?= $(COORDINATION_DIR)/prompts
 LOCAL_PROMPTS_DIR ?= $(PROMPTS_DIR)/received
 BLUEPRINT_PROMPTS_ROOT ?= $(BLUEPRINT_ROOT)/coordination/outgoing_prompts
@@ -516,9 +517,9 @@ document-manifest-write:
 document-awareness:
 		@if [ -x "$(BLUEPRINT_PYTHON)" ] && [ -f "$(BLUEPRINT_DOCUMENT_AWARENESS_DASHBOARD)" ]; then \
 				if [ "$(NO_COLOR)" = "1" ]; then \
-						"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_DOCUMENT_AWARENESS_DASHBOARD)" --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --limit "$(LIMIT)" --no-color; \
+						"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_DOCUMENT_AWARENESS_DASHBOARD)" --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --ledger "$(MODULE_DOCUMENT_AWARENESS_LEDGER)" --limit "$(LIMIT)" --no-color;
 				else \
-						"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_DOCUMENT_AWARENESS_DASHBOARD)" --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --limit "$(LIMIT)"; \
+						"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_DOCUMENT_AWARENESS_DASHBOARD)" --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --ledger "$(MODULE_DOCUMENT_AWARENESS_LEDGER)" --limit "$(LIMIT)";
 				fi; \
 		else \
 				echo "$(COLOR_YELLOW)DEFERRED: Blueprint document awareness dashboard is not available yet.$(COLOR_RESET)"; \
@@ -529,7 +530,7 @@ document-awareness:
 .PHONY: context-bundle
 context-bundle:
 		@if [ -x "$(BLUEPRINT_PYTHON)" ] && [ -f "$(BLUEPRINT_CONTEXT_BUNDLE_BUILDER)" ]; then \
-				"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_CONTEXT_BUNDLE_BUILDER)" --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --scope "$(SCOPE)" --limit "$(LIMIT)" --no-write; \
+				"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_CONTEXT_BUNDLE_BUILDER)" --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --ledger "$(MODULE_DOCUMENT_AWARENESS_LEDGER)" --scope "$(SCOPE)" --limit "$(LIMIT)" --no-write;
 		else \
 				echo "$(COLOR_YELLOW)DEFERRED: Blueprint context bundle builder is not available yet.$(COLOR_RESET)"; \
 		fi
@@ -539,7 +540,7 @@ context-bundle:
 .PHONY: context-bundle-write
 context-bundle-write:
 		@if [ -x "$(BLUEPRINT_PYTHON)" ] && [ -f "$(BLUEPRINT_CONTEXT_BUNDLE_BUILDER)" ]; then \
-				"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_CONTEXT_BUNDLE_BUILDER)" --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --scope "$(SCOPE)" --limit "$(LIMIT)"; \
+				"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_CONTEXT_BUNDLE_BUILDER)" --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --ledger "$(MODULE_DOCUMENT_AWARENESS_LEDGER)" --scope "$(SCOPE)" --limit "$(LIMIT)";
 		else \
 				echo "$(COLOR_YELLOW)DEFERRED: Blueprint context bundle builder is not available yet.$(COLOR_RESET)"; \
 		fi
@@ -549,7 +550,7 @@ context-bundle-write:
 .PHONY: context-bundle-print
 context-bundle-print:
 		@if [ -x "$(BLUEPRINT_PYTHON)" ] && [ -f "$(BLUEPRINT_CONTEXT_BUNDLE_BUILDER)" ]; then \
-				"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_CONTEXT_BUNDLE_BUILDER)" --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --scope "$(SCOPE)" --limit "$(LIMIT)" --print; \
+				"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_CONTEXT_BUNDLE_BUILDER)" --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --ledger "$(MODULE_DOCUMENT_AWARENESS_LEDGER)" --scope "$(SCOPE)" --limit "$(LIMIT)" --print;
 		else \
 				echo "$(COLOR_YELLOW)DEFERRED: Blueprint context bundle builder is not available yet.$(COLOR_RESET)"; \
 		fi
