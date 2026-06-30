@@ -26,7 +26,7 @@ BLUEPRINT_MODULE_MANIFEST_EXAMPLE ?= module_manifests/examples/calculator_engine
 # =============================================================================
 
 .PHONY: help
-	help:
+help:
 	@echo "ForPrint System Blueprint Make targets"
 	@echo ""
 	@echo "Install / bootstrap:"
@@ -261,11 +261,7 @@ prompt-queue-validate:
 
 .PHONY: prompt-dashboard
 prompt-dashboard:
-	@if [ "$(NO_COLOR)" = "1" ]; then
-	$(PYTHON) scripts/coordination/render_prompt_dashboard.py --module "$(MODULE)" --no-color;
-	else
-	$(PYTHON) scripts/coordination/render_prompt_dashboard.py --module "$(MODULE)";
-	fi
+	$(PYTHON) scripts/coordination/render_prompt_dashboard.py --module "$(MODULE)" $(if $(filter 1,$(NO_COLOR)),--no-color,)
 
 .PHONY: prompt-next
 prompt-next:
@@ -297,11 +293,7 @@ document-manifest-write:
 
 .PHONY: document-awareness
 document-awareness:
-	@if [ "$(NO_COLOR)" = "1" ]; then
-	$(PYTHON) scripts/coordination/render_document_awareness_dashboard.py --module "$(MODULE)" --no-color --limit "$(LIMIT)";
-	else
-	$(PYTHON) scripts/coordination/render_document_awareness_dashboard.py --module "$(MODULE)" --limit "$(LIMIT)";
-	fi
+	$(PYTHON) scripts/coordination/render_document_awareness_dashboard.py --module "$(MODULE)" --limit "$(LIMIT)" $(if $(filter 1,$(NO_COLOR)),--no-color,)
 
 .PHONY: context-bundle
 context-bundle:

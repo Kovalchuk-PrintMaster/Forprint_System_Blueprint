@@ -248,14 +248,37 @@ def build_checks() -> list[CheckDefinition]:
         ),
     ]
 
+def has_warning_signal(combined_output: str) -> bool:
+    """Detect real warnings while ignoring explicit zero-warning summaries."""
+
+    for line in combined_output.splitlines():
+        normalized = line.strip().lower()
+
+        if not normalized:
+            continue
+
+        if normalized in {"warnings: 0", "warning count: 0"}:
+            continue
+
+        if normalized.startswith("warnings: ") and normalized.endswith(": 0"):
+            continue
+
+        if "⚠" in line:
+            return True
+
+        if "warning" in normalized:
+            return True
+
+    return False
+
+
 def detect_status(return_code: int, combined_output: str) -> str:
     """Визначає статус перевірки за кодом повернення і текстом виводу."""
 
     if return_code != 0:
         return STATUS_FAILED
 
-    lowered = combined_output.lower()
-    if "warning" in lowered or "⚠" in combined_output:
+    if has_warning_signal(combined_output):
         return STATUS_WARNING
 
     return STATUS_OK
