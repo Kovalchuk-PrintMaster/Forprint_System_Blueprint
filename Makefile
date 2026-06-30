@@ -1,6 +1,8 @@
 PYTHON=.venv_blueprint/bin/python
 PIP=.venv_blueprint/bin/pip
 MODULE ?= forprint_library
+SCOPE ?= bootstrap
+LIMIT ?= 40
 
 .PHONY: guides manifest-example prompt-dispatch outgoing-prompts  check check-report
 	install
@@ -75,6 +77,24 @@ prompt-next:
 prompt-read-next:
 	$(PYTHON) scripts/coordination/resolve_next_prompt.py --module "$(MODULE)" --read
 
+.PHONY: document-manifest document-awareness context-bundle context-bundle-print
+
+document-manifest:
+	$(PYTHON) scripts/coordination/build_document_manifest.py --no-write
+
+document-awareness:
+	@if [ "$(NO_COLOR)" = "1" ]; then \
+		$(PYTHON) scripts/coordination/render_document_awareness_dashboard.py --module "$(MODULE)" --no-color --limit "$(LIMIT)"; \
+	else \
+		$(PYTHON) scripts/coordination/render_document_awareness_dashboard.py --module "$(MODULE)" --limit "$(LIMIT)"; \
+	fi
+
+context-bundle:
+	$(PYTHON) scripts/coordination/build_context_bundle.py --module "$(MODULE)" --scope "$(SCOPE)" --limit "$(LIMIT)" --no-write
+
+context-bundle-print:
+	$(PYTHON) scripts/coordination/build_context_bundle.py --module "$(MODULE)" --scope "$(SCOPE)" --limit "$(LIMIT)" --print
+
 standards-index:
 	$(PYTHON) scripts/validate_standards_index.py
 
@@ -85,6 +105,7 @@ standards-check: standards
 
 check: lint-fix lint test validate diagrams guides manifest-example prompt-dispatch outgoing-prompts
 	standards-index module-standards-template instruction-intake completion-packet-template
+	prompt-queue-validate document-manifest context-bundle
 
 check-report:
 	$(PYTHON) scripts/run_blueprint_checks.py
