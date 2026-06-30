@@ -27,6 +27,12 @@ BLUEPRINT_PYTHON ?= $(BLUEPRINT_ROOT)/.venv_blueprint/bin/python
 BLUEPRINT_PROMPT_QUEUE_VALIDATOR ?= $(BLUEPRINT_ROOT)/scripts/coordination/validate_prompt_queue.py
 BLUEPRINT_PROMPT_DASHBOARD_RENDERER ?= $(BLUEPRINT_ROOT)/scripts/coordination/render_prompt_dashboard.py
 BLUEPRINT_NEXT_PROMPT_RESOLVER ?= $(BLUEPRINT_ROOT)/scripts/coordination/resolve_next_prompt.py
+BLUEPRINT_DOCUMENT_MANIFEST_BUILDER ?= $(BLUEPRINT_ROOT)/scripts/coordination/build_document_manifest.py
+BLUEPRINT_DOCUMENT_AWARENESS_DASHBOARD ?= $(BLUEPRINT_ROOT)/scripts/coordination/render_document_awareness_dashboard.py
+BLUEPRINT_CONTEXT_BUNDLE_BUILDER ?= $(BLUEPRINT_ROOT)/scripts/coordination/build_context_bundle.py
+
+SCOPE ?= bootstrap
+LIMIT ?= 40
 
 REPORTS_DIR ?= reports
 COORDINATION_DIR ?= coordination
@@ -89,6 +95,12 @@ help:
 	@echo "  make prompt-dashboard"
 	@echo "  make prompt-next"
 	@echo "  make prompt-read-next"
+	@echo ""
+	@echo "  Blueprint document awareness:"
+	@echo "  make document-manifest"
+	@echo "  make document-awareness"
+	@echo "  make context-bundle"
+	@echo "  make context-bundle-print"
 	@echo ""
 	@echo "Workflow:"
 	@echo "  make module-start"
@@ -477,6 +489,70 @@ prompt-next:
 .PHONY: prompt-read-next
 prompt-read-next:
 		"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_NEXT_PROMPT_RESOLVER)" --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --read
+
+# Purpose: build and validate the Blueprint coordination document manifest without writing reports.
+# Result: document manifest summary is printed or deferral is reported.
+.PHONY: document-manifest
+document-manifest:
+		@if [ -x "$(BLUEPRINT_PYTHON)" ] && [ -f "$(BLUEPRINT_DOCUMENT_MANIFEST_BUILDER)" ]; then \
+				"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_DOCUMENT_MANIFEST_BUILDER)" --root "$(BLUEPRINT_ROOT)" --no-write; \
+		else \
+				echo "$(COLOR_YELLOW)DEFERRED: Blueprint document manifest builder is not available yet.$(COLOR_RESET)"; \
+		fi
+
+# Purpose: build and write the Blueprint coordination document manifest reports.
+# Result: generated manifest reports are written by explicit operator request.
+.PHONY: document-manifest-write
+document-manifest-write:
+		@if [ -x "$(BLUEPRINT_PYTHON)" ] && [ -f "$(BLUEPRINT_DOCUMENT_MANIFEST_BUILDER)" ]; then \
+				"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_DOCUMENT_MANIFEST_BUILDER)" --root "$(BLUEPRINT_ROOT)"; \
+		else \
+				echo "$(COLOR_YELLOW)DEFERRED: Blueprint document manifest builder is not available yet.$(COLOR_RESET)"; \
+		fi
+
+# Purpose: render the Blueprint coordination document awareness dashboard for this module.
+# Result: operator can see new, changed, in-progress, applied and deferred coordination documents.
+.PHONY: document-awareness
+document-awareness:
+		@if [ -x "$(BLUEPRINT_PYTHON)" ] && [ -f "$(BLUEPRINT_DOCUMENT_AWARENESS_DASHBOARD)" ]; then \
+				if [ "$(NO_COLOR)" = "1" ]; then \
+						"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_DOCUMENT_AWARENESS_DASHBOARD)" --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --limit "$(LIMIT)" --no-color; \
+				else \
+						"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_DOCUMENT_AWARENESS_DASHBOARD)" --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --limit "$(LIMIT)"; \
+				fi; \
+		else \
+				echo "$(COLOR_YELLOW)DEFERRED: Blueprint document awareness dashboard is not available yet.$(COLOR_RESET)"; \
+		fi
+
+# Purpose: build a module coordination context bundle without writing generated files.
+# Result: bundle summary is printed; no generated bundle file is written.
+.PHONY: context-bundle
+context-bundle:
+		@if [ -x "$(BLUEPRINT_PYTHON)" ] && [ -f "$(BLUEPRINT_CONTEXT_BUNDLE_BUILDER)" ]; then \
+				"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_CONTEXT_BUNDLE_BUILDER)" --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --scope "$(SCOPE)" --limit "$(LIMIT)" --no-write; \
+		else \
+				echo "$(COLOR_YELLOW)DEFERRED: Blueprint context bundle builder is not available yet.$(COLOR_RESET)"; \
+		fi
+
+# Purpose: build and write a module coordination context bundle.
+# Result: generated bundle file is written by explicit operator request.
+.PHONY: context-bundle-write
+context-bundle-write:
+		@if [ -x "$(BLUEPRINT_PYTHON)" ] && [ -f "$(BLUEPRINT_CONTEXT_BUNDLE_BUILDER)" ]; then \
+				"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_CONTEXT_BUNDLE_BUILDER)" --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --scope "$(SCOPE)" --limit "$(LIMIT)"; \
+		else \
+				echo "$(COLOR_YELLOW)DEFERRED: Blueprint context bundle builder is not available yet.$(COLOR_RESET)"; \
+		fi
+
+# Purpose: print a module coordination context bundle to stdout.
+# Result: bundle content is printed for copy/paste into an assistant chat.
+.PHONY: context-bundle-print
+context-bundle-print:
+		@if [ -x "$(BLUEPRINT_PYTHON)" ] && [ -f "$(BLUEPRINT_CONTEXT_BUNDLE_BUILDER)" ]; then \
+				"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_CONTEXT_BUNDLE_BUILDER)" --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --scope "$(SCOPE)" --limit "$(LIMIT)" --print; \
+		else \
+				echo "$(COLOR_YELLOW)DEFERRED: Blueprint context bundle builder is not available yet.$(COLOR_RESET)"; \
+		fi
 
 # =============================================================================
 # 13 Blueprint outgoing prompts FINISH

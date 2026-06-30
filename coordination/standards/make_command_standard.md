@@ -200,6 +200,13 @@ make prompt-dashboard
 make prompt-next
 make prompt-read-next
 
+make document-manifest
+make document-manifest-write
+make document-awareness
+make context-bundle
+make context-bundle-write
+make context-bundle-print
+
 make blueprint-sync
 
 make coordination-check
@@ -225,6 +232,10 @@ Modules may support these Make variables:
 PACKET=path/to/completion_packet.yaml
 PROMPT=prompt_id_or_path
 BLUEPRINT_ROOT=/path/to/forprint_system_blueprint
+MODULE_ID=forprint_module
+SCOPE=bootstrap
+LIMIT=40
+NO_COLOR=1
 ```
 
 A module may define `BLUEPRINT_ROOT` internally.
@@ -657,98 +668,154 @@ print the prompt to console.
 
 If there are multiple active prompts, the command should clearly report them and require `PROMPT=...` or use a documented priority rule.
 
-### prompt-queue-validate
+## Coordination document awareness targets
+
+### document-manifest
 
 Purpose:
 
 ```text
-Validate Blueprint Prompt Queue v0.2 indexes.
+Build and validate the Blueprint coordination document manifest without writing generated reports by default.
 ```
 
 Expected behavior:
 
 ```text
-Runs the Blueprint prompt queue validator.
-Prompt Queue v0.2 indexes are checked strictly.
-Legacy outgoing prompt indexes may be reported as skipped during gradual migration.
+Reads the Blueprint coordination document source registry.
+Scans configured coordination document sources.
+Computes content hashes.
+Prints a concise summary.
+Does not write generated report files unless an explicit write target is used.
 ```
 
 Recommended command behavior:
 
 ```make
-prompt-queue-validate:
-        $(BLUEPRINT_PYTHON) $(BLUEPRINT_ROOT)/scripts/coordination/validate_prompt_queue.py --root "$(BLUEPRINT_ROOT)"
+document-manifest:
+        $(BLUEPRINT_PYTHON) $(BLUEPRINT_ROOT)/scripts/coordination/build_document_manifest.py --root "$(BLUEPRINT_ROOT)" --no-write
 ```
 
-### prompt-dashboard
+### document-manifest-write
 
 Purpose:
 
 ```text
-Show a human-readable prompt queue dashboard for the module.
+Build the Blueprint coordination document manifest and write generated manifest reports.
 ```
 
 Expected behavior:
 
 ```text
-Displays prompt sequence, prompt id, priority, module execution status,
-module completion commit, Blueprint review status, Blueprint acceptance commit,
-prompt file and next prompt.
+Writes generated document manifest outputs under reports/coordination_awareness.
+This target is explicit because generated reports should not be created accidentally during routine checks.
 ```
 
 Recommended command behavior:
 
 ```make
-prompt-dashboard:
-        $(BLUEPRINT_PYTHON) $(BLUEPRINT_ROOT)/scripts/coordination/render_prompt_dashboard.py --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)"
+document-manifest-write:
+        $(BLUEPRINT_PYTHON) $(BLUEPRINT_ROOT)/scripts/coordination/build_document_manifest.py --root "$(BLUEPRINT_ROOT)"
 ```
 
-If `NO_COLOR=1` is provided, color output should be disabled.
-
-### prompt-next
+### document-awareness
 
 Purpose:
 
 ```text
-Resolve the next ready prompt for the module from Prompt Queue v0.2.
+Render the module-specific coordination document awareness dashboard.
 ```
 
 Expected behavior:
 
 ```text
-Reads coordination/outgoing_prompts/<module>/index.yaml.
-Selects the first prompt by sequence where module_execution.status is ready_for_module_pull.
-Prints concise prompt metadata and the resolved prompt path.
+Compares the current Blueprint document manifest with the module awareness ledger when available.
+Shows new, changed, in-progress, acknowledged, applied and deferred documents.
+Filters module-specific sources by MODULE_ID.
+Limits detail output by LIMIT.
 ```
 
 Recommended command behavior:
 
 ```make
-prompt-next:
-        $(BLUEPRINT_PYTHON) $(BLUEPRINT_ROOT)/scripts/coordination/resolve_next_prompt.py --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)"
+document-awareness:
+        $(BLUEPRINT_PYTHON) $(BLUEPRINT_ROOT)/scripts/coordination/render_document_awareness_dashboard.py --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --limit "$(LIMIT)"
 ```
 
-### prompt-read-next
+If ` by LIMIT.
+```
+
+Recommended command behavior:
+
+```make
+document-awareness:
+        $(BLUEPRINT_PYTHON) $(BLUEPRINT_ROOT)/scripts/coordination/render_document_awareness_dashboard.py --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --limitNO_COLOR=1` is provided, color output should be disabled.
+
+### context-bundle
 
 Purpose:
 
 ```text
-Read the next ready prompt for the module from Prompt Queue v0.2.
+Build a module coordination context bundle without writing generated files by default.
 ```
 
 Expected behavior:
 
 ```text
-Resolves the next ready prompt and prints its metadata plus prompt file content.
-This target should replace hardcoded active prompt reads after a module is migrated
-to Prompt Queue v0.2.
+Builds a Markdown context bundle in memory.
+Prints only a summary.
+Does not write generated bundle files unless an explicit write target is used.
+Uses SCOPE to choose bootstrap, required, changed, critical, high, module or full context.
 ```
 
 Recommended command behavior:
 
 ```make
-prompt-read-next:
-        $(BLUEPRINT_PYTHON) $(BLUEPRINT_ROOT)/scripts/coordination/resolve_next_prompt.py --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --read
+context-bundle:
+        $(BLUEPRINT_PYTHON) $(BLUEPRINT_ROOT)/scripts/coordination/build_context_bundle.py --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --scope "$(SCOPE)" --limit "$(LIMIT)" --no-write
+```
+
+### context-bundle-write
+
+Purpose:
+
+```text
+Build and write a module coordination context bundle.
+```
+
+Expected behavior:
+
+```text
+Writes a Markdown bundle under reports/coordination_context_bundles.
+This target is explicit because bundles can be large generated artifacts.
+```
+
+Recommended command behavior:
+
+```make
+context-bundle-write:
+        $(BLUEPRINT_PYTHON) $(BLUEPRINT_ROOT)/scripts/coordination/build_context_bundle.py --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --scope "$(SCOPE)" --limit "$(LIMIT)"
+```
+
+### context-bundle-print
+
+Purpose:
+
+```text
+Print a module coordination context bundle to stdout.
+```
+
+Expected behavior:
+
+```text
+Prints the selected bundle content to the terminal.
+Useful when the operator needs to copy the bundle into an assistant chat.
+```
+
+Recommended command behavior:
+
+```make
+context-bundle-print:
+        $(BLUEPRINT_PYTHON) $(BLUEPRINT_ROOT)/scripts/coordination/build_context_bundle.py --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --scope "$(SCOPE)" --limit "$(LIMIT)" --print
 ```
 
 ## blueprint-sync
