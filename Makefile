@@ -319,15 +319,34 @@ context-bundle-print:
 
 .PHONY: document-ledger-preview
 document-ledger-preview:
-	$(PYTHON) scripts/coordination/update_document_awareness_ledger.py --root "." --module "$(MODULE)" --ledger "$(LEDGER)" --status "$(STATUS)" $(if $(DOCUMENT),
-	--document "$(DOCUMENT)",) $(if $(SOURCE),--source "$(SOURCE)",) $(if $(PRIORITY),--priority "$(PRIORITY)",) $(if $(NOTES),--notes "$(NOTES)",) $(if $(MODULE_COMMIT),
-	--module-commit "$(MODULE_COMMIT)",) --no-write
+	@set -eu; \
+	if [ -z "$(DOCUMENT)$(SOURCE)$(PRIORITY)" ]; then \
+		echo "FAILED: provide DOCUMENT=..., SOURCE=..., or PRIORITY=..."; \
+		exit 1; \
+	fi; \
+	set -- --root "." --module "$(MODULE)" --ledger "$(LEDGER)" --status "$(STATUS)"; \
+	if [ -n "$(DOCUMENT)" ]; then set -- "$$@" --document "$(DOCUMENT)"; fi; \
+	if [ -n "$(SOURCE)" ]; then set -- "$$@" --source "$(SOURCE)"; fi; \
+	if [ -n "$(PRIORITY)" ]; then set -- "$$@" --priority "$(PRIORITY)"; fi; \
+	if [ -n "$(NOTES)" ]; then set -- "$$@" --notes "$(NOTES)"; fi; \
+	if [ -n "$(MODULE_COMMIT)" ]; then set -- "$$@" --module-commit "$(MODULE_COMMIT)"; fi; \
+	set -- "$$@" --no-write; \
+	$(PYTHON) scripts/coordination/update_document_awareness_ledger.py "$$@"
 
 .PHONY: document-ledger-update
 document-ledger-update:
-	$(PYTHON) scripts/coordination/update_document_awareness_ledger.py --root "." --module "$(MODULE)" --ledger "$(LEDGER)" --status "$(STATUS)" $(if $(DOCUMENT),
-	--document "$(DOCUMENT)",) $(if $(SOURCE),--source "$(SOURCE)",) $(if $(PRIORITY),--priority "$(PRIORITY)",) $(if $(NOTES),--notes "$(NOTES)",) $(if $(MODULE_COMMIT),
-	--module-commit "$(MODULE_COMMIT)",)
+	@set -eu; \
+	if [ -z "$(DOCUMENT)$(SOURCE)$(PRIORITY)" ]; then \
+		echo "FAILED: provide DOCUMENT=..., SOURCE=..., or PRIORITY=..."; \
+		exit 1; \
+	fi; \
+	set -- --root "." --module "$(MODULE)" --ledger "$(LEDGER)" --status "$(STATUS)"; \
+	if [ -n "$(DOCUMENT)" ]; then set -- "$$@" --document "$(DOCUMENT)"; fi; \
+	if [ -n "$(SOURCE)" ]; then set -- "$$@" --source "$(SOURCE)"; fi; \
+	if [ -n "$(PRIORITY)" ]; then set -- "$$@" --priority "$(PRIORITY)"; fi; \
+	if [ -n "$(NOTES)" ]; then set -- "$$@" --notes "$(NOTES)"; fi; \
+	if [ -n "$(MODULE_COMMIT)" ]; then set -- "$$@" --module-commit "$(MODULE_COMMIT)"; fi; \
+	$(PYTHON) scripts/coordination/update_document_awareness_ledger.py "$$@"
 
 # =============================================================================
 

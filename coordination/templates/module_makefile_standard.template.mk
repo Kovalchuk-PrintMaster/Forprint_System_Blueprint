@@ -570,21 +570,42 @@ context-bundle-print:
 # Result: selected documents and hashes are shown, but the ledger file is not changed.
 .PHONY: document-ledger-preview
 document-ledger-preview:
-		@if [ -x "$(BLUEPRINT_PYTHON)" ] && [ -f "$(BLUEPRINT_DOCUMENT_AWARENESS_LEDGER_UPDATER)" ]; then \
-				"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_DOCUMENT_AWARENESS_LEDGER_UPDATER)" --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --ledger "$(MODULE_DOCUMENT_AWARENESS_LEDGER)" --status "$(STATUS)" $(if $(DOCUMENT),--document "$(DOCUMENT)",) $(if $(SOURCE),--source "$(SOURCE)",) $(if $(PRIORITY),--priority "$(PRIORITY)",) $(if $(NOTES),--notes "$(NOTES)",) $(if $(MODULE_COMMIT),--module-commit "$(MODULE_COMMIT)",) --no-write; \
-		else \
-				echo "$(COLOR_YELLOW)DEFERRED: Blueprint document awareness ledger updater is not available yet.$(COLOR_RESET)"; \
-		fi
+	@if [ -x "$(BLUEPRINT_PYTHON)" ] && [ -f "$(BLUEPRINT_DOCUMENT_AWARENESS_LEDGER_UPDATER)" ]; then \
+		if [ -z "$(DOCUMENT)$(SOURCE)$(PRIORITY)" ]; then \
+			echo "$(COLOR_RED)FAILED: provide DOCUMENT=..., SOURCE=..., or PRIORITY=...$(COLOR_RESET)"; \
+			exit 1; \
+		fi; \
+		set -- --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --ledger "$(MODULE_DOCUMENT_AWARENESS_LEDGER)" --status "$(STATUS)"; \
+		if [ -n "$(DOCUMENT)" ]; then set -- "$$@" --document "$(DOCUMENT)"; fi; \
+		if [ -n "$(SOURCE)" ]; then set -- "$$@" --source "$(SOURCE)"; fi; \
+		if [ -n "$(PRIORITY)" ]; then set -- "$$@" --priority "$(PRIORITY)"; fi; \
+		if [ -n "$(NOTES)" ]; then set -- "$$@" --notes "$(NOTES)"; fi; \
+		if [ -n "$(MODULE_COMMIT)" ]; then set -- "$$@" --module-commit "$(MODULE_COMMIT)"; fi; \
+		set -- "$$@" --no-write; \
+		"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_DOCUMENT_AWARENESS_LEDGER_UPDATER)" "$$@"; \
+	else \
+		echo "$(COLOR_YELLOW)DEFERRED: Blueprint document awareness ledger updater is not available yet.$(COLOR_RESET)"; \
+	fi
 
 # Purpose: update the module-local document awareness ledger with current Blueprint document hashes.
 # Result: selected documents are written to the local ledger with the requested review status.
 .PHONY: document-ledger-update
 document-ledger-update:
-		@if [ -x "$(BLUEPRINT_PYTHON)" ] && [ -f "$(BLUEPRINT_DOCUMENT_AWARENESS_LEDGER_UPDATER)" ]; then \
-				"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_DOCUMENT_AWARENESS_LEDGER_UPDATER)" --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --ledger "$(MODULE_DOCUMENT_AWARENESS_LEDGER)" --status "$(STATUS)" $(if $(DOCUMENT),--document "$(DOCUMENT)",) $(if $(SOURCE),--source "$(SOURCE)",) $(if $(PRIORITY),--priority "$(PRIORITY)",) $(if $(NOTES),--notes "$(NOTES)",) $(if $(MODULE_COMMIT),--module-commit "$(MODULE_COMMIT)",); \
-		else \
-				echo "$(COLOR_YELLOW)DEFERRED: Blueprint document awareness ledger updater is not available yet.$(COLOR_RESET)"; \
-		fi
+	@if [ -x "$(BLUEPRINT_PYTHON)" ] && [ -f "$(BLUEPRINT_DOCUMENT_AWARENESS_LEDGER_UPDATER)" ]; then \
+		if [ -z "$(DOCUMENT)$(SOURCE)$(PRIORITY)" ]; then \
+			echo "$(COLOR_RED)FAILED: provide DOCUMENT=..., SOURCE=..., or PRIORITY=...$(COLOR_RESET)"; \
+			exit 1; \
+		fi; \
+		set -- --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --ledger "$(MODULE_DOCUMENT_AWARENESS_LEDGER)" --status "$(STATUS)"; \
+		if [ -n "$(DOCUMENT)" ]; then set -- "$$@" --document "$(DOCUMENT)"; fi; \
+		if [ -n "$(SOURCE)" ]; then set -- "$$@" --source "$(SOURCE)"; fi; \
+		if [ -n "$(PRIORITY)" ]; then set -- "$$@" --priority "$(PRIORITY)"; fi; \
+		if [ -n "$(NOTES)" ]; then set -- "$$@" --notes "$(NOTES)"; fi; \
+		if [ -n "$(MODULE_COMMIT)" ]; then set -- "$$@" --module-commit "$(MODULE_COMMIT)"; fi; \
+		"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_DOCUMENT_AWARENESS_LEDGER_UPDATER)" "$$@"; \
+	else \
+		echo "$(COLOR_YELLOW)DEFERRED: Blueprint document awareness ledger updater is not available yet.$(COLOR_RESET)"; \
+	fi
 
 # =============================================================================
 # 13 Blueprint outgoing prompts FINISH
