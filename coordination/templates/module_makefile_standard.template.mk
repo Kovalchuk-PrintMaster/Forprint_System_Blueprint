@@ -30,6 +30,15 @@ BLUEPRINT_NEXT_PROMPT_RESOLVER ?= $(BLUEPRINT_ROOT)/scripts/coordination/resolve
 BLUEPRINT_DOCUMENT_MANIFEST_BUILDER ?= $(BLUEPRINT_ROOT)/scripts/coordination/build_document_manifest.py
 BLUEPRINT_DOCUMENT_AWARENESS_DASHBOARD ?= $(BLUEPRINT_ROOT)/scripts/coordination/render_document_awareness_dashboard.py
 BLUEPRINT_CONTEXT_BUNDLE_BUILDER ?= $(BLUEPRINT_ROOT)/scripts/coordination/build_context_bundle.py
+BLUEPRINT_DOCUMENT_AWARENESS_LEDGER_UPDATER ?= $(BLUEPRINT_ROOT)/scripts/coordination/update_document_awareness_ledger.py
+
+STATUS ?= acknowledged
+DOCUMENT ?=
+SOURCE ?=
+PRIORITY ?=
+NOTES ?=
+MODULE_COMMIT ?=
+
 
 SCOPE ?= bootstrap
 LIMIT ?= 40
@@ -102,6 +111,8 @@ help:
 	@echo "  make document-awareness"
 	@echo "  make context-bundle"
 	@echo "  make context-bundle-print"
+	@echo "  make document-ledger-preview DOCUMENT=coordination/global_policy/forprint_project_doctrine.md"
+	@echo "  make document-ledger-update DOCUMENT=coordination/global_policy/forprint_project_doctrine.md STATUS=acknowledged"
 	@echo ""
 	@echo "Workflow:"
 	@echo "  make module-start"
@@ -553,6 +564,26 @@ context-bundle-print:
 				"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_CONTEXT_BUNDLE_BUILDER)" --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --ledger "$(MODULE_DOCUMENT_AWARENESS_LEDGER)" --scope "$(SCOPE)" --limit "$(LIMIT)" --print;
 		else \
 				echo "$(COLOR_YELLOW)DEFERRED: Blueprint context bundle builder is not available yet.$(COLOR_RESET)"; \
+		fi
+
+# Purpose: preview an update to the module-local document awareness ledger.
+# Result: selected documents and hashes are shown, but the ledger file is not changed.
+.PHONY: document-ledger-preview
+document-ledger-preview:
+		@if [ -x "$(BLUEPRINT_PYTHON)" ] && [ -f "$(BLUEPRINT_DOCUMENT_AWARENESS_LEDGER_UPDATER)" ]; then \
+				"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_DOCUMENT_AWARENESS_LEDGER_UPDATER)" --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --ledger "$(MODULE_DOCUMENT_AWARENESS_LEDGER)" --status "$(STATUS)" $(if $(DOCUMENT),--document "$(DOCUMENT)",) $(if $(SOURCE),--source "$(SOURCE)",) $(if $(PRIORITY),--priority "$(PRIORITY)",) $(if $(NOTES),--notes "$(NOTES)",) $(if $(MODULE_COMMIT),--module-commit "$(MODULE_COMMIT)",) --no-write; \
+		else \
+				echo "$(COLOR_YELLOW)DEFERRED: Blueprint document awareness ledger updater is not available yet.$(COLOR_RESET)"; \
+		fi
+
+# Purpose: update the module-local document awareness ledger with current Blueprint document hashes.
+# Result: selected documents are written to the local ledger with the requested review status.
+.PHONY: document-ledger-update
+document-ledger-update:
+		@if [ -x "$(BLUEPRINT_PYTHON)" ] && [ -f "$(BLUEPRINT_DOCUMENT_AWARENESS_LEDGER_UPDATER)" ]; then \
+				"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_DOCUMENT_AWARENESS_LEDGER_UPDATER)" --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --ledger "$(MODULE_DOCUMENT_AWARENESS_LEDGER)" --status "$(STATUS)" $(if $(DOCUMENT),--document "$(DOCUMENT)",) $(if $(SOURCE),--source "$(SOURCE)",) $(if $(PRIORITY),--priority "$(PRIORITY)",) $(if $(NOTES),--notes "$(NOTES)",) $(if $(MODULE_COMMIT),--module-commit "$(MODULE_COMMIT)",); \
+		else \
+				echo "$(COLOR_YELLOW)DEFERRED: Blueprint document awareness ledger updater is not available yet.$(COLOR_RESET)"; \
 		fi
 
 # =============================================================================

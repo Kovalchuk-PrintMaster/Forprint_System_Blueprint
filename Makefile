@@ -5,6 +5,14 @@ MODULE ?= forprint_library
 SCOPE ?= bootstrap
 LIMIT ?= 40
 
+STATUS ?= acknowledged
+LEDGER ?= coordination/blueprint_awareness/document_review_ledger.yaml
+DOCUMENT ?=
+SOURCE ?=
+PRIORITY ?=
+NOTES ?=
+MODULE_COMMIT ?=
+
 # =============================================================================
 
 # 00 Environment / constants START
@@ -59,6 +67,8 @@ help:
 	@echo "  make document-awareness MODULE=forprint_library LIMIT=20"
 	@echo "  make context-bundle MODULE=forprint_library SCOPE=bootstrap LIMIT=10"
 	@echo "  make context-bundle-print MODULE=forprint_library SCOPE=bootstrap LIMIT=10"
+	@echo "  make document-ledger-preview MODULE=forprint_library DOCUMENT=coordination/global_policy/forprint_project_doctrine.md"
+	@echo "  make document-ledger-update MODULE=forprint_library DOCUMENT=coordination/global_policy/forprint_project_doctrine.md STATUS=acknowledged"
 	@echo ""
 	@echo "Standards / governance:"
 	@echo "  make standards-index"
@@ -306,6 +316,18 @@ context-bundle-write:
 .PHONY: context-bundle-print
 context-bundle-print:
 	$(PYTHON) scripts/coordination/build_context_bundle.py --module "$(MODULE)" --scope "$(SCOPE)" --limit "$(LIMIT)" --print
+
+.PHONY: document-ledger-preview
+document-ledger-preview:
+	$(PYTHON) scripts/coordination/update_document_awareness_ledger.py --root "." --module "$(MODULE)" --ledger "$(LEDGER)" --status "$(STATUS)" $(if $(DOCUMENT),
+	--document "$(DOCUMENT)",) $(if $(SOURCE),--source "$(SOURCE)",) $(if $(PRIORITY),--priority "$(PRIORITY)",) $(if $(NOTES),--notes "$(NOTES)",) $(if $(MODULE_COMMIT),
+	--module-commit "$(MODULE_COMMIT)",) --no-write
+
+.PHONY: document-ledger-update
+document-ledger-update:
+	$(PYTHON) scripts/coordination/update_document_awareness_ledger.py --root "." --module "$(MODULE)" --ledger "$(LEDGER)" --status "$(STATUS)" $(if $(DOCUMENT),
+	--document "$(DOCUMENT)",) $(if $(SOURCE),--source "$(SOURCE)",) $(if $(PRIORITY),--priority "$(PRIORITY)",) $(if $(NOTES),--notes "$(NOTES)",) $(if $(MODULE_COMMIT),
+	--module-commit "$(MODULE_COMMIT)",)
 
 # =============================================================================
 

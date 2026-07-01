@@ -206,6 +206,8 @@ make document-awareness
 make context-bundle
 make context-bundle-write
 make context-bundle-print
+make document-ledger-preview
+make document-ledger-update
 
 make blueprint-sync
 
@@ -238,6 +240,13 @@ LIMIT=40
 NO_COLOR=1
 MODULE_DOCUMENT_AWARENESS_LEDGER=coordination/blueprint_awareness/make_command_standard.md
 MODULE_DOCUMENT_AWARENESS_LEDGER=coordination/blueprint_awareness/document_review_ledger.yaml
+
+STATUS=acknowledged
+DOCUMENT=coordination/global_policy/forprint_project_doctrine.md
+SOURCE=global_policy
+PRIORITY=critical
+NOTES=review note
+MODULE_COMMIT=abc123
 ```
 
 A module may define `BLUEPRINT_ROOT` internally.
@@ -822,6 +831,53 @@ Recommended command behavior:
 context-bundle-print:
         $(BLUEPRINT_PYTHON) $(BLUEPRINT_ROOT)/scripts/coordination/build_context_bundle.py --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)"
         --ledger "$(MODULE_DOCUMENT_AWARENESS_LEDGER)" --scope "$(SCOPE)" --limit "$(LIMIT)" --print
+```
+
+### document-ledger-preview
+
+Purpose:
+
+```text
+Preview an update to the module-local coordination document awareness ledger.
+```
+
+Expected behavior:
+
+```text
+Selects applicable Blueprint coordination documents by DOCUMENT, SOURCE, PRIORITY or all-applicable mode.
+Reads current document_id and content_hash from the Blueprint document manifest.
+Prints selected documents.
+Does not write the module-local ledger.
+```
+
+Recommended command behavior:
+
+```make
+document-ledger-preview:
+        $(BLUEPRINT_PYTHON) $(BLUEPRINT_ROOT)/scripts/coordination/update_document_awareness_ledger.py --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --ledger "$(MODULE_DOCUMENT_AWARENESS_LEDGER)" --status "$(STATUS)" --document "$(DOCUMENT)" --no-write
+```
+
+### document-ledger-update
+
+Purpose:
+
+```text
+Update the module-local coordination document awareness ledger with current Blueprint document hashes.
+```
+
+Expected behavior:
+
+```text
+Writes selected Blueprint coordination documents into the module-local ledger.
+Stores document_id, path, content_hash, module_review_status, reviewed_at, module_commit and notes.
+Requires an explicit selector such as DOCUMENT, SOURCE or PRIORITY.
+```
+
+Recommended command behavior:
+
+```make
+document-ledger-update:
+        $(BLUEPRINT_PYTHON) $(BLUEPRINT_ROOT)/scripts/coordination/update_document_awareness_ledger.py --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --ledger "$(MODULE_DOCUMENT_AWARENESS_LEDGER)" --status "$(STATUS)" --document "$(DOCUMENT)"
 ```
 
 ## blueprint-sync
