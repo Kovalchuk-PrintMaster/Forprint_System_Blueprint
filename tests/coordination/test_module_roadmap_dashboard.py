@@ -43,10 +43,57 @@ def test_dashboard_renders_current_step_window(tmp_path: Path) -> None:
 
     assert "ForPrint Module Roadmap Dashboard" in dashboard
     assert "Module: forprint_library" in dashboard
-    assert "> 2" in dashboard
+    assert "┌" in dashboard
+    assert "└" in dashboard
+    assert "│ >  │ 2" in dashboard
     assert "library_reference_contract_foundation_v0_2" in dashboard
     assert "library_next_step_v0_3" in dashboard
+    assert "\033[" not in dashboard
 
+def test_colored_dashboard_preserves_terminal_reset_after_truncation(
+    tmp_path: Path,
+) -> None:
+    root = _write_roadmap(tmp_path, module="forprint_library")
+
+    path = resolve_roadmap_path(root=root, module="forprint_library")
+    data = load_yaml_file(path)
+    dashboard = render_roadmap_dashboard(
+        data,
+        path=path,
+        before_current=1,
+        after_current=1,
+        no_color=False,
+    )
+
+    assert "┌" in dashboard
+    assert "└" in dashboard
+    assert "\033[0m" in dashboard
+    assert dashboard.endswith("\033[0m")
+    assert "\033[32maccepted" in dashboard
+    assert "\033[31mcritical" in dashboard
+    assert "critical…" not in dashboard
+
+def test_colored_modules_summary_preserves_terminal_reset_after_truncation(
+    tmp_path: Path,
+) -> None:
+    root = _write_roadmap(tmp_path, module="forprint_library")
+    _write_roadmap(tmp_path, module="forprint_gateway")
+
+    library_path = resolve_roadmap_path(root=root, module="forprint_library")
+    gateway_path = resolve_roadmap_path(root=root, module="forprint_gateway")
+
+    summary = render_modules_summary(
+        [
+            (library_path, load_yaml_file(library_path)),
+            (gateway_path, load_yaml_file(gateway_path)),
+        ],
+        no_color=False,
+    )
+
+    assert "\033[0m" in summary
+    assert summary.endswith("\033[0m")
+    assert "\033[31mcritical" in summary
+    assert "critical…" not in summary
 
 def test_modules_summary_renders_multiple_modules(tmp_path: Path) -> None:
     root = _write_roadmap(tmp_path, module="forprint_library")

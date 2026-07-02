@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -30,6 +31,8 @@ DEFAULT_PRIORITY_VALUES = (
 )
 
 DONE_STATUSES = {"completed", "accepted", "cancelled", "superseded"}
+ANSI_RESET = "\033[0m"
+ANSI_RE = re.compile(r"\033\[[0-9;]*m")
 
 
 class RoadmapError(ValueError):
@@ -247,38 +250,21 @@ def render_roadmap_dashboard(
         f"Current step: {current_step_id or '-'}",
         f"Window: {before_current} before / {after_current} after",
         "",
-        _row(
-            "Seq",
-            "Status",
-            "Priority",
-            "Step ID",
-            "Title",
-            "Deps",
-            "Evidence",
-        ),
-        _row(
-            "---",
-            "------",
-            "--------",
-            "-------",
-            "-----",
-            "----",
-            "--------",
-        ),
     ]
+
+    table_rows: list[tuple[str, ...]] = []
 
     for step in visible_steps:
         marker = ">"
         if _string_value(step.get("step_id")) != current_step_id:
-            marker = " "
+            marker = ""
 
         status = _string_value(step.get("status")) or "unknown"
         priority = _string_value(step.get("priority")) or "unknown"
 
-        lines.append(
-            marker
-            + " "
-            + _row(
+        table_rows.append(
+            (
+                marker,
                 str(step.get("sequence", "-")),
                 _token(status, no_color=no_color),
                 _token(priority, no_color=no_color),
@@ -289,12 +275,28 @@ def render_roadmap_dashboard(
             ),
         )
 
+    lines.extend(
+        _boxed_table(
+            headers=(
+                "",
+                "Seq",
+                "Status",
+                "Priority",
+                "Step ID",
+                "Title",
+                "Deps",
+                "Evidence",
+            ),
+            widths=(2, 4, 14, 10, 44, 48, 18, 16),
+            rows=table_rows,
+        ),
+    )
+
     if validation.warnings:
         lines.extend(["", "Warnings:"])
         lines.extend(f"  - {warning}" for warning in validation.warnings)
 
-    return "\n".join(lines)
-
+    return _finalize_output(lines, no_color=no_color)
 
 def render_modules_summary(
     roadmaps: list[tuple[Path, dict[str, Any]]],
@@ -364,7 +366,7 @@ def render_modules_summary(
             ),
         )
 
-    return "\n".join(lines)
+    return _finalize_output(lines, no_color=no_color)
 
 
 def _sorted_steps(raw_steps: Any) -> list[dict[str, Any]]:
@@ -486,16 +488,87 @@ def _evidence_summary(step: dict[str, Any]) -> str:
     return ",".join(markers) if markers else "-"
 
 
+def _finalize_output(lines: list[str], *, no_color: bool) -> str:
+    rendered = "\n".join(lines)
+    if no_color:
+        return rendered
+    return rendered + ANSI_RESET
+
+
 def _row(*values: str) -> str:
     widths = (24, 14, 10, 44, 48, 18, 16)
     padded = []
     for value, width in zip(values, widths, strict=False):
-        clean_value = value.replace("\n", " ")
-        if len(clean_value) > width:
-            clean_value = clean_value[: width - 1] + "…"
-        padded.append(clean_value.ljust(width))
+        raw_value = value.replace("\n", " ")
+        color = _leading_ansi_color(raw_value)
+        clean_value = _strip_ansi(raw_value)
+        cell = _format_visible_cell(clean_value, width)
+        if color:
+            cell = f"{color}{cell}{ANSI_RESET}"
+        padded.append(cell)
     return " | ".join(padded)
 
+def _boxed_table(
+    *,
+    headers: tuple[str, ...],
+    widths: tuple[int, ...],
+    rows: list[tuple[str, ...]],
+) -> list[str]:
+    return [
+        _boxed_border(widths, left="┌", separator="┬", right="┐"),
+        _boxed_row(headers, widths),
+        _boxed_border(widths, left="├", separator="┼", right="┤"),
+        *[_boxed_row(row, widths) for row in rows],
+        _boxed_border(widths, left="└", separator="┴", right="┘"),
+    ]
+
+
+def _boxed_border(
+    widths: tuple[int, ...],
+    *,
+    left: str,
+    separator: str,
+    right: str,
+) -> str:
+    return left + separator.join("─" * (width + 2) for width in widths) + right
+
+
+def _boxed_row(values: tuple[str, ...], widths: tuple[int, ...]) -> str:
+    cells = []
+    for value, width in zip(values, widths, strict=False):
+        cells.append(_visible_cell(value, width))
+    return "│ " + " │ ".join(cells) + " │"
+
+
+def _visible_cell(value: str, width: int) -> str:
+    raw_value = value.replace("\n", " ")
+    color = _leading_ansi_color(raw_value)
+    clean_value = _strip_ansi(raw_value)
+    cell = _format_visible_cell(clean_value, width)
+    if color:
+        return f"{color}{cell}{ANSI_RESET}"
+    return cell
+
+
+def _format_visible_cell(value: str, width: int) -> str:
+    if len(value) > width:
+        value = value[: width - 1] + "…"
+    return value.ljust(width)
+
+
+def _strip_ansi(value: str) -> str:
+    return ANSI_RE.sub("", value)
+
+
+def _leading_ansi_color(value: str) -> str | None:
+    match = ANSI_RE.match(value)
+    if not match:
+        return None
+
+    color = match.group(0)
+    if color == ANSI_RESET:
+        return None
+    return color
 
 def _token(value: str, *, no_color: bool) -> str:
     if no_color:
@@ -505,7 +578,7 @@ def _token(value: str, *, no_color: bool) -> str:
     if not color:
         return value
 
-    return f"{color}{value}\033[0m"
+    return f"{color}{value}{ANSI_RESET}"
 
 
 def _token_color(value: str) -> str | None:
