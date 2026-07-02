@@ -111,6 +111,9 @@ def test_modules_summary_renders_multiple_modules(tmp_path: Path) -> None:
     )
 
     assert "ForPrint Module Roadmap Summary" in summary
+    assert "┌" in summary
+    assert "└" in summary
+    assert "\033[" not in summary
     assert "forprint_library" in summary
     assert "forprint_gateway" in summary
     assert "library_next_step_v0_3" in summary

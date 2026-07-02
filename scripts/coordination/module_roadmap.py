@@ -306,29 +306,15 @@ def render_modules_summary(
     lines = [
         "ForPrint Module Roadmap Summary",
         "",
-        _row(
-            "Module",
-            "Current",
-            "Status",
-            "Priority",
-            "Next ready",
-            "Blocked",
-        ),
-        _row(
-            "------",
-            "-------",
-            "------",
-            "--------",
-            "----------",
-            "-------",
-        ),
     ]
+
+    table_rows: list[tuple[str, ...]] = []
 
     for path, data in roadmaps:
         validation = validate_roadmap_document(data, path=path)
         if not validation.ok:
-            lines.append(
-                _row(
+            table_rows.append(
+                (
                     validation.module,
                     "invalid",
                     _token("failed", no_color=no_color),
@@ -347,8 +333,8 @@ def render_modules_summary(
             1 for step in steps if _string_value(step.get("status")) == "blocked"
         )
 
-        lines.append(
-            _row(
+        table_rows.append(
+            (
                 validation.module,
                 current_step_id or "-",
                 _token(
@@ -366,8 +352,22 @@ def render_modules_summary(
             ),
         )
 
-    return _finalize_output(lines, no_color=no_color)
+    lines.extend(
+        _boxed_table(
+            headers=(
+                "Module",
+                "Current",
+                "Status",
+                "Priority",
+                "Next ready",
+                "Blocked",
+            ),
+            widths=(24, 44, 14, 10, 48, 8),
+            rows=table_rows,
+        ),
+    )
 
+    return _finalize_output(lines, no_color=no_color)
 
 def _sorted_steps(raw_steps: Any) -> list[dict[str, Any]]:
     if not isinstance(raw_steps, list):
