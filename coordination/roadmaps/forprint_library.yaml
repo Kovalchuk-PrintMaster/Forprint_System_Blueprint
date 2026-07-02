@@ -6,7 +6,7 @@ metadata:
   owner: forprint_system_blueprint
   status: draft_active
   purpose: Initial module roadmap seed for ForPrint Library development visibility.
-  current_step_id: library_reference_contract_foundation_v0_2
+  current_step_id: library_reference_consumption_pilot_v0_3
   default_dashboard_window:
     before_current: 5
     after_current: 10
@@ -42,7 +42,7 @@ roadmap:
   - step_id: library_reference_contract_foundation_v0_2
     sequence: 2
     title: Reference contract foundation
-    status: ready
+    status: accepted
     priority: critical
     owner_module: forprint_library
     scope: foundation
@@ -62,17 +62,17 @@ roadmap:
       - Reference ownership and consumption boundaries are documented.
       - Module completion packet/report can be reviewed by Blueprint.
     evidence:
-      module_commit: null
+      module_commit: "d2e1834"
       blueprint_acceptance_commit: null
-      completion_report: null
+      completion_report: coordination/reports/completion/2026-06-29__forprint_library__report__reference-contract-foundation-v0-2.md
       check_report: null
-      test_summary: null
-    notes: Current roadmap focus for Library alignment.
+      test_summary: Library reference contract foundation completed by module and accepted by Blueprint.
+    notes: Imported from accepted prompt queue state.
 
   - step_id: library_reference_consumption_pilot_v0_3
     sequence: 3
     title: Reference consumption pilot
-    status: planned
+    status: ready
     priority: high
     owner_module: forprint_library
     scope: integration_readiness
@@ -84,17 +84,162 @@ roadmap:
       - type: module_step
         module: forprint_library
         step_id: library_reference_contract_foundation_v0_2
-        status: pending
+        status: accepted
     expected_outputs:
       - One downstream module can consume Library references through a documented contract.
       - Contract compatibility expectations are visible to Blueprint.
+      - Reference consumption example is available for future Gateway, CRM or Calculator alignment.
     evidence:
       module_commit: null
       blueprint_acceptance_commit: null
       completion_report: null
       check_report: null
       test_summary: null
-    notes: Draft future step. Exact prompt is not written yet.
+    notes: Next roadmap focus. Exact prompt is not written yet.
+
+  - step_id: library_semantic_registry_aliases_foundation_v0_4
+    sequence: 4
+    title: Semantic registry and aliases foundation
+    status: planned
+    priority: high
+    owner_module: forprint_library
+    scope: semantic_governance
+    prompt:
+      prompt_id: null
+      prompt_file: null
+      prompt_queue_sequence: null
+    depends_on:
+      - type: module_step
+        module: forprint_library
+        step_id: library_reference_contract_foundation_v0_2
+        status: accepted
+    expected_outputs:
+      - Semantic registry rules are clarified.
+      - Alias handling is documented for product, material and process references.
+      - Canonical naming expectations are visible for downstream modules.
+    evidence:
+      module_commit: null
+      blueprint_acceptance_commit: null
+      completion_report: null
+      check_report: null
+      test_summary: null
+    notes: Planned future step.
+
+  - step_id: library_product_material_reference_expansion_v0_5
+    sequence: 5
+    title: Product and material reference expansion
+    status: planned
+    priority: high
+    owner_module: forprint_library
+    scope: catalog_reference
+    prompt:
+      prompt_id: null
+      prompt_file: null
+      prompt_queue_sequence: null
+    depends_on:
+      - type: module_step
+        module: forprint_library
+        step_id: library_reference_consumption_pilot_v0_3
+        status: pending
+      - type: module_step
+        module: forprint_library
+        step_id: library_semantic_registry_aliases_foundation_v0_4
+        status: pending
+    expected_outputs:
+      - Product reference entries are expanded in a controlled way.
+      - Material reference entries are expanded in a controlled way.
+      - Reference IDs remain stable and consumer-safe.
+    evidence:
+      module_commit: null
+      blueprint_acceptance_commit: null
+      completion_report: null
+      check_report: null
+      test_summary: null
+    notes: Planned future step.
+
+  - step_id: library_machine_capabilities_print_modes_v0_6
+    sequence: 6
+    title: Machine capabilities and print modes foundation
+    status: planned
+    priority: normal
+    owner_module: forprint_library
+    scope: production_reference
+    prompt:
+      prompt_id: null
+      prompt_file: null
+      prompt_queue_sequence: null
+    depends_on:
+      - type: module_step
+        module: forprint_library
+        step_id: library_product_material_reference_expansion_v0_5
+        status: pending
+    expected_outputs:
+      - Machine capability references are structured.
+      - Print mode references are structured.
+      - Production-related reference data can be consumed without moving operational truth into Library.
+    evidence:
+      module_commit: null
+      blueprint_acceptance_commit: null
+      completion_report: null
+      check_report: null
+      test_summary: null
+    notes: Planned future step.
+
+  - step_id: library_templates_technical_cards_model_v0_7
+    sequence: 7
+    title: Template and technical card reference model
+    status: planned
+    priority: normal
+    owner_module: forprint_library
+    scope: technical_reference
+    prompt:
+      prompt_id: null
+      prompt_file: null
+      prompt_queue_sequence: null
+    depends_on:
+      - type: module_step
+        module: forprint_library
+        step_id: library_machine_capabilities_print_modes_v0_6
+        status: pending
+    expected_outputs:
+      - Template reference model is clarified.
+      - Technical card reference model is clarified.
+      - Boundaries between Library references and operational production records remain explicit.
+    evidence:
+      module_commit: null
+      blueprint_acceptance_commit: null
+      completion_report: null
+      check_report: null
+      test_summary: null
+    notes: Planned future step.
+
+  - step_id: library_versioning_migration_consumer_readiness_v0_8
+    sequence: 8
+    title: Versioning, migration and consumer readiness
+    status: planned
+    priority: high
+    owner_module: forprint_library
+    scope: release_readiness
+    prompt:
+      prompt_id: null
+      prompt_file: null
+      prompt_queue_sequence: null
+    depends_on:
+      - type: module_step
+        module: forprint_library
+        step_id: library_templates_technical_cards_model_v0_7
+        status: pending
+    expected_outputs:
+      - Library reference versioning expectations are documented.
+      - Migration compatibility expectations are documented.
+      - Calculator, Gateway, CRM and other consumers can align to Library reference releases.
+    evidence:
+      module_commit: null
+      blueprint_acceptance_commit: null
+      completion_report: null
+      check_report: null
+      test_summary: null
+    notes: Planned future readiness step.
 
 status_values:
   - planned
