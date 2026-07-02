@@ -87,6 +87,42 @@ check:
 	$(MAKE) test
 ```
 
+## Makefile architecture / zoning rule
+
+A module Makefile is not only a command list.
+
+It is the operator control surface for the module and must be organized as a stable map.
+
+Commands must be placed into the closest existing thematic zone.
+
+New public commands should not be appended randomly at the bottom of the file.
+
+Blueprint and coordination workflows are first-class operator workflows and should appear near the top of the Makefile after constants and help/navigation.
+
+Module runtime, infrastructure, database, adapter, preview, diagnostic, test and validation commands must be grouped into their own zones.
+
+If a command does not fit an existing zone, a new zone may be proposed, but the reason should be clear.
+
+Empty or deferred zones are allowed in templates and young modules.
+
+Young modules should not be forced to keep hundreds of unused deferred targets, but the Blueprint template must document the available zones and recommended target names.
+
+A module may implement only the zones and commands it currently needs.
+
+When a new command appears later, it should be inserted into the correct zone instead of creating a chaotic module-specific layout.
+
+Public targets should have a short comment before them:
+
+- Purpose: what the target is for.
+- Result: what changes or validation result the operator should expect.
+
+Composite targets should call other Make targets using `$(MAKE)` instead of duplicating long command bodies.
+
+Standard ForPrint Makefiles must use the normal Makefile recipe format with TAB-prefixed recipe lines.
+
+`.RECIPEPREFIX` must not be used in standard module Makefiles because it creates formatting differences between modules.
+
+
 ## Recommended Makefile blocks
 
 Use numeric prefixes to keep block order stable.
@@ -98,28 +134,208 @@ Recommended blocks:
 ```text
 00 Environment / constants
 01 Help / navigation
-02 Install / bootstrap
-03 Project lifecycle
-04 Local runtime services
-05 Monitors / workers / background services
-06 Syntax / formatting / lint
-07 Tests
-08 Validation / check reports
-09 Status / generated reports / cleanup
-10 Blueprint integration
-11 Blueprint instruction intake
-12 Blueprint standards
-13 Blueprint outgoing prompts
-14 Coordination metadata
-15 Module policy / governance
-16 Completion packet / prompt finalization
-17 Local data / fixtures / migrations
-18 Local previews / operator workflows
-19 External adapters / sandbox integrations
-20 Observability / diagnostics
-21 Git / release / commit helpers
+
+02 Operator entrypoints / Blueprint-first workflow
+03 Blueprint repository synchronization
+04 Blueprint instruction intake
+05 Blueprint standards and policies
+06 Blueprint outgoing prompts / prompt queue
+07 Blueprint document awareness
+08 Module coordination metadata
+09 Module governance / policy checks
+
+10 Module install / bootstrap
+11 Module environment / local configuration
+12 Runtime control / process lifecycle
+13 Infrastructure / local services
+14 Database / storage / migrations
+15 Data import / export / fixtures
+16 External adapters / sandbox integrations
+17 Local previews / operator workflows
+18 Observability / diagnostics / logs
+
+19 Syntax / formatting / lint
+20 Tests
+21 Validation / check reports
+22 Status reports / generated reports / cleanup
+23 Completion packet / prompt finalization
+24 Git / release / commit helpers
+
 90 Module-specific helpers
 ```
+
+## Recommended target placement
+
+Typical targets should be placed into these zones.
+
+### 02 Operator entrypoints / Blueprint-first workflow
+
+- make module-start
+- make module-sync
+- make module-validate
+- make module-finish
+
+### 03 Blueprint repository synchronization
+
+- make blueprint-pull
+- make blueprint-check
+- make blueprint-sync
+- make blueprint-sync-directives
+
+### 04 Blueprint instruction intake
+
+- make blueprint-instruction-list
+- make blueprint-instruction-check
+- make blueprint-instruction-sync
+- make blueprint-instruction
+
+### 05 Blueprint standards and policies
+
+- make blueprint-standards-list
+- make blueprint-standards-check
+- make blueprint-standards-sync
+- make blueprint-standards
+
+### 06 Blueprint outgoing prompts / prompt queue
+
+- make blueprint-prompts-list
+- make blueprint-prompts-check
+- make blueprint-prompts-sync
+- make blueprint-prompts
+- make prompt-read
+- make prompt-queue-validate
+- make prompt-dashboard
+- make prompt-next
+- make prompt-read-next
+
+### 07 Blueprint document awareness
+
+- make document-manifest
+- make document-manifest-write
+- make document-awareness
+- make context-bundle
+- make context-bundle-write
+- make context-bundle-print
+- make document-ledger-preview
+- make document-ledger-update
+
+### 08 Module coordination metadata
+
+- make coordination-check
+- make coordination-fix
+- make status-report
+
+### 09 Module governance / policy checks
+
+- make module-policy-check
+- make governance-check
+
+### 10 Module install / bootstrap
+
+- make install
+- make bootstrap
+
+### 11 Module environment / local configuration
+
+- make env-check
+- make config-check
+- make secrets-check
+
+### 12 Runtime control / process lifecycle
+
+- make run
+- make start
+- make stop
+- make restart
+- make reload
+- make status
+- make logs
+
+### 13 Infrastructure / local services
+
+- make services-up
+- make services-down
+- make services-restart
+- make services-status
+- make workers-start
+- make workers-stop
+- make workers-restart
+
+### 14 Database / storage / migrations
+
+- make db-check
+- make db-migrate
+- make db-upgrade
+- make db-downgrade
+- make db-seed
+- make db-reset
+
+### 15 Data import / export / fixtures
+
+- make fixtures-check
+- make fixtures-load
+- make import-preview
+- make export-preview
+
+### 16 External adapters / sandbox integrations
+
+- make adapters-check
+- make adapters-smoke
+- make sandbox-check
+- make sandbox-sync
+
+### 17 Local previews / operator workflows
+
+- make preview
+- make smoke
+- make operator-demo
+
+### 18 Observability / diagnostics / logs
+
+- make diagnostics
+- make health
+- make inspect
+
+### 19 Syntax / formatting / lint
+
+- make lint
+- make lint-fix
+- make format
+- make format-check
+
+### 20 Tests
+
+- make test
+- make test-unit
+- make test-contract
+- make test-integration
+
+### 21 Validation / check reports
+
+- make check
+- make check-report
+
+### 22 Status reports / generated reports / cleanup
+
+- make status-report
+- make report-clean
+
+### 23 Completion packet / prompt finalization
+
+- make completion-packet-validate
+- make completion-packet-apply
+- make completion-packet-check
+
+### 24 Git / release / commit helpers
+
+- make git-status
+- make release-check
+
+### 90 Module-specific helpers
+
+Module-specific helper targets that do not belong to shared zones.
+
+These targets should still follow the Purpose/Result comment rule.
 
 ## Optional console colors
 
