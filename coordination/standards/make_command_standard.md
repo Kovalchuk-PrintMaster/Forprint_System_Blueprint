@@ -225,6 +225,9 @@ Typical targets should be placed into these zones.
 - make coordination-fix
 - make status-report
 
+- make roadmap-validate
+- make roadmap-dashboard
+
 ### 09 Module governance / policy checks
 
 - make module-policy-check
@@ -424,6 +427,9 @@ make context-bundle-write
 make context-bundle-print
 make document-ledger-preview
 make document-ledger-update
+
+make roadmap-validate
+make roadmap-dashboard
 
 make blueprint-sync
 
@@ -1094,6 +1100,40 @@ Recommended command behavior:
 ```make
 document-ledger-update:
         $(BLUEPRINT_PYTHON) $(BLUEPRINT_ROOT)/scripts/coordination/update_document_awareness_ledger.py --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --ledger "$(MODULE_DOCUMENT_AWARENESS_LEDGER)" --status "$(STATUS)" --document "$(DOCUMENT)"
+```
+
+### roadmap-validate
+
+Purpose:
+
+```text
+Validate the module development roadmap.
+
+Expected behavior:
+
+Reads a module roadmap YAML file.
+Verifies schema version, module id, current step, step ids, sequences, statuses and priorities.
+Returns non-zero if the roadmap is invalid.
+
+Recommended command behavior:
+
+roadmap-validate:
+        $(BLUEPRINT_PYTHON) $(BLUEPRINT_ROOT)/scripts/coordination/validate_module_roadmap.py --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)"
+roadmap-dashboard
+
+Purpose:
+
+Render the module development roadmap dashboard.
+
+Expected behavior:
+
+Shows current roadmap step, status, priority, nearby previous/next steps and dependency/evidence hints.
+May support MODULES=<module_a,module_b> for compact multi-module comparison.
+
+Recommended command behavior:
+
+roadmap-dashboard:
+        $(BLUEPRINT_PYTHON) $(BLUEPRINT_ROOT)/scripts/coordination/render_module_roadmap_dashboard.py --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)"
 ```
 
 ## blueprint-sync

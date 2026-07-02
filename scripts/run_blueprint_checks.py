@@ -217,6 +217,33 @@ def build_checks() -> list[CheckDefinition]:
             ],
         ),
         CheckDefinition(
+            check_id="module_roadmap_validation",
+            title="Module roadmap validation",
+            expected_result="Library module roadmap is valid",
+            command=[
+                python,
+                "scripts/coordination/validate_module_roadmap.py",
+                "--module",
+                "forprint_library",
+            ],
+        ),
+        CheckDefinition(
+            check_id="module_roadmap_dashboard",
+            title="Module roadmap dashboard",
+            expected_result="Library module roadmap dashboard renders",
+            command=[
+                python,
+                "scripts/coordination/render_module_roadmap_dashboard.py",
+                "--module",
+                "forprint_library",
+                "--before-current",
+                "2",
+                "--after-current",
+                "5",
+                "--no-color",
+            ],
+        ),
+        CheckDefinition(
             check_id="standards_index_validation",
             title="Standards index validation",
             expected_result="Blueprint standards index is readable and advisory semantics are explicit",

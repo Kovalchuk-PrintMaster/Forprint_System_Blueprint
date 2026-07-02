@@ -71,6 +71,8 @@ REQUIRED_TARGETS = (
     "prompt-read",
     "coordination-check",
     "coordination-fix",
+    "roadmap-validate",
+    "roadmap-dashboard",
     "module-policy-check",
     "governance-check",
     "completion-packet-validate",

@@ -44,6 +44,14 @@ MODULE_COMMIT ?=
 SCOPE ?= bootstrap
 LIMIT ?= 40
 
+BLUEPRINT_MODULE_ROADMAP_VALIDATOR ?= $(BLUEPRINT_ROOT)/scripts/coordination/validate_module_roadmap.py
+BLUEPRINT_MODULE_ROADMAP_DASHBOARD ?= $(BLUEPRINT_ROOT)/scripts/coordination/render_module_roadmap_dashboard.py
+
+MODULES ?=
+ROADMAP ?=
+BEFORE_CURRENT ?= 5
+AFTER_CURRENT ?= 10
+
 REPORTS_DIR ?= reports
 COORDINATION_DIR ?= coordination
 MODULE_DOCUMENT_AWARENESS_LEDGER ?= $(CURDIR)/$(COORDINATION_DIR)/blueprint_awareness/document_review_ledger.yaml
@@ -102,6 +110,10 @@ help:
 	@echo "  make prompt-read-next"
 	@echo "  make document-awareness"
 	@echo "  make context-bundle-print"
+	@echo ""
+	@echo "  Module roadmap:"
+	@echo "  make roadmap-validate"
+	@echo "  make roadmap-dashboard"
 	@echo ""
 	@echo "Module runtime / infrastructure:"
 	@echo "  make install"
@@ -519,6 +531,36 @@ coordination-check:
 .PHONY: coordination-fix
 coordination-fix:
 	@echo "$(COLOR_YELLOW)DEFERRED: automatic coordination fix is not implemented for $(MODULE_ID).$(COLOR_RESET)"
+
+# Purpose: validate the module development roadmap when available.
+# Result: roadmap is valid or documented deferral is printed.
+.PHONY: roadmap-validate
+roadmap-validate:
+	@if [ -x "$(BLUEPRINT_PYTHON)" ] && [ -f "$(BLUEPRINT_MODULE_ROADMAP_VALIDATOR)" ]; then \
+		if [ -n "$(ROADMAP)" ]; then \
+			"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_MODULE_ROADMAP_VALIDATOR)" --root "$(BLUEPRINT_ROOT)" --roadmap "$(ROADMAP)"; \
+		else \
+			"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_MODULE_ROADMAP_VALIDATOR)" --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)"; \
+		fi; \
+	else \
+		echo "$(COLOR_YELLOW)DEFERRED: Blueprint module roadmap validator is not available yet.$(COLOR_RESET)"; \
+	fi
+
+# Purpose: render the module development roadmap dashboard when available.
+# Result: roadmap dashboard is printed or documented deferral is printed.
+.PHONY: roadmap-dashboard
+roadmap-dashboard:
+	@if [ -x "$(BLUEPRINT_PYTHON)" ] && [ -f "$(BLUEPRINT_MODULE_ROADMAP_DASHBOARD)" ]; then \
+		if [ -n "$(MODULES)" ]; then \
+			"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_MODULE_ROADMAP_DASHBOARD)" --root "$(BLUEPRINT_ROOT)" --modules "$(MODULES)" --before-current "$(BEFORE_CURRENT)" --after-current "$(AFTER_CURRENT)" $(if $(filter 1,$(NO_COLOR)),--no-color,); \
+		elif [ -n "$(ROADMAP)" ]; then \
+			"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_MODULE_ROADMAP_DASHBOARD)" --root "$(BLUEPRINT_ROOT)" --roadmap "$(ROADMAP)" --before-current "$(BEFORE_CURRENT)" --after-current "$(AFTER_CURRENT)" $(if $(filter 1,$(NO_COLOR)),--no-color,); \
+		else \
+			"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_MODULE_ROADMAP_DASHBOARD)" --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --before-current "$(BEFORE_CURRENT)" --after-current "$(AFTER_CURRENT)" $(if $(filter 1,$(NO_COLOR)),--no-color,); \
+		fi; \
+	else \
+		echo "$(COLOR_YELLOW)DEFERRED: Blueprint module roadmap dashboard is not available yet.$(COLOR_RESET)"; \
+	fi
 
 # =============================================================================
 # 08 Module coordination metadata FINISH

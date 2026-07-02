@@ -5,6 +5,12 @@ MODULE ?= forprint_library
 SCOPE ?= bootstrap
 LIMIT ?= 40
 
+MODULES ?=
+ROADMAP ?=
+BEFORE_CURRENT ?= 5
+AFTER_CURRENT ?= 10
+NO_COLOR ?=
+
 STATUS ?= acknowledged
 LEDGER ?= coordination/blueprint_awareness/document_review_ledger.yaml
 DOCUMENT ?=
@@ -70,6 +76,10 @@ help:
 	@echo "  make document-ledger-preview MODULE=forprint_library DOCUMENT=coordination/global_policy/forprint_project_doctrine.md"
 	@echo "  make document-ledger-update MODULE=forprint_library DOCUMENT=coordination/global_policy/forprint_project_doctrine.md STATUS=acknowledged"
 	@echo ""
+	@echo "Module roadmap:"
+	@echo "  make roadmap-validate MODULE=forprint_library"
+	@echo "  make roadmap-dashboard MODULE=forprint_library"
+	@echo "  make roadmap-dashboard MODULES=forprint_library,forprint_integration_gateway,forprint_crm"
 	@echo "Standards / governance:"
 	@echo "  make standards-index"
 	@echo "  make standards"
@@ -173,6 +183,7 @@ check:
 	$(MAKE) prompt-queue-validate
 	$(MAKE) document-manifest
 	$(MAKE) context-bundle
+	$(MAKE) roadmap-validate
 	$(MAKE) standards-index
 	$(MAKE) module-standards-template
 	$(MAKE) instruction-intake
@@ -352,11 +363,40 @@ document-ledger-update:
 
 # 13 Coordination document awareness FINISH
 
-# =============================================================================
 
 # =============================================================================
 
-# 14 Standards / templates / instruction intake START
+# 14 Module roadmap START
+
+# =============================================================================
+
+.PHONY: roadmap-validate
+roadmap-validate:
+	@if [ -n "$(ROADMAP)" ]; then \
+		$(PYTHON) scripts/coordination/validate_module_roadmap.py --roadmap "$(ROADMAP)"; \
+	else \
+		$(PYTHON) scripts/coordination/validate_module_roadmap.py --module "$(MODULE)"; \
+	fi
+
+.PHONY: roadmap-dashboard
+roadmap-dashboard:
+	@if [ -n "$(MODULES)" ]; then \
+		$(PYTHON) scripts/coordination/render_module_roadmap_dashboard.py --modules "$(MODULES)" --before-current "$(BEFORE_CURRENT)" --after-current "$(AFTER_CURRENT)" $(if $(filter 1,$(NO_COLOR)),--no-color,); \
+	elif [ -n "$(ROADMAP)" ]; then \
+		$(PYTHON) scripts/coordination/render_module_roadmap_dashboard.py --roadmap "$(ROADMAP)" --before-current "$(BEFORE_CURRENT)" --after-current "$(AFTER_CURRENT)" $(if $(filter 1,$(NO_COLOR)),--no-color,); \
+	else \
+		$(PYTHON) scripts/coordination/render_module_roadmap_dashboard.py --module "$(MODULE)" --before-current "$(BEFORE_CURRENT)" --after-current "$(AFTER_CURRENT)" $(if $(filter 1,$(NO_COLOR)),--no-color,); \
+	fi
+
+# =============================================================================
+
+# 14 Module roadmap FINISH
+
+# =============================================================================
+
+# =============================================================================
+
+# 15 Standards / templates / instruction intake START
 
 # =============================================================================
 
@@ -385,13 +425,13 @@ completion-packet-template:
 
 # =============================================================================
 
-# 14 Standards / templates / instruction intake FINISH
+# 15 Standards / templates / instruction intake FINISH
 
 # =============================================================================
 
 # =============================================================================
 
-# 15 Coordination metadata / module policy / governance START
+# 16 Coordination metadata / module policy / governance START
 
 # =============================================================================
 
@@ -421,6 +461,6 @@ module-governance-audit-check:
 
 # =============================================================================
 
-# 15 Coordination metadata / module policy / governance FINISH
+# 16 Coordination metadata / module policy / governance FINISH
 
 # =============================================================================
