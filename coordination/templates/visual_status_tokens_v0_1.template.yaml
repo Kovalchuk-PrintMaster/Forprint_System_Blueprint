@@ -1,0 +1,149 @@
+schema_version: visual_status_tokens_v0_1
+
+metadata:
+  purpose: Shared semantic visual tokens for ForPrint dashboards and reports.
+  owner: forprint_system_blueprint
+  status: template
+
+terminal:
+  no_color_flag: NO_COLOR
+  color_is_cosmetic_only: true
+
+tokens:
+  status:
+    success:
+      meaning: completed, accepted, or applied successfully
+      recommended_terminal_color: green
+    ok:
+      meaning: no action needed
+      recommended_terminal_color: green
+    info:
+      meaning: informational
+      recommended_terminal_color: cyan
+    planned:
+      meaning: known but not started
+      recommended_terminal_color: default
+    new:
+      meaning: newly discovered item
+      recommended_terminal_color: yellow
+    changed:
+      meaning: existing item changed since last review
+      recommended_terminal_color: yellow
+    in_progress:
+      meaning: active work or active review
+      recommended_terminal_color: blue
+    warning:
+      meaning: needs attention but is not blocking yet
+      recommended_terminal_color: yellow
+    critical:
+      meaning: high urgency or must be reviewed before work continues
+      recommended_terminal_color: red
+    blocked:
+      meaning: cannot proceed until resolved
+      recommended_terminal_color: red
+    failed:
+      meaning: validation failed
+      recommended_terminal_color: red
+    deferred:
+      meaning: intentionally delayed
+      recommended_terminal_color: cyan
+    not_applicable:
+      meaning: not relevant for this module or context
+      recommended_terminal_color: default
+    unknown:
+      meaning: missing or unresolved state
+      recommended_terminal_color: default
+
+  priority:
+    critical:
+      meaning: must be handled before relevant work continues
+      recommended_terminal_color: red
+      blocks_work: true
+    high:
+      meaning: should be handled before the next substantial step
+      recommended_terminal_color: yellow
+      blocks_work: false
+    normal:
+      meaning: normal development flow
+      recommended_terminal_color: default
+      blocks_work: false
+    low:
+      meaning: cleanup or gradual alignment
+      recommended_terminal_color: default
+      blocks_work: false
+    reference:
+      meaning: read only when relevant
+      recommended_terminal_color: cyan
+      blocks_work: false
+
+  review_state:
+    unseen:
+      meaning: item has not been reviewed by the module
+      recommended_terminal_color: yellow
+    acknowledged:
+      meaning: item was read and acknowledged
+      recommended_terminal_color: green
+    in_progress:
+      meaning: module is actively aligning to the item
+      recommended_terminal_color: blue
+    applied:
+      meaning: module has implemented the required change
+      recommended_terminal_color: green
+    accepted:
+      meaning: Blueprint or reviewer accepted the result
+      recommended_terminal_color: green
+    deferred:
+      meaning: intentionally delayed with reason
+      recommended_terminal_color: cyan
+    not_applicable:
+      meaning: item is not relevant for this module
+      recommended_terminal_color: default
+    superseded:
+      meaning: replaced by a newer item
+      recommended_terminal_color: default
+    returned_for_fix:
+      meaning: review found issues that need correction
+      recommended_terminal_color: red
+
+  execution_state:
+    ready:
+      meaning: ready to be picked up
+      recommended_terminal_color: yellow
+    not_started:
+      meaning: known but not started
+      recommended_terminal_color: default
+    active:
+      meaning: currently being worked on
+      recommended_terminal_color: blue
+    completed:
+      meaning: completed by module
+      recommended_terminal_color: green
+    paused:
+      meaning: intentionally paused
+      recommended_terminal_color: cyan
+    blocked:
+      meaning: cannot proceed
+      recommended_terminal_color: red
+    cancelled:
+      meaning: no longer planned
+      recommended_terminal_color: default
+
+  freshness:
+    current:
+      meaning: local state matches current source hash/version
+      recommended_terminal_color: green
+    new:
+      meaning: source exists but local ledger does not know it
+      recommended_terminal_color: yellow
+    changed:
+      meaning: source hash differs from local ledger
+      recommended_terminal_color: yellow
+    stale:
+      meaning: local record exists but source was superseded
+      recommended_terminal_color: cyan
+    missing:
+      meaning: referenced source is missing
+      recommended_terminal_color: red
+    unknown:
+      meaning: freshness could not be determined
+      recommended_terminal_color: default

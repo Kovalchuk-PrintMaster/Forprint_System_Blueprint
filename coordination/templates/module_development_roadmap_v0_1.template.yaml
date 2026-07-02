@@ -1,0 +1,71 @@
+
+schema_version: module_development_roadmap_v0_1
+
+module: forprint_module
+
+metadata:
+  owner: forprint_system_blueprint
+  status: template
+  purpose: Module development roadmap and assistant work queue visibility.
+  current_step_id: null
+  default_dashboard_window:
+    before_current: 5
+    after_current: 10
+
+visual_policy:
+  color_tokens_policy: coordination/standards/visual_interface/color_tokens_policy.md
+
+roadmap:
+  - step_id: example_foundation_step_v0_1
+    sequence: 1
+    title: Example foundation step
+    status: planned
+    priority: normal
+    owner_module: forprint_module
+    scope: foundation
+    prompt:
+      prompt_id: null
+      prompt_file: null
+      prompt_queue_sequence: null
+    depends_on:
+      - type: external_decision
+        reference: dependency analysis not completed yet
+        status: pending_analysis
+    expected_outputs:
+      - coordination records updated
+      - tests added or updated
+      - check report passes
+    evidence:
+      module_commit: null
+      blueprint_acceptance_commit: null
+      completion_report: null
+      check_report: null
+      test_summary: null
+    notes: Template example. Replace with real module roadmap steps.
+
+status_values:
+  - planned
+  - ready
+  - active
+  - completed
+  - accepted
+  - paused
+  - blocked
+  - deferred
+  - cancelled
+  - superseded
+
+priority_values:
+  - critical
+  - high
+  - normal
+  - low
+  - reference
+
+dependency_types:
+  - module_step
+  - prompt
+  - document
+  - contract
+  - external_decision
+  - manual_review
