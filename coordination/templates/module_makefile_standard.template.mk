@@ -177,7 +177,6 @@ module-validate:
 	$(MAKE) report-clean
 	$(MAKE) status-report
 
-# Purpose: finalize a completed prompt using completion packet automation.
 # Result: completion packet idempotency check and module validation pass.
 .PHONY: module-finish
 module-finish:
