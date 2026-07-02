@@ -213,11 +213,35 @@ The starter template is:
 
 coordination/templates/module_development_roadmap_v0_1.template.yaml
 
-Modules may copy it to a local path such as:
+Canonical Blueprint roadmap storage
+
+Blueprint-owned module roadmaps must use one canonical entrypoint file per module:
+
+coordination/roadmaps/<module_id>.yaml
+
+Examples:
+
+coordination/roadmaps/forprint_library.yaml
+coordination/roadmaps/forprint_crm.yaml
+coordination/roadmaps/forprint_integration_gateway.yaml
+
+This canonical file is the file resolved by roadmap validators, dashboards and summaries.
+
+If a module later needs additional roadmap detail files, they may be stored under:
+
+coordination/roadmaps/details/<module_id>/
+
+Detail files must not replace the canonical module roadmap entrypoint.
+
+Allowed:
+
+coordination/roadmaps/forprint_library.yaml
+coordination/roadmaps/details/forprint_library/reference_contract_phase.yaml
+
+Avoid:
 
 coordination/roadmap/module_development_roadmap.yaml
-
-Blueprint may also maintain centralized roadmap indexes later.
+coordination/roadmaps/forprint_library/main.yaml
 
 Gradual adoption rule
 
