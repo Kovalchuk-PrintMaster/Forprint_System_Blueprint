@@ -51,6 +51,7 @@ MODULES ?=
 ROADMAP ?=
 BEFORE_CURRENT ?= 5
 AFTER_CURRENT ?= 10
+ROADMAP_SUMMARY_MODULES ?= $(MODULE_ID)
 
 REPORTS_DIR ?= reports
 COORDINATION_DIR ?= coordination
@@ -114,6 +115,7 @@ help:
 	@echo "  Module roadmap:"
 	@echo "  make roadmap-validate"
 	@echo "  make roadmap-dashboard"
+	@echo "  make roadmap-summary"
 	@echo ""
 	@echo "Module runtime / infrastructure:"
 	@echo "  make install"
@@ -560,6 +562,16 @@ roadmap-dashboard:
 		fi; \
 	else \
 		echo "$(COLOR_YELLOW)DEFERRED: Blueprint module roadmap dashboard is not available yet.$(COLOR_RESET)"; \
+	fi
+
+# Purpose: render a compact module roadmap summary for one or more modules.
+# Result: roadmap comparison summary is printed or documented deferral is printed.
+.PHONY: roadmap-summary
+roadmap-summary:
+	@if [ -x "$(BLUEPRINT_PYTHON)" ] && [ -f "$(BLUEPRINT_MODULE_ROADMAP_DASHBOARD)" ]; then \
+		"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_MODULE_ROADMAP_DASHBOARD)" --root "$(BLUEPRINT_ROOT)" --modules "$(ROADMAP_SUMMARY_MODULES)" $(if $(filter 1,$(NO_COLOR)),--no-color,); \
+	else \
+		echo "$(COLOR_YELLOW)DEFERRED: Blueprint module roadmap summary is not available yet.$(COLOR_RESET)"; \
 	fi
 
 # =============================================================================

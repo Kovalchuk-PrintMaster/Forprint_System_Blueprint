@@ -227,6 +227,7 @@ Typical targets should be placed into these zones.
 
 - make roadmap-validate
 - make roadmap-dashboard
+- make roadmap-summary
 
 ### 09 Module governance / policy checks
 
@@ -430,6 +431,7 @@ make document-ledger-update
 
 make roadmap-validate
 make roadmap-dashboard
+make roadmap-summary
 
 make blueprint-sync
 
@@ -1117,23 +1119,52 @@ Returns non-zero if the roadmap is invalid.
 
 Recommended command behavior:
 
+```make
 roadmap-validate:
         $(BLUEPRINT_PYTHON) $(BLUEPRINT_ROOT)/scripts/coordination/validate_module_roadmap.py --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)"
-roadmap-dashboard
+```
+
+### roadmap-dashboard
 
 Purpose:
 
+```text
 Render the module development roadmap dashboard.
 
 Expected behavior:
 
+```text
 Shows current roadmap step, status, priority, nearby previous/next steps and dependency/evidence hints.
 May support MODULES=<module_a,module_b> for compact multi-module comparison.
+```
 
 Recommended command behavior:
 
+```make
 roadmap-dashboard:
         $(BLUEPRINT_PYTHON) $(BLUEPRINT_ROOT)/scripts/coordination/render_module_roadmap_dashboard.py --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)"
+```
+
+### roadmap-summary
+
+Purpose:
+
+```text
+Render a compact roadmap summary for one or more modules.
+```
+
+Expected behavior:
+
+```text
+Shows module, current step, status, priority, next ready/planned step and blocked count.
+May use ROADMAP_SUMMARY_MODULES=<module_a,module_b> or MODULES=<module_a,module_b> depending on implementation.
+```
+
+Recommended command behavior:
+
+```make
+roadmap-summary:
+        $(BLUEPRINT_PYTHON) $(BLUEPRINT_ROOT)/scripts/coordination/render_module_roadmap_dashboard.py --root "$(BLUEPRINT_ROOT)" --modules "$(ROADMAP_SUMMARY_MODULES)"
 ```
 
 ## blueprint-sync

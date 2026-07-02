@@ -73,6 +73,7 @@ REQUIRED_TARGETS = (
     "coordination-fix",
     "roadmap-validate",
     "roadmap-dashboard",
+    "roadmap-summary",
     "module-policy-check",
     "governance-check",
     "completion-packet-validate",

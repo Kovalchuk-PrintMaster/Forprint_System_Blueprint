@@ -10,6 +10,7 @@ ROADMAP ?=
 BEFORE_CURRENT ?= 5
 AFTER_CURRENT ?= 10
 NO_COLOR ?=
+ROADMAP_SUMMARY_MODULES ?= forprint_library
 
 STATUS ?= acknowledged
 LEDGER ?= coordination/blueprint_awareness/document_review_ledger.yaml
@@ -80,6 +81,8 @@ help:
 	@echo "  make roadmap-validate MODULE=forprint_library"
 	@echo "  make roadmap-dashboard MODULE=forprint_library"
 	@echo "  make roadmap-dashboard MODULES=forprint_library,forprint_integration_gateway,forprint_crm"
+	@echo "  make roadmap-summary"
+	@echo "  make roadmap-summary ROADMAP_SUMMARY_MODULES=forprint_library,forprint_integration_gateway"
 	@echo "Standards / governance:"
 	@echo "  make standards-index"
 	@echo "  make standards"
@@ -184,6 +187,7 @@ check:
 	$(MAKE) document-manifest
 	$(MAKE) context-bundle
 	$(MAKE) roadmap-validate
+	$(MAKE) roadmap-summary NO_COLOR=1
 	$(MAKE) standards-index
 	$(MAKE) module-standards-template
 	$(MAKE) instruction-intake
@@ -387,6 +391,10 @@ roadmap-dashboard:
 	else \
 		$(PYTHON) scripts/coordination/render_module_roadmap_dashboard.py --module "$(MODULE)" --before-current "$(BEFORE_CURRENT)" --after-current "$(AFTER_CURRENT)" $(if $(filter 1,$(NO_COLOR)),--no-color,); \
 	fi
+
+.PHONY: roadmap-summary
+roadmap-summary:
+	$(PYTHON) scripts/coordination/render_module_roadmap_dashboard.py --modules "$(ROADMAP_SUMMARY_MODULES)" $(if $(filter 1,$(NO_COLOR)),--no-color,)
 
 # =============================================================================
 

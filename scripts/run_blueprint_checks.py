@@ -244,6 +244,18 @@ def build_checks() -> list[CheckDefinition]:
             ],
         ),
         CheckDefinition(
+            check_id="module_roadmap_summary",
+            title="Module roadmap summary",
+            expected_result="Module roadmap summary renders for configured roadmap modules",
+            command=[
+                python,
+                "scripts/coordination/render_module_roadmap_dashboard.py",
+                "--modules",
+                "forprint_library",
+                "--no-color",
+            ],
+        ),
+        CheckDefinition(
             check_id="standards_index_validation",
             title="Standards index validation",
             expected_result="Blueprint standards index is readable and advisory semantics are explicit",
