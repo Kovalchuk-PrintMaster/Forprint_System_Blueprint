@@ -1,0 +1,21 @@
+schema_version: module_config_v0_1
+status: template
+
+module:
+  id: forprint_module
+  name: ForPrint Module
+  owner_layer: module_specific
+  description: Replace with the module purpose.
+
+coordination:
+  status_file: coordination/status/current_status.yaml
+  status_markdown: coordination/status/current_status.md
+  next_questions_file: coordination/status/next_questions_for_blueprint.md
+  prompts_index: coordination/prompts/index.yaml
+  received_prompts_dir: coordination/prompts/received
+  reports_index: coordination/reports/index.yaml
+
+reports:
+  output_dir: reports
+  check_report_json: reports/forprint_module_check_report.json
+  check_report_markdown: reports/forprint_module_check_report.md

@@ -1,0 +1,22 @@
+schema_version: adapters_config_v0_1
+status: template
+
+adapters:
+  integration_gateway:
+    enabled: false
+    mode: sandbox
+    base_url_env: INTEGRATION_GATEWAY_BASE_URL
+    timeout_seconds: 30
+    retry_attempts: 2
+
+  database:
+    enabled: false
+    mode: local
+    url_env: DATABASE_URL
+    timeout_seconds: 30
+
+  external_services:
+    enabled: false
+    mode: sandbox
+    timeout_seconds: 60
+    retry_attempts: 3

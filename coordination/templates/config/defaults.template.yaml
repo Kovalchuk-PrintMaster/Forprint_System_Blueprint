@@ -1,0 +1,27 @@
+schema_version: config_defaults_v0_1
+status: template
+
+runtime:
+  default_environment: local
+  debug: false
+  timezone: UTC
+
+timeouts:
+  default_seconds: 30
+  adapter_seconds: 60
+  report_seconds: 120
+
+retries:
+  default_attempts: 2
+  adapter_attempts: 3
+
+dashboard:
+  default_limit: 40
+  default_before_current: 5
+  default_after_current: 10
+
+features:
+  prompt_queue_enabled: true
+  document_awareness_enabled: true
+  roadmap_dashboard_enabled: true
+  sandbox_adapters_enabled: false
