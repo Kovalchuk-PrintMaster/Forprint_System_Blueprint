@@ -208,6 +208,21 @@ Typical targets should be placed into these zones.
 - make prompt-next
 - make prompt-read-next
 
+Prompt dashboard should show:
+
+```text
+active prompt queue;
+current ready prompt marker;
+draft/planned prompts in a separate muted section.
+
+Draft prompts are planning-only artifacts.
+
+They must not be returned by:
+
+make prompt-next
+make prompt-read-next
+```
+
 ### 07 Blueprint document awareness
 
 - make document-manifest
@@ -242,6 +257,7 @@ Typical targets should be placed into these zones.
 ### 11 Module environment / local configuration
 
 - make env-check
+- make tooling-check
 - make config-check
 - make secrets-check
 
@@ -461,7 +477,7 @@ BLUEPRINT_ROOT=/path/to/forprint_system_blueprint
 MODULE_ID=forprint_module
 SCOPE=bootstrap
 LIMIT=40
-NO_COLOR=1
+NO_COLOR=1  # optional technical fallback only; not part of normal operator workflow
 MODULE_DOCUMENT_AWARENESS_LEDGER=coordination/blueprint_awareness/make_command_standard.md
 MODULE_DOCUMENT_AWARENESS_LEDGER=coordination/blueprint_awareness/document_review_ledger.yaml
 
@@ -491,6 +507,64 @@ Expected behavior:
 create/use venv if project standard defines it;
 install package requirements;
 prepare project for local checks.
+```
+
+## env-check
+
+Purpose:
+
+```text
+Verify local environment variables, paths and executables.
+
+Expected behavior:
+
+print module id and Python executable;
+verify Python availability;
+verify dependency source exists;
+verify standard local directories where applicable;
+report missing local runtime paths as warnings unless the module requires them.
+
+env-check must not print secret values.
+
+tooling-check
+
+Purpose:
+
+Verify development tooling without modifying files.
+
+Expected behavior:
+
+verify ruff availability where Python linting is used;
+verify pytest availability where Python tests are used;
+verify YAML parser availability where YAML contracts are used;
+report optional tools as warnings, not hard failures.
+
+tooling-check may be included in env-check for simple modules, but new modules should prefer a separate target.
+
+config-check
+
+Purpose:
+
+Verify committed configuration files and templates.
+
+Expected behavior:
+
+check config directory or templates;
+check .env.example when environment variables are used;
+check tooling manifest or development environment docs when present;
+avoid requiring local secrets.
+secrets-check
+
+Purpose:
+
+Verify that local secrets are configured safely without printing secret values.
+
+Expected behavior:
+
+fail if .env or secret-like env files are tracked by git;
+warn if local .env is absent and the module may need it;
+verify .env.example exists when secrets are expected;
+never print real token/password/API key values.
 ```
 
 ## lint
@@ -549,6 +623,10 @@ Run the main local validation flow.
 Preferred sequence:
 
 ```text
+env-check;
+tooling-check;
+config-check;
+secrets-check;
 lint-fix;
 lint;
 test;
@@ -572,6 +650,10 @@ Expected outputs:
 reports/<module>_check_report.json
 reports/<module>_check_report.md
 ```
+expected behavior:
+include environment/tooling/config/secrets checks where applicable;
+must not print secret values;
+must not leave tracked generated reports dirty unless those reports are intentional source-of-truth artifacts.
 
 Console output should be easy to read.
 

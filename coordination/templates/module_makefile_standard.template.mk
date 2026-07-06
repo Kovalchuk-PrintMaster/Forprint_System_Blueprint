@@ -55,6 +55,19 @@ ROADMAP_SUMMARY_MODULES ?= $(MODULE_ID)
 
 REPORTS_DIR ?= reports
 COORDINATION_DIR ?= coordination
+
+CONFIG_DIR ?= config
+DATA_DIR ?= data
+LOGS_DIR ?= logs
+STATE_DIR ?= state
+TMP_DIR ?= tmp
+REQUIREMENTS_APP ?= requirements/app.txt
+REQUIREMENTS_DEV ?= requirements/dev.txt
+PYPROJECT ?= pyproject.toml
+ENV_EXAMPLE ?= .env.example
+TOOLING_MANIFEST ?= coordination/tooling_manifest.yaml
+DEVELOPMENT_ENVIRONMENT_DOC ?= coordination/development_environment.md
+
 MODULE_DOCUMENT_AWARENESS_LEDGER ?= $(CURDIR)/$(COORDINATION_DIR)/blueprint_awareness/document_review_ledger.yaml
 PROMPTS_DIR ?= $(COORDINATION_DIR)/prompts
 LOCAL_PROMPTS_DIR ?= $(PROMPTS_DIR)/received
@@ -120,6 +133,7 @@ help:
 	@echo "Module runtime / infrastructure:"
 	@echo "  make install"
 	@echo "  make env-check"
+	@echo "  make tooling-check"
 	@echo "  make run"
 	@echo "  make start"
 	@echo "  make stop"
@@ -618,7 +632,17 @@ governance-check:
 # Result: local environment is ready for checks.
 .PHONY: install
 install:
-	@echo "$(COLOR_YELLOW)DEFERRED: implement module-specific install workflow.$(COLOR_RESET)"
+		@if [ -f "$(REQUIREMENTS_DEV)" ]; then \
+				echo "$(COLOR_GREEN)Installing development dependencies from $(REQUIREMENTS_DEV).$(COLOR_RESET)"; \
+				"$(PYTHON)" -m pip install --upgrade pip; \
+				"$(PYTHON)" -m pip install -r "$(REQUIREMENTS_DEV)"; \
+		elif [ -f "$(PYPROJECT)" ]; then \
+				echo "$(COLOR_GREEN)Installing editable project from $(PYPROJECT).$(COLOR_RESET)"; \
+				"$(PYTHON)" -m pip install --upgrade pip; \
+				"$(PYTHON)" -m pip install -e ".[dev]"; \
+		else \
+				echo "$(COLOR_YELLOW)DEFERRED: no $(REQUIREMENTS_DEV) or $(PYPROJECT) found for $(MODULE_ID).$(COLOR_RESET)"; \
+		fi
 
 # Purpose: run first-time module bootstrap steps when needed.
 # Result: bootstrap is completed or documented deferral is printed.
@@ -636,22 +660,101 @@ bootstrap:
 # =============================================================================
 
 # Purpose: verify local environment variables, paths and executables.
-# Result: environment is ready or documented deferral is printed.
+# Result: environment is inspectable and basic local paths are present or clearly reported.
 .PHONY: env-check
 env-check:
-	@echo "$(COLOR_YELLOW)DEFERRED: environment check is not implemented for $(MODULE_ID).$(COLOR_RESET)"
+		@echo "$(COLOR_BOLD)== $(MODULE_NAME) environment check ==$(COLOR_RESET)"
+		@echo "MODULE_ID=$(MODULE_ID)"
+		@echo "PYTHON=$(PYTHON)"
+		@if command -v "$(PYTHON)" >/dev/null 2>&1 || [ -x "$(PYTHON)" ]; then \
+				"$(PYTHON)" --version; \
+		else \
+				echo "$(COLOR_YELLOW)WARNING: Python executable is not available: $(PYTHON)$(COLOR_RESET)"; \
+		fi
+		@for path in "$(CONFIG_DIR)" "$(DATA_DIR)" "$(LOGS_DIR)" "$(STATE_DIR)" "$(TMP_DIR)" "$(REPORTS_DIR)"; do \
+				if [ -e "$$path" ]; then \
+						echo "$(COLOR_GREEN)OK: $$path exists.$(COLOR_RESET)"; \
+				else \
+						echo "$(COLOR_YELLOW)WARNING: $$path does not exist yet.$(COLOR_RESET)"; \
+				fi; \
+		done
+		@if [ -f "$(REQUIREMENTS_DEV)" ]; then \
+				echo "$(COLOR_GREEN)OK: $(REQUIREMENTS_DEV) found.$(COLOR_RESET)"; \
+		elif [ -f "$(PYPROJECT)" ]; then \
+				echo "$(COLOR_GREEN)OK: $(PYPROJECT) found.$(COLOR_RESET)"; \
+		else \
+				echo "$(COLOR_YELLOW)WARNING: no $(REQUIREMENTS_DEV) or $(PYPROJECT) found.$(COLOR_RESET)"; \
+		fi
+
+# Purpose: verify local development tooling without modifying files.
+# Result: required Python tooling is available or actionable warnings are printed.
+.PHONY: tooling-check
+tooling-check:
+		@echo "$(COLOR_BOLD)== $(MODULE_NAME) tooling check ==$(COLOR_RESET)"
+		@if command -v "$(PYTHON)" >/dev/null 2>&1 || [ -x "$(PYTHON)" ]; then \
+				"$(PYTHON)" -m ruff --version >/dev/null 2>&1 && \
+						echo "$(COLOR_GREEN)OK: ruff is available.$(COLOR_RESET)" || \
+						echo "$(COLOR_YELLOW)WARNING: ruff is not available for $(PYTHON).$(COLOR_RESET)"; \
+				"$(PYTHON)" -m pytest --version >/dev/null 2>&1 && \
+						echo "$(COLOR_GREEN)OK: pytest is available.$(COLOR_RESET)" || \
+						echo "$(COLOR_YELLOW)WARNING: pytest is not available for $(PYTHON).$(COLOR_RESET)"; \
+				"$(PYTHON)" -c "import yaml" >/dev/null 2>&1 && \
+						echo "$(COLOR_GREEN)OK: PyYAML is available.$(COLOR_RESET)" || \
+						echo "$(COLOR_YELLOW)WARNING: PyYAML is not available for $(PYTHON).$(COLOR_RESET)"; \
+		else \
+				echo "$(COLOR_YELLOW)WARNING: Python executable is not available: $(PYTHON)$(COLOR_RESET)"; \
+		fi
 
 # Purpose: verify local configuration files.
-# Result: configuration is readable or documented deferral is printed.
+# Result: configuration templates are readable or documented warnings are printed.
 .PHONY: config-check
 config-check:
-	@echo "$(COLOR_YELLOW)DEFERRED: configuration check is not implemented for $(MODULE_ID).$(COLOR_RESET)"
+		@echo "$(COLOR_BOLD)== $(MODULE_NAME) configuration check ==$(COLOR_RESET)"
+		@if [ -d "$(CONFIG_DIR)" ]; then \
+				echo "$(COLOR_GREEN)OK: $(CONFIG_DIR) directory exists.$(COLOR_RESET)"; \
+		else \
+				echo "$(COLOR_YELLOW)WARNING: $(CONFIG_DIR) directory does not exist yet.$(COLOR_RESET)"; \
+		fi
+		@if [ -f "$(ENV_EXAMPLE)" ]; then \
+				echo "$(COLOR_GREEN)OK: $(ENV_EXAMPLE) exists.$(COLOR_RESET)"; \
+		else \
+				echo "$(COLOR_YELLOW)WARNING: $(ENV_EXAMPLE) is not present yet.$(COLOR_RESET)"; \
+		fi
+		@if [ -f "$(TOOLING_MANIFEST)" ]; then \
+				echo "$(COLOR_GREEN)OK: $(TOOLING_MANIFEST) exists.$(COLOR_RESET)"; \
+		else \
+				echo "$(COLOR_YELLOW)WARNING: $(TOOLING_MANIFEST) is not present yet.$(COLOR_RESET)"; \
+		fi
+		@if [ -f "$(DEVELOPMENT_ENVIRONMENT_DOC)" ]; then \
+				echo "$(COLOR_GREEN)OK: $(DEVELOPMENT_ENVIRONMENT_DOC) exists.$(COLOR_RESET)"; \
+		else \
+				echo "$(COLOR_YELLOW)WARNING: $(DEVELOPMENT_ENVIRONMENT_DOC) is not present yet.$(COLOR_RESET)"; \
+		fi
 
 # Purpose: verify that required local secrets are configured without printing secret values.
-# Result: required secrets are present or documented deferral is printed.
+# Result: tracked secret files fail the check; missing local examples are reported safely.
 .PHONY: secrets-check
 secrets-check:
-	@echo "$(COLOR_YELLOW)DEFERRED: secrets check is not implemented for $(MODULE_ID).$(COLOR_RESET)"
+		@echo "$(COLOR_BOLD)== $(MODULE_NAME) secrets check ==$(COLOR_RESET)"
+		@if git ls-files --error-unmatch .env >/dev/null 2>&1; then \
+				echo "$(COLOR_RED)FAILED: .env is tracked by git. Move real secrets out of tracked files.$(COLOR_RESET)"; \
+				exit 1; \
+		fi
+		@if [ -f .env ]; then \
+				echo "$(COLOR_GREEN)OK: local .env exists and is not tracked.$(COLOR_RESET)"; \
+		else \
+				echo "$(COLOR_YELLOW)WARNING: local .env is not present. This may be OK for modules without secrets.$(COLOR_RESET)"; \
+		fi
+		@if [ -f "$(ENV_EXAMPLE)" ]; then \
+				echo "$(COLOR_GREEN)OK: $(ENV_EXAMPLE) documents expected variables.$(COLOR_RESET)"; \
+		else \
+				echo "$(COLOR_YELLOW)WARNING: $(ENV_EXAMPLE) is not present yet.$(COLOR_RESET)"; \
+		fi
+		@if git ls-files | grep -E '(^|/)(\.env|\.env\.local|\.env\.prod|secrets/.*\.env)$$' >/dev/null; then \
+				echo "$(COLOR_RED)FAILED: tracked secret-like env file detected.$(COLOR_RESET)"; \
+				git ls-files | grep -E '(^|/)(\.env|\.env\.local|\.env\.prod|secrets/.*\.env)$$'; \
+				exit 1; \
+		fi
 
 # =============================================================================
 # 11 Module environment / local configuration FINISH
@@ -1042,6 +1145,10 @@ test-integration:
 # Result: lint, tests, and module validations pass.
 .PHONY: check
 check:
+	$(MAKE) env-check
+	$(MAKE) tooling-check
+	$(MAKE) config-check
+	$(MAKE) secrets-check
 	$(MAKE) lint-fix
 	$(MAKE) lint
 	$(MAKE) test
@@ -1052,6 +1159,10 @@ check:
 check-report:
 	@echo "$(COLOR_BOLD)== $(MODULE_NAME) check report ==$(COLOR_RESET)"
 	@mkdir -p "$(REPORTS_DIR)"
+	$(MAKE) env-check
+	$(MAKE) tooling-check
+	$(MAKE) config-check
+	$(MAKE) secrets-check
 	@echo "$(COLOR_YELLOW)DEFERRED: implement module-specific check report generator.$(COLOR_RESET)"
 
 # =============================================================================
