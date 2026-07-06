@@ -852,26 +852,45 @@ services-start:
 # Result: delegates to services-down.
 .PHONY: services-stop
 services-stop:
-	$(MAKE) workers-stop
+	$(MAKE) services-down
 
-# Purpose: start local monitors, workers, queue consumers, or watchers.
+# Purpose: start local workers, queue consumers, or background helpers.
 # Result: background helpers start or clearly report deferral.
-.PHONY: workers-start monitors-start
-workers-start monitors-start:
-	$(MAKE) workers-start
+.PHONY: workers-start
+workers-start:
+	@echo "$(COLOR_YELLOW)DEFERRED: no workers are defined for $(MODULE_ID).$(COLOR_RESET)"
 
-# Purpose: stop local monitors, workers, queue consumers, or watchers.
+# Purpose: stop local workers, queue consumers, or background helpers.
 # Result: background helpers stop or clearly report deferral.
-.PHONY: workers-stop monitors-stop
-workers-stop monitors-stop:
-	@echo "$(COLOR_YELLOW)DEFERRED: no workers/monitors are defined for $(MODULE_ID).$(COLOR_RESET)"
+.PHONY: workers-stop
+workers-stop:
+	@echo "$(COLOR_YELLOW)DEFERRED: no workers are defined for $(MODULE_ID).$(COLOR_RESET)"
 
-# Purpose: restart local workers or monitors when applicable.
+# Purpose: restart local workers when applicable.
 # Result: background helpers restart through stop/start.
-.PHONY: workers-restart monitors-restart
-workers-restart monitors-restart:
+.PHONY: workers-restart
+workers-restart:
 	$(MAKE) workers-stop
 	$(MAKE) workers-start
+
+# Purpose: start local monitors or watchers.
+# Result: monitors start or clearly report deferral.
+.PHONY: monitors-start
+monitors-start:
+	@echo "$(COLOR_YELLOW)DEFERRED: no monitors are defined for $(MODULE_ID).$(COLOR_RESET)"
+
+# Purpose: stop local monitors or watchers.
+# Result: monitors stop or clearly report deferral.
+.PHONY: monitors-stop
+monitors-stop:
+	@echo "$(COLOR_YELLOW)DEFERRED: no monitors are defined for $(MODULE_ID).$(COLOR_RESET)"
+
+# Purpose: restart local monitors when applicable.
+# Result: monitors restart through stop/start.
+.PHONY: monitors-restart
+monitors-restart:
+	$(MAKE) monitors-stop
+	$(MAKE) monitors-start
 
 # =============================================================================
 # 13 Infrastructure / local services FINISH
@@ -890,9 +909,14 @@ db-check:
 
 # Purpose: run local non-production migrations if the module has them.
 # Result: local schema/state is prepared or target clearly reports deferral.
-.PHONY: db-migrate migrate
-db-migrate migrate:
+.PHONY: db-migrate
+db-migrate:
 	@echo "$(COLOR_YELLOW)DEFERRED: no local migration target is defined for $(MODULE_ID).$(COLOR_RESET)"
+
+# Purpose: compatibility alias for local non-production migrations.
+# Result: delegates to db-migrate.
+.PHONY: migrate
+migrate: db-migrate
 
 # Purpose: upgrade local schema/state to the latest version.
 # Result: local schema/state is upgraded or documented deferral is printed.
@@ -922,11 +946,6 @@ db-reset:
 # 14 Database / storage / migrations FINISH
 # =============================================================================
 
-# Purpose: run local non-production migrations if the module has them.
-# Result: local schema/state is prepared or target clearly reports deferral.
-.PHONY: migrate
-migrate:
-	@echo "$(COLOR_YELLOW)DEFERRED: no local migration target is defined for $(MODULE_ID).$(COLOR_RESET)"
 
 # =============================================================================
 # 15 Data import / export / fixtures START
@@ -940,9 +959,14 @@ fixtures-check:
 
 # Purpose: prepare local data fixtures for development or offline checks.
 # Result: local fixtures are ready or target clearly reports deferral.
-.PHONY: fixtures-load data-fixtures
-fixtures-load data-fixtures:
+.PHONY: fixtures-load
+fixtures-load:
 	@echo "$(COLOR_YELLOW)DEFERRED: no local data fixture target is defined for $(MODULE_ID).$(COLOR_RESET)"
+
+# Purpose: compatibility alias for local fixture preparation.
+# Result: delegates to fixtures-load.
+.PHONY: data-fixtures
+data-fixtures: fixtures-load
 
 # Purpose: preview an import workflow without production writes.
 # Result: import preview is printed or documented deferral is printed.
@@ -955,12 +979,6 @@ import-preview:
 .PHONY: export-preview
 export-preview:
 	@echo "$(COLOR_YELLOW)DEFERRED: export preview is not implemented for $(MODULE_ID).$(COLOR_RESET)"
-
-# Purpose: prepare local data fixtures for development or offline checks.
-# Result: local fixtures are ready or target clearly reports deferral.
-.PHONY: data-fixtures
-data-fixtures:
-	@echo "$(COLOR_YELLOW)DEFERRED: no local data fixture target is defined for $(MODULE_ID).$(COLOR_RESET)"
 
 # =============================================================================
 # 15 Data import / export / fixtures FINISH
@@ -979,8 +997,14 @@ adapters-check:
 
 # Purpose: compatibility alias for sandbox adapter and smoke checks.
 # Result: delegates to the standard sandbox-check target.
-.PHONY: adapters-smoke adapters-sandbox-check
-adapters-smoke adapters-sandbox-check :
+.PHONY: adapters-smoke
+adapters-smoke:
+	$(MAKE) sandbox-check
+
+# Purpose: compatibility alias for sandbox adapter checks.
+# Result: delegates to sandbox-check.
+.PHONY: adapters-sandbox-check
+adapters-sandbox-check:
 	$(MAKE) sandbox-check
 
 # Purpose: verify sandbox synchronization prerequisites.
@@ -994,12 +1018,6 @@ sandbox-check:
 .PHONY: sandbox-sync
 sandbox-sync:
 	@echo "$(COLOR_YELLOW)DEFERRED: sandbox sync is not implemented for $(MODULE_ID).$(COLOR_RESET)"
-
-# Purpose: verify sandbox adapter configuration and connectivity when applicable.
-# Result: sandbox adapter checks run or clearly report deferral.
-.PHONY: adapters-sandbox-check
-adapters-sandbox-check:
-	@echo "$(COLOR_YELLOW)DEFERRED: no sandbox adapter check is defined for $(MODULE_ID).$(COLOR_RESET)"
 
 # =============================================================================
 # 16 External adapters / sandbox integrations FINISH
@@ -1058,18 +1076,6 @@ inspect:
 # =============================================================================
 # 18 Observability / diagnostics / logs FINISH
 # =============================================================================
-
-# Purpose: start local monitors, workers, queue consumers, or watchers.
-# Result: background helpers start or clearly report deferral.
-.PHONY: monitors-start
-monitors-start:
-	@echo "$(COLOR_YELLOW)DEFERRED: no monitors are defined for $(MODULE_ID).$(COLOR_RESET)"
-
-# Purpose: stop local monitors, workers, queue consumers, or watchers.
-# Result: background helpers stop or clearly report deferral.
-.PHONY: monitors-stop
-monitors-stop:
-	@echo "$(COLOR_YELLOW)DEFERRED: no monitors are defined for $(MODULE_ID).$(COLOR_RESET)"
 
 # =============================================================================
 # 19 Syntax / formatting / lint START
