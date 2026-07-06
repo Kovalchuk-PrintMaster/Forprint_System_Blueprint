@@ -187,7 +187,7 @@ check:
 	$(MAKE) document-manifest
 	$(MAKE) context-bundle
 	$(MAKE) roadmap-validate
-	$(MAKE) roadmap-summary NO_COLOR=1
+	$(MAKE) roadmap-summary
 	$(MAKE) standards-index
 	$(MAKE) module-standards-template
 	$(MAKE) instruction-intake

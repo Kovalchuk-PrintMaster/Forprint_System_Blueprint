@@ -277,4 +277,32 @@ auditable
 dashboard-friendly
 not hardcoded to one prompt path
 
+## Draft / planned prompt visibility
+
+Draft prompt files may live under:
+
+```text
+coordination/outgoing_prompts/<module>/drafts/
+
+Draft prompts are planning artifacts.
+
+They may be shown in the prompt dashboard so Blueprint and module assistants can see future planned work.
+
+Draft prompts may be read for awareness, but they must not be executed until Blueprint promotes them into the active prompt queue.
+
+A draft prompt must not be returned by:
+
+make prompt-next
+make prompt-read-next
+
+Promotion from draft to active work requires an explicit Blueprint action:
+
+move or copy the prompt into approved/;
+register it in index.yaml prompt_queue;
+assign sequence, priority and execution status;
+run prompt queue validation.
+
+The dashboard should visually separate active queue prompts from draft/planned prompts.
+
+
 ---

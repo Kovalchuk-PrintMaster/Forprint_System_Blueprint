@@ -2,7 +2,9 @@
 from __future__ import annotations
 
 import argparse
+import re
 import sys
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -19,6 +21,13 @@ COLOR_ORANGE = "\033[38;5;208m"
 COLOR_RED = "\033[31m"
 COLOR_GRAY = "\033[90m"
 COLOR_CYAN = "\033[36m"
+ANSI_RE = re.compile(r"\033\[[0-9;]*m")
+
+
+@dataclass(frozen=True)
+class TableRow:
+    values: tuple[str, ...]
+    color: str | None = None
 
 
 def _load_yaml(path: Path) -> dict[str, Any]:
@@ -28,80 +37,18 @@ def _load_yaml(path: Path) -> dict[str, Any]:
     return data
 
 
-def _status_color(status: str) -> str:
-    if status == "accepted_by_blueprint":
-        return COLOR_BRIGHT_GREEN
-    if status == "completed_by_module":
-        return COLOR_LIGHT_GREEN
-    if status == "in_progress":
-        return COLOR_YELLOW
-    if status == "ready_for_module_pull":
-        return COLOR_ORANGE
-    if status in {"blocked", "returned_for_fix"}:
-        return COLOR_RED
-    if status == "planned":
-        return COLOR_GRAY
-    if status in {"not_required", "superseded"}:
-        return COLOR_CYAN
-    return ""
-
-
-def _colorize(value: str, *, enabled: bool) -> str:
-    if not enabled:
-        return value
-    color = _status_color(value)
-    if not color:
-        return value
-    return f"{color}{value}{COLOR_RESET}"
-
-
 def _cell(value: Any) -> str:
     if value is None:
         return "-"
-    text = str(value)
+    text = str(value).strip()
     return text if text else "-"
 
 
 def _short_commit(value: Any) -> str:
     if value is None:
         return "-"
-    text = str(value)
+    text = str(value).strip()
     return text[:12] if text else "-"
-
-
-def _format_table(headers: list[str], rows: list[list[str]]) -> str:
-    widths = [len(header) for header in headers]
-
-    for row in rows:
-        for index, value in enumerate(row):
-            widths[index] = max(widths[index], len(_strip_ansi(value)))
-
-    def format_row(row: list[str]) -> str:
-        return " | ".join(
-            value + (" " * (widths[index] - len(_strip_ansi(value))))
-            for index, value in enumerate(row)
-        )
-
-    separator = "-+-".join("-" * width for width in widths)
-
-    output = [format_row(headers), separator]
-    output.extend(format_row(row) for row in rows)
-    return "\n".join(output)
-
-
-def _strip_ansi(value: str) -> str:
-    result = ""
-    index = 0
-    while index < len(value):
-        if value[index] == "\033":
-            end = value.find("m", index)
-            if end == -1:
-                break
-            index = end + 1
-            continue
-        result += value[index]
-        index += 1
-    return result
 
 
 def _sorted_prompt_queue(data: dict[str, Any]) -> list[dict[str, Any]]:
@@ -128,56 +75,23 @@ def render_dashboard(index_path: Path, *, use_color: bool = True) -> str:
     module = data.get("module", index_path.parent.name)
     schema_version = data.get("schema_version")
 
-    lines: list[str] = []
-    lines.append(f"Prompt Queue Dashboard — {module}")
-    lines.append(f"Index: {index_path}")
-    lines.append(f"Schema: {schema_version or 'legacy'}")
-    lines.append("")
+    lines: list[str] = [
+        f"Prompt Queue Dashboard — {module}",
+        f"Index: {index_path}",
+        f"Schema: {schema_version or 'legacy'}",
+        "",
+    ]
 
     if schema_version != PROMPT_QUEUE_SCHEMA_VERSION:
         lines.append("Legacy outgoing prompt index detected.")
         lines.append("Prompt Queue v0.2 dashboard is not available for this module yet.")
         return "\n".join(lines)
 
-    rows: list[list[str]] = []
-
-    for record in _sorted_prompt_queue(data):
-        module_execution = record.get("module_execution")
-        blueprint_review = record.get("blueprint_review")
-
-        module_execution = module_execution if isinstance(module_execution, dict) else {}
-        blueprint_review = blueprint_review if isinstance(blueprint_review, dict) else {}
-
-        module_status = _cell(module_execution.get("status"))
-        blueprint_status = _cell(blueprint_review.get("status"))
-
-        rows.append(
-            [
-                _cell(record.get("sequence")),
-                _cell(record.get("prompt_id")),
-                _cell(record.get("priority")),
-                _colorize(module_status, enabled=use_color),
-                _short_commit(module_execution.get("completion_commit")),
-                _colorize(blueprint_status, enabled=use_color),
-                _short_commit(blueprint_review.get("acceptance_commit")),
-                _cell(record.get("file")),
-            ]
-        )
-
-    headers = [
-        "Seq",
-        "Prompt ID",
-        "Priority",
-        "Module Status",
-        "Module Commit",
-        "Blueprint Status",
-        "Blueprint Commit",
-        "File",
-    ]
-
-    lines.append(_format_table(headers, rows))
-
     next_prompt = resolve_next_prompt(data)
+
+    lines.append("Active Prompt Queue")
+    lines.extend(_render_active_prompt_table(data, next_prompt, use_color=use_color))
+
     lines.append("")
     if next_prompt is None:
         lines.append("Next prompt: -")
@@ -189,7 +103,278 @@ def render_dashboard(index_path: Path, *, use_color: bool = True) -> str:
             f"({next_prompt.get('file')})"
         )
 
-    return "\n".join(lines)
+    lines.append("")
+    lines.append("Draft / Planned Prompts")
+    lines.extend(_render_draft_prompt_table(index_path, use_color=use_color))
+    lines.append("")
+    lines.append(
+        "Draft rule: draft prompts are planning-only artifacts. "
+        "They may be read for awareness, but must not be executed until "
+        "Blueprint promotes them into the active prompt queue."
+    )
+
+    return _finalize_output(lines, use_color=use_color)
+
+
+def _render_active_prompt_table(
+    data: dict[str, Any],
+    next_prompt: dict[str, Any] | None,
+    *,
+    use_color: bool,
+) -> list[str]:
+    rows: list[TableRow] = []
+
+    for record in _sorted_prompt_queue(data):
+        module_execution = record.get("module_execution")
+        blueprint_review = record.get("blueprint_review")
+
+        module_execution = module_execution if isinstance(module_execution, dict) else {}
+        blueprint_review = blueprint_review if isinstance(blueprint_review, dict) else {}
+
+        module_status = _cell(module_execution.get("status"))
+        blueprint_status = _cell(blueprint_review.get("status"))
+        is_next = _same_prompt(record, next_prompt)
+
+        rows.append(
+            TableRow(
+                values=(
+                    "→" if is_next else "",
+                    _cell(record.get("sequence")),
+                    _cell(record.get("prompt_id")),
+                    _cell(record.get("priority")),
+                    module_status,
+                    _short_commit(module_execution.get("completion_commit")),
+                    blueprint_status,
+                    _short_commit(blueprint_review.get("acceptance_commit")),
+                    _cell(record.get("file")),
+                ),
+                color=_record_row_color(
+                    module_status,
+                    blueprint_status,
+                    is_next=is_next,
+                ),
+            )
+        )
+
+    if not rows:
+        rows.append(
+            TableRow(
+                values=(
+                    "",
+                    "-",
+                    "No active prompt queue records",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                    "-",
+                ),
+                color=COLOR_GRAY,
+            )
+        )
+
+    return _boxed_table(
+        headers=(
+            "",
+            "Seq",
+            "Prompt ID",
+            "Priority",
+            "Module Status",
+            "Module Commit",
+            "Blueprint Status",
+            "Blueprint Commit",
+            "File",
+        ),
+        widths=(2, 4, 52, 10, 23, 14, 23, 14, 78),
+        rows=rows,
+        use_color=use_color,
+    )
+
+
+def _render_draft_prompt_table(index_path: Path, *, use_color: bool) -> list[str]:
+    draft_paths = _sorted_draft_prompts(index_path)
+    rows: list[TableRow] = []
+
+    for draft_path in draft_paths:
+        rows.append(
+            TableRow(
+                values=(
+                    "",
+                    _draft_id(draft_path),
+                    _draft_title(draft_path),
+                    str(draft_path.relative_to(index_path.parent)),
+                ),
+                color=COLOR_GRAY,
+            )
+        )
+
+    if not rows:
+        rows.append(
+            TableRow(
+                values=("", "-", "No draft prompts found", "-"),
+                color=COLOR_GRAY,
+            )
+        )
+
+    return _boxed_table(
+        headers=("", "Draft ID", "Title", "File"),
+        widths=(2, 64, 56, 78),
+        rows=rows,
+        use_color=use_color,
+    )
+
+
+def _same_prompt(
+    record: dict[str, Any],
+    next_prompt: dict[str, Any] | None,
+) -> bool:
+    if next_prompt is None:
+        return False
+
+    return (
+        record.get("sequence") == next_prompt.get("sequence")
+        and record.get("prompt_id") == next_prompt.get("prompt_id")
+    )
+
+
+def _record_row_color(
+    module_status: str,
+    blueprint_status: str,
+    *,
+    is_next: bool,
+) -> str | None:
+    blocked_statuses = {"blocked", "returned_for_fix", "failed"}
+    if module_status in blocked_statuses or blueprint_status in blocked_statuses:
+        return COLOR_RED
+
+    if is_next or module_status == "ready_for_module_pull":
+        return COLOR_ORANGE
+
+    if module_status == "in_progress":
+        return COLOR_YELLOW
+
+    if blueprint_status == "accepted_by_blueprint":
+        return COLOR_BRIGHT_GREEN
+
+    if module_status == "completed_by_module":
+        return COLOR_LIGHT_GREEN
+
+    if module_status == "planned" or blueprint_status == "not_started":
+        return COLOR_GRAY
+
+    if module_status in {"not_required", "superseded"}:
+        return COLOR_CYAN
+
+    return None
+
+
+def _sorted_draft_prompts(index_path: Path) -> list[Path]:
+    drafts_dir = index_path.parent / "drafts"
+    if not drafts_dir.exists():
+        return []
+
+    return sorted(
+        path
+        for path in drafts_dir.glob("*.md")
+        if path.is_file() and not path.name.startswith(".")
+    )
+
+
+def _draft_id(path: Path) -> str:
+    stem = path.stem
+    stem = re.sub(r"^\d{4}-\d{2}-\d{2}__", "", stem)
+    stem = re.sub(r"^\d{4}-\d{2}-\d{2}-", "", stem)
+    return stem
+
+
+def _draft_title(path: Path) -> str:
+    try:
+        for line in path.read_text(encoding="utf-8").splitlines():
+            stripped = line.strip()
+            if not stripped:
+                continue
+            if stripped.startswith("#"):
+                title = stripped.lstrip("#").strip()
+                if title.lower().startswith("prompt:"):
+                    title = title[7:].strip()
+                return title or path.stem
+    except OSError:
+        return path.stem
+
+    return path.stem
+
+
+def _boxed_table(
+    *,
+    headers: tuple[str, ...],
+    widths: tuple[int, ...],
+    rows: list[TableRow],
+    use_color: bool,
+) -> list[str]:
+    return [
+        _boxed_border(widths, left="┌", separator="┬", right="┐"),
+        _boxed_row(headers, widths, row_color=None),
+        _boxed_border(widths, left="├", separator="┼", right="┤"),
+        *[
+            _boxed_row(
+                row.values,
+                widths,
+                row_color=row.color if use_color else None,
+            )
+            for row in rows
+        ],
+        _boxed_border(widths, left="└", separator="┴", right="┘"),
+    ]
+
+
+def _boxed_border(
+    widths: tuple[int, ...],
+    *,
+    left: str,
+    separator: str,
+    right: str,
+) -> str:
+    return left + separator.join("─" * (width + 2) for width in widths) + right
+
+
+def _boxed_row(
+    values: tuple[str, ...],
+    widths: tuple[int, ...],
+    *,
+    row_color: str | None,
+) -> str:
+    cells = []
+    for value, width in zip(values, widths, strict=False):
+        cells.append(_visible_cell(value, width))
+
+    rendered = "│ " + " │ ".join(cells) + " │"
+    if row_color:
+        return f"{row_color}{rendered}{COLOR_RESET}"
+    return rendered
+
+
+def _visible_cell(value: str, width: int) -> str:
+    raw_value = str(value).replace("\n", " ")
+    clean_value = _strip_ansi(raw_value)
+    return _format_visible_cell(clean_value, width)
+
+
+def _format_visible_cell(value: str, width: int) -> str:
+    if len(value) > width:
+        value = value[: width - 1] + "…"
+    return value.ljust(width)
+
+
+def _strip_ansi(value: str) -> str:
+    return ANSI_RE.sub("", value)
+
+
+def _finalize_output(lines: list[str], *, use_color: bool) -> str:
+    rendered = "\n".join(lines)
+    if not use_color:
+        return rendered
+    return rendered + COLOR_RESET
 
 
 def main() -> int:
