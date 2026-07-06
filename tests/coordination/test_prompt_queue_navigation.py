@@ -13,7 +13,10 @@ from scripts.coordination.validate_prompt_queue import validate_root
 def _write_valid_prompt_queue(root: Path) -> Path:
     module_dir = root / "coordination" / "outgoing_prompts" / "forprint_library"
     approved_dir = module_dir / "approved"
+    drafts_dir = module_dir / "drafts"
+
     approved_dir.mkdir(parents=True)
+    drafts_dir.mkdir(parents=True)
 
     prompt_path = approved_dir / "2026-06-29__library__reference_contract_v0_2.md"
     prompt_path.write_text(
@@ -22,6 +25,19 @@ def _write_valid_prompt_queue(root: Path) -> Path:
         "`forprint_library`\n\n"
         "## Purpose\n\n"
         "Validate prompt queue tests.\n",
+        encoding="utf-8",
+    )
+
+    draft_path = (
+        drafts_dir
+        / "2026-07-03__library__configurable_product_workbench_v0_1.md"
+    )
+    draft_path.write_text(
+        "# Prompt: Library Configurable Product Workbench v0.1\n\n"
+        "## Target module\n\n"
+        "`forprint_library`\n\n"
+        "## Purpose\n\n"
+        "Planning-only draft prompt.\n",
         encoding="utf-8",
     )
 
@@ -159,6 +175,20 @@ def test_render_prompt_dashboard_shows_next_prompt(tmp_path: Path) -> None:
     assert "Next prompt: 2 library_reference_contract_foundation_v0_2" in dashboard
 
 
+def test_render_prompt_dashboard_shows_current_marker_and_drafts(
+    tmp_path: Path,
+) -> None:
+    index_path = _write_valid_prompt_queue(tmp_path)
+
+    dashboard = render_dashboard(index_path, use_color=False)
+
+    assert "→" in dashboard
+    assert "Draft / Planned Prompts" in dashboard
+    assert "library__configurable_product_workbench_v0_1" in dashboard
+    assert "Library Configurable Product Workbench v0.1" in dashboard
+    assert "planning-only artifacts" in dashboard
+
+
 def test_resolve_next_prompt_returns_first_ready_prompt(tmp_path: Path) -> None:
     index_path = _write_valid_prompt_queue(tmp_path)
 
@@ -169,6 +199,20 @@ def test_resolve_next_prompt_returns_first_ready_prompt(tmp_path: Path) -> None:
 
     assert next_prompt is not None
     assert next_prompt["prompt_id"] == "library_reference_contract_foundation_v0_2"
+
+
+def test_draft_prompt_does_not_become_next_prompt(tmp_path: Path) -> None:
+    index_path = _write_valid_prompt_queue(tmp_path)
+
+    import yaml
+
+    data = yaml.safe_load(index_path.read_text(encoding="utf-8"))
+    next_prompt = resolve_next_prompt(data)
+
+    assert next_prompt is not None
+    assert next_prompt["prompt_id"] != "library__configurable_product_workbench_v0_1"
+    assert next_prompt["prompt_id"] == "library_reference_contract_foundation_v0_2"
+
 
 def test_resolve_next_prompt_summary_points_to_ready_prompt(tmp_path: Path) -> None:
     _write_valid_prompt_queue(tmp_path)

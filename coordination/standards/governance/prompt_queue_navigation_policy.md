@@ -304,5 +304,10 @@ run prompt queue validation.
 
 The dashboard should visually separate active queue prompts from draft/planned prompts.
 
+Recommended dashboard behavior:
 
----
+active prompt queue first;
+current ready prompt marked with an arrow;
+status color applied to the whole active row;
+draft/planned prompts shown in a separate muted section;
+draft prompts never treated as executable work.

@@ -75,12 +75,11 @@ def render_dashboard(index_path: Path, *, use_color: bool = True) -> str:
     module = data.get("module", index_path.parent.name)
     schema_version = data.get("schema_version")
 
-    lines: list[str] = [
-        f"Prompt Queue Dashboard — {module}",
-        f"Index: {index_path}",
-        f"Schema: {schema_version or 'legacy'}",
-        "",
-    ]
+    lines: list[str] = []
+    lines.append(f"Prompt Queue Dashboard — {module}")
+    lines.append(f"Index: {index_path}")
+    lines.append(f"Schema: {schema_version or 'legacy'}")
+    lines.append("")
 
     if schema_version != PROMPT_QUEUE_SCHEMA_VERSION:
         lines.append("Legacy outgoing prompt index detected.")
