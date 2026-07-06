@@ -1,0 +1,138 @@
+
+tooling_manifest_version: tooling_manifest_v0_1
+module: forprint_module
+status: template
+
+python:
+  required_version: "3.11.2"
+  executable: ".venv_module/bin/python"
+  venv_name: ".venv_module"
+  package_manager: "pip"
+
+dependency_files:
+  runtime:
+    - requirements/app.txt
+  development:
+    - requirements/dev.txt
+  alternative:
+    - pyproject.toml
+  lock_files: []
+
+make_targets:
+  install: make install
+  env_check: make env-check
+  tooling_check: make tooling-check
+  config_check: make config-check
+  secrets_check: make secrets-check
+  lint: make lint
+  lint_fix: make lint-fix
+  test: make test
+  check: make check
+  check_report: make check-report
+  diagnostics: make diagnostics
+
+python_tools:
+  lint:
+    name: ruff
+    required: true
+  tests:
+    name: pytest
+    required: true
+  yaml:
+    name: PyYAML
+    required: true
+  typing:
+    name: mypy
+    required: false
+  formatting:
+    name: black
+    required: false
+
+local_services:
+  postgres:
+    status: optional_for_local_dev
+    required_for_basic_tests: false
+    env_prefix: POSTGRES_
+  redis:
+    status: optional_for_local_dev
+    required_for_basic_tests: false
+    env_prefix: REDIS_
+  docker_compose:
+    status: optional_for_local_dev
+    required_for_basic_tests: false
+    compose_file_env: DOCKER_COMPOSE_FILE
+
+environment_files:
+  committed_examples:
+    - .env.example
+  local_only:
+    - .env
+  must_not_commit:
+    - .env
+    - .env.local
+    - .env.prod
+    - secrets/*.env
+
+environment_variable_groups:
+  core:
+    - PROJECT_NAME
+    - ENV
+    - DEBUG
+    - TZ
+    - LOG_LEVEL
+  paths:
+    - PYTHONPATH
+    - VENV_NAME
+    - CONFIG_DIR
+    - DATA_DIR
+    - LOG_DIR
+    - STATE_DIR
+  database:
+    - POSTGRES_HOST
+    - POSTGRES_PORT
+    - POSTGRES_DB
+    - POSTGRES_USER
+    - POSTGRES_PASSWORD
+    - POSTGRES_DSN
+    - PGSSLMODE
+  cache:
+    - REDIS_HOST
+    - REDIS_PORT
+    - REDIS_DB
+    - REDIS_URL
+  integrations:
+    - TELEGRAM_BOT_TOKEN
+    - SUPABASE_URL
+    - SUPABASE_ANON_KEY
+    - NOVA_POSHTA_API_KEY
+    - SENTRY_DSN
+    - SMTP_HOST
+  feature_flags:
+    - FEATURE_*
+
+diagnostics:
+  must_not_print_secret_values: true
+  recommended_outputs:
+    - python_version
+    - python_executable
+    - venv_name
+    - project_root
+    - dependency_files
+    - required_directories
+    - git_status
+    - available_tools
+
+check_report:
+  should_include:
+    - lint
+    - tests
+    - config_check
+    - env_check
+    - tooling_check
+    - coordination_check
+  must_not_dirty_tracked_generated_reports: true
+
+notes:
+  - "Adapt paths and optional tools per module."
+  - "Keep real secrets out of committed files."
+  - "Use Make targets as the operator-facing interface."
