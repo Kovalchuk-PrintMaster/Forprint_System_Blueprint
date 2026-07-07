@@ -1206,6 +1206,12 @@ report-clean:
 # 23 Completion packet / prompt finalization START
 # =============================================================================
 
+# Boundary:
+# These targets are module-side targets.
+# They may update only module-local coordination records and reports.
+# They must not write into the Blueprint repository.
+# Blueprint-side report intake and review are separate Blueprint-owned actions.
+
 # Purpose: validate a completion packet.
 # Result: packet is valid or target returns non-zero.
 .PHONY: completion-packet-validate
@@ -1213,15 +1219,15 @@ completion-packet-validate:
 	@test -n "$(PACKET)" || (echo "$(COLOR_RED)PACKET is required.$(COLOR_RESET)"; exit 2)
 	$(PYTHON) scripts/validate_completion_packet.py "$(PACKET)"
 
-# Purpose: apply a completion packet to module coordination records.
-# Result: completion report and coordination metadata are updated idempotently.
+# Purpose: apply a completion packet to module-local coordination records.
+# Result: completion report and module-local coordination metadata are updated idempotently.
 .PHONY: completion-packet-apply
 completion-packet-apply:
 	@test -n "$(PACKET)" || (echo "$(COLOR_RED)PACKET is required.$(COLOR_RESET)"; exit 2)
 	$(PYTHON) scripts/apply_completion_packet.py "$(PACKET)"
 
 # Purpose: validate and apply a completion packet twice to verify idempotency.
-# Result: packet apply is idempotency-safe.
+# Result: packet apply is idempotency-safe and does not duplicate report/status records.
 .PHONY: completion-packet-check
 completion-packet-check:
 	@test -n "$(PACKET)" || (echo "$(COLOR_RED)PACKET is required.$(COLOR_RESET)"; exit 2)

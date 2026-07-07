@@ -115,3 +115,19 @@ The prompt reader must:
 - print prompt contents for the assistant/operator to read.
 
 Blueprint must validate outgoing prompt indexes before they are consumed by module assistants.
+
+## Cross-repository write boundary
+
+This protocol allows modules to read Blueprint outgoing prompts.
+
+It does not allow modules to write into the Blueprint repository.
+
+After a module completes a prompt, it must write completion reports and coordination status only inside its own repository.
+
+Blueprint-side intake, review and prompt queue acceptance are separate Blueprint-owned actions.
+
+See:
+
+```text
+coordination/standards/governance/module_prompt_execution_and_reporting_protocol.md
+```

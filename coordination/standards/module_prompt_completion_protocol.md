@@ -175,3 +175,22 @@ standards_alignment_notes:
   - "No destructive rewrite was performed."
   - "Reviewed modular topology and resilience standards for ownership and handoff boundaries."
   - "Reviewed third-party reuse policy; no new production third-party dependency was introduced."
+```
+
+## Completion automation boundary
+
+Completion packet automation is module-side automation.
+
+It may update module-local coordination records, completion reports and status files.
+
+It must not write into the Blueprint repository.
+
+If Blueprint needs to keep a received copy or review record for a module report, that is a Blueprint-side intake/review action and must be performed from the Blueprint context.
+
+Module assistants should prefer completion packet automation over manual synchronization of several coordination files when automation is available.
+
+See:
+
+```text
+coordination/standards/governance/module_prompt_execution_and_reporting_protocol.md
+```
