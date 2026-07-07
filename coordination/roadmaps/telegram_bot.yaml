@@ -1,0 +1,303 @@
+schema_version: module_development_roadmap_v0_1
+module: telegram_bot
+
+metadata:
+  module: telegram_bot
+  module_working_name: ForPrint Telegram Bot
+  roadmap_version: telegram_bot_order_intake_stabilization_v0_1
+  current_step_id: telegram_bot_analysis_draft_handoff_preview_v0_1
+  updated_at: "2026-07-07"
+  repository_root: /srv/software_development/forprint-project/telegram_bot
+  implementation_type: channel_runtime_intake_assistant
+  current_stage: ORDER intake assistant stabilization
+  purpose: >
+    Control Telegram Bot development as a Tier 1 client communication channel
+    and intake assistant. Telegram Bot may collect channel-local context,
+    temporary drafts and handoff previews, but must not become the canonical
+    owner of clients, orders, products, prices, payments, stock, production
+    statuses, accounting documents or 1C data.
+  strategic_boundary:
+    role: tier_1_client_communication_channel
+    future_flow: Telegram Bot -> Integration Gateway -> approved downstream module
+    owns:
+      - telegram profiles and identifiers
+      - conversation sessions
+      - conversation states
+      - phrase bank
+      - temporary intake drafts
+      - handoff preview and outbox
+      - channel-local audit events
+      - ProductClassifier route hints as local channel hints
+    forbidden_ownership:
+      - canonical clients
+      - canonical orders
+      - product registry
+      - price calculation
+      - payments
+      - stock
+      - production registry
+      - accounting / 1C
+      - vendor execution
+      - contractor execution
+    global_rules:
+      - Do not create canonical orders from Telegram Bot.
+      - Do not write to Supabase canonical orders.
+      - Do not write to Operational Registry from this stage.
+      - Do not write to Integration Gateway from this stage.
+      - Do not write to 1C.
+      - Do not call Calculator Engine from this stage.
+      - Keep local runtime SQLite data channel-local and non-canonical.
+      - Report completion only inside the Telegram Bot repository.
+
+roadmap:
+  - sequence: 1
+    step_id: telegram_bot_order_core_modularization_v0_1
+    title: ORDER core modularization
+    status: completed
+    priority: high
+    owner_module: telegram_bot
+    depends_on: []
+    evidence:
+      technical_status_report: forprint_telegram_bot_project_report
+      latest_known_head: "14efccd"
+    summary: >
+      Split ORDER flow into focused modules for constants, identification,
+      analysis, order form and flow coordination.
+    expected_outputs:
+      - source/education/bot_brain/app/models/order/constants.py
+      - source/education/bot_brain/app/models/order/identification.py
+      - source/education/bot_brain/app/models/order/analysis.py
+      - source/education/bot_brain/app/models/order/order_form.py
+      - source/education/bot_brain/app/models/order/flow.py
+
+  - sequence: 2
+    step_id: telegram_bot_typed_order_context_pack_v0_1
+    title: Typed ORDER context pack
+    status: completed
+    priority: high
+    owner_module: telegram_bot
+    depends_on:
+      - telegram_bot_order_core_modularization_v0_1
+    evidence:
+      technical_status_report: forprint_telegram_bot_project_report
+      latest_known_head: "14efccd"
+    summary: >
+      Add typed ORDER context, intake draft and final form DTOs while keeping
+      compatibility with the legacy runtime context bridge.
+    expected_outputs:
+      - OrderContext
+      - OrderIntakeDraft
+      - FinalOrderForm
+      - legacy context bridge
+
+  - sequence: 3
+    step_id: telegram_bot_local_runtime_storage_v0_1
+    title: Local runtime SQLite storage
+    status: completed
+    priority: high
+    owner_module: telegram_bot
+    depends_on:
+      - telegram_bot_typed_order_context_pack_v0_1
+    evidence:
+      technical_status_report: forprint_telegram_bot_project_report
+      latest_known_head: "14efccd"
+    summary: >
+      Create channel-runtime SQLite storage for Telegram profiles, sessions,
+      states, phrase bank, intake drafts, handoff outbox and audit events.
+      This is not canonical business storage.
+    expected_outputs:
+      - schema_migrations
+      - telegram_profiles
+      - conversation_sessions
+      - conversation_states
+      - phrase_bank
+      - intake_drafts
+      - handoff_outbox
+      - audit_events
+
+  - sequence: 4
+    step_id: telegram_bot_phrase_bank_dialogue_layer_v0_1
+    title: Phrase bank and dialogue text layer
+    status: completed
+    priority: high
+    owner_module: telegram_bot
+    depends_on:
+      - telegram_bot_local_runtime_storage_v0_1
+    evidence:
+      technical_status_report: forprint_telegram_bot_project_report
+      merged_branch: feature/phrase-bank-dialogue-v01
+      merge_head: "8f4208f"
+    summary: >
+      Add PhraseBankService and DialogueTextService for greeting, phone request,
+      fallback text and neutral default tone.
+    expected_outputs:
+      - PhraseBankService
+      - DialogueTextService
+      - neutral default tone
+      - addressing preference as hint only
+
+  - sequence: 5
+    step_id: telegram_bot_product_classifier_live_dialogue_v0_1
+    title: ProductClassifier live dialogue connection
+    status: completed
+    priority: high
+    owner_module: telegram_bot
+    depends_on:
+      - telegram_bot_phrase_bank_dialogue_layer_v0_1
+    evidence:
+      technical_status_report: forprint_telegram_bot_project_report
+      merged_branch: feature/product-classifier-live-dialogue-v01
+      merge_head: "14efccd"
+    summary: >
+      Connect ProductClassifier to the live HELLO product selection dialogue
+      and persist classification result and route hint in runtime context.
+    expected_outputs:
+      - product:business_cards classification
+      - fulfillment_mode route hint
+      - product_type_ref in runtime context
+      - explicit boundary that this is not production launch
+
+  - sequence: 6
+    step_id: telegram_bot_analysis_draft_handoff_preview_v0_1
+    title: Analysis draft handoff preview
+    status: active
+    priority: critical
+    owner_module: telegram_bot
+    depends_on:
+      - telegram_bot_product_classifier_live_dialogue_v0_1
+    evidence:
+      blueprint_prompt: coordination/outgoing_prompts/telegram_bot/approved/2026-07-07__telegram_bot__analysis_draft_handoff_preview_v0_1.md
+      prompt_id: telegram_bot_analysis_draft_handoff_preview_v0_1
+    summary: >
+      Create a safe local draft handoff preview when unresolved fields remain
+      in the analysis summary. The flow must create only local intake draft and
+      handoff outbox preview records and must not create a canonical order.
+    expected_outputs:
+      - safe operator draft option from summary guard
+      - local intake_draft payload with ORDER context snapshot
+      - local handoff_outbox preview payload
+      - ProductClassifier route hint copied into draft payload when available
+      - customer-facing text that says this is a draft for operator review
+      - smoke test coverage for draft handoff path
+      - local_runtime_storage_check remains green
+      - make telegram-bot-check green
+    forbidden_outputs:
+      - canonical order
+      - Supabase canonical order write
+      - Operational Registry write
+      - Integration Gateway write
+      - 1C write
+      - Calculator call
+      - production task creation
+
+  - sequence: 7
+    step_id: telegram_bot_sqlite_conversation_state_v0_1
+    title: SQLite-backed conversation state
+    status: planned
+    priority: high
+    owner_module: telegram_bot
+    depends_on:
+      - telegram_bot_analysis_draft_handoff_preview_v0_1
+    evidence: {}
+    summary: >
+      Start moving live conversation state from MemoryState toward
+      LocalRuntimeSQLiteStore while keeping MemoryState as a compatibility
+      layer during transition.
+    expected_outputs:
+      - StateRepository abstraction
+      - duplicated state writes to SQLite
+      - SQLite fallback read path
+      - no business ownership expansion
+
+  - sequence: 8
+    step_id: telegram_bot_reply_keyboards_v0_1
+    title: Telegram reply keyboards
+    status: planned
+    priority: normal
+    owner_module: telegram_bot
+    depends_on:
+      - telegram_bot_analysis_draft_handoff_preview_v0_1
+    evidence: {}
+    summary: >
+      Stabilize Telegram UX with reply keyboards or inline keyboards for
+      high-risk choice points without changing business ownership boundaries.
+    expected_outputs:
+      - keyboard rendering adapter
+      - RouteResultDTO keyboard to Telegram markup adapter
+      - safer source/product/summary choice flow
+
+  - sequence: 9
+    step_id: telegram_bot_dialogue_audit_events_v0_1
+    title: Dialogue audit events
+    status: planned
+    priority: normal
+    owner_module: telegram_bot
+    depends_on:
+      - telegram_bot_analysis_draft_handoff_preview_v0_1
+    evidence: {}
+    summary: >
+      Record audit events for key live dialogue transitions to support
+      debugging, operator review and future retraining loops.
+    expected_outputs:
+      - identification_started event
+      - client_identified event
+      - product_classified event
+      - analysis_summary_rendered event
+      - draft_handoff_created event
+      - final_form_requested event
+
+  - sequence: 10
+    step_id: telegram_bot_operator_handoff_contract_v0_1
+    title: Operator handoff contract
+    status: planned
+    priority: normal
+    owner_module: telegram_bot
+    depends_on:
+      - telegram_bot_analysis_draft_handoff_preview_v0_1
+      - telegram_bot_dialogue_audit_events_v0_1
+    evidence: {}
+    summary: >
+      Formalize the operator-facing handoff payload as local preview/outbox
+      data before any Integration Gateway write is introduced.
+    expected_outputs:
+      - handoff payload schema
+      - operator-facing human text
+      - machine-readable draft payload
+      - source references for telegram_chat_id and context snapshot
+      - explicit non-canonical boundary
+
+  - sequence: 11
+    step_id: telegram_bot_makefile_deduplicate_targets_v0_1
+    title: Makefile duplicate target cleanup
+    status: planned
+    priority: normal
+    owner_module: telegram_bot
+    depends_on:
+      - telegram_bot_analysis_draft_handoff_preview_v0_1
+    evidence: {}
+    summary: >
+      Remove duplicate Makefile target warnings after functional intake flow
+      safety is stabilized.
+    expected_outputs:
+      - duplicate classify-dialogs target resolved
+      - duplicate deberta targets resolved
+      - duplicate lint / format / security-check / clean targets resolved
+      - make telegram-bot-check remains green
+
+  - sequence: 12
+    step_id: telegram_bot_gateway_handoff_envelope_v0_2
+    title: Gateway handoff envelope planning
+    status: deferred
+    priority: reference
+    owner_module: telegram_bot
+    depends_on:
+      - telegram_bot_operator_handoff_contract_v0_1
+    evidence: {}
+    summary: >
+      Plan, but do not yet implement, future conversion of local handoff preview
+      payloads into Integration Gateway envelopes.
+    expected_outputs:
+      - envelope candidate notes
+      - required downstream owners listed
+      - no Gateway write implemented
+      - no canonical order creation
