@@ -299,5 +299,3 @@ coordination/standards/make_command_standard.md
 coordination/templates/module_makefile_standard.template.mk
 
 If these documents conflict, this protocol controls the cross-repository write boundary and the end-to-end execution/reporting loop.
-
-
