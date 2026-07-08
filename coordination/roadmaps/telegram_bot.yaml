@@ -4,9 +4,9 @@ module: telegram_bot
 metadata:
   module: telegram_bot
   module_working_name: ForPrint Telegram Bot
-  roadmap_version: telegram_bot_order_intake_stabilization_v0_1
-  current_step_id: telegram_bot_analysis_draft_handoff_preview_v0_1
-  updated_at: "2026-07-07"
+  current_step_id: telegram_bot_sqlite_conversation_state_v0_1
+  roadmap_version: telegram_bot_order_intake_stabilization_v0_2
+  updated_at: "2026-07-08"
   repository_root: /srv/software_development/forprint-project/telegram_bot
   implementation_type: channel_runtime_intake_assistant
   current_stage: ORDER intake assistant stabilization
@@ -160,7 +160,7 @@ roadmap:
   - sequence: 6
     step_id: telegram_bot_analysis_draft_handoff_preview_v0_1
     title: Analysis draft handoff preview
-    status: active
+    status: accepted
     priority: critical
     owner_module: telegram_bot
     depends_on:
@@ -168,6 +168,9 @@ roadmap:
     evidence:
       blueprint_prompt: coordination/outgoing_prompts/telegram_bot/approved/2026-07-07__telegram_bot__analysis_draft_handoff_preview_v0_1.md
       prompt_id: telegram_bot_analysis_draft_handoff_preview_v0_1
+      completion_commit: "64e909b"
+      completion_report: coordination/reports/completion/telegram_bot_analysis_draft_handoff_preview_v0_1_completion.md
+      blueprint_review: accepted_by_blueprint
     summary: >
       Create a safe local draft handoff preview when unresolved fields remain
       in the analysis summary. The flow must create only local intake draft and
@@ -193,7 +196,7 @@ roadmap:
   - sequence: 7
     step_id: telegram_bot_sqlite_conversation_state_v0_1
     title: SQLite-backed conversation state
-    status: planned
+    status: active
     priority: high
     owner_module: telegram_bot
     depends_on:
