@@ -192,6 +192,32 @@ Telegram Bot must not write directly into `/srv/software_development/forprint-pr
 
 Blueprint-side incoming report registration and Blueprint review are separate Blueprint-owned actions.
 
+## Strategic direction after this checkpoint
+
+This checkpoint is a technical stabilization step for Telegram Bot runtime state.
+
+After this checkpoint, Telegram Bot development should not continue expanding product-heavy ORDER recognition until ForPrint Library provides stable product/catalog references.
+
+Telegram Bot must not create its own local product or service catalog.
+
+Product-related behavior should remain limited to:
+
+- safe intake drafts;
+- route hints;
+- human-readable clarification;
+- non-canonical context snapshots.
+
+The next planned Telegram Bot direction after SQLite-backed conversation state is logistics-facing channel work:
+
+- logistics command intake preview;
+- shipment draft request dialogue;
+- tracking request dialogue;
+- logistics notifications for responsible people.
+
+Provider integrations, shipment truth, tracking history, logistics address book, provider credentials and delivery API adapters must belong to a dedicated Logistics Service, not to Telegram Bot.
+
+Telegram Bot may later call or receive events from Logistics Service, but Telegram Bot must remain a channel adapter and notification surface.
+
 ## Explicit non-goals
 
 Do not implement:
@@ -234,3 +260,53 @@ If implementation reveals uncertainty, report back through `coordination/status/
 - Which states are safe to restore automatically after restart?
 - Which states should force a safe clarification/restart message?
 - Should state persistence later become part of a reusable channel-runtime pattern for Website or future Mobile App?
+
+## Required completion and reporting workflow
+
+At the end of this task, the module assistant must prepare a module-side completion packet inside the Telegram Bot repository.
+
+Telegram Bot must not write directly into the Blueprint repository.
+
+Required module-side files:
+
+```text
+coordination/reports/completion/<prompt_id>_completion.md
+coordination/reports/index.yaml
+coordination/status/current_status.yaml
+coordination/status/current_status.md
+coordination/status/next_questions_for_blueprint.md
+```
+
+Before manual report edits, inspect available automation:
+
+find scripts -maxdepth 3 -type f | sort | grep -E 'completion|coordination|report|status|packet' || true
+find coordination -maxdepth 3 -type f | sort
+make help 2>/dev/null | grep -E 'completion|coordination|report|status|packet' || true
+
+If completion packet automation exists, use it.
+
+If completion packet automation is missing or incomplete, manual updates are allowed for this checkpoint, but the completion report must explicitly say:
+
+Completion packet automation was not available or was deferred for this module step.
+The required module-side coordination files were updated manually inside the Telegram Bot repository.
+No files were written directly into the Blueprint repository.
+
+Required final validation:
+
+git diff --check
+make telegram-bot-check
+git status --short
+git log -5 --oneline
+
+The completion report must include:
+
+prompt id;
+branch;
+final commit hash;
+summary of implemented work;
+files changed;
+checks passed;
+known warnings;
+explicit boundary confirmation;
+confirmation that no Blueprint files were written directly;
+open questions for Blueprint, or explicit “No open questions”.

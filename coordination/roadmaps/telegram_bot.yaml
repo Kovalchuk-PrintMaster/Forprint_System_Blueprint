@@ -9,13 +9,14 @@ metadata:
   updated_at: "2026-07-09"
   repository_root: /srv/software_development/forprint-project/telegram_bot
   implementation_type: channel_runtime_intake_assistant
-  current_stage: ORDER intake assistant stabilization
+  current_stage: Telegram channel runtime stabilization and logistics preparation
   purpose: >
     Control Telegram Bot development as a Tier 1 client communication channel
     and intake assistant. Telegram Bot may collect channel-local context,
     temporary drafts and handoff previews, but must not become the canonical
     owner of clients, orders, products, prices, payments, stock, production
     statuses, accounting documents or 1C data.
+
   strategic_boundary:
     role: tier_1_client_communication_channel
     future_flow: Telegram Bot -> Integration Gateway -> approved downstream module
@@ -48,6 +49,16 @@ metadata:
       - Do not call Calculator Engine from this stage.
       - Keep local runtime SQLite data channel-local and non-canonical.
       - Report completion only inside the Telegram Bot repository.
+
+  strategic_direction:
+    product_work_policy: >
+      Product-heavy ORDER recognition is intentionally limited until ForPrint
+      Library provides stable catalog references. Telegram Bot may keep safe
+      route hints and intake drafts, but must not build its own product catalog.
+    logistics_policy: >
+      Future Telegram Bot logistics work must be channel-facing only. Provider
+      integrations, shipment truth, tracking history, logistics address book and
+      provider credentials belong to Logistics Service.
 
 roadmap:
   - sequence: 1
@@ -208,6 +219,24 @@ roadmap:
       completion_commit: "682217e"
       completion_report: coordination/reports/completion/telegram_bot_sqlite_conversation_state_v0_1_completion.md
       blueprint_review: accepted_by_blueprint
+    summary: >
+      Add SQLite-backed conversation state persistence while keeping MemoryState
+      compatibility. This improves restart safety without changing Telegram Bot
+      ownership boundaries.
+    expected_outputs:
+      - state persistence layer or adapter
+      - MemoryState compatibility preserved
+      - SQLite fallback for safe conversation state restore
+      - app_smoke_test remains green
+      - local_runtime_storage_check remains green
+      - make telegram-bot-check green
+    forbidden_outputs:
+      - canonical order creation
+      - product catalog ownership
+      - provider integration ownership
+      - Integration Gateway write
+      - 1C write
+      - Calculator call
 
   - sequence: 8
     step_id: telegram_bot_reply_keyboards_v0_1
@@ -221,6 +250,13 @@ roadmap:
       implementation_commit: "8658fae"
       merge_commit: "7374835"
       smoke_test_coverage: app_smoke_test keyboard coverage confirmed in telegram-bot-check
+    summary: >
+      Add Telegram reply keyboard coverage for safer guided interaction in the
+      existing client-channel dialogue flow.
+    expected_outputs:
+      - reply keyboard rendering for key dialogue states
+      - smoke-test coverage for keyboard presence
+      - no change to canonical business ownership
 
   - sequence: 9
     step_id: telegram_bot_dialogue_audit_events_v0_1
@@ -229,7 +265,8 @@ roadmap:
     priority: normal
     owner_module: telegram_bot
     depends_on:
-      - telegram_bot_analysis_draft_handoff_preview_v0_1
+      - telegram_bot_sqlite_conversation_state_v0_1
+      - telegram_bot_reply_keyboards_v0_1
     evidence: {}
     summary: >
       Record audit events for key live dialogue transitions to support
@@ -241,6 +278,15 @@ roadmap:
       - analysis_summary_rendered event
       - draft_handoff_created event
       - final_form_requested event
+      - audit event smoke coverage
+      - local_runtime_storage_check remains green
+    forbidden_outputs:
+      - canonical order creation
+      - product catalog ownership
+      - provider API integration
+      - Integration Gateway write
+      - 1C write
+      - Calculator call
 
   - sequence: 10
     step_id: telegram_bot_operator_handoff_contract_v0_1
@@ -261,8 +307,65 @@ roadmap:
       - machine-readable draft payload
       - source references for telegram_chat_id and context snapshot
       - explicit non-canonical boundary
+    forbidden_outputs:
+      - Integration Gateway write
+      - canonical order creation
+      - production task creation
 
   - sequence: 11
+    step_id: telegram_bot_logistics_command_intake_preview_v0_1
+    title: Logistics command intake preview v0.1
+    status: planned
+    priority: high
+    owner_module: telegram_bot
+    depends_on:
+      - telegram_bot_sqlite_conversation_state_v0_1
+      - telegram_bot_dialogue_audit_events_v0_1
+      - logistics_service_boundary_and_local_model_v0_1
+    evidence: {}
+    summary: >
+      Add Telegram-side dialogue preview for logistics requests without owning
+      provider integrations or shipment truth. Telegram Bot may collect operator
+      intent such as create shipment draft, track shipment, or notify responsible
+      person, but must route logistics ownership to Logistics Service contracts.
+    expected_outputs:
+      - logistics command dialogue preview
+      - shipment draft request payload preview
+      - tracking request payload preview
+      - responsible-person notification preview
+      - explicit dependency on Logistics Service ownership
+    boundaries:
+      - no provider API integration inside Telegram Bot
+      - no shipment truth ownership
+      - no logistics address book ownership
+      - no delivery provider credentials
+      - no live shipment creation
+
+  - sequence: 12
+    step_id: telegram_bot_logistics_notification_surface_v0_1
+    title: Logistics notification surface v0.1
+    status: planned
+    priority: normal
+    owner_module: telegram_bot
+    depends_on:
+      - telegram_bot_logistics_command_intake_preview_v0_1
+      - logistics_service_boundary_and_local_model_v0_1
+    evidence: {}
+    summary: >
+      Prepare Telegram Bot to display logistics events produced by Logistics
+      Service, such as shipment created, tracking updated, arrived, delivered,
+      failed, or needs attention.
+    expected_outputs:
+      - notification rendering templates
+      - responsible-person notification routing
+      - local notification audit preview
+      - explicit statement that Logistics Service owns tracking truth
+    boundaries:
+      - Telegram Bot displays events but does not own tracking truth
+      - Telegram Bot does not poll providers directly
+      - Telegram Bot does not store provider credentials
+
+  - sequence: 13
     step_id: telegram_bot_makefile_deduplicate_targets_v0_1
     title: Makefile duplicate target cleanup
     status: planned
@@ -280,7 +383,7 @@ roadmap:
       - duplicate lint / format / security-check / clean targets resolved
       - make telegram-bot-check remains green
 
-  - sequence: 12
+  - sequence: 14
     step_id: telegram_bot_gateway_handoff_envelope_v0_2
     title: Gateway handoff envelope planning
     status: deferred
