@@ -4,9 +4,9 @@ module: telegram_bot
 metadata:
   module: telegram_bot
   module_working_name: ForPrint Telegram Bot
-  current_step_id: telegram_bot_sqlite_conversation_state_v0_1
-  roadmap_version: telegram_bot_order_intake_stabilization_v0_2
-  updated_at: "2026-07-08"
+  current_step_id: telegram_bot_dialogue_audit_events_v0_1
+  roadmap_version: telegram_bot_order_intake_stabilization_v0_3
+  updated_at: "2026-07-09"
   repository_root: /srv/software_development/forprint-project/telegram_bot
   implementation_type: channel_runtime_intake_assistant
   current_stage: ORDER intake assistant stabilization
@@ -196,43 +196,36 @@ roadmap:
   - sequence: 7
     step_id: telegram_bot_sqlite_conversation_state_v0_1
     title: SQLite-backed conversation state
-    status: active
+    status: accepted
     priority: high
     owner_module: telegram_bot
     depends_on:
       - telegram_bot_analysis_draft_handoff_preview_v0_1
-    evidence: {}
-    summary: >
-      Start moving live conversation state from MemoryState toward
-      LocalRuntimeSQLiteStore while keeping MemoryState as a compatibility
-      layer during transition.
-    expected_outputs:
-      - StateRepository abstraction
-      - duplicated state writes to SQLite
-      - SQLite fallback read path
-      - no business ownership expansion
+    evidence:
+      blueprint_prompt: coordination/outgoing_prompts/telegram_bot/approved/2026-07-08__telegram_bot__sqlite_conversation_state_v0_1.md
+      prompt_id: telegram_bot_sqlite_conversation_state_v0_1
+      implementation_commit: "51089b1"
+      completion_commit: "682217e"
+      completion_report: coordination/reports/completion/telegram_bot_sqlite_conversation_state_v0_1_completion.md
+      blueprint_review: accepted_by_blueprint
 
   - sequence: 8
     step_id: telegram_bot_reply_keyboards_v0_1
     title: Telegram reply keyboards
-    status: planned
+    status: completed
     priority: normal
     owner_module: telegram_bot
     depends_on:
       - telegram_bot_analysis_draft_handoff_preview_v0_1
-    evidence: {}
-    summary: >
-      Stabilize Telegram UX with reply keyboards or inline keyboards for
-      high-risk choice points without changing business ownership boundaries.
-    expected_outputs:
-      - keyboard rendering adapter
-      - RouteResultDTO keyboard to Telegram markup adapter
-      - safer source/product/summary choice flow
+    evidence:
+      implementation_commit: "8658fae"
+      merge_commit: "7374835"
+      smoke_test_coverage: app_smoke_test keyboard coverage confirmed in telegram-bot-check
 
   - sequence: 9
     step_id: telegram_bot_dialogue_audit_events_v0_1
     title: Dialogue audit events
-    status: planned
+    status: active
     priority: normal
     owner_module: telegram_bot
     depends_on:
