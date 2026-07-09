@@ -31,6 +31,7 @@ The latest accepted module-side completion commit for SQLite state is:
 
 ```text
 682217e merge: sqlite conversation state v0.1
+```
 
 The SQLite state checkpoint confirmed:
 
@@ -39,7 +40,8 @@ conversation state is persisted to local SQLite;
 SQLite fallback restore works for safe states;
 analysis draft handoff preview still works;
 no canonical order, Gateway write, 1C write, Calculator call or production launch was added.
-Blueprint guidance on restart restore policy
+
+## Blueprint guidance on restart restore policy
 
 For v0.2 planning, Telegram Bot may treat the following state categories as safe candidates for automatic restore when context is valid and fresh:
 
@@ -69,7 +71,7 @@ State persistence may later become a reusable channel-runtime pattern for Websit
 
 Do not copy Telegram Bot implementation directly into other modules.
 
-Architecture boundary
+## Architecture boundary
 
 Telegram Bot may own and audit only channel-local runtime data:
 
@@ -94,7 +96,8 @@ production registry;
 accounting / 1C;
 vendor execution;
 contractor execution.
-Required implementation
+
+## Required implementation
 
 Add or expand local audit event coverage for key live dialogue transitions.
 
@@ -114,7 +117,7 @@ These events must be local Telegram runtime audit events only.
 
 They must not be sent to Integration Gateway, Operational Registry, 1C, Calculator or any production service.
 
-Expected event payload fields
+## Expected event payload fields
 
 Each audit event should include enough channel-local metadata for debugging without creating canonical ownership.
 
@@ -142,7 +145,7 @@ Do not persist final price truth.
 
 Do not persist payment or stock truth.
 
-Expected technical direction
+## Expected technical direction
 
 Suggested branch:
 
@@ -172,7 +175,7 @@ source/education/bot_brain/app/storage/local_runtime/audit_repository.py
 
 Do not add broad framework rewrites.
 
-Required behavior
+## Required behavior
 
 When key dialogue transitions happen, Telegram Bot should write local audit events to local runtime SQLite.
 
@@ -184,7 +187,7 @@ When unresolved summary creates local operator draft handoff, Telegram Bot shoul
 
 When user asks for final form / final-form-like path, Telegram Bot may audit final_form_requested, but this must not mean canonical order creation or production launch.
 
-Required tests / checks
+## Required tests / checks
 
 The module assistant must update or confirm:
 
@@ -212,7 +215,8 @@ conversation state save/load still works;
 StateRepository fallback restore still works;
 intake draft save/load still works;
 handoff preview still works.
-Required completion and reporting workflow
+
+## Required completion and reporting workflow
 
 At the end of this task, the module assistant must prepare a module-side completion packet inside the Telegram Bot repository.
 
@@ -288,7 +292,8 @@ close all Markdown code fences;
 do not append stale questions from previous checkpoints into the current question file;
 move old answered questions into historical report notes instead of repeating them as current questions;
 ensure all text files end with a newline.
-Blueprint reporting boundary
+
+## Blueprint reporting boundary
 
 Telegram Bot may read Blueprint prompts and standards.
 
@@ -298,7 +303,7 @@ Telegram Bot must not write directly into:
 
 Blueprint-side incoming report registration and Blueprint review are separate Blueprint-owned actions.
 
-Explicit non-goals
+## Explicit non-goals
 
 Do not implement:
 
@@ -319,7 +324,8 @@ broad ORDER flow rewrite;
 full replacement of MemoryState;
 cross-module reusable package extraction;
 direct Website or Mobile App changes.
-Definition of done
+
+## Definition of done
 
 The prompt is complete when:
 
