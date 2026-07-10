@@ -1,0 +1,259 @@
+schema_version: module_development_roadmap_v0_1
+module: logistics_service
+
+metadata:
+  module: logistics_service
+  module_working_name: ForPrint Logistics Service
+  current_step_id: logistics_service_bootstrap_and_coordination_foundation_v0_1
+  roadmap_version: logistics_service_foundation_v0_1
+  updated_at: "2026-07-09"
+  repository_root: /srv/software_development/forprint-project/logistics_service
+  implementation_type: operational_integration_service
+  current_stage: logistics service foundation
+  purpose: >
+    Establish Logistics Service as the owner of delivery provider boundaries,
+    shipment drafts, tracking truth, provider payloads, logistics address book
+    and logistics event history for ForPrint operational workflows.
+
+  strategic_boundary:
+    role: logistics_provider_and_delivery_truth_owner
+    future_flow: >
+      Telegram Bot / Website / CRM / Calculator -> Integration Gateway or
+      approved internal contract -> Logistics Service -> provider adapter
+      -> delivery provider API
+    owns:
+      - logistics providers catalog
+      - provider adapter boundaries
+      - logistics address book / recipient references
+      - shipment drafts
+      - shipment requests
+      - shipment payload previews
+      - tracking requests
+      - tracking events
+      - logistics notification events
+      - provider response snapshots
+      - logistics audit trail
+    forbidden_ownership:
+      - canonical product catalog
+      - canonical order ownership
+      - canonical client/account ownership
+      - accounting truth
+      - payment truth
+      - warehouse stock truth
+      - production task ownership
+      - Telegram conversation state
+      - Website session state
+    global_rules:
+      - Do not create canonical orders.
+      - Do not own product or material catalog.
+      - Do not own accounting documents.
+      - Do not own payment statuses.
+      - Do not mutate warehouse stock.
+      - Do not write to 1C.
+      - Do not perform live provider writes by default.
+      - Keep live shipment creation disabled until an explicit controlled prompt.
+      - Keep provider credentials outside git.
+      - Report completion only inside the Logistics Service repository.
+
+  strategic_direction:
+    initial_provider_policy: >
+      Start with provider-neutral local models and dry-run payload previews.
+      Nova Poshta may be the first real provider adapter later, but bootstrap
+      must not hard-code the whole service around one provider.
+    test_data_policy: >
+      A small local test address book may be created for 10-15 frequent
+      recipients, but it is non-canonical and exists only to test logistics
+      flows until a canonical client/account owner is ready.
+    telegram_bot_policy: >
+      Telegram Bot may become a channel UI and notification surface for
+      logistics workflows, but it must not own shipment truth, provider
+      credentials, logistics address book or provider API integrations.
+
+roadmap:
+  - sequence: 1
+    step_id: logistics_service_bootstrap_and_coordination_foundation_v0_1
+    title: Bootstrap and coordination foundation
+    status: active
+    priority: critical
+    owner_module: logistics_service
+    depends_on: []
+    evidence: {}
+    summary: >
+      Create the first controlled Logistics Service project skeleton with
+      make-first workflow, tests, coordination records, provider-neutral domain
+      boundaries, local fixtures and explicit no-live-write safety gates.
+    expected_outputs:
+      - repository skeleton
+      - Makefile with standard check/report targets
+      - pyproject or equivalent Python project metadata
+      - tests from the first step
+      - coordination directories
+      - module-side completion report workflow
+      - secrets policy
+      - provider adapter interface draft
+      - local non-canonical test address book fixture
+      - shipment draft model draft
+      - tracking event model draft
+      - no live provider write
+    forbidden_outputs:
+      - real Nova Poshta shipment creation
+      - real Uklon/Bolt/Uber order creation
+      - live provider write
+      - provider API credentials committed to git
+      - canonical order creation
+      - canonical client ownership
+      - product catalog ownership
+      - payment or stock mutation
+
+  - sequence: 2
+    step_id: logistics_service_boundary_and_local_model_v0_1
+    title: Boundary and local model foundation
+    status: planned
+    priority: high
+    owner_module: logistics_service
+    depends_on:
+      - logistics_service_bootstrap_and_coordination_foundation_v0_1
+    evidence: {}
+    summary: >
+      Formalize provider-neutral logistics models for providers, recipients,
+      shipment drafts, tracking requests, tracking events and notification
+      events using local storage only.
+    expected_outputs:
+      - logistics provider model
+      - recipient/address book model
+      - shipment draft model
+      - tracking request model
+      - tracking event model
+      - notification event model
+      - local repository interface
+      - in-memory implementation
+      - SQLite-ready repository boundary
+
+  - sequence: 3
+    step_id: logistics_service_test_address_book_v0_1
+    title: Test address book and recipient fixtures
+    status: planned
+    priority: high
+    owner_module: logistics_service
+    depends_on:
+      - logistics_service_boundary_and_local_model_v0_1
+    evidence: {}
+    summary: >
+      Add a small non-canonical local test address book for controlled logistics
+      testing with 10-15 frequent recipients or placeholder fixtures.
+    expected_outputs:
+      - recipient fixture format
+      - recipient lookup preview
+      - recipient validation preview
+      - explicit non-canonical boundary
+      - no canonical client ownership
+
+  - sequence: 4
+    step_id: logistics_service_provider_adapter_contract_v0_1
+    title: Provider adapter contract
+    status: planned
+    priority: high
+    owner_module: logistics_service
+    depends_on:
+      - logistics_service_boundary_and_local_model_v0_1
+    evidence: {}
+    summary: >
+      Define a provider adapter interface that can support Nova Poshta,
+      Ukrposhta, SAT, Meest, Uklon, Bolt, Uber and local courier workflows
+      without coupling the service to one provider.
+    expected_outputs:
+      - provider adapter protocol/interface
+      - provider capability flags
+      - dry-run payload contract
+      - tracking request contract
+      - provider error taxonomy
+      - no live provider write
+
+  - sequence: 5
+    step_id: logistics_service_nova_poshta_read_only_foundation_v0_1
+    title: Nova Poshta read-only foundation
+    status: planned
+    priority: high
+    owner_module: logistics_service
+    depends_on:
+      - logistics_service_provider_adapter_contract_v0_1
+      - logistics_service_test_address_book_v0_1
+    evidence: {}
+    summary: >
+      Add the first Nova Poshta adapter foundation in read-only or dry-run mode:
+      provider metadata, branch/city lookup planning, tracking lookup planning
+      and payload preview, without creating real shipments.
+    expected_outputs:
+      - Nova Poshta adapter skeleton
+      - read-only provider config
+      - tracking lookup interface
+      - shipment payload preview
+      - secrets example without real secrets
+      - live write disabled by default
+    forbidden_outputs:
+      - real TTN creation
+      - provider credentials in git
+      - automatic shipment creation
+
+  - sequence: 6
+    step_id: logistics_service_tracking_events_v0_1
+    title: Tracking events and notification contracts
+    status: planned
+    priority: normal
+    owner_module: logistics_service
+    depends_on:
+      - logistics_service_provider_adapter_contract_v0_1
+    evidence: {}
+    summary: >
+      Introduce provider-neutral tracking and notification events that can later
+      be consumed by Telegram Bot, CRM or Website.
+    expected_outputs:
+      - shipment_created event
+      - tracking_updated event
+      - arrived event
+      - delivered event
+      - failed event
+      - needs_attention event
+      - notification payload preview
+
+  - sequence: 7
+    step_id: logistics_service_controlled_live_write_gate_v0_1
+    title: Controlled live write gate planning
+    status: deferred
+    priority: reference
+    owner_module: logistics_service
+    depends_on:
+      - logistics_service_nova_poshta_read_only_foundation_v0_1
+    evidence: {}
+    summary: >
+      Plan the safety gates required before any provider write operation is
+      enabled. This is planning only, not live shipment creation.
+    expected_outputs:
+      - dry_run flag policy
+      - manual_confirmed flag policy
+      - environment safety policy
+      - audit requirement
+      - rollback/cancel policy notes
+      - no live write implemented
+
+  - sequence: 8
+    step_id: logistics_service_taxi_provider_abstraction_v0_1
+    title: Taxi and courier provider abstraction
+    status: planned
+    priority: normal
+    owner_module: logistics_service
+    depends_on:
+      - logistics_service_provider_adapter_contract_v0_1
+    evidence: {}
+    summary: >
+      Prepare a separate abstraction for taxi/courier providers such as Uklon,
+      Bolt, Uber or local couriers, where the workflow is pickup/dropoff based
+      rather than parcel/TTN based.
+    expected_outputs:
+      - pickup point model
+      - dropoff point model
+      - cargo note model
+      - driver/car status notes
+      - pickup arrived event
+      - delivery arrived event
+      - no live taxi order creation
