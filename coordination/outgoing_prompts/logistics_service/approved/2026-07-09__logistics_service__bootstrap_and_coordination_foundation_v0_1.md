@@ -36,10 +36,11 @@ Logistics Service
 Provider adapter
         ↓
 Delivery provider API
+```
 
 At this stage, the Integration Gateway link may remain a future contract. The bootstrap must focus on local module foundation and safe internal models.
 
-Repository
+## Repository
 
 Expected working directory:
 
@@ -51,7 +52,7 @@ If it is empty or not initialized, create a minimal Python project skeleton insi
 
 Do not write into the Blueprint repository.
 
-Strategic boundary
+## Strategic boundary
 
 Logistics Service may own:
 
@@ -81,7 +82,7 @@ warehouse stock truth;
 production tasks;
 Telegram conversation state;
 Website session state.
-Safety policy
+## Safety policy
 
 This checkpoint must not perform live provider writes.
 
@@ -102,7 +103,7 @@ All live-write capabilities must remain disabled by default.
 
 Any future live provider write must require explicit later prompt approval, dry-run controls, manual confirmation controls, environment safety checks and audit records.
 
-Secrets policy
+## Secrets policy
 
 Do not commit real provider credentials.
 
@@ -120,7 +121,7 @@ config/providers.example.yaml
 
 Real local secrets should be ignored by git and documented as local-only.
 
-Required project skeleton
+## Required project skeleton
 
 Create or verify a practical initial structure similar to:
 
@@ -165,7 +166,7 @@ Adjust the exact structure if the existing module layout already has a better co
 
 Do not add broad framework complexity.
 
-Required domain drafts
+## Required domain drafts
 
 Add minimal provider-neutral domain drafts.
 
@@ -195,7 +196,7 @@ Keep them provider-neutral.
 
 Do not hard-code the service around Nova Poshta only.
 
-Required adapter draft
+## Required adapter draft
 
 Add a provider adapter interface draft.
 
@@ -215,7 +216,7 @@ The live create-shipment operation must not be active in this checkpoint.
 
 If a method is included for future create shipment, it must raise a clear disabled/not implemented error unless explicit future safety gates are provided.
 
-Required local fixture
+## Required local fixture
 
 Add a small non-canonical local fixture format for recipients.
 
@@ -231,7 +232,7 @@ The fixture must be clearly marked:
 
 non_canonical: true
 purpose: local logistics testing only
-Required Makefile targets
+## Required Makefile targets
 
 Add a make-first workflow.
 
@@ -252,7 +253,7 @@ make coordination-check
 
 make check should call the currently meaningful checks.
 
-Required tests
+## Required tests
 
 Add tests from the first checkpoint.
 
@@ -269,7 +270,7 @@ Suggested tests:
 tests/test_domain_models.py
 tests/test_provider_adapter_safety.py
 tests/test_fixtures.py
-Required documentation
+## Required documentation
 
 Add or update:
 
@@ -286,7 +287,7 @@ Telegram Bot is only a channel UI / notification surface;
 test address book is non-canonical;
 live provider write is disabled by default;
 provider credentials must not be committed to git.
-Required coordination files
+## Required coordination files
 
 Create or update module-side coordination files inside the Logistics Service repository:
 
@@ -298,7 +299,7 @@ coordination/reports/index.yaml
 
 Do not write any completion report directly into the Blueprint repository.
 
-Required completion and reporting workflow
+## Required completion and reporting workflow
 
 At the end of this task, prepare a module-side completion packet inside the Logistics Service repository.
 
@@ -338,7 +339,7 @@ keep current_status.md readable Markdown;
 close all Markdown code fences;
 keep only current open questions in next_questions_for_blueprint.md;
 ensure all text files end with a newline.
-Required checks
+## Required checks
 
 Run or create equivalent checks:
 
@@ -353,7 +354,7 @@ Before commit:
 git diff --check
 git status --short
 git log -5 --oneline
-Branch and commit
+## Branch and commit
 
 Suggested branch:
 
@@ -365,7 +366,7 @@ Push after commit if the remote is configured.
 
 If no remote is configured yet, report that clearly and provide the final local commit hash.
 
-Explicit non-goals
+## Explicit non-goals
 
 Do not implement:
 
@@ -388,7 +389,7 @@ Telegram Bot code changes;
 Website code changes;
 Calculator code changes;
 Integration Gateway writes.
-Definition of done
+## Definition of done
 
 This prompt is complete when:
 
