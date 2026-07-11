@@ -1,88 +1,99 @@
 schema_version: prompt_queue_v0_2
 module: forprint_library
-
 prompt_queue:
-  - prompt_id: library_make_first_semantic_reference_readiness_v0_1
-    sequence: 1
-    title: Library Make-First Semantic Reference Readiness v0.1
-    file: approved/2026-06-23__library__make_first_semantic_reference_readiness_v0_1.md
-    target_module: forprint_library
-    phase: make_first_semantic_reference_readiness_v0_1
-    priority: high
+- prompt_id: library_make_first_semantic_reference_readiness_v0_1
+  sequence: 1
+  title: Library Make-First Semantic Reference Readiness v0.1
+  file: approved/2026-06-23__library__make_first_semantic_reference_readiness_v0_1.md
+  target_module: forprint_library
+  phase: make_first_semantic_reference_readiness_v0_1
+  priority: high
+  module_execution:
+    status: completed_by_module
+    completion_commit: 935e51b
+    completion_report: coordination/reports/completion/2026-06-25__forprint_library__report__make-first-semantic-reference-readiness-v0-1.md
+    completed_at: null
+  blueprint_review:
+    status: accepted_by_blueprint
+    acceptance_commit: null
+    accepted_at: null
+    review_notes: null
+- prompt_id: library_reference_contract_foundation_v0_2
+  sequence: 2
+  title: Library Reference Contract Foundation v0.2
+  file: approved/2026-06-29__library__reference_contract_foundation_v0_2.md
+  target_module: forprint_library
+  phase: reference_contract_foundation_v0_2
+  priority: high
+  module_execution:
+    status: completed_by_module
+    completion_commit: 6343f65
+    completion_report: coordination/reports/completion/2026-06-29__forprint_library__report__reference-contract-foundation-v0-2.md
+    completed_at: null
+  blueprint_review:
+    status: accepted_by_blueprint
+    acceptance_commit: null
+    accepted_at: null
+    review_notes: Reference contract foundation v0.2 accepted from Library implementation
+      commit 78bd7e1 and closure/report commit 6343f65; docs, examples, schema, validator,
+      tests, completion report and Library validation are present. No production catalog
+      database, live API, runtime integration, Calculator pricing logic, Operational
+      Registry write, warehouse stock logic, accounting/payment logic, 1C sync/write,
+      or automatic posting was implemented.
+- prompt_id: library_coordination_foundation_alignment_v0_1
+  sequence: 3
+  title: Library Coordination Foundation Alignment v0.1
+  file: approved/2026-07-03__library__coordination_foundation_alignment_v0_1.md
+  target_module: forprint_library
+  phase: coordination_foundation_alignment_v0_1
+  priority: high
+  module_execution:
+    status: completed_by_module
+    completion_commit: d5ae83d
+    completion_report: coordination/reports/completion/2026-07-03__forprint_library__report__coordination-foundation-alignment-v0-1.md
+    completed_at: '2026-07-08'
+  blueprint_review:
+    status: accepted_by_blueprint
+    acceptance_commit: null
+    accepted_at: '2026-07-08'
+    review_notes: 'Accepted by Blueprint after module-side report and validation review.
+      Library confirmed coordination workflow, prompt queue navigation, document awareness,
+      context bundle no-write flow and module validation. No product modeling, Workbench,
+      1C import, Calculator integration, production write, live API or runtime integration
+      was implemented.
 
-    module_execution:
-      status: completed_by_module
-      completion_commit: "935e51b"
-      completion_report: coordination/reports/completion/2026-06-25__forprint_library__report__make-first-semantic-reference-readiness-v0-1.md
-      completed_at: null
-
-    blueprint_review:
-      status: accepted_by_blueprint
-      acceptance_commit: null
-      accepted_at: null
-      review_notes: null
-
-  - prompt_id: library_reference_contract_foundation_v0_2
-    sequence: 2
-    title: Library Reference Contract Foundation v0.2
-    file: approved/2026-06-29__library__reference_contract_foundation_v0_2.md
-    target_module: forprint_library
-    phase: reference_contract_foundation_v0_2
-    priority: high
-
-    module_execution:
-      status: completed_by_module
-      completion_commit: "6343f65"
-      completion_report: coordination/reports/completion/2026-06-29__forprint_library__report__reference-contract-foundation-v0-2.md
-      completed_at: null
-
-    blueprint_review:
-      status: accepted_by_blueprint
-      acceptance_commit: null
-      accepted_at: null
-      review_notes: Reference contract foundation v0.2 accepted from Library implementation commit 78bd7e1 and closure/report commit 6343f65; docs, examples, schema, validator, tests, completion report and Library validation are present. No production catalog database, live API, runtime integration, Calculator pricing logic, Operational Registry write, warehouse stock logic, accounting/payment logic, 1C sync/write, or automatic posting was implemented.
-
-  - prompt_id: library_coordination_foundation_alignment_v0_1
-    sequence: 3
-    title: Library Coordination Foundation Alignment v0.1
-    file: approved/2026-07-03__library__coordination_foundation_alignment_v0_1.md
-    target_module: forprint_library
-    phase: coordination_foundation_alignment_v0_1
-    priority: high
-
-    module_execution:
-      status: completed_by_module
-      completion_commit: "d5ae83d"
-      completion_report: coordination/reports/completion/2026-07-03__forprint_library__report__coordination-foundation-alignment-v0-1.md
-      completed_at: "2026-07-08"
-
-    blueprint_review:
-      status: accepted_by_blueprint
-      acceptance_commit: null
-      accepted_at: "2026-07-08"
-      review_notes: >
-        Accepted by Blueprint after module-side report and validation review.
-        Library confirmed coordination workflow, prompt queue navigation,
-        document awareness, context bundle no-write flow and module validation.
-        No product modeling, Workbench, 1C import, Calculator integration,
-        production write, live API or runtime integration was implemented.
-
-  - prompt_id: library_reference_consumption_pilot_v0_3
-    sequence: 4
-    title: Library Reference Consumption Pilot v0.3
-    file: approved/2026-07-08__library__reference_consumption_pilot_v0_3.md
-    target_module: forprint_library
-    phase: reference_consumption_pilot_v0_3
-    priority: high
-
-    module_execution:
-      status: ready_for_module_pull
-      completion_commit: null
-      completion_report: null
-      completed_at: null
-
-    blueprint_review:
-      status: not_started
-      acceptance_commit: null
-      accepted_at: null
-      review_notes: null
+      '
+- prompt_id: library_reference_consumption_pilot_v0_3
+  sequence: 4
+  title: Library Reference Consumption Pilot v0.3
+  file: approved/2026-07-08__library__reference_consumption_pilot_v0_3.md
+  target_module: forprint_library
+  phase: reference_consumption_pilot_v0_3
+  priority: high
+  module_execution:
+    status: completed_by_module
+    completion_commit: 15e1c8c
+    completion_report: coordination/reports/completion/2026-07-08__forprint_library__report__reference-consumption-pilot-v0-3.md
+    completed_at: '2026-07-11'
+  blueprint_review:
+    status: accepted_by_blueprint
+    acceptance_commit: null
+    accepted_at: '2026-07-11'
+    review_notes: Accepted based on Library module completion report and green checks.
+- prompt_id: library_configurable_product_workbench_business_card_skeleton_v0_1
+  sequence: 5
+  title: Library Configurable Product Workbench v0.1 — Business Card Skeleton
+  file: approved/2026-07-11__library__configurable_product_workbench_business_card_skeleton_v0_1.md
+  target_module: forprint_library
+  phase: configurable_product_workbench_v0_1
+  priority: critical
+  module_execution:
+    status: ready_for_module_pull
+    completion_commit: null
+    completion_report: null
+    completed_at: null
+  blueprint_review:
+    status: not_started
+    acceptance_commit: null
+    accepted_at: null
+    review_notes: null
