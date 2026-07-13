@@ -3,7 +3,7 @@ module: logistics_service
 metadata:
   module: logistics_service
   module_working_name: ForPrint Logistics Service
-  current_step_id: logistics_service_boundary_and_local_model_v0_1
+  current_step_id: logistics_service_test_address_book_v0_1
   roadmap_version: logistics_service_foundation_v0_1
   updated_at: '2026-07-09'
   repository_root: /srv/software_development/forprint-project/forprint_logistics_service
@@ -115,7 +115,7 @@ roadmap:
 - sequence: 2
   step_id: logistics_service_boundary_and_local_model_v0_1
   title: Boundary and local model foundation
-  status: active
+  status: accepted
   priority: high
   owner_module: logistics_service
   depends_on:
@@ -123,7 +123,13 @@ roadmap:
     module: logistics_service
     step_id: logistics_service_bootstrap_and_coordination_foundation_v0_1
     status: accepted
-  evidence: {}
+  evidence:
+    implementation_commit: 3b724d0d1dea9c5c5a95940bb61233fc3cdbb1f8
+    completion_commit: 6b9bab3
+    completion_report: coordination/reports/completion/logistics_service_boundary_and_local_model_v0_1_completion.md
+    completion_packet: coordination/completion_packets/records/2026-07-12__logistics_service__boundary_and_local_model_v0_1_completion.yaml
+    check_report: reports/logistics_service_check_report.md
+    test_summary: 51 passed; check report 8 passed / 0 warnings / 0 failed.
   summary: 'Formalize provider-neutral logistics models for providers, recipients,
     shipment drafts, tracking requests, tracking events and notification events using
     local storage only.
@@ -148,11 +154,14 @@ roadmap:
 - sequence: 3
   step_id: logistics_service_test_address_book_v0_1
   title: Test address book and recipient fixtures
-  status: planned
+  status: active
   priority: high
   owner_module: logistics_service
   depends_on:
-  - logistics_service_boundary_and_local_model_v0_1
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_boundary_and_local_model_v0_1
+    status: accepted
   evidence: {}
   summary: 'Add a small non-canonical local test address book for controlled logistics
     testing with 10-15 frequent recipients or placeholder fixtures.
@@ -164,6 +173,13 @@ roadmap:
   - recipient validation preview
   - explicit non-canonical boundary
   - no canonical client ownership
+  prompt:
+    prompt_id: logistics_service_test_address_book_v0_1
+    prompt_file: coordination/outgoing_prompts/logistics_service/approved/2026-07-13__logistics_service__test_address_book_v0_1.md
+    prompt_queue_sequence: 3
+  notes: Next active step after accepted local model foundation. This step must create
+    a synthetic, non-canonical, local test address book and must not commit real customer
+    data.
 - sequence: 4
   step_id: logistics_service_provider_adapter_contract_v0_1
   title: Provider adapter contract

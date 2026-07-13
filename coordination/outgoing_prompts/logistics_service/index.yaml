@@ -28,6 +28,26 @@ prompt_queue:
   phase: boundary_and_local_model_v0_1
   priority: high
   module_execution:
+    status: completed_by_module
+    completion_commit: 6b9bab3
+    completion_report: coordination/reports/completion/logistics_service_boundary_and_local_model_v0_1_completion.md
+    completed_at: '2026-07-13'
+  blueprint_review:
+    status: accepted_by_blueprint
+    acceptance_commit: null
+    accepted_at: '2026-07-13'
+    review_notes: 'Accepted based on module completion report, completion packet,
+      green governance/check/check-report results, 51 passed tests, 8/8 check report
+      passes, and preserved local preview-only safety boundaries. Implementation commit:
+      3b724d0d1dea9c5c5a95940bb61233fc3cdbb1f8.'
+- prompt_id: logistics_service_test_address_book_v0_1
+  sequence: 3
+  title: Logistics Service Test Address Book and Recipient Fixtures v0.1
+  file: approved/2026-07-13__logistics_service__test_address_book_v0_1.md
+  target_module: logistics_service
+  phase: test_address_book_v0_1
+  priority: high
+  module_execution:
     status: ready_for_module_pull
     completion_commit: null
     completion_report: null
