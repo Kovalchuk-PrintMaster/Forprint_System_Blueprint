@@ -501,3 +501,30 @@ outgoing prompt validation.
 ```
 
 <!-- blueprint-completion-finalization-v0-1:end -->
+
+## Compact tabular final handoff
+
+Routine module completion handoffs should use one or more compact boxed tables when terminal table rendering is available.
+
+Recommended concern groups include:
+
+```text
+implementation result;
+tests and validation;
+boundaries and safety;
+coordination lifecycle;
+warnings, blockers and decisions;
+artifact and commit paths.
+```
+
+The number of tables and rows is determined by readability and risk, not by a rigid universal line limit.
+
+For a normal module, output near or below 100 lines is a useful guideline. Larger architectures may require more rows. When a failure needs deep investigation, extended diagnostics may be unlimited and should be stored in a file with a stable path.
+
+Modules must use the applicable visual-interface standards referenced by:
+
+```text
+coordination/standards/visual_interface/index.yaml
+```
+
+Color is supplementary. Status text, counts and markers must remain understandable in plain text.

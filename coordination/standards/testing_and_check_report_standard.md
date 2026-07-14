@@ -315,7 +315,7 @@ routine assistant handoff;
 routine Blueprint review.
 ```
 
-A successful routine command should normally fit within 20–40 terminal lines.
+A routine command should be as small as practical for fast analysis. For a normal module, output near or below 100 terminal lines is a useful guideline, not a hard limit. The required size depends on the current architecture, the number of independent concerns and the evidence needed to avoid missing failures.
 
 Compact output must show:
 
@@ -361,6 +361,43 @@ make check-report-full
 ```
 
 A module may use another clearly documented verbose command during gradual adoption.
+
+## Compact tabular presentation
+
+Routine human-facing reports should prefer one or more compact boxed tables.
+
+Each table should represent one coherent concern, for example:
+
+```text
+core code quality and tests;
+business or provider contract checks;
+safety and ownership boundaries;
+integration checks;
+coordination and prompt state.
+```
+
+Use as many tables and rows as required for quick, reliable analysis. Do not force unrelated information into one oversized table, and do not remove necessary checks merely to satisfy a line-count target.
+
+Tables should:
+
+```text
+use closed borders where supported;
+use the active Blueprint visual-interface status and color conventions;
+show a current-row marker such as `>` where a current prompt, roadmap step or selected item is meaningful;
+show warnings and failures explicitly;
+show counts and stable artifact paths;
+remain readable without ANSI color.
+```
+
+The applicable visual rules are discovered through:
+
+```text
+coordination/standards/visual_interface/index.yaml
+```
+
+Modules should read the index and then apply the active or relevant table, status and color documents referenced there.
+
+Extended diagnostic output is not line-limited. When it is large, redirect it to a file under `reports/diagnostics/` and keep only the compact result and artifact path in routine terminal or assistant output.
 
 ## Overall human signal
 

@@ -65,9 +65,23 @@ Equivalent existing module-specific commands may remain temporarily when documen
 
 ## Output rule
 
-A successful routine check should normally fit within 20–40 terminal lines.
+A routine check should be as small as practical for fast analysis. Near or below 100 lines is a useful guideline for a normal module, not a hard limit; architecture and evidence requirements control the necessary size.
 
 Do not print complete successful test streams, repository trees, full payloads, generated files or repeated report copies unless Blueprint explicitly requests them.
+
+## Tabular presentation rule
+
+Routine reports should use one or more compact boxed tables and the active Blueprint visual-interface status/color conventions.
+
+Separate unrelated concerns into separate tables when that improves readability. Use a current-row marker where a current prompt, roadmap step or selected item is meaningful.
+
+The visual source of truth is discovered through:
+
+```text
+coordination/standards/visual_interface/index.yaml
+```
+
+Extended diagnostics may be as detailed as necessary and should be redirected to stable files when large.
 
 ## Artifact rule
 
