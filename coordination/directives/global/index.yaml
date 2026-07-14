@@ -22,4 +22,18 @@ global_directives:
         Add/update coordination directory and report completion through
         coordination/reports/index.yaml and current_status.yaml.
 
+    - directive_id: "2026-07-14__global__directive__compact-report-output-v0-1"
+      status: active
+      priority: p0
+      created_at: "2026-07-14"
+      applies_to:
+        - all_active_modules
+      file: "coordination/directives/global/active/2026-07-14__global__directive__compact-report-output-v0-1.md"
+      summary: >
+        All active ForPrint modules must use compact routine check and handoff
+        output while preserving extended diagnostics in stable report artifacts.
+      requires_acknowledgement: true
+      expected_module_action: >
+        Align default check output, provide an extended diagnostic mode and
+        report the implementation through the module coordination workflow.
   archived: []

@@ -2,7 +2,7 @@
 
 ## Status
 
-Target standard / gradual adoption
+Active standard / prompt-or-directive rollout
 
 ## Purpose
 
@@ -299,3 +299,168 @@ coordination metadata is valid;
 boundary tests exist;
 the working tree is clean after commit/push.
 ```
+
+## Compact and extended output modes
+
+Routine verification must use two output levels.
+
+### Compact mode
+
+Compact mode is the default for:
+
+```text
+make check;
+make check-report;
+routine assistant handoff;
+routine Blueprint review.
+```
+
+A successful routine command should normally fit within 20–40 terminal lines.
+
+Compact output must show:
+
+```text
+module;
+command or check scope;
+overall signal;
+error count;
+warning count;
+test summary;
+blockers;
+next action;
+paths to detailed reports.
+```
+
+Compact mode must not print:
+
+```text
+every successful test;
+complete repository trees;
+complete JSON or YAML payloads;
+complete generated files;
+repeated copies of the same result;
+long stack traces for already understood failures.
+```
+
+### Extended mode
+
+Extended output is used only when:
+
+```text
+the compact result contains a warning or failure;
+Blueprint explicitly requests diagnostic evidence;
+a migration, data-loss, security or boundary risk exists;
+an integration contract fails;
+the compact result cannot explain the problem.
+```
+
+Recommended optional command:
+
+```text
+make check-report-full
+```
+
+A module may use another clearly documented verbose command during gradual adoption.
+
+## Overall human signal
+
+Existing per-check statuses remain:
+
+```text
+OK
+WARN
+DEFERRED
+FAILED
+SKIPPED
+```
+
+The compact report may additionally expose one overall human signal:
+
+```text
+GREEN = no blocking failures and no unresolved warnings;
+YELLOW = warning, deferred item or non-blocking inconsistency;
+RED = blocking failure.
+```
+
+Machine-readable JSON must keep explicit status values and must not depend on terminal color.
+
+## File-first diagnostics
+
+Detailed evidence belongs in files, not in routine chat or terminal output.
+
+Preferred locations:
+
+```text
+reports/<module>_check_report.json
+reports/<module>_check_report.md
+reports/diagnostics/<timestamp>/
+```
+
+The terminal and assistant handoff should provide only a concise summary and stable paths to those artifacts.
+
+## Compact handoff format
+
+A routine assistant handoff should use:
+
+```text
+RESULT:
+WHAT_CHANGED:
+CHECKS:
+ERRORS:
+WARNINGS:
+BLOCKERS:
+DECISIONS_REQUIRED:
+REPORT_PATHS:
+COMMIT:
+```
+
+When the result is GREEN, the handoff should remain minimal.
+
+When the result is YELLOW or RED, include only the evidence needed to identify the problem and provide paths to the full artifacts.
+
+## Completion report size and duplication
+
+A completion report describes decisions, implementation and verification. It must not reproduce raw logs.
+
+Recommended completion report sections:
+
+```text
+task;
+result;
+implemented;
+architectural decisions;
+tests and checks;
+remaining risks or blockers;
+changed files;
+recommended next step;
+paths to detailed evidence.
+```
+
+A routine completion report should normally remain below 150 lines.
+
+Large logs, payloads, generated reports and full diffs must remain separate artifacts.
+
+## Make command direction
+
+The common direction is:
+
+```text
+make check
+    compact pre-commit validation;
+
+make check-report
+    compact visual summary plus JSON and Markdown artifacts;
+
+make check-report-full
+    optional extended console diagnostics.
+```
+
+Existing module-specific commands may remain during gradual migration.
+
+## Rollout rule
+
+This standard becomes mandatory for a module through an explicit Blueprint prompt or active global directive.
+
+Migration should be applied in small safe steps and must not pause valid business development solely to refactor old report output.
+
+Logistics Service should be used as the first reference implementation. Library and Telegram Bot should align through their next active prompts.
