@@ -1,7 +1,7 @@
 # Module Prompt Execution and Reporting Protocol
 
 Status: active standard
-Created/updated: `2026-07-07`
+Created/updated: `2026-07-14`
 
 ## Purpose
 
@@ -299,3 +299,205 @@ coordination/standards/make_command_standard.md
 coordination/templates/module_makefile_standard.template.mk
 
 If these documents conflict, this protocol controls the cross-repository write boundary and the end-to-end execution/reporting loop.
+
+<!-- blueprint-completion-finalization-v0-1:start -->
+
+## Blueprint completion intake and finalization
+
+Module-side completion and Blueprint-side acceptance are separate operations.
+
+The module finishes its own work first:
+
+```text
+module implementation
+-> module checks
+-> completion packet
+-> module completion report
+-> module commit and push
+```
+
+Blueprint then performs an independent finalization flow:
+
+```text
+completion intake preview
+-> evidence validation
+-> Blueprint decision
+-> review packet
+-> prompt queue update
+-> roadmap evidence update
+-> documented next-work suggestion
+```
+
+### Blueprint intake commands
+
+Preferred Blueprint commands:
+
+```text
+make completion-intake-preview MODULE=<module> MODULE_ROOT=<path> PACKET=<module-relative-packet>
+make completion-accept MODULE=<module> MODULE_ROOT=<path> PACKET=<module-relative-packet>
+make completion-return MODULE=<module> MODULE_ROOT=<path> PACKET=<module-relative-packet> REVIEW_NOTES="..."
+make completion-finalize-check MODULE=<module>
+```
+
+`completion-intake-preview` must not write files.
+
+`completion-accept` and `completion-return` require an explicit operator decision and write only inside the Blueprint repository.
+
+### Completion evidence validation
+
+Blueprint intake must verify, where available:
+
+```text
+module id;
+prompt id;
+completion report path;
+implementation commit;
+completion commit;
+remote containment of completion commit;
+push status;
+required successful checks;
+boundary confirmations;
+prompt queue record;
+roadmap step.
+```
+
+The intake tool may normalize both boundary flag styles during transition:
+
+```text
+no_<unsafe_behavior>: true
+<unsafe_behavior>_added: false
+```
+
+Unsafe or ambiguous boundary values must block acceptance.
+
+### Review packet
+
+Every written Blueprint decision creates or updates a deterministic review packet under:
+
+```text
+coordination/review_packets/<module_id>/processed/
+```
+
+The review packet is the stable Blueprint evidence record.
+
+The existing `blueprint_review.acceptance_commit` field may remain `null`. A Git commit cannot safely contain its own final hash. Git history identifies the commit that introduced the review packet and queue/roadmap update.
+
+### Idempotency
+
+Repeating the same intake command with the same:
+
+```text
+packet;
+completion commit;
+decision;
+review date;
+review notes
+```
+
+must produce no additional diff.
+
+The tool must not duplicate prompt queue records, roadmap evidence or review packets.
+
+## Next-work recommendation hierarchy
+
+Blueprint automation must not invent the content of a new prompt.
+
+The documented source hierarchy is:
+
+```text
+1. current approved prompt that is ready or in progress;
+2. draft prompt matching the next roadmap step;
+3. next non-completed roadmap step;
+4. explicit NEXT_WORK_UNDEFINED warning.
+```
+
+Preferred command:
+
+```text
+make next-work-suggestion MODULE=<module_id>
+```
+
+### Active approved prompt
+
+When an approved prompt has execution status `ready_for_module_pull` or `in_progress`, the result is:
+
+```text
+ACTIVE_PROMPT_EXISTS
+```
+
+The module should continue or pull that prompt. Draft and roadmap recommendations remain secondary.
+
+### Matching draft candidate
+
+When no approved prompt is active and exactly one draft matches the next roadmap step, the result is:
+
+```text
+DRAFT_CANDIDATE_FOUND
+```
+
+The system proposes the draft for human review. It does not promote or activate the draft automatically.
+
+Multiple matching drafts produce:
+
+```text
+MULTIPLE_DRAFT_CANDIDATES
+```
+
+Drafts that do not match the next roadmap step produce:
+
+```text
+DRAFT_ROADMAP_CONFLICT
+```
+
+### Roadmap fallback
+
+When no active approved prompt and no matching draft exist, but the roadmap contains a next step, the result is:
+
+```text
+ROADMAP_PROMPT_NEEDED
+```
+
+The suggestion must show only documented roadmap fields such as:
+
+```text
+sequence;
+step_id;
+title;
+status;
+priority;
+summary;
+expected_outputs;
+dependencies.
+```
+
+This is a prompt-authoring hint, not generated business scope.
+
+### Undefined next work
+
+When neither draft nor roadmap defines the next work, the result is:
+
+```text
+NEXT_WORK_UNDEFINED
+```
+
+Blueprint must update the roadmap before issuing another prompt.
+
+### Promotion boundary
+
+Draft promotion and approved prompt activation are explicit future write operations.
+
+A draft must never become executable merely because it exists in `drafts/`.
+
+Before promotion, Blueprint must verify:
+
+```text
+target module;
+prompt id uniqueness;
+roadmap step match;
+sequence;
+dependencies;
+scope;
+outgoing prompt validation.
+```
+
+<!-- blueprint-completion-finalization-v0-1:end -->

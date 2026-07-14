@@ -5,20 +5,19 @@ metadata:
   module_working_name: ForPrint Logistics Service
   current_step_id: logistics_service_test_address_book_v0_1
   roadmap_version: logistics_service_foundation_v0_1
-  updated_at: '2026-07-09'
+  updated_at: '2026-07-14'
   repository_root: /srv/software_development/forprint-project/forprint_logistics_service
   implementation_type: operational_integration_service
   current_stage: logistics service foundation
-  purpose: 'Establish Logistics Service as the owner of delivery provider boundaries,
-    shipment drafts, tracking truth, provider payloads, logistics address book and
-    logistics event history for ForPrint operational workflows.
+  purpose: 'Establish Logistics Service as the owner of delivery provider boundaries, shipment drafts,
+    tracking truth, provider payloads, logistics address book and logistics event history for ForPrint
+    operational workflows.
 
     '
   strategic_boundary:
     role: logistics_provider_and_delivery_truth_owner
-    future_flow: 'Telegram Bot / Website / CRM / Calculator -> Integration Gateway
-      or approved internal contract -> Logistics Service -> provider adapter -> delivery
-      provider API
+    future_flow: 'Telegram Bot / Website / CRM / Calculator -> Integration Gateway or approved internal
+      contract -> Logistics Service -> provider adapter -> delivery provider API
 
       '
     owns:
@@ -55,19 +54,19 @@ metadata:
     - Keep provider credentials outside git.
     - Report completion only inside the Logistics Service repository.
   strategic_direction:
-    initial_provider_policy: 'Start with provider-neutral local models and dry-run
-      payload previews. Nova Poshta may be the first real provider adapter later,
-      but bootstrap must not hard-code the whole service around one provider.
+    initial_provider_policy: 'Start with provider-neutral local models and dry-run payload previews. Nova
+      Poshta may be the first real provider adapter later, but bootstrap must not hard-code the whole
+      service around one provider.
 
       '
-    test_data_policy: 'A small local test address book may be created for 10-15 frequent
-      recipients, but it is non-canonical and exists only to test logistics flows
-      until a canonical client/account owner is ready.
+    test_data_policy: 'A small local test address book may be created for 10-15 frequent recipients, but
+      it is non-canonical and exists only to test logistics flows until a canonical client/account owner
+      is ready.
 
       '
-    telegram_bot_policy: 'Telegram Bot may become a channel UI and notification surface
-      for logistics workflows, but it must not own shipment truth, provider credentials,
-      logistics address book or provider API integrations.
+    telegram_bot_policy: 'Telegram Bot may become a channel UI and notification surface for logistics
+      workflows, but it must not own shipment truth, provider credentials, logistics address book or provider
+      API integrations.
 
       '
 roadmap:
@@ -85,9 +84,9 @@ roadmap:
     completion_packet: coordination/completion_packets/records/2026-07-11__logistics_service__bootstrap_and_coordination_foundation_v0_1_completion.yaml
     check_report: reports/logistics_service_check_report.md
     test_summary: 19 passed; make check and make check-report OK.
-  summary: 'Create the first controlled Logistics Service project skeleton with make-first
-    workflow, tests, coordination records, provider-neutral domain boundaries, local
-    fixtures and explicit no-live-write safety gates.
+  summary: 'Create the first controlled Logistics Service project skeleton with make-first workflow, tests,
+    coordination records, provider-neutral domain boundaries, local fixtures and explicit no-live-write
+    safety gates.
 
     '
   expected_outputs:
@@ -130,9 +129,8 @@ roadmap:
     completion_packet: coordination/completion_packets/records/2026-07-12__logistics_service__boundary_and_local_model_v0_1_completion.yaml
     check_report: reports/logistics_service_check_report.md
     test_summary: 51 passed; check report 8 passed / 0 warnings / 0 failed.
-  summary: 'Formalize provider-neutral logistics models for providers, recipients,
-    shipment drafts, tracking requests, tracking events and notification events using
-    local storage only.
+  summary: 'Formalize provider-neutral logistics models for providers, recipients, shipment drafts, tracking
+    requests, tracking events and notification events using local storage only.
 
     '
   expected_outputs:
@@ -149,12 +147,12 @@ roadmap:
     prompt_id: logistics_service_boundary_and_local_model_v0_1
     prompt_file: coordination/outgoing_prompts/logistics_service/approved/2026-07-11__logistics_service__boundary_and_local_model_v0_1.md
     prompt_queue_sequence: 2
-  notes: Next active step after accepted bootstrap. This step must remain local, provider-neutral
-    and preview-only.
+  notes: Next active step after accepted bootstrap. This step must remain local, provider-neutral and
+    preview-only.
 - sequence: 3
   step_id: logistics_service_test_address_book_v0_1
   title: Test address book and recipient fixtures
-  status: active
+  status: accepted
   priority: high
   owner_module: logistics_service
   depends_on:
@@ -162,9 +160,16 @@ roadmap:
     module: logistics_service
     step_id: logistics_service_boundary_and_local_model_v0_1
     status: accepted
-  evidence: {}
-  summary: 'Add a small non-canonical local test address book for controlled logistics
-    testing with 10-15 frequent recipients or placeholder fixtures.
+  evidence:
+    implementation_commit: 259f84714e421fab193a8ee494731c7f5a974854
+    completion_commit: ba0c2e1dcf1e0f552786af45ef71e3130e630204
+    completion_report: coordination/reports/completion/logistics_service_test_address_book_v0_1_completion.md
+    completion_packet: coordination/completion_packets/records/2026-07-13__logistics_service__test_address_book_v0_1_completion.yaml
+    test_summary: 77 tests; check report 9 passed / 0 warnings / 0 failed
+    blueprint_review_status: accepted_by_blueprint
+    check_report: reports/logistics_service_check_report.md
+  summary: 'Add a small non-canonical local test address book for controlled logistics testing with 10-15
+    frequent recipients or placeholder fixtures.
 
     '
   expected_outputs:
@@ -177,9 +182,8 @@ roadmap:
     prompt_id: logistics_service_test_address_book_v0_1
     prompt_file: coordination/outgoing_prompts/logistics_service/approved/2026-07-13__logistics_service__test_address_book_v0_1.md
     prompt_queue_sequence: 3
-  notes: Next active step after accepted local model foundation. This step must create
-    a synthetic, non-canonical, local test address book and must not commit real customer
-    data.
+  notes: Next active step after accepted local model foundation. This step must create a synthetic, non-canonical,
+    local test address book and must not commit real customer data.
 - sequence: 4
   step_id: logistics_service_provider_adapter_contract_v0_1
   title: Provider adapter contract
@@ -189,9 +193,8 @@ roadmap:
   depends_on:
   - logistics_service_boundary_and_local_model_v0_1
   evidence: {}
-  summary: 'Define a provider adapter interface that can support Nova Poshta, Ukrposhta,
-    SAT, Meest, Uklon, Bolt, Uber and local courier workflows without coupling the
-    service to one provider.
+  summary: 'Define a provider adapter interface that can support Nova Poshta, Ukrposhta, SAT, Meest, Uklon,
+    Bolt, Uber and local courier workflows without coupling the service to one provider.
 
     '
   expected_outputs:
@@ -211,9 +214,8 @@ roadmap:
   - logistics_service_provider_adapter_contract_v0_1
   - logistics_service_test_address_book_v0_1
   evidence: {}
-  summary: 'Add the first Nova Poshta adapter foundation in read-only or dry-run mode:
-    provider metadata, branch/city lookup planning, tracking lookup planning and payload
-    preview, without creating real shipments.
+  summary: 'Add the first Nova Poshta adapter foundation in read-only or dry-run mode: provider metadata,
+    branch/city lookup planning, tracking lookup planning and payload preview, without creating real shipments.
 
     '
   expected_outputs:
@@ -236,8 +238,8 @@ roadmap:
   depends_on:
   - logistics_service_provider_adapter_contract_v0_1
   evidence: {}
-  summary: 'Introduce provider-neutral tracking and notification events that can later
-    be consumed by Telegram Bot, CRM or Website.
+  summary: 'Introduce provider-neutral tracking and notification events that can later be consumed by
+    Telegram Bot, CRM or Website.
 
     '
   expected_outputs:
@@ -257,8 +259,8 @@ roadmap:
   depends_on:
   - logistics_service_nova_poshta_read_only_foundation_v0_1
   evidence: {}
-  summary: 'Plan the safety gates required before any provider write operation is
-    enabled. This is planning only, not live shipment creation.
+  summary: 'Plan the safety gates required before any provider write operation is enabled. This is planning
+    only, not live shipment creation.
 
     '
   expected_outputs:
@@ -277,9 +279,8 @@ roadmap:
   depends_on:
   - logistics_service_provider_adapter_contract_v0_1
   evidence: {}
-  summary: 'Prepare a separate abstraction for taxi/courier providers such as Uklon,
-    Bolt, Uber or local couriers, where the workflow is pickup/dropoff based rather
-    than parcel/TTN based.
+  summary: 'Prepare a separate abstraction for taxi/courier providers such as Uklon, Bolt, Uber or local
+    couriers, where the workflow is pickup/dropoff based rather than parcel/TTN based.
 
     '
   expected_outputs:

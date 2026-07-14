@@ -161,3 +161,48 @@ deterministic report rendering;
 no duplicate report entries;
 no timestamp-only churn;
 explicit check-report integration.
+
+<!-- blueprint-side-completion-intake-v0-1:start -->
+
+## Blueprint-side completion intake
+
+The module-side completion packet is also the preferred evidence source for Blueprint review.
+
+The cross-repository lifecycle is:
+
+```text
+module completion packet
+-> module validation and push
+-> Blueprint intake preview
+-> Blueprint acceptance or return decision
+-> Blueprint review packet
+-> Blueprint prompt queue update
+-> Blueprint roadmap evidence update
+-> next-work suggestion
+```
+
+Blueprint-side commands are owned by the Blueprint repository:
+
+```text
+make completion-intake-preview MODULE=<module> MODULE_ROOT=<path> PACKET=<packet>
+make completion-accept MODULE=<module> MODULE_ROOT=<path> PACKET=<packet>
+make completion-return MODULE=<module> MODULE_ROOT=<path> PACKET=<packet> REVIEW_NOTES="..."
+make next-work-suggestion MODULE=<module>
+```
+
+The Blueprint intake tool is read-only toward the module repository. It may inspect the packet, report, Git commits and remote containment, but it must not modify module files.
+
+Acceptance does not automatically generate or activate the next prompt.
+
+The next-work resolver uses this order:
+
+```text
+active approved prompt;
+matching draft candidate;
+next roadmap step;
+undefined-work warning.
+```
+
+All promotion and activation decisions remain explicit Blueprint actions.
+
+<!-- blueprint-side-completion-intake-v0-1:end -->

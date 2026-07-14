@@ -1,0 +1,26 @@
+schema_version: blueprint_next_work_suggestion_v0_1
+result: ROADMAP_PROMPT_NEEDED
+signal: YELLOW
+module: example_module
+
+current_step:
+  sequence: 3
+  step_id: example_current_step_v0_1
+  title: Current step
+  status: accepted
+
+next_step:
+  sequence: 4
+  step_id: example_next_step_v0_1
+  title: Next documented step
+  status: planned
+  summary: >
+    Prepare the next prompt only from documented roadmap scope.
+  expected_outputs: []
+
+active_prompts: []
+draft_candidates: []
+conflicting_drafts: []
+
+decision_required: true
+action: Prepare a draft prompt using only the documented next roadmap step.

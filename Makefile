@@ -12,6 +12,12 @@ AFTER_CURRENT ?= 10
 NO_COLOR ?=
 ROADMAP_SUMMARY_MODULES ?= forprint_library
 
+MODULE_ROOT ?= ../$(MODULE)
+PACKET ?=
+REVIEW_NOTES ?=
+COMPLETION_COMMIT ?=
+REVIEWED_AT ?=
+
 STATUS ?= acknowledged
 LEDGER ?= coordination/blueprint_awareness/document_review_ledger.yaml
 DOCUMENT ?=
@@ -68,6 +74,11 @@ help:
 	@echo "  make prompt-dashboard MODULE=forprint_library"
 	@echo "  make prompt-next MODULE=forprint_library"
 	@echo "  make prompt-read-next MODULE=forprint_library"
+	@echo "  make completion-intake-preview MODULE=logistics_service MODULE_ROOT=../forprint_logistics_service PACKET=coordination/completion_packets/records/example.yaml"
+	@echo "  make completion-accept MODULE=logistics_service MODULE_ROOT=../forprint_logistics_service PACKET=coordination/completion_packets/records/example.yaml"
+	@echo "  make completion-return MODULE=logistics_service MODULE_ROOT=../forprint_logistics_service PACKET=coordination/completion_packets/records/example.yaml REVIEW_NOTES='Corrections required'"
+	@echo "  make completion-finalize-check MODULE=logistics_service"
+	@echo "  make next-work-suggestion MODULE=logistics_service"
 	@echo ""
 	@echo "Coordination document awareness:"
 	@echo "  make document-manifest"
@@ -299,6 +310,40 @@ prompt-read-next:
 # =============================================================================
 
 # 12 Prompt Queue navigation FINISH
+
+# =============================================================================
+
+# =============================================================================
+
+# 12A Completion intake / finalization / next work START
+
+# =============================================================================
+
+.PHONY: completion-intake-preview
+completion-intake-preview:
+	@set -eu; 	if [ -z "$(PACKET)" ]; then 		echo "FAILED: provide PACKET=<module-relative completion packet path>"; 		exit 1; 	fi; 	set -- --root "." --module "$(MODULE)" --module-root "$(MODULE_ROOT)" --packet "$(PACKET)" --decision accepted; 	if [ -n "$(REVIEW_NOTES)" ]; then set -- "$$@" --review-notes "$(REVIEW_NOTES)"; fi; 	if [ -n "$(COMPLETION_COMMIT)" ]; then set -- "$$@" --completion-commit "$(COMPLETION_COMMIT)"; fi; 	if [ -n "$(REVIEWED_AT)" ]; then set -- "$$@" --reviewed-at "$(REVIEWED_AT)"; fi; 	$(PYTHON) scripts/coordination/module_completion_intake.py "$$@"
+
+.PHONY: completion-accept
+completion-accept:
+	@set -eu; 	if [ -z "$(PACKET)" ]; then 		echo "FAILED: provide PACKET=<module-relative completion packet path>"; 		exit 1; 	fi; 	set -- --root "." --module "$(MODULE)" --module-root "$(MODULE_ROOT)" --packet "$(PACKET)" --decision accepted --write; 	if [ -n "$(REVIEW_NOTES)" ]; then set -- "$$@" --review-notes "$(REVIEW_NOTES)"; fi; 	if [ -n "$(COMPLETION_COMMIT)" ]; then set -- "$$@" --completion-commit "$(COMPLETION_COMMIT)"; fi; 	if [ -n "$(REVIEWED_AT)" ]; then set -- "$$@" --reviewed-at "$(REVIEWED_AT)"; fi; 	$(PYTHON) scripts/coordination/module_completion_intake.py "$$@"
+
+.PHONY: completion-return
+completion-return:
+	@set -eu; 	if [ -z "$(PACKET)" ]; then 		echo "FAILED: provide PACKET=<module-relative completion packet path>"; 		exit 1; 	fi; 	if [ -z "$(REVIEW_NOTES)" ]; then 		echo "FAILED: completion-return requires REVIEW_NOTES=..."; 		exit 1; 	fi; 	set -- --root "." --module "$(MODULE)" --module-root "$(MODULE_ROOT)" --packet "$(PACKET)" --decision returned_for_fix --review-notes "$(REVIEW_NOTES)" --write; 	if [ -n "$(COMPLETION_COMMIT)" ]; then set -- "$$@" --completion-commit "$(COMPLETION_COMMIT)"; fi; 	if [ -n "$(REVIEWED_AT)" ]; then set -- "$$@" --reviewed-at "$(REVIEWED_AT)"; fi; 	$(PYTHON) scripts/coordination/module_completion_intake.py "$$@"
+
+.PHONY: next-work-suggestion
+next-work-suggestion:
+	$(PYTHON) scripts/coordination/resolve_next_module_work.py --root "." --module "$(MODULE)"
+
+.PHONY: completion-finalize-check
+completion-finalize-check:
+	$(PYTHON) scripts/coordination/validate_prompt_queue.py --root "."
+	$(PYTHON) scripts/coordination/validate_module_roadmap.py --root "." --module "$(MODULE)"
+	$(PYTHON) scripts/coordination/resolve_next_module_work.py --root "." --module "$(MODULE)"
+
+# =============================================================================
+
+# 12A Completion intake / finalization / next work FINISH
 
 # =============================================================================
 

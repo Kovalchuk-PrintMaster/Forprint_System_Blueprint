@@ -1,0 +1,27 @@
+schema_version: blueprint_completion_review_packet_v0_1
+review_id: 2026-07-14__example_module__example_prompt_v0_1__accepted
+module_id: example_module
+prompt_id: example_prompt_v0_1
+phase: example_phase_v0_1
+decision: accepted
+reviewed_at: '2026-07-14'
+review_notes: >
+  Accepted from validated module completion evidence.
+
+module_evidence:
+  module_root: /srv/software_development/forprint-project/example_module
+  packet_path: coordination/completion_packets/records/example.yaml
+  report_path: coordination/reports/completion/example.md
+  branch: feature/example
+  implementation_commit: null
+  completion_commit: null
+  push_status: pushed
+  checks: {}
+  boundary_confirmation: {}
+
+blueprint_updates:
+  prompt_queue: coordination/outgoing_prompts/example_module/index.yaml
+  roadmap: coordination/roadmaps/example_module.yaml
+  roadmap_step_status: accepted
+  prompt_execution_status: completed_by_module
+  blueprint_review_status: accepted_by_blueprint
