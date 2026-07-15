@@ -4,11 +4,12 @@ from __future__ import annotations
 import argparse
 import re
 import sys
-from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
 import yaml
+
+from scripts.reporting.table_renderer import TableRow, render_boxed_table_lines
 
 PROMPT_QUEUE_SCHEMA_VERSION = "prompt_queue_v0_2"
 OUTGOING_PROMPTS_DIR = Path("coordination/outgoing_prompts")
@@ -21,13 +22,7 @@ COLOR_ORANGE = "\033[38;5;208m"
 COLOR_RED = "\033[31m"
 COLOR_GRAY = "\033[90m"
 COLOR_CYAN = "\033[36m"
-ANSI_RE = re.compile(r"\033\[[0-9;]*m")
 
-
-@dataclass(frozen=True)
-class TableRow:
-    values: tuple[str, ...]
-    color: str | None = None
 
 
 def _load_yaml(path: Path) -> dict[str, Any]:
@@ -311,62 +306,12 @@ def _boxed_table(
     rows: list[TableRow],
     use_color: bool,
 ) -> list[str]:
-    return [
-        _boxed_border(widths, left="┌", separator="┬", right="┐"),
-        _boxed_row(headers, widths, row_color=None),
-        _boxed_border(widths, left="├", separator="┼", right="┤"),
-        *[
-            _boxed_row(
-                row.values,
-                widths,
-                row_color=row.color if use_color else None,
-            )
-            for row in rows
-        ],
-        _boxed_border(widths, left="└", separator="┴", right="┘"),
-    ]
-
-
-def _boxed_border(
-    widths: tuple[int, ...],
-    *,
-    left: str,
-    separator: str,
-    right: str,
-) -> str:
-    return left + separator.join("─" * (width + 2) for width in widths) + right
-
-
-def _boxed_row(
-    values: tuple[str, ...],
-    widths: tuple[int, ...],
-    *,
-    row_color: str | None,
-) -> str:
-    cells = []
-    for value, width in zip(values, widths, strict=False):
-        cells.append(_visible_cell(value, width))
-
-    rendered = "│ " + " │ ".join(cells) + " │"
-    if row_color:
-        return f"{row_color}{rendered}{COLOR_RESET}"
-    return rendered
-
-
-def _visible_cell(value: str, width: int) -> str:
-    raw_value = str(value).replace("\n", " ")
-    clean_value = _strip_ansi(raw_value)
-    return _format_visible_cell(clean_value, width)
-
-
-def _format_visible_cell(value: str, width: int) -> str:
-    if len(value) > width:
-        value = value[: width - 1] + "…"
-    return value.ljust(width)
-
-
-def _strip_ansi(value: str) -> str:
-    return ANSI_RE.sub("", value)
+    return render_boxed_table_lines(
+        headers=headers,
+        widths=widths,
+        rows=rows,
+        use_color=use_color,
+    )
 
 
 def _finalize_output(lines: list[str], *, use_color: bool) -> str:

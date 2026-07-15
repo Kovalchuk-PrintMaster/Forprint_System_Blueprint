@@ -1,11 +1,16 @@
 from __future__ import annotations
 
-import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
 import yaml
+
+from scripts.reporting.table_renderer import (
+    TableRow,
+    format_visible_cell,
+    render_boxed_table_lines,
+)
 
 SCHEMA_VERSION = "module_development_roadmap_v0_1"
 
@@ -32,7 +37,6 @@ DEFAULT_PRIORITY_VALUES = (
 
 DONE_STATUSES = {"completed", "accepted", "cancelled", "superseded"}
 ANSI_RESET = "\033[0m"
-ANSI_RE = re.compile(r"\033\[[0-9;]*m")
 
 
 class RoadmapError(ValueError):
@@ -497,16 +501,11 @@ def _finalize_output(lines: list[str], *, no_color: bool) -> str:
 
 def _row(*values: str) -> str:
     widths = (24, 14, 10, 44, 48, 18, 16)
-    padded = []
-    for value, width in zip(values, widths, strict=False):
-        raw_value = value.replace("\n", " ")
-        color = _leading_ansi_color(raw_value)
-        clean_value = _strip_ansi(raw_value)
-        cell = _format_visible_cell(clean_value, width)
-        if color:
-            cell = f"{color}{cell}{ANSI_RESET}"
-        padded.append(cell)
-    return " | ".join(padded)
+    return " | ".join(
+        format_visible_cell(value, width, use_color=True)
+        for value, width in zip(values, widths, strict=False)
+    )
+
 
 def _boxed_table(
     *,
@@ -514,61 +513,13 @@ def _boxed_table(
     widths: tuple[int, ...],
     rows: list[tuple[str, ...]],
 ) -> list[str]:
-    return [
-        _boxed_border(widths, left="┌", separator="┬", right="┐"),
-        _boxed_row(headers, widths),
-        _boxed_border(widths, left="├", separator="┼", right="┤"),
-        *[_boxed_row(row, widths) for row in rows],
-        _boxed_border(widths, left="└", separator="┴", right="┘"),
-    ]
+    return render_boxed_table_lines(
+        headers=headers,
+        widths=widths,
+        rows=tuple(TableRow(values=row) for row in rows),
+        use_color=True,
+    )
 
-
-def _boxed_border(
-    widths: tuple[int, ...],
-    *,
-    left: str,
-    separator: str,
-    right: str,
-) -> str:
-    return left + separator.join("─" * (width + 2) for width in widths) + right
-
-
-def _boxed_row(values: tuple[str, ...], widths: tuple[int, ...]) -> str:
-    cells = []
-    for value, width in zip(values, widths, strict=False):
-        cells.append(_visible_cell(value, width))
-    return "│ " + " │ ".join(cells) + " │"
-
-
-def _visible_cell(value: str, width: int) -> str:
-    raw_value = value.replace("\n", " ")
-    color = _leading_ansi_color(raw_value)
-    clean_value = _strip_ansi(raw_value)
-    cell = _format_visible_cell(clean_value, width)
-    if color:
-        return f"{color}{cell}{ANSI_RESET}"
-    return cell
-
-
-def _format_visible_cell(value: str, width: int) -> str:
-    if len(value) > width:
-        value = value[: width - 1] + "…"
-    return value.ljust(width)
-
-
-def _strip_ansi(value: str) -> str:
-    return ANSI_RE.sub("", value)
-
-
-def _leading_ansi_color(value: str) -> str | None:
-    match = ANSI_RE.match(value)
-    if not match:
-        return None
-
-    color = match.group(0)
-    if color == ANSI_RESET:
-        return None
-    return color
 
 def _token(value: str, *, no_color: bool) -> str:
     if no_color:

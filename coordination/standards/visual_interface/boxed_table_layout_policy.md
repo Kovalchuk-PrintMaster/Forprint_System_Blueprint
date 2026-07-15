@@ -116,3 +116,18 @@ path to detailed evidence.
 New reporting tools should use shared table-rendering primitives when available.
 
 Do not create a new incompatible border, marker or color system for each module.
+
+## Shared implementation
+
+The Blueprint reference renderer is:
+
+```text
+scripts/reporting/table_renderer.py
+```
+
+Prompt Queue and Module Roadmap dashboards use this implementation. Narrow
+compatibility facades may remain, but border construction, ANSI visible-width
+handling, truncation and row rendering must stay centralized.
+
+Semantic tokens are preferred. Temporary explicit ANSI row colors are allowed
+only for gradual compatibility migration.
