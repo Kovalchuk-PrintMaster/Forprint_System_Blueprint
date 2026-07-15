@@ -5,6 +5,7 @@ import argparse
 import fnmatch
 import hashlib
 import json
+import os
 import re
 import sys
 from dataclasses import asdict, dataclass
@@ -13,6 +14,10 @@ from pathlib import Path
 from typing import Any
 
 import yaml
+
+from scripts.reporting.document_awareness_tables import (
+    render_document_manifest_summary,
+)
 
 SOURCE_REGISTRY_SCHEMA_VERSION = "coordination_document_source_registry_v0_1"
 DOCUMENT_MANIFEST_SCHEMA_VERSION = "coordination_document_manifest_v0_1"
@@ -341,18 +346,20 @@ def write_manifest_reports(manifest: ManifestResult, output_dir: Path) -> tuple[
     return json_path, markdown_path
 
 
-def print_summary(manifest: ManifestResult) -> None:
-    print("ForPrint Coordination Document Manifest")
-    print(f"Schema: {manifest.schema_version}")
-    print(f"Source registry: {manifest.source_registry}")
-    print(f"Documents: {manifest.document_count}")
-    print(f"Warnings: {manifest.warning_count}")
-
-    if manifest.warnings:
-        print("")
-        print("Warnings:")
-        for warning in manifest.warnings:
-            print(f"- {warning}")
+def print_summary(
+    manifest: ManifestResult,
+    *,
+    use_color: bool = True,
+) -> None:
+    print(
+        render_document_manifest_summary(
+            schema_version=manifest.schema_version,
+            source_registry=manifest.source_registry,
+            document_count=manifest.document_count,
+            warnings=manifest.warnings,
+            use_color=use_color,
+        )
+    )
 
 
 def main() -> int:
@@ -379,8 +386,14 @@ def main() -> int:
         action="store_true",
         help="Build and print summary without writing generated reports.",
     )
+    parser.add_argument(
+        "--no-color",
+        action="store_true",
+        help="Disable ANSI color output for the terminal summary.",
+    )
 
     args = parser.parse_args()
+    no_color = args.no_color or os.environ.get("NO_COLOR") == "1"
     root = Path(args.root).resolve()
 
     registry_path = Path(args.registry)
@@ -397,7 +410,7 @@ def main() -> int:
         print(f"FAILED: {exc}")
         return 1
 
-    print_summary(manifest)
+    print_summary(manifest, use_color=not no_color)
 
     if args.no_write:
         print("Write mode: disabled")

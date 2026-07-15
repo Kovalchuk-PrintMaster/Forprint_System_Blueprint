@@ -15,6 +15,9 @@ from scripts.coordination.render_document_awareness_dashboard import (
     AwarenessRecord,
     build_dashboard,
 )
+from scripts.reporting.document_awareness_tables import (
+    render_context_bundle_summary,
+)
 
 DEFAULT_OUTPUT_DIR = Path("reports/coordination_context_bundles")
 
@@ -358,8 +361,14 @@ def main() -> int:
         action="store_true",
         help="Build bundle and print summary without writing a file.",
     )
+    parser.add_argument(
+        "--no-color",
+        action="store_true",
+        help="Disable ANSI color output for the terminal summary.",
+    )
 
     args = parser.parse_args()
+    no_color = args.no_color or os.environ.get("NO_COLOR") == "1"
     root = Path(args.root).resolve()
 
     registry_path = Path(args.registry)
@@ -392,13 +401,17 @@ def main() -> int:
         print(bundle.content)
         return 0
 
-    print("ForPrint Coordination Context Bundle")
-    print(f"Module: {bundle.module}")
-    print(f"Scope: {bundle.scope}")
-    print(f"Documents included: {bundle.document_count}")
-
     if args.no_write:
-        print("Write mode: disabled")
+        print(
+            render_context_bundle_summary(
+                module=bundle.module,
+                scope=bundle.scope,
+                document_count=bundle.document_count,
+                write_mode="disabled",
+                output_path=None,
+                use_color=not no_color,
+            )
+        )
         return 0
 
     output_path = write_context_bundle(
@@ -407,7 +420,16 @@ def main() -> int:
         output_dir=output_dir,
     )
 
-    print(f"Bundle: {_relative_to_root(root, output_path)}")
+    print(
+        render_context_bundle_summary(
+            module=bundle.module,
+            scope=bundle.scope,
+            document_count=bundle.document_count,
+            write_mode="enabled",
+            output_path=_relative_to_root(root, output_path),
+            use_color=not no_color,
+        )
+    )
     return 0
 
 

@@ -15,6 +15,10 @@ from scripts.coordination.build_document_manifest import (
     DocumentRecord,
     build_manifest,
 )
+from scripts.reporting.document_awareness_tables import (
+    render_awareness_area_summary,
+    render_awareness_document_table,
+)
 
 DEFAULT_LEDGER = Path("coordination/blueprint_awareness/document_review_ledger.yaml")
 
@@ -316,42 +320,6 @@ def _build_summaries(records: list[AwarenessRecord]) -> list[SourceSummary]:
     return summaries
 
 
-def _render_table(headers: list[str], rows: list[list[str]]) -> list[str]:
-    widths = [len(header) for header in headers]
-
-    for row in rows:
-        for index, cell in enumerate(row):
-            widths[index] = max(widths[index], len(_strip_ansi(cell)))
-
-    def format_row(row: list[str]) -> str:
-        cells: list[str] = []
-        for index, cell in enumerate(row):
-            visible_len = len(_strip_ansi(cell))
-            padding = widths[index] - visible_len
-            cells.append(f"{cell}{' ' * padding}")
-        return "| " + " | ".join(cells) + " |"
-
-    separator = "| " + " | ".join("-" * width for width in widths) + " |"
-
-    return [format_row(headers), separator, *[format_row(row) for row in rows]]
-
-
-def _strip_ansi(value: str) -> str:
-    result = ""
-    index = 0
-
-    while index < len(value):
-        if value[index] == "\033":
-            while index < len(value) and value[index] != "m":
-                index += 1
-            index += 1
-            continue
-        result += value[index]
-        index += 1
-
-    return result
-
-
 def _paint_priority(priority: str, palette: Palette) -> str:
     if priority == "critical":
         return palette.paint(priority, "red")
@@ -428,20 +396,9 @@ def render_dashboard(
     ]
 
     lines.extend(
-        _render_table(
-            [
-                "Source",
-                "Total",
-                "Unseen",
-                "Changed",
-                "In progress",
-                "Ack",
-                "Applied",
-                "Deferred",
-                "Priority",
-                "Action",
-            ],
+        render_awareness_area_summary(
             summary_rows,
+            use_color=not no_color,
         )
     )
     lines.append("")
@@ -478,9 +435,9 @@ def render_dashboard(
     ]
 
     lines.extend(
-        _render_table(
-            ["Priority", "Status", "Source", "Path", "Action"],
+        render_awareness_document_table(
             detail_rows,
+            use_color=not no_color,
         )
     )
 

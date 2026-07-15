@@ -28,6 +28,14 @@ _ZERO_WARNING_PATTERNS = (
     re.compile(r"^warnings?\s*:\s*0$", re.IGNORECASE),
     re.compile(r"^warning count\s*:\s*0$", re.IGNORECASE),
     re.compile(r"^0\s+warnings?\s*$", re.IGNORECASE),
+    re.compile(
+        r"^[│|]\s*warnings?\s*:\s*[│|]\s*0\s*[│|]$",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        r"^[│|]\s*warning count\s*:\s*[│|]\s*0\s*[│|]$",
+        re.IGNORECASE,
+    ),
 )
 
 
@@ -35,7 +43,7 @@ def has_warning_signal(output: str) -> bool:
     """Detect warning evidence without treating explicit zero summaries as warnings."""
 
     for raw_line in output.splitlines():
-        line = raw_line.strip()
+        line = re.sub(r"\x1b\[[0-9;]*m", "", raw_line).strip()
         if not line:
             continue
 
