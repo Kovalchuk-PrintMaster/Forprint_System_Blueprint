@@ -509,3 +509,15 @@ module-governance-audit-check:
 # 16 Coordination metadata / module policy / governance FINISH
 
 # =============================================================================
+
+# =============================================================================
+# Blueprint reporting consolidation audit
+# =============================================================================
+
+.PHONY: reporting-consolidation-audit
+reporting-consolidation-audit:
+	$(PYTHON) scripts/reporting/audit_consolidation.py $(if $(filter 1,$(NO_COLOR)),--no-color,)
+
+.PHONY: reporting-consolidation-audit-json
+reporting-consolidation-audit-json:
+	@$(PYTHON) scripts/reporting/audit_consolidation.py --json
