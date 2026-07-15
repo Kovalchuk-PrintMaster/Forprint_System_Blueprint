@@ -19,6 +19,9 @@ from scripts.coordination.module_roadmap import (
     resolve_roadmap_path,
     validate_roadmap_document,
 )
+from scripts.reporting.coordination_result_tables import (
+    render_completion_intake_summary,
+)
 
 REVIEW_SCHEMA_VERSION = "blueprint_completion_review_packet_v0_1"
 ALLOWED_DECISIONS = {"accepted", "returned_for_fix"}
@@ -580,40 +583,41 @@ def apply_intake_plan(plan: IntakePlan) -> tuple[Path, ...]:
     return tuple(changed)
 
 
-def _render_plan(plan: IntakePlan, *, root: Path, write: bool) -> str:
+def _render_plan(
+    plan: IntakePlan,
+    *,
+    root: Path,
+    write: bool,
+    use_color: bool = True,
+) -> str:
     signal = "GREEN" if not plan.warnings else "YELLOW"
-    lines = [
-        f"RESULT: {signal}",
-        f"MODE: {'WRITE' if write else 'PREVIEW'}",
-        f"MODULE: {plan.module_id}",
-        f"PROMPT_ID: {plan.prompt_id}",
-        f"DECISION: {plan.decision}",
-        f"REVIEWED_AT: {plan.reviewed_at}",
-        f"CHANGED_FILES: {len(plan.changed_paths)}",
-    ]
+    changed_files: list[str] = []
     for path in plan.changed_paths:
         try:
-            shown = path.relative_to(root).as_posix()
+            changed_files.append(path.relative_to(root).as_posix())
         except ValueError:
-            shown = str(path)
-        lines.append(f"  - {shown}")
+            changed_files.append(str(path))
 
-    lines.append(f"WARNINGS: {len(plan.warnings)}")
-    for warning in plan.warnings:
-        lines.append(f"  - {warning}")
-
-    lines.extend(
-        [
-            "NEXT_ACTION:",
-            f"  python scripts/coordination/validate_prompt_queue.py --root {root}",
-            (
-                "  python scripts/coordination/validate_module_roadmap.py "
-                f"--root {root} --module {plan.module_id}"
-            ),
-            f"  make next-work-suggestion MODULE={plan.module_id}",
-        ]
+    next_actions = (
+        f"python scripts/coordination/validate_prompt_queue.py --root {root}",
+        (
+            "python scripts/coordination/validate_module_roadmap.py "
+            f"--root {root} --module {plan.module_id}"
+        ),
+        f"make next-work-suggestion MODULE={plan.module_id}",
     )
-    return "\n".join(lines)
+    return render_completion_intake_summary(
+        result=signal,
+        mode="WRITE" if write else "PREVIEW",
+        module=plan.module_id,
+        prompt_id=plan.prompt_id,
+        decision=plan.decision,
+        reviewed_at=plan.reviewed_at,
+        changed_files=changed_files,
+        warnings=plan.warnings,
+        next_actions=next_actions,
+        use_color=use_color,
+    )
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -638,6 +642,7 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Skip module Git commit and remote containment verification.",
     )
+    parser.add_argument("--no-color", action="store_true")
     parser.add_argument("--json", action="store_true")
     return parser
 
@@ -683,7 +688,14 @@ def main() -> int:
             )
         )
     else:
-        print(_render_plan(plan, root=args.root.resolve(), write=args.write))
+        print(
+            _render_plan(
+                plan,
+                root=args.root.resolve(),
+                write=args.write,
+                use_color=not args.no_color and "NO_COLOR" not in os.environ,
+            )
+        )
 
     return 0
 

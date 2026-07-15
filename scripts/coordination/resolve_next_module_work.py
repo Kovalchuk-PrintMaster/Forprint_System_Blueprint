@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -14,6 +15,9 @@ from scripts.coordination.module_roadmap import (
     load_yaml_file,
     resolve_roadmap_path,
     validate_roadmap_document,
+)
+from scripts.reporting.coordination_result_tables import (
+    render_next_work_summary,
 )
 
 ACTIVE_EXECUTION_STATUSES = {"ready_for_module_pull", "in_progress"}
@@ -307,55 +311,16 @@ def as_dict(suggestion: NextWorkSuggestion, *, root: Path) -> dict[str, Any]:
     }
 
 
-def render(suggestion: NextWorkSuggestion, *, root: Path) -> str:
-    data = as_dict(suggestion, root=root)
-    lines = [
-        f"RESULT: {data['result']}",
-        f"SIGNAL: {data['signal']}",
-        f"MODULE: {data['module']}",
-    ]
-
-    current = data["current_step"]
-    if current:
-        lines.append(
-            "CURRENT_STEP: "
-            f"{current.get('sequence')} | {current.get('step_id')} | {current.get('status')}"
-        )
-    else:
-        lines.append("CURRENT_STEP: -")
-
-    upcoming = data["next_step"]
-    if upcoming:
-        lines.append(
-            "NEXT_STEP: "
-            f"{upcoming.get('sequence')} | {upcoming.get('step_id')} | {upcoming.get('status')}"
-        )
-        if upcoming.get("title"):
-            lines.append(f"NEXT_TITLE: {upcoming['title']}")
-    else:
-        lines.append("NEXT_STEP: -")
-
-    lines.append(f"ACTIVE_PROMPTS: {len(data['active_prompts'])}")
-    for item in data["active_prompts"]:
-        lines.append(
-            f"  - {item.get('sequence')} | {item.get('prompt_id')} | {item.get('status')}"
-        )
-
-    lines.append(f"DRAFT_CANDIDATES: {len(data['draft_candidates'])}")
-    for path in data["draft_candidates"]:
-        lines.append(f"  - {path}")
-
-    lines.append(f"CONFLICTING_DRAFTS: {len(data['conflicting_drafts'])}")
-    for path in data["conflicting_drafts"]:
-        lines.append(f"  - {path}")
-
-    lines.extend(
-        [
-            f"DECISION_REQUIRED: {'yes' if data['decision_required'] else 'no'}",
-            f"ACTION: {data['action']}",
-        ]
+def render(
+    suggestion: NextWorkSuggestion,
+    *,
+    root: Path,
+    use_color: bool = True,
+) -> str:
+    return render_next_work_summary(
+        data=as_dict(suggestion, root=root),
+        use_color=use_color,
     )
-    return "\n".join(lines)
 
 
 def main() -> int:
@@ -364,6 +329,7 @@ def main() -> int:
     )
     parser.add_argument("--root", type=Path, default=Path.cwd())
     parser.add_argument("--module", required=True)
+    parser.add_argument("--no-color", action="store_true")
     parser.add_argument("--json", action="store_true")
     args = parser.parse_args()
 
@@ -382,7 +348,13 @@ def main() -> int:
             )
         )
     else:
-        print(render(suggestion, root=args.root))
+        print(
+            render(
+                suggestion,
+                root=args.root,
+                use_color=not args.no_color and "NO_COLOR" not in os.environ,
+            )
+        )
     return 0
 
 
