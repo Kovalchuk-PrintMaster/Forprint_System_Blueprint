@@ -528,3 +528,15 @@ coordination/standards/visual_interface/index.yaml
 ```
 
 Color is supplementary. Status text, counts and markers must remain understandable in plain text.
+
+## Documentation and recovery gate
+
+Meaningful coordination and automation changes must follow:
+
+```text
+coordination/standards/governance/documentation_and_recovery_gate.md
+```
+
+Important workflow decisions must not remain only in chat history.
+
+The repository must preserve enough architecture, operations, recovery, test and completion evidence for another assistant to resume safely after context loss or assistant replacement.

@@ -185,28 +185,20 @@ validate:
 
 .PHONY: check
 check:
-	$(MAKE) lint-fix
-	$(MAKE) lint
-	$(MAKE) test
-	$(MAKE) validate
-	$(MAKE) diagrams-check
-	$(MAKE) guides
-	$(MAKE) manifest-example
-	$(MAKE) prompt-dispatch
-	$(MAKE) outgoing-prompts
-	$(MAKE) prompt-queue-validate
-	$(MAKE) document-manifest
-	$(MAKE) context-bundle
-	$(MAKE) roadmap-validate
-	$(MAKE) roadmap-summary
-	$(MAKE) standards-index
-	$(MAKE) module-standards-template
-	$(MAKE) instruction-intake
-	$(MAKE) completion-packet-template
+	$(PYTHON) scripts/run_blueprint_checks.py
 
 .PHONY: check-report
 check-report:
 	$(PYTHON) scripts/run_blueprint_checks.py
+
+.PHONY: check-report-full
+check-report-full:
+	$(PYTHON) scripts/run_blueprint_checks.py --full-log
+
+.PHONY: check-fix
+check-fix:
+	$(MAKE) lint-fix
+	$(MAKE) check
 
 # =============================================================================
 

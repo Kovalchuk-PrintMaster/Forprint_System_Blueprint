@@ -501,3 +501,36 @@ This standard becomes mandatory for a module through an explicit Blueprint promp
 Migration should be applied in small safe steps and must not pause valid business development solely to refactor old report output.
 
 Logistics Service should be used as the first reference implementation. Library and Telegram Bot should align through their next active prompts.
+
+## Blueprint shared reporting architecture
+
+The Blueprint reference implementation is documented at:
+
+```text
+docs/architecture/blueprint_check_reporting_architecture.md
+docs/operations/blueprint_check_reporting_runbook.md
+docs/operations/blueprint_check_reporting_recovery.md
+```
+
+The reusable implementation lives under:
+
+```text
+scripts/reporting/
+```
+
+The default Blueprint `make check` and `make check-report` commands are structured, compact and non-mutating.
+
+Intentional lint repair uses:
+
+```text
+make check-fix
+```
+
+Full command evidence uses:
+
+```text
+make check-report-full
+reports/diagnostics/blueprint_check_report_full.log
+```
+
+New module implementations may adapt this architecture while preserving structured results, semantic statuses, compact tables, machine-readable artifacts and file-first diagnostics.
