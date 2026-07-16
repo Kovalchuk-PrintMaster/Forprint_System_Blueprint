@@ -275,3 +275,37 @@ def render_next_work_summary(
 
     lines.extend(["", f"ACTION: {str(data.get('action') or '-')}"])
     return "\n".join(lines)
+
+
+def render_next_prompt_summary(
+    *,
+    module: str,
+    sequence: int,
+    prompt_id: str,
+    title: str,
+    priority: str,
+    file: str,
+    path: str,
+    use_color: bool,
+) -> str:
+    '''Render next-prompt metadata without changing resolution semantics.'''
+
+    rows = (
+        TableRow(values=("Module", module)),
+        TableRow(values=("Sequence", str(sequence))),
+        TableRow(values=("Prompt ID", prompt_id), token="active"),
+        TableRow(values=("Title", title)),
+        TableRow(values=("Priority", priority), token=priority),
+        TableRow(values=("File", file)),
+        TableRow(values=("Path", path)),
+    )
+    lines = ["ForPrint Next Prompt", ""]
+    lines.extend(
+        render_boxed_table_lines(
+            headers=("Field", "Value"),
+            widths=(14, 102),
+            rows=rows,
+            use_color=use_color,
+        )
+    )
+    return "\n".join(lines)

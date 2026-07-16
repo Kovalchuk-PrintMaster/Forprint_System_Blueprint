@@ -73,7 +73,7 @@ def test_json_payload_is_serializable(tmp_path: Path) -> None:
     assert "blueprint_reporting_consolidation_audit_v0_1" in encoded
     assert payload["summary"]["failed"] == 0
 
-def test_compact_audit_decision_advances_to_resolve_next_prompt(
+def test_compact_audit_decision_advances_to_module_governance(
     tmp_path: Path,
 ) -> None:
     targets = ("scripts/coordination/module_roadmap.py",)
@@ -90,7 +90,34 @@ def test_compact_audit_decision_advances_to_resolve_next_prompt(
 
     assert (
         "Decision: next implementation front is "
-        "blueprint_resolve_next_prompt_result_table_v0_1."
+        "blueprint_module_governance_terminal_artifact_split_v0_1."
         in rendered
     )
-    assert "blueprint_module_roadmap_renderer_cleanup_v0_1" not in rendered
+    assert "blueprint_resolve_next_prompt_result_table_v0_1" not in rendered
+
+
+def test_resolve_next_prompt_is_consolidated_consumer() -> None:
+    source = """
+from scripts.reporting.coordination_result_tables import (
+    render_next_prompt_summary,
+)
+
+def render_summary():
+    return render_next_prompt_summary(
+        module="m",
+        sequence=1,
+        prompt_id="p",
+        title="t",
+        priority="high",
+        file="f",
+        path="x",
+        use_color=False,
+    )
+"""
+    record = classify_source(
+        "scripts/coordination/resolve_next_prompt.py",
+        source,
+    )
+
+    assert record.classification == "consolidated_consumer"
+    assert record.status == "OK"

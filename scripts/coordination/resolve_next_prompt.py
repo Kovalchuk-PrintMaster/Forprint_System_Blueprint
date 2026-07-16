@@ -2,12 +2,15 @@
 from __future__ import annotations
 
 import argparse
+import os
 import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
 import yaml
+
+from scripts.reporting.coordination_result_tables import render_next_prompt_summary
 
 PROMPT_QUEUE_SCHEMA_VERSION = "prompt_queue_v0_2"
 OUTGOING_PROMPTS_DIR = Path("coordination/outgoing_prompts")
@@ -89,22 +92,22 @@ def resolve_next_prompt_summary(root: Path, module: str) -> NextPromptSummary:
     )
 
 
-def render_summary(summary: NextPromptSummary, root: Path) -> str:
-    try:
-        relative_path = summary.path.relative_to(root)
-    except ValueError:
-        relative_path = summary.path
-
-    return "\n".join(
-        [
-            f"Next prompt for {summary.module}",
-            f"Sequence: {summary.sequence}",
-            f"Prompt ID: {summary.prompt_id}",
-            f"Title: {summary.title}",
-            f"Priority: {summary.priority}",
-            f"File: {summary.file}",
-            f"Path: {relative_path}",
-        ]
+def render_summary(
+    summary: NextPromptSummary,
+    root: Path,
+    *,
+    use_color: bool = True,
+) -> str:
+    relative_path = summary.path.relative_to(root)
+    return render_next_prompt_summary(
+        module=summary.module,
+        sequence=summary.sequence,
+        prompt_id=summary.prompt_id,
+        title=summary.title,
+        priority=summary.priority,
+        file=summary.file,
+        path=str(relative_path),
+        use_color=use_color,
     )
 
 
@@ -149,7 +152,13 @@ def main() -> int:
             print(summary.path)
         return 0
 
-    print(render_summary(summary, root))
+    print(
+        render_summary(
+            summary,
+            root,
+            use_color="NO_COLOR" not in os.environ,
+        )
+    )
 
     if args.read:
         print("")
