@@ -72,3 +72,18 @@ Validates that completion report, status, prompts index and reports index are co
 Rule
 
 Module-specific extra targets are allowed, but the canonical targets above must keep the same names and basic meaning across all active ForPrint modules.
+
+## Reporting compatibility extension v0.1
+
+The public target contract includes these reporting semantics:
+
+- `check-report` - compact validation summary plus artifact references;
+- `check-report-full` - explicit extended diagnostics where supported;
+- `status-report` - current status visibility;
+- `coordination-check` and `module-policy-check` - read-only checks;
+- `coordination-fix` - explicitly mutating repair path.
+
+`NO_COLOR=1` affects only ANSI presentation. It must not change artifacts,
+schemas, warnings, failures or exit codes.
+
+Modules keep implementation freedom behind these stable target contracts.

@@ -63,3 +63,16 @@ next_recommended_steps:
   - Keep runtime work deferred until approved.
 
 next_questions_for_blueprint: []
+
+reporting_evidence:
+  compact_check_report: make check-report
+  full_diagnostics: make check-report-full
+  artifact_paths:
+    - reports/example_module_id_check_report.json
+    - reports/example_module_id_check_report.md
+  no_color_verified: true
+  read_only_checks_verified:
+    - make coordination-check
+    - make module-policy-check
+  recovery_document: docs/operations/example_reporting_recovery.md
+  deviations: []

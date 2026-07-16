@@ -206,3 +206,35 @@ undefined-work warning.
 All promotion and activation decisions remain explicit Blueprint actions.
 
 <!-- blueprint-side-completion-intake-v0-1:end -->
+
+## Reporting evidence contract v0.1
+
+Completion packets may include a top-level `reporting_evidence` mapping.
+The mapping is conditional: use it when the module has reporting, audit or
+status-output work.
+
+Recommended fields:
+
+```yaml
+reporting_evidence:
+  compact_check_report: make check-report
+  full_diagnostics: make check-report-full
+  artifact_paths:
+    - reports/<module>_check_report.json
+    - reports/<module>_check_report.md
+  no_color_verified: true
+  read_only_checks_verified:
+    - make coordination-check
+    - make module-policy-check
+  recovery_document: docs/operations/<reporting-change>-recovery.md
+  deviations: []
+```
+
+Rules:
+
+- do not invent artifacts that the module does not produce;
+- preserve target names and exit codes;
+- keep failures visible in compact output;
+- record `NO_COLOR=1` only when color exists;
+- record read-only verification only for commands documented as read-only;
+- list known deviations instead of hiding them.

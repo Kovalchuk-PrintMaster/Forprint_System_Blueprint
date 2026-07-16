@@ -1182,6 +1182,17 @@ check-report:
 
 # Purpose: show or export concise module status without full validation.
 # Result: current coordination status is printed or stale status is reported.
+
+.PHONY: check-report-full
+check-report-full:
+	@echo "$(COLOR_BOLD)== $(MODULE_NAME) full check diagnostics ==$(COLOR_RESET)"
+	$(MAKE) env-check
+	$(MAKE) tooling-check
+	$(MAKE) config-check
+	$(MAKE) secrets-check
+	$(MAKE) lint
+	$(MAKE) test
+	@echo "$(COLOR_YELLOW)DEFERRED: implement module-specific extended diagnostic renderer when the module produces detailed reports.$(COLOR_RESET)"
 .PHONY: status-report
 status-report:
 	@echo "$(COLOR_BOLD)== $(MODULE_NAME) status ==$(COLOR_RESET)"

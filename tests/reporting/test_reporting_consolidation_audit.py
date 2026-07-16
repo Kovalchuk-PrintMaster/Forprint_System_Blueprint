@@ -89,8 +89,9 @@ def test_compact_audit_decision_advances_to_reporting_closeout(
     rendered = render_compact(records, use_color=False)
 
     assert (
-        "Decision: next implementation front is "
-        "blueprint_reporting_consolidation_closeout_v0_1."
+        "Decision: reporting consolidation is closed; "
+        "future reporting consumers must follow the registered "
+        "shared-reporting contract."
         in rendered
     )
     assert "blueprint_module_governance_terminal_artifact_split_v0_1" not in rendered

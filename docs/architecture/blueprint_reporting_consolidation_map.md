@@ -97,3 +97,27 @@ artifact generation.
 
 The roadmap renderer cleanup is complete. The next approved audit target is
 `blueprint_resolve_next_prompt_result_table_v0_1`.
+
+## Closeout state v0.1
+
+Reporting consolidation is closed at the verified registry baseline:
+
+- `DEFAULT_TARGETS`: 16;
+- `SHARED_CORE`: 7;
+- `CONSOLIDATED_CONSUMERS`: 9;
+- action required: 0;
+- manual review: 0;
+- intentional special cases: 0.
+
+Future consumers must register in
+`scripts/reporting/audit_consolidation.py`, preserve public CLI and artifact
+contracts, and pass the reporting consolidation audit before merge.
+
+The canonical cross-references are:
+
+- `coordination/templates/module_makefile_standard.template.mk`;
+- `coordination/standards/module_governance_make_targets.md`;
+- `coordination/standards/make_command_standard.md`;
+- `coordination/standards/module_make_target_contract.md`;
+- `coordination/module_policy/README.md`;
+- `tools/completion_packet_template/README.md`.

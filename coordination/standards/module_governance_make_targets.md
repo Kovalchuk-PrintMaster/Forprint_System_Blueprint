@@ -87,3 +87,27 @@ coordination/standards/module_outgoing_prompt_pull_protocol.md
 
 They are part of the push-pull module coordination loop, but they are rolled out gradually and are not yet part of the base governance audit requirement for every module.
 
+## Reporting closeout contract v0.1
+
+The canonical module Make source is
+`coordination/templates/module_makefile_standard.template.mk`.
+
+Reporting targets follow these rules:
+
+- `make check-report` is the compact operator-facing validation entrypoint.
+- `make check-report-full` is the explicit extended-diagnostics entrypoint
+  when a module has detailed terminal diagnostics.
+- `make status-report` prints or exports current module status and must not
+  silently change implementation state.
+- `NO_COLOR=1` disables ANSI color without changing data, artifacts or exit
+  codes.
+- JSON and Markdown report artifacts remain the detailed evidence source when
+  a module produces them.
+- artifact paths and check results belong in the completion packet.
+- `coordination-check` and `module-policy-check` are read-only.
+- `coordination-fix`, `blueprint-pull`, synchronization targets and composite
+  workflows that invoke them may mutate documented coordination state.
+- modules preserve existing target names and exit-code semantics.
+
+The standard defines behavior, not implementation language. Modules are not
+required to import the Blueprint Python reporting package.

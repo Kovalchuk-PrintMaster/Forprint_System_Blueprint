@@ -324,8 +324,9 @@ def render_compact(
             "Summary",
             summary_table,
             (
-                "Decision: next implementation front is "
-                "blueprint_reporting_consolidation_closeout_v0_1."
+                "Decision: reporting consolidation is closed; "
+                "future reporting consumers must follow the registered "
+        "shared-reporting contract."
             ),
         )
     )
@@ -343,7 +344,7 @@ def build_payload(
         "summary": _summary(records),
         "records": [asdict(record) for record in records],
         "planning_horizon": [
-            "blueprint_reporting_consolidation_closeout_v0_1",
+            "reporting_consolidation_closed_v0_1",
             "blueprint_document_ledger_result_table_v0_1",
             "blueprint_module_roadmap_validation_result_table_v0_1",
             "blueprint_prompt_queue_validation_result_table_v0_1",

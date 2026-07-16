@@ -1066,7 +1066,7 @@ Recommended command behavior:
 
 ```make
 document-awareness:
-        $(BLUEPRINT_PYTHON) $(BLUEPRINT_ROOT)/scripts/coordination/render_document_awareness_dashboard.py --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --limitNO_COLOR=1` is provided, color output should be disabled.
+        $(BLUEPRINT_PYTHON) $(BLUEPRINT_ROOT)/scripts/coordination/render_document_awareness_dashboard.py --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --limit "$(LIMIT)" $(if $(filter 1,$(NO_COLOR)),--no-color,)
 
 ### context-bundle
 
@@ -1567,3 +1567,62 @@ the command is a temporary migration step;
 the command is needed because the target is not implemented yet;
 the prompt explicitly asks the module to implement that target.
 ```
+
+## Reporting terminal and artifact contract v0.1
+
+### Compact and full output
+
+`make check-report` is the normal operator command. It should:
+
+- print a compact summary;
+- keep warning and failure counts visible;
+- preserve the underlying non-zero exit code;
+- print stable paths to JSON and Markdown artifacts when they exist;
+- avoid dumping full diagnostic artifacts into routine terminal output.
+
+`make check-report-full` is the explicit extended-diagnostics command. Modules
+without a full renderer may report a documented deferral, but must not pretend
+that detailed diagnostics were produced.
+
+### Read-only and mutating commands
+
+Read-only checks include `coordination-check`, `module-policy-check` and audit
+commands documented as read-only. They must not rewrite coordination state,
+roadmaps, prompt queues, completion packets or generated reports.
+
+`coordination-fix`, `blueprint-pull`, directive synchronization and composite
+targets that invoke them are mutating commands. Their mutation must remain
+visible in the target contract.
+
+`check-report` may write validation artifacts under `reports/` when report
+generation is part of its documented contract. That write does not authorize
+other coordination-state mutation.
+
+### Artifacts and completion evidence
+
+When report artifacts exist, use stable paths such as:
+
+```text
+reports/<module>_check_report.json
+reports/<module>_check_report.md
+```
+
+Completion evidence should conditionally record:
+
+- focused and full test results;
+- lint and `git diff --check` results;
+- `make check-report` result;
+- artifact paths and validation results;
+- read-only verification;
+- `NO_COLOR=1` verification when ANSI color exists;
+- recovery document;
+- explicit deviations.
+
+Do not require artifact-specific evidence from modules that do not produce
+those artifacts.
+
+### Compatibility
+
+Preserve public target names, CLI flags, stdout/stderr ownership, machine
+schemas and exit-code semantics. Terminal presentation changes must not alter
+machine-readable artifacts.

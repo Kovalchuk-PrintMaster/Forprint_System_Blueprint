@@ -73,3 +73,52 @@ large logs;
 binary files.
 
 ---
+
+## Reporting and completion obligations
+
+These obligations apply to module assistants when the module exposes reporting,
+audit or status commands.
+
+### Required
+
+Module assistants must:
+
+- preserve public Make target names, CLI flags, machine schemas, artifact
+  filenames, stdout/stderr ownership and exit-code semantics;
+- keep commands documented as read-only free of coordination-state mutation;
+- keep warning and failure information visible;
+- document source-of-truth files and stable artifact paths;
+- create architecture, runbook, recovery and completion documentation for
+  substantial reporting or orchestration changes;
+- report deviations explicitly instead of silently changing contracts;
+- keep important implementation decisions in repository documentation rather
+  than only in assistant chat.
+
+### Conditional
+
+When ANSI color exists, `NO_COLOR=1` must disable it without changing data,
+artifacts or exit codes.
+
+When detailed JSON or Markdown report artifacts exist, routine terminal output
+should remain compact and the completion packet should reference those
+artifacts. Modules without report artifacts must not invent them.
+
+When a full diagnostic renderer exists, expose it through the documented
+extended target rather than overloading routine compact output.
+
+### Completion evidence
+
+Completion packets should conditionally record focused tests, full tests, lint,
+`make check-report`, `git diff --check`, artifact validation, read-only
+verification, `NO_COLOR=1` verification, recovery documentation and known
+deviations.
+
+Target definitions remain owned by:
+
+- `coordination/standards/module_governance_make_targets.md`;
+- `coordination/standards/make_command_standard.md`;
+- `coordination/standards/module_make_target_contract.md`.
+
+Module policy references these standards and does not duplicate the complete
+target list. Existing generated per-module policies are not bulk-rewritten by
+this closeout.
