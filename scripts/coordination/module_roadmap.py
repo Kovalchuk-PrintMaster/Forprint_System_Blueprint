@@ -6,9 +6,9 @@ from typing import Any
 
 import yaml
 
+from scripts.reporting.statuses import colorize
 from scripts.reporting.table_renderer import (
     TableRow,
-    format_visible_cell,
     render_boxed_table_lines,
 )
 
@@ -280,7 +280,7 @@ def render_roadmap_dashboard(
         )
 
     lines.extend(
-        _boxed_table(
+        render_boxed_table_lines(
             headers=(
                 "",
                 "Seq",
@@ -292,7 +292,8 @@ def render_roadmap_dashboard(
                 "Evidence",
             ),
             widths=(2, 4, 14, 10, 44, 48, 18, 16),
-            rows=table_rows,
+            rows=tuple(TableRow(values=row) for row in table_rows),
+            use_color=True,
         ),
     )
 
@@ -357,7 +358,7 @@ def render_modules_summary(
         )
 
     lines.extend(
-        _boxed_table(
+        render_boxed_table_lines(
             headers=(
                 "Module",
                 "Current",
@@ -367,7 +368,8 @@ def render_modules_summary(
                 "Blocked",
             ),
             widths=(24, 44, 14, 10, 48, 8),
-            rows=table_rows,
+            rows=tuple(TableRow(values=row) for row in table_rows),
+            use_color=True,
         ),
     )
 
@@ -499,51 +501,34 @@ def _finalize_output(lines: list[str], *, no_color: bool) -> str:
     return rendered + ANSI_RESET
 
 
-def _row(*values: str) -> str:
-    widths = (24, 14, 10, 44, 48, 18, 16)
-    return " | ".join(
-        format_visible_cell(value, width, use_color=True)
-        for value, width in zip(values, widths, strict=False)
-    )
-
-
-def _boxed_table(
-    *,
-    headers: tuple[str, ...],
-    widths: tuple[int, ...],
-    rows: list[tuple[str, ...]],
-) -> list[str]:
-    return render_boxed_table_lines(
-        headers=headers,
-        widths=widths,
-        rows=tuple(TableRow(values=row) for row in rows),
-        use_color=True,
-    )
+_TOKEN_SEMANTIC_TOKENS = {
+    "success": "success",
+    "ok": "success",
+    "completed": "success",
+    "accepted": "success",
+    "applied": "success",
+    "critical": "failed",
+    "blocked": "failed",
+    "failed": "failed",
+    "high": "warning",
+    "warning": "warning",
+    "new": "warning",
+    "changed": "warning",
+    "ready": "warning",
+    "active": "active",
+    "in_progress": "active",
+    "deferred": "info",
+    "paused": "info",
+    "reference": "info",
+}
 
 
 def _token(value: str, *, no_color: bool) -> str:
-    if no_color:
+    semantic_token = _TOKEN_SEMANTIC_TOKENS.get(value)
+    if no_color or semantic_token is None:
         return value
 
-    color = _token_color(value)
-    if not color:
-        return value
-
-    return f"{color}{value}{ANSI_RESET}"
-
-
-def _token_color(value: str) -> str | None:
-    if value in {"success", "ok", "completed", "accepted", "applied"}:
-        return "\033[32m"
-    if value in {"critical", "blocked", "failed"}:
-        return "\033[31m"
-    if value in {"high", "warning", "new", "changed", "ready"}:
-        return "\033[33m"
-    if value in {"active", "in_progress"}:
-        return "\033[34m"
-    if value in {"deferred", "paused", "reference"}:
-        return "\033[36m"
-    return None
+    return colorize(value, semantic_token, use_color=True)
 
 
 def _string_set(value: Any, default: tuple[str, ...]) -> set[str]:

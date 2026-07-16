@@ -50,21 +50,22 @@ owned by `document_awareness_tables.py`.
 `run_blueprint_checks.py` retains compatibility helpers and delegates compact
 console output and JSON/Markdown artifact generation to the reporting package.
 
-## Verified residual debt
+## Completed roadmap renderer cleanup
 
 ```text
 scripts/coordination/module_roadmap.py
 ```
 
-It already delegates border rendering to the shared renderer but retains:
+The module is now a verified consolidated consumer. It calls the shared table
+renderer directly and uses the shared semantic color API.
+
+Removed wrappers:
 
 ```text
 _row
 _boxed_table
 _token_color
 ```
-
-This is a partial migration, not a separate renderer implementation.
 
 ## Artifact boundaries
 
@@ -83,8 +84,8 @@ artifact generation.
 
 ## Planning horizon
 
-1. `blueprint_module_roadmap_renderer_cleanup_v0_1`
-2. `blueprint_resolve_next_prompt_result_table_v0_1`
+1. `blueprint_resolve_next_prompt_result_table_v0_1`
+2. `blueprint_module_governance_terminal_artifact_split_v0_1`
 3. `blueprint_module_governance_terminal_artifact_split_v0_1`
 4. `blueprint_document_ledger_result_table_v0_1`
 5. `blueprint_module_roadmap_validation_result_table_v0_1`
@@ -94,5 +95,5 @@ artifact generation.
 9. `blueprint_generator_terminal_artifact_split_v0_1`
 10. `blueprint_reporting_consolidation_reaudit_v0_2`
 
-Only step 1 is approved for immediate implementation. Later steps require
-their own source-contract audit.
+The roadmap renderer cleanup is complete. The next approved audit target is
+`blueprint_resolve_next_prompt_result_table_v0_1`.
