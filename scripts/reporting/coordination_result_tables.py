@@ -309,3 +309,85 @@ def render_next_prompt_summary(
         )
     )
     return "\n".join(lines)
+
+
+def render_module_governance_summary(
+    *,
+    modules_checked: int,
+    summary: Mapping[str, int],
+    report_writing: bool,
+    report_json: str | None,
+    report_markdown: str | None,
+    use_color: bool,
+) -> str:
+    """Render compact governance status without owning audit artifacts."""
+
+    status_tokens = {
+        "OK": "success",
+        "NEEDS_ALIGNMENT": "warning",
+        "WARN": "warning",
+        "DEFERRED": "planned",
+    }
+    status_order = (
+        "OK",
+        "NEEDS_ALIGNMENT",
+        "WARN",
+        "DEFERRED",
+    )
+
+    summary_rows = (
+        TableRow(
+            values=("Modules checked:", str(modules_checked)),
+            token="active",
+        ),
+        *(
+            TableRow(
+                values=(f"{status}:", str(summary.get(status, 0))),
+                token=status_tokens[status],
+            )
+            for status in status_order
+        ),
+    )
+
+    lines = ["ForPrint Module Governance Audit", ""]
+    lines.extend(
+        render_boxed_table_lines(
+            headers=("Status", "Count"),
+            widths=(24, 10),
+            rows=summary_rows,
+            use_color=use_color,
+        )
+    )
+
+    if report_writing:
+        artifact_rows = (
+            TableRow(
+                values=("Mode", "Report writing: enabled"),
+                token="success",
+            ),
+            TableRow(
+                values=("JSON report:", report_json or "-"),
+            ),
+            TableRow(
+                values=("Markdown report:", report_markdown or "-"),
+            ),
+        )
+    else:
+        artifact_rows = (
+            TableRow(
+                values=("Mode", "Report writing: disabled"),
+                token="active",
+            ),
+        )
+
+    lines.extend(["", "Artifact output"])
+    lines.extend(
+        render_boxed_table_lines(
+            headers=("Field", "Value"),
+            widths=(18, 98),
+            rows=artifact_rows,
+            use_color=use_color,
+        )
+    )
+
+    return "\n".join(lines)

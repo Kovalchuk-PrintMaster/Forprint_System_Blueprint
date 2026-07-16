@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 from dataclasses import asdict, dataclass
 from datetime import UTC, datetime
@@ -9,6 +10,8 @@ from pathlib import Path
 from typing import Any
 
 import yaml
+
+from scripts.reporting.coordination_result_tables import render_module_governance_summary
 
 ROOT = Path(__file__).resolve().parents[1]
 MODULE_SOURCES = ROOT / "coordination" / "module_sources" / "module_git_sources.yaml"
@@ -348,18 +351,16 @@ def main(argv: list[str] | None = None) -> int:
         _write_json(results, report_json)
         _write_markdown(results, report_md)
 
-    print("ForPrint Module Governance Audit")
-    print(f"Modules checked: {len(results)}")
-
-    for status, count in _summary(results).items():
-        print(f"  - {status}: {count}")
-
-    if args.no_write:
-        print("Report writing: disabled")
-    else:
-        print(f"JSON report: {report_json}")
-        print(f"Markdown report: {report_md}")
-
+    print(
+        render_module_governance_summary(
+            modules_checked=len(results),
+            summary=_summary(results),
+            report_writing=not args.no_write,
+            report_json=str(report_json) if not args.no_write else None,
+            report_markdown=str(report_md) if not args.no_write else None,
+            use_color="NO_COLOR" not in os.environ,
+        )
+    )
     return 0
 
 

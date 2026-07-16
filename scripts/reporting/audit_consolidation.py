@@ -27,6 +27,7 @@ DEFAULT_TARGETS = (
     "scripts/coordination/resolve_next_module_work.py",
     "scripts/coordination/render_prompt_dashboard.py",
     "scripts/coordination/resolve_next_prompt.py",
+    "scripts/audit_module_governance.py",
 )
 
 SHARED_CORE = {
@@ -48,6 +49,7 @@ CONSOLIDATED_CONSUMERS = {
     "scripts/coordination/resolve_next_module_work.py",
     "scripts/coordination/render_prompt_dashboard.py",
     "scripts/coordination/resolve_next_prompt.py",
+    "scripts/audit_module_governance.py",
 }
 
 PARTIAL_MIGRATIONS: set[str] = set()
@@ -323,7 +325,7 @@ def render_compact(
             summary_table,
             (
                 "Decision: next implementation front is "
-                "blueprint_module_governance_terminal_artifact_split_v0_1."
+                "blueprint_reporting_consolidation_closeout_v0_1."
             ),
         )
     )
@@ -341,7 +343,7 @@ def build_payload(
         "summary": _summary(records),
         "records": [asdict(record) for record in records],
         "planning_horizon": [
-            "blueprint_module_governance_terminal_artifact_split_v0_1",
+            "blueprint_reporting_consolidation_closeout_v0_1",
             "blueprint_document_ledger_result_table_v0_1",
             "blueprint_module_roadmap_validation_result_table_v0_1",
             "blueprint_prompt_queue_validation_result_table_v0_1",

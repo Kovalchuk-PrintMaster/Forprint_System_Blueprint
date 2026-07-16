@@ -73,7 +73,7 @@ def test_json_payload_is_serializable(tmp_path: Path) -> None:
     assert "blueprint_reporting_consolidation_audit_v0_1" in encoded
     assert payload["summary"]["failed"] == 0
 
-def test_compact_audit_decision_advances_to_module_governance(
+def test_compact_audit_decision_advances_to_reporting_closeout(
     tmp_path: Path,
 ) -> None:
     targets = ("scripts/coordination/module_roadmap.py",)
@@ -90,10 +90,10 @@ def test_compact_audit_decision_advances_to_module_governance(
 
     assert (
         "Decision: next implementation front is "
-        "blueprint_module_governance_terminal_artifact_split_v0_1."
+        "blueprint_reporting_consolidation_closeout_v0_1."
         in rendered
     )
-    assert "blueprint_resolve_next_prompt_result_table_v0_1" not in rendered
+    assert "blueprint_module_governance_terminal_artifact_split_v0_1" not in rendered
 
 
 def test_resolve_next_prompt_is_consolidated_consumer() -> None:
@@ -116,6 +116,31 @@ def render_summary():
 """
     record = classify_source(
         "scripts/coordination/resolve_next_prompt.py",
+        source,
+    )
+
+    assert record.classification == "consolidated_consumer"
+    assert record.status == "OK"
+
+
+def test_module_governance_audit_is_consolidated_consumer() -> None:
+    source = """
+from scripts.reporting.coordination_result_tables import (
+    render_module_governance_summary,
+)
+
+def main():
+    return render_module_governance_summary(
+        modules_checked=1,
+        summary={"OK": 1},
+        report_writing=False,
+        report_json=None,
+        report_markdown=None,
+        use_color=False,
+    )
+"""
+    record = classify_source(
+        "scripts/audit_module_governance.py",
         source,
     )
 
