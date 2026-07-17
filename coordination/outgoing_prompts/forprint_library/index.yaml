@@ -88,10 +88,34 @@ prompt_queue:
   phase: configurable_product_workbench_v0_1
   priority: critical
   module_execution:
+    status: completed_by_module
+    completion_commit: "01f78ea"
+    completion_report: null
+    completed_at: "2026-07-17"
+  blueprint_review:
+    status: accepted_by_blueprint
+    acceptance_commit: null
+    accepted_at: "2026-07-17"
+    review_notes: >
+      Accepted by Blueprint after Library acceptance audit at 01f78ea.
+      Business-card configurable product skeleton, governance evidence,
+      runbook and recovery guide are accepted. No pricing formula,
+      Calculator implementation or external write was added.
+
+- prompt_id: forprint_library_calculator_input_contract_v0_1
+  sequence: 6
+  title: ForPrint Library Calculator Input Contract v0.1
+  file: approved/2026-07-17__forprint_library__calculator_input_contract_v0_1.md
+  target_module: forprint_library
+  phase: calculator_input_contract_v0_1
+  priority: critical
+
+  module_execution:
     status: ready_for_module_pull
     completion_commit: null
     completion_report: null
     completed_at: null
+
   blueprint_review:
     status: not_started
     acceptance_commit: null
