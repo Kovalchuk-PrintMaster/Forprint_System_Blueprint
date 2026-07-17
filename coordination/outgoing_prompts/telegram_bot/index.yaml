@@ -59,6 +59,26 @@ prompt_queue:
     priority: high
 
     module_execution:
+      status: completed_by_module
+      completion_commit: null
+      completion_report: null
+      completed_at: null
+
+    blueprint_review:
+      status: not_started
+      acceptance_commit: null
+      accepted_at: null
+      review_notes: null
+
+  - prompt_id: telegram_bot_governance_baseline_adoption_v0_1
+    sequence: 4
+    title: Telegram Bot Governance Baseline Adoption v0.1
+    file: approved/2026-07-17__telegram_bot__governance_baseline_adoption_v0_1.md
+    target_module: telegram_bot
+    phase: governance_baseline_adoption_v0_1
+    priority: high
+
+    module_execution:
       status: ready_for_module_pull
       completion_commit: null
       completion_report: null
@@ -69,3 +89,4 @@ prompt_queue:
       acceptance_commit: null
       accepted_at: null
       review_notes: null
+
