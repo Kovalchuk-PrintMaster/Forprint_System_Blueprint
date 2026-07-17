@@ -65,10 +65,14 @@ prompt_queue:
       completed_at: null
 
     blueprint_review:
-      status: not_started
+      status: accepted_by_blueprint
       acceptance_commit: null
-      accepted_at: null
-      review_notes: null
+      accepted_at: "2026-07-17"
+      review_notes: >
+        Accepted by Blueprint and merged to Telegram Bot main at af335a5.
+        Dialogue audit events remain local to Telegram runtime SQLite.
+        No canonical order, Calculator, Logistics, Gateway, 1C, payment,
+        stock or production write was added.
 
   - prompt_id: telegram_bot_governance_baseline_adoption_v0_1
     sequence: 4
