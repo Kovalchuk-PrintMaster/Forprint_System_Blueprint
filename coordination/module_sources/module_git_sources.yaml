@@ -125,6 +125,23 @@ module_git_sources:
         Local directory is known. Git remote should be confirmed before
         automated pull/status aggregation.
 
+    - module_id: forprint_contract_registry
+      module_name: ForPrint Contract Registry
+      priority: deferred
+      development_status: planned_placeholder_contract_foundation_pending
+      local_path: /srv/software_development/forprint-project/forprint_contract_registry
+      repo_url: null
+      branch: main
+      coordination_root: coordination
+      status_file: coordination/status/current_status.yaml
+      prompt_index: coordination/prompts/index.yaml
+      report_index: coordination/reports/index.yaml
+      repo_status: planned_directory_created
+      notes: >
+        Reserved module identity for the future Git-backed registry and
+        lifecycle authority for versioned inter-module interface contracts.
+        No active implementation or repository initialization is authorized.
+
     - module_id: telegram_bot
       module_name: Telegram Bot
       priority: p0

@@ -23,6 +23,7 @@ It defines module roles and prevents modules from taking ownership of responsibi
 | calculator_engine | Calculation and order formalization engine | Order registry, CRM, accounting, warehouse |
 | forprint_accounting_registry_service | Accounting/1C synchronization boundary | Operational Registry, CRM, Library |
 | forprint_integration_gateway | Runtime transport/validation/routing layer | Business brain |
+| forprint_contract_registry | Canonical inter-module interface contract catalog, ownership, version and compatibility authority | Runtime gateway, business-semantic owner or workflow orchestrator |
 | telegram_bot | Customer channel adapter | Business truth owner |
 | website | Customer channel adapter | Business truth owner |
 | mobile_app | Future customer channel | Active module before Calculator maturity |
