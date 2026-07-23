@@ -1,0 +1,115 @@
+schema_version: repository_capability_inventory_v0_2
+snapshot:
+  snapshot_id: "<YYYY-MM-DD>__<scope_id>__repository_capability_inventory_v0_2"
+  created_at: "<ISO-8601>"
+  scope_id: "<scope_id>"
+  repository_root: "<root>"
+  branch: "<branch>"
+  commit: "<full-sha>"
+  working_tree: clean
+  author: "<author>"
+  previous_snapshot: null
+  source_tree_artifact: "<path-or-reference>"
+  result: READY_WITH_UNKNOWNS
+
+scope:
+  included_roots: []
+  ignored_patterns: []
+  summarized_collections: []
+  inspection_limits: []
+
+repository_summary:
+  declared_purpose: ""
+  observed_purpose: ""
+  primary_entrypoints: []
+  primary_capabilities: []
+  important_artifacts: []
+  unresolved_summary: []
+
+directory_inventory:
+  - path: "<relative-directory>/"
+    classification: unknown
+    purpose:
+      status: unknown
+      statement: ""
+      confidence: none
+    owner: unknown
+    evidence: []
+    usage_state: unknown
+    notable_paths: []
+    unknowns: []
+
+capability_inventory:
+  - path: "<relative-file-or-group>"
+    path_kind: file
+    classification: unknown
+    purpose:
+      status: unknown
+      statement: ""
+      confidence: none
+    owner: unknown
+    public_symbols: []
+    entrypoints: []
+    inputs: []
+    outputs: []
+    side_effects:
+      filesystem_read: false
+      filesystem_write: false
+      database_read: false
+      database_write: false
+      network_read: false
+      network_write: false
+      process_execution: false
+      unknown: true
+    dependencies:
+      internal: []
+      external: []
+    consumers: []
+    providers: []
+    evidence: []
+    tests: []
+    usage_state: unknown
+    duplicate_candidates: []
+    related_flows: []
+    recovery_path: null
+    unknowns: []
+    notes: ""
+
+external_dependency_inventory:
+  - dependency: "<package>"
+    manifest: "<manifest>"
+    dependency_class: unknown
+    purpose:
+      status: unknown
+      statement: ""
+      confidence: none
+    usage_evidence: []
+    used_by: []
+
+review_candidates:
+  duplicate_candidates: []
+  dormant_candidates: []
+  orphan_candidates: []
+  ownership_conflicts: []
+  documentation_gaps: []
+  recovery_gaps: []
+  security_or_external_io_questions: []
+
+comparison_to_previous:
+  previous_snapshot: null
+  added_paths: []
+  removed_paths: []
+  moved_or_renamed_paths: []
+  changed_purpose: []
+  confidence_changes: []
+  newly_resolved_unknowns: []
+  newly_introduced_unknowns: []
+  carried_forward_unknowns: []
+
+quality_checks:
+  filename_only_claims_marked_as_inferred: false
+  unknowns_preserved: false
+  no_dead_code_claim_without_proof: false
+  generated_and_external_content_separated: false
+  important_entrypoints_covered: false
+  yaml_validated: false

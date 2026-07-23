@@ -1,0 +1,547 @@
+schema_version: state_direction_rationale_snapshot_v0_1
+snapshot:
+  snapshot_id: 2026-07-23__forprint_system_blueprint__state_direction_rationale_snapshot_v0_1
+  created_at: '2026-07-23T16:18:51.929021+00:00'
+  profile: blueprint_coordination
+  scope_id: forprint_system_blueprint
+  repository_root: /srv/software_development/forprint-project/forprint_system_blueprint
+  branch: main
+  commit: 7c9c7aaaa7d3d69a3fb64a070932c2e9c111818c
+  author: ForPrint System Blueprint coordination
+  previous_snapshot: null
+  evidence_cutoff_at: '2026-07-23T16:18:51.929021+00:00'
+  result: READY_WITH_UNKNOWNS
+perspective:
+  authority: blueprint_control_plane
+  known_limits:
+  - Describes Blueprint coordination, not application runtime.
+  - Module repositories were not freshly inspected.
+  - Unrelated untracked files are excluded from adoption.
+  evidence_sources:
+  - collector archive 79ae446aa79dc7ef6ea8031deea4595f0c19a58bcd005e05a1d1b75825068555
+  - commit 7c9c7aa
+  - 'operator checks: 304 passed, 22/22 OK'
+  - machine architecture
+  - global/module policy
+  - prompt queues
+  - roadmaps
+  - completion/report records
+  excluded_claims:
+  - No claim all module repos are synchronized.
+  - No Registry/Gateway runtime exists.
+  - No dead-code declarations.
+current_state:
+  declared_purpose:
+    status: verified
+    statement: Maintain architecture truth, module boundaries, execution priorities and coordination standards.
+    confidence: high
+  observed_state:
+    status: verified
+    statement: Active manual coordination control plane with mature checks/reporting, Prompt Queue v0.2, selected
+      roadmaps, completion intake, document awareness and first repository-memory baseline.
+    confidence: high
+  lifecycle_stage: active_governance_and_coordination_consolidation
+  stable_capabilities:
+  - 22-check diagnostics
+  - 304-test suite
+  - architecture validation
+  - generated module policy enforcement
+  - prompt navigation
+  - completion acceptance
+  - roadmap dashboards
+  - document awareness/context bundles
+  - governance audit
+  active_fronts:
+  - Install repository knowledge baseline.
+  - Library-to-Calculator contract critical path.
+  - Telegram governance baseline in parallel.
+  - Reconcile Logistics closeout evidence.
+  - Prepare contract architecture without runtime.
+  recently_completed:
+  - Contract Registry placeholder commit 7c9c7aa.
+  - Library business-card acceptance/Calculator prompt commit 4490392.
+  - Telegram dialogue audit acceptance.
+  - Reporting consolidation closeout.
+  blockers:
+  - Metadata sources disagree about latest steps.
+  - Pre-existing unrelated untracked files require exact staging.
+  unresolved_questions:
+  - 'Canonical precedence: queue, roadmap or current focus?'
+  - When to add Registry to machine architecture?
+  - Current Calculator consumer readiness?
+  - Which old requests/reports remain relevant?
+direction:
+  north_star:
+    status: verified
+    statement: Reliable evidence-based, eventually one-command coordination that keeps modules aligned, balanced,
+      recoverable and compatible without turning Blueprint into runtime business logic.
+    confidence: high
+    evidence:
+    - forprint_project_doctrine.md
+    - reporting consolidation
+    - repository knowledge protocol
+  planning_horizon: next_4_to_12_weeks
+  objectives:
+  - objective_id: blueprint.repository_memory
+    title: Adopt manual repository memory
+    outcome: Versioned RCI, REDM and two SDRS streams.
+    rationale: Prevent forgotten code, rationale loss and drift before Inspector automation.
+    status: active
+    confidence: high
+    priority: high
+    target_window: next_4_to_12_weeks
+    owner: forprint_system_blueprint
+    contributing_modules: []
+    completed_work:
+    - Protocol/template prepared.
+    - Collector v0.2 succeeded.
+    - Four initial snapshots generated.
+    active_work:
+    - Install/validate/commit baseline.
+    remaining_work:
+    - Second snapshot and historical comparison.
+    - Pilot one module profile.
+    blockers: []
+    dependencies:
+    - exact staging
+    evidence:
+    - 79ae446aa79dc7ef6ea8031deea4595f0c19a58bcd005e05a1d1b75825068555
+    - coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    - coordination/repository_knowledge/flows/2026-07-23__forprint_system_blueprint__repository_execution_dependency_map_v0_2.yaml
+    success_signals:
+    - YAML valid
+    - history immutable
+    - unknowns explicit
+    review_status: ready_for_installation
+  - objective_id: blueprint.one_command_coordination
+    title: Reduce coordination toward one command
+    outcome: Routine prompt, completion and diagnostic work needs minimal manual assembly.
+    rationale: Reduce errors and coordination overhead.
+    status: active
+    confidence: high
+    priority: high
+    target_window: next_4_to_12_weeks
+    owner: forprint_system_blueprint
+    contributing_modules: []
+    completed_work:
+    - Compact reporting.
+    - Shared renderers.
+    - Prompt resolver.
+    - Completion workflow.
+    active_work:
+    - Stabilize metadata consistency.
+    remaining_work:
+    - Single current-work source.
+    - Read-only drift report.
+    - Safe context bundle.
+    blockers:
+    - Current state spread across records.
+    dependencies:
+    - prompt queues
+    - roadmaps
+    - awareness
+    evidence:
+    - commits 7a489de,12a979d,95f1a49
+    success_signals:
+    - stable machine-readable modes
+    - fewer clarifications
+    review_status: continue
+  - objective_id: blueprint.metadata_consistency
+    title: Align queue, roadmap and portfolio metadata
+    outcome: Views agree or explicitly declare precedence/freshness.
+    rationale: Stale records can issue wrong work.
+    status: planned
+    confidence: high
+    priority: critical
+    target_window: next_4_to_12_weeks
+    owner: forprint_system_blueprint
+    contributing_modules: []
+    completed_work:
+    - Prompt Queue v0.2 exists.
+    active_work:
+    - Conflicts recorded in baseline.
+    remaining_work:
+    - Define precedence.
+    - Refresh roadmaps/current focus.
+    - Add consistency check.
+    blockers:
+    - No cross-record freshness policy.
+    dependencies:
+    - repository baseline
+    evidence:
+    - Library queue 6 vs roadmap 5
+    - Telegram queue 4 vs roadmap 3
+    success_signals:
+    - No conflicting active step
+    review_status: needs_planning
+  - objective_id: blueprint.contract_governance
+    title: Prepare contract-driven communication
+    outcome: Ownership, manifest, envelope and compatibility rules before Gateway runtime.
+    rationale: Avoid incompatible point-to-point contracts.
+    status: planned
+    confidence: high
+    priority: high
+    target_window: next_4_to_12_weeks
+    owner: forprint_system_blueprint
+    contributing_modules:
+    - forprint_contract_registry
+    - forprint_library
+    - calculator_engine
+    - forprint_integration_gateway
+    completed_work:
+    - Registry placeholder/brief registered.
+    active_work:
+    - Library-to-Calculator prompt is first pilot candidate.
+    remaining_work:
+    - Contract ADR.
+    - Interaction inventory.
+    - Ownership split.
+    - Manifest/envelope/CUE pilot.
+    blockers:
+    - Registry absent from machine architecture.
+    dependencies:
+    - Library result
+    - Calculator readiness
+    evidence:
+    - commit 7c9c7aa
+    - Registry brief
+    success_signals:
+    - Gateway consumes, not authors
+    - compatibility checks
+    review_status: deferred_visible
+workstreams:
+- workstream_id: reporting_consolidation
+  title: Reporting consolidation
+  purpose: Compact terminal plus detailed artifacts.
+  status: completed
+  owner: forprint_system_blueprint
+  goal_links:
+  - blueprint.one_command_coordination
+  completed_evidence:
+  - 7a489de
+  - 12a979d
+  active_evidence: []
+  expected_next:
+  - Maintain compatibility.
+  dependency_effect:
+    blocks: []
+    blocked_by: []
+  assessment:
+    goal_contribution: high
+    value_signal: high
+    cost_signal: moderate
+    risk: low
+    balance: healthy
+    recommendation: continue
+    rationale: Foundation is green and reused.
+    confidence: high
+- workstream_id: repository_knowledge
+  title: Repository knowledge baseline
+  purpose: Technical/strategic memory before Inspector.
+  status: active
+  owner: forprint_system_blueprint
+  goal_links:
+  - blueprint.repository_memory
+  completed_evidence:
+  - 79ae446aa79dc7ef6ea8031deea4595f0c19a58bcd005e05a1d1b75825068555
+  active_evidence:
+  - four snapshots
+  expected_next:
+  - Install then pilot module.
+  dependency_effect:
+    blocks: []
+    blocked_by: []
+  assessment:
+    goal_contribution: high
+    value_signal: high
+    cost_signal: moderate
+    risk: low
+    balance: healthy
+    recommendation: continue
+    rationale: Small manual cost, immediate memory value.
+    confidence: high
+- workstream_id: metadata_consistency
+  title: Metadata consistency
+  purpose: Stop stale records driving prompts.
+  status: needs_attention
+  owner: forprint_system_blueprint
+  goal_links:
+  - blueprint.metadata_consistency
+  completed_evidence:
+  - queue validation
+  active_evidence:
+  - conflicts documented
+  expected_next:
+  - Define precedence and refresh records.
+  dependency_effect:
+    blocks:
+    - one-command correctness
+    blocked_by:
+    - no freshness policy
+  assessment:
+    goal_contribution: high
+    value_signal: high
+    cost_signal: moderate
+    risk: high
+    balance: under_supported
+    recommendation: accelerate
+    rationale: Directly affects coordination correctness.
+    confidence: high
+- workstream_id: contract_foundation
+  title: Contract foundation
+  purpose: Prepare compatibility governance without premature service.
+  status: planned_placeholder
+  owner: forprint_system_blueprint
+  goal_links:
+  - blueprint.contract_governance
+  completed_evidence:
+  - 7c9c7aa
+  active_evidence:
+  - Library pilot candidate
+  expected_next:
+  - ADR and inventory.
+  dependency_effect:
+    blocks:
+    - safe Gateway activation
+    blocked_by:
+    - Library/Calculator readiness
+  assessment:
+    goal_contribution: high
+    value_signal: high
+    cost_signal: unknown
+    risk: moderate
+    balance: deferred_intentionally
+    recommendation: reassess
+    rationale: Foundation timely; runtime not timely.
+    confidence: high
+decisions_and_rationale:
+- decision_id: blueprint.current_coordination_center
+  decided_at: '2026-05-21'
+  status: active
+  decision: Blueprint remains current coordination center.
+  problem_addressed: Need one governance source before Control Plane maturity.
+  rationale: Core modules/signals are not mature for automated Control Plane.
+  alternatives:
+    rejected: []
+    deferred:
+    - Activate Strategic Control Plane now.
+  affected_scopes:
+  - all modules
+  expected_outcome: Central manual governance.
+  prompt_ids: []
+  report_paths: []
+  commit_refs: []
+  evidence:
+  - project doctrine
+  - strategic control plane policy
+  review_at: after core loop stable
+  current_validity:
+    status: verified
+    rationale: Supported at the snapshot evidence cutoff.
+    confidence: high
+- decision_id: blueprint.manual_snapshots
+  decided_at: '2026-07-23'
+  status: active
+  decision: Use manual RCI/REDM/SDRS before Inspector automation.
+  problem_addressed: Growing memory, duplication and direction-drift risk.
+  rationale: Manual YAML gives value without premature platform.
+  alternatives:
+    rejected:
+    - Build dashboard/database now.
+    deferred:
+    - Inspector automation
+  affected_scopes:
+  - Blueprint
+  - future modules
+  expected_outcome: Historical evidence.
+  prompt_ids: []
+  report_paths: []
+  commit_refs: []
+  evidence:
+  - repository knowledge protocol
+  - 79ae446aa79dc7ef6ea8031deea4595f0c19a58bcd005e05a1d1b75825068555
+  review_at: after second snapshot
+  current_validity:
+    status: verified
+    rationale: Supported at the snapshot evidence cutoff.
+    confidence: high
+- decision_id: blueprint.generated_policy
+  decided_at: '2026-07-23'
+  status: active
+  decision: module_policy.md stays generated; detailed content uses separate brief.
+  problem_addressed: Manual Registry policy broke exact generation test.
+  rationale: Preserve deterministic source and detailed rationale.
+  alternatives:
+    rejected:
+    - Disable test.
+    - Hand-edit generated output.
+    deferred: []
+  affected_scopes:
+  - coordination/module_policy
+  expected_outcome: Reproducible policies.
+  prompt_ids: []
+  report_paths: []
+  commit_refs:
+  - 7c9c7aa
+  evidence:
+  - tests/test_module_policy_index.py
+  - 304 passed
+  review_at: null
+  current_validity:
+    status: verified
+    rationale: Supported at the snapshot evidence cutoff.
+    confidence: high
+- decision_id: blueprint.registry_placeholder
+  decided_at: '2026-07-23'
+  status: active
+  decision: Register Contract Registry as deferred placeholder, not service.
+  problem_addressed: Need contract lifecycle authority before broad integration.
+  rationale: Git-backed foundation avoids premature infrastructure.
+  alternatives:
+    rejected:
+    - Gateway as contract authority.
+    deferred:
+    - network service/database
+  affected_scopes:
+  - Registry
+  - Gateway
+  - Library
+  - Calculator
+  expected_outcome: Visible module with activation gates.
+  prompt_ids: []
+  report_paths: []
+  commit_refs:
+  - 7c9c7aa
+  evidence:
+  - Registry brief
+  review_at: when first pilot ready
+  current_validity:
+    status: verified
+    rationale: Supported at the snapshot evidence cutoff.
+    confidence: high
+prompt_and_work_rationale:
+- prompt_id: forprint_library_calculator_input_contract_v0_1
+  target_module: forprint_library
+  issued_at: '2026-07-17'
+  intended_goal: Produce deterministic read-only Calculator-ready input from Library semantics.
+  dependency_reason: Critical producer-consumer path and first Contract Registry pilot.
+  expected_system_effect: Reduce Library-to-Calculator ambiguity.
+  completion_state: ready_for_module_pull_in_blueprint
+  evidence:
+  - coordination/outgoing_prompts/forprint_library/index.yaml
+  current_relevance:
+    status: verified
+    rationale: Still next Library queue entry.
+- prompt_id: telegram_bot_governance_baseline_adoption_v0_1
+  target_module: telegram_bot
+  issued_at: '2026-07-17'
+  intended_goal: Adopt governance/reporting baseline without expanding business ownership.
+  dependency_reason: Safe parallel work while Calculator critical path matures.
+  expected_system_effect: Reliable channel-local progress.
+  completion_state: ready_for_module_pull_in_blueprint
+  evidence:
+  - coordination/outgoing_prompts/telegram_bot/index.yaml
+  current_relevance:
+    status: verified
+    rationale: Still next Telegram queue entry.
+- prompt_id: logistics_service_provider_adapter_contract_v0_1
+  target_module: logistics_service
+  issued_at: '2026-07-14'
+  intended_goal: Provider-neutral read-only adapter/preview contract.
+  dependency_reason: Prepare Logistics without live provider writes.
+  expected_system_effect: Safe future delivery integration.
+  completion_state: blueprint_queue_still_ready_for_module_pull
+  evidence:
+  - coordination/outgoing_prompts/logistics_service/index.yaml
+  current_relevance:
+    status: conflicting
+    rationale: Blueprint may lag module-side closeout work.
+alignment_review:
+  direction_stability: mostly_stable_with_metadata_drift
+  evidence_of_progress:
+  - Reporting consolidated.
+  - Library/Telegram queues advanced.
+  - Registry placeholder registered.
+  - Baseline created.
+  drift_signals:
+  - Roadmaps lag queues.
+  - Current focus stale.
+  - Registry missing from machine architecture.
+  unrelated_or_weakly_linked_work:
+  - Untracked Website/internal files outside current front.
+  repeated_rework:
+  - Generated module policy path initially misused and repaired.
+  overloaded_workstreams:
+  - Blueprint carries architecture, coordination, reporting and portfolio memory.
+  neglected_dependencies:
+  - Fresh Calculator status.
+  - Cross-record synchronization.
+  missing_capabilities:
+  - Read-only drift report.
+  - Contract manifest/compatibility foundation.
+  - Automated snapshot comparison.
+  proposed_attention_changes:
+  - Install baseline.
+  - Repair metadata freshness.
+  - Do not activate runtime Gateway/Registry.
+  confidence: high
+module_views: []
+risks_and_unknowns:
+  risks:
+  - risk_id: metadata_drift
+    statement: Conflicting current-step records can issue wrong work.
+    impact: high
+    likelihood: high
+    evidence:
+    - queue/roadmap mismatch
+    mitigation_or_next_check: Define precedence and drift check.
+  - risk_id: untracked_staging
+    statement: Broad staging can commit unrelated files.
+    impact: high
+    likelihood: moderate
+    evidence:
+    - 133 untracked files
+    mitigation_or_next_check: Exact staging; never git add .
+  - risk_id: contract_ownership_overlap
+    statement: Blueprint and Registry may both appear to own contracts.
+    impact: high
+    likelihood: moderate
+    evidence:
+    - machine/ownership.yaml
+    - Registry brief
+    mitigation_or_next_check: Split architecture declaration from interface lifecycle.
+  unknowns:
+  - unknown_id: calculator_state
+    statement: Calculator readiness is not fresh.
+    why_unknown: No module snapshot.
+    next_verification: Collect Calculator status before dependent consumer work.
+    owner: calculator_engine
+  - unknown_id: legacy_relevance
+    statement: Old requests/reports relevance uncertain.
+    why_unknown: No consistent freshness marker.
+    next_verification: Separate non-destructive review.
+    owner: forprint_system_blueprint
+comparison_to_previous:
+  previous_snapshot: null
+  state_changes: []
+  objective_changes: []
+  completed_since_previous: []
+  new_workstreams: []
+  paused_or_closed_workstreams: []
+  changed_decisions: []
+  newly_resolved_unknowns: []
+  newly_introduced_unknowns:
+  - Initial Blueprint SDRS.
+  drift_change: unknown
+  balance_change: unknown
+quality_checks:
+  evidence_and_opinion_separated: true
+  module_proposals_not_presented_as_blueprint_decisions: true
+  goals_linked_to_completed_or_active_work: true
+  prompt_rationale_recorded_where_known: true
+  unknowns_preserved: true
+  historical_comparison_completed: true
+  yaml_validated: true
+final_notes:
+- First baseline intentionally READY_WITH_UNKNOWNS.
+- Use exact staging.

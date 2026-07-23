@@ -1,0 +1,180 @@
+schema_version: state_direction_rationale_snapshot_v0_1
+snapshot:
+  snapshot_id: "<YYYY-MM-DD>__<scope_id>__state_direction_rationale_snapshot_v0_1"
+  created_at: "<ISO-8601>"
+  profile: "<blueprint_coordination|system_portfolio|module_self_view>"
+  scope_id: "<scope_id>"
+  repository_root: "<root>"
+  branch: "<branch>"
+  commit: "<full-sha>"
+  author: "<author>"
+  previous_snapshot: null
+  evidence_cutoff_at: "<ISO-8601>"
+  result: READY_WITH_UNKNOWNS
+
+perspective:
+  authority: "<blueprint_control_plane|system_portfolio_assessment|module_proposal>"
+  known_limits: []
+  evidence_sources: []
+  excluded_claims: []
+
+current_state:
+  declared_purpose:
+    status: unknown
+    statement: ""
+    confidence: none
+  observed_state:
+    status: unknown
+    statement: ""
+    confidence: none
+  lifecycle_stage: unknown
+  stable_capabilities: []
+  active_fronts: []
+  recently_completed: []
+  blockers: []
+  unresolved_questions: []
+
+direction:
+  north_star:
+    status: unknown
+    statement: ""
+    confidence: none
+    evidence: []
+  planning_horizon: "<weeks-or-months>"
+  objectives:
+    - objective_id: "<objective-id>"
+      title: ""
+      outcome: ""
+      rationale: ""
+      status: planned
+      confidence: none
+      priority: unknown
+      target_window: null
+      owner: unknown
+      contributing_modules: []
+      completed_work: []
+      active_work: []
+      remaining_work: []
+      blockers: []
+      dependencies: []
+      evidence: []
+      success_signals: []
+      review_status: unknown
+
+workstreams:
+  - workstream_id: "<workstream-id>"
+    title: ""
+    purpose: ""
+    status: unknown
+    owner: unknown
+    goal_links: []
+    completed_evidence: []
+    active_evidence: []
+    expected_next: []
+    dependency_effect:
+      blocks: []
+      blocked_by: []
+    assessment:
+      goal_contribution: unknown
+      value_signal: unknown
+      cost_signal: unknown
+      risk: unknown
+      balance: unknown
+      recommendation: unknown
+      rationale: ""
+      confidence: none
+
+decisions_and_rationale:
+  - decision_id: "<decision-id>"
+    decided_at: "<date>"
+    status: active
+    decision: ""
+    problem_addressed: ""
+    rationale: ""
+    alternatives:
+      rejected: []
+      deferred: []
+    affected_scopes: []
+    expected_outcome: ""
+    prompt_ids: []
+    report_paths: []
+    commit_refs: []
+    evidence: []
+    review_at: null
+    current_validity:
+      status: unknown
+      rationale: ""
+      confidence: none
+
+prompt_and_work_rationale:
+  - prompt_id: "<prompt-id>"
+    target_module: "<module-id>"
+    issued_at: "<date>"
+    intended_goal: ""
+    dependency_reason: ""
+    expected_system_effect: ""
+    completion_state: unknown
+    evidence: []
+    current_relevance:
+      status: unknown
+      rationale: ""
+
+alignment_review:
+  direction_stability: unknown
+  evidence_of_progress: []
+  drift_signals: []
+  unrelated_or_weakly_linked_work: []
+  repeated_rework: []
+  overloaded_workstreams: []
+  neglected_dependencies: []
+  missing_capabilities: []
+  proposed_attention_changes: []
+  confidence: none
+
+module_views:
+  # Primarily for system_portfolio. Keep empty for other profiles.
+  - module_id: "<module-id>"
+    module_reported_view: ""
+    blueprint_assessment: ""
+    agreement_status: unknown
+    evidence: []
+    unresolved_conflicts: []
+
+risks_and_unknowns:
+  risks:
+    - risk_id: "<risk-id>"
+      statement: ""
+      impact: unknown
+      likelihood: unknown
+      evidence: []
+      mitigation_or_next_check: ""
+  unknowns:
+    - unknown_id: "<unknown-id>"
+      statement: ""
+      why_unknown: ""
+      next_verification: ""
+      owner: unknown
+
+comparison_to_previous:
+  previous_snapshot: null
+  state_changes: []
+  objective_changes: []
+  completed_since_previous: []
+  new_workstreams: []
+  paused_or_closed_workstreams: []
+  changed_decisions: []
+  newly_resolved_unknowns: []
+  newly_introduced_unknowns: []
+  drift_change: unknown
+  balance_change: unknown
+
+quality_checks:
+  evidence_and_opinion_separated: false
+  module_proposals_not_presented_as_blueprint_decisions: false
+  goals_linked_to_completed_or_active_work: false
+  prompt_rationale_recorded_where_known: false
+  unknowns_preserved: false
+  historical_comparison_completed: false
+  yaml_validated: false
+
+final_notes: []

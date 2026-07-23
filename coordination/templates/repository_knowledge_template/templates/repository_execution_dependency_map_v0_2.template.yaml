@@ -1,0 +1,86 @@
+schema_version: repository_execution_dependency_map_v0_2
+snapshot:
+  snapshot_id: "<YYYY-MM-DD>__<scope_id>__repository_execution_dependency_map_v0_2"
+  created_at: "<ISO-8601>"
+  scope_id: "<scope_id>"
+  repository_root: "<root>"
+  branch: "<branch>"
+  commit: "<full-sha>"
+  author: "<author>"
+  previous_snapshot: null
+  related_inventory_snapshot: "<inventory-path>"
+  result: READY_WITH_UNKNOWNS
+
+flow_summary:
+  mapped_flows: 0
+  verified_flows: 0
+  inferred_flows: 0
+  flows_with_unknown_links: 0
+  write_capable_flows: 0
+  external_network_flows: 0
+
+flows:
+  - flow_id: "<scope>.<capability>.v1"
+    name: ""
+    purpose: ""
+    flow_kind: unknown
+    status: unknown
+    confidence: none
+    owner: unknown
+    trigger:
+      type: unknown
+      name: ""
+      path: ""
+    preconditions: []
+    ordered_steps:
+      - sequence: 1
+        component_path: ""
+        symbol_or_target: ""
+        role: ""
+        inputs: []
+        outputs: []
+        side_effects: []
+        evidence: []
+        failure_modes: []
+        recovery_step: null
+        status: unknown
+    terminal_results: []
+    produced_artifacts: []
+    consumed_contracts: []
+    emitted_contracts: []
+    external_dependencies: []
+    observability:
+      logs: []
+      reports: []
+      correlation_or_trace: []
+    safety:
+      mutates_state: false
+      external_write: false
+      credentials_required: false
+      personal_data: unknown
+    unverified_links: []
+    duplicate_or_parallel_flows: []
+    related_tests: []
+    related_inventory_paths: []
+    recovery_paths: []
+
+cross_flow_relationships: []
+
+comparison_to_previous:
+  previous_snapshot: null
+  added_flows: []
+  removed_flows: []
+  changed_steps: []
+  changed_side_effects: []
+  changed_contracts: []
+  new_unverified_links: []
+  resolved_unverified_links: []
+  duplicate_flow_candidates: []
+
+quality_checks:
+  triggers_present: false
+  ordered_steps_present: false
+  side_effects_declared: false
+  failure_modes_declared: false
+  unknown_links_preserved: false
+  yaml_validated: false

@@ -1,0 +1,1424 @@
+schema_version: repository_capability_inventory_v0_2
+snapshot:
+  snapshot_id: 2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2
+  created_at: '2026-07-23T16:18:51.929021+00:00'
+  scope_id: forprint_system_blueprint
+  repository_root: /srv/software_development/forprint-project/forprint_system_blueprint
+  branch: main
+  commit: 7c9c7aaaa7d3d69a3fb64a070932c2e9c111818c
+  working_tree: dirty_untracked_only
+  author: ForPrint System Blueprint coordination
+  previous_snapshot: null
+  source_tree_artifact:
+    name: blueprint_repository_knowledge_input_v0_2.tar.gz
+    sha256: 79ae446aa79dc7ef6ea8031deea4595f0c19a58bcd005e05a1d1b75825068555
+    collector_schema: repository_knowledge_input_v0_2
+  result: READY_WITH_UNKNOWNS
+scope:
+  included_roots:
+  - machine/
+  - human/
+  - coordination/
+  - scripts/
+  - tests/
+  - tools/
+  - docs/
+  - adr/
+  - module_guides/
+  - diagrams/
+  - reports/
+  - Makefile
+  - README.md
+  - pyproject.toml
+  ignored_patterns:
+  - .git/
+  - .tmp_blueprint_backups/
+  - virtual environments
+  - caches
+  - build/dist
+  - logs/tmp
+  - credentials and private keys
+  - binary/non-text content
+  summarized_collections:
+  - 62 tests
+  - 44 scripts
+  - 18 tools
+  - 24 machine files
+  - 24 human files
+  - 16 generated module guides
+  - 7 generated diagrams
+  - coordination directory skeletons
+  inspection_limits:
+  - Only Blueprint repository was inspected.
+  - Cross-module status may lag module repositories.
+  - Runtime evidence is limited to operator-provided checks.
+  - Unrelated untracked Website/risk/internal files were not adopted.
+repository_summary:
+  declared_purpose: Architecture and governance truth layer for the ForPrint ecosystem.
+  observed_purpose: Active manual coordination control plane with machine/human architecture, prompt queues, roadmaps,
+    completion intake, document awareness, generated guidance and compact diagnostics.
+  primary_entrypoints:
+  - make check
+  - make check-report
+  - make validate
+  - make prompt-next MODULE=<module>
+  - make completion-accept ...
+  - make roadmap-dashboard ...
+  - make document-awareness ...
+  primary_capabilities:
+  - architecture truth
+  - ownership and contract maps
+  - module policy/source registries
+  - prompt queues
+  - roadmaps
+  - completion workflow
+  - document awareness
+  - governance audit
+  - compact reporting
+  - manual repository knowledge snapshots
+  important_artifacts:
+  - machine/modules.yaml
+  - machine/ownership.yaml
+  - machine/contracts.yaml
+  - machine/data_flows.yaml
+  - machine/forprint_execution_queue.yaml
+  - coordination/module_policy/module_policy_index.yaml
+  - coordination/module_sources/module_git_sources.yaml
+  - coordination/outgoing_prompts/*/index.yaml
+  - coordination/roadmaps/*.yaml
+  unresolved_summary:
+  - Contract Registry is absent from machine architecture and generated guides.
+  - Library and Telegram roadmaps lag their prompt queues; Logistics state needs reconciliation.
+  - current_execution_focus.md is stale and malformed.
+  - Several module source records remain confirm_required.
+  - reports/forprint_module_status.json is empty invalid JSON.
+  - Repository has unrelated untracked files.
+directory_inventory:
+- path: machine/
+  classification: architecture_source
+  purpose:
+    status: verified
+    statement: Canonical machine architecture, ownership, contracts, flows and execution records.
+    confidence: high
+  owner: forprint_system_blueprint
+  evidence:
+  - kind: source
+    reference: machine/modules.yaml
+    observation: 16 architecture modules.
+  - kind: test
+    reference: tests/test_validate_blueprint.py
+    observation: Machine architecture validated.
+  usage_state: active
+  notable_paths:
+  - machine/modules.yaml
+  - machine/ownership.yaml
+  - machine/contracts.yaml
+  - machine/data_flows.yaml
+  unknowns:
+  - Contract Registry not registered in this layer.
+- path: human/
+  classification: architecture_documentation
+  purpose:
+    status: verified
+    statement: Human-readable system strategy, boundaries, ownership and execution planning.
+    confidence: high
+  owner: forprint_system_blueprint
+  evidence: []
+  usage_state: active
+  notable_paths: []
+  unknowns: []
+- path: coordination/global_policy/
+  classification: governance
+  purpose:
+    status: verified
+    statement: Active doctrine, execution focus and ecosystem role map.
+    confidence: high
+  owner: forprint_system_blueprint
+  evidence: []
+  usage_state: active
+  notable_paths: []
+  unknowns:
+  - current_execution_focus.md predates latest work.
+- path: coordination/module_policy/
+  classification: governance
+  purpose:
+    status: verified
+    statement: Generated module policy summaries and selected hand-authored briefs.
+    confidence: high
+  owner: forprint_system_blueprint
+  evidence:
+  - kind: manifest
+    reference: coordination/module_policy/module_policy_index.yaml
+    observation: 15 policy modules.
+  - kind: test
+    reference: tests/test_module_policy_index.py
+    observation: Generated documents byte-checked.
+  usage_state: active
+  notable_paths: []
+  unknowns: []
+- path: coordination/module_sources/
+  classification: registry
+  purpose:
+    status: verified
+    statement: Module repository and coordination path registry.
+    confidence: high
+  owner: forprint_system_blueprint
+  evidence: []
+  usage_state: active
+  notable_paths: []
+  unknowns:
+  - Telegram, CRM, Prepress and Website remain confirm_required.
+- path: coordination/outgoing_prompts/
+  classification: coordination_queue
+  purpose:
+    status: verified
+    statement: Prompt Queue v0.2 and historical prompt files.
+    confidence: high
+  owner: forprint_system_blueprint
+  evidence: []
+  usage_state: active
+  notable_paths: []
+  unknowns: []
+- path: coordination/roadmaps/
+  classification: planning
+  purpose:
+    status: verified
+    statement: Selected module step/dependency roadmaps.
+    confidence: high
+  owner: forprint_system_blueprint
+  evidence: []
+  usage_state: active
+  notable_paths: []
+  unknowns:
+  - Current steps are not automatically synchronized with prompt acceptance.
+- path: coordination/repository_knowledge/
+  classification: repository_memory
+  purpose:
+    status: verified
+    statement: Manual RCI, REDM and SDRS history.
+    confidence: high
+  owner: forprint_system_blueprint
+  evidence: []
+  usage_state: active
+  notable_paths: []
+  unknowns:
+  - First baseline; no previous comparison.
+- path: coordination/templates/repository_knowledge_template/
+  classification: distribution_template
+  purpose:
+    status: verified
+    statement: Module-local RCI/REDM/module-self-view template.
+    confidence: high
+  owner: forprint_system_blueprint
+  evidence: []
+  usage_state: active
+  notable_paths: []
+  unknowns: []
+- path: scripts/
+  classification: tooling
+  purpose:
+    status: verified
+    statement: Validators, generators, coordination workflows and reporting logic.
+    confidence: high
+  owner: forprint_system_blueprint
+  evidence: []
+  usage_state: active
+  notable_paths: []
+  unknowns: []
+- path: tests/
+  classification: tests
+  purpose:
+    status: verified
+    statement: Automated architecture, coordination, policy and reporting checks.
+    confidence: high
+  owner: forprint_system_blueprint
+  evidence:
+  - kind: runtime
+    reference: operator log
+    observation: 304 tests passed.
+  usage_state: active
+  notable_paths: []
+  unknowns: []
+- path: tools/
+  classification: tooling_and_templates
+  purpose:
+    status: verified
+    statement: Reusable coordination and standards templates.
+    confidence: high
+  owner: forprint_system_blueprint
+  evidence: []
+  usage_state: active
+  notable_paths: []
+  unknowns: []
+- path: docs/
+  classification: documentation
+  purpose:
+    status: verified
+    statement: Architecture, runbook and recovery documentation.
+    confidence: high
+  owner: forprint_system_blueprint
+  evidence: []
+  usage_state: active
+  notable_paths: []
+  unknowns: []
+- path: adr/
+  classification: architecture_decisions
+  purpose:
+    status: verified
+    statement: Accepted architecture decisions.
+    confidence: high
+  owner: forprint_system_blueprint
+  evidence: []
+  usage_state: active
+  notable_paths: []
+  unknowns: []
+- path: module_guides/
+  classification: generated_documentation
+  purpose:
+    status: verified
+    statement: Generated module guidance.
+    confidence: high
+  owner: forprint_system_blueprint
+  evidence: []
+  usage_state: generated
+  notable_paths: []
+  unknowns:
+  - No Contract Registry guide yet.
+- path: diagrams/
+  classification: generated_documentation
+  purpose:
+    status: verified
+    statement: Generated Mermaid architecture diagrams.
+    confidence: high
+  owner: forprint_system_blueprint
+  evidence: []
+  usage_state: generated
+  notable_paths: []
+  unknowns: []
+- path: reports/
+  classification: generated_artifacts
+  purpose:
+    status: verified
+    statement: Generated governance and coordination reports.
+    confidence: high
+  owner: forprint_system_blueprint
+  evidence: []
+  usage_state: generated
+  notable_paths: []
+  unknowns:
+  - forprint_module_status.json is empty.
+  - Some reports are stale.
+capability_inventory:
+- path: Makefile
+  path_kind: file
+  classification: entrypoint
+  purpose:
+    status: verified
+    statement: Primary operator interface.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints:
+  - check
+  - check-report
+  - validate
+  - prompt-next
+  - completion-accept
+  - roadmap-dashboard
+  - document-awareness
+  inputs: []
+  outputs:
+  - terminal/report artifacts
+  side_effects:
+    filesystem_read: true
+    filesystem_write: true
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: true
+    unknown: false
+  dependencies:
+    internal:
+    - scripts/
+    external: []
+  consumers: []
+  providers: []
+  evidence:
+  - kind: source
+    reference: Makefile
+    observation: 55 targets extracted.
+  - kind: runtime
+    reference: operator log
+    observation: 22/22 checks passed.
+  tests: []
+  usage_state: active
+  duplicate_candidates: []
+  related_flows:
+  - blueprint.quality_gate.v1
+  - blueprint.prompt_navigation.v1
+  - blueprint.completion_acceptance.v1
+  recovery_path: null
+  unknowns: []
+  notes: ''
+- path: pyproject.toml
+  path_kind: file
+  classification: dependency_manifest
+  purpose:
+    status: verified
+    statement: Python package and development tool configuration.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: false
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal: []
+    external:
+    - PyYAML
+    - pytest
+    - ruff
+    - black
+    - setuptools
+  consumers: []
+  providers: []
+  evidence: []
+  tests: []
+  usage_state: active
+  duplicate_candidates: []
+  related_flows: []
+  recovery_path: null
+  unknowns: []
+  notes: ''
+- path: machine/modules.yaml
+  path_kind: file
+  classification: architecture_registry
+  purpose:
+    status: verified
+    statement: Canonical module definitions.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs:
+  - module definitions
+  side_effects:
+    filesystem_read: true
+    filesystem_write: false
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers:
+  - validators
+  - guides
+  - diagrams
+  providers: []
+  evidence:
+  - kind: source
+    reference: machine/modules.yaml
+    observation: 16 modules.
+  tests: []
+  usage_state: active
+  duplicate_candidates:
+  - module_policy_index.yaml
+  - module_git_sources.yaml
+  - ecosystem_module_map.md
+  related_flows: []
+  recovery_path: null
+  unknowns:
+  - forprint_contract_registry absent.
+  notes: ''
+- path: machine/ownership.yaml
+  path_kind: file
+  classification: architecture_registry
+  purpose:
+    status: verified
+    statement: Canonical object ownership and consumers.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: false
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers: []
+  providers: []
+  evidence: []
+  tests: []
+  usage_state: active
+  duplicate_candidates: []
+  related_flows: []
+  recovery_path: null
+  unknowns:
+  - contract_definition ownership must be split from future interface-contract lifecycle.
+  notes: ''
+- path: machine/contracts.yaml
+  path_kind: file
+  classification: contract_catalog
+  purpose:
+    status: verified
+    statement: Architecture-level provider-consumer contract catalog.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: false
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers: []
+  providers: []
+  evidence: []
+  tests: []
+  usage_state: active
+  duplicate_candidates:
+  - future Contract Registry interface packages
+  related_flows: []
+  recovery_path: null
+  unknowns:
+  - Registry/Blueprint contract boundary not encoded.
+  notes: ''
+- path: machine/data_flows.yaml
+  path_kind: file
+  classification: architecture_registry
+  purpose:
+    status: verified
+    statement: Machine source-to-target flow catalog.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: false
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers: []
+  providers: []
+  evidence: []
+  tests: []
+  usage_state: active
+  duplicate_candidates: []
+  related_flows: []
+  recovery_path: null
+  unknowns: []
+  notes: ''
+- path: machine/forprint_execution_queue.yaml
+  path_kind: file
+  classification: portfolio_plan
+  purpose:
+    status: verified
+    statement: Machine strategic decisions and priority queue.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: false
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers: []
+  providers: []
+  evidence: []
+  tests: []
+  usage_state: active
+  duplicate_candidates:
+  - current_execution_focus.md
+  - roadmaps
+  - prompt queues
+  related_flows: []
+  recovery_path: null
+  unknowns:
+  - Some items predate current work.
+  notes: ''
+- path: coordination/global_policy/forprint_project_doctrine.md
+  path_kind: file
+  classification: policy
+  purpose:
+    status: verified
+    statement: System mission, roles and development principles.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: false
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers:
+  - all assistants
+  providers: []
+  evidence: []
+  tests: []
+  usage_state: active
+  duplicate_candidates: []
+  related_flows: []
+  recovery_path: null
+  unknowns: []
+  notes: ''
+- path: coordination/global_policy/current_execution_focus.md
+  path_kind: file
+  classification: policy
+  purpose:
+    status: conflicting
+    statement: Human current-priority summary.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: false
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers: []
+  providers: []
+  evidence: []
+  tests: []
+  usage_state: dormant_candidate
+  duplicate_candidates:
+  - execution queue
+  - roadmaps
+  - prompt queues
+  related_flows: []
+  recovery_path: null
+  unknowns:
+  - Latest Library/Telegram/Logistics/Contract Registry work missing.
+  - Malformed fenced formatting.
+  notes: ''
+- path: coordination/module_policy/module_policy_index.yaml
+  path_kind: file
+  classification: policy_registry
+  purpose:
+    status: verified
+    statement: Machine source for generated module policies.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs:
+  - module_policy.md
+  side_effects:
+    filesystem_read: true
+    filesystem_write: false
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers:
+  - generate_module_policy_docs.py
+  providers: []
+  evidence: []
+  tests:
+  - tests/test_module_policy_index.py
+  usage_state: active
+  duplicate_candidates: []
+  related_flows:
+  - blueprint.module_policy_generation.v1
+  recovery_path: null
+  unknowns: []
+  notes: ''
+- path: coordination/module_policy/forprint_contract_registry/contract_registry_architecture_and_activation_brief.md
+  path_kind: file
+  classification: architecture_brief
+  purpose:
+    status: verified
+    statement: Detailed Contract Registry boundaries, phases and activation gates.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: false
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers: []
+  providers: []
+  evidence:
+  - kind: commit
+    reference: 7c9c7aa
+    observation: Placeholder registered.
+  tests: []
+  usage_state: active
+  duplicate_candidates: []
+  related_flows: []
+  recovery_path: null
+  unknowns: []
+  notes: ''
+- path: coordination/module_sources/module_git_sources.yaml
+  path_kind: file
+  classification: module_registry
+  purpose:
+    status: verified
+    statement: Module paths and coordination sources.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: false
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers:
+  - collect_module_coordination.py
+  - audit_module_governance.py
+  providers: []
+  evidence: []
+  tests: []
+  usage_state: active
+  duplicate_candidates: []
+  related_flows: []
+  recovery_path: null
+  unknowns:
+  - Four records remain confirm_required.
+  notes: ''
+- path: coordination/outgoing_prompts/forprint_library/index.yaml
+  path_kind: file
+  classification: prompt_queue
+  purpose:
+    status: verified
+    statement: Library queue; Calculator input contract is next.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: false
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers: []
+  providers: []
+  evidence: []
+  tests: []
+  usage_state: active
+  duplicate_candidates: []
+  related_flows:
+  - blueprint.prompt_navigation.v1
+  recovery_path: null
+  unknowns: []
+  notes: ''
+- path: coordination/outgoing_prompts/telegram_bot/index.yaml
+  path_kind: file
+  classification: prompt_queue
+  purpose:
+    status: verified
+    statement: Telegram queue; governance baseline is next.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: false
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers: []
+  providers: []
+  evidence: []
+  tests: []
+  usage_state: active
+  duplicate_candidates: []
+  related_flows:
+  - blueprint.prompt_navigation.v1
+  recovery_path: null
+  unknowns: []
+  notes: ''
+- path: coordination/outgoing_prompts/logistics_service/index.yaml
+  path_kind: file
+  classification: prompt_queue
+  purpose:
+    status: verified
+    statement: Logistics queue; provider adapter shown ready.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: false
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers: []
+  providers: []
+  evidence: []
+  tests: []
+  usage_state: active
+  duplicate_candidates: []
+  related_flows:
+  - blueprint.prompt_navigation.v1
+  recovery_path: null
+  unknowns:
+  - May lag module-side closeout.
+  notes: ''
+- path: coordination/roadmaps/*.yaml
+  path_kind: grouped_collection
+  classification: roadmap_collection
+  purpose:
+    status: verified
+    statement: Selected module roadmaps.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: false
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers: []
+  providers: []
+  evidence: []
+  tests: []
+  usage_state: active
+  duplicate_candidates:
+  - prompt queues
+  related_flows:
+  - blueprint.roadmap_navigation.v1
+  recovery_path: null
+  unknowns:
+  - Library/Telegram current step lags queue.
+  notes: ''
+- path: scripts/run_blueprint_checks.py
+  path_kind: file
+  classification: validator
+  purpose:
+    status: verified
+    statement: Canonical 22-check diagnostics runner.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints:
+  - make check
+  - make check-report
+  inputs: []
+  outputs:
+  - terminal, JSON, Markdown, full log
+  side_effects:
+    filesystem_read: true
+    filesystem_write: true
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: true
+    unknown: false
+  dependencies:
+    internal: []
+    external:
+    - pytest
+    - ruff
+  consumers: []
+  providers: []
+  evidence:
+  - kind: runtime
+    reference: operator log
+    observation: 22/22 passed.
+  tests:
+  - tests/test_run_blueprint_checks.py
+  usage_state: active
+  duplicate_candidates: []
+  related_flows:
+  - blueprint.quality_gate.v1
+  recovery_path: docs/operations/blueprint_check_reporting_recovery.md
+  unknowns: []
+  notes: ''
+- path: scripts/validate_blueprint.py
+  path_kind: file
+  classification: validator
+  purpose:
+    status: verified
+    statement: Machine architecture validator.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints:
+  - make validate
+  inputs:
+  - machine/*.yaml
+  outputs: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: false
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: true
+    unknown: false
+  dependencies:
+    internal: []
+    external:
+    - PyYAML
+  consumers: []
+  providers: []
+  evidence: []
+  tests:
+  - tests/test_validate_blueprint.py
+  usage_state: active
+  duplicate_candidates: []
+  related_flows:
+  - blueprint.architecture_validation.v1
+  recovery_path: null
+  unknowns: []
+  notes: ''
+- path: scripts/generate_module_policy_docs.py
+  path_kind: file
+  classification: generator
+  purpose:
+    status: verified
+    statement: Deterministic module policy renderer.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints:
+  - make module-policy-generate
+  - make module-policy-check
+  inputs:
+  - module_policy_index.yaml
+  outputs:
+  - module_policy.md
+  side_effects:
+    filesystem_read: true
+    filesystem_write: true
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers: []
+  providers: []
+  evidence: []
+  tests:
+  - tests/test_module_policy_index.py
+  usage_state: active
+  duplicate_candidates: []
+  related_flows:
+  - blueprint.module_policy_generation.v1
+  recovery_path: null
+  unknowns: []
+  notes: ''
+- path: scripts/coordination/resolve_next_prompt.py
+  path_kind: file
+  classification: coordination_tool
+  purpose:
+    status: verified
+    statement: Resolve next ready prompt.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints:
+  - make prompt-next
+  - make prompt-read-next
+  inputs: []
+  outputs: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: false
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: true
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers: []
+  providers: []
+  evidence: []
+  tests:
+  - tests/coordination/test_prompt_queue_navigation.py
+  usage_state: active
+  duplicate_candidates: []
+  related_flows:
+  - blueprint.prompt_navigation.v1
+  recovery_path: null
+  unknowns: []
+  notes: ''
+- path: scripts/coordination/module_completion_intake.py
+  path_kind: file
+  classification: coordination_tool
+  purpose:
+    status: verified
+    statement: Preview/accept/return completion evidence.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints:
+  - make completion-intake-preview
+  - make completion-accept
+  - make completion-return
+  inputs: []
+  outputs:
+  - queue/roadmap/review updates
+  side_effects:
+    filesystem_read: true
+    filesystem_write: true
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: true
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers: []
+  providers: []
+  evidence: []
+  tests: []
+  usage_state: active
+  duplicate_candidates: []
+  related_flows:
+  - blueprint.completion_acceptance.v1
+  recovery_path: null
+  unknowns: []
+  notes: ''
+- path: scripts/coordination/build_document_manifest.py
+  path_kind: file
+  classification: coordination_tool
+  purpose:
+    status: verified
+    statement: Build hash-aware governance document manifest.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints:
+  - make document-manifest
+  inputs: []
+  outputs: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: true
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: true
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers: []
+  providers: []
+  evidence: []
+  tests: []
+  usage_state: active
+  duplicate_candidates: []
+  related_flows:
+  - blueprint.document_awareness.v1
+  recovery_path: null
+  unknowns: []
+  notes: ''
+- path: scripts/audit_module_governance.py
+  path_kind: file
+  classification: audit_tool
+  purpose:
+    status: verified
+    statement: Audit registered module governance files/targets.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints:
+  - make module-governance-audit
+  inputs: []
+  outputs: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: true
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: true
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers: []
+  providers: []
+  evidence: []
+  tests: []
+  usage_state: active
+  duplicate_candidates: []
+  related_flows:
+  - blueprint.module_governance_audit.v1
+  recovery_path: null
+  unknowns:
+  - Stored audit artifact predates current portfolio.
+  notes: ''
+- path: coordination/repository_knowledge/
+  path_kind: grouped_collection
+  classification: repository_memory
+  purpose:
+    status: verified
+    statement: Manual RCI/REDM/SDRS capability.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: true
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers: []
+  providers: []
+  evidence: []
+  tests: []
+  usage_state: active
+  duplicate_candidates: []
+  related_flows:
+  - blueprint.repository_knowledge_snapshot.v1
+  recovery_path: null
+  unknowns: []
+  notes: ''
+- path: reports/forprint_module_status.json
+  path_kind: file
+  classification: report
+  purpose:
+    status: unknown
+    statement: Intended status artifact, currently empty.
+    confidence: none
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: false
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers: []
+  providers: []
+  evidence:
+  - kind: validation
+    reference: structured data summary
+    observation: Invalid JSON because empty.
+  tests: []
+  usage_state: orphan_candidate
+  duplicate_candidates: []
+  related_flows: []
+  recovery_path: null
+  unknowns:
+  - Producer and consumer are not established.
+  notes: ''
+- path: README.md
+  path_kind: file
+  classification: documentation
+  purpose:
+    status: verified
+    statement: Repository onboarding and quick start.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: false
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers: []
+  providers: []
+  evidence: []
+  tests: []
+  usage_state: active
+  duplicate_candidates: []
+  related_flows: []
+  recovery_path: null
+  unknowns:
+  - Contains unsafe `git add .` for current dirty tree.
+  notes: ''
+external_dependency_inventory:
+- dependency: PyYAML>=6.0.1
+  manifest: pyproject.toml
+  dependency_class: runtime
+  purpose:
+    status: verified
+    statement: Parse and validate YAML.
+    confidence: high
+  usage_evidence:
+  - validators and coordination scripts
+  used_by:
+  - scripts/
+- dependency: pytest>=8.0.0
+  manifest: pyproject.toml
+  dependency_class: testing
+  purpose:
+    status: verified
+    statement: Run tests.
+    confidence: high
+  usage_evidence:
+  - make test/check
+  used_by:
+  - tests/
+- dependency: ruff>=0.4.0
+  manifest: pyproject.toml
+  dependency_class: development
+  purpose:
+    status: verified
+    statement: Lint Python.
+    confidence: high
+  usage_evidence:
+  - make lint/check
+  used_by:
+  - scripts/
+  - tests/
+  - tools/
+- dependency: black>=24.0.0
+  manifest: pyproject.toml
+  dependency_class: development
+  purpose:
+    status: verified
+    statement: Format Python.
+    confidence: high
+  usage_evidence:
+  - make format
+  used_by:
+  - operator workflow
+- dependency: setuptools>=68
+  manifest: pyproject.toml
+  dependency_class: development
+  purpose:
+    status: verified
+    statement: Build/install package.
+    confidence: high
+  usage_evidence:
+  - build-system
+  used_by:
+  - packaging
+review_candidates:
+  duplicate_candidates:
+  - id: module_registry_drift
+    paths:
+    - machine/modules.yaml
+    - module_policy_index.yaml
+    - module_git_sources.yaml
+    - ecosystem_module_map.md
+    evidence: Contract Registry present in coordination records but absent in machine/modules.yaml.
+    next: Define registration workflow and consistency check.
+  - id: execution_state_drift
+    paths:
+    - forprint_execution_queue.yaml
+    - current_execution_focus.md
+    - roadmaps
+    - prompt queues
+    evidence: Queues are newer than roadmaps/current focus.
+    next: Define precedence/freshness and add read-only drift report.
+  dormant_candidates:
+  - path: coordination/incoming_requests/*/new/
+    reason: Historical requests lack freshness.
+    next: Review before archive.
+  - path: reports/module_coordination/
+    reason: Snapshots may be stale.
+    next: Compare generated commit/date.
+  - path: drafts and superseded prompts
+    reason: Historical work beside active queues.
+    next: Retain but ensure resolvers ignore.
+  orphan_candidates:
+  - path: reports/forprint_module_status.json
+    reason: Empty invalid JSON.
+    next: Identify producer or separately approve cleanup.
+  ownership_conflicts:
+  - concept: contract_definition
+    current: Blueprint in machine/ownership.yaml
+    planned: Contract Registry owns inter-module interface lifecycle
+    resolution: Split architecture declarations from interface packages.
+  documentation_gaps:
+  - Contract Registry missing from machine architecture/guides.
+  - current_execution_focus.md stale/malformed.
+  - README recommends git add .
+  - Roadmap/queue precedence not explicit.
+  recovery_gaps:
+  - First snapshot recovery guide introduced by this package.
+  - No automated comparison by design.
+  security_or_external_io_questions:
+  - Collector secret-exclusion policy needs periodic review.
+  - No Registry/Gateway runtime write authorized.
+comparison_to_previous:
+  previous_snapshot: null
+  added_paths: []
+  removed_paths: []
+  moved_or_renamed_paths: []
+  changed_purpose: []
+  confidence_changes: []
+  newly_resolved_unknowns: []
+  newly_introduced_unknowns:
+  - Initial baseline.
+  carried_forward_unknowns: []
+quality_checks:
+  filename_only_claims_marked_as_inferred: true
+  unknowns_preserved: true
+  no_dead_code_claim_without_proof: true
+  generated_and_external_content_separated: true
+  important_entrypoints_covered: true
+  yaml_validated: true

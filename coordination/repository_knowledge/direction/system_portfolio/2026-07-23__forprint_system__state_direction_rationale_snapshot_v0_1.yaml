@@ -1,0 +1,667 @@
+schema_version: state_direction_rationale_snapshot_v0_1
+snapshot:
+  snapshot_id: 2026-07-23__forprint_system__state_direction_rationale_snapshot_v0_1
+  created_at: '2026-07-23T16:18:51.929021+00:00'
+  profile: system_portfolio
+  scope_id: forprint_system
+  repository_root: /srv/software_development/forprint-project/forprint_system_blueprint
+  branch: main
+  commit: 7c9c7aaaa7d3d69a3fb64a070932c2e9c111818c
+  author: ForPrint System Blueprint coordination
+  previous_snapshot: null
+  evidence_cutoff_at: '2026-07-23T16:18:51.929021+00:00'
+  result: READY_WITH_UNKNOWNS
+perspective:
+  authority: system_portfolio_assessment
+  known_limits:
+  - Derived from Blueprint records, not fresh inspection of every module.
+  - No runtime production health assessed.
+  - Module-reported and Blueprint assessments are separated.
+  evidence_sources:
+  - Project Doctrine
+  - machine architecture
+  - policy/source registries
+  - prompt queues
+  - roadmaps
+  - recent commits
+  - Registry brief
+  excluded_claims:
+  - Planned modules are not treated as implemented.
+  - ready_for_module_pull does not prove module-side not started.
+  - No automatic stop/delete/create authorization.
+current_state:
+  declared_purpose:
+    status: verified
+    statement: Build an extensible operational platform for advertising/informational products through coordinated
+      modules, clear ownership and shared contracts.
+    confidence: high
+  observed_state:
+    status: verified
+    statement: Multi-module foundation and coordination maturation. Library, Calculator, Telegram, Logistics and
+      Blueprint governance are most relevant; Gateway, Control Plane and Registry runtime remain deferred.
+    confidence: medium
+  lifecycle_stage: multi_module_foundation_and_contract_preparation
+  stable_capabilities:
+  - Blueprint governance
+  - Library semantic/reference foundation and business-card skeleton
+  - Telegram local intake/state/audit foundation
+  - Logistics local preview/provider-neutral foundation
+  - Accounting sandbox import/export foundation
+  - Operational Registry reference/storage foundation
+  active_fronts:
+  - Library-to-Calculator input contract
+  - Telegram governance baseline
+  - Logistics provider-adapter evidence reconciliation
+  - Blueprint repository knowledge baseline
+  - Contract architecture planning without runtime
+  recently_completed:
+  - Registry placeholder registration
+  - Library business-card skeleton acceptance
+  - Telegram dialogue audit acceptance
+  - Blueprint reporting consolidation
+  blockers:
+  - Fresh Calculator readiness unavailable.
+  - Metadata lag obscures exact module fronts.
+  - Contract ownership terminology needs refinement.
+  unresolved_questions:
+  - Calculator consumer readiness?
+  - Logistics closeout status?
+  - Architecture records required when adding planned module?
+  - When should Inspector bootstrap?
+direction:
+  north_star:
+    status: verified
+    statement: A coordinated modular platform where each domain owns its truth, channels remain adapters, contracts
+      are explicit, and manual duplicate operations are progressively removed.
+    confidence: high
+    evidence:
+    - Project Doctrine
+    - machine/ownership.yaml
+    - machine/contracts.yaml
+  planning_horizon: next_1_to_3_months
+  objectives:
+  - objective_id: system.library_calculator
+    title: Stabilize Library-to-Calculator input
+    outcome: Calculator consumes a versioned deterministic envelope based on Library semantics.
+    rationale: Current critical path for calculation/order formalization.
+    status: active
+    confidence: high
+    priority: critical
+    target_window: next_4_to_12_weeks
+    owner: forprint_library
+    contributing_modules:
+    - calculator_engine
+    - forprint_system_blueprint
+    completed_work:
+    - Semantic reference foundation.
+    - Consumption pilot.
+    - Business-card skeleton.
+    active_work:
+    - Calculator input prompt ready.
+    remaining_work:
+    - Library execution/acceptance.
+    - Calculator consumer compatibility.
+    blockers:
+    - Fresh Calculator state unknown.
+    dependencies:
+    - Library result
+    - Calculator consumer
+    evidence:
+    - Library queue 6
+    - '4490392'
+    success_signals:
+    - read-only deterministic envelope
+    - no Library pricing/write
+    - consumer fixture valid
+    review_status: critical_path
+  - objective_id: system.telegram_parallel
+    title: Keep Telegram progressing safely
+    outcome: Telegram adopts governance while remaining channel adapter.
+    rationale: Balanced progress independent of Calculator integration.
+    status: active
+    confidence: high
+    priority: high
+    target_window: next_4_to_12_weeks
+    owner: telegram_bot
+    contributing_modules:
+    - forprint_system_blueprint
+    completed_work:
+    - handoff preview
+    - SQLite state
+    - dialogue audit
+    active_work:
+    - governance prompt ready
+    remaining_work:
+    - execute and accept
+    blockers: []
+    dependencies: []
+    evidence:
+    - Telegram queue 4
+    success_signals:
+    - green governance
+    - no canonical ownership
+    review_status: continue_parallel
+  - objective_id: system.logistics_closeout
+    title: Close Logistics provider-adapter evidence
+    outcome: Provider-neutral preview contract, tests, runbook and recovery accepted.
+    rationale: Avoid live-provider expansion before governance.
+    status: needs_reconciliation
+    confidence: high
+    priority: high
+    target_window: next_4_to_12_weeks
+    owner: logistics_service
+    contributing_modules:
+    - forprint_system_blueprint
+    completed_work:
+    - bootstrap
+    - local model
+    - test address book
+    active_work:
+    - provider adapter/closeout state needs reconciliation
+    remaining_work:
+    - confirm commit/tests
+    - accept or return
+    - update queue/roadmap
+    blockers:
+    - Blueprint queue stale
+    dependencies:
+    - module evidence
+    evidence:
+    - Logistics queue/roadmap
+    success_signals:
+    - no live writes
+    - exact tests
+    - runbook/recovery
+    review_status: reconcile_before_next_prompt
+  - objective_id: system.contract_foundation
+    title: Establish contract foundation before Gateway runtime
+    outcome: Ownership, manifests, envelopes and compatibility gates defined.
+    rationale: Prevent incompatible integrations.
+    status: planned
+    confidence: high
+    priority: high
+    target_window: next_4_to_12_weeks
+    owner: forprint_system_blueprint
+    contributing_modules:
+    - forprint_contract_registry
+    - forprint_library
+    - calculator_engine
+    - forprint_integration_gateway
+    completed_work:
+    - Registry placeholder registered
+    active_work:
+    - Library-to-Calculator is pilot candidate
+    remaining_work:
+    - ADR
+    - interaction inventory
+    - manifest
+    - envelope
+    - compatibility pilot
+    blockers:
+    - Registry missing machine architecture
+    - ownership split unresolved
+    dependencies:
+    - Library pilot
+    evidence:
+    - 7c9c7aa
+    - Registry brief
+    success_signals:
+    - Gateway consumes, not authors
+    - breaking changes detected
+    review_status: planned_not_runtime
+  - objective_id: system.module_memory
+    title: Adopt module repository snapshots
+    outcome: Selected modules maintain RCI, REDM and module-self-view SDRS.
+    rationale: Historical evidence for duplication/dormancy/direction.
+    status: planned
+    confidence: high
+    priority: medium
+    target_window: next_4_to_12_weeks
+    owner: forprint_system_blueprint
+    contributing_modules: []
+    completed_work:
+    - module distribution template prepared
+    active_work:
+    - Blueprint pilot
+    remaining_work:
+    - choose module
+    - run snapshot
+    - simplify based on experience
+    blockers: []
+    dependencies:
+    - Blueprint baseline
+    evidence:
+    - module unknowns explicit
+    - history immutable
+    success_signals: pilot_next
+    review_status:
+    - selected active modules
+workstreams:
+- workstream_id: library_calculator
+  title: Library→Calculator critical path
+  purpose: Semantic-to-calculation readiness.
+  status: active
+  owner: forprint_library
+  goal_links:
+  - system.library_calculator
+  completed_evidence:
+  - queue 1-5 accepted
+  active_evidence:
+  - queue 6 ready
+  expected_next:
+  - execute, accept, consumer validate
+  dependency_effect:
+    blocks:
+    - Calculator output maturity
+    - first Registry pilot
+    blocked_by:
+    - Calculator readiness
+  assessment:
+    goal_contribution: critical
+    value_signal: high
+    cost_signal: moderate
+    risk: moderate
+    balance: correctly_prioritized
+    recommendation: accelerate
+    rationale: Clearest system dependency.
+    confidence: high
+- workstream_id: telegram_governance
+  title: Telegram governance
+  purpose: Safe channel-local stability.
+  status: ready
+  owner: telegram_bot
+  goal_links:
+  - system.telegram_parallel
+  completed_evidence:
+  - three accepted fronts
+  active_evidence:
+  - governance ready
+  expected_next:
+  - execute/accept
+  dependency_effect:
+    blocks: []
+    blocked_by: []
+  assessment:
+    goal_contribution: high
+    value_signal: high
+    cost_signal: low
+    risk: low
+    balance: healthy_parallel
+    recommendation: continue
+    rationale: Independent useful parallel work.
+    confidence: high
+- workstream_id: logistics_adapter
+  title: Logistics adapter closeout
+  purpose: Preview-only provider abstraction.
+  status: state_conflict
+  owner: logistics_service
+  goal_links:
+  - system.logistics_closeout
+  completed_evidence:
+  - three accepted fronts
+  active_evidence:
+  - queue/roadmap provider adapter
+  expected_next:
+  - reconcile before new scope
+  dependency_effect:
+    blocks:
+    - safe shipment preview
+    blocked_by:
+    - fresh acceptance record
+  assessment:
+    goal_contribution: high
+    value_signal: high
+    cost_signal: moderate
+    risk: moderate
+    balance: needs_reconciliation
+    recommendation: support_dependency
+    rationale: Finish governance, not scope expansion.
+    confidence: medium
+- workstream_id: gateway
+  title: Integration Gateway
+  purpose: Future deterministic validation/routing.
+  status: hold
+  owner: forprint_integration_gateway
+  goal_links:
+  - system.contract_foundation
+  completed_evidence:
+  - v0.2 planning
+  active_evidence: []
+  expected_next:
+  - remain paused
+  dependency_effect:
+    blocks: []
+    blocked_by:
+    - contract foundation
+    - real handoff
+  assessment:
+    goal_contribution: future_high
+    value_signal: deferred
+    cost_signal: high
+    risk: high_if_early
+    balance: correctly_paused
+    recommendation: pause
+    rationale: Runtime before contract authority is premature.
+    confidence: high
+- workstream_id: contract_registry
+  title: Contract Registry placeholder
+  purpose: Reserve interface-contract lifecycle authority.
+  status: planned_placeholder
+  owner: forprint_contract_registry
+  goal_links:
+  - system.contract_foundation
+  completed_evidence:
+  - 7c9c7aa
+  active_evidence: []
+  expected_next:
+  - architecture registration and ADR, not service
+  dependency_effect:
+    blocks:
+    - formal compatibility governance
+    blocked_by:
+    - pilot readiness
+  assessment:
+    goal_contribution: high
+    value_signal: high
+    cost_signal: low_placeholder
+    risk: low
+    balance: correctly_deferred
+    recommendation: reassess
+    rationale: Keep visible without runtime.
+    confidence: high
+decisions_and_rationale:
+- decision_id: system.domain_ownership
+  decided_at: '2026-05-21'
+  status: active
+  decision: Each canonical truth has one owner; channels/CRM do not own all data.
+  problem_addressed: Avoid monolith/conflicting truth.
+  rationale: Stable ownership enables contracts.
+  alternatives:
+    rejected:
+    - CRM as universal DB.
+    deferred: []
+  affected_scopes:
+  - all modules
+  expected_outcome: Clear boundaries.
+  prompt_ids: []
+  report_paths: []
+  commit_refs: []
+  evidence:
+  - Project Doctrine
+  - machine/ownership.yaml
+  review_at: null
+  current_validity:
+    status: verified
+    rationale: Supported at the snapshot evidence cutoff.
+    confidence: high
+- decision_id: system.gateway_enforcer
+  decided_at: '2026-07-23'
+  status: active
+  decision: Gateway validates/routes/reports; it does not own business meaning or contract authority.
+  problem_addressed: Avoid business logic in transport.
+  rationale: Keep enforcement deterministic.
+  alternatives:
+    rejected:
+    - Gateway authors contracts.
+    deferred:
+    - Gateway runtime
+  affected_scopes:
+  - Gateway
+  - Registry
+  - producers/consumers
+  expected_outcome: Separate contract/data planes.
+  prompt_ids: []
+  report_paths: []
+  commit_refs:
+  - 7c9c7aa
+  evidence:
+  - Registry brief
+  review_at: before Gateway reactivation
+  current_validity:
+    status: verified
+    rationale: Supported at the snapshot evidence cutoff.
+    confidence: high
+- decision_id: system.first_contract_pilot
+  decided_at: '2026-07-23'
+  status: active
+  decision: Use Library-to-Calculator as first contract pilot.
+  problem_addressed: Need a real low-risk producer-consumer contract.
+  rationale: Read-only, critical and already active.
+  alternatives:
+    rejected: []
+    deferred:
+    - live Logistics write pilot
+  affected_scopes:
+  - Library
+  - Calculator
+  - Registry
+  expected_outcome: Practical compatibility validation.
+  prompt_ids: []
+  report_paths: []
+  commit_refs:
+  - '4490392'
+  evidence:
+  - Library queue
+  - Registry brief
+  review_at: after Library completion
+  current_validity:
+    status: verified
+    rationale: Supported at the snapshot evidence cutoff.
+    confidence: high
+prompt_and_work_rationale:
+- prompt_id: forprint_library_calculator_input_contract_v0_1
+  target_module: forprint_library
+  issued_at: '2026-07-17'
+  intended_goal: Produce deterministic read-only Calculator-ready input from Library semantics.
+  dependency_reason: Critical producer-consumer path and first Contract Registry pilot.
+  expected_system_effect: Reduce Library-to-Calculator ambiguity.
+  completion_state: ready_for_module_pull_in_blueprint
+  evidence:
+  - coordination/outgoing_prompts/forprint_library/index.yaml
+  current_relevance:
+    status: verified
+    rationale: Still next Library queue entry.
+- prompt_id: telegram_bot_governance_baseline_adoption_v0_1
+  target_module: telegram_bot
+  issued_at: '2026-07-17'
+  intended_goal: Adopt governance/reporting baseline without expanding business ownership.
+  dependency_reason: Safe parallel work while Calculator critical path matures.
+  expected_system_effect: Reliable channel-local progress.
+  completion_state: ready_for_module_pull_in_blueprint
+  evidence:
+  - coordination/outgoing_prompts/telegram_bot/index.yaml
+  current_relevance:
+    status: verified
+    rationale: Still next Telegram queue entry.
+- prompt_id: logistics_service_provider_adapter_contract_v0_1
+  target_module: logistics_service
+  issued_at: '2026-07-14'
+  intended_goal: Provider-neutral read-only adapter/preview contract.
+  dependency_reason: Prepare Logistics without live provider writes.
+  expected_system_effect: Safe future delivery integration.
+  completion_state: blueprint_queue_still_ready_for_module_pull
+  evidence:
+  - coordination/outgoing_prompts/logistics_service/index.yaml
+  current_relevance:
+    status: conflicting
+    rationale: Blueprint may lag module-side closeout work.
+alignment_review:
+  direction_stability: stable_core_with_metadata_lag
+  evidence_of_progress:
+  - Library advances toward Calculator.
+  - Telegram remains channel-local.
+  - Logistics preview-first.
+  - Registry visible but deferred.
+  - Blueprint checks green.
+  drift_signals:
+  - Execution focus/roadmaps lag queues.
+  - Registry missing machine architecture.
+  - Some source statuses confirm_required.
+  unrelated_or_weakly_linked_work:
+  - Untracked Website legacy artifacts outside critical path.
+  repeated_rework:
+  - Generated-policy path confusion during Registry registration.
+  overloaded_workstreams:
+  - Blueprint carries portfolio analysis later suited to Inspector.
+  neglected_dependencies:
+  - Fresh Calculator state.
+  - Contract ownership terminology.
+  missing_capabilities:
+  - Registry machine entry.
+  - Compatibility registry.
+  - Automated freshness comparison.
+  proposed_attention_changes:
+  - Prioritize Library→Calculator.
+  - Run Telegram parallel.
+  - Reconcile Logistics.
+  - Keep Gateway/Registry runtime paused.
+  - Pilot module snapshots after baseline.
+  confidence: medium
+module_views:
+- module_id: forprint_system_blueprint
+  module_reported_view: active governance
+  blueprint_assessment: Healthy coordination core; metadata consistency is next gap.
+  agreement_status: verified
+  evidence:
+  - policy/source registries
+  - 7c9c7aa
+  unresolved_conflicts: []
+- module_id: calculator_engine
+  module_reported_view: p0 active, primary order formalization
+  blueprint_assessment: Critical dependency; fresh state missing.
+  agreement_status: partial
+  evidence:
+  - doctrine
+  - execution queue
+  unresolved_conflicts:
+  - Current readiness not freshly collected.
+- module_id: forprint_library
+  module_reported_view: p1 active; queue 6 ready
+  blueprint_assessment: Critical producer for Calculator input.
+  agreement_status: verified_in_blueprint
+  evidence:
+  - Library queue
+  - '4490392'
+  unresolved_conflicts:
+  - Roadmap lags queue.
+- module_id: telegram_bot
+  module_reported_view: p0 active; governance baseline ready
+  blueprint_assessment: Safe parallel channel work if non-canonical.
+  agreement_status: partial
+  evidence:
+  - Telegram queue/roadmap
+  unresolved_conflicts:
+  - source says confirm_required
+  - roadmap lags queue
+- module_id: logistics_service
+  module_reported_view: provider-adapter front
+  blueprint_assessment: Reconcile completion/closeout before new scope.
+  agreement_status: conflicting
+  evidence:
+  - Logistics queue/roadmap
+  unresolved_conflicts:
+  - Blueprint may lag module-side closeout.
+- module_id: forprint_operational_registry
+  module_reported_view: p1 reference_ready_storage_ready
+  blueprint_assessment: Important future data custodian, not immediate critical path.
+  agreement_status: verified_in_blueprint
+  evidence:
+  - policy/source registries
+  unresolved_conflicts: []
+- module_id: forprint_accounting_registry_service
+  module_reported_view: selective hold after sandbox readiness
+  blueprint_assessment: Correctly held pending sanitized 1C samples.
+  agreement_status: verified_in_blueprint
+  evidence:
+  - doctrine
+  - policy
+  unresolved_conflicts: []
+- module_id: forprint_integration_gateway
+  module_reported_view: hold / paused after v0.2
+  blueprint_assessment: Keep paused; later enforce Registry contracts.
+  agreement_status: verified_in_blueprint
+  evidence:
+  - Gateway review
+  - Registry brief
+  unresolved_conflicts: []
+- module_id: forprint_contract_registry
+  module_reported_view: deferred planned placeholder
+  blueprint_assessment: Appropriate; no service implementation now.
+  agreement_status: verified
+  evidence:
+  - 7c9c7aa
+  - Registry brief
+  unresolved_conflicts:
+  - Missing machine architecture entry.
+- module_id: forprint_project_inspector
+  module_reported_view: p2 bootstrap pending
+  blueprint_assessment: Future automation consumer for snapshots/duplication/staleness.
+  agreement_status: verified_in_blueprint
+  evidence:
+  - policy
+  unresolved_conflicts: []
+- module_id: forprint_strategic_control_plane
+  module_reported_view: deferred until core signals mature
+  blueprint_assessment: Correctly deferred.
+  agreement_status: verified
+  evidence:
+  - control plane policy
+  unresolved_conflicts: []
+risks_and_unknowns:
+  risks:
+  - risk_id: calculator_unknown
+    statement: Library may advance without confirmed Calculator readiness.
+    impact: high
+    likelihood: moderate
+    evidence:
+    - No fresh Calculator snapshot
+    mitigation_or_next_check: Collect Calculator status.
+  - risk_id: contract_drift
+    statement: Private incompatible interfaces may grow before Registry governance.
+    impact: high
+    likelihood: moderate
+    evidence:
+    - multiple contracts/Gateway drafts
+    mitigation_or_next_check: Use first pilot and prohibit Gateway-authored contracts.
+  - risk_id: portfolio_metadata_lag
+    statement: Stale records can misallocate work.
+    impact: high
+    likelihood: high
+    evidence:
+    - queue/roadmap/focus mismatch
+    mitigation_or_next_check: Define freshness and reconcile.
+  unknowns:
+  - unknown_id: module_freshness
+    statement: Exact current commit/check state of active modules unknown.
+    why_unknown: Only Blueprint inspected.
+    next_verification: Run module snapshots/governance audits.
+    owner: forprint_system_blueprint
+  - unknown_id: website_status
+    statement: Website repository/status not confirmed.
+    why_unknown: No confirmed source path.
+    next_verification: Resolve separately from critical path.
+    owner: website
+comparison_to_previous:
+  previous_snapshot: null
+  state_changes: []
+  objective_changes: []
+  completed_since_previous: []
+  new_workstreams: []
+  paused_or_closed_workstreams: []
+  changed_decisions: []
+  newly_resolved_unknowns: []
+  newly_introduced_unknowns:
+  - Initial portfolio SDRS.
+  drift_change: unknown
+  balance_change: unknown
+quality_checks:
+  evidence_and_opinion_separated: true
+  module_proposals_not_presented_as_blueprint_decisions: true
+  goals_linked_to_completed_or_active_work: true
+  prompt_rationale_recorded_where_known: true
+  unknowns_preserved: true
+  historical_comparison_completed: true
+  yaml_validated: true
+final_notes:
+- Refresh after module-side snapshots.
+- Recommendations are not automatic authorization.

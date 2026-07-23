@@ -75,6 +75,18 @@ sources:
     exclude_patterns:
       - ".gitkeep"
 
+  - source_id: repository_knowledge
+    path: coordination/repository_knowledge
+    priority: high
+    applies_to: all
+    action: review_before_next_prompt
+    include_patterns:
+      - "*.md"
+      - "*.yaml"
+      - "*.yml"
+    exclude_patterns:
+      - ".gitkeep"
+
   - source_id: templates
     path: coordination/templates
     priority: normal
