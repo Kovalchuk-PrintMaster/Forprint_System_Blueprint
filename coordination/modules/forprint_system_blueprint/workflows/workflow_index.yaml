@@ -1,0 +1,40 @@
+schema_version: module_workflow_index_v0_1
+module_id: forprint_system_blueprint
+status: active
+workflows:
+  - workflow_id: blueprint_self_audit
+    title: Blueprint Self Audit
+    status: active_v0_1
+    documentation: coordination/modules/forprint_system_blueprint/workflows/definitions/blueprint_self_audit.md
+    script: scripts/coordination/modules/forprint_system_blueprint/workflows/self_audit.py
+    make_targets:
+      generic:
+        - module-self-audit
+        - module-self-audit-resume
+        - module-self-status
+        - module-self-report-full
+      aliases:
+        - blueprint-self-audit
+        - blueprint-self-audit-resume
+        - blueprint-self-status
+        - blueprint-self-report-full
+    input_file: operator_input/forprint_system_blueprint/bsa.yaml
+    compact_report: reports/modules/forprint_system_blueprint/current/self_knowledge_summary.json
+    detailed_report: reports/modules/forprint_system_blueprint/current/self_knowledge_report.md
+    recovery: docs/operations/blueprint_internal_workflow_foundation_recovery.md
+  - workflow_id: external_analysis_handoff
+    title: External Analysis Handoff
+    status: active_v0_1
+    documentation: coordination/modules/forprint_system_blueprint/workflows/definitions/external_analysis_handoff.md
+    script: scripts/coordination/modules/_shared/external_input.py
+    make_targets:
+      generic:
+        - module-self-audit
+        - module-self-audit-resume
+      aliases:
+        - blueprint-self-audit
+        - blueprint-self-audit-resume
+    input_file: operator_input/forprint_system_blueprint/bsa.yaml
+    compact_report: reports/modules/forprint_system_blueprint/current/self_knowledge_summary.json
+    detailed_report: reports/modules/forprint_system_blueprint/current/self_knowledge_report.md
+    recovery: docs/operations/blueprint_internal_workflow_foundation_recovery.md

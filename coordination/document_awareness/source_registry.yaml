@@ -87,6 +87,19 @@ sources:
     exclude_patterns:
       - ".gitkeep"
 
+
+  - source_id: module_workflows
+    path: coordination/modules
+    priority: high
+    applies_to: module_specific
+    action: review_before_relevant_workflow
+    include_patterns:
+      - "*.md"
+      - "*.yaml"
+      - "*.yml"
+    exclude_patterns:
+      - ".gitkeep"
+
   - source_id: templates
     path: coordination/templates
     priority: normal

@@ -13,3 +13,18 @@ They define how standards themselves should be structured so the project remains
 It clarifies that modules may read Blueprint prompts and standards, but must write only inside their own repositories.
 
 Blueprint-side incoming reports, review records and prompt queue acceptance metadata are created only from the Blueprint context.
+
+<!-- module-workflow-policy-v0-1:start -->
+
+## Module workflow automation
+
+The governance group includes:
+
+```text
+module_workflow_automation_and_external_input_policy.md
+```
+
+It defines module-scoped workflow control, reusable Make/script automation,
+external-input handshakes and compact/full reporting.
+
+<!-- module-workflow-policy-v0-1:end -->

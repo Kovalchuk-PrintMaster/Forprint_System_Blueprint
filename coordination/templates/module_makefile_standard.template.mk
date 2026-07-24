@@ -1281,6 +1281,76 @@ release-check:
 # =============================================================================
 
 
+
+# =============================================================================
+# 25 Optional module workflow / self-knowledge START
+# =============================================================================
+
+MODULE_WORKFLOW_CLI ?= -m scripts.coordination.modules.module_workflow_cli
+
+# Purpose: list configured module workflows.
+# Result: workflows are listed or an explicit deferred message is printed.
+.PHONY: module-workflow-list
+module-workflow-list:
+	@if [ -f "$(MODULE_WORKFLOW_CLI)" ]; then \
+		$(PYTHON) "$(MODULE_WORKFLOW_CLI)" --root "." list; \
+	else \
+		echo "$(COLOR_YELLOW)DEFERRED: module workflow engine is not configured for $(MODULE_ID).$(COLOR_RESET)"; \
+	fi
+
+# Purpose: validate configured workflow manifests, scripts and documentation.
+# Result: workflow control is valid or target returns non-zero.
+.PHONY: module-workflow-check
+module-workflow-check:
+	@if [ -f "$(MODULE_WORKFLOW_CLI)" ]; then \
+		$(PYTHON) "$(MODULE_WORKFLOW_CLI)" --root "." check; \
+	else \
+		echo "$(COLOR_YELLOW)DEFERRED: module workflow engine is not configured for $(MODULE_ID).$(COLOR_RESET)"; \
+	fi
+
+# Purpose: prepare a module self-audit and any exact external-input request.
+# Result: compact report plus READY, AWAITING_EXTERNAL_INPUT, or failure.
+.PHONY: module-self-audit
+module-self-audit:
+	@if [ -f "$(MODULE_WORKFLOW_CLI)" ]; then \
+		$(PYTHON) "$(MODULE_WORKFLOW_CLI)" --root "." --module "$(MODULE_ID)" self-audit; \
+	else \
+		echo "$(COLOR_YELLOW)DEFERRED: module self-audit is not configured for $(MODULE_ID).$(COLOR_RESET)"; \
+	fi
+
+# Purpose: resume a self-audit after exact structured input is provided.
+# Result: input is validated and archived or target returns non-zero.
+.PHONY: module-self-audit-resume
+module-self-audit-resume:
+	@if [ -f "$(MODULE_WORKFLOW_CLI)" ]; then \
+		$(PYTHON) "$(MODULE_WORKFLOW_CLI)" --root "." --module "$(MODULE_ID)" self-audit-resume; \
+	else \
+		echo "$(COLOR_YELLOW)DEFERRED: module self-audit resume is not configured for $(MODULE_ID).$(COLOR_RESET)"; \
+	fi
+
+# Purpose: print the compact current self-knowledge report.
+.PHONY: module-self-status
+module-self-status:
+	@if [ -f "$(MODULE_WORKFLOW_CLI)" ]; then \
+		$(PYTHON) "$(MODULE_WORKFLOW_CLI)" --root "." --module "$(MODULE_ID)" self-status; \
+	else \
+		echo "$(COLOR_YELLOW)DEFERRED: module self-status is not configured for $(MODULE_ID).$(COLOR_RESET)"; \
+	fi
+
+# Purpose: print the detailed current self-knowledge report.
+.PHONY: module-self-report-full
+module-self-report-full:
+	@if [ -f "$(MODULE_WORKFLOW_CLI)" ]; then \
+		$(PYTHON) "$(MODULE_WORKFLOW_CLI)" --root "." --module "$(MODULE_ID)" self-report-full; \
+	else \
+		echo "$(COLOR_YELLOW)DEFERRED: module self-report-full is not configured for $(MODULE_ID).$(COLOR_RESET)"; \
+	fi
+
+# =============================================================================
+# 25 Optional module workflow / self-knowledge FINISH
+# =============================================================================
+
+
 # =============================================================================
 # 90 Module-specific helpers START
 # =============================================================================

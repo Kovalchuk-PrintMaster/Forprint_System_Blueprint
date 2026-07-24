@@ -1,0 +1,29 @@
+schema_version: module_workflow_manifest_v0_1
+module_id: forprint_system_blueprint
+status: active
+control_role: blueprint_internal_control
+repository:
+  source_registry_id: forprint_system_blueprint
+  local_path: /srv/software_development/forprint-project/forprint_system_blueprint
+workflow_root:
+  documentation: coordination/modules/forprint_system_blueprint/workflows
+  scripts: scripts/coordination/modules/forprint_system_blueprint/workflows
+  tests: tests/coordination/modules/forprint_system_blueprint
+  reports: reports/modules/forprint_system_blueprint
+  operator_input: operator_input/forprint_system_blueprint
+  temporary_workspace: tmp/module_workflows/forprint_system_blueprint
+repository_knowledge:
+  inventory_source: coordination/repository_knowledge/inventory
+  flow_source: coordination/repository_knowledge/flows
+  direction_sources:
+    - coordination/repository_knowledge/direction/blueprint_coordination
+    - coordination/repository_knowledge/direction/system_portfolio
+safety:
+  cross_repository_reads: explicit_only
+  cross_repository_writes: forbidden_by_default
+  external_network: forbidden_by_default
+  automatic_git_stage: forbidden
+  automatic_git_commit: forbidden
+  exact_staging_required: true
+workflows:
+  index: coordination/modules/forprint_system_blueprint/workflows/workflow_index.yaml

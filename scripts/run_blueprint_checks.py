@@ -298,6 +298,20 @@ def build_checks() -> list[CheckDefinition]:
             group="coordination",
         ),
         CheckDefinition(
+            check_id="module_workflow_validation",
+            title="Module workflows",
+            expected_result="Workflow registry and control files are valid",
+            command=(
+                python,
+                "-m",
+                "scripts.coordination.modules.module_workflow_cli",
+                "--root",
+                ".",
+                "check",
+            ),
+            group="coordination",
+        ),
+        CheckDefinition(
             check_id="mermaid_generation",
             title="Mermaid generation",
             expected_result="Architecture diagrams generate",

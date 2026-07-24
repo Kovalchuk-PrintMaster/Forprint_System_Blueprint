@@ -1626,3 +1626,41 @@ those artifacts.
 Preserve public target names, CLI flags, stdout/stderr ownership, machine
 schemas and exit-code semantics. Terminal presentation changes must not alter
 machine-readable artifacts.
+
+<!-- module-workflow-commands-v0-1:start -->
+
+## Module workflow command family
+
+Repeatable self-knowledge and workflow-control operations use generic module
+targets:
+
+```text
+make module-workflow-list
+make module-workflow-check
+make module-self-audit MODULE=<module_id>
+make module-self-audit-resume MODULE=<module_id>
+make module-self-status MODULE=<module_id>
+make module-self-report-full MODULE=<module_id>
+make modules-self-status
+```
+
+A repository may expose short aliases for its own module, for example:
+
+```text
+make blueprint-self-audit
+make blueprint-self-audit-resume
+make blueprint-self-status
+make blueprint-self-report-full
+```
+
+Aliases must delegate to the generic target rather than duplicate workflow
+logic.
+
+When these targets change, review the repository Makefile, the module Makefile
+template, workflow documentation, tests, runbook and recovery guide together.
+
+An expected external-input pause prints `AWAITING_EXTERNAL_INPUT` and may
+return success when the local preparation phase completed correctly. It must
+not be presented as final workflow completion.
+
+<!-- module-workflow-commands-v0-1:end -->

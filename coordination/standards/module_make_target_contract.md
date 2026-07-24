@@ -87,3 +87,30 @@ The public target contract includes these reporting semantics:
 schemas, warnings, failures or exit codes.
 
 Modules keep implementation freedom behind these stable target contracts.
+
+<!-- module-workflow-target-contract-v0-1:start -->
+
+## Optional module workflow and self-knowledge targets
+
+Modules may gradually adopt:
+
+```text
+module-workflow-list
+module-workflow-check
+module-self-audit
+module-self-audit-resume
+module-self-status
+module-self-report-full
+```
+
+The target names remain stable. Implementation may be deferred until the module
+has an approved workflow-control profile.
+
+`module-self-audit` may create reports, temporary bundles and a generated
+operator-input template. It must not stage, commit, push or write into another
+module repository.
+
+`module-self-audit-resume` must validate the exact request identity and input
+schema before consuming external analysis.
+
+<!-- module-workflow-target-contract-v0-1:end -->

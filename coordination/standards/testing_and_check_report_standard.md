@@ -534,3 +534,45 @@ reports/diagnostics/blueprint_check_report_full.log
 ```
 
 New module implementations may adapt this architecture while preserving structured results, semantic statuses, compact tables, machine-readable artifacts and file-first diagnostics.
+
+<!-- module-self-knowledge-reporting-v0-1:start -->
+
+## Module self-knowledge reporting
+
+Self-knowledge workflows use two report modes.
+
+Compact terminal mode:
+
+```text
+maximum 15 primary metrics;
+boxed table;
+value, semantic state and short note;
+color is optional and never the only meaning;
+stable artifact paths;
+no raw full scan.
+```
+
+Detailed mode:
+
+```text
+JSON or YAML machine artifact;
+Markdown human analysis;
+file, script, Make and workflow coverage;
+external assessment when provided;
+unknowns and conflicts;
+recovery evidence.
+```
+
+Recommended knowledge thresholds:
+
+```text
+80-100 percent: healthy;
+50-79 percent: partial;
+1-49 percent: low;
+unknown denominator or unavailable evidence: unknown.
+```
+
+Low self-knowledge coverage is a planning signal, not automatically a failed
+project check.
+
+<!-- module-self-knowledge-reporting-v0-1:end -->

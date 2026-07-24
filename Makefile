@@ -107,6 +107,19 @@ help:
 	@echo "  make module-policy-check"
 	@echo "  make module-governance-audit"
 	@echo ""
+	@echo "Module workflow control:"
+	@echo "  make module-workflow-list"
+	@echo "  make module-workflow-check"
+	@echo "  make module-self-audit MODULE=forprint_system_blueprint"
+	@echo "  make module-self-audit-resume MODULE=forprint_system_blueprint"
+	@echo "  make module-self-status MODULE=forprint_system_blueprint"
+	@echo "  make module-self-report-full MODULE=forprint_system_blueprint"
+	@echo "  make blueprint-self-audit"
+	@echo "  make blueprint-self-audit-resume"
+	@echo "  make blueprint-self-status"
+	@echo "  make blueprint-self-report-full"
+	@echo "  make modules-self-status"
+	@echo ""
 	@echo "Cleanup:"
 	@echo "  make clean"
 
@@ -521,3 +534,59 @@ reporting-consolidation-audit:
 .PHONY: reporting-consolidation-audit-json
 reporting-consolidation-audit-json:
 	@$(PYTHON) scripts/reporting/audit_consolidation.py --json
+
+# =============================================================================
+
+# 17 Module workflow control / self-knowledge START
+
+# =============================================================================
+
+.PHONY: module-workflow-list
+module-workflow-list:
+	$(PYTHON) -m scripts.coordination.modules.module_workflow_cli --root "." list
+
+.PHONY: module-workflow-check
+module-workflow-check:
+	$(PYTHON) -m scripts.coordination.modules.module_workflow_cli --root "." check
+
+.PHONY: module-self-audit
+module-self-audit:
+	$(PYTHON) -m scripts.coordination.modules.module_workflow_cli --root "." --module "$(MODULE)" $(if $(filter 1,$(NO_COLOR)),--no-color,) self-audit
+
+.PHONY: module-self-audit-resume
+module-self-audit-resume:
+	$(PYTHON) -m scripts.coordination.modules.module_workflow_cli --root "." --module "$(MODULE)" $(if $(filter 1,$(NO_COLOR)),--no-color,) self-audit-resume
+
+.PHONY: module-self-status
+module-self-status:
+	$(PYTHON) -m scripts.coordination.modules.module_workflow_cli --root "." --module "$(MODULE)" $(if $(filter 1,$(NO_COLOR)),--no-color,) self-status
+
+.PHONY: module-self-report-full
+module-self-report-full:
+	$(PYTHON) -m scripts.coordination.modules.module_workflow_cli --root "." --module "$(MODULE)" self-report-full
+
+.PHONY: modules-self-status
+modules-self-status:
+	$(PYTHON) -m scripts.coordination.modules.module_workflow_cli --root "." $(if $(filter 1,$(NO_COLOR)),--no-color,) modules-status
+
+.PHONY: blueprint-self-audit
+blueprint-self-audit:
+	$(MAKE) module-self-audit MODULE=forprint_system_blueprint
+
+.PHONY: blueprint-self-audit-resume
+blueprint-self-audit-resume:
+	$(MAKE) module-self-audit-resume MODULE=forprint_system_blueprint
+
+.PHONY: blueprint-self-status
+blueprint-self-status:
+	$(MAKE) module-self-status MODULE=forprint_system_blueprint
+
+.PHONY: blueprint-self-report-full
+blueprint-self-report-full:
+	$(MAKE) module-self-report-full MODULE=forprint_system_blueprint
+
+# =============================================================================
+
+# 17 Module workflow control / self-knowledge FINISH
+
+# =============================================================================

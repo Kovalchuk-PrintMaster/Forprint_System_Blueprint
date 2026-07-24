@@ -397,3 +397,30 @@ One thematic nesting level by default.
 Deeper nesting only when clearly justified.
 Large single files are reviewed like overcrowded directories.
 ```
+
+<!-- module-workflow-control-v0-1:start -->
+
+## Module-scoped workflow control
+
+Blueprint-owned workflow control must use one module grouping level before the
+final workflow folder:
+
+```text
+coordination/modules/<module_id>/
+scripts/coordination/modules/<module_id>/
+tests/coordination/modules/<module_id>/
+reports/modules/<module_id>/
+operator_input/<module_id>/
+tmp/module_workflows/<module_id>/
+```
+
+Shared engines, schemas and templates use `_shared`.
+
+A Blueprint control folder for another module is not that module's
+implementation repository. Cross-repository implementation files must not be
+copied into this structure.
+
+Empty module trees should not be created in advance. Add a module folder only
+when a real control workflow, synchronization rule or report exists.
+
+<!-- module-workflow-control-v0-1:end -->

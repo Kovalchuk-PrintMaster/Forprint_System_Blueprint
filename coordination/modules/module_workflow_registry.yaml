@@ -1,0 +1,11 @@
+schema_version: module_workflow_registry_v0_1
+status: active
+modules:
+  - module_id: forprint_system_blueprint
+    status: active
+    manifest: coordination/modules/forprint_system_blueprint/module_workflow_manifest.yaml
+    control_scope: blueprint_internal_workflow_and_self_knowledge
+shared:
+  templates: coordination/modules/_shared/templates
+  scripts: scripts/coordination/modules/_shared
+  tests: tests/coordination/modules/_shared
