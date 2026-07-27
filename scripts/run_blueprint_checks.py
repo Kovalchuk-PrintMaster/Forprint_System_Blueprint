@@ -333,6 +333,16 @@ def build_checks() -> list[CheckDefinition]:
             group="documentation",
         ),
         CheckDefinition(
+            check_id="markdown_fence_validation",
+            title="Markdown fences",
+            expected_result="No new Markdown fence defects beyond baseline",
+            command=(
+                python,
+                "scripts/validation/validate_markdown_fences.py",
+            ),
+            group="documentation",
+        ),
+        CheckDefinition(
             check_id="standards_index_validation",
             title="Standards index",
             expected_result="Standards index is valid",
