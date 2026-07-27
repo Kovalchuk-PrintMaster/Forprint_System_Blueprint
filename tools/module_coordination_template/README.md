@@ -17,6 +17,7 @@ Template script:
 
 ```text
 tools/module_coordination_template/validate_prompt_completion_report.py
+```
 
 When copied into a module, the expected module-side path is:
 
@@ -34,6 +35,7 @@ Template script:
 
 ```text
 tools/module_coordination_template/apply_prompt_completion_report.py
+```
 When copied into a module, the expected module-side path is:
 
 scripts/apply_prompt_completion_report.py
@@ -52,6 +54,7 @@ The apply template now supports controlled write mode:
 
 ```bash
 python scripts/apply_prompt_completion_report.py coordination/reports/<file>.md --write
+```
 
 Write mode updates only these coordination files:
 
@@ -74,7 +77,8 @@ standards_reviewed:
 standards_alignment_notes:
   - "Standards were reviewed as advisory guidance."
   - "No destructive refactor was performed."
+```
 
-  When these fields are present, the validator checks their structure and the apply template carries them into coordination/reports/index.yaml.
+When these fields are present, the validator checks their structure and the apply template carries them into coordination/reports/index.yaml.
 
 The fields are optional for older reports, but expected for new prompts that explicitly involve standards visibility.
