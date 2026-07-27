@@ -1,0 +1,129 @@
+schema_version: website_legacy_risk_register_v0_1
+module: website
+module_working_name: ForPrint_Web_Site_Base
+updated_at: "2026-07-07"
+
+purpose: >
+  Track inherited PHP website risks before any public launch, broad repository
+  tracking, or production integration. The website remains a channel only.
+
+risks:
+  - risk_id: website_config_hardcoded_local_config_risk
+    area: config
+    severity: critical
+    current_status: open
+    launch_blocker: true
+    mitigation: >
+      Split real local config from tracked example config. Keep config.local.php
+      and mail.local.php ignored. Ensure tracked config contains fake/example values only.
+    owner_module: website
+    target_step: website_config_split_and_secret_policy_v0_4_3
+
+  - risk_id: website_dynamic_sql_risk
+    area: sql
+    severity: critical
+    current_status: open
+    launch_blocker: true
+    mitigation: >
+      Inventory dynamic SQL and request input paths. Add allowlists/prepared statements
+      where feasible. Keep public launch blocked until high-risk paths are reviewed.
+    owner_module: website
+    target_step: website_sql_user_input_review_v0_8
+
+  - risk_id: website_md5_password_risk
+    area: auth
+    severity: critical
+    current_status: open
+    launch_blocker: true
+    mitigation: >
+      Review and replace or contain md5 password handling. Do not expose legacy auth
+      publicly before admin/auth/session lockdown.
+    owner_module: website
+    target_step: website_admin_auth_session_lockdown_v0_6
+
+  - risk_id: website_upload_execution_risk
+    area: uploads
+    severity: critical
+    current_status: open
+    launch_blocker: true
+    mitigation: >
+      Inventory upload paths, enforce extension/MIME/size policy, randomize filenames
+      if needed, and block PHP execution in upload/media directories.
+    owner_module: website
+    target_step: website_upload_safety_lockdown_v0_7
+
+  - risk_id: website_public_webroot_exposure_risk
+    area: webroot
+    severity: critical
+    current_status: open
+    launch_blocker: true
+    mitigation: >
+      Harden document root and .htaccess/server config. Block public access to config,
+      core, vendor, logs, temp, Composer files, and unsafe helper scripts.
+    owner_module: website
+    target_step: website_webroot_exposure_hardening_v0_5
+
+  - risk_id: website_inherited_vendor_exposure_risk
+    area: dependencies
+    severity: high
+    current_status: open
+    launch_blocker: true
+    mitigation: >
+      Decide vendor policy and block direct public access to vendor, including PHPMailer
+      helper scripts. Normalize Composer workflow.
+    owner_module: website
+    target_step: website_safe_tracking_policy_v0_4_2
+
+  - risk_id: website_local_order_client_product_ownership_confusion_risk
+    area: ownership
+    severity: critical
+    current_status: open
+    launch_blocker: true
+    mitigation: >
+      Mark all inherited website product/client/order-like tables and flows as
+      legacy_website_local_non_canonical. First launch must be lead_capture_only.
+    owner_module: website
+    target_step: website_launch_mode_restriction_v0_9
+
+  - risk_id: website_missing_db_schema_risk
+    area: database
+    severity: high
+    current_status: open
+    launch_blocker: true
+    mitigation: >
+      Recover schema source or confirm missing. If local DB exists, create schema-only
+      dump without production data and document table ownership.
+    owner_module: website
+    target_step: website_database_schema_recovery_v0_4_4
+
+  - risk_id: website_missing_backup_restore_procedure_risk
+    area: operations
+    severity: high
+    current_status: open
+    launch_blocker: true
+    mitigation: >
+      Define DB/file backup and restore procedure before limited public launch.
+    owner_module: website
+    target_step: website_dependency_backup_environment_v0_10
+
+  - risk_id: website_public_admin_exposure_risk
+    area: admin
+    severity: critical
+    current_status: open
+    launch_blocker: true
+    mitigation: >
+      Admin disabled publicly by default. Admin access only via VPN/internal IP or
+      approved temporary maintenance window until auth/session/CSRF hardening is complete.
+    owner_module: website
+    target_step: website_admin_access_policy_v0_6_1
+
+  - risk_id: website_secret_config_tracking_risk
+    area: repository
+    severity: critical
+    current_status: open
+    launch_blocker: true
+    mitigation: >
+      Broad git add base/ forbidden. Commit only approved source/config-example files
+      after inventory, tracking policy, and secret scan.
+    owner_module: website
+    target_step: website_safe_tracking_policy_v0_4_2
