@@ -8,6 +8,7 @@ Accepted and paused after v0.2.
 
 ```text
 coordination/incoming_requests/forprint_integration_gateway/new/2026-05-28-integration-gateway-v0-2-stabilization-report.md
+```
 Main conclusion
 
 ForPrint Integration Gateway v0.2 Stabilization Pack is accepted.

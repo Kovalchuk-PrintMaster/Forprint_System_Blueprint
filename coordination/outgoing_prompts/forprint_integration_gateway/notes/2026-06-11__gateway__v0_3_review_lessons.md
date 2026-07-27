@@ -10,6 +10,7 @@ Final Gateway commit:
 
 ```text
 4b7821f Finalize Gateway v0.3 coordination and module ids
+```
 Lesson 1 — Canonical module IDs only
 
 Gateway examples, routes, services and tests must use canonical Blueprint module IDs.

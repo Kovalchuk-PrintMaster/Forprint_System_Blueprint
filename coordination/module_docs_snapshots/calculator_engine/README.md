@@ -4,6 +4,7 @@
 
 ```text
 calculator_engine
+```
 Current mode
 
 Manual / semi-manual snapshot area.
