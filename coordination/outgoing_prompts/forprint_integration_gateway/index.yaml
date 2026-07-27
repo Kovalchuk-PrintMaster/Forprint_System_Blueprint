@@ -2,45 +2,46 @@ module: forprint_integration_gateway
 updated_at: "2026-06-15T16:27:07.642237+00:00"
 
 active_prompts:
-
-prompt_id: gateway_blueprint_standards_visibility_advisory_alignment_v0_7
-status: ready_for_module_pull
-file: drafts/2026-06-15__gateway__standards_visibility_advisory_alignment_v0_7.md
-target_module: forprint_integration_gateway
-phase: blueprint_standards_visibility_advisory_alignment_v0_7
-priority: high
-requires_governance_check: true
-requires_no_live_integrations: true
+  - prompt_id: gateway_blueprint_standards_visibility_advisory_alignment_v0_7
+    status: ready_for_module_pull
+    file: drafts/2026-06-15__gateway__standards_visibility_advisory_alignment_v0_7.md
+    target_module: forprint_integration_gateway
+    phase: blueprint_standards_visibility_advisory_alignment_v0_7
+    priority: high
+    requires_governance_check: true
+    requires_no_live_integrations: true
 
 completed_prompts:
+  - prompt_id: gateway_channel_intake_operational_handoff_contracts_v0_3
+    status: completed_accepted
+    implementation_commit: 3b4707a
+    finalization_commit: 4b7821f
+    coordination_fix_commit: 44ac33a
+    completion_report_commit: 688e9c6
 
-prompt_id: gateway_channel_intake_operational_handoff_contracts_v0_3
-status: completed_accepted
-implementation_commit: 3b4707a
-finalization_commit: 4b7821f
-coordination_fix_commit: 44ac33a
-completion_report_commit: 688e9c6
-prompt_id: gateway_v0_3_1_coordination_records_fix
-status: completed_accepted
-implementation_commit: 44ac33a
-completion_report_commit: 688e9c6
-prompt_id: gateway_adapter_contracts_error_taxonomy_v0_4
-status: completed_accepted
-implementation_commit: 3a97012
-completion_report_commit: 3f51c41
-prompt_id: gateway_contract_compatibility_replay_dry_run_v0_5
-status: completed_accepted
-implementation_commit: 1a7ed1d
-completion_report_commit: 6e8626f
-prompt_id: gateway_contract_release_consumer_acceptance_v0_6
-status: completed_accepted
-implementation_commit: 7d74ec1
-completion_report_commit: 3690cc3
-coordination_fix_commit: 5813c65
+  - prompt_id: gateway_v0_3_1_coordination_records_fix
+    status: completed_accepted
+    implementation_commit: 44ac33a
+    completion_report_commit: 688e9c6
+
+  - prompt_id: gateway_adapter_contracts_error_taxonomy_v0_4
+    status: completed_accepted
+    implementation_commit: 3a97012
+    completion_report_commit: 3f51c41
+
+  - prompt_id: gateway_contract_compatibility_replay_dry_run_v0_5
+    status: completed_accepted
+    implementation_commit: 1a7ed1d
+    completion_report_commit: 6e8626f
+
+  - prompt_id: gateway_contract_release_consumer_acceptance_v0_6
+    status: completed_accepted
+    implementation_commit: 7d74ec1
+    completion_report_commit: 3690cc3
+    coordination_fix_commit: 5813c65
 
 review_notes:
-
-note_id: gateway_v0_3_review_lessons
-file: notes/2026-06-11__gateway__v0_3_review_lessons.md
-status: active
-applies_to_future_prompts: true
+  - note_id: gateway_v0_3_review_lessons
+    file: notes/2026-06-11__gateway__v0_3_review_lessons.md
+    status: active
+    applies_to_future_prompts: true

@@ -2,6 +2,10 @@
 
 Generated: `2026-06-15T16:27:07.642237+00:00`
 
+## Purpose
+
+Align `forprint_integration_gateway` with Blueprint standards visibility and advisory requirements while preserving module boundaries and avoiding live integration changes.
+
 ## Target module
 
 `forprint_integration_gateway`
@@ -210,7 +214,8 @@ make contract-release-preview
 make consumer-acceptance-preview
 make backward-compatibility-preview
 
-grep -R --exclude-dir="__pycache__" --exclude="*.pyc" "forprint_calculator_engine" -n app tests scripts examples docs coordination reports contracts || true
+legacy_calculator_module_id="forprint_"'calculator_engine'
+grep -R --exclude-dir="__pycache__" --exclude="*.pyc" "$legacy_calculator_module_id" -n app tests scripts examples docs coordination reports contracts || true
 
 grep -R --exclude-dir="__pycache__" --exclude="*.pyc" -E "^[[:space:]]*(live_delivery_enabled|is_live_delivery_enabled|one_c_writes_added|automatic_posting_added|final_price_calculation_added): true" -n app tests scripts examples docs coordination reports contracts || true
 
