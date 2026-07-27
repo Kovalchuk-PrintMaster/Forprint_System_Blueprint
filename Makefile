@@ -59,6 +59,7 @@ help:
 	@echo "  make format"
 	@echo "  make test"
 	@echo "  make validate"
+	@echo "  make markdown-fences"
 	@echo "  make check"
 	@echo "  make check-report"
 	@echo ""
@@ -195,6 +196,10 @@ test:
 .PHONY: validate
 validate:
 	$(PYTHON) scripts/validate_blueprint.py
+
+.PHONY: markdown-fences
+markdown-fences:
+	$(PYTHON) scripts/validation/validate_markdown_fences.py
 
 .PHONY: check
 check:
