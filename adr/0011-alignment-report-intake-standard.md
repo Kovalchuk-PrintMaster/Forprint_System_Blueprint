@@ -24,6 +24,7 @@ ForPrint System Blueprint уже створив alignment prompts для клю�
 coordination/templates/module_alignment_report_template.md
 machine/module_alignment_report_schema.yaml
 human/alignment_report_intake_workflow.md
+```
 
 Також додати тест, який перевіряє наявність ключових секцій.
 

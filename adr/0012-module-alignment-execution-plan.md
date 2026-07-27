@@ -23,6 +23,7 @@ ForPrint System Blueprint уже має alignment prompts і стандарт п
 ```text
 machine/module_alignment_execution_plan.yaml
 human/module_alignment_execution_plan.md
+```
 
 План розділяє модулі на хвилі:
 

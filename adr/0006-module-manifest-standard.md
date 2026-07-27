@@ -14,3 +14,4 @@ ForPrint складається з багатьох окремих модулі�
 
 ```text
 forprint_module_manifest.yaml
+```

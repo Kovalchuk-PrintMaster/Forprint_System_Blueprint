@@ -21,6 +21,7 @@ Accepted
 
 ```bash
 make check-report
+```
 
 Вона запускає scripts/run_blueprint_checks.py, який формує:
 

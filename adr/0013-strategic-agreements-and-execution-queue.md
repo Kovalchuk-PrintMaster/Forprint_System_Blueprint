@@ -20,6 +20,7 @@ Owner / mentor
 architectural assistant
 +
 ForPrint System Blueprint
+```
 
 ForPrint Control Plane is accepted as a future high-priority strategic governance layer, but remains deferred until core modules are alive and interconnected.
 

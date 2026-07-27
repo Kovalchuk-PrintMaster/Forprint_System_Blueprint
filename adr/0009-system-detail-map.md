@@ -24,6 +24,7 @@ machine/system_layers.yaml
 machine/system_control_flows.yaml
 human/system_detail_map.md
 diagrams/system_detail_map.mmd
+```
 
 Цей шар описує:
 
