@@ -56,10 +56,14 @@ Do not mass-move or delete files until automated reference checks, source-of-tru
 - Gateway prompt compliance restored; full Blueprint check is green.
 - Website roadmap and legacy risk controls normalized and committed: `474521e`.
 - Legacy untracked reporting-consolidation prompts removed from the working tree after verification that all three exist in the pre-cleanup baseline archive.
+- Six ADR Markdown fence boundaries repaired and committed: `3e8a731`.
+- Ratcheted Markdown fence validator and 63-entry baseline added: `53ad4cf`.
+- Markdown fence validation integrated into the canonical Blueprint check catalog as check 24 of 24: `12a1401`.
 
 ### Current state
 
 - Active cleanup record: this assessment.
+- Markdown fence debt is controlled by a read-only ratchet: 63 known defects, 0 new defects, 0 changed baseline files and 0 stale baseline entries.
 - Legacy reporting-consolidation completion state: unknown; no tracked references, live branches, or accepted completion handoff evidence were identified during the internal-work audit.
 - The removed source prompts remain recoverable from:
   - `../blueprint_pre_cleanup_baseline_2026-07-27/untracked-files.tar.gz`
@@ -67,4 +71,4 @@ Do not mass-move or delete files until automated reference checks, source-of-tru
 
 ### Next controlled action
 
-Run a repository-wide Markdown fence audit, then add it as a permanent read-only Make validation target.
+Reduce the 63-entry Markdown fence baseline through small, reviewable repair waves. Start with foundational README and policy documents that have unambiguous short code-block boundaries; keep approved/draft prompt duplicates and ambiguous historical documents for later dedicated review.
