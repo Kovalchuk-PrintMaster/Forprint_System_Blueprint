@@ -14,6 +14,7 @@ blocked modules;
 modules moving outside priority;
 modules waiting for Blueprint decisions;
 modules with failed checks.
+```
 Current status
 planned_skeleton
 

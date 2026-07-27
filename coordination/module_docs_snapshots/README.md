@@ -12,6 +12,7 @@ vs.
 what the module documentation says about itself
 vs.
 what the module status reports say is implemented
+```
 Current mode
 
 Manual / semi-manual.

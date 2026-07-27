@@ -18,6 +18,7 @@ current execution focus;
 global development rules;
 architecture direction;
 coordination expectations.
+```
 Difference from directives
 
 coordination/global_policy/ contains long-lived global guidance.

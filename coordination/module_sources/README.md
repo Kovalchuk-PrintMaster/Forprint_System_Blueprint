@@ -10,6 +10,7 @@ The goal is to let ForPrint System Blueprint / future Control Plane know where t
 
 ```text
 coordination/module_sources/module_git_sources.yaml
+```
 What this registry contains
 
 For each module it records:
