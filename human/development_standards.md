@@ -18,8 +18,9 @@
 - які файли створює або змінює;
 - де шукати логи;
 - що робити при помилці.
-Рівні застосування стандарту
-Рівень A — важливі production / integration / migration scripts
+```
+## Рівні застосування стандарту
+### Рівень A — важливі production / integration / migration scripts
 
 Для таких скриптів стандарт обов’язковий повністю.
 
@@ -33,7 +34,7 @@
 генерація module guides;
 складні training/evaluation scripts;
 критичні backup/restore scripts.
-Рівень B — малі допоміжні scripts/tests
+### Рівень B — малі допоміжні scripts/tests
 
 Для малих службових скриптів стандарт можна застосовувати скорочено:
 
@@ -42,7 +43,7 @@
 валідація входів;
 нормальний terminal output;
 відсутність жорстких шляхів у тілі.
-Базова шапка важливого скрипта
+## Базова шапка важливого скрипта
 
 На початку файлу має бути команда запуску:
 
@@ -58,7 +59,7 @@
 ✅ Актуальність
 📦 Пропозиції на майбутнє
 ▶️ Приклади запуску
-Імпорти
+## Імпорти
 
 Порядок імпортів:
 
@@ -70,7 +71,7 @@
 
 Для скриптів, які запускаються напряму з директорії scripts/, допускається короткий bootstrap, якщо він уже прийнятий у проєкті.
 
-Шляхи і конфігурація
+## Шляхи і конфігурація
 
 Жорсткі шляхи всередині тіла скрипта небажані.
 
@@ -83,7 +84,7 @@
 
 Не видаляти старі константи з config.py без погодження.
 
-Валідація входів
+## Валідація входів
 
 Скрипт має перевіряти:
 
@@ -96,7 +97,7 @@
 
 При проблемі — зрозуміле повідомлення українською або англійською, але без “тихого” продовження.
 
-Логування і terminal output
+## Логування і terminal output
 
 Важливий скрипт має показувати:
 
@@ -116,7 +117,7 @@
 ✅ Blueprint validation passed
 ✅ Generated diagrams/module_graph.mmd
 ✅ Generated module_guides/calculator_engine.md
-Логи
+## Логи
 
 Якщо результат роботи важливий для майбутнього аналізу, скрипт має писати лог або звіт у погоджену директорію.
 
@@ -126,7 +127,7 @@ reports/
 
 Для окремих модулів — локальні logs/, reports/ або погоджені директорії конкретного модуля.
 
-Розмір скриптів
+## Розмір скриптів
 
 Не робити без потреби великі монолітні скрипти на 500–1000 рядків.
 
@@ -136,7 +137,7 @@ reports/
 
 Якщо логіка росте — розносити по тематичних модулях.
 
-Дані і кодування
+## Дані і кодування
 
 Усі текстові файли читати/писати як UTF-8.
 
@@ -146,7 +147,7 @@ reports/
 
 Основний файл лишається чистим UTF-8.
 
-Заборона на самовільну зміну структури
+## Заборона на самовільну зміну структури
 
 Не переносити, не перейменовувати і не видаляти важливі директорії без погодження.
 
@@ -158,7 +159,7 @@ reports/
 4. Зробити малий контрольований крок.
 5. Прогнати тести.
 6. Закомітити.
-Doctor / Auto-repair
+## Doctor / Auto-repair
 
 Ідеї Doctor / path-healer / auto-repair поки не реалізуються як активний механізм.
 
@@ -180,7 +181,7 @@ planned_optional_future_tool
 автоматично видаляти “мертві” скрипти;
 автоматично виправляти Makefile;
 автоматично змінювати структуру без людини.
-Acceptance checklist
+## Acceptance checklist
 
 Перед комітом важливого скрипта:
 
@@ -192,209 +193,3 @@ Acceptance checklist
 - результат записується у правильне місце;
 - тести або smoke check проходять;
 - структура проєкту не змінена без погодження.
-
----
-
-# Крок 3. Створити файл `human/system_control_model.md`
-
-```markdown
-# ForPrint System Control Model
-
-## Призначення
-
-Цей документ фіксує, як співвідносяться ключові керуючі шари ForPrint-системи.
-
-Головна мета — прибрати плутанину між старими термінами на кшталт `orchestrator`, `sync manager`, `doctor`, `crm core`, `architecture graph`.
-
-## Базова модель
-
-```text
-ForPrint System Blueprint
-= архітектурна правда.
-
-ForPrint Project Inspector
-= ревізор відповідності модулів Blueprint.
-
-ForPrint Integration Gateway
-= контрактно-транспортний шар між модулями.
-
-ForPrint CRM
-= бізнес-диригент, dashboard, human UI, аналітика.
-
-ForPrint Library
-= канонічні довідники, шаблони, техкарти, contracts, semantic registry.
-
-ForPrint Operational Registry
-= канонічні операційні сутності: client, order, task, production status.
-
-Accounting Registry Service
-= бухгалтерський контур, invoice, payment, 1C mapping.
-
-Telegram Bot / Website
-= канали взаємодії з клієнтом.
-
-Предметні модулі
-= виконують свою вузьку роботу.
-Blueprint
-
-Blueprint відповідає на питання:
-
-Як система має бути побудована?
-
-Він містить:
-
-список модулів;
-ownership;
-data objects;
-contracts;
-data flows;
-impact rules;
-module guides;
-ADR;
-coordination-директорії.
-
-Blueprint не виконує бізнес-процеси.
-
-Project Inspector
-
-Inspector відповідає на питання:
-
-Чи реальні модулі відповідають Blueprint?
-
-Він читає:
-
-machine/*.yaml;
-forprint_module_manifest.yaml;
-reports/forprint_module_status.json;
-результати тестів/healthchecks.
-
-Inspector не малює архітектуру самостійно. Він перевіряє відповідність.
-
-Integration Gateway
-
-Integration Gateway відповідає на питання:
-
-Чи коректний запит, чи безпечний payload і куди його технічно передати?
-
-Він робить:
-
-validation;
-normalization;
-routing;
-security filtering;
-correlation id;
-idempotency;
-audit event.
-
-Gateway не приймає бізнес-рішень.
-
-CRM
-
-CRM відповідає на питання:
-
-Що треба зробити в бізнес-процесі і як це показати людині?
-
-CRM:
-
-показує dashboard;
-координує workflow;
-запускає сценарії;
-показує клієнтів/замовлення/статуси;
-формує управлінську аналітику.
-
-CRM не має ставати фізичним власником усіх даних.
-
-Library
-
-Library відповідає на питання:
-
-Які довідники, шаблони, техкарти, контракти і канонічні назви використовує система?
-
-Library:
-
-material catalog;
-product catalog;
-templates;
-semantic IDs;
-alias map;
-versioning;
-migration graph;
-contract definitions.
-
-Library не має ставати операційною базою замовлень.
-
-Operational Registry
-
-Operational Registry відповідає на питання:
-
-Яка канонічна операційна правда по клієнтах, замовленнях і задачах?
-
-Він може володіти:
-
-client;
-order;
-task;
-order status;
-activity event;
-production request.
-Accounting Registry
-
-Accounting Registry відповідає на питання:
-
-Яка бухгалтерська правда і як вона синхронізується з 1С?
-
-Він може володіти:
-
-invoice;
-payment status;
-accounting document;
-1C raw snapshot;
-1C staging;
-reconciliation report.
-Telegram Bot
-
-Telegram Bot відповідає на питання:
-
-Як клієнт або оператор взаємодіє з системою через Telegram?
-
-Bot:
-
-збирає дані;
-уточнює intent;
-веде сценарії;
-передає запити;
-показує статус;
-ескалує до AI/людини.
-
-Bot не є source of truth для цін, матеріалів, рахунків або замовлень.
-
-Website
-
-Website відповідає на питання:
-
-Як клієнт взаємодіє з системою через web?
-
-Website має бути thin client / web channel, а не окрема ізольована CRM.
-
-Doctor
-
-Doctor зараз не є активним модулем.
-
-Поточний статус:
-
-future_optional_support_tool
-
-Його ідеї можна зберігати для майбутнього, але зараз основний контроль робиться через:
-
-Blueprint + Manifest + Tests + Project Inspector.
-Головний принцип
-Жоден прикладний модуль не має самовільно ставати центром усієї системи.
-
-Кожен модуль має:
-
-чітку роль;
-чітку межу відповідальності;
-manifest;
-status report;
-контракти;
-зв’язок з Blueprint.
