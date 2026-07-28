@@ -12,6 +12,7 @@ The goal is to keep ForPrint lightweight, controllable, debuggable and local-fir
 ForPrint builds its own domain core.
 ForPrint may reuse commodity infrastructure.
 Third-party tools must not silently become ForPrint architecture owners.
+```
 Domain core must remain ForPrint-owned
 
 ForPrint should keep direct ownership over the business and architecture core.

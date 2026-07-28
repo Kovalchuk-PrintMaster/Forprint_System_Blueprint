@@ -41,6 +41,7 @@ status_token: success
 status_token: warning
 status_token: critical
 status_token: in_progress
+```
 
 Avoid:
 

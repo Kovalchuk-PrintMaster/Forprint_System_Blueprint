@@ -15,6 +15,7 @@ Read it through:
 ```bash
 make blueprint-prompts-list
 make blueprint-prompt
+```
 Purpose
 
 Gateway v0.5 must build the next hard foundation after v0.4 adapter contracts and error taxonomy.

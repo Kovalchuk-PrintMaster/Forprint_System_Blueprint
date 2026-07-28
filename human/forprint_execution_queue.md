@@ -18,6 +18,7 @@ Owner / mentor
 architectural assistant
 +
 ForPrint System Blueprint
+```
 Strategic agreements
 Operational Registry
 

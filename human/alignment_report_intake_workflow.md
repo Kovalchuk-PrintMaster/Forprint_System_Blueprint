@@ -24,6 +24,7 @@ Blueprint аналізує звіт
 якщо треба — оновлює machine/*.yaml, human/*.md, module_guides або prompts
 ↓
 звіт переноситься у reviewed/ або archived/
+```
 Де зберігати відповідь модуля
 
 Для кожного модуля:
