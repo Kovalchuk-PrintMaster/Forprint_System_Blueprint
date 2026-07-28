@@ -1,9 +1,3 @@
-
----
-
-# 2. Файл: `coordination/outgoing_prompts/forprint_prepress_hub/drafts/2026-05-22-align-prepress-hub-with-blueprint.md`
-
-```markdown
 # Prompt: Align ForPrint Prepress Hub with ForPrint System Blueprint
 
 ## Target module
