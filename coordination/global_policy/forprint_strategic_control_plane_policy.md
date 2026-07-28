@@ -12,6 +12,7 @@ Canonical module ID
 forprint_strategic_control_plane
 Previous / short name
 ForPrint Control Plane
+```
 
 The previous name may still appear in older documents as a short working name.
 

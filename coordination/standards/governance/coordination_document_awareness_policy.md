@@ -9,6 +9,7 @@ The goal is to avoid manual operator-driven instructions such as:
 ```text
 read this one document manually
 check if something changed somewhere in coordination
+```
 
 Instead, Blueprint should provide a structured document awareness layer based on:
 

@@ -8,6 +8,7 @@ Scope
 all_active_modules
 Status
 active
+```
 Purpose
 
 All active ForPrint modules must maintain a structured coordination directory.

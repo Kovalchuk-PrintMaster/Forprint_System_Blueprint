@@ -12,6 +12,7 @@ The goal is to create the first visual, inspectable, owner-defined configurable 
 
 ```text
 business_card / Візитка
+```
 
 This step must help the project understand how products should be structured before importing or comparing data from 1C.
 

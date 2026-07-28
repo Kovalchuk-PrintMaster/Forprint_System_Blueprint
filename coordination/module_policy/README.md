@@ -11,6 +11,7 @@ coordination/global_policy/
 coordination/directives/
 coordination/standards/
 coordination/module_docs_snapshots/
+```
 Difference from global policy
 
 coordination/global_policy/ defines the strategy for the whole ForPrint ecosystem.

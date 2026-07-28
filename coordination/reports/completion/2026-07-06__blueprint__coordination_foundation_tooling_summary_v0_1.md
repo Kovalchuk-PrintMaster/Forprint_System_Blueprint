@@ -62,6 +62,7 @@ New files:
 coordination/standards/development_environment_policy.md
 coordination/templates/environment/development_environment.template.md
 coordination/templates/environment/tooling_manifest.template.yaml
+```
 3. Module Makefile template sync
 
 Commit:
