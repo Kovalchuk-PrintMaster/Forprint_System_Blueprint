@@ -21,6 +21,7 @@ report what already matches;
 report what can be safely aligned in small steps;
 report what is risky or impractical now;
 ask Blueprint before large restructuring.
+```
 
 Unless a module-specific directive explicitly approves implementation, standards should be treated as:
 

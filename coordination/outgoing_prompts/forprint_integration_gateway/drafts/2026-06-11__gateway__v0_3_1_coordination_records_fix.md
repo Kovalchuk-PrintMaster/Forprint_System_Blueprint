@@ -15,6 +15,7 @@ Read it through:
 ```bash
 make blueprint-prompts-list
 make blueprint-prompt
+```
 
 Purpose
 

@@ -16,6 +16,7 @@ Accounting Registry Service should act as:
 
 ```text
 accounting registry + 1C integration boundary + reconciliation layer
+```
 
 It should protect the system from raw 1C complexity and provide clean accounting objects to other ForPrint modules through approved contracts.
 

@@ -41,6 +41,7 @@ During an attempted governance alignment, the module Makefile appeared to contai
 
 ```text
 Makefile:1036: *** missing separator. Stop.
+```
 
 Observed duplicate/overridden target warnings included:
 

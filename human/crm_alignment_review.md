@@ -8,6 +8,7 @@ Reviewed.
 
 ```text
 coordination/incoming_requests/forprint_crm/new/2026-05-23-forprint-crm-alignment-report.md
+```
 Main conclusion
 
 ForPrint CRM is aligned with the Blueprint direction.

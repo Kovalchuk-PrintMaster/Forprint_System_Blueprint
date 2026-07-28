@@ -18,6 +18,7 @@ outgoing_prompts = concrete work that should be done now
 standards        = continuously readable guidance and target direction
 directives       = mandatory rule when explicitly marked active/blocking
 global_policy    = ecosystem-wide constraints and doctrine
+```
 Standards behavior
 
 Blueprint standards are not automatically equivalent to an active prompt.
