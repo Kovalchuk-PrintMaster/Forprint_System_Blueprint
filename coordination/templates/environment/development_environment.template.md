@@ -14,6 +14,7 @@ Expected Python version:
 
 ```text
 3.11.2
+```
 
 Expected virtual environment:
 

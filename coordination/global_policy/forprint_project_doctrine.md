@@ -20,6 +20,7 @@ prepress preparation;
 production support;
 reporting and analytics;
 multi-channel customer communication.
+```
 
 ForPrint is not only a print shop tool.
 

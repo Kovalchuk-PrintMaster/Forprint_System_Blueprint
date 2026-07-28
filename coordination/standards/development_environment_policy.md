@@ -53,6 +53,7 @@ make lint
 make test
 make check
 make check-report
+```
 
 Raw commands may be used during debugging, but stable module workflows should be exposed through Makefile targets.
 

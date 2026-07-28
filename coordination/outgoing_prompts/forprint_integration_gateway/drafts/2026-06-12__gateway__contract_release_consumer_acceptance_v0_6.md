@@ -15,6 +15,7 @@ Read it through:
 ```bash
 make blueprint-prompts-list
 make blueprint-prompt
+```
 Purpose
 
 Gateway v0.6 must turn the existing Gateway contract foundation into a structured contract release package that other modules can consume safely.

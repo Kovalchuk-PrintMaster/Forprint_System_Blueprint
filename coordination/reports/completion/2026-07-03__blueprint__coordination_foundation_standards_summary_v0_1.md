@@ -32,6 +32,7 @@ runtime / infrastructure / database / adapter / diagnostics zones;
 validation, reports, completion and release zones;
 module-specific helper zone;
 normal TAB-based Makefile formatting expectation.
+```
 
 Key files:
 

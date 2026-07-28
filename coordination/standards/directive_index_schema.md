@@ -31,6 +31,7 @@ module_directives:
       expected_module_action: >
         Expected module action.
   archived: []
+```
 
 Canonical active directive path
 
