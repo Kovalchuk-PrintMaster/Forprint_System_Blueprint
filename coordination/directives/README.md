@@ -18,11 +18,12 @@ and:
 Blueprint directives
 → global/module-specific instructions
 → module assistants apply them in their repositories
-Directive types
+```
+## Directive types
 
 There are two directive types.
 
-Global directives
+### Global directives
 
 Stored under:
 
@@ -37,7 +38,7 @@ update common Makefile conventions
 follow new naming policy
 adopt new status reporting fields
 respect new global architecture decision
-Module-specific directives
+### Module-specific directives
 
 Stored under:
 
@@ -50,7 +51,8 @@ Examples:
 calculator_engine should prioritize CalculationOutputPackage
 forprint_library should prepare canonical product/service ID governance
 forprint_operational_registry should prepare core data model expansion
-Directory structure
+## Directory structure
+```text
 coordination/directives/
 ├── README.md
 ├── global/
@@ -62,7 +64,8 @@ coordination/directives/
         ├── index.yaml
         ├── active/
         └── archive/
-Directive ID format
+```
+## Directive ID format
 
 Recommended directive ID format:
 
@@ -72,7 +75,7 @@ Examples:
 
 2026-06-02__global__directive__module-coordination-standard-v1
 2026-06-02__calculator_engine__directive__coordination-pull-and-calculator-focus-v1
-Directive statuses
+## Directive statuses
 
 Allowed statuses:
 
@@ -81,7 +84,7 @@ planned
 superseded
 archived
 cancelled
-Module assistant rule
+## Module assistant rule
 
 Every module assistant should check:
 
@@ -94,7 +97,7 @@ In the first stage this is manual.
 
 Future automation may pull Blueprint, read directive indexes and notify modules about new directives.
 
-Safety
+## Safety
 
 Directives must not contain:
 
@@ -122,6 +125,7 @@ The module assistant should check:
 ```text
 coordination/directives/global/index.yaml
 coordination/directives/modules/<module_id>/index.yaml
+```
 
 If a new active directive applies to the module, the module assistant should read the referenced directive file and decide whether it can be applied immediately or whether it requires a question to Blueprint.
 

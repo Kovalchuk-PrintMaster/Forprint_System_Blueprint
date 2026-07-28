@@ -20,10 +20,11 @@ This creates several problems:
 prompt exists != prompt is visible
 prompt is indexed != prompt is next
 module completed prompt != Blueprint accepted prompt
+```
 
 ForPrint must separate these states.
 
-Core Rule
+## Core Rule
 
 Blueprint outgoing prompts should be managed as a queue.
 
@@ -40,7 +41,7 @@ blocked prompts
 
 The queue must distinguish between module execution and Blueprint review.
 
-Prompt Queue v0.2
+## Prompt Queue v0.2
 
 The preferred schema version is:
 
@@ -67,7 +68,7 @@ prompt_queue:
       acceptance_commit: null
       accepted_at: null
       review_notes: null
-Required Separation
+## Required Separation
 
 Prompt queue records must separate:
 
@@ -83,7 +84,7 @@ completed by module
 without being:
 
 accepted by Blueprint
-Module Execution Statuses
+## Module Execution Statuses
 
 Allowed module execution statuses:
 
@@ -95,7 +96,7 @@ returned_for_fix
 paused
 blocked
 superseded
-Blueprint Review Statuses
+## Blueprint Review Statuses
 
 Allowed Blueprint review statuses:
 
@@ -105,7 +106,7 @@ accepted_by_blueprint
 returned_for_fix
 not_required
 superseded
-Priority
+## Priority
 
 Allowed priority values:
 
@@ -119,7 +120,7 @@ Priority controls operator attention, not automatic execution.
 
 High-priority prompts should be considered before lower-priority prompts, but sequence order remains the main navigation rule inside one module queue.
 
-Sequence
+## Sequence
 
 Each prompt should have a numeric sequence.
 
@@ -134,7 +135,7 @@ forprint_library:
 
 If an older sequence remains unfinished while a later prompt is already in progress, dashboards should mark the older unfinished prompt as a warning.
 
-Prompt File
+## Prompt File
 
 The file field is relative to the module outgoing prompt directory.
 
@@ -145,7 +146,7 @@ file: approved/2026-06-29__library__reference_contract_foundation_v0_2.md
 For module forprint_library, this resolves to:
 
 coordination/outgoing_prompts/forprint_library/approved/2026-06-29__library__reference_contract_foundation_v0_2.md
-Dashboard Behavior
+## Dashboard Behavior
 
 A prompt dashboard should show at minimum:
 
@@ -173,7 +174,7 @@ cyan         = reference / not_required / superseded
 
 Markdown and JSON reports must not rely only on color. They must include explicit status text.
 
-Next Prompt Resolution
+## Next Prompt Resolution
 
 The next prompt for a module should be resolved from the queue, not from a hardcoded Makefile variable.
 
@@ -187,7 +188,7 @@ no ready prompt
 
 If there are blocked or returned prompts before the next ready prompt, the resolver should report them as warnings.
 
-Manual Prompt Delivery During Transition
+## Manual Prompt Delivery During Transition
 
 During early migration, prompts may still be delivered manually to module assistants.
 
@@ -197,7 +198,7 @@ However, new automation should target Prompt Queue v0.2 directly.
 
 Do not extend legacy hardcoded active prompt behavior unless required for emergency compatibility.
 
-Legacy Active Prompts
+## Legacy Active Prompts
 
 The older active_prompts structure is considered legacy.
 
@@ -210,7 +211,7 @@ prompt_queue
 instead of:
 
 active_prompts
-Module Makefile Rule
+## Module Makefile Rule
 
 Module Makefiles should eventually support:
 
@@ -222,7 +223,7 @@ These targets should use Blueprint prompt queue tooling.
 
 Until migrated, module assistants may receive explicit prompt paths from the operator.
 
-Source of Truth
+## Source of Truth
 
 The source of truth is the structured prompt queue index.
 
@@ -240,7 +241,7 @@ Generated outputs:
 terminal tables
 markdown dashboards
 json dashboards
-No Manual Dashboard Editing
+## No Manual Dashboard Editing
 
 Prompt dashboard files should be generated.
 
@@ -253,7 +254,7 @@ prompt marked ready
 module completion commit recorded
 Blueprint review status recorded
 prompt superseded
-Migration Rule
+## Migration Rule
 
 Do not migrate all modules at once.
 
@@ -265,7 +266,7 @@ Preferred migration order:
 4. Library pilot
 5. Make target standard update
 6. gradual module adoption
-Summary
+## Summary
 
 Prompt navigation should be:
 
@@ -283,6 +284,7 @@ Draft prompt files may live under:
 
 ```text
 coordination/outgoing_prompts/<module>/drafts/
+```
 
 Draft prompts are planning artifacts.
 

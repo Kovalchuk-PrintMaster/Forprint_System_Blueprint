@@ -20,20 +20,23 @@ Machine-readable coordination metadata lives in:
 coordination/status/current_status.yaml
 coordination/prompts/index.yaml
 coordination/reports/index.yaml
+```
 
 Human-readable explanations live in:
 
+```text
 coordination/status/current_status.md
 coordination/status/next_questions_for_blueprint.md
 coordination/reports/completion/*.md
 coordination/prompts/received/*.md
-Main rule
+```
+## Main rule
 
 Coordination YAML files should be checked before commit.
 
 Manual edits are allowed, but they must be validated.
 
-Required checks
+## Required checks
 
 The validator should detect:
 
@@ -47,7 +50,7 @@ invalid priority values;
 pending commit/push placeholders;
 missing required current_status.yaml keys;
 inconsistent completed reports.
-Fix policy
+## Fix policy
 
 The fixer may safely:
 
@@ -65,7 +68,7 @@ overwrite conflicting duplicate entries with different content;
 silently delete non-identical records;
 create fake commit hashes;
 claim push success without evidence.
-Recommended commands
+## Recommended commands
 
 Each module should eventually support:
 
@@ -74,7 +77,7 @@ make coordination-fix
 
 In the first stage these commands may call the central Blueprint tool.
 
-Central tool location
+## Central tool location
 
 The first implementation lives in ForPrint System Blueprint:
 
@@ -84,7 +87,7 @@ scripts/fix_coordination_metadata.py
 
 Future extraction to a separate ForPrint Dev Tools repository may be considered after the tool is stable across multiple modules.
 
-Current adoption mode
+## Current adoption mode
 
 This is a guardrail tool.
 
@@ -103,15 +106,17 @@ Allowed command pattern:
 
 ```text
 scripts/fix_coordination_metadata.py --module-root <module> --update-git-commit
+```
 
 The fixer may mark reports as pushed only when explicitly requested and only when Git confirms that local HEAD is not ahead of upstream.
 
 Allowed command pattern:
 
+```text
 scripts/fix_coordination_metadata.py --module-root <module> --update-git-commit --mark-pushed-if-upstream-clean
+```
 
 The fixer must not claim that a report is pushed without checking Git upstream state.
 
 
 ---
-
