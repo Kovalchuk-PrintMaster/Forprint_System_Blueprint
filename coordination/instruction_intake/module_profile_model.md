@@ -30,8 +30,11 @@ profile:
   prompt_priority: high
   cleanup_priority: medium
   feedback_required: true
+```
 
-  Example: lightweight helper
+## Example: lightweight helper
+
+```yaml
 module_id: product_research_helper
 profile:
   maturity: helper
@@ -42,7 +45,9 @@ profile:
   prompt_priority: high
   cleanup_priority: low
   feedback_required: false
-Rule
+```
+
+## Rule
 
 Profiles guide task packaging and priority.
 

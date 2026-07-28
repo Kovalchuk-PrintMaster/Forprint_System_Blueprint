@@ -26,17 +26,15 @@ what can be safely improved now;
 what should be deferred;
 what module-specific structure should remain;
 what questions need Blueprint decision.
+```
+
 For new modules, this baseline should be used as the preferred starting structure unless Blueprint approves a different shape.
 
-Minimal baseline for young modules
+## Minimal baseline for young modules
 
-A young ForPrint module should```text
-what already matches the baseline;
-what can be safely improved now;
-what should be deferred;
-what module-specific structure should remain;
-what questions normally start with:
+A young ForPrint module should normally start with:
 
+```text
 .
 ├── app/
 ├── config/
@@ -50,15 +48,17 @@ what questions normally start with:
 ├── README.md
 ├── pyproject.toml
 └── forprint_module_manifest.yaml
+```
 
 Not every directory needs many files at the beginning.
 
 Empty directories may contain a short README.md or .gitkeep only when useful.
 
-Required coordination baseline
+## Required coordination baseline
 
 Every active module should gradually maintain:
 
+```text
 coordination/
 ├── README.md
 ├── blueprint_source.yaml
@@ -75,12 +75,14 @@ coordination/
     ├── current_status.yaml
     ├── current_status.md
     └── next_questions_for_blueprint.md
+```
 
 Some early modules may not yet have all files.
 
 Missing coordination files should be reported as gradual alignment work, not silently ignored.
 
-Common directory roles
+## Common directory roles
+
 app/
 
 Main source code.
@@ -100,12 +102,6 @@ Secrets must not be committed in config/.
 coordination/
 
 Live coordination status, prompts, reports, Blueprint awareness, roadmap alignment and questions.
-
-docs/
-
-Stable architecture and development documentation.
-
-examples/
 
 docs/
 
@@ -135,19 +131,21 @@ Automated tests.
 
 Small modules may start flat, but growing modules should move toward domain-level test folders.
 
-Runtime/local directories
+## Runtime/local directories
 
 Modules may also use local runtime directories:
 
+```text
 data/
 logs/
 tmp/
+```
 
 These directories are usually ignored by Git unless a file is explicitly intended as a safe fixture or documentation.
 
 Do not commit private runtime data, logs with credentials, temporary files or local databases.
 
-Gradual alignment
+## Gradual alignment
 
 Existing modules may differ.
 
@@ -161,7 +159,7 @@ explicit prompt or Blueprint approval;
 tests before and after;
 clear migration notes;
 completion report entry.
-Non-goals
+## Non-goals
 
 This baseline does not require:
 
@@ -171,7 +169,7 @@ forced immediate refactoring;
 deleting working project-specific structure;
 moving production code without tests;
 committing runtime data.
-Review rule
+## Review rule
 
 During module review, Blueprint may compare:
 

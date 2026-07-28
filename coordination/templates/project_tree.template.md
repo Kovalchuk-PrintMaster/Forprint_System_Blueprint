@@ -22,7 +22,11 @@ It is a starting point, not a destructive migration command.
 ├── README.md
 ├── pyproject.toml
 └── forprint_module_manifest.yaml
-Recommended coordination tree
+```
+
+## Recommended coordination tree
+
+```text
 coordination/
 ├── README.md
 ├── blueprint_source.yaml
@@ -40,7 +44,11 @@ coordination/
     ├── current_status.yaml
     ├── current_status.md
     └── next_questions_for_blueprint.md
-Recommended growing-module tree
+```
+
+## Recommended growing-module tree
+
+```text
 <module_root>/
 ├── app/
 │   └── <python_package>/
@@ -81,15 +89,18 @@ Recommended growing-module tree
 ├── README.md
 ├── pyproject.toml
 └── forprint_module_manifest.yaml
-Runtime/local directories
+```
+
+## Runtime/local directories
 
 These directories may exist locally and are usually ignored by Git:
 
+```text
 data/
 logs/
 tmp/
+```
 
 Do not commit private runtime data, local logs or temporary files.
-
 
 ---
