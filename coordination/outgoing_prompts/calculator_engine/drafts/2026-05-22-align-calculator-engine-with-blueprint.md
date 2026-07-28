@@ -61,6 +61,7 @@ If local tables or local data structures for materials/products exist, they must
 ```text
 cache / calculation snapshot / imported calculation input
 not as canonical truth.
+```
 
 Key architectural risks
 Calculator starts owning material/product catalogs.
@@ -99,4 +100,3 @@ Do not redesign the whole module now. Do not perform large refactoring without a
 The immediate goal is:
 
 understand current drift risk and align future development direction.
-

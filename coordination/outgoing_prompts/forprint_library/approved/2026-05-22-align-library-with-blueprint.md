@@ -86,6 +86,7 @@ Return a short alignment report:
 5. Contracts Library should provide
 6. Impact rules needed
 7. Open questions for Blueprint
+```
 
 Important rule
 
