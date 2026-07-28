@@ -71,6 +71,7 @@ module-validate
 module-finish
 report-clean
 completion-packet-check
+```
 
 The exact implementation may remain module-specific, but the external command names must be standardized.
 
@@ -92,6 +93,7 @@ Run the standardized start workflow:
 
 ```bash
 make module-start
+```
 
 Expected behavior:
 
@@ -325,11 +327,14 @@ Use the standardized finish workflow:
 
 ```bash
 make module-finish PACKET=coordination/completion_packets/examples/local_operator_command_query_readiness_v0_1.yaml
+```
 
 Then run:
 
+```bash
 make module-validate
 git status --short
+```
 
 Expected behavior:
 
