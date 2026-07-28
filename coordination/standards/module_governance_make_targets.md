@@ -10,7 +10,8 @@ Every active module should eventually provide:
 
 ```bash
 make governance-check
-Expected governance-check behavior
+```
+## Expected governance-check behavior
 
 Recommended implementation:
 
@@ -20,7 +21,7 @@ make blueprint-sync-directives
 make module-policy-check
 make coordination-check
 make status-report
-Required standard targets
+## Required standard targets
 
 Active modules should eventually expose:
 
@@ -34,7 +35,7 @@ coordination-check
 coordination-fix
 module-policy-check
 governance-check
-Target meaning
+## Target meaning
 check
   Runs core lint/tests/validation for the module.
 
@@ -64,7 +65,7 @@ module-policy-check
 
 governance-check
   Umbrella assistant-start/governance readiness command.
-Deferred implementation
+## Deferred implementation
 
 If a target cannot be fully implemented yet, the module may print a clear deferred message.
 
@@ -80,6 +81,7 @@ Active modules that receive Blueprint-driven work prompts should also provide:
 ```text
 make blueprint-prompts-list
 make blueprint-prompt
+```
 
 These targets are defined by:
 

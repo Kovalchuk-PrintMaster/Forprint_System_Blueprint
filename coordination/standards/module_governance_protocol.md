@@ -34,6 +34,7 @@ Module Assistant Start Protocol
 Pre-commit protocol
 Post-commit report protocol
 Directive sync protocol
+```
 
 These names are intentionally stable because Blueprint tests and future module audits may reference them.
 
@@ -43,12 +44,13 @@ Every active module should eventually provide:
 
 ```bash
 make governance-check
+```
 
 This is the umbrella command for module governance readiness.
 
 It should check that the module has read current Blueprint rules, module policy, active directives, coordination metadata and local status/report files.
 
-Assistant start protocol
+## Assistant start protocol
 
 At the start of work inside any module, the assistant must check:
 
@@ -80,7 +82,7 @@ If some targets are not implemented yet, the module should clearly report DEFERR
 
 It must not fake success.
 
-Pre-commit protocol
+## Pre-commit protocol
 
 Before any module commit, the assistant must run:
 
@@ -113,7 +115,7 @@ current_status.yaml is invalid;
 coordination/reports/index.yaml has missing report_file;
 accidental cache/generated garbage is present;
 module-specific validation or boundaries blocks were deleted.
-Post-commit report protocol
+## Post-commit report protocol
 
 After successful commit and push, the module should report:
 
@@ -128,7 +130,7 @@ Recommended next step.
 
 Blueprint should then collect the module coordination snapshot.
 
-Directive sync protocol
+## Directive sync protocol
 
 Every active module should support:
 
@@ -148,7 +150,7 @@ Active directives must be imported or clearly reported as not imported.
 
 Silent ignore is not allowed.
 
-Governance-check target
+## Governance-check target
 
 Recommended future module behavior:
 
@@ -167,7 +169,7 @@ It should not commit.
 
 It should not push.
 
-Deferred modules
+## Deferred modules
 
 If a module is planned, deferred or not yet bootstrapped, Blueprint audit should report it as:
 
@@ -178,7 +180,7 @@ not failed.
 If a module is active but missing required governance files or targets, audit should report:
 
 NEEDS_ALIGNMENT
-Required module files
+## Required module files
 
 Active modules should eventually have:
 
@@ -189,7 +191,7 @@ coordination/status/current_status.md
 coordination/status/next_questions_for_blueprint.md
 coordination/prompts/index.yaml
 coordination/reports/index.yaml
-Required module Makefile targets
+## Required module Makefile targets
 
 Active modules should eventually have:
 
@@ -203,7 +205,7 @@ coordination-check
 coordination-fix
 module-policy-check
 governance-check
-Current status extension rule
+## Current status extension rule
 
 Blueprint tools must not rewrite coordination/status/current_status.yaml from scratch.
 
@@ -219,7 +221,7 @@ local_checks
 
 This follows the Current Status Extension Policy.
 
-Boundary
+## Boundary
 
 This standard does not automatically edit all module repositories.
 

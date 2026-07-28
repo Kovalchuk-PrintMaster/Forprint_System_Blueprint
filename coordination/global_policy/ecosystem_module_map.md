@@ -51,7 +51,8 @@ Operational Registry stores internal records
 Accounting Registry prepares accounting/1C sync
 ↓
 Prepress / production / warehouse / logistics receive references and tasks
-Current first practical focus
+```
+## Current first practical focus
 
 The first practical module coordination loop is being tested with:
 
@@ -82,6 +83,7 @@ Current status:
 
 ```text
 planned_high_priority_deferred_until_core_modules_alive
+```
 
 It must not be actively implemented yet.
 

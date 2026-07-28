@@ -1,4 +1,3 @@
-```markdown
 # Prompt: Align Telegram Bot with ForPrint System Blueprint
 
 ## Target module
@@ -84,8 +83,9 @@ Return a short alignment report:
 5. Workflows that should move behind Gateway/CRM
 6. Safe next steps
 7. Open questions for Blueprint
+```
 
-Important rule
+## Important rule
 
 Telegram Bot should remain:
 
