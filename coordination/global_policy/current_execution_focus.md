@@ -32,6 +32,7 @@ production_method_plan;
 accounting line drafts;
 prepress requirements;
 manual/custom operation drafts.
+```
 3. Module coordination loop
 
 Each active module must eventually maintain:

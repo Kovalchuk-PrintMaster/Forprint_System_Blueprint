@@ -15,6 +15,7 @@ Read it through:
 ```bash
 make blueprint-prompts-list
 make blueprint-prompt
+```
 Purpose
 
 Develop the next safe Gateway layer after v0.3/v0.3.1.

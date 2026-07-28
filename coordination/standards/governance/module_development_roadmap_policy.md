@@ -31,6 +31,7 @@ It complements:
 Prompt Queue = exact executable prompt front.
 Module Roadmap = broader development plan and progress map.
 Coordination Document Awareness = policy/standard/document changes the module must notice.
+```
 Core model
 
 A module roadmap is a sequenced list of development steps.

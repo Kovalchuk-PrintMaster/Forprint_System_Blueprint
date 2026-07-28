@@ -44,6 +44,7 @@ ForPrint Accounting Registry Service owns accounting and 1C staging truth.
 ForPrint Integration Gateway owns transport and handoff reliability.
 CRM owns human-facing workflow views and coordination UI.
 Channel modules own channel shells, not canonical business truth.
+```
 
 A module must not silently take ownership of another module's canonical data.
 

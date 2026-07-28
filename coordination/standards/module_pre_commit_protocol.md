@@ -19,6 +19,7 @@ make coordination-check
 make check
 make check-report
 git status --short
+```
 Optional preview commands
 
 If the module has preview targets, run relevant ones.
