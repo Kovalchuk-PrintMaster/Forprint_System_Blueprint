@@ -14,31 +14,6 @@ CRM is the business orchestration layer and human-facing dashboard. It coordinat
 
 ForPrint CRM should act as:
 
-```text
-business director / workflow coordinator / human UI / analytics dashboard
-
-
----
-
-# 2. Файл: `coordination/outgoing_prompts/forprint_crm/drafts/2026-05-22-align-crm-with-blueprint.md`
-
-```markdown
-# Prompt: Align ForPrint CRM with ForPrint System Blueprint
-
-## Target module
-
-`forprint_crm`
-
-## Purpose
-
-This prompt aligns ForPrint CRM with the current ForPrint System Blueprint.
-
-CRM is the business orchestration layer and human-facing dashboard. It coordinates business workflows and helps people manage the system, but it must not become the physical owner of all data.
-
-## Current architectural role
-
-ForPrint CRM should act as:
-
 business director / workflow coordinator / human UI / analytics dashboard
 
 CRM decides what should happen in the business process, but it should not bypass contracts or directly replace specialized modules.
