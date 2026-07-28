@@ -2,9 +2,9 @@
 
 ## Decision
 
-**READY FOR CONTROLLED STRUCTURE CLEANUP**
+**COMPLETED — READY FOR FINAL BRANCH REVIEW**
 
-The repository already contains a meaningful governance and coordination system. The next phase should improve information architecture and consistency rather than introduce another layer or perform a broad rewrite.
+The controlled structure cleanup is complete. The repository retains its governance and coordination model while metadata defects, Markdown structure debt and missing control documentation have been resolved through small, reviewable commits.
 
 ## Highest-priority findings
 
@@ -63,12 +63,17 @@ Do not mass-move or delete files until automated reference checks, source-of-tru
 ### Current state
 
 - Active cleanup record: this assessment.
-- Markdown fence debt is controlled by a read-only ratchet: 63 known defects, 0 new defects, 0 changed baseline files and 0 stale baseline entries.
-- Legacy reporting-consolidation completion state: unknown; no tracked references, live branches, or accepted completion handoff evidence were identified during the internal-work audit.
+- Completion report: `coordination/reports/completion/2026-07-28__blueprint__structure_cleanup_completion_v0_1.md`.
+- Markdown fence debt is fully resolved: 69 identified defects across the cleanup sequence, a 63-entry ratchet baseline after the initial ADR repairs, and a final tracked baseline of 0.
+- Final pre-closure validator state at `b85b117`: 263 Markdown files scanned, 0 current issues, 0 baseline issues, 0 new issues, 0 changed known issues and 0 stale baseline entries.
+- Markdown validation is part of the canonical Blueprint check catalog as check 24 of 24.
+- Full Blueprint validation passes: 24 OK, 0 warnings and 0 failed checks.
+- `human/system_control_model.md` now exists as a standalone tracked control document.
+- Legacy reporting-consolidation completion state remains unknown; no tracked references, live branches or accepted completion handoff evidence were identified during the internal-work audit.
 - The removed source prompts remain recoverable from:
   - `../blueprint_pre_cleanup_baseline_2026-07-27/untracked-files.tar.gz`
   - `/tmp/forprint_blueprint_backups/reporting_consolidation_closeout_before_removal`
 
 ### Next controlled action
 
-Reduce the 63-entry Markdown fence baseline through small, reviewable repair waves. Start with foundational README and policy documents that have unambiguous short code-block boundaries; keep approved/draft prompt duplicates and ambiguous historical documents for later dedicated review.
+Create one documentation-only closure commit, repeat the full Blueprint checks, review the branch diff from `3f187876`, and then send the branch through the normal merge review. No additional structural changes are part of this closure wave.
