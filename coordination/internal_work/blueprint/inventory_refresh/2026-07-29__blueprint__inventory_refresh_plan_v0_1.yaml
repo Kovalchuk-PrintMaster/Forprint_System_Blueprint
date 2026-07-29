@@ -6,7 +6,7 @@ metadata:
   base_commit: 50df50b
   created_at: '2026-07-29'
   status: active
-  current_step_id: blueprint_module_registry_reconciliation_v0_1
+  current_step_id: blueprint_artifact_authority_map_v0_1
   planning_horizon:
     rule: 8_to_10_actionable_steps_ahead
     actionable_steps_ahead: 8
@@ -147,7 +147,7 @@ steps:
 - sequence: 7
   step_id: blueprint_module_registry_reconciliation_v0_1
   title: Reconcile module IDs, aliases and repository paths
-  status: active
+  status: completed
   priority: critical
   depends_on:
   - blueprint_metadata_consistency_audit_v0_1
@@ -162,10 +162,22 @@ steps:
   - machine/modules.yaml
   - coordination/roadmaps/
   - coordination/outgoing_prompts/
+  completed_at: '2026-07-29'
+  evidence:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+  result:
+    reconciliation_result: READY_WITH_CONFLICTS
+    canonical_candidates: 22
+    modules_with_findings: 15
+    finding_count: 18
+    critical_findings: 0
+    high_findings: 7
+    source_metadata_modified: false
+    remediation_required: true
 - sequence: 8
   step_id: blueprint_artifact_authority_map_v0_1
   title: Create artifact authority and retention map
-  status: planned
+  status: active
   priority: high
   depends_on:
   - blueprint_module_registry_reconciliation_v0_1
@@ -173,6 +185,15 @@ steps:
   - canonical artifact classes
   - generated/current/history retention rules
   - temporary workflow artifact policy
+  inputs:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__metadata_consistency_audit_v0_1.yaml
+  - coordination/repository_knowledge/
+  - coordination/review_packets/
+  - coordination/reports/
+  - reports/
+  - history/
+  - tmp/
 - sequence: 9
   step_id: blueprint_semantic_inventory_wave_1_v0_1
   title: Verify high-value file purposes and dependencies
@@ -255,6 +276,18 @@ steps:
   - full Blueprint validation
   - inventory completion assessment
   - controlled merge or fast-forward decision
+- sequence: 16
+  step_id: blueprint_registry_reconciliation_remediation_v0_1
+  title: Resolve confirmed module registry collisions and coverage gaps
+  status: planned
+  priority: high
+  depends_on:
+  - blueprint_inventory_acceptance_merge_gate_v0_1
+  expected_outputs:
+  - reviewed canonical module ID decisions
+  - reviewed alias ownership decisions
+  - reviewed repository-path corrections
+  - reviewed lifecycle and coverage corrections
 completion_criteria:
 - Current Blueprint RCI, REDM and both SDRS snapshots are tracked.
 - The 2026-07-23 baseline remains unchanged.

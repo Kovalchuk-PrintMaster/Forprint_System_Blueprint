@@ -1,0 +1,725 @@
+schema_version: blueprint_module_registry_reconciliation_v0_1
+metadata:
+  reconciliation_id: 2026-07-29__blueprint__module_registry_reconciliation_v0_1
+  module_id: forprint_system_blueprint
+  created_at: '2026-07-29T16:48:00+03:00'
+  branch: audit/blueprint-inventory-refresh-2026-07-29
+  commit: 3e09781c2958cccb29a27814569e92727765bd69
+  mode: read_only_evidence_generation
+  result: READY_WITH_CONFLICTS
+  plan_step_id: blueprint_module_registry_reconciliation_v0_1
+scope:
+  sources:
+  - machine/modules.yaml
+  - coordination/module_sources/module_git_sources.yaml
+  - coordination/module_policy/module_policy_index.yaml
+  - coordination/modules/module_workflow_registry.yaml
+  - coordination/roadmaps
+  - coordination/outgoing_prompts
+  - coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__metadata_consistency_audit_v0_1.yaml
+  normalization: Module IDs are compared case-insensitively after converting spaces and hyphens to underscores.
+  write_policy: No source registry, roadmap, prompt queue or policy file is modified by this reconciliation.
+summary:
+  canonical_candidate_count: 22
+  modules_with_findings: 15
+  finding_count: 18
+  severity_counts:
+    critical: 0
+    high: 7
+    medium: 7
+    low: 4
+    info: 0
+  repository_path_count: 13
+  alias_count: 1
+  result: READY_WITH_CONFLICTS
+module_results:
+- module_id: accounting_registry_service
+  sources:
+  - machine_modules
+  source_files:
+  - machine/modules.yaml
+  aliases: []
+  repository_paths: []
+  lifecycles:
+  - active_development
+  coverage:
+    machine_modules: true
+    git_sources: false
+    policy_index: false
+    workflow_registry: false
+    roadmap: false
+    prompt_queue: false
+- module_id: calculator_engine
+  sources:
+  - git_sources
+  - machine_modules
+  - policy_index
+  - prompt_queue_directory
+  source_files:
+  - coordination/module_policy/module_policy_index.yaml
+  - coordination/module_sources/module_git_sources.yaml
+  - coordination/outgoing_prompts/calculator_engine/index.yaml
+  - machine/modules.yaml
+  aliases: []
+  repository_paths:
+  - /srv/software_development/forprint-project/calculator_engine/app
+  lifecycles:
+  - active_development
+  coverage:
+    machine_modules: true
+    git_sources: true
+    policy_index: true
+    workflow_registry: false
+    roadmap: false
+    prompt_queue: true
+- module_id: cloud_backup_manager
+  sources:
+  - git_sources
+  - machine_modules
+  - policy_index
+  source_files:
+  - coordination/module_policy/module_policy_index.yaml
+  - coordination/module_sources/module_git_sources.yaml
+  - machine/modules.yaml
+  aliases: []
+  repository_paths:
+  - /opt/forprint-utils/cloud_backup_manager
+  lifecycles:
+  - active_development
+  coverage:
+    machine_modules: true
+    git_sources: true
+    policy_index: true
+    workflow_registry: false
+    roadmap: false
+    prompt_queue: false
+- module_id: forprint_accounting_registry_service
+  sources:
+  - git_sources
+  - policy_index
+  - prompt_queue_directory
+  source_files:
+  - coordination/module_policy/module_policy_index.yaml
+  - coordination/module_sources/module_git_sources.yaml
+  - coordination/outgoing_prompts/forprint_accounting_registry_service/index.yaml
+  aliases: []
+  repository_paths:
+  - /srv/software_development/forprint-project/forprint_accounting_registry_service
+  lifecycles: []
+  coverage:
+    machine_modules: false
+    git_sources: true
+    policy_index: true
+    workflow_registry: false
+    roadmap: false
+    prompt_queue: true
+- module_id: forprint_contract_registry
+  sources:
+  - git_sources
+  - policy_index
+  source_files:
+  - coordination/module_policy/module_policy_index.yaml
+  - coordination/module_sources/module_git_sources.yaml
+  aliases: []
+  repository_paths:
+  - /srv/software_development/forprint-project/forprint_contract_registry
+  lifecycles: []
+  coverage:
+    machine_modules: false
+    git_sources: true
+    policy_index: true
+    workflow_registry: false
+    roadmap: false
+    prompt_queue: false
+- module_id: forprint_crm
+  sources:
+  - git_sources
+  - machine_modules
+  - policy_index
+  source_files:
+  - coordination/module_policy/module_policy_index.yaml
+  - coordination/module_sources/module_git_sources.yaml
+  - machine/modules.yaml
+  aliases: []
+  repository_paths:
+  - /srv/software_development/forprint-project/forprint_crm
+  lifecycles:
+  - planned
+  coverage:
+    machine_modules: true
+    git_sources: true
+    policy_index: true
+    workflow_registry: false
+    roadmap: false
+    prompt_queue: false
+- module_id: forprint_integration_gateway
+  sources:
+  - git_sources
+  - machine_modules
+  - policy_index
+  - prompt_queue_directory
+  source_files:
+  - coordination/module_policy/module_policy_index.yaml
+  - coordination/module_sources/module_git_sources.yaml
+  - coordination/outgoing_prompts/forprint_integration_gateway/index.yaml
+  - machine/modules.yaml
+  aliases: []
+  repository_paths:
+  - /srv/software_development/forprint-project/forprint_integration_gateway
+  lifecycles:
+  - planned
+  coverage:
+    machine_modules: true
+    git_sources: true
+    policy_index: true
+    workflow_registry: false
+    roadmap: false
+    prompt_queue: true
+- module_id: forprint_library
+  sources:
+  - git_sources
+  - machine_modules
+  - policy_index
+  - prompt_queue_directory
+  - roadmap_filename
+  source_files:
+  - coordination/module_policy/module_policy_index.yaml
+  - coordination/module_sources/module_git_sources.yaml
+  - coordination/outgoing_prompts/forprint_library/index.yaml
+  - coordination/roadmaps/forprint_library.yaml
+  - machine/modules.yaml
+  aliases: []
+  repository_paths:
+  - /srv/software_development/forprint-project/forprint_library
+  lifecycles:
+  - active_development
+  coverage:
+    machine_modules: true
+    git_sources: true
+    policy_index: true
+    workflow_registry: false
+    roadmap: true
+    prompt_queue: true
+- module_id: forprint_operational_registry
+  sources:
+  - git_sources
+  - machine_modules
+  - policy_index
+  - prompt_queue_directory
+  source_files:
+  - coordination/module_policy/module_policy_index.yaml
+  - coordination/module_sources/module_git_sources.yaml
+  - coordination/outgoing_prompts/forprint_operational_registry/index.yaml
+  - machine/modules.yaml
+  aliases: []
+  repository_paths:
+  - /srv/software_development/forprint-project/forprint_operational_registry
+  lifecycles:
+  - planned
+  coverage:
+    machine_modules: true
+    git_sources: true
+    policy_index: true
+    workflow_registry: false
+    roadmap: false
+    prompt_queue: true
+- module_id: forprint_prepress_hub
+  sources:
+  - git_sources
+  - machine_modules
+  - policy_index
+  source_files:
+  - coordination/module_policy/module_policy_index.yaml
+  - coordination/module_sources/module_git_sources.yaml
+  - machine/modules.yaml
+  aliases: []
+  repository_paths:
+  - /srv/software_development/forprint-project/forprint_prepress_hub
+  lifecycles:
+  - active_development
+  coverage:
+    machine_modules: true
+    git_sources: true
+    policy_index: true
+    workflow_registry: false
+    roadmap: false
+    prompt_queue: false
+- module_id: forprint_project_inspector
+  sources:
+  - git_sources
+  - machine_modules
+  - policy_index
+  - prompt_queue_directory
+  source_files:
+  - coordination/module_policy/module_policy_index.yaml
+  - coordination/module_sources/module_git_sources.yaml
+  - coordination/outgoing_prompts/forprint_project_inspector/index.yaml
+  - machine/modules.yaml
+  aliases: []
+  repository_paths:
+  - /srv/software_development/forprint-project/forprint_project_inspector
+  lifecycles:
+  - planned
+  coverage:
+    machine_modules: true
+    git_sources: true
+    policy_index: true
+    workflow_registry: false
+    roadmap: false
+    prompt_queue: true
+- module_id: forprint_strategic_control_plane
+  sources:
+  - git_sources
+  - policy_index
+  source_files:
+  - coordination/module_policy/module_policy_index.yaml
+  - coordination/module_sources/module_git_sources.yaml
+  aliases:
+  - forprint_control_plane
+  repository_paths:
+  - /srv/software_development/forprint-project/forprint_strategic_control_plane
+  lifecycles: []
+  coverage:
+    machine_modules: false
+    git_sources: true
+    policy_index: true
+    workflow_registry: false
+    roadmap: false
+    prompt_queue: false
+- module_id: forprint_system_blueprint
+  sources:
+  - git_sources
+  - machine_modules
+  - policy_index
+  - workflow_registry
+  source_files:
+  - coordination/module_policy/module_policy_index.yaml
+  - coordination/module_sources/module_git_sources.yaml
+  - coordination/modules/module_workflow_registry.yaml
+  - machine/modules.yaml
+  aliases: []
+  repository_paths:
+  - /srv/software_development/forprint-project/forprint_system_blueprint
+  lifecycles:
+  - active
+  - active_development
+  coverage:
+    machine_modules: true
+    git_sources: true
+    policy_index: true
+    workflow_registry: true
+    roadmap: false
+    prompt_queue: false
+- module_id: logistics_service
+  sources:
+  - machine_modules
+  - prompt_queue_directory
+  - roadmap_filename
+  source_files:
+  - coordination/outgoing_prompts/logistics_service/index.yaml
+  - coordination/roadmaps/logistics_service.yaml
+  - machine/modules.yaml
+  aliases: []
+  repository_paths: []
+  lifecycles:
+  - planned
+  coverage:
+    machine_modules: true
+    git_sources: false
+    policy_index: false
+    workflow_registry: false
+    roadmap: true
+    prompt_queue: true
+- module_id: mobile_app
+  sources:
+  - git_sources
+  - machine_modules
+  - policy_index
+  source_files:
+  - coordination/module_policy/module_policy_index.yaml
+  - coordination/module_sources/module_git_sources.yaml
+  - machine/modules.yaml
+  aliases: []
+  repository_paths: []
+  lifecycles:
+  - deferred_planned
+  coverage:
+    machine_modules: true
+    git_sources: true
+    policy_index: true
+    workflow_registry: false
+    roadmap: false
+    prompt_queue: false
+- module_id: module_git_sources
+  sources:
+  - git_sources
+  source_files:
+  - coordination/module_sources/module_git_sources.yaml
+  aliases: []
+  repository_paths: []
+  lifecycles: []
+  coverage:
+    machine_modules: false
+    git_sources: true
+    policy_index: false
+    workflow_registry: false
+    roadmap: false
+    prompt_queue: false
+- module_id: module_policy_index
+  sources:
+  - policy_index
+  source_files:
+  - coordination/module_policy/module_policy_index.yaml
+  aliases: []
+  repository_paths: []
+  lifecycles:
+  - active
+  coverage:
+    machine_modules: false
+    git_sources: false
+    policy_index: true
+    workflow_registry: false
+    roadmap: false
+    prompt_queue: false
+- module_id: production_runtime_inspector
+  sources:
+  - machine_modules
+  source_files:
+  - machine/modules.yaml
+  aliases: []
+  repository_paths: []
+  lifecycles:
+  - future
+  coverage:
+    machine_modules: true
+    git_sources: false
+    policy_index: false
+    workflow_registry: false
+    roadmap: false
+    prompt_queue: false
+- module_id: shared
+  sources:
+  - workflow_registry
+  source_files:
+  - coordination/modules/module_workflow_registry.yaml
+  aliases: []
+  repository_paths: []
+  lifecycles: []
+  coverage:
+    machine_modules: false
+    git_sources: false
+    policy_index: false
+    workflow_registry: true
+    roadmap: false
+    prompt_queue: false
+- module_id: telegram_bot
+  sources:
+  - git_sources
+  - machine_modules
+  - policy_index
+  - prompt_queue_directory
+  - roadmap_filename
+  source_files:
+  - coordination/module_policy/module_policy_index.yaml
+  - coordination/module_sources/module_git_sources.yaml
+  - coordination/outgoing_prompts/telegram_bot/index.yaml
+  - coordination/roadmaps/telegram_bot.yaml
+  - machine/modules.yaml
+  aliases: []
+  repository_paths:
+  - /srv/software_development/forprint-project/telegram_bot
+  lifecycles:
+  - active_development
+  coverage:
+    machine_modules: true
+    git_sources: true
+    policy_index: true
+    workflow_registry: false
+    roadmap: true
+    prompt_queue: true
+- module_id: warehouse_service
+  sources:
+  - machine_modules
+  source_files:
+  - machine/modules.yaml
+  aliases: []
+  repository_paths: []
+  lifecycles:
+  - planned
+  coverage:
+    machine_modules: true
+    git_sources: false
+    policy_index: false
+    workflow_registry: false
+    roadmap: false
+    prompt_queue: false
+- module_id: website
+  sources:
+  - git_sources
+  - machine_modules
+  - policy_index
+  - roadmap_filename
+  source_files:
+  - coordination/module_policy/module_policy_index.yaml
+  - coordination/module_sources/module_git_sources.yaml
+  - coordination/roadmaps/website.yaml
+  - machine/modules.yaml
+  aliases: []
+  repository_paths: []
+  lifecycles:
+  - existing_basic
+  coverage:
+    machine_modules: true
+    git_sources: true
+    policy_index: true
+    workflow_registry: false
+    roadmap: true
+    prompt_queue: false
+alias_ownership:
+- alias: forprint_control_plane
+  canonical_module_ids:
+  - forprint_strategic_control_plane
+repository_path_ownership:
+- repository_path: /opt/forprint-utils/cloud_backup_manager
+  canonical_module_ids:
+  - cloud_backup_manager
+- repository_path: /srv/software_development/forprint-project/calculator_engine/app
+  canonical_module_ids:
+  - calculator_engine
+- repository_path: /srv/software_development/forprint-project/forprint_accounting_registry_service
+  canonical_module_ids:
+  - forprint_accounting_registry_service
+- repository_path: /srv/software_development/forprint-project/forprint_contract_registry
+  canonical_module_ids:
+  - forprint_contract_registry
+- repository_path: /srv/software_development/forprint-project/forprint_crm
+  canonical_module_ids:
+  - forprint_crm
+- repository_path: /srv/software_development/forprint-project/forprint_integration_gateway
+  canonical_module_ids:
+  - forprint_integration_gateway
+- repository_path: /srv/software_development/forprint-project/forprint_library
+  canonical_module_ids:
+  - forprint_library
+- repository_path: /srv/software_development/forprint-project/forprint_operational_registry
+  canonical_module_ids:
+  - forprint_operational_registry
+- repository_path: /srv/software_development/forprint-project/forprint_prepress_hub
+  canonical_module_ids:
+  - forprint_prepress_hub
+- repository_path: /srv/software_development/forprint-project/forprint_project_inspector
+  canonical_module_ids:
+  - forprint_project_inspector
+- repository_path: /srv/software_development/forprint-project/forprint_strategic_control_plane
+  canonical_module_ids:
+  - forprint_strategic_control_plane
+- repository_path: /srv/software_development/forprint-project/forprint_system_blueprint
+  canonical_module_ids:
+  - forprint_system_blueprint
+- repository_path: /srv/software_development/forprint-project/telegram_bot
+  canonical_module_ids:
+  - telegram_bot
+findings:
+- code: prompt_queue_module_missing_roadmap
+  severity: high
+  message: Module has a prompt queue but no roadmap file.
+  module_ids:
+  - calculator_engine
+  evidence:
+  - coordination/module_policy/module_policy_index.yaml
+  - coordination/module_sources/module_git_sources.yaml
+  - coordination/outgoing_prompts/calculator_engine/index.yaml
+  - coordination/roadmaps
+  - machine/modules.yaml
+- code: prompt_queue_module_missing_roadmap
+  severity: high
+  message: Module has a prompt queue but no roadmap file.
+  module_ids:
+  - forprint_accounting_registry_service
+  evidence:
+  - coordination/module_policy/module_policy_index.yaml
+  - coordination/module_sources/module_git_sources.yaml
+  - coordination/outgoing_prompts/forprint_accounting_registry_service/index.yaml
+  - coordination/roadmaps
+- code: prompt_queue_module_missing_roadmap
+  severity: high
+  message: Module has a prompt queue but no roadmap file.
+  module_ids:
+  - forprint_integration_gateway
+  evidence:
+  - coordination/module_policy/module_policy_index.yaml
+  - coordination/module_sources/module_git_sources.yaml
+  - coordination/outgoing_prompts/forprint_integration_gateway/index.yaml
+  - coordination/roadmaps
+  - machine/modules.yaml
+- code: prompt_queue_module_missing_roadmap
+  severity: high
+  message: Module has a prompt queue but no roadmap file.
+  module_ids:
+  - forprint_operational_registry
+  evidence:
+  - coordination/module_policy/module_policy_index.yaml
+  - coordination/module_sources/module_git_sources.yaml
+  - coordination/outgoing_prompts/forprint_operational_registry/index.yaml
+  - coordination/roadmaps
+  - machine/modules.yaml
+- code: prompt_queue_module_missing_roadmap
+  severity: high
+  message: Module has a prompt queue but no roadmap file.
+  module_ids:
+  - forprint_project_inspector
+  evidence:
+  - coordination/module_policy/module_policy_index.yaml
+  - coordination/module_sources/module_git_sources.yaml
+  - coordination/outgoing_prompts/forprint_project_inspector/index.yaml
+  - coordination/roadmaps
+  - machine/modules.yaml
+- code: module_lifecycle_mismatch
+  severity: high
+  message: The same module ID has conflicting lifecycle or state values.
+  module_ids:
+  - forprint_system_blueprint
+  evidence:
+  - coordination/module_policy/module_policy_index.yaml
+  - coordination/module_sources/module_git_sources.yaml
+  - coordination/modules/module_workflow_registry.yaml
+  - machine/modules.yaml
+  expected: one compatible lifecycle state
+  observed: '[''active'', ''active_development'']'
+- code: roadmap_module_missing_git_source
+  severity: high
+  message: Module has a roadmap but no repository source registry entry.
+  module_ids:
+  - logistics_service
+  evidence:
+  - coordination/module_sources/module_git_sources.yaml
+  - coordination/outgoing_prompts/logistics_service/index.yaml
+  - coordination/roadmaps/logistics_service.yaml
+  - machine/modules.yaml
+- code: machine_module_missing_git_source
+  severity: medium
+  message: Machine module entry exists but no repository source entry was found.
+  module_ids:
+  - accounting_registry_service
+  evidence:
+  - coordination/module_sources/module_git_sources.yaml
+  - machine/modules.yaml
+- code: machine_module_missing_git_source
+  severity: medium
+  message: Machine module entry exists but no repository source entry was found.
+  module_ids:
+  - logistics_service
+  evidence:
+  - coordination/module_sources/module_git_sources.yaml
+  - coordination/outgoing_prompts/logistics_service/index.yaml
+  - coordination/roadmaps/logistics_service.yaml
+  - machine/modules.yaml
+- code: git_source_module_missing_policy
+  severity: medium
+  message: Module source exists but no module-policy index entry was found.
+  module_ids:
+  - module_git_sources
+  evidence:
+  - coordination/module_policy/module_policy_index.yaml
+  - coordination/module_sources/module_git_sources.yaml
+- code: policy_module_missing_git_source
+  severity: medium
+  message: Module policy entry exists but no repository source entry was found.
+  module_ids:
+  - module_policy_index
+  evidence:
+  - coordination/module_policy/module_policy_index.yaml
+  - coordination/module_sources/module_git_sources.yaml
+- code: machine_module_missing_git_source
+  severity: medium
+  message: Machine module entry exists but no repository source entry was found.
+  module_ids:
+  - production_runtime_inspector
+  evidence:
+  - coordination/module_sources/module_git_sources.yaml
+  - machine/modules.yaml
+- code: machine_module_missing_git_source
+  severity: medium
+  message: Machine module entry exists but no repository source entry was found.
+  module_ids:
+  - warehouse_service
+  evidence:
+  - coordination/module_sources/module_git_sources.yaml
+  - machine/modules.yaml
+- code: roadmap_module_missing_prompt_queue
+  severity: medium
+  message: Module has a roadmap but no prompt queue index.
+  module_ids:
+  - website
+  evidence:
+  - coordination/module_policy/module_policy_index.yaml
+  - coordination/module_sources/module_git_sources.yaml
+  - coordination/outgoing_prompts
+  - coordination/roadmaps/website.yaml
+  - machine/modules.yaml
+- code: roadmap_module_missing_workflow_registry
+  severity: low
+  message: Roadmap module has no module workflow registry entry.
+  module_ids:
+  - forprint_library
+  evidence:
+  - coordination/module_policy/module_policy_index.yaml
+  - coordination/module_sources/module_git_sources.yaml
+  - coordination/modules/module_workflow_registry.yaml
+  - coordination/outgoing_prompts/forprint_library/index.yaml
+  - coordination/roadmaps/forprint_library.yaml
+  - machine/modules.yaml
+- code: roadmap_module_missing_workflow_registry
+  severity: low
+  message: Roadmap module has no module workflow registry entry.
+  module_ids:
+  - logistics_service
+  evidence:
+  - coordination/modules/module_workflow_registry.yaml
+  - coordination/outgoing_prompts/logistics_service/index.yaml
+  - coordination/roadmaps/logistics_service.yaml
+  - machine/modules.yaml
+- code: roadmap_module_missing_workflow_registry
+  severity: low
+  message: Roadmap module has no module workflow registry entry.
+  module_ids:
+  - telegram_bot
+  evidence:
+  - coordination/module_policy/module_policy_index.yaml
+  - coordination/module_sources/module_git_sources.yaml
+  - coordination/modules/module_workflow_registry.yaml
+  - coordination/outgoing_prompts/telegram_bot/index.yaml
+  - coordination/roadmaps/telegram_bot.yaml
+  - machine/modules.yaml
+- code: roadmap_module_missing_workflow_registry
+  severity: low
+  message: Roadmap module has no module workflow registry entry.
+  module_ids:
+  - website
+  evidence:
+  - coordination/module_policy/module_policy_index.yaml
+  - coordination/module_sources/module_git_sources.yaml
+  - coordination/modules/module_workflow_registry.yaml
+  - coordination/roadmaps/website.yaml
+  - machine/modules.yaml
+recommended_reconciliation_order:
+- Resolve critical alias and repository-path collisions.
+- Choose one canonical module ID for every conflicting identifier.
+- Choose one canonical repository path for every module.
+- Reconcile lifecycle states across machine, source and policy registries.
+- Align roadmap and prompt queue coverage.
+- Align workflow registry coverage for active roadmap modules.
+- Apply source changes only in a separate reviewed commit.
+quality_checks:
+  reconciliation_is_read_only: true
+  machine_modules_scanned: true
+  git_sources_scanned: true
+  policy_index_scanned: true
+  workflow_registry_scanned: true
+  roadmap_filenames_scanned: true
+  prompt_queue_directories_scanned: true
+  alias_collisions_checked: true
+  repository_path_collisions_checked: true
+  no_automatic_repairs: true
+  yaml_validated: true
