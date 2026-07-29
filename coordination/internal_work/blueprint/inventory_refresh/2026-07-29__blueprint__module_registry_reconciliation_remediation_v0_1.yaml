@@ -1,0 +1,66 @@
+schema_version: blueprint_module_registry_reconciliation_remediation_v0_1
+metadata:
+  remediation_id: 2026-07-29__blueprint__module_registry_reconciliation_remediation_v0_1
+  module_id: forprint_system_blueprint
+  created_at: '2026-07-29T19:16:00+03:00'
+  branch: audit/blueprint-inventory-refresh-2026-07-29
+  source_commit: 387f29795ae7d513454cb58c0aeb2d7bb9db078e
+  plan_step_id: blueprint_registry_reconciliation_remediation_v0_1
+  result: GREEN
+source_report: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+canonical_manifest: coordination/repository_knowledge/registries/module_registry_resolution_v0_1.yaml
+validator: scripts/coordination/validate_module_registry_resolution.py
+tests: tests/test_validate_module_registry_resolution.py
+validation:
+  schema_version: module_registry_resolution_report_v0_1
+  metadata:
+    manifest: coordination/repository_knowledge/registries/module_registry_resolution_v0_1.yaml
+    repo_root: /srv/software_development/forprint-project/forprint_system_blueprint
+    result: PASSED
+  summary:
+    module_count: 3
+    passed_modules: 3
+    failed_modules: 0
+    canonical_source_count: 6
+    policy_error_count: 0
+  policy_errors: []
+  modules:
+  - module_id: forprint_library
+    status: PASSED
+    canonical_source_count: 2
+    errors: []
+  - module_id: logistics_service
+    status: PASSED
+    canonical_source_count: 2
+    errors: []
+  - module_id: telegram_bot
+    status: PASSED
+    canonical_source_count: 2
+    errors: []
+resolution:
+  active_module_ids:
+  - forprint_library
+  - logistics_service
+  - telegram_bot
+  canonical_module_count: 3
+  canonical_source_bindings: 6
+  identity_collisions_remaining: 0
+  source_path_collisions_remaining: 0
+  coverage_gaps_remaining: 0
+  resolution_mode: canonical identity and authority overlay
+safety:
+  external_module_repositories_modified: false
+  prompt_queues_modified: false
+  module_roadmaps_modified: false
+  cross_repository_writes: false
+  external_rollout_state: gated
+quality_checks:
+  unit_tests_passed: true
+  ruff_lint_passed: true
+  ruff_format_passed: true
+  three_active_modules_covered: true
+  six_canonical_sources_verified: true
+  canonical_ids_unique: true
+  canonical_source_paths_unique: true
+  git_tracked_sources_verified: true
+  yaml_validated: true

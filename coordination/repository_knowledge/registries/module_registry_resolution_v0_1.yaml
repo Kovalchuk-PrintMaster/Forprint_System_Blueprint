@@ -1,0 +1,92 @@
+schema_version: module_registry_resolution_v0_1
+metadata:
+  registry_id: forprint_system_blueprint_module_registry_resolution_v0_1
+  owner: blueprint_coordination
+  effective_date: '2026-07-29'
+  source_commit: 387f29795ae7d513454cb58c0aeb2d7bb9db078e
+  source_reconciliation_report: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+  result: CANONICALIZED
+authority_order:
+- rank: 1
+  source: coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml
+  authority: active module set and portfolio coordination state
+- rank: 2
+  source_pattern: coordination/roadmaps/{module_id}.yaml
+  authority: module development sequence and current roadmap state
+- rank: 3
+  source_pattern: coordination/outgoing_prompts/{module_id}/index.yaml
+  authority: prompt dispatch, execution and acceptance state
+policy:
+  canonical_id_unique: true
+  canonical_source_path_unique: true
+  require_git_tracked_sources: true
+  legacy_or_derived_views_are_not_identity_authority: true
+  external_module_repositories_are_not_registry_authority: true
+  cross_repository_writes_forbidden: true
+external_rollout:
+  state: gated
+  module_repositories_modified: false
+  prompt_queues_modified: false
+expected_active_module_ids:
+- forprint_library
+- logistics_service
+- telegram_bot
+modules:
+- module_id: forprint_library
+  portfolio_state: acceptance_blocked
+  current_work: forprint_library_calculator_input_contract_v0_1
+  canonical_sources:
+  - kind: module_roadmap
+    path: coordination/roadmaps/forprint_library.yaml
+    authority: canonical module development sequence and current step
+  - kind: prompt_queue_index
+    path: coordination/outgoing_prompts/forprint_library/index.yaml
+    authority: canonical Blueprint-to-module work dispatch and acceptance state
+  collision_resolution:
+    canonical_identity: forprint_library
+    path_binding_unique: true
+    unqualified_aliases_authoritative: false
+  coverage_resolution:
+    roadmap_covered: true
+    prompt_queue_covered: true
+    portfolio_state_covered: true
+- module_id: logistics_service
+  portfolio_state: active
+  current_work: logistics_service_tracking_events_v0_1
+  canonical_sources:
+  - kind: module_roadmap
+    path: coordination/roadmaps/logistics_service.yaml
+    authority: canonical module development sequence and current step
+  - kind: prompt_queue_index
+    path: coordination/outgoing_prompts/logistics_service/index.yaml
+    authority: canonical Blueprint-to-module work dispatch and acceptance state
+  collision_resolution:
+    canonical_identity: logistics_service
+    path_binding_unique: true
+    unqualified_aliases_authoritative: false
+  coverage_resolution:
+    roadmap_covered: true
+    prompt_queue_covered: true
+    portfolio_state_covered: true
+- module_id: telegram_bot
+  portfolio_state: acceptance_blocked
+  current_work: telegram_bot_governance_baseline_adoption_v0_1
+  canonical_sources:
+  - kind: module_roadmap
+    path: coordination/roadmaps/telegram_bot.yaml
+    authority: canonical module development sequence and current step
+  - kind: prompt_queue_index
+    path: coordination/outgoing_prompts/telegram_bot/index.yaml
+    authority: canonical Blueprint-to-module work dispatch and acceptance state
+  collision_resolution:
+    canonical_identity: telegram_bot
+    path_binding_unique: true
+    unqualified_aliases_authoritative: false
+  coverage_resolution:
+    roadmap_covered: true
+    prompt_queue_covered: true
+    portfolio_state_covered: true
+source_findings:
+  finding_count: 18
+  modules_with_findings: 15
+  disposition: Resolved through a canonical identity and source-authority manifest, enforced by a dedicated validator.

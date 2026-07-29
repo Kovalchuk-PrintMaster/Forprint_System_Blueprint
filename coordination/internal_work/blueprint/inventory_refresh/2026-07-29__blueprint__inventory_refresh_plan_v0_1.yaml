@@ -6,7 +6,7 @@ metadata:
   base_commit: 50df50b
   created_at: '2026-07-29'
   status: active
-  current_step_id: blueprint_registry_reconciliation_remediation_v0_1
+  current_step_id: blueprint_artifact_authority_policy_adoption_v0_1
   planning_horizon:
     rule: 8_to_10_actionable_steps_ahead
     actionable_steps_ahead: 8
@@ -381,7 +381,7 @@ steps:
 - sequence: 15
   step_id: blueprint_registry_reconciliation_remediation_v0_1
   title: Resolve confirmed module registry collisions and coverage gaps
-  status: active
+  status: completed
   priority: high
   depends_on:
   - blueprint_semantic_inventory_wave_2_v0_1
@@ -394,10 +394,23 @@ steps:
   - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
   - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
   - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+  completed_at: '2026-07-29'
+  evidence:
+  - coordination/repository_knowledge/registries/module_registry_resolution_v0_1.yaml
+  - scripts/coordination/validate_module_registry_resolution.py
+  - tests/test_validate_module_registry_resolution.py
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_remediation_v0_1.yaml
+  result:
+    canonical_modules: 3
+    canonical_source_bindings: 6
+    duplicate_canonical_ids: 0
+    source_path_collisions: 0
+    coverage_gaps: 0
+    external_rollout_state: gated
 - sequence: 16
   step_id: blueprint_artifact_authority_policy_adoption_v0_1
   title: Apply artifact authority and retention rules to generators and validators
-  status: planned
+  status: active
   priority: high
   depends_on:
   - blueprint_registry_reconciliation_remediation_v0_1
@@ -407,15 +420,31 @@ steps:
   - runtime retention enforcement
   - deletion and recovery validation
   inputs:
+  - coordination/repository_knowledge/registries/module_registry_resolution_v0_1.yaml
+  - scripts/coordination/validate_module_registry_resolution.py
   - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
-  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
 - sequence: 17
+  step_id: blueprint_module_registry_consistency_ci_gate_v0_1
+  title: Integrate canonical module registry consistency validation into Blueprint checks
+  status: planned
+  priority: high
+  depends_on:
+  - blueprint_artifact_authority_policy_adoption_v0_1
+  inputs:
+  - coordination/repository_knowledge/registries/module_registry_resolution_v0_1.yaml
+  - scripts/coordination/validate_module_registry_resolution.py
+  expected_outputs:
+  - Blueprint check integration
+  - registry drift failure behavior
+  - read-only validation evidence
+  - regression tests
+- sequence: 18
   step_id: blueprint_semantic_inventory_unknowns_triage_v0_1
   title: Triage unresolved semantic inventory unknowns into bounded follow-up work
   status: planned
   priority: normal
   depends_on:
-  - blueprint_artifact_authority_policy_adoption_v0_1
+  - blueprint_module_registry_consistency_ci_gate_v0_1
   expected_outputs:
   - unknowns grouped by authority and dependency risk
   - owners or evidence sources required
@@ -424,7 +453,7 @@ steps:
   inputs:
   - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
   - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
-- sequence: 18
+- sequence: 19
   step_id: blueprint_snapshot_comparison_ci_gate_v0_1
   title: Integrate snapshot comparison into Blueprint validation
   status: planned
@@ -439,7 +468,7 @@ steps:
   inputs:
   - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__snapshot_comparison_automation_v0_1.yaml
   - scripts/coordination/compare_repository_knowledge_snapshots.py
-- sequence: 19
+- sequence: 20
   step_id: blueprint_rci_semantic_enrichment_v0_1
   title: Enrich the Blueprint RCI with verified semantic inventory evidence
   status: planned
@@ -454,7 +483,7 @@ steps:
   inputs:
   - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
   - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
-- sequence: 20
+- sequence: 21
   step_id: blueprint_redm_dependency_enrichment_v0_1
   title: Enrich the Blueprint REDM with verified dependency and recovery evidence
   status: planned
@@ -469,7 +498,7 @@ steps:
   inputs:
   - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
   - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
-- sequence: 21
+- sequence: 22
   step_id: blueprint_repository_knowledge_reconciliation_v0_1
   title: Reconcile Blueprint RCI, REDM, SDRS and semantic evidence into one accepted self-context
   status: planned
@@ -485,7 +514,7 @@ steps:
   - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
   - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
   - coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
-- sequence: 22
+- sequence: 23
   step_id: blueprint_inventory_acceptance_merge_gate_v0_1
   title: Accept inventory baseline and reconcile audit branch
   status: planned
@@ -502,7 +531,7 @@ steps:
   - new dated REDM snapshot candidate from blueprint_redm_dependency_enrichment_v0_1
   - repository-knowledge reconciliation evidence
   - full Blueprint validation evidence
-- sequence: 23
+- sequence: 24
   step_id: blueprint_inventory_operational_readiness_review_v0_1
   title: Review Blueprint inventory operational readiness before releasing external rollout
   status: planned
@@ -518,7 +547,7 @@ steps:
   - accepted inventory baseline
   - clean main reconciliation result
   - remaining unknowns disposition
-- sequence: 24
+- sequence: 25
   step_id: ecosystem_inventory_rollout_wave_b_v0_1
   title: Prepare repository inventory rollout wave B for the next verified module cohort
   status: deferred
