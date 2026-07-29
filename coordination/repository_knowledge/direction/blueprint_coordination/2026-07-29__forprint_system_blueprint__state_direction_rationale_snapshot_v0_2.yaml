@@ -1,0 +1,514 @@
+schema_version: state_direction_rationale_snapshot_v0_2
+snapshot:
+  snapshot_id: 2026-07-29__forprint_system_blueprint__state_direction_rationale_snapshot_v0_2
+  created_at: '2026-07-29T16:10:00+03:00'
+  scope_id: forprint_system_blueprint
+  scope_type: blueprint_coordination
+  repository_root: /srv/software_development/forprint-project/forprint_system_blueprint
+  branch: audit/blueprint-inventory-refresh-2026-07-29
+  commit: a97e8c6889086bbcd1c99cdbe512d92da7ecc66f
+  working_tree: clean
+  author: ForPrint System Blueprint coordination
+  previous_snapshot: coordination/repository_knowledge/direction/blueprint_coordination/2026-07-23__forprint_system_blueprint__state_direction_rationale_snapshot_v0_1.yaml
+  previous_snapshot_id: 2026-07-23__forprint_system_blueprint__state_direction_rationale_snapshot_v0_1
+  source_rci: coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  source_redm: coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  result: READY_WITH_MANAGED_UNKNOWNS
+perspective:
+  authority: blueprint_control_plane
+  known_limits:
+  - Describes Blueprint coordination, not application runtime.
+  - Module repositories were not freshly inspected.
+  - Unrelated untracked files are excluded from adoption.
+  evidence_sources:
+  - collector archive 79ae446aa79dc7ef6ea8031deea4595f0c19a58bcd005e05a1d1b75825068555
+  - commit 7c9c7aa
+  - 'operator checks: 304 passed, 22/22 OK'
+  - machine architecture
+  - global/module policy
+  - prompt queues
+  - roadmaps
+  - completion/report records
+  excluded_claims:
+  - No claim all module repos are synchronized.
+  - No Registry/Gateway runtime exists.
+  - No dead-code declarations.
+current_state:
+  overall: Blueprint is structurally healthy and operationally capable, but semantic repository knowledge remains
+    incomplete.
+  repository_knowledge:
+    tracked_files: 703
+    self_audit_files_indexed: 698
+    minimum_purpose_understood: 24
+    maximum_purpose_unknown: 679
+    dependencies_mapped_in_scan: 4
+    verified_execution_flows: 14
+  completed_inventory_waves:
+  - step_id: blueprint_self_audit_v0_1
+    evidence: reports/modules/forprint_system_blueprint/current/self_knowledge_report.md
+    result: completed
+  - step_id: blueprint_current_rci_refresh_v0_1
+    evidence: coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+    result: completed
+    commit: 7b34b44
+  - step_id: blueprint_current_redm_refresh_v0_1
+    evidence: coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+    result: completed
+    commit: a97e8c6
+  coordination_state:
+  - area: logistics_service
+    state: active
+    fact: Provider Adapter Contract accepted and Tracking Events Contract issued as the next approved prompt.
+  - area: forprint_library
+    state: review_blocked
+    fact: Calculator Input Contract completion packet requires module-side schema correction before Blueprint acceptance.
+  - area: telegram_bot
+    state: review_blocked
+    fact: Governance baseline completion packet workflow requires module-side completion evidence repair before
+      acceptance.
+direction:
+  primary_direction: Complete the current Blueprint repository-knowledge baseline, then use it to reconcile coordination
+    metadata and roll the inventory protocol out to active modules in controlled waves.
+  current_step: blueprint_coordination_sdrs_refresh_v0_1
+  next_step: blueprint_portfolio_sdrs_refresh_v0_1
+  sequence:
+  - Refresh Blueprint coordination SDRS.
+  - Refresh system portfolio SDRS.
+  - Audit coordination metadata consistency.
+  - Reconcile module IDs, aliases and repository paths.
+  - Create artifact authority and retention map.
+  - Verify high-value file purposes and dependencies.
+  - Automate dated snapshot comparison.
+  - Roll inventory protocol out to active modules.
+  - Establish inventory maintenance cadence and quality gate.
+  - Create inventory coverage and drift dashboard.
+  success_condition: Blueprint has current dated RCI, REDM and both SDRS snapshots; metadata conflicts are explicit;
+    historical snapshots remain immutable; and the planning horizon remains at least eight actionable steps ahead.
+workstreams:
+- workstream_id: reporting_consolidation
+  title: Reporting consolidation
+  purpose: Compact terminal plus detailed artifacts.
+  status: completed
+  owner: forprint_system_blueprint
+  goal_links:
+  - blueprint.one_command_coordination
+  completed_evidence:
+  - 7a489de
+  - 12a979d
+  active_evidence: []
+  expected_next:
+  - Maintain compatibility.
+  dependency_effect:
+    blocks: []
+    blocked_by: []
+  assessment:
+    goal_contribution: high
+    value_signal: high
+    cost_signal: moderate
+    risk: low
+    balance: healthy
+    recommendation: continue
+    rationale: Foundation is green and reused.
+    confidence: high
+- workstream_id: repository_knowledge
+  title: Repository knowledge baseline
+  purpose: Technical/strategic memory before Inspector.
+  status: active
+  owner: forprint_system_blueprint
+  goal_links:
+  - blueprint.repository_memory
+  completed_evidence:
+  - 79ae446aa79dc7ef6ea8031deea4595f0c19a58bcd005e05a1d1b75825068555
+  active_evidence:
+  - four snapshots
+  expected_next:
+  - Install then pilot module.
+  dependency_effect:
+    blocks: []
+    blocked_by: []
+  assessment:
+    goal_contribution: high
+    value_signal: high
+    cost_signal: moderate
+    risk: low
+    balance: healthy
+    recommendation: continue
+    rationale: Small manual cost, immediate memory value.
+    confidence: high
+- workstream_id: metadata_consistency
+  title: Metadata consistency
+  purpose: Stop stale records driving prompts.
+  status: needs_attention
+  owner: forprint_system_blueprint
+  goal_links:
+  - blueprint.metadata_consistency
+  completed_evidence:
+  - queue validation
+  active_evidence:
+  - conflicts documented
+  expected_next:
+  - Define precedence and refresh records.
+  dependency_effect:
+    blocks:
+    - one-command correctness
+    blocked_by:
+    - no freshness policy
+  assessment:
+    goal_contribution: high
+    value_signal: high
+    cost_signal: moderate
+    risk: high
+    balance: under_supported
+    recommendation: accelerate
+    rationale: Directly affects coordination correctness.
+    confidence: high
+- workstream_id: contract_foundation
+  title: Contract foundation
+  purpose: Prepare compatibility governance without premature service.
+  status: planned_placeholder
+  owner: forprint_system_blueprint
+  goal_links:
+  - blueprint.contract_governance
+  completed_evidence:
+  - 7c9c7aa
+  active_evidence:
+  - Library pilot candidate
+  expected_next:
+  - ADR and inventory.
+  dependency_effect:
+    blocks:
+    - safe Gateway activation
+    blocked_by:
+    - Library/Calculator readiness
+  assessment:
+    goal_contribution: high
+    value_signal: high
+    cost_signal: unknown
+    risk: moderate
+    balance: deferred_intentionally
+    recommendation: reassess
+    rationale: Foundation timely; runtime not timely.
+    confidence: high
+decisions_and_rationale:
+- decision_id: blueprint.current_coordination_center
+  decided_at: '2026-05-21'
+  status: active
+  decision: Blueprint remains current coordination center.
+  problem_addressed: Need one governance source before Control Plane maturity.
+  rationale: Core modules/signals are not mature for automated Control Plane.
+  alternatives:
+    rejected: []
+    deferred:
+    - Activate Strategic Control Plane now.
+  affected_scopes:
+  - all modules
+  expected_outcome: Central manual governance.
+  prompt_ids: []
+  report_paths: []
+  commit_refs: []
+  evidence:
+  - project doctrine
+  - strategic control plane policy
+  review_at: after core loop stable
+  current_validity:
+    status: verified
+    rationale: Supported at the snapshot evidence cutoff.
+    confidence: high
+- decision_id: blueprint.manual_snapshots
+  decided_at: '2026-07-23'
+  status: active
+  decision: Use manual RCI/REDM/SDRS before Inspector automation.
+  problem_addressed: Growing memory, duplication and direction-drift risk.
+  rationale: Manual YAML gives value without premature platform.
+  alternatives:
+    rejected:
+    - Build dashboard/database now.
+    deferred:
+    - Inspector automation
+  affected_scopes:
+  - Blueprint
+  - future modules
+  expected_outcome: Historical evidence.
+  prompt_ids: []
+  report_paths: []
+  commit_refs: []
+  evidence:
+  - repository knowledge protocol
+  - 79ae446aa79dc7ef6ea8031deea4595f0c19a58bcd005e05a1d1b75825068555
+  review_at: after second snapshot
+  current_validity:
+    status: verified
+    rationale: Supported at the snapshot evidence cutoff.
+    confidence: high
+- decision_id: blueprint.generated_policy
+  decided_at: '2026-07-23'
+  status: active
+  decision: module_policy.md stays generated; detailed content uses separate brief.
+  problem_addressed: Manual Registry policy broke exact generation test.
+  rationale: Preserve deterministic source and detailed rationale.
+  alternatives:
+    rejected:
+    - Disable test.
+    - Hand-edit generated output.
+    deferred: []
+  affected_scopes:
+  - coordination/module_policy
+  expected_outcome: Reproducible policies.
+  prompt_ids: []
+  report_paths: []
+  commit_refs:
+  - 7c9c7aa
+  evidence:
+  - tests/test_module_policy_index.py
+  - 304 passed
+  review_at: null
+  current_validity:
+    status: verified
+    rationale: Supported at the snapshot evidence cutoff.
+    confidence: high
+- decision_id: blueprint.registry_placeholder
+  decided_at: '2026-07-23'
+  status: active
+  decision: Register Contract Registry as deferred placeholder, not service.
+  problem_addressed: Need contract lifecycle authority before broad integration.
+  rationale: Git-backed foundation avoids premature infrastructure.
+  alternatives:
+    rejected:
+    - Gateway as contract authority.
+    deferred:
+    - network service/database
+  affected_scopes:
+  - Registry
+  - Gateway
+  - Library
+  - Calculator
+  expected_outcome: Visible module with activation gates.
+  prompt_ids: []
+  report_paths: []
+  commit_refs:
+  - 7c9c7aa
+  evidence:
+  - Registry brief
+  review_at: when first pilot ready
+  current_validity:
+    status: verified
+    rationale: Supported at the snapshot evidence cutoff.
+    confidence: high
+prompt_and_work_rationale:
+- prompt_id: forprint_library_calculator_input_contract_v0_1
+  target_module: forprint_library
+  issued_at: '2026-07-17'
+  intended_goal: Produce deterministic read-only Calculator-ready input from Library semantics.
+  dependency_reason: Critical producer-consumer path and first Contract Registry pilot.
+  expected_system_effect: Reduce Library-to-Calculator ambiguity.
+  completion_state: ready_for_module_pull_in_blueprint
+  evidence:
+  - coordination/outgoing_prompts/forprint_library/index.yaml
+  current_relevance:
+    status: verified
+    rationale: Still next Library queue entry.
+- prompt_id: telegram_bot_governance_baseline_adoption_v0_1
+  target_module: telegram_bot
+  issued_at: '2026-07-17'
+  intended_goal: Adopt governance/reporting baseline without expanding business ownership.
+  dependency_reason: Safe parallel work while Calculator critical path matures.
+  expected_system_effect: Reliable channel-local progress.
+  completion_state: ready_for_module_pull_in_blueprint
+  evidence:
+  - coordination/outgoing_prompts/telegram_bot/index.yaml
+  current_relevance:
+    status: verified
+    rationale: Still next Telegram queue entry.
+- prompt_id: logistics_service_provider_adapter_contract_v0_1
+  target_module: logistics_service
+  issued_at: '2026-07-14'
+  intended_goal: Provider-neutral read-only adapter/preview contract.
+  dependency_reason: Prepare Logistics without live provider writes.
+  expected_system_effect: Safe future delivery integration.
+  completion_state: blueprint_queue_still_ready_for_module_pull
+  evidence:
+  - coordination/outgoing_prompts/logistics_service/index.yaml
+  current_relevance:
+    status: conflicting
+    rationale: Blueprint may lag module-side closeout work.
+alignment_review:
+  direction_stability: mostly_stable_with_metadata_drift
+  evidence_of_progress:
+  - Reporting consolidated.
+  - Library/Telegram queues advanced.
+  - Registry placeholder registered.
+  - Baseline created.
+  drift_signals:
+  - Roadmaps lag queues.
+  - Current focus stale.
+  - Registry missing from machine architecture.
+  unrelated_or_weakly_linked_work:
+  - Untracked Website/internal files outside current front.
+  repeated_rework:
+  - Generated module policy path initially misused and repaired.
+  overloaded_workstreams:
+  - Blueprint carries architecture, coordination, reporting and portfolio memory.
+  neglected_dependencies:
+  - Fresh Calculator status.
+  - Cross-record synchronization.
+  missing_capabilities:
+  - Read-only drift report.
+  - Contract manifest/compatibility foundation.
+  - Automated snapshot comparison.
+  proposed_attention_changes:
+  - Install baseline.
+  - Repair metadata freshness.
+  - Do not activate runtime Gateway/Registry.
+  confidence: high
+module_views: []
+risks_and_unknowns:
+  risks:
+  - risk_id: metadata_drift
+    statement: Conflicting current-step records can issue wrong work.
+    impact: high
+    likelihood: high
+    evidence:
+    - queue/roadmap mismatch
+    mitigation_or_next_check: Define precedence and drift check.
+  - risk_id: untracked_staging
+    statement: Broad staging can commit unrelated files.
+    impact: high
+    likelihood: moderate
+    evidence:
+    - 133 untracked files
+    mitigation_or_next_check: Exact staging; never git add .
+  - risk_id: contract_ownership_overlap
+    statement: Blueprint and Registry may both appear to own contracts.
+    impact: high
+    likelihood: moderate
+    evidence:
+    - machine/ownership.yaml
+    - Registry brief
+    mitigation_or_next_check: Split architecture declaration from interface lifecycle.
+  unknowns:
+  - unknown_id: calculator_state
+    statement: Calculator readiness is not fresh.
+    why_unknown: No module snapshot.
+    next_verification: Collect Calculator status before dependent consumer work.
+    owner: calculator_engine
+  - unknown_id: legacy_relevance
+    statement: Old requests/reports relevance uncertain.
+    why_unknown: No consistent freshness marker.
+    next_verification: Separate non-destructive review.
+    owner: forprint_system_blueprint
+comparison_to_previous:
+  previous_snapshot: coordination/repository_knowledge/direction/blueprint_coordination/2026-07-23__forprint_system_blueprint__state_direction_rationale_snapshot_v0_1.yaml
+  major_changes:
+  - Blueprint Self Audit workflow is now operational and completed.
+  - Current RCI v0.3 and REDM v0.3 are tracked.
+  - Repository structure cleanup is complete.
+  - Logistics Provider Adapter Contract is accepted.
+  - Logistics Tracking Events Contract is issued.
+  - Planning-horizon policy is explicit and active.
+  resolved_or_reduced:
+  - Markdown fence debt is zero.
+  - Repository structure overlap was cleaned up.
+  - Blueprint self-audit has a validated external-input cycle.
+  new_or_expanded:
+  - Semantic coverage is quantified and confirmed low.
+  - Collector scope differs from tracked Git scope and is recorded explicitly.
+  - Module completion packet validation is inconsistent across modules.
+  carried_forward:
+  - Metadata consistency audit is pending.
+  - Module registry reconciliation is pending.
+  - Artifact authority and retention policy is pending.
+quality_checks:
+  previous_snapshot_not_overwritten: true
+  current_rci_linked: true
+  current_redm_linked: true
+  facts_separated_from_unknowns: true
+  risks_have_mitigations: true
+  conflicts_have_handling: true
+  cross_repository_writes_not_authorized: true
+  planning_horizon_preserved: true
+  yaml_validated: true
+final_notes:
+- First baseline intentionally READY_WITH_UNKNOWNS.
+- Use exact staging.
+rationale:
+- decision: Keep repository-knowledge snapshots dated and immutable.
+  reason: Historical comparison is impossible when old evidence is overwritten.
+  evidence:
+  - coordination/repository_knowledge/direction/blueprint_coordination/2026-07-23__forprint_system_blueprint__state_direction_rationale_snapshot_v0_1.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+- decision: Separate structural coverage from semantic understanding.
+  reason: Indexing 698 files does not prove purpose, authority or dependency knowledge.
+  evidence:
+  - 22 of 698 purposes understood in the self-audit scan
+  - 4 of 698 dependencies mapped in the self-audit scan
+- decision: Keep module completion intake preview-first.
+  reason: Invalid module evidence must fail without writing Blueprint coordination state.
+  evidence:
+  - Library packet rejected on missing implementation_commit
+  - Blueprint remained unchanged after RED intake preview
+- decision: Maintain eight to ten actionable steps ahead.
+  reason: Balanced module coordination requires visible downstream dependencies before current work completes.
+  evidence:
+  - coordination/standards/governance/module_development_roadmap_policy.md
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+- decision: Do not authorize cross-repository writes during inventory.
+  reason: Inventory must remain observational and must not mutate module implementation repositories.
+  evidence:
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+priorities:
+- rank: 1
+  priority: Complete both current SDRS snapshots.
+  status: active
+- rank: 2
+  priority: Audit Prompt Queue, roadmaps, status and completion evidence for consistency.
+  status: planned
+- rank: 3
+  priority: Reconcile module IDs, aliases, source paths and lifecycle states.
+  status: planned
+- rank: 4
+  priority: Classify canonical, operational, generated, historical and temporary artifacts.
+  status: planned
+- rank: 5
+  priority: Increase verified purpose and dependency coverage in bounded waves.
+  status: planned
+risks:
+- risk_id: semantic_coverage_low
+  severity: high
+  state: open
+  description: Most tracked files still lack verified purpose and dependency evidence.
+  mitigation: Run semantic inventory in bounded high-value waves.
+- risk_id: metadata_drift
+  severity: high
+  state: open
+  description: Prompt Queue, roadmap, current focus and completion evidence may disagree.
+  mitigation: Run a dedicated read-only metadata consistency audit.
+- risk_id: module_registry_drift
+  severity: high
+  state: open
+  description: Module IDs, aliases, repository paths and lifecycle states may not be aligned across registries.
+  mitigation: Create a canonical reconciliation report before module rollout.
+- risk_id: generated_artifact_authority
+  severity: medium
+  state: open
+  description: Tracked and runtime-generated reports do not yet have one authority and retention policy.
+  mitigation: Create artifact authority and retention map.
+- risk_id: coordination_branch_lag
+  severity: medium
+  state: managed
+  description: Long-running inventory work may diverge from new main coordination commits.
+  mitigation: Keep inventory waves small, committed separately and reconcile before merge.
+confirmed_unknowns:
+- Exact purpose and owner of most purpose-unknown files.
+- Current ecosystem-wide Prompt Queue and roadmap consistency.
+- Canonical alias policy for legacy and current module identifiers.
+- Current runtime state of module repositories outside accepted evidence.
+- Retention rules for generated reports, processed prompts and history.
+- Whether all write-capable Make flows have complete recovery coverage.
+conflicts:
+- conflict: Structural indexing is complete while semantic understanding remains low.
+  handling: Report both metrics separately and do not infer meaning from file presence.
+- conflict: Current coordination work continues while the audit branch is based on main commit 50df50b.
+  handling: Finish bounded inventory snapshots, then reconcile the audit branch with current main before acceptance.
+- conflict: External module helpers may finish while Blueprint inventory is in progress.
+  handling: Keep module acceptance work separate and require fresh exact HEAD and packet evidence.
