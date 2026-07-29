@@ -1,0 +1,1878 @@
+schema_version: blueprint_semantic_inventory_wave_v0_1
+metadata:
+  wave_id: 2026-07-29__blueprint__semantic_inventory_wave_2_v0_1
+  module_id: forprint_system_blueprint
+  created_at: '2026-07-29T19:05:00+03:00'
+  branch: audit/blueprint-inventory-refresh-2026-07-29
+  commit: f4bffccf083ca19cee2ba3fb1783ca0cf6969ddb
+  plan_step_id: blueprint_semantic_inventory_wave_2_v0_1
+  result: READY_WITH_UNKNOWNS
+scope:
+  selection_rule: Previously unreviewed tracked evidence, history, reports and repository-knowledge files; post-RCI
+    drift first.
+  selected_files: 50
+  changed_since_rci_selected: 17
+  tracked_files_at_source_commit: 726
+  wave_1_files_excluded: 30
+  source_dashboard: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+  source_wave_1: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+  external_rollout_state: gated
+  write_policy: No canonical repository-knowledge snapshot, Prompt Queue, roadmap or external repository is modified.
+summary:
+  selected_files: 50
+  purpose_evidenced: 49
+  dependencies_mapped: 50
+  fully_verified: 49
+  decision_bearing: 33
+  records_with_unknowns: 25
+  changed_since_rci_reviewed: 17
+  confidence_counts:
+    high: 25
+    medium: 24
+    low: 1
+  context_role_counts:
+    blueprint_internal_decision_evidence: 1
+    coordination_report: 17
+    immutable_repository_knowledge_snapshot: 17
+    inventory_control_or_evidence: 14
+    module_review_and_acceptance_evidence: 1
+  authority_class_counts:
+    accepted_or_review_evidence: 1
+    coordination_evidence: 17
+    decision_evidence: 15
+    immutable_snapshot: 17
+combined_lower_bounds:
+  wave_1_plus_wave_2_reviewed: 80
+  purpose_evidenced: 79
+  dependencies_mapped: 80
+  fully_verified: 79
+  tracked_files: 726
+  reviewed_ratio: 0.1102
+  purpose_ratio: 0.1088
+  dependency_ratio: 0.1102
+  fully_verified_ratio: 0.1088
+  ratios_are_lower_bounds: true
+records:
+- path: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  context_role: inventory_control_or_evidence
+  authority_class: decision_evidence
+  retention: Retain permanently when it records a decision, gate, finding or accepted transition.
+  changed_since_rci: true
+  purpose: 'Structured coordination evidence represented by top-level keys: schema_version, metadata, scope, authority_order,
+    global_rules, artifact_classes, summary, findings.'
+  purpose_source: yaml_top_level_structure
+  confidence: medium
+  decision_bearing: true
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'top-level key: schema_version'
+  - 'top-level key: metadata'
+  - 'top-level key: scope'
+  - 'top-level key: authority_order'
+  - 'top-level key: global_rules'
+  - 'top-level key: artifact_classes'
+  - 'top-level key: summary'
+  - 'top-level key: findings'
+  - 'top-level key: next_actions'
+  - 'top-level key: quality_checks'
+  outbound_references:
+  - coordination/checkup/ecosystem_checkup_policy.yaml
+  - coordination/checkup/module_activity_thresholds.yaml
+  - coordination/directives/global/index.yaml
+  - coordination/directives/modules/calculator_engine/index.yaml
+  - coordination/document_awareness/source_registry.yaml
+  - coordination/global_policy/README.md
+  - coordination/global_policy/current_execution_focus.md
+  - coordination/global_policy/ecosystem_module_map.md
+  - coordination/global_policy/forprint_project_doctrine.md
+  - coordination/global_policy/forprint_strategic_control_plane_policy.md
+  - coordination/incoming_requests/accounting_registry_service/.gitkeep
+  - coordination/incoming_requests/accounting_registry_service/archived/.gitkeep
+  - coordination/incoming_requests/accounting_registry_service/new/.gitkeep
+  - coordination/incoming_requests/accounting_registry_service/reviewed/.gitkeep
+  - coordination/incoming_requests/calculator_engine/.gitkeep
+  - coordination/incoming_requests/calculator_engine/archived/.gitkeep
+  - coordination/incoming_requests/calculator_engine/new/.gitkeep
+  - coordination/incoming_requests/calculator_engine/reviewed/.gitkeep
+  - coordination/incoming_requests/cloud_backup_manager/.gitkeep
+  - coordination/incoming_requests/cloud_backup_manager/archived/.gitkeep
+  - coordination/incoming_requests/cloud_backup_manager/new/.gitkeep
+  - coordination/index.yaml
+  - coordination/instruction_intake/default_profile_traits.yaml
+  - coordination/instruction_intake/instruction_sources.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__metadata_consistency_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__self_audit_assessment_v0_1.md
+  - coordination/internal_work/blueprint/structure_cleanup/2026-07-27__blueprint__structure_assessment_v0_1.md
+  - coordination/module_policy/README.md
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__ecosystem_inventory_rollout_wave_a_v0_1.yaml
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose or description field.
+- path: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.md
+  context_role: inventory_control_or_evidence
+  authority_class: decision_evidence
+  retention: Retain permanently when it records a decision, gate, finding or accepted transition.
+  changed_since_rci: true
+  purpose: Blueprint Inventory Coverage & Drift Dashboard
+  purpose_source: markdown_h1
+  confidence: high
+  decision_bearing: true
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'H1: Blueprint Inventory Coverage & Drift Dashboard'
+  - 'heading: ## Scope'
+  - 'heading: ## Semantic coverage lower bounds'
+  - 'heading: ## Authority and registry'
+  - 'heading: ## Drift'
+  - 'heading: ## Priorities'
+  - 'heading: ## Release decision'
+  outbound_references: []
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  unknowns: []
+- path: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+  context_role: inventory_control_or_evidence
+  authority_class: decision_evidence
+  retention: Retain permanently when it records a decision, gate, finding or accepted transition.
+  changed_since_rci: true
+  purpose: 'Structured coordination evidence represented by top-level keys: schema_version, metadata, sources, scope,
+    semantic_coverage, authority_and_registry, drift, external_rollout.'
+  purpose_source: yaml_top_level_structure
+  confidence: medium
+  decision_bearing: true
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'top-level key: schema_version'
+  - 'top-level key: metadata'
+  - 'top-level key: sources'
+  - 'top-level key: scope'
+  - 'top-level key: semantic_coverage'
+  - 'top-level key: authority_and_registry'
+  - 'top-level key: drift'
+  - 'top-level key: external_rollout'
+  - 'top-level key: blocking_conditions'
+  - 'top-level key: priorities'
+  - 'top-level key: interpretation'
+  - 'top-level key: quality_checks'
+  outbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_maintenance_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__metadata_consistency_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__snapshot_comparison_automation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__ecosystem_inventory_rollout_wave_a_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__forprint_library__inventory_rollout_packet_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__logistics_service__inventory_rollout_packet_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__telegram_bot__inventory_rollout_packet_v0_1.yaml
+  - coordination/repository_knowledge/direction/blueprint_coordination/2026-07-29__forprint_system_blueprint__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
+  - scripts/coordination/compare_repository_knowledge_snapshots.py
+  - scripts/coordination/validate_repository_knowledge_maintenance.py
+  - tests/test_compare_repository_knowledge_snapshots.py
+  - tests/test_validate_repository_knowledge_maintenance.py
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose or description field.
+- path: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_maintenance_gate_v0_1.yaml
+  context_role: inventory_control_or_evidence
+  authority_class: decision_evidence
+  retention: Retain permanently when it records a decision, gate, finding or accepted transition.
+  changed_since_rci: true
+  purpose: 'Structured coordination evidence represented by top-level keys: schema_version, metadata, policy, validator,
+    tests, validation, priority_decision, quality_checks.'
+  purpose_source: yaml_top_level_structure
+  confidence: medium
+  decision_bearing: true
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'top-level key: schema_version'
+  - 'top-level key: metadata'
+  - 'top-level key: policy'
+  - 'top-level key: validator'
+  - 'top-level key: tests'
+  - 'top-level key: validation'
+  - 'top-level key: priority_decision'
+  - 'top-level key: quality_checks'
+  outbound_references:
+  - coordination/repository_knowledge/direction/blueprint_coordination/2026-07-23__forprint_system_blueprint__state_direction_rationale_snapshot_v0_1.yaml
+  - coordination/repository_knowledge/direction/blueprint_coordination/2026-07-29__forprint_system_blueprint__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/repository_knowledge/direction/system_portfolio/2026-07-23__forprint_system__state_direction_rationale_snapshot_v0_1.yaml
+  - coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/repository_knowledge/flows/2026-07-23__forprint_system_blueprint__repository_execution_dependency_map_v0_2.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
+  - scripts/coordination/validate_repository_knowledge_maintenance.py
+  - tests/test_validate_repository_knowledge_maintenance.py
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose or description field.
+- path: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  context_role: inventory_control_or_evidence
+  authority_class: decision_evidence
+  retention: Retain permanently when it records a decision, gate, finding or accepted transition.
+  changed_since_rci: true
+  purpose: 'Structured coordination evidence represented by top-level keys: schema_version, metadata, objective, guardrails,
+    steps, completion_criteria.'
+  purpose_source: yaml_top_level_structure
+  confidence: medium
+  decision_bearing: true
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'top-level key: schema_version'
+  - 'top-level key: metadata'
+  - 'top-level key: objective'
+  - 'top-level key: guardrails'
+  - 'top-level key: steps'
+  - 'top-level key: completion_criteria'
+  outbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.md
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_maintenance_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__metadata_consistency_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__self_audit_assessment_v0_1.md
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__snapshot_comparison_automation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__ecosystem_inventory_rollout_wave_a_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__forprint_library__inventory_rollout_packet_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__logistics_service__inventory_rollout_packet_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__telegram_bot__inventory_rollout_packet_v0_1.yaml
+  - coordination/module_policy/module_policy_index.yaml
+  - coordination/module_sources/module_git_sources.yaml
+  - coordination/repository_knowledge/direction/blueprint_coordination/2026-07-29__forprint_system_blueprint__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
+  - machine/modules.yaml
+  - scripts/coordination/compare_repository_knowledge_snapshots.py
+  - scripts/coordination/render_repository_knowledge_coverage_dashboard.py
+  - scripts/coordination/validate_repository_knowledge_maintenance.py
+  - tests/test_compare_repository_knowledge_snapshots.py
+  - tests/test_render_repository_knowledge_coverage_dashboard.py
+  - tests/test_validate_repository_knowledge_maintenance.py
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+  - coordination/repository_knowledge/direction/blueprint_coordination/2026-07-29__forprint_system_blueprint__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose or description field.
+- path: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__metadata_consistency_audit_v0_1.yaml
+  context_role: inventory_control_or_evidence
+  authority_class: decision_evidence
+  retention: Retain permanently when it records a decision, gate, finding or accepted transition.
+  changed_since_rci: true
+  purpose: 'Structured coordination evidence represented by top-level keys: schema_version, metadata, scope, summary,
+    module_results, findings, interpretation, quality_checks.'
+  purpose_source: yaml_top_level_structure
+  confidence: medium
+  decision_bearing: true
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'top-level key: schema_version'
+  - 'top-level key: metadata'
+  - 'top-level key: scope'
+  - 'top-level key: summary'
+  - 'top-level key: module_results'
+  - 'top-level key: findings'
+  - 'top-level key: interpretation'
+  - 'top-level key: quality_checks'
+  outbound_references:
+  - coordination/global_policy/current_execution_focus.md
+  - coordination/outgoing_prompts/forprint_library/index.yaml
+  - coordination/outgoing_prompts/logistics_service/index.yaml
+  - coordination/outgoing_prompts/telegram_bot/index.yaml
+  - coordination/reports/completion/2026-07-07__blueprint__website_roadmap_legacy_control_refinement_v0_2_1.md
+  - coordination/review_packets/logistics_service/processed/2026-07-14__logistics_service_test_address_book_v0_1__accepted.yaml
+  - coordination/review_packets/logistics_service/processed/2026-07-29__logistics_service_provider_adapter_contract_v0_1__accepted.yaml
+  - coordination/roadmaps/forprint_library.yaml
+  - coordination/roadmaps/logistics_service.yaml
+  - coordination/roadmaps/telegram_bot.yaml
+  - coordination/roadmaps/website.yaml
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__ecosystem_inventory_rollout_wave_a_v0_1.yaml
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose or description field.
+- path: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+  context_role: inventory_control_or_evidence
+  authority_class: decision_evidence
+  retention: Retain permanently when it records a decision, gate, finding or accepted transition.
+  changed_since_rci: true
+  purpose: 'Structured coordination evidence represented by top-level keys: schema_version, metadata, scope, summary,
+    module_results, alias_ownership, repository_path_ownership, findings.'
+  purpose_source: yaml_top_level_structure
+  confidence: medium
+  decision_bearing: true
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'top-level key: schema_version'
+  - 'top-level key: metadata'
+  - 'top-level key: scope'
+  - 'top-level key: summary'
+  - 'top-level key: module_results'
+  - 'top-level key: alias_ownership'
+  - 'top-level key: repository_path_ownership'
+  - 'top-level key: findings'
+  - 'top-level key: recommended_reconciliation_order'
+  - 'top-level key: quality_checks'
+  outbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__metadata_consistency_audit_v0_1.yaml
+  - coordination/module_policy/module_policy_index.yaml
+  - coordination/module_sources/module_git_sources.yaml
+  - coordination/modules/module_workflow_registry.yaml
+  - coordination/outgoing_prompts/calculator_engine/index.yaml
+  - coordination/outgoing_prompts/forprint_accounting_registry_service/index.yaml
+  - coordination/outgoing_prompts/forprint_integration_gateway/index.yaml
+  - coordination/outgoing_prompts/forprint_library/index.yaml
+  - coordination/outgoing_prompts/forprint_operational_registry/index.yaml
+  - coordination/outgoing_prompts/forprint_project_inspector/index.yaml
+  - coordination/outgoing_prompts/logistics_service/index.yaml
+  - coordination/outgoing_prompts/telegram_bot/index.yaml
+  - coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/roadmaps/forprint_library.yaml
+  - coordination/roadmaps/logistics_service.yaml
+  - coordination/roadmaps/telegram_bot.yaml
+  - coordination/roadmaps/website.yaml
+  - machine/modules.yaml
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__ecosystem_inventory_rollout_wave_a_v0_1.yaml
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose or description field.
+- path: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+  context_role: inventory_control_or_evidence
+  authority_class: decision_evidence
+  retention: Retain permanently when it records a decision, gate, finding or accepted transition.
+  changed_since_rci: true
+  purpose: 'Structured coordination evidence represented by top-level keys: schema_version, metadata, scope, summary,
+    records, interpretation, quality_checks.'
+  purpose_source: yaml_top_level_structure
+  confidence: medium
+  decision_bearing: true
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'top-level key: schema_version'
+  - 'top-level key: metadata'
+  - 'top-level key: scope'
+  - 'top-level key: summary'
+  - 'top-level key: records'
+  - 'top-level key: interpretation'
+  - 'top-level key: quality_checks'
+  outbound_references:
+  - coordination/document_awareness/source_registry.yaml
+  - coordination/global_policy/current_execution_focus.md
+  - coordination/global_policy/forprint_project_doctrine.md
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__metadata_consistency_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+  - coordination/module_policy/forprint_contract_registry/contract_registry_architecture_and_activation_brief.md
+  - coordination/module_policy/module_policy_index.yaml
+  - coordination/module_sources/README.md
+  - coordination/module_sources/module_git_sources.yaml
+  - coordination/modules/forprint_system_blueprint/module_workflow_manifest.yaml
+  - coordination/modules/forprint_system_blueprint/workflows/workflow_index.yaml
+  - coordination/modules/module_workflow_registry.yaml
+  - coordination/outgoing_prompts/forprint_library/approved/2026-06-23__library__make_first_semantic_reference_readiness_v0_1.md
+  - coordination/outgoing_prompts/forprint_library/approved/2026-06-29__library__reference_contract_foundation_v0_2.md
+  - coordination/outgoing_prompts/forprint_library/approved/2026-07-08__library__reference_consumption_pilot_v0_3.md
+  - coordination/outgoing_prompts/forprint_library/approved/2026-07-11__library__configurable_product_workbench_business_card_skeleton_v0_1.md
+  - coordination/outgoing_prompts/forprint_library/index.yaml
+  - coordination/outgoing_prompts/forprint_project_inspector/drafts/2026-06-23__project_inspector__make_first_bootstrap_v0_1.md
+  - coordination/outgoing_prompts/logistics_service/approved/2026-07-11__logistics_service__boundary_and_local_model_v0_1.md
+  - coordination/outgoing_prompts/logistics_service/approved/2026-07-13__logistics_service__test_address_book_v0_1.md
+  - coordination/outgoing_prompts/logistics_service/approved/2026-07-14__logistics_service__provider_adapter_contract_v0_1.md
+  - coordination/outgoing_prompts/logistics_service/approved/2026-07-29__logistics_service__tracking_events_v0_1.md
+  - coordination/outgoing_prompts/logistics_service/index.yaml
+  - coordination/outgoing_prompts/telegram_bot/approved/2026-07-07__telegram_bot__analysis_draft_handoff_preview_v0_1.md
+  - coordination/outgoing_prompts/telegram_bot/approved/2026-07-08__telegram_bot__sqlite_conversation_state_v0_1.md
+  - coordination/outgoing_prompts/telegram_bot/index.yaml
+  - coordination/reports/audits/2026-07-15__blueprint__reporting_consolidation_audit_v0_1.md
+  - coordination/reports/completion/2026-07-15__blueprint__coordination_result_tables_v0_1.md
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose or description field.
+- path: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__snapshot_comparison_automation_v0_1.yaml
+  context_role: inventory_control_or_evidence
+  authority_class: decision_evidence
+  retention: Retain permanently when it records a decision, gate, finding or accepted transition.
+  changed_since_rci: true
+  purpose: 'Structured coordination evidence represented by top-level keys: schema_version, metadata, implementation,
+    verification, usage, quality_checks.'
+  purpose_source: yaml_top_level_structure
+  confidence: medium
+  decision_bearing: true
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'top-level key: schema_version'
+  - 'top-level key: metadata'
+  - 'top-level key: implementation'
+  - 'top-level key: verification'
+  - 'top-level key: usage'
+  - 'top-level key: quality_checks'
+  outbound_references:
+  - coordination/repository_knowledge/direction/blueprint_coordination/2026-07-23__forprint_system_blueprint__state_direction_rationale_snapshot_v0_1.yaml
+  - coordination/repository_knowledge/direction/blueprint_coordination/2026-07-29__forprint_system_blueprint__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/repository_knowledge/direction/system_portfolio/2026-07-23__forprint_system__state_direction_rationale_snapshot_v0_1.yaml
+  - coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/repository_knowledge/flows/2026-07-23__forprint_system_blueprint__repository_execution_dependency_map_v0_2.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - scripts/coordination/compare_repository_knowledge_snapshots.py
+  - tests/test_compare_repository_knowledge_snapshots.py
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__ecosystem_inventory_rollout_wave_a_v0_1.yaml
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose or description field.
+- path: coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__ecosystem_inventory_rollout_wave_a_v0_1.yaml
+  context_role: inventory_control_or_evidence
+  authority_class: decision_evidence
+  retention: Retain permanently when it records a decision, gate, finding or accepted transition.
+  changed_since_rci: true
+  purpose: Prepare the first controlled module inventory wave without interrupting active contract work or bypassing
+    acceptance blockers.
+  purpose_source: top_level_purpose
+  confidence: high
+  decision_bearing: true
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'top-level key: schema_version'
+  - 'top-level key: metadata'
+  - 'top-level key: purpose'
+  - 'top-level key: modules'
+  - 'top-level key: execution_order'
+  - 'top-level key: balance_controls'
+  - 'top-level key: source_evidence'
+  - 'top-level key: quality_checks'
+  outbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__metadata_consistency_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__snapshot_comparison_automation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__forprint_library__inventory_rollout_packet_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__logistics_service__inventory_rollout_packet_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__telegram_bot__inventory_rollout_packet_v0_1.yaml
+  - coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
+  unknowns: []
+- path: coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__forprint_library__inventory_rollout_packet_v0_1.yaml
+  context_role: inventory_control_or_evidence
+  authority_class: decision_evidence
+  retention: Retain permanently when it records a decision, gate, finding or accepted transition.
+  changed_since_rci: true
+  purpose: 'Structured coordination evidence represented by top-level keys: schema_version, metadata, coordination_context,
+    rollout_decision, scope, deliverables, acceptance_gates, execution_policy.'
+  purpose_source: yaml_top_level_structure
+  confidence: medium
+  decision_bearing: true
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'top-level key: schema_version'
+  - 'top-level key: metadata'
+  - 'top-level key: coordination_context'
+  - 'top-level key: rollout_decision'
+  - 'top-level key: scope'
+  - 'top-level key: deliverables'
+  - 'top-level key: acceptance_gates'
+  - 'top-level key: execution_policy'
+  outbound_references:
+  - coordination/outgoing_prompts/forprint_library/index.yaml
+  - coordination/roadmaps/forprint_library.yaml
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__ecosystem_inventory_rollout_wave_a_v0_1.yaml
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose or description field.
+- path: coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__logistics_service__inventory_rollout_packet_v0_1.yaml
+  context_role: inventory_control_or_evidence
+  authority_class: decision_evidence
+  retention: Retain permanently when it records a decision, gate, finding or accepted transition.
+  changed_since_rci: true
+  purpose: 'Structured coordination evidence represented by top-level keys: schema_version, metadata, coordination_context,
+    rollout_decision, scope, deliverables, acceptance_gates, execution_policy.'
+  purpose_source: yaml_top_level_structure
+  confidence: medium
+  decision_bearing: true
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'top-level key: schema_version'
+  - 'top-level key: metadata'
+  - 'top-level key: coordination_context'
+  - 'top-level key: rollout_decision'
+  - 'top-level key: scope'
+  - 'top-level key: deliverables'
+  - 'top-level key: acceptance_gates'
+  - 'top-level key: execution_policy'
+  outbound_references:
+  - coordination/outgoing_prompts/logistics_service/index.yaml
+  - coordination/roadmaps/logistics_service.yaml
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__ecosystem_inventory_rollout_wave_a_v0_1.yaml
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose or description field.
+- path: coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__telegram_bot__inventory_rollout_packet_v0_1.yaml
+  context_role: inventory_control_or_evidence
+  authority_class: decision_evidence
+  retention: Retain permanently when it records a decision, gate, finding or accepted transition.
+  changed_since_rci: true
+  purpose: 'Structured coordination evidence represented by top-level keys: schema_version, metadata, coordination_context,
+    rollout_decision, scope, deliverables, acceptance_gates, execution_policy.'
+  purpose_source: yaml_top_level_structure
+  confidence: medium
+  decision_bearing: true
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'top-level key: schema_version'
+  - 'top-level key: metadata'
+  - 'top-level key: coordination_context'
+  - 'top-level key: rollout_decision'
+  - 'top-level key: scope'
+  - 'top-level key: deliverables'
+  - 'top-level key: acceptance_gates'
+  - 'top-level key: execution_policy'
+  outbound_references:
+  - coordination/outgoing_prompts/telegram_bot/index.yaml
+  - coordination/roadmaps/telegram_bot.yaml
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__ecosystem_inventory_rollout_wave_a_v0_1.yaml
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose or description field.
+- path: coordination/repository_knowledge/direction/blueprint_coordination/2026-07-29__forprint_system_blueprint__state_direction_rationale_snapshot_v0_2.yaml
+  context_role: immutable_repository_knowledge_snapshot
+  authority_class: immutable_snapshot
+  retention: Permanent and immutable; supersede only with a new dated snapshot.
+  changed_since_rci: true
+  purpose: 'Structured coordination evidence represented by top-level keys: schema_version, snapshot, perspective,
+    current_state, direction, workstreams, decisions_and_rationale, prompt_and_work_rationale.'
+  purpose_source: yaml_top_level_structure
+  confidence: medium
+  decision_bearing: true
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'top-level key: schema_version'
+  - 'top-level key: snapshot'
+  - 'top-level key: perspective'
+  - 'top-level key: current_state'
+  - 'top-level key: direction'
+  - 'top-level key: workstreams'
+  - 'top-level key: decisions_and_rationale'
+  - 'top-level key: prompt_and_work_rationale'
+  - 'top-level key: alignment_review'
+  - 'top-level key: module_views'
+  - 'top-level key: risks_and_unknowns'
+  - 'top-level key: comparison_to_previous'
+  - 'top-level key: quality_checks'
+  - 'top-level key: final_notes'
+  - 'top-level key: rationale'
+  - 'top-level key: priorities'
+  outbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/outgoing_prompts/forprint_library/index.yaml
+  - coordination/outgoing_prompts/logistics_service/index.yaml
+  - coordination/outgoing_prompts/telegram_bot/index.yaml
+  - coordination/repository_knowledge/direction/blueprint_coordination/2026-07-23__forprint_system_blueprint__state_direction_rationale_snapshot_v0_1.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - coordination/standards/governance/module_development_roadmap_policy.md
+  - machine/ownership.yaml
+  - tests/test_module_policy_index.py
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_maintenance_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__snapshot_comparison_automation_v0_1.yaml
+  - coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose or description field.
+- path: coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml
+  context_role: immutable_repository_knowledge_snapshot
+  authority_class: immutable_snapshot
+  retention: Permanent and immutable; supersede only with a new dated snapshot.
+  changed_since_rci: true
+  purpose: 'Structured coordination evidence represented by top-level keys: schema_version, snapshot, perspective,
+    current_state, direction, workstreams, decisions_and_rationale, prompt_and_work_rationale.'
+  purpose_source: yaml_top_level_structure
+  confidence: medium
+  decision_bearing: true
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'top-level key: schema_version'
+  - 'top-level key: snapshot'
+  - 'top-level key: perspective'
+  - 'top-level key: current_state'
+  - 'top-level key: direction'
+  - 'top-level key: workstreams'
+  - 'top-level key: decisions_and_rationale'
+  - 'top-level key: prompt_and_work_rationale'
+  - 'top-level key: alignment_review'
+  - 'top-level key: module_views'
+  - 'top-level key: risks_and_unknowns'
+  - 'top-level key: comparison_to_previous'
+  - 'top-level key: quality_checks'
+  - 'top-level key: final_notes'
+  - 'top-level key: portfolio_state'
+  - 'top-level key: portfolio_dependencies'
+  outbound_references:
+  - coordination/outgoing_prompts/forprint_library/index.yaml
+  - coordination/outgoing_prompts/logistics_service/approved/2026-07-29__logistics_service__tracking_events_v0_1.md
+  - coordination/outgoing_prompts/logistics_service/index.yaml
+  - coordination/outgoing_prompts/telegram_bot/index.yaml
+  - coordination/repository_knowledge/direction/blueprint_coordination/2026-07-29__forprint_system_blueprint__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/repository_knowledge/direction/system_portfolio/2026-07-23__forprint_system__state_direction_rationale_snapshot_v0_1.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - coordination/review_packets/logistics_service/processed/2026-07-29__logistics_service_provider_adapter_contract_v0_1__accepted.yaml
+  - machine/ownership.yaml
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_maintenance_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__snapshot_comparison_automation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__ecosystem_inventory_rollout_wave_a_v0_1.yaml
+  - coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose or description field.
+- path: coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  context_role: immutable_repository_knowledge_snapshot
+  authority_class: immutable_snapshot
+  retention: Permanent and immutable; supersede only with a new dated snapshot.
+  changed_since_rci: true
+  purpose: 'Structured coordination evidence represented by top-level keys: schema_version, snapshot, flow_summary,
+    flows, cross_flow_relationships, comparison_to_previous, quality_checks, scope.'
+  purpose_source: yaml_top_level_structure
+  confidence: medium
+  decision_bearing: true
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'top-level key: schema_version'
+  - 'top-level key: snapshot'
+  - 'top-level key: flow_summary'
+  - 'top-level key: flows'
+  - 'top-level key: cross_flow_relationships'
+  - 'top-level key: comparison_to_previous'
+  - 'top-level key: quality_checks'
+  - 'top-level key: scope'
+  - 'top-level key: dependency_surface'
+  outbound_references:
+  - coordination/document_awareness/source_registry.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/module_policy/module_policy_index.yaml
+  - coordination/module_sources/module_git_sources.yaml
+  - coordination/modules/forprint_system_blueprint/module_workflow_manifest.yaml
+  - coordination/modules/module_workflow_registry.yaml
+  - coordination/repository_knowledge/direction/blueprint_coordination/2026-07-23__forprint_system_blueprint__state_direction_rationale_snapshot_v0_1.yaml
+  - coordination/repository_knowledge/direction/system_portfolio/2026-07-23__forprint_system__state_direction_rationale_snapshot_v0_1.yaml
+  - coordination/repository_knowledge/flows/2026-07-23__forprint_system_blueprint__repository_execution_dependency_map_v0_2.yaml
+  - coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - coordination/standards/governance/module_development_roadmap_policy.md
+  - docs/operations/blueprint_check_reporting_recovery.md
+  - docs/operations/blueprint_repository_knowledge_snapshot_recovery.md
+  - reports/module_governance_audit.json
+  - reports/module_governance_audit.md
+  - scripts/audit_module_governance.py
+  - scripts/coordination/build_context_bundle.py
+  - scripts/coordination/build_document_manifest.py
+  - scripts/coordination/module_completion_intake.py
+  - scripts/coordination/module_roadmap.py
+  - scripts/coordination/modules/_shared/external_input.py
+  - scripts/coordination/modules/_shared/reporting.py
+  - scripts/coordination/modules/_shared/repository_scan.py
+  - scripts/coordination/modules/forprint_system_blueprint/workflows/self_audit.py
+  - scripts/coordination/modules/module_workflow_cli.py
+  - scripts/coordination/render_document_awareness_dashboard.py
+  - scripts/coordination/render_module_roadmap_dashboard.py
+  - scripts/coordination/render_prompt_dashboard.py
+  - scripts/coordination/resolve_next_module_work.py
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_maintenance_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__snapshot_comparison_automation_v0_1.yaml
+  - coordination/repository_knowledge/direction/blueprint_coordination/2026-07-29__forprint_system_blueprint__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose or description field.
+- path: coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
+  context_role: immutable_repository_knowledge_snapshot
+  authority_class: immutable_snapshot
+  retention: Permanent and immutable; supersede only with a new dated snapshot.
+  changed_since_rci: true
+  purpose: 'Structured coordination evidence represented by top-level keys: schema_version, metadata, policy, external_rollout,
+    artifact_families.'
+  purpose_source: yaml_top_level_structure
+  confidence: medium
+  decision_bearing: true
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'top-level key: schema_version'
+  - 'top-level key: metadata'
+  - 'top-level key: policy'
+  - 'top-level key: external_rollout'
+  - 'top-level key: artifact_families'
+  outbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__ecosystem_inventory_rollout_wave_a_v0_1.yaml
+  - coordination/repository_knowledge/direction/blueprint_coordination/2026-07-23__forprint_system_blueprint__state_direction_rationale_snapshot_v0_1.yaml
+  - coordination/repository_knowledge/direction/blueprint_coordination/2026-07-29__forprint_system_blueprint__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/repository_knowledge/direction/system_portfolio/2026-07-23__forprint_system__state_direction_rationale_snapshot_v0_1.yaml
+  - coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/repository_knowledge/flows/2026-07-23__forprint_system_blueprint__repository_execution_dependency_map_v0_2.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_maintenance_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose or description field.
+- path: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__self_audit_assessment_v0_1.md
+  context_role: inventory_control_or_evidence
+  authority_class: decision_evidence
+  retention: Retain permanently when it records a decision, gate, finding or accepted transition.
+  changed_since_rci: false
+  purpose: Blueprint Self-Audit Assessment v0.1
+  purpose_source: markdown_h1
+  confidence: high
+  decision_bearing: true
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'H1: Blueprint Self-Audit Assessment v0.1'
+  - 'heading: ## Control metadata'
+  - 'heading: ## Decision'
+  - 'heading: ## Current metrics'
+  - 'heading: ## Confirmed strengths'
+  - 'heading: ## Confirmed gaps'
+  - 'heading: ## Evidence boundaries'
+  - 'heading: ## Tracked evidence to create next'
+  - 'heading: ## Acceptance criteria for the refresh'
+  - 'heading: ## Result'
+  outbound_references: []
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  unknowns: []
+- path: coordination/internal_work/blueprint/structure_cleanup/2026-07-27__blueprint__structure_assessment_v0_1.md
+  context_role: blueprint_internal_decision_evidence
+  authority_class: decision_evidence
+  retention: Retain permanently when it records a decision, gate, finding or accepted transition.
+  changed_since_rci: false
+  purpose: ForPrint System Blueprint — Structure Assessment v0.1
+  purpose_source: markdown_h1
+  confidence: high
+  decision_bearing: true
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'H1: ForPrint System Blueprint — Structure Assessment v0.1'
+  - 'heading: ## Decision'
+  - 'heading: ## Highest-priority findings'
+  - 'heading: ## Recommended information layers'
+  - 'heading: ## Recommended Make workflow layer'
+  - 'heading: ## Safety rule'
+  - 'heading: ## Cleanup progress'
+  - 'heading: ### Completed'
+  - 'heading: ### Current state'
+  - 'heading: ### Next controlled action'
+  outbound_references:
+  - coordination/reports/completion/2026-07-28__blueprint__structure_cleanup_completion_v0_1.md
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  unknowns: []
+- path: coordination/reports/audits/2026-07-15__blueprint__reporting_consolidation_audit_v0_1.md
+  context_role: coordination_report
+  authority_class: coordination_evidence
+  retention: Retain while referenced; decision-bearing reports are permanent.
+  changed_since_rci: false
+  purpose: Blueprint Reporting Consolidation Audit v0.1
+  purpose_source: markdown_h1
+  confidence: high
+  decision_bearing: false
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'H1: Blueprint Reporting Consolidation Audit v0.1'
+  - 'heading: ## Date'
+  - 'heading: ## Baseline'
+  - 'heading: ## Evidence collected'
+  - 'heading: ## Corrected findings'
+  - 'heading: ### Shared reporting core'
+  - 'heading: ### Already consolidated'
+  - 'heading: ### Verified partial migration'
+  - 'heading: ## Decision'
+  - 'heading: ## Deferred review queue'
+  outbound_references:
+  - scripts/coordination/module_roadmap.py
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+  - coordination/reports/completion/2026-07-15__blueprint__reporting_consolidation_audit_v0_1.md
+  - docs/operations/blueprint_reporting_consolidation_audit_recovery.md
+  unknowns: []
+- path: coordination/reports/completion/2026-07-03__blueprint__coordination_foundation_standards_summary_v0_1.md
+  context_role: coordination_report
+  authority_class: coordination_evidence
+  retention: Retain while referenced; decision-bearing reports are permanent.
+  changed_since_rci: false
+  purpose: Blueprint Coordination Foundation Standards Summary v0.1
+  purpose_source: markdown_h1
+  confidence: high
+  decision_bearing: false
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'H1: Blueprint Coordination Foundation Standards Summary v0.1'
+  - 'heading: ## Status'
+  - 'heading: ## Date'
+  - 'heading: ## Purpose'
+  - 'heading: ## Scope completed'
+  - 'heading: ### 1. Makefile architecture and operator workflow'
+  outbound_references:
+  - coordination/standards/configuration_policy.md
+  - coordination/standards/make_command_standard.md
+  - coordination/standards/project_structure_standard.md
+  - coordination/standards/repository_structure_baseline.md
+  - coordination/standards/secrets_and_env_policy.md
+  - coordination/templates/config/adapters.template.yaml
+  - coordination/templates/config/defaults.template.yaml
+  - coordination/templates/config/environment.template.yaml
+  - coordination/templates/config/module.template.yaml
+  - coordination/templates/config/paths.template.yaml
+  - coordination/templates/module_makefile_standard.template.mk
+  - coordination/templates/project_tree.template.md
+  - coordination/templates/secrets/dotenv.example.template
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  unknowns: []
+- path: coordination/reports/completion/2026-07-06__blueprint__coordination_foundation_tooling_summary_v0_1.md
+  context_role: coordination_report
+  authority_class: coordination_evidence
+  retention: Retain while referenced; decision-bearing reports are permanent.
+  changed_since_rci: false
+  purpose: Blueprint Coordination Foundation Tooling Summary v0.1
+  purpose_source: markdown_h1
+  confidence: high
+  decision_bearing: false
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'H1: Blueprint Coordination Foundation Tooling Summary v0.1'
+  - 'heading: ## Report ID'
+  - 'heading: ## Date'
+  - 'heading: ## Module'
+  - 'heading: ## Status'
+  - 'heading: ## Purpose'
+  - 'heading: ## Completed checkpoints'
+  - 'heading: ### 1. Prompt dashboard draft visibility'
+  - 'heading: ### 2. Development environment and tooling policy'
+  outbound_references:
+  - coordination/standards/development_environment_policy.md
+  - coordination/standards/make_command_standard.md
+  - coordination/templates/environment/development_environment.template.md
+  - coordination/templates/environment/tooling_manifest.template.yaml
+  - coordination/templates/module_makefile_standard.template.mk
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  unknowns: []
+- path: coordination/reports/completion/2026-07-07__blueprint__website_roadmap_legacy_control_refinement_v0_2_1.md
+  context_role: coordination_report
+  authority_class: coordination_evidence
+  retention: Retain while referenced; decision-bearing reports are permanent.
+  changed_since_rci: false
+  purpose: Blueprint Completion Report — Website Roadmap Legacy Control Refinement v0.2.1
+  purpose_source: markdown_h1
+  confidence: high
+  decision_bearing: false
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'H1: Blueprint Completion Report — Website Roadmap Legacy Control Refinement v0.2.1'
+  - 'heading: ## Module'
+  - 'heading: ## Related module'
+  - 'heading: ## Working name'
+  - 'heading: ## Source prompt'
+  - 'heading: ## Status'
+  - 'heading: ## Roadmap changes'
+  outbound_references:
+  - coordination/outgoing_prompts/forprint_system_blueprint/approved/2026-07-07__blueprint__website_roadmap_legacy_control_refinement_v0_2_1.md
+  - coordination/risk_registers/website.yaml
+  - coordination/roadmaps/website.yaml
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__metadata_consistency_audit_v0_1.yaml
+  - coordination/outgoing_prompts/forprint_system_blueprint/approved/2026-07-07__blueprint__website_roadmap_legacy_control_refinement_v0_2_1.md
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  unknowns: []
+- path: coordination/reports/completion/2026-07-14__blueprint__compact_check_reporting_v0_1.md
+  context_role: coordination_report
+  authority_class: coordination_evidence
+  retention: Retain while referenced; decision-bearing reports are permanent.
+  changed_since_rci: false
+  purpose: Blueprint Compact Check Reporting v0.1 — Completion Record
+  purpose_source: markdown_h1
+  confidence: high
+  decision_bearing: false
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'H1: Blueprint Compact Check Reporting v0.1 — Completion Record'
+  - 'heading: ## Result'
+  - 'heading: ## Implemented'
+  - 'heading: ## Main commands'
+  - 'heading: ## Main artifacts'
+  - 'heading: ## Architectural decision'
+  - 'heading: ## Recovery evidence'
+  - 'heading: ## Verification required before acceptance'
+  - 'heading: ## Compatibility correction'
+  - 'heading: ## Legacy table-label compatibility'
+  - 'heading: ## Check-catalog compatibility correction'
+  outbound_references:
+  - docs/architecture/blueprint_check_reporting_architecture.md
+  - docs/operations/blueprint_check_reporting_recovery.md
+  - docs/operations/blueprint_check_reporting_runbook.md
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  unknowns: []
+- path: coordination/reports/completion/2026-07-15__blueprint__coordination_result_tables_v0_1.md
+  context_role: coordination_report
+  authority_class: coordination_evidence
+  retention: Retain while referenced; decision-bearing reports are permanent.
+  changed_since_rci: false
+  purpose: Blueprint Coordination Result Tables v0.1 — Completion Record
+  purpose_source: markdown_h1
+  confidence: high
+  decision_bearing: false
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'H1: Blueprint Coordination Result Tables v0.1 — Completion Record'
+  - 'heading: ## Branch'
+  - 'heading: ## Scope'
+  - 'heading: ## Main implementation'
+  - 'heading: ## Compatibility decisions'
+  - 'heading: ## Acceptance evidence required'
+  - 'heading: ## Verification limitation'
+  - 'heading: ## Verification evidence:'
+  outbound_references:
+  - scripts/coordination/module_completion_intake.py
+  - scripts/coordination/resolve_next_module_work.py
+  - scripts/reporting/coordination_result_tables.py
+  - tests/coordination/test_module_completion_finalization.py
+  - tests/reporting/test_coordination_result_tables.py
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+  unknowns: []
+- path: coordination/reports/completion/2026-07-15__blueprint__document_awareness_shared_renderer_v0_1.md
+  context_role: coordination_report
+  authority_class: coordination_evidence
+  retention: Retain while referenced; decision-bearing reports are permanent.
+  changed_since_rci: false
+  purpose: Blueprint Document Awareness Shared Renderer v0.1 — Completion Record
+  purpose_source: markdown_h1
+  confidence: high
+  decision_bearing: false
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'H1: Blueprint Document Awareness Shared Renderer v0.1 — Completion Record'
+  - 'heading: ## Branch'
+  - 'heading: ## Scope'
+  - 'heading: ## Main implementation'
+  - 'heading: ## Preserved contracts'
+  - 'heading: ## Acceptance evidence required'
+  - 'heading: ## CLI contract test hardening'
+  - 'heading: ## Boxed warning-detector compatibility correction'
+  outbound_references:
+  - scripts/coordination/build_context_bundle.py
+  - scripts/coordination/build_document_manifest.py
+  - scripts/coordination/render_document_awareness_dashboard.py
+  - scripts/reporting/document_awareness_tables.py
+  - tests/reporting/test_document_awareness_shared_renderer.py
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+  unknowns: []
+- path: coordination/reports/completion/2026-07-15__blueprint__reporting_consolidation_audit_v0_1.md
+  context_role: coordination_report
+  authority_class: coordination_evidence
+  retention: Retain while referenced; decision-bearing reports are permanent.
+  changed_since_rci: false
+  purpose: Blueprint Reporting Consolidation Audit v0.1 — Completion Record
+  purpose_source: markdown_h1
+  confidence: high
+  decision_bearing: false
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'H1: Blueprint Reporting Consolidation Audit v0.1 — Completion Record'
+  - 'heading: ## Scope'
+  - 'heading: ## Main artifacts'
+  - 'heading: ## Decision'
+  - 'heading: ## Acceptance evidence required'
+  - 'heading: ## Verification corrections'
+  - 'heading: ### Temporary Python fixture'
+  - 'heading: ### Make JSON target'
+  outbound_references:
+  - coordination/reports/audits/2026-07-15__blueprint__reporting_consolidation_audit_v0_1.md
+  - docs/architecture/blueprint_reporting_consolidation_map.md
+  - docs/operations/blueprint_reporting_consolidation_audit_recovery.md
+  - docs/operations/blueprint_reporting_consolidation_audit_runbook.md
+  - scripts/coordination/module_roadmap.py
+  - scripts/reporting/audit_consolidation.py
+  - tests/reporting/test_reporting_consolidation_audit.py
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+  unknowns: []
+- path: coordination/reports/completion/2026-07-15__blueprint__shared_dashboard_renderer_v0_1.md
+  context_role: coordination_report
+  authority_class: coordination_evidence
+  retention: Retain while referenced; decision-bearing reports are permanent.
+  changed_since_rci: false
+  purpose: Blueprint Shared Dashboard Renderer v0.1 — Completion Record
+  purpose_source: markdown_h1
+  confidence: high
+  decision_bearing: false
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'H1: Blueprint Shared Dashboard Renderer v0.1 — Completion Record'
+  - 'heading: ## Branch'
+  - 'heading: ## Implemented scope'
+  - 'heading: ## Deferred scope'
+  - 'heading: ## Compatibility decisions'
+  - 'heading: ## Acceptance evidence'
+  outbound_references: []
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  unknowns: []
+- path: coordination/reports/completion/2026-07-16__blueprint__module_governance_terminal_artifact_split_v0_1.md
+  context_role: coordination_report
+  authority_class: coordination_evidence
+  retention: Retain while referenced; decision-bearing reports are permanent.
+  changed_since_rci: false
+  purpose: Blueprint Module Governance Terminal/Artifact Split v0.1
+  purpose_source: markdown_h1
+  confidence: high
+  decision_bearing: false
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'H1: Blueprint Module Governance Terminal/Artifact Split v0.1'
+  - 'heading: ## Date'
+  - 'heading: ## Purpose'
+  - 'heading: ## Baseline'
+  - 'heading: ## Artifact contracts'
+  - 'heading: # ForPrint Module Governance Audit'
+  - 'heading: ## Summary'
+  - 'heading: ## Required files'
+  - 'heading: ## Required Makefile targets'
+  - 'heading: ## Module results'
+  - 'heading: ## Implementation boundary'
+  - 'heading: ## Verification rule'
+  outbound_references:
+  - scripts/audit_module_governance.py
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  unknowns: []
+- path: coordination/reports/completion/2026-07-16__blueprint__module_roadmap_renderer_cleanup_v0_1.md
+  context_role: coordination_report
+  authority_class: coordination_evidence
+  retention: Retain while referenced; decision-bearing reports are permanent.
+  changed_since_rci: false
+  purpose: Blueprint Module Roadmap Renderer Cleanup v0.1 — Completion Record
+  purpose_source: markdown_h1
+  confidence: high
+  decision_bearing: false
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'H1: Blueprint Module Roadmap Renderer Cleanup v0.1 — Completion Record'
+  - 'heading: ## Date'
+  - 'heading: ## Changes'
+  - 'heading: ## Baseline'
+  - 'heading: ## Next front'
+  - 'heading: ## Verification correction'
+  - 'heading: ## Decision-text correction'
+  outbound_references: []
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  unknowns: []
+- path: coordination/reports/completion/2026-07-16__blueprint__reporting_consolidation_closeout_v0_1.md
+  context_role: coordination_report
+  authority_class: coordination_evidence
+  retention: Retain while referenced; decision-bearing reports are permanent.
+  changed_since_rci: false
+  purpose: Blueprint Reporting Consolidation Closeout v0.1
+  purpose_source: markdown_h1
+  confidence: high
+  decision_bearing: false
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'H1: Blueprint Reporting Consolidation Closeout v0.1'
+  - 'heading: ## Result'
+  - 'heading: ## Baseline'
+  - 'heading: ## Changes'
+  - 'heading: ## Policy decision'
+  - 'heading: ## Completion evidence'
+  - 'heading: ## Recovery'
+  - 'heading: ## Next coordination gate'
+  outbound_references:
+  - docs/operations/blueprint_reporting_consolidation_closeout_recovery.md
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - docs/operations/blueprint_reporting_consolidation_closeout_recovery.md
+  unknowns: []
+- path: coordination/reports/completion/2026-07-16__blueprint__resolve_next_prompt_result_table_v0_1.md
+  context_role: coordination_report
+  authority_class: coordination_evidence
+  retention: Retain while referenced; decision-bearing reports are permanent.
+  changed_since_rci: false
+  purpose: Blueprint Resolve Next Prompt Result Table v0.1 — Completion Record
+  purpose_source: markdown_h1
+  confidence: high
+  decision_bearing: false
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'H1: Blueprint Resolve Next Prompt Result Table v0.1 — Completion Record'
+  - 'heading: ## Date'
+  - 'heading: ## Scope'
+  - 'heading: ## Runtime baseline before implementation'
+  - 'heading: ## Allowed presentation change'
+  - 'heading: ## Preserved byte contracts'
+  - 'heading: ## Next planning step'
+  outbound_references: []
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  unknowns: []
+- path: coordination/reports/completion/2026-07-23__blueprint__internal_workflow_foundation_v0_1.md
+  context_role: coordination_report
+  authority_class: coordination_evidence
+  retention: Retain while referenced; decision-bearing reports are permanent.
+  changed_since_rci: false
+  purpose: Blueprint Internal Workflow Foundation v0.1 — Completion Report
+  purpose_source: markdown_h1
+  confidence: high
+  decision_bearing: false
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'H1: Blueprint Internal Workflow Foundation v0.1 — Completion Report'
+  - 'heading: ## Intended result'
+  - 'heading: ## Scope'
+  - 'heading: ## Safety'
+  - 'heading: ## Verification performed before packaging'
+  - 'heading: ## Deferred'
+  - 'heading: ## Pre-commit workflow foundation correction'
+  outbound_references: []
+  inbound_references:
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  unknowns: []
+- path: coordination/reports/completion/2026-07-23__blueprint__repository_knowledge_baseline_v0_2.md
+  context_role: coordination_report
+  authority_class: coordination_evidence
+  retention: Retain while referenced; decision-bearing reports are permanent.
+  changed_since_rci: false
+  purpose: Blueprint Repository Knowledge Baseline v0.2 — Completion Report
+  purpose_source: markdown_h1
+  confidence: high
+  decision_bearing: false
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'H1: Blueprint Repository Knowledge Baseline v0.2 — Completion Report'
+  - 'heading: ## Result'
+  - 'heading: ## Evidence basis'
+  - 'heading: ## Validation before installation'
+  - 'heading: ## Outputs'
+  - 'heading: ## Main findings'
+  - 'heading: ## Not performed'
+  outbound_references:
+  - coordination/repository_knowledge/direction/blueprint_coordination/2026-07-23__forprint_system_blueprint__state_direction_rationale_snapshot_v0_1.yaml
+  - coordination/repository_knowledge/direction/system_portfolio/2026-07-23__forprint_system__state_direction_rationale_snapshot_v0_1.yaml
+  - coordination/repository_knowledge/flows/2026-07-23__forprint_system_blueprint__repository_execution_dependency_map_v0_2.yaml
+  - coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+  - reports/forprint_module_status.json
+  inbound_references:
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  unknowns: []
+- path: coordination/reports/completion/2026-07-28__blueprint__structure_cleanup_completion_v0_1.md
+  context_role: coordination_report
+  authority_class: coordination_evidence
+  retention: Retain while referenced; decision-bearing reports are permanent.
+  changed_since_rci: false
+  purpose: ForPrint System Blueprint — Structure Cleanup Completion v0.1
+  purpose_source: markdown_h1
+  confidence: high
+  decision_bearing: false
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'H1: ForPrint System Blueprint — Structure Cleanup Completion v0.1'
+  - 'heading: ## Status'
+  - 'heading: ## Completion date'
+  - 'heading: ## Scope'
+  - 'heading: ## Validation result'
+  - 'heading: ## Debt reduction'
+  - 'heading: ## Branch snapshot'
+  - 'heading: ## Governance outcome'
+  - 'heading: ## Known residual note'
+  - 'heading: ## Acceptance'
+  outbound_references:
+  - coordination/standards/project_structure_standard.md
+  - machine/validation/markdown_fence_baseline.json
+  inbound_references:
+  - coordination/internal_work/blueprint/structure_cleanup/2026-07-27__blueprint__structure_assessment_v0_1.md
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  unknowns: []
+- path: coordination/reports/index.yaml
+  context_role: coordination_report
+  authority_class: coordination_evidence
+  retention: Retain while referenced; decision-bearing reports are permanent.
+  changed_since_rci: false
+  purpose: null
+  purpose_source: none
+  confidence: low
+  decision_bearing: false
+  dependencies_mapped: true
+  fully_verified: false
+  structural_evidence: []
+  outbound_references: []
+  inbound_references:
+  - coordination/directives/global/active/2026-06-02__global__directive__module-coordination-standard-v1.md
+  - coordination/directives/global/index.yaml
+  - coordination/directives/modules/calculator_engine/active/2026-06-02__calculator_engine__directive__coordination-pull-and-calculator-focus-v1.md
+  - coordination/directives/modules/calculator_engine/active/2026-06-03__calculator_engine__directive__final-coordination-checkpoint-and-pause-v1.md
+  - coordination/global_policy/current_execution_focus.md
+  - coordination/instruction_intake/instruction_sources.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+  - coordination/module_docs_snapshots/calculator_engine/README.md
+  - coordination/module_sources/README.md
+  - coordination/module_sources/module_git_sources.yaml
+  - coordination/outgoing_prompts/forprint_integration_gateway/drafts/2026-06-11__gateway__adapter_contracts_error_taxonomy_v0_4.md
+  - coordination/outgoing_prompts/forprint_integration_gateway/drafts/2026-06-11__gateway__v0_3_1_coordination_records_fix.md
+  - coordination/outgoing_prompts/forprint_integration_gateway/drafts/2026-06-12__gateway__contract_compatibility_replay_dry_run_v0_5.md
+  - coordination/outgoing_prompts/forprint_integration_gateway/drafts/2026-06-12__gateway__contract_release_consumer_acceptance_v0_6.md
+  - coordination/outgoing_prompts/forprint_integration_gateway/drafts/2026-06-15__gateway__standards_visibility_advisory_alignment_v0_7.md
+  - coordination/outgoing_prompts/forprint_integration_gateway/notes/2026-06-11__gateway__v0_3_review_lessons.md
+  - coordination/outgoing_prompts/forprint_library/approved/2026-07-03__library__coordination_foundation_alignment_v0_1.md
+  - coordination/outgoing_prompts/forprint_library/approved/2026-07-08__library__reference_consumption_pilot_v0_3.md
+  - coordination/outgoing_prompts/forprint_library/approved/2026-07-11__library__configurable_product_workbench_business_card_skeleton_v0_1.md
+  - coordination/outgoing_prompts/forprint_project_inspector/drafts/2026-06-23__project_inspector__make_first_bootstrap_v0_1.md
+  - coordination/outgoing_prompts/logistics_service/approved/2026-07-09__logistics_service__bootstrap_and_coordination_foundation_v0_1.md
+  - coordination/outgoing_prompts/logistics_service/approved/2026-07-11__logistics_service__boundary_and_local_model_v0_1.md
+  - coordination/outgoing_prompts/logistics_service/approved/2026-07-13__logistics_service__test_address_book_v0_1.md
+  - coordination/outgoing_prompts/logistics_service/approved/2026-07-14__logistics_service__provider_adapter_contract_v0_1.md
+  - coordination/outgoing_prompts/logistics_service/approved/2026-07-29__logistics_service__tracking_events_v0_1.md
+  - coordination/outgoing_prompts/telegram_bot/approved/2026-07-07__telegram_bot__analysis_draft_handoff_preview_v0_1.md
+  - coordination/outgoing_prompts/telegram_bot/approved/2026-07-08__telegram_bot__sqlite_conversation_state_v0_1.md
+  - coordination/outgoing_prompts/telegram_bot/approved/2026-07-09__telegram_bot__dialogue_audit_events_v0_1.md
+  - coordination/outgoing_prompts/telegram_bot/archived/drafts/2026-06-10__telegram_bot__governance_and_test_alignment_v0_1.md
+  unknowns:
+  - No purpose evidence was found.
+- path: coordination/repository_knowledge/README.md
+  context_role: immutable_repository_knowledge_snapshot
+  authority_class: immutable_snapshot
+  retention: Permanent and immutable; supersede only with a new dated snapshot.
+  changed_since_rci: false
+  purpose: ForPrint Repository Knowledge & Direction — Blueprint Profile
+  purpose_source: markdown_h1
+  confidence: high
+  decision_bearing: true
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'H1: ForPrint Repository Knowledge & Direction — Blueprint Profile'
+  - 'heading: ## Blueprint streams'
+  - 'heading: ## Module distribution profile'
+  - 'heading: ## Authority'
+  outbound_references: []
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  unknowns: []
+- path: coordination/repository_knowledge/direction/blueprint_coordination/2026-07-23__forprint_system_blueprint__state_direction_rationale_snapshot_v0_1.yaml
+  context_role: immutable_repository_knowledge_snapshot
+  authority_class: immutable_snapshot
+  retention: Permanent and immutable; supersede only with a new dated snapshot.
+  changed_since_rci: false
+  purpose: 'Structured coordination evidence represented by top-level keys: schema_version, snapshot, perspective,
+    current_state, direction, workstreams, decisions_and_rationale, prompt_and_work_rationale.'
+  purpose_source: yaml_top_level_structure
+  confidence: medium
+  decision_bearing: true
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'top-level key: schema_version'
+  - 'top-level key: snapshot'
+  - 'top-level key: perspective'
+  - 'top-level key: current_state'
+  - 'top-level key: direction'
+  - 'top-level key: workstreams'
+  - 'top-level key: decisions_and_rationale'
+  - 'top-level key: prompt_and_work_rationale'
+  - 'top-level key: alignment_review'
+  - 'top-level key: module_views'
+  - 'top-level key: risks_and_unknowns'
+  - 'top-level key: comparison_to_previous'
+  - 'top-level key: quality_checks'
+  - 'top-level key: final_notes'
+  outbound_references:
+  - coordination/outgoing_prompts/forprint_library/index.yaml
+  - coordination/outgoing_prompts/logistics_service/index.yaml
+  - coordination/outgoing_prompts/telegram_bot/index.yaml
+  - coordination/repository_knowledge/flows/2026-07-23__forprint_system_blueprint__repository_execution_dependency_map_v0_2.yaml
+  - coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+  - machine/ownership.yaml
+  - tests/test_module_policy_index.py
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_maintenance_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__snapshot_comparison_automation_v0_1.yaml
+  - coordination/reports/completion/2026-07-23__blueprint__repository_knowledge_baseline_v0_2.md
+  - coordination/repository_knowledge/direction/blueprint_coordination/2026-07-29__forprint_system_blueprint__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/repository_knowledge/flows/2026-07-23__forprint_system_blueprint__repository_execution_dependency_map_v0_2.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose or description field.
+- path: coordination/repository_knowledge/direction/system_portfolio/2026-07-23__forprint_system__state_direction_rationale_snapshot_v0_1.yaml
+  context_role: immutable_repository_knowledge_snapshot
+  authority_class: immutable_snapshot
+  retention: Permanent and immutable; supersede only with a new dated snapshot.
+  changed_since_rci: false
+  purpose: 'Structured coordination evidence represented by top-level keys: schema_version, snapshot, perspective,
+    current_state, direction, workstreams, decisions_and_rationale, prompt_and_work_rationale.'
+  purpose_source: yaml_top_level_structure
+  confidence: medium
+  decision_bearing: true
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'top-level key: schema_version'
+  - 'top-level key: snapshot'
+  - 'top-level key: perspective'
+  - 'top-level key: current_state'
+  - 'top-level key: direction'
+  - 'top-level key: workstreams'
+  - 'top-level key: decisions_and_rationale'
+  - 'top-level key: prompt_and_work_rationale'
+  - 'top-level key: alignment_review'
+  - 'top-level key: module_views'
+  - 'top-level key: risks_and_unknowns'
+  - 'top-level key: comparison_to_previous'
+  - 'top-level key: quality_checks'
+  - 'top-level key: final_notes'
+  outbound_references:
+  - coordination/outgoing_prompts/forprint_library/index.yaml
+  - coordination/outgoing_prompts/logistics_service/index.yaml
+  - coordination/outgoing_prompts/telegram_bot/index.yaml
+  - machine/contracts.yaml
+  - machine/ownership.yaml
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_maintenance_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__snapshot_comparison_automation_v0_1.yaml
+  - coordination/reports/completion/2026-07-23__blueprint__repository_knowledge_baseline_v0_2.md
+  - coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/repository_knowledge/flows/2026-07-23__forprint_system_blueprint__repository_execution_dependency_map_v0_2.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose or description field.
+- path: coordination/repository_knowledge/flows/2026-07-23__forprint_system_blueprint__repository_execution_dependency_map_v0_2.yaml
+  context_role: immutable_repository_knowledge_snapshot
+  authority_class: immutable_snapshot
+  retention: Permanent and immutable; supersede only with a new dated snapshot.
+  changed_since_rci: false
+  purpose: 'Structured coordination evidence represented by top-level keys: schema_version, snapshot, flow_summary,
+    flows, cross_flow_relationships, comparison_to_previous, quality_checks.'
+  purpose_source: yaml_top_level_structure
+  confidence: medium
+  decision_bearing: true
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'top-level key: schema_version'
+  - 'top-level key: snapshot'
+  - 'top-level key: flow_summary'
+  - 'top-level key: flows'
+  - 'top-level key: cross_flow_relationships'
+  - 'top-level key: comparison_to_previous'
+  - 'top-level key: quality_checks'
+  outbound_references:
+  - coordination/document_awareness/source_registry.yaml
+  - coordination/module_policy/module_policy_index.yaml
+  - coordination/module_sources/module_git_sources.yaml
+  - coordination/repository_knowledge/direction/blueprint_coordination/2026-07-23__forprint_system_blueprint__state_direction_rationale_snapshot_v0_1.yaml
+  - coordination/repository_knowledge/direction/system_portfolio/2026-07-23__forprint_system__state_direction_rationale_snapshot_v0_1.yaml
+  - coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+  - docs/operations/blueprint_check_reporting_recovery.md
+  - docs/operations/blueprint_repository_knowledge_snapshot_recovery.md
+  - reports/module_governance_audit.json
+  - reports/module_governance_audit.md
+  - scripts/audit_module_governance.py
+  - scripts/coordination/build_context_bundle.py
+  - scripts/coordination/build_document_manifest.py
+  - scripts/coordination/module_completion_intake.py
+  - scripts/coordination/module_roadmap.py
+  - scripts/coordination/render_document_awareness_dashboard.py
+  - scripts/coordination/render_module_roadmap_dashboard.py
+  - scripts/coordination/resolve_next_prompt.py
+  - scripts/generate_mermaid.py
+  - scripts/generate_module_guides.py
+  - scripts/generate_module_policy_docs.py
+  - scripts/run_blueprint_checks.py
+  - scripts/validate_blueprint.py
+  - tests/coordination/test_context_bundle.py
+  - tests/coordination/test_document_awareness_manifest.py
+  - tests/coordination/test_module_completion_finalization.py
+  - tests/coordination/test_module_roadmap_dashboard.py
+  - tests/coordination/test_prompt_queue_navigation.py
+  - tests/test_generate_module_guides.py
+  - tests/test_module_governance_protocol.py
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_maintenance_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__snapshot_comparison_automation_v0_1.yaml
+  - coordination/reports/completion/2026-07-23__blueprint__repository_knowledge_baseline_v0_2.md
+  - coordination/repository_knowledge/direction/blueprint_coordination/2026-07-23__forprint_system_blueprint__state_direction_rationale_snapshot_v0_1.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose or description field.
+- path: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+  context_role: immutable_repository_knowledge_snapshot
+  authority_class: immutable_snapshot
+  retention: Permanent and immutable; supersede only with a new dated snapshot.
+  changed_since_rci: false
+  purpose: 'Structured coordination evidence represented by top-level keys: schema_version, snapshot, scope, repository_summary,
+    directory_inventory, capability_inventory, external_dependency_inventory, review_candidates.'
+  purpose_source: yaml_top_level_structure
+  confidence: medium
+  decision_bearing: true
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'top-level key: schema_version'
+  - 'top-level key: snapshot'
+  - 'top-level key: scope'
+  - 'top-level key: repository_summary'
+  - 'top-level key: directory_inventory'
+  - 'top-level key: capability_inventory'
+  - 'top-level key: external_dependency_inventory'
+  - 'top-level key: review_candidates'
+  - 'top-level key: comparison_to_previous'
+  - 'top-level key: quality_checks'
+  outbound_references:
+  - coordination/global_policy/current_execution_focus.md
+  - coordination/global_policy/forprint_project_doctrine.md
+  - coordination/module_policy/forprint_contract_registry/contract_registry_architecture_and_activation_brief.md
+  - coordination/module_policy/module_policy_index.yaml
+  - coordination/module_sources/module_git_sources.yaml
+  - coordination/outgoing_prompts/forprint_library/index.yaml
+  - coordination/outgoing_prompts/logistics_service/index.yaml
+  - coordination/outgoing_prompts/telegram_bot/index.yaml
+  - docs/operations/blueprint_check_reporting_recovery.md
+  - machine/contracts.yaml
+  - machine/data_flows.yaml
+  - machine/forprint_execution_queue.yaml
+  - machine/modules.yaml
+  - machine/ownership.yaml
+  - reports/forprint_module_status.json
+  - scripts/audit_module_governance.py
+  - scripts/coordination/build_document_manifest.py
+  - scripts/coordination/module_completion_intake.py
+  - scripts/coordination/resolve_next_prompt.py
+  - scripts/generate_module_policy_docs.py
+  - scripts/run_blueprint_checks.py
+  - scripts/validate_blueprint.py
+  - tests/coordination/test_prompt_queue_navigation.py
+  - tests/test_module_policy_index.py
+  - tests/test_run_blueprint_checks.py
+  - tests/test_validate_blueprint.py
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_maintenance_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__snapshot_comparison_automation_v0_1.yaml
+  - coordination/reports/completion/2026-07-23__blueprint__repository_knowledge_baseline_v0_2.md
+  - coordination/repository_knowledge/direction/blueprint_coordination/2026-07-23__forprint_system_blueprint__state_direction_rationale_snapshot_v0_1.yaml
+  - coordination/repository_knowledge/flows/2026-07-23__forprint_system_blueprint__repository_execution_dependency_map_v0_2.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose or description field.
+- path: coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  context_role: immutable_repository_knowledge_snapshot
+  authority_class: immutable_snapshot
+  retention: Permanent and immutable; supersede only with a new dated snapshot.
+  changed_since_rci: false
+  purpose: 'Structured coordination evidence represented by top-level keys: schema_version, snapshot, scope, repository_summary,
+    directory_inventory, capability_inventory, external_dependency_inventory, review_candidates.'
+  purpose_source: yaml_top_level_structure
+  confidence: medium
+  decision_bearing: true
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'top-level key: schema_version'
+  - 'top-level key: snapshot'
+  - 'top-level key: scope'
+  - 'top-level key: repository_summary'
+  - 'top-level key: directory_inventory'
+  - 'top-level key: capability_inventory'
+  - 'top-level key: external_dependency_inventory'
+  - 'top-level key: review_candidates'
+  - 'top-level key: comparison_to_previous'
+  - 'top-level key: quality_checks'
+  - 'top-level key: coverage'
+  - 'top-level key: artifact_authority_map'
+  outbound_references:
+  - coordination/README.md
+  - coordination/checkup/README.md
+  - coordination/directives/README.md
+  - coordination/directives/global/active/2026-06-02__global__directive__module-coordination-standard-v1.md
+  - coordination/document_awareness/source_registry.yaml
+  - coordination/global_policy/README.md
+  - coordination/global_policy/current_execution_focus.md
+  - coordination/global_policy/ecosystem_module_map.md
+  - coordination/global_policy/forprint_project_doctrine.md
+  - coordination/global_policy/forprint_strategic_control_plane_policy.md
+  - coordination/index.yaml
+  - coordination/instruction_intake/module_profile_model.md
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__self_audit_assessment_v0_1.md
+  - coordination/internal_work/blueprint/structure_cleanup/2026-07-27__blueprint__structure_assessment_v0_1.md
+  - coordination/module_docs_snapshots/README.md
+  - coordination/module_docs_snapshots/calculator_engine/README.md
+  - coordination/module_policy/README.md
+  - coordination/module_policy/calculator_engine/development_focus.md
+  - coordination/module_policy/calculator_engine/module_goals.md
+  - coordination/module_policy/calculator_engine/role_boundaries.md
+  - coordination/module_policy/forprint_contract_registry/contract_registry_architecture_and_activation_brief.md
+  - coordination/module_policy/module_policy_index.yaml
+  - coordination/module_sources/README.md
+  - coordination/module_sources/module_git_sources.yaml
+  - coordination/modules/README.md
+  - coordination/modules/_shared/templates/external_input.template.yaml
+  - coordination/modules/_shared/templates/workflow_definition.template.md
+  - coordination/modules/forprint_system_blueprint/README.md
+  - coordination/modules/forprint_system_blueprint/external_input/README.md
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_maintenance_gate_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__snapshot_comparison_automation_v0_1.yaml
+  - coordination/repository_knowledge/direction/blueprint_coordination/2026-07-29__forprint_system_blueprint__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose or description field.
+- path: coordination/repository_knowledge/repository_knowledge_and_direction_snapshot_protocol_v0_2.md
+  context_role: immutable_repository_knowledge_snapshot
+  authority_class: immutable_snapshot
+  retention: Permanent and immutable; supersede only with a new dated snapshot.
+  changed_since_rci: false
+  purpose: ForPrint Repository Knowledge & Direction Snapshot Protocol v0.2
+  purpose_source: markdown_h1
+  confidence: high
+  decision_bearing: true
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'H1: ForPrint Repository Knowledge & Direction Snapshot Protocol v0.2'
+  - 'heading: ## 1. Purpose'
+  - 'heading: ## 2. Artifact set'
+  - 'heading: ### 2.1 Repository Capability Inventory — RCI'
+  - 'heading: ### 2.2 Repository Execution & Dependency Map — REDM'
+  - 'heading: ### 2.3 State, Direction & Rationale Snapshot — SDRS'
+  - 'heading: ## 3. Profile-specific structure'
+  - 'heading: ### 3.1 Blueprint repository'
+  - 'heading: ### 3.2 Module repository'
+  - 'heading: ## 4. Naming'
+  - 'heading: ## 5. Evidence and honesty model'
+  - 'heading: ## 6. Usage-state model'
+  outbound_references: []
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  unknowns: []
+- path: coordination/repository_knowledge/templates/blueprint_snapshot_assignment_v0_2.md
+  context_role: immutable_repository_knowledge_snapshot
+  authority_class: immutable_snapshot
+  retention: Permanent and immutable; supersede only with a new dated snapshot.
+  changed_since_rci: false
+  purpose: Blueprint Repository Knowledge & Direction Snapshot Assignment v0.2
+  purpose_source: markdown_h1
+  confidence: high
+  decision_bearing: true
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'H1: Blueprint Repository Knowledge & Direction Snapshot Assignment v0.2'
+  outbound_references: []
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  unknowns: []
+- path: coordination/repository_knowledge/templates/historical_snapshot_review_assignment_v0_1.md
+  context_role: immutable_repository_knowledge_snapshot
+  authority_class: immutable_snapshot
+  retention: Permanent and immutable; supersede only with a new dated snapshot.
+  changed_since_rci: false
+  purpose: Historical Snapshot Review Assignment v0.1
+  purpose_source: markdown_h1
+  confidence: high
+  decision_bearing: true
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'H1: Historical Snapshot Review Assignment v0.1'
+  - 'heading: ## Required questions'
+  - 'heading: ## Safety'
+  - 'heading: ## Output'
+  outbound_references: []
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  unknowns: []
+- path: coordination/repository_knowledge/templates/module_snapshot_assignment_v0_2.md
+  context_role: immutable_repository_knowledge_snapshot
+  authority_class: immutable_snapshot
+  retention: Permanent and immutable; supersede only with a new dated snapshot.
+  changed_since_rci: false
+  purpose: Module Repository Knowledge & Direction Snapshot Assignment v0.2
+  purpose_source: markdown_h1
+  confidence: high
+  decision_bearing: true
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'H1: Module Repository Knowledge & Direction Snapshot Assignment v0.2'
+  - 'heading: ## Module perspective rule'
+  - 'heading: ## Required behavior'
+  outbound_references: []
+  inbound_references:
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  unknowns: []
+- path: coordination/repository_knowledge/templates/repository_capability_inventory_v0_2.template.yaml
+  context_role: immutable_repository_knowledge_snapshot
+  authority_class: immutable_snapshot
+  retention: Permanent and immutable; supersede only with a new dated snapshot.
+  changed_since_rci: false
+  purpose: 'Structured coordination evidence represented by top-level keys: schema_version, snapshot, scope, repository_summary,
+    directory_inventory, capability_inventory, external_dependency_inventory, review_candidates.'
+  purpose_source: yaml_top_level_structure
+  confidence: medium
+  decision_bearing: true
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'top-level key: schema_version'
+  - 'top-level key: snapshot'
+  - 'top-level key: scope'
+  - 'top-level key: repository_summary'
+  - 'top-level key: directory_inventory'
+  - 'top-level key: capability_inventory'
+  - 'top-level key: external_dependency_inventory'
+  - 'top-level key: review_candidates'
+  - 'top-level key: comparison_to_previous'
+  - 'top-level key: quality_checks'
+  outbound_references: []
+  inbound_references:
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose or description field.
+- path: coordination/repository_knowledge/templates/repository_execution_dependency_map_v0_2.template.yaml
+  context_role: immutable_repository_knowledge_snapshot
+  authority_class: immutable_snapshot
+  retention: Permanent and immutable; supersede only with a new dated snapshot.
+  changed_since_rci: false
+  purpose: 'Structured coordination evidence represented by top-level keys: schema_version, snapshot, flow_summary,
+    flows, cross_flow_relationships, comparison_to_previous, quality_checks.'
+  purpose_source: yaml_top_level_structure
+  confidence: medium
+  decision_bearing: true
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'top-level key: schema_version'
+  - 'top-level key: snapshot'
+  - 'top-level key: flow_summary'
+  - 'top-level key: flows'
+  - 'top-level key: cross_flow_relationships'
+  - 'top-level key: comparison_to_previous'
+  - 'top-level key: quality_checks'
+  outbound_references: []
+  inbound_references:
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose or description field.
+- path: coordination/repository_knowledge/templates/state_direction_rationale_snapshot_v0_1.template.yaml
+  context_role: immutable_repository_knowledge_snapshot
+  authority_class: immutable_snapshot
+  retention: Permanent and immutable; supersede only with a new dated snapshot.
+  changed_since_rci: false
+  purpose: 'Structured coordination evidence represented by top-level keys: schema_version, snapshot, perspective,
+    current_state, direction, workstreams, decisions_and_rationale, prompt_and_work_rationale.'
+  purpose_source: yaml_top_level_structure
+  confidence: medium
+  decision_bearing: true
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'top-level key: schema_version'
+  - 'top-level key: snapshot'
+  - 'top-level key: perspective'
+  - 'top-level key: current_state'
+  - 'top-level key: direction'
+  - 'top-level key: workstreams'
+  - 'top-level key: decisions_and_rationale'
+  - 'top-level key: prompt_and_work_rationale'
+  - 'top-level key: alignment_review'
+  - 'top-level key: module_views'
+  - 'top-level key: risks_and_unknowns'
+  - 'top-level key: comparison_to_previous'
+  - 'top-level key: quality_checks'
+  - 'top-level key: final_notes'
+  outbound_references: []
+  inbound_references:
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose or description field.
+- path: coordination/review_packets/logistics_service/processed/2026-07-14__logistics_service_test_address_book_v0_1__accepted.yaml
+  context_role: module_review_and_acceptance_evidence
+  authority_class: accepted_or_review_evidence
+  retention: Permanent for accepted or blocker-bearing review decisions.
+  changed_since_rci: false
+  purpose: 'Structured coordination evidence represented by top-level keys: schema_version, review_id, module_id,
+    prompt_id, phase, decision, reviewed_at, review_notes.'
+  purpose_source: yaml_top_level_structure
+  confidence: medium
+  decision_bearing: true
+  dependencies_mapped: true
+  fully_verified: true
+  structural_evidence:
+  - 'top-level key: schema_version'
+  - 'top-level key: review_id'
+  - 'top-level key: module_id'
+  - 'top-level key: prompt_id'
+  - 'top-level key: phase'
+  - 'top-level key: decision'
+  - 'top-level key: reviewed_at'
+  - 'top-level key: review_notes'
+  - 'top-level key: module_evidence'
+  - 'top-level key: blueprint_updates'
+  outbound_references:
+  - coordination/outgoing_prompts/logistics_service/index.yaml
+  - coordination/roadmaps/logistics_service.yaml
+  inbound_references:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__metadata_consistency_audit_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+  unknowns:
+  - Purpose is structurally evidenced but not stated in an explicit purpose or description field.
+next_actions:
+- Triage unresolved semantic unknowns by authority and operational risk.
+- Enrich the next RCI with confirmed purpose and authority evidence.
+- Enrich REDM only with verified dependency evidence.
+- Reconcile RCI, REDM and SDRS before inventory acceptance.
+- Keep external module inventory gated until operational readiness is GREEN.
+quality_checks:
+  git_tracked_scope_used: true
+  wave_1_overlap_excluded: true
+  post_rci_drift_prioritized: true
+  purposes_evidence_labeled: true
+  unknowns_preserved: true
+  retention_rule_assigned: true
+  source_artifacts_not_modified: true
+  prompt_queues_not_modified: true
+  module_roadmaps_not_modified: true
+  external_rollout_remains_gated: true
+  cross_repository_writes_not_authorized: true
+  yaml_validated: true

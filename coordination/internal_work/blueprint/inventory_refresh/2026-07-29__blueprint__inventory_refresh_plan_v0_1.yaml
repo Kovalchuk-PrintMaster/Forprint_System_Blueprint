@@ -6,7 +6,7 @@ metadata:
   base_commit: 50df50b
   created_at: '2026-07-29'
   status: active
-  current_step_id: blueprint_semantic_inventory_wave_2_v0_1
+  current_step_id: blueprint_inventory_acceptance_merge_gate_v0_1
   planning_horizon:
     rule: 8_to_10_actionable_steps_ahead
     actionable_steps_ahead: 8
@@ -350,7 +350,7 @@ steps:
 - sequence: 14
   step_id: blueprint_semantic_inventory_wave_2_v0_1
   title: Verify coordination evidence, history and report purposes
-  status: active
+  status: completed
   priority: normal
   depends_on:
   - blueprint_inventory_coverage_dashboard_v0_1
@@ -364,10 +364,24 @@ steps:
   - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
   - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
   - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  completed_at: '2026-07-29'
+  evidence:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+  result:
+    selected_files: 50
+    purpose_evidenced: 49
+    dependencies_mapped: 50
+    fully_verified: 49
+    records_with_unknowns: 25
+    changed_since_rci_reviewed: 17
+    combined_reviewed_lower_bound: 80
+    external_rollout_state: gated
 - sequence: 15
   step_id: blueprint_inventory_acceptance_merge_gate_v0_1
   title: Accept inventory baseline and reconcile audit branch
-  status: planned
+  status: active
   priority: high
   depends_on:
   - blueprint_semantic_inventory_wave_2_v0_1
@@ -376,6 +390,10 @@ steps:
   - full Blueprint validation
   - inventory completion assessment
   - controlled merge or fast-forward decision
+  inputs:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
 - sequence: 16
   step_id: blueprint_registry_reconciliation_remediation_v0_1
   title: Resolve confirmed module registry collisions and coverage gaps
@@ -425,18 +443,30 @@ steps:
   - regression fixtures
   - failure recovery guidance
 - sequence: 20
-  step_id: blueprint_repository_knowledge_reconciliation_v0_1
-  title: Reconcile Blueprint RCI, REDM, SDRS and semantic evidence into one accepted self-context
+  step_id: blueprint_rci_semantic_enrichment_v0_1
+  title: Enrich the Blueprint RCI with verified semantic inventory evidence
   status: planned
   priority: high
   depends_on:
   - blueprint_snapshot_comparison_ci_gate_v0_1
   expected_outputs:
+  - purpose-evidenced capability entries
+  - authority and retention annotations
+  - explicit unresolved unknowns
+  - new dated RCI snapshot candidate
+- sequence: 21
+  step_id: blueprint_repository_knowledge_reconciliation_v0_1
+  title: Reconcile Blueprint RCI, REDM, SDRS and semantic evidence into one accepted self-context
+  status: planned
+  priority: high
+  depends_on:
+  - blueprint_rci_semantic_enrichment_v0_1
+  expected_outputs:
   - RCI semantic enrichment decisions
   - REDM dependency enrichment decisions
   - SDRS direction reconciliation
   - single repository-knowledge acceptance packet
-- sequence: 21
+- sequence: 22
   step_id: blueprint_inventory_operational_readiness_review_v0_1
   title: Review Blueprint inventory operational readiness before releasing external rollout
   status: planned
@@ -448,7 +478,7 @@ steps:
   - operational ownership confirmation
   - remaining unknowns disposition
   - external rollout release or continued freeze decision
-- sequence: 22
+- sequence: 23
   step_id: ecosystem_inventory_rollout_wave_b_v0_1
   title: Prepare repository inventory rollout wave B for the next verified module cohort
   status: planned
