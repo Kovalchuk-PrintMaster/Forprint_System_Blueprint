@@ -1,0 +1,76 @@
+schema_version: repository_knowledge_inventory_maintenance_v0_1
+metadata:
+  policy_id: forprint_system_blueprint_repository_knowledge_inventory_maintenance_v0_1
+  owner: blueprint_coordination
+  effective_date: '2026-07-29'
+  source_commit: d353d105b1efed6bfeb4196c01691e52a398d3f6
+policy:
+  priority: Blueprint self-inventory and systematization before external module inventory rollout.
+  require_git_tracked_snapshots: true
+  dated_snapshots_are_immutable: true
+  current_snapshot_must_link_previous: true
+  unknowns_must_remain_explicit: true
+  generated_views_are_not_authority: true
+  cross_repository_writes_forbidden: true
+  validation_required_after:
+  - accepted Blueprint coordination automation
+  - material tracked-file scope change
+  - inventory snapshot refresh
+  - inventory acceptance or merge gate
+external_rollout:
+  state: gated
+  prepared_wave: coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__ecosystem_inventory_rollout_wave_a_v0_1.yaml
+  release_conditions:
+  - Blueprint semantic inventory wave 2 completed
+  - Blueprint coverage and drift gate is GREEN
+  - Blueprint repository knowledge is reconciled
+  - Blueprint inventory acceptance and merge gate is GREEN
+  forbidden_before_release:
+  - activating module inventory prompts
+  - modifying external module repositories
+  - running contract and inventory work in parallel
+artifact_families:
+- family_id: blueprint_rci
+  artifact_type: repository_capability_inventory
+  owner: blueprint_coordination
+  previous: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+  current: coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  maximum_age_days: 30
+  maximum_interval_days: 45
+  update_triggers:
+  - tracked-file scope changes materially
+  - confirmed purpose or authority evidence changes
+  - inventory acceptance gate runs
+- family_id: blueprint_redm
+  artifact_type: repository_execution_dependency_map
+  owner: blueprint_coordination
+  previous: coordination/repository_knowledge/flows/2026-07-23__forprint_system_blueprint__repository_execution_dependency_map_v0_2.yaml
+  current: coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  maximum_age_days: 30
+  maximum_interval_days: 45
+  update_triggers:
+  - entrypoints, reads, writes or side effects change
+  - new coordination automation is accepted
+  - dependency or recovery behavior changes
+- family_id: blueprint_coordination_sdrs
+  artifact_type: state_direction_rationale_snapshot
+  owner: blueprint_coordination
+  previous: coordination/repository_knowledge/direction/blueprint_coordination/2026-07-23__forprint_system_blueprint__state_direction_rationale_snapshot_v0_1.yaml
+  current: coordination/repository_knowledge/direction/blueprint_coordination/2026-07-29__forprint_system_blueprint__state_direction_rationale_snapshot_v0_2.yaml
+  maximum_age_days: 30
+  maximum_interval_days: 45
+  update_triggers:
+  - Blueprint coordination direction changes
+  - inventory coverage or risk posture changes materially
+  - acceptance or merge gate changes the operating baseline
+- family_id: system_portfolio_sdrs
+  artifact_type: state_direction_rationale_snapshot
+  owner: blueprint_coordination
+  previous: coordination/repository_knowledge/direction/system_portfolio/2026-07-23__forprint_system__state_direction_rationale_snapshot_v0_1.yaml
+  current: coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml
+  maximum_age_days: 30
+  maximum_interval_days: 45
+  update_triggers:
+  - module acceptance or blocker state changes
+  - cross-module dependency ordering changes
+  - portfolio execution focus changes

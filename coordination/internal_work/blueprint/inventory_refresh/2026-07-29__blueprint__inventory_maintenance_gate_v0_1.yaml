@@ -1,0 +1,85 @@
+schema_version: blueprint_inventory_maintenance_gate_v0_1
+metadata:
+  gate_id: 2026-07-29__blueprint__inventory_maintenance_gate_v0_1
+  module_id: forprint_system_blueprint
+  created_at: '2026-07-29T18:40:00+03:00'
+  branch: audit/blueprint-inventory-refresh-2026-07-29
+  commit: d353d105b1efed6bfeb4196c01691e52a398d3f6
+  plan_step_id: blueprint_inventory_maintenance_gate_v0_1
+  result: GREEN
+policy: coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
+validator: scripts/coordination/validate_repository_knowledge_maintenance.py
+tests: tests/test_validate_repository_knowledge_maintenance.py
+validation:
+  schema_version: repository_knowledge_inventory_maintenance_report_v0_1
+  metadata:
+    config: coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
+    repo_root: /srv/software_development/forprint-project/forprint_system_blueprint
+    as_of: '2026-07-29'
+    result: PASSED
+  summary:
+    family_count: 4
+    passed_families: 4
+    failed_families: 0
+    policy_errors: 0
+    external_rollout_state: gated
+  policy_errors: []
+  families:
+  - family_id: blueprint_rci
+    artifact_type: repository_capability_inventory
+    owner: blueprint_coordination
+    status: PASSED
+    previous: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current: coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+    previous_snapshot_link: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    age_days: 0
+    interval_days: 6
+    errors: []
+    warnings: []
+  - family_id: blueprint_redm
+    artifact_type: repository_execution_dependency_map
+    owner: blueprint_coordination
+    status: PASSED
+    previous: coordination/repository_knowledge/flows/2026-07-23__forprint_system_blueprint__repository_execution_dependency_map_v0_2.yaml
+    current: coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+    previous_snapshot_link: coordination/repository_knowledge/flows/2026-07-23__forprint_system_blueprint__repository_execution_dependency_map_v0_2.yaml
+    age_days: 0
+    interval_days: 6
+    errors: []
+    warnings: []
+  - family_id: blueprint_coordination_sdrs
+    artifact_type: state_direction_rationale_snapshot
+    owner: blueprint_coordination
+    status: PASSED
+    previous: coordination/repository_knowledge/direction/blueprint_coordination/2026-07-23__forprint_system_blueprint__state_direction_rationale_snapshot_v0_1.yaml
+    current: coordination/repository_knowledge/direction/blueprint_coordination/2026-07-29__forprint_system_blueprint__state_direction_rationale_snapshot_v0_2.yaml
+    previous_snapshot_link: coordination/repository_knowledge/direction/blueprint_coordination/2026-07-23__forprint_system_blueprint__state_direction_rationale_snapshot_v0_1.yaml
+    age_days: 0
+    interval_days: 6
+    errors: []
+    warnings: []
+  - family_id: system_portfolio_sdrs
+    artifact_type: state_direction_rationale_snapshot
+    owner: blueprint_coordination
+    status: PASSED
+    previous: coordination/repository_knowledge/direction/system_portfolio/2026-07-23__forprint_system__state_direction_rationale_snapshot_v0_1.yaml
+    current: coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml
+    previous_snapshot_link: coordination/repository_knowledge/direction/system_portfolio/2026-07-23__forprint_system__state_direction_rationale_snapshot_v0_1.yaml
+    age_days: 0
+    interval_days: 6
+    errors: []
+    warnings: []
+priority_decision:
+  blueprint_self_inventory: active_priority
+  external_module_inventory: gated
+  release_only_after: Blueprint inventory acceptance and operational readiness review are GREEN.
+quality_checks:
+  unit_tests_passed: true
+  ruff_lint_passed: true
+  ruff_format_passed: true
+  four_snapshot_families_validated: true
+  snapshot_lineage_verified: true
+  snapshot_freshness_verified: true
+  external_rollout_remains_gated: true
+  cross_repository_writes_not_authorized: true
+  yaml_validated: true
