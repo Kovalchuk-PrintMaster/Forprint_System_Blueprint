@@ -6,7 +6,7 @@ metadata:
   base_commit: 50df50b
   created_at: '2026-07-29'
   status: active
-  current_step_id: blueprint_snapshot_comparison_automation_v0_1
+  current_step_id: ecosystem_inventory_rollout_wave_a_v0_1
   planning_horizon:
     rule: 8_to_10_actionable_steps_ahead
     actionable_steps_ahead: 8
@@ -237,7 +237,7 @@ steps:
 - sequence: 10
   step_id: blueprint_snapshot_comparison_automation_v0_1
   title: Automate dated snapshot comparison
-  status: active
+  status: completed
   priority: normal
   depends_on:
   - blueprint_semantic_inventory_wave_1_v0_1
@@ -250,10 +250,20 @@ steps:
   - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
   - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
   - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  completed_at: '2026-07-29'
+  evidence:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__snapshot_comparison_automation_v0_1.yaml
+  - scripts/coordination/compare_repository_knowledge_snapshots.py
+  - tests/test_compare_repository_knowledge_snapshots.py
+  result:
+    comparison_pairs: 4
+    unit_tests_passed: true
+    previous_snapshot_links_verified: true
+    source_snapshots_modified: false
 - sequence: 11
   step_id: ecosystem_inventory_rollout_wave_a_v0_1
   title: Roll inventory protocol out to active modules
-  status: planned
+  status: active
   priority: high
   depends_on:
   - blueprint_snapshot_comparison_automation_v0_1
@@ -261,6 +271,11 @@ steps:
   - read-only module inventory bundles
   - module RCI and REDM snapshots
   - portfolio inventory dashboard
+  inputs:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__snapshot_comparison_automation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
 - sequence: 12
   step_id: blueprint_inventory_maintenance_gate_v0_1
   title: Establish inventory maintenance cadence and quality gate
@@ -345,6 +360,18 @@ steps:
   - owners or evidence sources required
   - bounded follow-up waves
   - explicit defer/accept decisions
+- sequence: 19
+  step_id: blueprint_snapshot_comparison_ci_gate_v0_1
+  title: Integrate snapshot comparison into Blueprint validation
+  status: planned
+  priority: normal
+  depends_on:
+  - blueprint_semantic_inventory_unknowns_triage_v0_1
+  expected_outputs:
+  - dated snapshot linkage gate
+  - comparison schema validation
+  - regression fixtures
+  - failure recovery guidance
 completion_criteria:
 - Current Blueprint RCI, REDM and both SDRS snapshots are tracked.
 - The 2026-07-23 baseline remains unchanged.
