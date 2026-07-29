@@ -1,0 +1,148 @@
+schema_version: blueprint_inventory_refresh_plan_v0_1
+metadata:
+  plan_id: 2026-07-29__blueprint__inventory_refresh_plan_v0_1
+  module_id: forprint_system_blueprint
+  branch: audit/blueprint-inventory-refresh-2026-07-29
+  base_commit: 50df50b
+  created_at: '2026-07-29'
+  status: active
+  current_step_id: blueprint_current_rci_refresh_v0_1
+  planning_horizon:
+    rule: 8_to_10_actionable_steps_ahead
+    actionable_steps_ahead: 9
+    review_after_each_step: true
+objective: Convert the completed Blueprint Self Audit into a current, tracked and repeatable repository-knowledge
+  baseline before rolling inventory workflows out to controlled modules.
+guardrails:
+- Do not overwrite the 2026-07-23 RCI, REDM or SDRS snapshots.
+- Do not classify files as dead without ownership and reference evidence.
+- Do not write into other repositories during Blueprint inventory.
+- Keep unknowns and conflicts explicit.
+- Use exact staging; do not use git add dot.
+- Commit each inventory wave separately.
+- Keep generated runtime reports out of tracked evidence unless policy says otherwise.
+steps:
+- sequence: 1
+  step_id: blueprint_self_audit_v0_1
+  title: Complete Blueprint Self Audit
+  status: completed
+  priority: critical
+  evidence:
+  - reports/modules/forprint_system_blueprint/current/self_knowledge_report.md
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__self_audit_assessment_v0_1.md
+  result: 698 files indexed; 22 purposes understood; 4 dependencies mapped; 676 unknown files.
+- sequence: 2
+  step_id: blueprint_current_rci_refresh_v0_1
+  title: Create current Repository Capability Inventory
+  status: active
+  priority: critical
+  depends_on:
+  - blueprint_self_audit_v0_1
+  expected_outputs:
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - comparison to 2026-07-23 RCI
+  - canonical/operational/generated/historical/temporary classification
+- sequence: 3
+  step_id: blueprint_current_redm_refresh_v0_1
+  title: Create current execution and dependency map
+  status: planned
+  priority: critical
+  depends_on:
+  - blueprint_current_rci_refresh_v0_1
+  expected_outputs:
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  - current Make and CLI flow coverage
+  - explicit writes, generated artifacts and recovery paths
+- sequence: 4
+  step_id: blueprint_coordination_sdrs_refresh_v0_1
+  title: Refresh Blueprint coordination SDRS
+  status: planned
+  priority: high
+  depends_on:
+  - blueprint_current_rci_refresh_v0_1
+  - blueprint_current_redm_refresh_v0_1
+  expected_outputs:
+  - coordination/repository_knowledge/direction/blueprint_coordination/2026-07-29__forprint_system_blueprint__state_direction_rationale_snapshot_v0_2.yaml
+- sequence: 5
+  step_id: blueprint_portfolio_sdrs_refresh_v0_1
+  title: Refresh system portfolio SDRS
+  status: planned
+  priority: high
+  depends_on:
+  - blueprint_coordination_sdrs_refresh_v0_1
+  expected_outputs:
+  - coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml
+- sequence: 6
+  step_id: blueprint_metadata_consistency_audit_v0_1
+  title: Audit coordination metadata consistency
+  status: planned
+  priority: critical
+  depends_on:
+  - blueprint_portfolio_sdrs_refresh_v0_1
+  expected_outputs:
+  - Prompt Queue versus roadmap comparison
+  - status/current-focus versus completion evidence comparison
+  - read-only consistency report
+- sequence: 7
+  step_id: blueprint_module_registry_reconciliation_v0_1
+  title: Reconcile module IDs, aliases and repository paths
+  status: planned
+  priority: critical
+  depends_on:
+  - blueprint_metadata_consistency_audit_v0_1
+  expected_outputs:
+  - canonical module ID registry
+  - legacy alias map
+  - repository path and lifecycle reconciliation
+- sequence: 8
+  step_id: blueprint_artifact_authority_map_v0_1
+  title: Create artifact authority and retention map
+  status: planned
+  priority: high
+  depends_on:
+  - blueprint_module_registry_reconciliation_v0_1
+  expected_outputs:
+  - canonical artifact classes
+  - generated/current/history retention rules
+  - temporary workflow artifact policy
+- sequence: 9
+  step_id: blueprint_semantic_inventory_wave_1_v0_1
+  title: Verify high-value file purposes and dependencies
+  status: planned
+  priority: high
+  depends_on:
+  - blueprint_artifact_authority_map_v0_1
+  expected_outputs:
+  - verified machine and registry files
+  - verified scripts/tools/Make entrypoints
+  - updated purpose and dependency coverage
+- sequence: 10
+  step_id: blueprint_snapshot_comparison_automation_v0_1
+  title: Automate dated snapshot comparison
+  status: planned
+  priority: normal
+  depends_on:
+  - blueprint_semantic_inventory_wave_1_v0_1
+  expected_outputs:
+  - RCI comparison command
+  - REDM comparison command
+  - SDRS comparison command
+  - compact drift report
+- sequence: 11
+  step_id: ecosystem_inventory_rollout_wave_a_v0_1
+  title: Roll inventory protocol out to active modules
+  status: planned
+  priority: high
+  depends_on:
+  - blueprint_snapshot_comparison_automation_v0_1
+  expected_outputs:
+  - read-only module inventory bundles
+  - module RCI and REDM snapshots
+  - portfolio inventory dashboard
+completion_criteria:
+- Current Blueprint RCI, REDM and both SDRS snapshots are tracked.
+- The 2026-07-23 baseline remains unchanged.
+- Metadata and registry conflicts are recorded explicitly.
+- Inventory workflows are repeatable and read-only by default.
+- At least eight actionable steps remain visible ahead during active work.
+- Full Blueprint validation remains green.
