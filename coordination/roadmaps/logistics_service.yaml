@@ -5,7 +5,7 @@ metadata:
   module_working_name: ForPrint Logistics Service
   current_step_id: logistics_service_provider_adapter_contract_v0_1
   roadmap_version: logistics_service_foundation_v0_1
-  updated_at: '2026-07-14'
+  updated_at: '2026-07-29'
   repository_root: /srv/software_development/forprint-project/forprint_logistics_service
   implementation_type: operational_integration_service
   current_stage: logistics service foundation
@@ -187,7 +187,7 @@ roadmap:
 - sequence: 4
   step_id: logistics_service_provider_adapter_contract_v0_1
   title: Provider adapter contract
-  status: active
+  status: accepted
   priority: high
   owner_module: logistics_service
   depends_on:
@@ -195,7 +195,13 @@ roadmap:
     module: logistics_service
     step_id: logistics_service_test_address_book_v0_1
     status: accepted
-  evidence: {}
+  evidence:
+    implementation_commit: 245fea7c868be675b844885a55070712cfa81db2
+    completion_commit: 4812047963427043d616871075ac807a35e51aff
+    completion_report: coordination/reports/completion/logistics_service_provider_adapter_contract_v0_1_completion.md
+    completion_packet: coordination/completion_packets/records/2026-07-15__logistics_service__provider_adapter_contract_v0_1_completion.yaml
+    test_summary: module completion checks reported successful
+    blueprint_review_status: accepted_by_blueprint
   summary: 'Define a provider adapter interface that can support Nova Poshta, Ukrposhta, SAT, Meest, Uklon,
     Bolt, Uber and local courier workflows without coupling the service to one provider.
 
@@ -211,12 +217,11 @@ roadmap:
     prompt_id: logistics_service_provider_adapter_contract_v0_1
     prompt_file: coordination/outgoing_prompts/logistics_service/approved/2026-07-14__logistics_service__provider_adapter_contract_v0_1.md
     prompt_queue_sequence: 4
-  notes: >
-    Active after Blueprint acceptance of the synthetic test address book foundation.
-    Refine the existing adapter base instead of creating a competing hierarchy.
-    Keep all provider operations local, synthetic, read-only or dry-run and align
-    compact/extended reporting with the current Blueprint standards.
+  notes: 'Active after Blueprint acceptance of the synthetic test address book foundation. Refine the
+    existing adapter base instead of creating a competing hierarchy. Keep all provider operations local,
+    synthetic, read-only or dry-run and align compact/extended reporting with the current Blueprint standards.
 
+    '
 - sequence: 5
   step_id: logistics_service_nova_poshta_read_only_foundation_v0_1
   title: Nova Poshta read-only foundation
@@ -316,9 +321,10 @@ roadmap:
     step_id: logistics_service_provider_adapter_contract_v0_1
     status: accepted
   evidence: {}
-  summary: >
-    Add a Ukrposhta adapter foundation in read-only or dry-run mode using the
-    accepted provider-neutral contract, without creating real shipments.
+  summary: 'Add a Ukrposhta adapter foundation in read-only or dry-run mode using the accepted provider-neutral
+    contract, without creating real shipments.
+
+    '
   expected_outputs:
   - Ukrposhta adapter skeleton
   - read-only provider config
@@ -330,7 +336,6 @@ roadmap:
   - real shipment creation
   - provider credentials in git
   - automatic provider writes
-
 - sequence: 10
   step_id: logistics_service_delivery_quote_and_selection_v0_1
   title: Delivery quote and provider selection foundation
@@ -347,10 +352,10 @@ roadmap:
     step_id: logistics_service_ukrposhta_read_only_foundation_v0_1
     status: accepted
   evidence: {}
-  summary: >
-    Define provider-neutral delivery quote request/result contracts and an
-    explainable provider-option comparison without taking ownership of final
-    customer pricing or automatic provider selection.
+  summary: 'Define provider-neutral delivery quote request/result contracts and an explainable provider-option
+    comparison without taking ownership of final customer pricing or automatic provider selection.
+
+    '
   expected_outputs:
   - delivery quote request/result contract
   - provider service option model
