@@ -120,6 +120,39 @@ recent completed steps
 current active step
 next ready/planned steps
 blocked/deferred high-priority items
+## Planning horizon rule
+
+For every module under active development, the canonical roadmap should normally show **8–10 actionable steps after the current ready or active step**.
+
+The horizon is a planning map, not an immutable contract. Steps may be split, merged, reordered, blocked, deferred or superseded as evidence changes, but the roadmap must continue to show a credible path forward.
+
+Count toward the actionable horizon:
+
+```text
+ready
+active
+planned
+```
+
+Do not use these statuses to artificially satisfy the minimum:
+
+```text
+deferred
+reference-only work
+cancelled
+superseded
+```
+
+After each Blueprint acceptance or material scope change:
+
+1. review the current step;
+2. verify that 8–10 actionable steps remain visible ahead;
+3. refresh dependencies and priorities;
+4. add, remove or reorder future steps;
+5. keep only the immediate executable work in Prompt Queue.
+
+Young modules may temporarily have fewer than eight future steps only when the uncertainty is explicit and the roadmap contains a dedicated discovery step to rebuild the horizon.
+
 Multiple module comparison
 
 Roadmap dashboards should support displaying more than one module when practical.

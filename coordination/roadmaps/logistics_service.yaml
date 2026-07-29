@@ -3,12 +3,18 @@ module: logistics_service
 metadata:
   module: logistics_service
   module_working_name: ForPrint Logistics Service
-  current_step_id: logistics_service_provider_adapter_contract_v0_1
-  roadmap_version: logistics_service_foundation_v0_1
+  current_step_id: logistics_service_tracking_events_v0_1
+  roadmap_version: logistics_service_delivery_workflow_v0_2
   updated_at: '2026-07-29'
+  planning_horizon:
+    rule: 8_to_10_actionable_steps_ahead
+    current_ready_step: logistics_service_tracking_events_v0_1
+    actionable_steps_ahead: 8
+    reference_steps_ahead: 1
+    review_after_each_acceptance: true
   repository_root: /srv/software_development/forprint-project/forprint_logistics_service
   implementation_type: operational_integration_service
-  current_stage: logistics service foundation
+  current_stage: provider-neutral delivery workflow and local persistence
   purpose: 'Establish Logistics Service as the owner of delivery provider boundaries, shipment drafts,
     tracking truth, provider payloads, logistics address book and logistics event history for ForPrint
     operational workflows.
@@ -223,43 +229,21 @@ roadmap:
 
     '
 - sequence: 5
-  step_id: logistics_service_nova_poshta_read_only_foundation_v0_1
-  title: Nova Poshta read-only foundation
-  status: planned
-  priority: high
-  owner_module: logistics_service
-  depends_on:
-  - logistics_service_provider_adapter_contract_v0_1
-  - logistics_service_test_address_book_v0_1
-  evidence: {}
-  summary: 'Add the first Nova Poshta adapter foundation in read-only or dry-run mode: provider metadata,
-    branch/city lookup planning, tracking lookup planning and payload preview, without creating real shipments.
-
-    '
-  expected_outputs:
-  - Nova Poshta adapter skeleton
-  - read-only provider config
-  - tracking lookup interface
-  - shipment payload preview
-  - secrets example without real secrets
-  - live write disabled by default
-  forbidden_outputs:
-  - real TTN creation
-  - provider credentials in git
-  - automatic shipment creation
-- sequence: 6
   step_id: logistics_service_tracking_events_v0_1
   title: Tracking events and notification contracts
-  status: planned
-  priority: normal
+  status: ready
+  priority: critical
   owner_module: logistics_service
   depends_on:
-  - logistics_service_provider_adapter_contract_v0_1
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_provider_adapter_contract_v0_1
+    status: accepted
   evidence: {}
-  summary: 'Introduce provider-neutral tracking and notification events that can later be consumed by
-    Telegram Bot, CRM or Website.
-
-    '
+  summary: >
+    Define provider-neutral shipment lifecycle and notification events before
+    provider-specific implementation. This becomes the shared contract surface
+    for Telegram Bot, Website, CRM and future central storage adapters.
   expected_outputs:
   - shipment_created event
   - tracking_updated event
@@ -267,51 +251,166 @@ roadmap:
   - delivered event
   - failed event
   - needs_attention event
+  - provider-neutral event envelope
+  - event version and occurred_at fields
+  - correlation and idempotency keys
   - notification payload preview
-- sequence: 7
-  step_id: logistics_service_controlled_live_write_gate_v0_1
-  title: Controlled live write gate planning
-  status: deferred
-  priority: reference
-  owner_module: logistics_service
-  depends_on:
-  - logistics_service_nova_poshta_read_only_foundation_v0_1
-  evidence: {}
-  summary: 'Plan the safety gates required before any provider write operation is enabled. This is planning
-    only, not live shipment creation.
+  - synthetic contract fixtures
+  forbidden_outputs:
+  - Telegram conversation state ownership
+  - canonical order creation
+  - live provider calls
+  - live provider writes
 
-    '
-  expected_outputs:
-  - dry_run flag policy
-  - manual_confirmed flag policy
-  - environment safety policy
-  - audit requirement
-  - rollback/cancel policy notes
-  - no live write implemented
-- sequence: 8
-  step_id: logistics_service_taxi_provider_abstraction_v0_1
-  title: Taxi and courier provider abstraction
+- sequence: 6
+  step_id: logistics_service_local_persistence_and_migration_boundary_v0_1
+  title: Local logistics persistence and migration boundary
   status: planned
-  priority: normal
+  priority: critical
   owner_module: logistics_service
   depends_on:
-  - logistics_service_provider_adapter_contract_v0_1
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_boundary_and_local_model_v0_1
+    status: accepted
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_tracking_events_v0_1
+    status: pending
   evidence: {}
-  summary: 'Prepare a separate abstraction for taxi/courier providers such as Uklon, Bolt, Uber or local
-    couriers, where the workflow is pickup/dropoff based rather than parcel/TTN based.
-
-    '
+  summary: >
+    Implement a module-local SQLite persistence adapter for delivery workflow
+    testing while preserving a replaceable repository boundary for the future
+    central database. Local data is operational test state, not canonical
+    ecosystem truth.
   expected_outputs:
-  - pickup point model
-  - dropoff point model
-  - cargo note model
-  - driver/car status notes
-  - pickup arrived event
-  - delivery arrived event
-  - no live taxi order creation
+  - SQLite-backed logistics repository
+  - schema version table
+  - deterministic migrations
+  - shipment draft persistence
+  - tracking event persistence
+  - notification outbox persistence
+  - export/import test fixture
+  - repository adapter boundary for future central storage
+  - local data classification and cleanup policy
+  - restart and migration tests
+  forbidden_outputs:
+  - canonical client database
+  - canonical order database
+  - production credentials
+  - hidden coupling to one future database technology
+
+- sequence: 7
+  step_id: logistics_service_telegram_notification_handoff_contract_v0_1
+  title: Telegram notification handoff contract
+  status: planned
+  priority: high
+  owner_module: logistics_service
+  depends_on:
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_tracking_events_v0_1
+    status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_local_persistence_and_migration_boundary_v0_1
+    status: pending
+  evidence: {}
+  summary: >
+    Define the provider-neutral outbound notification contract consumed by
+    Telegram Bot without moving shipment truth, provider credentials or
+    delivery workflow ownership into the channel module.
+  expected_outputs:
+  - logistics notification envelope
+  - notification type mapping
+  - shipment and tracking references
+  - recipient channel hint
+  - correlation and idempotency keys
+  - local outbox preview
+  - Telegram consumer examples
+  - retry and duplicate-handling expectations
+  forbidden_outputs:
+  - direct Telegram runtime database write
+  - Telegram conversation ownership
+  - canonical customer ownership
+  - live cross-repository write
+
+- sequence: 8
+  step_id: logistics_service_nova_poshta_read_only_foundation_v0_1
+  title: Nova Poshta read-only foundation
+  status: planned
+  priority: high
+  owner_module: logistics_service
+  depends_on:
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_provider_adapter_contract_v0_1
+    status: accepted
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_tracking_events_v0_1
+    status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_local_persistence_and_migration_boundary_v0_1
+    status: pending
+  evidence: {}
+  summary: >
+    Add the first Nova Poshta adapter foundation in read-only or dry-run mode:
+    provider metadata, branch/city lookup planning, tracking lookup planning
+    and shipment payload preview without real shipment creation.
+  expected_outputs:
+  - Nova Poshta adapter skeleton
+  - read-only provider configuration
+  - city and branch lookup contract
+  - tracking lookup contract
+  - normalized tracking event mapping
+  - shipment payload preview
+  - secrets example without real secrets
+  - live write disabled by default
+  forbidden_outputs:
+  - real TTN creation
+  - provider credentials in git
+  - automatic shipment creation
+
 - sequence: 9
   step_id: logistics_service_ukrposhta_read_only_foundation_v0_1
   title: Ukrposhta read-only foundation
+  status: planned
+  priority: high
+  owner_module: logistics_service
+  depends_on:
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_provider_adapter_contract_v0_1
+    status: accepted
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_tracking_events_v0_1
+    status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_local_persistence_and_migration_boundary_v0_1
+    status: pending
+  evidence: {}
+  summary: >
+    Add an Ukrposhta adapter foundation in read-only or dry-run mode using the
+    accepted provider-neutral contract without creating real shipments.
+  expected_outputs:
+  - Ukrposhta adapter skeleton
+  - read-only provider configuration
+  - branch and address lookup contract
+  - tracking normalization contract
+  - shipment payload preview
+  - live write disabled
+  forbidden_outputs:
+  - real shipment creation
+  - provider credentials in git
+  - automatic provider writes
+
+- sequence: 10
+  step_id: logistics_service_taxi_provider_abstraction_v0_1
+  title: Taxi and local courier provider abstraction
   status: planned
   priority: normal
   owner_module: logistics_service
@@ -320,46 +419,159 @@ roadmap:
     module: logistics_service
     step_id: logistics_service_provider_adapter_contract_v0_1
     status: accepted
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_tracking_events_v0_1
+    status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_local_persistence_and_migration_boundary_v0_1
+    status: pending
   evidence: {}
-  summary: 'Add a Ukrposhta adapter foundation in read-only or dry-run mode using the accepted provider-neutral
-    contract, without creating real shipments.
-
-    '
+  summary: >
+    Prepare a separate pickup/dropoff abstraction for Uklon, Bolt, Uber and
+    local courier workflows without using parcel or TTN assumptions.
   expected_outputs:
-  - Ukrposhta adapter skeleton
-  - read-only provider config
-  - branch/address lookup planning
-  - tracking normalization planning
-  - shipment payload preview
-  - live write disabled
-  forbidden_outputs:
-  - real shipment creation
-  - provider credentials in git
-  - automatic provider writes
-- sequence: 10
+  - pickup point model
+  - dropoff point model
+  - cargo note model
+  - courier service option model
+  - pickup arrived event
+  - delivery arrived event
+  - synthetic booking preview
+  - no live taxi order creation
+
+- sequence: 11
   step_id: logistics_service_delivery_quote_and_selection_v0_1
   title: Delivery quote and provider selection foundation
   status: planned
-  priority: normal
+  priority: high
   owner_module: logistics_service
   depends_on:
   - type: module_step
     module: logistics_service
     step_id: logistics_service_nova_poshta_read_only_foundation_v0_1
-    status: accepted
+    status: pending
   - type: module_step
     module: logistics_service
     step_id: logistics_service_ukrposhta_read_only_foundation_v0_1
-    status: accepted
+    status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_taxi_provider_abstraction_v0_1
+    status: pending
   evidence: {}
-  summary: 'Define provider-neutral delivery quote request/result contracts and an explainable provider-option
-    comparison without taking ownership of final customer pricing or automatic provider selection.
-
-    '
+  summary: >
+    Define provider-neutral delivery quote contracts and explainable provider
+    comparison without owning final customer pricing or automatic booking.
   expected_outputs:
-  - delivery quote request/result contract
+  - delivery quote request contract
+  - delivery quote result contract
   - provider service option model
   - delivery cost estimate boundary
-  - comparison/selection explanation
+  - delivery time estimate boundary
+  - comparison explanation
+  - manual selection preview
   - no Calculator final-price ownership
   - no live booking
+
+- sequence: 12
+  step_id: logistics_service_shipment_lifecycle_orchestration_preview_v0_1
+  title: Shipment lifecycle orchestration preview
+  status: planned
+  priority: high
+  owner_module: logistics_service
+  depends_on:
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_tracking_events_v0_1
+    status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_local_persistence_and_migration_boundary_v0_1
+    status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_delivery_quote_and_selection_v0_1
+    status: pending
+  evidence: {}
+  summary: >
+    Connect recipient selection, shipment draft, provider option, payload
+    preview, tracking request and notification events into one deterministic
+    local workflow without enabling provider writes.
+  expected_outputs:
+  - shipment lifecycle state model
+  - deterministic transition rules
+  - local orchestration service
+  - preview-only end-to-end scenario
+  - failure and needs-attention transitions
+  - audit event sequence
+  - restart recovery test
+  - no live provider write
+
+- sequence: 13
+  step_id: logistics_service_provider_polling_reconciliation_idempotency_v0_1
+  title: Provider polling, reconciliation and idempotency
+  status: planned
+  priority: high
+  owner_module: logistics_service
+  depends_on:
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_nova_poshta_read_only_foundation_v0_1
+    status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_ukrposhta_read_only_foundation_v0_1
+    status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_shipment_lifecycle_orchestration_preview_v0_1
+    status: pending
+  evidence: {}
+  summary: >
+    Define safe read-only polling, provider snapshot reconciliation, retry and
+    deduplication behavior before any production scheduler or live write gate.
+  expected_outputs:
+  - polling cursor model
+  - provider response snapshot
+  - normalized status reconciliation
+  - idempotent event ingestion
+  - retry and backoff policy
+  - duplicate suppression
+  - stale-data detection
+  - audit and diagnostic report
+  forbidden_outputs:
+  - production scheduler activation
+  - live provider mutation
+  - uncontrolled background worker
+
+- sequence: 14
+  step_id: logistics_service_controlled_live_write_gate_v0_1
+  title: Controlled live write gate planning
+  status: deferred
+  priority: reference
+  owner_module: logistics_service
+  depends_on:
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_shipment_lifecycle_orchestration_preview_v0_1
+    status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_provider_polling_reconciliation_idempotency_v0_1
+    status: pending
+  evidence: {}
+  summary: >
+    Plan the controls required before any shipment, TTN, taxi or courier write
+    can be enabled. This step remains planning-only until explicit Blueprint
+    approval and credential/environment governance exist.
+  expected_outputs:
+  - dry_run flag policy
+  - manual_confirmed flag policy
+  - environment safety policy
+  - credential readiness gate
+  - audit requirement
+  - rollback and cancellation policy
+  - provider-specific write allowlist
+  - no live write implemented
