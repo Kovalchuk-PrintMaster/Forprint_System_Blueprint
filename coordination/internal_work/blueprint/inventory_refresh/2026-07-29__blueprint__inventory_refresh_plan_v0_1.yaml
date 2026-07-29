@@ -6,7 +6,7 @@ metadata:
   base_commit: 50df50b
   created_at: '2026-07-29'
   status: active
-  current_step_id: ecosystem_inventory_rollout_wave_a_v0_1
+  current_step_id: blueprint_inventory_maintenance_gate_v0_1
   planning_horizon:
     rule: 8_to_10_actionable_steps_ahead
     actionable_steps_ahead: 8
@@ -263,7 +263,7 @@ steps:
 - sequence: 11
   step_id: ecosystem_inventory_rollout_wave_a_v0_1
   title: Roll inventory protocol out to active modules
-  status: active
+  status: completed
   priority: high
   depends_on:
   - blueprint_snapshot_comparison_automation_v0_1
@@ -276,10 +276,23 @@ steps:
   - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
   - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
   - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  completed_at: '2026-07-29'
+  evidence:
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__ecosystem_inventory_rollout_wave_a_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__forprint_library__inventory_rollout_packet_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__logistics_service__inventory_rollout_packet_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__telegram_bot__inventory_rollout_packet_v0_1.yaml
+  result:
+    wave_state: READY_GATED
+    modules_prepared: 3
+    modules_started: 0
+    modules_blocked_by_current_work: 3
+    prompt_queues_modified: false
+    module_repositories_modified: false
 - sequence: 12
   step_id: blueprint_inventory_maintenance_gate_v0_1
   title: Establish inventory maintenance cadence and quality gate
-  status: planned
+  status: active
   priority: normal
   depends_on:
   - ecosystem_inventory_rollout_wave_a_v0_1
@@ -288,6 +301,10 @@ steps:
   - snapshot freshness threshold
   - coverage regression gate
   - operator recovery checklist
+  inputs:
+  - coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__ecosystem_inventory_rollout_wave_a_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__snapshot_comparison_automation_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
 - sequence: 13
   step_id: blueprint_inventory_coverage_dashboard_v0_1
   title: Create inventory coverage and drift dashboard
@@ -372,6 +389,18 @@ steps:
   - comparison schema validation
   - regression fixtures
   - failure recovery guidance
+- sequence: 20
+  step_id: ecosystem_inventory_rollout_wave_b_v0_1
+  title: Prepare repository inventory rollout wave B for the next verified module cohort
+  status: planned
+  priority: normal
+  depends_on:
+  - blueprint_snapshot_comparison_ci_gate_v0_1
+  expected_outputs:
+  - wave B module selection
+  - dependency-safe execution order
+  - module-specific rollout packets
+  - acceptance and recovery gates
 completion_criteria:
 - Current Blueprint RCI, REDM and both SDRS snapshots are tracked.
 - The 2026-07-23 baseline remains unchanged.

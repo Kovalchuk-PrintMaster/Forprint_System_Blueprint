@@ -1,0 +1,60 @@
+schema_version: ecosystem_inventory_rollout_wave_v0_1
+metadata:
+  wave_id: ecosystem_inventory_rollout_wave_a_v0_1
+  created_at: '2026-07-29T18:30:00+03:00'
+  branch: audit/blueprint-inventory-refresh-2026-07-29
+  commit: be53d0103c2816bcfdc7ee15d467dfdb0041a25c
+  result: READY_GATED
+  plan_step_id: ecosystem_inventory_rollout_wave_a_v0_1
+purpose: Prepare the first controlled module inventory wave without interrupting active contract work or bypassing
+  acceptance blockers.
+modules:
+- module_id: forprint_library
+  packet: coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__forprint_library__inventory_rollout_packet_v0_1.yaml
+  portfolio_state: acceptance_blocked
+  current_work: forprint_library_calculator_input_contract_v0_1
+  rollout_state: blocked_until_completion_evidence_acceptance
+  gate: Blueprint accepts the module's current completion packet and exact final HEAD.
+- module_id: logistics_service
+  packet: coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__logistics_service__inventory_rollout_packet_v0_1.yaml
+  portfolio_state: active
+  current_work: logistics_service_tracking_events_v0_1
+  rollout_state: scheduled_after_current_contract_acceptance
+  gate: Blueprint accepts logistics_service_tracking_events_v0_1
+- module_id: telegram_bot
+  packet: coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__telegram_bot__inventory_rollout_packet_v0_1.yaml
+  portfolio_state: acceptance_blocked
+  current_work: telegram_bot_governance_baseline_adoption_v0_1
+  rollout_state: blocked_until_completion_evidence_acceptance
+  gate: Blueprint accepts the module's current completion packet and exact final HEAD.
+execution_order:
+- rank: 1
+  module_id: logistics_service
+  start_condition: Tracking Events Contract accepted by Blueprint.
+- rank: 2
+  module_id: forprint_library
+  start_condition: Calculator Input Contract completion evidence accepted.
+- rank: 3
+  module_id: telegram_bot
+  start_condition: Governance baseline completion evidence accepted.
+balance_controls:
+- No module begins inventory while its current contract or acceptance repair is active.
+- Only one new inventory prompt is activated at a time.
+- Producer-consumer ordering remains Logistics before Telegram notification work.
+- Library inventory does not modify Calculator ownership boundaries.
+- All inventory work is module-local and read-only regarding external systems.
+source_evidence:
+- coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml
+- coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__metadata_consistency_audit_v0_1.yaml
+- coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+- coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+- coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__snapshot_comparison_automation_v0_1.yaml
+quality_checks:
+  active_module_set_verified: true
+  current_work_preserved: true
+  acceptance_blockers_preserved: true
+  no_prompt_queue_changes: true
+  no_roadmap_source_changes: true
+  cross_repository_writes_not_authorized: true
+  network_io_not_required: true
+  yaml_validated: true
