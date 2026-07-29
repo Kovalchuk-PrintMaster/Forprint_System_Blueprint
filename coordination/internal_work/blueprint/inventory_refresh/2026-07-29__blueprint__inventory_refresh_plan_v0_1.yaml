@@ -6,7 +6,7 @@ metadata:
   base_commit: 50df50b
   created_at: '2026-07-29'
   status: active
-  current_step_id: blueprint_artifact_authority_map_v0_1
+  current_step_id: blueprint_semantic_inventory_wave_1_v0_1
   planning_horizon:
     rule: 8_to_10_actionable_steps_ahead
     actionable_steps_ahead: 8
@@ -177,7 +177,7 @@ steps:
 - sequence: 8
   step_id: blueprint_artifact_authority_map_v0_1
   title: Create artifact authority and retention map
-  status: active
+  status: completed
   priority: high
   depends_on:
   - blueprint_module_registry_reconciliation_v0_1
@@ -194,10 +194,22 @@ steps:
   - reports/
   - history/
   - tmp/
+  completed_at: '2026-07-29'
+  evidence:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  result:
+    tracked_files_classified: 709
+    artifact_classes: 19
+    generated_rebuildable_tracked: 34
+    runtime_tracked: 3
+    classification_pending: 186
+    cross_repository_writes_authorized: false
 - sequence: 9
   step_id: blueprint_semantic_inventory_wave_1_v0_1
   title: Verify high-value file purposes and dependencies
-  status: planned
+  status: active
   priority: high
   depends_on:
   - blueprint_artifact_authority_map_v0_1
@@ -205,6 +217,10 @@ steps:
   - verified machine and registry files
   - verified scripts/tools/Make entrypoints
   - updated purpose and dependency coverage
+  inputs:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
 - sequence: 10
   step_id: blueprint_snapshot_comparison_automation_v0_1
   title: Automate dated snapshot comparison
@@ -288,6 +304,18 @@ steps:
   - reviewed alias ownership decisions
   - reviewed repository-path corrections
   - reviewed lifecycle and coverage corrections
+- sequence: 17
+  step_id: blueprint_artifact_authority_policy_adoption_v0_1
+  title: Apply artifact authority and retention rules to generators and validators
+  status: planned
+  priority: high
+  depends_on:
+  - blueprint_registry_reconciliation_remediation_v0_1
+  expected_outputs:
+  - canonical authority declarations
+  - generator ownership and drift checks
+  - runtime retention enforcement
+  - deletion and recovery validation
 completion_criteria:
 - Current Blueprint RCI, REDM and both SDRS snapshots are tracked.
 - The 2026-07-23 baseline remains unchanged.
