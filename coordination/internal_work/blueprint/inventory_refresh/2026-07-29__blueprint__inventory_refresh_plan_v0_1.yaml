@@ -6,7 +6,7 @@ metadata:
   base_commit: 50df50b
   created_at: '2026-07-29'
   status: active
-  current_step_id: blueprint_semantic_inventory_wave_1_v0_1
+  current_step_id: blueprint_snapshot_comparison_automation_v0_1
   planning_horizon:
     rule: 8_to_10_actionable_steps_ahead
     actionable_steps_ahead: 8
@@ -209,7 +209,7 @@ steps:
 - sequence: 9
   step_id: blueprint_semantic_inventory_wave_1_v0_1
   title: Verify high-value file purposes and dependencies
-  status: active
+  status: completed
   priority: high
   depends_on:
   - blueprint_artifact_authority_map_v0_1
@@ -221,10 +221,23 @@ steps:
   - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
   - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
   - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  completed_at: '2026-07-29'
+  evidence:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  result:
+    selected_files: 30
+    purpose_evidenced: 30
+    dependencies_mapped: 30
+    fully_verified: 30
+    records_with_unknowns: 23
+    source_files_modified: false
 - sequence: 10
   step_id: blueprint_snapshot_comparison_automation_v0_1
   title: Automate dated snapshot comparison
-  status: planned
+  status: active
   priority: normal
   depends_on:
   - blueprint_semantic_inventory_wave_1_v0_1
@@ -233,6 +246,10 @@ steps:
   - REDM comparison command
   - SDRS comparison command
   - compact drift report
+  inputs:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
 - sequence: 11
   step_id: ecosystem_inventory_rollout_wave_a_v0_1
   title: Roll inventory protocol out to active modules
@@ -316,6 +333,18 @@ steps:
   - generator ownership and drift checks
   - runtime retention enforcement
   - deletion and recovery validation
+- sequence: 18
+  step_id: blueprint_semantic_inventory_unknowns_triage_v0_1
+  title: Triage unresolved semantic inventory unknowns into bounded follow-up work
+  status: planned
+  priority: normal
+  depends_on:
+  - blueprint_artifact_authority_policy_adoption_v0_1
+  expected_outputs:
+  - unknowns grouped by authority and dependency risk
+  - owners or evidence sources required
+  - bounded follow-up waves
+  - explicit defer/accept decisions
 completion_criteria:
 - Current Blueprint RCI, REDM and both SDRS snapshots are tracked.
 - The 2026-07-23 baseline remains unchanged.
