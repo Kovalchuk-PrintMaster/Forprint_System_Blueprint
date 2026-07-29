@@ -6,11 +6,12 @@ metadata:
   base_commit: 50df50b
   created_at: '2026-07-29'
   status: active
-  current_step_id: blueprint_current_rci_refresh_v0_1
+  current_step_id: blueprint_current_redm_refresh_v0_1
   planning_horizon:
     rule: 8_to_10_actionable_steps_ahead
-    actionable_steps_ahead: 9
+    actionable_steps_ahead: 8
     review_after_each_step: true
+  updated_at: '2026-07-29'
 objective: Convert the completed Blueprint Self Audit into a current, tracked and repeatable repository-knowledge
   baseline before rolling inventory workflows out to controlled modules.
 guardrails:
@@ -34,7 +35,7 @@ steps:
 - sequence: 2
   step_id: blueprint_current_rci_refresh_v0_1
   title: Create current Repository Capability Inventory
-  status: active
+  status: completed
   priority: critical
   depends_on:
   - blueprint_self_audit_v0_1
@@ -42,10 +43,23 @@ steps:
   - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
   - comparison to 2026-07-23 RCI
   - canonical/operational/generated/historical/temporary classification
+  completed_at: '2026-07-29'
+  evidence:
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__self_audit_assessment_v0_1.md
+  result:
+    tracked_files: 703
+    self_audit_source_commit_tracked_files: 701
+    self_audit_scan_files: 698
+    collector_scope_difference: 3
+    post_scan_verified_control_files: 2
+    effective_minimum_purpose_understood: 24
+    effective_maximum_unknown: 679
+    previous_snapshot_preserved: true
 - sequence: 3
   step_id: blueprint_current_redm_refresh_v0_1
   title: Create current execution and dependency map
-  status: planned
+  status: active
   priority: critical
   depends_on:
   - blueprint_current_rci_refresh_v0_1
