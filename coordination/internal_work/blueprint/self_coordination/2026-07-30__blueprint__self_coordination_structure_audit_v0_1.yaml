@@ -1,0 +1,43 @@
+schema_version: blueprint_self_coordination_structure_audit_v0_1
+metadata:
+  created_at: '2026-07-30T10:30:00+03:00'
+  branch: audit/blueprint-inventory-refresh-2026-07-29
+  source_commit: f5146c37c9178a55794686e4cfebb35a0bc5fc4b
+  result: BASELINE_REQUIRED
+findings:
+  managed_module_roadmaps_found: 3
+  managed_module_prompt_queues_found: 3
+  self_roadmap_found_before_adoption: false
+  self_prompt_queue_found_before_adoption: false
+  self_completion_workflow_found_before_adoption: false
+  detailed_inventory_workstream_found: true
+  gap: Blueprint had a workstream plan but no canonical self-roadmap, self-prompt queue or completion workflow.
+inventory_workstream:
+  path: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  current_step_id: blueprint_artifact_authority_policy_adoption_v0_1
+managed_modules:
+  forprint_library:
+    roadmap: coordination/roadmaps/forprint_library.yaml
+    prompt_queue_index: coordination/outgoing_prompts/forprint_library/index.yaml
+    current_step_id: library_configurable_product_workbench_business_card_skeleton_v0_1
+    current_step_status: active
+    current_step_title: Configurable Product Workbench v0.1 — Business Card Skeleton
+    open_prompt_ids: []
+  logistics_service:
+    roadmap: coordination/roadmaps/logistics_service.yaml
+    prompt_queue_index: coordination/outgoing_prompts/logistics_service/index.yaml
+    current_step_id: logistics_service_tracking_events_v0_1
+    current_step_status: ready
+    current_step_title: Tracking events and notification contracts
+    open_prompt_ids: []
+  telegram_bot:
+    roadmap: coordination/roadmaps/telegram_bot.yaml
+    prompt_queue_index: coordination/outgoing_prompts/telegram_bot/index.yaml
+    current_step_id: telegram_bot_dialogue_audit_events_v0_1
+    current_step_status: active
+    current_step_title: Dialogue audit events
+    open_prompt_ids: []
+decision:
+  create_self_coordination_package: true
+  preserve_managed_module_controls: true
+  keep_external_rollout_gated: true
