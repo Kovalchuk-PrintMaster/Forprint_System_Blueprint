@@ -5,10 +5,10 @@ metadata:
   reviewer: project_owner
   created_at: '2026-07-30'
   updated_at: '2026-07-30'
-  active_prompt_id: blueprint_repository_knowledge_freshness_review_v0_1
+  active_prompt_id: blueprint_rci_semantic_enrichment_v0_1
   approved_prompt_count: 1
   draft_prompt_count: 3
-  completed_prompt_count: 8
+  completed_prompt_count: 9
 policy:
   exactly_one_approved_prompt: true
   drafts_do_not_authorize_execution: true
@@ -61,9 +61,10 @@ prompts:
   roadmap_step_id: blueprint_artifact_retention_consistency_audit_v0_1
   completion_packet: coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__artifact_retention_consistency_audit_v0_1.yaml
 - prompt_id: blueprint_repository_knowledge_freshness_review_v0_1
-  status: approved
-  path: coordination/self_coordination/prompt_queue/approved/2026-07-30__forprint_system_blueprint__repository_knowledge_freshness_review_v0_1.md
+  status: completed
+  path: coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__repository_knowledge_freshness_review_v0_1.md
   roadmap_step_id: blueprint_repository_knowledge_freshness_review_v0_1
+  completion_packet: coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__repository_knowledge_freshness_review_v0_1.yaml
 - prompt_id: blueprint_inventory_acceptance_evidence_index_v0_1
   status: draft
   path: coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__inventory_acceptance_evidence_index_v0_1.md
@@ -72,3 +73,7 @@ prompts:
   status: draft
   path: coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__inventory_acceptance_dry_run_v0_1.md
   roadmap_step_id: blueprint_inventory_acceptance_dry_run_v0_1
+- prompt_id: blueprint_rci_semantic_enrichment_v0_1
+  status: approved
+  path: coordination/self_coordination/prompt_queue/approved/2026-07-30__forprint_system_blueprint__rci_semantic_enrichment_v0_1.md
+  roadmap_step_id: blueprint_rci_semantic_enrichment_v0_1

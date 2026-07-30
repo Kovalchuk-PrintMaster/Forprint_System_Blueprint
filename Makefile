@@ -203,7 +203,7 @@ markdown-fences:
 	$(PYTHON) scripts/validation/validate_markdown_fences.py
 
 .PHONY: check
-check: check-module-registry-consistency check-self-coordination-consistency check-repository-knowledge-snapshots check-inventory-status-consistency
+check: check-module-registry-consistency check-self-coordination-consistency check-repository-knowledge-snapshots check-inventory-status-consistency check-repository-knowledge-freshness
 	$(PYTHON) scripts/run_blueprint_checks.py
 
 .PHONY: check-report
@@ -628,3 +628,14 @@ check-repository-knowledge-snapshots:
 check-inventory-status-consistency:
 	@mkdir -p reports
 	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_blueprint_inventory_status_consistency.py --wave coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml --dashboard coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml --maintenance coordination/repository_knowledge/inventory_maintenance_v0_1.yaml --roadmap coordination/self_coordination/roadmap.yaml --renderer scripts/coordination/render_blueprint_inventory_status.py --module forprint_system_blueprint --output reports/blueprint_inventory_status_consistency_report.yaml
+
+.PHONY: check-repository-knowledge-freshness
+check-repository-knowledge-freshness:
+	@mkdir -p tmp
+	@$(BLUEPRINT_PYTHON) scripts/coordination/assess_repository_knowledge_freshness.py --manifest coordination/repository_knowledge/snapshot_comparison_gate_v0_1.yaml --repo-root . --output tmp/repository_knowledge_freshness_status.yaml
+
+.PHONY: repository-knowledge-freshness-status
+repository-knowledge-freshness-status:
+	@mkdir -p tmp
+	@$(BLUEPRINT_PYTHON) scripts/coordination/assess_repository_knowledge_freshness.py --manifest coordination/repository_knowledge/snapshot_comparison_gate_v0_1.yaml --repo-root . --output tmp/repository_knowledge_freshness_status.yaml
+	@$(BLUEPRINT_PYTHON) scripts/coordination/render_repository_knowledge_freshness_status.py --report tmp/repository_knowledge_freshness_status.yaml

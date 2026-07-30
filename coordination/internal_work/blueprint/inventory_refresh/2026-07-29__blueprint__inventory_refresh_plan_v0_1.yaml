@@ -6,7 +6,7 @@ metadata:
   base_commit: 50df50b
   created_at: '2026-07-29'
   status: active
-  current_step_id: blueprint_repository_knowledge_freshness_review_v0_1
+  current_step_id: blueprint_rci_semantic_enrichment_v0_1
   planning_horizon:
     rule: 8_to_10_actionable_steps_ahead
     actionable_steps_ahead: 8
@@ -547,7 +547,7 @@ steps:
 - sequence: 23
   step_id: blueprint_repository_knowledge_freshness_review_v0_1
   title: Review repository-knowledge freshness before RCI semantic enrichment
-  status: active
+  status: completed
   priority: high
   depends_on:
   - blueprint_inventory_status_consistency_gate_v0_1
@@ -560,10 +560,11 @@ steps:
   - stale-source exceptions
   - bounded refresh decisions
   - RCI enrichment release decision
+  completed_at: '2026-07-30'
 - sequence: 24
   step_id: blueprint_rci_semantic_enrichment_v0_1
   title: Enrich the Blueprint RCI with verified semantic inventory evidence
-  status: planned
+  status: active
   priority: high
   depends_on:
   - blueprint_repository_knowledge_freshness_review_v0_1
@@ -591,12 +592,28 @@ steps:
   - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
   - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
 - sequence: 26
+  step_id: blueprint_semantic_coverage_closure_review_v0_1
+  title: Review semantic coverage closure after RCI and REDM enrichment
+  status: planned
+  priority: high
+  depends_on:
+  - blueprint_redm_dependency_enrichment_v0_1
+  inputs:
+  - reports/repository_knowledge_freshness_report.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/self_coordination/roadmap.yaml
+  expected_outputs:
+  - post-enrichment semantic coverage assessment
+  - remaining unknowns and accepted deferrals
+  - coverage closure decision
+  - repository reconciliation release decision
+- sequence: 27
   step_id: blueprint_repository_knowledge_reconciliation_v0_1
   title: Reconcile Blueprint RCI, REDM, SDRS and semantic evidence into one accepted self-context
   status: planned
   priority: high
   depends_on:
-  - blueprint_redm_dependency_enrichment_v0_1
+  - blueprint_semantic_coverage_closure_review_v0_1
   expected_outputs:
   - RCI semantic enrichment decisions
   - REDM dependency enrichment decisions
@@ -606,7 +623,7 @@ steps:
   - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
   - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
   - coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
-- sequence: 27
+- sequence: 28
   step_id: blueprint_managed_module_plan_reconciliation_v0_1
   title: Reconcile managed-module planning packets before Blueprint inventory acceptance
   status: planned
@@ -622,7 +639,7 @@ steps:
   - dependency and sequencing conflicts
   - bounded roadmap recommendations
   - no-write confirmation
-- sequence: 28
+- sequence: 29
   step_id: blueprint_inventory_acceptance_evidence_index_v0_1
   title: Build inventory acceptance evidence index before the merge gate
   status: planned
@@ -639,7 +656,7 @@ steps:
   - missing and stale evidence findings
   - canonical/generated classification
   - acceptance packet navigation index
-- sequence: 29
+- sequence: 30
   step_id: blueprint_inventory_acceptance_dry_run_v0_1
   title: Rehearse the complete inventory acceptance decision before merge
   status: planned
@@ -655,7 +672,7 @@ steps:
   - simulated merge decision
   - remaining blockers and rollback conditions
   - no-merge and no-rollout confirmation
-- sequence: 30
+- sequence: 31
   step_id: blueprint_inventory_acceptance_merge_gate_v0_1
   title: Accept inventory baseline and reconcile audit branch
   status: planned
@@ -672,7 +689,7 @@ steps:
   - new dated REDM snapshot candidate from blueprint_redm_dependency_enrichment_v0_1
   - repository-knowledge reconciliation evidence
   - full Blueprint validation evidence
-- sequence: 31
+- sequence: 32
   step_id: blueprint_inventory_operational_readiness_review_v0_1
   title: Review Blueprint inventory operational readiness before releasing external rollout
   status: planned
@@ -688,7 +705,7 @@ steps:
   - accepted inventory baseline
   - clean main reconciliation result
   - remaining unknowns disposition
-- sequence: 32
+- sequence: 33
   step_id: ecosystem_inventory_rollout_wave_b_v0_1
   title: Prepare repository inventory rollout wave B for the next verified module cohort
   status: deferred
