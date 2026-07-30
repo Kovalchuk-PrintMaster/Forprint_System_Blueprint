@@ -6,7 +6,7 @@ metadata:
   base_commit: 50df50b
   created_at: '2026-07-29'
   status: active
-  current_step_id: blueprint_self_coordination_consistency_ci_gate_v0_1
+  current_step_id: blueprint_semantic_inventory_unknowns_triage_v0_1
   planning_horizon:
     rule: 8_to_10_actionable_steps_ahead
     actionable_steps_ahead: 8
@@ -457,7 +457,7 @@ steps:
 - sequence: 18
   step_id: blueprint_self_coordination_consistency_ci_gate_v0_1
   title: Integrate Blueprint self-coordination consistency validation into standard checks
-  status: active
+  status: completed
   priority: high
   depends_on:
   - blueprint_module_registry_consistency_ci_gate_v0_1
@@ -471,10 +471,11 @@ steps:
   - roadmap and prompt-state drift failure behavior
   - completion-packet consistency validation
   - regression tests
+  completed_at: '2026-07-30'
 - sequence: 19
   step_id: blueprint_semantic_inventory_unknowns_triage_v0_1
   title: Triage unresolved semantic inventory unknowns into bounded follow-up work
-  status: planned
+  status: active
   priority: normal
   depends_on:
   - blueprint_self_coordination_consistency_ci_gate_v0_1
@@ -562,12 +563,28 @@ steps:
   - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
   - coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
 - sequence: 25
+  step_id: blueprint_managed_module_plan_reconciliation_v0_1
+  title: Reconcile managed-module planning packets before Blueprint inventory acceptance
+  status: planned
+  priority: high
+  depends_on:
+  - blueprint_repository_knowledge_reconciliation_v0_1
+  inputs:
+  - coordination/self_coordination/module_plans/forprint_library.yaml
+  - coordination/self_coordination/module_plans/logistics_service.yaml
+  - coordination/self_coordination/module_plans/telegram_bot.yaml
+  expected_outputs:
+  - three-module state comparison
+  - dependency and sequencing conflicts
+  - bounded roadmap recommendations
+  - no-write confirmation
+- sequence: 26
   step_id: blueprint_inventory_acceptance_merge_gate_v0_1
   title: Accept inventory baseline and reconcile audit branch
   status: planned
   priority: high
   depends_on:
-  - blueprint_repository_knowledge_reconciliation_v0_1
+  - blueprint_managed_module_plan_reconciliation_v0_1
   expected_outputs:
   - fresh main reconciliation
   - full Blueprint validation
@@ -578,7 +595,7 @@ steps:
   - new dated REDM snapshot candidate from blueprint_redm_dependency_enrichment_v0_1
   - repository-knowledge reconciliation evidence
   - full Blueprint validation evidence
-- sequence: 26
+- sequence: 27
   step_id: blueprint_inventory_operational_readiness_review_v0_1
   title: Review Blueprint inventory operational readiness before releasing external rollout
   status: planned
@@ -594,7 +611,7 @@ steps:
   - accepted inventory baseline
   - clean main reconciliation result
   - remaining unknowns disposition
-- sequence: 27
+- sequence: 28
   step_id: ecosystem_inventory_rollout_wave_b_v0_1
   title: Prepare repository inventory rollout wave B for the next verified module cohort
   status: deferred

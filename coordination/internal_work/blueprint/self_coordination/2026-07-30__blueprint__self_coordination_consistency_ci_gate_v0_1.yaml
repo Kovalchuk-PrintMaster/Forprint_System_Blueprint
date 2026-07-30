@@ -1,0 +1,19 @@
+schema_version: blueprint_self_coordination_consistency_ci_gate_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  created_at: '2026-07-30T11:27:00+03:00'
+  branch: audit/blueprint-inventory-refresh-2026-07-29
+  source_commit: 95bb579bfda8ae4a7ebfb73f9683401b68188048
+  result: GREEN
+self_prompt: blueprint_self_coordination_consistency_ci_gate_v0_1
+next_self_prompt: blueprint_semantic_inventory_unknowns_triage_v0_1
+make_targets:
+  validation: check-self-coordination-consistency
+  roadmap_view: roadmap-status
+  prompts_view: prompts-status
+  module_argument: MODULE
+renderer: scripts/coordination/render_blueprint_self_coordination_status.py
+tests: tests/test_render_blueprint_self_coordination_status.py
+completion_packet: coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__self_coordination_consistency_ci_gate_v0_1.yaml
+new_horizon_step: blueprint_managed_module_plan_reconciliation_v0_1
+external_rollout_state: gated

@@ -203,7 +203,7 @@ markdown-fences:
 	$(PYTHON) scripts/validation/validate_markdown_fences.py
 
 .PHONY: check
-check: check-module-registry-consistency
+check: check-module-registry-consistency check-self-coordination-consistency
 	$(PYTHON) scripts/run_blueprint_checks.py
 
 .PHONY: check-report
@@ -601,3 +601,16 @@ blueprint-self-report-full:
 check-module-registry-consistency:
 	@mkdir -p reports
 	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_module_registry_resolution.py --manifest coordination/repository_knowledge/registries/module_registry_resolution_v0_1.yaml --repo-root . --output reports/module_registry_consistency_report.yaml
+
+.PHONY: roadmap-status
+roadmap-status:
+	@$(BLUEPRINT_PYTHON) scripts/coordination/render_blueprint_self_coordination_status.py --module "$(MODULE)" --view roadmap
+
+.PHONY: prompts-status
+prompts-status:
+	@$(BLUEPRINT_PYTHON) scripts/coordination/render_blueprint_self_coordination_status.py --module "$(MODULE)" --view prompts
+
+.PHONY: check-self-coordination-consistency
+check-self-coordination-consistency:
+	@mkdir -p reports
+	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_blueprint_self_coordination.py --repo-root . --roadmap coordination/self_coordination/roadmap.yaml --queue coordination/self_coordination/prompt_queue/index.yaml --completion coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__self_coordination_consistency_ci_gate_v0_1.yaml --module-plan coordination/self_coordination/module_plans/forprint_library.yaml --module-plan coordination/self_coordination/module_plans/logistics_service.yaml --module-plan coordination/self_coordination/module_plans/telegram_bot.yaml --output reports/blueprint_self_coordination_consistency_report.yaml
