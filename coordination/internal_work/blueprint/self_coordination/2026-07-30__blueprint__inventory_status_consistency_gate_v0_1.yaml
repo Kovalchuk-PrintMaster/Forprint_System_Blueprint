@@ -1,0 +1,58 @@
+schema_version: blueprint_inventory_status_consistency_gate_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  created_at: '2026-07-30T14:45:00+03:00'
+  branch: audit/blueprint-inventory-refresh-2026-07-29
+  source_commit: 05b6b4139cf36410077e961a52a6b069e6147125
+  result: GREEN
+self_prompt: blueprint_inventory_status_consistency_gate_v0_1
+next_self_prompt: blueprint_repository_knowledge_freshness_review_v0_1
+validator: scripts/coordination/validate_blueprint_inventory_status_consistency.py
+tests: tests/test_validate_blueprint_inventory_status_consistency.py
+runtime_report: reports/blueprint_inventory_status_consistency_report.yaml
+validation:
+  schema_version: blueprint_inventory_status_consistency_report_v0_1
+  metadata:
+    result: PASSED
+    module_id: forprint_system_blueprint
+  summary:
+    error_count: 0
+    metric_count: 8
+    repository_semantic_lower_bound: 0.10881542699724518
+    reviewed_quality_lower_bound: 0.9875
+    external_rollout_state: gated
+    current_step_id: blueprint_repository_knowledge_freshness_review_v0_1
+  errors: []
+  metrics:
+    canonical:
+      tracked: 726
+      reviewed: 80
+      purpose: 79
+      dependencies: 80
+      verified: 79
+      unknown_records: 25
+      changed_paths: 19
+      scope_delta: 13
+    renderer:
+      tracked: 726
+      reviewed: 80
+      purpose: 79
+      dependencies: 80
+      verified: 79
+      unknown_records: 25
+      changed_paths: 19
+      scope_delta: 13
+make_target: check-inventory-status-consistency
+roadmap_transition:
+  current_step: blueprint_repository_knowledge_freshness_review_v0_1
+  actionable_steps_after_current: 8
+  new_horizon_step: blueprint_inventory_acceptance_dry_run_v0_1
+failure_behavior:
+  missing_combined_metrics_is_red: true
+  external_rollout_open_is_red: true
+  renderer_metric_drift_is_red: true
+  wave_2_local_metric_substitution_is_red: true
+safety:
+  managed_module_controls_modified: false
+  external_rollout_state: gated
+  cross_repository_writes: false

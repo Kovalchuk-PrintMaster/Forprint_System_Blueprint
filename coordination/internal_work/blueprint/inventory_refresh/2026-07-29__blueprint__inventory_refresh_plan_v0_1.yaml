@@ -6,7 +6,7 @@ metadata:
   base_commit: 50df50b
   created_at: '2026-07-29'
   status: active
-  current_step_id: blueprint_inventory_status_consistency_gate_v0_1
+  current_step_id: blueprint_repository_knowledge_freshness_review_v0_1
   planning_horizon:
     rule: 8_to_10_actionable_steps_ahead
     actionable_steps_ahead: 8
@@ -529,7 +529,7 @@ steps:
 - sequence: 22
   step_id: blueprint_inventory_status_consistency_gate_v0_1
   title: Validate inventory-status metric consistency before repository-knowledge enrichment
-  status: active
+  status: completed
   priority: high
   depends_on:
   - blueprint_artifact_retention_consistency_audit_v0_1
@@ -543,10 +543,11 @@ steps:
   - freshness failure behavior
   - standard check integration
   - regression tests
+  completed_at: '2026-07-30'
 - sequence: 23
   step_id: blueprint_repository_knowledge_freshness_review_v0_1
   title: Review repository-knowledge freshness before RCI semantic enrichment
-  status: planned
+  status: active
   priority: high
   depends_on:
   - blueprint_inventory_status_consistency_gate_v0_1
@@ -639,12 +640,28 @@ steps:
   - canonical/generated classification
   - acceptance packet navigation index
 - sequence: 29
+  step_id: blueprint_inventory_acceptance_dry_run_v0_1
+  title: Rehearse the complete inventory acceptance decision before merge
+  status: planned
+  priority: high
+  depends_on:
+  - blueprint_inventory_acceptance_evidence_index_v0_1
+  inputs:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/self_coordination/roadmap.yaml
+  - coordination/self_coordination/prompt_queue/index.yaml
+  expected_outputs:
+  - acceptance prerequisite matrix
+  - simulated merge decision
+  - remaining blockers and rollback conditions
+  - no-merge and no-rollout confirmation
+- sequence: 30
   step_id: blueprint_inventory_acceptance_merge_gate_v0_1
   title: Accept inventory baseline and reconcile audit branch
   status: planned
   priority: high
   depends_on:
-  - blueprint_inventory_acceptance_evidence_index_v0_1
+  - blueprint_inventory_acceptance_dry_run_v0_1
   expected_outputs:
   - fresh main reconciliation
   - full Blueprint validation
@@ -655,7 +672,7 @@ steps:
   - new dated REDM snapshot candidate from blueprint_redm_dependency_enrichment_v0_1
   - repository-knowledge reconciliation evidence
   - full Blueprint validation evidence
-- sequence: 30
+- sequence: 31
   step_id: blueprint_inventory_operational_readiness_review_v0_1
   title: Review Blueprint inventory operational readiness before releasing external rollout
   status: planned
@@ -671,7 +688,7 @@ steps:
   - accepted inventory baseline
   - clean main reconciliation result
   - remaining unknowns disposition
-- sequence: 31
+- sequence: 32
   step_id: ecosystem_inventory_rollout_wave_b_v0_1
   title: Prepare repository inventory rollout wave B for the next verified module cohort
   status: deferred

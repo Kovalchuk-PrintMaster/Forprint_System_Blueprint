@@ -203,7 +203,7 @@ markdown-fences:
 	$(PYTHON) scripts/validation/validate_markdown_fences.py
 
 .PHONY: check
-check: check-module-registry-consistency check-self-coordination-consistency check-repository-knowledge-snapshots
+check: check-module-registry-consistency check-self-coordination-consistency check-repository-knowledge-snapshots check-inventory-status-consistency
 	$(PYTHON) scripts/run_blueprint_checks.py
 
 .PHONY: check-report
@@ -623,3 +623,8 @@ inventory-status:
 check-repository-knowledge-snapshots:
 	@mkdir -p reports tmp/repository_knowledge_snapshot_comparisons
 	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_repository_knowledge_snapshot_comparisons.py --manifest coordination/repository_knowledge/snapshot_comparison_gate_v0_1.yaml --repo-root . --work-dir tmp/repository_knowledge_snapshot_comparisons --output reports/repository_knowledge_snapshot_comparison_report.yaml
+
+.PHONY: check-inventory-status-consistency
+check-inventory-status-consistency:
+	@mkdir -p reports
+	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_blueprint_inventory_status_consistency.py --wave coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml --dashboard coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml --maintenance coordination/repository_knowledge/inventory_maintenance_v0_1.yaml --roadmap coordination/self_coordination/roadmap.yaml --renderer scripts/coordination/render_blueprint_inventory_status.py --module forprint_system_blueprint --output reports/blueprint_inventory_status_consistency_report.yaml
