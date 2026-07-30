@@ -6,7 +6,7 @@ metadata:
   base_commit: 50df50b
   created_at: '2026-07-29'
   status: active
-  current_step_id: blueprint_repository_knowledge_reconciliation_v0_1
+  current_step_id: blueprint_inventory_acceptance_evidence_index_v0_1
   planning_horizon:
     rule: 8_to_10_actionable_steps_ahead
     actionable_steps_ahead: 8
@@ -613,7 +613,7 @@ steps:
 - sequence: 27
   step_id: blueprint_repository_knowledge_reconciliation_v0_1
   title: Reconcile Blueprint RCI, REDM, SDRS and semantic evidence into one accepted self-context
-  status: active
+  status: completed
   priority: high
   depends_on:
   - blueprint_semantic_coverage_closure_review_v0_1
@@ -626,6 +626,7 @@ steps:
   - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
   - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
   - coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
+  completed_at: '2026-07-30'
 - sequence: 28
   step_id: blueprint_managed_module_plan_reconciliation_v0_1
   title: Reconcile managed-module planning packets before Blueprint inventory acceptance
@@ -645,7 +646,7 @@ steps:
 - sequence: 29
   step_id: blueprint_inventory_acceptance_evidence_index_v0_1
   title: Build inventory acceptance evidence index before the merge gate
-  status: planned
+  status: active
   priority: high
   depends_on:
   - blueprint_managed_module_plan_reconciliation_v0_1
@@ -741,12 +742,44 @@ steps:
   - repository-knowledge reconciliation evidence
   - full Blueprint validation evidence
 - sequence: 35
+  step_id: blueprint_inventory_post_merge_integrity_verification_v0_1
+  title: Verify repository integrity immediately after the inventory acceptance merge
+  status: planned
+  priority: high
+  depends_on:
+  - blueprint_inventory_acceptance_merge_gate_v0_1
+  inputs:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/self_coordination/roadmap.yaml
+  - coordination/self_coordination/prompt_queue/index.yaml
+  expected_outputs:
+  - post-merge integrity report
+  - candidate-to-accepted lineage verification
+  - generated report consistency check
+  - operational handoff release decision
+- sequence: 36
+  step_id: blueprint_inventory_operational_handoff_readiness_v0_1
+  title: Confirm operational handoff readiness after post-merge verification
+  status: planned
+  priority: high
+  depends_on:
+  - blueprint_inventory_post_merge_integrity_verification_v0_1
+  inputs:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/self_coordination/roadmap.yaml
+  - coordination/self_coordination/prompt_queue/index.yaml
+  expected_outputs:
+  - operational handoff matrix
+  - ownership and monitoring assignments
+  - remaining post-acceptance constraints
+  - operational readiness release decision
+- sequence: 37
   step_id: blueprint_inventory_operational_readiness_review_v0_1
   title: Review Blueprint inventory operational readiness before releasing external rollout
   status: planned
   priority: high
   depends_on:
-  - blueprint_inventory_acceptance_merge_gate_v0_1
+  - blueprint_inventory_operational_handoff_readiness_v0_1
   expected_outputs:
   - self-context completeness decision
   - operational ownership confirmation
@@ -756,7 +789,7 @@ steps:
   - accepted inventory baseline
   - clean main reconciliation result
   - remaining unknowns disposition
-- sequence: 36
+- sequence: 38
   step_id: ecosystem_inventory_rollout_wave_b_v0_1
   title: Prepare repository inventory rollout wave B for the next verified module cohort
   status: deferred

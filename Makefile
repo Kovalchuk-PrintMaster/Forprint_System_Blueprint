@@ -203,7 +203,7 @@ markdown-fences:
 	$(PYTHON) scripts/validation/validate_markdown_fences.py
 
 .PHONY: check
-check: check-module-registry-consistency check-self-coordination-consistency check-repository-knowledge-snapshots check-inventory-status-consistency check-repository-knowledge-freshness check-rci-semantic-enrichment check-redm-dependency-enrichment check-semantic-coverage-closure
+check: check-module-registry-consistency check-self-coordination-consistency check-repository-knowledge-snapshots check-inventory-status-consistency check-repository-knowledge-freshness check-rci-semantic-enrichment check-redm-dependency-enrichment check-semantic-coverage-closure check-repository-knowledge-reconciliation
 	$(PYTHON) scripts/run_blueprint_checks.py
 
 .PHONY: check-report
@@ -660,3 +660,14 @@ semantic-coverage-status:
 	@mkdir -p reports
 	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_semantic_coverage_closure.py --rci coordination/repository_knowledge/inventory/2026-07-30__forprint_system_blueprint__repository_capability_inventory_v0_4.yaml --redm coordination/repository_knowledge/flows/2026-07-30__forprint_system_blueprint__repository_execution_dependency_map_v0_4.yaml --rci-validation reports/rci_semantic_enrichment_validation_report.yaml --redm-validation reports/redm_dependency_enrichment_validation_report.yaml --freshness reports/repository_knowledge_freshness_report.yaml --unknowns coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__semantic_inventory_unknowns_triage_v0_1.yaml --module "$(MODULE)" --output reports/semantic_coverage_closure_report.yaml
 	@$(BLUEPRINT_PYTHON) scripts/coordination/render_semantic_coverage_closure_status.py --report reports/semantic_coverage_closure_report.yaml
+
+.PHONY: check-repository-knowledge-reconciliation
+check-repository-knowledge-reconciliation:
+	@mkdir -p reports
+	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_repository_knowledge_reconciliation.py --rci coordination/repository_knowledge/inventory/2026-07-30__forprint_system_blueprint__repository_capability_inventory_v0_4.yaml --redm coordination/repository_knowledge/flows/2026-07-30__forprint_system_blueprint__repository_execution_dependency_map_v0_4.yaml --coordination-direction coordination/repository_knowledge/direction/blueprint_coordination/2026-07-29__forprint_system_blueprint__state_direction_rationale_snapshot_v0_2.yaml --portfolio-direction coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml --authority-policy coordination/repository_knowledge/artifact_authority_policy_v0_1.yaml --module-registry coordination/repository_knowledge/registries/module_registry_resolution_v0_1.yaml --closure-report reports/semantic_coverage_closure_report.yaml --rci-validation reports/rci_semantic_enrichment_validation_report.yaml --redm-validation reports/redm_dependency_enrichment_validation_report.yaml --module forprint_system_blueprint --output reports/repository_knowledge_reconciliation_report.yaml
+
+.PHONY: repository-knowledge-reconciliation-status
+repository-knowledge-reconciliation-status:
+	@mkdir -p reports
+	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_repository_knowledge_reconciliation.py --rci coordination/repository_knowledge/inventory/2026-07-30__forprint_system_blueprint__repository_capability_inventory_v0_4.yaml --redm coordination/repository_knowledge/flows/2026-07-30__forprint_system_blueprint__repository_execution_dependency_map_v0_4.yaml --coordination-direction coordination/repository_knowledge/direction/blueprint_coordination/2026-07-29__forprint_system_blueprint__state_direction_rationale_snapshot_v0_2.yaml --portfolio-direction coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml --authority-policy coordination/repository_knowledge/artifact_authority_policy_v0_1.yaml --module-registry coordination/repository_knowledge/registries/module_registry_resolution_v0_1.yaml --closure-report reports/semantic_coverage_closure_report.yaml --rci-validation reports/rci_semantic_enrichment_validation_report.yaml --redm-validation reports/redm_dependency_enrichment_validation_report.yaml --module "$(MODULE)" --output reports/repository_knowledge_reconciliation_report.yaml
+	@$(BLUEPRINT_PYTHON) scripts/coordination/render_repository_knowledge_reconciliation_status.py --report reports/repository_knowledge_reconciliation_report.yaml
