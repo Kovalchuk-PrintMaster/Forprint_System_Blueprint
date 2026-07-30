@@ -6,7 +6,7 @@ metadata:
   base_commit: 50df50b
   created_at: '2026-07-29'
   status: active
-  current_step_id: blueprint_artifact_retention_consistency_audit_v0_1
+  current_step_id: blueprint_inventory_status_consistency_gate_v0_1
   planning_horizon:
     rule: 8_to_10_actionable_steps_ahead
     actionable_steps_ahead: 8
@@ -507,7 +507,7 @@ steps:
 - sequence: 21
   step_id: blueprint_artifact_retention_consistency_audit_v0_1
   title: Audit artifact retention and generated-view consistency
-  status: active
+  status: completed
   priority: high
   depends_on:
   - blueprint_snapshot_comparison_ci_gate_v0_1
@@ -518,10 +518,18 @@ steps:
   - retention exceptions report
   - generated-view authority violations
   - historical snapshot mutation check
+  completed_at: '2026-07-30'
+  evidence:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__artifact_retention_consistency_audit_v0_1.yaml
+  - reports/artifact_retention_consistency_report.yaml
+  - scripts/coordination/audit_artifact_retention_consistency.py
+  - tests/test_audit_artifact_retention_consistency.py
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__artifact_retention_consistency_audit_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__artifact_retention_consistency_audit_v0_1.yaml
 - sequence: 22
   step_id: blueprint_inventory_status_consistency_gate_v0_1
   title: Validate inventory-status metric consistency before repository-knowledge enrichment
-  status: planned
+  status: active
   priority: high
   depends_on:
   - blueprint_artifact_retention_consistency_audit_v0_1
@@ -614,12 +622,29 @@ steps:
   - bounded roadmap recommendations
   - no-write confirmation
 - sequence: 28
+  step_id: blueprint_inventory_acceptance_evidence_index_v0_1
+  title: Build inventory acceptance evidence index before the merge gate
+  status: planned
+  priority: high
+  depends_on:
+  - blueprint_managed_module_plan_reconciliation_v0_1
+  inputs:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/self_coordination/roadmap.yaml
+  - coordination/self_coordination/prompt_queue/index.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__artifact_retention_consistency_audit_v0_1.yaml
+  expected_outputs:
+  - acceptance evidence inventory
+  - missing and stale evidence findings
+  - canonical/generated classification
+  - acceptance packet navigation index
+- sequence: 29
   step_id: blueprint_inventory_acceptance_merge_gate_v0_1
   title: Accept inventory baseline and reconcile audit branch
   status: planned
   priority: high
   depends_on:
-  - blueprint_managed_module_plan_reconciliation_v0_1
+  - blueprint_inventory_acceptance_evidence_index_v0_1
   expected_outputs:
   - fresh main reconciliation
   - full Blueprint validation
@@ -630,7 +655,7 @@ steps:
   - new dated REDM snapshot candidate from blueprint_redm_dependency_enrichment_v0_1
   - repository-knowledge reconciliation evidence
   - full Blueprint validation evidence
-- sequence: 29
+- sequence: 30
   step_id: blueprint_inventory_operational_readiness_review_v0_1
   title: Review Blueprint inventory operational readiness before releasing external rollout
   status: planned
@@ -646,7 +671,7 @@ steps:
   - accepted inventory baseline
   - clean main reconciliation result
   - remaining unknowns disposition
-- sequence: 30
+- sequence: 31
   step_id: ecosystem_inventory_rollout_wave_b_v0_1
   title: Prepare repository inventory rollout wave B for the next verified module cohort
   status: deferred
