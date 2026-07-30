@@ -203,7 +203,7 @@ markdown-fences:
 	$(PYTHON) scripts/validation/validate_markdown_fences.py
 
 .PHONY: check
-check: check-module-registry-consistency check-self-coordination-consistency check-repository-knowledge-snapshots check-inventory-status-consistency check-repository-knowledge-freshness check-rci-semantic-enrichment check-redm-dependency-enrichment check-semantic-coverage-closure check-repository-knowledge-reconciliation check-inventory-acceptance-evidence-index
+check: check-module-registry-consistency check-self-coordination-consistency check-repository-knowledge-snapshots check-inventory-status-consistency check-repository-knowledge-freshness check-rci-semantic-enrichment check-redm-dependency-enrichment check-semantic-coverage-closure check-repository-knowledge-reconciliation check-inventory-acceptance-evidence-index check-inventory-acceptance-dry-run
 	$(PYTHON) scripts/run_blueprint_checks.py
 
 .PHONY: check-report
@@ -682,3 +682,14 @@ inventory-acceptance-evidence-status:
 	@mkdir -p reports
 	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_inventory_acceptance_evidence_index.py --index coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__inventory_acceptance_evidence_index_v0_1.yaml --repo-root . --module "$(MODULE)" --output reports/inventory_acceptance_evidence_index_validation_report.yaml
 	@$(BLUEPRINT_PYTHON) scripts/coordination/render_inventory_acceptance_evidence_status.py --index coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__inventory_acceptance_evidence_index_v0_1.yaml --report reports/inventory_acceptance_evidence_index_validation_report.yaml
+
+.PHONY: check-inventory-acceptance-dry-run
+check-inventory-acceptance-dry-run:
+	@mkdir -p reports
+	@$(BLUEPRINT_PYTHON) scripts/coordination/run_inventory_acceptance_dry_run.py --index coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__inventory_acceptance_evidence_index_v0_1.yaml --index-validation reports/inventory_acceptance_evidence_index_validation_report.yaml --rci coordination/repository_knowledge/inventory/2026-07-30__forprint_system_blueprint__repository_capability_inventory_v0_4.yaml --redm coordination/repository_knowledge/flows/2026-07-30__forprint_system_blueprint__repository_execution_dependency_map_v0_4.yaml --closure reports/semantic_coverage_closure_report.yaml --reconciliation reports/repository_knowledge_reconciliation_report.yaml --authority-policy coordination/repository_knowledge/artifact_authority_policy_v0_1.yaml --plan coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml --roadmap coordination/self_coordination/roadmap.yaml --queue coordination/self_coordination/prompt_queue/index.yaml --module forprint_system_blueprint --output reports/inventory_acceptance_dry_run_report.yaml
+
+.PHONY: inventory-acceptance-dry-run-status
+inventory-acceptance-dry-run-status:
+	@mkdir -p reports
+	@$(BLUEPRINT_PYTHON) scripts/coordination/run_inventory_acceptance_dry_run.py --index coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__inventory_acceptance_evidence_index_v0_1.yaml --index-validation reports/inventory_acceptance_evidence_index_validation_report.yaml --rci coordination/repository_knowledge/inventory/2026-07-30__forprint_system_blueprint__repository_capability_inventory_v0_4.yaml --redm coordination/repository_knowledge/flows/2026-07-30__forprint_system_blueprint__repository_execution_dependency_map_v0_4.yaml --closure reports/semantic_coverage_closure_report.yaml --reconciliation reports/repository_knowledge_reconciliation_report.yaml --authority-policy coordination/repository_knowledge/artifact_authority_policy_v0_1.yaml --plan coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml --roadmap coordination/self_coordination/roadmap.yaml --queue coordination/self_coordination/prompt_queue/index.yaml --module "$(MODULE)" --output reports/inventory_acceptance_dry_run_report.yaml
+	@$(BLUEPRINT_PYTHON) scripts/coordination/render_inventory_acceptance_dry_run_status.py --report reports/inventory_acceptance_dry_run_report.yaml

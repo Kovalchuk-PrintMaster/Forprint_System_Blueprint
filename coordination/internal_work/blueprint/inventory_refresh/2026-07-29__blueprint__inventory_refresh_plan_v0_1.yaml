@@ -6,7 +6,7 @@ metadata:
   base_commit: 50df50b
   created_at: '2026-07-29'
   status: active
-  current_step_id: blueprint_inventory_acceptance_dry_run_v0_1
+  current_step_id: blueprint_inventory_acceptance_packet_integrity_gate_v0_1
   planning_horizon:
     rule: 8_to_10_actionable_steps_ahead
     actionable_steps_ahead: 8
@@ -664,7 +664,7 @@ steps:
 - sequence: 30
   step_id: blueprint_inventory_acceptance_dry_run_v0_1
   title: Rehearse the complete inventory acceptance decision before merge
-  status: active
+  status: completed
   priority: high
   depends_on:
   - blueprint_inventory_acceptance_evidence_index_v0_1
@@ -677,10 +677,11 @@ steps:
   - simulated merge decision
   - remaining blockers and rollback conditions
   - no-merge and no-rollout confirmation
+  completed_at: '2026-07-30'
 - sequence: 31
   step_id: blueprint_inventory_acceptance_packet_integrity_gate_v0_1
   title: Validate inventory acceptance packet integrity before the merge gate
-  status: planned
+  status: active
   priority: high
   depends_on:
   - blueprint_inventory_acceptance_dry_run_v0_1
@@ -807,6 +808,22 @@ steps:
   - maintenance ownership assignments
   - next semantic enrichment cycle trigger
 - sequence: 39
+  step_id: blueprint_ecosystem_inventory_rollout_release_review_v0_1
+  title: Reassess ecosystem inventory rollout release after Blueprint maintenance baseline activation
+  status: planned
+  priority: high
+  depends_on:
+  - blueprint_inventory_maintenance_baseline_activation_v0_1
+  inputs:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/self_coordination/roadmap.yaml
+  - coordination/self_coordination/prompt_queue/index.yaml
+  expected_outputs:
+  - external rollout release matrix
+  - managed-module prerequisite status
+  - remaining rollout blockers
+  - Wave B release or continued-gate decision
+- sequence: 40
   step_id: ecosystem_inventory_rollout_wave_b_v0_1
   title: Prepare repository inventory rollout wave B for the next verified module cohort
   status: deferred
