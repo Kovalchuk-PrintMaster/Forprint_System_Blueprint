@@ -614,3 +614,7 @@ prompts-status:
 check-self-coordination-consistency:
 	@mkdir -p reports
 	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_blueprint_self_coordination.py --repo-root . --roadmap coordination/self_coordination/roadmap.yaml --queue coordination/self_coordination/prompt_queue/index.yaml --completion coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__self_coordination_consistency_ci_gate_v0_1.yaml --module-plan coordination/self_coordination/module_plans/forprint_library.yaml --module-plan coordination/self_coordination/module_plans/logistics_service.yaml --module-plan coordination/self_coordination/module_plans/telegram_bot.yaml --output reports/blueprint_self_coordination_consistency_report.yaml
+
+.PHONY: inventory-status
+inventory-status:
+	@$(BLUEPRINT_PYTHON) scripts/coordination/render_blueprint_inventory_status.py --module "$(MODULE)"
