@@ -203,7 +203,7 @@ markdown-fences:
 	$(PYTHON) scripts/validation/validate_markdown_fences.py
 
 .PHONY: check
-check: check-module-registry-consistency check-self-coordination-consistency
+check: check-module-registry-consistency check-self-coordination-consistency check-repository-knowledge-snapshots
 	$(PYTHON) scripts/run_blueprint_checks.py
 
 .PHONY: check-report
@@ -618,3 +618,8 @@ check-self-coordination-consistency:
 .PHONY: inventory-status
 inventory-status:
 	@$(BLUEPRINT_PYTHON) scripts/coordination/render_blueprint_inventory_status.py --module "$(MODULE)"
+
+.PHONY: check-repository-knowledge-snapshots
+check-repository-knowledge-snapshots:
+	@mkdir -p reports tmp/repository_knowledge_snapshot_comparisons
+	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_repository_knowledge_snapshot_comparisons.py --manifest coordination/repository_knowledge/snapshot_comparison_gate_v0_1.yaml --repo-root . --work-dir tmp/repository_knowledge_snapshot_comparisons --output reports/repository_knowledge_snapshot_comparison_report.yaml

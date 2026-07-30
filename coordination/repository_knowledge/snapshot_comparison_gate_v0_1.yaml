@@ -1,0 +1,38 @@
+schema_version: repository_knowledge_snapshot_comparison_gate_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  owner: blueprint_coordination_assistant
+  created_at: '2026-07-30'
+  source_commit: b13e14be2040f1865d84f423e657286c7eb15412
+comparison_cli: scripts/coordination/compare_repository_knowledge_snapshots.py
+external_rollout:
+  state: gated
+comparisons:
+- comparison_id: rci_v0_2_to_v0_3
+  artifact_type: repository_capability_inventory
+  previous: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+  current: coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  accepted_change_count: 116
+  previous_sha256: 099ec184e349e2279996567f147a3dcc833d18639af5a9d0ed2001956f65fd0f
+  current_sha256: 3b9278a9bea091ae83f045a2fb5028c97f5fbd00a69b2be173a92a6d9d58d9aa
+- comparison_id: redm_v0_2_to_v0_3
+  artifact_type: repository_execution_dependency_map
+  previous: coordination/repository_knowledge/flows/2026-07-23__forprint_system_blueprint__repository_execution_dependency_map_v0_2.yaml
+  current: coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  accepted_change_count: 74
+  previous_sha256: cb0cb1f23ac6e99b778c9d7d6e8f50c7a9e10fe38a589a7d25ec9e165b39eb4e
+  current_sha256: 33b0224e3a3b7651412e49fc17b3a0f8192714bd009155d12877712067b8ee70
+- comparison_id: blueprint_coordination_sdrs_v0_1_to_v0_2
+  artifact_type: state_direction_rationale_snapshot
+  previous: coordination/repository_knowledge/direction/blueprint_coordination/2026-07-23__forprint_system_blueprint__state_direction_rationale_snapshot_v0_1.yaml
+  current: coordination/repository_knowledge/direction/blueprint_coordination/2026-07-29__forprint_system_blueprint__state_direction_rationale_snapshot_v0_2.yaml
+  accepted_change_count: 68
+  previous_sha256: f93b4adac17042ff1deed93a52ce7caeb508703bd3e015d831ea268f36cc3272
+  current_sha256: 4a8ab7d457986ba54167d2dd5ba8af9e209fd4107e7c38f31b63b6e275ffcb14
+- comparison_id: system_portfolio_sdrs_v0_1_to_v0_2
+  artifact_type: state_direction_rationale_snapshot
+  previous: coordination/repository_knowledge/direction/system_portfolio/2026-07-23__forprint_system__state_direction_rationale_snapshot_v0_1.yaml
+  current: coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml
+  accepted_change_count: 61
+  previous_sha256: 7f1c43de7333e071710b5af4bc500e70ce446f8ac9f3c92cb70ce30440fd4e81
+  current_sha256: 835cb27b07ad7b8ce985e54ff434f27048593f3552f8866c7a41f9b68c0e2d43

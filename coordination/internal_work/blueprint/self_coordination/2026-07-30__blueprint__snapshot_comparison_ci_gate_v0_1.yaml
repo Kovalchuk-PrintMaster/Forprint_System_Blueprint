@@ -1,0 +1,74 @@
+schema_version: blueprint_snapshot_comparison_ci_gate_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  created_at: '2026-07-30T12:17:00+03:00'
+  branch: audit/blueprint-inventory-refresh-2026-07-29
+  source_commit: b13e14be2040f1865d84f423e657286c7eb15412
+  result: GREEN
+self_prompt: blueprint_snapshot_comparison_ci_gate_v0_1
+next_self_prompt: blueprint_artifact_retention_consistency_audit_v0_1
+manifest: coordination/repository_knowledge/snapshot_comparison_gate_v0_1.yaml
+validator: scripts/coordination/validate_repository_knowledge_snapshot_comparisons.py
+tests: tests/test_validate_repository_knowledge_snapshot_comparisons.py
+runtime_report: reports/repository_knowledge_snapshot_comparison_report.yaml
+validation:
+  schema_version: repository_knowledge_snapshot_comparison_gate_report_v0_1
+  metadata:
+    result: PASSED
+    execute_cli: true
+  summary:
+    comparison_count: 4
+    passed_comparisons: 4
+    failed_comparisons: 0
+    policy_error_count: 0
+    accepted_change_count_total: 319
+  policy_errors: []
+  comparisons:
+  - comparison_id: rci_v0_2_to_v0_3
+    artifact_type: repository_capability_inventory
+    previous: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current: coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+    accepted_change_count: 116
+    cli_exit_code: 0
+    cli_output: tmp/repository_knowledge_snapshot_comparisons/rci_v0_2_to_v0_3.yaml
+    status: PASSED
+    errors: []
+  - comparison_id: redm_v0_2_to_v0_3
+    artifact_type: repository_execution_dependency_map
+    previous: coordination/repository_knowledge/flows/2026-07-23__forprint_system_blueprint__repository_execution_dependency_map_v0_2.yaml
+    current: coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+    accepted_change_count: 74
+    cli_exit_code: 0
+    cli_output: tmp/repository_knowledge_snapshot_comparisons/redm_v0_2_to_v0_3.yaml
+    status: PASSED
+    errors: []
+  - comparison_id: blueprint_coordination_sdrs_v0_1_to_v0_2
+    artifact_type: state_direction_rationale_snapshot
+    previous: coordination/repository_knowledge/direction/blueprint_coordination/2026-07-23__forprint_system_blueprint__state_direction_rationale_snapshot_v0_1.yaml
+    current: coordination/repository_knowledge/direction/blueprint_coordination/2026-07-29__forprint_system_blueprint__state_direction_rationale_snapshot_v0_2.yaml
+    accepted_change_count: 68
+    cli_exit_code: 0
+    cli_output: tmp/repository_knowledge_snapshot_comparisons/blueprint_coordination_sdrs_v0_1_to_v0_2.yaml
+    status: PASSED
+    errors: []
+  - comparison_id: system_portfolio_sdrs_v0_1_to_v0_2
+    artifact_type: state_direction_rationale_snapshot
+    previous: coordination/repository_knowledge/direction/system_portfolio/2026-07-23__forprint_system__state_direction_rationale_snapshot_v0_1.yaml
+    current: coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml
+    accepted_change_count: 61
+    cli_exit_code: 0
+    cli_output: tmp/repository_knowledge_snapshot_comparisons/system_portfolio_sdrs_v0_1_to_v0_2.yaml
+    status: PASSED
+    errors: []
+roadmap_transition:
+  current_step: blueprint_artifact_retention_consistency_audit_v0_1
+  actionable_steps_after_current: 8
+  new_horizon_step: blueprint_repository_knowledge_freshness_review_v0_1
+failure_behavior:
+  snapshot_hash_drift_is_red: true
+  external_rollout_drift_is_red: true
+  lineage_reference_required: true
+safety:
+  managed_module_controls_modified: false
+  external_rollout_state: gated
+  cross_repository_writes: false
