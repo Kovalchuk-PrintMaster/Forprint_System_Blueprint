@@ -6,10 +6,10 @@ metadata:
   base_commit: 50df50b
   created_at: '2026-07-29'
   status: active
-  current_step_id: blueprint_module_registry_consistency_ci_gate_v0_1
+  current_step_id: blueprint_self_coordination_consistency_ci_gate_v0_1
   planning_horizon:
     rule: 8_to_10_actionable_steps_ahead
-    actionable_steps_ahead: 9
+    actionable_steps_ahead: 8
     review_after_each_step: true
   updated_at: '2026-07-30'
 objective: Convert the completed Blueprint Self Audit into a current, tracked and repeatable repository-knowledge
@@ -433,7 +433,7 @@ steps:
 - sequence: 17
   step_id: blueprint_module_registry_consistency_ci_gate_v0_1
   title: Integrate canonical module registry consistency validation into Blueprint checks
-  status: active
+  status: completed
   priority: high
   depends_on:
   - blueprint_artifact_authority_policy_adoption_v0_1
@@ -446,10 +446,18 @@ steps:
   - registry drift failure behavior
   - read-only validation evidence
   - regression tests
+  completed_at: '2026-07-30'
+  evidence:
+  - coordination/repository_knowledge/registries/module_registry_resolution_v0_1.yaml
+  - scripts/coordination/validate_module_registry_resolution.py
+  - tests/test_module_registry_consistency_ci_gate.py
+  - reports/module_registry_consistency_report.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__module_registry_consistency_ci_gate_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__module_registry_consistency_ci_gate_v0_1.yaml
 - sequence: 18
   step_id: blueprint_self_coordination_consistency_ci_gate_v0_1
   title: Integrate Blueprint self-coordination consistency validation into standard checks
-  status: planned
+  status: active
   priority: high
   depends_on:
   - blueprint_module_registry_consistency_ci_gate_v0_1
@@ -457,6 +465,7 @@ steps:
   - coordination/self_coordination/roadmap.yaml
   - coordination/self_coordination/prompt_queue/index.yaml
   - scripts/coordination/validate_blueprint_self_coordination.py
+  - Makefile
   expected_outputs:
   - make check integration
   - roadmap and prompt-state drift failure behavior

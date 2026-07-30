@@ -1,3 +1,4 @@
+BLUEPRINT_PYTHON ?= python3
 PYTHON ?= .venv_blueprint/bin/python
 PIP ?= .venv_blueprint/bin/pip
 
@@ -202,7 +203,7 @@ markdown-fences:
 	$(PYTHON) scripts/validation/validate_markdown_fences.py
 
 .PHONY: check
-check:
+check: check-module-registry-consistency
 	$(PYTHON) scripts/run_blueprint_checks.py
 
 .PHONY: check-report
@@ -595,3 +596,8 @@ blueprint-self-report-full:
 # 17 Module workflow control / self-knowledge FINISH
 
 # =============================================================================
+
+.PHONY: check-module-registry-consistency
+check-module-registry-consistency:
+	@mkdir -p reports
+	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_module_registry_resolution.py --manifest coordination/repository_knowledge/registries/module_registry_resolution_v0_1.yaml --repo-root . --output reports/module_registry_consistency_report.yaml

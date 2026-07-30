@@ -1,0 +1,56 @@
+schema_version: blueprint_module_registry_consistency_ci_gate_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  created_at: '2026-07-30T11:20:00+03:00'
+  branch: audit/blueprint-inventory-refresh-2026-07-29
+  source_commit: 8b92acfdb84ca69ea1f9ffaa7bdfb938c3e51523
+  result: GREEN
+self_prompt: blueprint_module_registry_consistency_ci_gate_v0_1
+next_self_prompt: blueprint_self_coordination_consistency_ci_gate_v0_1
+manifest: coordination/repository_knowledge/registries/module_registry_resolution_v0_1.yaml
+validator: scripts/coordination/validate_module_registry_resolution.py
+gate_test: tests/test_module_registry_consistency_ci_gate.py
+makefile: Makefile
+runtime_report: reports/module_registry_consistency_report.yaml
+validation:
+  schema_version: module_registry_resolution_report_v0_1
+  metadata:
+    manifest: coordination/repository_knowledge/registries/module_registry_resolution_v0_1.yaml
+    repo_root: /srv/software_development/forprint-project/forprint_system_blueprint
+    result: PASSED
+  summary:
+    module_count: 3
+    passed_modules: 3
+    failed_modules: 0
+    canonical_source_count: 6
+    policy_error_count: 0
+  policy_errors: []
+  modules:
+  - module_id: forprint_library
+    status: PASSED
+    canonical_source_count: 2
+    errors: []
+  - module_id: logistics_service
+    status: PASSED
+    canonical_source_count: 2
+    errors: []
+  - module_id: telegram_bot
+    status: PASSED
+    canonical_source_count: 2
+    errors: []
+completion_packet: coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__module_registry_consistency_ci_gate_v0_1.yaml
+roadmap_transition:
+  inventory_current_step: blueprint_self_coordination_consistency_ci_gate_v0_1
+  self_roadmap_current_step: blueprint_self_coordination_consistency_ci_gate_v0_1
+  self_queue_active_prompt: blueprint_self_coordination_consistency_ci_gate_v0_1
+  actionable_steps_after_current: 8
+failure_behavior:
+  duplicate_module_identity_is_red: true
+  external_rollout_drift_is_red: true
+  canonical_manifest_is_green: true
+safety:
+  managed_module_repositories_modified: false
+  managed_module_roadmaps_modified: false
+  managed_module_prompt_queues_modified: false
+  external_rollout_state: gated
+  cross_repository_writes: false

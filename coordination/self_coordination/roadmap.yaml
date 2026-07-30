@@ -5,8 +5,8 @@ metadata:
   reviewer: project_owner
   created_at: '2026-07-30'
   updated_at: '2026-07-30'
-  current_step_id: blueprint_module_registry_consistency_ci_gate_v0_1
-  actionable_steps_after_current: 9
+  current_step_id: blueprint_self_coordination_consistency_ci_gate_v0_1
+  actionable_steps_after_current: 8
 authority:
   module_level_roadmap: coordination/self_coordination/roadmap.yaml
   detailed_workstream_plan: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
@@ -40,7 +40,7 @@ steps:
 - sequence: 3
   step_id: blueprint_module_registry_consistency_ci_gate_v0_1
   title: Integrate module registry consistency into Blueprint checks
-  status: active
+  status: completed
   priority: high
   depends_on:
   - blueprint_artifact_authority_policy_adoption_v0_1
@@ -48,13 +48,26 @@ steps:
   - coordination/repository_knowledge/registries/module_registry_resolution_v0_1.yaml
   - scripts/coordination/validate_module_registry_resolution.py
   - coordination/repository_knowledge/artifact_authority_policy_v0_1.yaml
+  completed_at: '2026-07-30'
+  evidence:
+  - coordination/repository_knowledge/registries/module_registry_resolution_v0_1.yaml
+  - scripts/coordination/validate_module_registry_resolution.py
+  - tests/test_module_registry_consistency_ci_gate.py
+  - reports/module_registry_consistency_report.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__module_registry_consistency_ci_gate_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__module_registry_consistency_ci_gate_v0_1.yaml
 - sequence: 4
   step_id: blueprint_self_coordination_consistency_ci_gate_v0_1
   title: Integrate Blueprint self-coordination consistency validation into standard checks
-  status: planned
+  status: active
   priority: high
   depends_on:
   - blueprint_module_registry_consistency_ci_gate_v0_1
+  inputs:
+  - coordination/self_coordination/roadmap.yaml
+  - coordination/self_coordination/prompt_queue/index.yaml
+  - scripts/coordination/validate_blueprint_self_coordination.py
+  - Makefile
 - sequence: 5
   step_id: blueprint_semantic_inventory_unknowns_triage_v0_1
   title: Triage unresolved semantic inventory unknowns
