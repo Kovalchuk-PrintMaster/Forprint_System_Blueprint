@@ -5,7 +5,7 @@ metadata:
   reviewer: project_owner
   created_at: '2026-07-30'
   updated_at: '2026-07-30'
-  current_step_id: blueprint_rci_semantic_enrichment_v0_1
+  current_step_id: blueprint_redm_dependency_enrichment_v0_1
   actionable_steps_after_current: 8
 authority:
   module_level_roadmap: coordination/self_coordination/roadmap.yaml
@@ -119,14 +119,15 @@ steps:
 - sequence: 10
   step_id: blueprint_rci_semantic_enrichment_v0_1
   title: Enrich the Blueprint RCI with semantic evidence
-  status: active
+  status: completed
   priority: high
   depends_on:
   - blueprint_repository_knowledge_freshness_review_v0_1
+  completed_at: '2026-07-30'
 - sequence: 11
   step_id: blueprint_redm_dependency_enrichment_v0_1
   title: Enrich the Blueprint REDM with dependency evidence
-  status: planned
+  status: active
   priority: high
   depends_on:
   - blueprint_rci_semantic_enrichment_v0_1
@@ -166,13 +167,20 @@ steps:
   depends_on:
   - blueprint_inventory_acceptance_evidence_index_v0_1
 - sequence: 17
-  step_id: blueprint_inventory_acceptance_merge_gate_v0_1
-  title: Accept inventory baseline and reconcile audit branch
+  step_id: blueprint_inventory_acceptance_packet_integrity_gate_v0_1
+  title: Validate acceptance packet integrity before merge
   status: planned
   priority: high
   depends_on:
   - blueprint_inventory_acceptance_dry_run_v0_1
 - sequence: 18
+  step_id: blueprint_inventory_acceptance_merge_gate_v0_1
+  title: Accept inventory baseline and reconcile audit branch
+  status: planned
+  priority: high
+  depends_on:
+  - blueprint_inventory_acceptance_packet_integrity_gate_v0_1
+- sequence: 19
   step_id: blueprint_inventory_operational_readiness_review_v0_1
   title: Review readiness before external rollout
   status: planned

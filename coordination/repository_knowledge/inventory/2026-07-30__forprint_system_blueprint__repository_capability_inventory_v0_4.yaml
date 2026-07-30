@@ -1,0 +1,3023 @@
+schema_version: repository_capability_inventory_v0_3
+snapshot:
+  snapshot_id: 2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3
+  created_at: '2026-07-29T15:20:00+03:00'
+  scope_id: forprint_system_blueprint
+  repository_root: /srv/software_development/forprint-project/forprint_system_blueprint
+  branch: audit/blueprint-inventory-refresh-2026-07-29
+  commit: 7778b6e86335f2a82e6d0b9adf4ade081fe7b7e9
+  working_tree: clean
+  author: ForPrint System Blueprint coordination
+  previous_snapshot: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+  previous_snapshot_id: 2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2
+  baseline_commit: 7c9c7aaaa7d3d69a3fb64a070932c2e9c111818c
+  self_audit_request_id: bsa-20260729T115729Z
+  self_audit_source_commit: 50df50b
+  source_tree_artifact:
+    name: tmp/module_workflows/forprint_system_blueprint/bsa-20260729T115729Z/analysis_bundle.tar.gz
+    sha256: 0f3ff5ba3b881d5448bc3d5fbd31034f4c3ad2e686ed1bdf6fa0cb952514db05
+    collector_schema: blueprint_self_audit_input_v0_1
+  post_scan_control_commit: 7778b6e86335f2a82e6d0b9adf4ade081fe7b7e9
+  result: READY_WITH_UNKNOWNS
+scope:
+  included_roots:
+  - <root files>
+  - adr/
+  - coordination/
+  - diagrams/
+  - docs/
+  - human/
+  - machine/
+  - module_guides/
+  - module_manifests/
+  - operator_input/
+  - reports/
+  - scripts/
+  - tests/
+  - tools/
+  ignored_patterns:
+  - .git/
+  - .tmp_blueprint_backups/
+  - virtual environments
+  - caches
+  - build/dist
+  - logs/tmp
+  - credentials and private keys
+  - binary/non-text content
+  tracked_file_count: 703
+  self_audit_source_commit_tracked_file_count: 701
+  self_audit_scan_file_count: 698
+  self_audit_collector_scope_difference: 3
+  post_scan_tracked_additions:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__self_audit_assessment_v0_1.md
+  post_scan_tracked_removals: []
+  summarized_collections:
+  - 68 test files
+  - 55 script files
+  - 18 tool files
+  - 25 machine files
+  - 25 human files
+  - 16 generated module guide files
+  - 7 generated diagram files
+  - 422 coordination files
+  inspection_limits:
+  - Only the Blueprint repository was inspected directly.
+  - The self-audit structural scan was captured at commit 50df50b.
+  - Two tracked inventory-control files were added after the scan and are explicitly accounted for.
+  - The self-audit collector counted 3 fewer files than the Git tree at source commit 50df50b; the difference is preserved
+    as an explicit collector-scope unknown.
+  - Cross-module implementation state remains evidence-limited to tracked Blueprint coordination records.
+  - No file is classified as dead or removable by this snapshot.
+  - Metadata consistency remains a dedicated later audit step.
+repository_summary:
+  declared_purpose: Architecture, governance and coordination truth layer for the ForPrint ecosystem.
+  observed_purpose: Active coordination control plane with machine/human architecture, module source and policy registries,
+    prompt queues, roadmaps, completion intake, module workflows, repository self-audit, generated guidance and compact
+    validation.
+  primary_entrypoints:
+  - make check
+  - make check-report
+  - make markdown-fences
+  - make module-workflow-check
+  - make blueprint-self-audit
+  - make blueprint-self-audit-resume
+  - make prompt-next MODULE=<module>
+  - make completion-accept ...
+  - make roadmap-dashboard MODULE=<module>
+  primary_capabilities:
+  - architecture truth
+  - ownership and contract maps
+  - module policy and source registries
+  - prompt queues
+  - module roadmaps with planning horizons
+  - completion intake and Blueprint acceptance
+  - module workflow registry
+  - Blueprint self-audit
+  - document awareness
+  - governance and Markdown validation
+  - compact reporting
+  - dated repository knowledge snapshots
+  important_artifacts:
+  - machine/modules.yaml
+  - machine/ownership.yaml
+  - machine/contracts.yaml
+  - machine/data_flows.yaml
+  - coordination/module_policy/module_policy_index.yaml
+  - coordination/module_sources/module_git_sources.yaml
+  - coordination/modules/module_workflow_registry.yaml
+  - coordination/outgoing_prompts/*/index.yaml
+  - coordination/roadmaps/*.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__self_audit_assessment_v0_1.md
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  unresolved_summary:
+  - 676 files remain purpose-unknown in the self-audit scan.
+  - File-level dependency mapping covers only four scanned files.
+  - Prompt Queue, roadmap, status and completion consistency requires a dedicated audit.
+  - Module IDs, aliases, repository paths and lifecycle states require reconciliation.
+  - Tracked versus generated report authority and retention require classification.
+  - Cross-module runtime state is not established by this Blueprint-only inventory.
+  - The self-audit collector omitted or excluded 3 tracked files from the source Git tree; their exact collector-scope
+    treatment requires follow-up verification.
+directory_inventory:
+- path: machine/
+  classification: architecture_source
+  purpose:
+    status: verified
+    statement: Canonical machine architecture, ownership, contracts, flows and execution records.
+    confidence: high
+  owner: forprint_system_blueprint
+  evidence:
+  - kind: source
+    reference: machine/modules.yaml
+    observation: 16 architecture modules.
+  - kind: test
+    reference: tests/test_validate_blueprint.py
+    observation: Machine architecture validated.
+  usage_state: active
+  notable_paths:
+  - machine/modules.yaml
+  - machine/ownership.yaml
+  - machine/contracts.yaml
+  - machine/data_flows.yaml
+  unknowns:
+  - Module ID alignment across machine, source and policy registries requires reconciliation.
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    semantic_status: carried_forward_requires_revalidation
+- path: human/
+  classification: architecture_documentation
+  purpose:
+    status: verified
+    statement: Human-readable system strategy, boundaries, ownership and execution planning.
+    confidence: high
+  owner: forprint_system_blueprint
+  evidence: []
+  usage_state: active
+  notable_paths: []
+  unknowns: []
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    semantic_status: carried_forward_requires_revalidation
+- path: coordination/global_policy/
+  classification: governance
+  purpose:
+    status: verified
+    statement: Active doctrine, execution focus and ecosystem role map.
+    confidence: high
+  owner: forprint_system_blueprint
+  evidence: []
+  usage_state: active
+  notable_paths: []
+  unknowns:
+  - Current execution focus freshness requires the metadata consistency audit.
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    semantic_status: carried_forward_requires_revalidation
+- path: coordination/module_policy/
+  classification: governance
+  purpose:
+    status: verified
+    statement: Generated module policy summaries and selected hand-authored briefs.
+    confidence: high
+  owner: forprint_system_blueprint
+  evidence:
+  - kind: manifest
+    reference: coordination/module_policy/module_policy_index.yaml
+    observation: 15 policy modules.
+  - kind: test
+    reference: tests/test_module_policy_index.py
+    observation: Generated documents byte-checked.
+  usage_state: active
+  notable_paths: []
+  unknowns: []
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    semantic_status: carried_forward_requires_revalidation
+- path: coordination/module_sources/
+  classification: registry
+  purpose:
+    status: verified
+    statement: Module repository and coordination path registry.
+    confidence: high
+  owner: forprint_system_blueprint
+  evidence: []
+  usage_state: active
+  notable_paths: []
+  unknowns:
+  - Repository paths and lifecycle states require read-only reconciliation.
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    semantic_status: carried_forward_requires_revalidation
+- path: coordination/outgoing_prompts/
+  classification: coordination_queue
+  purpose:
+    status: verified
+    statement: Prompt Queue v0.2 and historical prompt files.
+    confidence: high
+  owner: forprint_system_blueprint
+  evidence: []
+  usage_state: active
+  notable_paths: []
+  unknowns: []
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    semantic_status: carried_forward_requires_revalidation
+- path: coordination/roadmaps/
+  classification: planning
+  purpose:
+    status: verified
+    statement: Selected module step/dependency roadmaps.
+    confidence: high
+  owner: forprint_system_blueprint
+  evidence: []
+  usage_state: active
+  notable_paths: []
+  unknowns:
+  - Cross-source synchronization is validated per roadmap but not yet audited ecosystem-wide.
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    semantic_status: carried_forward_requires_revalidation
+- path: coordination/repository_knowledge/
+  classification: repository_memory
+  purpose:
+    status: verified
+    statement: Manual RCI, REDM and SDRS history.
+    confidence: high
+  owner: forprint_system_blueprint
+  evidence: []
+  usage_state: active
+  notable_paths: []
+  unknowns:
+  - Current RCI refresh exists; REDM/SDRS refresh and snapshot comparison remain pending.
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    semantic_status: carried_forward_requires_revalidation
+- path: coordination/templates/repository_knowledge_template/
+  classification: distribution_template
+  purpose:
+    status: verified
+    statement: Module-local RCI/REDM/module-self-view template.
+    confidence: high
+  owner: forprint_system_blueprint
+  evidence: []
+  usage_state: active
+  notable_paths: []
+  unknowns: []
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    semantic_status: carried_forward_requires_revalidation
+- path: scripts/
+  classification: tooling
+  purpose:
+    status: verified
+    statement: Validators, generators, coordination workflows and reporting logic.
+    confidence: high
+  owner: forprint_system_blueprint
+  evidence: []
+  usage_state: active
+  notable_paths: []
+  unknowns: []
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    semantic_status: carried_forward_requires_revalidation
+- path: tests/
+  classification: tests
+  purpose:
+    status: verified
+    statement: Automated architecture, coordination, policy and reporting checks.
+    confidence: high
+  owner: forprint_system_blueprint
+  evidence:
+  - kind: runtime
+    reference: operator log
+    observation: 304 tests passed.
+  usage_state: active
+  notable_paths: []
+  unknowns: []
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    semantic_status: carried_forward_requires_revalidation
+- path: tools/
+  classification: tooling_and_templates
+  purpose:
+    status: verified
+    statement: Reusable coordination and standards templates.
+    confidence: high
+  owner: forprint_system_blueprint
+  evidence: []
+  usage_state: active
+  notable_paths: []
+  unknowns: []
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    semantic_status: carried_forward_requires_revalidation
+- path: docs/
+  classification: documentation
+  purpose:
+    status: verified
+    statement: Architecture, runbook and recovery documentation.
+    confidence: high
+  owner: forprint_system_blueprint
+  evidence: []
+  usage_state: active
+  notable_paths: []
+  unknowns: []
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    semantic_status: carried_forward_requires_revalidation
+- path: adr/
+  classification: architecture_decisions
+  purpose:
+    status: verified
+    statement: Accepted architecture decisions.
+    confidence: high
+  owner: forprint_system_blueprint
+  evidence: []
+  usage_state: active
+  notable_paths: []
+  unknowns: []
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    semantic_status: carried_forward_requires_revalidation
+- path: module_guides/
+  classification: generated_documentation
+  purpose:
+    status: verified
+    statement: Generated module guidance.
+    confidence: high
+  owner: forprint_system_blueprint
+  evidence: []
+  usage_state: generated
+  notable_paths: []
+  unknowns:
+  - Generated coverage depends on the current machine architecture and registry reconciliation.
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    semantic_status: carried_forward_requires_revalidation
+- path: diagrams/
+  classification: generated_documentation
+  purpose:
+    status: verified
+    statement: Generated Mermaid architecture diagrams.
+    confidence: high
+  owner: forprint_system_blueprint
+  evidence: []
+  usage_state: generated
+  notable_paths: []
+  unknowns: []
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    semantic_status: carried_forward_requires_revalidation
+- path: reports/
+  classification: generated_artifacts
+  purpose:
+    status: verified
+    statement: Generated governance and coordination reports.
+    confidence: high
+  owner: forprint_system_blueprint
+  evidence: []
+  usage_state: generated
+  notable_paths: []
+  unknowns:
+  - Tracked-versus-generated authority and retention are not yet fully classified.
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    semantic_status: carried_forward_requires_revalidation
+- path: coordination/modules/
+  classification: workflow_registry
+  purpose:
+    status: verified
+    statement: Canonical module workflow registry, manifests, indexes and recovery contracts.
+    confidence: high
+  owner: forprint_system_blueprint
+  evidence:
+  - kind: validation
+    reference: make module-workflow-check
+    observation: Registry, manifests, workflow indexes and recovery validation pass.
+  usage_state: active
+  notable_paths:
+  - coordination/modules/module_workflow_registry.yaml
+  - coordination/modules/forprint_system_blueprint/module_workflow_manifest.yaml
+  unknowns:
+  - Only Blueprint is registered; ecosystem rollout is pending.
+- path: coordination/internal_work/blueprint/inventory_refresh/
+  classification: active_internal_control
+  purpose:
+    status: verified
+    statement: Tracked control artifacts for the current Blueprint inventory refresh.
+    confidence: high
+  owner: forprint_system_blueprint
+  evidence:
+  - kind: source
+    reference: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__self_audit_assessment_v0_1.md
+    observation: Completed self-audit assessment.
+  - kind: source
+    reference: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+    observation: Controlled 8-10 step inventory refresh plan.
+  usage_state: active
+  notable_paths:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__self_audit_assessment_v0_1.md
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  unknowns: []
+- path: module_manifests/
+  classification: example_contract
+  purpose:
+    status: verified
+    statement: Example module manifest contracts used for validation and adoption guidance.
+    confidence: high
+  owner: forprint_system_blueprint
+  evidence:
+  - kind: validation
+    reference: make check
+    observation: Example module manifest validation passes.
+  usage_state: active_reference
+  notable_paths:
+  - module_manifests/examples/calculator_engine.forprint_module_manifest.example.yaml
+  unknowns: []
+capability_inventory:
+- path: Makefile
+  path_kind: file
+  classification: entrypoint
+  purpose:
+    status: verified
+    statement: Primary operator interface.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints:
+  - check
+  - check-report
+  - validate
+  - prompt-next
+  - completion-accept
+  - roadmap-dashboard
+  - document-awareness
+  inputs: []
+  outputs:
+  - terminal/report artifacts
+  side_effects:
+    filesystem_read: true
+    filesystem_write: true
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: true
+    unknown: false
+  dependencies:
+    internal:
+    - scripts/
+    external: []
+  consumers: []
+  providers: []
+  evidence:
+  - kind: source
+    reference: Makefile
+    observation: 55 targets extracted.
+  - kind: runtime
+    reference: operator log
+    observation: 22/22 checks passed.
+  tests: []
+  usage_state: active
+  duplicate_candidates: []
+  related_flows:
+  - blueprint.quality_gate.v1
+  - blueprint.prompt_navigation.v1
+  - blueprint.completion_acceptance.v1
+  recovery_path: null
+  unknowns: []
+  notes: ''
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    matched_paths:
+    - Makefile
+    semantic_status: carried_forward_requires_revalidation
+- path: pyproject.toml
+  path_kind: file
+  classification: dependency_manifest
+  purpose:
+    status: verified
+    statement: Python package and development tool configuration.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: false
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal: []
+    external:
+    - PyYAML
+    - pytest
+    - ruff
+    - black
+    - setuptools
+  consumers: []
+  providers: []
+  evidence: []
+  tests: []
+  usage_state: active
+  duplicate_candidates: []
+  related_flows: []
+  recovery_path: null
+  unknowns: []
+  notes: ''
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    matched_paths:
+    - pyproject.toml
+    semantic_status: carried_forward_requires_revalidation
+- path: machine/modules.yaml
+  path_kind: file
+  classification: architecture_registry
+  purpose:
+    status: verified
+    statement: Canonical module definitions.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs:
+  - module definitions
+  side_effects:
+    filesystem_read: true
+    filesystem_write: false
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers:
+  - validators
+  - guides
+  - diagrams
+  providers: []
+  evidence:
+  - kind: source
+    reference: machine/modules.yaml
+    observation: 16 modules.
+  tests: []
+  usage_state: active
+  duplicate_candidates:
+  - module_policy_index.yaml
+  - module_git_sources.yaml
+  - ecosystem_module_map.md
+  related_flows: []
+  recovery_path: null
+  unknowns:
+  - forprint_contract_registry absent.
+  notes: ''
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    matched_paths:
+    - machine/modules.yaml
+    semantic_status: carried_forward_requires_revalidation
+- path: machine/ownership.yaml
+  path_kind: file
+  classification: architecture_registry
+  purpose:
+    status: verified
+    statement: Canonical object ownership and consumers.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: false
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers: []
+  providers: []
+  evidence: []
+  tests: []
+  usage_state: active
+  duplicate_candidates: []
+  related_flows: []
+  recovery_path: null
+  unknowns:
+  - contract_definition ownership must be split from future interface-contract lifecycle.
+  notes: ''
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    matched_paths:
+    - machine/ownership.yaml
+    semantic_status: carried_forward_requires_revalidation
+- path: machine/contracts.yaml
+  path_kind: file
+  classification: contract_catalog
+  purpose:
+    status: verified
+    statement: Architecture-level provider-consumer contract catalog.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: false
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers: []
+  providers: []
+  evidence: []
+  tests: []
+  usage_state: active
+  duplicate_candidates:
+  - future Contract Registry interface packages
+  related_flows: []
+  recovery_path: null
+  unknowns:
+  - Registry/Blueprint contract boundary not encoded.
+  notes: ''
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    matched_paths:
+    - machine/contracts.yaml
+    semantic_status: carried_forward_requires_revalidation
+- path: machine/data_flows.yaml
+  path_kind: file
+  classification: architecture_registry
+  purpose:
+    status: verified
+    statement: Machine source-to-target flow catalog.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: false
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers: []
+  providers: []
+  evidence: []
+  tests: []
+  usage_state: active
+  duplicate_candidates: []
+  related_flows: []
+  recovery_path: null
+  unknowns: []
+  notes: ''
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    matched_paths:
+    - machine/data_flows.yaml
+    semantic_status: carried_forward_requires_revalidation
+- path: machine/forprint_execution_queue.yaml
+  path_kind: file
+  classification: portfolio_plan
+  purpose:
+    status: verified
+    statement: Machine strategic decisions and priority queue.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: false
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers: []
+  providers: []
+  evidence: []
+  tests: []
+  usage_state: active
+  duplicate_candidates:
+  - current_execution_focus.md
+  - roadmaps
+  - prompt queues
+  related_flows: []
+  recovery_path: null
+  unknowns:
+  - Some items predate current work.
+  notes: ''
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    matched_paths:
+    - machine/forprint_execution_queue.yaml
+    semantic_status: carried_forward_requires_revalidation
+- path: coordination/global_policy/forprint_project_doctrine.md
+  path_kind: file
+  classification: policy
+  purpose:
+    status: verified
+    statement: System mission, roles and development principles.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: false
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers:
+  - all assistants
+  providers: []
+  evidence: []
+  tests: []
+  usage_state: active
+  duplicate_candidates: []
+  related_flows: []
+  recovery_path: null
+  unknowns: []
+  notes: ''
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    matched_paths:
+    - coordination/global_policy/forprint_project_doctrine.md
+    semantic_status: carried_forward_requires_revalidation
+- path: coordination/global_policy/current_execution_focus.md
+  path_kind: file
+  classification: policy
+  purpose:
+    status: conflicting
+    statement: Human current-priority summary.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: false
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers: []
+  providers: []
+  evidence: []
+  tests: []
+  usage_state: dormant_candidate
+  duplicate_candidates:
+  - execution queue
+  - roadmaps
+  - prompt queues
+  related_flows: []
+  recovery_path: null
+  unknowns:
+  - Latest Library/Telegram/Logistics/Contract Registry work missing.
+  - Malformed fenced formatting.
+  notes: ''
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    matched_paths:
+    - coordination/global_policy/current_execution_focus.md
+    semantic_status: carried_forward_requires_revalidation
+- path: coordination/module_policy/module_policy_index.yaml
+  path_kind: file
+  classification: policy_registry
+  purpose:
+    status: verified
+    statement: Machine source for generated module policies.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs:
+  - module_policy.md
+  side_effects:
+    filesystem_read: true
+    filesystem_write: false
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers:
+  - generate_module_policy_docs.py
+  providers: []
+  evidence: []
+  tests:
+  - tests/test_module_policy_index.py
+  usage_state: active
+  duplicate_candidates: []
+  related_flows:
+  - blueprint.module_policy_generation.v1
+  recovery_path: null
+  unknowns: []
+  notes: ''
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    matched_paths:
+    - coordination/module_policy/module_policy_index.yaml
+    semantic_status: carried_forward_requires_revalidation
+- path: coordination/module_policy/forprint_contract_registry/contract_registry_architecture_and_activation_brief.md
+  path_kind: file
+  classification: architecture_brief
+  purpose:
+    status: verified
+    statement: Detailed Contract Registry boundaries, phases and activation gates.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: false
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers: []
+  providers: []
+  evidence:
+  - kind: commit
+    reference: 7c9c7aa
+    observation: Placeholder registered.
+  tests: []
+  usage_state: active
+  duplicate_candidates: []
+  related_flows: []
+  recovery_path: null
+  unknowns: []
+  notes: ''
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    matched_paths:
+    - coordination/module_policy/forprint_contract_registry/contract_registry_architecture_and_activation_brief.md
+    semantic_status: carried_forward_requires_revalidation
+- path: coordination/module_sources/module_git_sources.yaml
+  path_kind: file
+  classification: module_registry
+  purpose:
+    status: verified
+    statement: Module paths and coordination sources.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: false
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers:
+  - collect_module_coordination.py
+  - audit_module_governance.py
+  providers: []
+  evidence: []
+  tests: []
+  usage_state: active
+  duplicate_candidates: []
+  related_flows: []
+  recovery_path: null
+  unknowns:
+  - Four records remain confirm_required.
+  notes: ''
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    matched_paths:
+    - coordination/module_sources/module_git_sources.yaml
+    semantic_status: carried_forward_requires_revalidation
+- path: coordination/outgoing_prompts/forprint_library/index.yaml
+  path_kind: file
+  classification: prompt_queue
+  purpose:
+    status: verified
+    statement: Library queue; Calculator input contract is next.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: false
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers: []
+  providers: []
+  evidence: []
+  tests: []
+  usage_state: active
+  duplicate_candidates: []
+  related_flows:
+  - blueprint.prompt_navigation.v1
+  recovery_path: null
+  unknowns: []
+  notes: ''
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    matched_paths:
+    - coordination/outgoing_prompts/forprint_library/index.yaml
+    semantic_status: carried_forward_requires_revalidation
+- path: coordination/outgoing_prompts/telegram_bot/index.yaml
+  path_kind: file
+  classification: prompt_queue
+  purpose:
+    status: verified
+    statement: Telegram queue; governance baseline is next.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: false
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers: []
+  providers: []
+  evidence: []
+  tests: []
+  usage_state: active
+  duplicate_candidates: []
+  related_flows:
+  - blueprint.prompt_navigation.v1
+  recovery_path: null
+  unknowns: []
+  notes: ''
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    matched_paths:
+    - coordination/outgoing_prompts/telegram_bot/index.yaml
+    semantic_status: carried_forward_requires_revalidation
+- path: coordination/outgoing_prompts/logistics_service/index.yaml
+  path_kind: file
+  classification: prompt_queue
+  purpose:
+    status: verified
+    statement: Logistics queue; provider adapter shown ready.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: false
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers: []
+  providers: []
+  evidence: []
+  tests: []
+  usage_state: active
+  duplicate_candidates: []
+  related_flows:
+  - blueprint.prompt_navigation.v1
+  recovery_path: null
+  unknowns:
+  - May lag module-side closeout.
+  notes: ''
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    matched_paths:
+    - coordination/outgoing_prompts/logistics_service/index.yaml
+    semantic_status: carried_forward_requires_revalidation
+- path: coordination/roadmaps/*.yaml
+  path_kind: grouped_collection
+  classification: roadmap_collection
+  purpose:
+    status: verified
+    statement: Selected module roadmaps.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: false
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers: []
+  providers: []
+  evidence: []
+  tests: []
+  usage_state: active
+  duplicate_candidates:
+  - prompt queues
+  related_flows:
+  - blueprint.roadmap_navigation.v1
+  recovery_path: null
+  unknowns:
+  - Library/Telegram current step lags queue.
+  notes: ''
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    matched_paths:
+    - coordination/roadmaps/forprint_library.yaml
+    - coordination/roadmaps/logistics_service.yaml
+    - coordination/roadmaps/telegram_bot.yaml
+    - coordination/roadmaps/website.yaml
+    semantic_status: carried_forward_requires_revalidation
+- path: scripts/run_blueprint_checks.py
+  path_kind: file
+  classification: validator
+  purpose:
+    status: verified
+    statement: Canonical 22-check diagnostics runner.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints:
+  - make check
+  - make check-report
+  inputs: []
+  outputs:
+  - terminal, JSON, Markdown, full log
+  side_effects:
+    filesystem_read: true
+    filesystem_write: true
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: true
+    unknown: false
+  dependencies:
+    internal: []
+    external:
+    - pytest
+    - ruff
+  consumers: []
+  providers: []
+  evidence:
+  - kind: runtime
+    reference: operator log
+    observation: 22/22 passed.
+  tests:
+  - tests/test_run_blueprint_checks.py
+  usage_state: active
+  duplicate_candidates: []
+  related_flows:
+  - blueprint.quality_gate.v1
+  recovery_path: docs/operations/blueprint_check_reporting_recovery.md
+  unknowns: []
+  notes: ''
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    matched_paths:
+    - scripts/run_blueprint_checks.py
+    semantic_status: carried_forward_requires_revalidation
+- path: scripts/validate_blueprint.py
+  path_kind: file
+  classification: validator
+  purpose:
+    status: verified
+    statement: Machine architecture validator.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints:
+  - make validate
+  inputs:
+  - machine/*.yaml
+  outputs: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: false
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: true
+    unknown: false
+  dependencies:
+    internal: []
+    external:
+    - PyYAML
+  consumers: []
+  providers: []
+  evidence: []
+  tests:
+  - tests/test_validate_blueprint.py
+  usage_state: active
+  duplicate_candidates: []
+  related_flows:
+  - blueprint.architecture_validation.v1
+  recovery_path: null
+  unknowns: []
+  notes: ''
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    matched_paths:
+    - scripts/validate_blueprint.py
+    semantic_status: carried_forward_requires_revalidation
+- path: scripts/generate_module_policy_docs.py
+  path_kind: file
+  classification: generator
+  purpose:
+    status: verified
+    statement: Deterministic module policy renderer.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints:
+  - make module-policy-generate
+  - make module-policy-check
+  inputs:
+  - module_policy_index.yaml
+  outputs:
+  - module_policy.md
+  side_effects:
+    filesystem_read: true
+    filesystem_write: true
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers: []
+  providers: []
+  evidence: []
+  tests:
+  - tests/test_module_policy_index.py
+  usage_state: active
+  duplicate_candidates: []
+  related_flows:
+  - blueprint.module_policy_generation.v1
+  recovery_path: null
+  unknowns: []
+  notes: ''
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    matched_paths:
+    - scripts/generate_module_policy_docs.py
+    semantic_status: carried_forward_requires_revalidation
+- path: scripts/coordination/resolve_next_prompt.py
+  path_kind: file
+  classification: coordination_tool
+  purpose:
+    status: verified
+    statement: Resolve next ready prompt.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints:
+  - make prompt-next
+  - make prompt-read-next
+  inputs: []
+  outputs: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: false
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: true
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers: []
+  providers: []
+  evidence: []
+  tests:
+  - tests/coordination/test_prompt_queue_navigation.py
+  usage_state: active
+  duplicate_candidates: []
+  related_flows:
+  - blueprint.prompt_navigation.v1
+  recovery_path: null
+  unknowns: []
+  notes: ''
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    matched_paths:
+    - scripts/coordination/resolve_next_prompt.py
+    semantic_status: carried_forward_requires_revalidation
+- path: scripts/coordination/module_completion_intake.py
+  path_kind: file
+  classification: coordination_tool
+  purpose:
+    status: verified
+    statement: Preview/accept/return completion evidence.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints:
+  - make completion-intake-preview
+  - make completion-accept
+  - make completion-return
+  inputs: []
+  outputs:
+  - queue/roadmap/review updates
+  side_effects:
+    filesystem_read: true
+    filesystem_write: true
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: true
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers: []
+  providers: []
+  evidence: []
+  tests: []
+  usage_state: active
+  duplicate_candidates: []
+  related_flows:
+  - blueprint.completion_acceptance.v1
+  recovery_path: null
+  unknowns: []
+  notes: ''
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    matched_paths:
+    - scripts/coordination/module_completion_intake.py
+    semantic_status: carried_forward_requires_revalidation
+- path: scripts/coordination/build_document_manifest.py
+  path_kind: file
+  classification: coordination_tool
+  purpose:
+    status: verified
+    statement: Build hash-aware governance document manifest.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints:
+  - make document-manifest
+  inputs: []
+  outputs: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: true
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: true
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers: []
+  providers: []
+  evidence: []
+  tests: []
+  usage_state: active
+  duplicate_candidates: []
+  related_flows:
+  - blueprint.document_awareness.v1
+  recovery_path: null
+  unknowns: []
+  notes: ''
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    matched_paths:
+    - scripts/coordination/build_document_manifest.py
+    semantic_status: carried_forward_requires_revalidation
+- path: scripts/audit_module_governance.py
+  path_kind: file
+  classification: audit_tool
+  purpose:
+    status: verified
+    statement: Audit registered module governance files/targets.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints:
+  - make module-governance-audit
+  inputs: []
+  outputs: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: true
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: true
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers: []
+  providers: []
+  evidence: []
+  tests: []
+  usage_state: active
+  duplicate_candidates: []
+  related_flows:
+  - blueprint.module_governance_audit.v1
+  recovery_path: null
+  unknowns:
+  - Stored audit artifact predates current portfolio.
+  notes: ''
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    matched_paths:
+    - scripts/audit_module_governance.py
+    semantic_status: carried_forward_requires_revalidation
+- path: coordination/repository_knowledge/
+  path_kind: grouped_collection
+  classification: repository_memory
+  purpose:
+    status: verified
+    statement: Manual RCI/REDM/SDRS capability.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: true
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers: []
+  providers: []
+  evidence: []
+  tests: []
+  usage_state: active
+  duplicate_candidates: []
+  related_flows:
+  - blueprint.repository_knowledge_snapshot.v1
+  recovery_path: null
+  unknowns: []
+  notes: ''
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    matched_paths:
+    - coordination/repository_knowledge/
+    semantic_status: carried_forward_requires_revalidation
+- path: reports/forprint_module_status.json
+  path_kind: file
+  classification: report
+  purpose:
+    status: unknown
+    statement: Intended status artifact, currently empty.
+    confidence: none
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: false
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers: []
+  providers: []
+  evidence:
+  - kind: validation
+    reference: structured data summary
+    observation: Invalid JSON because empty.
+  tests: []
+  usage_state: orphan_candidate
+  duplicate_candidates: []
+  related_flows: []
+  recovery_path: null
+  unknowns:
+  - Producer and consumer are not established.
+  notes: ''
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    matched_paths:
+    - reports/forprint_module_status.json
+    semantic_status: carried_forward_requires_revalidation
+- path: README.md
+  path_kind: file
+  classification: documentation
+  purpose:
+    status: verified
+    statement: Repository onboarding and quick start.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: false
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers: []
+  providers: []
+  evidence: []
+  tests: []
+  usage_state: active
+  duplicate_candidates: []
+  related_flows: []
+  recovery_path: null
+  unknowns:
+  - Contains unsafe `git add .` for current dirty tree.
+  notes: ''
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    current_path_state: present
+    matched_paths:
+    - README.md
+    semantic_status: carried_forward_requires_revalidation
+- path: scripts/coordination/modules/module_workflow_cli.py
+  path_kind: file
+  classification: workflow_entrypoint
+  purpose:
+    status: verified
+    statement: Canonical CLI for registered module workflows and Blueprint self-audit.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints:
+  - check
+  - self-status
+  - self-audit
+  - self-audit-resume
+  - self-report-full
+  inputs: []
+  outputs:
+  - runtime self-knowledge reports
+  - analysis bundles
+  - validated external assessment archive
+  side_effects:
+    filesystem_read: true
+    filesystem_write: true
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: true
+    unknown: false
+  dependencies:
+    internal:
+    - coordination/modules/module_workflow_registry.yaml
+    - coordination/modules/forprint_system_blueprint/module_workflow_manifest.yaml
+    external: []
+  consumers: []
+  providers: []
+  evidence:
+  - kind: self_audit
+    reference: bsa-20260729T115729Z
+    observation: Current Blueprint Self Audit completed and validated.
+  tests: []
+  usage_state: active
+  duplicate_candidates: []
+  related_flows:
+  - blueprint.self_audit.v1
+  recovery_path: docs/operations/blueprint_self_audit_recovery.md
+  unknowns:
+  - Formal registry currently covers Blueprint only.
+  notes: ''
+- path: coordination/modules/module_workflow_registry.yaml
+  path_kind: file
+  classification: workflow_registry
+  purpose:
+    status: verified
+    statement: Canonical registry of module workflow manifests.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs:
+  - registered module workflow definitions
+  side_effects:
+    filesystem_read: true
+    filesystem_write: true
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers: []
+  providers: []
+  evidence:
+  - kind: self_audit
+    reference: bsa-20260729T115729Z
+    observation: Current Blueprint Self Audit completed and validated.
+  tests: []
+  usage_state: active
+  duplicate_candidates: []
+  related_flows:
+  - blueprint.self_audit.v1
+  recovery_path: null
+  unknowns:
+  - Ecosystem module workflow rollout remains pending.
+  notes: ''
+- path: scripts/validation/validate_markdown_fences.py
+  path_kind: file
+  classification: documentation_validator
+  purpose:
+    status: verified
+    statement: Ratcheted Markdown fence validator for Blueprint documentation.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints:
+  - validate
+  inputs: []
+  outputs:
+  - Markdown fence validation result
+  side_effects:
+    filesystem_read: true
+    filesystem_write: true
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: true
+    unknown: false
+  dependencies:
+    internal:
+    - machine/validation/markdown_fence_baseline.json
+    external: []
+  consumers: []
+  providers: []
+  evidence:
+  - kind: self_audit
+    reference: bsa-20260729T115729Z
+    observation: Current Blueprint Self Audit completed and validated.
+  tests: []
+  usage_state: active
+  duplicate_candidates: []
+  related_flows:
+  - blueprint.documentation_quality.v1
+  recovery_path: null
+  unknowns: []
+  notes: ''
+- path: machine/validation/markdown_fence_baseline.json
+  path_kind: file
+  classification: validation_baseline
+  purpose:
+    status: verified
+    statement: Machine-readable ratchet baseline for known Markdown fence defects.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs:
+  - known Markdown fence issue baseline
+  side_effects:
+    filesystem_read: true
+    filesystem_write: true
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal: []
+    external: []
+  consumers: []
+  providers: []
+  evidence:
+  - kind: self_audit
+    reference: bsa-20260729T115729Z
+    observation: Current Blueprint Self Audit completed and validated.
+  tests: []
+  usage_state: active
+  duplicate_candidates: []
+  related_flows:
+  - blueprint.documentation_quality.v1
+  recovery_path: null
+  unknowns: []
+  notes: ''
+- path: human/system_control_model.md
+  path_kind: file
+  classification: human_control_document
+  purpose:
+    status: verified
+    statement: Human-readable system control and coordination model separated from repository standards.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs: []
+  side_effects:
+    filesystem_read: true
+    filesystem_write: false
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal:
+    - human/
+    external: []
+  consumers: []
+  providers: []
+  evidence:
+  - kind: self_audit
+    reference: bsa-20260729T115729Z
+    observation: Current Blueprint Self Audit completed and validated.
+  tests: []
+  usage_state: active
+  duplicate_candidates: []
+  related_flows: []
+  recovery_path: null
+  unknowns: []
+  notes: ''
+- path: coordination/standards/governance/module_development_roadmap_policy.md
+  path_kind: file
+  classification: planning_standard
+  purpose:
+    status: verified
+    statement: Canonical module roadmap policy including the 8-10 actionable-steps-ahead rule.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs:
+  - roadmap planning and refresh requirements
+  side_effects:
+    filesystem_read: true
+    filesystem_write: true
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal:
+    - coordination/roadmaps/
+    external: []
+  consumers: []
+  providers: []
+  evidence:
+  - kind: self_audit
+    reference: bsa-20260729T115729Z
+    observation: Current Blueprint Self Audit completed and validated.
+  tests: []
+  usage_state: active
+  duplicate_candidates: []
+  related_flows:
+  - blueprint.module_planning.v1
+  recovery_path: null
+  unknowns: []
+  notes: ''
+- path: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__self_audit_assessment_v0_1.md
+  path_kind: file
+  classification: inventory_control
+  purpose:
+    status: verified
+    statement: Tracked assessment of completed Blueprint Self Audit results.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs:
+  - inventory refresh starting evidence
+  side_effects:
+    filesystem_read: true
+    filesystem_write: true
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal:
+    - reports/modules/forprint_system_blueprint/current/self_knowledge_report.md
+    external: []
+  consumers: []
+  providers: []
+  evidence:
+  - kind: self_audit
+    reference: bsa-20260729T115729Z
+    observation: Current Blueprint Self Audit completed and validated.
+  tests: []
+  usage_state: active
+  duplicate_candidates: []
+  related_flows:
+  - blueprint.repository_inventory.v1
+  recovery_path: null
+  unknowns: []
+  notes: ''
+- path: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  path_kind: file
+  classification: inventory_control
+  purpose:
+    status: verified
+    statement: Tracked 10-step Blueprint inventory refresh control plan.
+    confidence: high
+  owner: forprint_system_blueprint
+  public_symbols: []
+  entrypoints: []
+  inputs: []
+  outputs:
+  - current inventory step and forward planning horizon
+  side_effects:
+    filesystem_read: true
+    filesystem_write: true
+    database_read: false
+    database_write: false
+    network_read: false
+    network_write: false
+    process_execution: false
+    unknown: false
+  dependencies:
+    internal:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__self_audit_assessment_v0_1.md
+    external: []
+  consumers: []
+  providers: []
+  evidence:
+  - kind: self_audit
+    reference: bsa-20260729T115729Z
+    observation: Current Blueprint Self Audit completed and validated.
+  tests: []
+  usage_state: active
+  duplicate_candidates: []
+  related_flows:
+  - blueprint.repository_inventory.v1
+  recovery_path: null
+  unknowns: []
+  notes: ''
+external_dependency_inventory:
+- dependency: PyYAML>=6.0.1
+  manifest: pyproject.toml
+  dependency_class: runtime
+  purpose:
+    status: verified
+    statement: Parse and validate YAML.
+    confidence: high
+  usage_evidence:
+  - validators and coordination scripts
+  used_by:
+  - scripts/
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    status: carried_forward_requires_runtime_revalidation
+- dependency: pytest>=8.0.0
+  manifest: pyproject.toml
+  dependency_class: testing
+  purpose:
+    status: verified
+    statement: Run tests.
+    confidence: high
+  usage_evidence:
+  - make test/check
+  used_by:
+  - tests/
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    status: carried_forward_requires_runtime_revalidation
+- dependency: ruff>=0.4.0
+  manifest: pyproject.toml
+  dependency_class: development
+  purpose:
+    status: verified
+    statement: Lint Python.
+    confidence: high
+  usage_evidence:
+  - make lint/check
+  used_by:
+  - scripts/
+  - tests/
+  - tools/
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    status: carried_forward_requires_runtime_revalidation
+- dependency: black>=24.0.0
+  manifest: pyproject.toml
+  dependency_class: development
+  purpose:
+    status: verified
+    statement: Format Python.
+    confidence: high
+  usage_evidence:
+  - make format
+  used_by:
+  - operator workflow
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    status: carried_forward_requires_runtime_revalidation
+- dependency: setuptools>=68
+  manifest: pyproject.toml
+  dependency_class: development
+  purpose:
+    status: verified
+    statement: Build/install package.
+    confidence: high
+  usage_evidence:
+  - build-system
+  used_by:
+  - packaging
+  snapshot_refresh:
+    source: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    status: carried_forward_requires_runtime_revalidation
+review_candidates:
+  duplicate_candidates:
+  - id: module_registry_drift
+    paths:
+    - machine/modules.yaml
+    - module_policy_index.yaml
+    - module_git_sources.yaml
+    - ecosystem_module_map.md
+    evidence: Contract Registry present in coordination records but absent in machine/modules.yaml.
+    next: Define registration workflow and consistency check.
+  - id: execution_state_drift
+    paths:
+    - forprint_execution_queue.yaml
+    - current_execution_focus.md
+    - roadmaps
+    - prompt queues
+    evidence: Queues are newer than roadmaps/current focus.
+    next: Define precedence/freshness and add read-only drift report.
+  dormant_candidates:
+  - path: coordination/incoming_requests/*/new/
+    reason: Historical requests lack freshness.
+    next: Review before archive.
+  - path: reports/module_coordination/
+    reason: Snapshots may be stale.
+    next: Compare generated commit/date.
+  - path: drafts and superseded prompts
+    reason: Historical work beside active queues.
+    next: Retain but ensure resolvers ignore.
+  orphan_candidates:
+  - path: reports/forprint_module_status.json
+    reason: Empty invalid JSON.
+    next: Identify producer or separately approve cleanup.
+  ownership_conflicts:
+  - concept: contract_definition
+    current: Blueprint in machine/ownership.yaml
+    planned: Contract Registry owns inter-module interface lifecycle
+    resolution: Split architecture declarations from interface packages.
+  - subject: module registry alignment
+    reason: Machine architecture, module source registry and module policy index require canonical ID and alias reconciliation.
+    status: open
+  documentation_gaps:
+  - Contract Registry missing from machine architecture/guides.
+  - current_execution_focus.md stale/malformed.
+  - README recommends git add .
+  - Roadmap/queue precedence not explicit.
+  - subject: semantic inventory coverage
+    reason: 676 scanned files remain purpose-unknown.
+    status: open
+  recovery_gaps:
+  - First snapshot recovery guide introduced by this package.
+  - No automated comparison by design.
+  security_or_external_io_questions:
+  - Collector secret-exclusion policy needs periodic review.
+  - No Registry/Gateway runtime write authorized.
+  authority_and_retention_questions:
+  - subject: reports/
+    question: Which report artifacts are canonical tracked evidence and which must remain reproducible-only runtime
+      outputs?
+    status: open
+  - subject: coordination history
+    question: What retention rules apply to processed prompts, review packets, snapshots and old internal work artifacts?
+    status: open
+comparison_to_previous:
+  previous_snapshot: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+  previous_snapshot_id: 2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2
+  baseline_commit: 7c9c7aaaa7d3d69a3fb64a070932c2e9c111818c
+  current_commit: 7778b6e86335f2a82e6d0b9adf4ade081fe7b7e9
+  change_summary:
+    added: 77
+    modified: 84
+    deleted: 0
+    renamed: 0
+    other: 0
+  added_paths:
+  - adr/0014-manual-repository-knowledge-and-direction-snapshots.md
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__self_audit_assessment_v0_1.md
+  - coordination/internal_work/blueprint/structure_cleanup/2026-07-27__blueprint__structure_assessment_v0_1.md
+  - coordination/modules/README.md
+  - coordination/modules/_shared/templates/external_input.template.yaml
+  - coordination/modules/_shared/templates/workflow_definition.template.md
+  - coordination/modules/forprint_system_blueprint/README.md
+  - coordination/modules/forprint_system_blueprint/external_input/README.md
+  - coordination/modules/forprint_system_blueprint/module_workflow_manifest.yaml
+  - coordination/modules/forprint_system_blueprint/workflows/definitions/blueprint_self_audit.md
+  - coordination/modules/forprint_system_blueprint/workflows/definitions/external_analysis_handoff.md
+  - coordination/modules/forprint_system_blueprint/workflows/workflow_index.yaml
+  - coordination/modules/module_workflow_registry.yaml
+  - coordination/outgoing_prompts/forprint_system_blueprint/approved/2026-07-07__blueprint__website_roadmap_legacy_control_refinement_v0_2_1.md
+  - coordination/outgoing_prompts/logistics_service/approved/2026-07-29__logistics_service__tracking_events_v0_1.md
+  - coordination/outgoing_prompts/website/approved/2026-07-07__website__php_base_launch_readiness_v0_1.md
+  - coordination/reports/completion/2026-07-07__blueprint__website_roadmap_legacy_control_refinement_v0_2_1.md
+  - coordination/reports/completion/2026-07-23__blueprint__internal_workflow_foundation_v0_1.md
+  - coordination/reports/completion/2026-07-23__blueprint__repository_knowledge_baseline_v0_2.md
+  - coordination/reports/completion/2026-07-28__blueprint__structure_cleanup_completion_v0_1.md
+  - coordination/repository_knowledge/README.md
+  - coordination/repository_knowledge/direction/blueprint_coordination/2026-07-23__forprint_system_blueprint__state_direction_rationale_snapshot_v0_1.yaml
+  - coordination/repository_knowledge/direction/system_portfolio/2026-07-23__forprint_system__state_direction_rationale_snapshot_v0_1.yaml
+  - coordination/repository_knowledge/flows/2026-07-23__forprint_system_blueprint__repository_execution_dependency_map_v0_2.yaml
+  - coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+  - coordination/repository_knowledge/repository_knowledge_and_direction_snapshot_protocol_v0_2.md
+  - coordination/repository_knowledge/templates/blueprint_snapshot_assignment_v0_2.md
+  - coordination/repository_knowledge/templates/historical_snapshot_review_assignment_v0_1.md
+  - coordination/repository_knowledge/templates/module_snapshot_assignment_v0_2.md
+  - coordination/repository_knowledge/templates/repository_capability_inventory_v0_2.template.yaml
+  - coordination/repository_knowledge/templates/repository_execution_dependency_map_v0_2.template.yaml
+  - coordination/repository_knowledge/templates/state_direction_rationale_snapshot_v0_1.template.yaml
+  - coordination/review_packets/logistics_service/processed/2026-07-29__logistics_service_provider_adapter_contract_v0_1__accepted.yaml
+  - coordination/risk_registers/website.yaml
+  - coordination/roadmaps/website.yaml
+  - coordination/standards/governance/module_workflow_automation_and_external_input_policy.md
+  - coordination/templates/repository_knowledge_template/README.md
+  - coordination/templates/repository_knowledge_template/direction/module_self_view/.gitkeep
+  - coordination/templates/repository_knowledge_template/flows/.gitkeep
+  - coordination/templates/repository_knowledge_template/inventory/.gitkeep
+  - coordination/templates/repository_knowledge_template/repository_knowledge_and_direction_snapshot_protocol_v0_2.md
+  - coordination/templates/repository_knowledge_template/templates/historical_snapshot_review_assignment_v0_1.md
+  - coordination/templates/repository_knowledge_template/templates/module_snapshot_assignment_v0_2.md
+  - coordination/templates/repository_knowledge_template/templates/repository_capability_inventory_v0_2.template.yaml
+  - coordination/templates/repository_knowledge_template/templates/repository_execution_dependency_map_v0_2.template.yaml
+  - coordination/templates/repository_knowledge_template/templates/state_direction_rationale_snapshot_v0_1.template.yaml
+  - docs/architecture/blueprint_internal_workflow_foundation_architecture.md
+  - docs/architecture/blueprint_repository_knowledge_snapshot_architecture.md
+  - docs/operations/blueprint_internal_workflow_foundation_recovery.md
+  - docs/operations/blueprint_internal_workflow_foundation_runbook.md
+  - docs/operations/blueprint_repository_knowledge_snapshot_recovery.md
+  - docs/operations/blueprint_repository_knowledge_snapshot_runbook.md
+  - human/system_control_model.md
+  - machine/validation/markdown_fence_baseline.json
+  - operator_input/README.md
+  - operator_input/forprint_system_blueprint/.gitignore
+  - operator_input/forprint_system_blueprint/README.md
+  - reports/modules/README.md
+  - reports/modules/forprint_system_blueprint/.gitignore
+  - scripts/coordination/modules/__init__.py
+  - scripts/coordination/modules/_shared/__init__.py
+  - scripts/coordination/modules/_shared/external_input.py
+  - scripts/coordination/modules/_shared/io.py
+  - scripts/coordination/modules/_shared/reporting.py
+  - scripts/coordination/modules/_shared/repository_scan.py
+  - scripts/coordination/modules/forprint_system_blueprint/__init__.py
+  - scripts/coordination/modules/forprint_system_blueprint/workflows/__init__.py
+  - scripts/coordination/modules/forprint_system_blueprint/workflows/self_audit.py
+  - scripts/coordination/modules/module_workflow_cli.py
+  - scripts/validation/validate_markdown_fences.py
+  - tests/coordination/modules/_shared/test_external_input.py
+  - tests/coordination/modules/_shared/test_makefile_module_workflow_targets.py
+  - tests/coordination/modules/_shared/test_repository_scan.py
+  - tests/coordination/modules/forprint_system_blueprint/test_self_audit.py
+  - tests/validation/test_markdown_fence_check_catalog_integration.py
+  - tests/validation/test_validate_markdown_fences.py
+  modified_paths:
+  - Makefile
+  - adr/0006-module-manifest-standard.md
+  - adr/0008-human-readable-check-report.md
+  - adr/0009-system-detail-map.md
+  - adr/0011-alignment-report-intake-standard.md
+  - adr/0012-module-alignment-execution-plan.md
+  - adr/0013-strategic-agreements-and-execution-queue.md
+  - coordination/checkup/README.md
+  - coordination/directives/README.md
+  - coordination/directives/global/active/2026-06-02__global__directive__module-coordination-standard-v1.md
+  - coordination/document_awareness/source_registry.yaml
+  - coordination/global_policy/README.md
+  - coordination/global_policy/current_execution_focus.md
+  - coordination/global_policy/ecosystem_module_map.md
+  - coordination/global_policy/forprint_project_doctrine.md
+  - coordination/global_policy/forprint_strategic_control_plane_policy.md
+  - coordination/instruction_intake/module_profile_model.md
+  - coordination/module_docs_snapshots/README.md
+  - coordination/module_docs_snapshots/calculator_engine/README.md
+  - coordination/module_policy/README.md
+  - coordination/module_policy/calculator_engine/development_focus.md
+  - coordination/module_policy/calculator_engine/module_goals.md
+  - coordination/module_policy/calculator_engine/role_boundaries.md
+  - coordination/module_sources/README.md
+  - coordination/outgoing_prompts/accounting_registry_service/drafts/2026-05-22-align-accounting-registry-with-blueprint.md
+  - coordination/outgoing_prompts/calculator_engine/approved/2026-05-22-align-calculator-engine-with-blueprint.md
+  - coordination/outgoing_prompts/calculator_engine/drafts/2026-05-22-align-calculator-engine-with-blueprint.md
+  - coordination/outgoing_prompts/forprint_crm/approved/2026-05-22-align-crm-with-blueprint.md
+  - coordination/outgoing_prompts/forprint_crm/drafts/2026-05-22-align-crm-with-blueprint.md
+  - coordination/outgoing_prompts/forprint_integration_gateway/drafts/2026-06-11__gateway__adapter_contracts_error_taxonomy_v0_4.md
+  - coordination/outgoing_prompts/forprint_integration_gateway/drafts/2026-06-11__gateway__v0_3_1_coordination_records_fix.md
+  - coordination/outgoing_prompts/forprint_integration_gateway/drafts/2026-06-12__gateway__contract_compatibility_replay_dry_run_v0_5.md
+  - coordination/outgoing_prompts/forprint_integration_gateway/drafts/2026-06-12__gateway__contract_release_consumer_acceptance_v0_6.md
+  - coordination/outgoing_prompts/forprint_integration_gateway/drafts/2026-06-15__gateway__standards_visibility_advisory_alignment_v0_7.md
+  - coordination/outgoing_prompts/forprint_integration_gateway/index.yaml
+  - coordination/outgoing_prompts/forprint_integration_gateway/notes/2026-06-11__gateway__v0_3_review_lessons.md
+  - coordination/outgoing_prompts/forprint_library/approved/2026-05-22-align-library-with-blueprint.md
+  - coordination/outgoing_prompts/forprint_library/drafts/2026-05-22-align-library-with-blueprint.md
+  - coordination/outgoing_prompts/forprint_library/drafts/2026-07-03__library__configurable_product_workbench_v0_1.md
+  - coordination/outgoing_prompts/forprint_operational_registry/approved/2026-06-19__operational_registry__local_operator_command_query_readiness_v0_1.md
+  - coordination/outgoing_prompts/forprint_prepress_hub/drafts/2026-05-22-align-prepress-hub-with-blueprint.md
+  - coordination/outgoing_prompts/logistics_service/index.yaml
+  - coordination/outgoing_prompts/telegram_bot/archived/drafts/2026-05-22-align-telegram-bot-with-blueprint.md
+  - coordination/outgoing_prompts/telegram_bot/archived/drafts/2026-06-10__telegram_bot__governance_and_test_alignment_v0_1.md
+  - coordination/reports/completion/2026-07-03__blueprint__coordination_foundation_standards_summary_v0_1.md
+  - coordination/reports/completion/2026-07-06__blueprint__coordination_foundation_tooling_summary_v0_1.md
+  - coordination/roadmaps/logistics_service.yaml
+  - coordination/standards/README.md
+  - coordination/standards/coordination_metadata_policy.md
+  - coordination/standards/development_environment_policy.md
+  - coordination/standards/directive_index_schema.md
+  - coordination/standards/governance/README.md
+  - coordination/standards/governance/coordination_document_awareness_policy.md
+  - coordination/standards/governance/folder_architecture_policy.md
+  - coordination/standards/governance/index.yaml
+  - coordination/standards/governance/module_development_roadmap_policy.md
+  - coordination/standards/governance/prompt_queue_navigation_policy.md
+  - coordination/standards/index.yaml
+  - coordination/standards/make_command_standard.md
+  - coordination/standards/module_assistant_start_protocol.md
+  - coordination/standards/module_governance_make_targets.md
+  - coordination/standards/module_governance_protocol.md
+  - coordination/standards/module_make_target_contract.md
+  - coordination/standards/module_pre_commit_protocol.md
+  - coordination/standards/module_standards_awareness_protocol.md
+  - coordination/standards/project_structure_standard.md
+  - coordination/standards/repository_structure_baseline.md
+  - coordination/standards/testing_and_check_report_standard.md
+  - coordination/standards/third_party_reuse/third_party_reuse_policy.md
+  - coordination/standards/visual_interface/color_tokens_policy.md
+  - coordination/templates/environment/development_environment.template.md
+  - coordination/templates/module_makefile_standard.template.mk
+  - coordination/templates/project_tree.template.md
+  - diagrams/README.md
+  - human/alignment_report_intake_workflow.md
+  - human/crm_alignment_review.md
+  - human/development_standards.md
+  - human/forprint_execution_queue.md
+  - human/integration_gateway_v0_2_review.md
+  - human/module_manifest_standard.md
+  - human/system_detail_map.md
+  - machine/module_alignment_execution_plan.yaml
+  - scripts/run_blueprint_checks.py
+  - tools/module_coordination_template/README.md
+  removed_paths: []
+  moved_or_renamed_paths: []
+  changed_purpose:
+  - path: human/
+    change: Repository structure standard and system control model are now separate authoritative documents.
+  - path: coordination/modules/
+    change: Module workflow registry and Blueprint Self Audit are now formalized.
+  - path: coordination/roadmaps/logistics_service.yaml
+    change: Provider Adapter Contract accepted and planning horizon expanded to eight actionable steps ahead.
+  confidence_changes:
+  - scope: repository structure
+    from: first manual baseline
+    to: complete structural self-audit coverage
+  - scope: semantic file knowledge
+    from: not quantified
+    to: 22 of 698 files purpose-understood in scan
+  newly_resolved_unknowns:
+  - Markdown fence debt is zero with a zero baseline.
+  - Blueprint Self Audit workflow is operational and validated.
+  - Repository structure cleanup is complete.
+  newly_introduced_unknowns:
+  - Exact authority and retention rules for generated/current/history artifacts.
+  - Current ecosystem-wide metadata consistency.
+  carried_forward_unknowns:
+  - Module ID, alias, repository path and lifecycle alignment.
+  - Cross-module runtime state.
+  - Broad file-level purpose and dependency knowledge.
+quality_checks:
+  filename_only_claims_marked_as_inferred: true
+  unknowns_preserved: true
+  no_dead_code_claim_without_proof: true
+  generated_and_external_content_separated: true
+  important_entrypoints_covered: true
+  previous_snapshot_not_overwritten: true
+  current_git_file_count_verified: true
+  self_audit_metrics_preserved: true
+  post_scan_additions_explicit: true
+  change_inventory_derived_from_git: true
+  yaml_validated: true
+coverage:
+  current_tracked_files: 703
+  self_audit_scan:
+    files_indexed: 698
+    purpose_understood: 22
+    dependencies_mapped: 4
+    fully_verified: 1
+    unknown: 676
+    python_files_parsed: 131
+    python_parse_failures: 0
+    make_targets_total: 66
+    workflow_targets_mapped: 8
+  source_commit_tracked_files: 701
+  collector_scope_difference: 3
+  post_scan_verified_control_files: 2
+  effective_minimum_purpose_understood: 24
+  effective_maximum_unknown: 679
+  coverage_interpretation: Structural indexing is complete for the self-audit collector scope. Semantic purpose and
+    dependency coverage remain low. Two post-scan control files have explicit verified purpose, while the collector-versus-Git
+    scope difference remains an explicit unknown.
+artifact_authority_map:
+  root_summary:
+  - root: <root>
+    tracked_files: 5
+    authority_class: canonical_control
+    role: Repository entrypoints, package configuration, version and top-level guidance.
+  - root: adr
+    tracked_files: 14
+    authority_class: canonical_decisions
+    role: Accepted architecture decision records.
+  - root: coordination
+    tracked_files: 422
+    authority_class: mixed_control_surface
+    role: Canonical policy plus operational queues, plans, evidence, history and internal control work.
+  - root: diagrams
+    tracked_files: 7
+    authority_class: generated_view
+    role: Generated Mermaid architecture diagrams.
+  - root: docs
+    tracked_files: 33
+    authority_class: canonical_documentation
+    role: Architecture, operations, runbook and recovery documentation.
+  - root: human
+    tracked_files: 25
+    authority_class: canonical_human_guidance
+    role: Human-readable strategy, control model, boundaries and operating guidance.
+  - root: machine
+    tracked_files: 25
+    authority_class: canonical_architecture
+    role: Machine-readable system architecture, ownership, contracts, flows and validation baselines.
+  - root: module_guides
+    tracked_files: 16
+    authority_class: generated_view
+    role: Generated module guidance derived from canonical architecture sources.
+  - root: module_manifests
+    tracked_files: 1
+    authority_class: example_contract
+    role: Example module manifest contracts used for validation and adoption guidance.
+  - root: operator_input
+    tracked_files: 3
+    authority_class: unclassified
+    role: Requires explicit inventory classification.
+  - root: reports
+    tracked_files: 11
+    authority_class: generated_runtime
+    role: Generated diagnostics and current runtime reports; authority and retention require explicit policy.
+  - root: scripts
+    tracked_files: 55
+    authority_class: operational_tooling
+    role: Validators, generators, coordination workflows and reporting automation.
+  - root: tests
+    tracked_files: 68
+    authority_class: verification
+    role: Automated architecture, governance, workflow and regression checks.
+  - root: tools
+    tracked_files: 18
+    authority_class: reusable_tooling
+    role: Reusable coordination utilities, templates and standards tooling.
+  coordination_summary:
+  - area: coordination/README.md
+    tracked_files: 1
+    authority_class: unclassified
+    role: Requires explicit coordination-area classification.
+  - area: coordination/checkup
+    tracked_files: 3
+    authority_class: historical_evidence
+    role: Repository checkup records and assessment evidence.
+  - area: coordination/directives
+    tracked_files: 7
+    authority_class: canonical_directives
+    role: Approved coordination directives and execution constraints.
+  - area: coordination/document_awareness
+    tracked_files: 1
+    authority_class: generated_operational_view
+    role: Generated document-awareness outputs and supporting configuration.
+  - area: coordination/global_policy
+    tracked_files: 5
+    authority_class: canonical_policy
+    role: Ecosystem doctrine, control principles and current execution direction.
+  - area: coordination/incoming_requests
+    tracked_files: 69
+    authority_class: operational_intake
+    role: Tracked incoming coordination requests and intake evidence.
+  - area: coordination/index.yaml
+    tracked_files: 1
+    authority_class: unclassified
+    role: Requires explicit coordination-area classification.
+  - area: coordination/instruction_intake
+    tracked_files: 4
+    authority_class: canonical_workflow
+    role: Instruction intake protocol, control records and validation evidence.
+  - area: coordination/internal_work
+    tracked_files: 3
+    authority_class: active_internal_control
+    role: Blueprint-owned internal assessments, plans and controlled workstreams.
+  - area: coordination/module_docs_snapshots
+    tracked_files: 2
+    authority_class: historical_snapshot
+    role: Imported or captured module documentation snapshots for review.
+  - area: coordination/module_policy
+    tracked_files: 21
+    authority_class: mixed_policy_view
+    role: Generated module policy summaries plus selected hand-authored policy briefs.
+  - area: coordination/module_sources
+    tracked_files: 2
+    authority_class: canonical_registry
+    role: Module repository path, lifecycle and source authority registry.
+  - area: coordination/modules
+    tracked_files: 10
+    authority_class: canonical_workflow_registry
+    role: Module workflow registry, manifests, indexes and recovery contracts.
+  - area: coordination/outgoing_prompts
+    tracked_files: 114
+    authority_class: operational_queue_and_history
+    role: Approved prompt queues, draft planning artifacts and historical module instructions.
+  - area: coordination/reports
+    tracked_files: 17
+    authority_class: tracked_evidence
+    role: Tracked completion, commit, governance and coordination evidence.
+  - area: coordination/repository_knowledge
+    tracked_files: 12
+    authority_class: historical_knowledge
+    role: Dated RCI, REDM and SDRS repository-knowledge snapshots.
+  - area: coordination/review_packets
+    tracked_files: 66
+    authority_class: tracked_review_evidence
+    role: Processed Blueprint review decisions and module acceptance evidence.
+  - area: coordination/risk_registers
+    tracked_files: 1
+    authority_class: canonical_risk_control
+    role: Tracked project and module risk registers.
+  - area: coordination/roadmaps
+    tracked_files: 4
+    authority_class: canonical_planning
+    role: Module development sequence, dependencies, status and planning horizon.
+  - area: coordination/standards
+    tracked_files: 45
+    authority_class: canonical_standards
+    role: Governance, testing, Make, reporting and documentation standards.
+  - area: coordination/templates
+    tracked_files: 34
+    authority_class: canonical_templates
+    role: Reusable coordination and repository-knowledge templates.
+  classification_rule: Authority class describes the default role of an area. Individual files may have different
+    authority and require later semantic verification.
+  unclassified_roots:
+  - operator_input
+  unclassified_coordination_areas:
+  - coordination/README.md
+  - coordination/index.yaml
+semantic_enrichment_v0_1:
+  status: CANDIDATE
+  candidate_version: v0_4
+  created_at: '2026-07-30'
+  source_snapshot: coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  source_commit: 9db4b99c45d84936617bb477e5ff740dadf106a5
+  evidence_sources:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__semantic_inventory_unknowns_triage_v0_1.yaml
+  - reports/repository_knowledge_freshness_report.yaml
+  coverage_lower_bounds: &id001
+    tracked_files: 726
+    reviewed_files: 80
+    purpose_evidenced: 79
+    dependencies_mapped: 80
+    fully_verified: 79
+  freshness:
+    release_decision: PROCEED_WITH_BOUNDED_REFRESH
+    changed_path_union_count: 90
+    knowledge_relevant_changed_path_union_count: 85
+  unresolved_scope:
+    unreviewed_files: 646
+    wave_2_records_with_unknowns: 25
+    full_semantic_coverage_claim_allowed: false
+  evidence_policy:
+    only_verified_claims: true
+    unknowns_not_silently_resolved: true
+    source_snapshot_immutable: true
+    external_rollout_gated: true
+  aggregate_claims:
+  - claim_id: wave_1_plus_wave_2_semantic_lower_bounds
+    claim_type: aggregate
+    evidence_source: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    metrics: *id001
+  - claim_id: bounded_repository_freshness_scope
+    claim_type: freshness
+    evidence_source: reports/repository_knowledge_freshness_report.yaml
+    release_decision: PROCEED_WITH_BOUNDED_REFRESH
+  - claim_id: explicit_unknowns_and_unreviewed_scope
+    claim_type: unresolved_scope
+    evidence_source: coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__semantic_inventory_unknowns_triage_v0_1.yaml
+    unreviewed_files: 646
+    wave_2_records_with_unknowns: 25
+  evidence_index_entries:
+  - entry_id: aggregate_semantic_coverage
+    entry_type: aggregate
+    evidence_source: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    metrics: *id001
+  - entry_id: bounded_freshness_scope
+    entry_type: freshness
+    evidence_source: reports/repository_knowledge_freshness_report.yaml
+    release_decision: PROCEED_WITH_BOUNDED_REFRESH
+  - entry_id: explicit_unresolved_scope
+    entry_type: unknowns
+    evidence_source: coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__semantic_inventory_unknowns_triage_v0_1.yaml
+    unreviewed_files: 646
+    wave_2_records_with_unknowns: 25
+  - path: coordination/global_policy/current_execution_focus.md
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+    purpose_evidence: Current ForPrint Execution Focus
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: 'Structured coordination evidence represented by top-level keys: schema_version, metadata, scope,
+      authority_order, global_rules, artifact_classes, summary, findings.'
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.md
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: Blueprint Inventory Coverage & Drift Dashboard
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: 'Structured coordination evidence represented by top-level keys: schema_version, metadata, sources,
+      scope, semantic_coverage, authority_and_registry, drift, external_rollout.'
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_maintenance_gate_v0_1.yaml
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: 'Structured coordination evidence represented by top-level keys: schema_version, metadata, policy,
+      validator, tests, validation, priority_decision, quality_checks.'
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: 'Structured coordination evidence represented by top-level keys: schema_version, metadata, objective,
+      guardrails, steps, completion_criteria.'
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__metadata_consistency_audit_v0_1.yaml
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: 'Structured coordination evidence represented by top-level keys: schema_version, metadata, scope,
+      summary, module_results, findings, interpretation, quality_checks.'
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: 'Structured coordination evidence represented by top-level keys: schema_version, metadata, scope,
+      summary, module_results, alias_ownership, repository_path_ownership, findings.'
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__self_audit_assessment_v0_1.md
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: Blueprint Self-Audit Assessment v0.1
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: 'Structured coordination evidence represented by top-level keys: schema_version, metadata, scope,
+      summary, records, interpretation, quality_checks.'
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__snapshot_comparison_automation_v0_1.yaml
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: 'Structured coordination evidence represented by top-level keys: schema_version, metadata, implementation,
+      verification, usage, quality_checks.'
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__ecosystem_inventory_rollout_wave_a_v0_1.yaml
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: Prepare the first controlled module inventory wave without interrupting active contract work
+      or bypassing acceptance blockers.
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__forprint_library__inventory_rollout_packet_v0_1.yaml
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: 'Structured coordination evidence represented by top-level keys: schema_version, metadata, coordination_context,
+      rollout_decision, scope, deliverables, acceptance_gates, execution_policy.'
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__logistics_service__inventory_rollout_packet_v0_1.yaml
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: 'Structured coordination evidence represented by top-level keys: schema_version, metadata, coordination_context,
+      rollout_decision, scope, deliverables, acceptance_gates, execution_policy.'
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__telegram_bot__inventory_rollout_packet_v0_1.yaml
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: 'Structured coordination evidence represented by top-level keys: schema_version, metadata, coordination_context,
+      rollout_decision, scope, deliverables, acceptance_gates, execution_policy.'
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/internal_work/blueprint/structure_cleanup/2026-07-27__blueprint__structure_assessment_v0_1.md
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: ForPrint System Blueprint — Structure Assessment v0.1
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/module_policy/module_policy_index.yaml
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+    purpose_evidence: 'Structured Blueprint metadata whose explicit role is represented by top-level keys: module_policy_index.'
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/module_sources/module_git_sources.yaml
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+    purpose_evidence: 'Structured Blueprint metadata whose explicit role is represented by top-level keys: module_git_sources.'
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/modules/module_workflow_registry.yaml
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+    purpose_evidence: 'Structured Blueprint metadata whose explicit role is represented by top-level keys: schema_version,
+      status, modules, shared.'
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/outgoing_prompts/forprint_library/index.yaml
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+    purpose_evidence: 'Structured Blueprint metadata whose explicit role is represented by top-level keys: schema_version,
+      module, prompt_queue.'
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/outgoing_prompts/logistics_service/index.yaml
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+    purpose_evidence: 'Structured Blueprint metadata whose explicit role is represented by top-level keys: schema_version,
+      module, prompt_queue.'
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/outgoing_prompts/telegram_bot/index.yaml
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+    purpose_evidence: 'Structured Blueprint metadata whose explicit role is represented by top-level keys: schema_version,
+      module, prompt_queue.'
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/reports/audits/2026-07-15__blueprint__reporting_consolidation_audit_v0_1.md
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: Blueprint Reporting Consolidation Audit v0.1
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/reports/completion/2026-07-03__blueprint__coordination_foundation_standards_summary_v0_1.md
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: Blueprint Coordination Foundation Standards Summary v0.1
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/reports/completion/2026-07-06__blueprint__coordination_foundation_tooling_summary_v0_1.md
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: Blueprint Coordination Foundation Tooling Summary v0.1
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/reports/completion/2026-07-07__blueprint__website_roadmap_legacy_control_refinement_v0_2_1.md
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: Blueprint Completion Report — Website Roadmap Legacy Control Refinement v0.2.1
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/reports/completion/2026-07-14__blueprint__compact_check_reporting_v0_1.md
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: Blueprint Compact Check Reporting v0.1 — Completion Record
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/reports/completion/2026-07-15__blueprint__coordination_result_tables_v0_1.md
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: Blueprint Coordination Result Tables v0.1 — Completion Record
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/reports/completion/2026-07-15__blueprint__document_awareness_shared_renderer_v0_1.md
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: Blueprint Document Awareness Shared Renderer v0.1 — Completion Record
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/reports/completion/2026-07-15__blueprint__reporting_consolidation_audit_v0_1.md
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: Blueprint Reporting Consolidation Audit v0.1 — Completion Record
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/reports/completion/2026-07-15__blueprint__shared_dashboard_renderer_v0_1.md
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: Blueprint Shared Dashboard Renderer v0.1 — Completion Record
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/reports/completion/2026-07-16__blueprint__module_governance_terminal_artifact_split_v0_1.md
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: Blueprint Module Governance Terminal/Artifact Split v0.1
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/reports/completion/2026-07-16__blueprint__module_roadmap_renderer_cleanup_v0_1.md
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: Blueprint Module Roadmap Renderer Cleanup v0.1 — Completion Record
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/reports/completion/2026-07-16__blueprint__reporting_consolidation_closeout_v0_1.md
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: Blueprint Reporting Consolidation Closeout v0.1
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/reports/completion/2026-07-16__blueprint__resolve_next_prompt_result_table_v0_1.md
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: Blueprint Resolve Next Prompt Result Table v0.1 — Completion Record
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/reports/completion/2026-07-23__blueprint__internal_workflow_foundation_v0_1.md
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: Blueprint Internal Workflow Foundation v0.1 — Completion Report
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/reports/completion/2026-07-23__blueprint__repository_knowledge_baseline_v0_2.md
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: Blueprint Repository Knowledge Baseline v0.2 — Completion Report
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/reports/completion/2026-07-28__blueprint__structure_cleanup_completion_v0_1.md
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: ForPrint System Blueprint — Structure Cleanup Completion v0.1
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/repository_knowledge/README.md
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: ForPrint Repository Knowledge & Direction — Blueprint Profile
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/repository_knowledge/direction/blueprint_coordination/2026-07-23__forprint_system_blueprint__state_direction_rationale_snapshot_v0_1.yaml
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: 'Structured coordination evidence represented by top-level keys: schema_version, snapshot, perspective,
+      current_state, direction, workstreams, decisions_and_rationale, prompt_and_work_rationale.'
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/repository_knowledge/direction/blueprint_coordination/2026-07-29__forprint_system_blueprint__state_direction_rationale_snapshot_v0_2.yaml
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: 'Structured coordination evidence represented by top-level keys: schema_version, snapshot, perspective,
+      current_state, direction, workstreams, decisions_and_rationale, prompt_and_work_rationale.'
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/repository_knowledge/direction/system_portfolio/2026-07-23__forprint_system__state_direction_rationale_snapshot_v0_1.yaml
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: 'Structured coordination evidence represented by top-level keys: schema_version, snapshot, perspective,
+      current_state, direction, workstreams, decisions_and_rationale, prompt_and_work_rationale.'
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: 'Structured coordination evidence represented by top-level keys: schema_version, snapshot, perspective,
+      current_state, direction, workstreams, decisions_and_rationale, prompt_and_work_rationale.'
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/repository_knowledge/flows/2026-07-23__forprint_system_blueprint__repository_execution_dependency_map_v0_2.yaml
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: 'Structured coordination evidence represented by top-level keys: schema_version, snapshot, flow_summary,
+      flows, cross_flow_relationships, comparison_to_previous, quality_checks.'
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: 'Structured coordination evidence represented by top-level keys: schema_version, snapshot, flow_summary,
+      flows, cross_flow_relationships, comparison_to_previous, quality_checks, scope.'
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: 'Structured coordination evidence represented by top-level keys: schema_version, snapshot, scope,
+      repository_summary, directory_inventory, capability_inventory, external_dependency_inventory, review_candidates.'
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: 'Structured coordination evidence represented by top-level keys: schema_version, snapshot, scope,
+      repository_summary, directory_inventory, capability_inventory, external_dependency_inventory, review_candidates.'
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: 'Structured coordination evidence represented by top-level keys: schema_version, metadata, policy,
+      external_rollout, artifact_families.'
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/repository_knowledge/repository_knowledge_and_direction_snapshot_protocol_v0_2.md
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: ForPrint Repository Knowledge & Direction Snapshot Protocol v0.2
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/repository_knowledge/templates/blueprint_snapshot_assignment_v0_2.md
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: Blueprint Repository Knowledge & Direction Snapshot Assignment v0.2
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/repository_knowledge/templates/historical_snapshot_review_assignment_v0_1.md
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: Historical Snapshot Review Assignment v0.1
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/repository_knowledge/templates/module_snapshot_assignment_v0_2.md
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: Module Repository Knowledge & Direction Snapshot Assignment v0.2
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/repository_knowledge/templates/repository_capability_inventory_v0_2.template.yaml
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: 'Structured coordination evidence represented by top-level keys: schema_version, snapshot, scope,
+      repository_summary, directory_inventory, capability_inventory, external_dependency_inventory, review_candidates.'
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/repository_knowledge/templates/repository_execution_dependency_map_v0_2.template.yaml
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: 'Structured coordination evidence represented by top-level keys: schema_version, snapshot, flow_summary,
+      flows, cross_flow_relationships, comparison_to_previous, quality_checks.'
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/repository_knowledge/templates/state_direction_rationale_snapshot_v0_1.template.yaml
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: 'Structured coordination evidence represented by top-level keys: schema_version, snapshot, perspective,
+      current_state, direction, workstreams, decisions_and_rationale, prompt_and_work_rationale.'
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/review_packets/logistics_service/processed/2026-07-14__logistics_service_test_address_book_v0_1__accepted.yaml
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    purpose_evidence: 'Structured coordination evidence represented by top-level keys: schema_version, review_id,
+      module_id, prompt_id, phase, decision, reviewed_at, review_notes.'
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/roadmaps/forprint_library.yaml
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+    purpose_evidence: Initial module roadmap seed for ForPrint Library development visibility.
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/roadmaps/logistics_service.yaml
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+    purpose_evidence: Establish Logistics Service as the owner of delivery provider boundaries, shipment drafts, tracking
+      truth, provider payloads, logistics address book and logistics event history for ForPrint operational workflows.
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/roadmaps/telegram_bot.yaml
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+    purpose_evidence: Control Telegram Bot development as a Tier 1 client communication channel and intake assistant.
+      Telegram Bot may collect channel-local context, temporary drafts and handoff previews, but must not become the
+      canonical owner of clients, orders, products, prices, payments, stock, production statuses, accounting documents
+      or 1C data.
+    purpose_evidenced: false
+    fully_verified: true
+  - path: coordination/standards/governance/module_development_roadmap_policy.md
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+    purpose_evidence: ForPrint Module Development Roadmap Policy
+    purpose_evidenced: false
+    fully_verified: true
+  - path: machine/modules.yaml
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+    purpose_evidence: 'Structured Blueprint metadata whose explicit role is represented by top-level keys: modules.'
+    purpose_evidenced: false
+    fully_verified: true
+  - path: scripts/coordination/build_document_manifest.py
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+    purpose_evidence: Executable Python coordination or validation entrypoint; exact business purpose is evidenced
+      by its top-level symbols.
+    purpose_evidenced: false
+    fully_verified: true
+  - path: scripts/coordination/module_completion_intake.py
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+    purpose_evidence: Executable Python coordination or validation entrypoint; exact business purpose is evidenced
+      by its top-level symbols.
+    purpose_evidenced: false
+    fully_verified: true
+  - path: scripts/coordination/module_roadmap.py
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+    purpose_evidence: Reusable Python coordination or validation component; exact behavior is represented by its public
+      symbols.
+    purpose_evidenced: false
+    fully_verified: true
+  - path: scripts/coordination/modules/forprint_system_blueprint/workflows/self_audit.py
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+    purpose_evidence: Reusable Python coordination or validation component; exact behavior is represented by its public
+      symbols.
+    purpose_evidenced: false
+    fully_verified: true
+  - path: scripts/coordination/modules/module_workflow_cli.py
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+    purpose_evidence: Executable Python coordination or validation entrypoint; exact business purpose is evidenced
+      by its top-level symbols.
+    purpose_evidenced: false
+    fully_verified: true
+  - path: scripts/coordination/render_document_awareness_dashboard.py
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+    purpose_evidence: Executable Python coordination or validation entrypoint; exact business purpose is evidenced
+      by its top-level symbols.
+    purpose_evidenced: false
+    fully_verified: true
+  - path: scripts/coordination/render_module_roadmap_dashboard.py
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+    purpose_evidence: Executable Python coordination or validation entrypoint; exact business purpose is evidenced
+      by its top-level symbols.
+    purpose_evidenced: false
+    fully_verified: true
+  - path: scripts/coordination/render_prompt_dashboard.py
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+    purpose_evidence: Executable Python coordination or validation entrypoint; exact business purpose is evidenced
+      by its top-level symbols.
+    purpose_evidenced: false
+    fully_verified: true
+  - path: scripts/coordination/resolve_next_module_work.py
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+    purpose_evidence: Executable Python coordination or validation entrypoint; exact business purpose is evidenced
+      by its top-level symbols.
+    purpose_evidenced: false
+    fully_verified: true
+  - path: scripts/coordination/resolve_next_prompt.py
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+    purpose_evidence: Executable Python coordination or validation entrypoint; exact business purpose is evidenced
+      by its top-level symbols.
+    purpose_evidenced: false
+    fully_verified: true
+  - path: scripts/coordination/update_document_awareness_ledger.py
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+    purpose_evidence: Executable Python coordination or validation entrypoint; exact business purpose is evidenced
+      by its top-level symbols.
+    purpose_evidenced: false
+    fully_verified: true
+  - path: scripts/coordination/validate_module_roadmap.py
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+    purpose_evidence: Executable Python coordination or validation entrypoint; exact business purpose is evidenced
+      by its top-level symbols.
+    purpose_evidenced: false
+    fully_verified: true
+  - path: scripts/coordination/validate_prompt_queue.py
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+    purpose_evidence: Executable Python coordination or validation entrypoint; exact business purpose is evidenced
+      by its top-level symbols.
+    purpose_evidenced: false
+    fully_verified: true
+  - path: scripts/reporting/coordination_result_tables.py
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+    purpose_evidence: Reusable Python coordination or validation component; exact behavior is represented by its public
+      symbols.
+    purpose_evidenced: false
+    fully_verified: true
+  - path: scripts/reporting/document_awareness_tables.py
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+    purpose_evidence: Reusable Python coordination or validation component; exact behavior is represented by its public
+      symbols.
+    purpose_evidenced: false
+    fully_verified: true
+  - path: scripts/reporting/table_renderer.py
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+    purpose_evidence: Reusable Python coordination or validation component; exact behavior is represented by its public
+      symbols.
+    purpose_evidenced: false
+    fully_verified: true
+  - path: scripts/run_blueprint_checks.py
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+    purpose_evidence: Run Blueprint checks through a structured compact/full reporting pipeline.
+    purpose_evidenced: false
+    fully_verified: true
