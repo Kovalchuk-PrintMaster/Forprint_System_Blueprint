@@ -1,0 +1,107 @@
+schema_version: artifact_authority_policy_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  owner: blueprint_coordination_assistant
+  effective_date: '2026-07-30'
+  source_commit: 0ab171f16119b4fd3a68375d0d82c1a240231b44
+  source_authority_map: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+  result: ADOPTED
+governance:
+  unknown_authority_is_blocking: true
+  historical_snapshots_are_immutable: true
+  generated_views_are_not_authority: true
+  decision_evidence_must_remain_traceable: true
+  canonical_controls_require_owner_workflow: true
+  cross_repository_writes_forbidden: true
+external_rollout:
+  state: gated
+  module_repositories_modified: false
+  prompt_queues_modified: false
+artifact_classes:
+- class_id: canonical_coordination_controls
+  authority_class: canonical_control
+  path_patterns:
+  - coordination/roadmaps/*.yaml
+  - coordination/outgoing_prompts/*/index.yaml
+  - coordination/self_coordination/*.yaml
+  representative_paths:
+  - coordination/roadmaps/forprint_library.yaml
+  - coordination/self_coordination/roadmap.yaml
+  - coordination/self_coordination/prompt_queue/index.yaml
+  tracked_required: true
+  mutation_policy: owner_workflow_only
+  retention: Current canonical control plus permanent Git history.
+- class_id: dated_repository_knowledge_snapshots
+  authority_class: immutable_snapshot
+  path_patterns:
+  - coordination/repository_knowledge/inventory/*.yaml
+  - coordination/repository_knowledge/flows/*.yaml
+  - coordination/repository_knowledge/direction/**/*.yaml
+  representative_paths:
+  - coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+  - coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  tracked_required: true
+  mutation_policy: append_new_version_only
+  retention: Permanent and immutable; supersede with a new dated snapshot.
+- class_id: coordination_decision_evidence
+  authority_class: decision_evidence
+  path_patterns:
+  - coordination/internal_work/blueprint/**/*.yaml
+  - coordination/self_coordination/completion_packets/*.yaml
+  representative_paths:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__self_coordination_baseline_adoption_v0_1.yaml
+  tracked_required: true
+  mutation_policy: controlled_evidence_update
+  retention: Permanent when decision-bearing and always traceable.
+- class_id: generated_check_reports
+  authority_class: generated_rebuildable_view
+  path_patterns:
+  - reports/blueprint_check_report.json
+  - reports/blueprint_check_report.md
+  representative_paths:
+  - reports/blueprint_check_report.json
+  - reports/blueprint_check_report.md
+  tracked_required: false
+  mutation_policy: generator_only
+  generator: make check
+  retention: Current rebuildable view; never canonical authority.
+- class_id: coordination_validation_code
+  authority_class: executable_validation
+  path_patterns:
+  - scripts/coordination/*.py
+  - tests/test_*.py
+  representative_paths:
+  - scripts/coordination/validate_module_registry_resolution.py
+  - scripts/coordination/validate_blueprint_self_coordination.py
+  - tests/test_validate_blueprint_self_coordination.py
+  tracked_required: true
+  mutation_policy: reviewed_code_change
+  retention: Current implementation plus permanent Git history.
+enforcement_targets:
+- path: scripts/coordination/compare_repository_knowledge_snapshots.py
+  role: generator
+  enforced_rules:
+  - explicit output only
+  - source snapshots remain unchanged
+- path: scripts/coordination/render_repository_knowledge_coverage_dashboard.py
+  role: generator
+  enforced_rules:
+  - generated output is not canonical authority
+  - unknowns remain explicit
+- path: scripts/coordination/validate_repository_knowledge_maintenance.py
+  role: validator
+  enforced_rules:
+  - snapshot immutability
+  - lineage and freshness
+- path: scripts/coordination/validate_module_registry_resolution.py
+  role: validator
+  enforced_rules:
+  - canonical IDs unique
+  - canonical source paths unique
+- path: scripts/coordination/validate_blueprint_self_coordination.py
+  role: validator
+  enforced_rules:
+  - one approved self-prompt
+  - completion packet required
+  - 8-10 roadmap steps ahead

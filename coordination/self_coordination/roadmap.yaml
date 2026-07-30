@@ -5,7 +5,7 @@ metadata:
   reviewer: project_owner
   created_at: '2026-07-30'
   updated_at: '2026-07-30'
-  current_step_id: blueprint_artifact_authority_policy_adoption_v0_1
+  current_step_id: blueprint_module_registry_consistency_ci_gate_v0_1
   actionable_steps_after_current: 9
 authority:
   module_level_roadmap: coordination/self_coordination/roadmap.yaml
@@ -25,68 +25,86 @@ steps:
 - sequence: 2
   step_id: blueprint_artifact_authority_policy_adoption_v0_1
   title: Adopt artifact authority and retention policy
-  status: active
+  status: completed
   priority: high
   depends_on:
   - blueprint_self_coordination_baseline_v0_1
   workstream_plan: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  completed_at: '2026-07-30'
+  evidence:
+  - coordination/repository_knowledge/artifact_authority_policy_v0_1.yaml
+  - scripts/coordination/validate_artifact_authority_policy.py
+  - tests/test_validate_artifact_authority_policy.py
+  - coordination/internal_work/blueprint/self_coordination/2026-07-30__blueprint__artifact_authority_policy_adoption_v0_1.yaml
+  - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__artifact_authority_policy_adoption_v0_1.yaml
 - sequence: 3
   step_id: blueprint_module_registry_consistency_ci_gate_v0_1
   title: Integrate module registry consistency into Blueprint checks
-  status: planned
+  status: active
   priority: high
   depends_on:
   - blueprint_artifact_authority_policy_adoption_v0_1
+  inputs:
+  - coordination/repository_knowledge/registries/module_registry_resolution_v0_1.yaml
+  - scripts/coordination/validate_module_registry_resolution.py
+  - coordination/repository_knowledge/artifact_authority_policy_v0_1.yaml
 - sequence: 4
-  step_id: blueprint_semantic_inventory_unknowns_triage_v0_1
-  title: Triage unresolved semantic inventory unknowns
+  step_id: blueprint_self_coordination_consistency_ci_gate_v0_1
+  title: Integrate Blueprint self-coordination consistency validation into standard checks
   status: planned
   priority: high
   depends_on:
   - blueprint_module_registry_consistency_ci_gate_v0_1
 - sequence: 5
+  step_id: blueprint_semantic_inventory_unknowns_triage_v0_1
+  title: Triage unresolved semantic inventory unknowns
+  status: planned
+  priority: high
+  depends_on:
+  - blueprint_self_coordination_consistency_ci_gate_v0_1
+- sequence: 6
   step_id: blueprint_snapshot_comparison_ci_gate_v0_1
   title: Integrate snapshot comparison into Blueprint checks
   status: planned
   priority: high
   depends_on:
   - blueprint_semantic_inventory_unknowns_triage_v0_1
-- sequence: 6
+- sequence: 7
   step_id: blueprint_artifact_retention_consistency_audit_v0_1
   title: Audit artifact retention and generated-view consistency
   status: planned
   priority: high
   depends_on:
   - blueprint_snapshot_comparison_ci_gate_v0_1
-- sequence: 7
+- sequence: 8
   step_id: blueprint_rci_semantic_enrichment_v0_1
   title: Enrich the Blueprint RCI with semantic evidence
   status: planned
   priority: high
   depends_on:
   - blueprint_artifact_retention_consistency_audit_v0_1
-- sequence: 8
+- sequence: 9
   step_id: blueprint_redm_dependency_enrichment_v0_1
   title: Enrich the Blueprint REDM with dependency evidence
   status: planned
   priority: high
   depends_on:
   - blueprint_rci_semantic_enrichment_v0_1
-- sequence: 9
+- sequence: 10
   step_id: blueprint_repository_knowledge_reconciliation_v0_1
   title: Reconcile RCI, REDM, SDRS and semantic evidence
   status: planned
   priority: high
   depends_on:
   - blueprint_redm_dependency_enrichment_v0_1
-- sequence: 10
+- sequence: 11
   step_id: blueprint_inventory_acceptance_merge_gate_v0_1
   title: Accept inventory baseline and reconcile audit branch
   status: planned
   priority: high
   depends_on:
   - blueprint_repository_knowledge_reconciliation_v0_1
-- sequence: 11
+- sequence: 12
   step_id: blueprint_inventory_operational_readiness_review_v0_1
   title: Review readiness before external rollout
   status: planned
