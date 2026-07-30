@@ -1,0 +1,36 @@
+schema_version: semantic_coverage_closure_report_v0_1
+metadata:
+  result: PASSED
+  module_id: forprint_system_blueprint
+  external_rollout_state: gated
+summary:
+  error_count: 0
+  closure_state: GREEN_WITH_EXPLICIT_DEFERRALS
+  release_decision: PROCEED_TO_REPOSITORY_KNOWLEDGE_RECONCILIATION_WITH_EXPLICIT_DEFERRALS
+  tracked_files: 726
+  reviewed_files: 80
+  purpose_evidenced: 79
+  dependencies_mapped: 80
+  fully_verified: 79
+  unreviewed_files: 646
+  wave_2_records_with_unknowns: 25
+  repository_semantic_lower_bound: 0.10881542699724518
+  reviewed_quality_lower_bound: 0.9875
+  full_semantic_coverage_claim_allowed: false
+candidate_integrity:
+  rci_candidate: coordination/repository_knowledge/inventory/2026-07-30__forprint_system_blueprint__repository_capability_inventory_v0_4.yaml
+  rci_sha256: 7bc8ed5bdefa089393df2ee4830de3a96ffdcaf5ad2fa6b720dd459d1e700468
+  rci_validation: PASSED
+  redm_candidate: coordination/repository_knowledge/flows/2026-07-30__forprint_system_blueprint__repository_execution_dependency_map_v0_4.yaml
+  redm_sha256: 6cea7f34173d58834a34850a550ce0391e80936e14d59639b461cec08daed631
+  redm_validation: PASSED
+explicit_deferrals:
+- deferral_id: unreviewed_repository_scope
+  count: 646
+  blocking_for_reconciliation: false
+  must_remain_visible: true
+- deferral_id: wave_2_unknown_records
+  count: 25
+  blocking_for_reconciliation: false
+  must_remain_visible: true
+errors: []

@@ -203,7 +203,7 @@ markdown-fences:
 	$(PYTHON) scripts/validation/validate_markdown_fences.py
 
 .PHONY: check
-check: check-module-registry-consistency check-self-coordination-consistency check-repository-knowledge-snapshots check-inventory-status-consistency check-repository-knowledge-freshness check-rci-semantic-enrichment check-redm-dependency-enrichment
+check: check-module-registry-consistency check-self-coordination-consistency check-repository-knowledge-snapshots check-inventory-status-consistency check-repository-knowledge-freshness check-rci-semantic-enrichment check-redm-dependency-enrichment check-semantic-coverage-closure
 	$(PYTHON) scripts/run_blueprint_checks.py
 
 .PHONY: check-report
@@ -649,3 +649,14 @@ check-rci-semantic-enrichment:
 check-redm-dependency-enrichment:
 	@mkdir -p reports
 	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_redm_dependency_enrichment.py --source coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml --candidate coordination/repository_knowledge/flows/2026-07-30__forprint_system_blueprint__repository_execution_dependency_map_v0_4.yaml --capability-context coordination/repository_knowledge/inventory/2026-07-30__forprint_system_blueprint__repository_capability_inventory_v0_4.yaml --enrichment-record coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__redm_dependency_enrichment_v0_1.yaml --repo-root . --expected-source-sha256 33b0224e3a3b7651412e49fc17b3a0f8192714bd009155d12877712067b8ee70 --output reports/redm_dependency_enrichment_validation_report.yaml
+
+.PHONY: check-semantic-coverage-closure
+check-semantic-coverage-closure:
+	@mkdir -p reports
+	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_semantic_coverage_closure.py --rci coordination/repository_knowledge/inventory/2026-07-30__forprint_system_blueprint__repository_capability_inventory_v0_4.yaml --redm coordination/repository_knowledge/flows/2026-07-30__forprint_system_blueprint__repository_execution_dependency_map_v0_4.yaml --rci-validation reports/rci_semantic_enrichment_validation_report.yaml --redm-validation reports/redm_dependency_enrichment_validation_report.yaml --freshness reports/repository_knowledge_freshness_report.yaml --unknowns coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__semantic_inventory_unknowns_triage_v0_1.yaml --module forprint_system_blueprint --output reports/semantic_coverage_closure_report.yaml
+
+.PHONY: semantic-coverage-status
+semantic-coverage-status:
+	@mkdir -p reports
+	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_semantic_coverage_closure.py --rci coordination/repository_knowledge/inventory/2026-07-30__forprint_system_blueprint__repository_capability_inventory_v0_4.yaml --redm coordination/repository_knowledge/flows/2026-07-30__forprint_system_blueprint__repository_execution_dependency_map_v0_4.yaml --rci-validation reports/rci_semantic_enrichment_validation_report.yaml --redm-validation reports/redm_dependency_enrichment_validation_report.yaml --freshness reports/repository_knowledge_freshness_report.yaml --unknowns coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__semantic_inventory_unknowns_triage_v0_1.yaml --module "$(MODULE)" --output reports/semantic_coverage_closure_report.yaml
+	@$(BLUEPRINT_PYTHON) scripts/coordination/render_semantic_coverage_closure_status.py --report reports/semantic_coverage_closure_report.yaml

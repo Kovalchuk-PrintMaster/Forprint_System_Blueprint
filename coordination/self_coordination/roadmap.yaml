@@ -5,7 +5,7 @@ metadata:
   reviewer: project_owner
   created_at: '2026-07-30'
   updated_at: '2026-07-30'
-  current_step_id: blueprint_semantic_coverage_closure_review_v0_1
+  current_step_id: blueprint_repository_knowledge_reconciliation_v0_1
   actionable_steps_after_current: 8
 authority:
   module_level_roadmap: coordination/self_coordination/roadmap.yaml
@@ -135,14 +135,15 @@ steps:
 - sequence: 12
   step_id: blueprint_semantic_coverage_closure_review_v0_1
   title: Review semantic coverage closure before repository reconciliation
-  status: active
+  status: completed
   priority: high
   depends_on:
   - blueprint_redm_dependency_enrichment_v0_1
+  completed_at: '2026-07-30'
 - sequence: 13
   step_id: blueprint_repository_knowledge_reconciliation_v0_1
   title: Reconcile RCI, REDM, SDRS and semantic evidence
-  status: planned
+  status: active
   priority: high
   depends_on:
   - blueprint_semantic_coverage_closure_review_v0_1
@@ -182,13 +183,20 @@ steps:
   depends_on:
   - blueprint_inventory_acceptance_packet_integrity_gate_v0_1
 - sequence: 19
-  step_id: blueprint_inventory_acceptance_merge_gate_v0_1
-  title: Accept inventory baseline and reconcile audit branch
+  step_id: blueprint_inventory_merge_rollback_readiness_v0_1
+  title: Confirm inventory merge rollback readiness
   status: planned
   priority: high
   depends_on:
   - blueprint_inventory_acceptance_decision_readiness_review_v0_1
 - sequence: 20
+  step_id: blueprint_inventory_acceptance_merge_gate_v0_1
+  title: Accept inventory baseline and reconcile audit branch
+  status: planned
+  priority: high
+  depends_on:
+  - blueprint_inventory_merge_rollback_readiness_v0_1
+- sequence: 21
   step_id: blueprint_inventory_operational_readiness_review_v0_1
   title: Review readiness before external rollout
   status: planned
