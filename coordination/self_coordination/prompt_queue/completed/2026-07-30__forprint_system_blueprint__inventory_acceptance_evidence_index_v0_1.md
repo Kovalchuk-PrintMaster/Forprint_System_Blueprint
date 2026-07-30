@@ -1,7 +1,7 @@
 ---
 prompt_id: blueprint_inventory_acceptance_evidence_index_v0_1
 module_id: forprint_system_blueprint
-status: approved
+status: completed
 owner: blueprint_coordination_assistant
 reviewer: project_owner
 created_at: '2026-07-30'

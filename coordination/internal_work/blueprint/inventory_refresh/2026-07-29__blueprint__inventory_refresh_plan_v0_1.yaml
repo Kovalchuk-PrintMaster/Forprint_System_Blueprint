@@ -6,7 +6,7 @@ metadata:
   base_commit: 50df50b
   created_at: '2026-07-29'
   status: active
-  current_step_id: blueprint_inventory_acceptance_evidence_index_v0_1
+  current_step_id: blueprint_inventory_acceptance_dry_run_v0_1
   planning_horizon:
     rule: 8_to_10_actionable_steps_ahead
     actionable_steps_ahead: 8
@@ -646,7 +646,7 @@ steps:
 - sequence: 29
   step_id: blueprint_inventory_acceptance_evidence_index_v0_1
   title: Build inventory acceptance evidence index before the merge gate
-  status: active
+  status: completed
   priority: high
   depends_on:
   - blueprint_managed_module_plan_reconciliation_v0_1
@@ -660,10 +660,11 @@ steps:
   - missing and stale evidence findings
   - canonical/generated classification
   - acceptance packet navigation index
+  completed_at: '2026-07-30'
 - sequence: 30
   step_id: blueprint_inventory_acceptance_dry_run_v0_1
   title: Rehearse the complete inventory acceptance decision before merge
-  status: planned
+  status: active
   priority: high
   depends_on:
   - blueprint_inventory_acceptance_evidence_index_v0_1
@@ -790,6 +791,22 @@ steps:
   - clean main reconciliation result
   - remaining unknowns disposition
 - sequence: 38
+  step_id: blueprint_inventory_maintenance_baseline_activation_v0_1
+  title: Activate the accepted inventory maintenance baseline after operational readiness
+  status: planned
+  priority: high
+  depends_on:
+  - blueprint_inventory_operational_readiness_review_v0_1
+  inputs:
+  - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  - coordination/self_coordination/roadmap.yaml
+  - coordination/self_coordination/prompt_queue/index.yaml
+  expected_outputs:
+  - accepted inventory maintenance baseline
+  - scheduled drift and freshness checks
+  - maintenance ownership assignments
+  - next semantic enrichment cycle trigger
+- sequence: 39
   step_id: ecosystem_inventory_rollout_wave_b_v0_1
   title: Prepare repository inventory rollout wave B for the next verified module cohort
   status: deferred
