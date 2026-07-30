@@ -203,7 +203,7 @@ markdown-fences:
 	$(PYTHON) scripts/validation/validate_markdown_fences.py
 
 .PHONY: check
-check: check-module-registry-consistency check-self-coordination-consistency check-repository-knowledge-snapshots check-inventory-status-consistency check-repository-knowledge-freshness check-rci-semantic-enrichment
+check: check-module-registry-consistency check-self-coordination-consistency check-repository-knowledge-snapshots check-inventory-status-consistency check-repository-knowledge-freshness check-rci-semantic-enrichment check-redm-dependency-enrichment
 	$(PYTHON) scripts/run_blueprint_checks.py
 
 .PHONY: check-report
@@ -644,3 +644,8 @@ repository-knowledge-freshness-status:
 check-rci-semantic-enrichment:
 	@mkdir -p reports
 	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_rci_semantic_enrichment.py --source coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml --candidate coordination/repository_knowledge/inventory/2026-07-30__forprint_system_blueprint__repository_capability_inventory_v0_4.yaml --enrichment-record coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__rci_semantic_enrichment_v0_1.yaml --repo-root . --expected-source-sha256 3b9278a9bea091ae83f045a2fb5028c97f5fbd00a69b2be173a92a6d9d58d9aa --output reports/rci_semantic_enrichment_validation_report.yaml
+
+.PHONY: check-redm-dependency-enrichment
+check-redm-dependency-enrichment:
+	@mkdir -p reports
+	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_redm_dependency_enrichment.py --source coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml --candidate coordination/repository_knowledge/flows/2026-07-30__forprint_system_blueprint__repository_execution_dependency_map_v0_4.yaml --capability-context coordination/repository_knowledge/inventory/2026-07-30__forprint_system_blueprint__repository_capability_inventory_v0_4.yaml --enrichment-record coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__redm_dependency_enrichment_v0_1.yaml --repo-root . --expected-source-sha256 33b0224e3a3b7651412e49fc17b3a0f8192714bd009155d12877712067b8ee70 --output reports/redm_dependency_enrichment_validation_report.yaml

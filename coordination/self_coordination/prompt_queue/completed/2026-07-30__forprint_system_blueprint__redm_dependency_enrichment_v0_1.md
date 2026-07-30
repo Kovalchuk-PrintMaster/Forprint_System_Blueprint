@@ -1,7 +1,7 @@
 ---
 prompt_id: blueprint_redm_dependency_enrichment_v0_1
 module_id: forprint_system_blueprint
-status: approved
+status: completed
 owner: blueprint_coordination_assistant
 reviewer: project_owner
 created_at: '2026-07-30'

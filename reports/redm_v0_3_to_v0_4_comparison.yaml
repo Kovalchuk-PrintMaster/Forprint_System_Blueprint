@@ -1,0 +1,321 @@
+schema_version: repository_snapshot_comparison_v0_1
+metadata:
+  previous: coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+  current: coordination/repository_knowledge/flows/2026-07-30__forprint_system_blueprint__repository_execution_dependency_map_v0_4.yaml
+  changed: true
+  change_count: 1
+  change_type_counts:
+    added: 1
+  current_previous_snapshot: coordination/repository_knowledge/flows/2026-07-23__forprint_system_blueprint__repository_execution_dependency_map_v0_2.yaml
+  previous_snapshot_link_matches: false
+changes:
+- path: dependency_enrichment_v0_1
+  change_type: added
+  current:
+    status: CANDIDATE
+    candidate_version: v0_4
+    created_at: '2026-07-30'
+    source_snapshot: coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+    source_commit: 11bc19f29adac22ed408e8cca392a411709d7bde
+    capability_context_snapshot: coordination/repository_knowledge/inventory/2026-07-30__forprint_system_blueprint__repository_capability_inventory_v0_4.yaml
+    evidence_sources:
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+    - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+    - reports/repository_knowledge_freshness_report.yaml
+    - coordination/repository_knowledge/inventory/2026-07-30__forprint_system_blueprint__repository_capability_inventory_v0_4.yaml
+    coverage_lower_bounds: &id001
+      tracked_files: 726
+      reviewed_files: 80
+      dependencies_mapped: 80
+      fully_verified: 79
+    freshness:
+      release_decision: PROCEED_WITH_BOUNDED_REFRESH
+      changed_path_union_count: 90
+      knowledge_relevant_changed_path_union_count: 85
+    unresolved_scope:
+      unreviewed_files: 646
+      wave_2_records_with_unknowns: 25
+      dependency_edges_not_inferred: true
+    evidence_policy:
+      only_verified_edges: true
+      unknown_edges_not_silently_resolved: true
+      source_snapshot_immutable: true
+      capability_context_traceable: true
+      external_rollout_gated: true
+    aggregate_claims:
+    - claim_id: wave_1_plus_wave_2_dependency_lower_bounds
+      claim_type: aggregate
+      evidence_source: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      metrics: *id001
+    - claim_id: bounded_dependency_freshness_scope
+      claim_type: freshness
+      evidence_source: reports/repository_knowledge_freshness_report.yaml
+      release_decision: PROCEED_WITH_BOUNDED_REFRESH
+    - claim_id: capability_context_link
+      claim_type: cross_snapshot_context
+      evidence_source: coordination/repository_knowledge/inventory/2026-07-30__forprint_system_blueprint__repository_capability_inventory_v0_4.yaml
+    dependency_index_entries:
+    - entry_id: aggregate_dependency_coverage
+      entry_type: aggregate
+      evidence_source: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      metrics: *id001
+    - entry_id: bounded_freshness_scope
+      entry_type: freshness
+      evidence_source: reports/repository_knowledge_freshness_report.yaml
+      release_decision: PROCEED_WITH_BOUNDED_REFRESH
+    - entry_id: explicit_unresolved_dependency_scope
+      entry_type: unknowns
+      evidence_source: coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__semantic_inventory_unknowns_triage_v0_1.yaml
+      unreviewed_files: 646
+      wave_2_records_with_unknowns: 25
+      dependency_edges_not_inferred: true
+    - path: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__artifact_authority_retention_map_v0_1.yaml
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.md
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_coverage_drift_dashboard_v0_1.yaml
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_maintenance_gate_v0_1.yaml
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__metadata_consistency_audit_v0_1.yaml
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__module_registry_reconciliation_v0_1.yaml
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__self_audit_assessment_v0_1.md
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_1_v0_1.yaml
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__snapshot_comparison_automation_v0_1.yaml
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__ecosystem_inventory_rollout_wave_a_v0_1.yaml
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__forprint_library__inventory_rollout_packet_v0_1.yaml
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__logistics_service__inventory_rollout_packet_v0_1.yaml
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/internal_work/blueprint/inventory_refresh/rollout_wave_a/2026-07-29__telegram_bot__inventory_rollout_packet_v0_1.yaml
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/internal_work/blueprint/structure_cleanup/2026-07-27__blueprint__structure_assessment_v0_1.md
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/reports/audits/2026-07-15__blueprint__reporting_consolidation_audit_v0_1.md
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/reports/completion/2026-07-03__blueprint__coordination_foundation_standards_summary_v0_1.md
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/reports/completion/2026-07-06__blueprint__coordination_foundation_tooling_summary_v0_1.md
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/reports/completion/2026-07-07__blueprint__website_roadmap_legacy_control_refinement_v0_2_1.md
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/reports/completion/2026-07-14__blueprint__compact_check_reporting_v0_1.md
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/reports/completion/2026-07-15__blueprint__coordination_result_tables_v0_1.md
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/reports/completion/2026-07-15__blueprint__document_awareness_shared_renderer_v0_1.md
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/reports/completion/2026-07-15__blueprint__reporting_consolidation_audit_v0_1.md
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/reports/completion/2026-07-15__blueprint__shared_dashboard_renderer_v0_1.md
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/reports/completion/2026-07-16__blueprint__module_governance_terminal_artifact_split_v0_1.md
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/reports/completion/2026-07-16__blueprint__module_roadmap_renderer_cleanup_v0_1.md
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/reports/completion/2026-07-16__blueprint__reporting_consolidation_closeout_v0_1.md
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/reports/completion/2026-07-16__blueprint__resolve_next_prompt_result_table_v0_1.md
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/reports/completion/2026-07-23__blueprint__internal_workflow_foundation_v0_1.md
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/reports/completion/2026-07-23__blueprint__repository_knowledge_baseline_v0_2.md
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/reports/completion/2026-07-28__blueprint__structure_cleanup_completion_v0_1.md
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/reports/index.yaml
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/repository_knowledge/README.md
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/repository_knowledge/direction/blueprint_coordination/2026-07-23__forprint_system_blueprint__state_direction_rationale_snapshot_v0_1.yaml
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/repository_knowledge/direction/blueprint_coordination/2026-07-29__forprint_system_blueprint__state_direction_rationale_snapshot_v0_2.yaml
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/repository_knowledge/direction/system_portfolio/2026-07-23__forprint_system__state_direction_rationale_snapshot_v0_1.yaml
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/repository_knowledge/direction/system_portfolio/2026-07-29__forprint_system__state_direction_rationale_snapshot_v0_2.yaml
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/repository_knowledge/flows/2026-07-23__forprint_system_blueprint__repository_execution_dependency_map_v0_2.yaml
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/repository_knowledge/flows/2026-07-29__forprint_system_blueprint__repository_execution_dependency_map_v0_3.yaml
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/repository_knowledge/inventory/2026-07-23__forprint_system_blueprint__repository_capability_inventory_v0_2.yaml
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/repository_knowledge/inventory/2026-07-29__forprint_system_blueprint__repository_capability_inventory_v0_3.yaml
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/repository_knowledge/repository_knowledge_and_direction_snapshot_protocol_v0_2.md
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/repository_knowledge/templates/blueprint_snapshot_assignment_v0_2.md
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/repository_knowledge/templates/historical_snapshot_review_assignment_v0_1.md
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/repository_knowledge/templates/module_snapshot_assignment_v0_2.md
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/repository_knowledge/templates/repository_capability_inventory_v0_2.template.yaml
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/repository_knowledge/templates/repository_execution_dependency_map_v0_2.template.yaml
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/repository_knowledge/templates/state_direction_rationale_snapshot_v0_1.template.yaml
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
+    - path: coordination/review_packets/logistics_service/processed/2026-07-14__logistics_service_test_address_book_v0_1__accepted.yaml
+      evidence_sources:
+      - coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__semantic_inventory_wave_2_v0_1.yaml
+      dependency_evidence: null
+      dependencies_mapped: true
