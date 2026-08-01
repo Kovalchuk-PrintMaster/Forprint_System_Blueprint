@@ -2,7 +2,7 @@
 
 Status: Draft for Blueprint review
 Owner: ForPrint System Blueprint
-Target scope: Blueprint and all active ForPrint module repositories
+Target scope: Blueprint and every current or future ForPrint module repository admitted through Blueprint-owned registration or onboarding control
 External rollout: Gated
 Version: 0.1
 Date: 2026-08-01
@@ -48,6 +48,14 @@ It defines:
 
 This version documents the target architecture first. Existing Makefiles,
 templates, and module implementations may temporarily differ until migrated.
+
+Scope membership is not defined by a hard-coded module list or by every
+directory under a local filesystem root. A runtime project root may contain
+temporary worktrees, tooling, archives, and experiments. A repository enters
+scope through Blueprint-owned registration or onboarding metadata and then
+inherits this architecture by repository class without changing this standard.
+Planned, onboarding, active, and paused modules remain in scope unless an
+explicit lifecycle decision excludes them.
 
 ## 3. Normative terms
 
@@ -616,7 +624,7 @@ Target state:
 
 ## 15. Reference implementation deviations to remove
 
-The current Logistics reference implementation requires migration where:
+The currently selected reference-pilot implementation requires migration where:
 
 - `completion-packet-check` invokes validate, apply, and apply again;
 - idempotency is tested by mutating the live module state twice;
@@ -626,7 +634,10 @@ The current Logistics reference implementation requires migration where:
 
 These are migration findings, not the target standard.
 
-No Logistics mutation is authorized by this document.
+The selected pilot is an evidence source only. Selecting a pilot does not
+limit this architecture to that repository or to any fixed set of modules.
+
+No pilot-module mutation is authorized by this document.
 
 ## 16. Migration sequence
 
@@ -636,13 +647,13 @@ The controlled migration order is:
 2. create a machine-readable command adoption matrix;
 3. add validators for naming, read/write classification, and ownership;
 4. implement Blueprint `completion-intake-check`;
-5. issue a Logistics-owned prompt to make `completion-packet-check` read-only;
-6. add Logistics `completion-packet-preview`;
+5. issue a reference-pilot-owned prompt to make `completion-packet-check` read-only;
+6. add the reference pilot `completion-packet-preview`;
 7. add sandboxed `completion-packet-idempotency-check`;
 8. replace transitional central coordination validation with a module-owned validator;
-9. validate Logistics as the reference implementation;
+9. validate the selected pilot as the reference implementation;
 10. update the canonical module Make template;
-11. audit Telegram and Library against the approved reference model;
+11. assess all remaining registered or onboarding modules in controlled batches;
 12. release module-specific migration prompts only after Blueprint gates permit rollout.
 
 Steps may be split into smaller commits, but their dependency order MUST be
@@ -676,8 +687,8 @@ Implementation migration is complete only when all of the following are true:
 - tracked reports contain no absolute checkout paths;
 - fresh worktrees pass validation without pre-generated ignored reports;
 - the canonical module Make template matches the approved architecture;
-- Logistics passes as the reference implementation;
-- Telegram and Library have approved migration assessments;
+- the selected reference pilot passes the approved conformance checks;
+- every rollout-eligible registered module has a tracked migration assessment;
 - Blueprint operational readiness is GREEN before external rollout.
 
 ## 18. Non-goals
@@ -687,8 +698,8 @@ This version does not:
 - implement the Make targets;
 - modify module Makefiles;
 - modify the canonical module Make template;
-- accept or merge Logistics work;
-- release Telegram or Library migration prompts;
+- accept or merge module implementation work;
+- release migration prompts to unassessed or ineligible modules;
 - remove historical compatibility tools;
 - authorize cross-repository writes.
 
