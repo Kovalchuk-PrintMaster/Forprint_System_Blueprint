@@ -284,6 +284,19 @@ def build_checks() -> list[CheckDefinition]:
             group="coordination",
         ),
         CheckDefinition(
+            check_id="completion_intake_check_tests",
+            title="Completion intake check",
+            expected_result="Blueprint-owned intake verification is read-only",
+            command=(
+                python,
+                "-m",
+                "pytest",
+                "-q",
+                "tests/coordination/test_completion_intake_check.py",
+            ),
+            group="coordination",
+        ),
+        CheckDefinition(
             check_id="module_governance_audit",
             title="Module governance audit",
             expected_result="Governance audit is clean and read-only",
