@@ -13,6 +13,11 @@ DECISION = Path(
     "coordination/internal_work/blueprint/governance/"
     "2026-08-01__blueprint__module_workflow_command_architecture_approval_v0_1.yaml"
 )
+PROGRESS = Path(
+    "coordination/internal_work/blueprint/governance/"
+    "2026-08-01__blueprint__module_workflow_command_"
+    "implementation_progress_v0_1.yaml"
+)
 
 
 def load_validator():
@@ -28,7 +33,7 @@ validator = load_validator()
 
 def fixture(tmp_path: Path) -> Path:
     root = tmp_path / "blueprint"
-    for relative in (MATRIX, DECISION):
+    for relative in (MATRIX, DECISION, PROGRESS):
         target = root / relative
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(ROOT / relative, target)
@@ -163,11 +168,13 @@ def test_rollout_stays_gated(tmp_path: Path) -> None:
     root = fixture(tmp_path)
 
     old = (
-        "  implementation_migration: not_started\n"
+        "  implementation_migration: "
+        "blueprint_internal_in_progress\n"
         "  external_rollout: gated\n"
     )
     new = (
-        "  implementation_migration: not_started\n"
+        "  implementation_migration: "
+        "blueprint_internal_in_progress\n"
         "  external_rollout: open\n"
     )
 
@@ -180,6 +187,36 @@ def test_rollout_stays_gated(tmp_path: Path) -> None:
         in item
         for item in issues
     )
+
+def test_blueprint_internal_migration_state_is_fixed(
+    tmp_path: Path,
+) -> None:
+    root = fixture(tmp_path)
+    replace_once(
+        root,
+        (
+            "  implementation_migration: "
+            "blueprint_internal_in_progress\n"
+        ),
+        "  implementation_migration: completed\n",
+    )
+    assert any(
+        "`governance.implementation_migration` must be "
+        "'blueprint_internal_in_progress'"
+        in item
+        for item in validator.validate(root)
+    )
+
+
+def test_progress_evidence_is_required(tmp_path: Path) -> None:
+    root = fixture(tmp_path)
+    (root / PROGRESS).unlink()
+    assert any(
+        "file does not exist" in item
+        and PROGRESS.as_posix() in item
+        for item in validator.validate(root)
+    )
+
 
 def test_check_catalog_contains_validator() -> None:
     checks = {item.check_id: item for item in build_checks()}

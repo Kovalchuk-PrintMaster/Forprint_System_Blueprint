@@ -55,8 +55,18 @@ governance:
     decision_record: coordination/internal_work/blueprint/governance/2026-08-01__blueprint__module_workflow_command_architecture_approval_v0_1.yaml
     implementation_authorized: false
     external_rollout_authorized: false
-  implementation_migration: not_started
+  implementation_migration: blueprint_internal_in_progress
   external_rollout: gated
+  implementation_progress:
+    state: blueprint_internal_in_progress
+    scope: blueprint_repository_only
+    evidence: coordination/internal_work/blueprint/governance/2026-08-01__blueprint__module_workflow_command_implementation_progress_v0_1.yaml
+    completed_capabilities:
+      - adoption_matrix_schema_and_semantics_validator
+      - command_behavior_classification_validator
+      - completion_intake_check
+      - completion_acceptance_gate
+    next_required_step: controlled_makefile_and_template_refactor
   external_module_prompts_released: false
   cross_repository_writes_forbidden: true
   module_completion_is_blueprint_acceptance: false
@@ -331,22 +341,32 @@ assessment_snapshot:
     - repository_id: forprint_system_blueprint
       repository_class: blueprint
       assessment_status: partially_assessed
-      target_conformance: pending
+      target_conformance: implementation_in_progress
       rollout_authorized: false
       command_profile: blueprint_workflow
       verified_foundations:
         - validation_baseline_is_fresh_worktree_portable
         - tracked_registry_report_is_checkout_path_independent
-        - command_architecture_draft_is_registered
+        - command_architecture_is_approved_target_standard
+        - adoption_matrix_schema_and_semantics_validator_implemented
+        - command_behavior_classification_validator_implemented
+        - completion_intake_check_implemented
+        - completion_acceptance_gate_implemented
       known_gaps:
         - command_implementation_inventory_not_completed
-        - completion_intake_check_not_implemented
-        - command_behavior_validator_not_implemented
-      next_required_step: add_machine_readable_command_validator_and_tests
+        - blueprint_makefile_not_fully_refactored
+        - canonical_module_make_template_not_fully_refactored
+        - reference_pilot_migration_not_authorized
+      next_required_step: controlled_makefile_and_template_refactor
       evidence:
         branch: governance/module-workflow-command-architecture-v01
         architecture_baseline_commit: ed20997c0fa22774474dd1e09ea16900d6642a98
         portability_commit: f412bb7c935784bd86c45e5d83613dc8da39f4d0
+        architecture_approval_commit: 6bfd2daaf9b612026087a151ae5886a1c540dc23
+        adoption_validator_commit: 77633316e41b547b6fdcf26f18d4a25788950329
+        completion_intake_check_commit: fea24ac4cea8eb0c9f0fe263bf58676386114503
+        acceptance_gate_commit: c6a5a51c30f227a6cd61e5bfe96b207f9acda27a
+        implementation_progress_evidence: coordination/internal_work/blueprint/governance/2026-08-01__blueprint__module_workflow_command_implementation_progress_v0_1.yaml
 
     - repository_id: logistics_service
       repository_class: module
@@ -355,7 +375,8 @@ assessment_snapshot:
       rollout_authorized: false
       command_profile: standard_module_workflow
       next_required_step: >-
-        issue a gated pilot migration prompt after Blueprint validators exist
+        await explicit pilot authorization after controlled Makefile and
+        canonical template refactoring and Blueprint readiness review
 
     - repository_id: telegram_bot
       repository_class: module

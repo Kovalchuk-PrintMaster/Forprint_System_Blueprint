@@ -10,7 +10,16 @@ from typing import Any
 import yaml
 
 MATRIX = Path("coordination/standards/adoption/module_workflow_adoption_matrix_v0_1.yaml")
+PROGRESS = Path(
+    "coordination/internal_work/blueprint/governance/"
+    "2026-08-01__blueprint__module_workflow_command_"
+    "implementation_progress_v0_1.yaml"
+)
 SCHEMA = "module_workflow_adoption_matrix_v0_1"
+PROGRESS_SCHEMA = (
+    "blueprint_module_workflow_command_"
+    "implementation_progress_v0_1"
+)
 
 COMMANDS: dict[str, tuple[str, str, str, str]] = {
     "prompt-prepare": ("blueprint", "mutating", "blueprint_only", "none"),
@@ -196,6 +205,155 @@ def validate_commands(path: Path, rows: list[Any], issues: list[str]) -> set[str
     return actual_ids
 
 
+def validate_progress_evidence(
+    root: Path,
+    evidence_path: Path,
+    issues: list[str],
+) -> None:
+    data, evidence_issues = load_yaml(evidence_path)
+    issues.extend(evidence_issues)
+    if data is None:
+        return
+
+    expect(
+        evidence_path,
+        data,
+        "schema_version",
+        PROGRESS_SCHEMA,
+        issues,
+    )
+    expect(
+        evidence_path,
+        data,
+        "result",
+        "BLUEPRINT_INTERNAL_IMPLEMENTATION_IN_PROGRESS",
+        issues,
+    )
+
+    commits = mapping(
+        evidence_path,
+        data.get("evidence_commits"),
+        "evidence_commits",
+        issues,
+    )
+    if commits is not None:
+        expected_commits = {
+            "architecture_approval": (
+                "6bfd2daaf9b612026087a151ae5886a1c540dc23"
+            ),
+            "adoption_matrix_validator": (
+                "77633316e41b547b6fdcf26f18d4a25788950329"
+            ),
+            "completion_intake_check": (
+                "fea24ac4cea8eb0c9f0fe263bf58676386114503"
+            ),
+            "completion_acceptance_gate": (
+                "c6a5a51c30f227a6cd61e5bfe96b207f9acda27a"
+            ),
+        }
+        for key, value in expected_commits.items():
+            expect(
+                evidence_path,
+                commits,
+                key,
+                value,
+                issues,
+                "evidence_commits",
+            )
+
+    state = mapping(
+        evidence_path,
+        data.get("implementation_state"),
+        "implementation_state",
+        issues,
+    )
+    if state is not None:
+        expected_state = {
+            "architecture": "approved_target_standard",
+            "adoption_matrix_schema_and_semantics_validator": (
+                "implemented"
+            ),
+            "command_behavior_classification_validator": "implemented",
+            "completion_intake_check": "implemented",
+            "completion_acceptance_gate": "implemented",
+            "implementation_migration": (
+                "blueprint_internal_in_progress"
+            ),
+            "reference_pilot_migration": "not_authorized",
+            "canonical_module_make_template_migration": (
+                "not_authorized"
+            ),
+            "external_rollout": "gated",
+        }
+        for key, value in expected_state.items():
+            expect(
+                evidence_path,
+                state,
+                key,
+                value,
+                issues,
+                "implementation_state",
+            )
+
+    boundaries = mapping(
+        evidence_path,
+        data.get("boundaries"),
+        "boundaries",
+        issues,
+    )
+    if boundaries is not None:
+        expected_boundaries = {
+            "historical_approval_rewritten": False,
+            "module_makefile_changes_authorized": False,
+            "canonical_make_template_changes_authorized": False,
+            "reference_pilot_prompt_authorized": False,
+            "external_module_prompts_released": False,
+            "external_rollout_released": False,
+            "cross_repository_writes": False,
+        }
+        for key, value in expected_boundaries.items():
+            expect(
+                evidence_path,
+                boundaries,
+                key,
+                value,
+                issues,
+                "boundaries",
+            )
+
+    next_step = mapping(
+        evidence_path,
+        data.get("next_required_step"),
+        "next_required_step",
+        issues,
+    )
+    if next_step is not None:
+        expect(
+            evidence_path,
+            next_step,
+            "action",
+            "controlled_makefile_and_template_refactor",
+            issues,
+            "next_required_step",
+        )
+        expect(
+            evidence_path,
+            next_step,
+            "external_module_action",
+            "none",
+            issues,
+            "next_required_step",
+        )
+        expect(
+            evidence_path,
+            next_step,
+            "pilot_action",
+            "none",
+            issues,
+            "next_required_step",
+        )
+
+
 def validate(root: Path) -> list[str]:
     path = root / MATRIX
     data, issues = load_yaml(path)
@@ -261,7 +419,9 @@ def validate(root: Path) -> list[str]:
 
     if governance is not None:
         for key, value in {
-            "implementation_migration": "not_started",
+            "implementation_migration": (
+                "blueprint_internal_in_progress"
+            ),
             "external_rollout": "gated",
             "external_module_prompts_released": False,
             "cross_repository_writes_forbidden": True,
@@ -277,6 +437,54 @@ def validate(root: Path) -> list[str]:
             expect(path, approval, "state", "approved", issues, "governance.architecture_approval")
             expect(path, approval, "implementation_authorized", False, issues, "governance.architecture_approval")
             expect(path, approval, "external_rollout_authorized", False, issues, "governance.architecture_approval")
+
+        progress = mapping(
+            path,
+            governance.get("implementation_progress"),
+            "governance.implementation_progress",
+            issues,
+        )
+        if progress is not None:
+            expect(
+                path,
+                progress,
+                "state",
+                "blueprint_internal_in_progress",
+                issues,
+                "governance.implementation_progress",
+            )
+            expect(
+                path,
+                progress,
+                "scope",
+                "blueprint_repository_only",
+                issues,
+                "governance.implementation_progress",
+            )
+            expect(
+                path,
+                progress,
+                "next_required_step",
+                "controlled_makefile_and_template_refactor",
+                issues,
+                "governance.implementation_progress",
+            )
+            evidence = progress.get("evidence")
+            if evidence != PROGRESS.as_posix():
+                issues.append(
+                    issue(
+                        path,
+                        "`governance.implementation_progress.evidence` "
+                        f"must be {PROGRESS.as_posix()!r}; "
+                        f"found {evidence!r}",
+                    )
+                )
+            else:
+                validate_progress_evidence(
+                    root,
+                    root / PROGRESS,
+                    issues,
+                )
 
     if defaults is not None:
         read_only = mapping(path, defaults.get("read_only"), "command_contract_defaults.read_only", issues)
