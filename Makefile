@@ -77,8 +77,8 @@ help:
 	@echo "  make prompt-next MODULE=forprint_library"
 	@echo "  make prompt-read-next MODULE=forprint_library"
 	@echo "  make completion-intake-check MODULE=logistics_service MODULE_ROOT=../forprint_logistics_service PACKET=coordination/completion_packets/records/example.yaml COMPLETION_COMMIT=<commit>"
-	@echo "  make completion-intake-preview MODULE=logistics_service MODULE_ROOT=../forprint_logistics_service PACKET=coordination/completion_packets/records/example.yaml"
-	@echo "  make completion-accept MODULE=logistics_service MODULE_ROOT=../forprint_logistics_service PACKET=coordination/completion_packets/records/example.yaml"
+	@echo "  make completion-intake-preview MODULE=logistics_service MODULE_ROOT=../forprint_logistics_service PACKET=coordination/completion_packets/records/example.yaml COMPLETION_COMMIT=<commit>"
+	@echo "  make completion-accept MODULE=logistics_service MODULE_ROOT=../forprint_logistics_service PACKET=coordination/completion_packets/records/example.yaml COMPLETION_COMMIT=<commit>"
 	@echo "  make completion-return MODULE=logistics_service MODULE_ROOT=../forprint_logistics_service PACKET=coordination/completion_packets/records/example.yaml REVIEW_NOTES='Corrections required'"
 	@echo "  make completion-finalize-check MODULE=logistics_service"
 	@echo "  make next-work-suggestion MODULE=logistics_service"
@@ -367,11 +367,84 @@ completion-intake-check:
 
 .PHONY: completion-intake-preview
 completion-intake-preview:
-	@set -eu; 	if [ -z "$(PACKET)" ]; then 		echo "FAILED: provide PACKET=<module-relative completion packet path>"; 		exit 1; 	fi; 	set -- --root "." --module "$(MODULE)" --module-root "$(MODULE_ROOT)" --packet "$(PACKET)" --decision accepted; 	if [ -n "$(REVIEW_NOTES)" ]; then set -- "$$@" --review-notes "$(REVIEW_NOTES)"; fi; 	if [ -n "$(COMPLETION_COMMIT)" ]; then set -- "$$@" --completion-commit "$(COMPLETION_COMMIT)"; fi; 	if [ -n "$(REVIEWED_AT)" ]; then set -- "$$@" --reviewed-at "$(REVIEWED_AT)"; fi; 	$(PYTHON) scripts/coordination/module_completion_intake.py "$$@"
+	@set -eu; \
+		if [ -z "$(MODULE)" ]; then \
+			echo "FAILED: provide MODULE=<canonical module id>"; \
+			exit 1; \
+		fi; \
+		if [ -z "$(MODULE_ROOT)" ]; then \
+			echo "FAILED: provide MODULE_ROOT=<module repository path>"; \
+			exit 1; \
+		fi; \
+		if [ -z "$(PACKET)" ]; then \
+			echo "FAILED: provide PACKET=<module-relative completion packet path>"; \
+			exit 1; \
+		fi; \
+		if [ -z "$(COMPLETION_COMMIT)" ]; then \
+			echo "FAILED: provide COMPLETION_COMMIT=<published commit>"; \
+			exit 1; \
+		fi; \
+		set -- \
+			--root "." \
+			--module "$(MODULE)" \
+			--module-root "$(MODULE_ROOT)" \
+			--packet "$(PACKET)" \
+			--decision accepted \
+			--completion-commit "$(COMPLETION_COMMIT)"; \
+		if [ -n "$(REVIEW_NOTES)" ]; then \
+			set -- "$$@" --review-notes "$(REVIEW_NOTES)"; \
+		fi; \
+		if [ -n "$(REVIEWED_AT)" ]; then \
+			set -- "$$@" --reviewed-at "$(REVIEWED_AT)"; \
+		fi; \
+		if [ -n "$(REMOTE)" ]; then \
+			set -- "$$@" --remote "$(REMOTE)"; \
+		fi; \
+		if [ -n "$(BRANCH)" ]; then \
+			set -- "$$@" --branch "$(BRANCH)"; \
+		fi; \
+		$(PYTHON) scripts/coordination/module_completion_intake.py "$$@"
 
 .PHONY: completion-accept
 completion-accept:
-	@set -eu; 	if [ -z "$(PACKET)" ]; then 		echo "FAILED: provide PACKET=<module-relative completion packet path>"; 		exit 1; 	fi; 	set -- --root "." --module "$(MODULE)" --module-root "$(MODULE_ROOT)" --packet "$(PACKET)" --decision accepted --write; 	if [ -n "$(REVIEW_NOTES)" ]; then set -- "$$@" --review-notes "$(REVIEW_NOTES)"; fi; 	if [ -n "$(COMPLETION_COMMIT)" ]; then set -- "$$@" --completion-commit "$(COMPLETION_COMMIT)"; fi; 	if [ -n "$(REVIEWED_AT)" ]; then set -- "$$@" --reviewed-at "$(REVIEWED_AT)"; fi; 	$(PYTHON) scripts/coordination/module_completion_intake.py "$$@"
+	@set -eu; \
+		if [ -z "$(MODULE)" ]; then \
+			echo "FAILED: provide MODULE=<canonical module id>"; \
+			exit 1; \
+		fi; \
+		if [ -z "$(MODULE_ROOT)" ]; then \
+			echo "FAILED: provide MODULE_ROOT=<module repository path>"; \
+			exit 1; \
+		fi; \
+		if [ -z "$(PACKET)" ]; then \
+			echo "FAILED: provide PACKET=<module-relative completion packet path>"; \
+			exit 1; \
+		fi; \
+		if [ -z "$(COMPLETION_COMMIT)" ]; then \
+			echo "FAILED: provide COMPLETION_COMMIT=<published commit>"; \
+			exit 1; \
+		fi; \
+		set -- \
+			--root "." \
+			--module "$(MODULE)" \
+			--module-root "$(MODULE_ROOT)" \
+			--packet "$(PACKET)" \
+			--decision accepted \
+			--completion-commit "$(COMPLETION_COMMIT)" \
+			--write; \
+		if [ -n "$(REVIEW_NOTES)" ]; then \
+			set -- "$$@" --review-notes "$(REVIEW_NOTES)"; \
+		fi; \
+		if [ -n "$(REVIEWED_AT)" ]; then \
+			set -- "$$@" --reviewed-at "$(REVIEWED_AT)"; \
+		fi; \
+		if [ -n "$(REMOTE)" ]; then \
+			set -- "$$@" --remote "$(REMOTE)"; \
+		fi; \
+		if [ -n "$(BRANCH)" ]; then \
+			set -- "$$@" --branch "$(BRANCH)"; \
+		fi; \
+		$(PYTHON) scripts/coordination/module_completion_intake.py "$$@"
 
 .PHONY: completion-return
 completion-return:
