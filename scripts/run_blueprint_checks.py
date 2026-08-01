@@ -350,6 +350,16 @@ def build_checks() -> list[CheckDefinition]:
             group="documentation",
         ),
         CheckDefinition(
+            check_id="module_workflow_adoption_matrix_validation",
+            title="Workflow adoption matrix",
+            expected_result="Command adoption matrix semantics are valid",
+            command=(
+                python,
+                "scripts/validation/validate_module_workflow_adoption_matrix.py",
+            ),
+            group="documentation",
+        ),
+        CheckDefinition(
             check_id="module_standards_template_validation",
             title="Standards template",
             expected_result="Module standards template is valid",
