@@ -1,40 +1,64 @@
 # ForPrint Module Makefile Standard Template
 #
-# Purpose:
-#   Provide a shared Makefile structure for ForPrint modules.
+# This file is an executable governance contract for module repositories.
+# Copy it to a module repository and adapt only the variables and explicitly
+# marked module-specific targets. Do not weaken target safety semantics.
 #
-# Usage:
-#   Copy this file to a module Makefile and adapt MODULE_ID, MODULE_NAME,
-#   PYTHON, path variables, and module-specific targets.
+# Command ownership:
+#   - Module targets may read Blueprint files but must never mutate Blueprint.
+#   - Module targets may execute only module-owned scripts.
+#   - Read-only targets must not write tracked/untracked repository files or
+#     mutate Git state.
+#   - Mutating targets must state their write scope explicitly.
+#   - module-finish may mutate only the current module and never commit/push.
+#   - module-publish may commit/push only the current branch and never merge.
 #
-# Rule:
-#   Keep block names and public target names stable across modules.
-#   Implementation may differ per module.
-#   Use normal Makefile syntax with TAB-prefixed recipe lines.
-#   Do not use .RECIPEPREFIX in standard ForPrint module Makefiles.
+# Make syntax:
+#   - GNU Make with TAB-prefixed recipe lines.
+#   - Do not use .RECIPEPREFIX.
 
 .DEFAULT_GOAL := help
-
+.DELETE_ON_ERROR:
+export PYTHONDONTWRITEBYTECODE := 1
 # =============================================================================
 # 00 Environment / constants START
 # =============================================================================
 
-# Purpose: define shared module constants and local runtime paths.
-# Result: all targets can use stable variables and optional colored output.
+# Repository identity
 MODULE_ID ?= forprint_module
 MODULE_NAME ?= ForPrint Module
-PYTHON ?= python
-BLUEPRINT_ROOT ?= /srv/software_development/forprint-project/forprint_system_blueprint
-BLUEPRINT_PYTHON ?= $(BLUEPRINT_ROOT)/.venv_blueprint/bin/python
-BLUEPRINT_PROMPT_QUEUE_VALIDATOR ?= $(BLUEPRINT_ROOT)/scripts/coordination/validate_prompt_queue.py
-BLUEPRINT_PROMPT_DASHBOARD_RENDERER ?= $(BLUEPRINT_ROOT)/scripts/coordination/render_prompt_dashboard.py
-BLUEPRINT_NEXT_PROMPT_RESOLVER ?= $(BLUEPRINT_ROOT)/scripts/coordination/resolve_next_prompt.py
-BLUEPRINT_DOCUMENT_MANIFEST_BUILDER ?= $(BLUEPRINT_ROOT)/scripts/coordination/build_document_manifest.py
-BLUEPRINT_DOCUMENT_AWARENESS_DASHBOARD ?= $(BLUEPRINT_ROOT)/scripts/coordination/render_document_awareness_dashboard.py
-BLUEPRINT_CONTEXT_BUNDLE_BUILDER ?= $(BLUEPRINT_ROOT)/scripts/coordination/build_context_bundle.py
-BLUEPRINT_DOCUMENT_AWARENESS_LEDGER_UPDATER ?= $(BLUEPRINT_ROOT)/scripts/coordination/update_document_awareness_ledger.py
+MODULE_ROOT ?= .
+BLUEPRINT_ROOT ?= ../forprint_system_blueprint
 
+# Tooling
+PYTHON ?= .venv/bin/python
+GIT ?= git
+
+# Optional terminal colors.
+# Set NO_COLOR=1 for plain output in CI, logs, or non-interactive terminals.
+COLOR_RESET ?= \033[0m
+COLOR_BOLD ?= \033[1m
+COLOR_GREEN ?= \033[32m
+COLOR_YELLOW ?= \033[33m
+COLOR_BLUE ?= \033[34m
+COLOR_CYAN ?= \033[36m
+COLOR_RED ?= \033[31m
+
+ifeq ($(strip $(NO_COLOR)),1)
+COLOR_RESET :=
+COLOR_BOLD :=
+COLOR_GREEN :=
+COLOR_YELLOW :=
+COLOR_BLUE :=
+COLOR_CYAN :=
+COLOR_RED :=
+endif
+
+# Operator inputs
 PACKET ?=
+REMOTE ?= origin
+BRANCH ?=
+PUBLISH_MESSAGE ?=
 STATUS ?= acknowledged
 DOCUMENT ?=
 SOURCE ?=
@@ -43,19 +67,15 @@ NOTES ?=
 MODULE_COMMIT ?=
 SCOPE ?= bootstrap
 LIMIT ?= 40
-
-BLUEPRINT_MODULE_ROADMAP_VALIDATOR ?= $(BLUEPRINT_ROOT)/scripts/coordination/validate_module_roadmap.py
-BLUEPRINT_MODULE_ROADMAP_DASHBOARD ?= $(BLUEPRINT_ROOT)/scripts/coordination/render_module_roadmap_dashboard.py
-
 MODULES ?=
 ROADMAP ?=
 BEFORE_CURRENT ?= 5
 AFTER_CURRENT ?= 10
 ROADMAP_SUMMARY_MODULES ?= $(MODULE_ID)
 
+# Local module paths
 REPORTS_DIR ?= reports
 COORDINATION_DIR ?= coordination
-
 CONFIG_DIR ?= config
 DATA_DIR ?= data
 LOGS_DIR ?= logs
@@ -67,31 +87,62 @@ PYPROJECT ?= pyproject.toml
 ENV_EXAMPLE ?= .env.example
 TOOLING_MANIFEST ?= coordination/tooling_manifest.yaml
 DEVELOPMENT_ENVIRONMENT_DOC ?= coordination/development_environment.md
-
-MODULE_DOCUMENT_AWARENESS_LEDGER ?= $(CURDIR)/$(COORDINATION_DIR)/blueprint_awareness/document_review_ledger.yaml
 PROMPTS_DIR ?= $(COORDINATION_DIR)/prompts
 LOCAL_PROMPTS_DIR ?= $(PROMPTS_DIR)/received
+LOCAL_BLUEPRINT_SNAPSHOT_DIR ?= $(COORDINATION_DIR)/blueprint_snapshot
+MODULE_DOCUMENT_AWARENESS_LEDGER ?= $(COORDINATION_DIR)/blueprint_awareness/document_review_ledger.yaml
+
+# Blueprint read-only source paths
 BLUEPRINT_PROMPTS_ROOT ?= $(BLUEPRINT_ROOT)/coordination/outgoing_prompts
 BLUEPRINT_MODULE_PROMPTS_DIR ?= $(BLUEPRINT_PROMPTS_ROOT)/$(MODULE_ID)
 ACTIVE_PROMPT_DIR ?= $(BLUEPRINT_MODULE_PROMPTS_DIR)/approved
 
-COLOR_RESET ?= \033[0m
-COLOR_BOLD ?= \033[1m
-COLOR_GREEN ?= \033[32m
-COLOR_YELLOW ?= \033[33m
-COLOR_BLUE ?= \033[34m
-COLOR_CYAN ?= \033[36m
-COLOR_RED ?= \033[31m
+# Module-owned workflow scripts
+MODULE_SYNC_SCRIPT ?= scripts/coordination/module_sync.py
+MODULE_STATUS_SCRIPT ?= scripts/coordination/module_status.py
+MODULE_COORDINATION_VALIDATOR ?= scripts/coordination/validate_module_coordination.py
+MODULE_PROMPT_CLI ?= scripts/coordination/module_prompt_cli.py
+MODULE_DOCUMENT_CLI ?= scripts/coordination/module_document_cli.py
+MODULE_ROADMAP_CLI ?= scripts/coordination/module_roadmap_cli.py
+MODULE_CHECK_REPORT_SCRIPT ?= scripts/reporting/build_module_check_report.py
+MODULE_PUBLISH_SCRIPT ?= scripts/coordination/module_publish.py
+COMPLETION_PACKET_VALIDATE_SCRIPT ?= scripts/validate_completion_packet.py
+COMPLETION_PACKET_CHECK_SCRIPT ?= scripts/check_completion_packet.py
+COMPLETION_PACKET_PREVIEW_SCRIPT ?= scripts/preview_completion_packet.py
+COMPLETION_PACKET_APPLY_SCRIPT ?= scripts/apply_completion_packet.py
+COMPLETION_PACKET_IDEMPOTENCY_SCRIPT ?= scripts/check_completion_packet_idempotency.py
+MODULE_WORKFLOW_CLI ?= scripts/coordination/modules/module_workflow_cli.py
 
-ifeq ($(NO_COLOR),1)
-COLOR_RESET :=
-COLOR_BOLD :=
-COLOR_GREEN :=
-COLOR_YELLOW :=
-COLOR_BLUE :=
-COLOR_CYAN :=
-COLOR_RED :=
-endif
+# Source/test configuration
+LINT_PATHS ?= app scripts tests
+FORMAT_PATHS ?= app scripts tests
+TEST_ARGS ?= -q -p no:cacheprovider
+
+# Reusable fail-fast helpers. These helpers never hide missing implementation.
+define require_file
+@test -f "$(1)" || { echo "FAILED: missing required file: $(1)"; exit 2; }
+endef
+
+define require_module_script
+@case "$(1)" in scripts/*) ;; *) echo "FAILED: module-owned script must be under scripts/: $(1)"; exit 2;; esac
+@test -f "$(1)" || { echo "FAILED: missing required module-owned script: $(1)"; exit 2; }
+endef
+
+define require_dir
+@test -d "$(1)" || { echo "FAILED: missing required directory: $(1)"; exit 2; }
+endef
+
+define require_value
+@test -n "$($(1))" || { echo "FAILED: provide $(1)=..."; exit 2; }
+endef
+
+define require_packet
+@test -n "$(PACKET)" || { printf '%b\n' "$(COLOR_RED)FAILED: PACKET is required.$(COLOR_RESET)"; exit 2; }
+endef
+
+define not_implemented
+@echo "FAILED: target '$@' is not implemented for $(MODULE_ID)."; exit 2
+endef
 
 # =============================================================================
 # 00 Environment / constants FINISH
@@ -102,56 +153,42 @@ endif
 # 01 Help / navigation START
 # =============================================================================
 
-# Purpose: list available public targets for quick operator navigation.
-# Result: prints a concise list of standard module commands.
+# Purpose: List stable public commands and required operator inputs.
+# Safety: Read-only; prints help only.
+# Inputs: None.
+# Result: Shows the canonical execution chain and explicit mutating commands.
 .PHONY: help
 help:
-	@echo "$(COLOR_BOLD)$(MODULE_NAME) Make targets$(COLOR_RESET)"
+	@echo "$(MODULE_NAME) Make targets"
 	@echo ""
-	@echo "Operator workflow:"
+	@echo "Canonical module workflow:"
 	@echo "  make module-start"
 	@echo "  make module-sync"
+	@echo "  make module-status"
 	@echo "  make module-validate"
-	@echo "  make module-finish PACKET=coordination/completion_packets/examples/<packet>.yaml"
+	@echo "  make module-finish PACKET=<module-relative-packet>"
+	@echo "  make module-publish PACKET=<packet> PUBLISH_MESSAGE='message' [REMOTE=origin] [BRANCH=current]"
 	@echo ""
-	@echo "Blueprint / coordination:"
-	@echo "  make blueprint-sync"
-	@echo "  make blueprint-instruction"
-	@echo "  make blueprint-standards"
-	@echo "  make blueprint-prompts"
-	@echo "  make prompt-dashboard"
-	@echo "  make prompt-next"
-	@echo "  make prompt-read-next"
-	@echo "  make document-awareness"
-	@echo "  make context-bundle-print"
-	@echo ""
-	@echo "  Module roadmap:"
-	@echo "  make roadmap-validate"
-	@echo "  make roadmap-dashboard"
-	@echo "  make roadmap-summary"
-	@echo ""
-	@echo "Module runtime / infrastructure:"
-	@echo "  make install"
-	@echo "  make env-check"
-	@echo "  make tooling-check"
-	@echo "  make run"
-	@echo "  make start"
-	@echo "  make stop"
-	@echo "  make restart"
-	@echo "  make services-up"
-	@echo "  make services-down"
-	@echo "  make db-check"
-	@echo "  make adapters-check"
-	@echo "  make diagnostics"
+	@echo "Completion packet lifecycle:"
+	@echo "  make completion-packet-validate PACKET=<packet>           # read-only"
+	@echo "  make completion-packet-check PACKET=<packet>              # read-only"
+	@echo "  make completion-packet-preview PACKET=<packet>            # read-only"
+	@echo "  make completion-packet-idempotency-check PACKET=<packet>  # isolated sandbox"
+	@echo "  make completion-packet-apply PACKET=<packet>              # module mutation"
 	@echo ""
 	@echo "Validation:"
-	@echo "  make lint"
-	@echo "  make lint-fix"
-	@echo "  make test"
 	@echo "  make check"
 	@echo "  make check-report"
-	@echo "  make status-report"
-	@echo "  make report-clean"
+	@echo "  make governance-check"
+	@echo "  make git-status"
+	@echo ""
+	@echo "Blueprint source access:"
+	@echo "  make blueprint-check"
+	@echo "  make blueprint-prompts-list"
+	@echo "  make prompt-next"
+	@echo "  make prompt-read-next"
+	@echo ""
+	@echo "Safety note: blueprint-pull is intentionally forbidden from module repositories."
 
 # =============================================================================
 # 01 Help / navigation FINISH
@@ -162,41 +199,80 @@ help:
 # 02 Operator entrypoints / Blueprint-first workflow START
 # =============================================================================
 
-# Purpose: prepare the module for prompt execution.
-# Result: Blueprint sync, document awareness, coordination status and next prompt read pass.
+# Purpose: Prepare the module for execution of the next approved prompt.
+# Safety: Mutates only the current module through module-sync; never writes Blueprint or Git refs.
+# Inputs: Readable Blueprint root and implemented module-owned sync/status/prompt CLIs.
+# Result: Local snapshots are synchronized, status is shown, and the next prompt is read.
 .PHONY: module-start
 module-start:
-	$(MAKE) blueprint-sync
-	$(MAKE) document-awareness
-	$(MAKE) coordination-check
-	$(MAKE) status-report
+	$(MAKE) module-sync
+	$(MAKE) module-status
 	$(MAKE) prompt-read-next
 
-# Purpose: run the standard synchronization workflow without reading the prompt.
-# Result: Blueprint sync, document awareness, coordination check and status report pass.
+# Purpose: Run the complete module-owned synchronization workflow.
+# Safety: Mutates only module-local snapshots through module-sync-apply; all follow-up checks are read-only.
+# Inputs: MODULE_SYNC_SCRIPT, readable BLUEPRINT_ROOT, and module-owned awareness/coordination/status tools.
+# Result: Blueprint inputs are synchronized locally, then awareness, coordination, and status checks pass.
 .PHONY: module-sync
 module-sync:
-	$(MAKE) blueprint-sync
+	$(MAKE) module-sync-apply
 	$(MAKE) document-awareness
 	$(MAKE) coordination-check
-	$(MAKE) status-report
+	$(MAKE) module-status
 
-# Purpose: run standard validation before completion or commit.
-# Result: check-report, check, governance-check, report-clean and status-report pass.
+# Purpose: Apply approved Blueprint inputs to module-local snapshots.
+# Safety: Internal module-only mutation; never executes Blueprint code, writes Blueprint, commits, pushes, or merges.
+# Inputs: MODULE_SYNC_SCRIPT and readable BLUEPRINT_ROOT.
+# Result: All supported Blueprint input scopes are synchronized deterministically into the module.
+.PHONY: module-sync-apply
+module-sync-apply:
+	$(call require_module_script,$(MODULE_SYNC_SCRIPT))
+	$(call require_dir,$(BLUEPRINT_ROOT))
+	"$(PYTHON)" "$(MODULE_SYNC_SCRIPT)" --module-root "$(MODULE_ROOT)" --blueprint-root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --scope all
+
+# Purpose: Render current module workflow, prompt, coordination, and Git status.
+# Safety: Read-only; no report generation and no Git mutation.
+# Inputs: MODULE_STATUS_SCRIPT.
+# Result: Current state is printed to stdout.
+.PHONY: module-status
+module-status:
+	$(call require_module_script,$(MODULE_STATUS_SCRIPT))
+	"$(PYTHON)" "$(MODULE_STATUS_SCRIPT)" --module-root "$(MODULE_ROOT)" --module "$(MODULE_ID)"
+
+# Purpose: Run the complete read-only module validation sequence.
+# Safety: Read-only; excludes lint fixes, report cleanup, synchronization, commit, push, and merge.
+# Inputs: Configured tools and module-owned governance validators.
+# Result: All code, tests, governance, and packet-independent checks pass.
 .PHONY: module-validate
 module-validate:
-	$(MAKE) check-report
 	$(MAKE) check
 	$(MAKE) governance-check
-	$(MAKE) report-clean
-	$(MAKE) status-report
 
-# Result: completion packet idempotency check and module validation pass.
+# Purpose: Finalize module-local completion records after read-only evidence checks.
+# Safety: May mutate only the current module through completion-packet-apply; never commits, pushes, or merges.
+# Inputs: PACKET and all completion packet scripts.
+# Result: Packet validation/check/preview/idempotency pass, local apply completes, and final validation passes.
 .PHONY: module-finish
 module-finish:
-	@test -n "$(PACKET)" || (echo "$(COLOR_RED)PACKET is required.$(COLOR_RESET)"; exit 2)
-	$(MAKE) completion-packet-check PACKET="$(PACKET)"
+	$(call require_packet)
 	$(MAKE) module-validate
+	$(MAKE) completion-packet-validate PACKET="$(PACKET)"
+	$(MAKE) completion-packet-check PACKET="$(PACKET)"
+	$(MAKE) completion-packet-preview PACKET="$(PACKET)"
+	$(MAKE) completion-packet-idempotency-check PACKET="$(PACKET)"
+	$(MAKE) completion-packet-apply PACKET="$(PACKET)"
+	$(MAKE) module-validate
+
+# Purpose: Commit and push a completed module packet on the current non-protected branch.
+# Safety: Mutates only current module Git index/commit/remote branch; merge and protected-branch publication are forbidden.
+# Inputs: PACKET, PUBLISH_MESSAGE, MODULE_PUBLISH_SCRIPT, REMOTE, optional BRANCH.
+# Result: Allowlisted completion changes are committed and pushed without merge.
+.PHONY: module-publish
+module-publish:
+	$(call require_packet)
+	$(call require_value,PUBLISH_MESSAGE)
+	$(call require_module_script,$(MODULE_PUBLISH_SCRIPT))
+	@set -eu; set -- --module-root "$(MODULE_ROOT)" --module "$(MODULE_ID)" --packet "$(PACKET)" --remote "$(REMOTE)" --message "$(PUBLISH_MESSAGE)" --require-clean-outside-packet --no-merge; if [ -n "$(BRANCH)" ]; then set -- "$$@" --branch "$(BRANCH)"; fi; "$(PYTHON)" "$(MODULE_PUBLISH_SCRIPT)" "$$@"
 
 # =============================================================================
 # 02 Operator entrypoints / Blueprint-first workflow FINISH
@@ -207,39 +283,43 @@ module-finish:
 # 03 Blueprint repository synchronization START
 # =============================================================================
 
-# Purpose: update the local ForPrint System Blueprint repository.
-# Result: Blueprint repo is pulled using ff-only.
+# Purpose: Prevent module-owned commands from mutating the Blueprint repository.
+# Safety: Always fails; Blueprint updates are performed by the Blueprint owner outside module workflows.
+# Inputs: None.
+# Result: Returns non-zero with an ownership-boundary explanation.
 .PHONY: blueprint-pull
 blueprint-pull:
-	git -C "$(BLUEPRINT_ROOT)" pull --ff-only
+	@echo "FAILED: blueprint-pull is forbidden from module repositories; update Blueprint in its own repository."; exit 2
 
-# Purpose: verify that required Blueprint paths are readable.
-# Result: required Blueprint directories and indexes exist.
+# Purpose: Verify required Blueprint source paths are readable.
+# Safety: Read-only filesystem checks; no Blueprint executable is invoked.
+# Inputs: BLUEPRINT_ROOT and MODULE_ID.
+# Result: Required source policy, standards, prompt queue, and approved prompt paths exist.
 .PHONY: blueprint-check
 blueprint-check:
-	@test -d "$(BLUEPRINT_ROOT)/coordination/global_policy"
-	@test -d "$(BLUEPRINT_ROOT)/coordination/standards"
-	@test -f "$(BLUEPRINT_ROOT)/coordination/module_policy/$(MODULE_ID)/module_policy.md"
-	@test -f "$(BLUEPRINT_ROOT)/coordination/outgoing_prompts/$(MODULE_ID)/index.yaml"
-	@echo "$(COLOR_GREEN)Blueprint paths are readable for $(MODULE_ID).$(COLOR_RESET)"
+	$(call require_dir,$(BLUEPRINT_ROOT))
+	$(call require_dir,$(BLUEPRINT_ROOT)/coordination/global_policy)
+	$(call require_dir,$(BLUEPRINT_ROOT)/coordination/standards)
+	$(call require_file,$(BLUEPRINT_ROOT)/coordination/standards/index.yaml)
+	$(call require_file,$(BLUEPRINT_ROOT)/coordination/module_policy/$(MODULE_ID)/module_policy.md)
+	$(call require_file,$(BLUEPRINT_MODULE_PROMPTS_DIR)/index.yaml)
 
-# Purpose: import active Blueprint directives into local coordination.
-# Result: directives sync runs or clearly reports documented deferral.
+# Purpose: Synchronize Blueprint directives into module-local snapshots.
+# Safety: Module-only mutation through MODULE_SYNC_SCRIPT.
+# Inputs: MODULE_SYNC_SCRIPT and readable Blueprint source.
+# Result: Directive snapshot is updated locally.
 .PHONY: blueprint-sync-directives
 blueprint-sync-directives:
-	@echo "$(COLOR_YELLOW)DEFERRED: Blueprint directive sync is not wired for this module yet.$(COLOR_RESET)"
+	$(call require_module_script,$(MODULE_SYNC_SCRIPT))
+	"$(PYTHON)" "$(MODULE_SYNC_SCRIPT)" --module-root "$(MODULE_ROOT)" --blueprint-root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --scope directives
 
-# Purpose: run all Blueprint synchronization needed before work starts.
-# Result: Blueprint, directives, instruction intake, standards, prompts and document manifest are synchronized or checked.
+# Purpose: Compatibility entrypoint for safe module-owned Blueprint input synchronization.
+# Safety: Mutates only module-local snapshots; never pulls or writes Blueprint.
+# Inputs: Same as module-sync.
+# Result: Delegates to module-sync.
 .PHONY: blueprint-sync
 blueprint-sync:
-	$(MAKE) blueprint-pull
-	$(MAKE) blueprint-check
-	$(MAKE) blueprint-sync-directives
-	$(MAKE) blueprint-instruction
-	$(MAKE) blueprint-standards
-	$(MAKE) blueprint-prompts
-	$(MAKE) document-manifest
+	$(MAKE) module-sync
 
 # =============================================================================
 # 03 Blueprint repository synchronization FINISH
@@ -250,30 +330,38 @@ blueprint-sync:
 # 04 Blueprint instruction intake START
 # =============================================================================
 
-# Purpose: list Blueprint instruction intake sources.
-# Result: operator can see instruction files relevant to module work.
+# Purpose: List Blueprint instruction source files.
+# Safety: Read-only.
+# Inputs: Readable Blueprint instruction intake directory.
+# Result: Files are printed in stable order.
 .PHONY: blueprint-instruction-list
 blueprint-instruction-list:
 	@find "$(BLUEPRINT_ROOT)/coordination/instruction_intake" -maxdepth 1 -type f | sort
 
-# Purpose: verify Blueprint instruction intake sources.
-# Result: required instruction intake files are readable.
+# Purpose: Verify required Blueprint instruction files are readable.
+# Safety: Read-only; no Blueprint executable.
+# Inputs: BLUEPRINT_ROOT.
+# Result: Required instruction files exist.
 .PHONY: blueprint-instruction-check
 blueprint-instruction-check:
-	@test -f "$(BLUEPRINT_ROOT)/coordination/instruction_intake/assistant_reading_order.md"
-	@test -f "$(BLUEPRINT_ROOT)/coordination/instruction_intake/instruction_sources.yaml"
-	@test -f "$(BLUEPRINT_ROOT)/coordination/instruction_intake/module_profile_model.md"
-	@test -f "$(BLUEPRINT_ROOT)/coordination/instruction_intake/default_profile_traits.yaml"
-	@echo "$(COLOR_GREEN)Blueprint instruction intake is readable.$(COLOR_RESET)"
+	$(call require_file,$(BLUEPRINT_ROOT)/coordination/instruction_intake/assistant_reading_order.md)
+	$(call require_file,$(BLUEPRINT_ROOT)/coordination/instruction_intake/instruction_sources.yaml)
+	$(call require_file,$(BLUEPRINT_ROOT)/coordination/instruction_intake/module_profile_model.md)
+	$(call require_file,$(BLUEPRINT_ROOT)/coordination/instruction_intake/default_profile_traits.yaml)
 
-# Purpose: synchronize Blueprint instruction intake snapshot.
-# Result: local module instruction packet is refreshed or safely deferred.
+# Purpose: Synchronize instruction intake into module-local snapshots.
+# Safety: Module-only mutation through MODULE_SYNC_SCRIPT.
+# Inputs: MODULE_SYNC_SCRIPT.
+# Result: Instruction snapshot is updated locally.
 .PHONY: blueprint-instruction-sync
 blueprint-instruction-sync:
-	@echo "$(COLOR_YELLOW)DEFERRED: implement module-specific instruction packet sync.$(COLOR_RESET)"
+	$(call require_module_script,$(MODULE_SYNC_SCRIPT))
+	"$(PYTHON)" "$(MODULE_SYNC_SCRIPT)" --module-root "$(MODULE_ROOT)" --blueprint-root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --scope instructions
 
-# Purpose: run complete instruction intake workflow.
-# Result: instruction sources are listed, checked, and synchronized.
+# Purpose: Run instruction list/check/sync in explicit order.
+# Safety: Mutates only module-local snapshots in the final sync step.
+# Inputs: Blueprint instruction source and MODULE_SYNC_SCRIPT.
+# Result: Instruction workflow completes.
 .PHONY: blueprint-instruction
 blueprint-instruction:
 	$(MAKE) blueprint-instruction-list
@@ -289,30 +377,37 @@ blueprint-instruction:
 # 05 Blueprint standards and policies START
 # =============================================================================
 
-# Purpose: list Blueprint standards.
-# Result: operator can see available standard documents.
+# Purpose: List Blueprint standards.
+# Safety: Read-only.
+# Inputs: Readable Blueprint standards directory.
+# Result: Files are printed in stable order.
 .PHONY: blueprint-standards-list
 blueprint-standards-list:
-	@find "$(BLUEPRINT_ROOT)/coordination/standards" -maxdepth 2 -type f | sort
+	@find "$(BLUEPRINT_ROOT)/coordination/standards" -maxdepth 3 -type f | sort
 
-# Purpose: verify Blueprint standards are readable.
-# Result: standards index and standard documents are readable.
+# Purpose: Verify required Blueprint standards are readable.
+# Safety: Read-only.
+# Inputs: BLUEPRINT_ROOT.
+# Result: Core standards and indexes exist.
 .PHONY: blueprint-standards-check
 blueprint-standards-check:
-	@test -f "$(BLUEPRINT_ROOT)/coordination/standards/index.yaml"
-	@test -f "$(BLUEPRINT_ROOT)/coordination/standards/make_command_standard.md"
-	@test -d "$(BLUEPRINT_ROOT)/coordination/standards/modular_topology_and_resilience"
-	@test -d "$(BLUEPRINT_ROOT)/coordination/standards/third_party_reuse"
-	@echo "$(COLOR_GREEN)Blueprint standards are readable.$(COLOR_RESET)"
+	$(call require_file,$(BLUEPRINT_ROOT)/coordination/standards/index.yaml)
+	$(call require_dir,$(BLUEPRINT_ROOT)/coordination/standards/modular_topology_and_resilience)
+	$(call require_dir,$(BLUEPRINT_ROOT)/coordination/standards/third_party_reuse)
 
-# Purpose: synchronize Blueprint standards snapshot.
-# Result: local module standards snapshot is refreshed or safely deferred.
+# Purpose: Synchronize standards into module-local snapshots.
+# Safety: Module-only mutation through MODULE_SYNC_SCRIPT.
+# Inputs: MODULE_SYNC_SCRIPT.
+# Result: Standards snapshot is updated locally.
 .PHONY: blueprint-standards-sync
 blueprint-standards-sync:
-	@echo "$(COLOR_YELLOW)DEFERRED: implement module-specific standards snapshot sync.$(COLOR_RESET)"
+	$(call require_module_script,$(MODULE_SYNC_SCRIPT))
+	"$(PYTHON)" "$(MODULE_SYNC_SCRIPT)" --module-root "$(MODULE_ROOT)" --blueprint-root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --scope standards
 
-# Purpose: run complete standards workflow.
-# Result: standards are listed, checked, and synchronized.
+# Purpose: Run standards list/check/sync.
+# Safety: Mutates only module-local snapshots in the final sync step.
+# Inputs: Blueprint standards and MODULE_SYNC_SCRIPT.
+# Result: Standards workflow completes.
 .PHONY: blueprint-standards
 blueprint-standards:
 	$(MAKE) blueprint-standards-list
@@ -328,35 +423,37 @@ blueprint-standards:
 # 06 Blueprint outgoing prompts / prompt queue START
 # =============================================================================
 
-# Purpose: list active Blueprint outgoing prompts for this module.
-# Result: prompt files approved for module work are printed.
+# Purpose: List approved Blueprint prompts for this module.
+# Safety: Read-only.
+# Inputs: ACTIVE_PROMPT_DIR.
+# Result: Approved prompt files are printed.
 .PHONY: blueprint-prompts-list
 blueprint-prompts-list:
-	@test -d "$(ACTIVE_PROMPT_DIR)" || \
-		(echo "$(COLOR_RED)Missing active prompt directory: $(ACTIVE_PROMPT_DIR)$(COLOR_RESET)"; exit 1)
+	$(call require_dir,$(ACTIVE_PROMPT_DIR))
 	@find "$(ACTIVE_PROMPT_DIR)" -maxdepth 1 -type f -name "*.md" | sort
 
-# Purpose: verify active Blueprint outgoing prompts are readable.
-# Result: at least one approved prompt markdown file exists.
+# Purpose: Verify the module has readable approved prompts.
+# Safety: Read-only.
+# Inputs: ACTIVE_PROMPT_DIR.
+# Result: At least one approved prompt exists.
 .PHONY: blueprint-prompts-check
 blueprint-prompts-check:
-	@test -d "$(ACTIVE_PROMPT_DIR)"
-	@test -n "$$(find "$(ACTIVE_PROMPT_DIR)" -maxdepth 1 -type f -name '*.md' -print -quit)"
-	@echo "$(COLOR_GREEN)Blueprint outgoing prompts are readable for $(MODULE_ID).$(COLOR_RESET)"
+	$(call require_dir,$(ACTIVE_PROMPT_DIR))
+	@test -n "$$(find "$(ACTIVE_PROMPT_DIR)" -maxdepth 1 -type f -name '*.md' -print -quit)" || { echo "FAILED: no approved prompts for $(MODULE_ID)."; exit 2; }
 
-# Purpose: synchronize active Blueprint outgoing prompts into the module-local coordination area.
-# Result: approved prompt files are copied into coordination/prompts/received.
+# Purpose: Synchronize approved prompts into module-local snapshots.
+# Safety: Module-only mutation through MODULE_SYNC_SCRIPT.
+# Inputs: MODULE_SYNC_SCRIPT.
+# Result: Prompt snapshots are updated locally.
 .PHONY: blueprint-prompts-sync
 blueprint-prompts-sync:
-	@mkdir -p "$(LOCAL_PROMPTS_DIR)"
-	@test -n "$$(find "$(ACTIVE_PROMPT_DIR)" -maxdepth 1 -type f -name '*.md' -print -quit)" || \
-		(echo "$(COLOR_RED)No active prompt files found in $(ACTIVE_PROMPT_DIR)$(COLOR_RESET)"; exit 1)
-	@find "$(LOCAL_PROMPTS_DIR)" -maxdepth 1 -type f -name "*.md" -delete
-	@cp "$(ACTIVE_PROMPT_DIR)"/*.md "$(LOCAL_PROMPTS_DIR)/"
-	@echo "$(COLOR_GREEN)Blueprint outgoing prompts synced to $(LOCAL_PROMPTS_DIR).$(COLOR_RESET)"
+	$(call require_module_script,$(MODULE_SYNC_SCRIPT))
+	"$(PYTHON)" "$(MODULE_SYNC_SCRIPT)" --module-root "$(MODULE_ROOT)" --blueprint-root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --scope prompts
 
-# Purpose: run complete Blueprint outgoing prompt workflow.
-# Result: prompts are listed, checked, synchronized and prompt queue dashboard is rendered.
+# Purpose: Run prompt list/check/sync and local queue validation.
+# Safety: Mutates only module-local snapshots during sync.
+# Inputs: Prompt source, MODULE_SYNC_SCRIPT, MODULE_PROMPT_CLI.
+# Result: Prompt workflow completes.
 .PHONY: blueprint-prompts
 blueprint-prompts:
 	$(MAKE) blueprint-prompts-list
@@ -365,49 +462,51 @@ blueprint-prompts:
 	$(MAKE) prompt-queue-validate
 	$(MAKE) prompt-dashboard
 
-# Purpose: show the active synced prompt for legacy/non-migrated modules.
-# Result: active local synced prompt is printed to console.
+
+# Purpose: Read the current local synchronized prompt.
+# Safety: Read-only; module-owned executable only.
+# Inputs: MODULE_PROMPT_CLI
+# Result: Requested information is printed.
 .PHONY: prompt-read
 prompt-read:
-	@test -n "$$(find "$(LOCAL_PROMPTS_DIR)" -maxdepth 1 -type f -name '*.md' -print -quit)" || \
-		(echo "$(COLOR_RED)No local prompt found. Run make blueprint-prompts-sync first.$(COLOR_RESET)"; exit 1)
-	@sed -n '1,260p' "$$(find "$(LOCAL_PROMPTS_DIR)" -maxdepth 1 -type f -name '*.md' | sort | head -n 1)"
+	$(call require_module_script,$(MODULE_PROMPT_CLI))
+	"$(PYTHON)" "$(MODULE_PROMPT_CLI)" --module-root "$(MODULE_ROOT)" --module "$(MODULE_ID)" read-current
 
-# Purpose: validate Blueprint Prompt Queue v0.2 indexes.
-# Result: prompt queue indexes are valid or legacy indexes are clearly skipped.
+# Purpose: Validate the local synchronized prompt queue.
+# Safety: Read-only; module-owned executable only.
+# Inputs: MODULE_PROMPT_CLI
+# Result: Requested information is printed.
 .PHONY: prompt-queue-validate
 prompt-queue-validate:
-	@if [ -x "$(BLUEPRINT_PYTHON)" ] && [ -f "$(BLUEPRINT_PROMPT_QUEUE_VALIDATOR)" ]; then \
-		"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_PROMPT_QUEUE_VALIDATOR)" --root "$(BLUEPRINT_ROOT)"; \
-	else \
-		echo "$(COLOR_YELLOW)DEFERRED: Blueprint Prompt Queue validator is not available yet.$(COLOR_RESET)"; \
-	fi
+	$(call require_module_script,$(MODULE_PROMPT_CLI))
+	"$(PYTHON)" "$(MODULE_PROMPT_CLI)" --module-root "$(MODULE_ROOT)" --module "$(MODULE_ID)" validate
 
-# Purpose: render the Blueprint prompt queue dashboard for this module.
-# Result: operator can see prompt order, execution state, Blueprint review state and next prompt.
+# Purpose: Render local prompt queue status.
+# Safety: Read-only; module-owned executable only.
+# Inputs: MODULE_PROMPT_CLI
+# Result: Requested information is printed.
 .PHONY: prompt-dashboard
 prompt-dashboard:
-	@if [ -x "$(BLUEPRINT_PYTHON)" ] && [ -f "$(BLUEPRINT_PROMPT_DASHBOARD_RENDERER)" ]; then \
-		if [ "$(NO_COLOR)" = "1" ]; then \
-			"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_PROMPT_DASHBOARD_RENDERER)" --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --no-color; \
-		else \
-			"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_PROMPT_DASHBOARD_RENDERER)" --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)"; \
-		fi; \
-	else \
-		echo "$(COLOR_YELLOW)DEFERRED: Blueprint Prompt Queue dashboard renderer is not available yet.$(COLOR_RESET)"; \
-	fi
+	$(call require_module_script,$(MODULE_PROMPT_CLI))
+	"$(PYTHON)" "$(MODULE_PROMPT_CLI)" --module-root "$(MODULE_ROOT)" --module "$(MODULE_ID)" dashboard
 
-# Purpose: resolve the next ready Blueprint prompt for this module.
-# Result: prints the next prompt metadata and path or fails if the module is not migrated/has no ready prompt.
+# Purpose: Resolve the next local synchronized prompt.
+# Safety: Read-only; module-owned executable only.
+# Inputs: MODULE_PROMPT_CLI
+# Result: Requested information is printed.
 .PHONY: prompt-next
 prompt-next:
-	"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_NEXT_PROMPT_RESOLVER)" --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)"
+	$(call require_module_script,$(MODULE_PROMPT_CLI))
+	"$(PYTHON)" "$(MODULE_PROMPT_CLI)" --module-root "$(MODULE_ROOT)" --module "$(MODULE_ID)" next
 
-# Purpose: read the next ready Blueprint prompt for this module.
-# Result: prints next prompt metadata and prompt file content.
+# Purpose: Read the next local synchronized prompt.
+# Safety: Read-only; module-owned executable only.
+# Inputs: MODULE_PROMPT_CLI
+# Result: Requested information is printed.
 .PHONY: prompt-read-next
 prompt-read-next:
-	"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_NEXT_PROMPT_RESOLVER)" --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --read
+	$(call require_module_script,$(MODULE_PROMPT_CLI))
+	"$(PYTHON)" "$(MODULE_PROMPT_CLI)" --module-root "$(MODULE_ROOT)" --module "$(MODULE_ID)" read-next
 
 # =============================================================================
 # 06 Blueprint outgoing prompts / prompt queue FINISH
@@ -418,110 +517,77 @@ prompt-read-next:
 # 07 Blueprint document awareness START
 # =============================================================================
 
-# Purpose: build and validate the Blueprint coordination document manifest without writing reports.
-# Result: document manifest summary is printed or deferral is reported.
+# Purpose: Validate and print document manifest without writes.
+# Safety: Read-only; module-owned executable only.
+# Inputs: MODULE_DOCUMENT_CLI
+# Result: Requested information is printed.
 .PHONY: document-manifest
 document-manifest:
-	@if [ -x "$(BLUEPRINT_PYTHON)" ] && [ -f "$(BLUEPRINT_DOCUMENT_MANIFEST_BUILDER)" ]; then \
-		"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_DOCUMENT_MANIFEST_BUILDER)" --root "$(BLUEPRINT_ROOT)" --no-write; \
-	else \
-		echo "$(COLOR_YELLOW)DEFERRED: Blueprint document manifest builder is not available yet.$(COLOR_RESET)"; \
-	fi
+	$(call require_module_script,$(MODULE_DOCUMENT_CLI))
+	"$(PYTHON)" "$(MODULE_DOCUMENT_CLI)" --module-root "$(MODULE_ROOT)" --module "$(MODULE_ID)" manifest --no-write
 
-# Purpose: build and write the Blueprint coordination document manifest reports.
-# Result: generated manifest reports are written by explicit operator request.
+# Purpose: Write module-local document manifest.
+# Safety: Mutates module-local generated manifest only.
+# Inputs: MODULE_DOCUMENT_CLI
+# Result: Module-local manifest is written.
 .PHONY: document-manifest-write
 document-manifest-write:
-	@if [ -x "$(BLUEPRINT_PYTHON)" ] && [ -f "$(BLUEPRINT_DOCUMENT_MANIFEST_BUILDER)" ]; then \
-		"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_DOCUMENT_MANIFEST_BUILDER)" --root "$(BLUEPRINT_ROOT)"; \
-	else \
-		echo "$(COLOR_YELLOW)DEFERRED: Blueprint document manifest builder is not available yet.$(COLOR_RESET)"; \
-	fi
+	$(call require_module_script,$(MODULE_DOCUMENT_CLI))
+	"$(PYTHON)" "$(MODULE_DOCUMENT_CLI)" --module-root "$(MODULE_ROOT)" --module "$(MODULE_ID)" manifest --write
 
-# Purpose: render the Blueprint coordination document awareness dashboard for this module.
-# Result: operator can see new, changed, in-progress, applied and deferred coordination documents.
+# Purpose: Render module-local Blueprint document awareness.
+# Safety: Read-only; module-owned executable only.
+# Inputs: MODULE_DOCUMENT_CLI
+# Result: Requested information is printed.
 .PHONY: document-awareness
 document-awareness:
-	@if [ -x "$(BLUEPRINT_PYTHON)" ] && [ -f "$(BLUEPRINT_DOCUMENT_AWARENESS_DASHBOARD)" ]; then \
-		if [ "$(NO_COLOR)" = "1" ]; then \
-			"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_DOCUMENT_AWARENESS_DASHBOARD)" --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --ledger "$(MODULE_DOCUMENT_AWARENESS_LEDGER)" --limit "$(LIMIT)" --no-color; \
-		else \
-			"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_DOCUMENT_AWARENESS_DASHBOARD)" --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --ledger "$(MODULE_DOCUMENT_AWARENESS_LEDGER)" --limit "$(LIMIT)"; \
-		fi; \
-	else \
-		echo "$(COLOR_YELLOW)DEFERRED: Blueprint document awareness dashboard is not available yet.$(COLOR_RESET)"; \
-	fi
+	$(call require_module_script,$(MODULE_DOCUMENT_CLI))
+	"$(PYTHON)" "$(MODULE_DOCUMENT_CLI)" --module-root "$(MODULE_ROOT)" --module "$(MODULE_ID)" awareness --ledger "$(MODULE_DOCUMENT_AWARENESS_LEDGER)" --limit "$(LIMIT)"
 
-# Purpose: build a module coordination context bundle without writing generated files.
-# Result: bundle summary is printed; no generated bundle file is written.
+# Purpose: Build context bundle without writing.
+# Safety: Read-only; module-owned executable only.
+# Inputs: MODULE_DOCUMENT_CLI
+# Result: Requested information is printed.
 .PHONY: context-bundle
 context-bundle:
-	@if [ -x "$(BLUEPRINT_PYTHON)" ] && [ -f "$(BLUEPRINT_CONTEXT_BUNDLE_BUILDER)" ]; then \
-		"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_CONTEXT_BUNDLE_BUILDER)" --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --ledger "$(MODULE_DOCUMENT_AWARENESS_LEDGER)" --scope "$(SCOPE)" --limit "$(LIMIT)" --no-write; \
-	else \
-		echo "$(COLOR_YELLOW)DEFERRED: Blueprint context bundle builder is not available yet.$(COLOR_RESET)"; \
-	fi
+	$(call require_module_script,$(MODULE_DOCUMENT_CLI))
+	"$(PYTHON)" "$(MODULE_DOCUMENT_CLI)" --module-root "$(MODULE_ROOT)" --module "$(MODULE_ID)" context-bundle --scope "$(SCOPE)" --limit "$(LIMIT)" --no-write
 
-# Purpose: build and write a module coordination context bundle.
-# Result: generated bundle file is written by explicit operator request.
+# Purpose: Write a module-local context bundle.
+# Safety: Mutates module-local generated context bundle only.
+# Inputs: MODULE_DOCUMENT_CLI
+# Result: Module-local bundle is written.
 .PHONY: context-bundle-write
 context-bundle-write:
-	@if [ -x "$(BLUEPRINT_PYTHON)" ] && [ -f "$(BLUEPRINT_CONTEXT_BUNDLE_BUILDER)" ]; then \
-		"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_CONTEXT_BUNDLE_BUILDER)" --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --ledger "$(MODULE_DOCUMENT_AWARENESS_LEDGER)" --scope "$(SCOPE)" --limit "$(LIMIT)"; \
-	else \
-		echo "$(COLOR_YELLOW)DEFERRED: Blueprint context bundle builder is not available yet.$(COLOR_RESET)"; \
-	fi
+	$(call require_module_script,$(MODULE_DOCUMENT_CLI))
+	"$(PYTHON)" "$(MODULE_DOCUMENT_CLI)" --module-root "$(MODULE_ROOT)" --module "$(MODULE_ID)" context-bundle --scope "$(SCOPE)" --limit "$(LIMIT)" --write
 
-# Purpose: print a module coordination context bundle to stdout.
-# Result: bundle content is printed for copy/paste into an assistant chat.
+# Purpose: Print a context bundle to stdout.
+# Safety: Read-only; module-owned executable only.
+# Inputs: MODULE_DOCUMENT_CLI
+# Result: Requested information is printed.
 .PHONY: context-bundle-print
 context-bundle-print:
-	@if [ -x "$(BLUEPRINT_PYTHON)" ] && [ -f "$(BLUEPRINT_CONTEXT_BUNDLE_BUILDER)" ]; then \
-		"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_CONTEXT_BUNDLE_BUILDER)" --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --ledger "$(MODULE_DOCUMENT_AWARENESS_LEDGER)" --scope "$(SCOPE)" --limit "$(LIMIT)" --print; \
-	else \
-		echo "$(COLOR_YELLOW)DEFERRED: Blueprint context bundle builder is not available yet.$(COLOR_RESET)"; \
-	fi
+	$(call require_module_script,$(MODULE_DOCUMENT_CLI))
+	"$(PYTHON)" "$(MODULE_DOCUMENT_CLI)" --module-root "$(MODULE_ROOT)" --module "$(MODULE_ID)" context-bundle --scope "$(SCOPE)" --limit "$(LIMIT)" --print
 
-# Purpose: preview an update to the module-local document awareness ledger.
-# Result: selected documents and hashes are shown, but the ledger file is not changed.
+# Purpose: Preview document ledger changes.
+# Safety: Read-only; module-owned executable only.
+# Inputs: At least one of DOCUMENT, SOURCE, PRIORITY and MODULE_DOCUMENT_CLI.
+# Result: Ledger change plan is printed.
 .PHONY: document-ledger-preview
 document-ledger-preview:
-	@if [ -x "$(BLUEPRINT_PYTHON)" ] && [ -f "$(BLUEPRINT_DOCUMENT_AWARENESS_LEDGER_UPDATER)" ]; then \
-		if [ -z "$(DOCUMENT)$(SOURCE)$(PRIORITY)" ]; then \
-			echo "$(COLOR_RED)FAILED: provide DOCUMENT=..., SOURCE=..., or PRIORITY=...$(COLOR_RESET)"; \
-			exit 1; \
-		fi; \
-		set -- --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --ledger "$(MODULE_DOCUMENT_AWARENESS_LEDGER)" --status "$(STATUS)"; \
-		if [ -n "$(DOCUMENT)" ]; then set -- "$$@" --document "$(DOCUMENT)"; fi; \
-		if [ -n "$(SOURCE)" ]; then set -- "$$@" --source "$(SOURCE)"; fi; \
-		if [ -n "$(PRIORITY)" ]; then set -- "$$@" --priority "$(PRIORITY)"; fi; \
-		if [ -n "$(NOTES)" ]; then set -- "$$@" --notes "$(NOTES)"; fi; \
-		if [ -n "$(MODULE_COMMIT)" ]; then set -- "$$@" --module-commit "$(MODULE_COMMIT)"; fi; \
-		set -- "$$@" --no-write; \
-		"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_DOCUMENT_AWARENESS_LEDGER_UPDATER)" "$$@"; \
-	else \
-		echo "$(COLOR_YELLOW)DEFERRED: Blueprint document awareness ledger updater is not available yet.$(COLOR_RESET)"; \
-	fi
+	$(call require_module_script,$(MODULE_DOCUMENT_CLI))
+	@set -eu; if [ -z "$(DOCUMENT)$(SOURCE)$(PRIORITY)" ]; then echo "FAILED: provide DOCUMENT=..., SOURCE=..., or PRIORITY=..."; exit 2; fi; set -- --module-root "$(MODULE_ROOT)" --module "$(MODULE_ID)" ledger --ledger "$(MODULE_DOCUMENT_AWARENESS_LEDGER)" --status "$(STATUS)" --no-write; if [ -n "$(DOCUMENT)" ]; then set -- "$$@" --document "$(DOCUMENT)"; fi; if [ -n "$(SOURCE)" ]; then set -- "$$@" --source "$(SOURCE)"; fi; if [ -n "$(PRIORITY)" ]; then set -- "$$@" --priority "$(PRIORITY)"; fi; if [ -n "$(NOTES)" ]; then set -- "$$@" --notes "$(NOTES)"; fi; if [ -n "$(MODULE_COMMIT)" ]; then set -- "$$@" --module-commit "$(MODULE_COMMIT)"; fi; "$(PYTHON)" "$(MODULE_DOCUMENT_CLI)" "$$@"
 
-# Purpose: update the module-local document awareness ledger with current Blueprint document hashes.
-# Result: selected documents are written to the local ledger with the requested review status.
+# Purpose: Apply document ledger changes.
+# Safety: Mutates only the module-local ledger.
+# Inputs: At least one of DOCUMENT, SOURCE, PRIORITY and MODULE_DOCUMENT_CLI.
+# Result: Selected ledger entries are updated.
 .PHONY: document-ledger-update
 document-ledger-update:
-	@if [ -x "$(BLUEPRINT_PYTHON)" ] && [ -f "$(BLUEPRINT_DOCUMENT_AWARENESS_LEDGER_UPDATER)" ]; then \
-		if [ -z "$(DOCUMENT)$(SOURCE)$(PRIORITY)" ]; then \
-			echo "$(COLOR_RED)FAILED: provide DOCUMENT=..., SOURCE=..., or PRIORITY=...$(COLOR_RESET)"; \
-			exit 1; \
-		fi; \
-		set -- --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --ledger "$(MODULE_DOCUMENT_AWARENESS_LEDGER)" --status "$(STATUS)"; \
-		if [ -n "$(DOCUMENT)" ]; then set -- "$$@" --document "$(DOCUMENT)"; fi; \
-		if [ -n "$(SOURCE)" ]; then set -- "$$@" --source "$(SOURCE)"; fi; \
-		if [ -n "$(PRIORITY)" ]; then set -- "$$@" --priority "$(PRIORITY)"; fi; \
-		if [ -n "$(NOTES)" ]; then set -- "$$@" --notes "$(NOTES)"; fi; \
-		if [ -n "$(MODULE_COMMIT)" ]; then set -- "$$@" --module-commit "$(MODULE_COMMIT)"; fi; \
-		"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_DOCUMENT_AWARENESS_LEDGER_UPDATER)" "$$@"; \
-	else \
-		echo "$(COLOR_YELLOW)DEFERRED: Blueprint document awareness ledger updater is not available yet.$(COLOR_RESET)"; \
-	fi
+	$(call require_module_script,$(MODULE_DOCUMENT_CLI))
+	@set -eu; if [ -z "$(DOCUMENT)$(SOURCE)$(PRIORITY)" ]; then echo "FAILED: provide DOCUMENT=..., SOURCE=..., or PRIORITY=..."; exit 2; fi; set -- --module-root "$(MODULE_ROOT)" --module "$(MODULE_ID)" ledger --ledger "$(MODULE_DOCUMENT_AWARENESS_LEDGER)" --status "$(STATUS)" --write; if [ -n "$(DOCUMENT)" ]; then set -- "$$@" --document "$(DOCUMENT)"; fi; if [ -n "$(SOURCE)" ]; then set -- "$$@" --source "$(SOURCE)"; fi; if [ -n "$(PRIORITY)" ]; then set -- "$$@" --priority "$(PRIORITY)"; fi; if [ -n "$(NOTES)" ]; then set -- "$$@" --notes "$(NOTES)"; fi; if [ -n "$(MODULE_COMMIT)" ]; then set -- "$$@" --module-commit "$(MODULE_COMMIT)"; fi; "$(PYTHON)" "$(MODULE_DOCUMENT_CLI)" "$$@"
 
 # =============================================================================
 # 07 Blueprint document awareness FINISH
@@ -532,60 +598,51 @@ document-ledger-update:
 # 08 Module coordination metadata START
 # =============================================================================
 
-# Purpose: validate module coordination metadata.
-# Result: required coordination files exist and metadata checks pass.
-.PHONY: coordination-check
-coordination-check:
-	@test -f "$(COORDINATION_DIR)/status/current_status.yaml"
-	@test -f "$(COORDINATION_DIR)/reports/index.yaml"
-	@test -f "$(COORDINATION_DIR)/prompts/index.yaml"
-	@echo "$(COLOR_GREEN)Coordination files exist.$(COLOR_RESET)"
-
-# Purpose: safely fix simple coordination metadata issues.
-# Result: simple metadata repairs run or clearly report deferral.
-.PHONY: coordination-fix
-coordination-fix:
-	@echo "$(COLOR_YELLOW)DEFERRED: automatic coordination fix is not implemented for $(MODULE_ID).$(COLOR_RESET)"
-
-# Purpose: validate the module development roadmap when available.
-# Result: roadmap is valid or documented deferral is printed.
+# Purpose: Validate the module-local synchronized roadmap.
+# Safety: Read-only; module-owned executable only.
+# Inputs: MODULE_ROADMAP_CLI
+# Result: Requested information is printed.
 .PHONY: roadmap-validate
 roadmap-validate:
-	@if [ -x "$(BLUEPRINT_PYTHON)" ] && [ -f "$(BLUEPRINT_MODULE_ROADMAP_VALIDATOR)" ]; then \
-		if [ -n "$(ROADMAP)" ]; then \
-			"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_MODULE_ROADMAP_VALIDATOR)" --root "$(BLUEPRINT_ROOT)" --roadmap "$(ROADMAP)"; \
-		else \
-			"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_MODULE_ROADMAP_VALIDATOR)" --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)"; \
-		fi; \
-	else \
-		echo "$(COLOR_YELLOW)DEFERRED: Blueprint module roadmap validator is not available yet.$(COLOR_RESET)"; \
-	fi
+	$(call require_module_script,$(MODULE_ROADMAP_CLI))
+	"$(PYTHON)" "$(MODULE_ROADMAP_CLI)" --module-root "$(MODULE_ROOT)" --module "$(MODULE_ID)" validate
 
-# Purpose: render the module development roadmap dashboard when available.
-# Result: roadmap dashboard is printed or documented deferral is printed.
+# Purpose: Dashboard the module-local synchronized roadmap.
+# Safety: Read-only; module-owned executable only.
+# Inputs: MODULE_ROADMAP_CLI
+# Result: Requested information is printed.
 .PHONY: roadmap-dashboard
 roadmap-dashboard:
-	@if [ -x "$(BLUEPRINT_PYTHON)" ] && [ -f "$(BLUEPRINT_MODULE_ROADMAP_DASHBOARD)" ]; then \
-		if [ -n "$(MODULES)" ]; then \
-			"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_MODULE_ROADMAP_DASHBOARD)" --root "$(BLUEPRINT_ROOT)" --modules "$(MODULES)" --before-current "$(BEFORE_CURRENT)" --after-current "$(AFTER_CURRENT)" $(if $(filter 1,$(NO_COLOR)),--no-color,); \
-		elif [ -n "$(ROADMAP)" ]; then \
-			"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_MODULE_ROADMAP_DASHBOARD)" --root "$(BLUEPRINT_ROOT)" --roadmap "$(ROADMAP)" --before-current "$(BEFORE_CURRENT)" --after-current "$(AFTER_CURRENT)" $(if $(filter 1,$(NO_COLOR)),--no-color,); \
-		else \
-			"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_MODULE_ROADMAP_DASHBOARD)" --root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --before-current "$(BEFORE_CURRENT)" --after-current "$(AFTER_CURRENT)" $(if $(filter 1,$(NO_COLOR)),--no-color,); \
-		fi; \
-	else \
-		echo "$(COLOR_YELLOW)DEFERRED: Blueprint module roadmap dashboard is not available yet.$(COLOR_RESET)"; \
-	fi
+	$(call require_module_script,$(MODULE_ROADMAP_CLI))
+	"$(PYTHON)" "$(MODULE_ROADMAP_CLI)" --module-root "$(MODULE_ROOT)" --module "$(MODULE_ID)" dashboard --before-current "$(BEFORE_CURRENT)" --after-current "$(AFTER_CURRENT)"
 
-# Purpose: render a compact module roadmap summary for one or more modules.
-# Result: roadmap comparison summary is printed or documented deferral is printed.
+# Purpose: Summary the module-local synchronized roadmap.
+# Safety: Read-only; module-owned executable only.
+# Inputs: MODULE_ROADMAP_CLI
+# Result: Requested information is printed.
 .PHONY: roadmap-summary
 roadmap-summary:
-	@if [ -x "$(BLUEPRINT_PYTHON)" ] && [ -f "$(BLUEPRINT_MODULE_ROADMAP_DASHBOARD)" ]; then \
-		"$(BLUEPRINT_PYTHON)" "$(BLUEPRINT_MODULE_ROADMAP_DASHBOARD)" --root "$(BLUEPRINT_ROOT)" --modules "$(ROADMAP_SUMMARY_MODULES)" $(if $(filter 1,$(NO_COLOR)),--no-color,); \
-	else \
-		echo "$(COLOR_YELLOW)DEFERRED: Blueprint module roadmap summary is not available yet.$(COLOR_RESET)"; \
-	fi
+	$(call require_module_script,$(MODULE_ROADMAP_CLI))
+	"$(PYTHON)" "$(MODULE_ROADMAP_CLI)" --module-root "$(MODULE_ROOT)" --module "$(MODULE_ID)" summary --modules "$(ROADMAP_SUMMARY_MODULES)"
+
+
+# Purpose: Validate module-owned coordination metadata.
+# Safety: Read-only; module-owned validator only.
+# Inputs: MODULE_COORDINATION_VALIDATOR.
+# Result: Coordination metadata passes.
+.PHONY: coordination-check
+coordination-check:
+	$(call require_module_script,$(MODULE_COORDINATION_VALIDATOR))
+	"$(PYTHON)" "$(MODULE_COORDINATION_VALIDATOR)" --module-root "$(MODULE_ROOT)" --module "$(MODULE_ID)"
+
+# Purpose: Apply explicitly supported module-local coordination repairs.
+# Safety: Mutates only module coordination files; never Blueprint or Git refs.
+# Inputs: MODULE_COORDINATION_VALIDATOR with fix support.
+# Result: Supported repairs are applied or command fails.
+.PHONY: coordination-fix
+coordination-fix:
+	$(call require_module_script,$(MODULE_COORDINATION_VALIDATOR))
+	"$(PYTHON)" "$(MODULE_COORDINATION_VALIDATOR)" --module-root "$(MODULE_ROOT)" --module "$(MODULE_ID)" --fix
 
 # =============================================================================
 # 08 Module coordination metadata FINISH
@@ -596,20 +653,21 @@ roadmap-summary:
 # 09 Module governance / policy checks START
 # =============================================================================
 
-# Purpose: verify Blueprint module policy is readable.
-# Result: module policy exists and module-specific checks pass.
+# Purpose: Verify Blueprint module policy is readable.
+# Safety: Read-only filesystem check.
+# Inputs: BLUEPRINT_ROOT and MODULE_ID.
+# Result: Module policy exists.
 .PHONY: module-policy-check
 module-policy-check:
-	@test -f "$(BLUEPRINT_ROOT)/coordination/module_policy/$(MODULE_ID)/module_policy.md"
-	@echo "$(COLOR_GREEN)Module policy is readable for $(MODULE_ID).$(COLOR_RESET)"
+	$(call require_file,$(BLUEPRINT_ROOT)/coordination/module_policy/$(MODULE_ID)/module_policy.md)
 
-# Purpose: run the module governance check sequence.
-# Result: governance checks pass or target returns non-zero.
+# Purpose: Run the complete read-only governance sequence.
+# Safety: Read-only; never synchronizes, pulls, fixes, writes reports, or executes Blueprint code.
+# Inputs: Module-owned validators and readable Blueprint source.
+# Result: Governance checks pass.
 .PHONY: governance-check
 governance-check:
-	$(MAKE) blueprint-pull
 	$(MAKE) blueprint-check
-	$(MAKE) blueprint-sync-directives
 	$(MAKE) blueprint-instruction-check
 	$(MAKE) blueprint-standards-check
 	$(MAKE) blueprint-prompts-check
@@ -628,27 +686,21 @@ governance-check:
 # 10 Module install / bootstrap START
 # =============================================================================
 
-# Purpose: install or verify development dependencies.
-# Result: local environment is ready for checks.
+# Purpose: Install module development dependencies.
+# Safety: Mutates only the local Python environment.
+# Inputs: REQUIREMENTS_DEV or PYPROJECT.
+# Result: Development dependencies are installed.
 .PHONY: install
 install:
-		@if [ -f "$(REQUIREMENTS_DEV)" ]; then \
-				echo "$(COLOR_GREEN)Installing development dependencies from $(REQUIREMENTS_DEV).$(COLOR_RESET)"; \
-				"$(PYTHON)" -m pip install --upgrade pip; \
-				"$(PYTHON)" -m pip install -r "$(REQUIREMENTS_DEV)"; \
-		elif [ -f "$(PYPROJECT)" ]; then \
-				echo "$(COLOR_GREEN)Installing editable project from $(PYPROJECT).$(COLOR_RESET)"; \
-				"$(PYTHON)" -m pip install --upgrade pip; \
-				"$(PYTHON)" -m pip install -e ".[dev]"; \
-		else \
-				echo "$(COLOR_YELLOW)DEFERRED: no $(REQUIREMENTS_DEV) or $(PYPROJECT) found for $(MODULE_ID).$(COLOR_RESET)"; \
-		fi
+	@set -eu; if [ -f "$(REQUIREMENTS_DEV)" ]; then "$(PYTHON)" -m pip install --upgrade pip; "$(PYTHON)" -m pip install -r "$(REQUIREMENTS_DEV)"; elif [ -f "$(PYPROJECT)" ]; then "$(PYTHON)" -m pip install --upgrade pip; "$(PYTHON)" -m pip install -e ".[dev]"; else echo "FAILED: neither $(REQUIREMENTS_DEV) nor $(PYPROJECT) exists."; exit 2; fi
 
-# Purpose: run first-time module bootstrap steps when needed.
-# Result: bootstrap is completed or documented deferral is printed.
+# Purpose: Run module-specific first-time bootstrap.
+# Safety: Mutating; must be implemented explicitly per module.
+# Inputs: Module-specific implementation.
+# Result: Fails until implemented.
 .PHONY: bootstrap
 bootstrap:
-	@echo "$(COLOR_YELLOW)DEFERRED: bootstrap workflow is not implemented for $(MODULE_ID).$(COLOR_RESET)"
+	$(call not_implemented)
 
 # =============================================================================
 # 10 Module install / bootstrap FINISH
@@ -659,102 +711,43 @@ bootstrap:
 # 11 Module environment / local configuration START
 # =============================================================================
 
-# Purpose: verify local environment variables, paths and executables.
-# Result: environment is inspectable and basic local paths are present or clearly reported.
+# Purpose: Verify required local executable and repository identity.
+# Safety: Read-only.
+# Inputs: PYTHON, MODULE_ID, MODULE_ROOT.
+# Result: Required environment is usable.
 .PHONY: env-check
 env-check:
-		@echo "$(COLOR_BOLD)== $(MODULE_NAME) environment check ==$(COLOR_RESET)"
-		@echo "MODULE_ID=$(MODULE_ID)"
-		@echo "PYTHON=$(PYTHON)"
-		@if command -v "$(PYTHON)" >/dev/null 2>&1 || [ -x "$(PYTHON)" ]; then \
-				"$(PYTHON)" --version; \
-		else \
-				echo "$(COLOR_YELLOW)WARNING: Python executable is not available: $(PYTHON)$(COLOR_RESET)"; \
-		fi
-		@for path in "$(CONFIG_DIR)" "$(DATA_DIR)" "$(LOGS_DIR)" "$(STATE_DIR)" "$(TMP_DIR)" "$(REPORTS_DIR)"; do \
-				if [ -e "$$path" ]; then \
-						echo "$(COLOR_GREEN)OK: $$path exists.$(COLOR_RESET)"; \
-				else \
-						echo "$(COLOR_YELLOW)WARNING: $$path does not exist yet.$(COLOR_RESET)"; \
-				fi; \
-		done
-		@if [ -f "$(REQUIREMENTS_DEV)" ]; then \
-				echo "$(COLOR_GREEN)OK: $(REQUIREMENTS_DEV) found.$(COLOR_RESET)"; \
-		elif [ -f "$(PYPROJECT)" ]; then \
-				echo "$(COLOR_GREEN)OK: $(PYPROJECT) found.$(COLOR_RESET)"; \
-		else \
-				echo "$(COLOR_YELLOW)WARNING: no $(REQUIREMENTS_DEV) or $(PYPROJECT) found.$(COLOR_RESET)"; \
-		fi
+	@test -n "$(MODULE_ID)" || { echo "FAILED: MODULE_ID is empty."; exit 2; }
+	@test -d "$(MODULE_ROOT)" || { echo "FAILED: MODULE_ROOT does not exist: $(MODULE_ROOT)"; exit 2; }
+	@command -v "$(PYTHON)" >/dev/null 2>&1 || test -x "$(PYTHON)" || { echo "FAILED: Python executable is unavailable: $(PYTHON)"; exit 2; }
+	@"$(PYTHON)" --version
 
-# Purpose: verify local development tooling without modifying files.
-# Result: required Python tooling is available or actionable warnings are printed.
+# Purpose: Verify mandatory Python validation tools.
+# Safety: Read-only.
+# Inputs: PYTHON.
+# Result: ruff, pytest, and PyYAML are available.
 .PHONY: tooling-check
 tooling-check:
-		@echo "$(COLOR_BOLD)== $(MODULE_NAME) tooling check ==$(COLOR_RESET)"
-		@if command -v "$(PYTHON)" >/dev/null 2>&1 || [ -x "$(PYTHON)" ]; then \
-				"$(PYTHON)" -m ruff --version >/dev/null 2>&1 && \
-						echo "$(COLOR_GREEN)OK: ruff is available.$(COLOR_RESET)" || \
-						echo "$(COLOR_YELLOW)WARNING: ruff is not available for $(PYTHON).$(COLOR_RESET)"; \
-				"$(PYTHON)" -m pytest --version >/dev/null 2>&1 && \
-						echo "$(COLOR_GREEN)OK: pytest is available.$(COLOR_RESET)" || \
-						echo "$(COLOR_YELLOW)WARNING: pytest is not available for $(PYTHON).$(COLOR_RESET)"; \
-				"$(PYTHON)" -c "import yaml" >/dev/null 2>&1 && \
-						echo "$(COLOR_GREEN)OK: PyYAML is available.$(COLOR_RESET)" || \
-						echo "$(COLOR_YELLOW)WARNING: PyYAML is not available for $(PYTHON).$(COLOR_RESET)"; \
-		else \
-				echo "$(COLOR_YELLOW)WARNING: Python executable is not available: $(PYTHON)$(COLOR_RESET)"; \
-		fi
+	@"$(PYTHON)" -m ruff --version >/dev/null
+	@"$(PYTHON)" -m pytest --version >/dev/null
+	@"$(PYTHON)" -c "import yaml"
 
-# Purpose: verify local configuration files.
-# Result: configuration templates are readable or documented warnings are printed.
+# Purpose: Verify required project configuration entrypoints.
+# Safety: Read-only.
+# Inputs: PYPROJECT or REQUIREMENTS_DEV.
+# Result: At least one supported dependency definition exists.
 .PHONY: config-check
 config-check:
-		@echo "$(COLOR_BOLD)== $(MODULE_NAME) configuration check ==$(COLOR_RESET)"
-		@if [ -d "$(CONFIG_DIR)" ]; then \
-				echo "$(COLOR_GREEN)OK: $(CONFIG_DIR) directory exists.$(COLOR_RESET)"; \
-		else \
-				echo "$(COLOR_YELLOW)WARNING: $(CONFIG_DIR) directory does not exist yet.$(COLOR_RESET)"; \
-		fi
-		@if [ -f "$(ENV_EXAMPLE)" ]; then \
-				echo "$(COLOR_GREEN)OK: $(ENV_EXAMPLE) exists.$(COLOR_RESET)"; \
-		else \
-				echo "$(COLOR_YELLOW)WARNING: $(ENV_EXAMPLE) is not present yet.$(COLOR_RESET)"; \
-		fi
-		@if [ -f "$(TOOLING_MANIFEST)" ]; then \
-				echo "$(COLOR_GREEN)OK: $(TOOLING_MANIFEST) exists.$(COLOR_RESET)"; \
-		else \
-				echo "$(COLOR_YELLOW)WARNING: $(TOOLING_MANIFEST) is not present yet.$(COLOR_RESET)"; \
-		fi
-		@if [ -f "$(DEVELOPMENT_ENVIRONMENT_DOC)" ]; then \
-				echo "$(COLOR_GREEN)OK: $(DEVELOPMENT_ENVIRONMENT_DOC) exists.$(COLOR_RESET)"; \
-		else \
-				echo "$(COLOR_YELLOW)WARNING: $(DEVELOPMENT_ENVIRONMENT_DOC) is not present yet.$(COLOR_RESET)"; \
-		fi
+	@test -f "$(PYPROJECT)" || test -f "$(REQUIREMENTS_DEV)" || { echo "FAILED: missing $(PYPROJECT) and $(REQUIREMENTS_DEV)."; exit 2; }
 
-# Purpose: verify that required local secrets are configured without printing secret values.
-# Result: tracked secret files fail the check; missing local examples are reported safely.
+# Purpose: Reject tracked secret-like environment files.
+# Safety: Read-only Git queries only.
+# Inputs: Git worktree.
+# Result: No forbidden secret-like files are tracked.
 .PHONY: secrets-check
 secrets-check:
-		@echo "$(COLOR_BOLD)== $(MODULE_NAME) secrets check ==$(COLOR_RESET)"
-		@if git ls-files --error-unmatch .env >/dev/null 2>&1; then \
-				echo "$(COLOR_RED)FAILED: .env is tracked by git. Move real secrets out of tracked files.$(COLOR_RESET)"; \
-				exit 1; \
-		fi
-		@if [ -f .env ]; then \
-				echo "$(COLOR_GREEN)OK: local .env exists and is not tracked.$(COLOR_RESET)"; \
-		else \
-				echo "$(COLOR_YELLOW)WARNING: local .env is not present. This may be OK for modules without secrets.$(COLOR_RESET)"; \
-		fi
-		@if [ -f "$(ENV_EXAMPLE)" ]; then \
-				echo "$(COLOR_GREEN)OK: $(ENV_EXAMPLE) documents expected variables.$(COLOR_RESET)"; \
-		else \
-				echo "$(COLOR_YELLOW)WARNING: $(ENV_EXAMPLE) is not present yet.$(COLOR_RESET)"; \
-		fi
-		@if git ls-files | grep -E '(^|/)(\.env|\.env\.local|\.env\.prod|secrets/.*\.env)$$' >/dev/null; then \
-				echo "$(COLOR_RED)FAILED: tracked secret-like env file detected.$(COLOR_RESET)"; \
-				git ls-files | grep -E '(^|/)(\.env|\.env\.local|\.env\.prod|secrets/.*\.env)$$'; \
-				exit 1; \
-		fi
+	@$(GIT) rev-parse --is-inside-work-tree >/dev/null
+	@if $(GIT) ls-files | grep -E '(^|/)(\.env|\.env\.local|\.env\.prod|secrets/.*\.env)$$' >/dev/null; then echo "FAILED: tracked secret-like env file detected."; $(GIT) ls-files | grep -E '(^|/)(\.env|\.env\.local|\.env\.prod|secrets/.*\.env)$$'; exit 2; fi
 
 # =============================================================================
 # 11 Module environment / local configuration FINISH
@@ -765,48 +758,62 @@ secrets-check:
 # 12 Runtime control / process lifecycle START
 # =============================================================================
 
-# Purpose: run the module locally when a runtime exists.
-# Result: local runtime starts or documented deferral is printed.
+# Purpose: Module-specific implementation hook for run.
+# Safety: Fails closed until explicitly implemented in the module.
+# Inputs: Module-specific implementation.
+# Result: Returns non-zero while unimplemented.
 .PHONY: run
 run:
-	@echo "$(COLOR_YELLOW)DEFERRED: local run target is not implemented for $(MODULE_ID).$(COLOR_RESET)"
+	$(call not_implemented)
 
-# Purpose: start local project runtime if the module has one.
-# Result: local service starts or clearly reports deferral.
+# Purpose: Module-specific implementation hook for start.
+# Safety: Fails closed until explicitly implemented in the module.
+# Inputs: Module-specific implementation.
+# Result: Returns non-zero while unimplemented.
 .PHONY: start
 start:
-	@echo "$(COLOR_YELLOW)DEFERRED: no local runtime start target is defined for $(MODULE_ID).$(COLOR_RESET)"
+	$(call not_implemented)
 
-# Purpose: stop local project runtime if the module has one.
-# Result: local service stops or clearly reports deferral.
+# Purpose: Module-specific implementation hook for stop.
+# Safety: Fails closed until explicitly implemented in the module.
+# Inputs: Module-specific implementation.
+# Result: Returns non-zero while unimplemented.
 .PHONY: stop
 stop:
-	@echo "$(COLOR_YELLOW)DEFERRED: no local runtime stop target is defined for $(MODULE_ID).$(COLOR_RESET)"
+	$(call not_implemented)
 
-# Purpose: restart local project runtime if the module has one.
-# Result: local service restarts through stop/start.
+# Purpose: Module-specific implementation hook for reload.
+# Safety: Fails closed until explicitly implemented in the module.
+# Inputs: Module-specific implementation.
+# Result: Returns non-zero while unimplemented.
+.PHONY: reload
+reload:
+	$(call not_implemented)
+
+# Purpose: Module-specific implementation hook for status.
+# Safety: Fails closed until explicitly implemented in the module.
+# Inputs: Module-specific implementation.
+# Result: Returns non-zero while unimplemented.
+.PHONY: status
+status:
+	$(call not_implemented)
+
+# Purpose: Module-specific implementation hook for logs.
+# Safety: Fails closed until explicitly implemented in the module.
+# Inputs: Module-specific implementation.
+# Result: Returns non-zero while unimplemented.
+.PHONY: logs
+logs:
+	$(call not_implemented)
+
+# Purpose: Restart the implemented local runtime.
+# Safety: Delegates to explicit stop/start; inherits their safety.
+# Inputs: Implemented stop and start targets.
+# Result: Runtime restarts.
 .PHONY: restart
 restart:
 	$(MAKE) stop
 	$(MAKE) start
-
-# Purpose: reload runtime configuration if the module supports reload.
-# Result: runtime reloads or documented deferral is printed.
-.PHONY: reload
-reload:
-	@echo "$(COLOR_YELLOW)DEFERRED: runtime reload is not implemented for $(MODULE_ID).$(COLOR_RESET)"
-
-# Purpose: show runtime status when applicable.
-# Result: runtime status is printed or documented deferral is printed.
-.PHONY: status
-status:
-	@echo "$(COLOR_YELLOW)DEFERRED: runtime status is not implemented for $(MODULE_ID).$(COLOR_RESET)"
-
-# Purpose: show runtime logs when applicable.
-# Result: runtime logs are printed or documented deferral is printed.
-.PHONY: logs
-logs:
-	@echo "$(COLOR_YELLOW)DEFERRED: runtime logs are not implemented for $(MODULE_ID).$(COLOR_RESET)"
 
 # =============================================================================
 # 12 Runtime control / process lifecycle FINISH
@@ -817,76 +824,100 @@ logs:
 # 13 Infrastructure / local services START
 # =============================================================================
 
-# Purpose: run local development services required by the module.
-# Result: local service stack starts or clearly reports deferral.
+# Purpose: Module-specific implementation hook for services-up.
+# Safety: Fails closed until explicitly implemented in the module.
+# Inputs: Module-specific implementation.
+# Result: Returns non-zero while unimplemented.
 .PHONY: services-up
 services-up:
-	@echo "$(COLOR_YELLOW)DEFERRED: no local services are defined for $(MODULE_ID).$(COLOR_RESET)"
+	$(call not_implemented)
 
-# Purpose: stop local development services required by the module.
-# Result: local service stack stops or clearly reports deferral.
+# Purpose: Module-specific implementation hook for services-down.
+# Safety: Fails closed until explicitly implemented in the module.
+# Inputs: Module-specific implementation.
+# Result: Returns non-zero while unimplemented.
 .PHONY: services-down
 services-down:
-	@echo "$(COLOR_YELLOW)DEFERRED: no local services are defined for $(MODULE_ID).$(COLOR_RESET)"
+	$(call not_implemented)
 
-# Purpose: restart local development services required by the module.
-# Result: local service stack restarts through down/up.
+# Purpose: Module-specific implementation hook for services-status.
+# Safety: Fails closed until explicitly implemented in the module.
+# Inputs: Module-specific implementation.
+# Result: Returns non-zero while unimplemented.
+.PHONY: services-status
+services-status:
+	$(call not_implemented)
+
+# Purpose: Module-specific implementation hook for workers-start.
+# Safety: Fails closed until explicitly implemented in the module.
+# Inputs: Module-specific implementation.
+# Result: Returns non-zero while unimplemented.
+.PHONY: workers-start
+workers-start:
+	$(call not_implemented)
+
+# Purpose: Module-specific implementation hook for workers-stop.
+# Safety: Fails closed until explicitly implemented in the module.
+# Inputs: Module-specific implementation.
+# Result: Returns non-zero while unimplemented.
+.PHONY: workers-stop
+workers-stop:
+	$(call not_implemented)
+
+# Purpose: Module-specific implementation hook for monitors-start.
+# Safety: Fails closed until explicitly implemented in the module.
+# Inputs: Module-specific implementation.
+# Result: Returns non-zero while unimplemented.
+.PHONY: monitors-start
+monitors-start:
+	$(call not_implemented)
+
+# Purpose: Module-specific implementation hook for monitors-stop.
+# Safety: Fails closed until explicitly implemented in the module.
+# Inputs: Module-specific implementation.
+# Result: Returns non-zero while unimplemented.
+.PHONY: monitors-stop
+monitors-stop:
+	$(call not_implemented)
+
+# Purpose: Restart local services.
+# Safety: Delegates to explicit down/up.
+# Inputs: Implemented service targets.
+# Result: Services restart.
 .PHONY: services-restart
 services-restart:
 	$(MAKE) services-down
 	$(MAKE) services-up
 
-# Purpose: show local development service status.
-# Result: service status is printed or documented deferral is printed.
-.PHONY: services-status
-services-status:
-	@echo "$(COLOR_YELLOW)DEFERRED: service status is not implemented for $(MODULE_ID).$(COLOR_RESET)"
-
-# Purpose: compatibility alias for older module Makefiles.
-# Result: delegates to services-up.
+# Purpose: Compatibility alias for services-up.
+# Safety: Same as services-up.
+# Inputs: Implemented services-up.
+# Result: Delegates.
 .PHONY: services-start
 services-start:
 	$(MAKE) services-up
 
-# Purpose: compatibility alias for older module Makefiles.
-# Result: delegates to services-down.
+# Purpose: Compatibility alias for services-down.
+# Safety: Same as services-down.
+# Inputs: Implemented services-down.
+# Result: Delegates.
 .PHONY: services-stop
 services-stop:
 	$(MAKE) services-down
 
-# Purpose: start local workers, queue consumers, or background helpers.
-# Result: background helpers start or clearly report deferral.
-.PHONY: workers-start
-workers-start:
-	@echo "$(COLOR_YELLOW)DEFERRED: no workers are defined for $(MODULE_ID).$(COLOR_RESET)"
-
-# Purpose: stop local workers, queue consumers, or background helpers.
-# Result: background helpers stop or clearly report deferral.
-.PHONY: workers-stop
-workers-stop:
-	@echo "$(COLOR_YELLOW)DEFERRED: no workers are defined for $(MODULE_ID).$(COLOR_RESET)"
-
-# Purpose: restart local workers when applicable.
-# Result: background helpers restart through stop/start.
+# Purpose: Restart workers.
+# Safety: Delegates to explicit stop/start.
+# Inputs: Implemented worker targets.
+# Result: Workers restart.
 .PHONY: workers-restart
 workers-restart:
 	$(MAKE) workers-stop
 	$(MAKE) workers-start
 
-# Purpose: start local monitors or watchers.
-# Result: monitors start or clearly report deferral.
-.PHONY: monitors-start
-monitors-start:
-	@echo "$(COLOR_YELLOW)DEFERRED: no monitors are defined for $(MODULE_ID).$(COLOR_RESET)"
-
-# Purpose: stop local monitors or watchers.
-# Result: monitors stop or clearly report deferral.
-.PHONY: monitors-stop
-monitors-stop:
-	@echo "$(COLOR_YELLOW)DEFERRED: no monitors are defined for $(MODULE_ID).$(COLOR_RESET)"
-
-# Purpose: restart local monitors when applicable.
-# Result: monitors restart through stop/start.
+# Purpose: Restart monitors.
+# Safety: Delegates to explicit stop/start.
+# Inputs: Implemented monitor targets.
+# Result: Monitors restart.
 .PHONY: monitors-restart
 monitors-restart:
 	$(MAKE) monitors-stop
@@ -901,46 +932,61 @@ monitors-restart:
 # 14 Database / storage / migrations START
 # =============================================================================
 
-# Purpose: verify local database or storage connectivity.
-# Result: database/storage is reachable or documented deferral is printed.
+# Purpose: Module-specific implementation hook for db-check.
+# Safety: Fails closed until explicitly implemented in the module.
+# Inputs: Module-specific implementation.
+# Result: Returns non-zero while unimplemented.
 .PHONY: db-check
 db-check:
-	@echo "$(COLOR_YELLOW)DEFERRED: database/storage check is not implemented for $(MODULE_ID).$(COLOR_RESET)"
+	$(call not_implemented)
 
-# Purpose: run local non-production migrations if the module has them.
-# Result: local schema/state is prepared or target clearly reports deferral.
+# Purpose: Module-specific implementation hook for db-migrate.
+# Safety: Fails closed until explicitly implemented in the module.
+# Inputs: Module-specific implementation.
+# Result: Returns non-zero while unimplemented.
 .PHONY: db-migrate
 db-migrate:
-	@echo "$(COLOR_YELLOW)DEFERRED: no local migration target is defined for $(MODULE_ID).$(COLOR_RESET)"
+	$(call not_implemented)
 
-# Purpose: compatibility alias for local non-production migrations.
-# Result: delegates to db-migrate.
+# Purpose: Module-specific implementation hook for db-downgrade.
+# Safety: Fails closed until explicitly implemented in the module.
+# Inputs: Module-specific implementation.
+# Result: Returns non-zero while unimplemented.
+.PHONY: db-downgrade
+db-downgrade:
+	$(call not_implemented)
+
+# Purpose: Module-specific implementation hook for db-seed.
+# Safety: Fails closed until explicitly implemented in the module.
+# Inputs: Module-specific implementation.
+# Result: Returns non-zero while unimplemented.
+.PHONY: db-seed
+db-seed:
+	$(call not_implemented)
+
+# Purpose: Module-specific implementation hook for db-reset.
+# Safety: Fails closed until explicitly implemented in the module.
+# Inputs: Module-specific implementation.
+# Result: Returns non-zero while unimplemented.
+.PHONY: db-reset
+db-reset:
+	$(call not_implemented)
+
+# Purpose: Compatibility alias for db-migrate.
+# Safety: Same as db-migrate.
+# Inputs: Implemented db-migrate.
+# Result: Delegates.
 .PHONY: migrate
-migrate: db-migrate
+migrate:
+	$(MAKE) db-migrate
 
-# Purpose: upgrade local schema/state to the latest version.
-# Result: local schema/state is upgraded or documented deferral is printed.
+# Purpose: Upgrade local database state.
+# Safety: Delegates to explicit db-migrate.
+# Inputs: Implemented db-migrate.
+# Result: Database is upgraded.
 .PHONY: db-upgrade
 db-upgrade:
 	$(MAKE) db-migrate
-
-# Purpose: downgrade local schema/state if supported.
-# Result: local schema/state is downgraded or documented deferral is printed.
-.PHONY: db-downgrade
-db-downgrade:
-	@echo "$(COLOR_YELLOW)DEFERRED: database downgrade is not implemented for $(MODULE_ID).$(COLOR_RESET)"
-
-# Purpose: load local seed data if the module has seed fixtures.
-# Result: local seed data is loaded or documented deferral is printed.
-.PHONY: db-seed
-db-seed:
-	@echo "$(COLOR_YELLOW)DEFERRED: database seed is not implemented for $(MODULE_ID).$(COLOR_RESET)"
-
-# Purpose: reset local database/storage state when safe for development.
-# Result: local development state is reset or documented deferral is printed.
-.PHONY: db-reset
-db-reset:
-	@echo "$(COLOR_YELLOW)DEFERRED: database reset is not implemented for $(MODULE_ID).$(COLOR_RESET)"
 
 # =============================================================================
 # 14 Database / storage / migrations FINISH
@@ -951,34 +997,45 @@ db-reset:
 # 15 Data import / export / fixtures START
 # =============================================================================
 
-# Purpose: verify local fixtures for development or offline checks.
-# Result: local fixtures are readable or documented deferral is printed.
+# Purpose: Module-specific implementation hook for fixtures-check.
+# Safety: Fails closed until explicitly implemented in the module.
+# Inputs: Module-specific implementation.
+# Result: Returns non-zero while unimplemented.
 .PHONY: fixtures-check
 fixtures-check:
-	@echo "$(COLOR_YELLOW)DEFERRED: fixture check is not implemented for $(MODULE_ID).$(COLOR_RESET)"
+	$(call not_implemented)
 
-# Purpose: prepare local data fixtures for development or offline checks.
-# Result: local fixtures are ready or target clearly reports deferral.
+# Purpose: Module-specific implementation hook for fixtures-load.
+# Safety: Fails closed until explicitly implemented in the module.
+# Inputs: Module-specific implementation.
+# Result: Returns non-zero while unimplemented.
 .PHONY: fixtures-load
 fixtures-load:
-	@echo "$(COLOR_YELLOW)DEFERRED: no local data fixture target is defined for $(MODULE_ID).$(COLOR_RESET)"
+	$(call not_implemented)
 
-# Purpose: compatibility alias for local fixture preparation.
-# Result: delegates to fixtures-load.
-.PHONY: data-fixtures
-data-fixtures: fixtures-load
-
-# Purpose: preview an import workflow without production writes.
-# Result: import preview is printed or documented deferral is printed.
+# Purpose: Module-specific implementation hook for import-preview.
+# Safety: Fails closed until explicitly implemented in the module.
+# Inputs: Module-specific implementation.
+# Result: Returns non-zero while unimplemented.
 .PHONY: import-preview
 import-preview:
-	@echo "$(COLOR_YELLOW)DEFERRED: import preview is not implemented for $(MODULE_ID).$(COLOR_RESET)"
+	$(call not_implemented)
 
-# Purpose: preview an export workflow without production writes.
-# Result: export preview is printed or documented deferral is printed.
+# Purpose: Module-specific implementation hook for export-preview.
+# Safety: Fails closed until explicitly implemented in the module.
+# Inputs: Module-specific implementation.
+# Result: Returns non-zero while unimplemented.
 .PHONY: export-preview
 export-preview:
-	@echo "$(COLOR_YELLOW)DEFERRED: export preview is not implemented for $(MODULE_ID).$(COLOR_RESET)"
+	$(call not_implemented)
+
+# Purpose: Compatibility alias for fixtures-load.
+# Safety: Same as fixtures-load.
+# Inputs: Implemented fixtures-load.
+# Result: Delegates.
+.PHONY: data-fixtures
+data-fixtures:
+	$(MAKE) fixtures-load
 
 # =============================================================================
 # 15 Data import / export / fixtures FINISH
@@ -989,35 +1046,45 @@ export-preview:
 # 16 External adapters / sandbox integrations START
 # =============================================================================
 
-# Purpose: verify sandbox or external adapter configuration.
-# Result: adapter configuration is valid or documented deferral is printed.
+# Purpose: Module-specific implementation hook for adapters-check.
+# Safety: Fails closed until explicitly implemented in the module.
+# Inputs: Module-specific implementation.
+# Result: Returns non-zero while unimplemented.
 .PHONY: adapters-check
 adapters-check:
-	@echo "$(COLOR_YELLOW)DEFERRED: adapter checks are not implemented for $(MODULE_ID).$(COLOR_RESET)"
+	$(call not_implemented)
 
-# Purpose: compatibility alias for sandbox adapter and smoke checks.
-# Result: delegates to the standard sandbox-check target.
+# Purpose: Module-specific implementation hook for sandbox-check.
+# Safety: Fails closed until explicitly implemented in the module.
+# Inputs: Module-specific implementation.
+# Result: Returns non-zero while unimplemented.
+.PHONY: sandbox-check
+sandbox-check:
+	$(call not_implemented)
+
+# Purpose: Module-specific implementation hook for sandbox-sync.
+# Safety: Fails closed until explicitly implemented in the module.
+# Inputs: Module-specific implementation.
+# Result: Returns non-zero while unimplemented.
+.PHONY: sandbox-sync
+sandbox-sync:
+	$(call not_implemented)
+
+# Purpose: Run adapter smoke checks through sandbox-check.
+# Safety: Read-only when sandbox-check is correctly implemented.
+# Inputs: Implemented sandbox-check.
+# Result: Delegates.
 .PHONY: adapters-smoke
 adapters-smoke:
 	$(MAKE) sandbox-check
 
-# Purpose: compatibility alias for sandbox adapter checks.
-# Result: delegates to sandbox-check.
+# Purpose: Compatibility alias for sandbox-check.
+# Safety: Same as sandbox-check.
+# Inputs: Implemented sandbox-check.
+# Result: Delegates.
 .PHONY: adapters-sandbox-check
 adapters-sandbox-check:
 	$(MAKE) sandbox-check
-
-# Purpose: verify sandbox synchronization prerequisites.
-# Result: sandbox sync prerequisites are valid or documented deferral is printed.
-.PHONY: sandbox-check
-sandbox-check:
-	@echo "$(COLOR_YELLOW)DEFERRED: sandbox check is not implemented for $(MODULE_ID).$(COLOR_RESET)"
-
-# Purpose: run sandbox synchronization when applicable.
-# Result: sandbox data is synchronized or documented deferral is printed.
-.PHONY: sandbox-sync
-sandbox-sync:
-	@echo "$(COLOR_YELLOW)DEFERRED: sandbox sync is not implemented for $(MODULE_ID).$(COLOR_RESET)"
 
 # =============================================================================
 # 16 External adapters / sandbox integrations FINISH
@@ -1028,23 +1095,29 @@ sandbox-sync:
 # 17 Local previews / operator workflows START
 # =============================================================================
 
-# Purpose: run local operator preview workflows.
-# Result: local preview output is printed or target clearly reports deferral.
+# Purpose: Module-specific implementation hook for preview.
+# Safety: Fails closed until explicitly implemented in the module.
+# Inputs: Module-specific implementation.
+# Result: Returns non-zero while unimplemented.
 .PHONY: preview
 preview:
-	@echo "$(COLOR_YELLOW)DEFERRED: no local preview target is defined for $(MODULE_ID).$(COLOR_RESET)"
+	$(call not_implemented)
 
-# Purpose: run a lightweight local smoke workflow.
-# Result: smoke output is printed or documented deferral is printed.
+# Purpose: Module-specific implementation hook for smoke.
+# Safety: Fails closed until explicitly implemented in the module.
+# Inputs: Module-specific implementation.
+# Result: Returns non-zero while unimplemented.
 .PHONY: smoke
 smoke:
-	@echo "$(COLOR_YELLOW)DEFERRED: smoke workflow is not implemented for $(MODULE_ID).$(COLOR_RESET)"
+	$(call not_implemented)
 
-# Purpose: run a local operator demo workflow.
-# Result: operator demo output is printed or documented deferral is printed.
+# Purpose: Module-specific implementation hook for operator-demo.
+# Safety: Fails closed until explicitly implemented in the module.
+# Inputs: Module-specific implementation.
+# Result: Returns non-zero while unimplemented.
 .PHONY: operator-demo
 operator-demo:
-	@echo "$(COLOR_YELLOW)DEFERRED: operator demo is not implemented for $(MODULE_ID).$(COLOR_RESET)"
+	$(call not_implemented)
 
 # =============================================================================
 # 17 Local previews / operator workflows FINISH
@@ -1055,55 +1128,70 @@ operator-demo:
 # 18 Observability / diagnostics / logs START
 # =============================================================================
 
-# Purpose: run local diagnostics for environment, paths, and readiness.
-# Result: diagnostics pass or actionable warnings are printed.
+# Purpose: Module-specific implementation hook for diagnostics.
+# Safety: Fails closed until explicitly implemented in the module.
+# Inputs: Module-specific implementation.
+# Result: Returns non-zero while unimplemented.
 .PHONY: diagnostics
 diagnostics:
-	@echo "$(COLOR_YELLOW)DEFERRED: no diagnostics target is defined for $(MODULE_ID).$(COLOR_RESET)"
+	$(call not_implemented)
 
-# Purpose: run a lightweight module health check.
-# Result: health status is printed or documented deferral is printed.
+# Purpose: Module-specific implementation hook for health.
+# Safety: Fails closed until explicitly implemented in the module.
+# Inputs: Module-specific implementation.
+# Result: Returns non-zero while unimplemented.
 .PHONY: health
 health:
-	@echo "$(COLOR_YELLOW)DEFERRED: health check is not implemented for $(MODULE_ID).$(COLOR_RESET)"
+	$(call not_implemented)
 
-# Purpose: inspect important local paths and runtime state.
-# Result: inspection output is printed or documented deferral is printed.
+# Purpose: Module-specific implementation hook for inspect.
+# Safety: Fails closed until explicitly implemented in the module.
+# Inputs: Module-specific implementation.
+# Result: Returns non-zero while unimplemented.
 .PHONY: inspect
 inspect:
-	@echo "$(COLOR_YELLOW)DEFERRED: inspect target is not implemented for $(MODULE_ID).$(COLOR_RESET)"
+	$(call not_implemented)
 
 # =============================================================================
 # 18 Observability / diagnostics / logs FINISH
 # =============================================================================
 
+
 # =============================================================================
 # 19 Syntax / formatting / lint START
 # =============================================================================
 
-# Purpose: run configured linter without modifying files.
-# Result: returns non-zero if style or syntax checks fail.
+# Purpose: Run Ruff without modifying files.
+# Safety: Read-only.
+# Inputs: LINT_PATHS.
+# Result: Lint passes.
 .PHONY: lint
 lint:
-	$(PYTHON) -m ruff check app scripts tests
+	"$(PYTHON)" -m ruff check $(LINT_PATHS)
 
-# Purpose: run safe automatic lint fixes.
-# Result: fixable lint issues are corrected.
+# Purpose: Apply Ruff-safe automatic fixes.
+# Safety: Mutates source files only.
+# Inputs: LINT_PATHS.
+# Result: Fixable lint findings are corrected.
 .PHONY: lint-fix
 lint-fix:
-	$(PYTHON) -m ruff check app scripts tests --fix
+	"$(PYTHON)" -m ruff check $(LINT_PATHS) --fix
 
-# Purpose: format source files if the module uses a formatter.
-# Result: formatters run or documented deferral is printed.
+# Purpose: Format configured source paths.
+# Safety: Mutates source files only.
+# Inputs: FORMAT_PATHS.
+# Result: Source formatting is applied.
 .PHONY: format
 format:
-	@echo "$(COLOR_YELLOW)DEFERRED: formatter is not configured for $(MODULE_ID).$(COLOR_RESET)"
+	"$(PYTHON)" -m ruff format $(FORMAT_PATHS)
 
-# Purpose: check source formatting without modifying files.
-# Result: formatting is valid or documented deferral is printed.
+# Purpose: Check formatting without changes.
+# Safety: Read-only.
+# Inputs: FORMAT_PATHS.
+# Result: Formatting is compliant.
 .PHONY: format-check
 format-check:
-	@echo "$(COLOR_YELLOW)DEFERRED: format check is not configured for $(MODULE_ID).$(COLOR_RESET)"
+	"$(PYTHON)" -m ruff format --check $(FORMAT_PATHS)
 
 # =============================================================================
 # 19 Syntax / formatting / lint FINISH
@@ -1114,29 +1202,37 @@ format-check:
 # 20 Tests START
 # =============================================================================
 
-# Purpose: run the module test suite.
-# Result: all tests pass or target returns non-zero.
+# Purpose: Run the module test suite.
+# Safety: Read-only except test-framework temporary files outside governed outputs.
+# Inputs: TEST_ARGS.
+# Result: Tests pass.
 .PHONY: test
 test:
-	$(PYTHON) -m pytest -q
+	"$(PYTHON)" -m pytest $(TEST_ARGS)
 
-# Purpose: run unit tests when the module separates test types.
-# Result: unit tests pass or documented deferral is printed.
+# Purpose: Run unit tests.
+# Safety: Read-only.
+# Inputs: Module-specific pytest markers or default suite.
+# Result: Delegates to test.
 .PHONY: test-unit
 test-unit:
 	$(MAKE) test
 
-# Purpose: run contract tests when the module separates test types.
-# Result: contract tests pass or documented deferral is printed.
+# Purpose: Run contract tests.
+# Safety: Read-only.
+# Inputs: Module-specific implementation.
+# Result: Fails until implemented.
 .PHONY: test-contract
 test-contract:
-	@echo "$(COLOR_YELLOW)DEFERRED: contract tests are not separated for $(MODULE_ID).$(COLOR_RESET)"
+	$(call not_implemented)
 
-# Purpose: run integration tests when the module separates test types.
-# Result: integration tests pass or documented deferral is printed.
+# Purpose: Run integration tests.
+# Safety: Read-only and must use non-production resources.
+# Inputs: Module-specific implementation.
+# Result: Fails until implemented.
 .PHONY: test-integration
 test-integration:
-	@echo "$(COLOR_YELLOW)DEFERRED: integration tests are not separated for $(MODULE_ID).$(COLOR_RESET)"
+	$(call not_implemented)
 
 # =============================================================================
 # 20 Tests FINISH
@@ -1147,29 +1243,29 @@ test-integration:
 # 21 Validation / check reports START
 # =============================================================================
 
-# Purpose: run the main local validation flow before commit.
-# Result: lint, tests, and module validations pass.
+# Purpose: Run the standard read-only code validation sequence.
+# Safety: Read-only; notably excludes lint-fix, format, synchronization, report generation, cleanup, commit, and push.
+# Inputs: Configured tools and tests.
+# Result: Validation passes.
 .PHONY: check
 check:
 	$(MAKE) env-check
 	$(MAKE) tooling-check
 	$(MAKE) config-check
 	$(MAKE) secrets-check
-	$(MAKE) lint-fix
+	$(MAKE) format-check
 	$(MAKE) lint
 	$(MAKE) test
 
-# Purpose: run module checks and generate human/machine reports.
-# Result: check report is created under reports/ or target fails.
+# Purpose: Run validation and explicitly write module-local reports.
+# Safety: Mutates only generated report files through MODULE_CHECK_REPORT_SCRIPT.
+# Inputs: MODULE_CHECK_REPORT_SCRIPT.
+# Result: Validation passes and reports are written.
 .PHONY: check-report
 check-report:
-	@echo "$(COLOR_BOLD)== $(MODULE_NAME) check report ==$(COLOR_RESET)"
-	@mkdir -p "$(REPORTS_DIR)"
-	$(MAKE) env-check
-	$(MAKE) tooling-check
-	$(MAKE) config-check
-	$(MAKE) secrets-check
-	@echo "$(COLOR_YELLOW)DEFERRED: implement module-specific check report generator.$(COLOR_RESET)"
+	$(MAKE) module-validate
+	$(call require_module_script,$(MODULE_CHECK_REPORT_SCRIPT))
+	"$(PYTHON)" "$(MODULE_CHECK_REPORT_SCRIPT)" --module-root "$(MODULE_ROOT)" --module "$(MODULE_ID)" --output-dir "$(REPORTS_DIR)"
 
 # =============================================================================
 # 21 Validation / check reports FINISH
@@ -1180,33 +1276,31 @@ check-report:
 # 22 Status reports / generated reports / cleanup START
 # =============================================================================
 
-# Purpose: show or export concise module status without full validation.
-# Result: current coordination status is printed or stale status is reported.
-
+# Purpose: Run validation and write extended module-local diagnostics.
+# Safety: Mutates only generated report files through MODULE_CHECK_REPORT_SCRIPT.
+# Inputs: MODULE_CHECK_REPORT_SCRIPT.
+# Result: Extended reports are written.
 .PHONY: check-report-full
 check-report-full:
-	@echo "$(COLOR_BOLD)== $(MODULE_NAME) full check diagnostics ==$(COLOR_RESET)"
-	$(MAKE) env-check
-	$(MAKE) tooling-check
-	$(MAKE) config-check
-	$(MAKE) secrets-check
-	$(MAKE) lint
-	$(MAKE) test
-	@echo "$(COLOR_YELLOW)DEFERRED: implement module-specific extended diagnostic renderer when the module produces detailed reports.$(COLOR_RESET)"
+	$(MAKE) module-validate
+	$(call require_module_script,$(MODULE_CHECK_REPORT_SCRIPT))
+	"$(PYTHON)" "$(MODULE_CHECK_REPORT_SCRIPT)" --module-root "$(MODULE_ROOT)" --module "$(MODULE_ID)" --output-dir "$(REPORTS_DIR)" --full
+
+# Purpose: Print current module status without writing reports.
+# Safety: Read-only.
+# Inputs: MODULE_STATUS_SCRIPT.
+# Result: Status is printed.
 .PHONY: status-report
 status-report:
-	@echo "$(COLOR_BOLD)== $(MODULE_NAME) status ==$(COLOR_RESET)"
-	@test -f "$(COORDINATION_DIR)/status/current_status.yaml" || \
-		(echo "$(COLOR_RED)Missing coordination/status/current_status.yaml$(COLOR_RESET)"; exit 1)
-	@sed -n '1,160p' "$(COORDINATION_DIR)/status/current_status.yaml"
+	$(MAKE) module-status
 
-# Purpose: clean or restore generated reports so the working tree remains reviewable.
-# Result: ignored runtime reports are removed and tracked generated runtime reports are restored when applicable.
+# Purpose: Remove only known generated module report artifacts.
+# Safety: Explicit module-local mutation; never uses git restore/reset/clean.
+# Inputs: REPORTS_DIR.
+# Result: Known generated reports are removed.
 .PHONY: report-clean
 report-clean:
-	@rm -f "$(REPORTS_DIR)/$(MODULE_ID)_check_report.json" "$(REPORTS_DIR)/$(MODULE_ID)_check_report.md"
-	@git restore -- "$(REPORTS_DIR)/$(MODULE_ID)_module_status.json" 2>/dev/null || true
-	@echo "$(COLOR_GREEN)Report cleanup completed.$(COLOR_RESET)"
+	@rm -f -- "$(REPORTS_DIR)/$(MODULE_ID)_check_report.json" "$(REPORTS_DIR)/$(MODULE_ID)_check_report.md"
 
 # =============================================================================
 # 22 Status reports / generated reports / cleanup FINISH
@@ -1217,34 +1311,57 @@ report-clean:
 # 23 Completion packet / prompt finalization START
 # =============================================================================
 
-# Boundary:
-# These targets are module-side targets.
-# They may update only module-local coordination records and reports.
-# They must not write into the Blueprint repository.
-# Blueprint-side report intake and review are separate Blueprint-owned actions.
-
-# Purpose: validate a completion packet.
-# Result: packet is valid or target returns non-zero.
+# Purpose: Validate packet schema and required fields.
+# Safety: Read-only.
+# Inputs: PACKET and COMPLETION_PACKET_VALIDATE_SCRIPT.
+# Result: Packet schema is valid.
 .PHONY: completion-packet-validate
 completion-packet-validate:
-	@test -n "$(PACKET)" || (echo "$(COLOR_RED)PACKET is required.$(COLOR_RESET)"; exit 2)
-	$(PYTHON) scripts/validate_completion_packet.py "$(PACKET)"
+	$(call require_packet)
+	$(call require_module_script,$(COMPLETION_PACKET_VALIDATE_SCRIPT))
+	"$(PYTHON)" "$(COMPLETION_PACKET_VALIDATE_SCRIPT)" "$(PACKET)"
 
-# Purpose: apply a completion packet to module-local coordination records.
-# Result: completion report and module-local coordination metadata are updated idempotently.
-.PHONY: completion-packet-apply
-completion-packet-apply:
-	@test -n "$(PACKET)" || (echo "$(COLOR_RED)PACKET is required.$(COLOR_RESET)"; exit 2)
-	$(PYTHON) scripts/apply_completion_packet.py "$(PACKET)"
-
-# Purpose: validate and apply a completion packet twice to verify idempotency.
-# Result: packet apply is idempotency-safe and does not duplicate report/status records.
+# Purpose: Verify packet evidence, lineage, boundaries, and consistency.
+# Safety: Read-only; apply invocation is forbidden.
+# Inputs: PACKET and COMPLETION_PACKET_CHECK_SCRIPT.
+# Result: Evidence check passes.
 .PHONY: completion-packet-check
 completion-packet-check:
-	@test -n "$(PACKET)" || (echo "$(COLOR_RED)PACKET is required.$(COLOR_RESET)"; exit 2)
+	$(call require_packet)
 	$(MAKE) completion-packet-validate PACKET="$(PACKET)"
-	$(MAKE) completion-packet-apply PACKET="$(PACKET)"
-	$(MAKE) completion-packet-apply PACKET="$(PACKET)"
+	$(call require_module_script,$(COMPLETION_PACKET_CHECK_SCRIPT))
+	"$(PYTHON)" "$(COMPLETION_PACKET_CHECK_SCRIPT)" "$(PACKET)"
+
+# Purpose: Preview module-local changes produced by packet apply.
+# Safety: Read-only; no module files are modified.
+# Inputs: PACKET and COMPLETION_PACKET_PREVIEW_SCRIPT.
+# Result: Deterministic change plan is printed.
+.PHONY: completion-packet-preview
+completion-packet-preview:
+	$(call require_packet)
+	$(call require_module_script,$(COMPLETION_PACKET_PREVIEW_SCRIPT))
+	"$(PYTHON)" "$(COMPLETION_PACKET_PREVIEW_SCRIPT)" "$(PACKET)"
+
+# Purpose: Apply the packet twice in an isolated sandbox and compare results.
+# Safety: Read-only for the live worktree; writes are restricted to TMP_DIR sandbox.
+# Inputs: PACKET and COMPLETION_PACKET_IDEMPOTENCY_SCRIPT.
+# Result: Sandbox idempotency check passes.
+.PHONY: completion-packet-idempotency-check
+completion-packet-idempotency-check:
+	$(call require_packet)
+	$(call require_module_script,$(COMPLETION_PACKET_IDEMPOTENCY_SCRIPT))
+	@mkdir -p "$(TMP_DIR)"
+	"$(PYTHON)" "$(COMPLETION_PACKET_IDEMPOTENCY_SCRIPT)" "$(PACKET)" --module-root "$(MODULE_ROOT)" --sandbox-root "$(TMP_DIR)/completion_packet_idempotency"
+
+# Purpose: Apply packet updates to module-local coordination records.
+# Safety: Mutates only current module files; no commit, push, merge, or Blueprint writes.
+# Inputs: PACKET and COMPLETION_PACKET_APPLY_SCRIPT.
+# Result: Module-local completion records are updated idempotently.
+.PHONY: completion-packet-apply
+completion-packet-apply:
+	$(call require_packet)
+	$(call require_module_script,$(COMPLETION_PACKET_APPLY_SCRIPT))
+	"$(PYTHON)" "$(COMPLETION_PACKET_APPLY_SCRIPT)" "$(PACKET)"
 
 # =============================================================================
 # 23 Completion packet / prompt finalization FINISH
@@ -1255,96 +1372,96 @@ completion-packet-check:
 # 24 Git / release / commit helpers START
 # =============================================================================
 
-# Purpose: show concise git state before review or commit.
-# Result: branch status and changed files are printed.
+# Purpose: Show current branch, HEAD, and changed files.
+# Safety: Read-only Git queries.
+# Inputs: Git worktree.
+# Result: Git state is printed.
 .PHONY: git-status
 git-status:
-	git status --short
-	git log -1 --oneline
+	@$(GIT) branch --show-current
+	@$(GIT) log -1 --oneline
+	@$(GIT) status --short
 
-# Purpose: run pre-commit validation sequence.
-# Result: module is ready for commit if all checks pass.
+# Purpose: Run read-only validation and diff checks before a manual commit.
+# Safety: Read-only; does not stage or commit.
+# Inputs: Valid module worktree.
+# Result: Validation and diff checks pass.
 .PHONY: pre-commit
 pre-commit:
 	$(MAKE) module-validate
-	git diff --check
-	git status --short
+	@$(GIT) diff --check
+	@$(GIT) status --short
 
-# Purpose: run release readiness checks when release packaging exists.
-# Result: release readiness is printed or documented deferral is printed.
+# Purpose: Run module-specific release readiness checks.
+# Safety: Read-only; fails closed until implemented.
+# Inputs: Module-specific implementation.
+# Result: Fails until implemented.
 .PHONY: release-check
 release-check:
-	@echo "$(COLOR_YELLOW)DEFERRED: release check is not implemented for $(MODULE_ID).$(COLOR_RESET)"
+	$(call not_implemented)
 
 # =============================================================================
 # 24 Git / release / commit helpers FINISH
 # =============================================================================
 
 
-
 # =============================================================================
 # 25 Optional module workflow / self-knowledge START
 # =============================================================================
 
-MODULE_WORKFLOW_CLI ?= -m scripts.coordination.modules.module_workflow_cli
-
-# Purpose: list configured module workflows.
-# Result: workflows are listed or an explicit deferred message is printed.
+# Purpose: Run module-owned workflow command: list.
+# Safety: Module-owned executable only; mutability is defined by the subcommand contract.
+# Inputs: MODULE_WORKFLOW_CLI.
+# Result: list completes.
 .PHONY: module-workflow-list
 module-workflow-list:
-	@if [ -f "$(MODULE_WORKFLOW_CLI)" ]; then \
-		$(PYTHON) "$(MODULE_WORKFLOW_CLI)" --root "." list; \
-	else \
-		echo "$(COLOR_YELLOW)DEFERRED: module workflow engine is not configured for $(MODULE_ID).$(COLOR_RESET)"; \
-	fi
+	$(call require_module_script,$(MODULE_WORKFLOW_CLI))
+	"$(PYTHON)" "$(MODULE_WORKFLOW_CLI)" --module-root "$(MODULE_ROOT)" --module "$(MODULE_ID)" list
 
-# Purpose: validate configured workflow manifests, scripts and documentation.
-# Result: workflow control is valid or target returns non-zero.
+# Purpose: Run module-owned workflow command: check.
+# Safety: Module-owned executable only; mutability is defined by the subcommand contract.
+# Inputs: MODULE_WORKFLOW_CLI.
+# Result: check completes.
 .PHONY: module-workflow-check
 module-workflow-check:
-	@if [ -f "$(MODULE_WORKFLOW_CLI)" ]; then \
-		$(PYTHON) "$(MODULE_WORKFLOW_CLI)" --root "." check; \
-	else \
-		echo "$(COLOR_YELLOW)DEFERRED: module workflow engine is not configured for $(MODULE_ID).$(COLOR_RESET)"; \
-	fi
+	$(call require_module_script,$(MODULE_WORKFLOW_CLI))
+	"$(PYTHON)" "$(MODULE_WORKFLOW_CLI)" --module-root "$(MODULE_ROOT)" --module "$(MODULE_ID)" check
 
-# Purpose: prepare a module self-audit and any exact external-input request.
-# Result: compact report plus READY, AWAITING_EXTERNAL_INPUT, or failure.
+# Purpose: Run module-owned workflow command: self-audit.
+# Safety: Module-owned executable only; mutability is defined by the subcommand contract.
+# Inputs: MODULE_WORKFLOW_CLI.
+# Result: self-audit completes.
 .PHONY: module-self-audit
 module-self-audit:
-	@if [ -f "$(MODULE_WORKFLOW_CLI)" ]; then \
-		$(PYTHON) "$(MODULE_WORKFLOW_CLI)" --root "." --module "$(MODULE_ID)" self-audit; \
-	else \
-		echo "$(COLOR_YELLOW)DEFERRED: module self-audit is not configured for $(MODULE_ID).$(COLOR_RESET)"; \
-	fi
+	$(call require_module_script,$(MODULE_WORKFLOW_CLI))
+	"$(PYTHON)" "$(MODULE_WORKFLOW_CLI)" --module-root "$(MODULE_ROOT)" --module "$(MODULE_ID)" self-audit
 
-# Purpose: resume a self-audit after exact structured input is provided.
-# Result: input is validated and archived or target returns non-zero.
+# Purpose: Run module-owned workflow command: self-audit-resume.
+# Safety: Module-owned executable only; mutability is defined by the subcommand contract.
+# Inputs: MODULE_WORKFLOW_CLI.
+# Result: self-audit-resume completes.
 .PHONY: module-self-audit-resume
 module-self-audit-resume:
-	@if [ -f "$(MODULE_WORKFLOW_CLI)" ]; then \
-		$(PYTHON) "$(MODULE_WORKFLOW_CLI)" --root "." --module "$(MODULE_ID)" self-audit-resume; \
-	else \
-		echo "$(COLOR_YELLOW)DEFERRED: module self-audit resume is not configured for $(MODULE_ID).$(COLOR_RESET)"; \
-	fi
+	$(call require_module_script,$(MODULE_WORKFLOW_CLI))
+	"$(PYTHON)" "$(MODULE_WORKFLOW_CLI)" --module-root "$(MODULE_ROOT)" --module "$(MODULE_ID)" self-audit-resume
 
-# Purpose: print the compact current self-knowledge report.
+# Purpose: Run module-owned workflow command: self-status.
+# Safety: Module-owned executable only; mutability is defined by the subcommand contract.
+# Inputs: MODULE_WORKFLOW_CLI.
+# Result: self-status completes.
 .PHONY: module-self-status
 module-self-status:
-	@if [ -f "$(MODULE_WORKFLOW_CLI)" ]; then \
-		$(PYTHON) "$(MODULE_WORKFLOW_CLI)" --root "." --module "$(MODULE_ID)" self-status; \
-	else \
-		echo "$(COLOR_YELLOW)DEFERRED: module self-status is not configured for $(MODULE_ID).$(COLOR_RESET)"; \
-	fi
+	$(call require_module_script,$(MODULE_WORKFLOW_CLI))
+	"$(PYTHON)" "$(MODULE_WORKFLOW_CLI)" --module-root "$(MODULE_ROOT)" --module "$(MODULE_ID)" self-status
 
-# Purpose: print the detailed current self-knowledge report.
+# Purpose: Run module-owned workflow command: self-report-full.
+# Safety: Module-owned executable only; mutability is defined by the subcommand contract.
+# Inputs: MODULE_WORKFLOW_CLI.
+# Result: self-report-full completes.
 .PHONY: module-self-report-full
 module-self-report-full:
-	@if [ -f "$(MODULE_WORKFLOW_CLI)" ]; then \
-		$(PYTHON) "$(MODULE_WORKFLOW_CLI)" --root "." --module "$(MODULE_ID)" self-report-full; \
-	else \
-		echo "$(COLOR_YELLOW)DEFERRED: module self-report-full is not configured for $(MODULE_ID).$(COLOR_RESET)"; \
-	fi
+	$(call require_module_script,$(MODULE_WORKFLOW_CLI))
+	"$(PYTHON)" "$(MODULE_WORKFLOW_CLI)" --module-root "$(MODULE_ROOT)" --module "$(MODULE_ID)" self-report-full
 
 # =============================================================================
 # 25 Optional module workflow / self-knowledge FINISH
@@ -1355,10 +1472,8 @@ module-self-report-full:
 # 90 Module-specific helpers START
 # =============================================================================
 
-# Purpose: reserved area for module-specific helper targets.
-# Result: module-specific helpers remain separated from standard workflow targets.
-
 # Add module-specific targets below this line.
+# Every target must document Purpose, Safety, Inputs, and Result.
 
 # =============================================================================
 # 90 Module-specific helpers FINISH

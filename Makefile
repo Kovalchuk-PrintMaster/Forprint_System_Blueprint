@@ -1,23 +1,41 @@
-BLUEPRINT_PYTHON ?= python3
+# ForPrint System Blueprint Makefile
+#
+# This file is the executable command surface for the Blueprint repository.
+# Public targets must preserve repository ownership and command semantics:
+#   - preview/status/list/show/validate/check targets are operator-safe and
+#     must not hide apply/commit/push/merge behavior;
+#   - explicit write/apply/fix/generate targets may mutate only Blueprint;
+#   - Blueprint completion intake reads module repositories but never writes them;
+#   - completion-accept requires a successful read-only intake check;
+#   - completion-return remains available for invalid evidence and writes only
+#     Blueprint review records.
+#
+# GNU Make recipes use TAB indentation. Do not use .RECIPEPREFIX.
+
+.DEFAULT_GOAL := help
+.DELETE_ON_ERROR:
+
 PYTHON ?= .venv_blueprint/bin/python
-PIP ?= .venv_blueprint/bin/pip
+BLUEPRINT_PYTHON ?= $(PYTHON)
+PIP ?= $(PYTHON) -m pip
 
 MODULE ?= forprint_library
-SCOPE ?= bootstrap
-LIMIT ?= 40
-
+MODULE_ROOT ?= ../$(MODULE)
 MODULES ?=
 ROADMAP ?=
+
+SCOPE ?= bootstrap
+LIMIT ?= 40
 BEFORE_CURRENT ?= 5
 AFTER_CURRENT ?= 10
-NO_COLOR ?=
 ROADMAP_SUMMARY_MODULES ?= forprint_library
 
-MODULE_ROOT ?= ../$(MODULE)
 PACKET ?=
 REVIEW_NOTES ?=
 COMPLETION_COMMIT ?=
 REVIEWED_AT ?=
+REMOTE ?= origin
+BRANCH ?=
 
 STATUS ?= acknowledged
 LEDGER ?= coordination/blueprint_awareness/document_review_ledger.yaml
@@ -26,7 +44,6 @@ SOURCE ?=
 PRIORITY ?=
 NOTES ?=
 MODULE_COMMIT ?=
-
 # =============================================================================
 
 # 00 Environment / constants START
@@ -234,9 +251,9 @@ check-fix:
 
 .PHONY: clean
 clean:
-	rm -rf .pytest_cache .ruff_cache .mypy_cache htmlcov .coverage
-	find scripts tests -type d -name "**pycache**" -prune -exec rm -rf {} ;
-	find . -maxdepth 1 -type d -name "*.egg-info" -prune -exec rm -rf {} ;
+	rm -rf -- .pytest_cache .ruff_cache .mypy_cache htmlcov .coverage
+	find scripts tests -type d -name "__pycache__" -prune -exec rm -rf -- {} +
+	find . -maxdepth 1 -type d -name "*.egg-info" -prune -exec rm -rf -- {} +
 
 # =============================================================================
 
@@ -255,9 +272,9 @@ diagrams:
 	$(PYTHON) scripts/generate_mermaid.py
 
 .PHONY: diagrams-check
-diagrams-check: diagrams
+diagrams-check:
 	$(PYTHON) scripts/validation/validate_diagrams_index.py
-	@echo "OK: Blueprint diagram artifacts are generated and documented."
+	@echo "OK: existing Blueprint diagram artifacts are documented and valid."
 
 .PHONY: diagrams-list
 diagrams-list:
@@ -309,7 +326,13 @@ prompt-queue-validate:
 
 .PHONY: prompt-dashboard
 prompt-dashboard:
-	$(PYTHON) scripts/coordination/render_prompt_dashboard.py --module "$(MODULE)" $(if $(filter 1,$(NO_COLOR)),--no-color,)
+	$(PYTHON) scripts/coordination/render_prompt_dashboard.py --module "$(MODULE)"
+
+# Purpose: canonical read-only Blueprint prompt status command.
+# Safety: does not prepare, release, or mutate prompts.
+.PHONY: prompt-status
+prompt-status:
+	$(MAKE) prompt-dashboard MODULE="$(MODULE)"
 
 .PHONY: prompt-next
 prompt-next:
@@ -326,104 +349,38 @@ prompt-read-next:
 # =============================================================================
 
 # =============================================================================
-
 # 12A Completion intake / finalization / next work START
-
 # =============================================================================
 
-
+# Purpose: independently verify published module completion evidence.
+# Safety: read-only for Blueprint and module repositories; uses git ls-remote
+# without fetch/checkout/restore and never executes module code.
 .PHONY: completion-intake-check
 completion-intake-check:
 	@set -eu; \
-		if [ -z "$(MODULE)" ]; then \
-			echo "FAILED: provide MODULE=<canonical module id>"; \
-			exit 1; \
-		fi; \
-		if [ -z "$(MODULE_ROOT)" ]; then \
-			echo "FAILED: provide MODULE_ROOT=<module repository path>"; \
-			exit 1; \
-		fi; \
-		if [ -z "$(PACKET)" ]; then \
-			echo "FAILED: provide PACKET=<module-relative completion packet path>"; \
-			exit 1; \
-		fi; \
-		if [ -z "$(COMPLETION_COMMIT)" ]; then \
-			echo "FAILED: provide COMPLETION_COMMIT=<published commit>"; \
-			exit 1; \
-		fi; \
+		if [ -z "$(MODULE)" ]; then echo "FAILED: provide MODULE=<canonical module id>"; exit 2; fi; \
+		if [ -z "$(MODULE_ROOT)" ]; then echo "FAILED: provide MODULE_ROOT=<module repository path>"; exit 2; fi; \
+		if [ -z "$(PACKET)" ]; then echo "FAILED: provide PACKET=<module-relative completion packet path>"; exit 2; fi; \
+		if [ -z "$(COMPLETION_COMMIT)" ]; then echo "FAILED: provide COMPLETION_COMMIT=<published commit>"; exit 2; fi; \
 		set -- \
 			--root "." \
 			--module "$(MODULE)" \
 			--module-root "$(MODULE_ROOT)" \
 			--packet "$(PACKET)" \
-			--completion-commit "$(COMPLETION_COMMIT)"; \
-		if [ -n "$(REMOTE)" ]; then \
-			set -- "$$@" --remote "$(REMOTE)"; \
-		fi; \
-		if [ -n "$(BRANCH)" ]; then \
-			set -- "$$@" --branch "$(BRANCH)"; \
-		fi; \
+			--completion-commit "$(COMPLETION_COMMIT)" \
+			--remote "$(REMOTE)"; \
+		if [ -n "$(BRANCH)" ]; then set -- "$$@" --branch "$(BRANCH)"; fi; \
 		$(PYTHON) scripts/coordination/completion_intake_check.py "$$@"
 
+# Purpose: build the accepted-decision intake plan after the same read-only check.
+# Safety: read-only; no Blueprint or module files are written.
 .PHONY: completion-intake-preview
 completion-intake-preview:
 	@set -eu; \
-		if [ -z "$(MODULE)" ]; then \
-			echo "FAILED: provide MODULE=<canonical module id>"; \
-			exit 1; \
-		fi; \
-		if [ -z "$(MODULE_ROOT)" ]; then \
-			echo "FAILED: provide MODULE_ROOT=<module repository path>"; \
-			exit 1; \
-		fi; \
-		if [ -z "$(PACKET)" ]; then \
-			echo "FAILED: provide PACKET=<module-relative completion packet path>"; \
-			exit 1; \
-		fi; \
-		if [ -z "$(COMPLETION_COMMIT)" ]; then \
-			echo "FAILED: provide COMPLETION_COMMIT=<published commit>"; \
-			exit 1; \
-		fi; \
-		set -- \
-			--root "." \
-			--module "$(MODULE)" \
-			--module-root "$(MODULE_ROOT)" \
-			--packet "$(PACKET)" \
-			--decision accepted \
-			--completion-commit "$(COMPLETION_COMMIT)"; \
-		if [ -n "$(REVIEW_NOTES)" ]; then \
-			set -- "$$@" --review-notes "$(REVIEW_NOTES)"; \
-		fi; \
-		if [ -n "$(REVIEWED_AT)" ]; then \
-			set -- "$$@" --reviewed-at "$(REVIEWED_AT)"; \
-		fi; \
-		if [ -n "$(REMOTE)" ]; then \
-			set -- "$$@" --remote "$(REMOTE)"; \
-		fi; \
-		if [ -n "$(BRANCH)" ]; then \
-			set -- "$$@" --branch "$(BRANCH)"; \
-		fi; \
-		$(PYTHON) scripts/coordination/module_completion_intake.py "$$@"
-
-.PHONY: completion-accept
-completion-accept:
-	@set -eu; \
-		if [ -z "$(MODULE)" ]; then \
-			echo "FAILED: provide MODULE=<canonical module id>"; \
-			exit 1; \
-		fi; \
-		if [ -z "$(MODULE_ROOT)" ]; then \
-			echo "FAILED: provide MODULE_ROOT=<module repository path>"; \
-			exit 1; \
-		fi; \
-		if [ -z "$(PACKET)" ]; then \
-			echo "FAILED: provide PACKET=<module-relative completion packet path>"; \
-			exit 1; \
-		fi; \
-		if [ -z "$(COMPLETION_COMMIT)" ]; then \
-			echo "FAILED: provide COMPLETION_COMMIT=<published commit>"; \
-			exit 1; \
-		fi; \
+		if [ -z "$(MODULE)" ]; then echo "FAILED: provide MODULE=<canonical module id>"; exit 2; fi; \
+		if [ -z "$(MODULE_ROOT)" ]; then echo "FAILED: provide MODULE_ROOT=<module repository path>"; exit 2; fi; \
+		if [ -z "$(PACKET)" ]; then echo "FAILED: provide PACKET=<module-relative completion packet path>"; exit 2; fi; \
+		if [ -z "$(COMPLETION_COMMIT)" ]; then echo "FAILED: provide COMPLETION_COMMIT=<published commit>"; exit 2; fi; \
 		set -- \
 			--root "." \
 			--module "$(MODULE)" \
@@ -431,29 +388,66 @@ completion-accept:
 			--packet "$(PACKET)" \
 			--decision accepted \
 			--completion-commit "$(COMPLETION_COMMIT)" \
-			--write; \
-		if [ -n "$(REVIEW_NOTES)" ]; then \
-			set -- "$$@" --review-notes "$(REVIEW_NOTES)"; \
-		fi; \
-		if [ -n "$(REVIEWED_AT)" ]; then \
-			set -- "$$@" --reviewed-at "$(REVIEWED_AT)"; \
-		fi; \
-		if [ -n "$(REMOTE)" ]; then \
-			set -- "$$@" --remote "$(REMOTE)"; \
-		fi; \
-		if [ -n "$(BRANCH)" ]; then \
-			set -- "$$@" --branch "$(BRANCH)"; \
-		fi; \
+			--remote "$(REMOTE)"; \
+		if [ -n "$(BRANCH)" ]; then set -- "$$@" --branch "$(BRANCH)"; fi; \
+		if [ -n "$(REVIEW_NOTES)" ]; then set -- "$$@" --review-notes "$(REVIEW_NOTES)"; fi; \
+		if [ -n "$(REVIEWED_AT)" ]; then set -- "$$@" --reviewed-at "$(REVIEWED_AT)"; fi; \
 		$(PYTHON) scripts/coordination/module_completion_intake.py "$$@"
 
+# Purpose: accept validated module completion evidence.
+# Safety: mutates Blueprint queue/roadmap/review files only; the Python layer
+# independently blocks writes unless completion-intake-check passed.
+.PHONY: completion-accept
+completion-accept:
+	@set -eu; \
+		if [ -z "$(MODULE)" ]; then echo "FAILED: provide MODULE=<canonical module id>"; exit 2; fi; \
+		if [ -z "$(MODULE_ROOT)" ]; then echo "FAILED: provide MODULE_ROOT=<module repository path>"; exit 2; fi; \
+		if [ -z "$(PACKET)" ]; then echo "FAILED: provide PACKET=<module-relative completion packet path>"; exit 2; fi; \
+		if [ -z "$(COMPLETION_COMMIT)" ]; then echo "FAILED: provide COMPLETION_COMMIT=<published commit>"; exit 2; fi; \
+		set -- \
+			--root "." \
+			--module "$(MODULE)" \
+			--module-root "$(MODULE_ROOT)" \
+			--packet "$(PACKET)" \
+			--decision accepted \
+			--completion-commit "$(COMPLETION_COMMIT)" \
+			--remote "$(REMOTE)" \
+			--write; \
+		if [ -n "$(BRANCH)" ]; then set -- "$$@" --branch "$(BRANCH)"; fi; \
+		if [ -n "$(REVIEW_NOTES)" ]; then set -- "$$@" --review-notes "$(REVIEW_NOTES)"; fi; \
+		if [ -n "$(REVIEWED_AT)" ]; then set -- "$$@" --reviewed-at "$(REVIEWED_AT)"; fi; \
+		$(PYTHON) scripts/coordination/module_completion_intake.py "$$@"
+
+# Purpose: return completion evidence for correction with explicit notes.
+# Safety: does not require a GREEN intake check and writes only Blueprint
+# queue/roadmap/review records. It never mutates the module repository.
 .PHONY: completion-return
 completion-return:
-	@set -eu; 	if [ -z "$(PACKET)" ]; then 		echo "FAILED: provide PACKET=<module-relative completion packet path>"; 		exit 1; 	fi; 	if [ -z "$(REVIEW_NOTES)" ]; then 		echo "FAILED: completion-return requires REVIEW_NOTES=..."; 		exit 1; 	fi; 	set -- --root "." --module "$(MODULE)" --module-root "$(MODULE_ROOT)" --packet "$(PACKET)" --decision returned_for_fix --review-notes "$(REVIEW_NOTES)" --write; 	if [ -n "$(COMPLETION_COMMIT)" ]; then set -- "$$@" --completion-commit "$(COMPLETION_COMMIT)"; fi; 	if [ -n "$(REVIEWED_AT)" ]; then set -- "$$@" --reviewed-at "$(REVIEWED_AT)"; fi; 	$(PYTHON) scripts/coordination/module_completion_intake.py "$$@"
+	@set -eu; \
+		if [ -z "$(MODULE)" ]; then echo "FAILED: provide MODULE=<canonical module id>"; exit 2; fi; \
+		if [ -z "$(MODULE_ROOT)" ]; then echo "FAILED: provide MODULE_ROOT=<module repository path>"; exit 2; fi; \
+		if [ -z "$(PACKET)" ]; then echo "FAILED: provide PACKET=<module-relative completion packet path>"; exit 2; fi; \
+		if [ -z "$(REVIEW_NOTES)" ]; then echo "FAILED: completion-return requires REVIEW_NOTES=..."; exit 2; fi; \
+		set -- \
+			--root "." \
+			--module "$(MODULE)" \
+			--module-root "$(MODULE_ROOT)" \
+			--packet "$(PACKET)" \
+			--decision returned_for_fix \
+			--review-notes "$(REVIEW_NOTES)" \
+			--write; \
+		if [ -n "$(COMPLETION_COMMIT)" ]; then set -- "$$@" --completion-commit "$(COMPLETION_COMMIT)"; fi; \
+		if [ -n "$(REVIEWED_AT)" ]; then set -- "$$@" --reviewed-at "$(REVIEWED_AT)"; fi; \
+		$(PYTHON) scripts/coordination/module_completion_intake.py "$$@"
 
+# Purpose: show the next Blueprint coordination action for a module.
+# Safety: read-only.
 .PHONY: next-work-suggestion
 next-work-suggestion:
 	$(PYTHON) scripts/coordination/resolve_next_module_work.py --root "." --module "$(MODULE)"
 
+# Purpose: validate queue/roadmap state after an explicit accept/return action.
+# Safety: read-only; does not finalize or write completion state.
 .PHONY: completion-finalize-check
 completion-finalize-check:
 	$(PYTHON) scripts/coordination/validate_prompt_queue.py --root "."
@@ -461,9 +455,7 @@ completion-finalize-check:
 	$(PYTHON) scripts/coordination/resolve_next_module_work.py --root "." --module "$(MODULE)"
 
 # =============================================================================
-
 # 12A Completion intake / finalization / next work FINISH
-
 # =============================================================================
 
 # =============================================================================
@@ -482,7 +474,7 @@ document-manifest-write:
 
 .PHONY: document-awareness
 document-awareness:
-	$(PYTHON) scripts/coordination/render_document_awareness_dashboard.py --module "$(MODULE)" --limit "$(LIMIT)" $(if $(filter 1,$(NO_COLOR)),--no-color,)
+	$(PYTHON) scripts/coordination/render_document_awareness_dashboard.py --module "$(MODULE)" --limit "$(LIMIT)"
 
 .PHONY: context-bundle
 context-bundle:
@@ -549,16 +541,16 @@ roadmap-validate:
 .PHONY: roadmap-dashboard
 roadmap-dashboard:
 	@if [ -n "$(MODULES)" ]; then \
-		$(PYTHON) scripts/coordination/render_module_roadmap_dashboard.py --modules "$(MODULES)" --before-current "$(BEFORE_CURRENT)" --after-current "$(AFTER_CURRENT)" $(if $(filter 1,$(NO_COLOR)),--no-color,); \
+		$(PYTHON) scripts/coordination/render_module_roadmap_dashboard.py --modules "$(MODULES)" --before-current "$(BEFORE_CURRENT)" --after-current "$(AFTER_CURRENT)"; \
 	elif [ -n "$(ROADMAP)" ]; then \
-		$(PYTHON) scripts/coordination/render_module_roadmap_dashboard.py --roadmap "$(ROADMAP)" --before-current "$(BEFORE_CURRENT)" --after-current "$(AFTER_CURRENT)" $(if $(filter 1,$(NO_COLOR)),--no-color,); \
+		$(PYTHON) scripts/coordination/render_module_roadmap_dashboard.py --roadmap "$(ROADMAP)" --before-current "$(BEFORE_CURRENT)" --after-current "$(AFTER_CURRENT)"; \
 	else \
-		$(PYTHON) scripts/coordination/render_module_roadmap_dashboard.py --module "$(MODULE)" --before-current "$(BEFORE_CURRENT)" --after-current "$(AFTER_CURRENT)" $(if $(filter 1,$(NO_COLOR)),--no-color,); \
+		$(PYTHON) scripts/coordination/render_module_roadmap_dashboard.py --module "$(MODULE)" --before-current "$(BEFORE_CURRENT)" --after-current "$(AFTER_CURRENT)"; \
 	fi
 
 .PHONY: roadmap-summary
 roadmap-summary:
-	$(PYTHON) scripts/coordination/render_module_roadmap_dashboard.py --modules "$(ROADMAP_SUMMARY_MODULES)" $(if $(filter 1,$(NO_COLOR)),--no-color,)
+	$(PYTHON) scripts/coordination/render_module_roadmap_dashboard.py --modules "$(ROADMAP_SUMMARY_MODULES)"
 
 # =============================================================================
 
@@ -643,7 +635,7 @@ module-governance-audit-check:
 
 .PHONY: reporting-consolidation-audit
 reporting-consolidation-audit:
-	$(PYTHON) scripts/reporting/audit_consolidation.py $(if $(filter 1,$(NO_COLOR)),--no-color,)
+	$(PYTHON) scripts/reporting/audit_consolidation.py
 
 .PHONY: reporting-consolidation-audit-json
 reporting-consolidation-audit-json:
@@ -665,15 +657,15 @@ module-workflow-check:
 
 .PHONY: module-self-audit
 module-self-audit:
-	$(PYTHON) -m scripts.coordination.modules.module_workflow_cli --root "." --module "$(MODULE)" $(if $(filter 1,$(NO_COLOR)),--no-color,) self-audit
+	$(PYTHON) -m scripts.coordination.modules.module_workflow_cli --root "." --module "$(MODULE)" self-audit
 
 .PHONY: module-self-audit-resume
 module-self-audit-resume:
-	$(PYTHON) -m scripts.coordination.modules.module_workflow_cli --root "." --module "$(MODULE)" $(if $(filter 1,$(NO_COLOR)),--no-color,) self-audit-resume
+	$(PYTHON) -m scripts.coordination.modules.module_workflow_cli --root "." --module "$(MODULE)" self-audit-resume
 
 .PHONY: module-self-status
 module-self-status:
-	$(PYTHON) -m scripts.coordination.modules.module_workflow_cli --root "." --module "$(MODULE)" $(if $(filter 1,$(NO_COLOR)),--no-color,) self-status
+	$(PYTHON) -m scripts.coordination.modules.module_workflow_cli --root "." --module "$(MODULE)" self-status
 
 .PHONY: module-self-report-full
 module-self-report-full:
@@ -681,7 +673,7 @@ module-self-report-full:
 
 .PHONY: modules-self-status
 modules-self-status:
-	$(PYTHON) -m scripts.coordination.modules.module_workflow_cli --root "." $(if $(filter 1,$(NO_COLOR)),--no-color,) modules-status
+	$(PYTHON) -m scripts.coordination.modules.module_workflow_cli --root "." modules-status
 
 .PHONY: blueprint-self-audit
 blueprint-self-audit:
@@ -704,6 +696,13 @@ blueprint-self-report-full:
 # 17 Module workflow control / self-knowledge FINISH
 
 # =============================================================================
+
+# =============================================================================
+# 18 Blueprint inventory / repository-knowledge gates START
+# =============================================================================
+
+# These targets may write only declared generated reports/tmp evidence.
+# They are invoked by the repository gate and must never mutate source records.
 
 .PHONY: check-module-registry-consistency
 check-module-registry-consistency:
@@ -801,3 +800,7 @@ inventory-acceptance-dry-run-status:
 	@mkdir -p reports
 	@$(BLUEPRINT_PYTHON) scripts/coordination/run_inventory_acceptance_dry_run.py --index coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__inventory_acceptance_evidence_index_v0_1.yaml --index-validation reports/inventory_acceptance_evidence_index_validation_report.yaml --rci coordination/repository_knowledge/inventory/2026-07-30__forprint_system_blueprint__repository_capability_inventory_v0_4.yaml --redm coordination/repository_knowledge/flows/2026-07-30__forprint_system_blueprint__repository_execution_dependency_map_v0_4.yaml --closure reports/semantic_coverage_closure_report.yaml --reconciliation reports/repository_knowledge_reconciliation_report.yaml --authority-policy coordination/repository_knowledge/artifact_authority_policy_v0_1.yaml --plan coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml --roadmap coordination/self_coordination/roadmap.yaml --queue coordination/self_coordination/prompt_queue/index.yaml --module "$(MODULE)" --output reports/inventory_acceptance_dry_run_report.yaml
 	@$(BLUEPRINT_PYTHON) scripts/coordination/render_inventory_acceptance_dry_run_status.py --report reports/inventory_acceptance_dry_run_report.yaml
+
+# =============================================================================
+# 18 Blueprint inventory / repository-knowledge gates FINISH
+# =============================================================================
