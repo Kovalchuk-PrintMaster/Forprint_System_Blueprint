@@ -9,8 +9,9 @@ metadata:
   source_standard:
     path: governance/module_workflow_command_architecture_v0_1.md
     version: v0_1
-    relationship: same_change_set
-    baseline_commit: ed20997c0fa22774474dd1e09ea16900d6642a98
+    relationship: approved_target_standard
+    baseline_commit: 45b67706e7742136ab4a24d96e36c61545f3db69
+    approval_evidence: coordination/internal_work/blueprint/governance/2026-08-01__blueprint__module_workflow_command_architecture_approval_v0_1.yaml
   purpose: >-
     Define repository-class command adoption rules for the complete ForPrint
     project while keeping current repository assessments separate from the
@@ -49,7 +50,11 @@ scope_model:
     may also contain temporary worktrees, tooling, archives, and experiments.
 
 governance:
-  architecture_approval: pending
+  architecture_approval:
+    state: approved
+    decision_record: coordination/internal_work/blueprint/governance/2026-08-01__blueprint__module_workflow_command_architecture_approval_v0_1.yaml
+    implementation_authorized: false
+    external_rollout_authorized: false
   implementation_migration: not_started
   external_rollout: gated
   external_module_prompts_released: false
@@ -462,7 +467,7 @@ validation_requirements:
 
 result:
   matrix_state: generalized_draft_ready_for_validation_implementation
-  architecture_state: draft_pending_approval
+  architecture_state: approved_target_standard
   assessment_coverage: partial
   future_module_inheritance: automatic
   external_rollout: gated

@@ -1,15 +1,15 @@
 # Module Workflow Command Architecture v0.1
 
-Status: Draft for Blueprint review
+Status: Blueprint-approved target standard
 Owner: ForPrint System Blueprint
 Target scope: Blueprint and every current or future ForPrint module repository admitted through Blueprint-owned registration or onboarding control
 External rollout: Gated
 Version: 0.1
 Date: 2026-08-01
-Draft authority: Reference only. This document becomes normative only after
-explicit Blueprint approval. Until approval, MUST and MUST NOT statements
-describe the proposed target architecture and do not authorize rollout or
-repository mutation.
+Approval authority: Approved by ForPrint System Blueprint on 2026-08-01.
+MUST and MUST NOT statements define the target architecture. Approval does
+not authorize external rollout, module mutation, Makefile migration, or
+canonical template migration; those remain separately gated.
 
 ## 1. Purpose
 
