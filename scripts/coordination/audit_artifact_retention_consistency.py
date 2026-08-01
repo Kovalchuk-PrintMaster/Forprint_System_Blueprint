@@ -110,7 +110,10 @@ def validate_class(
 
         path = repo_root / relative
 
-        if not path.is_file():
+        if (
+            not path.is_file()
+            and authority != "generated_rebuildable_view"
+        ):
             item_errors.append("representative file is missing")
 
         if tracked_required is True and not tracked(

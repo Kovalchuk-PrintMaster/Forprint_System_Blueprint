@@ -11,6 +11,21 @@ import yaml
 EXPECTED_SCHEMA = "module_registry_resolution_v0_1"
 
 
+def stable_report_path(
+    path: Path,
+    *,
+    repo_root: Path,
+) -> str:
+    # Return a checkout-independent path for report metadata.
+    resolved_path = path.resolve()
+    resolved_root = repo_root.resolve()
+
+    try:
+        return resolved_path.relative_to(resolved_root).as_posix()
+    except ValueError:
+        return path.as_posix()
+
+
 def load_yaml(path: Path) -> dict[str, Any]:
     try:
         data = yaml.safe_load(path.read_text(encoding="utf-8"))
@@ -191,8 +206,8 @@ def validate_manifest(
     return {
         "schema_version": ("module_registry_resolution_report_v0_1"),
         "metadata": {
-            "manifest": str(manifest_path),
-            "repo_root": str(repo_root),
+            "manifest": stable_report_path(manifest_path, repo_root=repo_root),
+            "repo_root": ".",
             "result": ("PASSED" if passed else "FAILED"),
         },
         "summary": {

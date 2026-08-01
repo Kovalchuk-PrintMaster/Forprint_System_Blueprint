@@ -88,6 +88,31 @@ class ArtifactRetentionAuditTests(unittest.TestCase):
             8,
         )
 
+    def test_missing_generated_view_is_rebuildable(self) -> None:
+        policy = MODULE.load_yaml(POLICY_PATH)
+        generated = copy.deepcopy(
+            next(
+                item
+                for item in policy["artifact_classes"]
+                if item["authority_class"] == "generated_rebuildable_view"
+            )
+        )
+
+        with tempfile.TemporaryDirectory() as temporary:
+            result = MODULE.validate_class(
+                generated,
+                repo_root=Path(temporary),
+            )
+
+        self.assertEqual(
+            result["status"],
+            "PASSED",
+        )
+        self.assertEqual(
+            result["failed_representatives"],
+            0,
+        )
+
     def test_snapshot_hash_drift_is_red(self) -> None:
         gate = MODULE.load_yaml(SNAPSHOT_GATE_PATH)
         mutated = copy.deepcopy(gate)
