@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import re
+import subprocess
 import sys
 from pathlib import Path
 from typing import Any
@@ -13,6 +14,13 @@ from scripts.reporting.table_renderer import TableRow, render_boxed_table_lines
 
 PROMPT_QUEUE_SCHEMA_VERSION = "prompt_queue_v0_2"
 OUTGOING_PROMPTS_DIR = Path("coordination/outgoing_prompts")
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+BLUEPRINT_MODULE = "forprint_system_blueprint"
+BLUEPRINT_STATUS_SCRIPT = (
+    PROJECT_ROOT
+    / "scripts/coordination/"
+    "render_blueprint_self_coordination_status.py"
+)
 
 COLOR_RESET = "\033[0m"
 COLOR_BRIGHT_GREEN = "\033[92m"
@@ -341,6 +349,21 @@ def main() -> int:
         help="Disable ANSI colors.",
     )
     args = parser.parse_args()
+
+    if args.module == BLUEPRINT_MODULE:
+        command = [
+            sys.executable,
+            str(BLUEPRINT_STATUS_SCRIPT),
+            "--module",
+            args.module,
+            "--view",
+            "prompts",
+        ]
+        return subprocess.run(
+            command,
+            cwd=PROJECT_ROOT,
+            check=False,
+        ).returncode
 
     root = Path(args.root).resolve()
     index_path = root / OUTGOING_PROMPTS_DIR / args.module / "index.yaml"

@@ -368,9 +368,13 @@ def resume(root: Path, *, use_color: bool) -> int:
 def status(root: Path, *, use_color: bool) -> int:
     summary_path = artifact_paths(root)["summary"]
     if not summary_path.is_file():
-        print("Blueprint Self Audit has no current report.")
+        print(
+            "Blueprint Self Audit is configured and "
+            "ready to initialize."
+        )
+        print("Workflow: blueprint_self_audit [active_v0_1]")
         print("Next command: make blueprint-self-audit")
-        print("RESULT: NOT_INITIALIZED")
+        print("RESULT: READY_TO_INITIALIZE")
         return 0
     summary = json.loads(summary_path.read_text(encoding="utf-8"))
     rows = summary["metrics"]
