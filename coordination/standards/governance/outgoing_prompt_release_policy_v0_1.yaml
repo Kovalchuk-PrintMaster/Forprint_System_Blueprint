@@ -1,0 +1,24 @@
+schema_version: outgoing_prompt_release_policy_v0_1
+
+metadata:
+  owner: forprint_system_blueprint
+  status: current
+  created_at: "2026-08-02"
+  purpose: Fail-closed authorization for Blueprint Prompt Queue v0.2 release.
+
+release:
+  global_enabled: false
+  authorized_modules: []
+  authorization_evidence: null
+
+boundaries:
+  blueprint_only_writes: true
+  module_repository_writes: false
+  legacy_dispatch_index_mutation: false
+  sent_directory_is_release_state: false
+  commit_push_or_merge: false
+
+result:
+  operational_state: gated
+  reference_pilot_migration: not_authorized
+  external_rollout: gated
