@@ -10,7 +10,8 @@ repository_profile:
   repository_class: blueprint
   control_role: blueprint_internal_control
   operational_readiness: blocked
-  self_audit_state: ready_to_initialize
+  self_audit_state: completed_with_unknowns
+  self_audit_evidence: coordination/internal_work/blueprint/governance/2026-08-02__blueprint__self_audit_completion_v0_1.yaml
   external_rollout: gated
 
 commands:
@@ -151,8 +152,8 @@ commands:
     repository_write_scope: blueprint_runtime_and_reports_only
     implementation: scripts/coordination/modules/forprint_system_blueprint/workflows/self_audit.py
     implementation_state: implemented_requires_runtime_state
-    runtime_state: ready_to_initialize
-    conformance: pending_runtime_execution
+    runtime_state: completed_with_unknowns
+    conformance: pass
 
   - command_id: blueprint-self-status
     public_target: blueprint-self-status
@@ -174,8 +175,8 @@ commands:
     repository_write_scope: none
     implementation: scripts/coordination/modules/forprint_system_blueprint/workflows/self_audit.py
     implementation_state: implemented_requires_runtime_state
-    runtime_state: requires_completed_self_audit
-    conformance: pending_runtime_execution
+    runtime_state: available
+    conformance: pass
 
   - command_id: modules-self-status
     public_target: modules-self-status
@@ -195,7 +196,7 @@ result:
   blockers:
     - prompt_prepare_not_implemented
     - prompt_release_not_implemented
-    - blueprint_self_audit_not_executed
+    - command_applicability_validator_not_in_canonical_gate
   false_blockers_removed:
     - blueprint_module_coordination_metadata_files_missing
     - blueprint_outgoing_prompt_queue_missing

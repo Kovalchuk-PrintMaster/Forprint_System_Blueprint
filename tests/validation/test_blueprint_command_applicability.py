@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib.util
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -44,6 +45,31 @@ def run_script(*parts: str) -> subprocess.CompletedProcess[str]:
 
 def test_current_applicability_registry_passes() -> None:
     assert validator.validate(ROOT) == []
+
+
+def test_self_audit_evidence_cannot_claim_green(
+    tmp_path: Path,
+) -> None:
+    target = tmp_path / "self_audit_evidence.yaml"
+    shutil.copy2(
+        ROOT / validator.SELF_AUDIT_EVIDENCE,
+        target,
+    )
+    content = target.read_text(encoding="utf-8")
+    old = "  operational_readiness: blocked\n"
+    new = "  operational_readiness: green\n"
+    assert content.count(old) == 1
+    target.write_text(
+        content.replace(old, new, 1),
+        encoding="utf-8",
+    )
+    assert any(
+        "subject.operational_readiness must be 'blocked'"
+        in issue
+        for issue in validator.validate_self_audit_evidence(
+            target
+        )
+    )
 
 
 def test_blueprint_coordination_check_is_not_applicable() -> None:

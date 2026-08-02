@@ -12,6 +12,9 @@ subject:
   standard_path: coordination/standards/governance/module_workflow_command_architecture_v0_1.md
   adoption_matrix_path: coordination/standards/adoption/module_workflow_adoption_matrix_v0_1.yaml
   refactor_completion_evidence: coordination/internal_work/blueprint/governance/2026-08-02__blueprint__make_workflow_contract_refactor_completion_v0_1.yaml
+  command_applicability_registry: coordination/standards/adoption/blueprint_command_applicability_v0_1.yaml
+  command_applicability_inventory_evidence: coordination/internal_work/blueprint/governance/2026-08-02__blueprint__command_applicability_inventory_v0_1.yaml
+  blueprint_self_audit_evidence: coordination/internal_work/blueprint/governance/2026-08-02__blueprint__self_audit_completion_v0_1.yaml
 
 evidence_commits:
   architecture_approval: 6bfd2daaf9b612026087a151ae5886a1c540dc23
@@ -19,6 +22,7 @@ evidence_commits:
   completion_intake_check: fea24ac4cea8eb0c9f0fe263bf58676386114503
   completion_acceptance_gate: c6a5a51c30f227a6cd61e5bfe96b207f9acda27a
   make_workflow_contract_refactor: 1c82c929d8608187b52b73d80c651760884d8a58
+  command_applicability: 2f89443be1a5b9893d666eed7baa696c17c0b904
 
 implementation_state:
   architecture: approved_target_standard
@@ -28,6 +32,10 @@ implementation_state:
   completion_acceptance_gate: implemented
   blueprint_makefile_refactor: completed
   canonical_module_make_template_refactor: completed
+  command_applicability_registry: completed
+  command_implementation_inventory: completed
+  blueprint_self_audit_execution: completed_with_unknowns
+  operational_readiness_state: blocked
   operational_readiness_review: pending
   implementation_migration: blueprint_internal_in_progress
   reference_pilot_migration: not_authorized
@@ -45,6 +53,13 @@ verified_behavior:
     direct_python_write_bypass_blocked: true
     completion_return_requires_green_check: false
     blueprint_only_writes: true
+  blueprint_self_audit:
+    workflow_stage: completed
+    workflow_result: READY
+    governance_interpretation: READY_WITH_UNKNOWNS
+    operational_readiness: blocked
+    runtime_outputs_are_ignored: true
+    external_analysis_confidence: medium
   make_workflow_contracts:
     blueprint_makefile_refactor_completed: true
     canonical_module_make_template_refactor_completed: true
@@ -59,6 +74,7 @@ boundaries:
   canonical_make_template_refactor_completed: true
   external_module_makefile_changes_authorized: false
   canonical_make_template_rollout_authorized: false
+  self_audit_runtime_outputs_committed: false
   reference_pilot_prompt_authorized: false
   external_module_prompts_released: false
   external_rollout_released: false

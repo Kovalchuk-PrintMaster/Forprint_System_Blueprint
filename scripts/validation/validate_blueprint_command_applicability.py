@@ -13,6 +13,13 @@ REGISTRY = Path(
     "coordination/standards/adoption/"
     "blueprint_command_applicability_v0_1.yaml"
 )
+SELF_AUDIT_EVIDENCE = Path(
+    "coordination/internal_work/blueprint/governance/"
+    "2026-08-02__blueprint__self_audit_completion_v0_1.yaml"
+)
+SELF_AUDIT_SCHEMA = (
+    "blueprint_self_audit_completion_evidence_v0_1"
+)
 SCHEMA = "blueprint_command_applicability_v0_1"
 
 EXPECTED_TARGETS = {
@@ -36,9 +43,115 @@ EXPECTED_TARGETS = {
 EXPECTED_BLOCKERS = {
     "prompt_prepare_not_implemented",
     "prompt_release_not_implemented",
-    "blueprint_self_audit_not_executed",
+    "command_applicability_validator_not_in_canonical_gate",
 }
 
+
+def validate_self_audit_evidence(
+    path: Path,
+) -> list[str]:
+    issues: list[str] = []
+    try:
+        data = yaml.safe_load(
+            path.read_text(encoding="utf-8")
+        )
+    except FileNotFoundError:
+        return [f"{path}: file does not exist"]
+    except yaml.YAMLError as error:
+        return [f"{path}: invalid YAML: {error}"]
+
+    if not isinstance(data, dict):
+        return [f"{path}: YAML root must be a mapping"]
+    if data.get("schema_version") != SELF_AUDIT_SCHEMA:
+        issues.append(
+            f"{path}: unsupported self-audit schema_version"
+        )
+
+    subject = data.get("subject")
+    if not isinstance(subject, dict):
+        issues.append(f"{path}: subject must be a mapping")
+    else:
+        expected = {
+            "workflow_id": "blueprint_self_audit",
+            "run_id": "bsa-20260802T142628Z",
+            "request_id": "bsa-20260802T142628Z",
+            "source_commit": "2f89443be1a5b9893d666eed7baa696c17c0b904",
+            "runtime_stage": "completed",
+            "workflow_result": "READY",
+            "governance_interpretation": "READY_WITH_UNKNOWNS",
+            "operational_readiness": "blocked",
+        }
+        for key, value in expected.items():
+            if subject.get(key) != value:
+                issues.append(
+                    f"{path}: subject.{key} must be {value!r}"
+                )
+
+    integrity = data.get("integrity")
+    if not isinstance(integrity, dict):
+        issues.append(f"{path}: integrity must be a mapping")
+    else:
+        expected = {
+            "uploaded_archive_sha256": (
+                "f50bceaca42d4c09b9fcb4592f48c181"
+                "a130f7393abe6dde54c940118ecebb98"
+            ),
+            "source_content_checksum": (
+                "34b9ae5970f5efa41d25fe4d11148b08"
+                "cbb74a0a4944316d328624cc4a9f192b"
+            ),
+            "external_response_status": "provided",
+            "external_analysis_confidence": "medium",
+            "bundle_manifest_files_verified": 11,
+            "bundle_manifest_integrity": "passed",
+        }
+        for key, value in expected.items():
+            if integrity.get(key) != value:
+                issues.append(
+                    f"{path}: integrity.{key} must be {value!r}"
+                )
+
+    blockers = data.get("readiness_blockers")
+    expected_blockers = {
+        "prompt_prepare_not_implemented",
+        "prompt_release_not_implemented",
+        "command_applicability_validator_not_in_canonical_gate",
+        "metadata_consistency_not_verified",
+        "module_identity_not_reconciled",
+        "artifact_authority_and_retention_not_enforced",
+        "write_flow_recovery_not_fully_verified",
+    }
+    if (
+        not isinstance(blockers, list)
+        or set(blockers) != expected_blockers
+    ):
+        issues.append(
+            f"{path}: readiness_blockers do not match audit"
+        )
+
+    boundaries = data.get("boundaries")
+    if not isinstance(boundaries, dict):
+        issues.append(f"{path}: boundaries must be a mapping")
+    else:
+        for key in (
+            "reference_pilot_migration_authorized",
+            "external_module_prompts_released",
+            "external_rollout_released",
+            "cross_repository_writes",
+        ):
+            if boundaries.get(key) is not False:
+                issues.append(
+                    f"{path}: boundaries.{key} must be false"
+                )
+
+    if data.get("result") != (
+        "BLUEPRINT_SELF_AUDIT_COMPLETED_WITH_UNKNOWNS"
+    ):
+        issues.append(
+            f"{path}: result must preserve completed unknowns"
+        )
+
+    return issues
 
 def validate(root: Path) -> list[str]:
     issues: list[str] = []
@@ -62,7 +175,8 @@ def validate(root: Path) -> list[str]:
         "repository_class": "blueprint",
         "control_role": "blueprint_internal_control",
         "operational_readiness": "blocked",
-        "self_audit_state": "ready_to_initialize",
+        "self_audit_state": "completed_with_unknowns",
+        "self_audit_evidence": "coordination/internal_work/blueprint/governance/2026-08-02__blueprint__self_audit_completion_v0_1.yaml",
         "external_rollout": "gated",
     }
     if not isinstance(profile, dict):
@@ -74,6 +188,12 @@ def validate(root: Path) -> list[str]:
                     f"{path}: repository_profile.{key} "
                     f"must be {value!r}"
                 )
+
+    issues.extend(
+        validate_self_audit_evidence(
+            root / SELF_AUDIT_EVIDENCE
+        )
+    )
 
     rows = data.get("commands")
     if not isinstance(rows, list):
@@ -164,6 +284,35 @@ def validate(root: Path) -> list[str]:
     ):
         issues.append(
             f"{path}: coordination-check reason is invalid"
+        )
+
+    self_audit = commands.get("blueprint-self-audit", {})
+    if self_audit.get("runtime_state") != (
+        "completed_with_unknowns"
+    ):
+        issues.append(
+            f"{path}: blueprint-self-audit.runtime_state "
+            "must be completed_with_unknowns"
+        )
+    if self_audit.get("conformance") != "pass":
+        issues.append(
+            f"{path}: blueprint-self-audit.conformance "
+            "must be pass"
+        )
+
+    self_report = commands.get(
+        "blueprint-self-report-full",
+        {},
+    )
+    if self_report.get("runtime_state") != "available":
+        issues.append(
+            f"{path}: blueprint-self-report-full.runtime_state "
+            "must be available"
+        )
+    if self_report.get("conformance") != "pass":
+        issues.append(
+            f"{path}: blueprint-self-report-full.conformance "
+            "must be pass"
         )
 
     result = data.get("result")

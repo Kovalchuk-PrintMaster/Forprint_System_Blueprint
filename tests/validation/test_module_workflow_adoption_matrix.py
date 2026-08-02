@@ -242,12 +242,18 @@ def test_operational_readiness_is_next(
 
     old = (
         "      - canonical_module_make_template_refactor\n"
+        "      - blueprint_command_applicability_registry\n"
+        "      - blueprint_command_implementation_inventory\n"
+        "      - blueprint_self_audit_execution\n"
         "    next_required_step: "
         "blueprint_operational_readiness_review\n"
         "  external_module_prompts_released: false\n"
     )
     new = (
         "      - canonical_module_make_template_refactor\n"
+        "      - blueprint_command_applicability_registry\n"
+        "      - blueprint_command_implementation_inventory\n"
+        "      - blueprint_self_audit_execution\n"
         "    next_required_step: "
         "authorize_reference_pilot_migration\n"
         "  external_module_prompts_released: false\n"

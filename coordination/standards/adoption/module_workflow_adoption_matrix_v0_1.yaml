@@ -68,6 +68,9 @@ governance:
       - completion_acceptance_gate
       - blueprint_makefile_refactor
       - canonical_module_make_template_refactor
+      - blueprint_command_applicability_registry
+      - blueprint_command_implementation_inventory
+      - blueprint_self_audit_execution
     next_required_step: blueprint_operational_readiness_review
   external_module_prompts_released: false
   cross_repository_writes_forbidden: true
@@ -356,8 +359,17 @@ assessment_snapshot:
         - completion_acceptance_gate_implemented
         - blueprint_makefile_refactor_completed
         - canonical_module_make_template_refactor_completed
+        - blueprint_command_applicability_registry_completed
+        - blueprint_command_implementation_inventory_completed
+        - blueprint_self_audit_completed_with_unknowns
       known_gaps:
-        - command_implementation_inventory_not_completed
+        - prompt_prepare_not_implemented
+        - prompt_release_not_implemented
+        - command_applicability_validator_not_in_canonical_gate
+        - metadata_consistency_not_verified
+        - module_identity_not_reconciled
+        - artifact_authority_and_retention_not_enforced
+        - write_flow_recovery_not_fully_verified
         - blueprint_operational_readiness_review_not_completed
         - reference_pilot_migration_not_authorized
       next_required_step: blueprint_operational_readiness_review
@@ -370,8 +382,12 @@ assessment_snapshot:
         completion_intake_check_commit: fea24ac4cea8eb0c9f0fe263bf58676386114503
         acceptance_gate_commit: c6a5a51c30f227a6cd61e5bfe96b207f9acda27a
         make_workflow_contract_refactor_commit: 1c82c929d8608187b52b73d80c651760884d8a58
+        command_applicability_commit: 2f89443be1a5b9893d666eed7baa696c17c0b904
         implementation_progress_evidence: coordination/internal_work/blueprint/governance/2026-08-01__blueprint__module_workflow_command_implementation_progress_v0_1.yaml
         make_workflow_refactor_evidence: coordination/internal_work/blueprint/governance/2026-08-02__blueprint__make_workflow_contract_refactor_completion_v0_1.yaml
+        command_applicability_registry: coordination/standards/adoption/blueprint_command_applicability_v0_1.yaml
+        command_applicability_inventory_evidence: coordination/internal_work/blueprint/governance/2026-08-02__blueprint__command_applicability_inventory_v0_1.yaml
+        blueprint_self_audit_evidence: coordination/internal_work/blueprint/governance/2026-08-02__blueprint__self_audit_completion_v0_1.yaml
 
     - repository_id: logistics_service
       repository_class: module

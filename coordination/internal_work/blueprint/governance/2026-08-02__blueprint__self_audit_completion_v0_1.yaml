@@ -1,0 +1,100 @@
+schema_version: blueprint_self_audit_completion_evidence_v0_1
+
+metadata:
+  evidence_id: blueprint_self_audit_completion_v0_1
+  module_id: forprint_system_blueprint
+  owner: forprint_system_blueprint
+  created_at: "2026-08-02"
+  status: completed
+
+subject:
+  workflow_id: blueprint_self_audit
+  run_id: bsa-20260802T142628Z
+  request_id: bsa-20260802T142628Z
+  source_commit: 2f89443be1a5b9893d666eed7baa696c17c0b904
+  runtime_stage: completed
+  workflow_result: READY
+  governance_interpretation: READY_WITH_UNKNOWNS
+  operational_readiness: blocked
+
+integrity:
+  uploaded_archive_sha256: f50bceaca42d4c09b9fcb4592f48c181a130f7393abe6dde54c940118ecebb98
+  source_content_checksum: 34b9ae5970f5efa41d25fe4d11148b08cbb74a0a4944316d328624cc4a9f192b
+  external_response_status: provided
+  external_analysis_confidence: medium
+  bundle_manifest_files_verified: 11
+  bundle_manifest_integrity: passed
+
+runtime_evidence:
+  current_report: reports/modules/forprint_system_blueprint/current/self_knowledge_report.md
+  current_summary: reports/modules/forprint_system_blueprint/current/self_knowledge_summary.json
+  runtime_state: reports/modules/forprint_system_blueprint/current/runtime_state.yaml
+  operator_input: operator_input/forprint_system_blueprint/bsa.yaml
+  runtime_paths_are_ignored: true
+  runtime_outputs_committed: false
+
+metrics:
+  repository_files: 871
+  files_indexed: 871
+  purpose_understood: 30
+  dependencies_mapped: 10
+  fully_verified: 1
+  unknown_files: 841
+  python_files: 185
+  python_parsed: 185
+  declared_workflow_targets: 8
+  mapped_workflow_targets: 8
+  workflow_definitions: 2
+  workflows_documented: 2
+  workflows_automated: 2
+  workflows_recovery_covered: 2
+  metadata_consistency: unknown
+
+verified_strengths:
+  - complete_git_visible_file_index
+  - complete_python_parse_coverage
+  - complete_declared_workflow_target_mapping
+  - registered_workflows_documented_automated_and_recovery_linked
+  - checksum_bound_external_analysis_handoff
+  - no_cross_repository_write_proposed
+  - no_automatic_commit_push_or_merge
+
+readiness_blockers:
+  - prompt_prepare_not_implemented
+  - prompt_release_not_implemented
+  - command_applicability_validator_not_in_canonical_gate
+  - metadata_consistency_not_verified
+  - module_identity_not_reconciled
+  - artifact_authority_and_retention_not_enforced
+  - write_flow_recovery_not_fully_verified
+
+planning_signals:
+  - semantic_file_level_coverage_low
+  - historical_rci_redm_scope_requires_current_reconciliation
+  - stale_make_target_and_repository_population_metrics_require_provenance
+  - external_module_state_not_freshly_verified
+
+boundaries:
+  historical_architecture_approval_modified: false
+  historical_command_applicability_evidence_modified: false
+  makefile_modified: false
+  canonical_module_template_modified: false
+  external_module_modified: false
+  reference_pilot_migration_authorized: false
+  external_module_prompts_released: false
+  external_rollout_released: false
+  cross_repository_writes: false
+
+next_actions:
+  - integrate_command_applicability_validator_into_canonical_gate
+  - implement_prompt_prepare
+  - implement_prompt_release
+  - implement_read_only_metadata_consistency_audit
+  - reconcile_module_identity_authority
+  - define_artifact_authority_and_retention
+  - verify_write_flow_recovery_and_idempotency
+  - reconcile_current_rci_redm_snapshot_provenance
+  - rerun_blueprint_self_audit
+  - complete_blueprint_operational_readiness_review
+
+result: BLUEPRINT_SELF_AUDIT_COMPLETED_WITH_UNKNOWNS
