@@ -66,7 +66,9 @@ governance:
       - command_behavior_classification_validator
       - completion_intake_check
       - completion_acceptance_gate
-    next_required_step: controlled_makefile_and_template_refactor
+      - blueprint_makefile_refactor
+      - canonical_module_make_template_refactor
+    next_required_step: blueprint_operational_readiness_review
   external_module_prompts_released: false
   cross_repository_writes_forbidden: true
   module_completion_is_blueprint_acceptance: false
@@ -352,12 +354,13 @@ assessment_snapshot:
         - command_behavior_classification_validator_implemented
         - completion_intake_check_implemented
         - completion_acceptance_gate_implemented
+        - blueprint_makefile_refactor_completed
+        - canonical_module_make_template_refactor_completed
       known_gaps:
         - command_implementation_inventory_not_completed
-        - blueprint_makefile_not_fully_refactored
-        - canonical_module_make_template_not_fully_refactored
+        - blueprint_operational_readiness_review_not_completed
         - reference_pilot_migration_not_authorized
-      next_required_step: controlled_makefile_and_template_refactor
+      next_required_step: blueprint_operational_readiness_review
       evidence:
         branch: governance/module-workflow-command-architecture-v01
         architecture_baseline_commit: ed20997c0fa22774474dd1e09ea16900d6642a98
@@ -366,7 +369,9 @@ assessment_snapshot:
         adoption_validator_commit: 77633316e41b547b6fdcf26f18d4a25788950329
         completion_intake_check_commit: fea24ac4cea8eb0c9f0fe263bf58676386114503
         acceptance_gate_commit: c6a5a51c30f227a6cd61e5bfe96b207f9acda27a
+        make_workflow_contract_refactor_commit: 1c82c929d8608187b52b73d80c651760884d8a58
         implementation_progress_evidence: coordination/internal_work/blueprint/governance/2026-08-01__blueprint__module_workflow_command_implementation_progress_v0_1.yaml
+        make_workflow_refactor_evidence: coordination/internal_work/blueprint/governance/2026-08-02__blueprint__make_workflow_contract_refactor_completion_v0_1.yaml
 
     - repository_id: logistics_service
       repository_class: module
@@ -375,8 +380,8 @@ assessment_snapshot:
       rollout_authorized: false
       command_profile: standard_module_workflow
       next_required_step: >-
-        await explicit pilot authorization after controlled Makefile and
-        canonical template refactoring and Blueprint readiness review
+        await explicit pilot authorization after Blueprint operational
+        readiness review is GREEN
 
     - repository_id: telegram_bot
       repository_class: module
@@ -397,76 +402,88 @@ assessment_snapshot:
 migration_sequence:
   - step: 1
     action: approve_command_architecture
+    status: completed
     owner: forprint_system_blueprint
     depends_on: []
     rollout_effect: none
   - step: 2
     action: validate_adoption_matrix_schema_and_semantics
+    status: completed
     owner: forprint_system_blueprint
-    depends_on:
-      - approve_command_architecture
+    depends_on: [approve_command_architecture]
     rollout_effect: none
   - step: 3
     action: add_command_behavior_classification_validator
+    status: completed
     owner: forprint_system_blueprint
-    depends_on:
-      - validate_adoption_matrix_schema_and_semantics
+    depends_on: [validate_adoption_matrix_schema_and_semantics]
     rollout_effect: none
   - step: 4
     action: implement_completion_intake_check
+    status: completed
     owner: forprint_system_blueprint
-    depends_on:
-      - add_command_behavior_classification_validator
+    depends_on: [add_command_behavior_classification_validator]
     rollout_effect: none
   - step: 5
-    action: migrate_reference_pilot_completion_check
-    owner: selected_reference_module
-    depends_on:
-      - implement_completion_intake_check
-    rollout_effect: reference_pilot_only
+    action: refactor_blueprint_makefile_and_canonical_module_template
+    status: completed
+    owner: forprint_system_blueprint
+    depends_on: [implement_completion_intake_check]
+    rollout_effect: blueprint_internal_and_template_reference_only
   - step: 6
-    action: add_reference_pilot_completion_preview
-    owner: selected_reference_module
-    depends_on:
-      - migrate_reference_pilot_completion_check
-    rollout_effect: reference_pilot_only
+    action: blueprint_operational_readiness_review
+    status: pending
+    owner: forprint_system_blueprint
+    depends_on: [refactor_blueprint_makefile_and_canonical_module_template]
+    rollout_effect: none
   - step: 7
-    action: add_reference_pilot_sandbox_idempotency_check
-    owner: selected_reference_module
-    depends_on:
-      - add_reference_pilot_completion_preview
-    rollout_effect: reference_pilot_only
+    action: authorize_reference_pilot_migration
+    status: not_authorized
+    owner: forprint_system_blueprint
+    depends_on: [blueprint_operational_readiness_review]
+    rollout_effect: none
   - step: 8
-    action: add_reference_pilot_owned_coordination_validator
+    action: migrate_reference_pilot_completion_check
+    status: blocked
     owner: selected_reference_module
-    depends_on:
-      - add_reference_pilot_sandbox_idempotency_check
+    depends_on: [authorize_reference_pilot_migration]
     rollout_effect: reference_pilot_only
   - step: 9
-    action: validate_reference_pilot_conformance
-    owner: forprint_system_blueprint
-    depends_on:
-      - add_reference_pilot_owned_coordination_validator
-    rollout_effect: none
+    action: add_reference_pilot_completion_preview
+    status: blocked
+    owner: selected_reference_module
+    depends_on: [migrate_reference_pilot_completion_check]
+    rollout_effect: reference_pilot_only
   - step: 10
-    action: update_canonical_module_make_template
-    owner: forprint_system_blueprint
-    depends_on:
-      - validate_reference_pilot_conformance
-    rollout_effect: template_only
+    action: add_reference_pilot_sandbox_idempotency_check
+    status: blocked
+    owner: selected_reference_module
+    depends_on: [add_reference_pilot_completion_preview]
+    rollout_effect: reference_pilot_only
   - step: 11
-    action: assess_remaining_registered_modules_in_controlled_batches
-    owner: forprint_system_blueprint
-    depends_on:
-      - update_canonical_module_make_template
-    rollout_effect: none
+    action: add_reference_pilot_owned_coordination_validator
+    status: blocked
+    owner: selected_reference_module
+    depends_on: [add_reference_pilot_sandbox_idempotency_check]
+    rollout_effect: reference_pilot_only
   - step: 12
-    action: release_module_specific_migration_prompts
+    action: validate_reference_pilot_conformance
+    status: blocked
     owner: forprint_system_blueprint
-    depends_on:
-      - assess_remaining_registered_modules_in_controlled_batches
-      - blueprint_operational_readiness_green
-    rollout_effect: eligible_registered_modules
+    depends_on: [add_reference_pilot_owned_coordination_validator]
+    rollout_effect: none
+  - step: 13
+    action: assess_remaining_registered_modules_in_controlled_batches
+    status: blocked
+    owner: forprint_system_blueprint
+    depends_on: [validate_reference_pilot_conformance]
+    rollout_effect: controlled_batches_only
+  - step: 14
+    action: authorize_external_rollout
+    status: not_authorized
+    owner: forprint_system_blueprint
+    depends_on: [assess_remaining_registered_modules_in_controlled_batches]
+    rollout_effect: none
 
 validation_requirements:
   schema_validator_required: true

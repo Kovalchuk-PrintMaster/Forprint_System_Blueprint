@@ -18,6 +18,11 @@ PROGRESS = Path(
     "2026-08-01__blueprint__module_workflow_command_"
     "implementation_progress_v0_1.yaml"
 )
+REFACTOR = Path(
+    "coordination/internal_work/blueprint/governance/"
+    "2026-08-02__blueprint__make_workflow_"
+    "contract_refactor_completion_v0_1.yaml"
+)
 
 
 def load_validator():
@@ -33,7 +38,7 @@ validator = load_validator()
 
 def fixture(tmp_path: Path) -> Path:
     root = tmp_path / "blueprint"
-    for relative in (MATRIX, DECISION, PROGRESS):
+    for relative in (MATRIX, DECISION, PROGRESS, REFACTOR):
         target = root / relative
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(ROOT / relative, target)
@@ -217,6 +222,46 @@ def test_progress_evidence_is_required(tmp_path: Path) -> None:
         for item in validator.validate(root)
     )
 
+
+def test_refactor_evidence_is_required(
+    tmp_path: Path,
+) -> None:
+    root = fixture(tmp_path)
+    (root / REFACTOR).unlink()
+    assert any(
+        "file does not exist" in item
+        and REFACTOR.as_posix() in item
+        for item in validator.validate(root)
+    )
+
+
+def test_operational_readiness_is_next(
+    tmp_path: Path,
+) -> None:
+    root = fixture(tmp_path)
+
+    old = (
+        "      - canonical_module_make_template_refactor\n"
+        "    next_required_step: "
+        "blueprint_operational_readiness_review\n"
+        "  external_module_prompts_released: false\n"
+    )
+    new = (
+        "      - canonical_module_make_template_refactor\n"
+        "    next_required_step: "
+        "authorize_reference_pilot_migration\n"
+        "  external_module_prompts_released: false\n"
+    )
+
+    replace_once(root, old, new)
+
+    assert any(
+        "`governance.implementation_progress."
+        "next_required_step` must be "
+        "'blueprint_operational_readiness_review'"
+        in item
+        for item in validator.validate(root)
+    )
 
 def test_check_catalog_contains_validator() -> None:
     checks = {item.check_id: item for item in build_checks()}

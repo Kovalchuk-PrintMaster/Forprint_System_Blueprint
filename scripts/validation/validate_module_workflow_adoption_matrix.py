@@ -15,10 +15,19 @@ PROGRESS = Path(
     "2026-08-01__blueprint__module_workflow_command_"
     "implementation_progress_v0_1.yaml"
 )
+REFACTOR = Path(
+    "coordination/internal_work/blueprint/governance/"
+    "2026-08-02__blueprint__make_workflow_"
+    "contract_refactor_completion_v0_1.yaml"
+)
 SCHEMA = "module_workflow_adoption_matrix_v0_1"
 PROGRESS_SCHEMA = (
     "blueprint_module_workflow_command_"
     "implementation_progress_v0_1"
+)
+REFACTOR_SCHEMA = (
+    "blueprint_make_workflow_contract_"
+    "refactor_completion_v0_1"
 )
 
 COMMANDS: dict[str, tuple[str, str, str, str]] = {
@@ -205,6 +214,55 @@ def validate_commands(path: Path, rows: list[Any], issues: list[str]) -> set[str
     return actual_ids
 
 
+def validate_refactor_evidence(
+    evidence_path: Path,
+    issues: list[str],
+) -> None:
+    data, evidence_issues = load_yaml(evidence_path)
+    issues.extend(evidence_issues)
+    if data is None:
+        return
+    expect(evidence_path, data, "schema_version", REFACTOR_SCHEMA, issues)
+    expect(
+        evidence_path,
+        data,
+        "result",
+        "BLUEPRINT_MAKE_WORKFLOW_CONTRACT_REFACTOR_COMPLETED",
+        issues,
+    )
+    evidence = mapping(evidence_path, data.get("evidence"), "evidence", issues)
+    if evidence is not None:
+        expect(
+            evidence_path,
+            evidence,
+            "implementation_commit",
+            "1c82c929d8608187b52b73d80c651760884d8a58",
+            issues,
+            "evidence",
+        )
+        gate = mapping(
+            evidence_path,
+            evidence.get("blueprint_gate"),
+            "evidence.blueprint_gate",
+            issues,
+        )
+        if gate is not None:
+            for key, value in {
+                "total": 26,
+                "passed": 26,
+                "warnings": 0,
+                "failed": 0,
+            }.items():
+                expect(
+                    evidence_path,
+                    gate,
+                    key,
+                    value,
+                    issues,
+                    "evidence.blueprint_gate",
+                )
+
+
 def validate_progress_evidence(
     root: Path,
     evidence_path: Path,
@@ -230,6 +288,26 @@ def validate_progress_evidence(
         issues,
     )
 
+    subject = mapping(
+        evidence_path,
+        data.get("subject"),
+        "subject",
+        issues,
+    )
+    if subject is not None:
+        refactor_path = subject.get("refactor_completion_evidence")
+        if refactor_path != REFACTOR.as_posix():
+            issues.append(
+                issue(
+                    evidence_path,
+                    "`subject.refactor_completion_evidence` "
+                    f"must be {REFACTOR.as_posix()!r}; "
+                    f"found {refactor_path!r}",
+                )
+            )
+        else:
+            validate_refactor_evidence(root / REFACTOR, issues)
+
     commits = mapping(
         evidence_path,
         data.get("evidence_commits"),
@@ -249,6 +327,9 @@ def validate_progress_evidence(
             ),
             "completion_acceptance_gate": (
                 "c6a5a51c30f227a6cd61e5bfe96b207f9acda27a"
+            ),
+            "make_workflow_contract_refactor": (
+                "1c82c929d8608187b52b73d80c651760884d8a58"
             ),
         }
         for key, value in expected_commits.items():
@@ -276,6 +357,9 @@ def validate_progress_evidence(
             "command_behavior_classification_validator": "implemented",
             "completion_intake_check": "implemented",
             "completion_acceptance_gate": "implemented",
+            "blueprint_makefile_refactor": "completed",
+            "canonical_module_make_template_refactor": "completed",
+            "operational_readiness_review": "pending",
             "implementation_migration": (
                 "blueprint_internal_in_progress"
             ),
@@ -304,8 +388,10 @@ def validate_progress_evidence(
     if boundaries is not None:
         expected_boundaries = {
             "historical_approval_rewritten": False,
-            "module_makefile_changes_authorized": False,
-            "canonical_make_template_changes_authorized": False,
+            "blueprint_makefile_refactor_completed": True,
+            "canonical_make_template_refactor_completed": True,
+            "external_module_makefile_changes_authorized": False,
+            "canonical_make_template_rollout_authorized": False,
             "reference_pilot_prompt_authorized": False,
             "external_module_prompts_released": False,
             "external_rollout_released": False,
@@ -332,7 +418,7 @@ def validate_progress_evidence(
             evidence_path,
             next_step,
             "action",
-            "controlled_makefile_and_template_refactor",
+            "blueprint_operational_readiness_review",
             issues,
             "next_required_step",
         )
@@ -465,7 +551,7 @@ def validate(root: Path) -> list[str]:
                 path,
                 progress,
                 "next_required_step",
-                "controlled_makefile_and_template_refactor",
+                "blueprint_operational_readiness_review",
                 issues,
                 "governance.implementation_progress",
             )
@@ -561,6 +647,77 @@ def validate(root: Path) -> list[str]:
                     issues.append(issue(path, f"repository `{repository_id}` references unknown command profile `{repository.get('command_profile')}`"))
                 if repository.get("rollout_authorized") is not False:
                     issues.append(issue(path, f"repository `{repository_id}` must keep rollout_authorized false while rollout is gated"))
+
+    sequence = listing(
+        path,
+        data.get("migration_sequence"),
+        "migration_sequence",
+        issues,
+    )
+    if sequence is not None:
+        steps: dict[int, dict[str, Any]] = {}
+        for index, row in enumerate(sequence):
+            if not isinstance(row, dict):
+                issues.append(
+                    issue(
+                        path,
+                        f"`migration_sequence[{index}]` must be a mapping",
+                    )
+                )
+                continue
+            step = row.get("step")
+            if not isinstance(step, int):
+                issues.append(
+                    issue(
+                        path,
+                        f"`migration_sequence[{index}].step` "
+                        "must be an integer",
+                    )
+                )
+                continue
+            if step in steps:
+                issues.append(issue(path, f"duplicate migration step `{step}`"))
+            steps[step] = row
+        expected = {
+            1: ("approve_command_architecture", "completed"),
+            2: ("validate_adoption_matrix_schema_and_semantics", "completed"),
+            3: ("add_command_behavior_classification_validator", "completed"),
+            4: ("implement_completion_intake_check", "completed"),
+            5: (
+                "refactor_blueprint_makefile_and_canonical_module_template",
+                "completed",
+            ),
+            6: ("blueprint_operational_readiness_review", "pending"),
+            7: ("authorize_reference_pilot_migration", "not_authorized"),
+            8: ("migrate_reference_pilot_completion_check", "blocked"),
+            9: ("add_reference_pilot_completion_preview", "blocked"),
+            10: ("add_reference_pilot_sandbox_idempotency_check", "blocked"),
+            11: ("add_reference_pilot_owned_coordination_validator", "blocked"),
+            12: ("validate_reference_pilot_conformance", "blocked"),
+            13: (
+                "assess_remaining_registered_modules_in_controlled_batches",
+                "blocked",
+            ),
+            14: ("authorize_external_rollout", "not_authorized"),
+        }
+        if set(steps) != set(expected):
+            issues.append(
+                issue(
+                    path,
+                    "`migration_sequence` step set does not match "
+                    "the approved internal-to-rollout order",
+                )
+            )
+        for step, (action, status) in expected.items():
+            row = steps.get(step, {})
+            expect(
+                path, row, "action", action, issues,
+                f"migration_sequence.step_{step}",
+            )
+            expect(
+                path, row, "status", status, issues,
+                f"migration_sequence.step_{step}",
+            )
 
     pilot = data.get("pilot_reference")
     if pilot is not None:
