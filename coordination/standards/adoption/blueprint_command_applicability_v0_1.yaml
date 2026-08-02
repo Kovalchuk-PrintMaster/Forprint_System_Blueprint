@@ -12,6 +12,8 @@ repository_profile:
   operational_readiness: blocked
   self_audit_state: completed_with_unknowns
   self_audit_evidence: coordination/internal_work/blueprint/governance/2026-08-02__blueprint__self_audit_completion_v0_1.yaml
+  canonical_gate_state: integrated
+  canonical_gate_evidence: coordination/internal_work/blueprint/governance/2026-08-02__blueprint__command_applicability_canonical_gate_integration_v0_1.yaml
   external_rollout: gated
 
 commands:
@@ -193,10 +195,10 @@ commands:
 result:
   inventory_state: completed
   conformance_state: blocked
+  canonical_gate_state: integrated
   blockers:
     - prompt_prepare_not_implemented
     - prompt_release_not_implemented
-    - command_applicability_validator_not_in_canonical_gate
   false_blockers_removed:
     - blueprint_module_coordination_metadata_files_missing
     - blueprint_outgoing_prompt_queue_missing

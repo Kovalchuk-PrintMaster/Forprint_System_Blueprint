@@ -71,6 +71,7 @@ governance:
       - blueprint_command_applicability_registry
       - blueprint_command_implementation_inventory
       - blueprint_self_audit_execution
+      - blueprint_command_applicability_canonical_gate
     next_required_step: blueprint_operational_readiness_review
   external_module_prompts_released: false
   cross_repository_writes_forbidden: true
@@ -362,10 +363,10 @@ assessment_snapshot:
         - blueprint_command_applicability_registry_completed
         - blueprint_command_implementation_inventory_completed
         - blueprint_self_audit_completed_with_unknowns
+        - blueprint_command_applicability_canonical_gate_integrated
       known_gaps:
         - prompt_prepare_not_implemented
         - prompt_release_not_implemented
-        - command_applicability_validator_not_in_canonical_gate
         - metadata_consistency_not_verified
         - module_identity_not_reconciled
         - artifact_authority_and_retention_not_enforced
@@ -388,6 +389,7 @@ assessment_snapshot:
         command_applicability_registry: coordination/standards/adoption/blueprint_command_applicability_v0_1.yaml
         command_applicability_inventory_evidence: coordination/internal_work/blueprint/governance/2026-08-02__blueprint__command_applicability_inventory_v0_1.yaml
         blueprint_self_audit_evidence: coordination/internal_work/blueprint/governance/2026-08-02__blueprint__self_audit_completion_v0_1.yaml
+        command_applicability_canonical_gate_evidence: coordination/internal_work/blueprint/governance/2026-08-02__blueprint__command_applicability_canonical_gate_integration_v0_1.yaml
 
     - repository_id: logistics_service
       repository_class: module

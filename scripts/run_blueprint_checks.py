@@ -373,6 +373,20 @@ def build_checks() -> list[CheckDefinition]:
             group="documentation",
         ),
         CheckDefinition(
+            check_id="blueprint_command_applicability_validation",
+            title="Blueprint command applicability",
+            expected_result=(
+                "Blueprint command applicability and readiness "
+                "blockers are valid"
+            ),
+            command=(
+                python,
+                "scripts/validation/"
+                "validate_blueprint_command_applicability.py",
+            ),
+            group="documentation",
+        ),
+        CheckDefinition(
             check_id="module_standards_template_validation",
             title="Standards template",
             expected_result="Module standards template is valid",

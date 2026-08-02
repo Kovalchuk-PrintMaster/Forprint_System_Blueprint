@@ -20,6 +20,15 @@ SELF_AUDIT_EVIDENCE = Path(
 SELF_AUDIT_SCHEMA = (
     "blueprint_self_audit_completion_evidence_v0_1"
 )
+CANONICAL_GATE_EVIDENCE = Path(
+    "coordination/internal_work/blueprint/governance/"
+    "2026-08-02__blueprint__command_applicability_"
+    "canonical_gate_integration_v0_1.yaml"
+)
+CANONICAL_GATE_SCHEMA = (
+    "blueprint_command_applicability_"
+    "canonical_gate_integration_evidence_v0_1"
+)
 SCHEMA = "blueprint_command_applicability_v0_1"
 
 EXPECTED_TARGETS = {
@@ -43,7 +52,6 @@ EXPECTED_TARGETS = {
 EXPECTED_BLOCKERS = {
     "prompt_prepare_not_implemented",
     "prompt_release_not_implemented",
-    "command_applicability_validator_not_in_canonical_gate",
 }
 
 
@@ -153,6 +161,86 @@ def validate_self_audit_evidence(
 
     return issues
 
+def validate_canonical_gate_evidence(
+    path: Path,
+) -> list[str]:
+    issues: list[str] = []
+    try:
+        data = yaml.safe_load(
+            path.read_text(encoding="utf-8")
+        )
+    except FileNotFoundError:
+        return [f"{path}: file does not exist"]
+    except yaml.YAMLError as error:
+        return [f"{path}: invalid YAML: {error}"]
+
+    if not isinstance(data, dict):
+        return [f"{path}: YAML root must be a mapping"]
+    if data.get("schema_version") != CANONICAL_GATE_SCHEMA:
+        issues.append(
+            f"{path}: unsupported canonical gate schema_version"
+        )
+
+    subject = data.get("subject")
+    expected_subject = {
+        "base_commit": (
+            "7ed4f3dfce584cfae62fcf8990a8e9eb554c15b0"
+        ),
+        "catalog": "scripts/run_blueprint_checks.py",
+        "check_id": (
+            "blueprint_command_applicability_validation"
+        ),
+        "check_title": "Blueprint command applicability",
+        "check_group": "documentation",
+        "validator": (
+            "scripts/validation/"
+            "validate_blueprint_command_applicability.py"
+        ),
+        "catalog_state": "integrated",
+        "expected_check_total": 27,
+    }
+    if not isinstance(subject, dict):
+        issues.append(f"{path}: subject must be a mapping")
+    else:
+        for key, value in expected_subject.items():
+            if subject.get(key) != value:
+                issues.append(
+                    f"{path}: subject.{key} must be {value!r}"
+                )
+
+    governance = data.get("governance")
+    if not isinstance(governance, dict):
+        issues.append(f"{path}: governance must be a mapping")
+    else:
+        expected_governance = {
+            "blocker_closed": (
+                "command_applicability_validator_"
+                "not_in_canonical_gate"
+            ),
+            "operational_readiness": "blocked",
+            "reference_pilot_migration": "not_authorized",
+            "external_rollout": "gated",
+            "makefile_modified": False,
+            "canonical_module_template_modified": False,
+            "historical_self_audit_evidence_modified": False,
+        }
+        for key, value in expected_governance.items():
+            if governance.get(key) != value:
+                issues.append(
+                    f"{path}: governance.{key} must be {value!r}"
+                )
+
+    if data.get("result") != (
+        "BLUEPRINT_COMMAND_APPLICABILITY_"
+        "CANONICAL_GATE_INTEGRATED"
+    ):
+        issues.append(
+            f"{path}: result must confirm canonical integration"
+        )
+
+    return issues
+
+
 def validate(root: Path) -> list[str]:
     issues: list[str] = []
     path = root / REGISTRY
@@ -177,6 +265,8 @@ def validate(root: Path) -> list[str]:
         "operational_readiness": "blocked",
         "self_audit_state": "completed_with_unknowns",
         "self_audit_evidence": "coordination/internal_work/blueprint/governance/2026-08-02__blueprint__self_audit_completion_v0_1.yaml",
+        "canonical_gate_state": "integrated",
+        "canonical_gate_evidence": "coordination/internal_work/blueprint/governance/2026-08-02__blueprint__command_applicability_canonical_gate_integration_v0_1.yaml",
         "external_rollout": "gated",
     }
     if not isinstance(profile, dict):
@@ -192,6 +282,11 @@ def validate(root: Path) -> list[str]:
     issues.extend(
         validate_self_audit_evidence(
             root / SELF_AUDIT_EVIDENCE
+        )
+    )
+    issues.extend(
+        validate_canonical_gate_evidence(
+            root / CANONICAL_GATE_EVIDENCE
         )
     )
 
@@ -323,6 +418,10 @@ def validate(root: Path) -> list[str]:
             issues.append(f"{path}: inventory_state must be completed")
         if result.get("conformance_state") != "blocked":
             issues.append(f"{path}: conformance_state must be blocked")
+        if result.get("canonical_gate_state") != "integrated":
+            issues.append(
+                f"{path}: canonical_gate_state must be integrated"
+            )
         blockers = result.get("blockers")
         if not isinstance(blockers, list) or set(blockers) != EXPECTED_BLOCKERS:
             issues.append(f"{path}: blockers do not match inventory")

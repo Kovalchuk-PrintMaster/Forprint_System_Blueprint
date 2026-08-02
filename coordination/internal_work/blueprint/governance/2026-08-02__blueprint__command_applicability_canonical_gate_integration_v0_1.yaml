@@ -1,0 +1,48 @@
+schema_version: blueprint_command_applicability_canonical_gate_integration_evidence_v0_1
+
+metadata:
+  evidence_id: blueprint_command_applicability_canonical_gate_integration_v0_1
+  module_id: forprint_system_blueprint
+  owner: forprint_system_blueprint
+  created_at: "2026-08-02"
+  status: completed
+
+subject:
+  base_commit: 7ed4f3dfce584cfae62fcf8990a8e9eb554c15b0
+  catalog: scripts/run_blueprint_checks.py
+  check_id: blueprint_command_applicability_validation
+  check_title: Blueprint command applicability
+  check_group: documentation
+  validator: scripts/validation/validate_blueprint_command_applicability.py
+  catalog_state: integrated
+  expected_check_total: 27
+
+governance:
+  blocker_closed: command_applicability_validator_not_in_canonical_gate
+  operational_readiness: blocked
+  reference_pilot_migration: not_authorized
+  external_rollout: gated
+  makefile_modified: false
+  canonical_module_template_modified: false
+  historical_self_audit_evidence_modified: false
+  external_module_modified: false
+  automatic_commit_push_or_merge: false
+
+validation:
+  catalog_test: tests/validation/test_blueprint_command_applicability_check_catalog_integration.py
+  targeted_validator_tests: tests/validation/test_blueprint_command_applicability.py
+  canonical_command: make check
+  expected_result: 27_of_27_checks_pass
+  negative_failure_propagation_required: true
+
+remaining_blockers:
+  - prompt_prepare_not_implemented
+  - prompt_release_not_implemented
+  - metadata_consistency_not_verified
+  - module_identity_not_reconciled
+  - artifact_authority_and_retention_not_enforced
+  - write_flow_recovery_not_fully_verified
+  - blueprint_operational_readiness_review_not_completed
+  - reference_pilot_migration_not_authorized
+
+result: BLUEPRINT_COMMAND_APPLICABILITY_CANONICAL_GATE_INTEGRATED
