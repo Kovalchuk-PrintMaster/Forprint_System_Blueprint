@@ -29,11 +29,24 @@ CANONICAL_GATE_SCHEMA = (
     "blueprint_command_applicability_"
     "canonical_gate_integration_evidence_v0_1"
 )
+PROMPT_WORKFLOW_EVIDENCE = Path(
+    "coordination/internal_work/blueprint/governance/"
+    "2026-08-02__blueprint__prompt_workflow_"
+    "operator_integration_v0_1.yaml"
+)
+PROMPT_WORKFLOW_SCHEMA = (
+    "blueprint_prompt_workflow_operator_"
+    "integration_evidence_v0_1"
+)
+MODULE_MAKE_TEMPLATE = Path(
+    "coordination/templates/"
+    "module_makefile_standard.template.mk"
+)
 SCHEMA = "blueprint_command_applicability_v0_1"
 
 EXPECTED_TARGETS = {
-    "prompt-prepare": False,
-    "prompt-release": False,
+    "prompt-prepare": True,
+    "prompt-release": True,
     "prompt-status": True,
     "completion-intake-preview": True,
     "completion-intake-check": True,
@@ -49,10 +62,7 @@ EXPECTED_TARGETS = {
     "modules-self-status": True,
 }
 
-EXPECTED_BLOCKERS = {
-    "prompt_prepare_not_implemented",
-    "prompt_release_not_implemented",
-}
+EXPECTED_BLOCKERS: set[str] = set()
 
 
 def validate_self_audit_evidence(
@@ -241,6 +251,192 @@ def validate_canonical_gate_evidence(
     return issues
 
 
+def validate_prompt_workflow_evidence(
+    path: Path,
+) -> list[str]:
+    issues: list[str] = []
+    try:
+        data = yaml.safe_load(
+            path.read_text(encoding="utf-8")
+        )
+    except FileNotFoundError:
+        return [f"{path}: file does not exist"]
+    except yaml.YAMLError as error:
+        return [f"{path}: invalid YAML: {error}"]
+
+    if not isinstance(data, dict):
+        return [f"{path}: YAML root must be a mapping"]
+    if data.get("schema_version") != PROMPT_WORKFLOW_SCHEMA:
+        issues.append(
+            f"{path}: unsupported prompt workflow schema_version"
+        )
+
+    subject = data.get("subject")
+    expected_subject = {
+        "base_commit": (
+            "51cc478add62cdadf853e95eef2f4874767b33ec"
+        ),
+        "blueprint_makefile": "Makefile",
+        "module_make_template": (
+            "coordination/templates/"
+            "module_makefile_standard.template.mk"
+        ),
+        "implementation": (
+            "scripts/coordination/"
+            "manage_outgoing_prompt.py"
+        ),
+        "release_policy": (
+            "coordination/standards/governance/"
+            "outgoing_prompt_release_policy_v0_1.yaml"
+        ),
+        "prompt_prepare_target": "implemented",
+        "prompt_release_target": "implemented_gated",
+    }
+    if not isinstance(subject, dict):
+        issues.append(f"{path}: subject must be a mapping")
+    else:
+        for key, value in expected_subject.items():
+            if subject.get(key) != value:
+                issues.append(
+                    f"{path}: subject.{key} must be {value!r}"
+                )
+
+    integrity = data.get("integrity")
+    expected_integrity = {
+        "blueprint_makefile_sha256": (
+            "020977f3e26da599f23142a68fbeb7a2"
+            "b659f68272469b51396d9e6ac9c8cc3f"
+        ),
+        "module_make_template_sha256": (
+            "c68de5660c5c980f5b5119455174c7aa"
+            "1913ffbe351784ea66412aea81e8a589"
+        ),
+    }
+    if not isinstance(integrity, dict):
+        issues.append(f"{path}: integrity must be a mapping")
+    else:
+        for key, value in expected_integrity.items():
+            if integrity.get(key) != value:
+                issues.append(
+                    f"{path}: integrity.{key} must be {value!r}"
+                )
+
+    boundaries = data.get("boundaries")
+    expected_boundaries = {
+        "release_policy_state": "gated",
+        "external_module_prompts_released": False,
+        "reference_pilot_migration_authorized": False,
+        "external_rollout": "gated",
+        "cross_repository_writes": False,
+        "automatic_commit_push_or_merge": False,
+    }
+    if not isinstance(boundaries, dict):
+        issues.append(f"{path}: boundaries must be a mapping")
+    else:
+        for key, value in expected_boundaries.items():
+            if boundaries.get(key) != value:
+                issues.append(
+                    f"{path}: boundaries.{key} must be {value!r}"
+                )
+
+    if data.get("result") != (
+        "BLUEPRINT_PROMPT_WORKFLOW_OPERATOR_"
+        "INTEGRATION_COMPLETED_GATED"
+    ):
+        issues.append(
+            f"{path}: result must confirm gated integration"
+        )
+
+    return issues
+
+
+def validate_prompt_workflow_contracts(
+    root: Path,
+    commands: dict[str, dict[str, Any]],
+) -> list[str]:
+    issues: list[str] = []
+    registry_path = root / REGISTRY
+    implementation = (
+        "scripts/coordination/manage_outgoing_prompt.py"
+    )
+
+    prepare = commands.get("prompt-prepare", {})
+    expected_prepare = {
+        "implementation": implementation,
+        "implementation_state": "implemented",
+        "default_mode": "preview",
+        "apply_requires_explicit": True,
+        "replacement_requires_explicit": True,
+        "external_repository_writes": False,
+        "git_behavior": "none",
+        "conformance": "pass",
+    }
+    for key, value in expected_prepare.items():
+        if prepare.get(key) != value:
+            issues.append(
+                f"{registry_path}: prompt-prepare.{key} "
+                f"must be {value!r}"
+            )
+
+    release = commands.get("prompt-release", {})
+    expected_release = {
+        "implementation": implementation,
+        "implementation_state": "implemented",
+        "default_mode": "preview",
+        "apply_requires_explicit": True,
+        "module_argument_requires_explicit_command_line_value": True,
+        "release_policy": (
+            "coordination/standards/governance/"
+            "outgoing_prompt_release_policy_v0_1.yaml"
+        ),
+        "release_policy_state": "gated",
+        "external_repository_writes": False,
+        "git_behavior": "none",
+        "conformance": "pass",
+    }
+    for key, value in expected_release.items():
+        if release.get(key) != value:
+            issues.append(
+                f"{registry_path}: prompt-release.{key} "
+                f"must be {value!r}"
+            )
+
+    template_path = root / MODULE_MAKE_TEMPLATE
+    try:
+        template_text = template_path.read_text(encoding="utf-8")
+    except FileNotFoundError:
+        issues.append(f"{template_path}: file does not exist")
+        return issues
+
+    template_targets = set(
+        re.findall(
+            r"^([A-Za-z0-9_.-]+):(?:\s|$)",
+            template_text,
+            flags=re.MULTILINE,
+        )
+    )
+    for forbidden in ("prompt-prepare", "prompt-release"):
+        if forbidden in template_targets:
+            issues.append(
+                f"{template_path}: Blueprint-only target "
+                f"{forbidden!r} must not exist in module template"
+            )
+
+    required_template_text = (
+        "Blueprint-owned prompt mutations (intentionally unavailable here):",
+        "Approved files are inventory only; readiness comes from Prompt Queue v0.2.",
+        "`module_execution.status` is `ready_for_module_pull`",
+    )
+    for required in required_template_text:
+        if required not in template_text:
+            issues.append(
+                f"{template_path}: missing prompt ownership contract: "
+                f"{required!r}"
+            )
+
+    return issues
+
+
 def validate(root: Path) -> list[str]:
     issues: list[str] = []
     path = root / REGISTRY
@@ -267,6 +463,8 @@ def validate(root: Path) -> list[str]:
         "self_audit_evidence": "coordination/internal_work/blueprint/governance/2026-08-02__blueprint__self_audit_completion_v0_1.yaml",
         "canonical_gate_state": "integrated",
         "canonical_gate_evidence": "coordination/internal_work/blueprint/governance/2026-08-02__blueprint__command_applicability_canonical_gate_integration_v0_1.yaml",
+        "prompt_workflow_state": "implemented_gated",
+        "prompt_workflow_evidence": "coordination/internal_work/blueprint/governance/2026-08-02__blueprint__prompt_workflow_operator_integration_v0_1.yaml",
         "external_rollout": "gated",
     }
     if not isinstance(profile, dict):
@@ -287,6 +485,11 @@ def validate(root: Path) -> list[str]:
     issues.extend(
         validate_canonical_gate_evidence(
             root / CANONICAL_GATE_EVIDENCE
+        )
+    )
+    issues.extend(
+        validate_prompt_workflow_evidence(
+            root / PROMPT_WORKFLOW_EVIDENCE
         )
     )
 
@@ -353,6 +556,13 @@ def validate(root: Path) -> list[str]:
                 f"{path}: implementation file missing: {implementation}"
             )
 
+    issues.extend(
+        validate_prompt_workflow_contracts(
+            root,
+            commands,
+        )
+    )
+
     prompt = commands.get("prompt-status", {})
     route = prompt.get("blueprint_route")
     if not isinstance(route, dict):
@@ -416,11 +626,15 @@ def validate(root: Path) -> list[str]:
     else:
         if result.get("inventory_state") != "completed":
             issues.append(f"{path}: inventory_state must be completed")
-        if result.get("conformance_state") != "blocked":
-            issues.append(f"{path}: conformance_state must be blocked")
+        if result.get("conformance_state") != "pass":
+            issues.append(f"{path}: conformance_state must be pass")
         if result.get("canonical_gate_state") != "integrated":
             issues.append(
                 f"{path}: canonical_gate_state must be integrated"
+            )
+        if result.get("prompt_workflow_state") != "implemented_gated":
+            issues.append(
+                f"{path}: prompt_workflow_state must be implemented_gated"
             )
         blockers = result.get("blockers")
         if not isinstance(blockers, list) or set(blockers) != EXPECTED_BLOCKERS:

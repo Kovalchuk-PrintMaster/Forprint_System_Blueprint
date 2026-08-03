@@ -14,32 +14,44 @@ repository_profile:
   self_audit_evidence: coordination/internal_work/blueprint/governance/2026-08-02__blueprint__self_audit_completion_v0_1.yaml
   canonical_gate_state: integrated
   canonical_gate_evidence: coordination/internal_work/blueprint/governance/2026-08-02__blueprint__command_applicability_canonical_gate_integration_v0_1.yaml
+  prompt_workflow_state: implemented_gated
+  prompt_workflow_evidence: coordination/internal_work/blueprint/governance/2026-08-02__blueprint__prompt_workflow_operator_integration_v0_1.yaml
   external_rollout: gated
 
 commands:
   - command_id: prompt-prepare
     public_target: prompt-prepare
-    target_present: false
+    target_present: true
     owner_repository_class: blueprint
     applicability: applicable
     mutability: mutating
     repository_write_scope: blueprint_only
-    implementation: null
-    implementation_state: not_implemented
-    conformance: blocked
-    blocker: prompt_prepare_not_implemented
+    implementation: scripts/coordination/manage_outgoing_prompt.py
+    implementation_state: implemented
+    default_mode: preview
+    apply_requires_explicit: true
+    replacement_requires_explicit: true
+    external_repository_writes: false
+    git_behavior: none
+    conformance: pass
 
   - command_id: prompt-release
     public_target: prompt-release
-    target_present: false
+    target_present: true
     owner_repository_class: blueprint
     applicability: applicable
     mutability: mutating
     repository_write_scope: blueprint_only
-    implementation: null
-    implementation_state: not_implemented
-    conformance: blocked
-    blocker: prompt_release_not_implemented
+    implementation: scripts/coordination/manage_outgoing_prompt.py
+    implementation_state: implemented
+    default_mode: preview
+    apply_requires_explicit: true
+    module_argument_requires_explicit_command_line_value: true
+    release_policy: coordination/standards/governance/outgoing_prompt_release_policy_v0_1.yaml
+    release_policy_state: gated
+    external_repository_writes: false
+    git_behavior: none
+    conformance: pass
 
   - command_id: prompt-status
     public_target: prompt-status
@@ -194,11 +206,10 @@ commands:
 
 result:
   inventory_state: completed
-  conformance_state: blocked
+  conformance_state: pass
   canonical_gate_state: integrated
-  blockers:
-    - prompt_prepare_not_implemented
-    - prompt_release_not_implemented
+  prompt_workflow_state: implemented_gated
+  blockers: []
   false_blockers_removed:
     - blueprint_module_coordination_metadata_files_missing
     - blueprint_outgoing_prompt_queue_missing

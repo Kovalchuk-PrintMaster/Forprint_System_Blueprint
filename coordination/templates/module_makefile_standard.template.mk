@@ -7,6 +7,11 @@
 # Command ownership:
 #   - Module targets may read Blueprint files but must never mutate Blueprint.
 #   - Module targets may execute only module-owned scripts.
+#   - `prompt-prepare` and `prompt-release` are Blueprint-owned commands.
+#     Module Makefiles must not implement, proxy, or invoke those mutations.
+#   - An artifact under Blueprint `approved/` is storage, not execution authority.
+#     A module may execute only a Prompt Queue v0.2 record whose
+#     `module_execution.status` is `ready_for_module_pull`.
 #   - Read-only targets must not write tracked/untracked repository files or
 #     mutate Git state.
 #   - Mutating targets must state their write scope explicitly.
@@ -95,6 +100,7 @@ MODULE_DOCUMENT_AWARENESS_LEDGER ?= $(COORDINATION_DIR)/blueprint_awareness/docu
 # Blueprint read-only source paths
 BLUEPRINT_PROMPTS_ROOT ?= $(BLUEPRINT_ROOT)/coordination/outgoing_prompts
 BLUEPRINT_MODULE_PROMPTS_DIR ?= $(BLUEPRINT_PROMPTS_ROOT)/$(MODULE_ID)
+BLUEPRINT_PROMPT_INDEX ?= $(BLUEPRINT_MODULE_PROMPTS_DIR)/index.yaml
 ACTIVE_PROMPT_DIR ?= $(BLUEPRINT_MODULE_PROMPTS_DIR)/approved
 
 # Module-owned workflow scripts
@@ -184,9 +190,16 @@ help:
 	@echo ""
 	@echo "Blueprint source access:"
 	@echo "  make blueprint-check"
+	@echo ""
+	@echo "Blueprint prompt consumption (read-only):"
 	@echo "  make blueprint-prompts-list"
 	@echo "  make prompt-next"
 	@echo "  make prompt-read-next"
+	@echo "  Approved files are inventory only; readiness comes from Prompt Queue v0.2."
+	@echo ""
+	@echo "Blueprint-owned prompt mutations (intentionally unavailable here):"
+	@echo "  prompt-prepare"
+	@echo "  prompt-release"
 	@echo ""
 	@echo "Safety note: blueprint-pull is intentionally forbidden from module repositories."
 
@@ -423,23 +436,35 @@ blueprint-standards:
 # 06 Blueprint outgoing prompts / prompt queue START
 # =============================================================================
 
-# Purpose: List approved Blueprint prompts for this module.
-# Safety: Read-only.
-# Inputs: ACTIVE_PROMPT_DIR.
-# Result: Approved prompt files are printed.
+# Ownership boundary:
+# - `prompt-prepare` and `prompt-release` are Blueprint-only mutations.
+# - This module template intentionally does not define or proxy those targets.
+# - Files in `approved/` are artifact inventory only.
+# - Executable authority comes only from Prompt Queue v0.2 with
+#   `module_execution.status: ready_for_module_pull`.
+#
+# Purpose: List the Blueprint queue source and approved artifact inventory.
+# Safety: Read-only; listing an approved artifact does not authorize execution.
+# Inputs: BLUEPRINT_PROMPT_INDEX and ACTIVE_PROMPT_DIR.
+# Result: Queue index path and approved artifact inventory are printed.
 .PHONY: blueprint-prompts-list
 blueprint-prompts-list:
+	$(call require_file,$(BLUEPRINT_PROMPT_INDEX))
 	$(call require_dir,$(ACTIVE_PROMPT_DIR))
+	@echo "Prompt Queue v0.2 source: $(BLUEPRINT_PROMPT_INDEX)"
+	@echo "Approved artifact inventory (not execution readiness):"
 	@find "$(ACTIVE_PROMPT_DIR)" -maxdepth 1 -type f -name "*.md" | sort
+	@echo "Use prompt-next or prompt-read-next to resolve ready_for_module_pull work."
 
-# Purpose: Verify the module has readable approved prompts.
-# Safety: Read-only.
-# Inputs: ACTIVE_PROMPT_DIR.
-# Result: At least one approved prompt exists.
+# Purpose: Verify the module has a readable queue index and approved storage.
+# Safety: Read-only; does not select, prepare, release, or execute a prompt.
+# Inputs: BLUEPRINT_PROMPT_INDEX and ACTIVE_PROMPT_DIR.
+# Result: Queue source exists and at least one approved artifact is readable.
 .PHONY: blueprint-prompts-check
 blueprint-prompts-check:
+	$(call require_file,$(BLUEPRINT_PROMPT_INDEX))
 	$(call require_dir,$(ACTIVE_PROMPT_DIR))
-	@test -n "$$(find "$(ACTIVE_PROMPT_DIR)" -maxdepth 1 -type f -name '*.md' -print -quit)" || { echo "FAILED: no approved prompts for $(MODULE_ID)."; exit 2; }
+	@test -n "$$(find "$(ACTIVE_PROMPT_DIR)" -maxdepth 1 -type f -name '*.md' -print -quit)" || { echo "FAILED: no approved prompt artifacts for $(MODULE_ID)."; exit 2; }
 
 # Purpose: Synchronize approved prompts into module-local snapshots.
 # Safety: Module-only mutation through MODULE_SYNC_SCRIPT.
@@ -450,10 +475,11 @@ blueprint-prompts-sync:
 	$(call require_module_script,$(MODULE_SYNC_SCRIPT))
 	"$(PYTHON)" "$(MODULE_SYNC_SCRIPT)" --module-root "$(MODULE_ROOT)" --blueprint-root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --scope prompts
 
-# Purpose: Run prompt list/check/sync and local queue validation.
-# Safety: Mutates only module-local snapshots during sync.
+# Purpose: Run prompt inventory/check/sync and local queue validation.
+# Safety: Mutates only module-local snapshots during sync; never prepares or
+# releases Blueprint prompts.
 # Inputs: Prompt source, MODULE_SYNC_SCRIPT, MODULE_PROMPT_CLI.
-# Result: Prompt workflow completes.
+# Result: Local queue is synchronized and readiness is rendered explicitly.
 .PHONY: blueprint-prompts
 blueprint-prompts:
 	$(MAKE) blueprint-prompts-list
@@ -490,19 +516,21 @@ prompt-dashboard:
 	$(call require_module_script,$(MODULE_PROMPT_CLI))
 	"$(PYTHON)" "$(MODULE_PROMPT_CLI)" --module-root "$(MODULE_ROOT)" --module "$(MODULE_ID)" dashboard
 
-# Purpose: Resolve the next local synchronized prompt.
-# Safety: Read-only; module-owned executable only.
-# Inputs: MODULE_PROMPT_CLI
-# Result: Requested information is printed.
+# Purpose: Resolve the next local synchronized ready prompt.
+# Safety: Read-only; module-owned executable only; selects only
+# `module_execution.status: ready_for_module_pull`.
+# Inputs: MODULE_PROMPT_CLI.
+# Result: The next executable prompt is printed, or no-ready-prompt is reported.
 .PHONY: prompt-next
 prompt-next:
 	$(call require_module_script,$(MODULE_PROMPT_CLI))
 	"$(PYTHON)" "$(MODULE_PROMPT_CLI)" --module-root "$(MODULE_ROOT)" --module "$(MODULE_ID)" next
 
-# Purpose: Read the next local synchronized prompt.
-# Safety: Read-only; module-owned executable only.
-# Inputs: MODULE_PROMPT_CLI
-# Result: Requested information is printed.
+# Purpose: Read the next local synchronized ready prompt.
+# Safety: Read-only; module-owned executable only; never reads planning-only
+# drafts as executable work.
+# Inputs: MODULE_PROMPT_CLI.
+# Result: The ready prompt selected from Prompt Queue v0.2 is printed.
 .PHONY: prompt-read-next
 prompt-read-next:
 	$(call require_module_script,$(MODULE_PROMPT_CLI))

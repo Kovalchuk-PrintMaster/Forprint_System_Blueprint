@@ -41,6 +41,9 @@ STATUS ?= acknowledged
 LEDGER ?= coordination/blueprint_awareness/document_review_ledger.yaml
 DOCUMENT ?=
 SOURCE ?=
+PROMPT_ID ?=
+APPLY ?= 0
+REPLACE ?= 0
 PRIORITY ?=
 NOTES ?=
 MODULE_COMMIT ?=
@@ -88,7 +91,15 @@ help:
 	@echo "  make guides"
 	@echo "  make manifest-example"
 	@echo ""
-	@echo "Prompt queue:"
+	@echo "Prompt preparation / release:"
+	@echo "  make prompt-prepare SOURCE=operator_input/prompts/example.md"
+	@echo "  make prompt-prepare SOURCE=operator_input/prompts/example.md APPLY=1"
+	@echo "  make prompt-prepare SOURCE=operator_input/prompts/example.md APPLY=1 REPLACE=1"
+	@echo "  make prompt-release MODULE=forprint_library PROMPT_ID=library_example_v0_1"
+	@echo "  make prompt-release MODULE=forprint_library PROMPT_ID=library_example_v0_1 APPLY=1"
+	@echo "  Release apply remains fail-closed unless governance policy authorizes it."
+	@echo ""
+	@echo "Prompt queue navigation:"
 	@echo "  make prompt-queue-validate"
 	@echo "  make prompt-dashboard MODULE=forprint_library"
 	@echo "  make prompt-next MODULE=forprint_library"
@@ -307,6 +318,64 @@ prompt-dispatch:
 .PHONY: outgoing-prompts
 outgoing-prompts:
 	$(PYTHON) scripts/validate_outgoing_prompts.py
+
+# Purpose: validate and prepare a non-executable Blueprint-owned prompt draft.
+# Safety: preview by default; APPLY=1 mutates only Blueprint drafts/. REPLACE=1
+# is explicit and never releases, commits, pushes, merges, or writes to modules.
+.PHONY: prompt-prepare
+prompt-prepare:
+	@set -eu; \
+		if [ -z "$(SOURCE)" ]; then \
+			echo "FAILED: prompt-prepare requires SOURCE=<managed prompt source path>"; \
+			exit 2; \
+		fi; \
+		case "$(APPLY)" in \
+			0|1) ;; \
+			*) echo "FAILED: APPLY must be 0 or 1"; exit 2 ;; \
+		esac; \
+		case "$(REPLACE)" in \
+			0|1) ;; \
+			*) echo "FAILED: REPLACE must be 0 or 1"; exit 2 ;; \
+		esac; \
+		set -- prepare --root "." --source "$(SOURCE)"; \
+		if [ "$(APPLY)" = "1" ]; then set -- "$$@" --apply; fi; \
+		if [ "$(REPLACE)" = "1" ]; then set -- "$$@" --replace; fi; \
+		$(PYTHON) scripts/coordination/manage_outgoing_prompt.py "$$@"; \
+		if [ "$(APPLY)" = "1" ]; then \
+			$(PYTHON) scripts/coordination/validate_prompt_queue.py; \
+			$(PYTHON) scripts/validate_outgoing_prompts.py; \
+		fi
+
+# Purpose: publish exactly one prepared prompt into Prompt Queue v0.2.
+# Safety: preview by default; APPLY=1 is still governed by the fail-closed
+# Blueprint release policy. MODULE must be passed explicitly despite its global
+# navigation default. Never writes to a module repository or commit/push/merge.
+.PHONY: prompt-release
+prompt-release:
+	@set -eu; \
+		if [ "$(origin MODULE)" != "command line" ]; then \
+			echo "FAILED: prompt-release requires explicit MODULE=<canonical module id>; the default MODULE is not accepted"; \
+			exit 2; \
+		fi; \
+		if [ -z "$(MODULE)" ]; then \
+			echo "FAILED: prompt-release requires MODULE=<canonical module id>"; \
+			exit 2; \
+		fi; \
+		if [ -z "$(PROMPT_ID)" ]; then \
+			echo "FAILED: prompt-release requires PROMPT_ID=<canonical prompt id>"; \
+			exit 2; \
+		fi; \
+		case "$(APPLY)" in \
+			0|1) ;; \
+			*) echo "FAILED: APPLY must be 0 or 1"; exit 2 ;; \
+		esac; \
+		set -- release --root "." --module "$(MODULE)" --prompt-id "$(PROMPT_ID)"; \
+		if [ "$(APPLY)" = "1" ]; then set -- "$$@" --apply; fi; \
+		$(PYTHON) scripts/coordination/manage_outgoing_prompt.py "$$@"; \
+		if [ "$(APPLY)" = "1" ]; then \
+			$(PYTHON) scripts/coordination/validate_prompt_queue.py; \
+			$(PYTHON) scripts/validate_outgoing_prompts.py; \
+		fi
 
 # =============================================================================
 
