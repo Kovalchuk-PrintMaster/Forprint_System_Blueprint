@@ -1,0 +1,65 @@
+schema_version: blueprint_metadata_consistency_validator_integration_v0_1
+
+metadata:
+  evidence_id: blueprint_metadata_consistency_validator_integration_v0_1
+  module_id: forprint_system_blueprint
+  owner: forprint_system_blueprint
+  created_at: "2026-08-03"
+  status: implemented_not_closed
+
+subject:
+  base_commit: f4676c2d7109283f20c5abe422902d049be134a1
+  validator: scripts/validation/validate_blueprint_metadata_consistency.py
+  tests: tests/validation/test_blueprint_metadata_consistency.py
+  scope:
+    - current Blueprint governance YAML records
+    - outgoing prompt indexes
+    - cross-index prompt identity
+    - module-directory consistency
+    - target-module consistency
+    - prompt file reference containment
+    - prompt file reference existence
+
+verified_behavior:
+  read_only: true
+  current_repository_validation: passed
+  invalid_yaml_rejected: true
+  missing_schema_version_rejected: true
+  wrong_blueprint_module_id_rejected: true
+  legacy_governance_record_without_module_id_tolerated: true
+  duplicate_prompt_id_rejected: true
+  module_directory_mismatch_rejected: true
+  target_module_mismatch_rejected: true
+  escaping_file_reference_rejected: true
+  broken_file_reference_rejected: true
+  legacy_outgoing_validator_preserved: true
+  prompt_queue_v0_2_validator_preserved: true
+  canonical_gate:
+    total: 27
+    ok: 27
+    warnings: 0
+    failed: 0
+
+governance_state:
+  metadata_consistency_not_verified: remains_until_separate_closeout
+  write_flow_recovery_not_fully_verified: remains
+  operational_readiness_review: in_progress
+  operational_readiness: blocked
+  reference_pilot_migration_authorized: false
+  external_module_prompts_released: false
+  external_rollout: gated
+
+boundaries:
+  tracked_repository_mutation_by_validator: false
+  cross_repository_writes: false
+  automatic_commit_push_or_merge: false
+  release_policy_modified: false
+  historical_evidence_rewritten: false
+
+next_required_step:
+  action: metadata_consistency_current_state_closeout
+  parallel_wave:
+    action: write_flow_recovery_classification
+    status: pending
+
+result: BLUEPRINT_METADATA_CONSISTENCY_VALIDATOR_INTEGRATED
