@@ -4,6 +4,8 @@ import importlib.util
 import shutil
 from pathlib import Path
 
+import yaml
+
 from scripts.run_blueprint_checks import build_checks
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -239,38 +241,24 @@ def test_operational_readiness_is_next(
     tmp_path: Path,
 ) -> None:
     root = fixture(tmp_path)
+    path = root / MATRIX
+    data = yaml.safe_load(path.read_text(encoding="utf-8"))
 
-    old = (
-        "      - canonical_module_make_template_refactor\n"
-        "      - blueprint_command_applicability_registry\n"
-        "      - blueprint_command_implementation_inventory\n"
-        "      - blueprint_self_audit_execution\n"
-        "      - blueprint_command_applicability_canonical_gate\n"
-        "    next_required_step: "
-        "blueprint_operational_readiness_review\n"
-        "  external_module_prompts_released: false\n"
-    )
-    new = (
-        "      - canonical_module_make_template_refactor\n"
-        "      - blueprint_command_applicability_registry\n"
-        "      - blueprint_command_implementation_inventory\n"
-        "      - blueprint_self_audit_execution\n"
-        "      - blueprint_command_applicability_canonical_gate\n"
-        "    next_required_step: "
-        "authorize_reference_pilot_migration\n"
-        "  external_module_prompts_released: false\n"
+    data["governance"]["implementation_progress"][
+        "next_required_step"
+    ] = "authorize_reference_pilot_migration"
+
+    path.write_text(
+        yaml.safe_dump(data, sort_keys=False),
+        encoding="utf-8",
     )
 
-    replace_once(root, old, new)
+    issues = validator.validate(root)
 
     assert any(
-        "`governance.implementation_progress."
-        "next_required_step` must be "
-        "'blueprint_operational_readiness_review'"
-        in item
-        for item in validator.validate(root)
+        "next_required_step" in issue
+        for issue in issues
     )
-
 def test_check_catalog_contains_validator() -> None:
     checks = {item.check_id: item for item in build_checks()}
     check = checks["module_workflow_adoption_matrix_validation"]

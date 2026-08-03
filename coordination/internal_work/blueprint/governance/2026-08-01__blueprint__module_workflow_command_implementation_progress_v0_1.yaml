@@ -16,6 +16,9 @@ subject:
   command_applicability_inventory_evidence: coordination/internal_work/blueprint/governance/2026-08-02__blueprint__command_applicability_inventory_v0_1.yaml
   blueprint_self_audit_evidence: coordination/internal_work/blueprint/governance/2026-08-02__blueprint__self_audit_completion_v0_1.yaml
   command_applicability_canonical_gate_evidence: coordination/internal_work/blueprint/governance/2026-08-02__blueprint__command_applicability_canonical_gate_integration_v0_1.yaml
+  prompt_workflow_operator_integration_evidence: coordination/internal_work/blueprint/governance/2026-08-02__blueprint__prompt_workflow_operator_integration_v0_1.yaml
+  prompt_workflow_governance_closeout_evidence: coordination/internal_work/blueprint/governance/2026-08-03__blueprint__prompt_workflow_governance_closeout_v0_1.yaml
+  prompt_release_policy: coordination/standards/governance/outgoing_prompt_release_policy_v0_1.yaml
 
 evidence_commits:
   architecture_approval: 6bfd2daaf9b612026087a151ae5886a1c540dc23
@@ -24,6 +27,8 @@ evidence_commits:
   completion_acceptance_gate: c6a5a51c30f227a6cd61e5bfe96b207f9acda27a
   make_workflow_contract_refactor: 1c82c929d8608187b52b73d80c651760884d8a58
   command_applicability: 2f89443be1a5b9893d666eed7baa696c17c0b904
+  prompt_workflow_core: 51cc478add62cdadf853e95eef2f4874767b33ec
+  prompt_workflow_operator_integration: bf93e7d29739c58d5e36c0b53b1300094f73fb1d
 
 implementation_state:
   architecture: approved_target_standard
@@ -37,6 +42,11 @@ implementation_state:
   command_implementation_inventory: completed
   blueprint_self_audit_execution: completed_with_unknowns
   command_applicability_canonical_gate: completed
+  prompt_workflow_core: completed
+  prompt_prepare_operator_command: completed
+  prompt_release_operator_command: completed_gated
+  prompt_release_policy: gated
+  prompt_workflow_governance_closeout: completed_gated
   operational_readiness_state: blocked
   operational_readiness_review: pending
   implementation_migration: blueprint_internal_in_progress
@@ -69,6 +79,19 @@ verified_behavior:
     completion_packet_idempotency_uses_isolated_sandbox: true
     module_finish_and_publish_are_separate: true
     module_executables_are_module_owned: true
+  prompt_workflow:
+    prepare_preview_is_read_only: true
+    prepare_apply_is_blueprint_only: true
+    release_preview_is_read_only: true
+    release_apply_requires_explicit_governance_authorization: true
+    release_policy_state: gated
+    module_argument_requires_explicit_command_line_value: true
+    module_template_exposes_blueprint_mutation_targets: false
+    approved_directory_is_execution_authority: false
+    ready_for_module_pull_is_execution_authority: true
+    legacy_dispatch_index_is_mutated: false
+    sent_directory_is_release_state: false
+    automatic_commit_push_or_merge: false
 
 boundaries:
   historical_approval_rewritten: false
@@ -78,6 +101,8 @@ boundaries:
   canonical_make_template_rollout_authorized: false
   self_audit_runtime_outputs_committed: false
   reference_pilot_prompt_authorized: false
+  prompt_workflow_release_policy_gated: true
+  prompt_workflow_external_release_authorized: false
   external_module_prompts_released: false
   external_rollout_released: false
   cross_repository_writes: false

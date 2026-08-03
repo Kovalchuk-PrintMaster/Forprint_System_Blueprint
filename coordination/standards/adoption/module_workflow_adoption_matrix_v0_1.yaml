@@ -72,6 +72,12 @@ governance:
       - blueprint_command_implementation_inventory
       - blueprint_self_audit_execution
       - blueprint_command_applicability_canonical_gate
+      - blueprint_outgoing_prompt_workflow_core
+      - blueprint_prompt_workflow_operator_commands
+      - blueprint_prompt_workflow_release_policy_gate
+      - blueprint_prompt_workflow_governance_closeout
+    prompt_workflow_state: implemented_gated
+    prompt_workflow_evidence: coordination/internal_work/blueprint/governance/2026-08-03__blueprint__prompt_workflow_governance_closeout_v0_1.yaml
     next_required_step: blueprint_operational_readiness_review
   external_module_prompts_released: false
   cross_repository_writes_forbidden: true
@@ -364,9 +370,12 @@ assessment_snapshot:
         - blueprint_command_implementation_inventory_completed
         - blueprint_self_audit_completed_with_unknowns
         - blueprint_command_applicability_canonical_gate_integrated
+        - blueprint_outgoing_prompt_workflow_core_implemented
+        - blueprint_prompt_prepare_operator_command_implemented
+        - blueprint_prompt_release_operator_command_implemented_gated
+        - module_template_prompt_mutation_boundary_enforced
+        - prompt_workflow_governance_closeout_recorded
       known_gaps:
-        - prompt_prepare_not_implemented
-        - prompt_release_not_implemented
         - metadata_consistency_not_verified
         - module_identity_not_reconciled
         - artifact_authority_and_retention_not_enforced
@@ -390,6 +399,10 @@ assessment_snapshot:
         command_applicability_inventory_evidence: coordination/internal_work/blueprint/governance/2026-08-02__blueprint__command_applicability_inventory_v0_1.yaml
         blueprint_self_audit_evidence: coordination/internal_work/blueprint/governance/2026-08-02__blueprint__self_audit_completion_v0_1.yaml
         command_applicability_canonical_gate_evidence: coordination/internal_work/blueprint/governance/2026-08-02__blueprint__command_applicability_canonical_gate_integration_v0_1.yaml
+        prompt_workflow_core_commit: 51cc478add62cdadf853e95eef2f4874767b33ec
+        prompt_workflow_operator_integration_commit: bf93e7d29739c58d5e36c0b53b1300094f73fb1d
+        prompt_workflow_operator_integration_evidence: coordination/internal_work/blueprint/governance/2026-08-02__blueprint__prompt_workflow_operator_integration_v0_1.yaml
+        prompt_workflow_governance_closeout_evidence: coordination/internal_work/blueprint/governance/2026-08-03__blueprint__prompt_workflow_governance_closeout_v0_1.yaml
 
     - repository_id: logistics_service
       repository_class: module
