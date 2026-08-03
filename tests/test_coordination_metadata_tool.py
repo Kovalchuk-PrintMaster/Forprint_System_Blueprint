@@ -272,3 +272,81 @@ def test_coordination_metadata_fixer_can_update_pending_commit_with_git_head(
     assert "coordination/reports/index.yaml" in fix_result.changed_files
     assert fixed_status["last_commit"] != "pending"
     assert fixed_reports["reports"][0]["commit"] != "pending"
+
+def test_coordination_metadata_fixer_cli_invokes_once_with_all_flags(
+    tmp_path: Path,
+    monkeypatch,
+    capsys,
+) -> None:
+    import importlib.util
+    import sys
+    from types import SimpleNamespace
+
+    script = (
+        Path(__file__).resolve().parents[1]
+        / "scripts/fix_coordination_metadata.py"
+    )
+    spec = importlib.util.spec_from_file_location(
+        "fix_coordination_metadata_cli_test",
+        script,
+    )
+    assert spec is not None
+    assert spec.loader is not None
+
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+
+    calls: list[dict[str, object]] = []
+
+    def fake_fix_module_coordination_metadata(
+        *,
+        module_root: Path,
+        update_git_commit: bool,
+        mark_pushed_if_upstream_clean: bool,
+    ):
+        calls.append(
+            {
+                "module_root": Path(module_root),
+                "update_git_commit": update_git_commit,
+                "mark_pushed_if_upstream_clean": (
+                    mark_pushed_if_upstream_clean
+                ),
+            }
+        )
+        return SimpleNamespace(
+            module_root=Path(module_root),
+            changed_files=[],
+            skipped=[],
+            warnings=[],
+        )
+
+    monkeypatch.setattr(
+        module,
+        "fix_module_coordination_metadata",
+        fake_fix_module_coordination_metadata,
+    )
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            str(script),
+            "--module-root",
+            str(tmp_path),
+            "--update-git-commit",
+            "--mark-pushed-if-upstream-clean",
+        ],
+    )
+
+    assert module.main() == 0
+    assert calls == [
+        {
+            "module_root": tmp_path,
+            "update_git_commit": True,
+            "mark_pushed_if_upstream_clean": True,
+        }
+    ]
+
+    output = capsys.readouterr().out
+    assert "Changed files: none" in output
+    assert "Coordination metadata fixer completed" in output

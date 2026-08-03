@@ -1,0 +1,74 @@
+schema_version: blueprint_coordination_metadata_fixer_recovery_remediation_v0_1
+
+metadata:
+  evidence_id: blueprint_coordination_metadata_fixer_recovery_remediation_v0_1
+  module_id: forprint_system_blueprint
+  owner: forprint_system_blueprint
+  created_at: "2026-08-03"
+  status: implemented_not_closed
+
+subject:
+  base_commit: 622428bd4c2a53f449232b39447fc37c91b7019f
+  entrypoint: scripts/fix_coordination_metadata.py
+  implementation: tools/forprint_coordination_tools/metadata.py
+  functional_test: tests/test_coordination_metadata_tool.py
+  governance_test: tests/validation/test_coordination_metadata_fixer_recovery_remediation.py
+  source_classification:
+    schema_version: blueprint_write_flow_recovery_classification_v0_1
+    finding: duplicate_fixer_execution
+    previous_fix_function_call_count: 2
+    previous_matching_test_count: 0
+
+remediation:
+  duplicate_execution_removed: true
+  current_fix_function_call_count: 1
+  update_git_commit_forwarded: true
+  mark_pushed_if_upstream_clean_forwarded: true
+  result_reporting_uses_single_operation_result: true
+  cli_regression_test_added: true
+  cli_regression_test_asserts_exact_call_count: 1
+  cli_regression_test_asserts_all_flags_forwarded: true
+
+verification:
+  fixer_source_sha256_before: ee79386ccf5b19b4f135ee8b192b74aeb30aa9570e96b169fbf079f8d9fe599c
+  focused_metadata_tests: PASSED
+  recovery_governance_tests: PASSED
+  current_metadata_validator: PASSED
+  canonical_gate:
+    total: 27
+    ok: 27
+    warnings: 0
+    failed: 0
+
+blocker_state:
+  coordination_metadata_fixer_duplicate_execution: closed
+  uncovered_blocking_path_scripts_fix_coordination_metadata: closed
+  write_flow_recovery_not_fully_verified: remains
+  closeout_eligible: false
+  reason:
+    - remaining write-flow classifications require bounded manual confirmation
+    - shared write primitives require caller-contract evidence
+    - write-flow recovery governance closeout has not been completed
+
+boundaries:
+  operational_readiness_review: in_progress
+  operational_readiness: blocked
+  reference_pilot_migration_authorized: false
+  external_module_prompts_released: false
+  external_rollout: gated
+  cross_repository_writes_by_builder: false
+  automatic_commit_push_or_merge: false
+  historical_evidence_rewritten: false
+
+next_required_step:
+  action: blueprint_write_flow_recovery_bounded_review
+  scope:
+    - direct_or_delegated_mutation_paths
+    - shared_write_primitive_callers
+    - output_artifact_writers
+    - preview_or_apply_gated_flows
+    - transactional_atomic_flows
+  external_module_action: none
+  pilot_action: none
+
+result: BLUEPRINT_COORDINATION_METADATA_FIXER_RECOVERY_REMEDIATED_BLOCKED

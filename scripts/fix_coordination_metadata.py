@@ -44,6 +44,9 @@ def main() -> int:
     result = fix_module_coordination_metadata(
         module_root=Path(args.module_root),
         update_git_commit=args.update_git_commit,
+        mark_pushed_if_upstream_clean=(
+            args.mark_pushed_if_upstream_clean
+        ),
     )
 
 
@@ -66,13 +69,6 @@ def main() -> int:
         print("\nWarnings:")
         for item in result.warnings:
             print(f"  - {item}")
-
-    result = fix_module_coordination_metadata(
-        module_root=Path(args.module_root),
-        update_git_commit=args.update_git_commit,
-        mark_pushed_if_upstream_clean=args.mark_pushed_if_upstream_clean,
-    )
-
     print("\n✅ Coordination metadata fixer completed")
     return 0
 
