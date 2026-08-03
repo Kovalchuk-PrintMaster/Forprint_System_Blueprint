@@ -42,10 +42,16 @@ CLOSED = {
     "prompt_prepare_not_implemented",
     "prompt_release_not_implemented",
 }
-REMAINING = {
+PROMPT_CLOSEOUT_REMAINING = {
     "metadata_consistency_not_verified",
     "module_identity_not_reconciled",
     "artifact_authority_and_retention_not_enforced",
+    "write_flow_recovery_not_fully_verified",
+    "blueprint_operational_readiness_review_not_completed",
+    "reference_pilot_migration_not_authorized",
+}
+CURRENT_REMAINING = {
+    "metadata_consistency_not_verified",
     "write_flow_recovery_not_fully_verified",
     "blueprint_operational_readiness_review_not_completed",
     "reference_pilot_migration_not_authorized",
@@ -87,7 +93,7 @@ def test_matrix_records_prompt_workflow_closeout() -> None:
 
     snapshot = _blueprint_snapshot(matrix)
     gaps = set(snapshot["known_gaps"])
-    assert gaps == REMAINING
+    assert gaps == CURRENT_REMAINING
     assert CLOSED.isdisjoint(gaps)
     assert snapshot["target_conformance"] == (
         "implementation_in_progress"
@@ -149,7 +155,10 @@ def test_closeout_evidence_is_exact_and_gated() -> None:
         "blueprint_prompt_workflow_governance_closeout_v0_1"
     )
     assert set(closeout["closed_blockers"]) == CLOSED
-    assert set(closeout["remaining_readiness_blockers"]) == REMAINING
+    assert (
+        set(closeout["remaining_readiness_blockers"])
+        == PROMPT_CLOSEOUT_REMAINING
+    )
     assert closeout["validation"]["canonical_gate"] == {
         "total": 27,
         "ok": 27,

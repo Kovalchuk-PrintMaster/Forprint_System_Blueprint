@@ -76,7 +76,13 @@ governance:
       - blueprint_prompt_workflow_operator_commands
       - blueprint_prompt_workflow_release_policy_gate
       - blueprint_prompt_workflow_governance_closeout
+      - blueprint_operational_readiness_wave1_verification
+      - blueprint_module_identity_reconciliation
+      - blueprint_artifact_authority_policy_enforcement
+      - blueprint_artifact_retention_consistency_enforcement
     prompt_workflow_state: implemented_gated
+    operational_readiness_wave1_state: completed_blocked
+    operational_readiness_wave1_evidence: coordination/internal_work/blueprint/governance/2026-08-03__blueprint__operational_readiness_wave1_closeout_v0_1.yaml
     prompt_workflow_evidence: coordination/internal_work/blueprint/governance/2026-08-03__blueprint__prompt_workflow_governance_closeout_v0_1.yaml
     next_required_step: blueprint_operational_readiness_review
   external_module_prompts_released: false
@@ -375,10 +381,12 @@ assessment_snapshot:
         - blueprint_prompt_release_operator_command_implemented_gated
         - module_template_prompt_mutation_boundary_enforced
         - prompt_workflow_governance_closeout_recorded
+        - module_identity_reconciliation_verified_at_current_head
+        - artifact_authority_policy_verified_at_current_head
+        - artifact_retention_consistency_verified_at_current_head
+        - operational_readiness_wave1_closeout_recorded
       known_gaps:
         - metadata_consistency_not_verified
-        - module_identity_not_reconciled
-        - artifact_authority_and_retention_not_enforced
         - write_flow_recovery_not_fully_verified
         - blueprint_operational_readiness_review_not_completed
         - reference_pilot_migration_not_authorized
@@ -403,6 +411,7 @@ assessment_snapshot:
         prompt_workflow_operator_integration_commit: bf93e7d29739c58d5e36c0b53b1300094f73fb1d
         prompt_workflow_operator_integration_evidence: coordination/internal_work/blueprint/governance/2026-08-02__blueprint__prompt_workflow_operator_integration_v0_1.yaml
         prompt_workflow_governance_closeout_evidence: coordination/internal_work/blueprint/governance/2026-08-03__blueprint__prompt_workflow_governance_closeout_v0_1.yaml
+        operational_readiness_wave1_closeout_evidence: coordination/internal_work/blueprint/governance/2026-08-03__blueprint__operational_readiness_wave1_closeout_v0_1.yaml
 
     - repository_id: logistics_service
       repository_class: module
