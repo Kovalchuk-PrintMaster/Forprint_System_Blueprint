@@ -1,0 +1,102 @@
+schema_version: blueprint_explicit_write_flow_recovery_contract_v0_1
+
+metadata:
+  evidence_id: blueprint_explicit_write_flow_recovery_contract_v0_1
+  module_id: forprint_system_blueprint
+  owner: forprint_system_blueprint
+  created_at: "2026-08-03"
+  status: implemented_ready_for_closeout
+
+subject:
+  base_commit: a2da1889593ab62791145033439b54047cddfb68
+  source_review:
+    schema_version: blueprint_write_flow_recovery_bounded_review_v0_1
+    remaining_manual_blockers_before: 2
+  flows:
+    - path: scripts/coordination/modules/forprint_system_blueprint/workflows/self_audit.py
+      source_sha256_before: 0e33e797e01029ae430525968250b111f8198afeceb1c6b3413ea47b2e0b7897
+      source_sha256_after: 2a1b565945129a299145943079ef00566f02ddb0011601fdba2e68dbb00b4fda
+      disposition: explicit_atomic_publish_recovery
+    - path: scripts/validate_module_standards_template.py
+      source_sha256: c8cbbafeb7893ead903dab270e27fc2d65b0741bf09262900e6996751f52700b
+      disposition: temporary_validation_harness
+
+self_audit_contract:
+  prepare_phase:
+    artifacts_are_provisional: true
+    run_directory_is_non_authoritative: true
+    failure_does_not_publish_current_state: true
+  resume_phase:
+    source_results_are_validated_before_publish: true
+    history_and_current_copies_use_atomic_copy2: true
+    atomic_copy_uses_sibling_temporary_file: true
+    publication_uses_os_replace: true
+    failed_publication_preserves_previous_destination: true
+    failed_publication_removes_temporary_file: true
+    rerun_after_failure_is_supported: true
+  filesystem_scope:
+    copy_destinations_remain_existing_workflow_destinations: true
+    no_cross_repository_write_added: true
+    no_git_operation_added: true
+
+standards_template_contract:
+  harness_type: temporary_validation_workspace
+  temporary_directory_context_required: true
+  fake_blueprint_is_created_only_under_temporary_root: true
+  module_runtime_root_is_created_only_under_temporary_root: true
+  cleanup_is_owned_by_temporary_directory_context: true
+  repository_makefile_mutated: false
+  canonical_coordination_state_mutated: false
+  git_state_mutated: false
+  production_logic_changed: false
+
+verification:
+  exact_source_hashes: PASSED
+  resume_atomic_copy_count: 3
+  resume_raw_copy2_count: 0
+  atomic_copy_success_test: PASSED
+  atomic_copy_failure_preserves_destination_test: PASSED
+  atomic_copy_failure_cleanup_test: PASSED
+  standards_temporary_directory_ast_contract: PASSED
+  existing_self_audit_tests: PASSED
+  existing_standards_template_tests: PASSED
+  previous_write_flow_contract_tests: PASSED
+  metadata_validator: PASSED
+  canonical_gate:
+    total: 27
+    ok: 27
+    warnings: 0
+    failed: 0
+
+per_flow_state:
+  self_audit: verified_explicit_recovery
+  validate_module_standards_template: verified_temporary_isolation
+  remaining_manual_blocker_count_after_this_evidence: 0
+
+blocker_state:
+  write_flow_recovery_not_fully_verified: ready_for_closeout
+  closed_in_this_evidence: false
+  closeout_eligible: true
+  remaining_write_flow_paths: []
+
+boundaries:
+  operational_readiness_review: in_progress
+  operational_readiness: blocked
+  reference_pilot_migration_authorized: false
+  external_module_prompts_released: false
+  external_rollout: gated
+  cross_repository_writes_by_builder: false
+  automatic_commit_push_or_merge: false
+  historical_evidence_rewritten: false
+
+next_required_step:
+  action: blueprint_write_flow_recovery_closeout
+  close_only:
+    - write_flow_recovery_not_fully_verified
+  do_not_close:
+    - blueprint_operational_readiness_review_not_completed
+    - reference_pilot_migration_not_authorized
+  external_module_action: none
+  pilot_action: none
+
+result: BLUEPRINT_EXPLICIT_WRITE_FLOW_RECOVERY_VERIFIED_READY_FOR_CLOSEOUT

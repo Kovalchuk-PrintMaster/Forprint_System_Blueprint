@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 import json
+import os
 import shutil
 import tarfile
+import tempfile
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -27,6 +29,27 @@ from scripts.coordination.modules._shared.reporting import (
     render_full_markdown,
 )
 from scripts.coordination.modules._shared.repository_scan import scan_repository
+
+
+def _atomic_copy2(source: Path, destination: Path) -> Path:
+    "Copy through a sibling temporary file and atomically publish it."
+    source = Path(source)
+    destination = Path(destination)
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    descriptor, temporary_name = tempfile.mkstemp(
+        prefix=f".{destination.name}.",
+        suffix=".tmp",
+        dir=destination.parent,
+    )
+    os.close(descriptor)
+    temporary = Path(temporary_name)
+    try:
+        shutil.copy2(source, temporary)
+        os.replace(temporary, destination)
+    except Exception:
+        temporary.unlink(missing_ok=True)
+        raise
+    return destination
 
 MODULE_ID = "forprint_system_blueprint"
 WORKFLOW_ID = "blueprint_self_audit"
@@ -323,7 +346,7 @@ def resume(root: Path, *, use_color: bool) -> int:
 
     run_dir = root / str(runtime["run_dir"])
     archived_input = run_dir / "bsa.provided.yaml"
-    shutil.copy2(input_path, archived_input)
+    _atomic_copy2(input_path, archived_input)
     runtime["stage"] = "completed"
     runtime["completed_at"] = datetime.now(UTC).isoformat()
     runtime["input_sha256"] = provided["input_sha256"]
@@ -341,11 +364,11 @@ def resume(root: Path, *, use_color: bool) -> int:
         root / "reports/modules/forprint_system_blueprint/history"
     )
     history_dir.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(
+    _atomic_copy2(
         artifact_paths(root)["full"],
         history_dir / f"{runtime['run_id']}__self_knowledge_report.md",
     )
-    shutil.copy2(
+    _atomic_copy2(
         artifact_paths(root)["summary"],
         history_dir / f"{runtime['run_id']}__self_knowledge_summary.json",
     )
