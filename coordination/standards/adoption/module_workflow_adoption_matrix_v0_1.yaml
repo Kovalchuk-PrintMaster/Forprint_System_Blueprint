@@ -82,9 +82,13 @@ governance:
       - blueprint_artifact_retention_consistency_enforcement
       - blueprint_metadata_consistency_validator
       - blueprint_metadata_consistency_current_state_closeout
+      - blueprint_write_flow_recovery_classification
+      - blueprint_write_flow_recovery_contracts
+      - blueprint_write_flow_recovery_closeout
     prompt_workflow_state: implemented_gated
     operational_readiness_wave1_state: completed_blocked
     metadata_consistency_state: verified_closed_blocked
+    write_flow_recovery_state: verified_closed_blocked
     operational_readiness_wave1_evidence: coordination/internal_work/blueprint/governance/2026-08-03__blueprint__operational_readiness_wave1_closeout_v0_1.yaml
     prompt_workflow_evidence: coordination/internal_work/blueprint/governance/2026-08-03__blueprint__prompt_workflow_governance_closeout_v0_1.yaml
     next_required_step: blueprint_operational_readiness_review
@@ -391,8 +395,14 @@ assessment_snapshot:
         - metadata_consistency_validator_integrated
         - metadata_consistency_verified_at_current_head
         - metadata_consistency_closeout_recorded
+        - write_flow_recovery_inventory_classified
+        - metadata_fixer_duplicate_execution_remediated
+        - shared_writer_recovery_contracts_verified
+        - controlled_failure_write_flows_verified
+        - bounded_output_writer_contracts_verified
+        - explicit_write_flow_recovery_verified
+        - write_flow_recovery_closeout_recorded
       known_gaps:
-        - write_flow_recovery_not_fully_verified
         - blueprint_operational_readiness_review_not_completed
         - reference_pilot_migration_not_authorized
       next_required_step: blueprint_operational_readiness_review
@@ -419,6 +429,12 @@ assessment_snapshot:
         operational_readiness_wave1_closeout_evidence: coordination/internal_work/blueprint/governance/2026-08-03__blueprint__operational_readiness_wave1_closeout_v0_1.yaml
         metadata_consistency_validator_integration_evidence: coordination/internal_work/blueprint/governance/2026-08-03__blueprint__metadata_consistency_validator_integration_v0_1.yaml
         metadata_consistency_closeout_evidence: coordination/internal_work/blueprint/governance/2026-08-03__blueprint__metadata_consistency_closeout_v0_1.yaml
+        coordination_metadata_fixer_recovery_evidence: coordination/internal_work/blueprint/governance/2026-08-03__blueprint__coordination_metadata_fixer_recovery_remediation_v0_1.yaml
+        shared_writer_recovery_contract_evidence: coordination/internal_work/blueprint/governance/2026-08-03__blueprint__shared_writer_recovery_contract_v0_1.yaml
+        controlled_failure_write_flow_contract_evidence: coordination/internal_work/blueprint/governance/2026-08-03__blueprint__controlled_failure_write_flow_contract_v0_1.yaml
+        bounded_output_writer_contract_evidence: coordination/internal_work/blueprint/governance/2026-08-03__blueprint__bounded_output_writer_contract_v0_1.yaml
+        explicit_write_flow_recovery_contract_evidence: coordination/internal_work/blueprint/governance/2026-08-03__blueprint__explicit_write_flow_recovery_contract_v0_1.yaml
+        write_flow_recovery_closeout_evidence: coordination/internal_work/blueprint/governance/2026-08-03__blueprint__write_flow_recovery_closeout_v0_1.yaml
 
     - repository_id: logistics_service
       repository_class: module

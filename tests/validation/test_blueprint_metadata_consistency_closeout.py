@@ -46,9 +46,17 @@ RELEASE_POLICY = (
     "outgoing_prompt_release_policy_v0_1.yaml"
 )
 
-CLOSED = {"metadata_consistency_not_verified"}
-CURRENT_REMAINING = {
+METADATA_CLOSED = {"metadata_consistency_not_verified"}
+METADATA_REMAINING = {
     "write_flow_recovery_not_fully_verified",
+    "blueprint_operational_readiness_review_not_completed",
+    "reference_pilot_migration_not_authorized",
+}
+CURRENT_CLOSED = {
+    "metadata_consistency_not_verified",
+    "write_flow_recovery_not_fully_verified",
+}
+CURRENT_REMAINING = {
     "blueprint_operational_readiness_review_not_completed",
     "reference_pilot_migration_not_authorized",
 }
@@ -79,7 +87,7 @@ def test_current_matrix_closes_only_metadata_blocker() -> None:
         "verified_closed_blocked"
     )
     assert set(snapshot["known_gaps"]) == CURRENT_REMAINING
-    assert CLOSED.isdisjoint(snapshot["known_gaps"])
+    assert CURRENT_CLOSED.isdisjoint(snapshot["known_gaps"])
     assert snapshot["target_conformance"] == (
         "implementation_in_progress"
     )
@@ -115,13 +123,13 @@ def test_progress_records_metadata_closeout_and_blocked_state() -> None:
     assert behavior["path_containment_validation"] == "passed"
     assert behavior["legacy_governance_compatibility"] == "passed"
     assert behavior["metadata_consistency_blocker_closed"] is True
-    assert behavior["write_flow_recovery_assessed"] is False
+    assert behavior["write_flow_recovery_assessed"] is True
     assert behavior["operational_readiness_green"] is False
 
     assert set(boundaries["metadata_consistency_closed_blockers"]) == (
-        CLOSED
+        METADATA_CLOSED
     )
-    assert boundaries["write_flow_recovery_remains_blocked"] is True
+    assert boundaries["write_flow_recovery_remains_blocked"] is False
     assert boundaries["operational_readiness_remains_blocked"] is True
     assert boundaries["external_module_prompts_released"] is False
     assert boundaries["external_rollout_released"] is False
@@ -134,9 +142,9 @@ def test_metadata_closeout_is_exact_and_fail_closed() -> None:
     assert closeout["schema_version"] == (
         "blueprint_metadata_consistency_closeout_v0_1"
     )
-    assert set(closeout["closed_blockers"]) == CLOSED
+    assert set(closeout["closed_blockers"]) == METADATA_CLOSED
     assert set(closeout["remaining_readiness_blockers"]) == (
-        CURRENT_REMAINING
+        METADATA_REMAINING
     )
 
     verification = closeout["verification"]

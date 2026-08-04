@@ -51,7 +51,6 @@ PROMPT_CLOSEOUT_REMAINING = {
     "reference_pilot_migration_not_authorized",
 }
 CURRENT_REMAINING = {
-    "write_flow_recovery_not_fully_verified",
     "blueprint_operational_readiness_review_not_completed",
     "reference_pilot_migration_not_authorized",
 }
