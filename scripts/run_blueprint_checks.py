@@ -401,6 +401,20 @@ def build_checks() -> list[CheckDefinition]:
             group="documentation",
         ),
         CheckDefinition(
+            check_id="project_transparency_control_layer_validation",
+            title="Project transparency control layer",
+            expected_result=(
+                "Current governance sources agree and status "
+                "rendering is read-only"
+            ),
+            command=(
+                python,
+                "scripts/validation/"
+                "validate_project_transparency_control_layer.py",
+            ),
+            group="documentation",
+        ),
+        CheckDefinition(
             check_id="module_standards_template_validation",
             title="Standards template",
             expected_result="Module standards template is valid",

@@ -47,6 +47,7 @@ REPLACE ?= 0
 PRIORITY ?=
 NOTES ?=
 MODULE_COMMIT ?=
+GOVERNANCE_STATUS_FORMAT ?= status
 # =============================================================================
 
 # 00 Environment / constants START
@@ -148,6 +149,9 @@ help:
 	@echo "  make blueprint-self-audit"
 	@echo "  make blueprint-self-audit-resume"
 	@echo "  make blueprint-self-status"
+	@echo "  make blueprint-governance-status GOVERNANCE_STATUS_FORMAT=status"
+	@echo "  make blueprint-governance-status GOVERNANCE_STATUS_FORMAT=yaml"
+	@echo "  make blueprint-governance-status GOVERNANCE_STATUS_FORMAT=json"
 	@echo "  make blueprint-self-report-full"
 	@echo "  make modules-self-status"
 	@echo ""
@@ -759,6 +763,10 @@ blueprint-self-status:
 .PHONY: blueprint-self-report-full
 blueprint-self-report-full:
 	$(MAKE) module-self-report-full MODULE=forprint_system_blueprint
+
+.PHONY: blueprint-governance-status
+blueprint-governance-status:
+	@$(BLUEPRINT_PYTHON) scripts/coordination/render_blueprint_governance_status.py --repo-root "." --format "$(GOVERNANCE_STATUS_FORMAT)"
 
 # =============================================================================
 
