@@ -1,0 +1,125 @@
+schema_version: mutation_builder_contract_v0_1
+
+metadata:
+  standard_id: mutation_builder_contract
+  title: ForPrint Mutation Builder Contract
+  owner: forprint_system_blueprint
+  created_at: "2026-08-05"
+  status: active_standard
+  authority: blueprint_repository_mutation_control
+  adoption_mode: prompt_or_directive_required
+
+scope:
+  applies_to:
+    - scripts_that_modify_tracked_repository_files
+    - scripts_that_create_governance_or_standard_artifacts
+    - scripts_that_evolve_canonical_validation_contracts
+  excludes:
+    - read_only_inspection_scripts
+    - ignored_rebuildable_runtime_reports
+  clean_working_tree_required: true
+
+required_flow:
+  - order: 1
+    step_id: inspect_exact_structure
+    phase: inspection
+    tracked_write_allowed: false
+  - order: 2
+    step_id: render_all_changes_in_memory
+    phase: preflight
+    tracked_write_allowed: false
+  - order: 3
+    step_id: validate_typed_exact_path_set
+    phase: preflight
+    tracked_write_allowed: false
+  - order: 4
+    step_id: reject_no_op_mutations
+    phase: preflight
+    tracked_write_allowed: false
+  - order: 5
+    step_id: parse_and_compile_generated_artifacts
+    phase: preflight
+    tracked_write_allowed: false
+  - order: 6
+    step_id: preserve_existing_file_modes
+    phase: write_preparation
+    tracked_write_allowed: false
+  - order: 7
+    step_id: perform_bounded_atomic_writes
+    phase: mutation
+    tracked_write_allowed: true
+  - order: 8
+    step_id: run_focused_tests
+    phase: verification
+    tracked_write_allowed: true
+  - order: 9
+    step_id: run_canonical_gate
+    phase: verification
+    tracked_write_allowed: true
+  - order: 10
+    step_id: verify_complete_rollback_on_failure
+    phase: recovery
+    tracked_write_allowed: true
+
+contracts:
+  source_guards:
+    expected_branch_required: true
+    expected_head_required: true
+    source_sha256_guards_required: true
+    clean_working_tree_required: true
+  rendered_path_contract:
+    expected_rendered_paths_type: pathlib.Path
+    expected_git_status_paths_type: str
+    exact_path_set_required: true
+    missing_and_unexpected_paths_reported: true
+    no_op_mutations_rejected: true
+  preflight_validation:
+    all_outputs_rendered_before_first_tracked_write: true
+    python_ast_parse_required: true
+    python_compile_required: true
+    yaml_unique_key_validation_required: true
+    markdown_fence_balance_required: true
+    lint_preflight_in_ignored_repository_tmp_required: true
+  write_contract:
+    atomic_replace_required: true
+    bounded_to_declared_paths: true
+    preserve_existing_file_modes: true
+    new_file_mode: "0644"
+    automatic_format_fix_after_write_allowed: false
+  verification_contract:
+    focused_tests_before_canonical_gate: true
+    canonical_gate_required: true
+    exact_dirty_path_set_required: true
+    immutable_boundary_hashes_required: true
+  rollback_contract:
+    rollback_on_any_failure: true
+    restore_existing_bytes: true
+    restore_existing_file_modes: true
+    remove_new_files: true
+    bounded_git_restore_fallback: true
+    verify_clean_working_tree_after_rollback: true
+    automatic_retry_after_partial_failure: false
+  diagnostics_contract:
+    failure_stage_reported: true
+    exact_failed_command_reported: true
+    exact_remaining_dirty_paths_reported: true
+    success_and_failure_markers_required: true
+
+operator_boundaries:
+  automatic_commit: false
+  automatic_push: false
+  automatic_merge: false
+  pilot_authorization_changed: false
+  release_policy_changed: false
+  external_rollout_authorized: false
+  cross_repository_writes: false
+
+required_result_markers:
+  success_suffix: _READY
+  failure_suffix: _FAILED
+
+result:
+  contract_state: active
+  canonical_validation_required: true
+  pilot_effect: none
+  external_rollout: gated

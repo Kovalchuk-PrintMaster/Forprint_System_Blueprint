@@ -373,6 +373,20 @@ def build_checks() -> list[CheckDefinition]:
             group="documentation",
         ),
         CheckDefinition(
+            check_id="mutation_builder_contract_validation",
+            title="Mutation builder contract",
+            expected_result=(
+                "Mutation builders follow predictable preflight "
+                "and rollback rules"
+            ),
+            command=(
+                python,
+                "scripts/validation/"
+                "validate_mutation_builder_contract.py",
+            ),
+            group="documentation",
+        ),
+        CheckDefinition(
             check_id="blueprint_command_applicability_validation",
             title="Blueprint command applicability",
             expected_result=(

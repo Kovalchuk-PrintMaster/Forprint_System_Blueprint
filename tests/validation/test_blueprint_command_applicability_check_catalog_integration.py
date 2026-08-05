@@ -14,7 +14,7 @@ def test_catalog_contains_applicability_validator() -> None:
     checks = build_checks()
     check_ids = [item.check_id for item in checks]
 
-    assert len(checks) == 27
+    assert len(checks) == 28
     assert len(check_ids) == len(set(check_ids))
 
     check = {
