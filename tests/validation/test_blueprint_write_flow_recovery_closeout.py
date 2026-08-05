@@ -63,8 +63,11 @@ RELEASE_POLICY = (
 )
 
 CLOSED = {"write_flow_recovery_not_fully_verified"}
-CURRENT_REMAINING = {
+WRITE_FLOW_REMAINING = {
     "blueprint_operational_readiness_review_not_completed",
+    "reference_pilot_migration_not_authorized",
+}
+CURRENT_REMAINING = {
     "reference_pilot_migration_not_authorized",
 }
 
@@ -94,11 +97,11 @@ def test_current_matrix_closes_only_write_flow_blocker() -> None:
     assert set(snapshot["known_gaps"]) == CURRENT_REMAINING
     assert CLOSED.isdisjoint(snapshot["known_gaps"])
     assert snapshot["target_conformance"] == (
-        "implementation_in_progress"
+        "operational_readiness_review_completed_pilot_gated"
     )
     assert snapshot["rollout_authorized"] is False
     assert snapshot["next_required_step"] == (
-        "blueprint_operational_readiness_review"
+        "reference_pilot_migration_authorization_decision"
     )
 
 
@@ -112,8 +115,12 @@ def test_progress_records_complete_write_flow_verification() -> None:
     assert state["write_flow_recovery_closeout"] == (
         "completed_blocked"
     )
-    assert state["operational_readiness_state"] == "blocked"
-    assert state["operational_readiness_review"] == "pending"
+    assert state["operational_readiness_state"] == (
+        "review_completed_pilot_gated"
+    )
+    assert state["operational_readiness_review"] == (
+        "completed_pass"
+    )
     assert state["reference_pilot_migration"] == "not_authorized"
     assert state["external_rollout"] == "gated"
 
@@ -136,7 +143,8 @@ def test_progress_records_complete_write_flow_verification() -> None:
     assert set(boundaries["operational_readiness_remaining_blockers"]) == (
         CURRENT_REMAINING
     )
-    assert boundaries["operational_readiness_remains_blocked"] is True
+    assert boundaries["operational_readiness_remains_blocked"] is False
+    assert boundaries["reference_pilot_migration_remains_blocked"] is True
     assert boundaries["external_module_prompts_released"] is False
     assert boundaries["external_rollout_released"] is False
     assert boundaries["cross_repository_writes"] is False
@@ -150,7 +158,7 @@ def test_closeout_is_exact_and_fail_closed() -> None:
     )
     assert set(closeout["closed_blockers"]) == CLOSED
     assert set(closeout["remaining_readiness_blockers"]) == (
-        CURRENT_REMAINING
+        WRITE_FLOW_REMAINING
     )
 
     verification = closeout["verification"]

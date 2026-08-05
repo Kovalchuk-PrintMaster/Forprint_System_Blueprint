@@ -51,7 +51,6 @@ PROMPT_CLOSEOUT_REMAINING = {
     "reference_pilot_migration_not_authorized",
 }
 CURRENT_REMAINING = {
-    "blueprint_operational_readiness_review_not_completed",
     "reference_pilot_migration_not_authorized",
 }
 
@@ -78,7 +77,7 @@ def test_matrix_records_prompt_workflow_closeout() -> None:
     assert progress["state"] == "blueprint_internal_in_progress"
     assert progress["prompt_workflow_state"] == "implemented_gated"
     assert progress["next_required_step"] == (
-        "blueprint_operational_readiness_review"
+        "reference_pilot_migration_authorization_decision"
     )
 
     capabilities = set(progress["completed_capabilities"])
@@ -94,11 +93,11 @@ def test_matrix_records_prompt_workflow_closeout() -> None:
     assert gaps == CURRENT_REMAINING
     assert CLOSED.isdisjoint(gaps)
     assert snapshot["target_conformance"] == (
-        "implementation_in_progress"
+        "operational_readiness_review_completed_pilot_gated"
     )
     assert snapshot["rollout_authorized"] is False
     assert snapshot["next_required_step"] == (
-        "blueprint_operational_readiness_review"
+        "reference_pilot_migration_authorization_decision"
     )
 
 
@@ -115,7 +114,9 @@ def test_progress_records_implemented_gated_workflow() -> None:
         == "completed_gated"
     )
     assert state["prompt_release_policy"] == "gated"
-    assert state["operational_readiness_state"] == "blocked"
+    assert state["operational_readiness_state"] == (
+        "review_completed_pilot_gated"
+    )
     assert state["reference_pilot_migration"] == "not_authorized"
     assert state["external_rollout"] == "gated"
 

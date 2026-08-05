@@ -85,13 +85,16 @@ governance:
       - blueprint_write_flow_recovery_classification
       - blueprint_write_flow_recovery_contracts
       - blueprint_write_flow_recovery_closeout
+      - blueprint_operational_readiness_final_review
+      - blueprint_operational_readiness_review_closeout
     prompt_workflow_state: implemented_gated
     operational_readiness_wave1_state: completed_blocked
     metadata_consistency_state: verified_closed_blocked
     write_flow_recovery_state: verified_closed_blocked
+    operational_readiness_review_state: completed_pilot_gated
     operational_readiness_wave1_evidence: coordination/internal_work/blueprint/governance/2026-08-03__blueprint__operational_readiness_wave1_closeout_v0_1.yaml
     prompt_workflow_evidence: coordination/internal_work/blueprint/governance/2026-08-03__blueprint__prompt_workflow_governance_closeout_v0_1.yaml
-    next_required_step: blueprint_operational_readiness_review
+    next_required_step: reference_pilot_migration_authorization_decision
   external_module_prompts_released: false
   cross_repository_writes_forbidden: true
   module_completion_is_blueprint_acceptance: false
@@ -366,7 +369,7 @@ assessment_snapshot:
     - repository_id: forprint_system_blueprint
       repository_class: blueprint
       assessment_status: partially_assessed
-      target_conformance: implementation_in_progress
+      target_conformance: operational_readiness_review_completed_pilot_gated
       rollout_authorized: false
       command_profile: blueprint_workflow
       verified_foundations:
@@ -402,10 +405,11 @@ assessment_snapshot:
         - bounded_output_writer_contracts_verified
         - explicit_write_flow_recovery_verified
         - write_flow_recovery_closeout_recorded
+        - operational_readiness_final_review_passed
+        - operational_readiness_review_closeout_recorded
       known_gaps:
-        - blueprint_operational_readiness_review_not_completed
         - reference_pilot_migration_not_authorized
-      next_required_step: blueprint_operational_readiness_review
+      next_required_step: reference_pilot_migration_authorization_decision
       evidence:
         branch: governance/module-workflow-command-architecture-v01
         architecture_baseline_commit: ed20997c0fa22774474dd1e09ea16900d6642a98
@@ -435,6 +439,7 @@ assessment_snapshot:
         bounded_output_writer_contract_evidence: coordination/internal_work/blueprint/governance/2026-08-03__blueprint__bounded_output_writer_contract_v0_1.yaml
         explicit_write_flow_recovery_contract_evidence: coordination/internal_work/blueprint/governance/2026-08-03__blueprint__explicit_write_flow_recovery_contract_v0_1.yaml
         write_flow_recovery_closeout_evidence: coordination/internal_work/blueprint/governance/2026-08-03__blueprint__write_flow_recovery_closeout_v0_1.yaml
+        operational_readiness_review_closeout_evidence: coordination/internal_work/blueprint/governance/2026-08-04__blueprint__operational_readiness_review_closeout_v0_1.yaml
 
     - repository_id: logistics_service
       repository_class: module
@@ -495,7 +500,7 @@ migration_sequence:
     rollout_effect: blueprint_internal_and_template_reference_only
   - step: 6
     action: blueprint_operational_readiness_review
-    status: pending
+    status: completed
     owner: forprint_system_blueprint
     depends_on: [refactor_blueprint_makefile_and_canonical_module_template]
     rollout_effect: none

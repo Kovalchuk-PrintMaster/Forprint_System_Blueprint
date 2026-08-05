@@ -359,7 +359,7 @@ def validate_progress_evidence(
             "completion_acceptance_gate": "implemented",
             "blueprint_makefile_refactor": "completed",
             "canonical_module_make_template_refactor": "completed",
-            "operational_readiness_review": "pending",
+            "operational_readiness_review": "completed_pass",
             "implementation_migration": (
                 "blueprint_internal_in_progress"
             ),
@@ -418,7 +418,7 @@ def validate_progress_evidence(
             evidence_path,
             next_step,
             "action",
-            "blueprint_operational_readiness_review",
+            "reference_pilot_migration_authorization_decision",
             issues,
             "next_required_step",
         )
@@ -551,7 +551,7 @@ def validate(root: Path) -> list[str]:
                 path,
                 progress,
                 "next_required_step",
-                "blueprint_operational_readiness_review",
+                "reference_pilot_migration_authorization_decision",
                 issues,
                 "governance.implementation_progress",
             )
@@ -687,7 +687,7 @@ def validate(root: Path) -> list[str]:
                 "refactor_blueprint_makefile_and_canonical_module_template",
                 "completed",
             ),
-            6: ("blueprint_operational_readiness_review", "pending"),
+            6: ("blueprint_operational_readiness_review", "completed"),
             7: ("authorize_reference_pilot_migration", "not_authorized"),
             8: ("migrate_reference_pilot_completion_check", "blocked"),
             9: ("add_reference_pilot_completion_preview", "blocked"),

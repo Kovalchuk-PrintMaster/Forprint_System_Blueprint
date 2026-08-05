@@ -50,7 +50,6 @@ WAVE1_REMAINING = {
     "reference_pilot_migration_not_authorized",
 }
 CURRENT_REMAINING = {
-    "blueprint_operational_readiness_review_not_completed",
     "reference_pilot_migration_not_authorized",
 }
 PROMPT_CLOSEOUT_REMAINING = WAVE1_REMAINING | CLOSED
@@ -81,11 +80,11 @@ def test_current_matrix_closes_only_wave1_blockers() -> None:
     assert set(snapshot["known_gaps"]) == CURRENT_REMAINING
     assert CLOSED.isdisjoint(snapshot["known_gaps"])
     assert snapshot["target_conformance"] == (
-        "implementation_in_progress"
+        "operational_readiness_review_completed_pilot_gated"
     )
     assert snapshot["rollout_authorized"] is False
     assert snapshot["next_required_step"] == (
-        "blueprint_operational_readiness_review"
+        "reference_pilot_migration_authorization_decision"
     )
 
 
@@ -104,8 +103,12 @@ def test_progress_records_verified_wave1_and_blocked_readiness() -> None:
     assert state["artifact_authority_and_retention"] == (
         "verified_current_head"
     )
-    assert state["operational_readiness_state"] == "blocked"
-    assert state["operational_readiness_review"] == "pending"
+    assert state["operational_readiness_state"] == (
+        "review_completed_pilot_gated"
+    )
+    assert state["operational_readiness_review"] == (
+        "completed_pass"
+    )
     assert state["reference_pilot_migration"] == "not_authorized"
     assert state["external_rollout"] == "gated"
 
@@ -126,7 +129,7 @@ def test_progress_records_verified_wave1_and_blocked_readiness() -> None:
     assert set(
         boundaries["operational_readiness_wave1_closed_blockers"]
     ) == CLOSED
-    assert boundaries["operational_readiness_remains_blocked"] is True
+    assert boundaries["operational_readiness_remains_blocked"] is False
     assert boundaries["external_module_prompts_released"] is False
     assert boundaries["external_rollout_released"] is False
     assert boundaries["cross_repository_writes"] is False

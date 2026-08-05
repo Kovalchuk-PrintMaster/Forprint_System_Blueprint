@@ -55,9 +55,9 @@ METADATA_REMAINING = {
 CURRENT_CLOSED = {
     "metadata_consistency_not_verified",
     "write_flow_recovery_not_fully_verified",
+    "blueprint_operational_readiness_review_not_completed",
 }
 CURRENT_REMAINING = {
-    "blueprint_operational_readiness_review_not_completed",
     "reference_pilot_migration_not_authorized",
 }
 
@@ -89,11 +89,11 @@ def test_current_matrix_closes_only_metadata_blocker() -> None:
     assert set(snapshot["known_gaps"]) == CURRENT_REMAINING
     assert CURRENT_CLOSED.isdisjoint(snapshot["known_gaps"])
     assert snapshot["target_conformance"] == (
-        "implementation_in_progress"
+        "operational_readiness_review_completed_pilot_gated"
     )
     assert snapshot["rollout_authorized"] is False
     assert snapshot["next_required_step"] == (
-        "blueprint_operational_readiness_review"
+        "reference_pilot_migration_authorization_decision"
     )
 
 
@@ -108,8 +108,12 @@ def test_progress_records_metadata_closeout_and_blocked_state() -> None:
     assert state["metadata_consistency_closeout"] == (
         "completed_blocked"
     )
-    assert state["operational_readiness_state"] == "blocked"
-    assert state["operational_readiness_review"] == "pending"
+    assert state["operational_readiness_state"] == (
+        "review_completed_pilot_gated"
+    )
+    assert state["operational_readiness_review"] == (
+        "completed_pass"
+    )
     assert state["reference_pilot_migration"] == "not_authorized"
     assert state["external_rollout"] == "gated"
 
@@ -130,7 +134,7 @@ def test_progress_records_metadata_closeout_and_blocked_state() -> None:
         METADATA_CLOSED
     )
     assert boundaries["write_flow_recovery_remains_blocked"] is False
-    assert boundaries["operational_readiness_remains_blocked"] is True
+    assert boundaries["operational_readiness_remains_blocked"] is False
     assert boundaries["external_module_prompts_released"] is False
     assert boundaries["external_rollout_released"] is False
     assert boundaries["cross_repository_writes"] is False
