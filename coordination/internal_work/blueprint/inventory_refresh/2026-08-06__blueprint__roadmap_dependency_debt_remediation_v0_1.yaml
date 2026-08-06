@@ -7,7 +7,8 @@ metadata:
   created_at: '2026-08-06T14:17:00+03:00'
   branch: audit/blueprint-inventory-refresh-2026-07-29
   base_head: b637809ff3cd85f44c0eac58a22d7f4c4adbe937
-  status: active_remediation
+  status: completed_remediation
+  completed_at: '2026-08-06T17:36:00+03:00'
 trigger:
   audit_path: tmp/blueprint_roadmap_dependency_audit/blueprint_roadmap_dependency_audit.yaml
   audit_sha256: b2050d33b76c96a81bae1e63410566b4b4185bd294da683aed37509caceeaed1
@@ -79,7 +80,14 @@ boundaries:
   external_rollout: gated
   automatic_commit_push_or_merge: false
 next_required_action:
-  action: blueprint_managed_module_plan_reconciliation_v0_1
+  action: blueprint_inventory_acceptance_packet_integrity_gate_v0_1
   execution_owner: forprint_system_blueprint
-  completion_required_before: blueprint_inventory_acceptance_packet_integrity_gate_v0_1
-result: BLUEPRINT_ROADMAP_DEPENDENCY_DEBT_REMEDIATION_ACTIVATED
+  completion_required_before: blueprint_inventory_acceptance_decision_readiness_review_v0_1
+result: BLUEPRINT_ROADMAP_DEPENDENCY_DEBT_REMEDIATION_COMPLETED
+resolution:
+  completed_prerequisite: blueprint_managed_module_plan_reconciliation_v0_1
+  restored_current_step: blueprint_inventory_acceptance_packet_integrity_gate_v0_1
+  dependency_debt_remaining: 0
+  historical_completion_rewritten: false
+  module_controls_modified: false
+  telegram_logistics_dependency: recorded_and_kept_gated_until_logistics_acceptance

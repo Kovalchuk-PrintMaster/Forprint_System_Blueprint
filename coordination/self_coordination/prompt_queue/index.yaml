@@ -5,10 +5,10 @@ metadata:
   reviewer: project_owner
   created_at: '2026-07-30'
   updated_at: '2026-08-06'
-  active_prompt_id: blueprint_managed_module_plan_reconciliation_v0_1
+  active_prompt_id: blueprint_inventory_acceptance_packet_integrity_gate_v0_1
   approved_prompt_count: 1
-  draft_prompt_count: 7
-  completed_prompt_count: 15
+  draft_prompt_count: 6
+  completed_prompt_count: 16
 policy:
   exactly_one_approved_prompt: true
   drafts_do_not_authorize_execution: true
@@ -47,9 +47,10 @@ prompts:
   roadmap_step_id: blueprint_self_coordination_consistency_ci_gate_v0_1
   completion_packet: coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__self_coordination_consistency_ci_gate_v0_1.yaml
 - prompt_id: blueprint_managed_module_plan_reconciliation_v0_1
-  status: approved
-  path: coordination/self_coordination/prompt_queue/approved/2026-07-30__forprint_system_blueprint__managed_module_plan_reconciliation_v0_1.md
+  status: completed
+  path: coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__managed_module_plan_reconciliation_v0_1.md
   roadmap_step_id: blueprint_managed_module_plan_reconciliation_v0_1
+  completion_packet: coordination/self_coordination/completion_packets/2026-08-06__forprint_system_blueprint__managed_module_plan_reconciliation_v0_1.yaml
 - prompt_id: blueprint_inventory_status_consistency_gate_v0_1
   status: completed
   path: coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__inventory_status_consistency_gate_v0_1.md
@@ -116,8 +117,8 @@ prompts:
   path: coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__inventory_maintenance_baseline_activation_v0_1.md
   roadmap_step_id: blueprint_inventory_maintenance_baseline_activation_v0_1
 - prompt_id: blueprint_inventory_acceptance_packet_integrity_gate_v0_1
-  status: draft
-  path: coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__inventory_acceptance_packet_integrity_gate_v0_1.md
+  status: approved
+  path: coordination/self_coordination/prompt_queue/approved/2026-07-30__forprint_system_blueprint__inventory_acceptance_packet_integrity_gate_v0_1.md
   roadmap_step_id: blueprint_inventory_acceptance_packet_integrity_gate_v0_1
 - prompt_id: blueprint_ecosystem_inventory_rollout_release_review_v0_1
   status: draft

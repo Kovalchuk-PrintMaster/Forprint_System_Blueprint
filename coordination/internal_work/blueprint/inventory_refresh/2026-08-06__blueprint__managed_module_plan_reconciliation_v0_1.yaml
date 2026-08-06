@@ -1,0 +1,102 @@
+schema_version: blueprint_managed_module_plan_reconciliation_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  created_at: '2026-08-06T17:36:00+03:00'
+  branch: audit/blueprint-inventory-refresh-2026-07-29
+  source_head: a23b8dc011920f0d9cb2dad25053908a907737b5
+  state: RECONCILED
+  external_rollout_state: gated
+inspection_source:
+  path: tmp/blueprint_managed_module_plan_reconciliation_inspection/managed_module_plan_reconciliation.json
+  sha256: 641f274739ca376f34d2239d1cbac1f075a34004ddc1e7e714de8ab942874806
+  result: BLUEPRINT_MANAGED_MODULE_PLAN_RECONCILIATION_INSPECTION_READY
+summary:
+  managed_module_count: 3
+  control_drift_count: 0
+  invalid_roadmap_count: 0
+  open_prompt_count: 0
+  dependency_finding_count: 1
+  module_control_mutation_required: false
+  release_decision: COMPLETE_RECONCILIATION_AND_RESUME_PACKET_INTEGRITY_GATE
+module_snapshots:
+- module_id: forprint_library
+  plan_path: coordination/self_coordination/module_plans/forprint_library.yaml
+  plan_sha256: 1894f3ea700be7795fa9a589ccf7eda6e4363544cb34871fb6c337d64252ccba
+  roadmap_path: coordination/roadmaps/forprint_library.yaml
+  roadmap_sha256: 6d7f0479428e6361a398931200c5f40023a5000e1475c77922f44a80a7636b82
+  roadmap_valid: true
+  current_step:
+    current_step_id: library_configurable_product_workbench_business_card_skeleton_v0_1
+    current_step_status: active
+    current_step_title: Configurable Product Workbench v0.1 — Business Card Skeleton
+    open_prompt_ids: []
+  prompt_queue_path: coordination/outgoing_prompts/forprint_library/index.yaml
+  prompt_queue_sha256: 29a3c4852e43e4a5ae67200bf3f996278d349005af197ad12fcbf80722286bcc
+  open_prompt_ids: []
+  control_drift: []
+  matching_local_branches:
+  - branch: coordination/library-calculator-input-prompt-v01
+    head: 4490392db62996d6f3b5684b12f2d9aa0f01b1b8
+    merged_into_current_head: true
+- module_id: logistics_service
+  plan_path: coordination/self_coordination/module_plans/logistics_service.yaml
+  plan_sha256: b156d1f678a873a33c0bacd260d5f23ee0b23c23c11658d0a05b2a46afbf5c18
+  roadmap_path: coordination/roadmaps/logistics_service.yaml
+  roadmap_sha256: b3b458682348d00324175b82e23a94ccdeaf5a2790ffa74bbb7e2692c725c76d
+  roadmap_valid: true
+  current_step:
+    current_step_id: logistics_service_tracking_events_v0_1
+    current_step_status: ready
+    current_step_title: Tracking events and notification contracts
+    open_prompt_ids: []
+  prompt_queue_path: coordination/outgoing_prompts/logistics_service/index.yaml
+  prompt_queue_sha256: 2b854f391cab5c587595cce77e046a9ae22fb1901690548f17ef6b50404da90d
+  open_prompt_ids: []
+  control_drift: []
+  matching_local_branches:
+  - branch: coordination/logistics-provider-adapter-acceptance-2026-07-29
+    head: 50df50b855906662ac40ca13e53a705012583571
+    merged_into_current_head: true
+- module_id: telegram_bot
+  plan_path: coordination/self_coordination/module_plans/telegram_bot.yaml
+  plan_sha256: 903cf8d15c3d47936344b7edd538961b5da8de56b17a23324e44011581aeea24
+  roadmap_path: coordination/roadmaps/telegram_bot.yaml
+  roadmap_sha256: 7789f1d659ff5f507f241567c3519f61509164255678dd2acb239dd199128cd8
+  roadmap_valid: true
+  current_step:
+    current_step_id: telegram_bot_dialogue_audit_events_v0_1
+    current_step_status: active
+    current_step_title: Dialogue audit events
+    open_prompt_ids: []
+  prompt_queue_path: coordination/outgoing_prompts/telegram_bot/index.yaml
+  prompt_queue_sha256: aa0cb97b997779cd5dfb76847e56c0f4bb46e1d4b5dc75b469d8db70e3687816
+  open_prompt_ids: []
+  control_drift: []
+  matching_local_branches: []
+dependency_decisions:
+- dependency_id: telegram_requires_logistics_event_contract
+  producer_module: logistics_service
+  consumer_module: telegram_bot
+  producer_current_step_id: logistics_service_tracking_events_v0_1
+  producer_current_status: ready
+  satisfied: false
+  decision: Telegram integration advancement remains gated until the Logistics tracking-event contract is accepted.
+  blocking_for_blueprint_step_14_closeout: false
+  blocking_for_telegram_integration_advancement: true
+bounded_recommendations:
+- module_id: forprint_library
+  decision: Continue current active workbench step under module-local authority; no new Blueprint prompt.
+- module_id: logistics_service
+  decision: Accept tracking-events completion evidence before dependent Telegram integration advancement.
+- module_id: telegram_bot
+  decision: Continue current dialogue-audit work; keep Logistics integration advancement gated.
+safety:
+  module_repository_writes: false
+  module_roadmap_writes: false
+  module_prompt_queue_writes: false
+  external_prompts_released: false
+  historical_completion_rewritten: false
+  cross_repository_writes: false
+  reference_pilot_authorized: false
+  external_rollout_state: gated
+result: GREEN
