@@ -439,17 +439,20 @@ def build_manifest(
 
     checks = [
         agreement_check(
-            "branch_agreement",
+            "historical_assessment_branch_provenance",
             {
-                "git": require_string(
-                    repository.get("branch"),
-                    "repository branch",
-                ),
-                ADOPTION_MATRIX.as_posix(): require_string(
-                    assessment_evidence.get("branch"),
-                    "Blueprint assessment branch",
+                (
+                    f"{ADOPTION_MATRIX}:"
+                    "assessment_evidence_branch_recorded"
+                ): bool(
+                    require_string(
+                        assessment_evidence.get("branch"),
+                        "Blueprint assessment branch",
+                    )
                 ),
             },
+            expected=True,
+            expected_is_set=True,
         ),
         agreement_check(
             "active_blocker_agreement",

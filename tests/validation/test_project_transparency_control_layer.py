@@ -184,3 +184,26 @@ def test_canonical_catalog_contains_transparency_validator() -> None:
     ) < check_ids.index(
         "module_standards_template_validation"
     )
+
+def test_current_branch_is_not_bound_to_historical_evidence_branch(
+    tmp_path: Path,
+) -> None:
+    root = fixture(tmp_path)
+    state = repository_state()
+    state["branch"] = "audit/blueprint-inventory-refresh-2026-07-29"
+
+    manifest = renderer.build_manifest(
+        root,
+        repository_state=state,
+    )
+
+    assert manifest["observed_repository_state"]["branch"] == (
+        "audit/blueprint-inventory-refresh-2026-07-29"
+    )
+    assert manifest["source_consistency"]["state"] == "agreed"
+    assert any(
+        row["check_id"]
+        == "historical_assessment_branch_provenance"
+        for row in manifest["source_consistency"]["checks"]
+    )
+

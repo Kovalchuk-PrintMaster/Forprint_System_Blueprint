@@ -41,13 +41,15 @@ RELEASE_POLICY = (
 )
 REVIEW_REPORT = (
     ROOT
-    / "tmp/blueprint_operational_readiness_final_review/"
-    "operational_readiness_final_review.yaml"
+    / "coordination/internal_work/blueprint/governance/"
+    "2026-08-04__blueprint__operational_readiness_final_"
+    "review_v0_1.yaml"
 )
 REVIEW_SUMMARY = (
     ROOT
-    / "tmp/blueprint_operational_readiness_final_review/"
-    "operational_readiness_final_review.md"
+    / "coordination/internal_work/blueprint/governance/"
+    "2026-08-04__blueprint__operational_readiness_final_"
+    "review_v0_1.md"
 )
 
 REVIEW_REPORT_SHA256 = (
@@ -98,6 +100,20 @@ def test_source_review_artifacts_are_exact() -> None:
     assert review["decision"]["do_not_close"] == list(
         CURRENT_REMAINING
     )
+
+    closeout = _load(CLOSEOUT)
+    source_review = closeout["subject"]["source_review"]
+
+    assert source_review["report_path"] == (
+        "tmp/blueprint_operational_readiness_final_review/"
+        "operational_readiness_final_review.yaml"
+    )
+    assert source_review["summary_path"] == (
+        "tmp/blueprint_operational_readiness_final_review/"
+        "operational_readiness_final_review.md"
+    )
+    assert source_review["report_sha256"] == REVIEW_REPORT_SHA256
+    assert source_review["summary_sha256"] == REVIEW_SUMMARY_SHA256
 
 
 def test_validator_contract_matches_completed_review() -> None:
