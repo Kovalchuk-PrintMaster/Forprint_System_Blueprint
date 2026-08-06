@@ -206,4 +206,3 @@ def test_current_branch_is_not_bound_to_historical_evidence_branch(
         == "historical_assessment_branch_provenance"
         for row in manifest["source_consistency"]["checks"]
     )
-
