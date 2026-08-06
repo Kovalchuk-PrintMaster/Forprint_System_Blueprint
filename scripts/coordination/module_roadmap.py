@@ -13,6 +13,9 @@ from scripts.reporting.table_renderer import (
 )
 
 SCHEMA_VERSION = "module_development_roadmap_v0_1"
+BLUEPRINT_SCHEMA_VERSION = "blueprint_self_coordination_roadmap_v0_1"
+BLUEPRINT_MODULE = "forprint_system_blueprint"
+BLUEPRINT_ROADMAP_PATH = Path("coordination/self_coordination/roadmap.yaml")
 
 DEFAULT_STATUS_VALUES = (
     "planned",
@@ -84,13 +87,15 @@ def resolve_roadmap_path(
     if not module:
         raise RoadmapError("Either module or roadmap path must be provided.")
 
+    if module == BLUEPRINT_MODULE:
+        candidate = root / BLUEPRINT_ROADMAP_PATH
+        if candidate.exists():
+            return candidate
+
     candidates = (
         root / "coordination" / "roadmaps" / f"{module}.yaml",
         root / "coordination" / "roadmaps" / f"{module}__roadmap.yaml",
-        root
-        / "coordination"
-        / "roadmaps"
-        / f"{module}__module_development_roadmap.yaml",
+        root / "coordination" / "roadmaps" / f"{module}__module_development_roadmap.yaml",
     )
 
     for candidate in candidates:
@@ -112,25 +117,33 @@ def validate_roadmap_document(
     warnings: list[str] = []
 
     schema_version = data.get("schema_version")
-    if schema_version != SCHEMA_VERSION:
+    if schema_version not in {SCHEMA_VERSION, BLUEPRINT_SCHEMA_VERSION}:
         errors.append(
-            "schema_version must be "
-            f"{SCHEMA_VERSION!r}, got {schema_version!r}",
+            "schema_version must be one of "
+            f"{SCHEMA_VERSION!r}, {BLUEPRINT_SCHEMA_VERSION!r}; "
+            f"got {schema_version!r}",
         )
-
-    module = _string_value(data.get("module"))
-    if not module:
-        errors.append("module must be a non-empty string")
-        module = "<unknown>"
 
     metadata = data.get("metadata")
     if not isinstance(metadata, dict):
         errors.append("metadata must be a mapping")
         metadata = {}
 
-    roadmap = data.get("roadmap")
+    if schema_version == BLUEPRINT_SCHEMA_VERSION:
+        module = _string_value(metadata.get("module_id"))
+        roadmap = data.get("steps")
+        roadmap_field = "steps"
+    else:
+        module = _string_value(data.get("module"))
+        roadmap = data.get("roadmap")
+        roadmap_field = "roadmap"
+
+    if not module:
+        errors.append("module must be a non-empty string")
+        module = "<unknown>"
+
     if not isinstance(roadmap, list):
-        errors.append("roadmap must be a list")
+        errors.append(f"{roadmap_field} must be a list")
         roadmap = []
 
     status_values = _string_set(data.get("status_values"), DEFAULT_STATUS_VALUES)
@@ -144,12 +157,12 @@ def validate_roadmap_document(
 
     for index, raw_step in enumerate(roadmap, start=1):
         if not isinstance(raw_step, dict):
-            errors.append(f"roadmap[{index}] must be a mapping")
+            errors.append(f"{roadmap_field}[{index}] must be a mapping")
             continue
 
         step_id = _string_value(raw_step.get("step_id"))
         if not step_id:
-            errors.append(f"roadmap[{index}].step_id must be a non-empty string")
+            errors.append(f"{roadmap_field}[{index}].step_id must be a non-empty string")
         elif step_id in seen_step_ids:
             errors.append(f"duplicate step_id: {step_id}")
         else:
@@ -157,7 +170,7 @@ def validate_roadmap_document(
 
         sequence = raw_step.get("sequence")
         if not isinstance(sequence, int):
-            errors.append(f"roadmap[{index}].sequence must be an integer")
+            errors.append(f"{roadmap_field}[{index}].sequence must be an integer")
         elif sequence in seen_sequences:
             errors.append(f"duplicate sequence: {sequence}")
         else:
@@ -165,49 +178,53 @@ def validate_roadmap_document(
 
         title = _string_value(raw_step.get("title"))
         if not title:
-            errors.append(f"roadmap[{index}].title must be a non-empty string")
+            errors.append(f"{roadmap_field}[{index}].title must be a non-empty string")
 
         status = _string_value(raw_step.get("status"))
         if not status:
-            errors.append(f"roadmap[{index}].status must be a non-empty string")
+            errors.append(f"{roadmap_field}[{index}].status must be a non-empty string")
         elif status not in status_values:
             errors.append(
-                f"roadmap[{index}].status {status!r} is not in status_values",
+                f"{roadmap_field}[{index}].status {status!r} is not in status_values",
             )
 
         priority = _string_value(raw_step.get("priority"))
         if not priority:
-            errors.append(f"roadmap[{index}].priority must be a non-empty string")
+            errors.append(f"{roadmap_field}[{index}].priority must be a non-empty string")
         elif priority not in priority_values:
             errors.append(
-                f"roadmap[{index}].priority {priority!r} "
-                "is not in priority_values",
+                f"{roadmap_field}[{index}].priority {priority!r} is not in priority_values",
             )
 
         owner_module = _string_value(raw_step.get("owner_module"))
         if owner_module and owner_module != module:
             warnings.append(
-                f"roadmap[{index}].owner_module {owner_module!r} "
-                f"does not match module {module!r}",
+                f"{roadmap_field}[{index}].owner_module "
+                f"{owner_module!r} does not match module {module!r}",
             )
 
         depends_on = raw_step.get("depends_on", [])
         if depends_on is not None and not isinstance(depends_on, list):
-            errors.append(f"roadmap[{index}].depends_on must be a list")
+            errors.append(f"{roadmap_field}[{index}].depends_on must be a list")
 
         expected_outputs = raw_step.get("expected_outputs", [])
-        if expected_outputs is not None and not isinstance(expected_outputs, list):
-            errors.append(f"roadmap[{index}].expected_outputs must be a list")
+        if expected_outputs is not None and not isinstance(
+            expected_outputs,
+            list,
+        ):
+            errors.append(f"{roadmap_field}[{index}].expected_outputs must be a list")
 
         evidence = raw_step.get("evidence", {})
-        if evidence is not None and not isinstance(evidence, dict):
-            errors.append(f"roadmap[{index}].evidence must be a mapping")
+        if schema_version == BLUEPRINT_SCHEMA_VERSION:
+            if evidence is not None and not isinstance(evidence, (dict, list)):
+                errors.append(f"{roadmap_field}[{index}].evidence must be a mapping or list")
+        elif evidence is not None and not isinstance(evidence, dict):
+            errors.append(f"{roadmap_field}[{index}].evidence must be a mapping")
 
     current_step_id = _string_value(metadata.get("current_step_id"))
     if current_step_id and current_step_id not in seen_step_ids:
         errors.append(
-            f"metadata.current_step_id {current_step_id!r} "
-            "does not match any roadmap step_id",
+            f"metadata.current_step_id {current_step_id!r} does not match any roadmap step_id",
         )
 
     if not roadmap:
@@ -236,7 +253,7 @@ def render_roadmap_dashboard(
         details = "\n".join(f"  - {error}" for error in validation.errors)
         raise RoadmapError(f"Invalid roadmap {path}:\n{details}")
 
-    steps = _sorted_steps(data.get("roadmap", []))
+    steps = _sorted_steps(_roadmap_items(data))
     current_step_id = _derive_current_step_id(data, steps)
 
     current_index = _step_index(steps, current_step_id)
@@ -303,6 +320,7 @@ def render_roadmap_dashboard(
 
     return _finalize_output(lines, no_color=no_color)
 
+
 def render_modules_summary(
     roadmaps: list[tuple[Path, dict[str, Any]]],
     *,
@@ -330,13 +348,11 @@ def render_modules_summary(
             )
             continue
 
-        steps = _sorted_steps(data.get("roadmap", []))
+        steps = _sorted_steps(_roadmap_items(data))
         current_step_id = _derive_current_step_id(data, steps)
         current_step = _find_step(steps, current_step_id)
         next_ready = _find_next_ready_step(steps, current_step_id)
-        blocked_count = sum(
-            1 for step in steps if _string_value(step.get("status")) == "blocked"
-        )
+        blocked_count = sum(1 for step in steps if _string_value(step.get("status")) == "blocked")
 
         table_rows.append(
             (
@@ -347,9 +363,7 @@ def render_modules_summary(
                     no_color=no_color,
                 ),
                 _token(
-                    _string_value(current_step.get("priority"))
-                    if current_step
-                    else "-",
+                    _string_value(current_step.get("priority")) if current_step else "-",
                     no_color=no_color,
                 ),
                 _string_value(next_ready.get("step_id")) if next_ready else "-",
@@ -367,13 +381,20 @@ def render_modules_summary(
                 "Next ready",
                 "Blocked",
             ),
-            widths=(24, 44, 14, 10, 48, 8),
+            widths=(28, 44, 14, 10, 48, 8),
             rows=tuple(TableRow(values=row) for row in table_rows),
             use_color=True,
         ),
     )
 
     return _finalize_output(lines, no_color=no_color)
+
+
+def _roadmap_items(data: dict[str, Any]) -> Any:
+    if data.get("schema_version") == BLUEPRINT_SCHEMA_VERSION:
+        return data.get("steps", [])
+    return data.get("roadmap", [])
+
 
 def _sorted_steps(raw_steps: Any) -> list[dict[str, Any]]:
     if not isinstance(raw_steps, list):
@@ -463,21 +484,31 @@ def _dependency_summary(step: dict[str, Any]) -> str:
     if not isinstance(depends_on, list) or not depends_on:
         return "-"
 
+    step_references = sum(
+        1 for dependency in depends_on if isinstance(dependency, str) and dependency.strip()
+    )
     statuses: dict[str, int] = {}
+
     for dependency in depends_on:
         if not isinstance(dependency, dict):
             continue
         status = _string_value(dependency.get("status")) or "unknown"
         statuses[status] = statuses.get(status, 0) + 1
 
-    if not statuses:
-        return str(len(depends_on))
+    parts: list[str] = []
+    if step_references:
+        parts.append(f"steps:{step_references}")
+    parts.extend(f"{status}:{count}" for status, count in sorted(statuses.items()))
 
-    return ", ".join(f"{status}:{count}" for status, count in sorted(statuses.items()))
+    return ", ".join(parts) if parts else str(len(depends_on))
 
 
 def _evidence_summary(step: dict[str, Any]) -> str:
     evidence = step.get("evidence")
+    if isinstance(evidence, list):
+        paths = [value for value in evidence if isinstance(value, str) and value.strip()]
+        return f"files:{len(paths)}" if paths else "-"
+
     if not isinstance(evidence, dict):
         return "-"
 

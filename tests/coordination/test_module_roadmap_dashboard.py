@@ -50,6 +50,7 @@ def test_dashboard_renders_current_step_window(tmp_path: Path) -> None:
     assert "library_next_step_v0_3" in dashboard
     assert "\033[" not in dashboard
 
+
 def test_colored_dashboard_preserves_terminal_reset_after_truncation(
     tmp_path: Path,
 ) -> None:
@@ -73,6 +74,7 @@ def test_colored_dashboard_preserves_terminal_reset_after_truncation(
     assert "\033[31mcritical" in dashboard
     assert "critical…" not in dashboard
 
+
 def test_colored_modules_summary_preserves_terminal_reset_after_truncation(
     tmp_path: Path,
 ) -> None:
@@ -94,6 +96,7 @@ def test_colored_modules_summary_preserves_terminal_reset_after_truncation(
     assert summary.endswith("\033[0m")
     assert "\033[31mcritical" in summary
     assert "critical…" not in summary
+
 
 def test_modules_summary_renders_multiple_modules(tmp_path: Path) -> None:
     root = _write_roadmap(tmp_path, module="forprint_library")
@@ -150,6 +153,79 @@ def test_resolve_roadmap_path_reports_missing_file(tmp_path: Path) -> None:
         resolve_roadmap_path(root=tmp_path, module="missing_module")
 
 
+def test_blueprint_roadmap_uses_canonical_self_coordination_path(
+    tmp_path: Path,
+) -> None:
+    root = _write_blueprint_roadmap(tmp_path)
+
+    path = resolve_roadmap_path(
+        root=root,
+        module="forprint_system_blueprint",
+    )
+    data = load_yaml_file(path)
+    result = validate_roadmap_document(data, path=path)
+
+    assert path == (tmp_path / "coordination" / "self_coordination" / "roadmap.yaml")
+    assert result.ok
+    assert result.module == "forprint_system_blueprint"
+    assert result.step_count == 3
+    assert result.current_step_id == "blueprint_current_v0_2"
+
+
+def test_blueprint_roadmap_renders_through_generic_dashboard(
+    tmp_path: Path,
+) -> None:
+    root = _write_blueprint_roadmap(tmp_path)
+    path = resolve_roadmap_path(
+        root=root,
+        module="forprint_system_blueprint",
+    )
+    data = load_yaml_file(path)
+
+    dashboard = render_roadmap_dashboard(
+        data,
+        path=path,
+        before_current=1,
+        after_current=1,
+        no_color=True,
+    )
+
+    assert "ForPrint Module Roadmap Dashboard" in dashboard
+    assert "Module: forprint_system_blueprint" in dashboard
+    assert "blueprint_current_v0_2" in dashboard
+    assert "steps:1" in dashboard
+    assert "files:1" in dashboard
+
+
+def test_modules_summary_includes_blueprint_canonical_roadmap(
+    tmp_path: Path,
+) -> None:
+    blueprint_root = _write_blueprint_roadmap(tmp_path)
+    _write_roadmap(tmp_path, module="forprint_library")
+
+    blueprint_path = resolve_roadmap_path(
+        root=blueprint_root,
+        module="forprint_system_blueprint",
+    )
+    library_path = resolve_roadmap_path(
+        root=tmp_path,
+        module="forprint_library",
+    )
+
+    summary = render_modules_summary(
+        [
+            (blueprint_path, load_yaml_file(blueprint_path)),
+            (library_path, load_yaml_file(library_path)),
+        ],
+        no_color=True,
+    )
+
+    assert "forprint_system_blueprint" in summary
+    assert "forprint_library" in summary
+    assert "blueprint_current_v0_2" in summary
+    assert "blueprint_next_v0_3" in summary
+
+
 def _write_roadmap(tmp_path: Path, *, module: str) -> Path:
     roadmaps_dir = tmp_path / "coordination" / "roadmaps"
     roadmaps_dir.mkdir(parents=True, exist_ok=True)
@@ -164,6 +240,62 @@ def _write_roadmap(tmp_path: Path, *, module: str) -> Path:
         encoding="utf-8",
     )
     return tmp_path
+
+
+def _write_blueprint_roadmap(tmp_path: Path) -> Path:
+    roadmap_path = tmp_path / "coordination" / "self_coordination" / "roadmap.yaml"
+    roadmap_path.parent.mkdir(parents=True, exist_ok=True)
+    roadmap_path.write_text(
+        yaml.safe_dump(
+            _blueprint_roadmap_data(),
+            sort_keys=False,
+            allow_unicode=True,
+        ),
+        encoding="utf-8",
+    )
+    return tmp_path
+
+
+def _blueprint_roadmap_data() -> dict[str, object]:
+    return {
+        "schema_version": "blueprint_self_coordination_roadmap_v0_1",
+        "metadata": {
+            "module_id": "forprint_system_blueprint",
+            "owner": "blueprint_coordination_assistant",
+            "reviewer": "project_owner",
+            "current_step_id": "blueprint_current_v0_2",
+            "actionable_steps_after_current": 1,
+        },
+        "authority": {
+            "module_level_roadmap": ("coordination/self_coordination/roadmap.yaml"),
+        },
+        "steps": [
+            {
+                "step_id": "blueprint_baseline_v0_1",
+                "sequence": 1,
+                "title": "Blueprint baseline",
+                "status": "completed",
+                "priority": "high",
+                "evidence": ["coordination/evidence/baseline.yaml"],
+            },
+            {
+                "step_id": "blueprint_current_v0_2",
+                "sequence": 2,
+                "title": "Current Blueprint step",
+                "status": "active",
+                "priority": "critical",
+                "depends_on": ["blueprint_baseline_v0_1"],
+            },
+            {
+                "step_id": "blueprint_next_v0_3",
+                "sequence": 3,
+                "title": "Next Blueprint step",
+                "status": "planned",
+                "priority": "normal",
+                "depends_on": ["blueprint_current_v0_2"],
+            },
+        ],
+    }
 
 
 def _roadmap_data(module: str) -> dict[str, object]:
