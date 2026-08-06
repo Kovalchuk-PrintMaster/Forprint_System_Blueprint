@@ -120,6 +120,7 @@ class InventoryAcceptanceDryRunTests(unittest.TestCase):
             {
                 "PRE_TRANSITION",
                 "POST_TRANSITION",
+                "DEPENDENCY_REMEDIATION",
             },
         )
 
@@ -129,10 +130,22 @@ class InventoryAcceptanceDryRunTests(unittest.TestCase):
             self.assertTrue(report["summary"]["next_prompt_required"])
             self.assertTrue(report["summary"]["next_prompt_present"])
 
-        self.assertEqual(
-            report["summary"]["release_decision"],
-            ("PROCEED_TO_INVENTORY_ACCEPTANCE_PACKET_INTEGRITY_GATE"),
-        )
+        if phase == "DEPENDENCY_REMEDIATION":
+            self.assertEqual(
+                report["summary"]["release_decision"],
+                (
+                    "BLOCK_INVENTORY_ACCEPTANCE_PACKET_INTEGRITY_GATE_"
+                    "PENDING_DEPENDENCY_REMEDIATION"
+                ),
+            )
+        else:
+            self.assertEqual(
+                report["summary"]["release_decision"],
+                (
+                    "PROCEED_TO_INVENTORY_ACCEPTANCE_"
+                    "PACKET_INTEGRITY_GATE"
+                ),
+            )
         self.assertFalse(report["summary"]["candidate_acceptance_performed"])
         self.assertFalse(report["summary"]["dry_run_effects_applied"])
         self.assertEqual(
@@ -147,7 +160,11 @@ class InventoryAcceptanceDryRunTests(unittest.TestCase):
         plan = MODULE.load_yaml(PLAN)
         current = plan["metadata"]["current_step_id"]
 
-        expected_phase = "PRE_TRANSITION" if current == MODULE.CURRENT_ID else "POST_TRANSITION"
+        expected_phase = {
+            MODULE.CURRENT_ID: "PRE_TRANSITION",
+            MODULE.NEXT_ID: "POST_TRANSITION",
+            MODULE.REMEDIATION_ID: "DEPENDENCY_REMEDIATION",
+        }[current]
 
         self.assertEqual(
             report["summary"]["coordination_phase"],
@@ -241,6 +258,68 @@ class InventoryAcceptanceDryRunTests(unittest.TestCase):
         self.assertTrue(
             repaired["passed"],
             repaired["reasons"],
+        )
+
+    def test_dependency_remediation_phase_is_aligned_and_gated(
+        self,
+    ) -> None:
+        plan = {
+            "metadata": {
+                "current_step_id": MODULE.REMEDIATION_ID,
+            },
+            "steps": [
+                {"step_id": MODULE.REMEDIATION_ID},
+                {"step_id": MODULE.CURRENT_ID},
+                {"step_id": MODULE.NEXT_ID},
+            ],
+        }
+        roadmap = copy.deepcopy(plan)
+        queue = {
+            "metadata": {
+                "active_prompt_id": MODULE.REMEDIATION_ID,
+            },
+            "prompts": [
+                {"prompt_id": MODULE.REMEDIATION_ID},
+                {"prompt_id": MODULE.CURRENT_ID},
+                {"prompt_id": MODULE.NEXT_ID},
+            ],
+        }
+
+        alignment = MODULE.coordination_alignment(
+            plan,
+            roadmap,
+            queue,
+        )
+
+        self.assertTrue(
+            alignment["passed"],
+            alignment["reasons"],
+        )
+        self.assertEqual(
+            alignment["phase"],
+            "DEPENDENCY_REMEDIATION",
+        )
+        self.assertFalse(alignment["next_prompt_required"])
+        self.assertTrue(alignment["remediation_prompt_required"])
+        self.assertTrue(alignment["remediation_prompt_present"])
+
+        queue["prompts"] = [
+            {"prompt_id": MODULE.CURRENT_ID},
+            {"prompt_id": MODULE.NEXT_ID},
+        ]
+        blocked = MODULE.coordination_alignment(
+            plan,
+            roadmap,
+            queue,
+        )
+
+        self.assertFalse(blocked["passed"])
+        self.assertIn(
+            (
+                "dependency-remediation prompt queue "
+                "lacks the active prompt"
+            ),
+            blocked["reasons"],
         )
 
     def test_accepted_candidate_is_red(self) -> None:

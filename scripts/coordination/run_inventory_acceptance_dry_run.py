@@ -11,6 +11,7 @@ import yaml
 MODULE_ID = "forprint_system_blueprint"
 CURRENT_ID = "blueprint_inventory_acceptance_dry_run_v0_1"
 NEXT_ID = "blueprint_inventory_acceptance_packet_integrity_gate_v0_1"
+REMEDIATION_ID = "blueprint_managed_module_plan_reconciliation_v0_1"
 RCI_SECTION = "semantic_enrichment_v0_1"
 REDM_SECTION = "dependency_enrichment_v0_1"
 
@@ -68,9 +69,14 @@ def coordination_alignment(
         phase = "PRE_TRANSITION"
     elif plan_current == NEXT_ID:
         phase = "POST_TRANSITION"
+    elif plan_current == REMEDIATION_ID:
+        phase = "DEPENDENCY_REMEDIATION"
     else:
         phase = "INVALID"
-        reasons.append("current coordination ID is outside the dry-run transition")
+        reasons.append(
+            "current coordination ID is outside the dry-run transition "
+            "and dependency-remediation states"
+        )
 
     plan_steps = mapping_by_id(
         plan.get("steps"),
@@ -101,6 +107,21 @@ def coordination_alignment(
     if phase == "POST_TRANSITION" and NEXT_ID not in queue_prompts:
         reasons.append("post-transition prompt queue lacks the packet-integrity prompt")
 
+    if phase == "DEPENDENCY_REMEDIATION":
+        for label, mapping in (
+            ("inventory plan", plan_steps),
+            ("self-roadmap", roadmap_steps),
+        ):
+            if REMEDIATION_ID not in mapping:
+                reasons.append(
+                    f"{label} lacks the dependency-remediation step"
+                )
+
+        if REMEDIATION_ID not in queue_prompts:
+            reasons.append(
+                "dependency-remediation prompt queue lacks the active prompt"
+            )
+
     return {
         "passed": not reasons,
         "phase": phase,
@@ -110,6 +131,12 @@ def coordination_alignment(
         "queue_current": queue_current,
         "next_prompt_required": (phase == "POST_TRANSITION"),
         "next_prompt_present": (NEXT_ID in queue_prompts),
+        "remediation_prompt_required": (
+            phase == "DEPENDENCY_REMEDIATION"
+        ),
+        "remediation_prompt_present": (
+            REMEDIATION_ID in queue_prompts
+        ),
     }
 
 
@@ -395,9 +422,20 @@ def run_dry_run(
             "unreviewed_files": 646,
             "wave_2_records_with_unknowns": 25,
             "release_decision": (
-                "PROCEED_TO_INVENTORY_ACCEPTANCE_PACKET_INTEGRITY_GATE"
-                if passed
-                else ("BLOCK_INVENTORY_ACCEPTANCE_PACKET_INTEGRITY_GATE")
+                "BLOCK_INVENTORY_ACCEPTANCE_PACKET_INTEGRITY_GATE_"
+                "PENDING_DEPENDENCY_REMEDIATION"
+                if (
+                    passed
+                    and coordination.get("phase")
+                    == "DEPENDENCY_REMEDIATION"
+                )
+                else (
+                    "PROCEED_TO_INVENTORY_ACCEPTANCE_PACKET_INTEGRITY_GATE"
+                    if passed
+                    else (
+                        "BLOCK_INVENTORY_ACCEPTANCE_PACKET_INTEGRITY_GATE"
+                    )
+                )
             ),
         },
         "candidate_hashes": {
