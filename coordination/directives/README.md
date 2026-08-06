@@ -57,11 +57,13 @@ coordination/directives/
 ├── README.md
 ├── global/
 │   ├── index.yaml
+│   ├── planned/
 │   ├── active/
 │   └── archive/
 └── modules/
     └── <module_id>/
         ├── index.yaml
+        ├── planned/
         ├── active/
         └── archive/
 ```
@@ -84,6 +86,11 @@ planned
 superseded
 archived
 cancelled
+
+A planned directive is documented but not released. It must remain under
+`planned/`, must not require module acknowledgement and must record that a
+separate activation decision is required. Activation moves the file to
+`active/` and updates the index in one bounded governance change.
 ## Module assistant rule
 
 Every module assistant should check:
