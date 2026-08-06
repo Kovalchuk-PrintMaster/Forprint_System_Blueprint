@@ -1,0 +1,85 @@
+schema_version: blueprint_roadmap_dependency_debt_remediation_v0_1
+metadata:
+  remediation_id: 2026-08-06__blueprint__roadmap_dependency_debt_remediation_v0_1
+  module_id: forprint_system_blueprint
+  owner: blueprint_coordination_assistant
+  reviewer: project_owner
+  created_at: '2026-08-06T14:17:00+03:00'
+  branch: audit/blueprint-inventory-refresh-2026-07-29
+  base_head: b637809ff3cd85f44c0eac58a22d7f4c4adbe937
+  status: active_remediation
+trigger:
+  audit_path: tmp/blueprint_roadmap_dependency_audit/blueprint_roadmap_dependency_audit.yaml
+  audit_sha256: b2050d33b76c96a81bae1e63410566b4b4185bd294da683aed37509caceeaed1
+  audit_result: BLUEPRINT_ROADMAP_DEPENDENCY_AUDIT_READY
+  direct_closure_violation_count: 1
+  cycles: 0
+  missing_dependencies: 0
+  violation:
+    completed_step: blueprint_inventory_acceptance_evidence_index_v0_1
+    unfinished_dependency: blueprint_managed_module_plan_reconciliation_v0_1
+    unfinished_dependency_status: planned
+authority:
+  canonical_module_roadmap: coordination/self_coordination/roadmap.yaml
+  detailed_workstream_plan: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  conflict_resolution: The self-roadmap controls ordering; the inventory plan supplies detailed implementation steps.
+preserved_history:
+  completed_steps_unchanged:
+  - blueprint_inventory_acceptance_evidence_index_v0_1
+  - blueprint_inventory_acceptance_dry_run_v0_1
+  completion_packets_rewritten: false
+  completion_evidence_rewritten: false
+  historical_completed_at_values_rewritten: false
+state_transitions:
+  roadmap:
+    current_step_id:
+      from: blueprint_inventory_acceptance_packet_integrity_gate_v0_1
+      to: blueprint_managed_module_plan_reconciliation_v0_1
+    actionable_steps_after_current:
+      from: 8
+      to: 9
+    blueprint_managed_module_plan_reconciliation_v0_1:
+      from: planned
+      to: active
+    blueprint_inventory_acceptance_packet_integrity_gate_v0_1:
+      from: active
+      to: planned
+  prompt_queue:
+    active_prompt_id:
+      from: blueprint_inventory_acceptance_packet_integrity_gate_v0_1
+      to: blueprint_managed_module_plan_reconciliation_v0_1
+    blueprint_managed_module_plan_reconciliation_v0_1:
+      from: draft
+      to: approved
+      path: coordination/self_coordination/prompt_queue/approved/2026-07-30__forprint_system_blueprint__managed_module_plan_reconciliation_v0_1.md
+    blueprint_inventory_acceptance_packet_integrity_gate_v0_1:
+      from: approved
+      to: draft
+      path: coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__inventory_acceptance_packet_integrity_gate_v0_1.md
+    approved_prompt_count_unchanged: 1
+    draft_prompt_count_unchanged: 7
+    completed_prompt_count_unchanged: 15
+rendered_hashes:
+  coordination/self_coordination/roadmap.yaml: a478b57582b6b6e924f343518fb77ce33bea401cae308c7920d1b85e4e3d888f
+  coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml: caa6adc8a158842b85346f177c100be0d11277693aac93828717cfe1877a88e1
+  coordination/self_coordination/prompt_queue/index.yaml: f9f48e43d6ce57068e1c0c289c6b6d470229dcb718c867e9208aaa3e7def6925
+  ? coordination/self_coordination/prompt_queue/approved/2026-07-30__forprint_system_blueprint__managed_module_plan_reconciliation_v0_1.md
+  : d158557b2708ddc571f979ae26496aa07f1297c0bb4d3a98367cc86ca80ed7c3
+  ? coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__inventory_acceptance_packet_integrity_gate_v0_1.md
+  : 639323a3500df4646fb8ba5ee6806945211698779132fb890dd855b7a1394c40
+validation_sequence:
+  dependency_validator_canonicalized: false
+  reason: The known historical closure debt must first be remediated by completing the restored prerequisite.
+  canonicalization_after: blueprint_managed_module_plan_reconciliation_v0_1
+boundaries:
+  module_repositories_modified: false
+  cross_repository_writes: false
+  external_prompts_released: false
+  reference_pilot_authorized: false
+  external_rollout: gated
+  automatic_commit_push_or_merge: false
+next_required_action:
+  action: blueprint_managed_module_plan_reconciliation_v0_1
+  execution_owner: forprint_system_blueprint
+  completion_required_before: blueprint_inventory_acceptance_packet_integrity_gate_v0_1
+result: BLUEPRINT_ROADMAP_DEPENDENCY_DEBT_REMEDIATION_ACTIVATED

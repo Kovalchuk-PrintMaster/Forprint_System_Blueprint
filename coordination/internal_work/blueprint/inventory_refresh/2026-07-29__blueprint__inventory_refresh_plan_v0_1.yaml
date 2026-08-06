@@ -6,12 +6,12 @@ metadata:
   base_commit: 50df50b
   created_at: '2026-07-29'
   status: active
-  current_step_id: blueprint_inventory_acceptance_packet_integrity_gate_v0_1
+  current_step_id: blueprint_managed_module_plan_reconciliation_v0_1
   planning_horizon:
     rule: 8_to_10_actionable_steps_ahead
-    actionable_steps_ahead: 8
+    actionable_steps_ahead: 9
     review_after_each_step: true
-  updated_at: '2026-07-30'
+  updated_at: '2026-08-06'
 objective: Convert the completed Blueprint Self Audit into a current, tracked and repeatable repository-knowledge
   baseline before rolling inventory workflows out to controlled modules.
 guardrails:
@@ -630,7 +630,7 @@ steps:
 - sequence: 28
   step_id: blueprint_managed_module_plan_reconciliation_v0_1
   title: Reconcile managed-module planning packets before Blueprint inventory acceptance
-  status: planned
+  status: active
   priority: high
   depends_on:
   - blueprint_repository_knowledge_reconciliation_v0_1
@@ -681,7 +681,7 @@ steps:
 - sequence: 31
   step_id: blueprint_inventory_acceptance_packet_integrity_gate_v0_1
   title: Validate inventory acceptance packet integrity before the merge gate
-  status: active
+  status: planned
   priority: high
   depends_on:
   - blueprint_inventory_acceptance_dry_run_v0_1
