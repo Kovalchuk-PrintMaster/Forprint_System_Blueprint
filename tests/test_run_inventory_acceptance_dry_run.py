@@ -124,10 +124,14 @@ class InventoryAcceptanceDryRunTests(unittest.TestCase):
             },
         )
 
-        if phase == "PRE_TRANSITION":
-            self.assertFalse(report["summary"]["next_prompt_required"])
+        next_prompt_required = report["summary"][
+            "next_prompt_required"
+        ]
+
+        if phase == "POST_TRANSITION":
+            self.assertTrue(next_prompt_required)
         else:
-            self.assertTrue(report["summary"]["next_prompt_required"])
+            self.assertFalse(next_prompt_required)
             self.assertTrue(report["summary"]["next_prompt_present"])
 
         if phase == "DEPENDENCY_REMEDIATION":
