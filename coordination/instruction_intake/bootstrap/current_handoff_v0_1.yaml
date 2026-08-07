@@ -2,14 +2,15 @@ schema_version: blueprint_current_handoff_v0_1
 metadata:
   module_id: forprint_system_blueprint
   artifact_role: current_assistant_handoff_snapshot
-  state_observed_at_head: 645950789ea94d8fb701c793f8b9d7887ce52909
+  state_observed_at_head: 0a3a21696ee517d54cc872c8ef9f16e61c4f3f4d
   state_observed_on_branch: audit/blueprint-inventory-refresh-2026-07-29
   snapshot_semantics: baseline_snapshot_reconcile_git_before_action
+  snapshot_includes_roadmap_context_reconciliation: true
+  artifact_commit_resolution: resolve with git log -1 -- coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml
 current_blueprint_plan:
   path: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
   status: active
-  freshness_verdict: SEQUENCE_VALID_CONTEXT_STALE
-  last_recorded_plan_commit: 6bba030695e2113fef79303d2c47bb5cc911da76
+  freshness_verdict: CURRENT_CONTEXT_RECONCILED
   active_blueprint_step:
     index: 30
     id: blueprint_inventory_acceptance_packet_integrity_gate_v0_1
@@ -40,16 +41,25 @@ current_blueprint_plan:
     id: blueprint_ecosystem_inventory_rollout_release_review_v0_1
     status: planned
   resume_target_after_reconciliation: blueprint_inventory_acceptance_packet_integrity_gate_v0_1
+  context_reconciliation:
+    status: completed
+    source_head: 0a3a21696ee517d54cc872c8ef9f16e61c4f3f4d
+    evidence: coordination/internal_work/blueprint/governance/2026-08-07__blueprint__roadmap_context_reconciliation_v0_1.yaml
+    active_step_preserved: true
+    future_sequence_preserved: true
 recent_completed_governance:
 - commit: 8c35e6dd168027e9266b6aea9a43133fcf5ffe90
   subject: 'docs(governance): define completion intake acceptance protocol'
-  represented_in_current_roadmap_context: false
+  represented_in_current_roadmap_context: true
 - commit: 39d50e7f5095f08e0bd4b9609e5e24bb06217258
   subject: 'feat(governance): add schema-aware completion intake tooling'
-  represented_in_current_roadmap_context: false
+  represented_in_current_roadmap_context: true
 - commit: 645950789ea94d8fb701c793f8b9d7887ce52909
   subject: 'feat(governance): reconcile historical completion acceptance'
-  represented_in_current_roadmap_context: false
+  represented_in_current_roadmap_context: true
+- commit: 0a3a21696ee517d54cc872c8ef9f16e61c4f3f4d
+  subject: 'docs(governance): add assistant bootstrap and handoff contract'
+  represented_in_current_roadmap_context: true
 managed_module_state:
   forprint_library:
     current_work: library_configurable_product_workbench_business_card_skeleton_v0_1
@@ -92,41 +102,42 @@ known_governance_debt:
   current_resolution: read_only_sibling_discovery
   required_fix: register canonical local logistics_service repository path in module source registry
 - id: blueprint_roadmap_context_freshness
-  state: OPEN
-  verdict: SEQUENCE_VALID_CONTEXT_STALE
-  required_fix: reconcile recent governance prerequisites and assistant bootstrap/handoff work into Blueprint roadmap without
-    reordering the validated future sequence
+  state: RESOLVED
+  verdict: CURRENT_CONTEXT_RECONCILED
+  required_fix: null
+  resolved_against_head: 0a3a21696ee517d54cc872c8ef9f16e61c4f3f4d
+  resolution_evidence: coordination/internal_work/blueprint/governance/2026-08-07__blueprint__roadmap_context_reconciliation_v0_1.yaml
 next_10_steps:
 - order: 1
-  id: commit_assistant_bootstrap_and_freshness_review
-  action: validate and commit bootstrap/handoff plus roadmap freshness review
-- order: 2
-  id: reconcile_blueprint_roadmap_context
-  action: update Blueprint roadmap context with recent completed governance prerequisites and bootstrap/handoff work
-- order: 3
   id: repair_logistics_module_source_registry
   action: register canonical logistics_service local repository path and remove sibling-discovery debt
-- order: 4
+- order: 2
   id: tracking_events_intake_preview
   action: run schema-aware completion intake preview without deciding ACCEPT/RETURN
-- order: 5
+- order: 3
   id: tracking_events_operator_review
   action: present findings for explicit operator decision
-- order: 6
+- order: 4
   id: tracking_events_module_remediation_if_returned
   action: if explicitly returned, issue exact Logistics-owned superseding-packet remediation instruction
-- order: 7
+- order: 5
   id: tracking_events_superseding_intake
   action: validate any superseding Logistics packet and preserve historical packet immutability
-- order: 8
+- order: 6
   id: tracking_events_acceptance_state_if_authorized
   action: only after explicit acceptance, update Blueprint-owned review/control state
-- order: 9
+- order: 7
   id: telegram_logistics_dependency_reconciliation
   action: re-evaluate Telegram logistics dependency only after accepted tracking-events evidence
+- order: 8
+  id: resume_inventory_acceptance_packet_integrity_gate
+  action: resume blueprint_inventory_acceptance_packet_integrity_gate_v0_1
+- order: 9
+  id: inventory_acceptance_decision_readiness_review
+  action: after a green integrity gate, run the planned decision-readiness review without implying acceptance
 - order: 10
-  id: resume_inventory_acceptance_sequence
-  action: resume blueprint_inventory_acceptance_packet_integrity_gate_v0_1 and then decision-readiness review
+  id: inventory_merge_rollback_readiness
+  action: after decision-readiness authorization, verify rollback readiness before any merge gate
 hard_boundaries:
   external_rollout: gated
   pilot_authorized: false
