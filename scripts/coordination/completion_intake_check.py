@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import re
 import subprocess
@@ -44,7 +45,13 @@ REQUIRED_BOUNDARY_FLAGS = (
     "no_production_write",
     "no_automatic_posting",
 )
-HEX_COMMIT = re.compile(r"^[0-9a-f]{40}$")
+HEX_COMMIT = re.compile(r"^[0-9a-f]{7,40}$")
+FULL_HEX_COMMIT = re.compile(r"^[0-9a-f]{40}$")
+LEGACY_PACKET_SCHEMA = "module_completion_packet_v0_1"
+LEGACY_INTAKE_PROTOCOL = "blueprint_completion_intake_v0_1"
+CURRENT_PACKET_SCHEMA = "module_completion_packet_v0_2"
+CURRENT_INTAKE_PROTOCOL = "blueprint_completion_intake_v0_2"
+STRUCTURED_OUTPUT_FORMATS = {"json", "yaml"}
 
 
 class CompletionIntakeCheckError(ValueError):
@@ -57,6 +64,29 @@ class DuplicateKeyError(yaml.YAMLError):
 
 class UniqueKeyLoader(yaml.SafeLoader):
     """Safe YAML loader that rejects duplicate mapping keys."""
+
+
+@dataclass(frozen=True)
+class PacketProtocol:
+    """Normalized completion packet schema and intake protocol metadata."""
+
+    schema_version: str
+    protocol_version: str
+    supersedes_completion_id: str | None
+    revision_reason: str | None
+    historical_legacy: bool
+
+
+@dataclass(frozen=True)
+class CompletionIntakeIssue:
+    """Machine-readable intake failure without an acceptance decision."""
+
+    code: str
+    failure_class: str
+    message: str
+    field: str | None
+    remediation_owner: str
+    implementation_failure_proven: bool
 
 
 def _construct_unique_mapping(
@@ -79,9 +109,7 @@ def _construct_unique_mapping(
         if duplicate:
             line = key_node.start_mark.line + 1
             column = key_node.start_mark.column + 1
-            raise DuplicateKeyError(
-                f"duplicate key `{key}` at line {line}, column {column}"
-            )
+            raise DuplicateKeyError(f"duplicate key `{key}` at line {line}, column {column}")
         mapping[key] = loader.construct_object(value_node, deep=deep)
     return mapping
 
@@ -104,26 +132,24 @@ class CompletionIntakeCheckResult:
     branch: str
     remote: str
     remote_commit: str
-    warnings: tuple[str, ...]
+    warnings: tuple[str, ...] = ()
+    schema_version: str = LEGACY_PACKET_SCHEMA
+    protocol_version: str = LEGACY_INTAKE_PROTOCOL
+    supersedes_completion_id: str | None = None
+    historical_legacy: bool = True
 
 
 def _load_yaml_mapping(path: Path) -> dict[str, Any]:
     try:
         text = path.read_text(encoding="utf-8")
     except FileNotFoundError as error:
-        raise CompletionIntakeCheckError(
-            f"file does not exist: {path}"
-        ) from error
+        raise CompletionIntakeCheckError(f"file does not exist: {path}") from error
     try:
         loaded = yaml.load(text, Loader=UniqueKeyLoader)
     except yaml.YAMLError as error:
-        raise CompletionIntakeCheckError(
-            f"invalid YAML in {path}: {error}"
-        ) from error
+        raise CompletionIntakeCheckError(f"invalid YAML in {path}: {error}") from error
     if not isinstance(loaded, dict):
-        raise CompletionIntakeCheckError(
-            f"YAML root must be a mapping: {path}"
-        )
+        raise CompletionIntakeCheckError(f"YAML root must be a mapping: {path}")
     return loaded
 
 
@@ -148,15 +174,104 @@ def _required_non_empty_list(
     return value
 
 
+def _optional_non_empty_string(
+    data: dict[str, Any],
+    field: str,
+) -> str | None:
+    value = data.get(field)
+    if value is None:
+        return None
+    if not isinstance(value, str) or not value.strip():
+        raise CompletionIntakeCheckError(
+            f"[PACKET_PROTOCOL_FIELD_INVALID] "
+            f"completion packet field `{field}` must be a non-empty string"
+        )
+    return value.strip()
+
+
+def _packet_protocol(data: dict[str, Any]) -> PacketProtocol:
+    schema = data.get("schema_version")
+    protocol = data.get("protocol_version")
+
+    if schema is None and protocol in {
+        None,
+        LEGACY_INTAKE_PROTOCOL,
+    }:
+        return PacketProtocol(
+            schema_version=LEGACY_PACKET_SCHEMA,
+            protocol_version=LEGACY_INTAKE_PROTOCOL,
+            supersedes_completion_id=None,
+            revision_reason=None,
+            historical_legacy=True,
+        )
+
+    if schema == LEGACY_PACKET_SCHEMA:
+        if protocol not in {None, LEGACY_INTAKE_PROTOCOL}:
+            raise CompletionIntakeCheckError(
+                "[PACKET_PROTOCOL_MISMATCH] legacy packet schema must use "
+                f"`{LEGACY_INTAKE_PROTOCOL}`"
+            )
+        return PacketProtocol(
+            schema_version=LEGACY_PACKET_SCHEMA,
+            protocol_version=LEGACY_INTAKE_PROTOCOL,
+            supersedes_completion_id=None,
+            revision_reason=None,
+            historical_legacy=True,
+        )
+
+    if schema != CURRENT_PACKET_SCHEMA:
+        raise CompletionIntakeCheckError(
+            f"[UNSUPPORTED_PACKET_SCHEMA] unsupported completion packet schema: {schema!r}"
+        )
+    if protocol != CURRENT_INTAKE_PROTOCOL:
+        raise CompletionIntakeCheckError(
+            "[PACKET_PROTOCOL_MISMATCH] "
+            f"`{CURRENT_PACKET_SCHEMA}` requires "
+            f"`{CURRENT_INTAKE_PROTOCOL}`"
+        )
+
+    implementation_commit = data.get("implementation_commit")
+    if (
+        not isinstance(implementation_commit, str)
+        or FULL_HEX_COMMIT.fullmatch(implementation_commit) is None
+    ):
+        raise CompletionIntakeCheckError(
+            "[COMMIT_IDENTIFIER_INVALID] v0.2 completion packet "
+            "`implementation_commit` must be a full 40-character "
+            "lowercase Git hash"
+        )
+
+    supersedes = _optional_non_empty_string(
+        data,
+        "supersedes_completion_id",
+    )
+    revision_reason = _optional_non_empty_string(
+        data,
+        "revision_reason",
+    )
+    if (supersedes is None) != (revision_reason is None):
+        raise CompletionIntakeCheckError(
+            "[SUPERSEDING_PACKET_INCOMPLETE] "
+            "`supersedes_completion_id` and `revision_reason` "
+            "must be provided together"
+        )
+
+    return PacketProtocol(
+        schema_version=CURRENT_PACKET_SCHEMA,
+        protocol_version=CURRENT_INTAKE_PROTOCOL,
+        supersedes_completion_id=supersedes,
+        revision_reason=revision_reason,
+        historical_legacy=False,
+    )
+
+
 def _safe_under(root: Path, candidate: Path, *, label: str) -> Path:
     root_resolved = root.resolve()
     candidate_resolved = candidate.resolve()
     try:
         candidate_resolved.relative_to(root_resolved)
     except ValueError as error:
-        raise CompletionIntakeCheckError(
-            f"{label} escapes repository root: {candidate}"
-        ) from error
+        raise CompletionIntakeCheckError(f"{label} escapes repository root: {candidate}") from error
     return candidate_resolved
 
 
@@ -188,23 +303,25 @@ def _run_git_bytes(
             completed.stderr.decode("utf-8", errors="replace").strip()
             or completed.stdout.decode("utf-8", errors="replace").strip()
         )
-        raise CompletionIntakeCheckError(
-            f"git {' '.join(args)} failed in {repo}: {detail}"
-        )
+        raise CompletionIntakeCheckError(f"git {' '.join(args)} failed in {repo}: {detail}")
     return completed
 
 
 def _run_git(repo: Path, *args: str) -> str:
-    return _run_git_bytes(repo, *args).stdout.decode(
-        "utf-8",
-        errors="replace",
-    ).strip()
+    return (
+        _run_git_bytes(repo, *args)
+        .stdout.decode(
+            "utf-8",
+            errors="replace",
+        )
+        .strip()
+    )
 
 
 def _verify_commit(repo: Path, commit: str, *, label: str) -> str:
     if HEX_COMMIT.fullmatch(commit) is None:
         raise CompletionIntakeCheckError(
-            f"{label} must be a 40-character lowercase Git hash"
+            f"[COMMIT_IDENTIFIER_INVALID] {label} must be a 7-to-40 character lowercase Git hash"
         )
     resolved = _run_git(
         repo,
@@ -212,9 +329,9 @@ def _verify_commit(repo: Path, commit: str, *, label: str) -> str:
         "--verify",
         f"{commit}^{{commit}}",
     )
-    if HEX_COMMIT.fullmatch(resolved) is None:
+    if FULL_HEX_COMMIT.fullmatch(resolved) is None:
         raise CompletionIntakeCheckError(
-            f"could not resolve {label}: {commit}"
+            f"[COMMIT_RESOLUTION_FAILED] could not resolve {label}: {commit}"
         )
     return resolved
 
@@ -256,16 +373,12 @@ def _verify_tracked_content(
         f"{commit}:{relative_path}",
     ).stdout
     if absolute_path.read_bytes() != committed:
-        raise CompletionIntakeCheckError(
-            f"{label} content differs from `{commit}:{relative_path}`"
-        )
+        raise CompletionIntakeCheckError(f"{label} content differs from `{commit}:{relative_path}`")
 
 
 def _validate_iso_date(value: str, *, field: str) -> None:
     if len(value) < 10:
-        raise CompletionIntakeCheckError(
-            f"`{field}` is not an ISO date/timestamp: {value!r}"
-        )
+        raise CompletionIntakeCheckError(f"`{field}` is not an ISO date/timestamp: {value!r}")
     try:
         date.fromisoformat(value[:10])
     except ValueError as error:
@@ -283,43 +396,27 @@ def _normalize_check(value: Any) -> bool:
 def _validate_checks(packet: dict[str, Any]) -> list[str]:
     checks = packet.get("checks")
     if not isinstance(checks, dict):
-        raise CompletionIntakeCheckError(
-            "completion packet `checks` must be a mapping"
-        )
+        raise CompletionIntakeCheckError("completion packet `checks` must be a mapping")
     for name in REQUIRED_CHECKS:
         if name not in checks:
-            raise CompletionIntakeCheckError(
-                f"completion packet `checks.{name}` is required"
-            )
+            raise CompletionIntakeCheckError(f"completion packet `checks.{name}` is required")
         if not _normalize_check(checks[name]):
             raise CompletionIntakeCheckError(
-                f"completion packet `checks.{name}` "
-                f"is not successful: {checks[name]!r}"
+                f"completion packet `checks.{name}` is not successful: {checks[name]!r}"
             )
     failed = checks.get("check_report_failed")
-    if failed is not None and (
-        not isinstance(failed, int) or isinstance(failed, bool)
-    ):
-        raise CompletionIntakeCheckError(
-            "`checks.check_report_failed` must be an integer"
-        )
+    if failed is not None and (not isinstance(failed, int) or isinstance(failed, bool)):
+        raise CompletionIntakeCheckError("`checks.check_report_failed` must be an integer")
     if isinstance(failed, int) and failed > 0:
-        raise CompletionIntakeCheckError(
-            f"module check report contains {failed} failed check(s)"
-        )
+        raise CompletionIntakeCheckError(f"module check report contains {failed} failed check(s)")
     warning_count = checks.get("check_report_warnings")
     if warning_count is not None and (
-        not isinstance(warning_count, int)
-        or isinstance(warning_count, bool)
+        not isinstance(warning_count, int) or isinstance(warning_count, bool)
     ):
-        raise CompletionIntakeCheckError(
-            "`checks.check_report_warnings` must be an integer"
-        )
+        raise CompletionIntakeCheckError("`checks.check_report_warnings` must be an integer")
     warnings: list[str] = []
     if isinstance(warning_count, int) and warning_count > 0:
-        warnings.append(
-            f"module check report contains {warning_count} warning(s)"
-        )
+        warnings.append(f"module check report contains {warning_count} warning(s)")
     return warnings
 
 
@@ -327,8 +424,7 @@ def _validate_boundary(packet: dict[str, Any]) -> None:
     boundary = packet.get("boundary_confirmation")
     if not isinstance(boundary, dict) or not boundary:
         raise CompletionIntakeCheckError(
-            "completion packet `boundary_confirmation` "
-            "must be a non-empty mapping"
+            "completion packet `boundary_confirmation` must be a non-empty mapping"
         )
     unsafe: list[str] = []
     for required in REQUIRED_BOUNDARY_FLAGS:
@@ -337,14 +433,11 @@ def _validate_boundary(packet: dict[str, Any]) -> None:
     for key, value in boundary.items():
         if key.startswith("no_") and value is not True:
             unsafe.append(f"{key} must be true")
-        elif key.endswith(
-            ("_added", "_committed", "_written_directly")
-        ) and value is not False:
+        elif key.endswith(("_added", "_committed", "_written_directly")) and value is not False:
             unsafe.append(f"{key} must be false")
     if unsafe:
         raise CompletionIntakeCheckError(
-            "unsafe boundary confirmation:\n- "
-            + "\n- ".join(sorted(set(unsafe)))
+            "unsafe boundary confirmation:\n- " + "\n- ".join(sorted(set(unsafe)))
         )
 
 
@@ -358,14 +451,11 @@ def _single_record(
     if not isinstance(records, list):
         raise CompletionIntakeCheckError(f"{label} must be a list")
     matches = [
-        record
-        for record in records
-        if isinstance(record, dict) and record.get(key) == value
+        record for record in records if isinstance(record, dict) and record.get(key) == value
     ]
     if len(matches) != 1:
         raise CompletionIntakeCheckError(
-            f"expected exactly one {label} record for "
-            f"`{value}`, found {len(matches)}"
+            f"expected exactly one {label} record for `{value}`, found {len(matches)}"
         )
     return matches[0]
 
@@ -377,23 +467,12 @@ def _validate_blueprint_context(
     prompt_id: str,
     phase: str,
 ) -> None:
-    queue_path = (
-        blueprint_root
-        / "coordination/outgoing_prompts"
-        / module_id
-        / "index.yaml"
-    )
-    roadmap_path = (
-        blueprint_root
-        / "coordination/roadmaps"
-        / f"{module_id}.yaml"
-    )
+    queue_path = blueprint_root / "coordination/outgoing_prompts" / module_id / "index.yaml"
+    roadmap_path = blueprint_root / "coordination/roadmaps" / f"{module_id}.yaml"
     queue = _load_yaml_mapping(queue_path)
     roadmap = _load_yaml_mapping(roadmap_path)
     if queue.get("module") not in {None, module_id}:
-        raise CompletionIntakeCheckError(
-            f"prompt queue module does not match `{module_id}`"
-        )
+        raise CompletionIntakeCheckError(f"prompt queue module does not match `{module_id}`")
     prompt = _single_record(
         queue.get("prompt_queue"),
         key="prompt_id",
@@ -401,13 +480,9 @@ def _validate_blueprint_context(
         label="prompt queue",
     )
     if prompt.get("target_module") not in {None, module_id}:
-        raise CompletionIntakeCheckError(
-            "prompt target_module does not match packet module_id"
-        )
+        raise CompletionIntakeCheckError("prompt target_module does not match packet module_id")
     if prompt.get("phase") not in {None, phase}:
-        raise CompletionIntakeCheckError(
-            "prompt phase does not match completion packet phase"
-        )
+        raise CompletionIntakeCheckError("prompt phase does not match completion packet phase")
     step = _single_record(
         roadmap.get("roadmap"),
         key="step_id",
@@ -415,9 +490,7 @@ def _validate_blueprint_context(
         label="roadmap",
     )
     if step.get("owner_module") not in {None, module_id}:
-        raise CompletionIntakeCheckError(
-            "roadmap owner_module does not match packet module_id"
-        )
+        raise CompletionIntakeCheckError("roadmap owner_module does not match packet module_id")
     if step.get("status") not in {"active", "completed", "accepted"}:
         raise CompletionIntakeCheckError(
             "roadmap step must be active, completed, or accepted "
@@ -436,9 +509,7 @@ def _validate_branch(branch: str) -> str:
         or branch.startswith("-")
         or branch.endswith(("/", "."))
     ):
-        raise CompletionIntakeCheckError(
-            f"unsafe publication branch: {branch!r}"
-        )
+        raise CompletionIntakeCheckError(f"unsafe publication branch: {branch!r}")
     return branch
 
 
@@ -458,22 +529,14 @@ def _remote_branch_commit(
     lines = [line for line in output.splitlines() if line.strip()]
     if len(lines) != 1:
         raise CompletionIntakeCheckError(
-            f"expected one remote branch `refs/heads/{branch}` "
-            f"on `{remote}`, found {len(lines)}"
+            f"expected one remote branch `refs/heads/{branch}` on `{remote}`, found {len(lines)}"
         )
     fields = lines[0].split()
     if len(fields) != 2:
-        raise CompletionIntakeCheckError(
-            "unexpected git ls-remote output"
-        )
+        raise CompletionIntakeCheckError("unexpected git ls-remote output")
     commit, reference = fields
-    if (
-        HEX_COMMIT.fullmatch(commit) is None
-        or reference != f"refs/heads/{branch}"
-    ):
-        raise CompletionIntakeCheckError(
-            "unexpected git ls-remote branch record"
-        )
+    if HEX_COMMIT.fullmatch(commit) is None or reference != f"refs/heads/{branch}":
+        raise CompletionIntakeCheckError("unexpected git ls-remote branch record")
     return commit
 
 
@@ -497,8 +560,7 @@ def _verify_remote_containment(
         remote_commit,
     ):
         raise CompletionIntakeCheckError(
-            "completion commit is not contained in the selected "
-            "remote branch"
+            "completion commit is not contained in the selected remote branch"
         )
 
 
@@ -517,9 +579,7 @@ def check_completion_intake(
     blueprint_root = blueprint_root.resolve()
     module_root = module_root.resolve()
     if not module_root.is_dir():
-        raise CompletionIntakeCheckError(
-            f"module root does not exist: {module_root}"
-        )
+        raise CompletionIntakeCheckError(f"module root does not exist: {module_root}")
 
     packet_path = packet if packet.is_absolute() else module_root / packet
     packet_path = _safe_under(
@@ -532,15 +592,13 @@ def check_completion_intake(
         packet_path,
         label="completion packet",
     )
-    if not packet_relative.startswith(
-        "coordination/completion_packets/"
-    ):
+    if not packet_relative.startswith("coordination/completion_packets/"):
         raise CompletionIntakeCheckError(
-            "completion packet must be under "
-            "`coordination/completion_packets/`"
+            "completion packet must be under `coordination/completion_packets/`"
         )
 
     data = _load_yaml_mapping(packet_path)
+    packet_protocol = _packet_protocol(data)
     for field in REQUIRED_PACKET_STRINGS:
         _required_string(data, field)
     for field in REQUIRED_PACKET_LISTS:
@@ -549,8 +607,7 @@ def check_completion_intake(
     packet_module = _required_string(data, "module_id")
     if packet_module != module_id:
         raise CompletionIntakeCheckError(
-            f"packet module_id `{packet_module}` does not match "
-            f"requested module `{module_id}`"
+            f"packet module_id `{packet_module}` does not match requested module `{module_id}`"
         )
 
     prompt_id = _required_string(data, "prompt_id")
@@ -559,12 +616,9 @@ def check_completion_intake(
     _validate_iso_date(created_at, field="created_at")
 
     report_relative = _required_string(data, "report_path")
-    if not report_relative.startswith(
-        "coordination/reports/completion/"
-    ):
+    if not report_relative.startswith("coordination/reports/completion/"):
         raise CompletionIntakeCheckError(
-            "completion report must be under "
-            "`coordination/reports/completion/`"
+            "completion report must be under `coordination/reports/completion/`"
         )
     report_path = _safe_under(
         module_root,
@@ -572,9 +626,7 @@ def check_completion_intake(
         label="completion report",
     )
     if not report_path.is_file():
-        raise CompletionIntakeCheckError(
-            f"completion report does not exist: {report_path}"
-        )
+        raise CompletionIntakeCheckError(f"completion report does not exist: {report_path}")
 
     implementation_commit = _verify_commit(
         module_root,
@@ -592,8 +644,7 @@ def check_completion_intake(
         resolved_completion_commit,
     ):
         raise CompletionIntakeCheckError(
-            "implementation_commit is not an ancestor of "
-            "completion_commit"
+            "implementation_commit is not an ancestor of completion_commit"
         )
 
     warnings = _validate_checks(data)
@@ -622,33 +673,23 @@ def check_completion_intake(
 
     packet_branch = data.get("branch")
     if packet_branch is not None and (
-        not isinstance(packet_branch, str)
-        or not packet_branch.strip()
+        not isinstance(packet_branch, str) or not packet_branch.strip()
     ):
         raise CompletionIntakeCheckError(
-            "completion packet `branch` must be a "
-            "non-empty string when present"
+            "completion packet `branch` must be a non-empty string when present"
         )
     selected_branch = _validate_branch(
-        branch
-        or (
-            packet_branch.strip()
-            if isinstance(packet_branch, str)
-            else ""
-        )
+        branch or (packet_branch.strip() if isinstance(packet_branch, str) else "")
     )
 
     if data.get("push_status") not in {"pushed", "synced", "remote"}:
         raise CompletionIntakeCheckError(
-            "completion packet `push_status` must indicate "
-            "post-publication state"
+            "completion packet `push_status` must indicate post-publication state"
         )
 
     selected_remote = remote.strip()
     if not selected_remote:
-        raise CompletionIntakeCheckError(
-            "remote must be a non-empty string"
-        )
+        raise CompletionIntakeCheckError("remote must be a non-empty string")
 
     remote_commit = _remote_branch_commit(
         module_root=module_root,
@@ -672,16 +713,170 @@ def check_completion_intake(
         branch=selected_branch,
         remote=selected_remote,
         remote_commit=remote_commit,
+        schema_version=packet_protocol.schema_version,
+        protocol_version=packet_protocol.protocol_version,
+        supersedes_completion_id=(packet_protocol.supersedes_completion_id),
+        historical_legacy=packet_protocol.historical_legacy,
         warnings=tuple(warnings),
     )
 
 
+def _classify_intake_error(
+    error: CompletionIntakeCheckError,
+) -> CompletionIntakeIssue:
+    raw_message = str(error)
+    code_match = re.match(
+        r"^\[(?P<code>[A-Z0-9_]+)\]\s*(?P<message>.*)$",
+        raw_message,
+        flags=re.DOTALL,
+    )
+    if code_match is not None:
+        code = code_match.group("code")
+        message = code_match.group("message")
+    else:
+        code = ""
+        message = raw_message
+
+    lowered = message.lower()
+    field: str | None = None
+    remediation_owner = "module"
+    failure_class = "evidence_failure"
+    implementation_failure_proven = False
+
+    if code in {
+        "UNSUPPORTED_PACKET_SCHEMA",
+        "PACKET_PROTOCOL_MISMATCH",
+        "PACKET_PROTOCOL_FIELD_INVALID",
+        "SUPERSEDING_PACKET_INCOMPLETE",
+    }:
+        failure_class = "protocol_compatibility"
+    elif code in {
+        "COMMIT_IDENTIFIER_INVALID",
+        "COMMIT_RESOLUTION_FAILED",
+    }:
+        failure_class = "evidence_failure"
+        field = "commit"
+    elif "unsafe boundary confirmation" in lowered:
+        code = "SAFETY_CONFIRMATION_INVALID"
+        failure_class = "protocol_compatibility"
+        field = "boundary_confirmation"
+    elif "completion packet field" in lowered:
+        code = code or "PACKET_FIELD_INVALID"
+        failure_class = "protocol_compatibility"
+    elif "completion packet `checks" in lowered or ("module check report" in lowered):
+        code = code or "MODULE_CHECK_EVIDENCE_FAILED"
+        failure_class = "evidence_failure"
+        field = "checks"
+    elif "content differs from" in lowered:
+        code = "EVIDENCE_COMMIT_MISMATCH"
+        failure_class = "evidence_failure"
+    elif "file does not exist" in lowered or ("completion report does not exist" in lowered):
+        code = "EVIDENCE_FILE_MISSING"
+        failure_class = "evidence_failure"
+    elif "implementation_commit is not an ancestor" in lowered:
+        code = "IMPLEMENTATION_COMMIT_NOT_ANCESTOR"
+        failure_class = "evidence_failure"
+        field = "implementation_commit"
+    elif "remote branch" in lowered or "ls-remote" in lowered:
+        code = "PUBLICATION_EVIDENCE_FAILED"
+        failure_class = "evidence_failure"
+        field = "publication"
+    elif "prompt " in lowered or "roadmap " in lowered:
+        code = "BLUEPRINT_CONTROL_MISMATCH"
+        failure_class = "blueprint_control_failure"
+        remediation_owner = "blueprint"
+    elif "git " in lowered:
+        code = code or "GIT_EVIDENCE_FAILED"
+        failure_class = "evidence_failure"
+    else:
+        code = code or "UNCLASSIFIED_INTAKE_FAILURE"
+
+    return CompletionIntakeIssue(
+        code=code,
+        failure_class=failure_class,
+        message=message,
+        field=field,
+        remediation_owner=remediation_owner,
+        implementation_failure_proven=implementation_failure_proven,
+    )
+
+
+def _failure_payload(
+    error: CompletionIntakeCheckError,
+) -> dict[str, Any]:
+    issue = _classify_intake_error(error)
+    return {
+        "result": "failed",
+        "status": "BLOCKED",
+        "decision": None,
+        "automatic_acceptance": False,
+        "automatic_return": False,
+        "issue": {
+            "code": issue.code,
+            "failure_class": issue.failure_class,
+            "message": issue.message,
+            "field": issue.field,
+            "remediation_owner": issue.remediation_owner,
+            "implementation_failure_proven": (issue.implementation_failure_proven),
+        },
+    }
+
+
+def _success_payload(
+    result: CompletionIntakeCheckResult,
+) -> dict[str, Any]:
+    return {
+        "result": "passed",
+        "status": "READY_FOR_OPERATOR_REVIEW",
+        "decision": None,
+        "automatic_acceptance": False,
+        "automatic_return": False,
+        "module_id": result.module_id,
+        "prompt_id": result.prompt_id,
+        "phase": result.phase,
+        "packet_path": result.packet_path,
+        "report_path": result.report_path,
+        "implementation_commit": result.implementation_commit,
+        "completion_commit": result.completion_commit,
+        "publication": {
+            "remote": result.remote,
+            "branch": result.branch,
+            "remote_commit": result.remote_commit,
+        },
+        "packet_protocol": {
+            "schema_version": result.schema_version,
+            "protocol_version": result.protocol_version,
+            "supersedes_completion_id": (result.supersedes_completion_id),
+            "historical_legacy": result.historical_legacy,
+        },
+        "warnings": list(result.warnings),
+    }
+
+
+def _print_structured(
+    payload: dict[str, Any],
+    *,
+    output_format: str,
+) -> None:
+    if output_format == "json":
+        print(json.dumps(payload, indent=2, sort_keys=True))
+        return
+    if output_format == "yaml":
+        print(
+            yaml.safe_dump(
+                payload,
+                sort_keys=False,
+                allow_unicode=True,
+            ),
+            end="",
+        )
+        return
+    raise ValueError(f"unsupported structured output format: {output_format}")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description=(
-            "Read-only Blueprint verification of module "
-            "completion evidence."
-        )
+        description=("Read-only Blueprint verification of module completion evidence.")
     )
     parser.add_argument("--root", default=".")
     parser.add_argument("--module", required=True)
@@ -690,6 +885,11 @@ def main() -> int:
     parser.add_argument("--completion-commit", required=True)
     parser.add_argument("--remote", default="origin")
     parser.add_argument("--branch")
+    parser.add_argument(
+        "--output-format",
+        choices=("text", "json", "yaml"),
+        default="text",
+    )
     args = parser.parse_args()
 
     try:
@@ -703,10 +903,23 @@ def main() -> int:
             branch=args.branch,
         )
     except CompletionIntakeCheckError as error:
-        print("FAILED: completion intake check")
-        print(f"- {error}")
-        print("RESULT: COMPLETION_INTAKE_CHECK_FAILED")
+        if args.output_format in STRUCTURED_OUTPUT_FORMATS:
+            _print_structured(
+                _failure_payload(error),
+                output_format=args.output_format,
+            )
+        else:
+            print("FAILED: completion intake check")
+            print(f"- {error}")
+            print("RESULT: COMPLETION_INTAKE_CHECK_FAILED")
         return 1
+
+    if args.output_format in STRUCTURED_OUTPUT_FORMATS:
+        _print_structured(
+            _success_payload(result),
+            output_format=args.output_format,
+        )
+        return 0
 
     print("Completion intake check")
     print(f"module: {result.module_id}")
@@ -716,10 +929,10 @@ def main() -> int:
     print(f"report: {result.report_path}")
     print(f"implementation commit: {result.implementation_commit}")
     print(f"completion commit: {result.completion_commit}")
-    print(
-        "publication: "
-        f"{result.remote}/{result.branch} @ {result.remote_commit}"
-    )
+    print(f"packet schema: {result.schema_version}")
+    print(f"intake protocol: {result.protocol_version}")
+    print("operator status: READY_FOR_OPERATOR_REVIEW")
+    print(f"publication: {result.remote}/{result.branch} @ {result.remote_commit}")
     if result.warnings:
         print("warnings:")
         for warning in result.warnings:
