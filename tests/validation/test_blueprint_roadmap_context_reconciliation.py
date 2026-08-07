@@ -147,9 +147,9 @@ def test_context_prerequisites_are_machine_readable_and_aligned() -> None:
 def test_handoff_marks_context_reconciled_without_claiming_decisions() -> None:
     handoff = load_yaml(HANDOFF)
 
-    assert handoff["metadata"]["state_observed_at_head"] == (
-        "0a3a21696ee517d54cc872c8ef9f16e61c4f3f4d"
-    )
+    observed_head = handoff["metadata"]["state_observed_at_head"]
+    assert len(observed_head) == 40
+    assert all(character in "0123456789abcdef" for character in observed_head)
     assert handoff["current_blueprint_plan"]["freshness_verdict"] == ("CURRENT_CONTEXT_RECONCILED")
     assert handoff["current_blueprint_plan"]["active_blueprint_step"]["id"] == (ACTIVE_ID)
     assert handoff["current_blueprint_plan"]["context_reconciliation"]["status"] == "completed"

@@ -55,7 +55,7 @@ def test_bootstrap_make_targets_exist() -> None:
 def test_handoff_snapshot_contract() -> None:
     data = load_yaml(HANDOFF)
     assert data["schema_version"] == "blueprint_current_handoff_v0_1"
-    assert data["metadata"]["state_observed_at_head"] == "0a3a21696ee517d54cc872c8ef9f16e61c4f3f4d"
+    assert data["metadata"]["state_observed_at_head"] == "18b74bf4dec672d27e66e3cde64209d4cc46a222"
     assert data["current_blueprint_plan"]["freshness_verdict"] == "CURRENT_CONTEXT_RECONCILED"
     assert (
         data["current_blueprint_plan"]["active_blueprint_step"]["id"]

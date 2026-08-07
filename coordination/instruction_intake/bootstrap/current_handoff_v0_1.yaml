@@ -2,11 +2,12 @@ schema_version: blueprint_current_handoff_v0_1
 metadata:
   module_id: forprint_system_blueprint
   artifact_role: current_assistant_handoff_snapshot
-  state_observed_at_head: 0a3a21696ee517d54cc872c8ef9f16e61c4f3f4d
+  state_observed_at_head: 18b74bf4dec672d27e66e3cde64209d4cc46a222
   state_observed_on_branch: audit/blueprint-inventory-refresh-2026-07-29
   snapshot_semantics: baseline_snapshot_reconcile_git_before_action
   snapshot_includes_roadmap_context_reconciliation: true
   artifact_commit_resolution: resolve with git log -1 -- coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml
+  snapshot_includes_logistics_registry_reconciliation: true
 current_blueprint_plan:
   path: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
   status: active
@@ -60,6 +61,9 @@ recent_completed_governance:
 - commit: 0a3a21696ee517d54cc872c8ef9f16e61c4f3f4d
   subject: 'docs(governance): add assistant bootstrap and handoff contract'
   represented_in_current_roadmap_context: true
+- commit: 18b74bf4dec672d27e66e3cde64209d4cc46a222
+  subject: 'governance(blueprint): reconcile roadmap context'
+  represented_in_current_roadmap_context: true
 managed_module_state:
   forprint_library:
     current_work: library_configurable_product_workbench_business_card_skeleton_v0_1
@@ -97,10 +101,13 @@ planned_directives:
   activation_authorized: false
 known_governance_debt:
 - id: logistics_module_source_registry_local_path
-  state: OPEN
+  state: RESOLVED
   observed_repository: /srv/software_development/forprint-project/forprint_logistics_service
-  current_resolution: read_only_sibling_discovery
-  required_fix: register canonical local logistics_service repository path in module source registry
+  current_resolution: canonical_module_source_registry
+  required_fix: null
+  registry_path: coordination/module_sources/module_git_sources.yaml
+  resolved_against_head: 18b74bf4dec672d27e66e3cde64209d4cc46a222
+  resolution_evidence: coordination/internal_work/blueprint/governance/2026-08-07__blueprint__logistics_module_source_registry_reconciliation_v0_1.yaml
 - id: blueprint_roadmap_context_freshness
   state: RESOLVED
   verdict: CURRENT_CONTEXT_RECONCILED
@@ -109,35 +116,35 @@ known_governance_debt:
   resolution_evidence: coordination/internal_work/blueprint/governance/2026-08-07__blueprint__roadmap_context_reconciliation_v0_1.yaml
 next_10_steps:
 - order: 1
-  id: repair_logistics_module_source_registry
-  action: register canonical logistics_service local repository path and remove sibling-discovery debt
-- order: 2
   id: tracking_events_intake_preview
   action: run schema-aware completion intake preview without deciding ACCEPT/RETURN
-- order: 3
+- order: 2
   id: tracking_events_operator_review
-  action: present findings for explicit operator decision
-- order: 4
+  action: present Tracking Events findings for explicit operator decision
+- order: 3
   id: tracking_events_module_remediation_if_returned
   action: if explicitly returned, issue exact Logistics-owned superseding-packet remediation instruction
-- order: 5
+- order: 4
   id: tracking_events_superseding_intake
   action: validate any superseding Logistics packet and preserve historical packet immutability
-- order: 6
+- order: 5
   id: tracking_events_acceptance_state_if_authorized
   action: only after explicit acceptance, update Blueprint-owned review/control state
-- order: 7
+- order: 6
   id: telegram_logistics_dependency_reconciliation
-  action: re-evaluate Telegram logistics dependency only after accepted tracking-events evidence
-- order: 8
+  action: re-evaluate Telegram logistics dependency only after accepted Tracking Events evidence
+- order: 7
   id: resume_inventory_acceptance_packet_integrity_gate
   action: resume blueprint_inventory_acceptance_packet_integrity_gate_v0_1
-- order: 9
+- order: 8
   id: inventory_acceptance_decision_readiness_review
-  action: after a green integrity gate, run the planned decision-readiness review without implying acceptance
-- order: 10
+  action: after a green integrity gate, run planned decision-readiness review without implying acceptance
+- order: 9
   id: inventory_merge_rollback_readiness
   action: after decision-readiness authorization, verify rollback readiness before any merge gate
+- order: 10
+  id: inventory_acceptance_merge_gate
+  action: run the planned inventory acceptance merge gate only after its explicit prerequisites and authorization
 hard_boundaries:
   external_rollout: gated
   pilot_authorized: false
