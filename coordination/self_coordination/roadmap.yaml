@@ -284,3 +284,52 @@ deferred_steps:
   status: deferred
   release_after: blueprint_inventory_operational_readiness_review_v0_1
   reason: Blueprint self-context acceptance has priority.
+- step_id: blueprint_coordination_protocol_revision_and_legacy_simplification_v0_1
+  status: deferred
+  priority: high
+  release_after: blueprint_inventory_operational_readiness_review_v0_1
+  reason: Run only after the current Blueprint audit/readiness work. The goal is to simplify coordination architecture rather
+    than carry multiple historical interfaces in the active path.
+  scope:
+  - audit active coordination protocols, scripts, Make targets, reports, packets, prompts, registries, and review flows
+  - identify duplicated, unused, brittle, or legacy mechanisms
+  - define a single current coordination revision for normal module interaction
+  - define machine-readable revision detection for incoming module artifacts
+  - define migration handling for old or unknown revisions
+  - isolate retired Blueprint tools and documentation from the active runtime path
+  - produce module-owned upgrade instructions instead of maintaining per-module compatibility branches
+  target_architecture:
+    canonical_revision_model:
+      revision_field: coordination_revision
+      one_active_revision: true
+      legacy_runtime_fallback: false
+      historical_revision_handling: recognition_and_migration_only
+      unknown_revision_behavior: classify_and_generate_upgrade_instruction
+    legacy_isolation:
+      candidate_roots:
+      - coordination/legacy/
+      - scripts/legacy/
+      move_only_after_audit_and_consumer_check: true
+      active_runtime_dependency_allowed: false
+      historical_material_kept_for:
+      - revision identification
+      - forensic understanding
+      - migration instruction generation
+    module_migration:
+      blueprint_repairs_module_artifacts: false
+      module_upgrade_via_prompt: true
+      target: current_canonical_coordination_revision
+      old_revision_normal_processing: false
+  planned_deliverables:
+  - coordination revision registry with current, legacy, and unsupported states
+  - revision-to-migration reference index
+  - current canonical module reporting/completion contract
+  - legacy mechanism inventory with active-consumer verification
+  - deprecation and relocation plan for retired Blueprint mechanisms
+  - module upgrade instruction template generated from detected revision gaps
+  - tests proving the normal current-revision path does not depend on legacy mechanisms
+  non_goals_before_release:
+  - do not move files into legacy directories yet
+  - do not add broad backward-compatibility runtime branches
+  - do not rewrite module-owned artifacts
+  - do not interrupt current Tracking Events operator-review flow
