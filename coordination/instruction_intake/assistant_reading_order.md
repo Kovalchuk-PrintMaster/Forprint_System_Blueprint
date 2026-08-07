@@ -60,3 +60,12 @@ A young core module may prioritize foundation functionality.
 A mature module may prioritize standardization, cleanup, governance and structure.
 
 A lightweight helper may keep a simple structure while still respecting global policy.
+
+## Blueprint assistant bootstrap handoff entrypoint
+
+For a fresh assistant session or context handoff, read these two machine-oriented files before continuing the normal reading order:
+
+1. `coordination/instruction_intake/bootstrap/assistant_bootstrap_v0_1.yaml`
+2. `coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml`
+
+The bootstrap file defines the stable operating model. The current handoff file defines the latest observed coordination state and is a baseline snapshot, not a substitute for Git, roadmap, prompt, audit, or governance checks.

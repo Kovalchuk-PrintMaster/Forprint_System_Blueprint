@@ -1,0 +1,153 @@
+schema_version: blueprint_assistant_bootstrap_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  artifact_role: stable_assistant_bootstrap
+  machine_first: true
+  stateful_snapshot: false
+coordination_role:
+  system_role: central coordination and governance control plane for the entire ForPrint project ecosystem and all modules
+    governed or coordinated by Blueprint
+  primary_responsibilities:
+  - maintain coherent multi-module execution order and dependency balance
+  - keep roadmaps, module plans, prompts, review evidence, and governance state aligned
+  - review module completion evidence without repairing module-owned implementation
+  - preserve explicit operator gates for ACCEPT, RETURN, rollout, pilot, and production exposure
+  - maintain repository knowledge, self-audit, governance evidence, and handoff continuity
+  portfolio_scope:
+    scope: all_forprint_project_modules
+    active_development_subset_is_exhaustive: false
+    rule: Any module names shown in current_handoff are a time-bounded active-development subset or examples, never the authoritative
+      full module inventory.
+    authoritative_inventory_sources:
+    - coordination/global_policy/ecosystem_module_map.md
+    - coordination/module_sources/module_git_sources.yaml
+    - coordination/roadmaps/*.yaml
+    - coordination/self_coordination/module_plans/*.yaml
+startup_protocol:
+  required_order:
+  - step: 1
+    action: read
+    path: coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml
+  - step: 2
+    action: read
+    path: coordination/instruction_intake/assistant_reading_order.md
+  - step: 3
+    action: verify_runtime_state
+    commands:
+    - git branch --show-current
+    - git rev-parse HEAD
+    - git status --short
+  - step: 4
+    action: reconcile_handoff_baseline
+    rule: If current HEAD differs from handoff metadata.state_observed_at_head, inspect intervening commits and coordination
+      changes before acting.
+  - step: 5
+    action: inspect_control_state
+    make_targets:
+    - blueprint-governance-status
+    - roadmap-status
+    - prompts-status
+    - inventory-status
+    - blueprint-self-status
+authority_boundaries:
+  blueprint_may:
+  - read module repositories and committed evidence
+  - maintain Blueprint-owned roadmaps, prompts, directives, review records, coordination evidence, and tooling
+  - prepare operator findings and exact module remediation instructions
+  - coordinate module dependencies and execution order
+  blueprint_must_not:
+  - repair or rewrite module-owned implementation, tests, reports, completion packets, or module Git history
+  - infer ACCEPT or RETURN from a green or red automated check
+  - activate planned directives without a separate explicit decision
+  - release pilot, rollout, live integration, production API, production writes, or external side effects without explicit
+    authorization
+  - treat tmp diagnostics as source of truth
+  module_ownership_rule: Implementation corrections and superseding completion packets are produced by the owning module.
+source_of_truth_map:
+  project_doctrine: coordination/global_policy/forprint_project_doctrine.md
+  strategic_control_plane_policy: coordination/global_policy/forprint_strategic_control_plane_policy.md
+  current_execution_focus: coordination/global_policy/current_execution_focus.md
+  directives_index: coordination/directives/global/index.yaml
+  blueprint_module_policy: coordination/module_policy/forprint_system_blueprint/module_policy.md
+  assistant_reading_order: coordination/instruction_intake/assistant_reading_order.md
+  instruction_sources: coordination/instruction_intake/instruction_sources.yaml
+  blueprint_roadmap: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  managed_module_roadmaps: coordination/roadmaps/*.yaml
+  managed_module_plans: coordination/self_coordination/module_plans/*.yaml
+  outgoing_prompt_indexes: coordination/outgoing_prompts/*/index.yaml
+  processed_review_records: coordination/review_packets/*/processed/*.yaml
+  repository_knowledge: coordination/repository_knowledge/
+  repository_knowledge_protocol: coordination/repository_knowledge/repository_knowledge_and_direction_snapshot_protocol_v0_2.md
+  blueprint_self_audit_workflow: coordination/modules/forprint_system_blueprint/workflows/definitions/blueprint_self_audit.md
+  workflow_manifest: coordination/modules/forprint_system_blueprint/module_workflow_manifest.yaml
+  governance_history: coordination/internal_work/blueprint/governance/
+  completion_intake_tool: scripts/coordination/completion_intake_check.py
+  historical_acceptance_reconciler: scripts/coordination/historical_acceptance_reconciliation.py
+  canonical_check_runner: scripts/run_blueprint_checks.py
+  canonical_makefile: Makefile
+  generated_reports: reports/
+  ephemeral_diagnostics: tmp/
+  git_history_command: git log --oneline --decorate --graph -n 40
+  ecosystem_module_map: coordination/global_policy/ecosystem_module_map.md
+  module_source_registry: coordination/module_sources/module_git_sources.yaml
+make_interface:
+  discovery_command: make help
+  canonical_full_gate: make check PYTHON=.venv_blueprint/bin/python BLUEPRINT_PYTHON=.venv_blueprint/bin/python
+  canonical_targets:
+  - help
+  - check
+  - check-report
+  - roadmap-validate
+  - roadmap-dashboard
+  - roadmap-summary
+  - roadmap-status
+  - prompts-status
+  - inventory-status
+  - blueprint-self-audit
+  - blueprint-self-status
+  - blueprint-governance-status
+  - module-governance-audit
+  - completion-intake-check
+  - completion-intake-preview
+  - completion-accept
+  - completion-return
+  - next-work-suggestion
+  - check-module-registry-consistency
+  - check-self-coordination-consistency
+  - check-repository-knowledge-freshness
+  - repository-knowledge-reconciliation-status
+  operator_decision_targets:
+    completion-accept: manual decision surface; never invoke automatically
+    completion-return: manual decision surface; never invoke automatically
+  parameterized_target_rule: Read Makefile/help and required variables before invoking completion, prompt, module, or document
+    targets.
+state_model:
+  separate_dimensions:
+  - observed_state
+  - automated_check_result
+  - governance_classification
+  - operator_decision
+  - authorization_evidence
+  - module_execution_state
+  - dependency_gate_state
+  critical_non_equivalences:
+  - READY_FOR_OPERATOR_REVIEW != ACCEPTED
+  - PENDING_OPERATOR_REVIEW != RETURNED
+  - green_check != operator_acceptance
+  - red_check != operator_return
+  - planned_directive != active_directive
+  - roadmap_ready != production_authorized
+  - historical_control_signal != historical_acceptance without processed review evidence
+handoff_protocol:
+  current_snapshot: coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml
+  snapshot_semantics: The handoff records state observed at a specific Git commit. Reconcile later commits before continuing.
+  required_handoff_fields:
+  - state_observed_at_head
+  - current_blueprint_plan
+  - active_blueprint_step
+  - recent_completed_governance
+  - managed_module_state
+  - pending_operator_decisions
+  - dependency_gates
+  - known_governance_debt
+  - next_10_steps
