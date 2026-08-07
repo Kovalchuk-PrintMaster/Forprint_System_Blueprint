@@ -2,12 +2,13 @@ schema_version: blueprint_current_handoff_v0_1
 metadata:
   module_id: forprint_system_blueprint
   artifact_role: current_assistant_handoff_snapshot
-  state_observed_at_head: 18b74bf4dec672d27e66e3cde64209d4cc46a222
+  state_observed_at_head: 9222a554be8c84007902868f3ff336cf6ee8e3df
   state_observed_on_branch: audit/blueprint-inventory-refresh-2026-07-29
   snapshot_semantics: baseline_snapshot_reconcile_git_before_action
   snapshot_includes_roadmap_context_reconciliation: true
   artifact_commit_resolution: resolve with git log -1 -- coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml
   snapshot_includes_logistics_registry_reconciliation: true
+  snapshot_includes_tracking_events_review_findings: true
 current_blueprint_plan:
   path: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
   status: active
@@ -91,6 +92,19 @@ pending_operator_decisions:
   state: PENDING_OPERATOR_REVIEW
   automatic_acceptance: false
   automatic_return: false
+  review_stage: findings_confirmed
+  operator_decision: null
+  blocker_code: SAFETY_CONFIRMATION_INVALID
+  failure_class: protocol_compatibility
+  implementation_failure_proven: false
+  remediation_owner: logistics_service
+  required_positive_confirmations:
+  - no_automatic_posting
+  - no_live_external_integrations
+  - no_production_api
+  - no_production_write
+  - no_real_1c_sync
+  findings_evidence: coordination/internal_work/blueprint/governance/2026-08-07__blueprint__tracking_events_operator_review_findings_v0_1.yaml
 dependency_gates:
 - consumer: telegram_bot
   dependency: logistics_service_tracking_events_v0_1
@@ -116,35 +130,36 @@ known_governance_debt:
   resolution_evidence: coordination/internal_work/blueprint/governance/2026-08-07__blueprint__roadmap_context_reconciliation_v0_1.yaml
 next_10_steps:
 - order: 1
-  id: tracking_events_intake_preview
-  action: run schema-aware completion intake preview without deciding ACCEPT/RETURN
+  id: tracking_events_operator_decision
+  action: operator explicitly chooses RETURN_WITH_FINDINGS, ACCEPT only after green superseding evidence, or keeps the item
+    pending; no automatic decision
 - order: 2
-  id: tracking_events_operator_review
-  action: present Tracking Events findings for explicit operator decision
+  id: tracking_events_return_instruction_if_authorized
+  action: if RETURN_WITH_FINDINGS is explicitly authorized, issue exact Logistics-owned superseding packet instruction
 - order: 3
-  id: tracking_events_module_remediation_if_returned
-  action: if explicitly returned, issue exact Logistics-owned superseding-packet remediation instruction
+  id: tracking_events_superseding_packet_creation
+  action: Logistics creates a new immutable superseding v0.2 completion packet; Blueprint does not rewrite the old packet
 - order: 4
   id: tracking_events_superseding_intake
-  action: validate any superseding Logistics packet and preserve historical packet immutability
+  action: run schema-aware intake on the superseding packet
 - order: 5
-  id: tracking_events_acceptance_state_if_authorized
-  action: only after explicit acceptance, update Blueprint-owned review/control state
+  id: tracking_events_acceptance_if_explicitly_authorized
+  action: only after green intake and explicit operator decision, record ACCEPT in Blueprint-owned review state
 - order: 6
   id: telegram_logistics_dependency_reconciliation
-  action: re-evaluate Telegram logistics dependency only after accepted Tracking Events evidence
+  action: re-evaluate Telegram dependency only after accepted Tracking Events evidence
 - order: 7
   id: resume_inventory_acceptance_packet_integrity_gate
   action: resume blueprint_inventory_acceptance_packet_integrity_gate_v0_1
 - order: 8
   id: inventory_acceptance_decision_readiness_review
-  action: after a green integrity gate, run planned decision-readiness review without implying acceptance
+  action: run planned decision-readiness review after a green integrity gate
 - order: 9
   id: inventory_merge_rollback_readiness
-  action: after decision-readiness authorization, verify rollback readiness before any merge gate
+  action: verify rollback readiness before any merge gate
 - order: 10
   id: inventory_acceptance_merge_gate
-  action: run the planned inventory acceptance merge gate only after its explicit prerequisites and authorization
+  action: run merge gate only after explicit prerequisites and authorization
 hard_boundaries:
   external_rollout: gated
   pilot_authorized: false
