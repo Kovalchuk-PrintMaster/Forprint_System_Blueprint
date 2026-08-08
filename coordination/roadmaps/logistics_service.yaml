@@ -231,7 +231,7 @@ roadmap:
 - sequence: 5
   step_id: logistics_service_tracking_events_v0_1
   title: Tracking events and notification contracts
-  status: ready
+  status: active
   priority: critical
   owner_module: logistics_service
   prompt_id: logistics_service_tracking_events_v0_1
@@ -242,7 +242,13 @@ roadmap:
     module: logistics_service
     step_id: logistics_service_provider_adapter_contract_v0_1
     status: accepted
-  evidence: {}
+  evidence:
+    implementation_commit: bbc298e294bd9e7e6cca976d4a8077c52c4a51ff
+    completion_commit: 1f0b73df4dd7f5dc2cf04ffddff11fc8465c741a
+    completion_report: coordination/reports/completion/2026-08-07__logistics_service__tracking_events_v0_1_completion_superseding_v0_2.md
+    completion_packet: coordination/completion_packets/records/2026-08-07__logistics_service__tracking_events_v0_1_completion_superseding_v0_2.yaml
+    blueprint_review_status: not_started
+    intake_status: pending
   summary: >
     Define provider-neutral shipment lifecycle and notification events before
     provider-specific implementation. This becomes the shared contract surface
