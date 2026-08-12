@@ -9,22 +9,13 @@ from typing import Any
 
 import yaml
 
-CONTRACT_YAML = Path(
-    "coordination/standards/governance/"
-    "mutation_builder_contract_v0_1.yaml"
-)
-CONTRACT_MD = Path(
-    "coordination/standards/governance/"
-    "mutation_builder_contract_v0_1.md"
-)
-GOVERNANCE_INDEX = Path(
-    "coordination/standards/governance/index.yaml"
-)
-GOVERNANCE_README = Path(
-    "coordination/standards/governance/README.md"
-)
+CONTRACT_YAML = Path("coordination/standards/governance/mutation_builder_contract_v0_1.yaml")
+CONTRACT_MD = Path("coordination/standards/governance/mutation_builder_contract_v0_1.md")
+GOVERNANCE_INDEX = Path("coordination/standards/governance/index.yaml")
+GOVERNANCE_README = Path("coordination/standards/governance/README.md")
 STANDARDS_INDEX = Path("coordination/standards/index.yaml")
 CHECK_CATALOG = Path("scripts/run_blueprint_checks.py")
+PRECOMMIT_HELPER = Path("scripts/validation/validate_mutation_precommit_surface.py")
 
 SCHEMA = "mutation_builder_contract_v0_1"
 FLOW = [
@@ -57,17 +48,13 @@ GOVERNANCE_RECORDS = {
 
 STANDARD_RECORDS = {
     "mutation_builder_contract": {
-        "file": CONTRACT_MD.relative_to(
-            Path("coordination/standards")
-        ).as_posix(),
+        "file": CONTRACT_MD.relative_to(Path("coordination/standards")).as_posix(),
         "title": "ForPrint Mutation Builder Contract",
         "status": "active_standard",
         "adoption_mode": "prompt_or_directive_required",
     },
     "mutation_builder_contract_machine_contract": {
-        "file": CONTRACT_YAML.relative_to(
-            Path("coordination/standards")
-        ).as_posix(),
+        "file": CONTRACT_YAML.relative_to(Path("coordination/standards")).as_posix(),
         "title": "ForPrint Mutation Builder Machine Contract",
         "status": "active_standard",
         "adoption_mode": "prompt_or_directive_required",
@@ -81,6 +68,7 @@ REQUIRED_HEADINGS = (
     "## Preflight validation",
     "## Atomic write contract",
     "## Verification order",
+    "## Defect closed by this rule",
     "## Failure and rollback behavior",
     "## Review checklist",
     "## Safety boundaries",
@@ -157,7 +145,47 @@ REQUIRED_TRUE_PATHS = (
     (
         "contracts",
         "verification_contract",
+        "generated_tracked_reports_restored_before_final_surface_validation",
+    ),
+    (
+        "contracts",
+        "verification_contract",
         "exact_dirty_path_set_required",
+    ),
+    (
+        "contracts",
+        "verification_contract",
+        "temporary_git_index_precommit_required",
+    ),
+    (
+        "contracts",
+        "verification_contract",
+        "temporary_index_seeded_from_head_required",
+    ),
+    (
+        "contracts",
+        "verification_contract",
+        "exact_expected_paths_staged_in_temporary_index_required",
+    ),
+    (
+        "contracts",
+        "verification_contract",
+        "git_diff_cached_check_required",
+    ),
+    (
+        "contracts",
+        "verification_contract",
+        "untracked_new_files_covered_required",
+    ),
+    (
+        "contracts",
+        "verification_contract",
+        "real_git_index_unchanged_required",
+    ),
+    (
+        "contracts",
+        "verification_contract",
+        "working_tree_unchanged_by_validator_required",
     ),
     (
         "contracts",
@@ -309,8 +337,7 @@ def validate_contract_data(
                 issues.append(
                     issue(
                         path,
-                        f"`required_flow[{index - 1}].order` "
-                        f"must be {index}",
+                        f"`required_flow[{index - 1}].order` must be {index}",
                     )
                 )
             actual_ids.append(row.get("step_id"))
@@ -320,8 +347,7 @@ def validate_contract_data(
                 issues.append(
                     issue(
                         path,
-                        f"`required_flow[{index - 1}]."
-                        "tracked_write_allowed` is invalid",
+                        f"`required_flow[{index - 1}].tracked_write_allowed` is invalid",
                     )
                 )
 
@@ -329,8 +355,7 @@ def validate_contract_data(
             issues.append(
                 issue(
                     path,
-                    "`required_flow` step order does not match "
-                    "the canonical ten-stage flow",
+                    "`required_flow` step order does not match the canonical ten-stage flow",
                 )
             )
 
@@ -366,6 +391,11 @@ def validate_contract_data(
         ): False,
         (
             "contracts",
+            "verification_contract",
+            "canonical_precommit_validator",
+        ): "scripts/validation/validate_mutation_precommit_surface.py",
+        (
+            "contracts",
             "rollback_contract",
             "automatic_retry_after_partial_failure",
         ): False,
@@ -393,8 +423,7 @@ def validate_contract_data(
             issues.append(
                 issue(
                     path,
-                    f"`{'.'.join(value_path)}` must be "
-                    f"{expected!r}; found {actual!r}",
+                    f"`{'.'.join(value_path)}` must be {expected!r}; found {actual!r}",
                 )
             )
 
@@ -411,9 +440,7 @@ def validate_markdown(
 
     for heading in REQUIRED_HEADINGS:
         if heading not in text:
-            issues.append(
-                issue(path, f"required heading is missing: {heading}")
-            )
+            issues.append(issue(path, f"required heading is missing: {heading}"))
 
     for step_id in FLOW:
         if f"`{step_id}`" not in text:
@@ -439,16 +466,12 @@ def validate_governance_index(
 
     group = data.get("standards_group")
     if not isinstance(group, dict):
-        issues.append(
-            issue(path, "`standards_group` must be a mapping")
-        )
+        issues.append(issue(path, "`standards_group` must be a mapping"))
         return
 
     documents = group.get("documents")
     if not isinstance(documents, list):
-        issues.append(
-            issue(path, "`standards_group.documents` must be a list")
-        )
+        issues.append(issue(path, "`standards_group.documents` must be a list"))
         return
 
     by_file: dict[str, list[dict[str, Any]]] = {}
@@ -462,8 +485,7 @@ def validate_governance_index(
             issues.append(
                 issue(
                     path,
-                    f"expected exactly one governance index record "
-                    f"for {file_name!r}",
+                    f"expected exactly one governance index record for {file_name!r}",
                 )
             )
             continue
@@ -493,10 +515,7 @@ def validate_standards_index(
 
     by_id: dict[str, list[dict[str, Any]]] = {}
     for row in standards:
-        if (
-            isinstance(row, dict)
-            and isinstance(row.get("standard_id"), str)
-        ):
+        if isinstance(row, dict) and isinstance(row.get("standard_id"), str):
             by_id.setdefault(row["standard_id"], []).append(row)
 
     for standard_id, expected in STANDARD_RECORDS.items():
@@ -505,8 +524,7 @@ def validate_standards_index(
             issues.append(
                 issue(
                     path,
-                    f"expected exactly one standards index record "
-                    f"for {standard_id!r}",
+                    f"expected exactly one standards index record for {standard_id!r}",
                 )
             )
             continue
@@ -535,6 +553,7 @@ def validate_readme(
         "## Mutation builder governance",
         "mutation_builder_contract_v0_1.md",
         "mutation_builder_contract_v0_1.yaml",
+        "validate_mutation_precommit_surface.py",
         "<!-- mutation-builder-contract-v0-1:end -->",
     )
     for token in required:
@@ -542,8 +561,7 @@ def validate_readme(
             issues.append(
                 issue(
                     path,
-                    f"mutation-builder README token is missing: "
-                    f"{token}",
+                    f"mutation-builder README token is missing: {token}",
                 )
             )
 
@@ -577,31 +595,22 @@ def validate_check_catalog(
             continue
 
         keywords = {item.arg: item.value for item in node.keywords}
-        if _constant(keywords.get("check_id")) == (
-            "mutation_builder_contract_validation"
-        ):
+        if _constant(keywords.get("check_id")) == ("mutation_builder_contract_validation"):
             matches.append(node)
 
     if len(matches) != 1:
         issues.append(
             issue(
                 path,
-                "expected exactly one "
-                "`mutation_builder_contract_validation` check",
+                "expected exactly one `mutation_builder_contract_validation` check",
             )
         )
         return
 
-    keywords = {
-        item.arg: item.value
-        for item in matches[0].keywords
-    }
+    keywords = {item.arg: item.value for item in matches[0].keywords}
     expected_constants = {
         "title": "Mutation builder contract",
-        "expected_result": (
-            "Mutation builders follow predictable preflight "
-            "and rollback rules"
-        ),
+        "expected_result": ("Mutation builders follow predictable preflight and rollback rules"),
         "group": "documentation",
     }
     for key, value in expected_constants.items():
@@ -614,25 +623,166 @@ def validate_check_catalog(
             )
 
     command = keywords.get("command")
-    command_strings = {
-        node.value
-        for node in ast.walk(command)
-        if isinstance(node, ast.Constant)
-        and isinstance(node.value, str)
-    } if command is not None else set()
-
-    expected_script = (
-        "scripts/validation/"
-        "validate_mutation_builder_contract.py"
+    command_strings = (
+        {
+            node.value
+            for node in ast.walk(command)
+            if isinstance(node, ast.Constant) and isinstance(node.value, str)
+        }
+        if command is not None
+        else set()
     )
+
+    expected_script = "scripts/validation/validate_mutation_builder_contract.py"
     if expected_script not in command_strings:
         issues.append(
             issue(
                 path,
-                "mutation-builder check command must include "
-                f"{expected_script!r}",
+                f"mutation-builder check command must include {expected_script!r}",
             )
         )
+
+
+def _subscript_string_key(node: ast.Subscript) -> str | None:
+    slice_node = node.slice
+    if isinstance(slice_node, ast.Constant) and isinstance(
+        slice_node.value,
+        str,
+    ):
+        return slice_node.value
+    return None
+
+
+def _has_env_assignment(
+    tree: ast.AST,
+    *,
+    variable: str,
+    key: str,
+) -> bool:
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Assign):
+            continue
+        for target in node.targets:
+            if not isinstance(target, ast.Subscript):
+                continue
+            if not isinstance(target.value, ast.Name):
+                continue
+            if target.value.id != variable:
+                continue
+            if _subscript_string_key(target) == key:
+                return True
+    return False
+
+
+def _call_command_prefix(
+    node: ast.Call,
+) -> tuple[str, ...] | None:
+    if not isinstance(node.func, ast.Name):
+        return None
+    if node.func.id != "run_git":
+        return None
+    if len(node.args) < 2:
+        return None
+
+    command = node.args[1]
+    if not isinstance(command, (ast.List, ast.Tuple)):
+        return None
+
+    values: list[str] = []
+    for item in command.elts:
+        if isinstance(item, ast.Starred):
+            break
+        if not isinstance(item, ast.Constant):
+            break
+        if not isinstance(item.value, str):
+            break
+        values.append(item.value)
+    return tuple(values)
+
+
+def _has_run_git_prefix(
+    tree: ast.AST,
+    prefix: tuple[str, ...],
+) -> bool:
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Call):
+            continue
+        actual = _call_command_prefix(node)
+        if actual is None:
+            continue
+        if actual[: len(prefix)] != prefix:
+            continue
+
+        env_keyword = next(
+            (item for item in node.keywords if item.arg == "env"),
+            None,
+        )
+        if env_keyword is None:
+            continue
+        if not isinstance(env_keyword.value, ast.Name):
+            continue
+        if env_keyword.value.id != "env":
+            continue
+        return True
+    return False
+
+
+def validate_precommit_helper(
+    path: Path,
+    issues: list[str],
+) -> None:
+    try:
+        text = path.read_text(encoding="utf-8")
+    except FileNotFoundError:
+        issues.append(issue(path, "file does not exist"))
+        return
+
+    try:
+        tree = ast.parse(text)
+    except SyntaxError as error:
+        issues.append(issue(path, f"invalid Python: {error}"))
+        return
+
+    if not _has_env_assignment(
+        tree,
+        variable="env",
+        key="GIT_INDEX_FILE",
+    ):
+        issues.append(
+            issue(
+                path,
+                'precommit helper must assign `env["GIT_INDEX_FILE"]`',
+            )
+        )
+
+    required_commands = (
+        ("read-tree", "HEAD"),
+        ("add", "-A", "--"),
+        ("diff", "--cached", "--check", "--"),
+    )
+    for command in required_commands:
+        if not _has_run_git_prefix(tree, command):
+            issues.append(
+                issue(
+                    path,
+                    "precommit helper Git command is missing or "
+                    f"does not use temporary env: {command!r}",
+                )
+            )
+
+    required_messages = (
+        "real Git index must be clean",
+        "MUTATION_PRECOMMIT_SURFACE_VALID",
+        "MUTATION_PRECOMMIT_SURFACE_INVALID",
+    )
+    for message in required_messages:
+        if message not in text:
+            issues.append(
+                issue(
+                    path,
+                    f"precommit helper marker is missing: {message}",
+                )
+            )
 
 
 def validate(root: Path) -> list[str]:
@@ -649,14 +799,13 @@ def validate(root: Path) -> list[str]:
     validate_standards_index(root / STANDARDS_INDEX, issues)
     validate_readme(root / GOVERNANCE_README, issues)
     validate_check_catalog(root / CHECK_CATALOG, issues)
+    validate_precommit_helper(root / PRECOMMIT_HELPER, issues)
 
     return issues
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(
-        description="Validate the ForPrint mutation-builder contract."
-    )
+    parser = argparse.ArgumentParser(description="Validate the ForPrint mutation-builder contract.")
     parser.add_argument(
         "--root",
         default=".",

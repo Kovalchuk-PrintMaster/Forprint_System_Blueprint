@@ -89,7 +89,16 @@ contracts:
   verification_contract:
     focused_tests_before_canonical_gate: true
     canonical_gate_required: true
+    generated_tracked_reports_restored_before_final_surface_validation: true
     exact_dirty_path_set_required: true
+    temporary_git_index_precommit_required: true
+    temporary_index_seeded_from_head_required: true
+    exact_expected_paths_staged_in_temporary_index_required: true
+    git_diff_cached_check_required: true
+    untracked_new_files_covered_required: true
+    real_git_index_unchanged_required: true
+    working_tree_unchanged_by_validator_required: true
+    canonical_precommit_validator: scripts/validation/validate_mutation_precommit_surface.py
     immutable_boundary_hashes_required: true
   rollback_contract:
     rollback_on_any_failure: true
@@ -104,6 +113,14 @@ contracts:
     exact_failed_command_reported: true
     exact_remaining_dirty_paths_reported: true
     success_and_failure_markers_required: true
+
+known_failure_modes:
+  untracked_paths_not_covered_by_plain_git_diff_check:
+    observed: true
+    observed_at: "2026-08-12"
+    observed_commit: 6d9a04b5f890cd874183d9f6349e1bbaaa5adbba
+    corrective_commit: 0f68d55048b230c245179904083352b5ddcc2ad9
+    canonical_control: temporary_git_index_precommit
 
 operator_boundaries:
   automatic_commit: false

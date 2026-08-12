@@ -1,0 +1,45 @@
+schema_version: mutation_builder_precommit_hardening_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  evidence_id: mutation_builder_precommit_hardening_v0_1
+  created_at: '2026-08-12T12:54:00+03:00'
+  source_head: 0f68d55048b230c245179904083352b5ddcc2ad9
+  status: hardening_ready
+defect:
+  id: UNTRACKED_PATHS_NOT_COVERED_BY_GIT_DIFF_CHECK
+  observed_on_commit: 6d9a04b5f890cd874183d9f6349e1bbaaa5adbba
+  corrective_commit: 0f68d55048b230c245179904083352b5ddcc2ad9
+  root_cause: >
+    Plain git diff --check does not inspect newly created untracked files, so
+    the candidate builder reported success while a new Markdown standard still
+    contained trailing whitespace.
+hardening:
+  contract_revision_strategy: update_active_living_v0_1_in_place
+  reason: >
+    The change adds a stronger mandatory verification guarantee without
+    creating a second current builder interface.
+  canonical_validator: scripts/validation/validate_mutation_precommit_surface.py
+  required_semantics:
+    - exact dirty path set
+    - temporary GIT_INDEX_FILE
+    - temporary index seeded from HEAD
+    - exact expected paths staged only in temporary index
+    - git diff --cached --check against temporary index
+    - untracked new files covered
+    - real Git index unchanged
+    - validator does not change working-tree status
+regression_coverage:
+  - clean modified tracked path passes
+  - clean new untracked path passes
+  - new untracked trailing whitespace fails
+  - modified tracked trailing whitespace fails
+  - unexpected dirty path fails
+  - preexisting staged real-index change fails without index mutation
+boundaries:
+  logistics_repository_write: false
+  cross_repository_write: false
+  automatic_stage_real_index: false
+  automatic_commit: false
+  automatic_push: false
+  operator_decision: null
+result: MUTATION_BUILDER_PRECOMMIT_HARDENING_READY

@@ -45,8 +45,16 @@ Its machine-readable validation authority is:
 mutation_builder_contract_v0_1.yaml
 ```
 
+The canonical final mutation-surface validator is:
+
+```text
+scripts/validation/validate_mutation_precommit_surface.py
+```
+
 Together they require preflight-before-write, typed exact path sets, no-op
 rejection, atomic bounded writes, file-mode preservation, focused tests before
-the canonical gate, and verified clean rollback after any failure.
+the canonical gate, temporary-index `git diff --cached --check` coverage for
+tracked and newly created files, a clean unchanged real Git index, and verified
+clean rollback after any failure.
 
 <!-- mutation-builder-contract-v0-1:end -->
