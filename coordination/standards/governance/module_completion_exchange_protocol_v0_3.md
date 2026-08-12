@@ -1,7 +1,7 @@
 # ForPrint Module Completion Exchange Protocol v0.3
 
-Status: candidate for reference validation  
-Revision: `v0.3`  
+Status: candidate for reference validation
+Revision: `v0.3`
 Updated: `2026-08-12`
 
 ## Purpose
