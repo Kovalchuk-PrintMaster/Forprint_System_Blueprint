@@ -127,6 +127,7 @@ def write_reports(results: list[CheckResult]) -> None:
         include_full_log=summary.failed > 0 or summary.warnings > 0,
     )
 
+
 def build_checks() -> list[CheckDefinition]:
     """Return the authoritative Blueprint check catalog."""
 
@@ -293,6 +294,8 @@ def build_checks() -> list[CheckDefinition]:
                 "pytest",
                 "-q",
                 "tests/coordination/test_completion_intake_check.py",
+                "tests/test_completion_intake_check_protocol_v0_3.py",
+                "tests/validation/test_completion_revision_registry_v0_1.py",
             ),
             group="coordination",
         ),
@@ -375,42 +378,30 @@ def build_checks() -> list[CheckDefinition]:
         CheckDefinition(
             check_id="mutation_builder_contract_validation",
             title="Mutation builder contract",
-            expected_result=(
-                "Mutation builders follow predictable preflight "
-                "and rollback rules"
-            ),
+            expected_result=("Mutation builders follow predictable preflight and rollback rules"),
             command=(
                 python,
-                "scripts/validation/"
-                "validate_mutation_builder_contract.py",
+                "scripts/validation/validate_mutation_builder_contract.py",
             ),
             group="documentation",
         ),
         CheckDefinition(
             check_id="blueprint_command_applicability_validation",
             title="Blueprint command applicability",
-            expected_result=(
-                "Blueprint command applicability and readiness "
-                "blockers are valid"
-            ),
+            expected_result=("Blueprint command applicability and readiness blockers are valid"),
             command=(
                 python,
-                "scripts/validation/"
-                "validate_blueprint_command_applicability.py",
+                "scripts/validation/validate_blueprint_command_applicability.py",
             ),
             group="documentation",
         ),
         CheckDefinition(
             check_id="project_transparency_control_layer_validation",
             title="Project transparency control layer",
-            expected_result=(
-                "Current governance sources agree and status "
-                "rendering is read-only"
-            ),
+            expected_result=("Current governance sources agree and status rendering is read-only"),
             command=(
                 python,
-                "scripts/validation/"
-                "validate_project_transparency_control_layer.py",
+                "scripts/validation/validate_project_transparency_control_layer.py",
             ),
             group="documentation",
         ),

@@ -1,0 +1,38 @@
+schema_version: module_prompt_contract_v0_3
+contract_id: example_module_example_prompt_v0_3_contract
+module_id: example_module
+prompt_id: example_prompt_v0_3
+phase: example_phase_v0_3
+created_at: '2026-08-12'
+source_prompt:
+  path: coordination/outgoing_prompts/example_module/approved/example_prompt_v0_3.md
+  sha256: 0000000000000000000000000000000000000000000000000000000000000000
+implementation_base_commit: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+requirements:
+  - id: REQ-001
+    required: true
+    statement: Implement the requested behavior.
+    evidence_policy: paths_and_tests
+    changed_path_required: true
+  - id: REQ-002
+    required: true
+    statement: Update the required documentation.
+    evidence_policy: artifacts
+  - id: REQ-003
+    required: true
+    statement: Preserve the declared safety boundaries.
+    evidence_policy: boundary
+    boundary_flags:
+      - no_production_api
+      - no_production_write
+required_checks:
+  - id: CHECK-001
+    command: make check
+  - id: CHECK-002
+    command: git diff --check
+completion_expectations:
+  report_frontmatter_required: true
+  full_requirement_coverage_required: true
+  full_required_check_coverage_required: true
+  implementation_range_required: true
+  superseding_chain_required_when_revising: true

@@ -1,9 +1,13 @@
 # ForPrint Module Prompt Completion Protocol
 
-Status: draft v0.1
+Status: transition reference for v0.1/v0.2; v0.3 candidate under reference validation
 Created: 2026-06-12T14:33:44.165569+00:00
 
 Purpose
+
+Revision source of truth
+
+`coordination/revisions/current.yaml` defines the operational current and candidate completion exchange revisions. `coordination/standards/governance/module_completion_exchange_protocol_v0_3.md` defines the v0.3 candidate. This file remains transition/reference documentation and must not be used to justify new parallel compatibility paths.
 
 This protocol defines how module assistants complete Blueprint prompts without manually editing every coordination file.
 
@@ -80,13 +84,7 @@ The validator must check:
 - unresolved placeholders are absent;
 - forbidden non-canonical module ids are absent.
 
-The validator may support both boundary flag styles:
-
-production_api_added: false
-
-and:
-
-no_production_api_added: true
+Historical v0.1/v0.2 tooling may recognize older boundary flag styles only for migration and forensic interpretation. New current work must not treat those historical forms as a parallel normal interface. The v0.3 candidate uses explicit positive `no_*: true` confirmations as defined by the revision registry and the v0.3 exchange protocol.
 
 The canonical module template should keep this command available:
 
@@ -94,7 +92,7 @@ make prompt-completion-check REPORT=coordination/reports/<file>.md
 
 Completion packet workflow v0.2
 
-Status: preferred workflow for new module completion automation.
+Status: operational v0.2 transition workflow until the v0.3 candidate reference gate is promoted.
 
 The v0.1 YAML-frontmatter completion report remains supported for legacy module templates. For new module rollout work, the preferred workflow is a completion packet.
 

@@ -1,7 +1,9 @@
 # Module Prompt Execution and Reporting Protocol
 
-Status: active standard
-Created/updated: `2026-07-14`
+Status: active cross-repository boundary standard
+Created/updated: `2026-07-14`; completion exchange revision notice updated `2026-08-12`
+
+> Completion exchange revision notice: `coordination/revisions/current.yaml` is the machine-readable source of truth. v0.2 remains operational only during the bounded v0.3 reference-validation transition. The v0.3 candidate is documented in `module_completion_exchange_protocol_v0_3.md` and cannot enter the normal acceptance path until separately promoted.
 
 ## Purpose
 
@@ -361,14 +363,9 @@ prompt queue record;
 roadmap step.
 ```
 
-The intake tool may normalize both boundary flag styles during transition:
+Legacy v0.1/v0.2 evidence may be recognized for transition diagnostics, but old boundary forms are not a second current interface.
 
-```text
-no_<unsafe_behavior>: true
-<unsafe_behavior>_added: false
-```
-
-Unsafe or ambiguous boundary values must block acceptance.
+New v0.3 evidence uses explicit positive `no_*: true` safety confirmations and machine-readable prompt/check coverage. Unsafe or ambiguous boundary values always block intake.
 
 ### Review packet
 

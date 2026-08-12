@@ -106,6 +106,9 @@ help:
 	@echo "  make prompt-next MODULE=forprint_library"
 	@echo "  make prompt-read-next MODULE=forprint_library"
 	@echo "  make completion-intake-check MODULE=logistics_service MODULE_ROOT=../forprint_logistics_service PACKET=coordination/completion_packets/records/example.yaml COMPLETION_COMMIT=<commit>"
+	@echo "  make completion-revision-status"
+	@echo "  make completion-revision-check"
+	@echo "  make completion-intake-check MODULE=logistics_service MODULE_ROOT=../forprint_logistics_service PACKET=<v0.3-packet> COMPLETION_COMMIT=<commit> ALLOW_CANDIDATE_REFERENCE=1"
 	@echo "  make completion-intake-preview MODULE=logistics_service MODULE_ROOT=../forprint_logistics_service PACKET=coordination/completion_packets/records/example.yaml COMPLETION_COMMIT=<commit>"
 	@echo "  make completion-accept MODULE=logistics_service MODULE_ROOT=../forprint_logistics_service PACKET=coordination/completion_packets/records/example.yaml COMPLETION_COMMIT=<commit>"
 	@echo "  make completion-return MODULE=logistics_service MODULE_ROOT=../forprint_logistics_service PACKET=coordination/completion_packets/records/example.yaml REVIEW_NOTES='Corrections required'"
@@ -425,6 +428,15 @@ prompt-read-next:
 # 12A Completion intake / finalization / next work START
 # =============================================================================
 
+# Purpose: validate/report completion exchange revision lifecycle.
+# Safety: Blueprint read-only.
+.PHONY: completion-revision-status completion-revision-check
+completion-revision-status:
+	$(PYTHON) scripts/coordination/completion_revision_status.py --root "."
+
+completion-revision-check:
+	$(PYTHON) scripts/coordination/completion_revision_status.py --root "." --output-format yaml
+
 # Purpose: independently verify published module completion evidence.
 # Safety: read-only for Blueprint and module repositories; uses git ls-remote
 # without fetch/checkout/restore and never executes module code.
@@ -443,6 +455,7 @@ completion-intake-check:
 			--completion-commit "$(COMPLETION_COMMIT)" \
 			--remote "$(REMOTE)"; \
 		if [ -n "$(BRANCH)" ]; then set -- "$$@" --branch "$(BRANCH)"; fi; \
+		if [ "$(ALLOW_CANDIDATE_REFERENCE)" = "1" ]; then set -- "$$@" --allow-candidate-reference; fi; \
 		$(PYTHON) scripts/coordination/completion_intake_check.py "$$@"
 
 # Purpose: build the accepted-decision intake plan after the same read-only check.

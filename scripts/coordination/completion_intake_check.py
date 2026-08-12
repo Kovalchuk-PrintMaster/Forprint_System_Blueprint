@@ -51,6 +51,9 @@ LEGACY_PACKET_SCHEMA = "module_completion_packet_v0_1"
 LEGACY_INTAKE_PROTOCOL = "blueprint_completion_intake_v0_1"
 CURRENT_PACKET_SCHEMA = "module_completion_packet_v0_2"
 CURRENT_INTAKE_PROTOCOL = "blueprint_completion_intake_v0_2"
+CANDIDATE_PACKET_SCHEMA = "module_completion_packet_v0_3"
+CANDIDATE_INTAKE_PROTOCOL = "blueprint_completion_intake_v0_3"
+PROMPT_CONTRACT_SCHEMA = "module_prompt_contract_v0_3"
 STRUCTURED_OUTPUT_FORMATS = {"json", "yaml"}
 
 
@@ -137,6 +140,11 @@ class CompletionIntakeCheckResult:
     protocol_version: str = LEGACY_INTAKE_PROTOCOL
     supersedes_completion_id: str | None = None
     historical_legacy: bool = True
+    implementation_base_commit: str | None = None
+    requirement_coverage: tuple[str, ...] = ()
+    check_coverage: tuple[str, ...] = ()
+    intake_stages: tuple[str, ...] = ()
+    candidate_reference: bool = False
 
 
 def _load_yaml_mapping(path: Path) -> dict[str, Any]:
@@ -219,49 +227,90 @@ def _packet_protocol(data: dict[str, Any]) -> PacketProtocol:
             historical_legacy=True,
         )
 
-    if schema != CURRENT_PACKET_SCHEMA:
-        raise CompletionIntakeCheckError(
-            f"[UNSUPPORTED_PACKET_SCHEMA] unsupported completion packet schema: {schema!r}"
+    if schema == CURRENT_PACKET_SCHEMA:
+        if protocol != CURRENT_INTAKE_PROTOCOL:
+            raise CompletionIntakeCheckError(
+                "[PACKET_PROTOCOL_MISMATCH] "
+                f"`{CURRENT_PACKET_SCHEMA}` requires "
+                f"`{CURRENT_INTAKE_PROTOCOL}`"
+            )
+
+        implementation_commit = data.get("implementation_commit")
+        if (
+            not isinstance(implementation_commit, str)
+            or FULL_HEX_COMMIT.fullmatch(implementation_commit) is None
+        ):
+            raise CompletionIntakeCheckError(
+                "[COMMIT_IDENTIFIER_INVALID] v0.2 completion packet "
+                "`implementation_commit` must be a full 40-character "
+                "lowercase Git hash"
+            )
+
+        supersedes = _optional_non_empty_string(
+            data,
+            "supersedes_completion_id",
         )
-    if protocol != CURRENT_INTAKE_PROTOCOL:
-        raise CompletionIntakeCheckError(
-            "[PACKET_PROTOCOL_MISMATCH] "
-            f"`{CURRENT_PACKET_SCHEMA}` requires "
-            f"`{CURRENT_INTAKE_PROTOCOL}`"
+        revision_reason = _optional_non_empty_string(
+            data,
+            "revision_reason",
+        )
+        if (supersedes is None) != (revision_reason is None):
+            raise CompletionIntakeCheckError(
+                "[SUPERSEDING_PACKET_INCOMPLETE] "
+                "`supersedes_completion_id` and `revision_reason` "
+                "must be provided together"
+            )
+
+        return PacketProtocol(
+            schema_version=CURRENT_PACKET_SCHEMA,
+            protocol_version=CURRENT_INTAKE_PROTOCOL,
+            supersedes_completion_id=supersedes,
+            revision_reason=revision_reason,
+            historical_legacy=False,
         )
 
-    implementation_commit = data.get("implementation_commit")
-    if (
-        not isinstance(implementation_commit, str)
-        or FULL_HEX_COMMIT.fullmatch(implementation_commit) is None
-    ):
-        raise CompletionIntakeCheckError(
-            "[COMMIT_IDENTIFIER_INVALID] v0.2 completion packet "
-            "`implementation_commit` must be a full 40-character "
-            "lowercase Git hash"
+    if schema == CANDIDATE_PACKET_SCHEMA:
+        if protocol != CANDIDATE_INTAKE_PROTOCOL:
+            raise CompletionIntakeCheckError(
+                "[PACKET_PROTOCOL_MISMATCH] "
+                f"`{CANDIDATE_PACKET_SCHEMA}` requires "
+                f"`{CANDIDATE_INTAKE_PROTOCOL}`"
+            )
+
+        supersedes = _optional_non_empty_string(
+            data,
+            "supersedes_completion_id",
+        )
+        revision_reason = _optional_non_empty_string(
+            data,
+            "revision_reason",
+        )
+        supersedes_packet_path = _optional_non_empty_string(
+            data,
+            "supersedes_packet_path",
+        )
+        supplied = (
+            supersedes is not None,
+            revision_reason is not None,
+            supersedes_packet_path is not None,
+        )
+        if len(set(supplied)) != 1:
+            raise CompletionIntakeCheckError(
+                "[SUPERSEDING_PACKET_INCOMPLETE] v0.3 superseding evidence "
+                "must provide `supersedes_completion_id`, "
+                "`supersedes_packet_path`, and `revision_reason` together"
+            )
+
+        return PacketProtocol(
+            schema_version=CANDIDATE_PACKET_SCHEMA,
+            protocol_version=CANDIDATE_INTAKE_PROTOCOL,
+            supersedes_completion_id=supersedes,
+            revision_reason=revision_reason,
+            historical_legacy=False,
         )
 
-    supersedes = _optional_non_empty_string(
-        data,
-        "supersedes_completion_id",
-    )
-    revision_reason = _optional_non_empty_string(
-        data,
-        "revision_reason",
-    )
-    if (supersedes is None) != (revision_reason is None):
-        raise CompletionIntakeCheckError(
-            "[SUPERSEDING_PACKET_INCOMPLETE] "
-            "`supersedes_completion_id` and `revision_reason` "
-            "must be provided together"
-        )
-
-    return PacketProtocol(
-        schema_version=CURRENT_PACKET_SCHEMA,
-        protocol_version=CURRENT_INTAKE_PROTOCOL,
-        supersedes_completion_id=supersedes,
-        revision_reason=revision_reason,
-        historical_legacy=False,
+    raise CompletionIntakeCheckError(
+        f"[UNSUPPORTED_PACKET_SCHEMA] unsupported completion packet schema: {schema!r}"
     )
 
 
@@ -460,6 +509,537 @@ def _single_record(
     return matches[0]
 
 
+def _git_path_exists_at_commit(
+    repo: Path,
+    commit: str,
+    relative_path: str,
+) -> bool:
+    result = _run_git_bytes(
+        repo,
+        "cat-file",
+        "-e",
+        f"{commit}:{relative_path}",
+        allowed_returncodes=(0, 1),
+    )
+    return result.returncode == 0
+
+
+def _git_yaml_at_commit(
+    repo: Path,
+    commit: str,
+    relative_path: str,
+) -> dict[str, Any]:
+    completed = _run_git_bytes(
+        repo,
+        "show",
+        f"{commit}:{relative_path}",
+    )
+    try:
+        loaded = yaml.load(
+            completed.stdout.decode("utf-8", errors="replace"),
+            Loader=UniqueKeyLoader,
+        )
+    except yaml.YAMLError as error:
+        raise CompletionIntakeCheckError(
+            f"[SUPERSEDED_PACKET_INVALID] invalid YAML in committed evidence "
+            f"`{relative_path}`: {error}"
+        ) from error
+    if not isinstance(loaded, dict):
+        raise CompletionIntakeCheckError(
+            f"[SUPERSEDED_PACKET_INVALID] committed evidence "
+            f"`{relative_path}` must be a YAML mapping"
+        )
+    return loaded
+
+
+def _git_changed_paths(
+    repo: Path,
+    base_commit: str,
+    tip_commit: str,
+) -> set[str]:
+    output = _run_git(
+        repo,
+        "diff",
+        "--name-only",
+        base_commit,
+        tip_commit,
+    )
+    return {line.strip() for line in output.splitlines() if line.strip()}
+
+
+def _load_markdown_frontmatter(path: Path) -> dict[str, Any]:
+    text = path.read_text(encoding="utf-8")
+    if not text.startswith("---\n"):
+        raise CompletionIntakeCheckError(
+            "[REPORT_PACKET_MISMATCH] v0.3 completion report must start with YAML frontmatter"
+        )
+    closing = text.find("\n---", 4)
+    if closing < 0:
+        raise CompletionIntakeCheckError(
+            "[REPORT_PACKET_MISMATCH] v0.3 completion report frontmatter is not closed"
+        )
+    raw = text[4:closing]
+    try:
+        loaded = yaml.load(raw, Loader=UniqueKeyLoader)
+    except yaml.YAMLError as error:
+        raise CompletionIntakeCheckError(
+            f"[REPORT_PACKET_MISMATCH] invalid completion report frontmatter: {error}"
+        ) from error
+    if not isinstance(loaded, dict):
+        raise CompletionIntakeCheckError(
+            "[REPORT_PACKET_MISMATCH] completion report frontmatter must be a YAML mapping"
+        )
+    return loaded
+
+
+def _prompt_contract_path(
+    blueprint_root: Path,
+    module_id: str,
+    prompt_id: str,
+) -> Path:
+    return blueprint_root / "coordination" / "prompt_contracts" / module_id / f"{prompt_id}.yaml"
+
+
+def _validate_prompt_contract(
+    *,
+    blueprint_root: Path,
+    module_id: str,
+    prompt_id: str,
+    phase: str,
+) -> tuple[dict[str, Any], Path]:
+    contract_path = _prompt_contract_path(
+        blueprint_root,
+        module_id,
+        prompt_id,
+    )
+    if not contract_path.is_file():
+        raise CompletionIntakeCheckError(
+            f"[PROMPT_CONTRACT_MISSING] current v0.3 prompt contract is missing: {contract_path}"
+        )
+    contract = _load_yaml_mapping(contract_path)
+    if contract.get("schema_version") != PROMPT_CONTRACT_SCHEMA:
+        raise CompletionIntakeCheckError(
+            f"[PROMPT_CONTRACT_INVALID] prompt contract schema must be `{PROMPT_CONTRACT_SCHEMA}`"
+        )
+    if contract.get("module_id") != module_id:
+        raise CompletionIntakeCheckError(
+            "[PROMPT_CONTRACT_INVALID] prompt contract module_id mismatch"
+        )
+    if contract.get("prompt_id") != prompt_id:
+        raise CompletionIntakeCheckError(
+            "[PROMPT_CONTRACT_INVALID] prompt contract prompt_id mismatch"
+        )
+    if contract.get("phase") != phase:
+        raise CompletionIntakeCheckError("[PROMPT_CONTRACT_INVALID] prompt contract phase mismatch")
+
+    source_prompt = contract.get("source_prompt")
+    if not isinstance(source_prompt, dict):
+        raise CompletionIntakeCheckError(
+            "[PROMPT_CONTRACT_INVALID] prompt contract `source_prompt` must be a mapping"
+        )
+    source_path = source_prompt.get("path")
+    source_hash = source_prompt.get("sha256")
+    if (
+        not isinstance(source_path, str)
+        or not source_path.strip()
+        or not isinstance(source_hash, str)
+        or re.fullmatch(r"[0-9a-f]{64}", source_hash) is None
+    ):
+        raise CompletionIntakeCheckError(
+            "[PROMPT_CONTRACT_INVALID] prompt contract source_prompt must "
+            "contain `path` and 64-character lowercase `sha256`"
+        )
+    prompt_path = _safe_under(
+        blueprint_root,
+        blueprint_root / source_path,
+        label="prompt contract source prompt",
+    )
+    if not prompt_path.is_file():
+        raise CompletionIntakeCheckError(
+            f"[PROMPT_SOURCE_HASH_MISMATCH] source prompt file does not exist: {source_path}"
+        )
+    actual_hash = __import__("hashlib").sha256(prompt_path.read_bytes()).hexdigest()
+    if actual_hash != source_hash:
+        raise CompletionIntakeCheckError(
+            "[PROMPT_SOURCE_HASH_MISMATCH] source prompt hash differs from the prompt contract"
+        )
+
+    requirements = contract.get("requirements")
+    if not isinstance(requirements, list) or not requirements:
+        raise CompletionIntakeCheckError(
+            "[PROMPT_CONTRACT_INVALID] prompt contract requirements must be a non-empty list"
+        )
+    requirement_ids: set[str] = set()
+    for item in requirements:
+        if not isinstance(item, dict):
+            raise CompletionIntakeCheckError(
+                "[PROMPT_CONTRACT_INVALID] every requirement must be a mapping"
+            )
+        requirement_id = item.get("id")
+        if (
+            not isinstance(requirement_id, str)
+            or not requirement_id.strip()
+            or requirement_id in requirement_ids
+        ):
+            raise CompletionIntakeCheckError(
+                "[PROMPT_CONTRACT_INVALID] requirement ids must be unique non-empty strings"
+            )
+        requirement_ids.add(requirement_id)
+        if item.get("evidence_policy") not in {
+            "paths_and_tests",
+            "artifacts",
+            "boundary",
+        }:
+            raise CompletionIntakeCheckError(
+                "[PROMPT_CONTRACT_INVALID] unsupported requirement "
+                f"evidence_policy for `{requirement_id}`"
+            )
+
+    required_checks = contract.get("required_checks")
+    if not isinstance(required_checks, list) or not required_checks:
+        raise CompletionIntakeCheckError(
+            "[PROMPT_CONTRACT_INVALID] required_checks must be a non-empty list"
+        )
+    check_ids: set[str] = set()
+    for item in required_checks:
+        if not isinstance(item, dict):
+            raise CompletionIntakeCheckError(
+                "[PROMPT_CONTRACT_INVALID] every required check must be a mapping"
+            )
+        check_id = item.get("id")
+        command = item.get("command")
+        if (
+            not isinstance(check_id, str)
+            or not check_id.strip()
+            or check_id in check_ids
+            or not isinstance(command, str)
+            or not command.strip()
+        ):
+            raise CompletionIntakeCheckError(
+                "[PROMPT_CONTRACT_INVALID] required checks need unique ids and non-empty commands"
+            )
+        check_ids.add(check_id)
+
+    return contract, contract_path
+
+
+def _validate_v0_3_completion_evidence(
+    *,
+    blueprint_root: Path,
+    module_root: Path,
+    module_id: str,
+    prompt_id: str,
+    phase: str,
+    packet: dict[str, Any],
+    packet_protocol: PacketProtocol,
+    report_path: Path,
+    completion_commit: str,
+) -> tuple[str, str, tuple[str, ...], tuple[str, ...], tuple[str, ...]]:
+    contract, _contract_path = _validate_prompt_contract(
+        blueprint_root=blueprint_root,
+        module_id=module_id,
+        prompt_id=prompt_id,
+        phase=phase,
+    )
+
+    packet_contract = packet.get("prompt_contract")
+    if not isinstance(packet_contract, dict):
+        raise CompletionIntakeCheckError(
+            "[PROMPT_CONTRACT_REFERENCE_INVALID] v0.3 packet `prompt_contract` must be a mapping"
+        )
+    for key, expected in (
+        ("contract_id", contract.get("contract_id")),
+        ("revision", PROMPT_CONTRACT_SCHEMA),
+        (
+            "source_prompt_sha256",
+            contract.get("source_prompt", {}).get("sha256"),
+        ),
+    ):
+        if packet_contract.get(key) != expected:
+            raise CompletionIntakeCheckError(
+                "[PROMPT_CONTRACT_REFERENCE_INVALID] packet prompt contract "
+                f"`{key}` does not match Blueprint contract"
+            )
+
+    implementation_range = packet.get("implementation_range")
+    if not isinstance(implementation_range, dict):
+        raise CompletionIntakeCheckError(
+            "[IMPLEMENTATION_RANGE_INVALID] v0.3 packet `implementation_range` must be a mapping"
+        )
+    base_raw = implementation_range.get("base_commit")
+    tip_raw = implementation_range.get("tip_commit")
+    if (
+        not isinstance(base_raw, str)
+        or FULL_HEX_COMMIT.fullmatch(base_raw) is None
+        or not isinstance(tip_raw, str)
+        or FULL_HEX_COMMIT.fullmatch(tip_raw) is None
+    ):
+        raise CompletionIntakeCheckError(
+            "[IMPLEMENTATION_RANGE_INVALID] implementation base/tip commits "
+            "must be full 40-character lowercase Git hashes"
+        )
+    expected_base = contract.get("implementation_base_commit")
+    if expected_base is not None and base_raw != expected_base:
+        raise CompletionIntakeCheckError(
+            "[IMPLEMENTATION_RANGE_INVALID] implementation base commit does "
+            "not match the prompt contract"
+        )
+    base_commit = _verify_commit(
+        module_root,
+        base_raw,
+        label="implementation_base_commit",
+    )
+    tip_commit = _verify_commit(
+        module_root,
+        tip_raw,
+        label="implementation_tip_commit",
+    )
+    if not _is_ancestor(module_root, base_commit, tip_commit):
+        raise CompletionIntakeCheckError(
+            "[IMPLEMENTATION_RANGE_INVALID] implementation base commit is "
+            "not an ancestor of implementation tip commit"
+        )
+    if not _is_ancestor(module_root, tip_commit, completion_commit):
+        raise CompletionIntakeCheckError(
+            "[IMPLEMENTATION_RANGE_INVALID] implementation tip commit is "
+            "not an ancestor of completion commit"
+        )
+
+    changed_paths = _git_changed_paths(
+        module_root,
+        base_commit,
+        tip_commit,
+    )
+
+    contract_requirements = {
+        item["id"]: item for item in contract["requirements"] if item.get("required", True)
+    }
+    raw_results = packet.get("requirement_results")
+    if not isinstance(raw_results, list) or not raw_results:
+        raise CompletionIntakeCheckError(
+            "[PROMPT_REQUIREMENT_COVERAGE_INCOMPLETE] v0.3 packet "
+            "`requirement_results` must be a non-empty list"
+        )
+    results: dict[str, dict[str, Any]] = {}
+    for item in raw_results:
+        if not isinstance(item, dict):
+            raise CompletionIntakeCheckError(
+                "[PROMPT_REQUIREMENT_COVERAGE_INCOMPLETE] requirement results must be mappings"
+            )
+        requirement_id = item.get("requirement_id")
+        if not isinstance(requirement_id, str) or not requirement_id or requirement_id in results:
+            raise CompletionIntakeCheckError(
+                "[PROMPT_REQUIREMENT_COVERAGE_INCOMPLETE] requirement result "
+                "ids must be unique non-empty strings"
+            )
+        results[requirement_id] = item
+
+    missing = sorted(set(contract_requirements) - set(results))
+    unknown = sorted(set(results) - {item["id"] for item in contract["requirements"]})
+    if missing or unknown:
+        raise CompletionIntakeCheckError(
+            "[PROMPT_REQUIREMENT_COVERAGE_INCOMPLETE] requirement coverage "
+            f"mismatch; missing={missing}, unknown={unknown}"
+        )
+
+    boundary = packet.get("boundary_confirmation")
+    for requirement_id, requirement in contract_requirements.items():
+        result = results[requirement_id]
+        if result.get("status") != "completed":
+            raise CompletionIntakeCheckError(
+                "[PROMPT_REQUIREMENT_COVERAGE_INCOMPLETE] requirement "
+                f"`{requirement_id}` is not completed"
+            )
+        policy = requirement["evidence_policy"]
+        if policy == "paths_and_tests":
+            implementation_paths = result.get("implementation_paths")
+            test_paths = result.get("test_paths")
+            if (
+                not isinstance(implementation_paths, list)
+                or not implementation_paths
+                or not isinstance(test_paths, list)
+                or not test_paths
+            ):
+                raise CompletionIntakeCheckError(
+                    "[PROMPT_REQUIREMENT_EVIDENCE_INVALID] requirement "
+                    f"`{requirement_id}` requires implementation_paths "
+                    "and test_paths"
+                )
+            evidence_paths = implementation_paths + test_paths
+            for relative_path in evidence_paths:
+                if (
+                    not isinstance(relative_path, str)
+                    or not relative_path
+                    or not _git_path_exists_at_commit(
+                        module_root,
+                        tip_commit,
+                        relative_path,
+                    )
+                ):
+                    raise CompletionIntakeCheckError(
+                        "[PROMPT_REQUIREMENT_EVIDENCE_INVALID] requirement "
+                        f"`{requirement_id}` references missing evidence path "
+                        f"`{relative_path}` at implementation tip"
+                    )
+            if requirement.get("changed_path_required", True) and not any(
+                path in changed_paths for path in evidence_paths
+            ):
+                raise CompletionIntakeCheckError(
+                    "[PROMPT_REQUIREMENT_EVIDENCE_INVALID] requirement "
+                    f"`{requirement_id}` has no evidence path changed inside "
+                    "the implementation range"
+                )
+        elif policy == "artifacts":
+            artifact_paths = result.get("artifact_paths")
+            if not isinstance(artifact_paths, list) or not artifact_paths:
+                raise CompletionIntakeCheckError(
+                    "[PROMPT_REQUIREMENT_EVIDENCE_INVALID] requirement "
+                    f"`{requirement_id}` requires artifact_paths"
+                )
+            for relative_path in artifact_paths:
+                if (
+                    not isinstance(relative_path, str)
+                    or not relative_path
+                    or not _git_path_exists_at_commit(
+                        module_root,
+                        tip_commit,
+                        relative_path,
+                    )
+                ):
+                    raise CompletionIntakeCheckError(
+                        "[PROMPT_REQUIREMENT_EVIDENCE_INVALID] requirement "
+                        f"`{requirement_id}` references missing artifact "
+                        f"`{relative_path}` at implementation tip"
+                    )
+        elif policy == "boundary":
+            for flag in requirement.get("boundary_flags", []):
+                if not isinstance(boundary, dict) or boundary.get(flag) is not True:
+                    raise CompletionIntakeCheckError(
+                        "[SAFETY_CONFIRMATION_INVALID] requirement "
+                        f"`{requirement_id}` requires boundary flag "
+                        f"`{flag}: true`"
+                    )
+
+    required_checks = {item["id"]: item for item in contract["required_checks"]}
+    raw_check_results = packet.get("check_results")
+    if not isinstance(raw_check_results, list) or not raw_check_results:
+        raise CompletionIntakeCheckError(
+            "[REQUIRED_CHECK_EVIDENCE_MISSING] v0.3 packet `check_results` must be a non-empty list"
+        )
+    check_results: dict[str, dict[str, Any]] = {}
+    for item in raw_check_results:
+        if not isinstance(item, dict):
+            raise CompletionIntakeCheckError(
+                "[REQUIRED_CHECK_EVIDENCE_MISSING] check results must be mappings"
+            )
+        check_id = item.get("check_id")
+        if not isinstance(check_id, str) or not check_id or check_id in check_results:
+            raise CompletionIntakeCheckError(
+                "[REQUIRED_CHECK_EVIDENCE_MISSING] check result ids must be "
+                "unique non-empty strings"
+            )
+        check_results[check_id] = item
+
+    missing_checks = sorted(set(required_checks) - set(check_results))
+    if missing_checks:
+        raise CompletionIntakeCheckError(
+            "[REQUIRED_CHECK_EVIDENCE_MISSING] missing required check results: "
+            + ", ".join(missing_checks)
+        )
+    for check_id, expected in required_checks.items():
+        result = check_results[check_id]
+        if result.get("command") != expected["command"]:
+            raise CompletionIntakeCheckError(
+                f"[REQUIRED_CHECK_EVIDENCE_MISSING] check command mismatch for `{check_id}`"
+            )
+        if not _normalize_check(result.get("status")):
+            raise CompletionIntakeCheckError(
+                f"[REQUIRED_CHECK_EVIDENCE_FAILED] required check `{check_id}` did not pass"
+            )
+
+    current_outputs = packet.get("current_outputs", [])
+    for relative_path in current_outputs:
+        if (
+            not isinstance(relative_path, str)
+            or not relative_path
+            or relative_path.startswith("/")
+            or ".." in Path(relative_path).parts
+            or not _git_path_exists_at_commit(
+                module_root,
+                completion_commit,
+                relative_path,
+            )
+        ):
+            raise CompletionIntakeCheckError(
+                "[CURRENT_OUTPUT_MISSING] current output is not committed "
+                f"at completion commit: {relative_path!r}"
+            )
+
+    report_frontmatter = _load_markdown_frontmatter(report_path)
+    report_expectations = {
+        "schema_version": CANDIDATE_PACKET_SCHEMA,
+        "protocol_version": CANDIDATE_INTAKE_PROTOCOL,
+        "prompt_id": prompt_id,
+        "target_module": module_id,
+        "phase": phase,
+        "prompt_contract_id": contract.get("contract_id"),
+        "implementation_base_commit": base_commit,
+        "implementation_tip_commit": tip_commit,
+    }
+    for key, expected in report_expectations.items():
+        if report_frontmatter.get(key) != expected:
+            raise CompletionIntakeCheckError(
+                "[REPORT_PACKET_MISMATCH] completion report frontmatter "
+                f"`{key}` does not match packet/contract evidence"
+            )
+
+    if packet_protocol.supersedes_completion_id is not None:
+        supersedes_packet_path = packet.get("supersedes_packet_path")
+        if (
+            not isinstance(supersedes_packet_path, str)
+            or not supersedes_packet_path.startswith("coordination/completion_packets/records/")
+            or not _git_path_exists_at_commit(
+                module_root,
+                completion_commit,
+                supersedes_packet_path,
+            )
+        ):
+            raise CompletionIntakeCheckError(
+                "[SUPERSEDED_PACKET_MISSING] superseded packet path does not "
+                "resolve at completion commit"
+            )
+        historical = _git_yaml_at_commit(
+            module_root,
+            completion_commit,
+            supersedes_packet_path,
+        )
+        if historical.get("completion_id") != packet_protocol.supersedes_completion_id:
+            raise CompletionIntakeCheckError(
+                "[SUPERSEDED_PACKET_INVALID] superseded packet completion_id "
+                "does not match `supersedes_completion_id`"
+            )
+
+    stages = (
+        "schema_protocol_valid",
+        "safety_boundary_valid",
+        "blueprint_control_valid",
+        "publication_evidence_valid",
+        "prompt_contract_valid",
+        "implementation_range_valid",
+        "prompt_requirement_coverage_valid",
+        "required_check_coverage_valid",
+        "packet_report_consistent",
+        "superseding_chain_valid",
+    )
+    return (
+        base_commit,
+        tip_commit,
+        tuple(sorted(contract_requirements)),
+        tuple(sorted(required_checks)),
+        stages,
+    )
+
+
 def _validate_blueprint_context(
     *,
     blueprint_root: Path,
@@ -573,6 +1153,7 @@ def check_completion_intake(
     completion_commit: str,
     remote: str = "origin",
     branch: str | None = None,
+    allow_candidate_reference: bool = False,
 ) -> CompletionIntakeCheckResult:
     """Validate completion evidence without repository writes."""
 
@@ -599,9 +1180,18 @@ def check_completion_intake(
 
     data = _load_yaml_mapping(packet_path)
     packet_protocol = _packet_protocol(data)
-    for field in REQUIRED_PACKET_STRINGS:
+
+    required_strings = tuple(
+        field for field in REQUIRED_PACKET_STRINGS if field != "implementation_commit"
+    )
+    for field in required_strings:
         _required_string(data, field)
-    for field in REQUIRED_PACKET_LISTS:
+    required_lists = (
+        tuple(field for field in REQUIRED_PACKET_LISTS if field != "implemented")
+        if packet_protocol.schema_version == CANDIDATE_PACKET_SCHEMA
+        else REQUIRED_PACKET_LISTS
+    )
+    for field in required_lists:
         _required_non_empty_list(data, field)
 
     packet_module = _required_string(data, "module_id")
@@ -628,26 +1218,37 @@ def check_completion_intake(
     if not report_path.is_file():
         raise CompletionIntakeCheckError(f"completion report does not exist: {report_path}")
 
-    implementation_commit = _verify_commit(
-        module_root,
-        _required_string(data, "implementation_commit"),
-        label="implementation_commit",
-    )
     resolved_completion_commit = _verify_commit(
         module_root,
         completion_commit,
         label="completion_commit",
     )
-    if not _is_ancestor(
-        module_root,
-        implementation_commit,
-        resolved_completion_commit,
-    ):
-        raise CompletionIntakeCheckError(
-            "implementation_commit is not an ancestor of completion_commit"
-        )
 
-    warnings = _validate_checks(data)
+    implementation_base_commit: str | None = None
+    requirement_coverage: tuple[str, ...] = ()
+    check_coverage: tuple[str, ...] = ()
+    intake_stages: tuple[str, ...] = ()
+
+    if packet_protocol.schema_version == CANDIDATE_PACKET_SCHEMA:
+        implementation_commit = ""
+    else:
+        implementation_commit = _verify_commit(
+            module_root,
+            _required_string(data, "implementation_commit"),
+            label="implementation_commit",
+        )
+        if not _is_ancestor(
+            module_root,
+            implementation_commit,
+            resolved_completion_commit,
+        ):
+            raise CompletionIntakeCheckError(
+                "implementation_commit is not an ancestor of completion_commit"
+            )
+
+    warnings = (
+        [] if packet_protocol.schema_version == CANDIDATE_PACKET_SCHEMA else _validate_checks(data)
+    )
     _validate_boundary(data)
     _validate_blueprint_context(
         blueprint_root=blueprint_root,
@@ -670,6 +1271,25 @@ def check_completion_intake(
         absolute_path=report_path,
         label="completion report",
     )
+
+    if packet_protocol.schema_version == CANDIDATE_PACKET_SCHEMA:
+        (
+            implementation_base_commit,
+            implementation_commit,
+            requirement_coverage,
+            check_coverage,
+            intake_stages,
+        ) = _validate_v0_3_completion_evidence(
+            blueprint_root=blueprint_root,
+            module_root=module_root,
+            module_id=module_id,
+            prompt_id=prompt_id,
+            phase=phase,
+            packet=data,
+            packet_protocol=packet_protocol,
+            report_path=report_path,
+            completion_commit=resolved_completion_commit,
+        )
 
     packet_branch = data.get("branch")
     if packet_branch is not None and (
@@ -702,6 +1322,15 @@ def check_completion_intake(
         remote_commit=remote_commit,
     )
 
+    candidate_reference = packet_protocol.schema_version == CANDIDATE_PACKET_SCHEMA
+    if candidate_reference and not allow_candidate_reference:
+        raise CompletionIntakeCheckError(
+            "[PROTOCOL_NOT_ACTIVATED] v0.3 completion evidence passed "
+            "candidate validation but v0.3 is not operational current yet; "
+            "use `--allow-candidate-reference` only for read-only reference "
+            "validation"
+        )
+
     return CompletionIntakeCheckResult(
         module_id=module_id,
         prompt_id=prompt_id,
@@ -718,6 +1347,11 @@ def check_completion_intake(
         supersedes_completion_id=(packet_protocol.supersedes_completion_id),
         historical_legacy=packet_protocol.historical_legacy,
         warnings=tuple(warnings),
+        implementation_base_commit=implementation_base_commit,
+        requirement_coverage=requirement_coverage,
+        check_coverage=check_coverage,
+        intake_stages=intake_stages,
+        candidate_reference=candidate_reference,
     )
 
 
@@ -750,6 +1384,33 @@ def _classify_intake_error(
         "SUPERSEDING_PACKET_INCOMPLETE",
     }:
         failure_class = "protocol_compatibility"
+    elif code == "PROTOCOL_NOT_ACTIVATED":
+        failure_class = "protocol_activation_gate"
+        field = "protocol_version"
+        remediation_owner = "blueprint"
+    elif code in {
+        "PROMPT_CONTRACT_MISSING",
+        "PROMPT_CONTRACT_INVALID",
+        "PROMPT_SOURCE_HASH_MISMATCH",
+    }:
+        failure_class = "blueprint_control_failure"
+        field = "prompt_contract"
+        remediation_owner = "blueprint"
+    elif code == "PROMPT_CONTRACT_REFERENCE_INVALID":
+        failure_class = "protocol_compatibility"
+        field = "prompt_contract"
+    elif code in {
+        "PROMPT_REQUIREMENT_COVERAGE_INCOMPLETE",
+        "PROMPT_REQUIREMENT_EVIDENCE_INVALID",
+        "REQUIRED_CHECK_EVIDENCE_MISSING",
+        "REQUIRED_CHECK_EVIDENCE_FAILED",
+        "REPORT_PACKET_MISMATCH",
+        "IMPLEMENTATION_RANGE_INVALID",
+        "SUPERSEDED_PACKET_MISSING",
+        "SUPERSEDED_PACKET_INVALID",
+        "CURRENT_OUTPUT_MISSING",
+    }:
+        failure_class = "evidence_failure"
     elif code in {
         "COMMIT_IDENTIFIER_INVALID",
         "COMMIT_RESOLUTION_FAILED",
@@ -825,9 +1486,12 @@ def _failure_payload(
 def _success_payload(
     result: CompletionIntakeCheckResult,
 ) -> dict[str, Any]:
+    status = (
+        "REFERENCE_VALIDATION_READY" if result.candidate_reference else "READY_FOR_OPERATOR_REVIEW"
+    )
     return {
         "result": "passed",
-        "status": "READY_FOR_OPERATOR_REVIEW",
+        "status": status,
         "decision": None,
         "automatic_acceptance": False,
         "automatic_return": False,
@@ -837,6 +1501,7 @@ def _success_payload(
         "packet_path": result.packet_path,
         "report_path": result.report_path,
         "implementation_commit": result.implementation_commit,
+        "implementation_base_commit": result.implementation_base_commit,
         "completion_commit": result.completion_commit,
         "publication": {
             "remote": result.remote,
@@ -849,6 +1514,12 @@ def _success_payload(
             "supersedes_completion_id": (result.supersedes_completion_id),
             "historical_legacy": result.historical_legacy,
         },
+        "coverage": {
+            "requirements": list(result.requirement_coverage),
+            "required_checks": list(result.check_coverage),
+            "intake_stages": list(result.intake_stages),
+        },
+        "candidate_reference": result.candidate_reference,
         "warnings": list(result.warnings),
     }
 
@@ -886,6 +1557,13 @@ def main() -> int:
     parser.add_argument("--remote", default="origin")
     parser.add_argument("--branch")
     parser.add_argument(
+        "--allow-candidate-reference",
+        action="store_true",
+        help=(
+            "Allow read-only v0.3 candidate reference validation. This never enables acceptance."
+        ),
+    )
+    parser.add_argument(
         "--output-format",
         choices=("text", "json", "yaml"),
         default="text",
@@ -901,6 +1579,7 @@ def main() -> int:
             completion_commit=args.completion_commit,
             remote=args.remote,
             branch=args.branch,
+            allow_candidate_reference=args.allow_candidate_reference,
         )
     except CompletionIntakeCheckError as error:
         if args.output_format in STRUCTURED_OUTPUT_FORMATS:
@@ -931,7 +1610,20 @@ def main() -> int:
     print(f"completion commit: {result.completion_commit}")
     print(f"packet schema: {result.schema_version}")
     print(f"intake protocol: {result.protocol_version}")
-    print("operator status: READY_FOR_OPERATOR_REVIEW")
+    print(
+        "operator status: "
+        + (
+            "REFERENCE_VALIDATION_READY"
+            if result.candidate_reference
+            else "READY_FOR_OPERATOR_REVIEW"
+        )
+    )
+    if result.implementation_base_commit:
+        print(f"implementation base commit: {result.implementation_base_commit}")
+    if result.requirement_coverage:
+        print(f"requirement coverage: {len(result.requirement_coverage)}")
+    if result.check_coverage:
+        print(f"required check coverage: {len(result.check_coverage)}")
     print(f"publication: {result.remote}/{result.branch} @ {result.remote_commit}")
     if result.warnings:
         print("warnings:")

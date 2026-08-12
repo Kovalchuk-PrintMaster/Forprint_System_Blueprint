@@ -1,0 +1,38 @@
+schema_version: completion_exchange_revision_registry_v0_1
+metadata:
+  registry_id: forprint_completion_exchange_revisions
+  updated_at: '2026-08-12'
+  owner: forprint_system_blueprint
+  status: transition
+operational_current:
+  prompt_contract: legacy_prose_prompt_transition
+  completion_packet: module_completion_packet_v0_2
+  completion_intake: blueprint_completion_intake_v0_2
+  normal_acceptance_allowed: true
+candidate_next:
+  prompt_contract: module_prompt_contract_v0_3
+  completion_packet: module_completion_packet_v0_3
+  completion_intake: blueprint_completion_intake_v0_3
+  activation_state: reference_validation
+  normal_acceptance_allowed: false
+  reference_validation_flag: --allow-candidate-reference
+  promotion_requires:
+    - green Tracking Events v0.3 reference intake
+    - canonical documentation review
+    - operator-approved promotion slice
+legacy_policy:
+  normal_runtime_fallback: false
+  historical_revisions_are_for:
+    - recognition
+    - forensic_understanding
+    - migration_instruction_generation
+  unknown_revision_behavior: classify_and_generate_upgrade_instruction
+revision_evolution:
+  revision_change_is_normal_operation: true
+  require_explicit_supersession: true
+  require_migration_notes_for_breaking_change: true
+  require_active_consumer_audit_before_retirement: true
+  historical_evidence_immutable: true
+source_of_truth:
+  exchange_protocol: coordination/standards/governance/module_completion_exchange_protocol_v0_3.md
+  history: coordination/revisions/history.yaml

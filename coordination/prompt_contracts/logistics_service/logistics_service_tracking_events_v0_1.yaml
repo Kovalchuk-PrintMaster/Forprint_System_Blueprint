@@ -1,0 +1,95 @@
+schema_version: module_prompt_contract_v0_3
+contract_id: logistics_service_tracking_events_v0_1_contract_v0_3
+module_id: logistics_service
+prompt_id: logistics_service_tracking_events_v0_1
+phase: tracking_events_v0_1
+created_at: '2026-08-12'
+source_prompt:
+  path: coordination/outgoing_prompts/logistics_service/approved/2026-07-29__logistics_service__tracking_events_v0_1.md
+  sha256: 8158ff1feb9c2416aac97f70ce20110de3195d5239a343be940705d096242094
+implementation_base_commit: 4812047963427043d616871075ac807a35e51aff
+requirements:
+- id: TRK-REQ-001
+  required: true
+  statement: Provide one authoritative provider-neutral event taxonomy with the six required event types.
+  evidence_policy: paths_and_tests
+  changed_path_required: true
+- id: TRK-REQ-002
+  required: true
+  statement: Provide a typed, versioned, deterministic tracking-event envelope.
+  evidence_policy: paths_and_tests
+  changed_path_required: true
+- id: TRK-REQ-003
+  required: true
+  statement: Implement deterministic lifecycle transitions, including terminal, duplicate and out-of-order behavior.
+  evidence_policy: paths_and_tests
+  changed_path_required: true
+- id: TRK-REQ-004
+  required: true
+  statement: Provide a channel-neutral notification projection suitable for Telegram handoff without Telegram ownership leakage.
+  evidence_policy: paths_and_tests
+  changed_path_required: true
+- id: TRK-REQ-005
+  required: true
+  statement: Define correlation, causation, idempotency and replay-safe identity rules.
+  evidence_policy: paths_and_tests
+  changed_path_required: true
+- id: TRK-REQ-006
+  required: true
+  statement: Provide synthetic fixtures for normal, failure, duplicate, out-of-order and notification replay cases.
+  evidence_policy: paths_and_tests
+  changed_path_required: true
+- id: TRK-REQ-007
+  required: true
+  statement: Provide a deterministic read-only Make-first preview/check workflow.
+  evidence_policy: paths_and_tests
+  changed_path_required: true
+- id: TRK-REQ-008
+  required: true
+  statement: Document architecture, notification boundary, runbook and recovery behavior.
+  evidence_policy: artifacts
+- id: TRK-REQ-009
+  required: true
+  statement: Normalize provider observations into canonical events without provider-specific public event types.
+  evidence_policy: paths_and_tests
+  changed_path_required: true
+- id: TRK-REQ-010
+  required: true
+  statement: Preserve the prompt safety and ownership boundaries.
+  evidence_policy: boundary
+  boundary_flags:
+  - no_production_api
+  - no_live_external_integrations
+  - no_real_1c_sync
+  - no_production_write
+  - no_automatic_posting
+  - no_provider_calls
+  - no_telegram_api_calls
+  - no_cross_repository_writes
+  - no_database_implementation
+required_checks:
+- id: TRK-CHECK-001
+  command: make tracking-events-check
+- id: TRK-CHECK-002
+  command: make governance-check
+- id: TRK-CHECK-003
+  command: make coordination-check
+- id: TRK-CHECK-004
+  command: make check
+- id: TRK-CHECK-005
+  command: make check-report
+- id: TRK-CHECK-006
+  command: make check-report-full
+- id: TRK-CHECK-007
+  command: make module-validate
+- id: TRK-CHECK-008
+  command: git diff --check
+- id: TRK-CHECK-009
+  command: git status --short
+completion_expectations:
+  report_frontmatter_required: true
+  full_requirement_coverage_required: true
+  full_required_check_coverage_required: true
+  implementation_range_required: true
+  superseding_chain_required_when_revising: true
+  historical_artifacts_immutable: true
