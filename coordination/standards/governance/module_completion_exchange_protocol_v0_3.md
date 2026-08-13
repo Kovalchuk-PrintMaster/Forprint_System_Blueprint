@@ -166,6 +166,33 @@ required changed-path evidence belongs to base..tip
 
 The publication/completion commit remains external CLI evidence because a commit cannot recursively contain its own final hash.
 
+### Publication state and external Git proof
+
+For v0.3 candidate reference validation, `push_status` records the module-declared state when the packet was authored. A pre-publication packet may therefore use:
+
+```yaml
+push_status: pending_operator_publication
+```
+
+That declaration is not publication proof and does not become trusted merely because the packet later appears on a remote.
+
+Blueprint derives publication from external Git evidence supplied at intake time:
+
+```text
+COMPLETION_COMMIT resolves locally
+packet and report content match that commit
+selected remote branch resolves
+COMPLETION_COMMIT is contained by the selected remote branch
+        ↓
+publication_verified = true
+```
+
+A candidate packet declaring `pushed`, `synced`, or `remote` is still subject to the same external containment proof. A false self-declaration cannot substitute for Git evidence.
+
+This candidate rule does not change operational v0.2 semantics: v0.2 packets must continue to declare a post-publication `push_status` (`pushed`, `synced`, or `remote`).
+
+The v0.3 packet must not be rewritten only to record its own final publication commit. Historical/published completion evidence remains immutable; the external completion commit and remote-containment check close that recursive publication loop.
+
 ## Completion packet v0.3
 
 Required control fields include the existing module/prompt/report identity fields plus:

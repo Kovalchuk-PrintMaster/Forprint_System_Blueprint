@@ -1,0 +1,47 @@
+schema_version: blueprint_governance_defect_evidence_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  evidence_id: completion_v0_3_publication_verification_hardening_v0_1
+  created_at: '2026-08-13T10:24:00+03:00'
+  source_head: ee58c4f734920357ae1a95c233b70919168a58df
+  status: hardening_ready
+defect_id: CANDIDATE_PUBLICATION_STATE_SELF_CLAIM_BLOCKS_EXTERNAL_GIT_PROOF
+recorded_at: '2026-08-13T10:24:00+03:00'
+owner: blueprint
+scope: completion_exchange_v0_3_candidate_reference
+status: remediated_in_candidate
+observed:
+  blueprint_head: ee58c4f734920357ae1a95c233b70919168a58df
+  logistics_completion_commit: ecf3e23223cec90e47ac206be9a33c3e3b02673c
+  logistics_packet: coordination/completion_packets/records/2026-08-12__logistics_service__tracking_events_v0_1_completion_superseding_v0_3_reference.yaml
+  packet_push_status: pending_operator_publication
+  remote_branch: origin/feature/logistics-tracking-events-contract-v01
+  remote_containment_verified: true
+  packet_present_in_completion_commit: true
+  intake_failure: completion packet `push_status` must indicate post-publication state
+root_cause: >-
+  Candidate v0.3 intake required a packet self-declaration of post-publication
+  state before it evaluated the authoritative external Git publication proof.
+  A packet cannot reliably encode its own final publication commit without a
+  recursive follow-up mutation.
+remediation:
+  candidate_v0_3:
+    pending_operator_publication_allowed: true
+    authoritative_publication_proof: git_remote_containment
+    completion_commit_external_cli_evidence: true
+    packet_and_report_bound_to_completion_commit: true
+  operational_v0_2:
+    semantics_changed: false
+    post_publication_push_status_still_required: true
+regression_requirements:
+  - v0.3 pending_operator_publication plus verified remote containment passes.
+  - v0.3 pending_operator_publication without remote containment fails.
+  - v0.3 pushed still requires remote containment.
+  - unsupported v0.3 push status fails.
+  - v0.2 pending_operator_publication remains blocked.
+boundaries:
+  logistics_repository_write: false
+  historical_logistics_packet_rewritten: false
+  automatic_acceptance: false
+  automatic_return: false
+  v0_3_promotion: false

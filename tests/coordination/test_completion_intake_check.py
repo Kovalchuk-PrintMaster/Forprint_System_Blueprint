@@ -5,6 +5,7 @@ import shutil
 import subprocess
 from pathlib import Path
 
+import pytest
 import yaml
 
 from scripts.coordination import completion_intake_check as checker
@@ -44,9 +45,7 @@ def file_snapshot(root: Path) -> dict[str, str]:
         if not path.is_file() or ".git" in path.parts:
             continue
         relative = path.relative_to(root).as_posix()
-        snapshot[relative] = hashlib.sha256(
-            path.read_bytes()
-        ).hexdigest()
+        snapshot[relative] = hashlib.sha256(path.read_bytes()).hexdigest()
     return snapshot
 
 
@@ -94,16 +93,11 @@ def fixture(
         ],
     }
     write_yaml(
-        blueprint_root
-        / "coordination/outgoing_prompts"
-        / MODULE
-        / "index.yaml",
+        blueprint_root / "coordination/outgoing_prompts" / MODULE / "index.yaml",
         queue,
     )
     write_yaml(
-        blueprint_root
-        / "coordination/roadmaps"
-        / f"{MODULE}.yaml",
+        blueprint_root / "coordination/roadmaps" / f"{MODULE}.yaml",
         roadmap,
     )
 
@@ -129,11 +123,7 @@ def fixture(
         "HEAD",
     )
 
-    report_path = (
-        module_root
-        / "coordination/reports/completion"
-        / "completion.md"
-    )
+    report_path = module_root / "coordination/reports/completion" / "completion.md"
     report_path.parent.mkdir(parents=True)
     report_path.write_text(
         "# Completion\n",
@@ -147,9 +137,7 @@ def fixture(
         "phase": PHASE,
         "prompt_id": PROMPT,
         "report_id": "example_completion",
-        "report_path": (
-            "coordination/reports/completion/completion.md"
-        ),
+        "report_path": ("coordination/reports/completion/completion.md"),
         "created_at": "2026-08-01T16:00:00+00:00",
         "branch": BRANCH,
         "implementation_commit": implementation_commit,
@@ -179,11 +167,7 @@ def fixture(
         "next_recommended_steps": ["Blueprint review"],
         "next_questions_for_blueprint": [],
     }
-    packet_path = (
-        module_root
-        / "coordination/completion_packets/records"
-        / "completion.yaml"
-    )
+    packet_path = module_root / "coordination/completion_packets/records" / "completion.yaml"
     write_yaml(packet_path, packet)
 
     git(module_root, "add", ".")
@@ -245,6 +229,38 @@ def test_valid_published_completion_passes(
     assert result.prompt_id == PROMPT
     assert result.completion_commit == completion_commit
     assert result.remote_commit == completion_commit
+
+
+def test_v02_pending_operator_publication_remains_blocked(
+    tmp_path: Path,
+) -> None:
+    (
+        blueprint_root,
+        module_root,
+        packet_path,
+        _completion_commit,
+        _remote_root,
+    ) = fixture(tmp_path)
+
+    data = yaml.safe_load(packet_path.read_text(encoding="utf-8"))
+    data["push_status"] = "pending_operator_publication"
+    write_yaml(packet_path, data)
+    git(module_root, "add", ".")
+    git(module_root, "commit", "-m", "v02 pending publication state")
+    completion_commit = git(module_root, "rev-parse", "HEAD")
+    git(module_root, "push", "origin", BRANCH)
+
+    with pytest.raises(checker.CompletionIntakeCheckError) as caught:
+        run_check(
+            blueprint_root,
+            module_root,
+            packet_path,
+            completion_commit,
+        )
+
+    assert (
+        str(caught.value) == "completion packet `push_status` must indicate post-publication state"
+    )
 
 
 def test_check_is_read_only_for_both_repositories(
@@ -349,10 +365,7 @@ def test_modified_report_after_commit_fails(
         _remote_root,
     ) = fixture(tmp_path)
 
-    report = (
-        module_root
-        / "coordination/reports/completion/completion.md"
-    )
+    report = module_root / "coordination/reports/completion/completion.md"
     report.write_text(
         "# Completion\n\nUncommitted change\n",
         encoding="utf-8",
@@ -383,8 +396,7 @@ def test_duplicate_packet_key_fails(
     ) = fixture(tmp_path)
 
     packet_path.write_text(
-        packet_path.read_text(encoding="utf-8")
-        + f"\nmodule_id: {MODULE}\n",
+        packet_path.read_text(encoding="utf-8") + f"\nmodule_id: {MODULE}\n",
         encoding="utf-8",
     )
 
@@ -461,15 +473,9 @@ def test_make_target_and_check_catalog_are_registered() -> None:
     assert ".PHONY: completion-intake-check" in makefile
     assert "completion_intake_check.py" in makefile
 
-    checks = {
-        item.check_id: item
-        for item in build_checks()
-    }
+    checks = {item.check_id: item for item in build_checks()}
     check = checks["completion_intake_check_tests"]
 
     assert check.title == "Completion intake check"
     assert check.group == "coordination"
-    assert (
-        "tests/coordination/test_completion_intake_check.py"
-        in check.command
-    )
+    assert "tests/coordination/test_completion_intake_check.py" in check.command

@@ -145,6 +145,8 @@ class CompletionIntakeCheckResult:
     check_coverage: tuple[str, ...] = ()
     intake_stages: tuple[str, ...] = ()
     candidate_reference: bool = False
+    packet_push_status: str | None = None
+    publication_verified: bool = False
 
 
 def _load_yaml_mapping(path: Path) -> dict[str, Any]:
@@ -1291,6 +1293,8 @@ def check_completion_intake(
             completion_commit=resolved_completion_commit,
         )
 
+    candidate_reference = packet_protocol.schema_version == CANDIDATE_PACKET_SCHEMA
+
     packet_branch = data.get("branch")
     if packet_branch is not None and (
         not isinstance(packet_branch, str) or not packet_branch.strip()
@@ -1302,7 +1306,18 @@ def check_completion_intake(
         branch or (packet_branch.strip() if isinstance(packet_branch, str) else "")
     )
 
-    if data.get("push_status") not in {"pushed", "synced", "remote"}:
+    packet_push_status = data.get("push_status")
+    post_publication_statuses = {"pushed", "synced", "remote"}
+    allowed_push_statuses = set(post_publication_statuses)
+    if candidate_reference:
+        allowed_push_statuses.add("pending_operator_publication")
+
+    if packet_push_status not in allowed_push_statuses:
+        if candidate_reference:
+            raise CompletionIntakeCheckError(
+                "candidate completion packet `push_status` must be one of: "
+                "pending_operator_publication, pushed, synced, remote"
+            )
         raise CompletionIntakeCheckError(
             "completion packet `push_status` must indicate post-publication state"
         )
@@ -1322,7 +1337,6 @@ def check_completion_intake(
         remote_commit=remote_commit,
     )
 
-    candidate_reference = packet_protocol.schema_version == CANDIDATE_PACKET_SCHEMA
     if candidate_reference and not allow_candidate_reference:
         raise CompletionIntakeCheckError(
             "[PROTOCOL_NOT_ACTIVATED] v0.3 completion evidence passed "
@@ -1352,6 +1366,8 @@ def check_completion_intake(
         check_coverage=check_coverage,
         intake_stages=intake_stages,
         candidate_reference=candidate_reference,
+        packet_push_status=(packet_push_status if isinstance(packet_push_status, str) else None),
+        publication_verified=True,
     )
 
 
@@ -1507,6 +1523,9 @@ def _success_payload(
             "remote": result.remote,
             "branch": result.branch,
             "remote_commit": result.remote_commit,
+            "verified": result.publication_verified,
+            "verification_source": "git_remote_containment",
+            "packet_push_status": result.packet_push_status,
         },
         "packet_protocol": {
             "schema_version": result.schema_version,
@@ -1624,7 +1643,9 @@ def main() -> int:
         print(f"requirement coverage: {len(result.requirement_coverage)}")
     if result.check_coverage:
         print(f"required check coverage: {len(result.check_coverage)}")
+    print(f"packet push status: {result.packet_push_status}")
     print(f"publication: {result.remote}/{result.branch} @ {result.remote_commit}")
+    print(f"publication verified: {str(result.publication_verified).lower()}")
     if result.warnings:
         print("warnings:")
         for warning in result.warnings:

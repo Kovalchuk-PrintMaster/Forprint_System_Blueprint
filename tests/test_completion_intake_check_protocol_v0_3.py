@@ -206,7 +206,7 @@ def build_fixture(tmp_path: Path):
         "next_recommended_steps": ["Blueprint reference review"],
         "next_questions_for_blueprint": [],
         "branch": BRANCH,
-        "push_status": "pushed",
+        "push_status": "pending_operator_publication",
         "prompt_contract": {
             "contract_id": "example_prompt_contract_v0_3",
             "revision": "module_prompt_contract_v0_3",
@@ -281,6 +281,84 @@ def test_candidate_v03_reference_validation_is_green(tmp_path: Path) -> None:
     payload = checker._success_payload(result)
     assert payload["status"] == "REFERENCE_VALIDATION_READY"
     assert payload["decision"] is None
+    assert payload["publication"]["verified"] is True
+    assert payload["publication"]["verification_source"] == "git_remote_containment"
+    assert payload["publication"]["packet_push_status"] == ("pending_operator_publication")
+
+
+def test_candidate_v03_pending_publication_requires_remote_containment(
+    tmp_path: Path,
+) -> None:
+    blueprint, module, packet, _completion, _base, _tip = build_fixture(tmp_path)
+    data = yaml.safe_load(packet.read_text(encoding="utf-8"))
+    data["summary"] = "Unpublished completion revision"
+    write_yaml(packet, data)
+    git(module, "add", ".")
+    git(module, "commit", "-m", "unpublished completion revision")
+    unpublished_completion = git(module, "rev-parse", "HEAD")
+
+    with pytest.raises(checker.CompletionIntakeCheckError) as caught:
+        checker.check_completion_intake(
+            blueprint_root=blueprint,
+            module_id=MODULE,
+            module_root=module,
+            packet=packet,
+            completion_commit=unpublished_completion,
+            allow_candidate_reference=True,
+        )
+
+    issue = checker._classify_intake_error(caught.value)
+    assert issue.code == "PUBLICATION_EVIDENCE_FAILED"
+    assert "not contained in the selected remote branch" in issue.message
+
+
+def test_candidate_v03_declared_pushed_still_requires_and_accepts_remote_proof(
+    tmp_path: Path,
+) -> None:
+    blueprint, module, packet, _completion, _base, _tip = build_fixture(tmp_path)
+    data = yaml.safe_load(packet.read_text(encoding="utf-8"))
+    data["push_status"] = "pushed"
+    write_yaml(packet, data)
+    git(module, "add", ".")
+    git(module, "commit", "-m", "declare pushed state")
+    completion = git(module, "rev-parse", "HEAD")
+    git(module, "push", "origin", BRANCH)
+
+    result = checker.check_completion_intake(
+        blueprint_root=blueprint,
+        module_id=MODULE,
+        module_root=module,
+        packet=packet,
+        completion_commit=completion,
+        allow_candidate_reference=True,
+    )
+
+    payload = checker._success_payload(result)
+    assert payload["status"] == "REFERENCE_VALIDATION_READY"
+    assert payload["publication"]["verified"] is True
+    assert payload["publication"]["packet_push_status"] == "pushed"
+
+
+def test_candidate_v03_unsupported_push_status_is_blocked(tmp_path: Path) -> None:
+    blueprint, module, packet, _completion, _base, _tip = build_fixture(tmp_path)
+    data = yaml.safe_load(packet.read_text(encoding="utf-8"))
+    data["push_status"] = "not_pushed"
+    write_yaml(packet, data)
+    git(module, "add", ".")
+    git(module, "commit", "-m", "invalid candidate publication state")
+    completion = git(module, "rev-parse", "HEAD")
+
+    with pytest.raises(checker.CompletionIntakeCheckError) as caught:
+        checker.check_completion_intake(
+            blueprint_root=blueprint,
+            module_id=MODULE,
+            module_root=module,
+            packet=packet,
+            completion_commit=completion,
+            allow_candidate_reference=True,
+        )
+
+    assert "candidate completion packet `push_status` must be one of" in str(caught.value)
 
 
 def test_candidate_v03_cannot_enter_normal_acceptance_path(tmp_path: Path) -> None:
