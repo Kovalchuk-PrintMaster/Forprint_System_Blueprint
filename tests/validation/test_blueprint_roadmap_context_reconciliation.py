@@ -28,7 +28,7 @@ SUPERSEDING_RECONCILIATION_ID = (
     "blueprint_v0_4_closed_loop_baseline_and_roadmap_reconciliation_v0_1"
 )
 CURRENT_V04_ID = (
-    "blueprint_v0_4_coordination_source_registry_v0_1"
+    "blueprint_v0_4_coordination_health_and_pulse_v0_1"
 )
 
 PREREQUISITE_IDS = [

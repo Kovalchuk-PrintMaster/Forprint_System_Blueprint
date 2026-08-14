@@ -5,7 +5,7 @@ metadata:
   reviewer: project_owner
   created_at: '2026-07-30'
   updated_at: '2026-08-14'
-  current_step_id: blueprint_v0_4_coordination_source_registry_v0_1
+  current_step_id: blueprint_v0_4_coordination_health_and_pulse_v0_1
   actionable_steps_after_current: 10
   context_reconciliation:
     reconciliation_id: blueprint_roadmap_context_reconciliation_v0_1
@@ -44,8 +44,9 @@ metadata:
 authority:
   module_level_roadmap: coordination/self_coordination/roadmap.yaml
   detailed_workstream_plan: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
-  conflict_resolution: The self-roadmap controls ordering. The historical inventory plan supplies deferred implementation
-    detail; the v0.4 closed-loop workstream is current until a separate promotion decision.
+  conflict_resolution: The self-roadmap controls ordering. The historical inventory
+    plan supplies deferred implementation detail; the v0.4 closed-loop workstream
+    is current until a separate promotion decision.
 steps:
 - sequence: 1
   step_id: blueprint_self_coordination_baseline_v0_1
@@ -93,7 +94,8 @@ steps:
   - coordination/self_coordination/completion_packets/2026-07-30__forprint_system_blueprint__module_registry_consistency_ci_gate_v0_1.yaml
 - sequence: 4
   step_id: blueprint_self_coordination_consistency_ci_gate_v0_1
-  title: Integrate Blueprint self-coordination consistency validation into standard checks
+  title: Integrate Blueprint self-coordination consistency validation into standard
+    checks
   status: completed
   priority: high
   depends_on:
@@ -209,7 +211,8 @@ steps:
   completed_at: '2026-07-30'
 - sequence: 17
   step_id: blueprint_v0_4_closed_loop_baseline_and_roadmap_reconciliation_v0_1
-  title: Reconcile Blueprint bootstrap, roadmap and prompt queue for the v0.4 closed-loop workstream
+  title: Reconcile Blueprint bootstrap, roadmap and prompt queue for the v0.4 closed-loop
+    workstream
   status: completed
   priority: critical
   depends_on:
@@ -236,23 +239,27 @@ steps:
   acceptance_evidence: coordination/internal_work/blueprint/governance/2026-08-14__blueprint__v0_4_closed_loop_lifecycle_standard_acceptance_v0_1.yaml
 - sequence: 19
   step_id: blueprint_v0_4_coordination_source_registry_v0_1
-  title: Create the canonical coordination source registry for roadmap, prompt queue and outbox lookup
-  status: active
+  title: Create the canonical coordination source registry for roadmap, prompt queue
+    and outbox lookup
+  status: completed
   priority: critical
   depends_on:
   - blueprint_v0_4_closed_loop_lifecycle_standard_v0_1
   workstream: completion_exchange_and_closed_loop_coordination_v0_4
   prompt_id: blueprint_v0_4_coordination_source_registry_v0_1
   started_at: '2026-08-14'
+  completed_at: '2026-08-14'
+  operator_decision: ACCEPT
 - sequence: 20
   step_id: blueprint_v0_4_coordination_health_and_pulse_v0_1
   title: Implement coordination health policy and read-only coordination-pulse
-  status: planned
+  status: active
   priority: critical
   depends_on:
   - blueprint_v0_4_coordination_source_registry_v0_1
   workstream: completion_exchange_and_closed_loop_coordination_v0_4
   prompt_id: blueprint_v0_4_coordination_health_and_pulse_v0_1
+  started_at: '2026-08-14'
 - sequence: 21
   step_id: blueprint_v0_4_immutable_prompt_contract_v0_1
   title: Define immutable Prompt Contract v0.4 instances and source-obligation fidelity
@@ -334,17 +341,19 @@ deferred_steps:
   status: deferred
   priority: high
   release_after: blueprint_inventory_operational_readiness_review_v0_1
-  reason: Run only after the current Blueprint audit/readiness work. The goal is to simplify coordination architecture
-    rather than carry multiple historical interfaces in the active path.
+  reason: Run only after the current Blueprint audit/readiness work. The goal is to
+    simplify coordination architecture rather than carry multiple historical interfaces
+    in the active path.
   scope:
-  - audit active coordination protocols, scripts, Make targets, reports, packets, prompts, registries, and review
-    flows
+  - audit active coordination protocols, scripts, Make targets, reports, packets,
+    prompts, registries, and review flows
   - identify duplicated, unused, brittle, or legacy mechanisms
   - define a single current coordination revision for normal module interaction
   - define machine-readable revision detection for incoming module artifacts
   - define migration handling for old or unknown revisions
   - isolate retired Blueprint tools and documentation from the active runtime path
-  - produce module-owned upgrade instructions instead of maintaining per-module compatibility branches
+  - produce module-owned upgrade instructions instead of maintaining per-module compatibility
+    branches
   target_architecture:
     canonical_revision_model:
       revision_field: coordination_revision

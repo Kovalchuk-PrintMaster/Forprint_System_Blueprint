@@ -55,11 +55,11 @@ def test_bootstrap_make_targets_exist() -> None:
 def test_handoff_snapshot_contract() -> None:
     data = load_yaml(HANDOFF)
     assert data["schema_version"] == "blueprint_current_handoff_v0_1"
-    assert data["metadata"]["state_observed_at_head"] == "4f10911f6d777c31c2d3b1f0c7eb1b873ba35269"
+    assert data["metadata"]["state_observed_at_head"] == data["published_base"]["commit"]
     assert data["current_blueprint_plan"]["freshness_verdict"] == "CURRENT_CONTEXT_RECONCILED"
     assert (
         data["current_blueprint_plan"]["active_blueprint_step"]["id"]
-        == "blueprint_v0_4_coordination_source_registry_v0_1"
+        == "blueprint_v0_4_coordination_health_and_pulse_v0_1"
     )
     assert len(data["next_10_steps"]) == 10
     assert [item["order"] for item in data["next_10_steps"]] == list(range(1, 11))

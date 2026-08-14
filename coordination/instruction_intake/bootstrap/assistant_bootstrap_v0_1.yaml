@@ -5,8 +5,8 @@ metadata:
   machine_first: true
   stateful_snapshot: false
 coordination_role:
-  system_role: central coordination and governance control plane for the entire ForPrint project ecosystem and all modules
-    governed or coordinated by Blueprint
+  system_role: central coordination and governance control plane for the entire ForPrint project ecosystem and all
+    modules governed or coordinated by Blueprint
   primary_responsibilities:
   - maintain coherent multi-module execution order and dependency balance
   - keep roadmaps, module plans, prompts, review evidence, and governance state aligned
@@ -16,8 +16,8 @@ coordination_role:
   portfolio_scope:
     scope: all_forprint_project_modules
     active_development_subset_is_exhaustive: false
-    rule: Any module names shown in current_handoff are a time-bounded active-development subset or examples, never the authoritative
-      full module inventory.
+    rule: Any module names shown in current_handoff are a time-bounded active-development subset or examples, never
+      the authoritative full module inventory.
     authoritative_inventory_sources:
     - coordination/global_policy/ecosystem_module_map.md
     - coordination/module_sources/module_git_sources.yaml
@@ -63,10 +63,11 @@ authority_boundaries:
   - repair or rewrite module-owned implementation, tests, reports, completion packets, or module Git history
   - infer ACCEPT or RETURN from a green or red automated check
   - activate planned directives without a separate explicit decision
-  - release pilot, rollout, live integration, production API, production writes, or external side effects without explicit
-    authorization
+  - release pilot, rollout, live integration, production API, production writes, or external side effects without
+    explicit authorization
   - treat tmp diagnostics as source of truth
-  module_ownership_rule: Implementation corrections and superseding completion packets are produced by the owning module.
+  module_ownership_rule: Implementation corrections and superseding completion packets are produced by the owning
+    module.
 source_of_truth_map:
   project_doctrine: coordination/global_policy/forprint_project_doctrine.md
   strategic_control_plane_policy: coordination/global_policy/forprint_strategic_control_plane_policy.md
@@ -97,6 +98,7 @@ source_of_truth_map:
   blueprint_prompt_queue: coordination/self_coordination/prompt_queue/index.yaml
   current_assistant_handoff: coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml
   current_workstream_bootstrap_pointer: coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml:current_workstream_bootstrap.path
+  coordination_source_registry: coordination/registry/coordination_source_registry_v0_1.yaml
 make_interface:
   discovery_command: make help
   canonical_full_gate: make check PYTHON=.venv_blueprint/bin/python BLUEPRINT_PYTHON=.venv_blueprint/bin/python
@@ -126,8 +128,8 @@ make_interface:
   operator_decision_targets:
     completion-accept: manual decision surface; never invoke automatically
     completion-return: manual decision surface; never invoke automatically
-  parameterized_target_rule: Read Makefile/help and required variables before invoking completion, prompt, module, or document
-    targets.
+  parameterized_target_rule: Read Makefile/help and required variables before invoking completion, prompt, module,
+    or document targets.
 state_model:
   separate_dimensions:
   - observed_state
@@ -147,7 +149,8 @@ state_model:
   - historical_control_signal != historical_acceptance without processed review evidence
 handoff_protocol:
   current_snapshot: coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml
-  snapshot_semantics: The handoff records state observed at a specific Git commit. Reconcile later commits before continuing.
+  snapshot_semantics: The handoff records state observed at a specific Git commit. Reconcile later commits before
+    continuing.
   required_handoff_fields:
   - state_observed_at_head
   - current_blueprint_plan

@@ -1,0 +1,291 @@
+schema_version: coordination_source_registry_v0_1
+metadata:
+  registry_id: forprint_coordination_source_registry_v0_1
+  owner: forprint_system_blueprint
+  created_at: '2026-08-14'
+  status: candidate_v0_4
+  source_head: 340293fc31e12bb82eecd31a8b0930b673fecaff
+  scope: locally_observed_git_repositories
+lookup_policy:
+  module_id_is_repository_name: false
+  module_repository_access: read_only_from_blueprint
+  roadmap_authority: blueprint_owned
+  prompt_queue_authority: blueprint_owned
+  completion_outbox_authority: module_owned
+  completion_outbox_future_path: coordination/completion_outbox/records
+  missing_future_source_behavior: record_not_present_yet_do_not_fabricate
+  publication_proof: remote_git_containment
+  volatile_branch_or_head_pins_in_registry: false
+modules:
+- module_id: forprint_accounting_registry_service
+  repository:
+    repository_id: forprint_accounting_registry_service
+    local_path: /srv/software_development/forprint-project/forprint_accounting_registry_service
+    origin: git@github.com:Kovalchuk-PrintMaster/Forprint_Accounting_Registry_Service.git
+    remote_name: origin
+    identity_source: observed_local_git_repository
+  sources:
+    module_source:
+      owner: forprint_accounting_registry_service
+      repository: forprint_accounting_registry_service
+      path: .
+      availability: present
+    roadmap:
+      owner: forprint_system_blueprint
+      repository: forprint_system_blueprint
+      path: coordination/roadmaps/forprint_accounting_registry_service.yaml
+      availability: not_registered
+    prompt_queue:
+      owner: forprint_system_blueprint
+      repository: forprint_system_blueprint
+      path: coordination/outgoing_prompts/forprint_accounting_registry_service/index.yaml
+      availability: present
+    completion_outbox:
+      owner: forprint_accounting_registry_service
+      repository: forprint_accounting_registry_service
+      path: coordination/completion_outbox/records
+      availability: not_present_yet
+      implementation_step: blueprint_v0_4_completion_outbox_v0_1
+  boundaries:
+    blueprint_lookup_mode: read_only
+    blueprint_may_write_repository: false
+    module_owns_completion_outbox: true
+    remote_containment_required_for_publication_proof: true
+- module_id: forprint_integration_gateway
+  repository:
+    repository_id: forprint_integration_gateway
+    local_path: /srv/software_development/forprint-project/forprint_integration_gateway
+    origin: git@github.com:Kovalchuk-PrintMaster/Forprint_Integration_Gateway.git
+    remote_name: origin
+    identity_source: observed_local_git_repository
+  sources:
+    module_source:
+      owner: forprint_integration_gateway
+      repository: forprint_integration_gateway
+      path: .
+      availability: present
+    roadmap:
+      owner: forprint_system_blueprint
+      repository: forprint_system_blueprint
+      path: coordination/roadmaps/forprint_integration_gateway.yaml
+      availability: not_registered
+    prompt_queue:
+      owner: forprint_system_blueprint
+      repository: forprint_system_blueprint
+      path: coordination/outgoing_prompts/forprint_integration_gateway/index.yaml
+      availability: present
+    completion_outbox:
+      owner: forprint_integration_gateway
+      repository: forprint_integration_gateway
+      path: coordination/completion_outbox/records
+      availability: not_present_yet
+      implementation_step: blueprint_v0_4_completion_outbox_v0_1
+  boundaries:
+    blueprint_lookup_mode: read_only
+    blueprint_may_write_repository: false
+    module_owns_completion_outbox: true
+    remote_containment_required_for_publication_proof: true
+- module_id: forprint_library
+  repository:
+    repository_id: forprint_library
+    local_path: /srv/software_development/forprint-project/forprint_library
+    origin: git@github.com:Kovalchuk-PrintMaster/Forprint_Library.git
+    remote_name: origin
+    identity_source: observed_local_git_repository
+  sources:
+    module_source:
+      owner: forprint_library
+      repository: forprint_library
+      path: .
+      availability: present
+    roadmap:
+      owner: forprint_system_blueprint
+      repository: forprint_system_blueprint
+      path: coordination/roadmaps/forprint_library.yaml
+      availability: present
+    prompt_queue:
+      owner: forprint_system_blueprint
+      repository: forprint_system_blueprint
+      path: coordination/outgoing_prompts/forprint_library/index.yaml
+      availability: present
+    completion_outbox:
+      owner: forprint_library
+      repository: forprint_library
+      path: coordination/completion_outbox/records
+      availability: not_present_yet
+      implementation_step: blueprint_v0_4_completion_outbox_v0_1
+  boundaries:
+    blueprint_lookup_mode: read_only
+    blueprint_may_write_repository: false
+    module_owns_completion_outbox: true
+    remote_containment_required_for_publication_proof: true
+- module_id: logistics_service
+  repository:
+    repository_id: forprint_logistics_service
+    local_path: /srv/software_development/forprint-project/forprint_logistics_service
+    origin: git@github.com:Kovalchuk-PrintMaster/Forprint_Logistics_Service.git
+    remote_name: origin
+    identity_source: observed_local_git_repository
+  sources:
+    module_source:
+      owner: logistics_service
+      repository: forprint_logistics_service
+      path: .
+      availability: present
+    roadmap:
+      owner: forprint_system_blueprint
+      repository: forprint_system_blueprint
+      path: coordination/roadmaps/logistics_service.yaml
+      availability: present
+    prompt_queue:
+      owner: forprint_system_blueprint
+      repository: forprint_system_blueprint
+      path: coordination/outgoing_prompts/logistics_service/index.yaml
+      availability: present
+    completion_outbox:
+      owner: logistics_service
+      repository: forprint_logistics_service
+      path: coordination/completion_outbox/records
+      availability: not_present_yet
+      implementation_step: blueprint_v0_4_completion_outbox_v0_1
+  boundaries:
+    blueprint_lookup_mode: read_only
+    blueprint_may_write_repository: false
+    module_owns_completion_outbox: true
+    remote_containment_required_for_publication_proof: true
+- module_id: forprint_operational_registry
+  repository:
+    repository_id: forprint_operational_registry
+    local_path: /srv/software_development/forprint-project/forprint_operational_registry
+    origin: git@github.com:Kovalchuk-PrintMaster/Forprint_Operational_Registry.git
+    remote_name: origin
+    identity_source: observed_local_git_repository
+  sources:
+    module_source:
+      owner: forprint_operational_registry
+      repository: forprint_operational_registry
+      path: .
+      availability: present
+    roadmap:
+      owner: forprint_system_blueprint
+      repository: forprint_system_blueprint
+      path: coordination/roadmaps/forprint_operational_registry.yaml
+      availability: not_registered
+    prompt_queue:
+      owner: forprint_system_blueprint
+      repository: forprint_system_blueprint
+      path: coordination/outgoing_prompts/forprint_operational_registry/index.yaml
+      availability: present
+    completion_outbox:
+      owner: forprint_operational_registry
+      repository: forprint_operational_registry
+      path: coordination/completion_outbox/records
+      availability: not_present_yet
+      implementation_step: blueprint_v0_4_completion_outbox_v0_1
+  boundaries:
+    blueprint_lookup_mode: read_only
+    blueprint_may_write_repository: false
+    module_owns_completion_outbox: true
+    remote_containment_required_for_publication_proof: true
+- module_id: forprint_system_blueprint
+  repository:
+    repository_id: forprint_system_blueprint
+    local_path: /srv/software_development/forprint-project/forprint_system_blueprint
+    origin: git@github.com:Kovalchuk-PrintMaster/Forprint_System_Blueprint.git
+    remote_name: origin
+    identity_source: observed_local_git_repository
+  sources:
+    module_source:
+      owner: forprint_system_blueprint
+      repository: forprint_system_blueprint
+      path: .
+      availability: present
+    roadmap:
+      owner: forprint_system_blueprint
+      repository: forprint_system_blueprint
+      path: coordination/self_coordination/roadmap.yaml
+      availability: present
+    prompt_queue:
+      owner: forprint_system_blueprint
+      repository: forprint_system_blueprint
+      path: coordination/self_coordination/prompt_queue/index.yaml
+      availability: present
+    completion_outbox:
+      owner: forprint_system_blueprint
+      repository: forprint_system_blueprint
+      path: coordination/completion_outbox/records
+      availability: not_present_yet
+      implementation_step: blueprint_v0_4_completion_outbox_v0_1
+  boundaries:
+    blueprint_lookup_mode: read_only
+    blueprint_may_write_repository: true
+    module_owns_completion_outbox: true
+    remote_containment_required_for_publication_proof: true
+- module_id: website
+  repository:
+    repository_id: forprint_website
+    local_path: /srv/software_development/forprint-project/forprint_website
+    origin: git@github.com:Kovalchuk-PrintMaster/Website_Legacy_PHP.git
+    remote_name: origin
+    identity_source: observed_local_git_repository
+  sources:
+    module_source:
+      owner: website
+      repository: forprint_website
+      path: .
+      availability: present
+    roadmap:
+      owner: forprint_system_blueprint
+      repository: forprint_system_blueprint
+      path: coordination/roadmaps/website.yaml
+      availability: present
+    prompt_queue:
+      owner: forprint_system_blueprint
+      repository: forprint_system_blueprint
+      path: coordination/outgoing_prompts/website/index.yaml
+      availability: not_registered
+    completion_outbox:
+      owner: website
+      repository: forprint_website
+      path: coordination/completion_outbox/records
+      availability: not_present_yet
+      implementation_step: blueprint_v0_4_completion_outbox_v0_1
+  boundaries:
+    blueprint_lookup_mode: read_only
+    blueprint_may_write_repository: false
+    module_owns_completion_outbox: true
+    remote_containment_required_for_publication_proof: true
+- module_id: telegram_bot
+  repository:
+    repository_id: telegram_bot
+    local_path: /srv/software_development/forprint-project/telegram_bot
+    origin: git@github.com:Kovalchuk-PrintMaster/Telegram_Bot.git
+    remote_name: origin
+    identity_source: observed_local_git_repository
+  sources:
+    module_source:
+      owner: telegram_bot
+      repository: telegram_bot
+      path: .
+      availability: present
+    roadmap:
+      owner: forprint_system_blueprint
+      repository: forprint_system_blueprint
+      path: coordination/roadmaps/telegram_bot.yaml
+      availability: present
+    prompt_queue:
+      owner: forprint_system_blueprint
+      repository: forprint_system_blueprint
+      path: coordination/outgoing_prompts/telegram_bot/index.yaml
+      availability: present
+    completion_outbox:
+      owner: telegram_bot
+      repository: telegram_bot
+      path: coordination/completion_outbox/records
+      availability: not_present_yet
+      implementation_step: blueprint_v0_4_completion_outbox_v0_1
+  boundaries:
+    blueprint_lookup_mode: read_only
+    blueprint_may_write_repository: false
+    module_owns_completion_outbox: true
+    remote_containment_required_for_publication_proof: true

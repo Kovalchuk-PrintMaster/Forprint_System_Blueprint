@@ -2,7 +2,7 @@ schema_version: blueprint_current_handoff_v0_1
 metadata:
   module_id: forprint_system_blueprint
   artifact_role: current_assistant_handoff_snapshot
-  state_observed_at_head: 4f10911f6d777c31c2d3b1f0c7eb1b873ba35269
+  state_observed_at_head: 340293fc31e12bb82eecd31a8b0930b673fecaff
   state_observed_on_branch: audit/blueprint-inventory-refresh-2026-07-29
   snapshot_semantics: baseline_snapshot_reconcile_git_before_action
   snapshot_includes_roadmap_context_reconciliation: true
@@ -10,17 +10,18 @@ metadata:
   snapshot_includes_logistics_registry_reconciliation: true
   snapshot_includes_tracking_events_review_findings: true
   snapshot_includes_v0_4_closed_loop_reconciliation: true
-  snapshot_updated_at: '2026-08-14T15:15:00+03:00'
+  snapshot_updated_at: '2026-08-14T19:12:00+03:00'
   snapshot_includes_v0_4_reconciliation_acceptance: true
   snapshot_includes_v0_4_lifecycle_standard_acceptance: true
+  snapshot_includes_v0_4_coordination_source_registry: true
 current_blueprint_plan:
   path: coordination/self_coordination/roadmap.yaml
   status: active
   freshness_verdict: CURRENT_CONTEXT_RECONCILED
   reconciliation_state: V0_4_LIFECYCLE_STANDARD_ACCEPTED_SOURCE_REGISTRY_ACTIVE
   active_blueprint_step:
-    index: 19
-    id: blueprint_v0_4_coordination_source_registry_v0_1
+    index: 20
+    id: blueprint_v0_4_coordination_health_and_pulse_v0_1
     status: active
   next_planned_steps:
   - index: 20
@@ -144,39 +145,52 @@ known_governance_debt:
 - id: completion_exchange_v0_3_prompt_contract_fidelity
   state: OPEN
   verdict: V0_3_REFERENCE_GREEN_BUT_PROMPT_TO_CONTRACT_FIDELITY_INCOMPLETE
-  required_fix: Completion Exchange v0.4 immutable contract and source-obligation fidelity model
+  required_fix: Completion Exchange v0.4 immutable contract and source-obligation
+    fidelity model
   promotion_effect: blocks v0.3 promotion
 next_10_steps:
 - order: 1
-  id: blueprint_v0_4_coordination_source_registry_v0_1
-  action: Create the canonical coordination source registry for roadmap, prompt queue and outbox lookup
-- order: 2
   id: blueprint_v0_4_coordination_health_and_pulse_v0_1
   action: Implement coordination health policy and read-only coordination-pulse
-- order: 3
+  status: active
+- order: 2
   id: blueprint_v0_4_immutable_prompt_contract_v0_1
   action: Define immutable Prompt Contract v0.4 instances and source-obligation fidelity
-- order: 4
+  status: planned
+- order: 3
   id: blueprint_v0_4_completion_packet_v0_1
   action: Define Completion Packet v0.4 verification and completion evidence
-- order: 5
+  status: planned
+- order: 4
   id: blueprint_v0_4_completion_outbox_v0_1
   action: Define module-owned immutable completion outbox events
-- order: 6
+  status: planned
+- order: 5
   id: blueprint_v0_4_completion_discovery_and_intake_v0_1
   action: Implement idempotent completion discovery and v0.4 intake
-- order: 7
+  status: planned
+- order: 6
   id: blueprint_v0_4_review_roadmap_queue_transaction_v0_1
   action: Implement explicit review decision and bounded roadmap/queue transaction
-- order: 8
+  status: planned
+- order: 7
   id: blueprint_v0_4_next_prompt_selection_and_activation_v0_1
   action: Implement deterministic next-prompt selection and activation
-- order: 9
+  status: planned
+- order: 8
   id: blueprint_v0_4_tracking_events_reference_v0_1
   action: Run Tracking Events as the first full v0.4 reference
-- order: 10
+  status: planned
+- order: 9
   id: blueprint_v0_4_manual_dark_zone_audit_v0_1
   action: Run manual prompt-to-contract-to-evidence dark-zone audit
+  status: planned
+- order: 10
+  index: 29
+  id: blueprint_v0_4_promotion_decision_v0_1
+  title: Review v0.4 promotion readiness under explicit operator control
+  status: planned
+  priority: high
 hard_boundaries:
   external_rollout: gated
   pilot_authorized: false
@@ -192,8 +206,9 @@ portfolio_scope:
   - forprint_library
   - logistics_service
   - telegram_bot
-  interpretation: The three modules above are only the modules currently highlighted in active development/review
-    coordination. They are not the complete ForPrint module inventory.
+  interpretation: The three modules above are only the modules currently highlighted
+    in active development/review coordination. They are not the complete ForPrint
+    module inventory.
   authoritative_inventory_sources:
   - coordination/global_policy/ecosystem_module_map.md
   - coordination/module_sources/module_git_sources.yaml
@@ -211,25 +226,40 @@ current_workstream_bootstrap:
   counts_as_draft_prompt: false
   workstream: completion_exchange_and_closed_loop_coordination_v0_4
 self_coordination_health:
-  evaluated_at: '2026-08-14T15:15:00+03:00'
-  roadmap_future_steps: 10
+  evaluated_at: '2026-08-14T19:12:00+03:00'
+  roadmap_future_steps: 9
   roadmap_minimum: 5
   roadmap_target: 8
   roadmap_state: healthy
-  dispatchable_draft_prompts: 2
+  dispatchable_draft_prompts: 3
   prompt_buffer_minimum: 2
   prompt_buffer_target: 3
-  prompt_buffer_state: minimum_met_target_not_met
-  advisories:
-  - PROMPT_BUFFER_BELOW_TARGET
+  prompt_buffer_state: target_met
+  advisories: []
   blocking_errors: []
 published_base:
-  commit: 4f10911f6d777c31c2d3b1f0c7eb1b873ba35269
+  commit: 340293fc31e12bb82eecd31a8b0930b673fecaff
   remote_ref: origin/audit/blueprint-inventory-refresh-2026-07-29
   publication_verified: true
-  evidence: coordination/internal_work/blueprint/governance/2026-08-14__blueprint__v0_4_reconciliation_publication_verification_v0_1.yaml
+  evidence: coordination/internal_work/blueprint/governance/2026-08-14__blueprint__v0_4_lifecycle_standard_publication_verification_v0_1.yaml
 prompt_buffer_replenishment:
-  draft_prompt_id: blueprint_v0_4_immutable_prompt_contract_v0_1
-  path: coordination/self_coordination/prompt_queue/draft/2026-08-14__forprint_system_blueprint__v0_4_immutable_prompt_contract_v0_1.md
+  draft_prompt_id: blueprint_v0_4_completion_outbox_v0_1
+  path: coordination/self_coordination/prompt_queue/draft/2026-08-14__forprint_system_blueprint__v0_4_completion_outbox_v0_1.md
   dispatch_ready: true
-  reason: restore_v0_4_prompt_buffer_to_target
+  reason: restore_v0_4_prompt_buffer_to_target_after_step20_activation
+coordination_source_registry:
+  path: coordination/registry/coordination_source_registry_v0_1.yaml
+  schema_version: coordination_source_registry_v0_1
+  status: candidate_v0_4
+  registered_sources: 8
+  operator_decision_created: true
+  module_repository_access: read_only
+  operator_decision: ACCEPT
+  accepted_at: '2026-08-14T19:12:00+03:00'
+  global_v0_4_promotion_performed: false
+latest_operator_decision:
+  roadmap_step_id: blueprint_v0_4_coordination_source_registry_v0_1
+  prompt_id: blueprint_v0_4_coordination_source_registry_v0_1
+  decision: ACCEPT
+  decided_at: '2026-08-14T19:12:00+03:00'
+  acceptance_evidence: coordination/internal_work/blueprint/governance/2026-08-14__blueprint__v0_4_coordination_source_registry_acceptance_v0_1.yaml

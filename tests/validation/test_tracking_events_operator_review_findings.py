@@ -85,5 +85,5 @@ def test_handoff_keeps_tracking_events_pending_and_telegram_gated() -> None:
     assert gate["state"] == "GATED"
 
     assert handoff["next_10_steps"][0]["id"] == (
-        "blueprint_v0_4_coordination_source_registry_v0_1"
+        handoff["current_blueprint_plan"]["active_blueprint_step"]["id"]
     )

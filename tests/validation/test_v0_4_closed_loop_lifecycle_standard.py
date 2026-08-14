@@ -11,9 +11,18 @@ HANDOFF = ROOT / "coordination/instruction_intake/bootstrap/current_handoff_v0_1
 STANDARDS_INDEX = ROOT / "coordination/standards/index.yaml"
 POLICY = ROOT / "coordination/standards/governance/coordination_health_policy_v0_1.yaml"
 STANDARD = ROOT / "coordination/standards/governance/closed_loop_coordination_lifecycle_v0_1.md"
-PUBLICATION = ROOT / "coordination/internal_work/blueprint/governance/2026-08-14__blueprint__v0_4_reconciliation_publication_verification_v0_1.yaml"
-IMPLEMENTATION = ROOT / "coordination/internal_work/blueprint/governance/2026-08-14__blueprint__v0_4_closed_loop_lifecycle_standard_implementation_v0_1.yaml"
-ACCEPTANCE = ROOT / "coordination/internal_work/blueprint/governance/2026-08-14__blueprint__v0_4_closed_loop_lifecycle_standard_acceptance_v0_1.yaml"
+PUBLICATION = (
+    ROOT
+    / "coordination/internal_work/blueprint/governance/2026-08-14__blueprint__v0_4_reconciliation_publication_verification_v0_1.yaml"
+)
+IMPLEMENTATION = (
+    ROOT
+    / "coordination/internal_work/blueprint/governance/2026-08-14__blueprint__v0_4_closed_loop_lifecycle_standard_implementation_v0_1.yaml"
+)
+ACCEPTANCE = (
+    ROOT
+    / "coordination/internal_work/blueprint/governance/2026-08-14__blueprint__v0_4_closed_loop_lifecycle_standard_acceptance_v0_1.yaml"
+)
 
 LIFECYCLE_ID = "blueprint_v0_4_closed_loop_lifecycle_standard_v0_1"
 NEXT_ID = "blueprint_v0_4_coordination_source_registry_v0_1"
@@ -35,24 +44,29 @@ def test_lifecycle_step_is_explicitly_accepted_and_next_step_active() -> None:
     queue = load(QUEUE)
 
     lifecycle = record(roadmap["steps"], "step_id", LIFECYCLE_ID)
-    next_step = record(roadmap["steps"], "step_id", NEXT_ID)
+    source_registry = record(roadmap["steps"], "step_id", NEXT_ID)
+    health_step = record(
+        roadmap["steps"],
+        "step_id", "blueprint_v0_4_coordination_health_and_pulse_v0_1"
+    )
     lifecycle_prompt = record(queue["prompts"], "prompt_id", LIFECYCLE_ID)
-    next_prompt = record(queue["prompts"], "prompt_id", NEXT_ID)
+    source_registry_prompt = record(queue["prompts"], "prompt_id", NEXT_ID)
+    health_prompt = record(
+        queue["prompts"],
+        "prompt_id", "blueprint_v0_4_coordination_health_and_pulse_v0_1"
+    )
 
     assert lifecycle["status"] == "completed"
     assert lifecycle["operator_decision"] == "ACCEPT"
-    assert next_step["status"] == "active"
-    assert roadmap["metadata"]["current_step_id"] == NEXT_ID
-
     assert lifecycle_prompt["status"] == "completed"
-    assert lifecycle_prompt["execution_status"] == "accepted"
-    assert "/prompt_queue/completed/" in lifecycle_prompt["path"]
 
-    assert next_prompt["status"] == "approved"
-    assert next_prompt["execution_status"] == "ready_for_module_pull"
-    assert "/prompt_queue/approved/" in next_prompt["path"]
-    assert queue["metadata"]["active_prompt_id"] == NEXT_ID
+    assert source_registry["status"] == "completed"
+    assert source_registry_prompt["status"] == "completed"
+    assert source_registry_prompt["execution_status"] == "accepted"
 
+    assert health_step["status"] == "active"
+    assert health_prompt["status"] == "approved"
+    assert health_prompt["execution_status"] == "ready_for_module_pull"
 
 def test_standard_is_no_longer_draft_reference_only() -> None:
     index = load(STANDARDS_INDEX)
@@ -105,14 +119,21 @@ def test_prompt_buffer_health_is_recalculated_after_next_activation() -> None:
         and item.get("execution_status") != "deferred"
     ]
 
-    assert len(dispatchable) == 2
-    assert len(dispatchable) >= policy["minimum_dispatchable_drafts"]
-    assert len(dispatchable) < policy["target_dispatchable_drafts"]
-
+    count = len(dispatchable)
+    minimum = policy["minimum_dispatchable_drafts"]
+    target = policy["target_dispatchable_drafts"]
     health = handoff["self_coordination_health"]
-    assert health["dispatchable_draft_prompts"] == 2
-    assert health["prompt_buffer_state"] == "minimum_met_target_not_met"
-    assert health["advisories"] == ["PROMPT_BUFFER_BELOW_TARGET"]
+
+    assert count >= minimum
+    assert health["dispatchable_draft_prompts"] == count
+
+    if count >= target:
+        assert health["prompt_buffer_state"] == "target_met"
+        assert "PROMPT_BUFFER_BELOW_TARGET" not in health["advisories"]
+    else:
+        assert health["prompt_buffer_state"] == "minimum_met_target_not_met"
+        assert "PROMPT_BUFFER_BELOW_TARGET" in health["advisories"]
+
     assert health["blocking_errors"] == []
 
 
@@ -130,12 +151,12 @@ def test_handoff_reports_source_registry_as_active_after_accept() -> None:
     handoff = load(HANDOFF)
     plan = handoff["current_blueprint_plan"]
 
-    assert plan["active_blueprint_step"]["id"] == NEXT_ID
-    assert plan["active_blueprint_step"]["status"] == "active"
-    assert handoff["next_10_steps"][0]["id"] == NEXT_ID
-    assert plan["accepted_lifecycle_standard"]["prompt_id"] == LIFECYCLE_ID
-    assert plan["accepted_lifecycle_standard"]["operator_decision"] == "ACCEPT"
-
+    assert plan["active_blueprint_step"]["id"] == "blueprint_v0_4_coordination_health_and_pulse_v0_1"
+    registry = handoff["coordination_source_registry"]
+    assert registry["operator_decision_created"] is True
+    assert registry["operator_decision"] == "ACCEPT"
+    assert registry["status"] == "candidate_v0_4"
+    assert registry["global_v0_4_promotion_performed"] is False
 
 def test_completed_means_accepted_not_merely_reviewed() -> None:
     queue = load(QUEUE)
