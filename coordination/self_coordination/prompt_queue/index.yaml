@@ -4,17 +4,34 @@ metadata:
   owner: blueprint_coordination_assistant
   reviewer: project_owner
   created_at: '2026-07-30'
-  updated_at: '2026-08-06'
-  active_prompt_id: blueprint_inventory_acceptance_packet_integrity_gate_v0_1
+  updated_at: '2026-08-14'
+  active_prompt_id: blueprint_v0_4_closed_loop_lifecycle_standard_v0_1
   approved_prompt_count: 1
-  draft_prompt_count: 6
-  completed_prompt_count: 16
+  draft_prompt_count: 9
+  completed_prompt_count: 17
+  dispatchable_draft_count: 2
+  deferred_prompt_count: 7
+  last_operator_acceptance:
+    prompt_id: blueprint_v0_4_closed_loop_baseline_and_roadmap_reconciliation_v0_1
+    accepted_at: '2026-08-14T12:33:00+03:00'
+    evidence: coordination/internal_work/blueprint/governance/2026-08-14__blueprint__v0_4_closed_loop_reconciliation_acceptance_v0_1.yaml
 policy:
   exactly_one_approved_prompt: true
   drafts_do_not_authorize_execution: true
   completion_packet_required: true
   project_owner_acceptance_required: true
   cross_repository_writes_forbidden: true
+  completed_directory_semantics: explicitly_accepted_or_historically_equivalent_completed_work_only
+  accepted_prompt_transition:
+    trigger: explicit_operator_accept
+    from_status: approved
+    to_status: completed
+    move_file_from: coordination/self_coordination/prompt_queue/approved/
+    move_file_to: coordination/self_coordination/prompt_queue/completed/
+    update_index_path: true
+    return_moves_to_completed: false
+    hold_moves_to_completed: false
+    automatic_acceptance: false
 prompts:
 - prompt_id: blueprint_self_coordination_baseline_v0_1
   status: completed
@@ -95,6 +112,12 @@ prompts:
   status: draft
   path: coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__inventory_acceptance_decision_readiness_review_v0_1.md
   roadmap_step_id: blueprint_inventory_acceptance_decision_readiness_review_v0_1
+  execution_status: deferred
+  dispatch_ready: false
+  priority: normal
+  queue_rank: 900
+  created_at: '2026-07-30'
+  deferred_reason: v0_4_closed_loop_coordination_workstream_prioritized
 - prompt_id: blueprint_repository_knowledge_reconciliation_v0_1
   status: completed
   path: coordination/self_coordination/prompt_queue/completed/2026-07-30__forprint_system_blueprint__repository_knowledge_reconciliation_v0_1.md
@@ -104,23 +127,108 @@ prompts:
   status: draft
   path: coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__inventory_merge_rollback_readiness_v0_1.md
   roadmap_step_id: blueprint_inventory_merge_rollback_readiness_v0_1
+  execution_status: deferred
+  dispatch_ready: false
+  priority: normal
+  queue_rank: 910
+  created_at: '2026-07-30'
+  deferred_reason: v0_4_closed_loop_coordination_workstream_prioritized
 - prompt_id: blueprint_inventory_post_merge_integrity_verification_v0_1
   status: draft
   path: coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__inventory_post_merge_integrity_verification_v0_1.md
   roadmap_step_id: blueprint_inventory_post_merge_integrity_verification_v0_1
+  execution_status: deferred
+  dispatch_ready: false
+  priority: normal
+  queue_rank: 920
+  created_at: '2026-07-30'
+  deferred_reason: v0_4_closed_loop_coordination_workstream_prioritized
 - prompt_id: blueprint_inventory_operational_handoff_readiness_v0_1
   status: draft
   path: coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__inventory_operational_handoff_readiness_v0_1.md
   roadmap_step_id: blueprint_inventory_operational_handoff_readiness_v0_1
+  execution_status: deferred
+  dispatch_ready: false
+  priority: normal
+  queue_rank: 930
+  created_at: '2026-07-30'
+  deferred_reason: v0_4_closed_loop_coordination_workstream_prioritized
 - prompt_id: blueprint_inventory_maintenance_baseline_activation_v0_1
   status: draft
   path: coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__inventory_maintenance_baseline_activation_v0_1.md
   roadmap_step_id: blueprint_inventory_maintenance_baseline_activation_v0_1
+  execution_status: deferred
+  dispatch_ready: false
+  priority: normal
+  queue_rank: 940
+  created_at: '2026-07-30'
+  deferred_reason: v0_4_closed_loop_coordination_workstream_prioritized
 - prompt_id: blueprint_inventory_acceptance_packet_integrity_gate_v0_1
-  status: approved
-  path: coordination/self_coordination/prompt_queue/approved/2026-07-30__forprint_system_blueprint__inventory_acceptance_packet_integrity_gate_v0_1.md
+  status: draft
+  path: coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__inventory_acceptance_packet_integrity_gate_v0_1.md
   roadmap_step_id: blueprint_inventory_acceptance_packet_integrity_gate_v0_1
+  execution_status: deferred
+  dispatch_ready: false
+  priority: normal
+  queue_rank: 950
+  created_at: '2026-07-30'
+  deferred_reason: v0_4_closed_loop_coordination_workstream_prioritized
 - prompt_id: blueprint_ecosystem_inventory_rollout_release_review_v0_1
   status: draft
   path: coordination/self_coordination/prompt_queue/draft/2026-07-30__forprint_system_blueprint__ecosystem_inventory_rollout_release_review_v0_1.md
   roadmap_step_id: blueprint_ecosystem_inventory_rollout_release_review_v0_1
+  execution_status: deferred
+  dispatch_ready: false
+  priority: normal
+  queue_rank: 960
+  created_at: '2026-07-30'
+  deferred_reason: v0_4_closed_loop_coordination_workstream_prioritized
+- prompt_id: blueprint_v0_4_closed_loop_baseline_and_roadmap_reconciliation_v0_1
+  status: completed
+  execution_status: accepted
+  dispatch_ready: false
+  priority: critical
+  sequence: 17
+  queue_rank: 10
+  created_at: '2026-08-13'
+  path: coordination/self_coordination/prompt_queue/completed/2026-08-13__forprint_system_blueprint__v0_4_closed_loop_baseline_and_roadmap_reconciliation_v0_1.md
+  roadmap_step_id: blueprint_v0_4_closed_loop_baseline_and_roadmap_reconciliation_v0_1
+  workstream: completion_exchange_and_closed_loop_coordination_v0_4
+  operator_decision: ACCEPT
+  accepted_at: '2026-08-14T12:33:00+03:00'
+  acceptance_evidence: coordination/internal_work/blueprint/governance/2026-08-14__blueprint__v0_4_closed_loop_reconciliation_acceptance_v0_1.yaml
+- prompt_id: blueprint_v0_4_closed_loop_lifecycle_standard_v0_1
+  status: approved
+  execution_status: ready_for_module_pull
+  dispatch_ready: true
+  priority: critical
+  sequence: 18
+  queue_rank: 20
+  created_at: '2026-08-13'
+  path: coordination/self_coordination/prompt_queue/approved/2026-08-13__forprint_system_blueprint__v0_4_closed_loop_lifecycle_standard_v0_1.md
+  roadmap_step_id: blueprint_v0_4_closed_loop_lifecycle_standard_v0_1
+  workstream: completion_exchange_and_closed_loop_coordination_v0_4
+  activated_at: '2026-08-14T12:33:00+03:00'
+  activation_reason: default_next_after_explicit_reconciliation_accept
+- prompt_id: blueprint_v0_4_coordination_source_registry_v0_1
+  status: draft
+  execution_status: planned
+  dispatch_ready: true
+  priority: high
+  sequence: 19
+  queue_rank: 30
+  created_at: '2026-08-13'
+  path: coordination/self_coordination/prompt_queue/draft/2026-08-13__forprint_system_blueprint__v0_4_coordination_source_registry_v0_1.md
+  roadmap_step_id: blueprint_v0_4_coordination_source_registry_v0_1
+  workstream: completion_exchange_and_closed_loop_coordination_v0_4
+- prompt_id: blueprint_v0_4_coordination_health_and_pulse_v0_1
+  status: draft
+  execution_status: planned
+  dispatch_ready: true
+  priority: high
+  sequence: 20
+  queue_rank: 40
+  created_at: '2026-08-13'
+  path: coordination/self_coordination/prompt_queue/draft/2026-08-13__forprint_system_blueprint__v0_4_coordination_health_and_pulse_v0_1.md
+  roadmap_step_id: blueprint_v0_4_coordination_health_and_pulse_v0_1
+  workstream: completion_exchange_and_closed_loop_coordination_v0_4

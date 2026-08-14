@@ -36,7 +36,21 @@ def validate_package(
     module_plan_paths: list[Path],
 ) -> dict[str, Any]:
     errors: list[str] = []
+    warnings: list[str] = []
     roadmap = load_yaml(roadmap_path)
+    health_policy_path = root / "coordination/standards/governance/coordination_health_policy_v0_1.yaml"
+    health_policy = load_yaml(health_policy_path)
+    if health_policy.get("schema_version") != "coordination_health_policy_v0_1":
+        errors.append("coordination health policy schema mismatch")
+    roadmap_health = health_policy.get("roadmap", {})
+    minimum_future_steps = roadmap_health.get("minimum_future_steps", 5)
+    target_future_steps = roadmap_health.get("target_future_steps", 8)
+    if not isinstance(minimum_future_steps, int) or isinstance(minimum_future_steps, bool) or minimum_future_steps < 0:
+        errors.append("coordination health policy minimum_future_steps invalid")
+        minimum_future_steps = 5
+    if not isinstance(target_future_steps, int) or isinstance(target_future_steps, bool) or target_future_steps < minimum_future_steps:
+        errors.append("coordination health policy target_future_steps invalid")
+        target_future_steps = max(8, minimum_future_steps)
     queue = load_yaml(queue_path)
     completion = load_yaml(completion_path)
 
@@ -73,8 +87,16 @@ def validate_package(
             for step in ordered[index + 1 :]
             if step.get("status") in {"active", "planned", "ready"}
         ]
-        if not 8 <= len(actionable) <= 10:
-            errors.append("roadmap needs 8-10 actionable steps after current")
+        if len(actionable) < minimum_future_steps:
+            warnings.append(
+                f"ROADMAP_HORIZON_LOW: future_steps="
+                f"{len(actionable)}, minimum={minimum_future_steps}, target={target_future_steps}"
+            )
+        elif len(actionable) < target_future_steps:
+            warnings.append(
+                f"ROADMAP_HORIZON_BELOW_TARGET: future_steps="
+                f"{len(actionable)}, target={target_future_steps}"
+            )
 
     if queue.get("schema_version") != "blueprint_self_prompt_queue_v0_1":
         errors.append("queue schema mismatch")
@@ -184,8 +206,10 @@ def validate_package(
             "module_plans": len(module_plan_paths),
             "module_failures": module_failures,
             "policy_errors": len(errors),
+            "policy_warnings": len(warnings),
         },
         "errors": errors,
+        "warnings": warnings,
     }
 
 

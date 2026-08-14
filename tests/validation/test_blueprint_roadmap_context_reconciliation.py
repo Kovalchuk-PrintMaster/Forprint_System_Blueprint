@@ -23,7 +23,13 @@ RECONCILIATION = (
     "2026-08-07__blueprint__roadmap_context_reconciliation_v0_1.yaml"
 )
 
-ACTIVE_ID = "blueprint_inventory_acceptance_packet_integrity_gate_v0_1"
+HISTORICAL_ACTIVE_ID = "blueprint_inventory_acceptance_packet_integrity_gate_v0_1"
+SUPERSEDING_RECONCILIATION_ID = (
+    "blueprint_v0_4_closed_loop_baseline_and_roadmap_reconciliation_v0_1"
+)
+CURRENT_V04_ID = (
+    "blueprint_v0_4_closed_loop_lifecycle_standard_v0_1"
+)
 
 PREREQUISITE_IDS = [
     "completion_intake_acceptance_governance_v0_1",
@@ -45,18 +51,6 @@ EXPECTED_INVENTORY_FUTURE = [
     "ecosystem_inventory_rollout_wave_b_v0_1",
 ]
 
-EXPECTED_SELF_FUTURE = [
-    "blueprint_inventory_acceptance_packet_integrity_gate_v0_1",
-    "blueprint_inventory_acceptance_decision_readiness_review_v0_1",
-    "blueprint_inventory_merge_rollback_readiness_v0_1",
-    "blueprint_inventory_acceptance_merge_gate_v0_1",
-    "blueprint_inventory_post_merge_integrity_verification_v0_1",
-    "blueprint_inventory_operational_handoff_readiness_v0_1",
-    "blueprint_inventory_operational_readiness_review_v0_1",
-    "blueprint_inventory_maintenance_baseline_activation_v0_1",
-    "blueprint_ecosystem_inventory_rollout_release_review_v0_1",
-]
-
 
 def load_yaml(path: Path) -> dict:
     value = yaml.safe_load(path.read_text(encoding="utf-8"))
@@ -64,20 +58,20 @@ def load_yaml(path: Path) -> dict:
     return value
 
 
-def step_by_id(data: dict, step_id: str) -> dict:
-    steps = data["steps"]
-    assert isinstance(steps, list)
-    matches = [step for step in steps if isinstance(step, dict) and step.get("step_id") == step_id]
+def step_by_id(values: list[dict], step_id: str) -> dict:
+    matches = [
+        item
+        for item in values
+        if isinstance(item, dict) and item.get("step_id") == step_id
+    ]
     assert len(matches) == 1
     return matches[0]
 
 
 def ids_from_sequence(data: dict, first_sequence: int) -> list[str]:
-    steps = data["steps"]
-    assert isinstance(steps, list)
     selected = [
         step
-        for step in steps
+        for step in data["steps"]
         if isinstance(step, dict)
         and isinstance(step.get("sequence"), int)
         and step["sequence"] >= first_sequence
@@ -86,37 +80,46 @@ def ids_from_sequence(data: dict, first_sequence: int) -> list[str]:
     return [str(step["step_id"]) for step in selected]
 
 
-def test_reconciliation_preserves_active_gate_and_step_counts() -> None:
+def test_historical_reconciliation_evidence_remains_exact_snapshot() -> None:
+    reconciliation = load_yaml(RECONCILIATION)
+
+    assert reconciliation["metadata"]["module_id"] == "forprint_system_blueprint"
+    assert reconciliation["metadata"]["status"] == "completed"
+    assert reconciliation["result"] == "BLUEPRINT_ROADMAP_CONTEXT_RECONCILED"
+    assert reconciliation["roadmap_state"]["self_roadmap_step_count"] == 25
+    assert reconciliation["roadmap_state"]["active_step_id"] == HISTORICAL_ACTIVE_ID
+    assert reconciliation["roadmap_state"]["future_sequence_preserved"] is True
+    assert reconciliation["boundaries"]["operator_decision_created"] is False
+    assert reconciliation["boundaries"]["directive_activation"] is False
+    assert reconciliation["boundaries"]["module_repository_write"] is False
+
+
+def test_inventory_plan_history_is_preserved_while_self_roadmap_is_superseded() -> None:
     inventory = load_yaml(INVENTORY_PLAN)
     self_roadmap = load_yaml(SELF_ROADMAP)
     prompt_index = load_yaml(PROMPT_INDEX)
 
     assert len(inventory["steps"]) == 40
-    assert len(self_roadmap["steps"]) == 25
-
-    assert inventory["metadata"]["current_step_id"] == ACTIVE_ID
-    assert self_roadmap["metadata"]["current_step_id"] == ACTIVE_ID
-    assert prompt_index["metadata"]["active_prompt_id"] == ACTIVE_ID
-
-    assert step_by_id(inventory, ACTIVE_ID)["status"] == "active"
-    assert step_by_id(self_roadmap, ACTIVE_ID)["status"] == "active"
-
-
-def test_future_sequence_is_not_rewritten() -> None:
-    inventory = load_yaml(INVENTORY_PLAN)
-    self_roadmap = load_yaml(SELF_ROADMAP)
-
+    assert inventory["metadata"]["current_step_id"] == HISTORICAL_ACTIVE_ID
     assert ids_from_sequence(inventory, 31) == EXPECTED_INVENTORY_FUTURE
-    assert ids_from_sequence(self_roadmap, 17) == EXPECTED_SELF_FUTURE
 
-    inventory_active = step_by_id(inventory, ACTIVE_ID)
-    self_active = step_by_id(self_roadmap, ACTIVE_ID)
+    assert len(self_roadmap["steps"]) == 29
+    assert self_roadmap["metadata"]["current_step_id"] == CURRENT_V04_ID
+    assert prompt_index["metadata"]["active_prompt_id"] == CURRENT_V04_ID
 
-    assert inventory_active["depends_on"] == ["blueprint_inventory_acceptance_dry_run_v0_1"]
-    assert self_active["depends_on"] == ["blueprint_inventory_acceptance_dry_run_v0_1"]
+    current = step_by_id(self_roadmap["steps"], CURRENT_V04_ID)
+    assert current["status"] == "active"
+
+    deferred = step_by_id(
+        self_roadmap["deferred_steps"],
+        HISTORICAL_ACTIVE_ID,
+    )
+    assert deferred["status"] == "deferred"
+    assert deferred["previous_sequence"] == 17
+    assert deferred["release_after"] == "blueprint_v0_4_promotion_decision_v0_1"
 
 
-def test_context_prerequisites_are_machine_readable_and_aligned() -> None:
+def test_historical_context_metadata_is_marked_superseded_for_current_ordering() -> None:
     inventory = load_yaml(INVENTORY_PLAN)
     self_roadmap = load_yaml(SELF_ROADMAP)
 
@@ -124,46 +127,47 @@ def test_context_prerequisites_are_machine_readable_and_aligned() -> None:
     self_context = self_roadmap["metadata"]["context_reconciliation"]
 
     assert inventory_context["status"] == "completed"
-    assert self_context["status"] == "completed"
-    assert inventory_context["active_step_preserved"] is True
-    assert self_context["active_step_preserved"] is True
-    assert inventory_context["future_sequence_preserved"] is True
-    assert self_context["future_sequence_preserved"] is True
-    assert inventory_context["step_sequences_rewritten"] is False
-    assert self_context["step_sequences_rewritten"] is False
     assert inventory_context["completed_prerequisite_ids"] == PREREQUISITE_IDS
+
+    assert self_context["status"] == "completed"
     assert self_context["completed_prerequisite_ids"] == PREREQUISITE_IDS
+    assert self_context["state_scope"] == "historical_2026_08_07_snapshot"
+    assert self_context["superseded_for_current_ordering"] is True
+    assert self_context["superseded_by_step_id"] == SUPERSEDING_RECONCILIATION_ID
 
-    inventory_active = step_by_id(inventory, ACTIVE_ID)
-    self_active = step_by_id(self_roadmap, ACTIVE_ID)
+    inventory_active = step_by_id(
+        inventory["steps"],
+        HISTORICAL_ACTIVE_ID,
+    )
     assert [
-        item["prerequisite_id"] for item in inventory_active["context_prerequisites"]
-    ] == PREREQUISITE_IDS
-    assert [
-        item["prerequisite_id"] for item in self_active["context_prerequisites"]
+        item["prerequisite_id"]
+        for item in inventory_active["context_prerequisites"]
     ] == PREREQUISITE_IDS
 
 
-def test_handoff_marks_context_reconciled_without_claiming_decisions() -> None:
+def test_handoff_reports_current_v04_and_links_historical_reconciliation() -> None:
     handoff = load_yaml(HANDOFF)
 
     observed_head = handoff["metadata"]["state_observed_at_head"]
     assert len(observed_head) == 40
     assert all(character in "0123456789abcdef" for character in observed_head)
-    assert handoff["current_blueprint_plan"]["freshness_verdict"] == ("CURRENT_CONTEXT_RECONCILED")
-    assert handoff["current_blueprint_plan"]["active_blueprint_step"]["id"] == (ACTIVE_ID)
-    assert handoff["current_blueprint_plan"]["context_reconciliation"]["status"] == "completed"
 
-    roadmap_debt = next(
-        item
-        for item in handoff["known_governance_debt"]
-        if item["id"] == "blueprint_roadmap_context_freshness"
+    plan = handoff["current_blueprint_plan"]
+    assert plan["freshness_verdict"] == "CURRENT_CONTEXT_RECONCILED"
+    assert plan["active_blueprint_step"]["id"] == CURRENT_V04_ID
+
+    historical = plan["historical_context_reconciliation"]
+    assert (
+        historical["state"]
+        == "historical_snapshot_superseded_for_current_ordering"
     )
-    assert roadmap_debt["state"] == "RESOLVED"
+    assert historical["historical_active_step_id"] == HISTORICAL_ACTIVE_ID
+    assert historical["historical_evidence_mutated"] is False
 
     assert len(handoff["next_10_steps"]) == 10
-    assert [item["order"] for item in handoff["next_10_steps"]] == list(range(1, 11))
-
+    assert [item["order"] for item in handoff["next_10_steps"]] == list(
+        range(1, 11)
+    )
     assert handoff["hard_boundaries"]["automatic_acceptance"] is False
     assert handoff["hard_boundaries"]["automatic_return"] is False
     assert handoff["hard_boundaries"]["directive_activation_authorized"] is False
@@ -173,13 +177,12 @@ def test_historical_freshness_review_remains_historical() -> None:
     freshness = load_yaml(FRESHNESS_REVIEW)
     reconciliation = load_yaml(RECONCILIATION)
 
-    assert freshness["freshness_assessment"]["verdict"] == ("SEQUENCE_VALID_CONTEXT_STALE")
+    assert (
+        freshness["freshness_assessment"]["verdict"]
+        == "SEQUENCE_VALID_CONTEXT_STALE"
+    )
     assert freshness["boundaries"]["roadmap_mutated_by_this_review"] is False
 
-    assert reconciliation["metadata"]["module_id"] == ("forprint_system_blueprint")
-    assert reconciliation["result"] == ("BLUEPRINT_ROADMAP_CONTEXT_RECONCILED")
-    assert reconciliation["roadmap_state"]["active_step_id"] == ACTIVE_ID
+    assert reconciliation["roadmap_state"]["active_step_id"] == HISTORICAL_ACTIVE_ID
     assert reconciliation["roadmap_state"]["future_sequence_preserved"] is True
     assert reconciliation["boundaries"]["operator_decision_created"] is False
-    assert reconciliation["boundaries"]["directive_activation"] is False
-    assert reconciliation["boundaries"]["module_repository_write"] is False

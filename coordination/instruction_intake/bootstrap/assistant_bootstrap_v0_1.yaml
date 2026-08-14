@@ -29,19 +29,23 @@ startup_protocol:
     action: read
     path: coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml
   - step: 2
+    action: read_declared_workstream_bootstrap
+    source: current_handoff_v0_1.yaml:current_workstream_bootstrap.path
+    rule: Read the declared workstream bootstrap when present; it is continuation context, not an executable prompt.
+  - step: 3
     action: read
     path: coordination/instruction_intake/assistant_reading_order.md
-  - step: 3
+  - step: 4
     action: verify_runtime_state
     commands:
     - git branch --show-current
     - git rev-parse HEAD
     - git status --short
-  - step: 4
+  - step: 5
     action: reconcile_handoff_baseline
     rule: If current HEAD differs from handoff metadata.state_observed_at_head, inspect intervening commits and coordination
       changes before acting.
-  - step: 5
+  - step: 6
     action: inspect_control_state
     make_targets:
     - blueprint-governance-status
@@ -71,7 +75,7 @@ source_of_truth_map:
   blueprint_module_policy: coordination/module_policy/forprint_system_blueprint/module_policy.md
   assistant_reading_order: coordination/instruction_intake/assistant_reading_order.md
   instruction_sources: coordination/instruction_intake/instruction_sources.yaml
-  blueprint_roadmap: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
+  blueprint_roadmap: coordination/self_coordination/roadmap.yaml
   managed_module_roadmaps: coordination/roadmaps/*.yaml
   managed_module_plans: coordination/self_coordination/module_plans/*.yaml
   outgoing_prompt_indexes: coordination/outgoing_prompts/*/index.yaml
@@ -90,6 +94,9 @@ source_of_truth_map:
   git_history_command: git log --oneline --decorate --graph -n 40
   ecosystem_module_map: coordination/global_policy/ecosystem_module_map.md
   module_source_registry: coordination/module_sources/module_git_sources.yaml
+  blueprint_prompt_queue: coordination/self_coordination/prompt_queue/index.yaml
+  current_assistant_handoff: coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml
+  current_workstream_bootstrap_pointer: coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml:current_workstream_bootstrap.path
 make_interface:
   discovery_command: make help
   canonical_full_gate: make check PYTHON=.venv_blueprint/bin/python BLUEPRINT_PYTHON=.venv_blueprint/bin/python
@@ -151,3 +158,4 @@ handoff_protocol:
   - dependency_gates
   - known_governance_debt
   - next_10_steps
+  - current_workstream_bootstrap

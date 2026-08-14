@@ -71,7 +71,8 @@ def test_handoff_keeps_tracking_events_pending_and_telegram_gated() -> None:
     )
     assert pending["state"] == "PENDING_OPERATOR_REVIEW"
     assert pending["operator_decision"] is None
-    assert pending["blocker_code"] == "SAFETY_CONFIRMATION_INVALID"
+    assert pending["reference_intake_status"] == "REFERENCE_VALIDATION_READY"
+    assert pending["blocker_code"] == "PROMPT_CONTRACT_FIDELITY_INCOMPLETE"
     assert pending["implementation_failure_proven"] is False
     assert pending["automatic_acceptance"] is False
     assert pending["automatic_return"] is False
@@ -83,4 +84,6 @@ def test_handoff_keeps_tracking_events_pending_and_telegram_gated() -> None:
     )
     assert gate["state"] == "GATED"
 
-    assert handoff["next_10_steps"][0]["id"] == ("tracking_events_operator_decision")
+    assert handoff["next_10_steps"][0]["id"] == (
+        "blueprint_v0_4_closed_loop_lifecycle_standard_v0_1"
+    )

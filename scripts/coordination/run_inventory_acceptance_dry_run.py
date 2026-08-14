@@ -48,76 +48,125 @@ def coordination_alignment(
     roadmap: dict[str, Any],
     queue: dict[str, Any],
 ) -> dict[str, Any]:
+    """Validate legacy inventory transition or explicit superseding deferral."""
+
     reasons: list[str] = []
 
     plan_metadata = plan.get("metadata", {})
     roadmap_metadata = roadmap.get("metadata", {})
     queue_metadata = queue.get("metadata", {})
 
-    plan_current = plan_metadata.get("current_step_id") if isinstance(plan_metadata, dict) else None
+    plan_current = (
+        plan_metadata.get("current_step_id")
+        if isinstance(plan_metadata, dict)
+        else None
+    )
     roadmap_current = (
-        roadmap_metadata.get("current_step_id") if isinstance(roadmap_metadata, dict) else None
+        roadmap_metadata.get("current_step_id")
+        if isinstance(roadmap_metadata, dict)
+        else None
     )
     queue_current = (
-        queue_metadata.get("active_prompt_id") if isinstance(queue_metadata, dict) else None
+        queue_metadata.get("active_prompt_id")
+        if isinstance(queue_metadata, dict)
+        else None
     )
 
-    if not (plan_current == roadmap_current == queue_current):
-        reasons.append("current step/prompt IDs are not aligned")
+    plan_steps = mapping_by_id(plan.get("steps"), "step_id")
+    roadmap_steps = mapping_by_id(roadmap.get("steps"), "step_id")
+    deferred_roadmap_steps = mapping_by_id(
+        roadmap.get("deferred_steps"),
+        "step_id",
+    )
+    queue_prompts = mapping_by_id(queue.get("prompts"), "prompt_id")
 
-    if plan_current == CURRENT_ID:
-        phase = "PRE_TRANSITION"
-    elif plan_current == NEXT_ID:
-        phase = "POST_TRANSITION"
-    elif plan_current == REMEDIATION_ID:
-        phase = "DEPENDENCY_REMEDIATION"
+    deferred_roadmap_gate = deferred_roadmap_steps.get(NEXT_ID, {})
+    deferred_queue_gate = queue_prompts.get(NEXT_ID, {})
+
+    superseded_deferred = (
+        plan_current == NEXT_ID
+        and isinstance(roadmap_current, str)
+        and isinstance(queue_current, str)
+        and roadmap_current == queue_current
+        and roadmap_current != NEXT_ID
+        and deferred_roadmap_gate.get("status") == "deferred"
+        and deferred_queue_gate.get("status") == "draft"
+        and deferred_queue_gate.get("execution_status") == "deferred"
+        and deferred_queue_gate.get("dispatch_ready") is False
+    )
+
+    if superseded_deferred:
+        phase = "SUPERSEDED_DEFERRED"
+
+        if CURRENT_ID not in plan_steps:
+            reasons.append("inventory plan lacks the dry-run step")
+        if NEXT_ID not in plan_steps:
+            reasons.append("inventory plan lacks the packet-integrity step")
+
+        active_step = roadmap_steps.get(roadmap_current, {})
+        if active_step.get("status") != "active":
+            reasons.append(
+                "superseding self-roadmap active step is missing or not active"
+            )
+
+        active_prompt = queue_prompts.get(queue_current, {})
+        if active_prompt.get("status") != "approved":
+            reasons.append(
+                "superseding queue active prompt is missing or not approved"
+            )
+
+        if NEXT_ID not in deferred_roadmap_steps:
+            reasons.append(
+                "self-roadmap lacks explicit deferred packet-integrity step"
+            )
+        if NEXT_ID not in queue_prompts:
+            reasons.append(
+                "prompt queue lacks explicit deferred packet-integrity prompt"
+            )
+
+        next_prompt_required = False
+        next_prompt_present = NEXT_ID in queue_prompts
+        remediation_prompt_required = False
+        remediation_prompt_present = REMEDIATION_ID in queue_prompts
     else:
-        phase = "INVALID"
-        reasons.append(
-            "current coordination ID is outside the dry-run transition "
-            "and dependency-remediation states"
-        )
+        if not (plan_current == roadmap_current == queue_current):
+            reasons.append("current step/prompt IDs are not aligned")
 
-    plan_steps = mapping_by_id(
-        plan.get("steps"),
-        "step_id",
-    )
-    roadmap_steps = mapping_by_id(
-        roadmap.get("steps"),
-        "step_id",
-    )
-    queue_prompts = mapping_by_id(
-        queue.get("prompts"),
-        "prompt_id",
-    )
+        if plan_current == CURRENT_ID:
+            phase = "PRE_TRANSITION"
+        elif plan_current == NEXT_ID:
+            phase = "POST_TRANSITION"
+        elif plan_current == REMEDIATION_ID:
+            phase = "DEPENDENCY_REMEDIATION"
+        else:
+            phase = "INVALID"
+            reasons.append(
+                "current coordination ID is outside the dry-run transition "
+                "and dependency-remediation states"
+            )
 
-    for label, mapping in (
-        ("inventory plan", plan_steps),
-        ("self-roadmap", roadmap_steps),
-    ):
-        if CURRENT_ID not in mapping:
-            reasons.append(f"{label} lacks the dry-run step")
-
-        if NEXT_ID not in mapping:
-            reasons.append(f"{label} lacks the packet-integrity step")
-
-    if CURRENT_ID not in queue_prompts:
-        reasons.append("prompt queue lacks the dry-run prompt")
-
-    if phase == "POST_TRANSITION" and NEXT_ID not in queue_prompts:
-        reasons.append("post-transition prompt queue lacks the packet-integrity prompt")
-
-    if phase == "DEPENDENCY_REMEDIATION":
         for label, mapping in (
             ("inventory plan", plan_steps),
             ("self-roadmap", roadmap_steps),
         ):
-            if REMEDIATION_ID not in mapping:
-                reasons.append(
-                    f"{label} lacks the dependency-remediation step"
-                )
+            if CURRENT_ID not in mapping:
+                reasons.append(f"{label} lacks the dry-run step")
+            if NEXT_ID not in mapping:
+                reasons.append(f"{label} lacks the packet-integrity step")
 
-        if REMEDIATION_ID not in queue_prompts:
+        if CURRENT_ID not in queue_prompts:
+            reasons.append("prompt queue lacks the dry-run prompt")
+
+        next_prompt_required = phase == "POST_TRANSITION"
+        next_prompt_present = NEXT_ID in queue_prompts
+        if next_prompt_required and not next_prompt_present:
+            reasons.append(
+                "post-transition prompt queue lacks the packet-integrity prompt"
+            )
+
+        remediation_prompt_required = phase == "DEPENDENCY_REMEDIATION"
+        remediation_prompt_present = REMEDIATION_ID in queue_prompts
+        if remediation_prompt_required and not remediation_prompt_present:
             reasons.append(
                 "dependency-remediation prompt queue lacks the active prompt"
             )
@@ -126,20 +175,20 @@ def coordination_alignment(
         "passed": not reasons,
         "phase": phase,
         "reasons": reasons,
-        "plan_current": plan_current,
-        "roadmap_current": roadmap_current,
-        "queue_current": queue_current,
-        "next_prompt_required": (phase == "POST_TRANSITION"),
-        "next_prompt_present": (NEXT_ID in queue_prompts),
-        "remediation_prompt_required": (
-            phase == "DEPENDENCY_REMEDIATION"
+        "next_prompt_required": next_prompt_required,
+        "next_prompt_present": next_prompt_present,
+        "remediation_prompt_required": remediation_prompt_required,
+        "remediation_prompt_present": remediation_prompt_present,
+        "superseded_deferred": superseded_deferred,
+        "inventory_gate_state": (
+            "deferred_by_superseding_workstream"
+            if superseded_deferred
+            else "legacy_transition"
         ),
-        "remediation_prompt_present": (
-            REMEDIATION_ID in queue_prompts
+        "superseding_active_id": (
+            roadmap_current if superseded_deferred else None
         ),
     }
-
-
 def scenario(
     scenario_id: str,
     passed: bool,
@@ -422,18 +471,24 @@ def run_dry_run(
             "unreviewed_files": 646,
             "wave_2_records_with_unknowns": 25,
             "release_decision": (
-                "BLOCK_INVENTORY_ACCEPTANCE_PACKET_INTEGRITY_GATE_"
-                "PENDING_DEPENDENCY_REMEDIATION"
+                "DEFER_INVENTORY_ACCEPTANCE_PACKET_INTEGRITY_GATE_"
+                "SUPERSEDED_BY_ACTIVE_WORKSTREAM"
                 if (
                     passed
-                    and coordination.get("phase")
-                    == "DEPENDENCY_REMEDIATION"
+                    and coordination.get("phase") == "SUPERSEDED_DEFERRED"
                 )
                 else (
-                    "PROCEED_TO_INVENTORY_ACCEPTANCE_PACKET_INTEGRITY_GATE"
-                    if passed
+                    "BLOCK_INVENTORY_ACCEPTANCE_PACKET_INTEGRITY_GATE_"
+                    "PENDING_DEPENDENCY_REMEDIATION"
+                    if (
+                        passed
+                        and coordination.get("phase")
+                        == "DEPENDENCY_REMEDIATION"
+                    )
                     else (
-                        "BLOCK_INVENTORY_ACCEPTANCE_PACKET_INTEGRITY_GATE"
+                        "PROCEED_TO_INVENTORY_ACCEPTANCE_PACKET_INTEGRITY_GATE"
+                        if passed
+                        else "BLOCK_INVENTORY_ACCEPTANCE_PACKET_INTEGRITY_GATE"
                     )
                 )
             ),

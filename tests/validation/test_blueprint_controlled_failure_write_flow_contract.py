@@ -35,7 +35,7 @@ EXPECTED_HASHES = {
         "bb56666df0cba827c84c4709af357e3878f5e3df1eeea7827dde90072b58e09f"
     ),
     "scripts/coordination/run_inventory_acceptance_dry_run.py": (
-        "1583da3acf714491a9969e7915a9b45f1d78b7c203da4cfd675d977a00889c25"
+        "cdc49ad13abaeebeae0ab335e3d04b3e987700c9ca19dd89878f4435606af550"
     ),
     "scripts/coordination/validate_inventory_acceptance_evidence_index.py": (
         "3b4310b0268955bb2956ea18c64520b94c8a10bb9b1269f9754f77f80bf35941"

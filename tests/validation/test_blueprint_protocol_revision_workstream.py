@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parents[2]
 ROADMAP = ROOT / "coordination/self_coordination/roadmap.yaml"
 
 WORKSTREAM_ID = "blueprint_coordination_protocol_revision_and_legacy_simplification_v0_1"
-ACTIVE_ID = "blueprint_inventory_acceptance_packet_integrity_gate_v0_1"
+ACTIVE_ID = "blueprint_v0_4_closed_loop_lifecycle_standard_v0_1"
 
 
 def load_roadmap() -> dict:
@@ -21,7 +21,7 @@ def test_protocol_revision_workstream_is_deferred_not_active() -> None:
     roadmap = load_roadmap()
 
     assert roadmap["metadata"]["current_step_id"] == ACTIVE_ID
-    assert len(roadmap["steps"]) == 25
+    assert len(roadmap["steps"]) == 29
 
     assert all(
         step.get("step_id") != WORKSTREAM_ID for step in roadmap["steps"] if isinstance(step, dict)

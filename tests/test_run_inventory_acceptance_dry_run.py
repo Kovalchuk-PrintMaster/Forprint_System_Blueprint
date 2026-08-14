@@ -121,6 +121,7 @@ class InventoryAcceptanceDryRunTests(unittest.TestCase):
                 "PRE_TRANSITION",
                 "POST_TRANSITION",
                 "DEPENDENCY_REMEDIATION",
+                "SUPERSEDED_DEFERRED",
             },
         )
 
@@ -140,6 +141,14 @@ class InventoryAcceptanceDryRunTests(unittest.TestCase):
                 (
                     "BLOCK_INVENTORY_ACCEPTANCE_PACKET_INTEGRITY_GATE_"
                     "PENDING_DEPENDENCY_REMEDIATION"
+                ),
+            )
+        elif phase == "SUPERSEDED_DEFERRED":
+            self.assertEqual(
+                report["summary"]["release_decision"],
+                (
+                    "DEFER_INVENTORY_ACCEPTANCE_PACKET_INTEGRITY_GATE_"
+                    "SUPERSEDED_BY_ACTIVE_WORKSTREAM"
                 ),
             )
         else:
@@ -164,11 +173,24 @@ class InventoryAcceptanceDryRunTests(unittest.TestCase):
         plan = MODULE.load_yaml(PLAN)
         current = plan["metadata"]["current_step_id"]
 
-        expected_phase = {
-            MODULE.CURRENT_ID: "PRE_TRANSITION",
-            MODULE.NEXT_ID: "POST_TRANSITION",
-            MODULE.REMEDIATION_ID: "DEPENDENCY_REMEDIATION",
-        }[current]
+        roadmap = MODULE.load_yaml(ROADMAP)
+        deferred = {
+            item.get("step_id"): item
+            for item in roadmap.get("deferred_steps", [])
+            if isinstance(item, dict)
+        }
+        if (
+            current == MODULE.NEXT_ID
+            and roadmap.get("metadata", {}).get("current_step_id") != current
+            and deferred.get(MODULE.NEXT_ID, {}).get("status") == "deferred"
+        ):
+            expected_phase = "SUPERSEDED_DEFERRED"
+        else:
+            expected_phase = {
+                MODULE.CURRENT_ID: "PRE_TRANSITION",
+                MODULE.NEXT_ID: "POST_TRANSITION",
+                MODULE.REMEDIATION_ID: "DEPENDENCY_REMEDIATION",
+            }[current]
 
         self.assertEqual(
             report["summary"]["coordination_phase"],
@@ -325,6 +347,37 @@ class InventoryAcceptanceDryRunTests(unittest.TestCase):
             ),
             blocked["reasons"],
         )
+
+    def test_superseded_deferred_requires_explicit_dual_ledger_evidence(
+        self,
+    ) -> None:
+        plan = MODULE.load_yaml(PLAN)
+        roadmap = MODULE.load_yaml(ROADMAP)
+        queue = MODULE.load_yaml(QUEUE)
+
+        aligned = MODULE.coordination_alignment(plan, roadmap, queue)
+        self.assertTrue(aligned["passed"], aligned["reasons"])
+        self.assertEqual(aligned["phase"], "SUPERSEDED_DEFERRED")
+        self.assertEqual(
+            aligned["inventory_gate_state"],
+            "deferred_by_superseding_workstream",
+        )
+
+        broken_queue = copy.deepcopy(queue)
+        deferred_prompt = next(
+            item
+            for item in broken_queue["prompts"]
+            if item.get("prompt_id") == MODULE.NEXT_ID
+        )
+        deferred_prompt["execution_status"] = "planned"
+
+        broken = MODULE.coordination_alignment(
+            plan,
+            roadmap,
+            broken_queue,
+        )
+        self.assertFalse(broken["passed"])
+        self.assertNotEqual(broken["phase"], "SUPERSEDED_DEFERRED")
 
     def test_accepted_candidate_is_red(self) -> None:
         rci = MODULE.load_yaml(RCI)

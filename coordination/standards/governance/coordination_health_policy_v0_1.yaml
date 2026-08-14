@@ -1,0 +1,22 @@
+schema_version: coordination_health_policy_v0_1
+metadata:
+  policy_id: forprint_coordination_health_policy_v0_1
+  owner: forprint_system_blueprint
+  created_at: '2026-08-13'
+  status: candidate_v0_4
+roadmap:
+  minimum_future_steps: 5
+  target_future_steps: 8
+  maximum_future_steps: null
+  below_minimum_behavior: warning
+  below_target_behavior: advisory_warning
+  above_target_behavior: allowed
+prompt_buffer:
+  minimum_dispatchable_drafts: 2
+  target_dispatchable_drafts: 3
+  below_minimum_behavior: warning
+active_prompt:
+  desired: 1
+  maximum: 1
+  missing_behavior: warning
+  multiple_behavior: error

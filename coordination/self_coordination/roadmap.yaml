@@ -4,9 +4,9 @@ metadata:
   owner: blueprint_coordination_assistant
   reviewer: project_owner
   created_at: '2026-07-30'
-  updated_at: '2026-08-07'
-  current_step_id: blueprint_inventory_acceptance_packet_integrity_gate_v0_1
-  actionable_steps_after_current: 8
+  updated_at: '2026-08-14'
+  current_step_id: blueprint_v0_4_closed_loop_lifecycle_standard_v0_1
+  actionable_steps_after_current: 11
   context_reconciliation:
     reconciliation_id: blueprint_roadmap_context_reconciliation_v0_1
     status: completed
@@ -23,10 +23,28 @@ metadata:
     - assistant_bootstrap_handoff_contract_v0_1
     evidence:
     - coordination/internal_work/blueprint/governance/2026-08-07__blueprint__roadmap_context_reconciliation_v0_1.yaml
+    state_scope: historical_2026_08_07_snapshot
+    superseded_for_current_ordering: true
+    superseded_by_step_id: blueprint_v0_4_closed_loop_baseline_and_roadmap_reconciliation_v0_1
+  coordination_health_policy: coordination/standards/governance/coordination_health_policy_v0_1.yaml
+  v0_4_workstream:
+    id: completion_exchange_and_closed_loop_coordination_v0_4
+    status: active
+    started_at: '2026-08-13'
+    source_bootstrap: coordination/instruction_intake/bootstrap/2026-08-13__forprint_system_blueprint__completion_exchange_closed_loop_coordination_v0_4_master.md
+    inventory_workstream_deferred: true
+    reconciliation_status: accepted
+    current_phase: blueprint_v0_4_closed_loop_lifecycle_standard_v0_1
+    last_transition_at: '2026-08-14T12:33:00+03:00'
+  last_operator_acceptance:
+    prompt_id: blueprint_v0_4_closed_loop_baseline_and_roadmap_reconciliation_v0_1
+    accepted_at: '2026-08-14T12:33:00+03:00'
+    evidence: coordination/internal_work/blueprint/governance/2026-08-14__blueprint__v0_4_closed_loop_reconciliation_acceptance_v0_1.yaml
 authority:
   module_level_roadmap: coordination/self_coordination/roadmap.yaml
   detailed_workstream_plan: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
-  conflict_resolution: The self-roadmap controls ordering; the inventory plan supplies detailed implementation steps.
+  conflict_resolution: The self-roadmap controls ordering. The historical inventory plan supplies deferred implementation
+    detail; the v0.4 closed-loop workstream is current until a separate promotion decision.
 steps:
 - sequence: 1
   step_id: blueprint_self_coordination_baseline_v0_1
@@ -189,96 +207,119 @@ steps:
   - blueprint_inventory_acceptance_evidence_index_v0_1
   completed_at: '2026-07-30'
 - sequence: 17
-  step_id: blueprint_inventory_acceptance_packet_integrity_gate_v0_1
-  title: Validate acceptance packet integrity before merge
-  status: active
-  priority: high
+  step_id: blueprint_v0_4_closed_loop_baseline_and_roadmap_reconciliation_v0_1
+  title: Reconcile Blueprint bootstrap, roadmap and prompt queue for the v0.4 closed-loop workstream
+  status: completed
+  priority: critical
   depends_on:
   - blueprint_inventory_acceptance_dry_run_v0_1
-  context_prerequisites:
-  - prerequisite_id: completion_intake_acceptance_governance_v0_1
-    status: completed
-    commit: 8c35e6dd168027e9266b6aea9a43133fcf5ffe90
-    evidence:
-    - coordination/directives/global/planned/2026-08-06__global__directive__completion-intake-and-acceptance-governance-v0-1.md
-    - coordination/internal_work/blueprint/governance/2026-08-06__blueprint__completion-intake-protocol-findings-v0-1.yaml
-  - prerequisite_id: completion_intake_protocol_tooling_v0_1
-    status: completed
-    commit: 39d50e7f5095f08e0bd4b9609e5e24bb06217258
-    evidence:
-    - coordination/internal_work/blueprint/governance/2026-08-06__blueprint__completion_intake_protocol_tooling_v0_1.yaml
-    - scripts/coordination/completion_intake_check.py
-  - prerequisite_id: historical_acceptance_reconciliation_v0_1
-    status: completed
-    commit: 645950789ea94d8fb701c793f8b9d7887ce52909
-    evidence:
-    - coordination/internal_work/blueprint/governance/2026-08-07__blueprint__historical_acceptance_reconciliation_v0_1.yaml
-    - scripts/coordination/historical_acceptance_reconciliation.py
-  - prerequisite_id: assistant_bootstrap_handoff_contract_v0_1
-    status: completed
-    commit: 0a3a21696ee517d54cc872c8ef9f16e61c4f3f4d
-    evidence:
-    - coordination/instruction_intake/bootstrap/assistant_bootstrap_v0_1.yaml
-    - coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml
-    - coordination/internal_work/blueprint/governance/2026-08-07__blueprint__assistant_bootstrap_roadmap_freshness_review_v0_1.yaml
-  context_reconciliation_status: completed
-  context_reconciliation_evidence: coordination/internal_work/blueprint/governance/2026-08-07__blueprint__roadmap_context_reconciliation_v0_1.yaml
+  workstream: completion_exchange_and_closed_loop_coordination_v0_4
+  prompt_id: blueprint_v0_4_closed_loop_baseline_and_roadmap_reconciliation_v0_1
+  evidence:
+  - coordination/internal_work/blueprint/governance/2026-08-13__blueprint__v0_4_closed_loop_reconciliation_v0_1.yaml
+  - coordination/internal_work/blueprint/governance/2026-08-14__blueprint__v0_4_closed_loop_reconciliation_acceptance_v0_1.yaml
+  completed_at: '2026-08-14'
+  operator_decision: ACCEPT
 - sequence: 18
-  step_id: blueprint_inventory_acceptance_decision_readiness_review_v0_1
-  title: Review final inventory acceptance decision readiness
-  status: planned
-  priority: high
+  step_id: blueprint_v0_4_closed_loop_lifecycle_standard_v0_1
+  title: Define the canonical closed-loop coordination lifecycle standard
+  status: active
+  priority: critical
   depends_on:
-  - blueprint_inventory_acceptance_packet_integrity_gate_v0_1
+  - blueprint_v0_4_closed_loop_baseline_and_roadmap_reconciliation_v0_1
+  workstream: completion_exchange_and_closed_loop_coordination_v0_4
+  prompt_id: blueprint_v0_4_closed_loop_lifecycle_standard_v0_1
+  started_at: '2026-08-14'
 - sequence: 19
-  step_id: blueprint_inventory_merge_rollback_readiness_v0_1
-  title: Confirm inventory merge rollback readiness
+  step_id: blueprint_v0_4_coordination_source_registry_v0_1
+  title: Create the canonical coordination source registry for roadmap, prompt queue and outbox lookup
   status: planned
-  priority: high
+  priority: critical
   depends_on:
-  - blueprint_inventory_acceptance_decision_readiness_review_v0_1
+  - blueprint_v0_4_closed_loop_lifecycle_standard_v0_1
+  workstream: completion_exchange_and_closed_loop_coordination_v0_4
+  prompt_id: blueprint_v0_4_coordination_source_registry_v0_1
 - sequence: 20
-  step_id: blueprint_inventory_acceptance_merge_gate_v0_1
-  title: Accept inventory baseline and reconcile audit branch
+  step_id: blueprint_v0_4_coordination_health_and_pulse_v0_1
+  title: Implement coordination health policy and read-only coordination-pulse
   status: planned
-  priority: high
+  priority: critical
   depends_on:
-  - blueprint_inventory_merge_rollback_readiness_v0_1
+  - blueprint_v0_4_coordination_source_registry_v0_1
+  workstream: completion_exchange_and_closed_loop_coordination_v0_4
+  prompt_id: blueprint_v0_4_coordination_health_and_pulse_v0_1
 - sequence: 21
-  step_id: blueprint_inventory_post_merge_integrity_verification_v0_1
-  title: Verify repository integrity after inventory acceptance merge
+  step_id: blueprint_v0_4_immutable_prompt_contract_v0_1
+  title: Define immutable Prompt Contract v0.4 instances and source-obligation fidelity
   status: planned
   priority: high
   depends_on:
-  - blueprint_inventory_acceptance_merge_gate_v0_1
+  - blueprint_v0_4_coordination_health_and_pulse_v0_1
+  workstream: completion_exchange_and_closed_loop_coordination_v0_4
 - sequence: 22
-  step_id: blueprint_inventory_operational_handoff_readiness_v0_1
-  title: Confirm operational handoff readiness after merge verification
+  step_id: blueprint_v0_4_completion_packet_v0_1
+  title: Define Completion Packet v0.4 verification and completion evidence
   status: planned
   priority: high
   depends_on:
-  - blueprint_inventory_post_merge_integrity_verification_v0_1
+  - blueprint_v0_4_immutable_prompt_contract_v0_1
+  workstream: completion_exchange_and_closed_loop_coordination_v0_4
 - sequence: 23
-  step_id: blueprint_inventory_operational_readiness_review_v0_1
-  title: Review readiness before external rollout
+  step_id: blueprint_v0_4_completion_outbox_v0_1
+  title: Define module-owned immutable completion outbox events
   status: planned
   priority: high
   depends_on:
-  - blueprint_inventory_operational_handoff_readiness_v0_1
+  - blueprint_v0_4_completion_packet_v0_1
+  workstream: completion_exchange_and_closed_loop_coordination_v0_4
 - sequence: 24
-  step_id: blueprint_inventory_maintenance_baseline_activation_v0_1
-  title: Activate accepted inventory maintenance baseline
+  step_id: blueprint_v0_4_completion_discovery_and_intake_v0_1
+  title: Implement idempotent completion discovery and v0.4 intake
   status: planned
   priority: high
   depends_on:
-  - blueprint_inventory_operational_readiness_review_v0_1
+  - blueprint_v0_4_completion_outbox_v0_1
+  workstream: completion_exchange_and_closed_loop_coordination_v0_4
 - sequence: 25
-  step_id: blueprint_ecosystem_inventory_rollout_release_review_v0_1
-  title: Reassess ecosystem inventory rollout release
+  step_id: blueprint_v0_4_review_roadmap_queue_transaction_v0_1
+  title: Implement explicit review decision and bounded roadmap/queue transaction
   status: planned
   priority: high
   depends_on:
-  - blueprint_inventory_maintenance_baseline_activation_v0_1
+  - blueprint_v0_4_completion_discovery_and_intake_v0_1
+  workstream: completion_exchange_and_closed_loop_coordination_v0_4
+- sequence: 26
+  step_id: blueprint_v0_4_next_prompt_selection_and_activation_v0_1
+  title: Implement deterministic next-prompt selection and activation
+  status: planned
+  priority: high
+  depends_on:
+  - blueprint_v0_4_review_roadmap_queue_transaction_v0_1
+  workstream: completion_exchange_and_closed_loop_coordination_v0_4
+- sequence: 27
+  step_id: blueprint_v0_4_tracking_events_reference_v0_1
+  title: Run Tracking Events as the first full v0.4 reference
+  status: planned
+  priority: high
+  depends_on:
+  - blueprint_v0_4_next_prompt_selection_and_activation_v0_1
+  workstream: completion_exchange_and_closed_loop_coordination_v0_4
+- sequence: 28
+  step_id: blueprint_v0_4_manual_dark_zone_audit_v0_1
+  title: Run manual prompt-to-contract-to-evidence dark-zone audit
+  status: planned
+  priority: high
+  depends_on:
+  - blueprint_v0_4_tracking_events_reference_v0_1
+  workstream: completion_exchange_and_closed_loop_coordination_v0_4
+- sequence: 29
+  step_id: blueprint_v0_4_promotion_decision_v0_1
+  title: Review v0.4 promotion readiness under explicit operator control
+  status: planned
+  priority: high
+  depends_on:
+  - blueprint_v0_4_manual_dark_zone_audit_v0_1
+  workstream: completion_exchange_and_closed_loop_coordination_v0_4
 deferred_steps:
 - step_id: ecosystem_inventory_rollout_wave_b_v0_1
   status: deferred
@@ -288,10 +329,11 @@ deferred_steps:
   status: deferred
   priority: high
   release_after: blueprint_inventory_operational_readiness_review_v0_1
-  reason: Run only after the current Blueprint audit/readiness work. The goal is to simplify coordination architecture rather
-    than carry multiple historical interfaces in the active path.
+  reason: Run only after the current Blueprint audit/readiness work. The goal is to simplify coordination architecture
+    rather than carry multiple historical interfaces in the active path.
   scope:
-  - audit active coordination protocols, scripts, Make targets, reports, packets, prompts, registries, and review flows
+  - audit active coordination protocols, scripts, Make targets, reports, packets, prompts, registries, and review
+    flows
   - identify duplicated, unused, brittle, or legacy mechanisms
   - define a single current coordination revision for normal module interaction
   - define machine-readable revision detection for incoming module artifacts
@@ -333,3 +375,111 @@ deferred_steps:
   - do not add broad backward-compatibility runtime branches
   - do not rewrite module-owned artifacts
   - do not interrupt current Tracking Events operator-review flow
+- step_id: blueprint_inventory_acceptance_packet_integrity_gate_v0_1
+  title: Validate acceptance packet integrity before merge
+  status: deferred
+  priority: high
+  depends_on:
+  - blueprint_inventory_acceptance_dry_run_v0_1
+  context_prerequisites:
+  - prerequisite_id: completion_intake_acceptance_governance_v0_1
+    status: completed
+    commit: 8c35e6dd168027e9266b6aea9a43133fcf5ffe90
+    evidence:
+    - coordination/directives/global/planned/2026-08-06__global__directive__completion-intake-and-acceptance-governance-v0-1.md
+    - coordination/internal_work/blueprint/governance/2026-08-06__blueprint__completion-intake-protocol-findings-v0-1.yaml
+  - prerequisite_id: completion_intake_protocol_tooling_v0_1
+    status: completed
+    commit: 39d50e7f5095f08e0bd4b9609e5e24bb06217258
+    evidence:
+    - coordination/internal_work/blueprint/governance/2026-08-06__blueprint__completion_intake_protocol_tooling_v0_1.yaml
+    - scripts/coordination/completion_intake_check.py
+  - prerequisite_id: historical_acceptance_reconciliation_v0_1
+    status: completed
+    commit: 645950789ea94d8fb701c793f8b9d7887ce52909
+    evidence:
+    - coordination/internal_work/blueprint/governance/2026-08-07__blueprint__historical_acceptance_reconciliation_v0_1.yaml
+    - scripts/coordination/historical_acceptance_reconciliation.py
+  - prerequisite_id: assistant_bootstrap_handoff_contract_v0_1
+    status: completed
+    commit: 0a3a21696ee517d54cc872c8ef9f16e61c4f3f4d
+    evidence:
+    - coordination/instruction_intake/bootstrap/assistant_bootstrap_v0_1.yaml
+    - coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml
+    - coordination/internal_work/blueprint/governance/2026-08-07__blueprint__assistant_bootstrap_roadmap_freshness_review_v0_1.yaml
+  context_reconciliation_status: completed
+  context_reconciliation_evidence: coordination/internal_work/blueprint/governance/2026-08-07__blueprint__roadmap_context_reconciliation_v0_1.yaml
+  previous_sequence: 17
+  deferred_at: '2026-08-13'
+  deferred_reason: v0_4_closed_loop_coordination_workstream_prioritized
+  release_after: blueprint_v0_4_promotion_decision_v0_1
+- step_id: blueprint_inventory_acceptance_decision_readiness_review_v0_1
+  title: Review final inventory acceptance decision readiness
+  status: deferred
+  priority: high
+  depends_on:
+  - blueprint_inventory_acceptance_packet_integrity_gate_v0_1
+  previous_sequence: 18
+  deferred_at: '2026-08-13'
+  deferred_reason: v0_4_closed_loop_coordination_workstream_prioritized
+  release_after: blueprint_v0_4_promotion_decision_v0_1
+- step_id: blueprint_inventory_merge_rollback_readiness_v0_1
+  title: Confirm inventory merge rollback readiness
+  status: deferred
+  priority: high
+  depends_on:
+  - blueprint_inventory_acceptance_decision_readiness_review_v0_1
+  previous_sequence: 19
+  deferred_at: '2026-08-13'
+  deferred_reason: v0_4_closed_loop_coordination_workstream_prioritized
+  release_after: blueprint_v0_4_promotion_decision_v0_1
+- step_id: blueprint_inventory_acceptance_merge_gate_v0_1
+  title: Accept inventory baseline and reconcile audit branch
+  status: deferred
+  priority: high
+  depends_on:
+  - blueprint_inventory_merge_rollback_readiness_v0_1
+  previous_sequence: 20
+  deferred_at: '2026-08-13'
+  deferred_reason: v0_4_closed_loop_coordination_workstream_prioritized
+  release_after: blueprint_v0_4_promotion_decision_v0_1
+- step_id: blueprint_inventory_post_merge_integrity_verification_v0_1
+  title: Verify repository integrity after inventory acceptance merge
+  status: deferred
+  priority: high
+  depends_on:
+  - blueprint_inventory_acceptance_merge_gate_v0_1
+  previous_sequence: 21
+  deferred_at: '2026-08-13'
+  deferred_reason: v0_4_closed_loop_coordination_workstream_prioritized
+  release_after: blueprint_v0_4_promotion_decision_v0_1
+- step_id: blueprint_inventory_operational_handoff_readiness_v0_1
+  title: Confirm operational handoff readiness after merge verification
+  status: deferred
+  priority: high
+  depends_on:
+  - blueprint_inventory_post_merge_integrity_verification_v0_1
+  previous_sequence: 22
+  deferred_at: '2026-08-13'
+  deferred_reason: v0_4_closed_loop_coordination_workstream_prioritized
+  release_after: blueprint_v0_4_promotion_decision_v0_1
+- step_id: blueprint_inventory_maintenance_baseline_activation_v0_1
+  title: Activate accepted inventory maintenance baseline
+  status: deferred
+  priority: high
+  depends_on:
+  - blueprint_inventory_operational_readiness_review_v0_1
+  previous_sequence: 24
+  deferred_at: '2026-08-13'
+  deferred_reason: v0_4_closed_loop_coordination_workstream_prioritized
+  release_after: blueprint_v0_4_promotion_decision_v0_1
+- step_id: blueprint_ecosystem_inventory_rollout_release_review_v0_1
+  title: Reassess ecosystem inventory rollout release
+  status: deferred
+  priority: high
+  depends_on:
+  - blueprint_inventory_maintenance_baseline_activation_v0_1
+  previous_sequence: 25
+  deferred_at: '2026-08-13'
+  deferred_reason: v0_4_closed_loop_coordination_workstream_prioritized
+  release_after: blueprint_v0_4_promotion_decision_v0_1
