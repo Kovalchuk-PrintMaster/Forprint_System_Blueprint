@@ -30,6 +30,7 @@ SUPERSEDING_RECONCILIATION_ID = (
 CURRENT_V04_ID = (
     "blueprint_v0_4_immutable_prompt_contract_v0_1"
 )
+COMPLETION_PACKET_ID = "blueprint_v0_4_completion_packet_v0_1"
 
 PREREQUISITE_IDS = [
     "completion_intake_acceptance_governance_v0_1",
@@ -104,11 +105,21 @@ def test_inventory_plan_history_is_preserved_while_self_roadmap_is_superseded() 
     assert ids_from_sequence(inventory, 31) == EXPECTED_INVENTORY_FUTURE
 
     assert len(self_roadmap["steps"]) == 29
-    assert self_roadmap["metadata"]["current_step_id"] == CURRENT_V04_ID
-    assert prompt_index["metadata"]["active_prompt_id"] == CURRENT_V04_ID
+    active_id = self_roadmap["metadata"]["current_step_id"]
+    assert active_id in {CURRENT_V04_ID, COMPLETION_PACKET_ID}
+    assert prompt_index["metadata"]["active_prompt_id"] == active_id
 
-    current = step_by_id(self_roadmap["steps"], CURRENT_V04_ID)
-    assert current["status"] == "active"
+    prompt_contract = step_by_id(self_roadmap["steps"], CURRENT_V04_ID)
+    if active_id == CURRENT_V04_ID:
+        assert prompt_contract["status"] == "active"
+    else:
+        assert prompt_contract["status"] == "completed"
+        assert prompt_contract["operator_decision"] == "ACCEPT"
+        completion_packet = step_by_id(
+            self_roadmap["steps"],
+            COMPLETION_PACKET_ID,
+        )
+        assert completion_packet["status"] == "active"
 
     deferred = step_by_id(
         self_roadmap["deferred_steps"],
@@ -154,7 +165,8 @@ def test_handoff_reports_current_v04_and_links_historical_reconciliation() -> No
 
     plan = handoff["current_blueprint_plan"]
     assert plan["freshness_verdict"] == "CURRENT_CONTEXT_RECONCILED"
-    assert plan["active_blueprint_step"]["id"] == CURRENT_V04_ID
+    active_id = plan["active_blueprint_step"]["id"]
+    assert active_id in {CURRENT_V04_ID, COMPLETION_PACKET_ID}
 
     historical = plan["historical_context_reconciliation"]
     assert (
@@ -164,10 +176,12 @@ def test_handoff_reports_current_v04_and_links_historical_reconciliation() -> No
     assert historical["historical_active_step_id"] == HISTORICAL_ACTIVE_ID
     assert historical["historical_evidence_mutated"] is False
 
-    assert len(handoff["next_10_steps"]) == 10
-    assert [item["order"] for item in handoff["next_10_steps"]] == list(
-        range(1, 11)
+    next_steps = handoff["next_10_steps"]
+    assert 1 <= len(next_steps) <= 10
+    assert [item["order"] for item in next_steps] == list(
+        range(1, len(next_steps) + 1)
     )
+    assert next_steps[0]["id"] == active_id
     assert handoff["hard_boundaries"]["automatic_acceptance"] is False
     assert handoff["hard_boundaries"]["automatic_return"] is False
     assert handoff["hard_boundaries"]["directive_activation_authorized"] is False

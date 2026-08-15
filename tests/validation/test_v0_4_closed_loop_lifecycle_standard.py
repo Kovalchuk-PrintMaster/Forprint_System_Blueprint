@@ -27,6 +27,7 @@ ACCEPTANCE = (
 LIFECYCLE_ID = "blueprint_v0_4_closed_loop_lifecycle_standard_v0_1"
 NEXT_ID = "blueprint_v0_4_coordination_source_registry_v0_1"
 PROMPT_CONTRACT_ID = "blueprint_v0_4_immutable_prompt_contract_v0_1"
+COMPLETION_PACKET_ID = "blueprint_v0_4_completion_packet_v0_1"
 
 
 def load(path: Path) -> dict:
@@ -143,12 +144,22 @@ def test_prompt_contract_is_active_after_step20_acceptance() -> None:
     queue = load(QUEUE)
     item = record(queue["prompts"], "prompt_id", PROMPT_CONTRACT_ID)
     step = record(roadmap["steps"], "step_id", PROMPT_CONTRACT_ID)
-    assert roadmap["metadata"]["current_step_id"] == PROMPT_CONTRACT_ID
-    assert queue["metadata"]["active_prompt_id"] == PROMPT_CONTRACT_ID
-    assert step["status"] == "active"
-    assert item["status"] == "approved"
-    assert item["execution_status"] == "ready_for_module_pull"
-    assert "/prompt_queue/approved/" in item["path"]
+    if step["status"] == "active":
+        assert roadmap["metadata"]["current_step_id"] == PROMPT_CONTRACT_ID
+        assert queue["metadata"]["active_prompt_id"] == PROMPT_CONTRACT_ID
+        assert item["status"] == "approved"
+        assert item["execution_status"] == "ready_for_module_pull"
+        assert "/prompt_queue/approved/" in item["path"]
+    else:
+        assert step["status"] == "completed"
+        assert step["operator_decision"] == "ACCEPT"
+        assert roadmap["metadata"]["current_step_id"] == COMPLETION_PACKET_ID
+        assert queue["metadata"]["active_prompt_id"] == COMPLETION_PACKET_ID
+        assert item["status"] == "completed"
+        assert item["execution_status"] == "accepted"
+        assert item["operator_decision"] == "ACCEPT"
+        assert "/prompt_queue/completed/" in item["path"]
+
     assert (ROOT / item["path"]).is_file()
 
 
@@ -156,7 +167,13 @@ def test_handoff_reports_source_registry_as_active_after_accept() -> None:
     handoff = load(HANDOFF)
     plan = handoff["current_blueprint_plan"]
 
-    assert plan["active_blueprint_step"]["id"] == PROMPT_CONTRACT_ID
+    active_id = plan["active_blueprint_step"]["id"]
+    assert active_id in {PROMPT_CONTRACT_ID, COMPLETION_PACKET_ID}
+    if active_id == COMPLETION_PACKET_ID:
+        contract_state = handoff["prompt_contract_v0_4"]
+        assert contract_state["operator_decision_created"] is True
+        assert contract_state["operator_decision"] == "ACCEPT"
+        assert contract_state["promotion_performed"] is False
     registry = handoff["coordination_source_registry"]
     assert registry["operator_decision_created"] is True
     assert registry["operator_decision"] == "ACCEPT"

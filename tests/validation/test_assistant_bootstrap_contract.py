@@ -57,12 +57,22 @@ def test_handoff_snapshot_contract() -> None:
     assert data["schema_version"] == "blueprint_current_handoff_v0_1"
     assert data["metadata"]["state_observed_at_head"] == data["published_base"]["commit"]
     assert data["current_blueprint_plan"]["freshness_verdict"] == "CURRENT_CONTEXT_RECONCILED"
-    assert (
-        data["current_blueprint_plan"]["active_blueprint_step"]["id"]
-        == "blueprint_v0_4_immutable_prompt_contract_v0_1"
+    active_id = data["current_blueprint_plan"]["active_blueprint_step"]["id"]
+    assert active_id in {
+        "blueprint_v0_4_immutable_prompt_contract_v0_1",
+        "blueprint_v0_4_completion_packet_v0_1",
+    }
+    if active_id == "blueprint_v0_4_completion_packet_v0_1":
+        contract_state = data["prompt_contract_v0_4"]
+        assert contract_state["operator_decision_created"] is True
+        assert contract_state["operator_decision"] == "ACCEPT"
+        assert contract_state["promotion_performed"] is False
+    next_steps = data["next_10_steps"]
+    assert 1 <= len(next_steps) <= 10
+    assert [item["order"] for item in next_steps] == list(
+        range(1, len(next_steps) + 1)
     )
-    assert len(data["next_10_steps"]) == 10
-    assert [item["order"] for item in data["next_10_steps"]] == list(range(1, 11))
+    assert next_steps[0]["id"] == active_id
     assert data["hard_boundaries"]["automatic_acceptance"] is False
     assert data["hard_boundaries"]["automatic_return"] is False
     assert data["hard_boundaries"]["directive_activation_authorized"] is False

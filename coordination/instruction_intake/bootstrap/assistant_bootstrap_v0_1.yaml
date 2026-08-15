@@ -100,6 +100,8 @@ source_of_truth_map:
   current_workstream_bootstrap_pointer: coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml:current_workstream_bootstrap.path
   coordination_source_registry: coordination/registry/coordination_source_registry_v0_1.yaml
   coordination_health_policy: coordination/standards/governance/coordination_health_policy_v0_1.yaml
+  prompt_contract_v0_4_standard: coordination/standards/governance/module_prompt_contract_v0_4.yaml
+  prompt_contract_v0_4_validator: scripts/coordination/validate_prompt_contract_v0_4.py
 make_interface:
   discovery_command: make help
   canonical_full_gate: make check PYTHON=.venv_blueprint/bin/python BLUEPRINT_PYTHON=.venv_blueprint/bin/python
@@ -127,6 +129,7 @@ make_interface:
   - check-repository-knowledge-freshness
   - repository-knowledge-reconciliation-status
   - coordination-pulse
+  - prompt-contract-v0-4-validate
   coordination_pulse:
     target: coordination-pulse
     mode: local_read_only

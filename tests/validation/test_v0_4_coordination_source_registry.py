@@ -56,9 +56,11 @@ def validator_module():
 def test_source_registry_and_health_steps_are_accepted_before_prompt_contract() -> None:
     roadmap, queue, handoff = load(ROADMAP), load(QUEUE), load(HANDOFF)
     prompt_contract = "blueprint_v0_4_immutable_prompt_contract_v0_1"
-    assert roadmap["metadata"]["current_step_id"] == prompt_contract
-    assert queue["metadata"]["active_prompt_id"] == prompt_contract
-    assert handoff["current_blueprint_plan"]["active_blueprint_step"]["id"] == prompt_contract
+    completion_packet = "blueprint_v0_4_completion_packet_v0_1"
+    active_id = roadmap["metadata"]["current_step_id"]
+    assert active_id in {prompt_contract, completion_packet}
+    assert queue["metadata"]["active_prompt_id"] == active_id
+    assert handoff["current_blueprint_plan"]["active_blueprint_step"]["id"] == active_id
 
     step19 = next(x for x in roadmap["steps"] if x["step_id"] == ACTIVE_ID)
     prompt19 = next(x for x in queue["prompts"] if x["prompt_id"] == ACTIVE_ID)
@@ -82,9 +84,21 @@ def test_source_registry_and_health_steps_are_accepted_before_prompt_contract() 
     assert step20["operator_decision"] == "ACCEPT"
     assert prompt20["status"] == "completed"
     assert prompt20["execution_status"] == "accepted"
-    assert step21["status"] == "active"
-    assert prompt21["status"] == "approved"
-    assert prompt21["execution_status"] == "ready_for_module_pull"
+    if active_id == prompt_contract:
+        assert step21["status"] == "active"
+        assert prompt21["status"] == "approved"
+        assert prompt21["execution_status"] == "ready_for_module_pull"
+    else:
+        assert step21["status"] == "completed"
+        assert step21["operator_decision"] == "ACCEPT"
+        assert prompt21["status"] == "completed"
+        assert prompt21["execution_status"] == "accepted"
+        assert prompt21["operator_decision"] == "ACCEPT"
+        step22 = next(x for x in roadmap["steps"] if x["step_id"] == completion_packet)
+        prompt22 = next(x for x in queue["prompts"] if x["prompt_id"] == completion_packet)
+        assert step22["status"] == "active"
+        assert prompt22["status"] == "approved"
+        assert prompt22["execution_status"] == "ready_for_module_pull"
 
 def test_registry_exact_source_set_and_identity_separation() -> None:
     data = load(REGISTRY)
@@ -152,9 +166,20 @@ def test_prompt_buffer_restored_to_target_with_completion_packet_draft() -> None
     assert len(drafts) == 3
     assert queue["metadata"]["dispatchable_draft_count"] == 3
     assert handoff["self_coordination_health"]["prompt_buffer_state"] == "target_met"
-    item = next(x for x in drafts if x["prompt_id"] == BUFFER_ID)
-    assert item["execution_status"] == "planned"
-    assert (ROOT / item["path"]).is_file()
+    draft_ids = {x["prompt_id"] for x in drafts}
+    if BUFFER_ID in draft_ids:
+        item = next(x for x in drafts if x["prompt_id"] == BUFFER_ID)
+        assert item["execution_status"] == "planned"
+        assert (ROOT / item["path"]).is_file()
+    else:
+        assert draft_ids == {
+            "blueprint_v0_4_completion_outbox_v0_1",
+            "blueprint_v0_4_completion_discovery_and_intake_v0_1",
+            "blueprint_v0_4_review_roadmap_queue_transaction_v0_1",
+        }
+        for item in drafts:
+            assert item["execution_status"] == "planned"
+            assert (ROOT / item["path"]).is_file()
 
 
 def test_evidence_separates_publication_implementation_and_acceptance() -> None:

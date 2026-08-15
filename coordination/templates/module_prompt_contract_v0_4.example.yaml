@@ -1,0 +1,46 @@
+schema_version: module_prompt_contract_v0_4
+metadata:
+  contract_id: <contract_id>
+  module_id: <module_id>
+  prompt_id: <prompt_id>
+  created_at: <YYYY-MM-DD>
+  status: candidate_reference_only
+  immutable: true
+source_prompt:
+  path: <immutable_source_prompt_snapshot_path>
+  sha256: <sha256>
+  origin_path_at_capture: <queue_prompt_path_at_capture>
+  origin_sha256_at_capture: <sha256>
+integrity:
+  algorithm: sha256
+  payload_sha256: <canonical_payload_sha256>
+  payload_hash_scope: canonical JSON of entire document excluding integrity.payload_sha256
+source_obligations:
+- obligation_id: SRC-001
+  source_locator: <prompt section/item>
+  required: true
+  summary: <source obligation>
+implementation_obligations:
+- obligation_id: IMP-001
+  summary: <implementation obligation>
+verification_obligations:
+- obligation_id: VER-001
+  summary: <verification obligation>
+completion_evidence_obligations:
+- obligation_id: CE-001
+  summary: <completion evidence obligation>
+source_obligation_fidelity_ledger:
+- source_obligation_id: SRC-001
+  target_obligation_ids:
+  - IMP-001
+  - VER-001
+  - CE-001
+semantic_fidelity:
+  human_review_required: true
+  execution_fingerprint_sufficient: false
+  review_state: pending_operator_review
+promotion:
+  state: candidate_reference_only
+  normal_acceptance_allowed: false
+  explicit_promotion_required: true
+  promotion_performed: false

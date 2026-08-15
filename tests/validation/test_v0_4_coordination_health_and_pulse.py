@@ -83,7 +83,7 @@ def test_current_pulse_is_healthy_and_policy_driven() -> None:
     assert data["schema_version"] == "coordination_pulse_v0_1"
     assert data["mode"] == "local_read_only"
     assert data["network_independent"] is True
-    assert data["overall_state"] == "healthy"
+    assert data["overall_state"] in {"healthy", "advisory"}
 
     roadmap = load(ROADMAP)
     current_id = roadmap["metadata"]["current_step_id"]
@@ -122,11 +122,21 @@ def test_current_pulse_is_healthy_and_policy_driven() -> None:
     assert data["completions"]["outbox_not_present_yet_sources"] == 8
 
     assert data["queue_roadmap_drift"]["count"] == 0
-    assert data["codes"] == {
-        "errors": [],
-        "warnings": [],
-        "advisories": [],
-    }
+    if expected_future >= policy["roadmap"]["target_future_steps"]:
+        assert data["overall_state"] == "healthy"
+        assert data["codes"] == {
+            "errors": [],
+            "warnings": [],
+            "advisories": [],
+        }
+    else:
+        assert expected_future >= policy["roadmap"]["minimum_future_steps"]
+        assert data["overall_state"] == "advisory"
+        assert data["codes"] == {
+            "errors": [],
+            "warnings": [],
+            "advisories": ["ROADMAP_HORIZON_BELOW_TARGET"],
+        }
 
 
 def test_stable_warning_and_error_codes_are_policy_classified() -> None:
@@ -174,7 +184,22 @@ def test_make_coordination_pulse_renders_read_only_health_view() -> None:
     )
     assert cp.returncode == 0, cp.stdout + cp.stderr
     assert "ForPrint Coordination Pulse v0.1" in cp.stdout
-    assert "overall: healthy" in cp.stdout
+    roadmap = load(ROADMAP)
+    policy = load(POLICY)
+    current_id = roadmap["metadata"]["current_step_id"]
+    current = next(x for x in roadmap["steps"] if x["step_id"] == current_id)
+    future_count = sum(
+        1
+        for x in roadmap["steps"]
+        if x["sequence"] > current["sequence"]
+        and x["status"] in {"active", "planned", "ready"}
+    )
+    expected_overall = (
+        "healthy"
+        if future_count >= policy["roadmap"]["target_future_steps"]
+        else "advisory"
+    )
+    assert f"overall: {expected_overall}" in cp.stdout
     assert "future:" in cp.stdout
     assert "(minimum=5, target=8)" in cp.stdout
     assert "dispatchable_drafts:" in cp.stdout

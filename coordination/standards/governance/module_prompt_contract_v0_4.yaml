@@ -1,0 +1,52 @@
+schema_version: module_prompt_contract_standard_v0_4
+metadata:
+  standard_id: forprint_module_prompt_contract_v0_4
+  owner: forprint_system_blueprint
+  status: candidate_reference_only
+  created_at: '2026-08-15'
+contract_schema_version: module_prompt_contract_v0_4
+immutability:
+  instance_path_pattern: coordination/prompt_contracts/<module_id>/<prompt_id>/<contract_id>.yaml
+  published_instance_mutation_allowed: false
+  supersession_rule: Create a new contract_id and immutable instance; do not rewrite
+    a published historical instance.
+identity:
+  required_fields:
+  - contract_id
+  - module_id
+  - prompt_id
+  - created_at
+  - status
+  contract_id_unique_within_prompt: true
+integrity:
+  source_prompt_sha256_required: true
+  immutable_source_prompt_snapshot_required: true
+  source_prompt_origin_path_recorded: true
+  payload_sha256_required: true
+  payload_hash_algorithm: sha256
+  payload_hash_scope: canonical JSON of the entire YAML document with integrity.payload_sha256
+    omitted
+source_obligation_fidelity:
+  source_obligation_ids_unique: true
+  target_obligation_ids_unique: true
+  required_source_obligations_must_be_mapped: true
+  unknown_mapping_targets_rejected: true
+  human_semantic_fidelity_review_required: true
+  execution_fingerprint_is_complete_fidelity_proof: false
+obligation_categories:
+  implementation: implementation_obligations
+  verification: verification_obligations
+  completion_evidence: completion_evidence_obligations
+  categories_must_remain_separate: true
+promotion:
+  state: candidate_reference_only
+  normal_acceptance_allowed: false
+  promotion_requires_explicit_operator_decision: true
+  step21_acceptance_is_not_global_v0_4_promotion: true
+boundaries:
+  completion_packet_v0_4_in_scope: false
+  completion_outbox_in_scope: false
+  discovery_or_review_automation_in_scope: false
+  next_prompt_automation_in_scope: false
+  module_repository_writes_authorized: false
+  automatic_commit_push_authorized: false

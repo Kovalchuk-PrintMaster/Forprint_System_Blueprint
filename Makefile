@@ -129,6 +129,7 @@ help:
 	@echo "  make roadmap-dashboard MODULES=forprint_library,forprint_integration_gateway,forprint_crm"
 	@echo "  make roadmap-summary"
 	@echo "  make coordination-pulse"
+	@echo "  make prompt-contract-v0-4-validate"
 	@echo "  make roadmap-summary ROADMAP_SUMMARY_MODULES=forprint_library,forprint_integration_gateway"
 	@echo "Standards / governance:"
 	@echo "  make standards-index"
@@ -901,3 +902,9 @@ COORDINATION_PULSE_FORMAT ?= text
 .PHONY: coordination-pulse
 coordination-pulse:
 	@$(BLUEPRINT_PYTHON) scripts/coordination/coordination_pulse.py --root . --output-format "$(COORDINATION_PULSE_FORMAT)"
+
+PROMPT_CONTRACT_V0_4 ?= coordination/prompt_contracts/forprint_system_blueprint/blueprint_v0_4_immutable_prompt_contract_v0_1/blueprint_v0_4_immutable_prompt_contract_v0_1__contract_v0_1.yaml
+
+.PHONY: prompt-contract-v0-4-validate
+prompt-contract-v0-4-validate:
+	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_prompt_contract_v0_4.py --root . --contract "$(PROMPT_CONTRACT_V0_4)"
