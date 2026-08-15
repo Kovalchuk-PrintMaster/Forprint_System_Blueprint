@@ -59,7 +59,7 @@ def test_handoff_snapshot_contract() -> None:
     assert data["current_blueprint_plan"]["freshness_verdict"] == "CURRENT_CONTEXT_RECONCILED"
     assert (
         data["current_blueprint_plan"]["active_blueprint_step"]["id"]
-        == "blueprint_v0_4_coordination_health_and_pulse_v0_1"
+        == "blueprint_v0_4_immutable_prompt_contract_v0_1"
     )
     assert len(data["next_10_steps"]) == 10
     assert [item["order"] for item in data["next_10_steps"]] == list(range(1, 11))

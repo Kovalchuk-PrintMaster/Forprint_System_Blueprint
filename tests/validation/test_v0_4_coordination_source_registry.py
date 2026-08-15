@@ -53,23 +53,38 @@ def validator_module():
     return m
 
 
-def test_step19_stays_active_pending_operator_decision() -> None:
+def test_source_registry_and_health_steps_are_accepted_before_prompt_contract() -> None:
     roadmap, queue, handoff = load(ROADMAP), load(QUEUE), load(HANDOFF)
-    assert roadmap["metadata"]["current_step_id"] == "blueprint_v0_4_coordination_health_and_pulse_v0_1"
-    assert queue["metadata"]["active_prompt_id"] == "blueprint_v0_4_coordination_health_and_pulse_v0_1"
-    assert handoff["current_blueprint_plan"]["active_blueprint_step"]["id"] == "blueprint_v0_4_coordination_health_and_pulse_v0_1"
+    prompt_contract = "blueprint_v0_4_immutable_prompt_contract_v0_1"
+    assert roadmap["metadata"]["current_step_id"] == prompt_contract
+    assert queue["metadata"]["active_prompt_id"] == prompt_contract
+    assert handoff["current_blueprint_plan"]["active_blueprint_step"]["id"] == prompt_contract
 
     step19 = next(x for x in roadmap["steps"] if x["step_id"] == ACTIVE_ID)
     prompt19 = next(x for x in queue["prompts"] if x["prompt_id"] == ACTIVE_ID)
-    step20 = next(x for x in roadmap["steps"] if x["step_id"] == "blueprint_v0_4_coordination_health_and_pulse_v0_1")
-    prompt20 = next(x for x in queue["prompts"] if x["prompt_id"] == "blueprint_v0_4_coordination_health_and_pulse_v0_1")
+    step20 = next(
+        x
+        for x in roadmap["steps"]
+        if x["step_id"] == "blueprint_v0_4_coordination_health_and_pulse_v0_1"
+    )
+    prompt20 = next(
+        x
+        for x in queue["prompts"]
+        if x["prompt_id"] == "blueprint_v0_4_coordination_health_and_pulse_v0_1"
+    )
+    step21 = next(x for x in roadmap["steps"] if x["step_id"] == prompt_contract)
+    prompt21 = next(x for x in queue["prompts"] if x["prompt_id"] == prompt_contract)
 
     assert step19["status"] == "completed"
     assert prompt19["status"] == "completed"
     assert prompt19["execution_status"] == "accepted"
-    assert step20["status"] == "active"
-    assert prompt20["status"] == "approved"
-    assert prompt20["execution_status"] == "ready_for_module_pull"
+    assert step20["status"] == "completed"
+    assert step20["operator_decision"] == "ACCEPT"
+    assert prompt20["status"] == "completed"
+    assert prompt20["execution_status"] == "accepted"
+    assert step21["status"] == "active"
+    assert prompt21["status"] == "approved"
+    assert prompt21["execution_status"] == "ready_for_module_pull"
 
 def test_registry_exact_source_set_and_identity_separation() -> None:
     data = load(REGISTRY)

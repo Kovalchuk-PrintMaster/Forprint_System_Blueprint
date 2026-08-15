@@ -99,6 +99,7 @@ source_of_truth_map:
   current_assistant_handoff: coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml
   current_workstream_bootstrap_pointer: coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml:current_workstream_bootstrap.path
   coordination_source_registry: coordination/registry/coordination_source_registry_v0_1.yaml
+  coordination_health_policy: coordination/standards/governance/coordination_health_policy_v0_1.yaml
 make_interface:
   discovery_command: make help
   canonical_full_gate: make check PYTHON=.venv_blueprint/bin/python BLUEPRINT_PYTHON=.venv_blueprint/bin/python
@@ -125,6 +126,12 @@ make_interface:
   - check-self-coordination-consistency
   - check-repository-knowledge-freshness
   - repository-knowledge-reconciliation-status
+  - coordination-pulse
+  coordination_pulse:
+    target: coordination-pulse
+    mode: local_read_only
+    network_independent: true
+    source_of_truth: dynamic_view_not_persisted_artifact
   operator_decision_targets:
     completion-accept: manual decision surface; never invoke automatically
     completion-return: manual decision surface; never invoke automatically

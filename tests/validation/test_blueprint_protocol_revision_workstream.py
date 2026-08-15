@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parents[2]
 ROADMAP = ROOT / "coordination/self_coordination/roadmap.yaml"
 
 WORKSTREAM_ID = "blueprint_coordination_protocol_revision_and_legacy_simplification_v0_1"
-ACTIVE_ID = "blueprint_v0_4_coordination_health_and_pulse_v0_1"
+ACTIVE_ID = "blueprint_v0_4_immutable_prompt_contract_v0_1"
 
 
 def load_roadmap() -> dict:

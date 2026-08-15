@@ -128,6 +128,7 @@ help:
 	@echo "  make roadmap-dashboard MODULE=forprint_library"
 	@echo "  make roadmap-dashboard MODULES=forprint_library,forprint_integration_gateway,forprint_crm"
 	@echo "  make roadmap-summary"
+	@echo "  make coordination-pulse"
 	@echo "  make roadmap-summary ROADMAP_SUMMARY_MODULES=forprint_library,forprint_integration_gateway"
 	@echo "Standards / governance:"
 	@echo "  make standards-index"
@@ -894,3 +895,9 @@ inventory-acceptance-dry-run-status:
 # =============================================================================
 # 18 Blueprint inventory / repository-knowledge gates FINISH
 # =============================================================================
+
+COORDINATION_PULSE_FORMAT ?= text
+
+.PHONY: coordination-pulse
+coordination-pulse:
+	@$(BLUEPRINT_PYTHON) scripts/coordination/coordination_pulse.py --root . --output-format "$(COORDINATION_PULSE_FORMAT)"

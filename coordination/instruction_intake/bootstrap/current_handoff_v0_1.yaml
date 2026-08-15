@@ -10,27 +10,25 @@ metadata:
   snapshot_includes_logistics_registry_reconciliation: true
   snapshot_includes_tracking_events_review_findings: true
   snapshot_includes_v0_4_closed_loop_reconciliation: true
-  snapshot_updated_at: '2026-08-14T19:19:00+03:00'
+  snapshot_updated_at: '2026-08-15T16:58:00+03:00'
   snapshot_includes_v0_4_reconciliation_acceptance: true
   snapshot_includes_v0_4_lifecycle_standard_acceptance: true
   snapshot_includes_v0_4_coordination_source_registry: true
   snapshot_includes_v0_4_coordination_source_registry_publication: true
+  snapshot_includes_v0_4_coordination_health_and_pulse_acceptance: true
 current_blueprint_plan:
   path: coordination/self_coordination/roadmap.yaml
   status: active
   freshness_verdict: CURRENT_CONTEXT_RECONCILED
-  reconciliation_state: V0_4_LIFECYCLE_STANDARD_ACCEPTED_SOURCE_REGISTRY_ACTIVE
+  reconciliation_state: V0_4_HEALTH_AND_PULSE_ACCEPTED_PROMPT_CONTRACT_ACTIVE
   active_blueprint_step:
-    index: 20
-    id: blueprint_v0_4_coordination_health_and_pulse_v0_1
+    index: 21
+    id: blueprint_v0_4_immutable_prompt_contract_v0_1
     status: active
   next_planned_steps:
-  - index: 20
-    id: blueprint_v0_4_coordination_health_and_pulse_v0_1
-    status: planned
   - index: 21
     id: blueprint_v0_4_immutable_prompt_contract_v0_1
-    status: planned
+    status: active
   - index: 22
     id: blueprint_v0_4_completion_packet_v0_1
     status: planned
@@ -48,6 +46,9 @@ current_blueprint_plan:
     status: planned
   - index: 27
     id: blueprint_v0_4_tracking_events_reference_v0_1
+    status: planned
+  - index: 28
+    id: blueprint_v0_4_manual_dark_zone_audit_v0_1
     status: planned
   deferred_workstream:
     id: inventory_acceptance_merge_and_rollout_continuation
@@ -76,6 +77,16 @@ current_blueprint_plan:
     standard_adoption_mode: gradual_alignment
     next_prompt_id: blueprint_v0_4_coordination_source_registry_v0_1
     next_prompt_path: coordination/self_coordination/prompt_queue/approved/2026-08-13__forprint_system_blueprint__v0_4_coordination_source_registry_v0_1.md
+  accepted_health_and_pulse:
+    prompt_id: blueprint_v0_4_coordination_health_and_pulse_v0_1
+    operator_decision: ACCEPT
+    accepted_at: '2026-08-15T16:58:00+03:00'
+    evidence: coordination/internal_work/blueprint/governance/2026-08-15__blueprint__v0_4_coordination_health_and_pulse_acceptance_v0_1.yaml
+    command: make coordination-pulse
+    policy_status: candidate_v0_4
+    policy_promotion_performed: false
+    next_prompt_id: blueprint_v0_4_immutable_prompt_contract_v0_1
+    next_prompt_path: coordination/self_coordination/prompt_queue/approved/2026-08-14__forprint_system_blueprint__v0_4_immutable_prompt_contract_v0_1.md
 recent_completed_governance:
 - commit: 6d9a04b5f890cd874183d9f6349e1bbaaa5adbba
   subject: 'governance(blueprint): add completion exchange v0.3 candidate'
@@ -151,47 +162,45 @@ known_governance_debt:
   promotion_effect: blocks v0.3 promotion
 next_10_steps:
 - order: 1
-  id: blueprint_v0_4_coordination_health_and_pulse_v0_1
-  action: Implement coordination health policy and read-only coordination-pulse
+  index: 21
+  id: blueprint_v0_4_immutable_prompt_contract_v0_1
   status: active
 - order: 2
-  id: blueprint_v0_4_immutable_prompt_contract_v0_1
-  action: Define immutable Prompt Contract v0.4 instances and source-obligation fidelity
+  index: 22
+  id: blueprint_v0_4_completion_packet_v0_1
   status: planned
 - order: 3
-  id: blueprint_v0_4_completion_packet_v0_1
-  action: Define Completion Packet v0.4 verification and completion evidence
+  index: 23
+  id: blueprint_v0_4_completion_outbox_v0_1
   status: planned
 - order: 4
-  id: blueprint_v0_4_completion_outbox_v0_1
-  action: Define module-owned immutable completion outbox events
+  index: 24
+  id: blueprint_v0_4_completion_discovery_and_intake_v0_1
   status: planned
 - order: 5
-  id: blueprint_v0_4_completion_discovery_and_intake_v0_1
-  action: Implement idempotent completion discovery and v0.4 intake
+  index: 25
+  id: blueprint_v0_4_review_roadmap_queue_transaction_v0_1
   status: planned
 - order: 6
-  id: blueprint_v0_4_review_roadmap_queue_transaction_v0_1
-  action: Implement explicit review decision and bounded roadmap/queue transaction
+  index: 26
+  id: blueprint_v0_4_next_prompt_selection_and_activation_v0_1
   status: planned
 - order: 7
-  id: blueprint_v0_4_next_prompt_selection_and_activation_v0_1
-  action: Implement deterministic next-prompt selection and activation
+  index: 27
+  id: blueprint_v0_4_tracking_events_reference_v0_1
   status: planned
 - order: 8
-  id: blueprint_v0_4_tracking_events_reference_v0_1
-  action: Run Tracking Events as the first full v0.4 reference
+  index: 28
+  id: blueprint_v0_4_manual_dark_zone_audit_v0_1
   status: planned
 - order: 9
-  id: blueprint_v0_4_manual_dark_zone_audit_v0_1
-  action: Run manual prompt-to-contract-to-evidence dark-zone audit
-  status: planned
-- order: 10
   index: 29
   id: blueprint_v0_4_promotion_decision_v0_1
-  title: Review v0.4 promotion readiness under explicit operator control
   status: planned
-  priority: high
+- order: 10
+  index: null
+  id: ecosystem_inventory_rollout_wave_b_v0_1
+  status: deferred
 hard_boundaries:
   external_rollout: gated
   pilot_authorized: false
@@ -227,8 +236,8 @@ current_workstream_bootstrap:
   counts_as_draft_prompt: false
   workstream: completion_exchange_and_closed_loop_coordination_v0_4
 self_coordination_health:
-  evaluated_at: '2026-08-14T19:12:00+03:00'
-  roadmap_future_steps: 9
+  evaluated_at: '2026-08-15T16:58:00+03:00'
+  roadmap_future_steps: 8
   roadmap_minimum: 5
   roadmap_target: 8
   roadmap_state: healthy
@@ -244,10 +253,10 @@ published_base:
   publication_verified: true
   evidence: coordination/internal_work/blueprint/governance/2026-08-14__blueprint__v0_4_coordination_source_registry_publication_verification_v0_1.yaml
 prompt_buffer_replenishment:
-  draft_prompt_id: blueprint_v0_4_completion_outbox_v0_1
-  path: coordination/self_coordination/prompt_queue/draft/2026-08-14__forprint_system_blueprint__v0_4_completion_outbox_v0_1.md
+  draft_prompt_id: blueprint_v0_4_completion_discovery_and_intake_v0_1
+  path: coordination/self_coordination/prompt_queue/draft/2026-08-15__forprint_system_blueprint__v0_4_completion_discovery_and_intake_v0_1.md
   dispatch_ready: true
-  reason: restore_v0_4_prompt_buffer_to_target_after_step20_activation
+  reason: restore_v0_4_prompt_buffer_to_target_after_step21_activation
 coordination_source_registry:
   path: coordination/registry/coordination_source_registry_v0_1.yaml
   schema_version: coordination_source_registry_v0_1
@@ -261,8 +270,22 @@ coordination_source_registry:
   publication_verification: coordination/internal_work/blueprint/governance/2026-08-14__blueprint__v0_4_coordination_source_registry_publication_verification_v0_1.yaml
   publication_verified: true
 latest_operator_decision:
-  roadmap_step_id: blueprint_v0_4_coordination_source_registry_v0_1
-  prompt_id: blueprint_v0_4_coordination_source_registry_v0_1
+  roadmap_step_id: blueprint_v0_4_coordination_health_and_pulse_v0_1
+  prompt_id: blueprint_v0_4_coordination_health_and_pulse_v0_1
   decision: ACCEPT
-  decided_at: '2026-08-14T19:12:00+03:00'
-  acceptance_evidence: coordination/internal_work/blueprint/governance/2026-08-14__blueprint__v0_4_coordination_source_registry_acceptance_v0_1.yaml
+  decided_at: '2026-08-15T16:58:00+03:00'
+  acceptance_evidence: coordination/internal_work/blueprint/governance/2026-08-15__blueprint__v0_4_coordination_health_and_pulse_acceptance_v0_1.yaml
+coordination_pulse:
+  command: make coordination-pulse
+  script: scripts/coordination/coordination_pulse.py
+  policy: coordination/standards/governance/coordination_health_policy_v0_1.yaml
+  mode: local_read_only
+  network_independent: true
+  generated_pulse_artifact_is_source_of_truth: false
+  implementation_status: accepted_v0_4
+  operator_decision_created: true
+  operator_decision: ACCEPT
+  accepted_at: '2026-08-15T16:58:00+03:00'
+  acceptance_evidence: coordination/internal_work/blueprint/governance/2026-08-15__blueprint__v0_4_coordination_health_and_pulse_acceptance_v0_1.yaml
+  policy_status: candidate_v0_4
+  policy_promotion_performed: false
