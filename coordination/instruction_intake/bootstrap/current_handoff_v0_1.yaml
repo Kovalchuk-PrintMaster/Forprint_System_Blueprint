@@ -2,7 +2,7 @@ schema_version: blueprint_current_handoff_v0_1
 metadata:
   module_id: forprint_system_blueprint
   artifact_role: current_assistant_handoff_snapshot
-  state_observed_at_head: 22fa2820972f6a756065bb6c402ef630c257668f
+  state_observed_at_head: 2e13d027ca16acdbee0076816ea3f670cba4351b
   state_observed_on_branch: audit/blueprint-inventory-refresh-2026-07-29
   snapshot_semantics: baseline_snapshot_reconcile_git_before_action
   snapshot_includes_roadmap_context_reconciliation: true
@@ -10,13 +10,14 @@ metadata:
   snapshot_includes_logistics_registry_reconciliation: true
   snapshot_includes_tracking_events_review_findings: true
   snapshot_includes_v0_4_closed_loop_reconciliation: true
-  snapshot_updated_at: '2026-08-15T18:14:00+03:00'
+  snapshot_updated_at: '2026-08-15T19:51:00+03:00'
   snapshot_includes_v0_4_reconciliation_acceptance: true
   snapshot_includes_v0_4_lifecycle_standard_acceptance: true
   snapshot_includes_v0_4_coordination_source_registry: true
   snapshot_includes_v0_4_coordination_source_registry_publication: true
   snapshot_includes_v0_4_coordination_health_and_pulse_acceptance: true
   snapshot_includes_v0_4_coordination_health_and_pulse_publication_verification: true
+  snapshot_includes_v0_4_immutable_prompt_contract_publication_verification: true
 current_blueprint_plan:
   path: coordination/self_coordination/roadmap.yaml
   status: active
@@ -89,10 +90,10 @@ current_blueprint_plan:
     next_prompt_id: blueprint_v0_4_immutable_prompt_contract_v0_1
     next_prompt_path: coordination/self_coordination/prompt_queue/approved/2026-08-14__forprint_system_blueprint__v0_4_immutable_prompt_contract_v0_1.md
   publication_state:
-    latest_accepted_step: blueprint_v0_4_coordination_health_and_pulse_v0_1
-    accepted_commit: 22fa2820972f6a756065bb6c402ef630c257668f
+    latest_accepted_step: blueprint_v0_4_immutable_prompt_contract_v0_1
+    accepted_commit: 2e13d027ca16acdbee0076816ea3f670cba4351b
     remote_containment_verified: true
-    publication_verification_evidence: coordination/internal_work/blueprint/governance/2026-08-15__blueprint__v0_4_coordination_health_and_pulse_publication_verification_v0_1.yaml
+    publication_verification_evidence: coordination/internal_work/blueprint/governance/2026-08-15__blueprint__v0_4_immutable_prompt_contract_publication_verification_v0_1.yaml
     current_active_step: blueprint_v0_4_completion_packet_v0_1
   active_prompt:
     id: blueprint_v0_4_completion_packet_v0_1
@@ -256,15 +257,15 @@ self_coordination_health:
   advisories: []
   blocking_errors: []
 published_base:
-  commit: 22fa2820972f6a756065bb6c402ef630c257668f
+  commit: 2e13d027ca16acdbee0076816ea3f670cba4351b
   remote_ref: refs/heads/audit/blueprint-inventory-refresh-2026-07-29
   publication_verified: true
-  evidence: coordination/internal_work/blueprint/governance/2026-08-14__blueprint__v0_4_coordination_source_registry_publication_verification_v0_1.yaml
+  evidence: coordination/internal_work/blueprint/governance/2026-08-15__blueprint__v0_4_immutable_prompt_contract_publication_verification_v0_1.yaml
   branch: audit/blueprint-inventory-refresh-2026-07-29
   remote: origin
-  verified_at: '2026-08-15T17:24:00+03:00'
+  verified_at: '2026-08-15T19:51:00+03:00'
   remote_containment_verified: true
-  publication_verification_evidence: coordination/internal_work/blueprint/governance/2026-08-15__blueprint__v0_4_coordination_health_and_pulse_publication_verification_v0_1.yaml
+  publication_verification_evidence: coordination/internal_work/blueprint/governance/2026-08-15__blueprint__v0_4_immutable_prompt_contract_publication_verification_v0_1.yaml
 prompt_buffer_replenishment:
   performed_at: '2026-08-15T18:14:00+03:00'
   prompt_id: blueprint_v0_4_review_roadmap_queue_transaction_v0_1
@@ -304,14 +305,14 @@ coordination_pulse:
   publication_verified: true
   publication_verification_evidence: coordination/internal_work/blueprint/governance/2026-08-15__blueprint__v0_4_coordination_health_and_pulse_publication_verification_v0_1.yaml
 latest_publication_verification:
-  subject_roadmap_step_id: blueprint_v0_4_coordination_health_and_pulse_v0_1
-  subject_commit: 22fa2820972f6a756065bb6c402ef630c257668f
+  subject_roadmap_step_id: blueprint_v0_4_immutable_prompt_contract_v0_1
+  subject_commit: 2e13d027ca16acdbee0076816ea3f670cba4351b
   decision: ACCEPT
   remote: origin
   remote_ref: refs/heads/audit/blueprint-inventory-refresh-2026-07-29
   remote_containment_verified: true
-  verified_at: '2026-08-15T17:24:00+03:00'
-  evidence: coordination/internal_work/blueprint/governance/2026-08-15__blueprint__v0_4_coordination_health_and_pulse_publication_verification_v0_1.yaml
+  verified_at: '2026-08-15T19:51:00+03:00'
+  evidence: coordination/internal_work/blueprint/governance/2026-08-15__blueprint__v0_4_immutable_prompt_contract_publication_verification_v0_1.yaml
   seal_commit_is_not_subject_to_recursive_sealing: true
 prompt_contract_v0_4:
   standard: coordination/standards/governance/module_prompt_contract_v0_4.yaml
@@ -336,3 +337,6 @@ prompt_contract_v0_4:
   accepted_at: '2026-08-15T18:14:00+03:00'
   acceptance_evidence: coordination/internal_work/blueprint/governance/2026-08-15__blueprint__v0_4_immutable_prompt_contract_acceptance_v0_1.yaml
   human_semantic_fidelity_review_result: accepted_for_step21
+  publication_verified: true
+  accepted_commit: 2e13d027ca16acdbee0076816ea3f670cba4351b
+  publication_verification_evidence: coordination/internal_work/blueprint/governance/2026-08-15__blueprint__v0_4_immutable_prompt_contract_publication_verification_v0_1.yaml
