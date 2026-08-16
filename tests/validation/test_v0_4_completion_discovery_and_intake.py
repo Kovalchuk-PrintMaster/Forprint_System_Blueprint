@@ -365,9 +365,10 @@ def test_step24_implementation_does_not_advance_lifecycle_or_decide() -> None:
     prompt24 = next(item for item in queue["prompts"] if item["prompt_id"] == STEP24)
     state = handoff["completion_discovery_intake_v0_4"]
     step25 = "blueprint_v0_4_review_roadmap_queue_transaction_v0_1"
+    step26 = "blueprint_v0_4_next_prompt_selection_and_activation_v0_1"
     current_id = roadmap["metadata"]["current_step_id"]
 
-    assert current_id in {STEP24, step25}
+    assert current_id in {STEP24, step25, step26}
     assert queue["metadata"]["active_prompt_id"] == current_id
 
     if current_id == STEP24:
@@ -376,19 +377,20 @@ def test_step24_implementation_does_not_advance_lifecycle_or_decide() -> None:
         assert state["implementation_status"] == "READY_FOR_OPERATOR_REVIEW"
         assert state["operator_decision_created"] is False
     else:
-        prompt25 = next(
-            item for item in queue["prompts"] if item["prompt_id"] == step25
-        )
         assert step24["status"] == "completed"
         assert step24["operator_decision"] == "ACCEPT"
         assert prompt24["status"] == "completed"
         assert prompt24["execution_status"] == "accepted"
         assert prompt24["operator_decision"] == "ACCEPT"
-        assert prompt25["status"] == "approved"
-        assert prompt25["execution_status"] == "ready_for_module_pull"
         assert state["implementation_status"] == "accepted_v0_4"
         assert state["operator_decision_created"] is True
         assert state["operator_decision"] == "ACCEPT"
+
+        current_prompt = next(
+            item for item in queue["prompts"] if item["prompt_id"] == current_id
+        )
+        assert current_prompt["status"] == "approved"
+        assert current_prompt["execution_status"] == "ready_for_module_pull"
 
     assert state["review_roadmap_queue_transaction_implemented"] is False
     assert state["global_v0_4_promotion_performed"] is False

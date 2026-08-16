@@ -206,9 +206,10 @@ def test_step23_implementation_does_not_advance_lifecycle() -> None:
     outbox_state = handoff["completion_outbox_v0_4"]
     step24 = "blueprint_v0_4_completion_discovery_and_intake_v0_1"
     step25 = "blueprint_v0_4_review_roadmap_queue_transaction_v0_1"
+    step26 = "blueprint_v0_4_next_prompt_selection_and_activation_v0_1"
     current_id = roadmap["metadata"]["current_step_id"]
 
-    assert current_id in {STEP23, step24, step25}
+    assert current_id in {STEP23, step24, step25, step26}
     assert queue["metadata"]["active_prompt_id"] == current_id
 
     prompt23 = next(x for x in queue["prompts"] if x["prompt_id"] == STEP23)
@@ -223,17 +224,27 @@ def test_step23_implementation_does_not_advance_lifecycle() -> None:
         assert prompt23["execution_status"] == "accepted"
         assert outbox_state["implementation_status"] == "accepted_v0_4"
 
-    if current_id == step25:
+    if current_id in {step25, step26}:
         step24_record = next(
             x for x in roadmap["steps"] if x["step_id"] == step24
         )
         prompt24 = next(x for x in queue["prompts"] if x["prompt_id"] == step24)
-        prompt25 = next(x for x in queue["prompts"] if x["prompt_id"] == step25)
         assert step24_record["status"] == "completed"
         assert step24_record["operator_decision"] == "ACCEPT"
         assert prompt24["status"] == "completed"
         assert prompt24["execution_status"] == "accepted"
-        assert prompt25["status"] == "approved"
+
+    if current_id == step26:
+        step25_record = next(
+            x for x in roadmap["steps"] if x["step_id"] == step25
+        )
+        prompt25 = next(x for x in queue["prompts"] if x["prompt_id"] == step25)
+        prompt26 = next(x for x in queue["prompts"] if x["prompt_id"] == step26)
+        assert step25_record["status"] == "completed"
+        assert step25_record["operator_decision"] == "ACCEPT"
+        assert prompt25["status"] == "completed"
+        assert prompt25["execution_status"] == "accepted"
+        assert prompt26["status"] == "approved"
 
     assert outbox_state["promotion_performed"] is False
     assert outbox_state["completion_discovery_or_intake_implemented"] is False

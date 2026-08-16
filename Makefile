@@ -923,3 +923,7 @@ completion-outbox-v0-4-validate:
 .PHONY: completion-discovery-intake-v0-4
 completion-discovery-intake-v0-4:
 	.venv_blueprint/bin/python scripts/coordination/completion_discovery_and_intake_v0_4.py --root .
+
+.PHONY: review-roadmap-queue-transaction-v0-4
+review-roadmap-queue-transaction-v0-4:
+	.venv_blueprint/bin/python scripts/coordination/review_roadmap_queue_transaction_v0_4.py --root . --live-status

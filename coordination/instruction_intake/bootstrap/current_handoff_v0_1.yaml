@@ -10,7 +10,7 @@ metadata:
   snapshot_includes_logistics_registry_reconciliation: true
   snapshot_includes_tracking_events_review_findings: true
   snapshot_includes_v0_4_closed_loop_reconciliation: true
-  snapshot_updated_at: '2026-08-16T18:12:00+03:00'
+  snapshot_updated_at: '2026-08-16T18:52:00+03:00'
   snapshot_includes_v0_4_reconciliation_acceptance: true
   snapshot_includes_v0_4_lifecycle_standard_acceptance: true
   snapshot_includes_v0_4_coordination_source_registry: true
@@ -24,17 +24,14 @@ current_blueprint_plan:
   freshness_verdict: CURRENT_CONTEXT_RECONCILED
   reconciliation_state: V0_4_PROMPT_CONTRACT_ACCEPTED_COMPLETION_PACKET_ACTIVE
   active_blueprint_step:
-    id: blueprint_v0_4_review_roadmap_queue_transaction_v0_1
+    id: blueprint_v0_4_next_prompt_selection_and_activation_v0_1
     status: active
-    sequence: 25
-    title: Implement explicit review decision and bounded roadmap/queue transaction
+    sequence: 26
+    title: Implement deterministic next-prompt selection and activation
   next_planned_steps:
-  - index: 25
-    id: blueprint_v0_4_review_roadmap_queue_transaction_v0_1
-    status: active
   - index: 26
     id: blueprint_v0_4_next_prompt_selection_and_activation_v0_1
-    status: planned
+    status: active
   - index: 27
     id: blueprint_v0_4_tracking_events_reference_v0_1
     status: planned
@@ -86,15 +83,15 @@ current_blueprint_plan:
     accepted_commit: 2e13d027ca16acdbee0076816ea3f670cba4351b
     remote_containment_verified: true
     publication_verification_evidence: coordination/internal_work/blueprint/governance/2026-08-15__blueprint__v0_4_immutable_prompt_contract_publication_verification_v0_1.yaml
-    current_active_step: blueprint_v0_4_review_roadmap_queue_transaction_v0_1
+    current_active_step: blueprint_v0_4_next_prompt_selection_and_activation_v0_1
     last_publication_subject_commit: 533f9f26fe65c1d16ff115b9f93645f24058a5c6
     last_publication_verification_evidence: coordination/internal_work/blueprint/governance/2026-08-16__blueprint__v0_4_completion_discovery_and_intake_publication_verification_v0_1.yaml
     seal_commit_pending: true
   active_prompt:
-    id: blueprint_v0_4_review_roadmap_queue_transaction_v0_1
+    id: blueprint_v0_4_next_prompt_selection_and_activation_v0_1
     status: approved
     execution_status: ready_for_module_pull
-    path: coordination/self_coordination/prompt_queue/approved/2026-08-15__forprint_system_blueprint__v0_4_review_roadmap_queue_transaction_v0_1.md
+    path: coordination/self_coordination/prompt_queue/approved/2026-08-16__forprint_system_blueprint__v0_4_next_prompt_selection_and_activation_v0_1.md
 recent_completed_governance:
 - commit: 6d9a04b5f890cd874183d9f6349e1bbaaa5adbba
   subject: 'governance(blueprint): add completion exchange v0.3 candidate'
@@ -170,22 +167,18 @@ known_governance_debt:
   promotion_effect: blocks v0.3 promotion
 next_10_steps:
 - order: 1
-  id: blueprint_v0_4_review_roadmap_queue_transaction_v0_1
-  title: Implement explicit review decision and bounded roadmap/queue transaction
-  status: active
-- order: 2
   id: blueprint_v0_4_next_prompt_selection_and_activation_v0_1
   title: Implement deterministic next-prompt selection and activation
-  status: planned
-- order: 3
+  status: active
+- order: 2
   id: blueprint_v0_4_tracking_events_reference_v0_1
   title: Run Tracking Events as the first full v0.4 reference
   status: planned
-- order: 4
+- order: 3
   id: blueprint_v0_4_manual_dark_zone_audit_v0_1
   title: Run manual prompt-to-contract-to-evidence dark-zone audit
   status: planned
-- order: 5
+- order: 4
   id: blueprint_v0_4_promotion_decision_v0_1
   title: Review v0.4 promotion readiness under explicit operator control
   status: planned
@@ -224,8 +217,8 @@ current_workstream_bootstrap:
   counts_as_draft_prompt: false
   workstream: completion_exchange_and_closed_loop_coordination_v0_4
 self_coordination_health:
-  evaluated_at: '2026-08-16T17:29:00+03:00'
-  roadmap_future_steps: 4
+  evaluated_at: '2026-08-16T18:52:00+03:00'
+  roadmap_future_steps: 3
   roadmap_minimum: 5
   roadmap_target: 8
   roadmap_state: below_minimum
@@ -460,3 +453,52 @@ completion_discovery_intake_v0_4:
   publication_verification_state: verified_ready_for_manual_seal_commit
   seal_commit_pending: true
   seal_is_recursive: false
+review_roadmap_queue_transaction_v0_4:
+  tool: scripts/coordination/review_roadmap_queue_transaction_v0_4.py
+  test: tests/validation/test_v0_4_review_roadmap_queue_transaction.py
+  implementation_evidence: coordination/internal_work/blueprint/governance/2026-08-16__blueprint__v0_4_review_roadmap_queue_transaction_implementation_v0_1.yaml
+  source_prompt_at_implementation: coordination/self_coordination/prompt_queue/approved/2026-08-15__forprint_system_blueprint__v0_4_review_roadmap_queue_transaction_v0_1.md
+  source_prompt_sha256: 2c8db57a4f93ad7c0cedafada4c3b9853f70c04a9ebc865594ef15e8ccbddd05
+  status: candidate_reference_only
+  implementation_status: accepted_v0_4
+  transaction_engine_implemented: true
+  request_schema: blueprint_review_roadmap_queue_transaction_request_v0_4
+  review_evidence_schema: blueprint_operator_review_decision_v0_4
+  operator_decision_created: true
+  explicit_operator_input_required: true
+  supported_operator_decisions:
+  - ACCEPT
+  - RETURN
+  - HOLD
+  apply_requires_operator_confirmation_matching_decision_id: true
+  validated_review_candidate_required: true
+  accepted_intake_state: READY_FOR_BLUEPRINT_REVIEW
+  bounded_blueprint_transaction: true
+  exact_rollback_on_failure: true
+  idempotent_same_decision_identity: true
+  conflicting_decision_identity_fails_safely: true
+  accept_moves_approved_to_completed: true
+  return_hold_keep_prompt_outside_completed: true
+  return_requires_correction_notes: true
+  hold_is_distinct_from_return: true
+  dependency_eligibility_recalculated: true
+  live_result_state: NO_REVIEW_TRANSACTION_AVAILABLE
+  live_discovery_result_state: NO_COMPLETIONS_AVAILABLE
+  live_discovery_fingerprint_sha256: 95cb046160dcadec8612dae3688b6fd3a3693c9124c0981d33b035bea2200867
+  live_review_candidates_at_implementation: 0
+  step26_selection_activation_implemented: false
+  next_prompt_selection_performed: false
+  next_prompt_activation_performed: false
+  tracking_events_reference_run: false
+  global_v0_4_promotion_performed: false
+  module_repository_writes: false
+  automatic_acceptance: false
+  automatic_return: false
+  automatic_hold: false
+  automatic_commit: false
+  automatic_push: false
+  rollout_or_production_write: false
+  operator_decision: ACCEPT
+  operator_decision_at: '2026-08-16T18:52:00+03:00'
+  acceptance_evidence: coordination/internal_work/blueprint/governance/2026-08-16__blueprint__v0_4_review_roadmap_queue_transaction_acceptance_v0_1.yaml
+  normal_acceptance_allowed: false

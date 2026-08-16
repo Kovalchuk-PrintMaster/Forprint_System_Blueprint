@@ -66,6 +66,7 @@ def test_source_registry_and_health_steps_are_accepted_before_prompt_contract() 
         completion_outbox,
         completion_intake,
         "blueprint_v0_4_review_roadmap_queue_transaction_v0_1",
+        "blueprint_v0_4_next_prompt_selection_and_activation_v0_1",
     }
     assert queue["metadata"]["active_prompt_id"] == active_id
     assert handoff["current_blueprint_plan"]["active_blueprint_step"]["id"] == active_id
@@ -211,8 +212,7 @@ def test_prompt_buffer_restored_to_target_with_completion_packet_draft() -> None
     if active_id == step24:
         assert len(drafts) == 2
         assert draft_ids == {step25, step26}
-    else:
-        assert active_id == step25
+    elif active_id == step25:
         assert len(drafts) == 2
         assert step26 in draft_ids
         tracking = [
@@ -224,6 +224,11 @@ def test_prompt_buffer_restored_to_target_with_completion_packet_draft() -> None
         ]
         assert len(tracking) == 1
         assert tracking[0]["prompt_id"] in draft_ids
+    else:
+        assert active_id == step26
+        assert len(drafts) == 2
+        sequences = {item.get("sequence") for item in drafts}
+        assert sequences == {27, 28}
 
     assert queue["metadata"]["dispatchable_draft_count"] == len(drafts)
     assert (

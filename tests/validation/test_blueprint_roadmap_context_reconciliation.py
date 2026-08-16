@@ -114,6 +114,7 @@ def test_inventory_plan_history_is_preserved_while_self_roadmap_is_superseded() 
         step23,
         step24,
         "blueprint_v0_4_review_roadmap_queue_transaction_v0_1",
+        "blueprint_v0_4_next_prompt_selection_and_activation_v0_1",
     }
     assert prompt_index["metadata"]["active_prompt_id"] == active_id
 
@@ -187,6 +188,7 @@ def test_handoff_reports_current_v04_and_links_historical_reconciliation() -> No
         "blueprint_v0_4_completion_outbox_v0_1",
         "blueprint_v0_4_completion_discovery_and_intake_v0_1",
         "blueprint_v0_4_review_roadmap_queue_transaction_v0_1",
+        "blueprint_v0_4_next_prompt_selection_and_activation_v0_1",
     }
 
     historical = plan["historical_context_reconciliation"]

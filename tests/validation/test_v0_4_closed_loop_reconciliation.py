@@ -133,6 +133,7 @@ def test_roadmap_horizon_is_policy_driven() -> None:
     assert roadmap["metadata"]["current_step_id"] in {
         "blueprint_v0_4_completion_discovery_and_intake_v0_1",
         "blueprint_v0_4_review_roadmap_queue_transaction_v0_1",
+        "blueprint_v0_4_next_prompt_selection_and_activation_v0_1",
     }
 
 def test_prompt_buffer_health_matches_policy() -> None:
