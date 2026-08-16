@@ -130,6 +130,7 @@ help:
 	@echo "  make roadmap-summary"
 	@echo "  make coordination-pulse"
 	@echo "  make prompt-contract-v0-4-validate"
+	@echo "  make completion-packet-v0-4-validate"
 	@echo "  make roadmap-summary ROADMAP_SUMMARY_MODULES=forprint_library,forprint_integration_gateway"
 	@echo "Standards / governance:"
 	@echo "  make standards-index"
@@ -908,3 +909,9 @@ PROMPT_CONTRACT_V0_4 ?= coordination/prompt_contracts/forprint_system_blueprint/
 .PHONY: prompt-contract-v0-4-validate
 prompt-contract-v0-4-validate:
 	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_prompt_contract_v0_4.py --root . --contract "$(PROMPT_CONTRACT_V0_4)"
+
+COMPLETION_PACKET_V0_4 ?= coordination/templates/module_completion_packet_v0_4.example.yaml
+
+.PHONY: completion-packet-v0-4-validate
+completion-packet-v0-4-validate:
+	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_completion_packet_v0_4.py --root . --packet "$(COMPLETION_PACKET_V0_4)" --template-mode

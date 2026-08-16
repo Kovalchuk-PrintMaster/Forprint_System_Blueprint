@@ -1,0 +1,77 @@
+schema_version: module_completion_packet_standard_v0_4
+metadata:
+  standard_id: module_completion_packet_v0_4
+  title: Module Completion Packet v0.4
+  status: candidate_reference_only
+  owner: forprint_system_blueprint
+  immutable_packet_instances: true
+purpose:
+  summary: Immutable module-owned completion evidence bound to Prompt Contract v0.4
+    without granting Blueprint acceptance.
+  separates_module_completion_from_operator_acceptance: true
+  preserves_human_semantic_review: true
+instance:
+  schema_version: module_completion_packet_v0_4
+  canonical_path: coordination/completion_packets/records/<completion_id>.yaml
+  status: completed_in_module_pending_blueprint_review
+  immutable: true
+  superseding_revision_required_for_correction: true
+  historical_packet_mutation_allowed: false
+prompt_contract_binding:
+  required_contract_schema: module_prompt_contract_v0_4
+  require_contract_file_sha256: true
+  require_contract_payload_sha256: true
+  require_source_prompt_sha256: true
+  require_module_id_match: true
+  require_prompt_id_match: true
+  complete_target_categories:
+  - implementation_obligations
+  - verification_obligations
+  - completion_evidence_obligations
+  unknown_obligation_results_allowed: false
+  duplicate_obligation_results_allowed: false
+evidence:
+  evidence_manifest_required: true
+  evidence_file_sha256_required: true
+  requirement_results_reference_known_evidence: true
+  completion_report_must_be_manifested: true
+checks:
+  summary_mapping_required:
+  - check_report
+  - tests
+  - governance_check
+  detailed_check_results_required: true
+  failed_required_check_allowed: false
+semantic_fidelity:
+  module_attestation_required: true
+  human_blueprint_review_required: true
+  execution_fingerprint_sufficient: false
+  module_packet_is_operator_decision: false
+publication:
+  completion_commit_embedded_in_packet: false
+  self_reference_avoided: true
+  remote_containment_claimed_by_packet: false
+  external_publication_verification_required: true
+  automatic_commit: false
+  automatic_push: false
+revision:
+  superseding_fields:
+  - supersedes_completion_id
+  - supersedes_packet_path
+  - revision_reason
+  all_or_none: true
+  rewrite_historical_packet: false
+promotion:
+  state: candidate_reference_only
+  normal_acceptance_allowed: false
+  explicit_promotion_required: true
+  promotion_performed: false
+  step22_acceptance_is_not_global_v0_4_promotion: true
+scope_boundaries:
+  completion_outbox_implemented: false
+  completion_discovery_or_intake_implemented: false
+  review_roadmap_queue_transaction_implemented: false
+  next_prompt_automation_implemented: false
+  tracking_events_reference_run: false
+  module_repository_writes: false
+  rollout_or_production_write: false

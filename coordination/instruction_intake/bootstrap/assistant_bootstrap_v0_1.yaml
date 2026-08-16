@@ -102,6 +102,9 @@ source_of_truth_map:
   coordination_health_policy: coordination/standards/governance/coordination_health_policy_v0_1.yaml
   prompt_contract_v0_4_standard: coordination/standards/governance/module_prompt_contract_v0_4.yaml
   prompt_contract_v0_4_validator: scripts/coordination/validate_prompt_contract_v0_4.py
+  completion_packet_v0_4_standard: coordination/standards/governance/module_completion_packet_v0_4.yaml
+  completion_packet_v0_4_template: coordination/templates/module_completion_packet_v0_4.example.yaml
+  completion_packet_v0_4_validator: scripts/coordination/validate_completion_packet_v0_4.py
 make_interface:
   discovery_command: make help
   canonical_full_gate: make check PYTHON=.venv_blueprint/bin/python BLUEPRINT_PYTHON=.venv_blueprint/bin/python
@@ -130,6 +133,7 @@ make_interface:
   - repository-knowledge-reconciliation-status
   - coordination-pulse
   - prompt-contract-v0-4-validate
+  - completion-packet-v0-4-validate
   coordination_pulse:
     target: coordination-pulse
     mode: local_read_only

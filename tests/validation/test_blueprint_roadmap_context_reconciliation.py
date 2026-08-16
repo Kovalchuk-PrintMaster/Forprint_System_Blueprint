@@ -106,7 +106,11 @@ def test_inventory_plan_history_is_preserved_while_self_roadmap_is_superseded() 
 
     assert len(self_roadmap["steps"]) == 29
     active_id = self_roadmap["metadata"]["current_step_id"]
-    assert active_id in {CURRENT_V04_ID, COMPLETION_PACKET_ID}
+    assert active_id in {
+        CURRENT_V04_ID,
+        "blueprint_v0_4_completion_packet_v0_1",
+        "blueprint_v0_4_completion_outbox_v0_1",
+    }
     assert prompt_index["metadata"]["active_prompt_id"] == active_id
 
     prompt_contract = step_by_id(self_roadmap["steps"], CURRENT_V04_ID)
@@ -115,11 +119,14 @@ def test_inventory_plan_history_is_preserved_while_self_roadmap_is_superseded() 
     else:
         assert prompt_contract["status"] == "completed"
         assert prompt_contract["operator_decision"] == "ACCEPT"
-        completion_packet = step_by_id(
+
+    if active_id == "blueprint_v0_4_completion_outbox_v0_1":
+        packet = step_by_id(
             self_roadmap["steps"],
-            COMPLETION_PACKET_ID,
+            "blueprint_v0_4_completion_packet_v0_1",
         )
-        assert completion_packet["status"] == "active"
+        assert packet["status"] == "completed"
+        assert packet["operator_decision"] == "ACCEPT"
 
     deferred = step_by_id(
         self_roadmap["deferred_steps"],
@@ -128,7 +135,6 @@ def test_inventory_plan_history_is_preserved_while_self_roadmap_is_superseded() 
     assert deferred["status"] == "deferred"
     assert deferred["previous_sequence"] == 17
     assert deferred["release_after"] == "blueprint_v0_4_promotion_decision_v0_1"
-
 
 def test_historical_context_metadata_is_marked_superseded_for_current_ordering() -> None:
     inventory = load_yaml(INVENTORY_PLAN)
@@ -166,13 +172,14 @@ def test_handoff_reports_current_v04_and_links_historical_reconciliation() -> No
     plan = handoff["current_blueprint_plan"]
     assert plan["freshness_verdict"] == "CURRENT_CONTEXT_RECONCILED"
     active_id = plan["active_blueprint_step"]["id"]
-    assert active_id in {CURRENT_V04_ID, COMPLETION_PACKET_ID}
+    assert active_id in {
+        CURRENT_V04_ID,
+        "blueprint_v0_4_completion_packet_v0_1",
+        "blueprint_v0_4_completion_outbox_v0_1",
+    }
 
     historical = plan["historical_context_reconciliation"]
-    assert (
-        historical["state"]
-        == "historical_snapshot_superseded_for_current_ordering"
-    )
+    assert historical["state"] == "historical_snapshot_superseded_for_current_ordering"
     assert historical["historical_active_step_id"] == HISTORICAL_ACTIVE_ID
     assert historical["historical_evidence_mutated"] is False
 
@@ -185,7 +192,6 @@ def test_handoff_reports_current_v04_and_links_historical_reconciliation() -> No
     assert handoff["hard_boundaries"]["automatic_acceptance"] is False
     assert handoff["hard_boundaries"]["automatic_return"] is False
     assert handoff["hard_boundaries"]["directive_activation_authorized"] is False
-
 
 def test_historical_freshness_review_remains_historical() -> None:
     freshness = load_yaml(FRESHNESS_REVIEW)

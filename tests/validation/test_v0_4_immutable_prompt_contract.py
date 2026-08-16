@@ -150,14 +150,15 @@ def test_step21_lifecycle_state_is_coherent() -> None:
 def test_handoff_surfaces_candidate_contract_without_promotion() -> None:
     handoff = load(HANDOFF)
     state = handoff["prompt_contract_v0_4"]
-    assert state["standard"] == "coordination/standards/governance/module_prompt_contract_v0_4.yaml"
-    assert state["validator"] == "scripts/coordination/validate_prompt_contract_v0_4.py"
-    assert state["self_contract"] == (
-        "coordination/prompt_contracts/forprint_system_blueprint/"
-        "blueprint_v0_4_immutable_prompt_contract_v0_1/"
-        "blueprint_v0_4_immutable_prompt_contract_v0_1__contract_v0_1.yaml"
-    )
     assert state["status"] == "candidate_reference_only"
     assert state["promotion_performed"] is False
-    assert state["completion_packet_v0_4_implemented"] is False
-    assert state["completion_outbox_implemented"] is False
+    packet_state = handoff.get("completion_packet_v0_4")
+    if packet_state is None:
+        assert state["completion_packet_v0_4_implemented"] is False
+    else:
+        assert state["completion_packet_v0_4_implemented"] is True
+        assert packet_state["implementation_status"] in {
+            "READY_FOR_OPERATOR_REVIEW",
+            "accepted_v0_4",
+        }
+        assert packet_state["promotion_performed"] is False

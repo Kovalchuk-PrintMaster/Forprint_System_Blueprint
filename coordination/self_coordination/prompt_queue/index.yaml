@@ -5,17 +5,17 @@ metadata:
   reviewer: project_owner
   created_at: '2026-07-30'
   updated_at: '2026-08-15'
-  active_prompt_id: blueprint_v0_4_completion_packet_v0_1
+  active_prompt_id: blueprint_v0_4_completion_outbox_v0_1
   approved_prompt_count: 1
   draft_prompt_count: 10
-  completed_prompt_count: 21
+  completed_prompt_count: 22
   dispatchable_draft_count: 3
   deferred_prompt_count: 7
   last_operator_acceptance:
-    prompt_id: blueprint_v0_4_immutable_prompt_contract_v0_1
+    prompt_id: blueprint_v0_4_completion_packet_v0_1
     decision: ACCEPT
-    accepted_at: '2026-08-15T18:14:00+03:00'
-    evidence: coordination/internal_work/blueprint/governance/2026-08-15__blueprint__v0_4_immutable_prompt_contract_acceptance_v0_1.yaml
+    accepted_at: '2026-08-16T12:30:00+03:00'
+    evidence: coordination/internal_work/blueprint/governance/2026-08-16__blueprint__v0_4_completion_packet_acceptance_v0_1.yaml
 policy:
   exactly_one_approved_prompt: true
   drafts_do_not_authorize_execution: true
@@ -262,27 +262,29 @@ prompts:
   completed_at: '2026-08-15T18:14:00+03:00'
   acceptance_evidence: coordination/internal_work/blueprint/governance/2026-08-15__blueprint__v0_4_immutable_prompt_contract_acceptance_v0_1.yaml
 - prompt_id: blueprint_v0_4_completion_packet_v0_1
-  status: approved
-  execution_status: ready_for_module_pull
+  status: completed
+  execution_status: accepted
   dispatch_ready: true
   priority: high
   sequence: 22
   queue_rank: 22
   created_at: '2026-08-14'
-  path: coordination/self_coordination/prompt_queue/approved/2026-08-14__forprint_system_blueprint__v0_4_completion_packet_v0_1.md
+  path: coordination/self_coordination/prompt_queue/completed/2026-08-14__forprint_system_blueprint__v0_4_completion_packet_v0_1.md
   roadmap_step_id: blueprint_v0_4_completion_packet_v0_1
   workstream: completion_exchange_and_closed_loop_coordination_v0_4
   activated_at: '2026-08-15T18:14:00+03:00'
   activation_reason: default_next_after_explicit_step21_accept
+  operator_decision: ACCEPT
+  accepted_at: '2026-08-16T12:30:00+03:00'
 - prompt_id: blueprint_v0_4_completion_outbox_v0_1
-  status: draft
-  execution_status: planned
+  status: approved
+  execution_status: ready_for_module_pull
   dispatch_ready: true
   priority: high
   sequence: 23
   queue_rank: 23
   created_at: '2026-08-14'
-  path: coordination/self_coordination/prompt_queue/draft/2026-08-14__forprint_system_blueprint__v0_4_completion_outbox_v0_1.md
+  path: coordination/self_coordination/prompt_queue/approved/2026-08-14__forprint_system_blueprint__v0_4_completion_outbox_v0_1.md
   roadmap_step_id: blueprint_v0_4_completion_outbox_v0_1
   workstream: completion_exchange_and_closed_loop_coordination_v0_4
 - prompt_id: blueprint_v0_4_completion_discovery_and_intake_v0_1
@@ -307,3 +309,15 @@ prompts:
   path: coordination/self_coordination/prompt_queue/draft/2026-08-15__forprint_system_blueprint__v0_4_review_roadmap_queue_transaction_v0_1.md
   roadmap_step_id: blueprint_v0_4_review_roadmap_queue_transaction_v0_1
   workstream: completion_exchange_and_closed_loop_coordination_v0_4
+- prompt_id: blueprint_v0_4_next_prompt_selection_and_activation_v0_1
+  roadmap_step_id: blueprint_v0_4_next_prompt_selection_and_activation_v0_1
+  title: Implement deterministic next-prompt selection and activation
+  status: draft
+  execution_status: planned
+  dispatch_ready: true
+  priority: high
+  sequence: 26
+  queue_rank: 26
+  path: coordination/self_coordination/prompt_queue/draft/2026-08-16__forprint_system_blueprint__v0_4_next_prompt_selection_and_activation_v0_1.md
+  created_at: '2026-08-16'
+  workstream: v0_4_closed_loop_coordination

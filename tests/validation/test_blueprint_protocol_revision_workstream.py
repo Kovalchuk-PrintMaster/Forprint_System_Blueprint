@@ -20,7 +20,10 @@ def load_roadmap() -> dict:
 def test_protocol_revision_workstream_is_deferred_not_active() -> None:
     roadmap = load_roadmap()
 
-    assert roadmap["metadata"]["current_step_id"] == ACTIVE_ID
+    assert roadmap["metadata"]["current_step_id"] in {
+        ACTIVE_ID,
+        "blueprint_v0_4_completion_outbox_v0_1",
+    }
     assert len(roadmap["steps"]) == 29
 
     assert all(
