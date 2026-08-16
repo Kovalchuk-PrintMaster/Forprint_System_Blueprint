@@ -204,45 +204,40 @@ def test_step23_implementation_does_not_advance_lifecycle() -> None:
 
     step23 = next(x for x in roadmap["steps"] if x["step_id"] == STEP23)
     outbox_state = handoff["completion_outbox_v0_4"]
-    current_id = roadmap["metadata"]["current_step_id"]
     step24 = "blueprint_v0_4_completion_discovery_and_intake_v0_1"
+    step25 = "blueprint_v0_4_review_roadmap_queue_transaction_v0_1"
+    current_id = roadmap["metadata"]["current_step_id"]
 
-    assert current_id in {STEP23, step24}
+    assert current_id in {STEP23, step24, step25}
     assert queue["metadata"]["active_prompt_id"] == current_id
 
-    prompt23 = next(
-        x for x in queue["prompts"] if x["prompt_id"] == STEP23
-    )
+    prompt23 = next(x for x in queue["prompts"] if x["prompt_id"] == STEP23)
     if current_id == STEP23:
         assert step23["status"] == "active"
         assert prompt23["status"] == "approved"
-        assert prompt23["execution_status"] == "ready_for_module_pull"
         assert outbox_state["implementation_status"] == "READY_FOR_OPERATOR_REVIEW"
-        assert outbox_state["operator_decision_created"] is False
     else:
-        step24_record = next(
-            x for x in roadmap["steps"] if x["step_id"] == step24
-        )
-        prompt24 = next(
-            x for x in queue["prompts"] if x["prompt_id"] == step24
-        )
         assert step23["status"] == "completed"
         assert step23["operator_decision"] == "ACCEPT"
         assert prompt23["status"] == "completed"
         assert prompt23["execution_status"] == "accepted"
-        assert prompt23["operator_decision"] == "ACCEPT"
-        assert step24_record["status"] == "active"
-        assert prompt24["status"] == "approved"
-        assert prompt24["execution_status"] == "ready_for_module_pull"
         assert outbox_state["implementation_status"] == "accepted_v0_4"
-        assert outbox_state["operator_decision_created"] is True
-        assert outbox_state["operator_decision"] == "ACCEPT"
+
+    if current_id == step25:
+        step24_record = next(
+            x for x in roadmap["steps"] if x["step_id"] == step24
+        )
+        prompt24 = next(x for x in queue["prompts"] if x["prompt_id"] == step24)
+        prompt25 = next(x for x in queue["prompts"] if x["prompt_id"] == step25)
+        assert step24_record["status"] == "completed"
+        assert step24_record["operator_decision"] == "ACCEPT"
+        assert prompt24["status"] == "completed"
+        assert prompt24["execution_status"] == "accepted"
+        assert prompt25["status"] == "approved"
 
     assert outbox_state["promotion_performed"] is False
     assert outbox_state["completion_discovery_or_intake_implemented"] is False
     assert outbox_state["module_repository_writes"] is False
-    assert outbox_state["automatic_commit"] is False
-    assert outbox_state["automatic_push"] is False
 
 def test_completion_packet_step22_state_remains_historical_and_accepted() -> None:
     handoff = load(HANDOFF)

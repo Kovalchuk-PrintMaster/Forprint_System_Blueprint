@@ -147,7 +147,7 @@ def test_prompt_contract_is_active_after_step20_acceptance() -> None:
     step23_id = "blueprint_v0_4_completion_outbox_v0_1"
     step24_id = "blueprint_v0_4_completion_discovery_and_intake_v0_1"
     current_id = roadmap["metadata"]["current_step_id"]
-    assert current_id in {step21_id, step22_id, step23_id, step24_id}
+    assert current_id in {step21_id, step22_id, step23_id, step24_id, "blueprint_v0_4_review_roadmap_queue_transaction_v0_1"}
     assert queue["metadata"]["active_prompt_id"] == current_id
 
     step21 = record(roadmap["steps"], "step_id", step21_id)
@@ -199,6 +199,7 @@ def test_handoff_reports_source_registry_as_active_after_accept() -> None:
         "blueprint_v0_4_completion_packet_v0_1",
         step23,
         step24,
+        "blueprint_v0_4_review_roadmap_queue_transaction_v0_1",
     }
     registry = handoff["coordination_source_registry"]
     assert registry["operator_decision_created"] is True

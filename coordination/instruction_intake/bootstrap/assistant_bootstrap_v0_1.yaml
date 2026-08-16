@@ -112,6 +112,9 @@ source_of_truth_map:
   completion_outbox_v0_4_standard: coordination/standards/governance/module_completion_outbox_v0_4.yaml
   completion_outbox_v0_4_template: coordination/templates/module_completion_outbox_v0_4.example.yaml
   completion_outbox_v0_4_validator: scripts/coordination/validate_completion_outbox_v0_4.py
+  completion_discovery_intake_v0_4_tool: scripts/coordination/completion_discovery_and_intake_v0_4.py
+  completion_discovery_intake_v0_4_test: tests/validation/test_v0_4_completion_discovery_and_intake.py
+  completion_discovery_intake_v0_4_implementation_evidence: coordination/internal_work/blueprint/governance/2026-08-16__blueprint__v0_4_completion_discovery_and_intake_implementation_v0_1.yaml
 make_interface:
   discovery_command: make help
   canonical_full_gate: make check PYTHON=.venv_blueprint/bin/python BLUEPRINT_PYTHON=.venv_blueprint/bin/python

@@ -5,17 +5,17 @@ metadata:
   reviewer: project_owner
   created_at: '2026-07-30'
   updated_at: '2026-08-15'
-  active_prompt_id: blueprint_v0_4_completion_discovery_and_intake_v0_1
+  active_prompt_id: blueprint_v0_4_review_roadmap_queue_transaction_v0_1
   approved_prompt_count: 1
   draft_prompt_count: 9
-  completed_prompt_count: 23
+  completed_prompt_count: 24
   dispatchable_draft_count: 2
   deferred_prompt_count: 7
   last_operator_acceptance:
-    prompt_id: blueprint_v0_4_completion_outbox_v0_1
+    prompt_id: blueprint_v0_4_completion_discovery_and_intake_v0_1
     decision: ACCEPT
-    accepted_at: '2026-08-16T15:38:00+03:00'
-    evidence: coordination/internal_work/blueprint/governance/2026-08-16__blueprint__v0_4_completion_outbox_acceptance_v0_1.yaml
+    accepted_at: '2026-08-16T17:29:00+03:00'
+    evidence: coordination/internal_work/blueprint/governance/2026-08-16__blueprint__v0_4_completion_discovery_and_intake_acceptance_v0_1.yaml
 policy:
   exactly_one_approved_prompt: true
   drafts_do_not_authorize_execution: true
@@ -290,25 +290,27 @@ prompts:
   operator_decision: ACCEPT
   accepted_at: '2026-08-16T15:38:00+03:00'
 - prompt_id: blueprint_v0_4_completion_discovery_and_intake_v0_1
-  status: approved
-  execution_status: ready_for_module_pull
+  status: completed
+  execution_status: accepted
   dispatch_ready: true
   priority: high
   sequence: 24
   queue_rank: 24
   created_at: '2026-08-15'
-  path: coordination/self_coordination/prompt_queue/approved/2026-08-15__forprint_system_blueprint__v0_4_completion_discovery_and_intake_v0_1.md
+  path: coordination/self_coordination/prompt_queue/completed/2026-08-15__forprint_system_blueprint__v0_4_completion_discovery_and_intake_v0_1.md
   roadmap_step_id: blueprint_v0_4_completion_discovery_and_intake_v0_1
   workstream: completion_exchange_and_closed_loop_coordination_v0_4
+  operator_decision: ACCEPT
+  accepted_at: '2026-08-16T17:29:00+03:00'
 - prompt_id: blueprint_v0_4_review_roadmap_queue_transaction_v0_1
-  status: draft
-  execution_status: planned
+  status: approved
+  execution_status: ready_for_module_pull
   dispatch_ready: true
   priority: high
   sequence: 25
   queue_rank: 25
   created_at: '2026-08-15'
-  path: coordination/self_coordination/prompt_queue/draft/2026-08-15__forprint_system_blueprint__v0_4_review_roadmap_queue_transaction_v0_1.md
+  path: coordination/self_coordination/prompt_queue/approved/2026-08-15__forprint_system_blueprint__v0_4_review_roadmap_queue_transaction_v0_1.md
   roadmap_step_id: blueprint_v0_4_review_roadmap_queue_transaction_v0_1
   workstream: completion_exchange_and_closed_loop_coordination_v0_4
 - prompt_id: blueprint_v0_4_next_prompt_selection_and_activation_v0_1
@@ -323,3 +325,15 @@ prompts:
   path: coordination/self_coordination/prompt_queue/draft/2026-08-16__forprint_system_blueprint__v0_4_next_prompt_selection_and_activation_v0_1.md
   created_at: '2026-08-16'
   workstream: v0_4_closed_loop_coordination
+- prompt_id: blueprint_v0_4_tracking_events_reference_v0_1
+  roadmap_step_id: blueprint_v0_4_tracking_events_reference_v0_1
+  title: Run Tracking Events as the first full v0.4 reference
+  status: draft
+  execution_status: planned
+  dispatch_ready: true
+  priority: high
+  sequence: 27
+  queue_rank: 27
+  path: coordination/self_coordination/prompt_queue/draft/2026-08-16__forprint_system_blueprint__v0_4_tracking_events_reference_v0_1.md
+  created_at: '2026-08-16'
+  workstream: completion_exchange_and_closed_loop_coordination_v0_4

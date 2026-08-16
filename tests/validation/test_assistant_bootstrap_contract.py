@@ -65,6 +65,7 @@ def test_handoff_snapshot_contract() -> None:
         "blueprint_v0_4_completion_packet_v0_1",
         step23,
         step24,
+        "blueprint_v0_4_review_roadmap_queue_transaction_v0_1",
     }
     if active_id in {
         "blueprint_v0_4_completion_packet_v0_1",

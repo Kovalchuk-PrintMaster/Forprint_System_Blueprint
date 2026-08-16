@@ -919,3 +919,7 @@ completion-packet-v0-4-validate:
 .PHONY: completion-outbox-v0-4-validate
 completion-outbox-v0-4-validate:
 	.venv_blueprint/bin/python scripts/coordination/validate_completion_outbox_v0_4.py coordination/templates/module_completion_outbox_v0_4.example.yaml --root . --registry coordination/registry/coordination_source_registry_v0_1.yaml --template
+
+.PHONY: completion-discovery-intake-v0-4
+completion-discovery-intake-v0-4:
+	.venv_blueprint/bin/python scripts/coordination/completion_discovery_and_intake_v0_4.py --root .

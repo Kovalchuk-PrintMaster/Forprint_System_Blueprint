@@ -24,6 +24,7 @@ def test_protocol_revision_workstream_is_deferred_not_active() -> None:
         ACTIVE_ID,
         "blueprint_v0_4_completion_outbox_v0_1",
         "blueprint_v0_4_completion_discovery_and_intake_v0_1",
+        "blueprint_v0_4_review_roadmap_queue_transaction_v0_1",
     }
     assert len(roadmap["steps"]) == 29
 

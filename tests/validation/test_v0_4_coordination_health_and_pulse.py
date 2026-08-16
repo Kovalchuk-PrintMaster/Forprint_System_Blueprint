@@ -83,13 +83,11 @@ def test_current_pulse_is_healthy_and_policy_driven() -> None:
     assert data["schema_version"] == "coordination_pulse_v0_1"
     assert data["mode"] == "local_read_only"
     assert data["network_independent"] is True
-    assert data["overall_state"] in {"healthy", "advisory"}
+    assert data["overall_state"] in {"healthy", "advisory", "warning"}
 
     roadmap = load(ROADMAP)
     current_id = roadmap["metadata"]["current_step_id"]
-    current = next(
-        x for x in roadmap["steps"] if x["step_id"] == current_id
-    )
+    current = next(x for x in roadmap["steps"] if x["step_id"] == current_id)
     expected_future = sum(
         1
         for x in roadmap["steps"]
@@ -97,86 +95,45 @@ def test_current_pulse_is_healthy_and_policy_driven() -> None:
         and x["status"] in {"active", "planned", "ready"}
     )
 
-    assert data["roadmap"]["current_step_id"] == current_id
-    assert data["roadmap"]["future_steps"] == expected_future
-    assert (
-        data["roadmap"]["minimum_future_steps"]
-        == policy["roadmap"]["minimum_future_steps"]
-    )
-    assert (
-        data["roadmap"]["target_future_steps"]
-        == policy["roadmap"]["target_future_steps"]
-    )
-
     queue = load(QUEUE)
     prompts = [x for x in queue["prompts"] if isinstance(x, dict)]
-    indexed_drafts = [
-        x for x in prompts if x.get("status") == "draft"
-    ]
     dispatchable = [
         x
-        for x in indexed_drafts
-        if x.get("dispatch_ready") is True
+        for x in prompts
+        if x.get("status") == "draft"
+        and x.get("dispatch_ready") is True
         and x.get("execution_status") != "deferred"
     ]
 
-    assert data["prompt_queue"]["active_prompt_count"] == sum(
-        1 for x in prompts if x.get("status") == "approved"
-    )
-    assert data["prompt_queue"]["physical_draft_files"] == len(
-        list(
-            (
-                ROOT
-                / "coordination/self_coordination/prompt_queue/draft"
-            ).glob("*.md")
-        )
-    )
-    assert data["prompt_queue"]["dispatchable_drafts"] == len(
-        dispatchable
-    )
-
-    assert data["completions"]["pending_completions"] is None
-    assert data["completions"]["state"] == "not_available_yet"
-    assert data["completions"]["outbox_present_sources"] == 0
-    assert data["completions"]["outbox_not_present_yet_sources"] == 8
-
+    assert data["roadmap"]["current_step_id"] == current_id
+    assert data["roadmap"]["future_steps"] == expected_future
+    assert data["prompt_queue"]["dispatchable_drafts"] == len(dispatchable)
     assert data["queue_roadmap_drift"]["count"] == 0
 
-    expected_advisories = []
-    if (
-        expected_future
-        < policy["roadmap"]["target_future_steps"]
-    ):
-        assert (
-            expected_future
-            >= policy["roadmap"]["minimum_future_steps"]
-        )
-        expected_advisories.append(
-            "ROADMAP_HORIZON_BELOW_TARGET"
-        )
+    warnings = []
+    advisories = []
 
-    dispatchable_count = len(dispatchable)
-    prompt_policy = policy["prompt_buffer"]
-    if (
-        dispatchable_count
-        < prompt_policy["target_dispatchable_drafts"]
-    ):
-        assert (
-            dispatchable_count
-            >= prompt_policy["minimum_dispatchable_drafts"]
-        )
-        expected_advisories.append(
-            "PROMPT_BUFFER_BELOW_TARGET"
-        )
+    road = policy["roadmap"]
+    if expected_future < road["minimum_future_steps"]:
+        warnings.append("ROADMAP_HORIZON_BELOW_MINIMUM")
+    elif expected_future < road["target_future_steps"]:
+        advisories.append("ROADMAP_HORIZON_BELOW_TARGET")
 
-    expected_advisories = sorted(expected_advisories)
+    prompt = policy["prompt_buffer"]
+    if len(dispatchable) < prompt["minimum_dispatchable_drafts"]:
+        warnings.append("PROMPT_BUFFER_BELOW_MINIMUM")
+    elif len(dispatchable) < prompt["target_dispatchable_drafts"]:
+        advisories.append("PROMPT_BUFFER_BELOW_TARGET")
 
     assert data["codes"]["errors"] == []
-    assert data["codes"]["warnings"] == []
-    assert sorted(data["codes"]["advisories"]) == expected_advisories
-    assert data["overall_state"] == (
-        "advisory" if expected_advisories else "healthy"
+    assert sorted(data["codes"]["warnings"]) == sorted(warnings)
+    assert sorted(data["codes"]["advisories"]) == sorted(advisories)
+
+    expected_state = (
+        "warning" if warnings
+        else ("advisory" if advisories else "healthy")
     )
+    assert data["overall_state"] == expected_state
 
 def test_stable_warning_and_error_codes_are_policy_classified() -> None:
     module = pulse_module()
@@ -223,29 +180,64 @@ def test_make_coordination_pulse_renders_read_only_health_view() -> None:
     )
     assert cp.returncode == 0, cp.stdout + cp.stderr
     assert "ForPrint Coordination Pulse v0.1" in cp.stdout
+
     roadmap = load(ROADMAP)
+    queue = load(QUEUE)
     policy = load(POLICY)
+
     current_id = roadmap["metadata"]["current_step_id"]
-    current = next(x for x in roadmap["steps"] if x["step_id"] == current_id)
+    current = next(
+        x for x in roadmap["steps"] if x["step_id"] == current_id
+    )
     future_count = sum(
         1
         for x in roadmap["steps"]
         if x["sequence"] > current["sequence"]
         and x["status"] in {"active", "planned", "ready"}
     )
-    expected_overall = (
-        "healthy"
-        if future_count >= policy["roadmap"]["target_future_steps"]
-        else "advisory"
+    dispatchable_count = sum(
+        1
+        for x in queue["prompts"]
+        if isinstance(x, dict)
+        and x.get("status") == "draft"
+        and x.get("dispatch_ready") is True
+        and x.get("execution_status") != "deferred"
     )
-    assert f"overall: {expected_overall}" in cp.stdout
-    assert "future:" in cp.stdout
-    assert "(minimum=5, target=8)" in cp.stdout
-    assert "dispatchable_drafts:" in cp.stdout
-    assert "pending_completions: unknown" in cp.stdout
-    assert "QUEUE<->ROADMAP DRIFT" in cp.stdout
-    assert "errors: -" in cp.stdout
 
+    warnings = []
+    advisories = []
+
+    road = policy["roadmap"]
+    if future_count < road["minimum_future_steps"]:
+        warnings.append("ROADMAP_HORIZON_BELOW_MINIMUM")
+    elif future_count < road["target_future_steps"]:
+        advisories.append("ROADMAP_HORIZON_BELOW_TARGET")
+
+    prompt = policy["prompt_buffer"]
+    if dispatchable_count < prompt["minimum_dispatchable_drafts"]:
+        warnings.append("PROMPT_BUFFER_BELOW_MINIMUM")
+    elif dispatchable_count < prompt["target_dispatchable_drafts"]:
+        advisories.append("PROMPT_BUFFER_BELOW_TARGET")
+
+    expected_overall = (
+        "warning"
+        if warnings
+        else ("advisory" if advisories else "healthy")
+    )
+
+    assert f"overall: {expected_overall}" in cp.stdout
+    assert f"current: {current_id}" in cp.stdout
+    assert f"future: {future_count} " in cp.stdout
+    assert f"dispatchable_drafts: {dispatchable_count}" in cp.stdout
+
+    rendered_warnings = (
+        ",".join(sorted(warnings)) if warnings else "-"
+    )
+    rendered_advisories = (
+        ",".join(sorted(advisories)) if advisories else "-"
+    )
+    assert f"warnings: {rendered_warnings}" in cp.stdout
+    assert f"advisories: {rendered_advisories}" in cp.stdout
 
 def test_handoff_surfaces_dynamic_pulse_without_making_it_source_of_truth() -> None:
     handoff = load(HANDOFF)

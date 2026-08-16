@@ -65,6 +65,7 @@ def test_source_registry_and_health_steps_are_accepted_before_prompt_contract() 
         completion_packet,
         completion_outbox,
         completion_intake,
+        "blueprint_v0_4_review_roadmap_queue_transaction_v0_1",
     }
     assert queue["metadata"]["active_prompt_id"] == active_id
     assert handoff["current_blueprint_plan"]["active_blueprint_step"]["id"] == active_id
@@ -195,44 +196,40 @@ def test_bootstrap_handoff_registry_pointers() -> None:
 def test_prompt_buffer_restored_to_target_with_completion_packet_draft() -> None:
     queue, handoff = load(QUEUE), load(HANDOFF)
     drafts = [
-        x for x in queue["prompts"]
+        x
+        for x in queue["prompts"]
         if x.get("status") == "draft"
         and x.get("dispatch_ready") is True
         and x.get("execution_status") != "deferred"
     ]
     active_id = queue["metadata"]["active_prompt_id"]
     draft_ids = {x["prompt_id"] for x in drafts}
-    step22 = "blueprint_v0_4_completion_packet_v0_1"
-    step23 = "blueprint_v0_4_completion_outbox_v0_1"
     step24 = "blueprint_v0_4_completion_discovery_and_intake_v0_1"
+    step25 = "blueprint_v0_4_review_roadmap_queue_transaction_v0_1"
+    step26 = "blueprint_v0_4_next_prompt_selection_and_activation_v0_1"
 
-    if active_id == step22:
-        assert len(drafts) == 3
-        assert draft_ids == {
-            step23,
-            step24,
-            "blueprint_v0_4_review_roadmap_queue_transaction_v0_1",
-        }
-        expected_buffer_state = "target_met"
-    elif active_id == step23:
-        assert len(drafts) == 3
-        assert draft_ids == {
-            step24,
-            "blueprint_v0_4_review_roadmap_queue_transaction_v0_1",
-            "blueprint_v0_4_next_prompt_selection_and_activation_v0_1",
-        }
-        expected_buffer_state = "target_met"
-    else:
-        assert active_id == step24
+    if active_id == step24:
         assert len(drafts) == 2
-        assert draft_ids == {
-            "blueprint_v0_4_review_roadmap_queue_transaction_v0_1",
-            "blueprint_v0_4_next_prompt_selection_and_activation_v0_1",
-        }
-        expected_buffer_state = "minimum_met_target_not_met"
+        assert draft_ids == {step25, step26}
+    else:
+        assert active_id == step25
+        assert len(drafts) == 2
+        assert step26 in draft_ids
+        tracking = [
+            item
+            for item in queue["prompts"]
+            if item.get("sequence") == 27
+            and item.get("status") == "draft"
+            and item.get("dispatch_ready") is True
+        ]
+        assert len(tracking) == 1
+        assert tracking[0]["prompt_id"] in draft_ids
 
     assert queue["metadata"]["dispatchable_draft_count"] == len(drafts)
-    assert handoff["self_coordination_health"]["prompt_buffer_state"] == expected_buffer_state
+    assert (
+        handoff["self_coordination_health"]["prompt_buffer_state"]
+        == "minimum_met_target_not_met"
+    )
     for item in drafts:
         assert item["execution_status"] == "planned"
         assert (ROOT / item["path"]).is_file()

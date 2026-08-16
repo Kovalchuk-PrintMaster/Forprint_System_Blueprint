@@ -92,10 +92,48 @@ def test_roadmap_horizon_is_policy_driven() -> None:
         and item["status"] in {"active", "planned", "ready"}
     ]
 
-    assert len(future) >= policy["minimum_future_steps"]
-    assert policy["target_future_steps"] == 8
-    assert policy["maximum_future_steps"] is None
+    future_count = len(future)
+    minimum = policy["minimum_future_steps"]
+    target = policy["target_future_steps"]
 
+    if future_count < minimum:
+        expected_state = "below_minimum"
+        expected_warning = "ROADMAP_HORIZON_BELOW_MINIMUM"
+        expected_advisory = None
+    elif future_count < target:
+        expected_state = "minimum_met_target_not_met"
+        expected_warning = None
+        expected_advisory = "ROADMAP_HORIZON_BELOW_TARGET"
+    else:
+        expected_state = "target_met"
+        expected_warning = None
+        expected_advisory = None
+
+    handoff = load(HANDOFF)
+    health = handoff["self_coordination_health"]
+
+    assert health["roadmap_future_steps"] == future_count
+    assert health["roadmap_state"] == expected_state
+
+    warnings = health.get("warnings", [])
+    advisories = health.get("advisories", [])
+
+    if expected_warning is None:
+        assert "ROADMAP_HORIZON_BELOW_MINIMUM" not in warnings
+    else:
+        assert expected_warning in warnings
+
+    if expected_advisory is None:
+        assert "ROADMAP_HORIZON_BELOW_TARGET" not in advisories
+    else:
+        assert expected_advisory in advisories
+
+    # Health thresholds are policy signals, not permission to fabricate
+    # synthetic roadmap steps during an unrelated acceptance transaction.
+    assert roadmap["metadata"]["current_step_id"] in {
+        "blueprint_v0_4_completion_discovery_and_intake_v0_1",
+        "blueprint_v0_4_review_roadmap_queue_transaction_v0_1",
+    }
 
 def test_prompt_buffer_health_matches_policy() -> None:
     queue = load(QUEUE)

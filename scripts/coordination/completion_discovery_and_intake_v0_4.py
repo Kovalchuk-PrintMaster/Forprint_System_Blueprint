@@ -1,0 +1,654 @@
+from __future__ import annotations
+
+import argparse
+import copy
+import hashlib
+import importlib.util
+import json
+from collections.abc import Callable
+from pathlib import Path
+from typing import Any
+
+import yaml
+
+OUTBOX_REL = Path("coordination/completion_outbox/records")
+PACKET_REL = Path("coordination/completion_packets/records")
+OUTBOX_SCHEMA = "module_completion_outbox_event_v0_4"
+PACKET_SCHEMA = "module_completion_packet_v0_4"
+
+OutboxValidator = Callable[[Path, Path, Path], dict[str, Any]]
+PacketValidator = Callable[[Path, Path], dict[str, Any]]
+
+
+def load_yaml(path: Path) -> dict[str, Any]:
+    data = yaml.safe_load(path.read_text(encoding="utf-8"))
+    if not isinstance(data, dict):
+        raise ValueError(f"expected YAML mapping: {path}")
+    return data
+
+
+def file_sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def canonical_sha256(value: Any) -> str:
+    raw = json.dumps(
+        value,
+        sort_keys=True,
+        ensure_ascii=False,
+        separators=(",", ":"),
+    ).encode("utf-8")
+    return hashlib.sha256(raw).hexdigest()
+
+
+def _load_module(path: Path, name: str) -> Any:
+    spec = importlib.util.spec_from_file_location(name, path)
+    if spec is None or spec.loader is None:
+        raise RuntimeError(f"cannot import validator: {path}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def _default_outbox_validator(
+    event_path: Path,
+    blueprint_root: Path,
+    repository_root: Path,
+    registry_path: Path,
+) -> dict[str, Any]:
+    validator_path = (
+        blueprint_root
+        / "scripts/coordination/validate_completion_outbox_v0_4.py"
+    )
+    module = _load_module(
+        validator_path,
+        "forprint_completion_outbox_v0_4_validator",
+    )
+    return module.validate_outbox_event(
+        event_path,
+        root=repository_root,
+        registry_path=registry_path,
+        template_mode=False,
+    )
+
+
+def _default_packet_validator(
+    packet_path: Path,
+    blueprint_root: Path,
+    repository_root: Path,
+) -> dict[str, Any]:
+    validator_path = (
+        blueprint_root
+        / "scripts/coordination/validate_completion_packet_v0_4.py"
+    )
+    module = _load_module(
+        validator_path,
+        "forprint_completion_packet_v0_4_validator",
+    )
+    return module.validate_packet(
+        repository_root,
+        packet_path,
+        template_mode=False,
+    )
+
+
+def _safe_repository_path(repository_root: Path, relative: Path) -> Path:
+    root = repository_root.resolve()
+    target = (root / relative).resolve()
+    try:
+        target.relative_to(root)
+    except ValueError as exc:
+        raise ValueError(
+            f"registered completion path escapes repository: {relative}"
+        ) from exc
+    return target
+
+
+def _registered_modules(registry: dict[str, Any]) -> list[dict[str, Any]]:
+    modules = registry.get("modules")
+    if not isinstance(modules, list):
+        raise ValueError("registry.modules must be a list")
+    rows = [item for item in modules if isinstance(item, dict)]
+    if len(rows) != len(modules):
+        raise ValueError("registry.modules contains a non-mapping record")
+    return rows
+
+
+def _repository_root(
+    module: dict[str, Any],
+    overrides: dict[str, Path] | None,
+) -> Path:
+    module_id = module.get("module_id")
+    if not isinstance(module_id, str) or not module_id:
+        raise ValueError("registered module_id must be non-empty")
+    if overrides and module_id in overrides:
+        return overrides[module_id].resolve()
+
+    repository = module.get("repository")
+    if not isinstance(repository, dict):
+        raise ValueError(f"{module_id}: repository must be a mapping")
+    local_path = repository.get("local_path")
+    if not isinstance(local_path, str) or not local_path:
+        raise ValueError(f"{module_id}: repository.local_path missing")
+    return Path(local_path).resolve()
+
+
+def _event_identity(event: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "event_id": event.get("event_id"),
+        "module_id": event.get("module_id"),
+        "repository_id": event.get("repository_id"),
+        "prompt_id": event.get("prompt_id"),
+        "completion_id": event.get("completion_id"),
+        "emitted_at": event.get("emitted_at"),
+    }
+
+
+def _packet_path_from_event(
+    event: dict[str, Any],
+    repository_root: Path,
+) -> Path | None:
+    completion = event.get("completion_packet")
+    if not isinstance(completion, dict):
+        return None
+    value = completion.get("path")
+    if not isinstance(value, str) or not value:
+        return None
+    try:
+        relative = Path(value)
+        return _safe_repository_path(repository_root, relative)
+    except ValueError:
+        return None
+
+
+def _discover_module(
+    *,
+    module: dict[str, Any],
+    blueprint_root: Path,
+    registry_path: Path,
+    repository_root: Path,
+    outbox_validator: Callable[..., dict[str, Any]],
+    packet_validator: Callable[..., dict[str, Any]],
+) -> dict[str, Any]:
+    module_id = module.get("module_id")
+    repository = module.get("repository", {})
+    repository_id = (
+        repository.get("repository_id")
+        if isinstance(repository, dict)
+        else None
+    )
+    source = module.get("sources", {}).get("completion_outbox", {})
+    registered_availability = (
+        source.get("availability")
+        if isinstance(source, dict)
+        else None
+    )
+    registered_path = (
+        source.get("path")
+        if isinstance(source, dict)
+        else None
+    )
+
+    result: dict[str, Any] = {
+        "module_id": module_id,
+        "repository_id": repository_id,
+        "registry_availability": registered_availability,
+        "registered_outbox_path": registered_path,
+        "observed_source_state": "unknown",
+        "events": [],
+        "warnings": [],
+        "errors": [],
+    }
+
+    if not repository_root.is_dir():
+        result["observed_source_state"] = "repository_unavailable"
+        result["warnings"].append("registered repository local_path is unavailable")
+        return result
+
+    if registered_path != OUTBOX_REL.as_posix():
+        result["observed_source_state"] = "registry_locator_invalid"
+        result["errors"].append("registered outbox path is not canonical")
+        return result
+
+    outbox_dir = _safe_repository_path(repository_root, OUTBOX_REL)
+    if not outbox_dir.exists():
+        result["observed_source_state"] = "not_present_yet"
+        if registered_availability not in {"not_present_yet", "present"}:
+            result["warnings"].append(
+                "registry availability is neither not_present_yet nor present"
+            )
+        return result
+
+    if not outbox_dir.is_dir():
+        result["observed_source_state"] = "invalid_source"
+        result["errors"].append("registered outbox path exists but is not a directory")
+        return result
+
+    event_files = sorted(
+        path
+        for path in outbox_dir.glob("*.yaml")
+        if path.is_file()
+    )
+    result["observed_source_state"] = (
+        "present_empty" if not event_files else "present"
+    )
+
+    seen_event_ids: set[str] = set()
+    for event_path in event_files:
+        event_record: dict[str, Any] = {
+            "path": str(event_path.relative_to(repository_root)),
+            "event_sha256": file_sha256(event_path),
+            "classification": "invalid_outbox_event",
+            "outbox_validation": None,
+            "packet_validation": None,
+        }
+
+        try:
+            event = load_yaml(event_path)
+        except Exception as exc:
+            event_record["identity"] = {}
+            event_record["outbox_validation"] = {
+                "result": "FAILED",
+                "errors": [f"cannot load event: {exc}"],
+                "warnings": [],
+            }
+            result["events"].append(event_record)
+            continue
+
+        event_record["identity"] = _event_identity(event)
+        event_id = event.get("event_id")
+        if isinstance(event_id, str) and event_id:
+            if event_id in seen_event_ids:
+                event_record["outbox_validation"] = {
+                    "result": "FAILED",
+                    "errors": ["duplicate event_id in discovered outbox"],
+                    "warnings": [],
+                }
+                result["events"].append(event_record)
+                continue
+            seen_event_ids.add(event_id)
+
+        outbox_report = outbox_validator(
+            event_path,
+            blueprint_root,
+            repository_root,
+            registry_path,
+        )
+        event_record["outbox_validation"] = copy.deepcopy(outbox_report)
+        if outbox_report.get("result") != "PASSED":
+            result["events"].append(event_record)
+            continue
+
+        if event.get("schema_version") != OUTBOX_SCHEMA:
+            event_record["outbox_validation"] = {
+                "result": "FAILED",
+                "errors": ["outbox schema mismatch after validation"],
+                "warnings": [],
+            }
+            result["events"].append(event_record)
+            continue
+
+        packet_path = _packet_path_from_event(event, repository_root)
+        if packet_path is None or not packet_path.is_file():
+            event_record["classification"] = "invalid_completion_packet"
+            event_record["packet_validation"] = {
+                "result": "FAILED",
+                "errors": ["bound Completion Packet v0.4 path is unavailable"],
+                "warnings": [],
+            }
+            result["events"].append(event_record)
+            continue
+
+        packet_report = packet_validator(
+            packet_path,
+            blueprint_root,
+            repository_root,
+        )
+        event_record["packet_path"] = str(
+            packet_path.relative_to(repository_root)
+        )
+        event_record["packet_sha256"] = file_sha256(packet_path)
+        event_record["packet_validation"] = copy.deepcopy(packet_report)
+        if packet_report.get("result") != "PASSED":
+            event_record["classification"] = "invalid_completion_packet"
+            result["events"].append(event_record)
+            continue
+
+        try:
+            packet = load_yaml(packet_path)
+        except Exception as exc:
+            event_record["classification"] = "invalid_completion_packet"
+            event_record["packet_validation"] = {
+                "result": "FAILED",
+                "errors": [f"cannot load packet after validation: {exc}"],
+                "warnings": [],
+            }
+            result["events"].append(event_record)
+            continue
+
+        if packet.get("schema_version") != PACKET_SCHEMA:
+            event_record["classification"] = "invalid_completion_packet"
+            event_record["packet_validation"] = {
+                "result": "FAILED",
+                "errors": ["Completion Packet v0.4 schema mismatch"],
+                "warnings": [],
+            }
+            result["events"].append(event_record)
+            continue
+
+        event_record["classification"] = "ready_for_blueprint_review"
+        revision = event.get("revision")
+        if isinstance(revision, dict):
+            supersedes = revision.get("supersedes_event_id")
+            if isinstance(supersedes, str) and supersedes:
+                event_record["supersedes_event_id"] = supersedes
+        result["events"].append(event_record)
+
+    valid_by_id = {
+        item.get("identity", {}).get("event_id"): item
+        for item in result["events"]
+        if item.get("classification") == "ready_for_blueprint_review"
+        and isinstance(item.get("identity", {}).get("event_id"), str)
+    }
+    superseded_by: dict[str, list[str]] = {}
+    for item in valid_by_id.values():
+        target = item.get("supersedes_event_id")
+        event_id = item.get("identity", {}).get("event_id")
+        if isinstance(target, str) and isinstance(event_id, str):
+            superseded_by.setdefault(target, []).append(event_id)
+
+    for target, successors in sorted(superseded_by.items()):
+        if len(successors) > 1:
+            for successor in successors:
+                candidate = valid_by_id.get(successor)
+                if candidate is not None:
+                    candidate["classification"] = "ambiguous_supersession"
+            target_record = valid_by_id.get(target)
+            if target_record is not None:
+                target_record["classification"] = "ambiguous_supersession_target"
+            result["errors"].append(
+                f"multiple valid events supersede {target}: {','.join(sorted(successors))}"
+            )
+            continue
+        target_record = valid_by_id.get(target)
+        if target_record is not None:
+            target_record["classification"] = "superseded"
+            target_record["superseded_by_event_id"] = successors[0]
+
+    return result
+
+
+def discover_completions(
+    *,
+    blueprint_root: Path,
+    registry_path: Path,
+    repository_overrides: dict[str, Path] | None = None,
+    outbox_validator: Callable[..., dict[str, Any]] | None = None,
+    packet_validator: Callable[..., dict[str, Any]] | None = None,
+) -> dict[str, Any]:
+    blueprint_root = blueprint_root.resolve()
+    registry_path = registry_path.resolve()
+    registry = load_yaml(registry_path)
+
+    policy = registry.get("lookup_policy")
+    if not isinstance(policy, dict):
+        raise ValueError("registry.lookup_policy must be a mapping")
+    if policy.get("module_repository_access") != "read_only_from_blueprint":
+        raise ValueError("Blueprint module repository access must be read-only")
+    if policy.get("completion_outbox_authority") != "module_owned":
+        raise ValueError("completion outbox authority must remain module-owned")
+    if policy.get("completion_outbox_future_path") != OUTBOX_REL.as_posix():
+        raise ValueError("completion outbox locator mismatch")
+    if (
+        policy.get("missing_future_source_behavior")
+        != "record_not_present_yet_do_not_fabricate"
+    ):
+        raise ValueError("missing outbox fabrication policy mismatch")
+
+    outbox_validator = outbox_validator or _default_outbox_validator
+    packet_validator = packet_validator or _default_packet_validator
+
+    sources: list[dict[str, Any]] = []
+    for module in sorted(
+        _registered_modules(registry),
+        key=lambda item: str(item.get("module_id")),
+    ):
+        repository_root = _repository_root(module, repository_overrides)
+        source_result = _discover_module(
+            module=module,
+            blueprint_root=blueprint_root,
+            registry_path=registry_path,
+            repository_root=repository_root,
+            outbox_validator=outbox_validator,
+            packet_validator=packet_validator,
+        )
+        sources.append(source_result)
+
+    review_candidates = []
+    for source in sources:
+        for event in source["events"]:
+            if event.get("classification") != "ready_for_blueprint_review":
+                continue
+            identity = event.get("identity", {})
+            review_candidates.append(
+                {
+                    "module_id": source.get("module_id"),
+                    "repository_id": source.get("repository_id"),
+                    "event_id": identity.get("event_id"),
+                    "prompt_id": identity.get("prompt_id"),
+                    "completion_id": identity.get("completion_id"),
+                    "event_path": event.get("path"),
+                    "event_sha256": event.get("event_sha256"),
+                    "packet_path": event.get("packet_path"),
+                    "packet_sha256": event.get("packet_sha256"),
+                    "intake_state": "READY_FOR_BLUEPRINT_REVIEW",
+                    "operator_decision_created": False,
+                }
+            )
+
+    review_candidates.sort(
+        key=lambda item: (
+            str(item.get("module_id")),
+            str(item.get("event_id")),
+        )
+    )
+
+    event_records = [
+        event
+        for source in sources
+        for event in source.get("events", [])
+    ]
+    observed_states = {
+        state: sum(
+            1 for source in sources
+            if source.get("observed_source_state") == state
+        )
+        for state in sorted(
+            {
+                str(source.get("observed_source_state"))
+                for source in sources
+            }
+        )
+    }
+
+    invalid_events = sum(
+        1
+        for event in event_records
+        if event.get("classification")
+        in {
+            "invalid_outbox_event",
+            "invalid_completion_packet",
+            "ambiguous_supersession",
+            "ambiguous_supersession_target",
+        }
+    )
+    superseded = sum(
+        1
+        for event in event_records
+        if event.get("classification") == "superseded"
+    )
+    source_errors = sum(
+        len(source.get("errors", []))
+        for source in sources
+    )
+
+    stable_payload = {
+        "sources": sources,
+        "review_candidates": review_candidates,
+    }
+    fingerprint = canonical_sha256(stable_payload)
+
+    result_state = (
+        "ATTENTION_REQUIRED"
+        if invalid_events or source_errors
+        else (
+            "READY_FOR_BLUEPRINT_REVIEW"
+            if review_candidates
+            else "NO_COMPLETIONS_AVAILABLE"
+        )
+    )
+
+    return {
+        "schema_version": "blueprint_completion_discovery_and_intake_v0_4",
+        "mode": "local_read_only",
+        "network_independent": True,
+        "result_state": result_state,
+        "discovery_fingerprint_sha256": fingerprint,
+        "summary": {
+            "registered_sources": len(sources),
+            "observed_source_states": observed_states,
+            "events_discovered": len(event_records),
+            "review_candidates": len(review_candidates),
+            "superseded_events": superseded,
+            "invalid_events": invalid_events,
+            "source_errors": source_errors,
+        },
+        "review_candidates": review_candidates,
+        "sources": sources,
+        "governance": {
+            "module_owned_outboxes_preserved": True,
+            "module_repository_writes": False,
+            "missing_sources_fabricated": False,
+            "operator_decision_created": False,
+            "automatic_acceptance": False,
+            "automatic_return": False,
+            "normal_v0_4_acceptance_allowed": False,
+            "global_v0_4_promotion_performed": False,
+            "step25_review_roadmap_queue_transaction_implemented": False,
+        },
+    }
+
+
+def _tree_fingerprint(root: Path) -> str:
+    rows: list[tuple[str, str]] = []
+    for path in sorted(
+        item for item in root.rglob("*") if item.is_file()
+    ):
+        try:
+            relative = path.relative_to(root).as_posix()
+        except ValueError:
+            continue
+        if relative.startswith(".git/"):
+            continue
+        rows.append((relative, file_sha256(path)))
+    return canonical_sha256(rows)
+
+
+def render_text(report: dict[str, Any]) -> str:
+    summary = report["summary"]
+    lines = [
+        "ForPrint Completion Discovery + Intake v0.4",
+        f"result: {report['result_state']}",
+        f"mode: {report['mode']}",
+        f"network_independent: {str(report['network_independent']).lower()}",
+        f"registered_sources: {summary['registered_sources']}",
+        f"events_discovered: {summary['events_discovered']}",
+        f"review_candidates: {summary['review_candidates']}",
+        f"superseded_events: {summary['superseded_events']}",
+        f"invalid_events: {summary['invalid_events']}",
+        f"source_errors: {summary['source_errors']}",
+        (
+            "discovery_fingerprint_sha256: "
+            f"{report['discovery_fingerprint_sha256']}"
+        ),
+        "observed_source_states:",
+    ]
+    states = summary["observed_source_states"]
+    if states:
+        for key in sorted(states):
+            lines.append(f"  {key}: {states[key]}")
+    else:
+        lines.append("  -")
+    lines.extend(
+        [
+            "review_candidate_ids:",
+            *(
+                [
+                    "  "
+                    + f"{item['module_id']}:{item['event_id']}"
+                    for item in report["review_candidates"]
+                ]
+                or ["  -"]
+            ),
+            "operator_decision_created: false",
+            "normal_v0_4_acceptance_allowed: false",
+            "global_v0_4_promotion_performed: false",
+            "module_repository_writes: false",
+        ]
+    )
+    return "\n".join(lines)
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--root", type=Path, default=Path("."))
+    parser.add_argument(
+        "--registry",
+        type=Path,
+        default=Path(
+            "coordination/registry/"
+            "coordination_source_registry_v0_1.yaml"
+        ),
+    )
+    parser.add_argument(
+        "--output-format",
+        choices=("text", "yaml", "json"),
+        default="text",
+    )
+    args = parser.parse_args()
+
+    root = args.root.resolve()
+    registry = args.registry
+    if not registry.is_absolute():
+        registry = (root / registry).resolve()
+
+    report = discover_completions(
+        blueprint_root=root,
+        registry_path=registry,
+    )
+
+    if args.output_format == "yaml":
+        print(
+            yaml.safe_dump(
+                report,
+                sort_keys=False,
+                allow_unicode=True,
+            ).rstrip()
+        )
+    elif args.output_format == "json":
+        print(
+            json.dumps(
+                report,
+                ensure_ascii=False,
+                sort_keys=True,
+                indent=2,
+            )
+        )
+    else:
+        print(render_text(report))
+
+    return 1 if report["result_state"] == "ATTENTION_REQUIRED" else 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

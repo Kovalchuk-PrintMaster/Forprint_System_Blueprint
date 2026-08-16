@@ -5,8 +5,8 @@ metadata:
   reviewer: project_owner
   created_at: '2026-07-30'
   updated_at: '2026-08-15'
-  current_step_id: blueprint_v0_4_completion_discovery_and_intake_v0_1
-  actionable_steps_after_current: 5
+  current_step_id: blueprint_v0_4_review_roadmap_queue_transaction_v0_1
+  actionable_steps_after_current: 4
   context_reconciliation:
     reconciliation_id: blueprint_roadmap_context_reconciliation_v0_1
     status: completed
@@ -34,20 +34,20 @@ metadata:
     source_bootstrap: coordination/instruction_intake/bootstrap/2026-08-13__forprint_system_blueprint__completion_exchange_closed_loop_coordination_v0_4_master.md
     inventory_workstream_deferred: true
     reconciliation_status: accepted
-    current_phase: blueprint_v0_4_completion_discovery_and_intake_v0_1
+    current_phase: blueprint_v0_4_review_roadmap_queue_transaction_v0_1
     last_transition_at: '2026-08-15T16:58:00+03:00'
     last_operator_acceptance:
-      prompt_id: blueprint_v0_4_completion_outbox_v0_1
-      roadmap_step_id: blueprint_v0_4_completion_outbox_v0_1
+      prompt_id: blueprint_v0_4_completion_discovery_and_intake_v0_1
+      roadmap_step_id: blueprint_v0_4_completion_discovery_and_intake_v0_1
       decision: ACCEPT
-      accepted_at: '2026-08-16T15:38:00+03:00'
-      evidence: coordination/internal_work/blueprint/governance/2026-08-16__blueprint__v0_4_completion_outbox_acceptance_v0_1.yaml
+      accepted_at: '2026-08-16T17:29:00+03:00'
+      evidence: coordination/internal_work/blueprint/governance/2026-08-16__blueprint__v0_4_completion_discovery_and_intake_acceptance_v0_1.yaml
   last_operator_acceptance:
-    prompt_id: blueprint_v0_4_completion_outbox_v0_1
-    roadmap_step_id: blueprint_v0_4_completion_outbox_v0_1
+    prompt_id: blueprint_v0_4_completion_discovery_and_intake_v0_1
+    roadmap_step_id: blueprint_v0_4_completion_discovery_and_intake_v0_1
     decision: ACCEPT
-    accepted_at: '2026-08-16T15:38:00+03:00'
-    evidence: coordination/internal_work/blueprint/governance/2026-08-16__blueprint__v0_4_completion_outbox_acceptance_v0_1.yaml
+    accepted_at: '2026-08-16T17:29:00+03:00'
+    evidence: coordination/internal_work/blueprint/governance/2026-08-16__blueprint__v0_4_completion_discovery_and_intake_acceptance_v0_1.yaml
 authority:
   module_level_roadmap: coordination/self_coordination/roadmap.yaml
   detailed_workstream_plan: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml
@@ -309,15 +309,18 @@ steps:
 - sequence: 24
   step_id: blueprint_v0_4_completion_discovery_and_intake_v0_1
   title: Implement idempotent completion discovery and v0.4 intake
-  status: active
+  status: completed
   priority: high
   depends_on:
   - blueprint_v0_4_completion_outbox_v0_1
   workstream: completion_exchange_and_closed_loop_coordination_v0_4
+  operator_decision: ACCEPT
+  accepted_at: '2026-08-16T17:29:00+03:00'
+  acceptance_evidence: coordination/internal_work/blueprint/governance/2026-08-16__blueprint__v0_4_completion_discovery_and_intake_acceptance_v0_1.yaml
 - sequence: 25
   step_id: blueprint_v0_4_review_roadmap_queue_transaction_v0_1
   title: Implement explicit review decision and bounded roadmap/queue transaction
-  status: planned
+  status: active
   priority: high
   depends_on:
   - blueprint_v0_4_completion_discovery_and_intake_v0_1
