@@ -470,7 +470,7 @@ def test_current_step25_implementation_does_not_advance_lifecycle() -> None:
     bootstrap = load(BOOTSTRAP)
 
     current_id = roadmap["metadata"]["current_step_id"]
-    assert current_id in {STEP25, STEP26}
+    assert current_id in {STEP25, STEP26, "blueprint_v0_4_tracking_events_reference_v0_1"}
     assert queue["metadata"]["active_prompt_id"] == current_id
 
     step25 = next(
@@ -488,23 +488,37 @@ def test_current_step25_implementation_does_not_advance_lifecycle() -> None:
         assert state["implementation_status"] == "READY_FOR_OPERATOR_REVIEW"
         assert state["operator_decision_created"] is False
     else:
+        assert step25["status"] == "completed"
+        assert step25["operator_decision"] == "ACCEPT"
+        assert prompt25["status"] == "completed"
+        assert prompt25["execution_status"] == "accepted"
+        assert prompt25["operator_decision"] == "ACCEPT"
+        assert state["implementation_status"] == "accepted_v0_4"
+        assert state["operator_decision_created"] is True
+        assert state["operator_decision"] == "ACCEPT"
+
         step26 = next(
             item for item in roadmap["steps"] if item["step_id"] == STEP26
         )
         prompt26 = next(
             item for item in queue["prompts"] if item["prompt_id"] == STEP26
         )
-        assert step25["status"] == "completed"
-        assert step25["operator_decision"] == "ACCEPT"
-        assert prompt25["status"] == "completed"
-        assert prompt25["execution_status"] == "accepted"
-        assert prompt25["operator_decision"] == "ACCEPT"
-        assert step26["status"] == "active"
-        assert prompt26["status"] == "approved"
-        assert prompt26["execution_status"] == "ready_for_module_pull"
-        assert state["implementation_status"] == "accepted_v0_4"
-        assert state["operator_decision_created"] is True
-        assert state["operator_decision"] == "ACCEPT"
+        if current_id == STEP26:
+            assert step26["status"] == "active"
+            assert prompt26["status"] == "approved"
+            assert prompt26["execution_status"] == "ready_for_module_pull"
+        else:
+            current_prompt = next(
+                item
+                for item in queue["prompts"]
+                if item["prompt_id"] == current_id
+            )
+            assert step26["status"] == "completed"
+            assert step26["operator_decision"] == "ACCEPT"
+            assert prompt26["status"] == "completed"
+            assert prompt26["execution_status"] == "accepted"
+            assert current_prompt["status"] == "approved"
+            assert current_prompt["execution_status"] == "ready_for_module_pull"
 
     assert state["transaction_engine_implemented"] is True
     assert state["step26_selection_activation_implemented"] is False

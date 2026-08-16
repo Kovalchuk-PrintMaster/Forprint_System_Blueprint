@@ -366,9 +366,10 @@ def test_step24_implementation_does_not_advance_lifecycle_or_decide() -> None:
     state = handoff["completion_discovery_intake_v0_4"]
     step25 = "blueprint_v0_4_review_roadmap_queue_transaction_v0_1"
     step26 = "blueprint_v0_4_next_prompt_selection_and_activation_v0_1"
+    step27 = "blueprint_v0_4_tracking_events_reference_v0_1"
     current_id = roadmap["metadata"]["current_step_id"]
 
-    assert current_id in {STEP24, step25, step26}
+    assert current_id in {STEP24, step25, step26, step27}
     assert queue["metadata"]["active_prompt_id"] == current_id
 
     if current_id == STEP24:

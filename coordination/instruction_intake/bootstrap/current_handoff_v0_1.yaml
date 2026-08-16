@@ -10,7 +10,7 @@ metadata:
   snapshot_includes_logistics_registry_reconciliation: true
   snapshot_includes_tracking_events_review_findings: true
   snapshot_includes_v0_4_closed_loop_reconciliation: true
-  snapshot_updated_at: '2026-08-16T19:31:00+03:00'
+  snapshot_updated_at: '2026-08-16T20:51:00+03:00'
   snapshot_includes_v0_4_reconciliation_acceptance: true
   snapshot_includes_v0_4_lifecycle_standard_acceptance: true
   snapshot_includes_v0_4_coordination_source_registry: true
@@ -24,17 +24,14 @@ current_blueprint_plan:
   freshness_verdict: CURRENT_CONTEXT_RECONCILED
   reconciliation_state: V0_4_PROMPT_CONTRACT_ACCEPTED_COMPLETION_PACKET_ACTIVE
   active_blueprint_step:
-    id: blueprint_v0_4_next_prompt_selection_and_activation_v0_1
+    id: blueprint_v0_4_tracking_events_reference_v0_1
     status: active
-    sequence: 26
-    title: Implement deterministic next-prompt selection and activation
+    sequence: 27
+    title: Run Tracking Events as the first full v0.4 reference
   next_planned_steps:
-  - index: 26
-    id: blueprint_v0_4_next_prompt_selection_and_activation_v0_1
-    status: active
   - index: 27
     id: blueprint_v0_4_tracking_events_reference_v0_1
-    status: planned
+    status: active
   - index: 28
     id: blueprint_v0_4_manual_dark_zone_audit_v0_1
     status: planned
@@ -83,15 +80,15 @@ current_blueprint_plan:
     accepted_commit: 2e13d027ca16acdbee0076816ea3f670cba4351b
     remote_containment_verified: true
     publication_verification_evidence: coordination/internal_work/blueprint/governance/2026-08-15__blueprint__v0_4_immutable_prompt_contract_publication_verification_v0_1.yaml
-    current_active_step: blueprint_v0_4_next_prompt_selection_and_activation_v0_1
+    current_active_step: blueprint_v0_4_tracking_events_reference_v0_1
     last_publication_subject_commit: ce58f2cff85a7b5f631c674115e6c388d22b5367
     last_publication_verification_evidence: coordination/internal_work/blueprint/governance/2026-08-16__blueprint__v0_4_review_roadmap_queue_transaction_publication_verification_v0_1.yaml
     seal_commit_pending: true
   active_prompt:
-    id: blueprint_v0_4_next_prompt_selection_and_activation_v0_1
+    id: blueprint_v0_4_tracking_events_reference_v0_1
     status: approved
     execution_status: ready_for_module_pull
-    path: coordination/self_coordination/prompt_queue/approved/2026-08-16__forprint_system_blueprint__v0_4_next_prompt_selection_and_activation_v0_1.md
+    path: coordination/self_coordination/prompt_queue/approved/2026-08-16__forprint_system_blueprint__v0_4_tracking_events_reference_v0_1.md
 recent_completed_governance:
 - commit: 6d9a04b5f890cd874183d9f6349e1bbaaa5adbba
   subject: 'governance(blueprint): add completion exchange v0.3 candidate'
@@ -167,18 +164,14 @@ known_governance_debt:
   promotion_effect: blocks v0.3 promotion
 next_10_steps:
 - order: 1
-  id: blueprint_v0_4_next_prompt_selection_and_activation_v0_1
-  title: Implement deterministic next-prompt selection and activation
-  status: active
-- order: 2
   id: blueprint_v0_4_tracking_events_reference_v0_1
   title: Run Tracking Events as the first full v0.4 reference
-  status: planned
-- order: 3
+  status: active
+- order: 2
   id: blueprint_v0_4_manual_dark_zone_audit_v0_1
   title: Run manual prompt-to-contract-to-evidence dark-zone audit
   status: planned
-- order: 4
+- order: 3
   id: blueprint_v0_4_promotion_decision_v0_1
   title: Review v0.4 promotion readiness under explicit operator control
   status: planned
@@ -217,8 +210,8 @@ current_workstream_bootstrap:
   counts_as_draft_prompt: false
   workstream: completion_exchange_and_closed_loop_coordination_v0_4
 self_coordination_health:
-  evaluated_at: '2026-08-16T18:52:00+03:00'
-  roadmap_future_steps: 3
+  evaluated_at: '2026-08-16T20:51:00+03:00'
+  roadmap_future_steps: 2
   roadmap_minimum: 5
   roadmap_target: 8
   roadmap_state: below_minimum
@@ -511,3 +504,69 @@ review_roadmap_queue_transaction_v0_4:
   publication_verification_state: verified_ready_for_manual_seal_commit
   seal_commit_pending: true
   seal_is_recursive: false
+next_prompt_selection_activation_v0_4:
+  tool: scripts/coordination/next_prompt_selection_activation_v0_4.py
+  test: tests/validation/test_v0_4_next_prompt_selection_activation.py
+  implementation_evidence: coordination/internal_work/blueprint/governance/2026-08-16__blueprint__v0_4_next_prompt_selection_activation_implementation_v0_1.yaml
+  source_prompt_at_implementation: coordination/self_coordination/prompt_queue/approved/2026-08-16__forprint_system_blueprint__v0_4_next_prompt_selection_and_activation_v0_1.md
+  source_prompt_sha256: c4cd5e0433430beaf4cce27cebf0adc2bfb0fb5aca3ff5531302bf10ae179223
+  status: candidate_reference_only
+  implementation_status: accepted_v0_4
+  selection_schema: blueprint_next_prompt_selection_v0_4
+  activation_request_schema: blueprint_next_prompt_activation_request_v0_4
+  activation_evidence_schema: blueprint_next_prompt_activation_evidence_v0_4
+  selection_engine_implemented: true
+  activation_engine_implemented: true
+  selection_activation_separate: true
+  selection_order:
+  - explicit_validated_override
+  - dependency_eligibility
+  - queue_rank_sequence
+  - priority
+  - creation_time
+  dependency_eligibility_required: true
+  explicit_override_supported: true
+  explicit_override_must_be_eligible: true
+  activation_wip_limit: 1
+  multiple_active_prompts_fail_safely: true
+  physical_prompt_transition: draft_to_approved
+  roadmap_transition: planned_or_ready_to_active
+  queue_transition: draft_planned_to_approved_ready_for_module_pull
+  handoff_reconciled_on_activation: true
+  health_recalculated_on_activation: true
+  activation_confirmation_matching_activation_id_required: true
+  exact_rollback_on_failure: true
+  idempotent_same_activation_identity: true
+  conflicting_activation_identity_fails_safely: true
+  operator_decision_created: true
+  live_result_state: ACTIVE_PROMPT_PRESENT
+  live_active_prompt_ids:
+  - blueprint_v0_4_next_prompt_selection_and_activation_v0_1
+  live_eligible_prompt_ids: []
+  live_selection_performed: false
+  live_activation_performed: false
+  step27_tracking_events_reference_implementation: false
+  tracking_events_reference_run: false
+  dark_zone_audit_run: false
+  global_v0_4_promotion_performed: false
+  module_repository_writes: false
+  automatic_acceptance: false
+  automatic_return: false
+  automatic_hold: false
+  automatic_commit: false
+  automatic_push: false
+  rollout_or_production_write: false
+  acceptance_correction_applied: true
+  acceptance_correction_reason: roadmap actionable_steps_after_current was stale after
+    activation
+  actionable_horizon_recalculated_on_activation: true
+  operator_decision: ACCEPT
+  operator_decision_at: '2026-08-16T20:51:00+03:00'
+  acceptance_evidence: coordination/internal_work/blueprint/governance/2026-08-16__blueprint__v0_4_next_prompt_selection_activation_acceptance_v0_1.yaml
+  normal_acceptance_allowed: false
+  selection_performed_during_acceptance: true
+  activation_performed_during_acceptance: true
+  accepted_next_prompt_id: blueprint_v0_4_tracking_events_reference_v0_1
+  accepted_activation_id: step26_accept_activate_step27_20260816_205100_0300
+  accepted_activation_evidence: coordination/internal_work/blueprint/governance/next_prompt_activation/step26_accept_activate_step27_20260816_205100_0300.yaml
+  accepted_selection_fingerprint_sha256: cadd30a59063e4039eeb0491b1eb15a1f9221e8f7acc99e0b0014c8a217e3fb7

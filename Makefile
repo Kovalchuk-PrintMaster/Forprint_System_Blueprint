@@ -927,3 +927,7 @@ completion-discovery-intake-v0-4:
 .PHONY: review-roadmap-queue-transaction-v0-4
 review-roadmap-queue-transaction-v0-4:
 	.venv_blueprint/bin/python scripts/coordination/review_roadmap_queue_transaction_v0_4.py --root . --live-status
+
+.PHONY: next-prompt-selection-activation-v0-4
+next-prompt-selection-activation-v0-4:
+	.venv_blueprint/bin/python scripts/coordination/next_prompt_selection_activation_v0_4.py --root . --live-status

@@ -67,6 +67,7 @@ def test_source_registry_and_health_steps_are_accepted_before_prompt_contract() 
         completion_intake,
         "blueprint_v0_4_review_roadmap_queue_transaction_v0_1",
         "blueprint_v0_4_next_prompt_selection_and_activation_v0_1",
+        "blueprint_v0_4_tracking_events_reference_v0_1",
     }
     assert queue["metadata"]["active_prompt_id"] == active_id
     assert handoff["current_blueprint_plan"]["active_blueprint_step"]["id"] == active_id
@@ -208,6 +209,7 @@ def test_prompt_buffer_restored_to_target_with_completion_packet_draft() -> None
     step24 = "blueprint_v0_4_completion_discovery_and_intake_v0_1"
     step25 = "blueprint_v0_4_review_roadmap_queue_transaction_v0_1"
     step26 = "blueprint_v0_4_next_prompt_selection_and_activation_v0_1"
+    step27 = "blueprint_v0_4_tracking_events_reference_v0_1"
 
     if active_id == step24:
         assert len(drafts) == 2
@@ -215,20 +217,13 @@ def test_prompt_buffer_restored_to_target_with_completion_packet_draft() -> None
     elif active_id == step25:
         assert len(drafts) == 2
         assert step26 in draft_ids
-        tracking = [
-            item
-            for item in queue["prompts"]
-            if item.get("sequence") == 27
-            and item.get("status") == "draft"
-            and item.get("dispatch_ready") is True
-        ]
-        assert len(tracking) == 1
-        assert tracking[0]["prompt_id"] in draft_ids
-    else:
-        assert active_id == step26
+    elif active_id == step26:
         assert len(drafts) == 2
-        sequences = {item.get("sequence") for item in drafts}
-        assert sequences == {27, 28}
+        assert {item.get("sequence") for item in drafts} == {27, 28}
+    else:
+        assert active_id == step27
+        assert len(drafts) == 2
+        assert {item.get("sequence") for item in drafts} == {28, 29}
 
     assert queue["metadata"]["dispatchable_draft_count"] == len(drafts)
     assert (

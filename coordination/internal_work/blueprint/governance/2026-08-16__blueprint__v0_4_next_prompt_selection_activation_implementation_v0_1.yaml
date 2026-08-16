@@ -1,0 +1,101 @@
+schema_version: blueprint_next_prompt_selection_activation_implementation_evidence_v0_1
+metadata:
+  evidence_id: blueprint_v0_4_next_prompt_selection_activation_implementation_v0_1
+  module_id: forprint_system_blueprint
+  created_at: '2026-08-16T19:55:00+03:00'
+  owner: forprint_system_blueprint
+  base_head: 34a199035cc1f8b6debeb4957169d5e637dc164f
+subject:
+  roadmap_step_id: blueprint_v0_4_next_prompt_selection_and_activation_v0_1
+  source_prompt: coordination/self_coordination/prompt_queue/approved/2026-08-16__forprint_system_blueprint__v0_4_next_prompt_selection_and_activation_v0_1.md
+  source_prompt_sha256: c4cd5e0433430beaf4cce27cebf0adc2bfb0fb5aca3ff5531302bf10ae179223
+  implementation_status: READY_FOR_OPERATOR_REVIEW
+implementation:
+  tool: scripts/coordination/next_prompt_selection_activation_v0_4.py
+  test: tests/validation/test_v0_4_next_prompt_selection_activation.py
+  selection_schema: blueprint_next_prompt_selection_v0_4
+  activation_request_schema: blueprint_next_prompt_activation_request_v0_4
+  activation_evidence_schema: blueprint_next_prompt_activation_evidence_v0_4
+  deterministic_selection: true
+  dependency_eligibility: true
+  validated_explicit_override: true
+  selection_activation_separate: true
+  activation_wip_limit: 1
+  physical_draft_to_approved: true
+  roadmap_planned_ready_to_active: true
+  queue_activation_reconciled: true
+  handoff_reconciled: true
+  health_recalculated: true
+  exact_rollback: true
+  idempotent_same_activation_identity: true
+  conflicting_activation_identity_fails_safely: true
+live_state:
+  result_state: ACTIVE_PROMPT_PRESENT
+  active_prompt_ids:
+  - blueprint_v0_4_next_prompt_selection_and_activation_v0_1
+  eligible_prompt_ids: []
+  selection_performed: false
+  activation_performed: false
+boundaries:
+  step26_lifecycle_advanced: false
+  operator_decision_created: false
+  automatic_acceptance: false
+  automatic_return: false
+  automatic_hold: false
+  tracking_events_reference_run: false
+  dark_zone_audit_run: false
+  global_v0_4_promotion_performed: false
+  module_repository_writes: false
+  automatic_commit: false
+  automatic_push: false
+  rollout_or_production_write: false
+  historical_step25_scope_marker_rewritten: false
+validation:
+  state: passed
+  checks:
+    ? /srv/software_development/forprint-project/forprint_system_blueprint/.venv_blueprint/bin/python
+      -m py_compile scripts/coordination/next_prompt_selection_activation_v0_4.py
+      tests/validation/test_v0_4_next_prompt_selection_activation.py
+    : returncode: 0
+      result: passed
+    ? /srv/software_development/forprint-project/forprint_system_blueprint/.venv_blueprint/bin/python
+      -m ruff check scripts/coordination/next_prompt_selection_activation_v0_4.py
+      tests/validation/test_v0_4_next_prompt_selection_activation.py
+    : returncode: 0
+      result: passed
+    make -s next-prompt-selection-activation-v0-4:
+      returncode: 0
+      result: passed
+    ? /srv/software_development/forprint-project/forprint_system_blueprint/.venv_blueprint/bin/python
+      -m pytest -q tests/validation/test_v0_4_next_prompt_selection_activation.py
+      tests/validation/test_v0_4_closed_loop_lifecycle_standard.py tests/validation/test_v0_4_closed_loop_reconciliation.py
+      tests/validation/test_v0_4_coordination_health_and_pulse.py tests/validation/test_v0_4_coordination_source_registry.py
+      tests/validation/test_v0_4_review_roadmap_queue_transaction.py tests/validation/test_blueprint_protocol_revision_workstream.py
+      tests/validation/test_tracking_events_operator_review_findings.py
+    : returncode: 0
+      result: passed
+    make roadmap-validate MODULE=forprint_system_blueprint:
+      returncode: 0
+      result: passed
+    make check-self-coordination-consistency:
+      returncode: 0
+      result: passed
+    make -s coordination-pulse:
+      returncode: 0
+      result: passed
+    /srv/software_development/forprint-project/forprint_system_blueprint/.venv_blueprint/bin/python -m pytest -q:
+      returncode: 0
+      result: passed
+    make check:
+      returncode: 0
+      result: passed
+result: READY_FOR_OPERATOR_REVIEW
+acceptance_correction:
+  applied_at: '2026-08-16T20:51:00+03:00'
+  operator_decision_preserved: ACCEPT
+  reason: activation changed current_step_id without recalculating roadmap.metadata.actionable_steps_after_current
+  fix: activation engine recalculates actionable_steps_after_current and reconciles
+    v0_4_workstream.current_phase when present
+  regression_test_added: true
+  tool_sha256_after_correction: 08e763c60d306057887ae21c8cbf7ab57f893cd8e769bc862c9d5e6789afa6d9
+  test_sha256_after_correction: cd97430663465083a73ac03874e2ba9178e7c789e59ce445513e3b2c6ee68147

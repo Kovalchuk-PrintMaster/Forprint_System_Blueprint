@@ -309,7 +309,7 @@ def test_step22_implementation_does_not_advance_lifecycle_or_promote() -> None:
     step23 = "blueprint_v0_4_completion_outbox_v0_1"
     step24 = "blueprint_v0_4_completion_discovery_and_intake_v0_1"
 
-    assert current_id in {STEP22, step23, step24, "blueprint_v0_4_review_roadmap_queue_transaction_v0_1", "blueprint_v0_4_next_prompt_selection_and_activation_v0_1"}
+    assert current_id in {STEP22, step23, step24, "blueprint_v0_4_review_roadmap_queue_transaction_v0_1", "blueprint_v0_4_next_prompt_selection_and_activation_v0_1", "blueprint_v0_4_tracking_events_reference_v0_1"}
     assert queue["metadata"]["active_prompt_id"] == current_id
 
     prompt22 = next(x for x in queue["prompts"] if x["prompt_id"] == STEP22)
