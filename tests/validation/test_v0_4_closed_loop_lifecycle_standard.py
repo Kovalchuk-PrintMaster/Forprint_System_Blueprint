@@ -145,8 +145,9 @@ def test_prompt_contract_is_active_after_step20_acceptance() -> None:
     step21_id = "blueprint_v0_4_immutable_prompt_contract_v0_1"
     step22_id = "blueprint_v0_4_completion_packet_v0_1"
     step23_id = "blueprint_v0_4_completion_outbox_v0_1"
+    step24_id = "blueprint_v0_4_completion_discovery_and_intake_v0_1"
     current_id = roadmap["metadata"]["current_step_id"]
-    assert current_id in {step21_id, step22_id, step23_id}
+    assert current_id in {step21_id, step22_id, step23_id, step24_id}
     assert queue["metadata"]["active_prompt_id"] == current_id
 
     step21 = record(roadmap["steps"], "step_id", step21_id)
@@ -162,26 +163,42 @@ def test_prompt_contract_is_active_after_step20_acceptance() -> None:
         assert prompt21["execution_status"] == "accepted"
         assert prompt21["operator_decision"] == "ACCEPT"
 
-    if current_id == step23_id:
+    if current_id in {step23_id, step24_id}:
         step22 = record(roadmap["steps"], "step_id", step22_id)
         prompt22 = record(queue["prompts"], "prompt_id", step22_id)
-        prompt23 = record(queue["prompts"], "prompt_id", step23_id)
         assert step22["status"] == "completed"
         assert step22["operator_decision"] == "ACCEPT"
         assert prompt22["status"] == "completed"
         assert prompt22["execution_status"] == "accepted"
         assert prompt22["operator_decision"] == "ACCEPT"
+
+    if current_id == step23_id:
+        prompt23 = record(queue["prompts"], "prompt_id", step23_id)
         assert prompt23["status"] == "approved"
         assert prompt23["execution_status"] == "ready_for_module_pull"
+    elif current_id == step24_id:
+        step23 = record(roadmap["steps"], "step_id", step23_id)
+        prompt23 = record(queue["prompts"], "prompt_id", step23_id)
+        prompt24 = record(queue["prompts"], "prompt_id", step24_id)
+        assert step23["status"] == "completed"
+        assert step23["operator_decision"] == "ACCEPT"
+        assert prompt23["status"] == "completed"
+        assert prompt23["execution_status"] == "accepted"
+        assert prompt23["operator_decision"] == "ACCEPT"
+        assert prompt24["status"] == "approved"
+        assert prompt24["execution_status"] == "ready_for_module_pull"
 
 def test_handoff_reports_source_registry_as_active_after_accept() -> None:
     handoff = load(HANDOFF)
     plan = handoff["current_blueprint_plan"]
     active_id = plan["active_blueprint_step"]["id"]
+    step23 = "blueprint_v0_4_completion_outbox_v0_1"
+    step24 = "blueprint_v0_4_completion_discovery_and_intake_v0_1"
     assert active_id in {
         "blueprint_v0_4_immutable_prompt_contract_v0_1",
         "blueprint_v0_4_completion_packet_v0_1",
-        "blueprint_v0_4_completion_outbox_v0_1",
+        step23,
+        step24,
     }
     registry = handoff["coordination_source_registry"]
     assert registry["operator_decision_created"] is True
@@ -190,17 +207,23 @@ def test_handoff_reports_source_registry_as_active_after_accept() -> None:
     assert registry["global_v0_4_promotion_performed"] is False
     if active_id in {
         "blueprint_v0_4_completion_packet_v0_1",
-        "blueprint_v0_4_completion_outbox_v0_1",
+        step23,
+        step24,
     }:
         contract_state = handoff["prompt_contract_v0_4"]
         assert contract_state["operator_decision_created"] is True
         assert contract_state["operator_decision"] == "ACCEPT"
         assert contract_state["promotion_performed"] is False
-    if active_id == "blueprint_v0_4_completion_outbox_v0_1":
+    if active_id in {step23, step24}:
         packet_state = handoff["completion_packet_v0_4"]
         assert packet_state["operator_decision_created"] is True
         assert packet_state["operator_decision"] == "ACCEPT"
         assert packet_state["promotion_performed"] is False
+    if active_id == step24:
+        outbox_state = handoff["completion_outbox_v0_4"]
+        assert outbox_state["operator_decision_created"] is True
+        assert outbox_state["operator_decision"] == "ACCEPT"
+        assert outbox_state["promotion_performed"] is False
 
 def test_completed_means_accepted_not_merely_reviewed() -> None:
     queue = load(QUEUE)

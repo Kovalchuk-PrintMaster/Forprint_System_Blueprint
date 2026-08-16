@@ -87,34 +87,53 @@ def test_current_pulse_is_healthy_and_policy_driven() -> None:
 
     roadmap = load(ROADMAP)
     current_id = roadmap["metadata"]["current_step_id"]
-    current = next(x for x in roadmap["steps"] if x["step_id"] == current_id)
+    current = next(
+        x for x in roadmap["steps"] if x["step_id"] == current_id
+    )
     expected_future = sum(
         1
         for x in roadmap["steps"]
-        if x["sequence"] > current["sequence"] and x["status"] in {"active", "planned", "ready"}
+        if x["sequence"] > current["sequence"]
+        and x["status"] in {"active", "planned", "ready"}
     )
 
     assert data["roadmap"]["current_step_id"] == current_id
     assert data["roadmap"]["future_steps"] == expected_future
-    assert data["roadmap"]["minimum_future_steps"] == policy["roadmap"]["minimum_future_steps"]
-    assert data["roadmap"]["target_future_steps"] == policy["roadmap"]["target_future_steps"]
+    assert (
+        data["roadmap"]["minimum_future_steps"]
+        == policy["roadmap"]["minimum_future_steps"]
+    )
+    assert (
+        data["roadmap"]["target_future_steps"]
+        == policy["roadmap"]["target_future_steps"]
+    )
 
     queue = load(QUEUE)
     prompts = [x for x in queue["prompts"] if isinstance(x, dict)]
-    indexed_drafts = [x for x in prompts if x.get("status") == "draft"]
+    indexed_drafts = [
+        x for x in prompts if x.get("status") == "draft"
+    ]
     dispatchable = [
         x
         for x in indexed_drafts
-        if x.get("dispatch_ready") is True and x.get("execution_status") != "deferred"
+        if x.get("dispatch_ready") is True
+        and x.get("execution_status") != "deferred"
     ]
 
     assert data["prompt_queue"]["active_prompt_count"] == sum(
         1 for x in prompts if x.get("status") == "approved"
     )
     assert data["prompt_queue"]["physical_draft_files"] == len(
-        list((ROOT / "coordination/self_coordination/prompt_queue/draft").glob("*.md"))
+        list(
+            (
+                ROOT
+                / "coordination/self_coordination/prompt_queue/draft"
+            ).glob("*.md")
+        )
     )
-    assert data["prompt_queue"]["dispatchable_drafts"] == len(dispatchable)
+    assert data["prompt_queue"]["dispatchable_drafts"] == len(
+        dispatchable
+    )
 
     assert data["completions"]["pending_completions"] is None
     assert data["completions"]["state"] == "not_available_yet"
@@ -122,22 +141,42 @@ def test_current_pulse_is_healthy_and_policy_driven() -> None:
     assert data["completions"]["outbox_not_present_yet_sources"] == 8
 
     assert data["queue_roadmap_drift"]["count"] == 0
-    if expected_future >= policy["roadmap"]["target_future_steps"]:
-        assert data["overall_state"] == "healthy"
-        assert data["codes"] == {
-            "errors": [],
-            "warnings": [],
-            "advisories": [],
-        }
-    else:
-        assert expected_future >= policy["roadmap"]["minimum_future_steps"]
-        assert data["overall_state"] == "advisory"
-        assert data["codes"] == {
-            "errors": [],
-            "warnings": [],
-            "advisories": ["ROADMAP_HORIZON_BELOW_TARGET"],
-        }
 
+    expected_advisories = []
+    if (
+        expected_future
+        < policy["roadmap"]["target_future_steps"]
+    ):
+        assert (
+            expected_future
+            >= policy["roadmap"]["minimum_future_steps"]
+        )
+        expected_advisories.append(
+            "ROADMAP_HORIZON_BELOW_TARGET"
+        )
+
+    dispatchable_count = len(dispatchable)
+    prompt_policy = policy["prompt_buffer"]
+    if (
+        dispatchable_count
+        < prompt_policy["target_dispatchable_drafts"]
+    ):
+        assert (
+            dispatchable_count
+            >= prompt_policy["minimum_dispatchable_drafts"]
+        )
+        expected_advisories.append(
+            "PROMPT_BUFFER_BELOW_TARGET"
+        )
+
+    expected_advisories = sorted(expected_advisories)
+
+    assert data["codes"]["errors"] == []
+    assert data["codes"]["warnings"] == []
+    assert sorted(data["codes"]["advisories"]) == expected_advisories
+    assert data["overall_state"] == (
+        "advisory" if expected_advisories else "healthy"
+    )
 
 def test_stable_warning_and_error_codes_are_policy_classified() -> None:
     module = pulse_module()

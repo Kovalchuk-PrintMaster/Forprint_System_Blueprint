@@ -58,25 +58,35 @@ def test_handoff_snapshot_contract() -> None:
     assert data["metadata"]["state_observed_at_head"] == data["published_base"]["commit"]
     assert data["current_blueprint_plan"]["freshness_verdict"] == "CURRENT_CONTEXT_RECONCILED"
     active_id = data["current_blueprint_plan"]["active_blueprint_step"]["id"]
+    step23 = "blueprint_v0_4_completion_outbox_v0_1"
+    step24 = "blueprint_v0_4_completion_discovery_and_intake_v0_1"
     assert active_id in {
         "blueprint_v0_4_immutable_prompt_contract_v0_1",
         "blueprint_v0_4_completion_packet_v0_1",
-        "blueprint_v0_4_completion_outbox_v0_1",
+        step23,
+        step24,
     }
     if active_id in {
         "blueprint_v0_4_completion_packet_v0_1",
-        "blueprint_v0_4_completion_outbox_v0_1",
+        step23,
+        step24,
     }:
         contract_state = data["prompt_contract_v0_4"]
         assert contract_state["operator_decision_created"] is True
         assert contract_state["operator_decision"] == "ACCEPT"
         assert contract_state["promotion_performed"] is False
-    if active_id == "blueprint_v0_4_completion_outbox_v0_1":
+    if active_id in {step23, step24}:
         packet_state = data["completion_packet_v0_4"]
         assert packet_state["operator_decision_created"] is True
         assert packet_state["operator_decision"] == "ACCEPT"
         assert packet_state["implementation_status"] == "accepted_v0_4"
         assert packet_state["promotion_performed"] is False
+    if active_id == step24:
+        outbox_state = data["completion_outbox_v0_4"]
+        assert outbox_state["operator_decision_created"] is True
+        assert outbox_state["operator_decision"] == "ACCEPT"
+        assert outbox_state["implementation_status"] == "accepted_v0_4"
+        assert outbox_state["promotion_performed"] is False
     next_steps = data["next_10_steps"]
     assert 1 <= len(next_steps) <= 10
     assert [item["order"] for item in next_steps] == list(

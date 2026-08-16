@@ -106,10 +106,13 @@ def test_inventory_plan_history_is_preserved_while_self_roadmap_is_superseded() 
 
     assert len(self_roadmap["steps"]) == 29
     active_id = self_roadmap["metadata"]["current_step_id"]
+    step23 = "blueprint_v0_4_completion_outbox_v0_1"
+    step24 = "blueprint_v0_4_completion_discovery_and_intake_v0_1"
     assert active_id in {
         CURRENT_V04_ID,
         "blueprint_v0_4_completion_packet_v0_1",
-        "blueprint_v0_4_completion_outbox_v0_1",
+        step23,
+        step24,
     }
     assert prompt_index["metadata"]["active_prompt_id"] == active_id
 
@@ -120,13 +123,18 @@ def test_inventory_plan_history_is_preserved_while_self_roadmap_is_superseded() 
         assert prompt_contract["status"] == "completed"
         assert prompt_contract["operator_decision"] == "ACCEPT"
 
-    if active_id == "blueprint_v0_4_completion_outbox_v0_1":
+    if active_id in {step23, step24}:
         packet = step_by_id(
             self_roadmap["steps"],
             "blueprint_v0_4_completion_packet_v0_1",
         )
         assert packet["status"] == "completed"
         assert packet["operator_decision"] == "ACCEPT"
+
+    if active_id == step24:
+        outbox = step_by_id(self_roadmap["steps"], step23)
+        assert outbox["status"] == "completed"
+        assert outbox["operator_decision"] == "ACCEPT"
 
     deferred = step_by_id(
         self_roadmap["deferred_steps"],
@@ -176,6 +184,7 @@ def test_handoff_reports_current_v04_and_links_historical_reconciliation() -> No
         CURRENT_V04_ID,
         "blueprint_v0_4_completion_packet_v0_1",
         "blueprint_v0_4_completion_outbox_v0_1",
+        "blueprint_v0_4_completion_discovery_and_intake_v0_1",
     }
 
     historical = plan["historical_context_reconciliation"]

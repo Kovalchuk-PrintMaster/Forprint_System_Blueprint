@@ -58,8 +58,14 @@ def test_source_registry_and_health_steps_are_accepted_before_prompt_contract() 
     prompt_contract = "blueprint_v0_4_immutable_prompt_contract_v0_1"
     completion_packet = "blueprint_v0_4_completion_packet_v0_1"
     completion_outbox = "blueprint_v0_4_completion_outbox_v0_1"
+    completion_intake = "blueprint_v0_4_completion_discovery_and_intake_v0_1"
     active_id = roadmap["metadata"]["current_step_id"]
-    assert active_id in {prompt_contract, completion_packet, completion_outbox}
+    assert active_id in {
+        prompt_contract,
+        completion_packet,
+        completion_outbox,
+        completion_intake,
+    }
     assert queue["metadata"]["active_prompt_id"] == active_id
     assert handoff["current_blueprint_plan"]["active_blueprint_step"]["id"] == active_id
 
@@ -95,17 +101,42 @@ def test_source_registry_and_health_steps_are_accepted_before_prompt_contract() 
         assert prompt21["execution_status"] == "accepted"
         assert prompt21["operator_decision"] == "ACCEPT"
 
-    if active_id == completion_outbox:
-        step22 = next(x for x in roadmap["steps"] if x["step_id"] == completion_packet)
-        prompt22 = next(x for x in queue["prompts"] if x["prompt_id"] == completion_packet)
-        prompt23 = next(x for x in queue["prompts"] if x["prompt_id"] == completion_outbox)
+    if active_id in {completion_outbox, completion_intake}:
+        step22 = next(
+            x for x in roadmap["steps"] if x["step_id"] == completion_packet
+        )
+        prompt22 = next(
+            x for x in queue["prompts"] if x["prompt_id"] == completion_packet
+        )
         assert step22["status"] == "completed"
         assert step22["operator_decision"] == "ACCEPT"
         assert prompt22["status"] == "completed"
         assert prompt22["execution_status"] == "accepted"
         assert prompt22["operator_decision"] == "ACCEPT"
+
+    if active_id == completion_outbox:
+        prompt23 = next(
+            x for x in queue["prompts"] if x["prompt_id"] == completion_outbox
+        )
         assert prompt23["status"] == "approved"
         assert prompt23["execution_status"] == "ready_for_module_pull"
+    elif active_id == completion_intake:
+        step23 = next(
+            x for x in roadmap["steps"] if x["step_id"] == completion_outbox
+        )
+        prompt23 = next(
+            x for x in queue["prompts"] if x["prompt_id"] == completion_outbox
+        )
+        prompt24 = next(
+            x for x in queue["prompts"] if x["prompt_id"] == completion_intake
+        )
+        assert step23["status"] == "completed"
+        assert step23["operator_decision"] == "ACCEPT"
+        assert prompt23["status"] == "completed"
+        assert prompt23["execution_status"] == "accepted"
+        assert prompt23["operator_decision"] == "ACCEPT"
+        assert prompt24["status"] == "approved"
+        assert prompt24["execution_status"] == "ready_for_module_pull"
 
 def test_registry_exact_source_set_and_identity_separation() -> None:
     data = load(REGISTRY)
@@ -169,25 +200,39 @@ def test_prompt_buffer_restored_to_target_with_completion_packet_draft() -> None
         and x.get("dispatch_ready") is True
         and x.get("execution_status") != "deferred"
     ]
-    assert len(drafts) == 3
-    assert queue["metadata"]["dispatchable_draft_count"] == 3
-    assert handoff["self_coordination_health"]["prompt_buffer_state"] == "target_met"
-
     active_id = queue["metadata"]["active_prompt_id"]
     draft_ids = {x["prompt_id"] for x in drafts}
-    if active_id == "blueprint_v0_4_completion_packet_v0_1":
+    step22 = "blueprint_v0_4_completion_packet_v0_1"
+    step23 = "blueprint_v0_4_completion_outbox_v0_1"
+    step24 = "blueprint_v0_4_completion_discovery_and_intake_v0_1"
+
+    if active_id == step22:
+        assert len(drafts) == 3
         assert draft_ids == {
-            "blueprint_v0_4_completion_outbox_v0_1",
-            "blueprint_v0_4_completion_discovery_and_intake_v0_1",
+            step23,
+            step24,
             "blueprint_v0_4_review_roadmap_queue_transaction_v0_1",
         }
-    elif active_id == "blueprint_v0_4_completion_outbox_v0_1":
+        expected_buffer_state = "target_met"
+    elif active_id == step23:
+        assert len(drafts) == 3
         assert draft_ids == {
-            "blueprint_v0_4_completion_discovery_and_intake_v0_1",
+            step24,
             "blueprint_v0_4_review_roadmap_queue_transaction_v0_1",
             "blueprint_v0_4_next_prompt_selection_and_activation_v0_1",
         }
+        expected_buffer_state = "target_met"
+    else:
+        assert active_id == step24
+        assert len(drafts) == 2
+        assert draft_ids == {
+            "blueprint_v0_4_review_roadmap_queue_transaction_v0_1",
+            "blueprint_v0_4_next_prompt_selection_and_activation_v0_1",
+        }
+        expected_buffer_state = "minimum_met_target_not_met"
 
+    assert queue["metadata"]["dispatchable_draft_count"] == len(drafts)
+    assert handoff["self_coordination_health"]["prompt_buffer_state"] == expected_buffer_state
     for item in drafts:
         assert item["execution_status"] == "planned"
         assert (ROOT / item["path"]).is_file()

@@ -305,31 +305,48 @@ def test_step22_implementation_does_not_advance_lifecycle_or_promote() -> None:
 
     step22 = next(x for x in roadmap["steps"] if x["step_id"] == STEP22)
     packet_state = handoff["completion_packet_v0_4"]
+    current_id = roadmap["metadata"]["current_step_id"]
+    step23 = "blueprint_v0_4_completion_outbox_v0_1"
+    step24 = "blueprint_v0_4_completion_discovery_and_intake_v0_1"
 
-    if roadmap["metadata"]["current_step_id"] == STEP22:
-        assert queue["metadata"]["active_prompt_id"] == STEP22
-        prompt22 = next(x for x in queue["prompts"] if x["prompt_id"] == STEP22)
+    assert current_id in {STEP22, step23, step24}
+    assert queue["metadata"]["active_prompt_id"] == current_id
+
+    prompt22 = next(x for x in queue["prompts"] if x["prompt_id"] == STEP22)
+    if current_id == STEP22:
         assert step22["status"] == "active"
         assert prompt22["status"] == "approved"
         assert prompt22["execution_status"] == "ready_for_module_pull"
         assert packet_state["implementation_status"] == "READY_FOR_OPERATOR_REVIEW"
         assert packet_state["operator_decision_created"] is False
     else:
-        step23 = "blueprint_v0_4_completion_outbox_v0_1"
-        assert roadmap["metadata"]["current_step_id"] == step23
-        assert queue["metadata"]["active_prompt_id"] == step23
-        prompt22 = next(x for x in queue["prompts"] if x["prompt_id"] == STEP22)
-        prompt23 = next(x for x in queue["prompts"] if x["prompt_id"] == step23)
         assert step22["status"] == "completed"
         assert step22["operator_decision"] == "ACCEPT"
         assert prompt22["status"] == "completed"
         assert prompt22["execution_status"] == "accepted"
         assert prompt22["operator_decision"] == "ACCEPT"
-        assert prompt23["status"] == "approved"
-        assert prompt23["execution_status"] == "ready_for_module_pull"
         assert packet_state["implementation_status"] == "accepted_v0_4"
         assert packet_state["operator_decision_created"] is True
         assert packet_state["operator_decision"] == "ACCEPT"
+
+    if current_id == step23:
+        prompt23 = next(
+            x for x in queue["prompts"] if x["prompt_id"] == step23
+        )
+        assert prompt23["status"] == "approved"
+        assert prompt23["execution_status"] == "ready_for_module_pull"
+    elif current_id == step24:
+        prompt23 = next(
+            x for x in queue["prompts"] if x["prompt_id"] == step23
+        )
+        prompt24 = next(
+            x for x in queue["prompts"] if x["prompt_id"] == step24
+        )
+        assert prompt23["status"] == "completed"
+        assert prompt23["execution_status"] == "accepted"
+        assert prompt23["operator_decision"] == "ACCEPT"
+        assert prompt24["status"] == "approved"
+        assert prompt24["execution_status"] == "ready_for_module_pull"
 
     assert packet_state["status"] == "candidate_reference_only"
     assert packet_state["promotion_performed"] is False

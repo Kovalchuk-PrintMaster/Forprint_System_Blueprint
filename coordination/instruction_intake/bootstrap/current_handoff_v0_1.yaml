@@ -10,7 +10,7 @@ metadata:
   snapshot_includes_logistics_registry_reconciliation: true
   snapshot_includes_tracking_events_review_findings: true
   snapshot_includes_v0_4_closed_loop_reconciliation: true
-  snapshot_updated_at: '2026-08-16T13:07:00+03:00'
+  snapshot_updated_at: '2026-08-16T15:38:00+03:00'
   snapshot_includes_v0_4_reconciliation_acceptance: true
   snapshot_includes_v0_4_lifecycle_standard_acceptance: true
   snapshot_includes_v0_4_coordination_source_registry: true
@@ -24,17 +24,14 @@ current_blueprint_plan:
   freshness_verdict: CURRENT_CONTEXT_RECONCILED
   reconciliation_state: V0_4_PROMPT_CONTRACT_ACCEPTED_COMPLETION_PACKET_ACTIVE
   active_blueprint_step:
-    id: blueprint_v0_4_completion_outbox_v0_1
+    id: blueprint_v0_4_completion_discovery_and_intake_v0_1
     status: active
-    sequence: 23
-    title: Define module-owned immutable completion outbox events
+    sequence: 24
+    title: Implement idempotent completion discovery and v0.4 intake
   next_planned_steps:
-  - index: 23
-    id: blueprint_v0_4_completion_outbox_v0_1
-    status: active
   - index: 24
     id: blueprint_v0_4_completion_discovery_and_intake_v0_1
-    status: planned
+    status: active
   - index: 25
     id: blueprint_v0_4_review_roadmap_queue_transaction_v0_1
     status: planned
@@ -92,15 +89,15 @@ current_blueprint_plan:
     accepted_commit: 2e13d027ca16acdbee0076816ea3f670cba4351b
     remote_containment_verified: true
     publication_verification_evidence: coordination/internal_work/blueprint/governance/2026-08-15__blueprint__v0_4_immutable_prompt_contract_publication_verification_v0_1.yaml
-    current_active_step: blueprint_v0_4_completion_outbox_v0_1
+    current_active_step: blueprint_v0_4_completion_discovery_and_intake_v0_1
     last_publication_subject_commit: 07d43003caf3a39b5bc79a6b539174fc73a9d618
     last_publication_verification_evidence: coordination/internal_work/blueprint/governance/2026-08-16__blueprint__v0_4_completion_packet_publication_verification_v0_1.yaml
     seal_commit_pending: true
   active_prompt:
-    id: blueprint_v0_4_completion_outbox_v0_1
+    id: blueprint_v0_4_completion_discovery_and_intake_v0_1
     status: approved
     execution_status: ready_for_module_pull
-    path: coordination/self_coordination/prompt_queue/approved/2026-08-14__forprint_system_blueprint__v0_4_completion_outbox_v0_1.md
+    path: coordination/self_coordination/prompt_queue/approved/2026-08-15__forprint_system_blueprint__v0_4_completion_discovery_and_intake_v0_1.md
 recent_completed_governance:
 - commit: 6d9a04b5f890cd874183d9f6349e1bbaaa5adbba
   subject: 'governance(blueprint): add completion exchange v0.3 candidate'
@@ -176,30 +173,26 @@ known_governance_debt:
   promotion_effect: blocks v0.3 promotion
 next_10_steps:
 - order: 1
-  id: blueprint_v0_4_completion_outbox_v0_1
-  title: Define module-owned immutable completion outbox events
-  status: active
-- order: 2
   id: blueprint_v0_4_completion_discovery_and_intake_v0_1
   title: Implement idempotent completion discovery and v0.4 intake
-  status: planned
-- order: 3
+  status: active
+- order: 2
   id: blueprint_v0_4_review_roadmap_queue_transaction_v0_1
   title: Implement explicit review decision and bounded roadmap/queue transaction
   status: planned
-- order: 4
+- order: 3
   id: blueprint_v0_4_next_prompt_selection_and_activation_v0_1
   title: Implement deterministic next-prompt selection and activation
   status: planned
-- order: 5
+- order: 4
   id: blueprint_v0_4_tracking_events_reference_v0_1
   title: Run Tracking Events as the first full v0.4 reference
   status: planned
-- order: 6
+- order: 5
   id: blueprint_v0_4_manual_dark_zone_audit_v0_1
   title: Run manual prompt-to-contract-to-evidence dark-zone audit
   status: planned
-- order: 7
+- order: 6
   id: blueprint_v0_4_promotion_decision_v0_1
   title: Review v0.4 promotion readiness under explicit operator control
   status: planned
@@ -238,16 +231,18 @@ current_workstream_bootstrap:
   counts_as_draft_prompt: false
   workstream: completion_exchange_and_closed_loop_coordination_v0_4
 self_coordination_health:
-  evaluated_at: '2026-08-15T18:14:00+03:00'
-  roadmap_future_steps: 7
+  evaluated_at: '2026-08-16T15:38:00+03:00'
+  roadmap_future_steps: 5
   roadmap_minimum: 5
   roadmap_target: 8
-  roadmap_state: below_target_advisory
-  dispatchable_draft_prompts: 3
+  roadmap_state: minimum_met_target_not_met
+  dispatchable_draft_prompts: 2
   prompt_buffer_minimum: 2
   prompt_buffer_target: 3
-  prompt_buffer_state: target_met
-  advisories: []
+  prompt_buffer_state: minimum_met_target_not_met
+  advisories:
+  - ROADMAP_HORIZON_BELOW_TARGET
+  - PROMPT_BUFFER_BELOW_TARGET
   blocking_errors: []
 published_base:
   commit: 07d43003caf3a39b5bc79a6b539174fc73a9d618
@@ -376,3 +371,41 @@ completion_packet_v0_4:
   publication_verification_state: verified_ready_for_manual_seal_commit
   seal_commit_pending: true
   seal_is_recursive: false
+completion_outbox_v0_4:
+  standard: coordination/standards/governance/module_completion_outbox_v0_4.yaml
+  template: coordination/templates/module_completion_outbox_v0_4.example.yaml
+  validator: scripts/coordination/validate_completion_outbox_v0_4.py
+  source_prompt_at_implementation: coordination/self_coordination/prompt_queue/approved/2026-08-14__forprint_system_blueprint__v0_4_completion_outbox_v0_1.md
+  source_prompt_sha256: 024391893da485644e2098a18d61732f06e6e2b60cb6adda6c6259f86f3f07a2
+  status: candidate_reference_only
+  implementation_status: accepted_v0_4
+  operator_decision_created: true
+  promotion_performed: false
+  normal_acceptance_allowed: false
+  canonical_locator: coordination/completion_outbox/records
+  canonical_event_path: coordination/completion_outbox/records/<event_id>.yaml
+  module_owned: true
+  immutable_event_instances: true
+  historical_event_mutation_allowed: false
+  completion_packet_v0_4_binding_required: true
+  completion_publication_evidence_required: true
+  completion_subject_commit_embedded: true
+  outbox_event_commit_embedded: false
+  external_outbox_event_publication_verification_required: true
+  superseding_revision_required_for_correction: true
+  registered_module_sources: 8
+  registry_availability_mutated: false
+  module_outbox_directories_created_by_blueprint: false
+  completion_discovery_or_intake_implemented: false
+  operator_review_automation_implemented: false
+  next_prompt_activation_implemented: false
+  tracking_events_reference_run: false
+  module_repository_writes: false
+  automatic_acceptance: false
+  automatic_return: false
+  automatic_commit: false
+  automatic_push: false
+  rollout_or_production_write: false
+  operator_decision: ACCEPT
+  operator_decision_at: '2026-08-16T15:38:00+03:00'
+  acceptance_evidence: coordination/internal_work/blueprint/governance/2026-08-16__blueprint__v0_4_completion_outbox_acceptance_v0_1.yaml

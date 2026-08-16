@@ -915,3 +915,7 @@ COMPLETION_PACKET_V0_4 ?= coordination/templates/module_completion_packet_v0_4.e
 .PHONY: completion-packet-v0-4-validate
 completion-packet-v0-4-validate:
 	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_completion_packet_v0_4.py --root . --packet "$(COMPLETION_PACKET_V0_4)" --template-mode
+
+.PHONY: completion-outbox-v0-4-validate
+completion-outbox-v0-4-validate:
+	.venv_blueprint/bin/python scripts/coordination/validate_completion_outbox_v0_4.py coordination/templates/module_completion_outbox_v0_4.example.yaml --root . --registry coordination/registry/coordination_source_registry_v0_1.yaml --template

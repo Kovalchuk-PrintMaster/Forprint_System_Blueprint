@@ -1,0 +1,94 @@
+schema_version: module_completion_outbox_standard_v0_4
+metadata:
+  standard_id: module_completion_outbox_v0_4
+  title: Module Completion Outbox v0.4
+  status: candidate_reference_only
+  owner: forprint_system_blueprint
+  event_instances_are_module_owned: true
+purpose:
+  summary: Module-owned immutable publication event that points to a Completion Packet
+    v0.4 and exposes it for later Blueprint discovery without granting Blueprint acceptance.
+  separates_module_publication_from_blueprint_discovery: true
+  separates_module_completion_from_operator_acceptance: true
+instance:
+  schema_version: module_completion_outbox_event_v0_4
+  protocol_version: module_completion_outbox_protocol_v0_4
+  event_type: module_completion_published_v0_4
+  canonical_path: coordination/completion_outbox/records/<event_id>.yaml
+  status: published_pending_blueprint_discovery
+  owner: module
+  immutable: true
+  historical_event_mutation_allowed: false
+  superseding_revision_required_for_correction: true
+registry_binding:
+  registry_schema: coordination_source_registry_v0_1
+  canonical_locator: coordination/completion_outbox/records
+  completion_outbox_authority: module_owned
+  module_must_be_registered: true
+  repository_id_must_match_registry: true
+  outbox_owner_must_match_module_id: true
+  module_owns_completion_outbox_required: true
+  blueprint_module_repository_access: read_only
+  missing_outbox_must_not_be_fabricated: true
+event_identity:
+  event_id_required: true
+  event_id_must_match_filename: true
+  module_id_required: true
+  repository_id_required: true
+  prompt_id_required: true
+  completion_id_required: true
+  emitted_at_required: true
+completion_packet_binding:
+  required_schema: module_completion_packet_v0_4
+  canonical_packet_path: coordination/completion_packets/records/<completion_id>.yaml
+  packet_sha256_required: true
+  packet_must_exist_for_non_template_validation: true
+  module_id_must_match: true
+  prompt_id_must_match: true
+  completion_id_must_match: true
+  outbox_event_does_not_duplicate_obligation_results: true
+publication_evidence:
+  completion_subject_commit_required: true
+  completion_subject_commit_format: full_40_hex
+  remote_name_required: true
+  branch_required: true
+  remote_containment_verified_must_be_true: true
+  verified_at_required: true
+  verification_evidence_path_required: true
+  verification_evidence_sha256_required: true
+  completion_packet_does_not_claim_remote_containment: true
+  outbox_event_commit_embedded_in_event: false
+  self_reference_avoided: true
+  external_outbox_event_publication_verification_required: true
+  automatic_commit: false
+  automatic_push: false
+revision:
+  superseding_fields:
+  - supersedes_event_id
+  - supersedes_event_path
+  - revision_reason
+  all_or_none: true
+  superseded_event_path_must_be_canonical: true
+  self_supersede_allowed: false
+  rewrite_historical_event: false
+governance:
+  module_event_is_blueprint_discovery: false
+  module_event_is_blueprint_intake: false
+  module_event_is_operator_decision: false
+  human_blueprint_review_required_after_discovery: true
+  normal_v0_4_acceptance_allowed: false
+promotion:
+  state: candidate_reference_only
+  normal_acceptance_allowed: false
+  explicit_promotion_required: true
+  promotion_performed: false
+  step23_acceptance_is_not_global_v0_4_promotion: true
+scope_boundaries:
+  module_outbox_directories_created_by_blueprint: false
+  registry_availability_mutated: false
+  completion_discovery_or_intake_implemented: false
+  operator_review_automation_implemented: false
+  next_prompt_activation_implemented: false
+  tracking_events_reference_run: false
+  module_repository_writes: false
+  rollout_or_production_write: false
