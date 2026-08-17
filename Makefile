@@ -141,6 +141,12 @@ help:
 	@echo "  make completion-discovery-intake-v0-4"
 	@echo "  make review-roadmap-queue-transaction-v0-4"
 	@echo "  make next-prompt-selection-activation-v0-4"
+	@echo "  make tracking-events-reference-v0-4-preflight"
+	@echo "  make tracking-events-reference-v0-4-build"
+	@echo "  make tracking-events-reference-v0-4-validate"
+	@echo "  make tracking-events-reference-v0-4-revise-after-pre-review"
+	@echo "  make tracking-events-reference-v0-4-semantic-review-prep"
+	@echo "  make tracking-events-reference-v0-4-semantic-decision TRACKING_EVENTS_SEMANTIC_DECISION=ACCEPT_SEMANTIC_FIDELITY"
 	@echo "  v0.4 primitive targets never imply global v0.4 promotion."
 	@echo ""
 	@echo "Standards / governance:"
@@ -270,7 +276,10 @@ test-v0-4-coordination:
 		tests/validation/test_v0_4_coordination_source_registry.py \
 		tests/validation/test_v0_4_immutable_prompt_contract.py \
 		tests/validation/test_v0_4_next_prompt_selection_activation.py \
-		tests/validation/test_v0_4_review_roadmap_queue_transaction.py
+		tests/validation/test_v0_4_review_roadmap_queue_transaction.py \
+		tests/validation/test_tracking_events_v0_4_reference_contract.py \
+		tests/validation/test_tracking_events_v0_4_semantic_review_packet.py \
+		tests/validation/test_tracking_events_v0_4_semantic_decision.py
 
 # 07 Tests FINISH
 
@@ -1076,5 +1085,87 @@ next-prompt-selection-activation-v0-4:
 	@$(BLUEPRINT_PYTHON) scripts/coordination/next_prompt_selection_activation_v0_4.py --root . --live-status
 
 # =============================================================================
+
+TRACKING_EVENTS_REFERENCE_BUNDLE ?= tmp/step27_tracking_events_reference_sources.txt
+TRACKING_EVENTS_SOURCE_PROMPT ?= coordination/outgoing_prompts/logistics_service/approved/2026-07-29__logistics_service__tracking_events_v0_1.md
+TRACKING_EVENTS_V0_3_CONTRACT ?= coordination/prompt_contracts/logistics_service/logistics_service_tracking_events_v0_1.yaml
+PROMPT_CONTRACT_V0_4_STANDARD ?= coordination/standards/governance/module_prompt_contract_v0_4.yaml
+PROMPT_CONTRACT_V0_4_EXAMPLE ?= coordination/templates/module_prompt_contract_v0_4.example.yaml
+PROMPT_CONTRACT_V0_4_SELF_REFERENCE ?= coordination/prompt_contracts/forprint_system_blueprint/blueprint_v0_4_immutable_prompt_contract_v0_1/blueprint_v0_4_immutable_prompt_contract_v0_1__contract_v0_1.yaml
+
+# Purpose: collect exact immutable source material needed for Tracking Events v0.4 reference migration.
+# Safety: reads canonical Blueprint files and writes only an ignored tmp diagnostic bundle.
+.PHONY: tracking-events-reference-v0-4-preflight
+tracking-events-reference-v0-4-preflight:
+	@set -eu; \
+	paths="$(PROMPT_CONTRACT_V0_4_STANDARD) $(PROMPT_CONTRACT_V0_4_EXAMPLE) $(PROMPT_CONTRACT_V0_4_SELF_REFERENCE) $(TRACKING_EVENTS_V0_3_CONTRACT) $(TRACKING_EVENTS_SOURCE_PROMPT) tests/validation/test_v0_4_immutable_prompt_contract.py"; \
+	for path in $$paths; do \
+		test -f "$$path" || { echo "ERROR: missing required source: $$path"; exit 1; }; \
+	done; \
+	mkdir -p "$$(dirname "$(TRACKING_EVENTS_REFERENCE_BUNDLE)")"; \
+	{ \
+		echo "ForPrint STEP27 Tracking Events v0.4 reference source bundle"; \
+		echo "mode: read-only-source / tmp-output"; \
+		echo "HEAD: $$(git rev-parse HEAD)"; \
+		echo "BRANCH: $$(git branch --show-current)"; \
+		echo; \
+		for path in $$paths; do \
+			echo "===== FILE: $$path ====="; \
+			echo "SHA256: $$(sha256sum "$$path" | awk '{print $$1}')"; \
+			cat "$$path"; \
+			echo; \
+			echo "===== END FILE: $$path ====="; \
+			echo; \
+		done; \
+	} > "$(TRACKING_EVENTS_REFERENCE_BUNDLE)"; \
+	echo "BUNDLE: $(TRACKING_EVENTS_REFERENCE_BUNDLE)"; \
+	echo "BUNDLE_SHA256: $$(sha256sum "$(TRACKING_EVENTS_REFERENCE_BUNDLE)" | awk '{print $$1}')"; \
+	echo "module_repository_writes: false"; \
+	echo "operator_decision_created: false"; \
+	echo "global_v0_4_promotion_performed: false"; \
+	echo "RESULT: TRACKING_EVENTS_V0_4_REFERENCE_PREFLIGHT_BUNDLE_READY"
+
+
+TRACKING_EVENTS_V0_4_CONTRACT ?= coordination/prompt_contracts/logistics_service/logistics_service_tracking_events_v0_1/logistics_service_tracking_events_v0_1__contract_v0_4_reference_v0_2.yaml
+
+# Purpose: build the Blueprint-owned immutable v0.4 Tracking Events reference contract.
+# Safety: writes only Blueprint-owned contract/snapshot/findings; never writes Logistics or creates operator decisions.
+.PHONY: tracking-events-reference-v0-4-build
+tracking-events-reference-v0-4-build:
+	@$(BLUEPRINT_PYTHON) scripts/coordination/build_tracking_events_reference_v0_4.py --root .
+
+# Purpose: validate the immutable Tracking Events v0.4 reference contract.
+# Safety: read-only validation; does not create Packet/Outbox, ACCEPT/RETURN/HOLD, promotion, commit, or push.
+.PHONY: tracking-events-reference-v0-4-validate
+tracking-events-reference-v0-4-validate:
+	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_prompt_contract_v0_4.py --root . --contract "$(TRACKING_EVENTS_V0_4_CONTRACT)"
+
+
+# Purpose: record Blueprint semantic pre-review gaps for v0.1 and build the superseding immutable v0.2 candidate.
+# Safety: Blueprint-owned writes only; no module writes, lifecycle decision, Packet/Outbox fabrication, promotion, commit, or push.
+.PHONY: tracking-events-reference-v0-4-revise-after-pre-review
+tracking-events-reference-v0-4-revise-after-pre-review:
+	@$(BLUEPRINT_PYTHON) scripts/coordination/record_tracking_events_reference_v0_4_pre_review.py --root .
+	@$(BLUEPRINT_PYTHON) scripts/coordination/build_tracking_events_reference_v0_4.py --root .
+
+
+# Purpose: prepare the 26/26 Tracking Events v0.4 semantic fidelity review packet for explicit operator decision.
+# Safety: Blueprint-owned review evidence only; never creates lifecycle ACCEPT/RETURN/HOLD or module writes.
+.PHONY: tracking-events-reference-v0-4-semantic-review-prep
+tracking-events-reference-v0-4-semantic-review-prep:
+	@$(BLUEPRINT_PYTHON) scripts/coordination/prepare_tracking_events_reference_v0_4_semantic_review.py --root .
+
+
+TRACKING_EVENTS_SEMANTIC_DECISION ?=
+
+# Purpose: record the explicit operator decision for Tracking Events v0.4 Prompt Contract semantic fidelity.
+# Safety: decision scope is semantic fidelity only; never accepts completion, advances roadmap, writes modules, or promotes v0.4.
+.PHONY: tracking-events-reference-v0-4-semantic-decision
+tracking-events-reference-v0-4-semantic-decision:
+	@test -n "$(TRACKING_EVENTS_SEMANTIC_DECISION)" || { echo "ERROR: TRACKING_EVENTS_SEMANTIC_DECISION is required"; exit 1; }
+	@$(BLUEPRINT_PYTHON) scripts/coordination/record_tracking_events_reference_v0_4_semantic_decision.py \
+		--root . \
+		--decision "$(TRACKING_EVENTS_SEMANTIC_DECISION)"
+
 # 19 v0.4 closed-loop coordination primitives FINISH
 # =============================================================================

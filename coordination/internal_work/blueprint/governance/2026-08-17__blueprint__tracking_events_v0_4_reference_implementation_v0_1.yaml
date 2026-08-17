@@ -1,0 +1,42 @@
+schema_version: blueprint_tracking_events_v0_4_reference_implementation_v0_1
+metadata:
+  owner: forprint_system_blueprint
+  step_id: blueprint_v0_4_tracking_events_reference_v0_1
+  subject: logistics_service_tracking_events_v0_1
+  created_at: '2026-08-17'
+  state: READY_FOR_HUMAN_SEMANTIC_FIDELITY_REVIEW
+source:
+  origin_prompt: coordination/outgoing_prompts/logistics_service/approved/2026-07-29__logistics_service__tracking_events_v0_1.md
+  origin_prompt_sha256: 8158ff1feb9c2416aac97f70ce20110de3195d5239a343be940705d096242094
+  legacy_v0_3_contract: coordination/prompt_contracts/logistics_service/logistics_service_tracking_events_v0_1.yaml
+  legacy_v0_3_contract_sha256: 56a48f2d4f3bac7b40decc6191e342aabef73d8de0f15917a5401db7fcec1c2a
+v0_4_reference:
+  contract: coordination/prompt_contracts/logistics_service/logistics_service_tracking_events_v0_1/logistics_service_tracking_events_v0_1__contract_v0_4_reference_v0_1.yaml
+  contract_payload_sha256: 2fb3e14490e8a75693a37e2a19f136148f253a5375f1b662212e1482858df301
+  source_snapshot: coordination/prompt_contracts/logistics_service/logistics_service_tracking_events_v0_1/source_prompt_snapshot.md
+  source_obligation_count: 24
+  implementation_obligation_count: 12
+  verification_obligation_count: 11
+  completion_evidence_obligation_count: 12
+  validator_result: PASSED
+  semantic_fidelity_review_state: pending_operator_review
+  candidate_reference_only: true
+v0_3_fidelity_gaps_now_explicit:
+- detailed_required_test_catalog
+- exact_focused_and_full_collection_pass_totals
+- separate_check_report_totals
+- full_completion_packet_and_report_content
+- detailed_telegram_handoff_evidence
+- generated_artifact_handling
+- push_and_upstream_divergence_evidence
+- completion_automation_idempotency
+boundaries:
+  module_repository_writes: false
+  completion_packet_v0_4_fabricated_by_blueprint: false
+  completion_outbox_v0_4_fabricated_by_blueprint: false
+  operator_accept_return_hold_created: false
+  dark_zone_audit_run: false
+  global_v0_4_promotion_performed: false
+  automatic_commit: false
+  automatic_push: false
+  rollout_or_production_write: false

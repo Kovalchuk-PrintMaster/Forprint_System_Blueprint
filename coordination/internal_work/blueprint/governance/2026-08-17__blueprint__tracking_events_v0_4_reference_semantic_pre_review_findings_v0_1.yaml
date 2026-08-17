@@ -1,0 +1,38 @@
+schema_version: blueprint_tracking_events_v0_4_semantic_pre_review_findings_v0_1
+metadata:
+  owner: forprint_system_blueprint
+  step_id: blueprint_v0_4_tracking_events_reference_v0_1
+  subject: logistics_service_tracking_events_v0_1
+  created_at: '2026-08-17'
+  state: REVISION_REQUIRED_BEFORE_OPERATOR_SEMANTIC_REVIEW
+candidate:
+  contract: coordination/prompt_contracts/logistics_service/logistics_service_tracking_events_v0_1/logistics_service_tracking_events_v0_1__contract_v0_4_reference_v0_1.yaml
+  payload_sha256: 2fb3e14490e8a75693a37e2a19f136148f253a5375f1b662212e1482858df301
+  machine_validation: PASSED
+  source_obligation_count: 24
+semantic_findings:
+- finding_id: TE-V04-FIDELITY-001
+  severity: blocking
+  source_locator: Required reading before implementation
+  finding: The v0.1 reference candidate did not model the mandatory reading of current Blueprint governance sources
+    through the approved Blueprint pull and prompt-navigation workflow as an explicit source obligation.
+- finding_id: TE-V04-FIDELITY-002
+  severity: blocking
+  source_locator: Required reading before implementation / existing equivalents
+  finding: The v0.1 reference candidate did not separately model review/reuse of accepted Logistics provider-contract/runbook/recovery
+    evidence, authoritative-path reuse, and the prohibition on duplicate domain hierarchies.
+recommended_revision:
+  disposition: REVISE_CANDIDATE
+  new_contract_id: logistics_service_tracking_events_v0_1__contract_v0_4_reference_v0_2
+  preserve_v0_1_instance: true
+  required_new_source_obligations: 2
+  operator_semantic_review_after_revision: true
+boundaries:
+  operator_lifecycle_decision_created: false
+  module_repository_writes: false
+  completion_packet_v0_4_fabricated_by_blueprint: false
+  completion_outbox_v0_4_fabricated_by_blueprint: false
+  dark_zone_audit_run: false
+  global_v0_4_promotion_performed: false
+  automatic_commit: false
+  automatic_push: false
