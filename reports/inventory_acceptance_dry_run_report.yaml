@@ -9,8 +9,8 @@ summary:
   passed_scenario_count: 7
   failed_scenario_count: 0
   simulated_action_count: 7
-  coordination_phase: POST_TRANSITION
-  next_prompt_required: true
+  coordination_phase: SUPERSEDED_DEFERRED
+  next_prompt_required: false
   next_prompt_present: true
   candidate_acceptance_performed: false
   candidate_files_modified: false
@@ -18,7 +18,7 @@ summary:
   dry_run_effects_applied: false
   unreviewed_files: 646
   wave_2_records_with_unknowns: 25
-  release_decision: PROCEED_TO_INVENTORY_ACCEPTANCE_PACKET_INTEGRITY_GATE
+  release_decision: DEFER_INVENTORY_ACCEPTANCE_PACKET_INTEGRITY_GATE_SUPERSEDED_BY_ACTIVE_WORKSTREAM
 candidate_hashes:
   rci_v0_4: 7bc8ed5bdefa089393df2ee4830de3a96ffdcaf5ad2fa6b720dd459d1e700468
   redm_v0_4: 6cea7f34173d58834a34850a550ce0391e80936e14d59639b461cec08daed631
@@ -44,7 +44,7 @@ scenarios:
   status: PASSED
   evidence: coordination/internal_work/blueprint/inventory_refresh/2026-07-29__blueprint__inventory_refresh_plan_v0_1.yaml;
     coordination/self_coordination/roadmap.yaml; coordination/self_coordination/prompt_queue/index.yaml
-  decision: Coordination state is aligned for POST_TRANSITION.
+  decision: Coordination state is aligned for SUPERSEDED_DEFERRED.
 - scenario_id: authority_and_non_mutation_policy
   status: PASSED
   evidence: coordination/repository_knowledge/artifact_authority_policy_v0_1.yaml; coordination/internal_work/blueprint/inventory_refresh/2026-07-30__blueprint__inventory_acceptance_evidence_index_v0_1.yaml

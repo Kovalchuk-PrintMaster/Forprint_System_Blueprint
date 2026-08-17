@@ -84,6 +84,8 @@ help:
 	@echo "  make markdown-fences"
 	@echo "  make check"
 	@echo "  make check-report"
+	@echo "  make test-make-command-surface"
+	@echo "  make test-v0-4-coordination"
 	@echo ""
 	@echo "Blueprint artifacts:"
 	@echo "  make diagrams"
@@ -128,10 +130,19 @@ help:
 	@echo "  make roadmap-dashboard MODULE=forprint_library"
 	@echo "  make roadmap-dashboard MODULES=forprint_library,forprint_integration_gateway,forprint_crm"
 	@echo "  make roadmap-summary"
-	@echo "  make coordination-pulse"
-	@echo "  make prompt-contract-v0-4-validate"
-	@echo "  make completion-packet-v0-4-validate"
 	@echo "  make roadmap-summary ROADMAP_SUMMARY_MODULES=forprint_library,forprint_integration_gateway"
+	@echo ""
+	@echo "v0.4 coordination reference primitives:"
+	@echo "  make coordination-pulse"
+	@echo "  make coordination-pulse COORDINATION_PULSE_FORMAT=yaml"
+	@echo "  make prompt-contract-v0-4-validate PROMPT_CONTRACT_V0_4=<contract-path>"
+	@echo "  make completion-packet-v0-4-validate COMPLETION_PACKET_V0_4=<packet-path>"
+	@echo "  make completion-outbox-v0-4-validate COMPLETION_OUTBOX_V0_4=<outbox-path>"
+	@echo "  make completion-discovery-intake-v0-4"
+	@echo "  make review-roadmap-queue-transaction-v0-4"
+	@echo "  make next-prompt-selection-activation-v0-4"
+	@echo "  v0.4 primitive targets never imply global v0.4 promotion."
+	@echo ""
 	@echo "Standards / governance:"
 	@echo "  make standards-index"
 	@echo "  make standards"
@@ -160,6 +171,16 @@ help:
 	@echo "  make blueprint-governance-status GOVERNANCE_STATUS_FORMAT=json"
 	@echo "  make blueprint-self-report-full"
 	@echo "  make modules-self-status"
+	@echo ""
+	@echo "Repository state:"
+	@echo "  make worktree-status"
+	@echo "  make diff-check"
+	@echo "  make diff-stat DIFF_PATHS='Makefile reports/example.yaml'"
+	@echo "  make diff-show DIFF_PATHS='Makefile reports/example.yaml'"
+	@echo "  make seal-stage-exact SEAL_PATHS='path1 path2'"
+	@echo "  make seal-staged-review"
+	@echo "  make seal-commit SEAL_COMMIT_MESSAGE='message'"
+	@echo "  make seal-push"
 	@echo ""
 	@echo "Cleanup:"
 	@echo "  make clean"
@@ -223,6 +244,34 @@ test:
 
 # =============================================================================
 
+
+# Purpose: verify the canonical Make/operator command surface.
+# Safety: tests only; no apply/commit/push/module writes.
+.PHONY: test-make-command-surface
+test-make-command-surface:
+	@$(BLUEPRINT_PYTHON) -m pytest -q \
+		tests/coordination/modules/_shared/test_makefile_module_workflow_targets.py \
+		tests/test_make_command_standard.py \
+		tests/test_module_makefile_standard_template.py
+
+# Purpose: verify the focused v0.4 coordination and Tracking Events reference surface.
+# Safety: tests only; no module writes, operator decisions, rollout, or promotion.
+.PHONY: test-v0-4-coordination
+test-v0-4-coordination:
+	@$(BLUEPRINT_PYTHON) -m pytest -q \
+		tests/validation/test_tracking_events_control_state_reconciliation.py \
+		tests/validation/test_tracking_events_operator_review_findings.py \
+		tests/validation/test_v0_4_closed_loop_lifecycle_standard.py \
+		tests/validation/test_v0_4_closed_loop_reconciliation.py \
+		tests/validation/test_v0_4_completion_discovery_and_intake.py \
+		tests/validation/test_v0_4_completion_outbox.py \
+		tests/validation/test_v0_4_completion_packet.py \
+		tests/validation/test_v0_4_coordination_health_and_pulse.py \
+		tests/validation/test_v0_4_coordination_source_registry.py \
+		tests/validation/test_v0_4_immutable_prompt_contract.py \
+		tests/validation/test_v0_4_next_prompt_selection_activation.py \
+		tests/validation/test_v0_4_review_roadmap_queue_transaction.py
+
 # 07 Tests FINISH
 
 # =============================================================================
@@ -269,6 +318,96 @@ check-fix:
 # 09 Status / generated reports / cleanup START
 
 # =============================================================================
+
+# Purpose: show the repository dirty surface without mutation.
+# Safety: never stages, commits, pushes, restores, or writes module repositories.
+.PHONY: worktree-status
+worktree-status:
+	@git status --short
+
+# Purpose: validate unstaged and staged diff integrity.
+# Safety: read-only; never stages, commits, pushes, or restores.
+.PHONY: diff-check
+diff-check:
+	@git diff --check
+	@git diff --cached --check
+
+DIFF_PATHS ?=
+
+# Purpose: show a compact summary of the current unstaged diff.
+# Safety: read-only; never stages, writes, restores, commits, or pushes.
+.PHONY: diff-stat
+diff-stat:
+	@git diff --stat -- $(DIFF_PATHS)
+
+# Purpose: show the exact current unstaged diff through the Make operator surface.
+# Safety: read-only; never stages, writes, restores, commits, or pushes.
+.PHONY: diff-show
+diff-show:
+	@git diff --no-ext-diff -- $(DIFF_PATHS)
+
+SEAL_PATHS ?=
+SEAL_COMMIT_MESSAGE ?=
+SEAL_BRANCH ?= $(shell git branch --show-current)
+
+# Purpose: stage exactly the explicitly supplied repository dirty surface.
+# Safety: fails closed if actual dirty paths differ from SEAL_PATHS.
+.PHONY: seal-stage-exact
+seal-stage-exact:
+	@test -n "$(SEAL_PATHS)" || { echo "ERROR: SEAL_PATHS is required"; exit 1; }
+	@set -eu; \
+	expected="$$(printf '%s\n' $(SEAL_PATHS) | LC_ALL=C sort -u)"; \
+	actual="$$( { git diff --name-only --no-renames; git diff --cached --name-only --no-renames; git ls-files --others --exclude-standard; } | LC_ALL=C sort -u)"; \
+	if [ "$$actual" != "$$expected" ]; then \
+		echo "ERROR: dirty surface differs from SEAL_PATHS"; \
+		echo "EXPECTED:"; printf '%s\n' "$$expected"; \
+		echo "ACTUAL:"; printf '%s\n' "$$actual"; \
+		exit 1; \
+	fi; \
+	git add -- $(SEAL_PATHS); \
+	staged="$$(git diff --cached --name-only --no-renames | LC_ALL=C sort -u)"; \
+	if [ "$$staged" != "$$expected" ]; then \
+		echo "ERROR: staged surface mismatch"; \
+		exit 1; \
+	fi; \
+	echo "STAGED_PATH_COUNT=$$(printf '%s\n' "$$staged" | wc -l)"; \
+	printf '%s\n' "$$staged"
+
+# Purpose: review the exact staged seal candidate.
+# Safety: read-only.
+.PHONY: seal-staged-review
+seal-staged-review:
+	@git diff --cached --check
+	@GIT_PAGER=cat git diff --cached --name-only --no-renames
+	@GIT_PAGER=cat git diff --cached --stat
+
+# Purpose: create an explicit operator-requested seal commit.
+# Safety: never pushes; requires non-empty message and staged content.
+.PHONY: seal-commit
+seal-commit:
+	@test -n "$(SEAL_COMMIT_MESSAGE)" || { echo "ERROR: SEAL_COMMIT_MESSAGE is required"; exit 1; }
+	@test -n "$$(git diff --cached --name-only --no-renames)" || { echo "ERROR: nothing staged"; exit 1; }
+	@git diff --cached --check
+	@git commit -m "$(SEAL_COMMIT_MESSAGE)"
+
+# Purpose: explicitly push the current seal branch and verify local/remote HEAD.
+# Safety: push is never invoked by validation/status targets.
+.PHONY: seal-push
+seal-push:
+	@test -n "$(SEAL_BRANCH)" || { echo "ERROR: SEAL_BRANCH is empty"; exit 1; }
+	@set -eu; \
+	current_branch="$$(git branch --show-current)"; \
+	test "$$current_branch" = "$(SEAL_BRANCH)" || { echo "ERROR: current branch mismatch: $$current_branch"; exit 1; }; \
+	local_head="$$(git rev-parse HEAD)"; \
+	git push origin "$(SEAL_BRANCH)"; \
+	remote_head="$$(git ls-remote --heads origin "$(SEAL_BRANCH)" | awk 'NR==1 {print $$1}')"; \
+	echo "LOCAL_HEAD:"; echo "$$local_head"; \
+	echo "REMOTE_HEAD:"; echo "$$remote_head"; \
+	test -n "$$remote_head" || { echo "ERROR: remote branch not found"; exit 1; }; \
+	test "$$local_head" = "$$remote_head" || { echo "ERROR: LOCAL_HEAD != REMOTE_HEAD"; exit 1; }; \
+	worktree="$$(git status --short)"; \
+	echo "WORKTREE:"; printf '%s\n' "$$worktree"; \
+	test -z "$$worktree" || { echo "ERROR: worktree not clean after push"; exit 1; }
 
 .PHONY: clean
 clean:
@@ -898,19 +1037,23 @@ inventory-acceptance-dry-run-status:
 # 18 Blueprint inventory / repository-knowledge gates FINISH
 # =============================================================================
 
+# =============================================================================
+# 19 v0.4 closed-loop coordination primitives START
+# =============================================================================
+
 COORDINATION_PULSE_FORMAT ?= text
+PROMPT_CONTRACT_V0_4 ?= coordination/prompt_contracts/forprint_system_blueprint/blueprint_v0_4_immutable_prompt_contract_v0_1/blueprint_v0_4_immutable_prompt_contract_v0_1__contract_v0_1.yaml
+COMPLETION_PACKET_V0_4 ?= coordination/templates/module_completion_packet_v0_4.example.yaml
+COMPLETION_OUTBOX_V0_4 ?= coordination/templates/module_completion_outbox_v0_4.example.yaml
+COORDINATION_SOURCE_REGISTRY_V0_4 ?= coordination/registry/coordination_source_registry_v0_1.yaml
 
 .PHONY: coordination-pulse
 coordination-pulse:
 	@$(BLUEPRINT_PYTHON) scripts/coordination/coordination_pulse.py --root . --output-format "$(COORDINATION_PULSE_FORMAT)"
 
-PROMPT_CONTRACT_V0_4 ?= coordination/prompt_contracts/forprint_system_blueprint/blueprint_v0_4_immutable_prompt_contract_v0_1/blueprint_v0_4_immutable_prompt_contract_v0_1__contract_v0_1.yaml
-
 .PHONY: prompt-contract-v0-4-validate
 prompt-contract-v0-4-validate:
 	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_prompt_contract_v0_4.py --root . --contract "$(PROMPT_CONTRACT_V0_4)"
-
-COMPLETION_PACKET_V0_4 ?= coordination/templates/module_completion_packet_v0_4.example.yaml
 
 .PHONY: completion-packet-v0-4-validate
 completion-packet-v0-4-validate:
@@ -918,16 +1061,20 @@ completion-packet-v0-4-validate:
 
 .PHONY: completion-outbox-v0-4-validate
 completion-outbox-v0-4-validate:
-	.venv_blueprint/bin/python scripts/coordination/validate_completion_outbox_v0_4.py coordination/templates/module_completion_outbox_v0_4.example.yaml --root . --registry coordination/registry/coordination_source_registry_v0_1.yaml --template
+	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_completion_outbox_v0_4.py "$(COMPLETION_OUTBOX_V0_4)" --root . --registry "$(COORDINATION_SOURCE_REGISTRY_V0_4)" --template
 
 .PHONY: completion-discovery-intake-v0-4
 completion-discovery-intake-v0-4:
-	.venv_blueprint/bin/python scripts/coordination/completion_discovery_and_intake_v0_4.py --root .
+	@$(BLUEPRINT_PYTHON) scripts/coordination/completion_discovery_and_intake_v0_4.py --root .
 
 .PHONY: review-roadmap-queue-transaction-v0-4
 review-roadmap-queue-transaction-v0-4:
-	.venv_blueprint/bin/python scripts/coordination/review_roadmap_queue_transaction_v0_4.py --root . --live-status
+	@$(BLUEPRINT_PYTHON) scripts/coordination/review_roadmap_queue_transaction_v0_4.py --root . --live-status
 
 .PHONY: next-prompt-selection-activation-v0-4
 next-prompt-selection-activation-v0-4:
-	.venv_blueprint/bin/python scripts/coordination/next_prompt_selection_activation_v0_4.py --root . --live-status
+	@$(BLUEPRINT_PYTHON) scripts/coordination/next_prompt_selection_activation_v0_4.py --root . --live-status
+
+# =============================================================================
+# 19 v0.4 closed-loop coordination primitives FINISH
+# =============================================================================
