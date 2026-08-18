@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import importlib.util
 from pathlib import Path
 from typing import Any
 
@@ -94,11 +95,38 @@ def roadmap_records(roadmap: dict[str, Any]) -> dict[str, dict[str, Any]]:
     return values
 
 
+
+def _load_completion_discovery_module(root: Path):
+    path = root / "scripts/coordination/completion_discovery_and_intake_v0_4.py"
+    spec = importlib.util.spec_from_file_location(
+        "forprint_completion_discovery_intake_v04_for_pulse",
+        path,
+    )
+    if spec is None or spec.loader is None:
+        raise RuntimeError(f"cannot load completion discovery module: {path}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def _completion_discovery_report(
+    root: Path,
+    registry_path: Path,
+) -> dict[str, Any]:
+    module = _load_completion_discovery_module(root)
+    return module.discover_completions(
+        blueprint_root=root,
+        registry_path=registry_path,
+    )
+
+
 def evaluate(root: Path = ROOT) -> dict[str, Any]:
     roadmap = load_yaml(root / ROADMAP)
     queue = load_yaml(root / QUEUE)
     policy = load_yaml(root / POLICY)
-    registry = load_yaml(root / REGISTRY)
+    registry_path = root / REGISTRY
+    registry = load_yaml(registry_path)
+    completion_discovery = _completion_discovery_report(root, registry_path)
 
     codes: dict[str, list[str]] = {
         "errors": [],
@@ -223,26 +251,37 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
         add_code(codes, "PROMPT_FILE_MISSING")
 
     modules = [x for x in registry.get("modules", []) if isinstance(x, dict)]
-    outbox_present = 0
-    outbox_not_present_yet = 0
-    outbox_other = 0
-    for item in modules:
-        outbox = item.get("sources", {}).get("completion_outbox", {})
-        availability = outbox.get("availability")
-        if availability == "present":
-            outbox_present += 1
-        elif availability == "not_present_yet":
-            outbox_not_present_yet += 1
-        else:
-            outbox_other += 1
+    discovery_summary = completion_discovery.get("summary", {})
+    observed_states = discovery_summary.get("observed_source_states", {})
+    if not isinstance(observed_states, dict):
+        observed_states = {}
+
+    outbox_present = int(observed_states.get("present", 0)) + int(
+        observed_states.get("present_empty", 0)
+    )
+    outbox_not_present_yet = int(observed_states.get("not_present_yet", 0))
+    outbox_other = max(
+        0,
+        len(modules) - outbox_present - outbox_not_present_yet,
+    )
+
+    review_candidate_count = int(discovery_summary.get("review_candidates", 0))
+    invalid_event_count = int(discovery_summary.get("invalid_events", 0))
+    source_error_count = int(discovery_summary.get("source_errors", 0))
 
     if outbox_present == 0:
         completion_state = "not_available_yet"
         pending_count: int | None = None
-    else:
-        completion_state = "pending_count_contract_not_available_until_outbox_slice"
+    elif invalid_event_count or source_error_count:
+        completion_state = "discovery_attention_required"
         pending_count = None
-        add_code(codes, "COMPLETION_PENDING_COUNT_UNAVAILABLE")
+    else:
+        pending_count = review_candidate_count
+        completion_state = (
+            "review_candidates_available"
+            if review_candidate_count
+            else "outbox_present_no_review_candidates"
+        )
 
     overall = "healthy"
     if codes["errors"]:
@@ -287,6 +326,11 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
             "outbox_present_sources": outbox_present,
             "outbox_not_present_yet_sources": outbox_not_present_yet,
             "outbox_other_sources": outbox_other,
+            "review_candidates": review_candidate_count,
+            "invalid_events": invalid_event_count,
+            "source_errors": source_error_count,
+            "discovery_result_state": completion_discovery.get("result_state"),
+            "observation_source": "completion_discovery_and_intake_v0_4",
         },
         "queue_roadmap_drift": {
             "scope_workstream": workstream_id,

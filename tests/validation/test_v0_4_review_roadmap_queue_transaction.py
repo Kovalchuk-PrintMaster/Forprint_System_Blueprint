@@ -182,18 +182,46 @@ def request_for(
     }
 
 
-def test_live_status_is_read_only_and_currently_empty() -> None:
+def test_live_status_is_read_only_and_matches_live_discovery() -> None:
     module = tool_module()
     before = module.file_sha256(ROADMAP)
     report = module.live_status(ROOT)
     after = module.file_sha256(ROADMAP)
 
     assert before == after
-    assert report["result_state"] == "NO_REVIEW_TRANSACTION_AVAILABLE"
-    assert report["summary"]["review_candidates"] == 0
-    assert report["governance"]["operator_decision_created"] is False
-    assert report["governance"]["roadmap_mutated"] is False
-    assert report["governance"]["module_repository_writes"] is False
+
+    candidates = report["review_candidates"]
+    summary = report["summary"]
+    governance = report["governance"]
+
+    assert isinstance(candidates, list)
+    candidate_count = len(candidates)
+
+    assert summary["review_candidates"] == candidate_count
+    assert summary["events_discovered"] >= candidate_count
+    assert summary["invalid_events"] >= 0
+    assert summary["source_errors"] >= 0
+
+    if candidate_count:
+        assert report["result_state"] == "REVIEW_CANDIDATES_AVAILABLE"
+    else:
+        assert report["result_state"] == "NO_REVIEW_TRANSACTION_AVAILABLE"
+
+    assert governance["operator_decision_created"] is False
+    assert governance["automatic_acceptance"] is False
+    assert governance["automatic_return"] is False
+    assert governance["automatic_hold"] is False
+
+    assert governance["roadmap_mutated"] is False
+    assert governance["prompt_queue_mutated"] is False
+    assert governance["prompt_file_mutated"] is False
+    assert governance["module_repository_writes"] is False
+
+    assert governance["next_prompt_selection_performed"] is False
+    assert governance["next_prompt_activation_performed"] is False
+    assert governance["global_v0_4_promotion_performed"] is False
+    assert governance["automatic_commit"] is False
+    assert governance["automatic_push"] is False
 
 
 def test_preview_is_read_only(tmp_path: Path) -> None:

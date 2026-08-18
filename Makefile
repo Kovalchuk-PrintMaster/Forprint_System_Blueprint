@@ -279,7 +279,8 @@ test-v0-4-coordination:
 		tests/validation/test_v0_4_review_roadmap_queue_transaction.py \
 		tests/validation/test_tracking_events_v0_4_reference_contract.py \
 		tests/validation/test_tracking_events_v0_4_semantic_review_packet.py \
-		tests/validation/test_tracking_events_v0_4_semantic_decision.py
+		tests/validation/test_tracking_events_v0_4_semantic_decision.py \
+		tests/validation/test_v0_4_coordination_pulse_completion_observability.py
 
 # 07 Tests FINISH
 
