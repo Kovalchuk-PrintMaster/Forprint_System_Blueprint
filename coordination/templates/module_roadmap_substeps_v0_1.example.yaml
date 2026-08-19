@@ -1,0 +1,27 @@
+# Optional hierarchical detail for an existing roadmap step.
+sequence: 30
+step_id: example_parent_task_v0_1
+title: Example parent task
+status: active
+priority: high
+owner_module: example_module
+depends_on: []
+substeps:
+- substep_id: example_parent_task__contract
+  title: Define the authoritative contract
+  status: accepted
+  blocking: true
+- substep_id: example_parent_task__implementation
+  title: Implement the contract
+  status: active
+  blocking: true
+- substep_id: example_parent_task__tests
+  title: Cover required behavior with tests
+  status: planned
+  blocking: true
+- substep_id: example_parent_task__polish
+  title: Optional non-blocking polish
+  status: planned
+  blocking: false
+expected_outputs: []
+evidence: {}

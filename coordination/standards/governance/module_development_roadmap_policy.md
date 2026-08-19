@@ -304,3 +304,31 @@ When both exist:
 
 Prompt Queue answers: what prompt should I execute next?
 Roadmap answers: where am I in the broader plan?
+
+## Hierarchical task detail (`substeps[]`) — v0.4.1 hardening
+
+Roadmap steps remain the atomic Blueprint prompt/review/ACCEPT unit. A roadmap
+step may optionally contain `substeps[]` when the parent title alone is not
+sufficient to preserve implementation depth and history.
+
+Rules:
+
+- Existing roadmaps without `substeps[]` remain valid.
+- Every substep has a stable `substep_id`, `title`, `status`, and optional
+  `blocking` boolean (`true` by default).
+- `substep_id` values are unique inside the roadmap document.
+- Substep statuses use the roadmap's canonical status vocabulary.
+- A parent claiming completion (`completed` or `accepted`) is invalid while a
+  blocking substep remains unfinished.
+- `cancelled` and `superseded` may close a parent with unfinished blocking
+  substeps because those states do not claim implementation completion.
+- Non-blocking substeps may remain unfinished after parent ACCEPT.
+- Substeps describe internal scope/history of one atomic roadmap task.
+- Normal new coordination should prefer one executable prompt bound to one
+  parent `step_id`; acceptance criteria/evidence may bind to `substep_id`.
+- Historical multi-step prompt bindings remain readable for compatibility.
+- `roadmap-dashboard` remains compact/default.
+- `make roadmap-detail MODULE=<module>` expands substeps.
+
+This hardening does not rewrite existing roadmap data and does not advance any
+roadmap or prompt queue.

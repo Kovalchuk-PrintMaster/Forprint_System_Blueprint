@@ -128,6 +128,7 @@ help:
 	@echo "Module roadmap:"
 	@echo "  make roadmap-validate MODULE=forprint_library"
 	@echo "  make roadmap-dashboard MODULE=forprint_library"
+	@echo "  make roadmap-detail MODULE=forprint_library"
 	@echo "  make roadmap-dashboard MODULES=forprint_library,forprint_integration_gateway,forprint_crm"
 	@echo "  make roadmap-summary"
 	@echo "  make roadmap-summary ROADMAP_SUMMARY_MODULES=forprint_library,forprint_integration_gateway"
@@ -787,6 +788,14 @@ roadmap-dashboard:
 		$(PYTHON) scripts/coordination/render_module_roadmap_dashboard.py --roadmap "$(ROADMAP)" --before-current "$(BEFORE_CURRENT)" --after-current "$(AFTER_CURRENT)"; \
 	else \
 		$(PYTHON) scripts/coordination/render_module_roadmap_dashboard.py --module "$(MODULE)" --before-current "$(BEFORE_CURRENT)" --after-current "$(AFTER_CURRENT)"; \
+	fi
+
+.PHONY: roadmap-detail
+roadmap-detail:
+	@if [ -n "$(ROADMAP)" ]; then \
+		$(PYTHON) scripts/coordination/render_module_roadmap_detail.py --roadmap "$(ROADMAP)" --before-current "$(BEFORE_CURRENT)" --after-current "$(AFTER_CURRENT)"; \
+	else \
+		$(PYTHON) scripts/coordination/render_module_roadmap_detail.py --module "$(MODULE)" --before-current "$(BEFORE_CURRENT)" --after-current "$(AFTER_CURRENT)"; \
 	fi
 
 .PHONY: roadmap-summary

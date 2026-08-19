@@ -6,6 +6,10 @@ from typing import Any
 
 import yaml
 
+from scripts.coordination.roadmap_hierarchy_v0_1 import (
+    substep_progress,
+    validate_roadmap_hierarchy,
+)
 from scripts.reporting.statuses import colorize
 from scripts.reporting.table_renderer import (
     TableRow,
@@ -39,6 +43,7 @@ DEFAULT_PRIORITY_VALUES = (
 )
 
 DONE_STATUSES = {"completed", "accepted", "cancelled", "superseded"}
+COMPLETION_CLAIM_STATUSES = {"completed", "accepted"}
 ANSI_RESET = "\033[0m"
 
 
@@ -221,6 +226,15 @@ def validate_roadmap_document(
         elif evidence is not None and not isinstance(evidence, dict):
             errors.append(f"{roadmap_field}[{index}].evidence must be a mapping")
 
+    errors.extend(
+        validate_roadmap_hierarchy(
+            roadmap,
+            roadmap_field=roadmap_field,
+            status_values=status_values,
+            parent_completion_statuses=COMPLETION_CLAIM_STATUSES,
+        )
+    )
+
     current_step_id = _string_value(metadata.get("current_step_id"))
     if current_step_id and current_step_id not in seen_step_ids:
         errors.append(
@@ -312,6 +326,123 @@ def render_roadmap_dashboard(
             rows=tuple(TableRow(values=row) for row in table_rows),
             use_color=True,
         ),
+    )
+
+    if validation.warnings:
+        lines.extend(["", "Warnings:"])
+        lines.extend(f"  - {warning}" for warning in validation.warnings)
+
+    return _finalize_output(lines, no_color=no_color)
+
+
+def _detail_cell(value: Any) -> str:
+    return str(value if value is not None else "-").replace("\n", " ").strip() or "-"
+
+
+def render_roadmap_detail(
+    data: dict[str, Any],
+    *,
+    path: Path,
+    before_current: int = 2,
+    after_current: int = 8,
+    no_color: bool = False,
+) -> str:
+    validation = validate_roadmap_document(data, path=path)
+    if not validation.ok:
+        details = "\n".join(f"  - {error}" for error in validation.errors)
+        raise RoadmapError(f"Invalid roadmap {path}:\n{details}")
+
+    steps = _sorted_steps(_roadmap_items(data))
+    current_step_id = _derive_current_step_id(data, steps)
+    current_index = _step_index(steps, current_step_id)
+    if current_index is None:
+        current_index = 0
+
+    start = max(0, current_index - max(0, before_current))
+    end = min(len(steps), current_index + max(0, after_current) + 1)
+    visible_steps = steps[start:end]
+
+    headers = (
+        "", "Seq", "Kind", "Status", "Blocking",
+        "ID", "Task / subtask", "Summary", "Progress",
+    )
+    row_specs: list[tuple[tuple[str, ...], str | None]] = []
+
+    for step in visible_steps:
+        step_id = _string_value(step.get("step_id")) or "-"
+        status = _string_value(step.get("status")) or "unknown"
+        progress = substep_progress(step)
+        row_specs.append(
+            (
+                (
+                    ">" if step_id == current_step_id else "",
+                    _detail_cell(step.get("sequence")),
+                    "TASK",
+                    status,
+                    "-",
+                    step_id,
+                    _string_value(step.get("title")) or "-",
+                    _string_value(step.get("summary")) or "-",
+                    progress.compact(),
+                ),
+                status,
+            )
+        )
+
+        raw_substeps = step.get("substeps")
+        if not isinstance(raw_substeps, list):
+            continue
+
+        for index, substep in enumerate(raw_substeps, start=1):
+            if not isinstance(substep, dict):
+                continue
+            sub_status = _string_value(substep.get("status")) or "unknown"
+            row_specs.append(
+                (
+                    (
+                        "",
+                        f"└{index}",
+                        "SUBSTEP",
+                        sub_status,
+                        "yes" if substep.get("blocking", True) is True else "no",
+                        _string_value(substep.get("substep_id")) or "-",
+                        "↳ " + (_string_value(substep.get("title")) or "-"),
+                        _string_value(substep.get("summary")) or "-",
+                        "-",
+                    ),
+                    sub_status,
+                )
+            )
+
+    widths = tuple(
+        max(
+            len(headers[column]),
+            *(
+                len(_detail_cell(values[column]))
+                for values, _status in row_specs
+            ),
+        )
+        for column in range(len(headers))
+    )
+
+    lines = [
+        "ForPrint Module Roadmap Detail",
+        f"Module: {validation.module}",
+        f"Roadmap: {path}",
+        f"Current step: {current_step_id or '-'}",
+        f"Window: {before_current} before / {after_current} after",
+        "",
+    ]
+    lines.extend(
+        render_boxed_table_lines(
+            headers=headers,
+            widths=widths,
+            rows=tuple(
+                TableRow(values=values, token=status)
+                for values, status in row_specs
+            ),
+            use_color=not no_color,
+        )
     )
 
     if validation.warnings:
