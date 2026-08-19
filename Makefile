@@ -140,6 +140,8 @@ help:
 	@echo "  make completion-outbox-v0-4-validate COMPLETION_OUTBOX_V0_4=<outbox-path>"
 	@echo "  make completion-discovery-intake-v0-4"
 	@echo "  make review-roadmap-queue-transaction-v0-4"
+	@echo "  make review-roadmap-queue-transaction-v0-4 REVIEW_TRANSACTION_REQUEST=tmp/<request>.yaml"
+	@echo "  make review-roadmap-queue-transaction-v0-4 REVIEW_TRANSACTION_REQUEST=tmp/<request>.yaml REVIEW_TRANSACTION_APPLY=1 REVIEW_OPERATOR_CONFIRMATION=<decision-id>"
 	@echo "  make next-prompt-selection-activation-v0-4"
 	@echo "  make tracking-events-reference-v0-4-preflight"
 	@echo "  make tracking-events-reference-v0-4-build"
@@ -280,7 +282,8 @@ test-v0-4-coordination:
 		tests/validation/test_tracking_events_v0_4_reference_contract.py \
 		tests/validation/test_tracking_events_v0_4_semantic_review_packet.py \
 		tests/validation/test_tracking_events_v0_4_semantic_decision.py \
-		tests/validation/test_v0_4_coordination_pulse_completion_observability.py
+		tests/validation/test_v0_4_coordination_pulse_completion_observability.py \
+		tests/validation/test_v0_4_review_transaction_module_schema_plan.py
 
 # 07 Tests FINISH
 
@@ -1077,9 +1080,35 @@ completion-outbox-v0-4-validate:
 completion-discovery-intake-v0-4:
 	@$(BLUEPRINT_PYTHON) scripts/coordination/completion_discovery_and_intake_v0_4.py --root .
 
+REVIEW_TRANSACTION_REQUEST ?=
+REVIEW_TRANSACTION_APPLY ?= 0
+REVIEW_OPERATOR_CONFIRMATION ?=
+REVIEW_TRANSACTION_FORMAT ?= text
+
 .PHONY: review-roadmap-queue-transaction-v0-4
 review-roadmap-queue-transaction-v0-4:
-	@$(BLUEPRINT_PYTHON) scripts/coordination/review_roadmap_queue_transaction_v0_4.py --root . --live-status
+	@set -eu; \
+	if [ -z "$(REVIEW_TRANSACTION_REQUEST)" ]; then \
+		$(BLUEPRINT_PYTHON) scripts/coordination/review_roadmap_queue_transaction_v0_4.py \
+			--root . --live-status --output-format "$(REVIEW_TRANSACTION_FORMAT)"; \
+	else \
+		set -- \
+			--root . \
+			--request "$(REVIEW_TRANSACTION_REQUEST)" \
+			--output-format "$(REVIEW_TRANSACTION_FORMAT)"; \
+		if [ "$(REVIEW_TRANSACTION_APPLY)" = "1" ]; then \
+			test -n "$(REVIEW_OPERATOR_CONFIRMATION)" || { \
+				echo "ERROR: REVIEW_OPERATOR_CONFIRMATION is required when REVIEW_TRANSACTION_APPLY=1"; \
+				exit 2; \
+			}; \
+			set -- "$$@" --apply \
+				--operator-confirmation "$(REVIEW_OPERATOR_CONFIRMATION)"; \
+		elif [ "$(REVIEW_TRANSACTION_APPLY)" != "0" ]; then \
+			echo "ERROR: REVIEW_TRANSACTION_APPLY must be 0 or 1"; \
+			exit 2; \
+		fi; \
+		$(BLUEPRINT_PYTHON) scripts/coordination/review_roadmap_queue_transaction_v0_4.py "$$@"; \
+	fi
 
 .PHONY: next-prompt-selection-activation-v0-4
 next-prompt-selection-activation-v0-4:

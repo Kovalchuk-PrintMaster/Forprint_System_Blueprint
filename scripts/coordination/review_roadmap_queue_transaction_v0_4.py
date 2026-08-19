@@ -160,6 +160,141 @@ def live_status(root: Path) -> dict[str, Any]:
     }
 
 
+
+def _roadmap_rows(data: dict[str, Any]) -> list[dict[str, Any]]:
+    for key in ("steps", "roadmap"):
+        rows = data.get(key)
+        if isinstance(rows, list):
+            return [item for item in rows if isinstance(item, dict)]
+    raise TransactionError("roadmap document has neither steps nor roadmap list")
+
+
+def _queue_rows(data: dict[str, Any]) -> list[dict[str, Any]]:
+    for key in ("prompts", "prompt_queue"):
+        rows = data.get(key)
+        if isinstance(rows, list):
+            return [item for item in rows if isinstance(item, dict)]
+    raise TransactionError(
+        "prompt queue document has neither prompts nor prompt_queue list"
+    )
+
+
+def _is_module_roadmap(data: dict[str, Any]) -> bool:
+    return "roadmap" in data and "steps" not in data
+
+
+def _is_module_queue(data: dict[str, Any]) -> bool:
+    return "prompt_queue" in data and "prompts" not in data
+
+
+def _queue_prompt_path(
+    root: Path,
+    queue_path: Path,
+    prompt: dict[str, Any],
+) -> Path:
+    raw_path = prompt.get("path")
+    if isinstance(raw_path, str) and raw_path:
+        return _safe_path(root, raw_path, "queue prompt path")
+
+    raw_file = prompt.get("file")
+    if not isinstance(raw_file, str) or not raw_file:
+        raise TransactionError("queue prompt has neither path nor file")
+
+    target = (queue_path.parent / raw_file).resolve()
+    try:
+        target.relative_to(root.resolve())
+    except ValueError as exc:
+        raise TransactionError("queue prompt file escapes Blueprint root") from exc
+    return target
+
+
+def _queue_logical_status(
+    root: Path,
+    queue_path: Path,
+    prompt: dict[str, Any],
+) -> str | None:
+    status = prompt.get("status")
+    if isinstance(status, str):
+        return status
+    resolved = _queue_prompt_path(root, queue_path, prompt)
+    return "completed" if "completed" in resolved.parts else "approved"
+
+
+def _queue_execution_status(prompt: dict[str, Any]) -> str | None:
+    status = prompt.get("execution_status")
+    if isinstance(status, str):
+        return status
+    execution = prompt.get("module_execution")
+    if isinstance(execution, dict):
+        value = execution.get("status")
+        return value if isinstance(value, str) else None
+    return None
+
+
+def _queue_review_status(prompt: dict[str, Any]) -> str | None:
+    review = prompt.get("blueprint_review")
+    if not isinstance(review, dict):
+        return None
+    value = review.get("status")
+    return value if isinstance(value, str) else None
+
+
+def _roadmap_accept_status(roadmap: dict[str, Any]) -> str:
+    return "accepted" if _is_module_roadmap(roadmap) else "completed"
+
+
+
+
+def _module_review_mapping(
+    prompt: dict[str, Any],
+    identity: dict[str, Any],
+) -> dict[str, Any]:
+    existing = prompt.get("blueprint_review")
+    acceptance_commit = (
+        existing.get("acceptance_commit")
+        if isinstance(existing, dict)
+        else None
+    )
+    decision = identity["operator_decision"]
+
+    if decision == "ACCEPT":
+        status = "accepted_by_blueprint"
+        accepted_at = identity["decided_at"][:10]
+    elif decision == "RETURN":
+        status = "returned_for_fix"
+        accepted_at = None
+        acceptance_commit = None
+    else:
+        status = "pending_review"
+        accepted_at = None
+        acceptance_commit = None
+
+    return {
+        "status": status,
+        "acceptance_commit": acceptance_commit,
+        "accepted_at": accepted_at,
+        "review_notes": identity["review_notes"],
+    }
+
+
+def _set_dependency_snapshot_status(
+    roadmap: dict[str, Any],
+    *,
+    step_id: str,
+    status: str,
+) -> None:
+    for item in _roadmap_rows(roadmap):
+        dependencies = item.get("depends_on", [])
+        if not isinstance(dependencies, list):
+            continue
+        for dependency in dependencies:
+            if (
+                isinstance(dependency, dict)
+                and dependency.get("step_id") == step_id
+            ):
+                dependency["status"] = status
+
+
 def _completed_prompt_path(root: Path, approved: Path) -> Path:
     rel = approved.resolve().relative_to(root.resolve())
     parts = list(rel.parts)
@@ -383,36 +518,51 @@ def _recalculate_queue_counts(queue: dict[str, Any]) -> None:
 
 
 def _eligible_steps(roadmap: dict[str, Any]) -> list[str]:
-    steps = [
-        item
-        for item in roadmap.get("steps", [])
-        if isinstance(item, dict)
-    ]
+    steps = _roadmap_rows(roadmap)
     by_id = {
         item.get("step_id"): item
         for item in steps
         if isinstance(item.get("step_id"), str)
     }
+
+    def dependency_done(dependency: Any) -> bool:
+        if isinstance(dependency, str):
+            target = by_id.get(dependency)
+            return (
+                isinstance(target, dict)
+                and target.get("status") in {"completed", "accepted"}
+            )
+
+        if not isinstance(dependency, dict):
+            return False
+
+        dependency_id = dependency.get("step_id")
+        target = by_id.get(dependency_id)
+        if isinstance(target, dict) and target.get("status") in {
+            "completed",
+            "accepted",
+        }:
+            return True
+
+        return dependency.get("status") in {"completed", "accepted"}
+
     eligible: list[str] = []
     for item in steps:
         if item.get("status") not in {"planned", "ready"}:
             continue
-        deps = item.get("depends_on", [])
-        if deps is None:
-            deps = []
-        if not isinstance(deps, list):
+
+        dependencies = item.get("depends_on", [])
+        if dependencies is None:
+            dependencies = []
+        if not isinstance(dependencies, list):
             continue
-        if all(
-            isinstance(dep, str)
-            and dep in by_id
-            and by_id[dep].get("status") in {"completed", "accepted"}
-            for dep in deps
-        ):
+
+        if all(dependency_done(dep) for dep in dependencies):
             step_id = item.get("step_id")
             if isinstance(step_id, str):
                 eligible.append(step_id)
-    return sorted(eligible)
 
+    return sorted(eligible)
 
 def _same_decision_evidence(
     evidence: dict[str, Any],
@@ -448,18 +598,25 @@ def _already_applied(
             "review evidence collision with a different decision identity"
         )
 
-    roadmap = load_yaml(paths["roadmap"])  # type: ignore[arg-type]
-    queue = load_yaml(paths["queue"])  # type: ignore[arg-type]
+    roadmap_path = paths["roadmap"]
+    queue_path = paths["queue"]
+    assert isinstance(roadmap_path, Path)
+    assert isinstance(queue_path, Path)
+
+    roadmap = load_yaml(roadmap_path)
+    queue = load_yaml(queue_path)
+
     roadmap_step = _one(
-        roadmap["steps"],
+        _roadmap_rows(roadmap),
         "step_id",
         paths["roadmap_step_id"],
     )
     queue_prompt = _one(
-        queue["prompts"],
+        _queue_rows(queue),
         "prompt_id",
         identity["prompt_id"],
     )
+
     evidence_rel = _relative(root, evidence)
     decision = identity["operator_decision"]
 
@@ -477,6 +634,35 @@ def _already_applied(
     if not isinstance(prompt, Path) or not isinstance(completed, Path):
         return False
 
+    if _is_module_queue(queue):
+        queue_path_actual = _queue_prompt_path(
+            root,
+            queue_path,
+            queue_prompt,
+        )
+
+        if decision == "ACCEPT":
+            return (
+                roadmap_step.get("status") == "accepted"
+                and _queue_review_status(queue_prompt)
+                == "accepted_by_blueprint"
+                and queue_path_actual == completed.resolve()
+                and not prompt.exists()
+                and completed.is_file()
+            )
+
+        expected_review = (
+            "returned_for_fix"
+            if decision == "RETURN"
+            else "pending_review"
+        )
+        return (
+            _queue_review_status(queue_prompt) == expected_review
+            and queue_path_actual == prompt.resolve()
+            and prompt.is_file()
+            and not completed.exists()
+        )
+
     if decision == "ACCEPT":
         return (
             roadmap_step.get("status") == "completed"
@@ -493,7 +679,6 @@ def _already_applied(
         and prompt.is_file()
         and not completed.exists()
     )
-
 
 def _validate_preconditions(
     identity: dict[str, Any],
@@ -533,13 +718,20 @@ def _validate_preconditions(
 def _frontmatter_status(path: Path, status: str) -> None:
     text = path.read_text(encoding="utf-8")
     if not text.startswith("---\n"):
-        raise TransactionError(f"prompt frontmatter missing: {path}")
+        return
+
     parts = text.split("---\n", 2)
     if len(parts) != 3:
-        raise TransactionError(f"prompt frontmatter malformed: {path}")
+        raise TransactionError(
+            f"prompt frontmatter malformed: {path}"
+        )
+
     front = yaml.safe_load(parts[1])
     if not isinstance(front, dict):
-        raise TransactionError(f"prompt frontmatter is not mapping: {path}")
+        raise TransactionError(
+            f"prompt frontmatter is not mapping: {path}"
+        )
+
     front["status"] = status
     path.write_text(
         "---\n"
@@ -577,15 +769,21 @@ def prepare_transaction(
 
     _validate_preconditions(identity, paths)
 
-    roadmap = load_yaml(paths["roadmap"])  # type: ignore[arg-type]
-    queue = load_yaml(paths["queue"])  # type: ignore[arg-type]
+    roadmap_path = paths["roadmap"]
+    queue_path = paths["queue"]
+    assert isinstance(roadmap_path, Path)
+    assert isinstance(queue_path, Path)
+
+    roadmap = load_yaml(roadmap_path)
+    queue = load_yaml(queue_path)
+
     roadmap_step = _one(
-        roadmap["steps"],
+        _roadmap_rows(roadmap),
         "step_id",
         paths["roadmap_step_id"],
     )
     queue_prompt = _one(
-        queue["prompts"],
+        _queue_rows(queue),
         "prompt_id",
         identity["prompt_id"],
     )
@@ -593,11 +791,12 @@ def prepare_transaction(
     prompt = paths["prompt"]
     assert isinstance(prompt, Path)
     prompt_rel = _relative(root, prompt)
-    if queue_prompt.get("path") != prompt_rel:
+
+    if _queue_prompt_path(root, queue_path, queue_prompt) != prompt.resolve():
         raise TransactionError(
-            "queue prompt path does not match request prompt_path"
+            "queue prompt locator does not match request prompt_path"
         )
-    if queue_prompt.get("status") != "approved":
+    if _queue_logical_status(root, queue_path, queue_prompt) != "approved":
         raise TransactionError(
             "reviewed prompt must remain approved before decision transaction"
         )
@@ -609,13 +808,29 @@ def prepare_transaction(
         else prompt_rel
     )
     roadmap_after = (
-        "completed" if decision == "ACCEPT" else roadmap_step.get("status")
+        _roadmap_accept_status(roadmap)
+        if decision == "ACCEPT"
+        else roadmap_step.get("status")
     )
-    queue_execution_after = {
-        "ACCEPT": "accepted",
-        "RETURN": "returned",
-        "HOLD": "held",
-    }[decision]
+
+    if _is_module_queue(queue):
+        queue_execution_after = (
+            "returned_for_fix"
+            if decision == "RETURN"
+            else _queue_execution_status(queue_prompt)
+        )
+        queue_review_after = {
+            "ACCEPT": "accepted_by_blueprint",
+            "RETURN": "returned_for_fix",
+            "HOLD": "pending_review",
+        }[decision]
+    else:
+        queue_execution_after = {
+            "ACCEPT": "accepted",
+            "RETURN": "returned",
+            "HOLD": "held",
+        }[decision]
+        queue_review_after = None
 
     return {
         "schema_version": "blueprint_review_transaction_plan_v0_4",
@@ -630,8 +845,8 @@ def prepare_transaction(
             "intake_state": identity["candidate"]["intake_state"],
         },
         "transaction": {
-            "roadmap_path": _relative(root, paths["roadmap"]),  # type: ignore[arg-type]
-            "prompt_queue_path": _relative(root, paths["queue"]),  # type: ignore[arg-type]
+            "roadmap_path": _relative(root, roadmap_path),
+            "prompt_queue_path": _relative(root, queue_path),
             "roadmap_step_id": paths["roadmap_step_id"],
             "prompt_before": prompt_rel,
             "prompt_after": after_prompt,
@@ -641,14 +856,20 @@ def prepare_transaction(
             ),
             "roadmap_status_before": roadmap_step.get("status"),
             "roadmap_status_after": roadmap_after,
-            "queue_status_before": queue_prompt.get("status"),
+            "queue_status_before": _queue_logical_status(
+                root,
+                queue_path,
+                queue_prompt,
+            ),
             "queue_status_after": (
                 "completed" if decision == "ACCEPT" else "approved"
             ),
-            "queue_execution_status_before": queue_prompt.get(
-                "execution_status"
+            "queue_execution_status_before": _queue_execution_status(
+                queue_prompt
             ),
             "queue_execution_status_after": queue_execution_after,
+            "queue_review_status_before": _queue_review_status(queue_prompt),
+            "queue_review_status_after": queue_review_after,
             "physical_prompt_move": decision == "ACCEPT",
             "eligible_step_ids_after_transaction": None,
         },
@@ -838,52 +1059,96 @@ def apply_transaction(
 
     roadmap = load_yaml(roadmap_path)
     queue = load_yaml(queue_path)
+
     roadmap_step = _one(
-        roadmap["steps"],
+        _roadmap_rows(roadmap),
         "step_id",
         paths["roadmap_step_id"],
     )
     queue_prompt = _one(
-        queue["prompts"],
+        _queue_rows(queue),
         "prompt_id",
         identity["prompt_id"],
     )
 
+    module_roadmap = _is_module_roadmap(roadmap)
+    module_queue = _is_module_queue(queue)
+
     before = {
         "prompt_path": _relative(root, prompt_path),
         "roadmap_status": roadmap_step.get("status"),
-        "queue_status": queue_prompt.get("status"),
-        "queue_execution_status": queue_prompt.get("execution_status"),
+        "queue_status": _queue_logical_status(
+            root,
+            queue_path,
+            queue_prompt,
+        ),
+        "queue_execution_status": _queue_execution_status(queue_prompt),
+        "queue_review_status": _queue_review_status(queue_prompt),
     }
+
     evidence_rel = _relative(root, evidence_path)
     review = _review_mapping(identity, evidence_rel)
     decision = identity["operator_decision"]
 
     try:
-        roadmap_step["blueprint_review"] = copy.deepcopy(review)
         roadmap_step["operator_decision"] = decision
         roadmap_step["review_evidence"] = evidence_rel
 
-        queue_prompt["blueprint_review"] = copy.deepcopy(review)
+        if not module_roadmap:
+            roadmap_step["blueprint_review"] = copy.deepcopy(review)
+
         queue_prompt["operator_decision"] = decision
         queue_prompt["review_evidence"] = evidence_rel
 
+        if module_queue:
+            queue_prompt["blueprint_review"] = _module_review_mapping(
+                queue_prompt,
+                identity,
+            )
+        else:
+            queue_prompt["blueprint_review"] = copy.deepcopy(review)
+
         if decision == "ACCEPT":
-            roadmap_step["status"] = "completed"
+            roadmap_step["status"] = _roadmap_accept_status(roadmap)
             roadmap_step["accepted_at"] = identity["decided_at"]
 
-            queue_prompt["status"] = "completed"
-            queue_prompt["execution_status"] = "accepted"
-            queue_prompt["accepted_at"] = identity["decided_at"]
-            queue_prompt["path"] = _relative(root, completed_path)
+            if module_roadmap:
+                evidence_block = roadmap_step.get("evidence")
+                if not isinstance(evidence_block, dict):
+                    evidence_block = {}
+                evidence_block["blueprint_review_status"] = (
+                    "accepted_by_blueprint"
+                )
+                evidence_block["review_evidence"] = evidence_rel
+                roadmap_step["evidence"] = evidence_block
 
-            metadata = queue.get("metadata")
-            if (
-                isinstance(metadata, dict)
-                and metadata.get("active_prompt_id")
-                == identity["prompt_id"]
-            ):
-                metadata["active_prompt_id"] = None
+                _set_dependency_snapshot_status(
+                    roadmap,
+                    step_id=identity["prompt_id"],
+                    status="accepted",
+                )
+
+                metadata = roadmap.get("metadata")
+                if isinstance(metadata, dict):
+                    metadata["updated_at"] = identity["decided_at"][:10]
+
+            if module_queue:
+                queue_prompt["file"] = completed_path.relative_to(
+                    queue_path.parent
+                ).as_posix()
+            else:
+                queue_prompt["status"] = "completed"
+                queue_prompt["execution_status"] = "accepted"
+                queue_prompt["accepted_at"] = identity["decided_at"]
+                queue_prompt["path"] = _relative(root, completed_path)
+
+                metadata = queue.get("metadata")
+                if (
+                    isinstance(metadata, dict)
+                    and metadata.get("active_prompt_id")
+                    == identity["prompt_id"]
+                ):
+                    metadata["active_prompt_id"] = None
 
             completed_path.parent.mkdir(parents=True, exist_ok=True)
             prompt_path.rename(completed_path)
@@ -891,13 +1156,32 @@ def apply_transaction(
 
         elif decision == "RETURN":
             roadmap_step["returned_at"] = identity["decided_at"]
-            queue_prompt["execution_status"] = "returned"
-            queue_prompt["returned_at"] = identity["decided_at"]
+
+            if module_roadmap:
+                roadmap_step["status"] = "active"
+                evidence_block = roadmap_step.get("evidence")
+                if not isinstance(evidence_block, dict):
+                    evidence_block = {}
+                evidence_block["blueprint_review_status"] = "returned_for_fix"
+                evidence_block["review_evidence"] = evidence_rel
+                roadmap_step["evidence"] = evidence_block
+
+            if module_queue:
+                execution = queue_prompt.get("module_execution")
+                if not isinstance(execution, dict):
+                    execution = {}
+                execution["status"] = "returned_for_fix"
+                queue_prompt["module_execution"] = execution
+            else:
+                queue_prompt["execution_status"] = "returned"
+                queue_prompt["returned_at"] = identity["decided_at"]
 
         else:
             roadmap_step["held_at"] = identity["decided_at"]
-            queue_prompt["execution_status"] = "held"
-            queue_prompt["held_at"] = identity["decided_at"]
+
+            if not module_queue:
+                queue_prompt["execution_status"] = "held"
+                queue_prompt["held_at"] = identity["decided_at"]
 
         _recalculate_queue_counts(queue)
         eligible = _eligible_steps(roadmap)
@@ -908,8 +1192,13 @@ def apply_transaction(
         after = {
             "prompt_path": _relative(root, after_prompt),
             "roadmap_status": roadmap_step.get("status"),
-            "queue_status": queue_prompt.get("status"),
-            "queue_execution_status": queue_prompt.get("execution_status"),
+            "queue_status": _queue_logical_status(
+                root,
+                queue_path,
+                queue_prompt,
+            ),
+            "queue_execution_status": _queue_execution_status(queue_prompt),
+            "queue_review_status": _queue_review_status(queue_prompt),
             "eligible_step_ids": eligible,
         }
 
@@ -920,6 +1209,12 @@ def apply_transaction(
             before,
             after,
         )
+        evidence["transaction"]["queue_review_status_before"] = before[
+            "queue_review_status"
+        ]
+        evidence["transaction"]["queue_review_status_after"] = after[
+            "queue_review_status"
+        ]
 
         write_yaml(roadmap_path, roadmap)
         write_yaml(queue_path, queue)
@@ -939,7 +1234,7 @@ def apply_transaction(
                     "RETURN/HOLD physical prompt invariant failed"
                 )
 
-        result = {
+        return {
             "schema_version": "blueprint_review_transaction_result_v0_4",
             "result_state": {
                 "ACCEPT": "ACCEPT_APPLIED",
@@ -963,12 +1258,10 @@ def apply_transaction(
             "automatic_commit": False,
             "automatic_push": False,
         }
-        return result
 
     except Exception:
         _restore(snapshot)
         raise
-
 
 def render_text(report: dict[str, Any]) -> str:
     lines = [
