@@ -129,6 +129,7 @@ help:
 	@echo "  make roadmap-validate MODULE=forprint_library"
 	@echo "  make roadmap-dashboard MODULE=forprint_library"
 	@echo "  make roadmap-detail MODULE=forprint_library"
+	@echo "  make acceptance-oracle-validate ORACLE=coordination/acceptance_oracles/<module>/<oracle>.yaml"
 	@echo "  make roadmap-dashboard MODULES=forprint_library,forprint_integration_gateway,forprint_crm"
 	@echo "  make roadmap-summary"
 	@echo "  make roadmap-summary ROADMAP_SUMMARY_MODULES=forprint_library,forprint_integration_gateway"
@@ -797,6 +798,10 @@ roadmap-detail:
 	else \
 		$(PYTHON) scripts/coordination/render_module_roadmap_detail.py --module "$(MODULE)" --before-current "$(BEFORE_CURRENT)" --after-current "$(AFTER_CURRENT)"; \
 	fi
+
+.PHONY: acceptance-oracle-validate
+acceptance-oracle-validate:
+	@$(PYTHON) scripts/coordination/acceptance_oracle_v0_1.py --root . --oracle "$(ORACLE)" $(if $(ORACLE_SHA256),--sha256 "$(ORACLE_SHA256)",)
 
 .PHONY: roadmap-summary
 roadmap-summary:

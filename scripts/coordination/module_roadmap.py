@@ -6,6 +6,9 @@ from typing import Any
 
 import yaml
 
+from scripts.coordination.acceptance_oracle_v0_1 import (
+    validate_roadmap_acceptance_binding,
+)
 from scripts.coordination.roadmap_hierarchy_v0_1 import (
     substep_progress,
     validate_roadmap_hierarchy,
@@ -225,6 +228,15 @@ def validate_roadmap_document(
                 errors.append(f"{roadmap_field}[{index}].evidence must be a mapping or list")
         elif evidence is not None and not isinstance(evidence, dict):
             errors.append(f"{roadmap_field}[{index}].evidence must be a mapping")
+
+    for index, raw_step in enumerate(roadmap, start=1):
+        if isinstance(raw_step, dict):
+            errors.extend(
+                validate_roadmap_acceptance_binding(
+                    raw_step,
+                    prefix=f"{roadmap_field}[{index}]",
+                )
+            )
 
     errors.extend(
         validate_roadmap_hierarchy(

@@ -182,3 +182,27 @@ def test_detail_renderer_preserves_full_ids_and_uses_canonical_core(
     assert "def _render_table" not in source
     assert "def _current_step_id" not in source
     assert "def _roadmap_items" not in source
+
+
+def test_acceptance_oracle_binding_requires_sha_when_enabled(
+    tmp_path: Path,
+) -> None:
+    data = _roadmap(
+        {
+            "acceptance": {
+                "oracle_required": True,
+                "oracle_path": (
+                    "coordination/acceptance_oracles/demo/oracle.yaml"
+                ),
+            }
+        }
+    )
+    result = validate_roadmap_document(
+        data,
+        path=tmp_path / "roadmap.yaml",
+    )
+    assert not result.ok
+    assert any(
+        "acceptance.oracle_sha256" in error
+        for error in result.errors
+    )

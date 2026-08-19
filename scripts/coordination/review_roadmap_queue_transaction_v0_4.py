@@ -12,6 +12,12 @@ from typing import Any
 
 import yaml
 
+from scripts.coordination.acceptance_oracle_v0_1 import (
+    AcceptanceOracleError,
+    acceptance_evaluation_request_fingerprint,
+    evaluate_acceptance_oracle,
+)
+
 REQUEST_SCHEMA = "blueprint_review_roadmap_queue_transaction_request_v0_4"
 EVIDENCE_SCHEMA = "blueprint_operator_review_decision_v0_4"
 READY_INTAKE_STATE = "READY_FOR_BLUEPRINT_REVIEW"
@@ -377,6 +383,7 @@ def _basic_request_identity(request: dict[str, Any]) -> dict[str, Any]:
             raise TransactionError(f"{field} must be a lowercase SHA-256")
 
     return {
+        "request": request,
         "candidate": candidate,
         "decision": decision,
         "targets": targets,
@@ -389,6 +396,31 @@ def _basic_request_identity(request: dict[str, Any]) -> dict[str, Any]:
         "decided_at": decided_at,
         "review_notes": notes,
     }
+
+
+def _acceptance_oracle_gate(
+    root: Path,
+    identity: dict[str, Any],
+    roadmap_step: dict[str, Any],
+    step_id: str,
+) -> dict[str, Any]:
+    try:
+        return evaluate_acceptance_oracle(
+            root,
+            roadmap_step=roadmap_step,
+            module_id=identity["module_id"],
+            prompt_id=identity["prompt_id"],
+            step_id=step_id,
+            operator_decision=identity["operator_decision"],
+            evaluation=identity["request"].get(
+                "acceptance_oracle_evaluation"
+            ),
+            candidate=identity["candidate"],
+        )
+    except AcceptanceOracleError as exc:
+        raise TransactionError(
+            f"acceptance oracle gate failed: {exc}"
+        ) from exc
 
 
 def _resolve_targets(
@@ -570,11 +602,35 @@ def _same_decision_evidence(
 ) -> bool:
     subject = evidence.get("subject", {})
     decision = evidence.get("decision", {})
+    oracle = evidence.get("acceptance_oracle")
+    existing_fingerprint = (
+        oracle.get("request_fingerprint_sha256")
+        if isinstance(oracle, dict)
+        else None
+    )
+
+    requested_fingerprint = None
+    if identity["operator_decision"] == "ACCEPT":
+        try:
+            requested_fingerprint = acceptance_evaluation_request_fingerprint(
+                identity["request"].get("acceptance_oracle_evaluation"),
+                identity["candidate"],
+            )
+        except AcceptanceOracleError:
+            return False
+
     return (
         evidence.get("schema_version") == EVIDENCE_SCHEMA
         and subject.get("module_id") == identity["module_id"]
         and subject.get("prompt_id") == identity["prompt_id"]
         and subject.get("event_id") == identity["event_id"]
+        and subject.get("event_sha256")
+        == identity["candidate"].get("event_sha256")
+        and subject.get("packet_sha256")
+        == identity["candidate"].get("packet_sha256")
+        and subject.get("discovery_fingerprint_sha256")
+        == identity["candidate"].get("discovery_fingerprint_sha256")
+        and existing_fingerprint == requested_fingerprint
         and decision.get("decision_id") == identity["decision_id"]
         and decision.get("operator_decision")
         == identity["operator_decision"]
@@ -801,6 +857,13 @@ def prepare_transaction(
             "reviewed prompt must remain approved before decision transaction"
         )
 
+    oracle_gate = _acceptance_oracle_gate(
+        root,
+        identity,
+        roadmap_step,
+        str(paths["roadmap_step_id"]),
+    )
+
     decision = identity["operator_decision"]
     after_prompt = (
         _relative(root, paths["completed"])  # type: ignore[arg-type]
@@ -838,6 +901,7 @@ def prepare_transaction(
         "decision_id": identity["decision_id"],
         "operator_decision": decision,
         "operator_decision_source": "explicit_operator_input",
+        "acceptance_oracle": oracle_gate,
         "candidate": {
             "module_id": identity["module_id"],
             "prompt_id": identity["prompt_id"],
@@ -912,6 +976,7 @@ def _build_evidence(
     paths: dict[str, Path | str],
     before: dict[str, Any],
     after: dict[str, Any],
+    acceptance_oracle: dict[str, Any],
 ) -> dict[str, Any]:
     candidate = identity["candidate"]
     decision = identity["operator_decision"]
@@ -950,6 +1015,7 @@ def _build_evidence(
             "decided_at": identity["decided_at"],
             "review_notes": identity["review_notes"],
         },
+        "acceptance_oracle": copy.deepcopy(acceptance_oracle),
         "transaction": {
             "roadmap_path": _relative(
                 root,
@@ -1208,6 +1274,7 @@ def apply_transaction(
             paths,
             before,
             after,
+            plan["acceptance_oracle"],
         )
         evidence["transaction"]["queue_review_status_before"] = before[
             "queue_review_status"

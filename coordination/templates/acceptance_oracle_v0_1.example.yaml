@@ -1,0 +1,27 @@
+# Blueprint-owned acceptance oracle example.
+schema_version: blueprint_acceptance_oracle_v0_1
+metadata:
+  oracle_id: <module>_<prompt>_acceptance_oracle_v0_1
+  module_id: <module_id>
+  prompt_id: <prompt_id>
+  step_id: <step_id>
+  owner: forprint_system_blueprint
+  immutable: true
+source_prompt_contract:
+  path: coordination/prompt_contracts/<module_id>/<prompt_id>/<contract_id>.yaml
+  sha256: <lowercase_sha256>
+criteria:
+- criterion_id: AC-001
+  step_id: <step_id>
+  substep_id: <optional_substep_id>
+  requirement_refs:
+  - IMP-001
+  - VER-001
+  summary: Prove existing Prompt Contract obligations for this acceptance slice.
+  blocking: true
+  verification:
+    kind: command
+    locator: make check
+    expected_observation: Full Blueprint gate exits successfully with no blockers.
+  evidence_required:
+  - EV-FULL-GATE

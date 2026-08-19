@@ -332,3 +332,66 @@ Rules:
 
 This hardening does not rewrite existing roadmap data and does not advance any
 roadmap or prompt queue.
+
+## Acceptance oracle — v0.4.1 hardening
+
+New roadmap work may opt into an explicit acceptance oracle:
+
+```yaml
+acceptance:
+  oracle_required: true
+  oracle_path: coordination/acceptance_oracles/<module>/<oracle>.yaml
+  oracle_sha256: <lowercase_sha256>
+```
+
+Absence of `acceptance` remains valid for historical/legacy steps and does not
+retroactively reinterpret sealed v0.4 decisions.
+
+The canonical schema is `blueprint_acceptance_oracle_v0_1`. An oracle does not
+create another requirements system. Every criterion MUST reference one or more
+existing `IMP-*`, `VER-*`, or `CE-*` obligation IDs from one exact immutable
+`module_prompt_contract_v0_4` instance bound by repository path and SHA-256.
+
+Each criterion records stable `criterion_id`, parent `step_id`, optional
+`substep_id`, `requirement_refs`, summary, `blocking`, verification kind,
+exact verification locator, expected observation, and required evidence refs.
+
+For `ACCEPT` on an oracle-required step, the review request must carry an
+`acceptance_oracle_evaluation` bound to the same oracle path and SHA-256.
+Every criterion has exactly one result: `PASS`, `FAIL`, or `NOT_EVALUATED`.
+
+A blocking criterion authorizes ACCEPT only when it is `PASS` and every
+declared required evidence reference is present. Otherwise ACCEPT is blocked
+unless the same explicit operator request carries a criterion-specific waiver
+with `explicit_operator_authorization: true` and a non-empty reason. Waivers
+are copied into immutable Blueprint review evidence.
+
+RETURN and HOLD do not require a passing oracle because they do not claim
+acceptance. Oracle PASS never creates ACCEPT automatically. The gate is
+evaluated before any roadmap, queue, prompt-file, or review-evidence mutation.
+
+
+For oracle-gated ACCEPT, the evaluation MUST bind the exact review candidate
+through `event_sha256`, `packet_sha256`, and
+`discovery_fingerprint_sha256`. Blueprint stores those hashes with a canonical
+SHA-256 fingerprint of the exact operator-supplied oracle evaluation in the
+immutable decision evidence. Reapplying the same `decision_id` is idempotent
+only when the candidate hashes and oracle-evaluation fingerprint are identical;
+changed observed evidence, criterion results, evidence refs, waiver contents,
+or candidate hashes fail safely as a conflicting decision identity.
+
+The bound Prompt Contract MUST pass the canonical
+`validate_prompt_contract_v0_4.validate_contract()` validator before any oracle
+criterion may reference its obligation IDs. The oracle does not maintain a
+parallel reduced Prompt Contract validator.
+
+
+Acceptance evidence is grounded in the exact module-owned completion packet.
+`evidence_required` and evaluation `evidence_refs` are stable `evidence_id`
+values from that packet's `evidence_manifest`, not free-form labels. Before
+ACCEPT, Blueprint verifies the candidate `packet_path` and `packet_sha256`,
+reuses `validate_completion_packet_v0_4.validate_packet()`, rejects evidence
+refs absent from the manifest, and requires each criterion `requirement_ref`
+to be represented by at least one cited evidence ID that the validated packet
+itself binds to that obligation. A waiver may bypass an unsatisfied blocking
+criterion, but it cannot make an unknown/fabricated evidence reference valid.
