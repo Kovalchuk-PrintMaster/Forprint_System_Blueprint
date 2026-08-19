@@ -15,6 +15,7 @@ OUTBOX_REL = Path("coordination/completion_outbox/records")
 PACKET_REL = Path("coordination/completion_packets/records")
 OUTBOX_SCHEMA = "module_completion_outbox_event_v0_4"
 PACKET_SCHEMA = "module_completion_packet_v0_4"
+DECISION_SCHEMA = "blueprint_operator_review_decision_v0_4"
 
 OutboxValidator = Callable[[Path, Path, Path], dict[str, Any]]
 PacketValidator = Callable[[Path, Path], dict[str, Any]]
@@ -378,6 +379,106 @@ def _discover_module(
     return result
 
 
+
+def _decision_subject_key(value: dict[str, Any]) -> tuple[str, ...] | None:
+    fields = (
+        "module_id",
+        "prompt_id",
+        "event_id",
+        "event_path",
+        "event_sha256",
+        "packet_path",
+        "packet_sha256",
+    )
+    parts = tuple(value.get(field) for field in fields)
+    if not all(isinstance(item, str) and item for item in parts):
+        return None
+    return parts
+
+
+def _candidate_decision_key(value: dict[str, Any]) -> tuple[str, ...] | None:
+    return _decision_subject_key(value)
+
+
+def _load_operator_decision_index(
+    blueprint_root: Path,
+) -> tuple[dict[tuple[str, ...], dict[str, Any]], list[str]]:
+    review_root = blueprint_root / "coordination/review_packets"
+    grouped: dict[tuple[str, ...], list[dict[str, Any]]] = {}
+    errors: list[str] = []
+
+    if not review_root.exists():
+        return {}, []
+
+    for path in sorted(review_root.glob("*/processed/*.yaml")):
+        relative = path.relative_to(blueprint_root).as_posix()
+        try:
+            record = load_yaml(path)
+        except Exception as exc:
+            errors.append(
+                f"INVALID_OPERATOR_DECISION_EVIDENCE:{relative}:{exc}"
+            )
+            continue
+
+        if record.get("schema_version") != DECISION_SCHEMA:
+            continue
+
+        subject = record.get("subject")
+        decision = record.get("decision")
+        if not isinstance(subject, dict) or not isinstance(decision, dict):
+            errors.append(
+                f"INVALID_OPERATOR_DECISION_EVIDENCE:{relative}:"
+                "subject_or_decision_not_mapping"
+            )
+            continue
+
+        key = _decision_subject_key(subject)
+        decision_id = decision.get("decision_id")
+        operator_decision = decision.get("operator_decision")
+        explicit = decision.get("explicit_operator_input")
+        result = record.get("result")
+
+        if (
+            key is None
+            or not isinstance(decision_id, str)
+            or not decision_id
+            or operator_decision not in {"ACCEPT", "RETURN", "HOLD"}
+            or explicit is not True
+            or result not in {"ACCEPTED", "RETURNED", "HELD"}
+        ):
+            errors.append(
+                f"INVALID_OPERATOR_DECISION_EVIDENCE:{relative}:"
+                "identity_or_decision_contract"
+            )
+            continue
+
+        grouped.setdefault(key, []).append(
+            {
+                "evidence_path": relative,
+                "decision_id": decision_id,
+                "operator_decision": operator_decision,
+                "result": result,
+            }
+        )
+
+    index: dict[tuple[str, ...], dict[str, Any]] = {}
+    for key, records in sorted(grouped.items()):
+        if len(records) != 1:
+            paths = ",".join(
+                sorted(str(item["evidence_path"]) for item in records)
+            )
+            errors.append(
+                "AMBIGUOUS_OPERATOR_DECISION_EVIDENCE:"
+                + "|".join(key)
+                + ":"
+                + paths
+            )
+            continue
+        index[key] = records[0]
+
+    return index, sorted(errors)
+
+
 def discover_completions(
     *,
     blueprint_root: Path,
@@ -424,32 +525,66 @@ def discover_completions(
         )
         sources.append(source_result)
 
+    decision_index, decision_evidence_errors = (
+        _load_operator_decision_index(blueprint_root)
+    )
     review_candidates = []
+    reconciled_decisions = []
+
     for source in sources:
         for event in source["events"]:
             if event.get("classification") != "ready_for_blueprint_review":
                 continue
+
             identity = event.get("identity", {})
-            review_candidates.append(
-                {
-                    "module_id": source.get("module_id"),
-                    "repository_id": source.get("repository_id"),
-                    "event_id": identity.get("event_id"),
-                    "prompt_id": identity.get("prompt_id"),
-                    "completion_id": identity.get("completion_id"),
-                    "event_path": event.get("path"),
-                    "event_sha256": event.get("event_sha256"),
-                    "packet_path": event.get("packet_path"),
-                    "packet_sha256": event.get("packet_sha256"),
-                    "intake_state": "READY_FOR_BLUEPRINT_REVIEW",
-                    "operator_decision_created": False,
-                }
+            candidate = {
+                "module_id": source.get("module_id"),
+                "repository_id": source.get("repository_id"),
+                "event_id": identity.get("event_id"),
+                "prompt_id": identity.get("prompt_id"),
+                "completion_id": identity.get("completion_id"),
+                "event_path": event.get("path"),
+                "event_sha256": event.get("event_sha256"),
+                "packet_path": event.get("packet_path"),
+                "packet_sha256": event.get("packet_sha256"),
+                "intake_state": "READY_FOR_BLUEPRINT_REVIEW",
+                "operator_decision_created": False,
+            }
+
+            decision_record = decision_index.get(
+                _candidate_decision_key(candidate)
             )
+            if decision_record is not None:
+                reconciled_decisions.append(
+                    {
+                        "module_id": candidate["module_id"],
+                        "prompt_id": candidate["prompt_id"],
+                        "event_id": candidate["event_id"],
+                        "event_sha256": candidate["event_sha256"],
+                        "packet_sha256": candidate["packet_sha256"],
+                        "decision_id": decision_record["decision_id"],
+                        "operator_decision": decision_record[
+                            "operator_decision"
+                        ],
+                        "result": decision_record["result"],
+                        "evidence_path": decision_record["evidence_path"],
+                    }
+                )
+                continue
+
+            review_candidates.append(candidate)
 
     review_candidates.sort(
         key=lambda item: (
             str(item.get("module_id")),
             str(item.get("event_id")),
+        )
+    )
+    reconciled_decisions.sort(
+        key=lambda item: (
+            str(item.get("module_id")),
+            str(item.get("event_id")),
+            str(item.get("decision_id")),
         )
     )
 
@@ -487,14 +622,19 @@ def discover_completions(
         for event in event_records
         if event.get("classification") == "superseded"
     )
-    source_errors = sum(
-        len(source.get("errors", []))
-        for source in sources
+    source_errors = (
+        sum(
+            len(source.get("errors", []))
+            for source in sources
+        )
+        + len(decision_evidence_errors)
     )
 
     stable_payload = {
         "sources": sources,
         "review_candidates": review_candidates,
+        "reconciled_decisions": reconciled_decisions,
+        "decision_evidence_errors": decision_evidence_errors,
     }
     fingerprint = canonical_sha256(stable_payload)
 
@@ -519,17 +659,22 @@ def discover_completions(
             "observed_source_states": observed_states,
             "events_discovered": len(event_records),
             "review_candidates": len(review_candidates),
+            "reconciled_decisions": len(reconciled_decisions),
             "superseded_events": superseded,
             "invalid_events": invalid_events,
             "source_errors": source_errors,
+            "decision_evidence_errors": len(decision_evidence_errors),
         },
         "review_candidates": review_candidates,
+        "reconciled_decisions": reconciled_decisions,
+        "decision_evidence_errors": decision_evidence_errors,
         "sources": sources,
         "governance": {
             "module_owned_outboxes_preserved": True,
             "module_repository_writes": False,
             "missing_sources_fabricated": False,
             "operator_decision_created": False,
+            "operator_decisions_observed": len(reconciled_decisions),
             "automatic_acceptance": False,
             "automatic_return": False,
             "normal_v0_4_acceptance_allowed": False,
@@ -564,6 +709,8 @@ def render_text(report: dict[str, Any]) -> str:
         f"registered_sources: {summary['registered_sources']}",
         f"events_discovered: {summary['events_discovered']}",
         f"review_candidates: {summary['review_candidates']}",
+        f"reconciled_decisions: {summary.get('reconciled_decisions', 0)}",
+        f"decision_evidence_errors: {summary.get('decision_evidence_errors', 0)}",
         f"superseded_events: {summary['superseded_events']}",
         f"invalid_events: {summary['invalid_events']}",
         f"source_errors: {summary['source_errors']}",

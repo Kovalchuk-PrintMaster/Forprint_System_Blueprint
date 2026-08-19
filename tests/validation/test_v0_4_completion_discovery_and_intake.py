@@ -428,3 +428,160 @@ def test_legacy_operational_and_candidate_intake_revisions_are_unchanged() -> No
     assert 'CURRENT_INTAKE_PROTOCOL = "blueprint_completion_intake_v0_2"' in text
     assert 'CANDIDATE_PACKET_SCHEMA = "module_completion_packet_v0_3"' in text
     assert 'CANDIDATE_INTAKE_PROTOCOL = "blueprint_completion_intake_v0_3"' in text
+
+
+def test_operator_decision_evidence_reconciles_exact_review_candidate(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    import importlib.util
+
+    module_path = (
+        ROOT
+        / "scripts/coordination/completion_discovery_and_intake_v0_4.py"
+    )
+    spec = importlib.util.spec_from_file_location(
+        "completion_discovery_operator_decision_test",
+        module_path,
+    )
+    assert spec and spec.loader
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+
+    blueprint_root = tmp_path / "blueprint"
+    blueprint_root.mkdir()
+    registry_path = (
+        blueprint_root
+        / "coordination/registry/coordination_source_registry_v0_1.yaml"
+    )
+    registry_path.parent.mkdir(parents=True)
+
+    registry = {
+        "schema_version": "coordination_source_registry_v0_1",
+        "lookup_policy": {
+            "module_repository_access": "read_only_from_blueprint",
+            "completion_outbox_authority": "module_owned",
+            "completion_outbox_future_path": (
+                "coordination/completion_outbox/records"
+            ),
+            "missing_future_source_behavior": (
+                "record_not_present_yet_do_not_fabricate"
+            ),
+        },
+        "modules": [
+            {
+                "module_id": "demo",
+                "repository": {"repository_id": "demo_repo"},
+            }
+        ],
+    }
+    registry_path.write_text(
+        yaml.safe_dump(registry, sort_keys=False),
+        encoding="utf-8",
+    )
+
+    event_path = (
+        "coordination/completion_outbox/records/event_demo_001.yaml"
+    )
+    packet_path = (
+        "coordination/completion_packets/records/packet_demo_001.yaml"
+    )
+    event_sha = "a" * 64
+    packet_sha = "b" * 64
+
+    source = {
+        "module_id": "demo",
+        "repository_id": "demo_repo",
+        "observed_source_state": "present",
+        "errors": [],
+        "events": [
+            {
+                "classification": "ready_for_blueprint_review",
+                "identity": {
+                    "event_id": "event_demo_001",
+                    "prompt_id": "prompt_demo_001",
+                    "completion_id": "completion_demo_001",
+                },
+                "path": event_path,
+                "event_sha256": event_sha,
+                "packet_path": packet_path,
+                "packet_sha256": packet_sha,
+            }
+        ],
+    }
+
+    monkeypatch.setattr(
+        module,
+        "_repository_root",
+        lambda _module, _overrides: tmp_path / "demo_repo",
+    )
+    monkeypatch.setattr(
+        module,
+        "_discover_module",
+        lambda **_kwargs: source,
+    )
+
+    evidence_path = (
+        blueprint_root
+        / "coordination/review_packets/demo/processed/decision_demo.yaml"
+    )
+    evidence_path.parent.mkdir(parents=True)
+    evidence = {
+        "schema_version": "blueprint_operator_review_decision_v0_4",
+        "metadata": {"decision_id": "decision_demo_001"},
+        "subject": {
+            "module_id": "demo",
+            "prompt_id": "prompt_demo_001",
+            "event_id": "event_demo_001",
+            "event_path": event_path,
+            "event_sha256": event_sha,
+            "packet_path": packet_path,
+            "packet_sha256": packet_sha,
+        },
+        "decision": {
+            "decision_id": "decision_demo_001",
+            "operator_decision": "ACCEPT",
+            "explicit_operator_input": True,
+        },
+        "result": "ACCEPTED",
+    }
+    evidence_path.write_text(
+        yaml.safe_dump(evidence, sort_keys=False),
+        encoding="utf-8",
+    )
+
+    report = module.discover_completions(
+        blueprint_root=blueprint_root,
+        registry_path=registry_path,
+    )
+
+    assert report["summary"]["events_discovered"] == 1
+    assert report["summary"]["review_candidates"] == 0
+    assert report["summary"]["reconciled_decisions"] == 1
+    assert report["summary"]["decision_evidence_errors"] == 0
+    assert report["review_candidates"] == []
+    assert len(report["reconciled_decisions"]) == 1
+    assert report["reconciled_decisions"][0]["decision_id"] == (
+        "decision_demo_001"
+    )
+    assert report["sources"][0]["events"][0]["classification"] == (
+        "ready_for_blueprint_review"
+    )
+    assert report["governance"]["operator_decisions_observed"] == 1
+    assert report["governance"]["module_repository_writes"] is False
+
+    evidence["subject"]["packet_sha256"] = "c" * 64
+    evidence_path.write_text(
+        yaml.safe_dump(evidence, sort_keys=False),
+        encoding="utf-8",
+    )
+
+    mismatched = module.discover_completions(
+        blueprint_root=blueprint_root,
+        registry_path=registry_path,
+    )
+    assert mismatched["summary"]["review_candidates"] == 1
+    assert mismatched["summary"]["reconciled_decisions"] == 0
+    assert mismatched["review_candidates"][0]["event_id"] == (
+        "event_demo_001"
+    )

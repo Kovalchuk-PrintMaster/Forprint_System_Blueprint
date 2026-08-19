@@ -7,8 +7,8 @@ from pathlib import Path
 import yaml
 
 ROOT = Path(__file__).resolve().parents[2]
-ORIGIN = ROOT / (
-    "coordination/outgoing_prompts/logistics_service/approved/"
+CURRENT_ARCHIVED_PROMPT = ROOT / (
+    "coordination/outgoing_prompts/logistics_service/completed/"
     "2026-07-29__logistics_service__tracking_events_v0_1.md"
 )
 LEGACY = ROOT / (
@@ -45,12 +45,16 @@ def test_tracking_events_v0_4_reference_contract_passes_validator() -> None:
 
 
 def test_source_snapshot_is_byte_identical_and_hash_stable() -> None:
-    assert SNAPSHOT.read_bytes() == ORIGIN.read_bytes()
-    digest = hashlib.sha256(ORIGIN.read_bytes()).hexdigest()
+    assert SNAPSHOT.read_bytes() == CURRENT_ARCHIVED_PROMPT.read_bytes()
+    digest = hashlib.sha256(CURRENT_ARCHIVED_PROMPT.read_bytes()).hexdigest()
     contract = load(CONTRACT)
     assert digest == "8158ff1feb9c2416aac97f70ce20110de3195d5239a343be940705d096242094"
     assert contract["source_prompt"]["sha256"] == digest
     assert contract["source_prompt"]["origin_sha256_at_capture"] == digest
+    assert contract["source_prompt"]["origin_path_at_capture"] == (
+        "coordination/outgoing_prompts/logistics_service/approved/"
+        "2026-07-29__logistics_service__tracking_events_v0_1.md"
+    )
 
 
 def test_legacy_v0_3_contract_is_preserved_as_historical_input() -> None:

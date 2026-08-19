@@ -33,10 +33,15 @@ def test_tracking_events_control_state_reflects_module_completion() -> None:
     step = next(item for item in roadmap["roadmap"] if item["step_id"] == PROMPT_ID)
     prompt = next(item for item in queue["prompt_queue"] if item["prompt_id"] == PROMPT_ID)
 
-    assert step["status"] == "active"
+    assert step["status"] == "accepted"
     assert step["evidence"]["completion_commit"] == COMPLETION_COMMIT
     assert step["evidence"]["completion_report"] == REPORT
-    assert step["evidence"]["blueprint_review_status"] == "not_started"
+    assert step["evidence"]["blueprint_review_status"] == "accepted_by_blueprint"
+    assert step["operator_decision"] == "ACCEPT"
+    assert step["review_evidence"].endswith(
+        "2026-08-18__logistics_service_tracking_events_v0_1__"
+        "accept_v0_4_reference.yaml"
+    )
 
     execution = prompt["module_execution"]
     assert execution["status"] == "completed_by_module"
@@ -45,9 +50,11 @@ def test_tracking_events_control_state_reflects_module_completion() -> None:
     assert execution["completed_at"] == "2026-08-07"
 
     review = prompt["blueprint_review"]
-    assert review["status"] == "not_started"
+    assert review["status"] == "accepted_by_blueprint"
     assert review["acceptance_commit"] is None
-    assert review["accepted_at"] is None
+    assert review["accepted_at"] == "2026-08-18"
+    assert prompt["file"].startswith("completed/")
+    assert prompt["operator_decision"] == "ACCEPT"
 
 
 def test_reconciliation_does_not_claim_acceptance_or_return() -> None:
