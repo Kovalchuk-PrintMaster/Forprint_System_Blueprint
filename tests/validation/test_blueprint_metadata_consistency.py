@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import importlib.util
 import sys
 from pathlib import Path
@@ -164,6 +165,243 @@ def test_governance_module_id_must_be_blueprint(
 
     assert any(
         issue.code == "module_id_mismatch"
+        for issue in result.issues
+    )
+
+
+def make_metadata_correction(
+    root: Path,
+    *,
+    target: Path,
+    target_sha256: str | None = None,
+    corrected_value: str = "forprint_system_blueprint",
+    owner: str | None = "forprint_system_blueprint",
+    module_id: str | None = "forprint_system_blueprint",
+) -> None:
+    write_yaml(
+        root
+        / "coordination/internal_work/blueprint/governance/"
+        "metadata_correction.yaml",
+        {
+            "schema_version": (
+                "blueprint_governance_metadata_correction_v0_1"
+            ),
+            "metadata": {
+                "module_id": module_id,
+                "owner": owner,
+                "immutable_correction_record": True,
+            },
+            "correction": {
+                "target_path": target.relative_to(root).as_posix(),
+                "target_sha256": (
+                    target_sha256
+                    or hashlib.sha256(target.read_bytes()).hexdigest()
+                ),
+                "field": "metadata.owner",
+                "observed_value": "project_operator",
+                "corrected_value": corrected_value,
+            },
+        },
+    )
+
+
+def test_valid_immutable_metadata_correction_suppresses_exact_owner_mismatch(
+    tmp_path: Path,
+) -> None:
+    validator = load_validator()
+    make_queue(tmp_path)
+    target = (
+        tmp_path
+        / "coordination/internal_work/blueprint/governance/"
+        "immutable_decision.yaml"
+    )
+    write_yaml(
+        target,
+        {
+            "schema_version": "test_decision_v0_1",
+            "metadata": {
+                "module_id": "forprint_system_blueprint",
+                "owner": "project_operator",
+                "immutable_decision_record": True,
+            },
+        },
+    )
+    make_metadata_correction(tmp_path, target=target)
+
+    result = validator.validate_root(tmp_path)
+
+    assert result.ok, result.issues
+
+
+def test_metadata_correction_wrong_sha_does_not_suppress_owner_mismatch(
+    tmp_path: Path,
+) -> None:
+    validator = load_validator()
+    make_queue(tmp_path)
+    target = (
+        tmp_path
+        / "coordination/internal_work/blueprint/governance/"
+        "immutable_decision.yaml"
+    )
+    write_yaml(
+        target,
+        {
+            "schema_version": "test_decision_v0_1",
+            "metadata": {
+                "module_id": "forprint_system_blueprint",
+                "owner": "project_operator",
+                "immutable_decision_record": True,
+            },
+        },
+    )
+    make_metadata_correction(
+        tmp_path,
+        target=target,
+        target_sha256="0" * 64,
+    )
+
+    result = validator.validate_root(tmp_path)
+
+    codes = {issue.code for issue in result.issues}
+    assert "correction_target_sha256_mismatch" in codes
+    assert "owner_mismatch" in codes
+
+
+def test_metadata_correction_requires_immutable_target(
+    tmp_path: Path,
+) -> None:
+    validator = load_validator()
+    make_queue(tmp_path)
+    target = (
+        tmp_path
+        / "coordination/internal_work/blueprint/governance/"
+        "mutable_record.yaml"
+    )
+    write_yaml(
+        target,
+        {
+            "schema_version": "test_record_v0_1",
+            "metadata": {
+                "module_id": "forprint_system_blueprint",
+                "owner": "project_operator",
+            },
+        },
+    )
+    make_metadata_correction(tmp_path, target=target)
+
+    result = validator.validate_root(tmp_path)
+
+    codes = {issue.code for issue in result.issues}
+    assert "correction_target_not_immutable" in codes
+    assert "owner_mismatch" in codes
+
+
+def test_metadata_correction_requires_canonical_value(
+    tmp_path: Path,
+) -> None:
+    validator = load_validator()
+    make_queue(tmp_path)
+    target = (
+        tmp_path
+        / "coordination/internal_work/blueprint/governance/"
+        "immutable_decision.yaml"
+    )
+    write_yaml(
+        target,
+        {
+            "schema_version": "test_decision_v0_1",
+            "metadata": {
+                "module_id": "forprint_system_blueprint",
+                "owner": "project_operator",
+                "immutable_decision_record": True,
+            },
+        },
+    )
+    make_metadata_correction(
+        tmp_path,
+        target=target,
+        corrected_value="someone_else",
+    )
+
+    result = validator.validate_root(tmp_path)
+
+    codes = {issue.code for issue in result.issues}
+    assert "correction_value_not_canonical" in codes
+    assert "owner_mismatch" in codes
+
+
+def test_metadata_correction_requires_blueprint_owner(
+    tmp_path: Path,
+) -> None:
+    validator = load_validator()
+    make_queue(tmp_path)
+    target = (
+        tmp_path
+        / "coordination/internal_work/blueprint/governance/"
+        "immutable_decision.yaml"
+    )
+    write_yaml(
+        target,
+        {
+            "schema_version": "test_decision_v0_1",
+            "metadata": {
+                "module_id": "forprint_system_blueprint",
+                "owner": "project_operator",
+                "immutable_decision_record": True,
+            },
+        },
+    )
+    make_metadata_correction(
+        tmp_path,
+        target=target,
+        owner="project_operator",
+    )
+    result = validator.validate_root(tmp_path)
+
+    assert any(
+        issue.code == "correction_owner_mismatch"
+        for issue in result.issues
+    )
+    assert any(
+        issue.path == target and issue.code == "owner_mismatch"
+        for issue in result.issues
+    )
+
+
+def test_metadata_correction_requires_blueprint_module_id(
+    tmp_path: Path,
+) -> None:
+    validator = load_validator()
+    make_queue(tmp_path)
+    target = (
+        tmp_path
+        / "coordination/internal_work/blueprint/governance/"
+        "immutable_decision.yaml"
+    )
+    write_yaml(
+        target,
+        {
+            "schema_version": "test_decision_v0_1",
+            "metadata": {
+                "module_id": "forprint_system_blueprint",
+                "owner": "project_operator",
+                "immutable_decision_record": True,
+            },
+        },
+    )
+    make_metadata_correction(
+        tmp_path,
+        target=target,
+        module_id="another_module",
+    )
+    result = validator.validate_root(tmp_path)
+
+    assert any(
+        issue.code == "correction_module_id_mismatch"
+        for issue in result.issues
+    )
+    assert any(
+        issue.path == target and issue.code == "owner_mismatch"
         for issue in result.issues
     )
 

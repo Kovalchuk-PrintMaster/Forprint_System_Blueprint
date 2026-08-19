@@ -1,0 +1,21 @@
+schema_version: blueprint_governance_metadata_correction_v0_1
+metadata:
+  correction_id: blueprint_v0_4_global_promotion_metadata_correction_v0_1
+  module_id: forprint_system_blueprint
+  owner: forprint_system_blueprint
+  created_at: '2026-08-19T15:11:00+03:00'
+  immutable_correction_record: true
+correction:
+  target_path: coordination/internal_work/blueprint/governance/2026-08-19__blueprint__v0_4_global_promotion_decision_v0_1.yaml
+  target_sha256: 82308233625a348f8213d3976a60e6aa8a5db83cf3523cf334999e6e5e4727c5
+  field: metadata.owner
+  observed_value: project_operator
+  corrected_value: forprint_system_blueprint
+  reason: >-
+    Correct Blueprint artifact ownership metadata through superseding evidence
+    while preserving the immutable v0.4 promotion decision record byte-for-byte.
+  semantic_effect:
+    promotion_decision_changed: false
+    operator_authorization_changed: false
+    target_file_rewritten: false
+    governance_ownership_projection_corrected: true

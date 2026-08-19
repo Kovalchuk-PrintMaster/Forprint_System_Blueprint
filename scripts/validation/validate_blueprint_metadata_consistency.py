@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -15,6 +16,11 @@ GOVERNANCE_DIR = Path(
     "coordination/internal_work/blueprint/governance"
 )
 OUTGOING_DIR = Path("coordination/outgoing_prompts")
+CORRECTION_SCHEMA = "blueprint_governance_metadata_correction_v0_1"
+CORRECTABLE_FIELDS = {
+    "metadata.module_id": BLUEPRINT_MODULE_ID,
+    "metadata.owner": BLUEPRINT_MODULE_ID,
+}
 
 
 @dataclass(frozen=True)
@@ -65,6 +71,261 @@ def _load_mapping(
     return loaded, []
 
 
+def _sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _nested_value(data: dict[str, Any], field: str) -> Any:
+    current: Any = data
+    for part in field.split("."):
+        if not isinstance(current, dict):
+            return None
+        current = current.get(part)
+    return current
+
+
+def _collect_metadata_corrections(
+    root: Path,
+    paths: list[Path],
+) -> tuple[
+    dict[tuple[str, str], dict[str, Any]],
+    list[ValidationIssue],
+]:
+    corrections: dict[tuple[str, str], dict[str, Any]] = {}
+    issues: list[ValidationIssue] = []
+    governance_root = (root / GOVERNANCE_DIR).resolve()
+
+    for correction_path in paths:
+        data, load_issues = _load_mapping(correction_path)
+        issues.extend(load_issues)
+        if (
+            data is None
+            or data.get("schema_version") != CORRECTION_SCHEMA
+        ):
+            continue
+
+        metadata = data.get("metadata")
+        correction = data.get("correction")
+        if (
+            not isinstance(metadata, dict)
+            or not isinstance(correction, dict)
+        ):
+            issues.append(
+                ValidationIssue(
+                    correction_path,
+                    "correction_structure_invalid",
+                    "Metadata correction requires metadata and "
+                    "correction mappings",
+                )
+            )
+            continue
+
+        if metadata.get("module_id") != BLUEPRINT_MODULE_ID:
+            issues.append(
+                ValidationIssue(
+                    correction_path,
+                    "correction_module_id_mismatch",
+                    "Metadata correction record requires "
+                    f"metadata.module_id == {BLUEPRINT_MODULE_ID!r}",
+                )
+            )
+            continue
+
+        if metadata.get("owner") != BLUEPRINT_MODULE_ID:
+            issues.append(
+                ValidationIssue(
+                    correction_path,
+                    "correction_owner_mismatch",
+                    "Metadata correction record requires "
+                    f"metadata.owner == {BLUEPRINT_MODULE_ID!r}",
+                )
+            )
+            continue
+
+        if metadata.get("immutable_correction_record") is not True:
+            issues.append(
+                ValidationIssue(
+                    correction_path,
+                    "correction_not_immutable",
+                    "metadata.immutable_correction_record must be true",
+                )
+            )
+            continue
+
+        target_value = correction.get("target_path")
+        target_sha = correction.get("target_sha256")
+        field = correction.get("field")
+        observed = correction.get("observed_value")
+        corrected = correction.get("corrected_value")
+
+        if (
+            not isinstance(target_value, str)
+            or not target_value.strip()
+        ):
+            issues.append(
+                ValidationIssue(
+                    correction_path,
+                    "correction_target_path_invalid",
+                    "correction.target_path must be a non-empty "
+                    "repository-relative path",
+                )
+            )
+            continue
+
+        target = (root / target_value).resolve()
+        try:
+            target.relative_to(governance_root)
+        except ValueError:
+            issues.append(
+                ValidationIssue(
+                    correction_path,
+                    "correction_target_outside_governance",
+                    "Correction target must stay inside Blueprint "
+                    "governance directory",
+                )
+            )
+            continue
+
+        if target == correction_path.resolve():
+            issues.append(
+                ValidationIssue(
+                    correction_path,
+                    "correction_self_target",
+                    "Correction record may not target itself",
+                )
+            )
+            continue
+
+        if not target.is_file():
+            issues.append(
+                ValidationIssue(
+                    correction_path,
+                    "correction_target_missing",
+                    f"Correction target does not exist: {target_value}",
+                )
+            )
+            continue
+
+        if not isinstance(target_sha, str) or len(target_sha) != 64:
+            issues.append(
+                ValidationIssue(
+                    correction_path,
+                    "correction_target_sha256_invalid",
+                    "correction.target_sha256 must be a 64-character "
+                    "SHA256",
+                )
+            )
+            continue
+
+        actual_sha = _sha256(target)
+        if actual_sha != target_sha:
+            issues.append(
+                ValidationIssue(
+                    correction_path,
+                    "correction_target_sha256_mismatch",
+                    "Correction target SHA256 mismatch: "
+                    f"expected {target_sha}, got {actual_sha}",
+                )
+            )
+            continue
+
+        if (
+            not isinstance(field, str)
+            or field not in CORRECTABLE_FIELDS
+        ):
+            issues.append(
+                ValidationIssue(
+                    correction_path,
+                    "correction_field_not_allowed",
+                    "correction.field must be one of "
+                    f"{sorted(CORRECTABLE_FIELDS)}",
+                )
+            )
+            continue
+
+        expected = CORRECTABLE_FIELDS[field]
+        if corrected != expected:
+            issues.append(
+                ValidationIssue(
+                    correction_path,
+                    "correction_value_not_canonical",
+                    f"{field} may only be corrected to {expected!r}",
+                )
+            )
+            continue
+
+        target_data, target_issues = _load_mapping(target)
+        issues.extend(target_issues)
+        if target_data is None:
+            continue
+
+        target_metadata = target_data.get("metadata")
+        if (
+            not isinstance(target_metadata, dict)
+            or target_metadata.get("immutable_decision_record")
+            is not True
+        ):
+            issues.append(
+                ValidationIssue(
+                    correction_path,
+                    "correction_target_not_immutable",
+                    "Correction target must have "
+                    "metadata.immutable_decision_record: true",
+                )
+            )
+            continue
+
+        actual_observed = _nested_value(target_data, field)
+        if actual_observed != observed:
+            issues.append(
+                ValidationIssue(
+                    correction_path,
+                    "correction_observed_value_mismatch",
+                    f"{field} expected {observed!r}; "
+                    f"target has {actual_observed!r}",
+                )
+            )
+            continue
+
+        relative = target.relative_to(root.resolve()).as_posix()
+        key = (relative, field)
+        if key in corrections:
+            issues.append(
+                ValidationIssue(
+                    correction_path,
+                    "duplicate_metadata_correction",
+                    "Multiple corrections target "
+                    f"{relative}:{field}",
+                )
+            )
+            continue
+
+        corrections[key] = {
+            "observed_value": observed,
+            "corrected_value": corrected,
+        }
+
+    return corrections, issues
+
+
+def _has_exact_metadata_correction(
+    *,
+    corrections: dict[tuple[str, str], dict[str, Any]],
+    root: Path,
+    path: Path,
+    field: str,
+    observed_value: Any,
+    corrected_value: Any,
+) -> bool:
+    relative = path.resolve().relative_to(root.resolve()).as_posix()
+    record = corrections.get((relative, field))
+    return bool(
+        record
+        and record.get("observed_value") == observed_value
+        and record.get("corrected_value") == corrected_value
+    )
+
+
 def _validate_governance_records(
     root: Path,
 ) -> tuple[int, list[ValidationIssue]]:
@@ -89,6 +350,9 @@ def _validate_governance_records(
                 "No Blueprint governance YAML records found",
             )
         ]
+
+    corrections, correction_issues = _collect_metadata_corrections(root, paths)
+    issues.extend(correction_issues)
 
     for path in paths:
         data, load_issues = _load_mapping(path)
@@ -121,6 +385,14 @@ def _validate_governance_records(
         if (
             module_id is not None
             and module_id != BLUEPRINT_MODULE_ID
+            and not _has_exact_metadata_correction(
+                corrections=corrections,
+                root=root,
+                path=path,
+                field="metadata.module_id",
+                observed_value=module_id,
+                corrected_value=BLUEPRINT_MODULE_ID,
+            )
         ):
             issues.append(
                 ValidationIssue(
@@ -132,7 +404,18 @@ def _validate_governance_records(
             )
 
         owner = metadata.get("owner")
-        if owner is not None and owner != BLUEPRINT_MODULE_ID:
+        if (
+            owner is not None
+            and owner != BLUEPRINT_MODULE_ID
+            and not _has_exact_metadata_correction(
+                corrections=corrections,
+                root=root,
+                path=path,
+                field="metadata.owner",
+                observed_value=owner,
+                corrected_value=BLUEPRINT_MODULE_ID,
+            )
+        ):
             issues.append(
                 ValidationIssue(
                     path,
