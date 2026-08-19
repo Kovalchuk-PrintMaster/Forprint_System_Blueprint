@@ -1,0 +1,80 @@
+schema_version: blueprint_v0_4_global_promotion_decision_v0_1
+metadata:
+  decision_id: blueprint_v0_4_global_promotion_decision_v0_1
+  module_id: forprint_system_blueprint
+  created_at: '2026-08-19T11:27:21+03:00'
+  owner: project_operator
+  recorded_by: forprint_system_blueprint
+  source_head: 384a8bd79c3ea56b5e0b7dfeb35830392b92d9a5
+  immutable_decision_record: true
+subject:
+  release: v0.4
+  workstream: completion_exchange_and_closed_loop_coordination_v0_4
+  decision_scope: coordination_governance_release_promotion
+  production_rollout_scope: false
+operator_authorization:
+  explicit: true
+  instruction: STEP28/29 повністю закриваємо реліз 0,4 над яким працюємо а потім погодимо
+    вже новий план
+  interpreted_decision: PROMOTE_V0_4
+  automatic_promotion: false
+evidence_basis:
+  step27_tracking_events_acceptance:
+    path: coordination/review_packets/logistics_service/processed/2026-08-18__logistics_service_tracking_events_v0_1__accept_v0_4_reference.yaml
+    sha256: 73a4a8ccccefa069cbb8d0a8d1b77091ecfa720b626447bf4fff31fa69c7ad33
+    result: ACCEPTED
+  step28_manual_dark_zone_audit:
+    path: coordination/internal_work/blueprint/governance/2026-08-19__blueprint__v0_4_manual_dark_zone_audit_v0_1.yaml
+    sha256: 3d5d1c922f2883be09eafc3e344dcbcdce79fdcf966f425660adc073766a0051
+    result: PASSED
+    dark_zone_blockers: []
+  semantic_fidelity_operator_decision:
+    path: coordination/internal_work/blueprint/governance/2026-08-17__blueprint__tracking_events_v0_4_semantic_fidelity_operator_decision_v0_1.yaml
+    sha256: 91fe6b3137959c1a7e7820ac78c913820992bec50443b41f28286c1ec70d3261
+    decision: ACCEPT_SEMANTIC_FIDELITY
+  tracking_events_v0_4_reference_contract:
+    path: coordination/prompt_contracts/logistics_service/logistics_service_tracking_events_v0_1/logistics_service_tracking_events_v0_1__contract_v0_4_reference_v0_2.yaml
+    sha256: 73f0fe602398536c940f3a6295a3b7d3263f302fba65b68e21d5c90355250981
+    immutable_candidate_snapshot_preserved: true
+  live_preflight:
+    completion_discovery:
+      result: NO_COMPLETIONS_AVAILABLE
+      review_candidates: 0
+      reconciled_decisions: 1
+      decision_evidence_errors: 0
+    review_transaction: NO_REVIEW_TRANSACTION_AVAILABLE
+    v0_4_test_suite: 136 passed
+    make_check: 29/29 OK
+    blockers: []
+    local_equals_upstream: true
+    clean_worktree_before_decision: true
+decision:
+  operator_decision: PROMOTE_V0_4
+  explicit_operator_input: true
+  decided_at: '2026-08-19T11:27:21+03:00'
+  release_state_before: candidate_reference_only
+  release_state_after: PROMOTED
+  promotion_scope: coordination_governance_v0_4
+  global_v0_4_promotion_performed: true
+release_effects:
+  v0_4_coordination_governance_promoted: true
+  reference_flow_validated_end_to_end: true
+  manual_dark_zone_audit_passed: true
+  release_blockers: []
+  historical_candidate_contract_rewritten: false
+  historical_operator_evidence_rewritten: false
+  module_repository_writes: false
+  self_roadmap_mutated: false
+  self_prompt_queue_mutated: false
+  next_prompt_selected: false
+  next_prompt_activated: false
+  production_rollout_performed: false
+  live_system_write_performed: false
+  automatic_commit: false
+  automatic_push: false
+deferred_until_post_v0_4_planning:
+- self_coordination_roadmap_bookkeeping
+- roadmap_horizon_rebuild
+- prompt_buffer_rebuild
+- new_post_v0_4_roadmap
+result: PROMOTED
