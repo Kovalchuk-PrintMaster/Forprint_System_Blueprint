@@ -1248,3 +1248,9 @@ test-v0-4-1-h3:
 .PHONY: check-prompt-execution-observability
 check-prompt-execution-observability:
 	@$(BLUEPRINT_PYTHON) scripts/coordination/coordination_pulse.py --root . --output-format yaml >/dev/null
+
+
+# H4 v0.4.1 coordination freshness / prompt notification contract
+.PHONY: test-v0-4-1-h4
+test-v0-4-1-h4:
+	@$(BLUEPRINT_PYTHON) -m pytest -q tests/validation/test_v0_4_1_module_coordination_sync.py

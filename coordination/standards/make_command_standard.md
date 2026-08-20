@@ -175,9 +175,9 @@ Typical targets should be placed into these zones.
 - make module-validate
 - make module-finish
 
-### 03 Blueprint repository synchronization
+### 03 Blueprint freshness / local input synchronization
 
-- make blueprint-pull
+- make coordination-sync-check
 - make blueprint-check
 - make blueprint-sync
 - make blueprint-sync-directives
@@ -386,12 +386,12 @@ Composite targets should call other Make targets using `$(MAKE)`.
 Preferred:
 
 ```make
-blueprint-sync:
-	$(MAKE) blueprint-pull
-	$(MAKE) blueprint-check
-	$(MAKE) blueprint-instruction
-	$(MAKE) blueprint-standards
-	$(MAKE) blueprint-prompts
+module-start:
+	$(MAKE) coordination-sync-check
+	$(MAKE) module-sync
+	$(MAKE) module-status
+	$(MAKE) prompt-notify
+	$(MAKE) prompt-read-next
 ```
 
 Avoid duplicating long raw command bodies inside composite targets.
@@ -412,7 +412,7 @@ make check-report
 make status-report
 make report-clean
 
-make blueprint-pull
+make coordination-sync-check
 make blueprint-check
 make blueprint-sync-directives
 
@@ -714,17 +714,48 @@ The command must not delete source documentation or committed coordination repor
 
 ## blueprint-pull
 
-Purpose:
+Status:
 
 ```text
-Update the local ForPrint System Blueprint repository.
+deprecated compatibility guard
 ```
 
 Expected behavior:
 
 ```text
-git -C $(BLUEPRINT_ROOT) pull --ff-only
+return non-zero;
+do not fetch or pull;
+direct the operator to make coordination-sync-check;
+if stale, update Blueprint only from the Blueprint repository.
 ```
+
+## coordination-sync-check
+
+Purpose:
+
+```text
+Explicitly verify that the local Blueprint checkout matches its remote branch.
+```
+
+Expected behavior:
+
+```text
+use git ls-remote or equivalent remote read;
+do not git fetch or git pull;
+do not update remote-tracking refs;
+fail closed on stale or unreachable Blueprint;
+also report current prompt availability.
+```
+
+## prompt-notify
+
+Purpose:
+
+```text
+Render READY_PROMPT, NO_READY_PROMPT or MULTIPLE_READY_PROMPTS from local Prompt Queue v0.2.
+```
+
+This command is local read-only and does not create CLAIMED.
 
 ## blueprint-check
 
@@ -758,10 +789,12 @@ Import active Blueprint directives into the local module coordination inbox.
 Important distinction:
 
 ```text
-blueprint-pull = update Blueprint repository
-blueprint-check = verify Blueprint paths
+coordination-sync-check = explicit remote read-only Blueprint freshness gate
+blueprint-check = verify Blueprint paths locally
 blueprint-sync-directives = import active directives
 ```
+
+`blueprint-pull` is a deprecated fail-closed compatibility guard only.
 
 The canonical directive source is:
 
@@ -1257,16 +1290,18 @@ Purpose:
 Run all Blueprint synchronization steps needed before module work starts.
 ```
 
-Preferred sequence:
+Preferred local synchronization sequence:
 
 ```text
-blueprint-pull;
 blueprint-check;
 blueprint-sync-directives;
 blueprint-instruction;
 blueprint-standards;
 blueprint-prompts.
 ```
+
+Remote freshness is checked separately by `coordination-sync-check` at
+`module-start`; `blueprint-sync` itself remains network-independent.
 
 If a sync step is not implemented yet, it may print a clear deferred message if the deferral is documented.
 
@@ -1337,7 +1372,6 @@ Run the module governance check sequence.
 Recommended sequence:
 
 ```text
-blueprint-pull;
 blueprint-check;
 blueprint-sync-directives;
 blueprint-instruction-check;
@@ -1347,6 +1381,8 @@ module-policy-check;
 coordination-check;
 status-report.
 ```
+
+`governance-check` is deterministic and network-independent.
 
 The command should return non-zero if a required governance check fails.
 
@@ -1590,9 +1626,12 @@ Read-only checks include `coordination-check`, `module-policy-check` and audit
 commands documented as read-only. They must not rewrite coordination state,
 roadmaps, prompt queues, completion packets or generated reports.
 
-`coordination-fix`, `blueprint-pull`, directive synchronization and composite
-targets that invoke them are mutating commands. Their mutation must remain
-visible in the target contract.
+`coordination-fix`, `module-sync-apply`, directive synchronization and
+composite targets that invoke module-local synchronization are mutating
+commands. Their mutation must remain visible in the target contract.
+
+`coordination-sync-check` is network read-only. `blueprint-pull` is a
+deprecated fail-closed compatibility guard and performs no mutation.
 
 `check-report` may write validation artifacts under `reports/` when report
 generation is part of its documented contract. That write does not authorize
@@ -1664,3 +1703,21 @@ return success when the local preparation phase completed correctly. It must
 not be presented as final workflow completion.
 
 <!-- module-workflow-commands-v0-1:end -->
+
+
+## v0.4.1 canonical coordination startup
+
+The canonical prompt-driven startup is `make module-start`.
+
+It runs, in order:
+
+```text
+coordination-sync-check;
+module-sync;
+module-status;
+prompt-notify;
+prompt-read-next.
+```
+
+`make check`, `make governance-check`, and `make module-validate` remain
+network-independent. `blueprint-pull` is not a normal workflow command.

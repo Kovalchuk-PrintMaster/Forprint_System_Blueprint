@@ -66,12 +66,12 @@ def test_configuration_policy_rejects_hardcoded_paths() -> None:
     assert "Secrets must not be committed to Git" in content
 
 
-def test_make_command_standard_mentions_future_blueprint_pull() -> None:
+def test_make_command_standard_mentions_coordination_sync_check() -> None:
     content = (
         ROOT / "coordination" / "standards" / "make_command_standard.md"
     ).read_text(encoding="utf-8")
 
-    assert "make blueprint-pull" in content
+    assert "make coordination-sync-check" in content
     assert "make coordination-check" in content
     assert "make status-report" in content
 

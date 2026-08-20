@@ -7,12 +7,12 @@ Created/updated: `2026-06-10T13:52:31.685722+00:00`
 
 This standard defines how a module assistant receives work from ForPrint System Blueprint without manual copy-paste of long prompts.
 
-Blueprint owns the outgoing prompt queue. Modules pull their own active prompts from Blueprint.
+Blueprint owns the outgoing prompt queue. Modules read their own active prompt queue from the locally available Blueprint checkout.
 
 This supports the ForPrint push-pull coordination loop:
 
 Blueprint writes outgoing prompt
-Module pulls prompt
+Module runs module-start and reads its ready prompt
 Module runs governance checks
 Module executes work
 Module commits and pushes
@@ -40,19 +40,17 @@ Required module-side Make targets
 Every active module that receives Blueprint-driven work should provide:
 
 make blueprint-prompts-list
-make blueprint-prompt
+make prompt-read-next
 
-make blueprint-prompts-list must run make blueprint-pull and print the module outgoing prompt index from Blueprint.
+make blueprint-prompts-list must remain local read-only and print the module Prompt Queue v0.2 index from the readable Blueprint checkout.
 
-make blueprint-prompt must run make blueprint-pull, run scripts/read_blueprint_outgoing_prompt.py, and print the active prompt content.
+make prompt-read-next must remain local read-only and print the single ready_for_module_pull prompt selected from Prompt Queue v0.2.
 
 Required assistant startup for prompt-driven work
 
 Before starting prompt-driven implementation, the module assistant must run:
 
-make governance-check
-make blueprint-prompts-list
-make blueprint-prompt
+make module-start
 git status --short
 
 The assistant must not proceed if:
@@ -99,8 +97,8 @@ Workflow Automation v0.1 extension
 Every active governance-aligned module should expose:
 
 make blueprint-prompts-list
-make blueprint-prompt
-make blueprint-prompt-check
+make prompt-read-next
+make blueprint-prompts-check
 
 The prompt reader must:
 
@@ -144,3 +142,16 @@ This acknowledgement is written only in the module repository. It does not
 grant the module permission to mutate Blueprint Prompt Queue state. Blueprint
 observes the event read-only. Producer automation and cross-repository sync
 remain separate rollout work.
+
+
+## v0.4.1 canonical startup supersession
+
+The earlier requirement that prompt-list/read commands perform
+`make blueprint-pull` is superseded.
+
+The canonical startup is `make module-start`. It runs
+`coordination-sync-check` first. This performs remote read-only freshness
+validation and never mutates Blueprint.
+
+If Blueprint is stale, startup stops and Blueprint is updated from its own
+repository. `prompt-notify` reports readiness but does not create H3 CLAIMED.

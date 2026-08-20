@@ -76,13 +76,15 @@ Any module sync implementation that reads another structure first must be correc
 
 Operational note
 
-Blueprint pull and Blueprint check do not mean directive import.
+Blueprint freshness, local readability, and directive import are separate actions.
 
 These are separate actions:
 
-blueprint-pull = update local Blueprint repository
-blueprint-check = verify expected Blueprint paths exist
+coordination-sync-check = explicit remote read-only freshness gate used by module-start
+blueprint-check = verify expected Blueprint paths exist locally
 blueprint-sync-directives = import active module directives into local module coordination inbox
+
+blueprint-pull is deprecated and must not update Blueprint from a module repository.
 CWD safety rule
 
 Module Makefile targets should be runnable from the module root.

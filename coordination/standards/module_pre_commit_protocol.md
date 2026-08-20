@@ -11,7 +11,6 @@ Before any module commit, the assistant must prove that the module is aligned wi
 ## Required pre-commit commands
 
 ```bash
-make blueprint-pull
 make blueprint-check
 make blueprint-sync-directives
 make module-policy-check

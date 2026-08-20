@@ -70,4 +70,9 @@ def test_directive_index_schema_standard_mentions_module_directives_active() -> 
 
     assert "module_directives.active" in content
     assert "blueprint-sync-directives" in content
-    assert "Blueprint pull and Blueprint check do not mean directive import" in content
+    assert "coordination-sync-check" in content
+    assert (
+        "Blueprint freshness, local readability, and directive import "
+        "are separate actions."
+        in content
+    )

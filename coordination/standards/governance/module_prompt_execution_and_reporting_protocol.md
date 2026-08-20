@@ -102,7 +102,7 @@ Modules should use queue-based prompt navigation.
 
 Preferred targets:
 
-make blueprint-pull
+make prompt-notify
 make prompt-dashboard
 make prompt-next
 make prompt-read-next

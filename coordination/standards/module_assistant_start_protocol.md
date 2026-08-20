@@ -65,7 +65,6 @@ coordination/standards/third_party_reuse/
 Preferred command
 make governance-check
 Fallback command sequence
-make blueprint-pull
 make blueprint-check
 make blueprint-sync-directives
 make module-policy-check
@@ -121,3 +120,14 @@ start production integrations;
 overwrite module-specific coordination blocks;
 silently redesign global architecture;
 introduce third-party core dependencies without Blueprint approval.
+
+
+## v0.4.1 startup command supersession
+
+For prompt-driven work, use `make module-start`.
+
+Do not run module-side `blueprint-pull`.
+
+`module-start` freshness-checks Blueprint, synchronizes module-local snapshots,
+renders status and prompt notification, and reads the next ready prompt.
+Local validation remains network-independent.

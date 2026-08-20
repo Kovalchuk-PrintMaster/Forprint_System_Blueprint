@@ -189,10 +189,12 @@ help:
 	@echo "  make git-status"
 	@echo ""
 	@echo "Blueprint source access:"
-	@echo "  make blueprint-check"
+	@echo "  make coordination-sync-check   # explicit network read-only freshness gate"
+	@echo "  make blueprint-check           # local filesystem/readability only"
 	@echo ""
 	@echo "Blueprint prompt consumption (read-only):"
 	@echo "  make blueprint-prompts-list"
+	@echo "  make prompt-notify"
 	@echo "  make prompt-next"
 	@echo "  make prompt-read-next"
 	@echo "  Approved files are inventory only; readiness comes from Prompt Queue v0.2."
@@ -213,13 +215,15 @@ help:
 # =============================================================================
 
 # Purpose: Prepare the module for execution of the next approved prompt.
-# Safety: Mutates only the current module through module-sync; never writes Blueprint or Git refs.
-# Inputs: Readable Blueprint root and implemented module-owned sync/status/prompt CLIs.
-# Result: Local snapshots are synchronized, status is shown, and the next prompt is read.
+# Safety: Runs one explicit network-read freshness gate, then mutates only module-local snapshots; never writes Blueprint or Git refs.
+# Inputs: Readable Blueprint root, network access for freshness, and module-owned sync/status/prompt CLIs.
+# Result: Stale Blueprint blocks startup; otherwise local inputs sync, status/notification render, and the next prompt is read.
 .PHONY: module-start
 module-start:
+	$(MAKE) coordination-sync-check
 	$(MAKE) module-sync
 	$(MAKE) module-status
+	$(MAKE) prompt-notify
 	$(MAKE) prompt-read-next
 
 # Purpose: Run the complete module-owned synchronization workflow.
@@ -296,13 +300,24 @@ module-publish:
 # 03 Blueprint repository synchronization START
 # =============================================================================
 
-# Purpose: Prevent module-owned commands from mutating the Blueprint repository.
-# Safety: Always fails; Blueprint updates are performed by the Blueprint owner outside module workflows.
+MODULE_COORDINATION_SYNC_CHECK_SCRIPT ?= scripts/coordination_sync_check.py
+
+# Purpose: Compatibility guard for removed legacy module-side Blueprint pull.
+# Safety: Always fails; Blueprint updates are performed only in the Blueprint repository.
 # Inputs: None.
-# Result: Returns non-zero with an ownership-boundary explanation.
+# Result: Returns non-zero with the canonical H4 migration instruction.
 .PHONY: blueprint-pull
 blueprint-pull:
-	@echo "FAILED: blueprint-pull is forbidden from module repositories; update Blueprint in its own repository."; exit 2
+	@echo "FAILED: blueprint-pull is deprecated and forbidden; run coordination-sync-check, then update Blueprint only from the Blueprint repository if stale."; exit 2
+
+# Purpose: Verify local Blueprint checkout freshness against its remote branch.
+# Safety: Explicit network read only; no fetch, pull, ref update, Blueprint write, or module write.
+# Inputs: BLUEPRINT_ROOT, MODULE_ID, MODULE_COORDINATION_SYNC_CHECK_SCRIPT.
+# Result: Stale/unreachable Blueprint fails closed; prompt availability is reported.
+.PHONY: coordination-sync-check
+coordination-sync-check:
+	$(call require_module_script,$(MODULE_COORDINATION_SYNC_CHECK_SCRIPT))
+	"$(PYTHON)" "$(MODULE_COORDINATION_SYNC_CHECK_SCRIPT)" --blueprint-root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)"
 
 # Purpose: Verify required Blueprint source paths are readable.
 # Safety: Read-only filesystem checks; no Blueprint executable is invoked.
@@ -488,6 +503,16 @@ blueprint-prompts:
 	$(MAKE) prompt-queue-validate
 	$(MAKE) prompt-dashboard
 
+
+
+# Purpose: Render current Blueprint prompt availability without claiming work.
+# Safety: Local read-only; no network, queue mutation, or CLAIMED event.
+# Inputs: BLUEPRINT_ROOT, MODULE_ID, MODULE_COORDINATION_SYNC_CHECK_SCRIPT.
+# Result: READY_PROMPT, NO_READY_PROMPT, or MULTIPLE_READY_PROMPTS is reported explicitly.
+.PHONY: prompt-notify
+prompt-notify:
+	$(call require_module_script,$(MODULE_COORDINATION_SYNC_CHECK_SCRIPT))
+	"$(PYTHON)" "$(MODULE_COORDINATION_SYNC_CHECK_SCRIPT)" --blueprint-root "$(BLUEPRINT_ROOT)" --module "$(MODULE_ID)" --local-only
 
 # Purpose: Read the current local synchronized prompt.
 # Safety: Read-only; module-owned executable only.
