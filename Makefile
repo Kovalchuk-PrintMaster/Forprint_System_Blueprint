@@ -306,7 +306,7 @@ markdown-fences:
 	$(PYTHON) scripts/validation/validate_markdown_fences.py
 
 .PHONY: check
-check: check-module-registry-consistency check-self-coordination-consistency check-repository-knowledge-snapshots check-inventory-status-consistency check-repository-knowledge-freshness check-rci-semantic-enrichment check-redm-dependency-enrichment check-semantic-coverage-closure check-repository-knowledge-reconciliation check-inventory-acceptance-evidence-index check-inventory-acceptance-dry-run
+check: check-module-registry-consistency check-self-coordination-consistency check-repository-knowledge-snapshots check-inventory-status-consistency check-repository-knowledge-freshness check-rci-semantic-enrichment check-redm-dependency-enrichment check-semantic-coverage-closure check-repository-knowledge-reconciliation check-inventory-acceptance-evidence-index check-inventory-acceptance-dry-run check-prompt-execution-observability
 	$(PYTHON) scripts/run_blueprint_checks.py
 
 .PHONY: check-report
@@ -1213,3 +1213,38 @@ tracking-events-reference-v0-4-semantic-decision:
 
 # 19 v0.4 closed-loop coordination primitives FINISH
 # =============================================================================
+
+# ---------------------------------------------------------------------------
+# H3 v0.4.1 module-owned prompt execution event observability
+# ---------------------------------------------------------------------------
+PROMPT_EXECUTION_EVENT_V0_1 ?= coordination/templates/module_prompt_execution_event_v0_1.example.yaml
+PROMPT_EXECUTION_EVENT_MODULE_ROOT ?= .
+PROMPT_EXECUTION_EVENT_REGISTRY ?= coordination/registry/coordination_source_registry_v0_1.yaml
+
+.PHONY: prompt-execution-event-v0-1-template-validate
+prompt-execution-event-v0-1-template-validate:
+	@$(BLUEPRINT_PYTHON) scripts/coordination/prompt_execution_events_v0_1.py validate --root . --registry "$(PROMPT_EXECUTION_EVENT_REGISTRY)" --event "$(PROMPT_EXECUTION_EVENT_V0_1)" --template
+
+.PHONY: prompt-execution-event-v0-1-validate
+prompt-execution-event-v0-1-validate:
+	@if [ -z "$(EVENT)" ]; then echo "FAILED: provide EVENT=<module-relative event path>"; exit 2; fi
+	@$(BLUEPRINT_PYTHON) scripts/coordination/prompt_execution_events_v0_1.py validate --root . --registry "$(PROMPT_EXECUTION_EVENT_REGISTRY)" --module-root "$(PROMPT_EXECUTION_EVENT_MODULE_ROOT)" --event "$(EVENT)"
+
+.PHONY: prompt-execution-discovery-v0-1
+prompt-execution-discovery-v0-1:
+	@$(BLUEPRINT_PYTHON) scripts/coordination/prompt_execution_events_v0_1.py discover --root . --registry "$(PROMPT_EXECUTION_EVENT_REGISTRY)" $(if $(MODULE),--module "$(MODULE)",)
+
+.PHONY: prompt-execution-status
+prompt-execution-status:
+	@if [ -z "$(MODULE)" ]; then echo "FAILED: provide MODULE=<canonical module id>"; exit 2; fi
+	@$(BLUEPRINT_PYTHON) scripts/coordination/prompt_execution_events_v0_1.py discover --root . --registry "$(PROMPT_EXECUTION_EVENT_REGISTRY)" --module "$(MODULE)"
+
+.PHONY: test-v0-4-1-h3
+test-v0-4-1-h3:
+	@$(BLUEPRINT_PYTHON) scripts/coordination/prompt_execution_events_v0_1.py validate --root . --event "$(PROMPT_EXECUTION_EVENT_V0_1)" --template
+	@$(BLUEPRINT_PYTHON) -m pytest -q tests/validation/test_v0_4_1_prompt_execution_events.py
+	@$(BLUEPRINT_PYTHON) scripts/coordination/coordination_pulse.py --root . --output-format yaml >/dev/null
+
+.PHONY: check-prompt-execution-observability
+check-prompt-execution-observability:
+	@$(BLUEPRINT_PYTHON) scripts/coordination/coordination_pulse.py --root . --output-format yaml >/dev/null

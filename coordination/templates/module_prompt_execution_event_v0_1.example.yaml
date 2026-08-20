@@ -1,0 +1,21 @@
+# Module-owned append-only prompt execution acknowledgement/status event.
+schema_version: module_prompt_execution_event_v0_1
+event_id: example_prompt_claimed_001
+module_id: forprint_module
+prompt_id: example_prompt_v0_1
+sequence: 1
+event_type: CLAIMED
+occurred_at: "2026-08-19T19:30:00+03:00"
+immutable: true
+
+execution:
+  reason_code: null
+  reason: null
+  blocking_refs: []
+
+boundaries:
+  blueprint_repository_write_performed: false
+  operator_decision_created: false
+  completion_claimed: false
+  acceptance_claimed: false
+  return_or_hold_claimed: false

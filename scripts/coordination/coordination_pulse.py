@@ -7,6 +7,10 @@ from typing import Any
 
 import yaml
 
+from scripts.coordination.prompt_execution_events_v0_1 import (
+    discover_execution_events,
+)
+
 ROOT = Path(__file__).resolve().parents[2]
 ROADMAP = Path("coordination/self_coordination/roadmap.yaml")
 QUEUE = Path("coordination/self_coordination/prompt_queue/index.yaml")
@@ -27,6 +31,11 @@ STABLE_CODE_CATALOG = {
     "PHYSICAL_DRAFT_COUNT_MISMATCH": "error",
     "QUEUE_METADATA_COUNT_DRIFT": "error",
     "COMPLETION_PENDING_COUNT_UNAVAILABLE": "warning",
+    "PROMPT_EXECUTION_EVENT_INVALID": "error",
+    "PROMPT_EXECUTION_TRANSITION_INVALID": "error",
+    "PROMPT_EXECUTION_QUEUE_STATE_DRIFT": "error",
+    "PROMPT_EXECUTION_WIP_VIOLATION": "error",
+    "PROMPT_EXECUTION_SOURCE_UNAVAILABLE": "warning",
 }
 
 
@@ -127,12 +136,28 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
     registry_path = root / REGISTRY
     registry = load_yaml(registry_path)
     completion_discovery = _completion_discovery_report(root, registry_path)
+    execution_discovery = discover_execution_events(
+        blueprint_root=root,
+        registry_path=registry_path,
+    )
 
     codes: dict[str, list[str]] = {
         "errors": [],
         "warnings": [],
         "advisories": [],
     }
+
+    execution_summary = execution_discovery.get("summary", {})
+    if int(execution_summary.get("invalid_events", 0)):
+        add_code(codes, "PROMPT_EXECUTION_EVENT_INVALID")
+    if int(execution_summary.get("transition_errors", 0)):
+        add_code(codes, "PROMPT_EXECUTION_TRANSITION_INVALID")
+    if int(execution_summary.get("queue_state_errors", 0)):
+        add_code(codes, "PROMPT_EXECUTION_QUEUE_STATE_DRIFT")
+    if int(execution_summary.get("wip_errors", 0)):
+        add_code(codes, "PROMPT_EXECUTION_WIP_VIOLATION")
+    if int(execution_summary.get("source_errors", 0)):
+        add_code(codes, "PROMPT_EXECUTION_SOURCE_UNAVAILABLE")
 
     records = roadmap_records(roadmap)
     current_id = str(roadmap["metadata"]["current_step_id"])
@@ -319,6 +344,35 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
             "buffer_state": buffer_state,
             "metadata_count_drift": sorted(metadata_drift),
         },
+        "prompt_execution": {
+            "result_state": execution_discovery.get("result_state"),
+            "events_discovered": int(
+                execution_summary.get("events_discovered", 0)
+            ),
+            "current_observations": int(
+                execution_summary.get("current_projections", 0)
+            ),
+            "historical_observations": int(
+                execution_summary.get("historical_projections", 0)
+            ),
+            "invalid_events": int(
+                execution_summary.get("invalid_events", 0)
+            ),
+            "transition_errors": int(
+                execution_summary.get("transition_errors", 0)
+            ),
+            "queue_state_errors": int(
+                execution_summary.get("queue_state_errors", 0)
+            ),
+            "wip_errors": int(
+                execution_summary.get("wip_errors", 0)
+            ),
+            "source_errors": int(
+                execution_summary.get("source_errors", 0)
+            ),
+            "projections": execution_discovery.get("projections", []),
+            "observation_source": "prompt_execution_events_v0_1",
+        },
         "completions": {
             "pending_completions": pending_count,
             "state": completion_state,
@@ -356,6 +410,7 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
 def render_text(data: dict[str, Any]) -> str:
     r = data["roadmap"]
     q = data["prompt_queue"]
+    e = data["prompt_execution"]
     c = data["completions"]
     d = data["queue_roadmap_drift"]
     codes = data["codes"]
@@ -385,6 +440,24 @@ def render_text(data: dict[str, Any]) -> str:
             f"target={q['target_dispatchable_drafts']}"
         ),
         f"buffer_state: {q['buffer_state']}",
+        "",
+        "MODULE EXECUTION",
+        f"state: {e['result_state']}",
+        f"events_discovered: {e['events_discovered']}",
+        f"current_observations: {e['current_observations']}",
+        (
+            "observed: "
+            + (
+                ",".join(
+                    f"{item.get('module_id')}/"
+                    f"{item.get('prompt_id')}="
+                    f"{item.get('observed_status')}"
+                    for item in e["projections"]
+                )
+                if e["projections"]
+                else "-"
+            )
+        ),
         "",
         "COMPLETIONS",
         (

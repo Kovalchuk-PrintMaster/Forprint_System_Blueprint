@@ -131,3 +131,16 @@ See:
 ```text
 coordination/standards/governance/module_prompt_execution_and_reporting_protocol.md
 ```
+
+
+## Claim acknowledgement event — v0.4.1
+
+After a module pulls and accepts responsibility for a
+`ready_for_module_pull` prompt, the target execution-observability contract is
+a module-owned `CLAIMED` event under
+`coordination/prompt_execution_events/records/`.
+
+This acknowledgement is written only in the module repository. It does not
+grant the module permission to mutate Blueprint Prompt Queue state. Blueprint
+observes the event read-only. Producer automation and cross-repository sync
+remain separate rollout work.

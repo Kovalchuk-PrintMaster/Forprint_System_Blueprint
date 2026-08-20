@@ -537,3 +537,120 @@ coordination/standards/governance/documentation_and_recovery_gate.md
 Important workflow decisions must not remain only in chat history.
 
 The repository must preserve enough architecture, operations, recovery, test and completion evidence for another assistant to resume safely after context loss or assistant replacement.
+
+
+## Module-owned prompt execution events — v0.4.1 hardening
+
+This section adds an observational execution-event channel without creating a
+second Prompt Queue state machine.
+
+The module owns append-only records under:
+
+```text
+coordination/prompt_execution_events/records/
+```
+
+Blueprint reads those records from the module repository in read-only mode.
+Modules still MUST NOT write the Blueprint repository. Blueprint does not
+automatically materialize an event into the Blueprint-owned Prompt Queue.
+
+The event schema is `module_prompt_execution_event_v0_1`. The supported event
+types and observed execution states are:
+
+```text
+CLAIMED            -> claimed
+IN_PROGRESS        -> in_progress
+BLOCKED            -> blocked
+UNABLE_TO_EXECUTE  -> unable_to_execute
+```
+
+`CLAIMED` is the explicit module acknowledgement that the module received and
+took responsibility for the current Blueprint prompt. It is distinct from
+`IN_PROGRESS`.
+
+The first event for a prompt MUST be `CLAIMED`. Valid subsequent transitions
+are deliberately small:
+
+```text
+CLAIMED           -> IN_PROGRESS | BLOCKED | UNABLE_TO_EXECUTE
+IN_PROGRESS       -> IN_PROGRESS | BLOCKED | UNABLE_TO_EXECUTE
+BLOCKED           -> BLOCKED | IN_PROGRESS | UNABLE_TO_EXECUTE
+UNABLE_TO_EXECUTE -> UNABLE_TO_EXECUTE | IN_PROGRESS
+```
+
+`BLOCKED` and `UNABLE_TO_EXECUTE` require a stable reason code and explanatory
+reason. Neither state means Blueprint RETURN or HOLD. They are module execution
+observations only.
+
+There is intentionally no `COMPLETED`, `ACCEPTED`, `RETURNED`, or `HELD`
+execution event. Module completion continues through the Completion Packet /
+Completion Outbox channel. ACCEPT / RETURN / HOLD remain explicit Blueprint
+operator-review decisions.
+
+Blueprint discovery validates every event against the registered local module
+repository and the Blueprint-owned Prompt Queue record for the same
+`module_id`/`prompt_id`. Missing event directories mean `not_present_yet`; they
+must not be fabricated.
+
+Discovery is local, network-independent, and read-only. Its projection reports
+both the persisted queue status and the latest observed module status. It does
+not mutate roadmap, queue, prompt files, module repositories, or review state.
+
+One module should have at most one current execution observation at a time.
+Multiple current prompt observations for one module are an attention condition
+and must not trigger automatic selection, activation, ACCEPT, RETURN, or HOLD.
+
+H3 defines the event contract, validation and Blueprint read-only discovery.
+Module-side producer/sync/notification commands are a later coordination-sync
+hardening slice and are not implied by this section.
+
+### H3 stream integrity and built-in observability
+
+Execution-event `sequence` is per prompt, starts at `1`, and MUST be contiguous.
+`occurred_at` MUST NOT move backwards as sequence increases; equal timestamps are
+allowed because sequence is the deterministic tie-breaker.
+
+Only `ready_for_module_pull`, `in_progress`, and `blocked` queue states are
+directly compatible with a current H3 observation. `completed_by_module` and
+`superseded` make the stream historical. Other states such as
+`returned_for_fix` and legacy `paused` require explicit review and MUST NOT
+silently reactivate a stale event.
+
+Unknown module filters fail closed. H3 registry entries must preserve
+`blueprint_lookup_mode: read_only` and `blueprint_may_write_repository: false`.
+
+Normal Blueprint observability consumes H3 read-only projections: prompt
+dashboards surface observed module state and the coordination pulse reports
+execution events plus attention codes. The deterministic Blueprint check path
+runs the pulse. No queue mutation, module writes, network access, automatic
+ACCEPT/RETURN/HOLD, selection, activation, commit, or push is implied.
+
+### H3 local checkout coverage semantics
+
+The deterministic Blueprint check is network-independent and may run in a
+checkout where some registered module repositories are not locally present.
+`repository_not_present` and `not_present_yet` are therefore observability
+coverage states, not governance source errors by themselves. They remain
+visible in discovery summaries but do not add
+`PROMPT_EXECUTION_SOURCE_UNAVAILABLE`.
+
+Structural failures remain attention conditions: an invalid registry boundary,
+unknown requested module, malformed event source, invalid event, transition
+violation, incompatible queue state, or WIP=1 violation still fails closed.
+Network/sync readiness belongs to the separate coordination-sync hardening
+slice rather than the deterministic local H3 check.
+
+### H3 Blueprint self-module applicability boundary
+
+`forprint_system_blueprint` is not an external H3 module execution-event source.
+Its repository is Blueprint-owned, so the registry legitimately permits
+Blueprint writes there. Applying the external-module
+`blueprint_may_write_repository: false` invariant to the self module would be a
+category error.
+
+H3 discovery therefore reports the Blueprint self module as
+`self_module_not_applicable` and does not scan it for
+`module_prompt_execution_event_v0_1` records. Blueprint self work continues to
+use the dedicated self-coordination roadmap / prompt queue / completion
+lifecycle. This exception is identity-specific to `forprint_system_blueprint`;
+it does not relax read-only boundaries for any external module.
