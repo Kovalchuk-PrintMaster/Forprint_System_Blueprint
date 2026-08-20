@@ -144,6 +144,7 @@ help:
 	@echo "  make review-roadmap-queue-transaction-v0-4"
 	@echo "  make review-roadmap-queue-transaction-v0-4 REVIEW_TRANSACTION_REQUEST=tmp/<request>.yaml"
 	@echo "  make review-roadmap-queue-transaction-v0-4 REVIEW_TRANSACTION_REQUEST=tmp/<request>.yaml REVIEW_TRANSACTION_APPLY=1 REVIEW_OPERATOR_CONFIRMATION=<decision-id>"
+	@echo "  make accept-and-advance ACCEPT_AND_ADVANCE_REQUEST=tmp/<request>.yaml ACCEPT_AND_ADVANCE_APPLY=1 ACCEPT_AND_ADVANCE_CONFIRMATION=<operation-id>"
 	@echo "  make next-prompt-selection-activation-v0-4"
 	@echo "  make tracking-events-reference-v0-4-preflight"
 	@echo "  make tracking-events-reference-v0-4-build"
@@ -1123,6 +1124,38 @@ review-roadmap-queue-transaction-v0-4:
 		fi; \
 		$(BLUEPRINT_PYTHON) scripts/coordination/review_roadmap_queue_transaction_v0_4.py "$$@"; \
 	fi
+
+ACCEPT_AND_ADVANCE_REQUEST ?=
+ACCEPT_AND_ADVANCE_APPLY ?= 0
+ACCEPT_AND_ADVANCE_CONFIRMATION ?=
+ACCEPT_AND_ADVANCE_FORMAT ?= text
+
+# Purpose: apply an explicit ACCEPT and optionally advance one explicitly bound module prompt.
+# Safety: Blueprint-only; no automatic ACCEPT/selection, no release-policy bypass, no module writes, no Git automation.
+.PHONY: accept-and-advance
+accept-and-advance:
+	@set -eu; \
+	if [ -z "$(ACCEPT_AND_ADVANCE_REQUEST)" ]; then \
+		echo "ERROR: ACCEPT_AND_ADVANCE_REQUEST=tmp/<request>.yaml is required"; \
+		exit 2; \
+	fi; \
+	case "$(ACCEPT_AND_ADVANCE_APPLY)" in \
+		0|1) ;; \
+		*) echo "ERROR: ACCEPT_AND_ADVANCE_APPLY must be 0 or 1"; exit 2 ;; \
+	esac; \
+	set -- --root . --request "$(ACCEPT_AND_ADVANCE_REQUEST)" --output-format "$(ACCEPT_AND_ADVANCE_FORMAT)"; \
+	if [ "$(ACCEPT_AND_ADVANCE_APPLY)" = "1" ]; then \
+		test -n "$(ACCEPT_AND_ADVANCE_CONFIRMATION)" || { \
+			echo "ERROR: ACCEPT_AND_ADVANCE_CONFIRMATION is required when APPLY=1"; \
+			exit 2; \
+		}; \
+		set -- "$$@" --apply --operator-confirmation "$(ACCEPT_AND_ADVANCE_CONFIRMATION)"; \
+	fi; \
+	$(BLUEPRINT_PYTHON) scripts/coordination/accept_and_advance_v0_1.py "$$@"
+
+.PHONY: test-v0-4-1-h5
+test-v0-4-1-h5:
+	@$(BLUEPRINT_PYTHON) -m pytest -q tests/validation/test_v0_4_1_accept_and_advance.py
 
 .PHONY: next-prompt-selection-activation-v0-4
 next-prompt-selection-activation-v0-4:
