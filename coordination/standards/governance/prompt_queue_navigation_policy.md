@@ -137,6 +137,21 @@ forprint_library:
 
 If an older sequence remains unfinished while a later prompt is already in progress, dashboards should mark the older unfinished prompt as a warning.
 
+## Roadmap binding — Logistics pilot hardening
+
+The current Logistics pilot requires every new managed `draft` / `prepared`
+prompt artifact to carry an explicit stable `roadmap_step_id`.
+
+This is structural identity. Filename and free-text matching are not valid
+forward bindings. When a Logistics managed artifact is released, Prompt Queue
+v0.2 persists the same `roadmap_step_id`.
+
+Historical released prompts and non-managed legacy drafts remain readable for
+migration/forensic compatibility and are not rewritten. They do not count as
+H7 Logistics pilot buffer stock unless they have the structured binding.
+
+Pilot rollout to other modules requires a later explicit operator decision.
+
 ## Prompt File
 
 The file field is relative to the module outgoing prompt directory.
@@ -315,3 +330,14 @@ current ready prompt marked with an arrow;
 status color applied to the whole active row;
 draft/planned prompts shown in a separate muted section;
 draft prompts never treated as executable work.
+
+## Logistics H7 prepared acceptance binding
+
+During the Logistics pilot, structured `roadmap_step_id` is necessary but not
+sufficient for acceptance-ready prepared work. A concrete prepared prompt is
+paired with an immutable `module_prompt_contract_v0_4` source snapshot and a
+Blueprint-owned `blueprint_acceptance_oracle_v0_1`; the roadmap parent binds
+the oracle by exact path and SHA-256.
+
+Roadmap parents without a concrete prompt remain planning-only and do not
+receive placeholder/fabricated oracle bindings.

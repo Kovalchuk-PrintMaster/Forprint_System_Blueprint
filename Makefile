@@ -1287,3 +1287,10 @@ check-prompt-execution-observability:
 .PHONY: test-v0-4-1-h4
 test-v0-4-1-h4:
 	@$(BLUEPRINT_PYTHON) -m pytest -q tests/validation/test_v0_4_1_module_coordination_sync.py
+
+# H7 Logistics pilot coordination health (read-only)
+COORDINATION_HEALTH_MODULE ?= logistics_service
+
+.PHONY: coordination-health
+coordination-health:
+	.venv_blueprint/bin/python scripts/coordination/module_coordination_health_v0_1.py --module "$(COORDINATION_HEALTH_MODULE)"

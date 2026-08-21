@@ -4,8 +4,8 @@ metadata:
   module: logistics_service
   module_working_name: ForPrint Logistics Service
   current_step_id: logistics_service_tracking_events_v0_1
-  roadmap_version: logistics_service_delivery_workflow_v0_2
-  updated_at: '2026-08-18'
+  roadmap_version: logistics_service_commercial_delivery_automation_v0_3
+  updated_at: '2026-08-21'
   planning_horizon:
     rule: 8_to_10_actionable_steps_ahead
     current_ready_step: logistics_service_tracking_events_v0_1
@@ -14,17 +14,16 @@ metadata:
     review_after_each_acceptance: true
   repository_root: /srv/software_development/forprint-project/forprint_logistics_service
   implementation_type: operational_integration_service
-  current_stage: provider-neutral delivery workflow and local persistence
-  purpose: 'Establish Logistics Service as the owner of delivery provider boundaries,
-    shipment drafts, tracking truth, provider payloads, logistics address book and
-    logistics event history for ForPrint operational workflows.
+  current_stage: provider-neutral commercial delivery automation foundation
+  purpose: 'Establish Logistics Service as the owner of delivery provider boundaries, shipment drafts,
+    tracking truth, provider payloads, logistics address book and logistics event history for ForPrint
+    operational workflows.
 
     '
   strategic_boundary:
     role: logistics_provider_and_delivery_truth_owner
-    future_flow: 'Telegram Bot / Website / CRM / Calculator -> Integration Gateway
-      or approved internal contract -> Logistics Service -> provider adapter -> delivery
-      provider API
+    future_flow: 'Telegram Bot / Website / CRM / Calculator -> Integration Gateway or approved internal
+      contract -> Logistics Service -> provider adapter -> delivery provider API
 
       '
     owns:
@@ -61,19 +60,19 @@ metadata:
     - Keep provider credentials outside git.
     - Report completion only inside the Logistics Service repository.
   strategic_direction:
-    initial_provider_policy: 'Start with provider-neutral local models and dry-run
-      payload previews. Nova Poshta may be the first real provider adapter later,
-      but bootstrap must not hard-code the whole service around one provider.
+    initial_provider_policy: 'Start with provider-neutral local models and dry-run payload previews. Nova
+      Poshta may be the first real provider adapter later, but bootstrap must not hard-code the whole
+      service around one provider.
 
       '
-    test_data_policy: 'A small local test address book may be created for 10-15 frequent
-      recipients, but it is non-canonical and exists only to test logistics flows
-      until a canonical client/account owner is ready.
+    test_data_policy: 'A small local test address book may be created for 10-15 frequent recipients, but
+      it is non-canonical and exists only to test logistics flows until a canonical client/account owner
+      is ready.
 
       '
-    telegram_bot_policy: 'Telegram Bot may become a channel UI and notification surface
-      for logistics workflows, but it must not own shipment truth, provider credentials,
-      logistics address book or provider API integrations.
+    telegram_bot_policy: 'Telegram Bot may become a channel UI and notification surface for logistics
+      workflows, but it must not own shipment truth, provider credentials, logistics address book or provider
+      API integrations.
 
       '
 roadmap:
@@ -91,9 +90,9 @@ roadmap:
     completion_packet: coordination/completion_packets/records/2026-07-11__logistics_service__bootstrap_and_coordination_foundation_v0_1_completion.yaml
     check_report: reports/logistics_service_check_report.md
     test_summary: 19 passed; make check and make check-report OK.
-  summary: 'Create the first controlled Logistics Service project skeleton with make-first
-    workflow, tests, coordination records, provider-neutral domain boundaries, local
-    fixtures and explicit no-live-write safety gates.
+  summary: 'Create the first controlled Logistics Service project skeleton with make-first workflow, tests,
+    coordination records, provider-neutral domain boundaries, local fixtures and explicit no-live-write
+    safety gates.
 
     '
   expected_outputs:
@@ -136,9 +135,8 @@ roadmap:
     completion_packet: coordination/completion_packets/records/2026-07-12__logistics_service__boundary_and_local_model_v0_1_completion.yaml
     check_report: reports/logistics_service_check_report.md
     test_summary: 51 passed; check report 8 passed / 0 warnings / 0 failed.
-  summary: 'Formalize provider-neutral logistics models for providers, recipients,
-    shipment drafts, tracking requests, tracking events and notification events using
-    local storage only.
+  summary: 'Formalize provider-neutral logistics models for providers, recipients, shipment drafts, tracking
+    requests, tracking events and notification events using local storage only.
 
     '
   expected_outputs:
@@ -155,8 +153,8 @@ roadmap:
     prompt_id: logistics_service_boundary_and_local_model_v0_1
     prompt_file: coordination/outgoing_prompts/logistics_service/approved/2026-07-11__logistics_service__boundary_and_local_model_v0_1.md
     prompt_queue_sequence: 2
-  notes: Next active step after accepted bootstrap. This step must remain local, provider-neutral
-    and preview-only.
+  notes: Next active step after accepted bootstrap. This step must remain local, provider-neutral and
+    preview-only.
 - sequence: 3
   step_id: logistics_service_test_address_book_v0_1
   title: Test address book and recipient fixtures
@@ -176,8 +174,8 @@ roadmap:
     test_summary: 77 tests; check report 9 passed / 0 warnings / 0 failed
     blueprint_review_status: accepted_by_blueprint
     check_report: reports/logistics_service_check_report.md
-  summary: 'Add a small non-canonical local test address book for controlled logistics
-    testing with 10-15 frequent recipients or placeholder fixtures.
+  summary: 'Add a small non-canonical local test address book for controlled logistics testing with 10-15
+    frequent recipients or placeholder fixtures.
 
     '
   expected_outputs:
@@ -190,9 +188,8 @@ roadmap:
     prompt_id: logistics_service_test_address_book_v0_1
     prompt_file: coordination/outgoing_prompts/logistics_service/approved/2026-07-13__logistics_service__test_address_book_v0_1.md
     prompt_queue_sequence: 3
-  notes: Next active step after accepted local model foundation. This step must create
-    a synthetic, non-canonical, local test address book and must not commit real customer
-    data.
+  notes: Next active step after accepted local model foundation. This step must create a synthetic, non-canonical,
+    local test address book and must not commit real customer data.
 - sequence: 4
   step_id: logistics_service_provider_adapter_contract_v0_1
   title: Provider adapter contract
@@ -211,9 +208,8 @@ roadmap:
     completion_packet: coordination/completion_packets/records/2026-07-15__logistics_service__provider_adapter_contract_v0_1_completion.yaml
     test_summary: module completion checks reported successful
     blueprint_review_status: accepted_by_blueprint
-  summary: 'Define a provider adapter interface that can support Nova Poshta, Ukrposhta,
-    SAT, Meest, Uklon, Bolt, Uber and local courier workflows without coupling the
-    service to one provider.
+  summary: 'Define a provider adapter interface that can support Nova Poshta, Ukrposhta, SAT, Meest, Uklon,
+    Bolt, Uber and local courier workflows without coupling the service to one provider.
 
     '
   expected_outputs:
@@ -227,10 +223,9 @@ roadmap:
     prompt_id: logistics_service_provider_adapter_contract_v0_1
     prompt_file: coordination/outgoing_prompts/logistics_service/approved/2026-07-14__logistics_service__provider_adapter_contract_v0_1.md
     prompt_queue_sequence: 4
-  notes: 'Active after Blueprint acceptance of the synthetic test address book foundation.
-    Refine the existing adapter base instead of creating a competing hierarchy. Keep
-    all provider operations local, synthetic, read-only or dry-run and align compact/extended
-    reporting with the current Blueprint standards.
+  notes: 'Active after Blueprint acceptance of the synthetic test address book foundation. Refine the
+    existing adapter base instead of creating a competing hierarchy. Keep all provider operations local,
+    synthetic, read-only or dry-run and align compact/extended reporting with the current Blueprint standards.
 
     '
 - sequence: 5
@@ -255,9 +250,9 @@ roadmap:
     blueprint_review_status: accepted_by_blueprint
     intake_status: pending
     review_evidence: coordination/review_packets/logistics_service/processed/2026-08-18__logistics_service_tracking_events_v0_1__accept_v0_4_reference.yaml
-  summary: 'Define provider-neutral shipment lifecycle and notification events before
-    provider-specific implementation. This becomes the shared contract surface for
-    Telegram Bot, Website, CRM and future central storage adapters.
+  summary: 'Define provider-neutral shipment lifecycle and notification events before provider-specific
+    implementation. This becomes the shared contract surface for Telegram Bot, Website, CRM and future
+    central storage adapters.
 
     '
   expected_outputs:
@@ -296,32 +291,69 @@ roadmap:
     step_id: logistics_service_tracking_events_v0_1
     status: accepted
   evidence: {}
-  summary: 'Implement a module-local SQLite persistence adapter for delivery workflow
-    testing while preserving a replaceable repository boundary for the future central
-    database. Local data is operational test state, not canonical ecosystem truth.
-
-    '
+  summary: Implement module-local SQLite persistence for operational logistics state behind replaceable
+    repository boundaries. Preserve deterministic migrations and an explicit future central-database migration
+    path.
+  substeps:
+  - substep_id: logistics_service_local_persistence_and_migration_boundary_v0_1__01
+    title: Define SQLite schema ownership and migration version contract
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_local_persistence_and_migration_boundary_v0_1__02
+    title: Implement repository adapter without leaking SQLite into domain services
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_local_persistence_and_migration_boundary_v0_1__03
+    title: Persist shipment drafts tracking events notification outbox and idempotency state
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_local_persistence_and_migration_boundary_v0_1__04
+    title: Add deterministic migration rollback/restart/export-import verification
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_local_persistence_and_migration_boundary_v0_1__05
+    title: Document local non-canonical data classification and central-storage handoff boundary
+    status: planned
+    blocking: true
   expected_outputs:
   - SQLite-backed logistics repository
-  - schema version table
-  - deterministic migrations
+  - schema version table and deterministic migrations
   - shipment draft persistence
   - tracking event persistence
   - notification outbox persistence
+  - idempotency/audit persistence
   - export/import test fixture
   - repository adapter boundary for future central storage
-  - local data classification and cleanup policy
   - restart and migration tests
   forbidden_outputs:
   - canonical client database
   - canonical order database
   - production credentials
-  - hidden coupling to one future database technology
+  - SQLite-specific logic inside provider/domain contracts
+  - hidden coupling to one future central database technology
+  acceptance:
+    oracle_required: true
+    oracle_path: coordination/acceptance_oracles/logistics_service/logistics_service_local_persistence_and_migration_boundary_v0_1__acceptance_oracle_v0_1.yaml
+    oracle_sha256: 93f189bb99f4f4aa81295d0ec7a7b90f5d63147feaaf925ade661dec650ddaff
 - sequence: 7
   step_id: logistics_service_telegram_notification_handoff_contract_v0_1
-  title: Telegram notification handoff contract
+  title: Legacy Telegram notification handoff intent
+  status: superseded
+  priority: reference
+  owner_module: logistics_service
+  depends_on: []
+  evidence: {}
+  summary: Historical planned one-way Telegram notification intent. Superseded before implementation by
+    the channel-neutral bidirectional interaction contract.
+  substeps: []
+  expected_outputs: []
+  forbidden_outputs: []
+  superseded_by: logistics_service_channel_interaction_contract_v0_1
+- sequence: 8
+  step_id: logistics_service_channel_interaction_contract_v0_1
+  title: Channel-neutral command, clarification, confirmation and result contract
   status: planned
-  priority: high
+  priority: critical
   owner_module: logistics_service
   depends_on:
   - type: module_step
@@ -333,30 +365,53 @@ roadmap:
     step_id: logistics_service_local_persistence_and_migration_boundary_v0_1
     status: pending
   evidence: {}
-  summary: 'Define the provider-neutral outbound notification contract consumed by
-    Telegram Bot without moving shipment truth, provider credentials or delivery workflow
-    ownership into the channel module.
-
-    '
+  summary: Define a bidirectional machine contract between Logistics Service and any channel adapter such
+    as Telegram. Logistics owns workflow truth; channels collect intent, answer clarification requests,
+    present choices and render results.
+  substeps:
+  - substep_id: logistics_service_channel_interaction_contract_v0_1__01
+    title: Define logistics command envelope and canonical intent vocabulary
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_channel_interaction_contract_v0_1__02
+    title: Define missing-data clarification request/response contract
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_channel_interaction_contract_v0_1__03
+    title: Define operator confirmation request/decision contract
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_channel_interaction_contract_v0_1__04
+    title: Define result/error/event projection contract with correlation and idempotency
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_channel_interaction_contract_v0_1__05
+    title: Add channel-neutral fixtures proving no Telegram runtime ownership leaks into Logistics
+    status: planned
+    blocking: true
   expected_outputs:
-  - logistics notification envelope
-  - notification type mapping
-  - shipment and tracking references
-  - recipient channel hint
-  - correlation and idempotency keys
-  - local outbox preview
-  - Telegram consumer examples
-  - retry and duplicate-handling expectations
+  - LogisticsCommandEnvelope
+  - ClarificationRequest and ClarificationResponse
+  - ConfirmationRequest and ConfirmationDecision
+  - LogisticsResultEnvelope
+  - stable request correlation and idempotency keys
+  - channel-neutral command/result fixtures
+  - Telegram consumer examples without Telegram imports
   forbidden_outputs:
+  - Telegram conversation state ownership
   - direct Telegram runtime database write
-  - Telegram conversation ownership
-  - canonical customer ownership
-  - live cross-repository write
-- sequence: 8
-  step_id: logistics_service_nova_poshta_read_only_foundation_v0_1
-  title: Nova Poshta read-only foundation
+  - provider credentials in channel payloads
+  - canonical client ownership
+  - live provider writes
+  acceptance:
+    oracle_required: true
+    oracle_path: coordination/acceptance_oracles/logistics_service/logistics_service_channel_interaction_contract_v0_1__acceptance_oracle_v0_1.yaml
+    oracle_sha256: f9147f6cc2b97dafa06e66211ed532f866a43fe116f00777fe77678ff61f0e9c
+- sequence: 9
+  step_id: logistics_service_provider_runtime_registry_and_capability_policy_v0_1
+  title: Provider runtime registry and capability policy
   status: planned
-  priority: high
+  priority: critical
   owner_module: logistics_service
   depends_on:
   - type: module_step
@@ -365,104 +420,361 @@ roadmap:
     status: accepted
   - type: module_step
     module: logistics_service
-    step_id: logistics_service_tracking_events_v0_1
+    step_id: logistics_service_local_persistence_and_migration_boundary_v0_1
+    status: pending
+  evidence: {}
+  summary: Turn provider capabilities into runtime configuration. Providers may be enabled, disabled,
+    preferred, restricted by environment or geography, and queried only for operations they explicitly
+    support.
+  substeps:
+  - substep_id: logistics_service_provider_runtime_registry_and_capability_policy_v0_1__01
+    title: Define provider identity family environment and enablement model
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_provider_runtime_registry_and_capability_policy_v0_1__02
+    title: Define capability geography service-type and parcel-limit model
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_provider_runtime_registry_and_capability_policy_v0_1__03
+    title: Define opaque credential-profile references without storing secrets
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_provider_runtime_registry_and_capability_policy_v0_1__04
+    title: Define provider health rate-limit polling/webhook metadata
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_provider_runtime_registry_and_capability_policy_v0_1__05
+    title: Implement deterministic registry resolution and disabled-provider behavior
+    status: planned
+    blocking: true
+  expected_outputs:
+  - ProviderRuntimeProfile
+  - ProviderCapabilitySet
+  - enabled/disabled and environment gates
+  - geography/service constraints
+  - opaque credential profile reference
+  - provider preference metadata
+  - health and polling/webhook capability metadata
+  - registry resolution tests
+  forbidden_outputs:
+  - provider secrets in repository
+  - hard-coded single-provider branching in domain services
+  - automatic booking
+  - Telegram-owned provider configuration
+  acceptance:
+    oracle_required: true
+    oracle_path: coordination/acceptance_oracles/logistics_service/logistics_service_provider_runtime_registry_and_capability_policy_v0_1__acceptance_oracle_v0_1.yaml
+    oracle_sha256: 3c6ac91353c9e8ebd5a3790bb91cc7037dc7336804bea89395c721e530506f4f
+- sequence: 10
+  step_id: logistics_service_normalized_quote_booking_operation_contract_v0_1
+  title: Normalized quote, booking, tracking and cancellation operation contract
+  status: planned
+  priority: critical
+  owner_module: logistics_service
+  depends_on:
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_provider_adapter_contract_v0_1
     status: accepted
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_provider_runtime_registry_and_capability_policy_v0_1
+    status: pending
+  evidence: {}
+  summary: Define provider-neutral operation envelopes so parcel, postal and on-demand courier adapters
+    can expose quote, preview, booking, tracking and cancellation without leaking provider-specific payloads
+    into orchestration.
+  substeps:
+  - substep_id: logistics_service_normalized_quote_booking_operation_contract_v0_1__01
+    title: Define normalized quote request/result contracts
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_normalized_quote_booking_operation_contract_v0_1__02
+    title: Define booking preview/request/result contracts with idempotency
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_normalized_quote_booking_operation_contract_v0_1__03
+    title: Define tracking and cancellation operation contracts
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_normalized_quote_booking_operation_contract_v0_1__04
+    title: Define capability preflight and provider error normalization
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_normalized_quote_booking_operation_contract_v0_1__05
+    title: Define dry-run semantics and contract-test fixtures
+    status: planned
+    blocking: true
+  expected_outputs:
+  - DeliveryQuoteRequest and DeliveryQuoteResult
+  - BookingPreview and BookingRequest/Result
+  - TrackingOperationRequest/Result
+  - CancellationRequest/Result
+  - capability preflight contract
+  - normalized provider error taxonomy
+  - dry_run semantics
+  - operation contract tests
+  forbidden_outputs:
+  - live provider call
+  - provider-specific payload as public domain contract
+  - automatic booking policy
+  - Calculator final-price ownership
+  acceptance:
+    oracle_required: true
+    oracle_path: coordination/acceptance_oracles/logistics_service/logistics_service_normalized_quote_booking_operation_contract_v0_1__acceptance_oracle_v0_1.yaml
+    oracle_sha256: ef4e12b9ce1133d832861ec7b525f4109e755688306c3793adfb3109ae013052
+- sequence: 11
+  step_id: logistics_service_nova_poshta_read_only_foundation_v0_1
+  title: Nova Poshta read-only adapter foundation
+  status: planned
+  priority: high
+  owner_module: logistics_service
+  depends_on:
   - type: module_step
     module: logistics_service
     step_id: logistics_service_local_persistence_and_migration_boundary_v0_1
     status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_provider_runtime_registry_and_capability_policy_v0_1
+    status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_normalized_quote_booking_operation_contract_v0_1
+    status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_tracking_events_v0_1
+    status: accepted
   evidence: {}
-  summary: 'Add the first Nova Poshta adapter foundation in read-only or dry-run mode:
-    provider metadata, branch/city lookup planning, tracking lookup planning and shipment
-    payload preview without real shipment creation.
-
-    '
+  summary: Implement Nova Poshta as the first parcel-provider adapter in read-only or dry-run mode using
+    only normalized provider contracts.
+  substeps:
+  - substep_id: logistics_service_nova_poshta_read_only_foundation_v0_1__01
+    title: Map Nova Poshta provider profile and capabilities
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_nova_poshta_read_only_foundation_v0_1__02
+    title: Implement city branch address and service lookup boundary
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_nova_poshta_read_only_foundation_v0_1__03
+    title: Implement tracking read path and normalized tracking mapping
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_nova_poshta_read_only_foundation_v0_1__04
+    title: Implement shipment payload and quote preview mapping where supported
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_nova_poshta_read_only_foundation_v0_1__05
+    title: Add sanitized configuration examples and no-live-write tests
+    status: planned
+    blocking: true
   expected_outputs:
   - Nova Poshta adapter skeleton
-  - read-only provider configuration
-  - city and branch lookup contract
-  - tracking lookup contract
+  - provider capability mapping
+  - city/branch/address lookup contract implementation
+  - tracking read contract implementation
   - normalized tracking event mapping
-  - shipment payload preview
-  - secrets example without real secrets
+  - shipment/quote payload preview
+  - sanitized secrets/config example
   - live write disabled by default
   forbidden_outputs:
   - real TTN creation
   - provider credentials in git
   - automatic shipment creation
-- sequence: 9
+  - provider-specific types escaping adapter boundary
+  acceptance:
+    oracle_required: true
+    oracle_path: coordination/acceptance_oracles/logistics_service/logistics_service_nova_poshta_read_only_foundation_v0_1__acceptance_oracle_v0_1.yaml
+    oracle_sha256: 9a687a7924df8b8604c00994c586b136e8729a42fe854448814e32383a2bd687
+- sequence: 12
   step_id: logistics_service_ukrposhta_read_only_foundation_v0_1
-  title: Ukrposhta read-only foundation
+  title: Ukrposhta read-only adapter foundation
   status: planned
   priority: high
   owner_module: logistics_service
   depends_on:
   - type: module_step
     module: logistics_service
-    step_id: logistics_service_provider_adapter_contract_v0_1
-    status: accepted
+    step_id: logistics_service_local_persistence_and_migration_boundary_v0_1
+    status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_provider_runtime_registry_and_capability_policy_v0_1
+    status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_normalized_quote_booking_operation_contract_v0_1
+    status: pending
   - type: module_step
     module: logistics_service
     step_id: logistics_service_tracking_events_v0_1
     status: accepted
-  - type: module_step
-    module: logistics_service
-    step_id: logistics_service_local_persistence_and_migration_boundary_v0_1
-    status: pending
   evidence: {}
-  summary: 'Add an Ukrposhta adapter foundation in read-only or dry-run mode using
-    the accepted provider-neutral contract without creating real shipments.
-
-    '
+  summary: Implement Ukrposhta through the same normalized provider contract in read-only/dry-run mode
+    so provider interchangeability is demonstrated.
+  substeps:
+  - substep_id: logistics_service_ukrposhta_read_only_foundation_v0_1__01
+    title: Map Ukrposhta provider profile and capabilities
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_ukrposhta_read_only_foundation_v0_1__02
+    title: Implement address branch and service lookup boundary
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_ukrposhta_read_only_foundation_v0_1__03
+    title: Implement tracking read path and normalized status mapping
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_ukrposhta_read_only_foundation_v0_1__04
+    title: Implement shipment and quote preview mapping where supported
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_ukrposhta_read_only_foundation_v0_1__05
+    title: Add sanitized configuration and contract parity tests
+    status: planned
+    blocking: true
   expected_outputs:
   - Ukrposhta adapter skeleton
-  - read-only provider configuration
-  - branch and address lookup contract
-  - tracking normalization contract
-  - shipment payload preview
+  - provider capability mapping
+  - branch/address lookup contract implementation
+  - tracking normalization
+  - shipment/quote payload preview
   - live write disabled
+  - cross-provider contract parity tests
   forbidden_outputs:
   - real shipment creation
   - provider credentials in git
   - automatic provider writes
-- sequence: 10
+  - Ukrposhta-specific logic in orchestration core
+  acceptance:
+    oracle_required: true
+    oracle_path: coordination/acceptance_oracles/logistics_service/logistics_service_ukrposhta_read_only_foundation_v0_1__acceptance_oracle_v0_1.yaml
+    oracle_sha256: 26097464d2c9c782fea24f72959be6a8627e60f85e71f37b782409ed838c9987
+- sequence: 13
   step_id: logistics_service_taxi_provider_abstraction_v0_1
-  title: Taxi and local courier provider abstraction
+  title: On-demand taxi and local courier abstraction
   status: planned
-  priority: normal
+  priority: high
   owner_module: logistics_service
   depends_on:
   - type: module_step
     module: logistics_service
-    step_id: logistics_service_provider_adapter_contract_v0_1
-    status: accepted
-  - type: module_step
-    module: logistics_service
-    step_id: logistics_service_tracking_events_v0_1
-    status: accepted
-  - type: module_step
-    module: logistics_service
     step_id: logistics_service_local_persistence_and_migration_boundary_v0_1
     status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_provider_runtime_registry_and_capability_policy_v0_1
+    status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_normalized_quote_booking_operation_contract_v0_1
+    status: pending
   evidence: {}
-  summary: 'Prepare a separate pickup/dropoff abstraction for Uklon, Bolt, Uber and
-    local courier workflows without using parcel or TTN assumptions.
-
-    '
+  summary: Model on-demand pickup/dropoff delivery separately from postal parcel/TTN semantics while keeping
+    both families behind normalized logistics operations.
+  substeps:
+  - substep_id: logistics_service_taxi_provider_abstraction_v0_1__01
+    title: Define pickup dropoff cargo and contact snapshots
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_taxi_provider_abstraction_v0_1__02
+    title: Define on-demand service option quote and ETA semantics
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_taxi_provider_abstraction_v0_1__03
+    title: Define courier-arrival pickup and delivery lifecycle events
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_taxi_provider_abstraction_v0_1__04
+    title: Define capability differences from parcel providers
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_taxi_provider_abstraction_v0_1__05
+    title: Add synthetic multi-provider booking-preview fixtures
+    status: planned
+    blocking: true
   expected_outputs:
-  - pickup point model
-  - dropoff point model
-  - cargo note model
-  - courier service option model
-  - pickup arrived event
-  - delivery arrived event
+  - PickupPoint and DropoffPoint models
+  - CargoSnapshot
+  - OnDemandServiceOption
+  - quote and ETA preview semantics
+  - pickup_arrived and delivery_arrived events
   - synthetic booking preview
-  - no live taxi order creation
-- sequence: 11
-  step_id: logistics_service_delivery_quote_and_selection_v0_1
-  title: Delivery quote and provider selection foundation
+  - provider-family capability tests
+  forbidden_outputs:
+  - parcel/TTN assumptions forced on taxi providers
+  - live taxi order creation
+  - hard-coded Uklon/Bolt/Uber selection in core
+  acceptance:
+    oracle_required: true
+    oracle_path: coordination/acceptance_oracles/logistics_service/logistics_service_taxi_provider_abstraction_v0_1__acceptance_oracle_v0_1.yaml
+    oracle_sha256: 1e261116be9b5a5cefaa34d32378e880bb0ba305050b5bce4037240abf000fca
+- sequence: 14
+  step_id: logistics_service_uklon_delivery_read_only_foundation_v0_1
+  title: Uklon Delivery read-only/dry-run adapter foundation
   status: planned
   priority: high
+  owner_module: logistics_service
+  depends_on:
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_taxi_provider_abstraction_v0_1
+    status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_provider_runtime_registry_and_capability_policy_v0_1
+    status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_normalized_quote_booking_operation_contract_v0_1
+    status: pending
+  evidence: {}
+  summary: Implement one concrete on-demand delivery adapter against the generic taxi/courier abstraction.
+    Provider features remain capability-driven and disabled when unavailable.
+  substeps:
+  - substep_id: logistics_service_uklon_delivery_read_only_foundation_v0_1__01
+    title: Map provider runtime profile and environment boundary
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_uklon_delivery_read_only_foundation_v0_1__02
+    title: Map supported service/product capabilities into generic on-demand contract
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_uklon_delivery_read_only_foundation_v0_1__03
+    title: Implement dry-run quote/payload preview surface where supported
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_uklon_delivery_read_only_foundation_v0_1__04
+    title: Map provider status/tracking data into normalized events where supported
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_uklon_delivery_read_only_foundation_v0_1__05
+    title: Prove unsupported capabilities fail closed without provider-specific core branches
+    status: planned
+    blocking: true
+  expected_outputs:
+  - Uklon Delivery adapter skeleton
+  - capability mapping
+  - dry-run quote/payload preview
+  - normalized status mapping where available
+  - unsupported-capability behavior
+  - sanitized environment configuration
+  forbidden_outputs:
+  - live courier booking
+  - real credentials in git
+  - assumption that every provider exposes identical API features
+  - provider-specific branching in orchestration core
+  acceptance:
+    oracle_required: true
+    oracle_path: coordination/acceptance_oracles/logistics_service/logistics_service_uklon_delivery_read_only_foundation_v0_1__acceptance_oracle_v0_1.yaml
+    oracle_sha256: fe181aeefe9db3cabc48d1687ebcb4eb76c28bb0fa53aa602dca122d66db1f29
+- sequence: 15
+  step_id: logistics_service_delivery_quote_and_selection_v0_1
+  title: Delivery quote aggregation and explainable provider selection
+  status: planned
+  priority: critical
   owner_module: logistics_service
   depends_on:
   - type: module_step
@@ -475,34 +787,51 @@ roadmap:
     status: pending
   - type: module_step
     module: logistics_service
-    step_id: logistics_service_taxi_provider_abstraction_v0_1
+    step_id: logistics_service_uklon_delivery_read_only_foundation_v0_1
     status: pending
   evidence: {}
-  summary: 'Define provider-neutral delivery quote contracts and explainable provider
-    comparison without owning final customer pricing or automatic booking.
-
-    '
+  summary: Aggregate comparable provider options and apply an explainable policy without owning final
+    customer pricing or silently booking a provider.
+  substeps:
+  - substep_id: logistics_service_delivery_quote_and_selection_v0_1__01
+    title: Aggregate normalized quotes from currently capable enabled providers
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_delivery_quote_and_selection_v0_1__02
+    title: Define cheapest fastest preferred fallback and weighted policy modes
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_delivery_quote_and_selection_v0_1__03
+    title: Expose cost ETA capability and rejection reasons
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_delivery_quote_and_selection_v0_1__04
+    title: Implement deterministic tie-breaking and policy explanation
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_delivery_quote_and_selection_v0_1__05
+    title: Add manual-selection and auto-selection preview tests
+    status: planned
+    blocking: true
   expected_outputs:
-  - delivery quote request contract
-  - delivery quote result contract
-  - provider service option model
-  - delivery cost estimate boundary
-  - delivery time estimate boundary
-  - comparison explanation
+  - quote aggregation service
+  - selection policy model
+  - cheapest/fastest/preferred/fallback modes
+  - weighted policy hooks
+  - deterministic tie-break
+  - selection explanation
   - manual selection preview
-  - no Calculator final-price ownership
-  - no live booking
-- sequence: 12
+  forbidden_outputs:
+  - Calculator final-price ownership
+  - silent provider booking
+  - selection of disabled/ineligible provider
+- sequence: 16
   step_id: logistics_service_shipment_lifecycle_orchestration_preview_v0_1
   title: Shipment lifecycle orchestration preview
   status: planned
-  priority: high
+  priority: critical
   owner_module: logistics_service
   depends_on:
-  - type: module_step
-    module: logistics_service
-    step_id: logistics_service_tracking_events_v0_1
-    status: accepted
   - type: module_step
     module: logistics_service
     step_id: logistics_service_local_persistence_and_migration_boundary_v0_1
@@ -511,22 +840,96 @@ roadmap:
     module: logistics_service
     step_id: logistics_service_delivery_quote_and_selection_v0_1
     status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_tracking_events_v0_1
+    status: accepted
   evidence: {}
-  summary: 'Connect recipient selection, shipment draft, provider option, payload
-    preview, tracking request and notification events into one deterministic local
-    workflow without enabling provider writes.
-
-    '
+  summary: Connect recipient resolution, draft, clarification, quote, selection, confirmation preview,
+    provider payload and tracking into one deterministic restart-safe local state machine without provider
+    writes.
+  substeps:
+  - substep_id: logistics_service_shipment_lifecycle_orchestration_preview_v0_1__01
+    title: Define authoritative shipment workflow state machine
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_shipment_lifecycle_orchestration_preview_v0_1__02
+    title: Connect recipient/draft/quote/selection transitions
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_shipment_lifecycle_orchestration_preview_v0_1__03
+    title: Connect needs-information and confirmation-required transitions
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_shipment_lifecycle_orchestration_preview_v0_1__04
+    title: Persist restart-safe orchestration and audit transitions
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_shipment_lifecycle_orchestration_preview_v0_1__05
+    title: Prove deterministic end-to-end preview including failure and recovery
+    status: planned
+    blocking: true
   expected_outputs:
   - shipment lifecycle state model
   - deterministic transition rules
   - local orchestration service
+  - needs_information and awaiting_confirmation states
   - preview-only end-to-end scenario
-  - failure and needs-attention transitions
-  - audit event sequence
   - restart recovery test
-  - no live provider write
-- sequence: 13
+  forbidden_outputs:
+  - live provider write
+  - Telegram conversation state ownership
+  - implicit state transition without audit evidence
+- sequence: 17
+  step_id: logistics_service_channel_interaction_orchestration_preview_v0_1
+  title: Channel interaction orchestration preview
+  status: planned
+  priority: high
+  owner_module: logistics_service
+  depends_on:
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_channel_interaction_contract_v0_1
+    status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_shipment_lifecycle_orchestration_preview_v0_1
+    status: pending
+  evidence: {}
+  summary: Exercise command, clarification, confirmation and result envelopes against the local shipment
+    state machine using synthetic channel fixtures.
+  substeps:
+  - substep_id: logistics_service_channel_interaction_orchestration_preview_v0_1__01
+    title: Route command envelope into orchestration
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_channel_interaction_orchestration_preview_v0_1__02
+    title: Emit and consume clarification round-trips
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_channel_interaction_orchestration_preview_v0_1__03
+    title: Emit and consume confirmation round-trips
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_channel_interaction_orchestration_preview_v0_1__04
+    title: Project logistics result and tracking events back to channel-neutral output
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_channel_interaction_orchestration_preview_v0_1__05
+    title: Prove replay/idempotency across repeated channel messages
+    status: planned
+    blocking: true
+  expected_outputs:
+  - channel-to-logistics orchestration adapter
+  - clarification loop preview
+  - confirmation loop preview
+  - result/event projection preview
+  - replay/idempotency tests
+  forbidden_outputs:
+  - direct Telegram runtime import
+  - live Telegram API call
+  - live provider write
+- sequence: 18
   step_id: logistics_service_provider_polling_reconciliation_idempotency_v0_1
   title: Provider polling, reconciliation and idempotency
   status: planned
@@ -543,53 +946,741 @@ roadmap:
     status: pending
   - type: module_step
     module: logistics_service
+    step_id: logistics_service_uklon_delivery_read_only_foundation_v0_1
+    status: pending
+  - type: module_step
+    module: logistics_service
     step_id: logistics_service_shipment_lifecycle_orchestration_preview_v0_1
     status: pending
   evidence: {}
-  summary: 'Define safe read-only polling, provider snapshot reconciliation, retry
-    and deduplication behavior before any production scheduler or live write gate.
-
-    '
+  summary: Normalize provider snapshots, retries and duplicate delivery events before any production scheduler
+    or write capability.
+  substeps:
+  - substep_id: logistics_service_provider_polling_reconciliation_idempotency_v0_1__01
+    title: Define provider polling cursor and snapshot model
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_provider_polling_reconciliation_idempotency_v0_1__02
+    title: Define reconciliation and freshness rules
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_provider_polling_reconciliation_idempotency_v0_1__03
+    title: Define retry/backoff and rate-limit handling
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_provider_polling_reconciliation_idempotency_v0_1__04
+    title: Implement idempotent event ingestion and duplicate suppression
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_provider_polling_reconciliation_idempotency_v0_1__05
+    title: Add stale-data and needs-attention diagnostics
+    status: planned
+    blocking: true
   expected_outputs:
-  - polling cursor model
+  - polling cursor
   - provider response snapshot
-  - normalized status reconciliation
-  - idempotent event ingestion
-  - retry and backoff policy
+  - status reconciliation
+  - retry/backoff policy
   - duplicate suppression
   - stale-data detection
-  - audit and diagnostic report
+  - diagnostic report
   forbidden_outputs:
-  - production scheduler activation
+  - uncontrolled production scheduler
   - live provider mutation
-  - uncontrolled background worker
-- sequence: 14
-  step_id: logistics_service_controlled_live_write_gate_v0_1
-  title: Controlled live write gate planning
-  status: deferred
-  priority: reference
+- sequence: 19
+  step_id: logistics_service_provider_credential_environment_profile_boundary_v0_1
+  title: Provider credential and environment profile boundary
+  status: planned
+  priority: high
   owner_module: logistics_service
   depends_on:
   - type: module_step
     module: logistics_service
+    step_id: logistics_service_provider_runtime_registry_and_capability_policy_v0_1
+    status: pending
+  evidence: {}
+  summary: Define how provider accounts, sandbox/production environments and secret references are resolved
+    without putting credentials into domain records or git.
+  substeps:
+  - substep_id: logistics_service_provider_credential_environment_profile_boundary_v0_1__01
+    title: Define opaque provider account and secret reference model
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_provider_credential_environment_profile_boundary_v0_1__02
+    title: Define sandbox/staging/production environment separation
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_provider_credential_environment_profile_boundary_v0_1__03
+    title: Define credential readiness and rotation signals
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_provider_credential_environment_profile_boundary_v0_1__04
+    title: Define missing/invalid credential fail-closed behavior
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_provider_credential_environment_profile_boundary_v0_1__05
+    title: Add sanitized environment examples and tests
+    status: planned
+    blocking: true
+  expected_outputs:
+  - ProviderAccountProfile
+  - secret reference boundary
+  - environment separation policy
+  - credential readiness gate
+  - sanitized configuration examples
+  forbidden_outputs:
+  - real secrets in git
+  - credentials inside shipment records
+  - implicit production environment fallback
+- sequence: 20
+  step_id: logistics_service_booking_confirmation_and_write_authorization_policy_v0_1
+  title: Booking confirmation and write authorization policy
+  status: planned
+  priority: critical
+  owner_module: logistics_service
+  depends_on:
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_channel_interaction_contract_v0_1
+    status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_normalized_quote_booking_operation_contract_v0_1
+    status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_provider_credential_environment_profile_boundary_v0_1
+    status: pending
+  - type: module_step
+    module: logistics_service
     step_id: logistics_service_shipment_lifecycle_orchestration_preview_v0_1
+    status: pending
+  evidence: {}
+  summary: Define the explicit safety policy that separates preview from provider mutation. No adapter
+    may book/cancel/update unless environment, capability, authorization and confirmation gates all pass.
+  substeps:
+  - substep_id: logistics_service_booking_confirmation_and_write_authorization_policy_v0_1__01
+    title: Define dry-run/manual-confirm/auto-policy authorization states
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_booking_confirmation_and_write_authorization_policy_v0_1__02
+    title: Define provider/environment/operation allowlists
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_booking_confirmation_and_write_authorization_policy_v0_1__03
+    title: Define operator confirmation binding and expiry
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_booking_confirmation_and_write_authorization_policy_v0_1__04
+    title: Define idempotency and duplicate-write prevention
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_booking_confirmation_and_write_authorization_policy_v0_1__05
+    title: Define denial/audit behavior and policy tests
+    status: planned
+    blocking: true
+  expected_outputs:
+  - write authorization policy
+  - manual confirmation contract
+  - provider/environment allowlist
+  - operation allowlist
+  - authorization audit record
+  - duplicate-write prevention tests
+  forbidden_outputs:
+  - live provider write
+  - implicit confirmation
+  - authorization based only on channel text
+- sequence: 21
+  step_id: logistics_service_nova_poshta_sandbox_write_adapter_v0_1
+  title: Nova Poshta sandbox write adapter
+  status: planned
+  priority: high
+  owner_module: logistics_service
+  depends_on:
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_nova_poshta_read_only_foundation_v0_1
+    status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_booking_confirmation_and_write_authorization_policy_v0_1
+    status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_provider_credential_environment_profile_boundary_v0_1
     status: pending
   - type: module_step
     module: logistics_service
     step_id: logistics_service_provider_polling_reconciliation_idempotency_v0_1
     status: pending
   evidence: {}
-  summary: 'Plan the controls required before any shipment, TTN, taxi or courier write
-    can be enabled. This step remains planning-only until explicit Blueprint approval
-    and credential/environment governance exist.
-
-    '
+  summary: Add controlled sandbox-only shipment mutation behind the common write gate.
+  substeps:
+  - substep_id: logistics_service_nova_poshta_sandbox_write_adapter_v0_1__01
+    title: Implement sandbox booking mapping behind authorization gate
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_nova_poshta_sandbox_write_adapter_v0_1__02
+    title: Persist provider booking reference and request fingerprint
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_nova_poshta_sandbox_write_adapter_v0_1__03
+    title: Implement sandbox cancellation/update only when capability permits
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_nova_poshta_sandbox_write_adapter_v0_1__04
+    title: Normalize provider errors and retries
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_nova_poshta_sandbox_write_adapter_v0_1__05
+    title: Prove no production endpoint can be selected by default
+    status: planned
+    blocking: true
   expected_outputs:
-  - dry_run flag policy
-  - manual_confirmed flag policy
-  - environment safety policy
+  - sandbox booking adapter
+  - provider reference persistence
+  - sandbox cancellation/update mapping
+  - write-gate tests
+  forbidden_outputs:
+  - production shipment creation
+  - real credentials in git
+- sequence: 22
+  step_id: logistics_service_ukrposhta_sandbox_write_adapter_v0_1
+  title: Ukrposhta sandbox write adapter
+  status: planned
+  priority: high
+  owner_module: logistics_service
+  depends_on:
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_ukrposhta_read_only_foundation_v0_1
+    status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_booking_confirmation_and_write_authorization_policy_v0_1
+    status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_provider_credential_environment_profile_boundary_v0_1
+    status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_provider_polling_reconciliation_idempotency_v0_1
+    status: pending
+  evidence: {}
+  summary: Add controlled sandbox-only Ukrposhta mutation behind the same write gate.
+  substeps:
+  - substep_id: logistics_service_ukrposhta_sandbox_write_adapter_v0_1__01
+    title: Implement sandbox booking mapping behind authorization gate
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_ukrposhta_sandbox_write_adapter_v0_1__02
+    title: Persist provider shipment reference and fingerprint
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_ukrposhta_sandbox_write_adapter_v0_1__03
+    title: Implement supported sandbox cancellation/update operations
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_ukrposhta_sandbox_write_adapter_v0_1__04
+    title: Normalize write errors and retries
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_ukrposhta_sandbox_write_adapter_v0_1__05
+    title: Prove environment separation
+    status: planned
+    blocking: true
+  expected_outputs:
+  - sandbox booking adapter
+  - provider reference persistence
+  - supported sandbox mutation mapping
+  - write-gate tests
+  forbidden_outputs:
+  - production shipment creation
+  - real credentials in git
+- sequence: 23
+  step_id: logistics_service_uklon_delivery_sandbox_write_adapter_v0_1
+  title: Uklon Delivery sandbox/staging write adapter
+  status: planned
+  priority: high
+  owner_module: logistics_service
+  depends_on:
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_uklon_delivery_read_only_foundation_v0_1
+    status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_booking_confirmation_and_write_authorization_policy_v0_1
+    status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_provider_credential_environment_profile_boundary_v0_1
+    status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_provider_polling_reconciliation_idempotency_v0_1
+    status: pending
+  evidence: {}
+  summary: Add controlled staging/sandbox on-demand booking only for provider operations actually exposed
+    by the active capability profile.
+  substeps:
+  - substep_id: logistics_service_uklon_delivery_sandbox_write_adapter_v0_1__01
+    title: Implement staging booking mapping behind authorization gate
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_uklon_delivery_sandbox_write_adapter_v0_1__02
+    title: Persist courier booking reference and fingerprint
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_uklon_delivery_sandbox_write_adapter_v0_1__03
+    title: Implement supported cancellation/status operations
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_uklon_delivery_sandbox_write_adapter_v0_1__04
+    title: Normalize provider-specific write errors
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_uklon_delivery_sandbox_write_adapter_v0_1__05
+    title: Prove unsupported operations fail closed
+    status: planned
+    blocking: true
+  expected_outputs:
+  - staging/sandbox booking adapter
+  - courier reference persistence
+  - supported cancellation/status mapping
+  - write-gate tests
+  forbidden_outputs:
+  - production courier booking
+  - real credentials in git
+- sequence: 24
+  step_id: logistics_service_booking_cancellation_retry_compensation_v0_1
+  title: Booking cancellation, retry and compensation workflow
+  status: planned
+  priority: high
+  owner_module: logistics_service
+  depends_on:
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_nova_poshta_sandbox_write_adapter_v0_1
+    status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_ukrposhta_sandbox_write_adapter_v0_1
+    status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_uklon_delivery_sandbox_write_adapter_v0_1
+    status: pending
+  evidence: {}
+  summary: Define deterministic recovery when booking succeeds partially, times out, must be cancelled,
+    or cannot be safely retried.
+  substeps:
+  - substep_id: logistics_service_booking_cancellation_retry_compensation_v0_1__01
+    title: Classify retry-safe versus manual-review write failures
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_booking_cancellation_retry_compensation_v0_1__02
+    title: Define cancellation and compensation state transitions
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_booking_cancellation_retry_compensation_v0_1__03
+    title: Define timeout/unknown-result reconciliation
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_booking_cancellation_retry_compensation_v0_1__04
+    title: Prevent duplicate booking on retry
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_booking_cancellation_retry_compensation_v0_1__05
+    title: Add recovery and operator-needs-attention scenarios
+    status: planned
+    blocking: true
+  expected_outputs:
+  - write recovery state machine
+  - retry safety classification
+  - cancellation/compensation flow
+  - unknown-result reconciliation
+  - duplicate booking prevention
+  forbidden_outputs:
+  - blind write retry
+  - silent duplicate booking
+- sequence: 25
+  step_id: logistics_service_webhook_polling_convergence_v0_1
+  title: Webhook and polling convergence
+  status: planned
+  priority: high
+  owner_module: logistics_service
+  depends_on:
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_provider_polling_reconciliation_idempotency_v0_1
+    status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_booking_cancellation_retry_compensation_v0_1
+    status: pending
+  evidence: {}
+  summary: Converge webhook and polling inputs into one idempotent provider snapshot/event pipeline without
+    assuming every provider supports webhooks.
+  substeps:
+  - substep_id: logistics_service_webhook_polling_convergence_v0_1__01
+    title: Define webhook ingestion envelope and verification boundary
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_webhook_polling_convergence_v0_1__02
+    title: Merge webhook and polling snapshots through one reconciler
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_webhook_polling_convergence_v0_1__03
+    title: Define replay ordering and duplicate suppression
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_webhook_polling_convergence_v0_1__04
+    title: Handle providers without webhook support
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_webhook_polling_convergence_v0_1__05
+    title: Add convergence/replay tests
+    status: planned
+    blocking: true
+  expected_outputs:
+  - webhook ingestion boundary
+  - unified reconciliation pipeline
+  - replay ordering
+  - duplicate suppression
+  - poll-only fallback
+  forbidden_outputs:
+  - provider-specific webhook logic in domain core
+- sequence: 26
+  step_id: logistics_service_recipient_resolution_data_source_adapter_v0_1
+  title: Recipient resolution and canonical data-source adapter boundary
+  status: planned
+  priority: high
+  owner_module: logistics_service
+  depends_on:
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_test_address_book_v0_1
+    status: accepted
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_local_persistence_and_migration_boundary_v0_1
+    status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_channel_interaction_contract_v0_1
+    status: pending
+  evidence: {}
+  summary: Replace direct dependence on local recipient fixtures with an adapter that can later resolve
+    canonical client/address references while Logistics keeps only shipment-time snapshots.
+  substeps:
+  - substep_id: logistics_service_recipient_resolution_data_source_adapter_v0_1__01
+    title: Define RecipientDirectory protocol
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_recipient_resolution_data_source_adapter_v0_1__02
+    title: Keep local SQLite/fixture implementation as non-canonical adapter
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_recipient_resolution_data_source_adapter_v0_1__03
+    title: Define future canonical client/address lookup response shape
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_recipient_resolution_data_source_adapter_v0_1__04
+    title: Define ambiguity/missing-data clarification behavior
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_recipient_resolution_data_source_adapter_v0_1__05
+    title: Prove shipment-time snapshot ownership remains inside Logistics
+    status: planned
+    blocking: true
+  expected_outputs:
+  - RecipientDirectory protocol
+  - local adapter
+  - canonical-data adapter contract
+  - ambiguity clarification result
+  - shipment-time snapshot boundary tests
+  forbidden_outputs:
+  - canonical client ownership
+  - direct central database coupling
+- sequence: 27
+  step_id: logistics_service_central_database_migration_rehearsal_v0_1
+  title: Central database repository migration rehearsal
+  status: planned
+  priority: normal
+  owner_module: logistics_service
+  depends_on:
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_recipient_resolution_data_source_adapter_v0_1
+    status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_shipment_lifecycle_orchestration_preview_v0_1
+    status: pending
+  evidence: {}
+  summary: Prove that local operational persistence can be replaced by a future central repository adapter
+    without changing logistics domain contracts.
+  substeps:
+  - substep_id: logistics_service_central_database_migration_rehearsal_v0_1__01
+    title: Define repository migration compatibility fixture
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_central_database_migration_rehearsal_v0_1__02
+    title: Export local state through storage-neutral representation
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_central_database_migration_rehearsal_v0_1__03
+    title: Import into synthetic central-repository adapter
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_central_database_migration_rehearsal_v0_1__04
+    title: Run orchestration contract tests against both repositories
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_central_database_migration_rehearsal_v0_1__05
+    title: Document cutover and rollback boundaries
+    status: planned
+    blocking: true
+  expected_outputs:
+  - storage-neutral migration fixture
+  - synthetic central repository adapter
+  - dual-adapter contract suite
+  - cutover/rollback plan
+  forbidden_outputs:
+  - production central database migration
+- sequence: 28
+  step_id: logistics_service_selection_policy_tuning_v0_1
+  title: Provider selection policy tuning and commercial constraints
+  status: planned
+  priority: normal
+  owner_module: logistics_service
+  depends_on:
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_delivery_quote_and_selection_v0_1
+    status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_provider_polling_reconciliation_idempotency_v0_1
+    status: pending
+  evidence: {}
+  summary: Extend selection policy with configurable commercial constraints while keeping decisions explainable
+    and separate from final Calculator pricing.
+  substeps:
+  - substep_id: logistics_service_selection_policy_tuning_v0_1__01
+    title: Add configurable cost ETA reliability and preference weights
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_selection_policy_tuning_v0_1__02
+    title: Add provider/customer/service allow/deny policy inputs
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_selection_policy_tuning_v0_1__03
+    title: Add max cost/max ETA constraints
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_selection_policy_tuning_v0_1__04
+    title: Record selection explanation and rejected alternatives
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_selection_policy_tuning_v0_1__05
+    title: Add deterministic policy simulation fixtures
+    status: planned
+    blocking: true
+  expected_outputs:
+  - weighted selection policy
+  - allow/deny inputs
+  - cost/ETA constraints
+  - selection explanation record
+  - policy simulation
+  forbidden_outputs:
+  - opaque ML-only provider choice
+  - Calculator pricing ownership
+- sequence: 29
+  step_id: logistics_service_operator_audit_replay_diagnostics_v0_1
+  title: Operator audit, replay and diagnostics
+  status: planned
+  priority: normal
+  owner_module: logistics_service
+  depends_on:
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_channel_interaction_orchestration_preview_v0_1
+    status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_provider_polling_reconciliation_idempotency_v0_1
+    status: pending
+  evidence: {}
+  summary: 'Make each logistics decision reconstructable: input command, clarification, quotes, selection,
+    confirmation, provider request/result and tracking history.'
+  substeps:
+  - substep_id: logistics_service_operator_audit_replay_diagnostics_v0_1__01
+    title: Define correlation-based workflow audit view
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_operator_audit_replay_diagnostics_v0_1__02
+    title: Define safe replay fixture without provider mutation
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_operator_audit_replay_diagnostics_v0_1__03
+    title: Expose provider/selection/clarification decision evidence
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_operator_audit_replay_diagnostics_v0_1__04
+    title: Redact secrets and private data in diagnostics
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_operator_audit_replay_diagnostics_v0_1__05
+    title: Add operator-facing diagnostic report command
+    status: planned
+    blocking: true
+  expected_outputs:
+  - workflow audit projection
+  - safe replay fixture
+  - decision evidence
+  - redacted diagnostic report
+  - make-first diagnostic command
+  forbidden_outputs:
+  - secret leakage
+  - replay causing provider write
+- sequence: 30
+  step_id: logistics_service_telegram_end_to_end_contract_preview_v0_1
+  title: Telegram ↔ Logistics end-to-end contract preview
+  status: planned
+  priority: high
+  owner_module: logistics_service
+  depends_on:
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_channel_interaction_orchestration_preview_v0_1
+    status: pending
+  - type: module_step
+    module: telegram_bot
+    step_id: telegram_bot_logistics_command_intake_preview_v0_1
+    status: pending
+  - type: module_step
+    module: telegram_bot
+    step_id: telegram_bot_logistics_notification_surface_v0_1
+    status: pending
+  evidence: {}
+  summary: 'Validate both modules against shared fixtures: command intake, missing-data clarification,
+    provider choices, confirmation and logistics event rendering.'
+  substeps:
+  - substep_id: logistics_service_telegram_end_to_end_contract_preview_v0_1__01
+    title: Publish shared machine-contract fixtures without cross-repository writes
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_telegram_end_to_end_contract_preview_v0_1__02
+    title: Validate Telegram command output against Logistics input contract
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_telegram_end_to_end_contract_preview_v0_1__03
+    title: Validate clarification and confirmation round-trips
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_telegram_end_to_end_contract_preview_v0_1__04
+    title: Validate Logistics event/result output against Telegram rendering contract
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_telegram_end_to_end_contract_preview_v0_1__05
+    title: Run synthetic end-to-end scenario with no live provider mutation
+    status: planned
+    blocking: true
+  expected_outputs:
+  - shared contract fixture pack
+  - command compatibility test
+  - clarification/confirmation compatibility test
+  - event rendering compatibility test
+  - synthetic end-to-end preview
+  forbidden_outputs:
+  - direct cross-repository runtime write
+  - Telegram provider integration
+  - live provider mutation
+- sequence: 31
+  step_id: logistics_service_commercial_readiness_gate_v0_1
+  title: Commercial delivery automation readiness gate
+  status: planned
+  priority: high
+  owner_module: logistics_service
+  depends_on:
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_booking_cancellation_retry_compensation_v0_1
+    status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_webhook_polling_convergence_v0_1
+    status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_recipient_resolution_data_source_adapter_v0_1
+    status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_selection_policy_tuning_v0_1
+    status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_operator_audit_replay_diagnostics_v0_1
+    status: pending
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_telegram_end_to_end_contract_preview_v0_1
+    status: pending
+  evidence: {}
+  summary: Aggregate readiness evidence before any production provider mutation is allowed.
+  substeps:
+  - substep_id: logistics_service_commercial_readiness_gate_v0_1__01
+    title: Verify provider capability and environment inventory
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_commercial_readiness_gate_v0_1__02
+    title: Verify write authorization and confirmation controls
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_commercial_readiness_gate_v0_1__03
+    title: Verify recovery idempotency and reconciliation
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_commercial_readiness_gate_v0_1__04
+    title: Verify Telegram/Logistics contract compatibility
+    status: planned
+    blocking: true
+  - substep_id: logistics_service_commercial_readiness_gate_v0_1__05
+    title: Produce explicit production-readiness recommendation without enabling production
+    status: planned
+    blocking: true
+  expected_outputs:
+  - commercial readiness report
+  - provider readiness matrix
+  - safety gate evidence
+  - recovery evidence
+  - explicit production readiness recommendation
+  forbidden_outputs:
+  - automatic production enablement
+- sequence: 32
+  step_id: logistics_service_controlled_live_write_gate_v0_1
+  title: Controlled production live-write gate
+  status: deferred
+  priority: reference
+  owner_module: logistics_service
+  depends_on:
+  - type: module_step
+    module: logistics_service
+    step_id: logistics_service_commercial_readiness_gate_v0_1
+    status: pending
+  evidence: {}
+  summary: Planning-only production gate. Remains deferred until explicit operator authorization, real
+    provider credentials, environment governance and commercial readiness evidence exist.
+  substeps: []
+  expected_outputs:
+  - explicit operator authorization requirement
+  - production provider allowlist
   - credential readiness gate
+  - rollback/cancellation policy
   - audit requirement
-  - rollback and cancellation policy
-  - provider-specific write allowlist
-  - no live write implemented
+  forbidden_outputs:
+  - automatic production activation

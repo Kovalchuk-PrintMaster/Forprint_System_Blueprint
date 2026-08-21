@@ -2,6 +2,7 @@
 schema_version: outgoing_prompt_artifact_v0_1
 prompt_id: replace_with_canonical_prompt_id_v0_1
 target_module: replace_with_canonical_module_id
+roadmap_step_id: example_roadmap_step_v0_1
 title: Replace with a precise prompt title
 phase: replace_with_canonical_phase_v0_1
 priority: normal
@@ -43,3 +44,9 @@ Describe the architectural and operational context needed by the module.
 
 List the exact report, tests, checks, commits and completion packet fields the
 module must return.
+
+For Logistics-pilot managed prompts, the machine payload SHOULD include an
+`acceptance_handoff` mapping that declares the Prompt Contract path, Acceptance
+Oracle path, stable acceptance criteria, and completion-packet evidence IDs.
+Provider-specific research prompts MUST fail closed when current official
+provider evidence is unavailable instead of inventing capabilities.

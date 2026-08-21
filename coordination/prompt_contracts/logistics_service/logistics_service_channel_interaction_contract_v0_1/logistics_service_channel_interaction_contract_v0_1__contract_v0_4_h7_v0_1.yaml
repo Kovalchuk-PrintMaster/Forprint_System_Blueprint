@@ -1,0 +1,356 @@
+schema_version: module_prompt_contract_v0_4
+metadata:
+  contract_id: logistics_service_channel_interaction_contract_v0_1__contract_v0_4_h7_v0_1
+  module_id: logistics_service
+  prompt_id: logistics_service_channel_interaction_contract_v0_1
+  created_at: '2026-08-21'
+  status: candidate_reference_only
+  immutable: true
+source_prompt:
+  path: coordination/prompt_contracts/logistics_service/logistics_service_channel_interaction_contract_v0_1/source_prompt_snapshot.md
+  sha256: bcf017494fec041c2d4ce83de394442764a7b356e0380c9e7970f4b32b44f9f1
+  origin_path_at_capture: coordination/outgoing_prompts/logistics_service/drafts/2026-08-21__logistics_service_channel_interaction_contract_v0_1.md
+  origin_sha256_at_capture: bcf017494fec041c2d4ce83de394442764a7b356e0380c9e7970f4b32b44f9f1
+integrity:
+  algorithm: sha256
+  payload_sha256: fe97ed671693a6263ce2d49e7ce684c18d9513ed781af096dc6e661b810b4d90
+  payload_hash_scope: canonical JSON of entire document excluding integrity.payload_sha256
+source_obligations:
+- obligation_id: SRC-001
+  source_locator: machine_prompt.objective
+  required: true
+  summary: Define a channel-neutral bidirectional contract for operator commands, clarification, confirmation
+    and results while Logistics remains workflow owner.
+- obligation_id: SRC-002
+  source_locator: machine_prompt.authority.module_repo_only
+  required: true
+  summary: Authority boundary module_repo_only=True
+- obligation_id: SRC-003
+  source_locator: machine_prompt.authority.blueprint_repo_writes
+  required: true
+  summary: Authority boundary blueprint_repo_writes=False
+- obligation_id: SRC-004
+  source_locator: machine_prompt.authority.live_provider_write
+  required: true
+  summary: Authority boundary live_provider_write=False
+- obligation_id: SRC-005
+  source_locator: machine_prompt.authority.automatic_cross_repository_write
+  required: true
+  summary: Authority boundary automatic_cross_repository_write=False
+- obligation_id: SRC-006
+  source_locator: machine_prompt.implementation_obligations.IMP-001
+  required: true
+  summary: Define LogisticsCommandEnvelope with stable request_id, intent, correlation_id and idempotency_key.
+- obligation_id: SRC-007
+  source_locator: machine_prompt.implementation_obligations.IMP-002
+  required: true
+  summary: Define canonical intents for shipment draft/create-preview, quote, track, cancel-preview, status
+    and notification-related requests.
+- obligation_id: SRC-008
+  source_locator: machine_prompt.implementation_obligations.IMP-003
+  required: true
+  summary: Define ClarificationRequest/Response with machine field identifiers, reason codes and allowed-value
+    hints.
+- obligation_id: SRC-009
+  source_locator: machine_prompt.implementation_obligations.IMP-004
+  required: true
+  summary: Define ConfirmationRequest/Decision with exact operation fingerprint, expiry and explicit decision.
+- obligation_id: SRC-010
+  source_locator: machine_prompt.implementation_obligations.IMP-005
+  required: true
+  summary: Define LogisticsResultEnvelope and structured error/result codes.
+- obligation_id: SRC-011
+  source_locator: machine_prompt.implementation_obligations.IMP-006
+  required: true
+  summary: Keep channel identity as opaque channel/recipient hints; do not import Telegram runtime models.
+- obligation_id: SRC-012
+  source_locator: machine_prompt.implementation_obligations.IMP-007
+  required: true
+  summary: Add synthetic fixtures for complete request, missing data, invalid provider constraint, confirmation
+    and replay.
+- obligation_id: SRC-013
+  source_locator: machine_prompt.implementation_obligations.IMP-B01
+  required: true
+  summary: Preserve all prompt authority, ownership, forbidden-output, no-live-write and no-cross-repository
+    boundaries.
+- obligation_id: SRC-014
+  source_locator: machine_prompt.verification_obligations.VER-001
+  required: true
+  summary: Contract serialization round-trips are deterministic.
+- obligation_id: SRC-015
+  source_locator: machine_prompt.verification_obligations.VER-002
+  required: true
+  summary: Repeated identical commands preserve idempotency identity.
+- obligation_id: SRC-016
+  source_locator: machine_prompt.verification_obligations.VER-003
+  required: true
+  summary: Missing required data produces clarification instead of guessed values.
+- obligation_id: SRC-017
+  source_locator: machine_prompt.verification_obligations.VER-004
+  required: true
+  summary: Confirmation cannot authorize a different operation fingerprint.
+- obligation_id: SRC-018
+  source_locator: machine_prompt.verification_obligations.VER-005
+  required: true
+  summary: No Telegram imports, provider calls or live writes exist in this contract step.
+- obligation_id: SRC-019
+  source_locator: machine_prompt.verification_obligations.VER-B01
+  required: true
+  summary: Verify boundary confirmations, changed paths and execution evidence show no forbidden live
+    provider write, secret leak, Blueprint write or cross-repository mutation.
+- obligation_id: SRC-020
+  source_locator: machine_prompt.completion_evidence_obligations.CE-001
+  required: true
+  summary: contract files and public symbols
+- obligation_id: SRC-021
+  source_locator: machine_prompt.completion_evidence_obligations.CE-002
+  required: true
+  summary: fixture inventory
+- obligation_id: SRC-022
+  source_locator: machine_prompt.completion_evidence_obligations.CE-003
+  required: true
+  summary: contract test output
+- obligation_id: SRC-023
+  source_locator: machine_prompt.completion_evidence_obligations.CE-004
+  required: true
+  summary: boundary/no-cross-repository confirmation
+- obligation_id: SRC-024
+  source_locator: machine_prompt.completion_evidence_obligations.CE-005
+  required: true
+  summary: completion report/packet
+- obligation_id: SRC-025
+  source_locator: machine_prompt.completion_evidence_obligations.CE-B01
+  required: true
+  summary: boundary confirmation evidence bound into the completion packet
+- obligation_id: SRC-026
+  source_locator: machine_prompt.forbidden[1]
+  required: true
+  summary: 'Forbidden: Telegram conversation ownership'
+- obligation_id: SRC-027
+  source_locator: machine_prompt.forbidden[2]
+  required: true
+  summary: 'Forbidden: direct Telegram API/database writes'
+- obligation_id: SRC-028
+  source_locator: machine_prompt.forbidden[3]
+  required: true
+  summary: 'Forbidden: provider credentials in channel payloads'
+- obligation_id: SRC-029
+  source_locator: machine_prompt.forbidden[4]
+  required: true
+  summary: 'Forbidden: live provider writes'
+- obligation_id: SRC-030
+  source_locator: machine_prompt.forbidden[5]
+  required: true
+  summary: 'Forbidden: Blueprint repository writes'
+- obligation_id: SRC-031
+  source_locator: machine_prompt.completion_protocol.produce_module_side_completion_report
+  required: true
+  summary: Completion protocol produce_module_side_completion_report=True
+- obligation_id: SRC-032
+  source_locator: machine_prompt.completion_protocol.produce_module_side_completion_packet
+  required: true
+  summary: Completion protocol produce_module_side_completion_packet=True
+- obligation_id: SRC-033
+  source_locator: machine_prompt.completion_protocol.report_exact_commit_and_test_results
+  required: true
+  summary: Completion protocol report_exact_commit_and_test_results=True
+- obligation_id: SRC-034
+  source_locator: machine_prompt.completion_protocol.do_not_claim_blueprint_acceptance
+  required: true
+  summary: Completion protocol do_not_claim_blueprint_acceptance=True
+- obligation_id: SRC-035
+  source_locator: machine_prompt.completion_protocol.do_not_release_next_prompt
+  required: true
+  summary: Completion protocol do_not_release_next_prompt=True
+- obligation_id: SRC-036
+  source_locator: machine_prompt.acceptance_handoff
+  required: true
+  summary: Produce completion evidence using the declared Prompt Contract, Acceptance Oracle, criterion
+    IDs and evidence IDs.
+implementation_obligations:
+- obligation_id: IMP-001
+  summary: Define LogisticsCommandEnvelope with stable request_id, intent, correlation_id and idempotency_key.
+- obligation_id: IMP-002
+  summary: Define canonical intents for shipment draft/create-preview, quote, track, cancel-preview, status
+    and notification-related requests.
+- obligation_id: IMP-003
+  summary: Define ClarificationRequest/Response with machine field identifiers, reason codes and allowed-value
+    hints.
+- obligation_id: IMP-004
+  summary: Define ConfirmationRequest/Decision with exact operation fingerprint, expiry and explicit decision.
+- obligation_id: IMP-005
+  summary: Define LogisticsResultEnvelope and structured error/result codes.
+- obligation_id: IMP-006
+  summary: Keep channel identity as opaque channel/recipient hints; do not import Telegram runtime models.
+- obligation_id: IMP-007
+  summary: Add synthetic fixtures for complete request, missing data, invalid provider constraint, confirmation
+    and replay.
+- obligation_id: IMP-B01
+  summary: Preserve all prompt authority, ownership, forbidden-output, no-live-write and no-cross-repository
+    boundaries.
+verification_obligations:
+- obligation_id: VER-001
+  summary: Contract serialization round-trips are deterministic.
+- obligation_id: VER-002
+  summary: Repeated identical commands preserve idempotency identity.
+- obligation_id: VER-003
+  summary: Missing required data produces clarification instead of guessed values.
+- obligation_id: VER-004
+  summary: Confirmation cannot authorize a different operation fingerprint.
+- obligation_id: VER-005
+  summary: No Telegram imports, provider calls or live writes exist in this contract step.
+- obligation_id: VER-B01
+  summary: Verify boundary confirmations, changed paths and execution evidence show no forbidden live
+    provider write, secret leak, Blueprint write or cross-repository mutation.
+completion_evidence_obligations:
+- obligation_id: CE-001
+  summary: contract files and public symbols
+- obligation_id: CE-002
+  summary: fixture inventory
+- obligation_id: CE-003
+  summary: contract test output
+- obligation_id: CE-004
+  summary: boundary/no-cross-repository confirmation
+- obligation_id: CE-005
+  summary: completion report/packet
+- obligation_id: CE-B01
+  summary: boundary confirmation evidence bound into the completion packet
+source_obligation_fidelity_ledger:
+- source_obligation_id: SRC-001
+  target_obligation_ids:
+  - IMP-001
+  - IMP-002
+  - IMP-003
+  - IMP-004
+  - IMP-005
+  - IMP-006
+  - IMP-007
+- source_obligation_id: SRC-002
+  target_obligation_ids:
+  - IMP-B01
+  - VER-B01
+- source_obligation_id: SRC-003
+  target_obligation_ids:
+  - IMP-B01
+  - VER-B01
+- source_obligation_id: SRC-004
+  target_obligation_ids:
+  - IMP-B01
+  - VER-B01
+- source_obligation_id: SRC-005
+  target_obligation_ids:
+  - IMP-B01
+  - VER-B01
+- source_obligation_id: SRC-006
+  target_obligation_ids:
+  - IMP-001
+- source_obligation_id: SRC-007
+  target_obligation_ids:
+  - IMP-002
+- source_obligation_id: SRC-008
+  target_obligation_ids:
+  - IMP-003
+- source_obligation_id: SRC-009
+  target_obligation_ids:
+  - IMP-004
+- source_obligation_id: SRC-010
+  target_obligation_ids:
+  - IMP-005
+- source_obligation_id: SRC-011
+  target_obligation_ids:
+  - IMP-006
+- source_obligation_id: SRC-012
+  target_obligation_ids:
+  - IMP-007
+- source_obligation_id: SRC-013
+  target_obligation_ids:
+  - IMP-B01
+- source_obligation_id: SRC-014
+  target_obligation_ids:
+  - VER-001
+- source_obligation_id: SRC-015
+  target_obligation_ids:
+  - VER-002
+- source_obligation_id: SRC-016
+  target_obligation_ids:
+  - VER-003
+- source_obligation_id: SRC-017
+  target_obligation_ids:
+  - VER-004
+- source_obligation_id: SRC-018
+  target_obligation_ids:
+  - VER-005
+- source_obligation_id: SRC-019
+  target_obligation_ids:
+  - VER-B01
+- source_obligation_id: SRC-020
+  target_obligation_ids:
+  - CE-001
+- source_obligation_id: SRC-021
+  target_obligation_ids:
+  - CE-002
+- source_obligation_id: SRC-022
+  target_obligation_ids:
+  - CE-003
+- source_obligation_id: SRC-023
+  target_obligation_ids:
+  - CE-004
+- source_obligation_id: SRC-024
+  target_obligation_ids:
+  - CE-005
+- source_obligation_id: SRC-025
+  target_obligation_ids:
+  - CE-B01
+- source_obligation_id: SRC-026
+  target_obligation_ids:
+  - IMP-B01
+  - VER-B01
+  - CE-B01
+- source_obligation_id: SRC-027
+  target_obligation_ids:
+  - IMP-B01
+  - VER-B01
+  - CE-B01
+- source_obligation_id: SRC-028
+  target_obligation_ids:
+  - IMP-B01
+  - VER-B01
+  - CE-B01
+- source_obligation_id: SRC-029
+  target_obligation_ids:
+  - IMP-B01
+  - VER-B01
+  - CE-B01
+- source_obligation_id: SRC-030
+  target_obligation_ids:
+  - IMP-B01
+  - VER-B01
+  - CE-B01
+- source_obligation_id: SRC-031
+  target_obligation_ids:
+  - CE-B01
+- source_obligation_id: SRC-032
+  target_obligation_ids:
+  - CE-B01
+- source_obligation_id: SRC-033
+  target_obligation_ids:
+  - CE-B01
+- source_obligation_id: SRC-034
+  target_obligation_ids:
+  - CE-B01
+- source_obligation_id: SRC-035
+  target_obligation_ids:
+  - CE-B01
+- source_obligation_id: SRC-036
+  target_obligation_ids:
+  - VER-B01
+  - CE-B01
+semantic_fidelity:
+  human_review_required: true
+  execution_fingerprint_sufficient: false
+  review_state: pending_operator_review
+promotion:
+  state: candidate_reference_only
+  normal_acceptance_allowed: false
+  explicit_promotion_required: true
+  promotion_performed: false

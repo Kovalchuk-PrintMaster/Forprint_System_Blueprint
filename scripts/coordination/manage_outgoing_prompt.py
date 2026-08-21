@@ -94,6 +94,7 @@ UniqueKeyLoader.add_constructor(
 class PromptArtifact:
     prompt_id: str
     target_module: str
+    roadmap_step_id: str | None
     title: str
     phase: str
     priority: str
@@ -220,6 +221,19 @@ def _parse_artifact(
         pattern=PROMPT_ID_PATTERN,
     )
     target_module = _require_string(metadata, "target_module")
+    raw_roadmap_step_id = metadata.get("roadmap_step_id")
+    roadmap_step_id: str | None
+    if raw_roadmap_step_id is None:
+        roadmap_step_id = None
+    elif (
+        isinstance(raw_roadmap_step_id, str)
+        and PROMPT_ID_PATTERN.fullmatch(raw_roadmap_step_id) is not None
+    ):
+        roadmap_step_id = raw_roadmap_step_id
+    else:
+        raise WorkflowError(
+            "`roadmap_step_id` must be a canonical stable id when present"
+        )
     title = _require_string(metadata, "title")
     phase = _require_string(metadata, "phase", pattern=PHASE_PATTERN)
     priority = _require_string(metadata, "priority")
@@ -251,6 +265,7 @@ def _parse_artifact(
     return PromptArtifact(
         prompt_id=prompt_id,
         target_module=target_module,
+        roadmap_step_id=roadmap_step_id,
         title=title,
         phase=phase,
         priority=priority,
@@ -445,6 +460,13 @@ def prepare_prompt(
         allowed_states=ALLOWED_SOURCE_STATES,
     )
     _validate_module(root, artifact.target_module)
+    if (
+        artifact.target_module == "logistics_service"
+        and artifact.roadmap_step_id is None
+    ):
+        raise WorkflowError(
+            "Logistics pilot managed prompts require `roadmap_step_id`"
+        )
 
     module_dir = _module_dir(root, artifact.target_module)
     destination = (
@@ -649,6 +671,10 @@ def release_prompt(
         raise WorkflowError(
             "prepared artifact target module does not match release module"
         )
+    if module == "logistics_service" and artifact.roadmap_step_id is None:
+        raise WorkflowError(
+            "Logistics pilot release requires structured `roadmap_step_id`"
+        )
 
     allowed, policy_evidence = _release_allowed(root, module)
     if not allowed:
@@ -683,6 +709,7 @@ def release_prompt(
         "title": artifact.title,
         "file": f"approved/{approved_path.name}",
         "target_module": module,
+        "roadmap_step_id": artifact.roadmap_step_id,
         "phase": artifact.phase,
         "priority": artifact.priority,
         "module_execution": {

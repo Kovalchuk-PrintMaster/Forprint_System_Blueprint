@@ -194,6 +194,36 @@ Health thresholds come from the canonical coordination health policy, not hard-c
 
 Below-target may be advisory when policy says so. Below-minimum behavior follows policy.
 
+### H7 Logistics pilot health semantics
+
+During the single-module pilot, `logistics_service` is the only module whose
+module-level H7 health findings are enforcement-significant. Other modules may
+be observed but their current heterogeneous adoption state does not block H7.
+
+Roadmap horizon health counts future `planned` / `ready` roadmap records.
+Dependency-blocked future records still count toward planning horizon; H6
+dependency eligibility is a separate dimension and MUST NOT be subtracted from
+the H7 roadmap horizon.
+
+Prompt-buffer health counts only valid managed `prepared` prompt artifacts with
+an explicit structured `roadmap_step_id` bound to an actual future roadmap
+step. Released/approved prompts are active execution state and do not count as
+future buffer stock. Missing, unknown, non-future, or duplicate step bindings
+do not increase buffer health.
+
+Health evaluation is read-only. It may warn or advise the operator to refill the
+roadmap/prompt buffer, but it MUST NOT automatically prepare, release, select,
+accept, commit, or push anything.
+
+The Make-first operator surface is `make coordination-health`, defaulting to the
+current Logistics pilot. `COORDINATION_HEALTH_MODULE=<module>` may be used for
+read-only observation, but non-pilot shortage findings are advisory-only until
+rollout is explicitly authorized. Pilot buffer-integrity errors are blocking and
+produce a non-zero command exit; ordinary below-minimum/target shortages remain
+operator warnings/advisories rather than automatic mutations.
+
+Prepared-buffer target is a health threshold, not a capacity limit. The canonical minimum is 2 and target is 3, while the maximum is unbounded. Blueprint may prepare any larger number of future prompts when their scope, dependencies and machine-verifiable outcomes are already credible. It MUST NOT split one coherent task merely to inflate prompt count. Conversely, a module may temporarily have zero or one prepared prompts when dependencies or unresolved cross-module evidence make further prompt design speculative; that shortage is reported, not hidden.
+
 ## 16. Next-prompt selection
 
 Default next-prompt ordering is:
@@ -245,3 +275,21 @@ Revision promotion is a separate explicit operator decision.
 ## 20. Out of scope for this slice
 
 This standard does not itself implement the source registry, coordination-pulse, Prompt Contract v0.4, Completion Packet v0.4, Completion Outbox, discovery scanner, review/advance command, next-prompt selector, Tracking Events v0.4 reference, or v0.4 promotion.
+
+## Prepared-prompt acceptance materialization — Logistics H7 pilot
+
+For new Logistics pilot work, an acceptance oracle is materialized when a
+concrete managed prompt becomes `prepared`, not when a planning-only roadmap
+parent is first written. The immutable Prompt Contract MUST snapshot the exact
+prepared prompt and the roadmap parent MUST bind the exact oracle path and
+SHA-256 before that prompt can be treated as acceptance-ready work.
+
+Planning-only future parents MAY remain without `acceptance` while no concrete
+prompt exists. This is deliberate: an oracle cannot precede the immutable
+source Prompt Contract it is required to reference.
+
+Each prepared Logistics pilot prompt declares stable completion-packet
+`evidence_id` values. Module completion MUST use `module_completion_packet_v0_4`
+and bind every contract IMP/VER/CE obligation to known evidence in
+`evidence_manifest`. Module completion never creates Blueprint ACCEPT and never
+releases the next prompt automatically.

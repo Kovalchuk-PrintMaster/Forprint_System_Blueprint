@@ -180,10 +180,39 @@ def _draft_files(drafts_dir: Path) -> list[Path]:
     )
 
 
+def _managed_prompt_binding(path: Path) -> tuple[bool, str | None]:
+    try:
+        text = path.read_text(encoding="utf-8")
+    except UnicodeDecodeError:
+        return False, None
+
+    if not text.startswith("---\n"):
+        return False, None
+    end = text.find("\n---\n", 4)
+    if end < 0:
+        return False, None
+
+    try:
+        metadata = yaml.safe_load(text[4:end])
+    except yaml.YAMLError:
+        return False, None
+    if not isinstance(metadata, dict):
+        return False, None
+    if metadata.get("schema_version") != "outgoing_prompt_artifact_v0_1":
+        return False, None
+
+    bound = metadata.get("roadmap_step_id")
+    return True, bound if isinstance(bound, str) and bound else None
+
+
 def _matches_step(path: Path, step: dict[str, Any]) -> bool:
     step_id = step.get("step_id")
     if not isinstance(step_id, str) or not step_id:
         return False
+
+    managed, bound_step_id = _managed_prompt_binding(path)
+    if managed:
+        return bound_step_id == step_id
 
     normalized_name = path.stem.replace("-", "_")
     if step_id.replace("-", "_") in normalized_name:
