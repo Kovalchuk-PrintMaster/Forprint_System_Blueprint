@@ -87,6 +87,44 @@ def validate(
                     f"projection.{key} must be {expected!r}"
                 )
 
+    release = manifest.get("current_release_authority")
+    if not isinstance(release, dict):
+        issues.append("current_release_authority must be a mapping")
+    else:
+        expected_release = {
+            "source": "coordination/releases/current.yaml",
+            "schema_version": "forprint_current_release_projection_v0_1",
+            "status": "authoritative_current",
+            "base_release": "v0.4",
+            "base_release_state": "PROMOTED_CLOSED_SEALED",
+            "hardening_release": "v0.4.1",
+            "hardening_state": "ACTIVE_CURRENT",
+        }
+        for key, expected in expected_release.items():
+            if release.get(key) != expected:
+                issues.append(
+                    f"current_release_authority.{key} must be {expected!r}"
+                )
+
+        legacy = release.get("legacy_compatibility")
+        if not isinstance(legacy, dict):
+            issues.append(
+                "current_release_authority.legacy_compatibility must be a mapping"
+            )
+        else:
+            if legacy.get("visibility") != "advisory_yellow":
+                issues.append(
+                    "legacy compatibility visibility must be advisory_yellow"
+                )
+            if legacy.get("current_gate") != "nonblocking":
+                issues.append(
+                    "legacy compatibility current gate must be nonblocking"
+                )
+            if legacy.get("current_runtime_dependency_allowed") is not False:
+                issues.append(
+                    "current runtime must not depend on legacy compatibility"
+                )
+
     consistency = manifest.get("source_consistency")
     if not isinstance(consistency, dict):
         issues.append("source_consistency must be a mapping")
@@ -234,6 +272,10 @@ def validate(
 
     required_fragments = (
         "ForPrint Blueprint Governance Status",
+        "Current release authority",
+        "base release: v0.4 PROMOTED_CLOSED_SEALED",
+        "hardening release: v0.4.1 ACTIVE_CURRENT",
+        "legacy compatibility: advisory / nonblocking",
         "Observed governance decision state",
         "Coordination control state",
         "Authorization boundaries",

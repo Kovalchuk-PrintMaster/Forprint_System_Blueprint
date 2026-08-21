@@ -29,7 +29,7 @@ RELEASE_POLICY = (
 
 EXPECTED_HASHES = {
     "scripts/coordination/build_context_bundle.py": (
-        "f41b17d6347330f2c5b71c2b4fca4c52563e28d6f0857eb8c07b236757676de0"
+        "099b83127d8fb310179efff7f0a4745017cda5c6f7baffc09ff754bece63fe89"
     ),
     "scripts/coordination/build_document_manifest.py": (
         "bb56666df0cba827c84c4709af357e3878f5e3df1eeea7827dde90072b58e09f"

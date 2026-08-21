@@ -34,6 +34,7 @@ MUTATION_BUILDER_CONTRACT = Path(
     "mutation_builder_contract_v0_1.yaml"
 )
 CHECK_CATALOG = Path("scripts/run_blueprint_checks.py")
+CURRENT_RELEASE = Path("coordination/releases/current.yaml")
 
 SOURCE_PATHS = (
     PROGRESS,
@@ -42,6 +43,7 @@ SOURCE_PATHS = (
     RELEASE_POLICY,
     MUTATION_BUILDER_CONTRACT,
     CHECK_CATALOG,
+    CURRENT_RELEASE,
 )
 
 TEN_STEP_FORWARD_PLAN = (
@@ -353,6 +355,54 @@ def build_manifest(
             + ", ".join(missing)
         )
 
+    current_release = load_yaml(root / CURRENT_RELEASE)
+    if current_release.get("schema_version") != (
+        "forprint_current_release_projection_v0_1"
+    ):
+        raise TransparencyFailure("Current release projection schema is invalid")
+
+    release_metadata = require_mapping(
+        current_release.get("metadata"),
+        "current release metadata",
+    )
+    release_state = require_mapping(
+        current_release.get("release"),
+        "current release state",
+    )
+    release_legacy = require_mapping(
+        current_release.get("legacy_compatibility"),
+        "current release legacy compatibility",
+    )
+
+    if release_metadata.get("status") != "authoritative_current":
+        raise TransparencyFailure(
+            "Current release projection is not authoritative_current"
+        )
+    if release_state.get("base_release") != "v0.4":
+        raise TransparencyFailure("Current release base_release must be v0.4")
+    if release_state.get("base_release_state") != "PROMOTED_CLOSED_SEALED":
+        raise TransparencyFailure(
+            "Current release base state must be PROMOTED_CLOSED_SEALED"
+        )
+    if release_state.get("hardening_release") != "v0.4.1":
+        raise TransparencyFailure("Current hardening release must be v0.4.1")
+    if release_state.get("hardening_state") != "ACTIVE_CURRENT":
+        raise TransparencyFailure("Current hardening state must be ACTIVE_CURRENT")
+    if release_legacy.get("visibility") != "advisory_yellow":
+        raise TransparencyFailure(
+            "Legacy compatibility visibility must be advisory_yellow"
+        )
+    if release_legacy.get("default_current_gate_behavior") != (
+        "nonblocking_excluded_or_skipped"
+    ):
+        raise TransparencyFailure(
+            "Legacy compatibility must be nonblocking in current gates"
+        )
+    if release_legacy.get("current_runtime_dependency_allowed") is not False:
+        raise TransparencyFailure(
+            "Current runtime must not depend on legacy compatibility"
+        )
+
     progress = load_yaml(root / PROGRESS)
     closeout = load_yaml(root / READINESS_CLOSEOUT)
     matrix = load_yaml(root / ADOPTION_MATRIX)
@@ -658,6 +708,22 @@ def build_manifest(
             "pilot_authorization_effect": "none",
             "release_policy_effect": "none",
         },
+        "current_release_authority": {
+            "source": CURRENT_RELEASE.as_posix(),
+            "schema_version": current_release["schema_version"],
+            "status": release_metadata["status"],
+            "base_release": release_state["base_release"],
+            "base_release_state": release_state["base_release_state"],
+            "hardening_release": release_state["hardening_release"],
+            "hardening_state": release_state["hardening_state"],
+            "legacy_compatibility": {
+                "visibility": release_legacy["visibility"],
+                "current_gate": "nonblocking",
+                "current_runtime_dependency_allowed": (
+                    release_legacy["current_runtime_dependency_allowed"]
+                ),
+            },
+        },
         "observed_repository_state": {
             "branch": repository["branch"],
             "head": repository["head"],
@@ -748,6 +814,7 @@ def build_manifest(
 
 
 def render_status(manifest: dict[str, Any]) -> str:
+    release = manifest["current_release_authority"]
     repository = manifest["observed_repository_state"]
     governance = manifest["governance_decision_state"]
     coordination = manifest["coordination_control_state"]
@@ -757,6 +824,19 @@ def render_status(manifest: dict[str, Any]) -> str:
 
     lines = [
         "ForPrint Blueprint Governance Status",
+        "",
+        "Current release authority",
+        f"  source: {release['source']}",
+        f"  authority status: {release['status']}",
+        (
+            "  base release: "
+            f"{release['base_release']} {release['base_release_state']}"
+        ),
+        (
+            "  hardening release: "
+            f"{release['hardening_release']} {release['hardening_state']}"
+        ),
+        "  legacy compatibility: advisory / nonblocking",
         "",
         "Repository",
         f"  branch: {repository['branch']}",

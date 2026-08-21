@@ -148,6 +148,21 @@ def build_checks() -> list[CheckDefinition]:
             group="core_quality",
         ),
         CheckDefinition(
+            check_id="current_release_projection_validation",
+            title="Current release projection",
+            expected_result=(
+                "Authoritative current coordination release is valid and "
+                "legacy compatibility is non-blocking"
+            ),
+            command=(
+                python,
+                "scripts/coordination/current_release_projection_v0_1.py",
+                "--root",
+                ".",
+            ),
+            group="core_quality",
+        ),
+        CheckDefinition(
             check_id="blueprint_validation",
             title="Blueprint validation",
             expected_result="Architecture metadata is valid",
@@ -286,16 +301,17 @@ def build_checks() -> list[CheckDefinition]:
         ),
         CheckDefinition(
             check_id="completion_intake_check_tests",
-            title="Completion intake check",
-            expected_result="Blueprint-owned intake verification is read-only",
+            title="Completion discovery/intake v0.4",
+            expected_result="Promoted v0.4 completion discovery/intake and review boundary are read-only",
             command=(
                 python,
                 "-m",
                 "pytest",
                 "-q",
-                "tests/coordination/test_completion_intake_check.py",
-                "tests/test_completion_intake_check_protocol_v0_3.py",
-                "tests/validation/test_completion_revision_registry_v0_1.py",
+                "tests/validation/test_v0_4_completion_discovery_and_intake.py",
+                "tests/validation/test_v0_4_completion_packet.py",
+                "tests/validation/test_v0_4_completion_outbox.py",
+                "tests/validation/test_v0_4_review_transaction_module_schema_plan.py",
             ),
             group="coordination",
         ),

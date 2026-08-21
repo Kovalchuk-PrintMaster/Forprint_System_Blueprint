@@ -7,11 +7,12 @@ metadata:
   roadmap_version: logistics_service_commercial_delivery_automation_v0_3
   updated_at: '2026-08-21'
   planning_horizon:
-    rule: 8_to_10_actionable_steps_ahead
-    current_ready_step: logistics_service_tracking_events_v0_1
-    actionable_steps_ahead: 8
-    reference_steps_ahead: 1
-    review_after_each_acceptance: true
+    rule: minimum_5_target_8_unbounded_meaningful_future_steps
+    minimum_future_steps: 5
+    target_future_steps: 8
+    maximum_future_steps: null
+    meaningful_future_steps: 25
+    review_after_each_acceptance_or_material_scope_change: true
   repository_root: /srv/software_development/forprint-project/forprint_logistics_service
   implementation_type: operational_integration_service
   current_stage: provider-neutral commercial delivery automation foundation

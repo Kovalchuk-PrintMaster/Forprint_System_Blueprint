@@ -122,7 +122,7 @@ next ready/planned steps
 blocked/deferred high-priority items
 ## Planning horizon rule
 
-For every module under active development, the canonical roadmap should normally show **8–10 actionable steps after the current ready or active step**.
+For every module under active development, the canonical roadmap should normally keep **at least 5 meaningful future actionable parent steps**, target **8**, and impose **no maximum**. Larger horizons such as 15, 25, or 50 steps are valid when concrete, dependency-aware and useful; do not pad the roadmap with speculative work.
 
 The horizon is a planning map, not an immutable contract. Steps may be split, merged, reordered, blocked, deferred or superseded as evidence changes, but the roadmap must continue to show a credible path forward.
 

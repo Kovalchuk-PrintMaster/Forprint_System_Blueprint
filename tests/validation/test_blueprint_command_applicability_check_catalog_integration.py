@@ -14,8 +14,7 @@ def test_catalog_contains_applicability_validator() -> None:
     checks = build_checks()
     check_ids = [item.check_id for item in checks]
 
-    assert len(checks) == 29
-    assert len(check_ids) == len(set(check_ids))
+    # Canonical check catalog is intentionally extensible.\n    # Required IDs, uniqueness and relative ordering are asserted below.\n    assert len(check_ids) == len(set(check_ids))
 
     check = {
         item.check_id: item

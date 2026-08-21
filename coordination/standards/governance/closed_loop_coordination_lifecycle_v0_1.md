@@ -293,3 +293,10 @@ Each prepared Logistics pilot prompt declares stable completion-packet
 and bind every contract IMP/VER/CE obligation to known evidence in
 `evidence_manifest`. Module completion never creates Blueprint ACCEPT and never
 releases the next prompt automatically.
+
+## Current release authority and legacy compatibility — v0.4.1
+
+Current effective coordination authority is projected by `coordination/releases/current.yaml`.
+Historical publication metadata inside earlier v0.4 standard artifacts is preserved and does not override the promoted release decision.
+
+Deprecated compatibility assets are governed by `coordination/standards/governance/legacy_compatibility_retirement_policy_v0_1.md` and `coordination/legacy/compatibility_registry_v0_1.yaml`. They are available for historical/manual use but do not define or block current release behavior unless explicitly declared as a current compatibility dependency.

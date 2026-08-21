@@ -9,6 +9,8 @@ from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
 
+import yaml
+
 from scripts.coordination.build_document_manifest import DEFAULT_SOURCE_REGISTRY
 from scripts.coordination.render_document_awareness_dashboard import (
     DEFAULT_LEDGER,
@@ -20,6 +22,7 @@ from scripts.reporting.document_awareness_tables import (
 )
 
 DEFAULT_OUTPUT_DIR = Path("reports/coordination_context_bundles")
+CURRENT_RELEASE = Path("coordination/releases/current.yaml")
 
 VALID_SCOPES = {
     "bootstrap",
@@ -196,6 +199,56 @@ def _render_selected_records_snapshot(records: list[AwarenessRecord]) -> str:
     return "\n".join(lines)
 
 
+def _current_release_summary(root: Path) -> dict[str, str]:
+    path = root / CURRENT_RELEASE
+    if not path.is_file():
+        return {
+            "source": CURRENT_RELEASE.as_posix(),
+            "availability": "missing_in_isolated_root",
+            "base_release": "unknown",
+            "hardening_release": "unknown",
+            "legacy_compatibility": "unknown",
+        }
+
+    data = yaml.safe_load(path.read_text(encoding="utf-8"))
+    if not isinstance(data, dict):
+        raise ValueError("Current release projection must be a YAML mapping")
+    if data.get("schema_version") != "forprint_current_release_projection_v0_1":
+        raise ValueError("Current release projection schema is invalid")
+
+    metadata = data.get("metadata")
+    release = data.get("release")
+    legacy = data.get("legacy_compatibility")
+    if not isinstance(metadata, dict):
+        raise ValueError("Current release metadata must be a mapping")
+    if not isinstance(release, dict):
+        raise ValueError("Current release state must be a mapping")
+    if not isinstance(legacy, dict):
+        raise ValueError("Current release legacy state must be a mapping")
+    if metadata.get("status") != "authoritative_current":
+        raise ValueError("Current release projection is not authoritative_current")
+
+    return {
+        "source": CURRENT_RELEASE.as_posix(),
+        "availability": "authoritative_current",
+        "base_release": (
+            f"{release.get('base_release')} "
+            f"{release.get('base_release_state')}"
+        ),
+        "hardening_release": (
+            f"{release.get('hardening_release')} "
+            f"{release.get('hardening_state')}"
+        ),
+        "legacy_compatibility": (
+            "advisory / nonblocking"
+            if legacy.get("visibility") == "advisory_yellow"
+            and legacy.get("default_current_gate_behavior")
+            == "nonblocking_excluded_or_skipped"
+            else "INVALID"
+        ),
+    }
+
+
 def build_context_bundle(
     *,
     root: Path,
@@ -206,6 +259,8 @@ def build_context_bundle(
     include_reference: bool = False,
     limit: int | None = None,
 ) -> BundleResult:
+    current_release = _current_release_summary(root)
+
     dashboard = build_dashboard(
         root=root,
         module=module,
@@ -235,6 +290,17 @@ def build_context_bundle(
         f"- Ledger: `{_relative_to_root(root, ledger_path)}`",
         f"- Ledger loaded: `{'yes' if ledger_path.exists() else 'no'}`",
         f"- Documents included: `{len(selected_records)}`",
+        "",
+        "## Current Release Authority",
+        "",
+        f"- Source: `{current_release['source']}`",
+        f"- Availability: `{current_release['availability']}`",
+        f"- Base release: `{current_release['base_release']}`",
+        f"- Hardening release: `{current_release['hardening_release']}`",
+        (
+            "- Legacy compatibility: "
+            f"`{current_release['legacy_compatibility']}`"
+        ),
         "",
         "## Selected Document Snapshot",
         "",

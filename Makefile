@@ -1294,3 +1294,11 @@ COORDINATION_HEALTH_MODULE ?= logistics_service
 .PHONY: coordination-health
 coordination-health:
 	.venv_blueprint/bin/python scripts/coordination/module_coordination_health_v0_1.py --module "$(COORDINATION_HEALTH_MODULE)"
+
+.PHONY: coordination-release-status
+coordination-release-status:
+	.venv_blueprint/bin/python scripts/coordination/current_release_projection_v0_1.py --root .
+
+.PHONY: legacy-compat-status
+legacy-compat-status:
+	.venv_blueprint/bin/python scripts/coordination/legacy_compatibility_status_v0_1.py --root .

@@ -1,31 +1,27 @@
 schema_version: completion_exchange_revision_registry_v0_1
 metadata:
   registry_id: forprint_completion_exchange_revisions
-  updated_at: '2026-08-12'
+  updated_at: '2026-08-21'
   owner: forprint_system_blueprint
-  status: transition
+  status: current
+  current_release_projection: coordination/releases/current.yaml
 operational_current:
-  prompt_contract: legacy_prose_prompt_transition
-  completion_packet: module_completion_packet_v0_2
-  completion_intake: blueprint_completion_intake_v0_2
+  prompt_contract: module_prompt_contract_v0_4
+  completion_packet: module_completion_packet_v0_4
+  completion_outbox: module_completion_outbox_event_v0_4
+  discovery_intake: completion_discovery_and_intake_v0_4
+  review_transaction: review_roadmap_queue_transaction_v0_4
   normal_acceptance_allowed: true
 candidate_next:
-  prompt_contract: module_prompt_contract_v0_3
-  completion_packet: module_completion_packet_v0_3
-  completion_intake: blueprint_completion_intake_v0_3
-  activation_state: reference_validation
+  declared: false
+  activation_state: none_declared
   normal_acceptance_allowed: false
-  reference_validation_flag: --allow-candidate-reference
-  promotion_requires:
-    - green Tracking Events v0.3 reference intake
-    - canonical documentation review
-    - operator-approved promotion slice
 legacy_policy:
   normal_runtime_fallback: false
   historical_revisions_are_for:
-    - recognition
-    - forensic_understanding
-    - migration_instruction_generation
+  - recognition
+  - forensic_understanding
+  - migration_instruction_generation
   unknown_revision_behavior: classify_and_generate_upgrade_instruction
 revision_evolution:
   revision_change_is_normal_operation: true
@@ -36,3 +32,25 @@ revision_evolution:
 source_of_truth:
   exchange_protocol: coordination/standards/governance/module_completion_exchange_protocol_v0_3.md
   history: coordination/revisions/history.yaml
+  current_release_projection: coordination/releases/current.yaml
+  current_lifecycle: coordination/standards/governance/closed_loop_coordination_lifecycle_v0_1.md
+superseded_transition:
+  previous_operational_current:
+    prompt_contract: legacy_prose_prompt_transition
+    completion_packet: module_completion_packet_v0_2
+    completion_intake: blueprint_completion_intake_v0_2
+    normal_acceptance_allowed: true
+  previous_candidate_next:
+    prompt_contract: module_prompt_contract_v0_3
+    completion_packet: module_completion_packet_v0_3
+    completion_intake: blueprint_completion_intake_v0_3
+    activation_state: reference_validation
+    normal_acceptance_allowed: false
+    reference_validation_flag: --allow-candidate-reference
+    promotion_requires:
+    - green Tracking Events v0.3 reference intake
+    - canonical documentation review
+    - operator-approved promotion slice
+  status: deprecated_candidate
+  compatibility_registry: coordination/legacy/compatibility_registry_v0_1.yaml
+  normal_runtime_fallback: false

@@ -3,7 +3,7 @@
 Status: active cross-repository boundary standard
 Created/updated: `2026-07-14`; completion exchange revision notice updated `2026-08-12`
 
-> Completion exchange revision notice: `coordination/revisions/current.yaml` is the machine-readable source of truth. v0.2 remains operational only during the bounded v0.3 reference-validation transition. The v0.3 candidate is documented in `module_completion_exchange_protocol_v0_3.md` and cannot enter the normal acceptance path until separately promoted.
+> Current release notice: `coordination/releases/current.yaml` is the effective current coordination authority. `coordination/revisions/current.yaml` now points at promoted v0.4. The old v0.2/v0.3 transition is a non-blocking compatibility lane registered in `coordination/legacy/compatibility_registry_v0_1.yaml`.
 
 ## Purpose
 

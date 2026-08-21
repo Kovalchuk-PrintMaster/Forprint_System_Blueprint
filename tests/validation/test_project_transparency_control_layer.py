@@ -206,3 +206,47 @@ def test_current_branch_is_not_bound_to_historical_evidence_branch(
         == "historical_assessment_branch_provenance"
         for row in manifest["source_consistency"]["checks"]
     )
+
+def test_current_release_is_first_class_transparency_authority() -> None:
+    manifest = renderer.build_manifest(ROOT)
+    release = manifest["current_release_authority"]
+
+    assert release == {
+        "source": "coordination/releases/current.yaml",
+        "schema_version": "forprint_current_release_projection_v0_1",
+        "status": "authoritative_current",
+        "base_release": "v0.4",
+        "base_release_state": "PROMOTED_CLOSED_SEALED",
+        "hardening_release": "v0.4.1",
+        "hardening_state": "ACTIVE_CURRENT",
+        "legacy_compatibility": {
+            "visibility": "advisory_yellow",
+            "current_gate": "nonblocking",
+            "current_runtime_dependency_allowed": False,
+        },
+    }
+
+    rendered = renderer.render_status(manifest)
+    assert "Current release authority" in rendered
+    assert "base release: v0.4 PROMOTED_CLOSED_SEALED" in rendered
+    assert "hardening release: v0.4.1 ACTIVE_CURRENT" in rendered
+    assert "legacy compatibility: advisory / nonblocking" in rendered
+
+
+def test_transparency_source_set_includes_current_release() -> None:
+    assert renderer.CURRENT_RELEASE in renderer.SOURCE_PATHS
+    manifest = renderer.build_manifest(ROOT)
+    assert "coordination/releases/current.yaml" in manifest["source_files"]
+
+
+def test_current_release_check_is_first_class_canonical_gate() -> None:
+    checks = build_checks()
+    by_id = {item.check_id: item for item in checks}
+    release_check = by_id["current_release_projection_validation"]
+
+    assert release_check.title == "Current release projection"
+    assert release_check.group == "core_quality"
+    assert (
+        "scripts/coordination/current_release_projection_v0_1.py"
+        in release_check.command
+    )

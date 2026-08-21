@@ -1,3 +1,7 @@
+# Historical compatibility notice — v0.4.1
+
+The v0.1/v0.2/v0.3 transition workflows described below are retained for historical/manual compatibility. Current runtime authority is `coordination/releases/current.yaml`.
+
 # ForPrint Module Prompt Completion Protocol
 
 Status: transition reference for v0.1/v0.2; v0.3 candidate under reference validation
