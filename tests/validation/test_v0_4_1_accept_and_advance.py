@@ -600,3 +600,163 @@ def test_compound_evidence_write_failure_rolls_back_to_post_accept(
     assert retried["review_result"]["result_state"] == "ALREADY_APPLIED"
     assert compound_evidence.is_file()
 
+def _add_h6_lower_priority_override(paths: dict[str, Path]) -> Path:
+    roadmap = load(paths["roadmap"])
+    roadmap["roadmap"].append(
+        {
+            "sequence": 3,
+            "step_id": "aaa_explicit_override",
+            "title": "Explicit lower-priority override",
+            "status": "planned",
+            "priority": "normal",
+            "owner_module": "demo",
+            "depends_on": [
+                {
+                    "type": "module_step",
+                    "module": "demo",
+                    "step_id": "demo_prompt",
+                    "status": "pending",
+                }
+            ],
+            "expected_outputs": [],
+            "evidence": {},
+        }
+    )
+    write_yaml(paths["roadmap"], roadmap)
+
+    override_draft = (
+        paths["root"]
+        / "coordination/outgoing_prompts/demo/drafts/"
+        "2026-08-20__aaa_explicit_override__"
+        "aaa_explicit_override_prompt_v0_1.md"
+    )
+    override_draft.write_text(
+        "---\n"
+        "schema_version: outgoing_prompt_artifact_v0_1\n"
+        "prompt_id: aaa_explicit_override_prompt_v0_1\n"
+        "target_module: demo\n"
+        "title: Explicit lower-priority override\n"
+        "phase: aaa_explicit_override\n"
+        "priority: normal\n"
+        'created_at: "2026-08-20"\n'
+        "source_change: governance/h6-test\n"
+        "lifecycle_state: prepared\n"
+        "prepared_at: '2026-08-20T14:00:00Z'\n"
+        "prepared_from_sha256: "
+        + "e" * 64
+        + "\n"
+        "lineage:\n"
+        "  supersedes: null\n"
+        "roadmap_step_id: aaa_explicit_override\n"
+        "---\n"
+        "# Explicit override\n\n"
+        "Implements aaa_explicit_override.\n",
+        encoding="utf-8",
+    )
+    return override_draft
+
+
+def _h6_override_request(paths: dict[str, Path]) -> dict:
+    request = operation_request(
+        paths,
+        mode="release_explicit_prompt",
+    )
+    request["advance"]["expected_roadmap_step_id"] = (
+        "aaa_explicit_override"
+    )
+    request["advance"]["expected_prompt_id"] = (
+        "aaa_explicit_override_prompt_v0_1"
+    )
+    request["review_transaction"]["preconditions"][
+        "roadmap_sha256"
+    ] = review_tx.file_sha256(paths["roadmap"])
+    return request
+
+
+def test_h6_explicit_lower_priority_step_is_validated_override(
+    tmp_path: Path,
+) -> None:
+    paths = fixture_state(tmp_path, authorized=True)
+    override_draft = _add_h6_lower_priority_override(paths)
+    request = _h6_override_request(paths)
+
+    result = h5.apply_operation(
+        paths["root"],
+        request,
+        operator_confirmation="accept_and_advance_demo_h5",
+    )
+
+    assert result["result_state"] == "ACCEPT_AND_ADVANCE_APPLIED"
+    assert result["advance"]["result"] == "ACTIVATED"
+    assert not override_draft.exists()
+
+    roadmap_after = load(paths["roadmap"])
+    assert (
+        roadmap_after["metadata"]["current_step_id"]
+        == "aaa_explicit_override"
+    )
+    override_step = next(
+        item
+        for item in roadmap_after["roadmap"]
+        if item["step_id"] == "aaa_explicit_override"
+    )
+    assert override_step["status"] == "active"
+
+
+def test_h6_override_evidence_failure_restores_exact_override_draft(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    paths = fixture_state(tmp_path, authorized=True)
+    override_draft = _add_h6_lower_priority_override(paths)
+    original_override = override_draft.read_bytes()
+    request = _h6_override_request(paths)
+
+    original_writer = h5._atomic_write_yaml
+
+    def fail_compound_evidence(path: Path, data: dict) -> None:
+        if "accept_and_advance" in path.parts:
+            raise OSError("simulated H6 compound evidence failure")
+        original_writer(path, data)
+
+    monkeypatch.setattr(
+        h5,
+        "_atomic_write_yaml",
+        fail_compound_evidence,
+    )
+
+    blocked = h5.apply_operation(
+        paths["root"],
+        request,
+        operator_confirmation="accept_and_advance_demo_h5",
+    )
+
+    assert (
+        blocked["result_state"]
+        == "ACCEPT_APPLIED_ADVANCE_BLOCKED"
+    )
+    assert (
+        blocked["advance"]["code"]
+        == "COMPOUND_EVIDENCE_WRITE_FAILED"
+    )
+    assert override_draft.is_file()
+    assert override_draft.read_bytes() == original_override
+
+    approved_override = (
+        paths["root"]
+        / "coordination/outgoing_prompts/demo/approved/"
+        "2026-08-20__aaa_explicit_override__"
+        "aaa_explicit_override_prompt_v0_1.md"
+    )
+    assert not approved_override.exists()
+
+    roadmap_after = load(paths["roadmap"])
+    assert roadmap_after["roadmap"][0]["status"] == "accepted"
+    override_step = next(
+        item
+        for item in roadmap_after["roadmap"]
+        if item["step_id"] == "aaa_explicit_override"
+    )
+    assert override_step["status"] == "planned"
+    assert roadmap_after["metadata"]["current_step_id"] == "demo_prompt"
+

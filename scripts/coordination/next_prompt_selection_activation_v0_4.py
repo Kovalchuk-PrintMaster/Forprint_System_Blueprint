@@ -11,20 +11,20 @@ from typing import Any
 
 import yaml
 
+from scripts.coordination.selection_policy_v0_1 import (
+    DEFAULT_SELECTION_SOURCE,
+    EXPLICIT_OVERRIDE_SOURCE,
+    LEGACY_SELECTION_SOURCES,
+    SelectionPolicyError,
+    priority_then_stable_id_key,
+)
+
 SELECTION_SCHEMA = "blueprint_next_prompt_selection_v0_4"
 ACTIVATION_REQUEST_SCHEMA = "blueprint_next_prompt_activation_request_v0_4"
 ACTIVATION_EVIDENCE_SCHEMA = "blueprint_next_prompt_activation_evidence_v0_4"
 
 SAFE_ID = re.compile(r"^[A-Za-z0-9._-]+$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
-PRIORITY_ORDER = {
-    "critical": 0,
-    "highest": 0,
-    "high": 1,
-    "normal": 2,
-    "medium": 2,
-    "low": 3,
-}
 
 
 class SelectionActivationError(RuntimeError):
@@ -167,24 +167,14 @@ def _dependency_status(
     return not reasons, reasons
 
 
-def _priority_rank(value: Any) -> int:
-    return PRIORITY_ORDER.get(str(value or "normal").lower(), 50)
-
-
-def _sort_key(item: dict[str, Any]) -> tuple[Any, ...]:
-    sequence = item.get("sequence")
-    queue_rank = item.get("queue_rank")
-    if not isinstance(sequence, int):
-        sequence = 10**9
-    if not isinstance(queue_rank, int):
-        queue_rank = sequence
-    return (
-        queue_rank,
-        sequence,
-        _priority_rank(item.get("priority")),
-        str(item.get("created_at") or ""),
-        str(item.get("prompt_id") or ""),
-    )
+def _sort_key(item: dict[str, Any]) -> tuple[int, str]:
+    try:
+        return priority_then_stable_id_key(
+            item,
+            id_field="prompt_id",
+        )
+    except SelectionPolicyError as exc:
+        raise SelectionActivationError(str(exc)) from exc
 
 
 def _candidate_records(
@@ -300,7 +290,7 @@ def select_next_prompt(
         selection_source = "explicit_validated_override"
     else:
         selected = eligible[0] if eligible else None
-        selection_source = "deterministic_queue_order"
+        selection_source = DEFAULT_SELECTION_SOURCE
 
     if active:
         result_state = "ACTIVE_PROMPT_PRESENT"
@@ -615,10 +605,12 @@ def _request_identity(
         "selection_source",
         "deterministic_queue_order",
     )
-    if selection_source not in {
-        "deterministic_queue_order",
-        "explicit_validated_override",
-    }:
+    allowed_selection_sources = {
+        DEFAULT_SELECTION_SOURCE,
+        EXPLICIT_OVERRIDE_SOURCE,
+        *LEGACY_SELECTION_SOURCES,
+    }
+    if selection_source not in allowed_selection_sources:
         raise SelectionActivationError("invalid selection_source")
     if not isinstance(prompt_id, str) or not SAFE_ID.fullmatch(prompt_id):
         raise SelectionActivationError("invalid selected prompt_id")

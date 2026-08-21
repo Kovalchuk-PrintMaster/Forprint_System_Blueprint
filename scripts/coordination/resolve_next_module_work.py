@@ -16,6 +16,13 @@ from scripts.coordination.module_roadmap import (
     resolve_roadmap_path,
     validate_roadmap_document,
 )
+from scripts.coordination.selection_policy_v0_1 import (
+    DEFAULT_SELECTION_SOURCE,
+    EXPLICIT_OVERRIDE_SOURCE,
+    SelectionPolicyError,
+    priority_then_stable_id_key,
+    roadmap_dependency_reasons,
+)
 from scripts.reporting.coordination_result_tables import (
     render_next_work_summary,
 )
@@ -35,6 +42,7 @@ class NextWorkSuggestion:
     module: str
     current_step: dict[str, Any] | None
     next_step: dict[str, Any] | None
+    selection_source: str
     active_prompts: tuple[dict[str, Any], ...]
     draft_candidates: tuple[Path, ...]
     conflicting_drafts: tuple[Path, ...]
@@ -88,22 +96,60 @@ def _current_step(
     return steps[-1] if steps else None
 
 
-def _next_step(
+def _eligible_steps(
+    *,
+    roadmap_module: str,
     steps: list[dict[str, Any]],
-    current: dict[str, Any] | None,
-) -> dict[str, Any] | None:
-    current_index = None
-    if current is not None:
-        for index, step in enumerate(steps):
-            if step.get("step_id") == current.get("step_id"):
-                current_index = index
-                break
+) -> list[dict[str, Any]]:
+    eligible = [
+        step
+        for step in steps
+        if step.get("status") in {"planned", "ready"}
+        and not roadmap_dependency_reasons(
+            roadmap_module=roadmap_module,
+            steps=steps,
+            step=step,
+        )
+    ]
+    try:
+        eligible.sort(
+            key=lambda item: priority_then_stable_id_key(
+                item,
+                id_field="step_id",
+            )
+        )
+    except SelectionPolicyError as exc:
+        raise NextWorkError(str(exc)) from exc
+    return eligible
 
-    start = 0 if current_index is None else current_index + 1
-    for step in steps[start:]:
-        if step.get("status") not in DONE_STATUSES:
-            return step
-    return None
+
+def _next_step(
+    *,
+    roadmap_module: str,
+    steps: list[dict[str, Any]],
+    override_step_id: str | None = None,
+) -> tuple[dict[str, Any] | None, str]:
+    eligible = _eligible_steps(
+        roadmap_module=roadmap_module,
+        steps=steps,
+    )
+
+    if override_step_id is not None:
+        selected = [
+            step
+            for step in eligible
+            if step.get("step_id") == override_step_id
+        ]
+        if len(selected) != 1:
+            raise NextWorkError(
+                "explicit override is not dependency-eligible and selectable"
+            )
+        return selected[0], EXPLICIT_OVERRIDE_SOURCE
+
+    return (
+        eligible[0] if eligible else None,
+        DEFAULT_SELECTION_SOURCE,
+    )
 
 
 def _active_prompts(queue_data: dict[str, Any]) -> list[dict[str, Any]]:
@@ -155,6 +201,7 @@ def resolve_next_work(
     *,
     root: Path,
     module: str,
+    override_step_id: str | None = None,
 ) -> NextWorkSuggestion:
     root = root.resolve()
     module_dir = root / "coordination" / "outgoing_prompts" / module
@@ -172,7 +219,11 @@ def resolve_next_work(
     active = _active_prompts(queue_data)
     steps = _sorted_steps(roadmap_data)
     current = _current_step(roadmap_data, steps)
-    upcoming = _next_step(steps, current)
+    upcoming, selection_source = _next_step(
+        roadmap_module=module,
+        steps=steps,
+        override_step_id=override_step_id,
+    )
 
     if active:
         return NextWorkSuggestion(
@@ -181,6 +232,7 @@ def resolve_next_work(
             module=module,
             current_step=current,
             next_step=upcoming,
+            selection_source=selection_source,
             active_prompts=tuple(active),
             draft_candidates=(),
             conflicting_drafts=(),
@@ -197,10 +249,11 @@ def resolve_next_work(
             module=module,
             current_step=current,
             next_step=None,
+            selection_source=selection_source,
             active_prompts=(),
             draft_candidates=(),
             conflicting_drafts=tuple(drafts),
-            action="Blueprint roadmap decision is required before another prompt is prepared.",
+            action="No dependency-eligible planned/ready roadmap step is available.",
             decision_required=True,
         )
 
@@ -214,10 +267,11 @@ def resolve_next_work(
             module=module,
             current_step=current,
             next_step=upcoming,
+            selection_source=selection_source,
             active_prompts=(),
             draft_candidates=tuple(matches),
             conflicting_drafts=tuple(conflicts),
-            action="Review the draft candidate and decide whether to promote it to approved.",
+            action="Review the selected dependency-eligible priority candidate and decide whether to promote it to approved.",
             decision_required=True,
         )
 
@@ -228,6 +282,7 @@ def resolve_next_work(
             module=module,
             current_step=current,
             next_step=upcoming,
+            selection_source=selection_source,
             active_prompts=(),
             draft_candidates=tuple(matches),
             conflicting_drafts=tuple(conflicts),
@@ -242,6 +297,7 @@ def resolve_next_work(
             module=module,
             current_step=current,
             next_step=upcoming,
+            selection_source=selection_source,
             active_prompts=(),
             draft_candidates=(),
             conflicting_drafts=tuple(drafts),
@@ -255,10 +311,11 @@ def resolve_next_work(
         module=module,
         current_step=current,
         next_step=upcoming,
+        selection_source=selection_source,
         active_prompts=(),
         draft_candidates=(),
         conflicting_drafts=(),
-        action="Prepare a draft prompt using only the documented next roadmap step.",
+        action="Prepare a draft prompt for the selected dependency-eligible priority roadmap step.",
         decision_required=True,
     )
 
@@ -291,6 +348,7 @@ def as_dict(suggestion: NextWorkSuggestion, *, root: Path) -> dict[str, Any]:
         "module": suggestion.module,
         "current_step": _step_payload(suggestion.current_step),
         "next_step": _step_payload(suggestion.next_step),
+        "selection_source": suggestion.selection_source,
         "active_prompts": [
             {
                 "prompt_id": item.get("prompt_id"),
@@ -329,12 +387,17 @@ def main() -> int:
     )
     parser.add_argument("--root", type=Path, default=Path.cwd())
     parser.add_argument("--module", required=True)
+    parser.add_argument("--override-step-id")
     parser.add_argument("--no-color", action="store_true")
     parser.add_argument("--json", action="store_true")
     args = parser.parse_args()
 
     try:
-        suggestion = resolve_next_work(root=args.root, module=args.module)
+        suggestion = resolve_next_work(
+            root=args.root,
+            module=args.module,
+            override_step_id=args.override_step_id,
+        )
     except NextWorkError as exc:
         print(f"RESULT: FAILED\nSIGNAL: RED\nERROR: {exc}")
         return 1

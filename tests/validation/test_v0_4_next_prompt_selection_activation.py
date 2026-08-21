@@ -96,14 +96,14 @@ def fixture_state(tmp_path: Path) -> dict[str, Path]:
                     "sequence": 2,
                     "status": "planned",
                     "depends_on": ["s1"],
-                    "priority": "high",
+                    "priority": "critical",
                 },
                 {
                     "step_id": "s3",
                     "sequence": 3,
                     "status": "planned",
                     "depends_on": ["s1"],
-                    "priority": "critical",
+                    "priority": "high",
                 },
             ],
         },
@@ -133,7 +133,7 @@ def fixture_state(tmp_path: Path) -> dict[str, Path]:
                     ),
                     "sequence": 2,
                     "queue_rank": 2,
-                    "priority": "high",
+                    "priority": "critical",
                     "created_at": "2026-08-16",
                 },
                 {
@@ -148,7 +148,7 @@ def fixture_state(tmp_path: Path) -> dict[str, Path]:
                     ),
                     "sequence": 3,
                     "queue_rank": 3,
-                    "priority": "critical",
+                    "priority": "high",
                     "created_at": "2026-08-15",
                 },
             ],
@@ -260,20 +260,57 @@ def request_for(
     }
 
 
-def test_deterministic_order_prefers_queue_rank_before_priority(
+def test_default_order_prefers_priority_over_queue_sequence_and_date(
     tmp_path: Path,
 ) -> None:
     module = tool_module()
     paths = fixture_state(tmp_path)
 
+    queue = load(paths["queue"])
+    p2 = next(x for x in queue["prompts"] if x["prompt_id"] == "p2")
+    p3 = next(x for x in queue["prompts"] if x["prompt_id"] == "p3")
+    p2["priority"] = "high"
+    p2["created_at"] = "2020-01-01"
+    p3["priority"] = "critical"
+    p3["created_at"] = "2099-12-31"
+    write_yaml(paths["queue"], queue)
+
     report = module.select_next_prompt(paths["root"])
 
     assert report["result_state"] == "NEXT_PROMPT_SELECTED"
-    assert report["eligible_prompt_ids"] == ["p2", "p3"]
-    assert report["selected_prompt"]["prompt_id"] == "p2"
-    assert report["selection_source"] == "deterministic_queue_order"
+    assert report["eligible_prompt_ids"] == ["p3", "p2"]
+    assert report["selected_prompt"]["prompt_id"] == "p3"
+    assert (
+        report["selection_source"]
+        == "dependency_eligibility_priority_stable_id"
+    )
     assert report["selection_performed"] is True
     assert report["activation_performed"] is False
+
+
+def test_equal_priority_uses_prompt_id_not_queue_sequence_or_date(
+    tmp_path: Path,
+) -> None:
+    module = tool_module()
+    paths = fixture_state(tmp_path)
+
+    queue = load(paths["queue"])
+    p2 = next(x for x in queue["prompts"] if x["prompt_id"] == "p2")
+    p3 = next(x for x in queue["prompts"] if x["prompt_id"] == "p3")
+    for item in (p2, p3):
+        item["priority"] = "high"
+    p2["queue_rank"] = 999
+    p2["sequence"] = 999
+    p2["created_at"] = "2099-12-31"
+    p3["queue_rank"] = 1
+    p3["sequence"] = 1
+    p3["created_at"] = "2020-01-01"
+    write_yaml(paths["queue"], queue)
+
+    report = module.select_next_prompt(paths["root"])
+
+    assert report["eligible_prompt_ids"] == ["p2", "p3"]
+    assert report["selected_prompt"]["prompt_id"] == "p2"
 
 
 def test_dependency_ineligible_prompt_is_blocked(tmp_path: Path) -> None:

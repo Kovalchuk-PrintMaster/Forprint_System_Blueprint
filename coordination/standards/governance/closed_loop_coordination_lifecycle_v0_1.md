@@ -198,11 +198,13 @@ Below-target may be advisory when policy says so. Below-minimum behavior follows
 
 Default next-prompt ordering is:
 
-1. explicit operator override;
-2. dependency eligibility;
-3. queue rank or sequence;
-4. priority;
-5. creation-time tie-break.
+1. explicit operator override, validated against eligibility;
+2. dependency eligibility and dispatchability;
+3. canonical priority;
+4. stable canonical ID tie-break.
+
+`queue_rank`, `sequence`, and creation time are navigation/audit metadata and
+must not outrank priority or act as the default tie-break.
 
 Selection and activation are separate. A candidate may be selected without activation.
 

@@ -116,15 +116,17 @@ normal
 low
 reference
 
-Priority controls operator attention, not automatic execution.
+Priority controls canonical future-work selection among otherwise eligible candidates; it does not authorize execution.
 
-High-priority prompts should be considered before lower-priority prompts, but sequence order remains the main navigation rule inside one module queue.
+Higher-priority eligible work is selected before lower-priority eligible work. Equal-priority candidates use stable canonical ID, not sequence or creation time, as the deterministic tie-break.
 
 ## Sequence
 
 Each prompt should have a numeric sequence.
 
 The sequence is module-local.
+
+Sequence is navigation and audit metadata. It is not the canonical future-work selection key and must not outrank priority.
 
 Example:
 
@@ -178,7 +180,7 @@ Markdown and JSON reports must not rely only on color. They must include explici
 
 The next prompt for a module should be resolved from the queue, not from a hardcoded Makefile variable.
 
-The resolver should select the first prompt by sequence where:
+Active-prompt navigation is not future-work selection. Under WIP=1, the active resolver should return the single prompt where:
 
 module_execution.status == ready_for_module_pull
 

@@ -28,6 +28,9 @@ from scripts.coordination.resolve_next_module_work import (
 from scripts.coordination.resolve_next_module_work import (
     as_dict as next_work_as_dict,
 )
+from scripts.coordination.selection_policy_v0_1 import (
+    roadmap_dependency_reasons,
+)
 
 REQUEST_SCHEMA = "blueprint_accept_and_advance_request_v0_1"
 EVIDENCE_SCHEMA = "blueprint_accept_and_advance_evidence_v0_1"
@@ -282,9 +285,18 @@ def _unresolved_queue_records(
     return unresolved
 
 
-def _next_work(root: Path, module: str) -> dict[str, Any]:
+def _next_work(
+    root: Path,
+    module: str,
+    *,
+    override_step_id: str | None = None,
+) -> dict[str, Any]:
     try:
-        suggestion = resolve_next_work(root=root, module=module)
+        suggestion = resolve_next_work(
+            root=root,
+            module=module,
+            override_step_id=override_step_id,
+        )
     except NextWorkError as exc:
         raise AcceptAndAdvanceError(
             f"next-work resolution failed: {exc}"
@@ -332,57 +344,6 @@ def _advance_snapshot_paths(
     ]
 
 
-def _roadmap_dependency_reasons(
-    roadmap: dict[str, Any],
-    step: dict[str, Any],
-) -> list[str]:
-    rows = roadmap.get("roadmap")
-    if not isinstance(rows, list):
-        return ["ROADMAP_LIST_MISSING"]
-    by_id = {
-        item.get("step_id"): item
-        for item in rows
-        if isinstance(item, dict)
-        and isinstance(item.get("step_id"), str)
-    }
-
-    reasons: list[str] = []
-    for dependency in step.get("depends_on") or []:
-        if isinstance(dependency, str):
-            dependency_id = dependency
-            target = by_id.get(dependency_id)
-            if not isinstance(target, dict):
-                reasons.append(f"UNKNOWN_DEPENDENCY:{dependency_id}")
-                continue
-            if target.get("status") not in {"completed", "accepted"}:
-                reasons.append(
-                    f"DEPENDENCY_NOT_DONE:{dependency_id}"
-                )
-            continue
-
-        if not isinstance(dependency, dict):
-            reasons.append("INVALID_DEPENDENCY_RECORD")
-            continue
-
-        dependency_id = dependency.get("step_id")
-        dependency_module = dependency.get("module")
-        if dependency_module in {None, roadmap.get("module")}:
-            target = by_id.get(dependency_id)
-            if isinstance(target, dict):
-                if target.get("status") not in {"completed", "accepted"}:
-                    reasons.append(
-                        f"DEPENDENCY_NOT_DONE:{dependency_id}"
-                    )
-                continue
-
-        if dependency.get("status") not in {"completed", "accepted"}:
-            reasons.append(
-                f"DEPENDENCY_NOT_DONE:{dependency_id}"
-            )
-
-    return reasons
-
-
 def _activate_roadmap_step(
     *,
     root: Path,
@@ -415,7 +376,11 @@ def _activate_roadmap_step(
             "explicit next roadmap step is no longer activatable"
         )
 
-    reasons = _roadmap_dependency_reasons(roadmap, step)
+    reasons = roadmap_dependency_reasons(
+        roadmap_module=module,
+        steps=rows,
+        step=step,
+    )
     if reasons:
         raise AcceptAndAdvanceError(
             "dependency eligibility failed: " + ", ".join(reasons)
@@ -520,7 +485,16 @@ def prepare_operation(
     next_work = None
     advance_preview_state = "AFTER_ACCEPT_REEVALUATION_REQUIRED"
     if review_plan.get("result_state") == "ALREADY_APPLIED":
-        next_work = _next_work(root, identity["module_id"])
+        override_step_id = (
+            identity["expected_step_id"]
+            if identity["advance_mode"] == "release_explicit_prompt"
+            else None
+        )
+        next_work = _next_work(
+            root,
+            identity["module_id"],
+            override_step_id=override_step_id,
+        )
         advance_preview_state = "CURRENT_ACCEPTED_STATE_RESOLVED"
 
     return {
@@ -557,6 +531,21 @@ def _perform_explicit_release(
     review_result: dict[str, Any],
     next_work: dict[str, Any],
 ) -> dict[str, Any]:
+    try:
+        next_work = _next_work(
+            root,
+            identity["module_id"],
+            override_step_id=identity["expected_step_id"],
+        )
+    except AcceptAndAdvanceError as exc:
+        return _blocked_result(
+            identity=identity,
+            review_result=review_result,
+            next_work=next_work,
+            code="EXPLICIT_OVERRIDE_NOT_ELIGIBLE",
+            detail=str(exc),
+        )
+
     unresolved = _unresolved_queue_records(
         root,
         identity["module_id"],
@@ -760,7 +749,27 @@ def apply_operation(
             "nested ACCEPT transaction did not reach accepted state"
         )
 
-    next_work = _next_work(root, identity["module_id"])
+    if identity["advance_mode"] == "release_explicit_prompt":
+        try:
+            next_work = _next_work(
+                root,
+                identity["module_id"],
+                override_step_id=identity["expected_step_id"],
+            )
+        except AcceptAndAdvanceError as exc:
+            fallback_next_work = _next_work(
+                root,
+                identity["module_id"],
+            )
+            return _blocked_result(
+                identity=identity,
+                review_result=review_result,
+                next_work=fallback_next_work,
+                code="EXPLICIT_OVERRIDE_NOT_ELIGIBLE",
+                detail=str(exc),
+            )
+    else:
+        next_work = _next_work(root, identity["module_id"])
 
     advance_result: dict[str, Any]
     advance_snapshot: dict[Path, bytes | None] | None = None

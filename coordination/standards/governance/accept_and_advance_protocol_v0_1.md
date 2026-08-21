@@ -57,15 +57,16 @@ The apply command requires an operator confirmation exactly equal to
 
 ## Selection boundary
 
-H5 does not introduce the future H6 default ranking policy.
+H5 does not hardcode H6 ranking logic; it delegates next-work eligibility
+and default ordering to the canonical module resolver.
 
 `release_explicit_prompt` is allowed only when the operator binds both the
-expected roadmap step ID and expected prompt ID. The current generic module
-next-work resolver validates that the draft matches the documented next step.
-Dependencies are revalidated before activation.
+expected roadmap step ID and expected prompt ID. Under H6, the expected roadmap
+step ID is treated as an explicit validated override: it may outrank the
+default priority choice, but it cannot bypass dependency eligibility. The
+expected prompt ID remains an explicit identity binding.
 
-There is no date-based, priority-based, or hidden automatic prompt choice in
-this H5 operation.
+H5 contains no date-based or sequence-based fallback selection.
 
 ## WIP=1
 
