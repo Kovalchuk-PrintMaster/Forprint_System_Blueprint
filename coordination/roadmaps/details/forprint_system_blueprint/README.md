@@ -41,3 +41,14 @@ to be integrated only after the current H9 Logistics rollout is reviewed:
 B1 was separately activated on 2026-08-22 after H9 was accepted and published.
 B2 remains a planning addition only. B1 activation does not enable SQLite runtime,
 autonomous execution, automatic ACCEPT, business prompt release or module-repository writes.
+
+## Zero-context continuity entry point
+
+For assistant replacement or context-window recovery, start with:
+
+- `coordination/roadmaps/details/forprint_system_blueprint/continuity/START_HERE.md`
+- `coordination/roadmaps/details/forprint_system_blueprint/continuity/prompt_sequence_v0_1.yaml`
+- newest snapshot under `coordination/roadmaps/details/forprint_system_blueprint/continuity/snapshots/`
+
+These continuity files are navigation/handoff artifacts, not runtime authority.
+`coordination/releases/current.yaml` and current Git state remain authoritative.

@@ -1,0 +1,45 @@
+schema_version: forprint_blueprint_continuity_snapshot_v0_1
+snapshot_at: '2026-08-22T19:13:00+03:00'
+snapshot_class: handoff_navigation_only
+authoritative: false
+warning: >
+  Revalidate Git and coordination/releases/current.yaml before mutation.
+
+blueprint:
+  repository: /srv/software_development/forprint-project/forprint_system_blueprint
+  branch: audit/blueprint-inventory-refresh-2026-07-29
+  head_at_snapshot: 1456b191ca4c29a31631d4c35af983be97e3f7fa
+  upstream_at_snapshot: 1456b191ca4c29a31631d4c35af983be97e3f7fa
+  live_remote_at_snapshot: 1456b191ca4c29a31631d4c35af983be97e3f7fa
+  divergence: [0, 0]
+  worktree_clean: true
+
+release:
+  base_release: v0.4
+  base_release_state: PROMOTED_CLOSED_SEALED
+  hardening_release: v0.4.1
+  hardening_state: ACTIVE_CURRENT
+  current_slice: blueprint_v0_4_1_execution_baseline_and_drift_control_v0_1
+
+closed:
+  H9:
+    status: ACCEPTED_PUBLISHED_CLOSED
+    blueprint_acceptance_commit: 5bcf99cfb29f83a6ee999c239dd33e999988e9cf
+    logistics_implementation_commit: 4a3a8cf3d2809c3a7f49268fa62334ed24b5fa90
+    logistics_publication_seal: 96284d829bb5cdcd564f44c51bdbe681f9d26cae
+
+current:
+  package: B1
+  stable_id: blueprint_v0_4_1_execution_baseline_and_drift_control_v0_1
+  activation_status: PUBLISHED_REMOTE_CURRENT
+  activation_commit: 1456b191ca4c29a31631d4c35af983be97e3f7fa
+  next_functional_action: implement_B1_execution_baseline_and_drift_control
+
+inactive:
+  B2: true
+  Q1_Q8: true
+  H10: true
+  H11: true
+  sqlite_runtime: true
+  autonomous_execution: true
+  automatic_accept: true
