@@ -1,11 +1,12 @@
 # ForPrint v0.4.1 — Remaining Coordination Hardening Plan v0.1
 
-Status: PLANNED / NOT ACTIVE
-Current external pilot: H9 Logistics reference rollout.
+Status: ACTIVE / B1 CURRENT
+Current coordination-hardening slice: B1 — `blueprint_v0_4_1_execution_baseline_and_drift_control_v0_1`.
+H9 Logistics reference rollout: ACCEPTED / PUBLISHED / CLOSED.
 
 This document captures missing coordination semantics discovered during the Logistics
-pilot discussion. It intentionally does not change the H9 target while the Logistics
-assistant is working.
+pilot. H9 is accepted, published and closed; B1 is now the current Blueprint-owned
+hardening slice. B2 and Q1-Q8 remain planned and inactive until separately promoted.
 
 ## Why this belongs to v0.4.1
 
@@ -16,6 +17,16 @@ A module may need one parameter, access, a cross-module fact, provider capabilit
 confirmation, or an operator decision without the prompt being ready for RETURN/HOLD.
 
 ## B1 — `blueprint_v0_4_1_execution_baseline_and_drift_control_v0_1`
+
+Activation: **ACTIVE_CURRENT** as of 2026-08-22.
+
+Authority:
+- current release projection: `coordination/releases/current.yaml`;
+- activation decision: `coordination/internal_work/blueprint/governance/2026-08-22__blueprint__b1_execution_baseline_activation_v0_1.yaml`;
+- dependency satisfied: H9 Logistics reference rollout accepted and published;
+- B2, Q1-Q8, H10 and H11 remain inactive until separate reviewed transactions;
+- no module repository mutation, business prompt release, SQLite runtime, daemon,
+  autonomous execution or automatic ACCEPT is authorized by this activation.
 
 Goal: eliminate repeated assistant-side Git archaeology when Blueprint or a module
 moves forward between prompt preparation, release, claim and execution.

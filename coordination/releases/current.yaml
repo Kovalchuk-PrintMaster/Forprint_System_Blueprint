@@ -15,7 +15,7 @@ release:
     operator_decision: PROMOTE_V0_4
   hardening_release: v0.4.1
   hardening_state: ACTIVE_CURRENT
-  current_slice: H8_current_release_and_legacy_compatibility_lane
+  current_slice: blueprint_v0_4_1_execution_baseline_and_drift_control_v0_1
 authority_model:
   effective_release_authority_source: coordination/releases/current.yaml
   artifact_publication_metadata: preserved as historical publication state and never used alone to infer
@@ -84,8 +84,25 @@ historical_non_authoritative_projections:
 - coordination/self_coordination/roadmap.yaml
 - coordination/self_coordination/prompt_queue/index.yaml
 planned_followups:
-- id: H9
-  title: Logistics reference rollout packaging
+- id: B2
+  title: Coordination data classification and persistence boundary
+  stable_id: blueprint_v0_4_1_coordination_data_classification_and_persistence_boundary_v0_1
+- id: Q1
+  title: Clarification question lifecycle
+- id: Q2
+  title: Bounded five-round clarification and escalation
+- id: Q3
+  title: Blocker taxonomy
+- id: Q4
+  title: Immutable prompt and operator decisions
+- id: Q5
+  title: Common event envelope
+- id: Q6
+  title: Operator attention semantics
+- id: Q7
+  title: Cross-module question routing contract
+- id: Q8
+  title: Logistics clarification reference validation
 - id: H10
   title: Ecosystem rollout, balance and dependency adoption
 - id: H11
