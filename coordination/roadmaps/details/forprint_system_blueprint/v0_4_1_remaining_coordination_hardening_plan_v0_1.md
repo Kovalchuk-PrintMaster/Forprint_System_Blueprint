@@ -15,6 +15,356 @@ review and next work. Missing is a first-class execution-time clarification path
 A module may need one parameter, access, a cross-module fact, provider capability
 confirmation, or an operator decision without the prompt being ready for RETURN/HOLD.
 
+## B1 — `blueprint_v0_4_1_execution_baseline_and_drift_control_v0_1`
+
+Goal: eliminate repeated assistant-side Git archaeology when Blueprint or a module
+moves forward between prompt preparation, release, claim and execution.
+
+### Core rule
+
+A prompt is not permanently pinned to the repository HEAD that existed when it
+was authored.
+
+Instead, the prompt records immutable **required inputs and provenance**. At
+execution start, a deterministic preflight decides whether the newer repository
+state remains compatible.
+
+`freshness != compatibility`
+
+A repository may be current but a prompt superseded, or a prompt may have been
+authored many commits ago while all of its required inputs remain compatible.
+
+### Three baselines
+
+Every execution distinguishes:
+
+1. `release_baseline` — state observed when the prompt was released;
+2. `execution_baseline` — real Blueprint/module state when the prompt was
+   claimed and execution began;
+3. `completion_baseline` — state observed when module work completed.
+
+A later HEAD is not itself a failure.
+
+### Required-input manifest
+
+The released prompt/contract identifies only inputs it materially depends on:
+
+- current coordination release;
+- exact prompt contract;
+- exact acceptance oracle;
+- relevant standards/policies;
+- relevant roadmap parent;
+- declared cross-module contracts;
+- other explicitly required artifacts.
+
+For immutable inputs, record stable ID, path and SHA256 where appropriate.
+
+Do **not** freeze the entire Blueprint repository merely because a prompt was
+prepared against an older commit.
+
+### Blueprint drift classification
+
+Initial machine results:
+
+- `READY_EXACT`;
+- `READY_FORWARD_COMPATIBLE`;
+- `READY_CURRENT_REVALIDATED`;
+- `BLOCKED_BLUEPRINT_MATERIAL_DRIFT`;
+- `BLOCKED_REQUIRED_INPUT_MISSING`;
+- `BLOCKED_BREAKING_RELEASE_CHANGE`;
+- `BLOCKED_PROMPT_SUPERSEDED`.
+
+Ordinary unrelated commits should normally produce
+`READY_FORWARD_COMPATIBLE`, not human investigation.
+
+### Module repository drift classification
+
+A prompt may also have been prepared against an older module commit.
+
+If current module HEAD is a valid forward descendant, expected branch is correct
+and worktree is safe, do not checkout the historical commit merely to match the
+prompt baseline.
+
+Initial results:
+
+- `MODULE_EXACT`;
+- `MODULE_FORWARD_COMPATIBLE`;
+- `BLOCKED_MODULE_DIVERGED`;
+- `BLOCKED_MODULE_DIRTY`;
+- `BLOCKED_MODULE_BRANCH_MISMATCH`.
+
+For initial unattended automation, require a clean module worktree before claim.
+Per-prompt Git worktrees may be added later.
+
+### Deterministic execution preflight
+
+Target startup:
+
+`coordination-sync-check`
+→ `module-sync`
+→ `prompt-read`
+→ `execution-preflight`
+→ `CLAIM`
+→ work.
+
+`coordination-sync-check` answers whether current Blueprint state is observable.
+
+`execution-preflight` answers whether **this specific prompt** can safely execute
+against that state.
+
+The AI receives a deterministic readiness result instead of reconstructing Git
+history manually.
+
+### Claim-time execution epoch / lease
+
+After successful preflight and claim create a stable execution identity:
+
+- `execution_id`;
+- prompt ID;
+- claim timestamp;
+- Blueprint execution baseline;
+- module execution baseline;
+- prompt contract SHA;
+- acceptance oracle SHA;
+- required-input manifest;
+- execution policy;
+- revalidation state.
+
+After claim, execution does not continuously chase Blueprint HEAD.
+
+Normal unrelated Blueprint commits do not interrupt it.
+
+Material change is signaled explicitly through:
+
+- `EXECUTION_REVALIDATION_REQUIRED`;
+- `PROMPT_SUPERSEDED`;
+- `EXECUTION_REVOKED`;
+
+or another versioned equivalent.
+
+### Completion provenance
+
+Completion evidence records:
+
+- release baseline;
+- execution baseline;
+- completion baseline;
+- Blueprint drift classification;
+- module drift classification;
+- revalidation/revocation events;
+- final source commit containing module work.
+
+Blueprint review must not need chat archaeology to know what state was executed.
+
+### Logistics reference validation
+
+After H9 acceptance validate exact and forward-compatible Logistics fixtures,
+including a prompt authored on an older Blueprint commit whose required inputs
+remain unchanged.
+
+Historical checkout is not required merely because Blueprint advanced.
+
+---
+
+## B2 — `blueprint_v0_4_1_coordination_data_classification_and_persistence_boundary_v0_1`
+
+Goal: prevent growing coordination data from becoming an unqueryable collection
+of files while preserving Git-native governance and future database migration.
+
+### Core decision: hybrid storage
+
+Do **not** move the entire Blueprint into SQL.
+
+Use storage according to data semantics.
+
+#### A. Git/YAML/Markdown — declarative canonical truth
+
+Keep human-reviewable, versioned governance artifacts in Git:
+
+- current release authority;
+- standards/policies;
+- roadmaps;
+- released prompts;
+- prompt contracts;
+- acceptance oracles;
+- durable operator scope decisions/waivers that change project truth;
+- sealed reviews and promotion decisions;
+- module registry and durable architecture documentation.
+
+YAML remains suitable for structured human-edited governance.
+Markdown remains suitable for explanatory/contract documentation.
+JSON may be used for generated machine interchange.
+
+File count alone is not a reason to move this layer into SQL.
+
+#### B. Coordination operational store — high-churn runtime truth
+
+When runtime automation becomes active, store high-churn state in a small DB:
+
+- append-only event journal;
+- execution runs/baselines/leases;
+- question threads/messages;
+- current prompt/module runtime projection;
+- attention events;
+- notification delivery/ack state;
+- worker leases/retry state;
+- idempotency records;
+- correlation/index state;
+- runtime health projections.
+
+For the single-server pilot:
+
+`SQLite + WAL`
+
+Do not make the future business database a prerequisite for coordination.
+
+#### C. Filesystem/artifact store — bulky evidence
+
+Large logs, archives, generated reports, diffs and context packs remain files.
+
+The operational DB stores artifact metadata:
+
+- artifact ID;
+- path/URI;
+- SHA256;
+- media/type;
+- producer;
+- correlation ID.
+
+Do not copy large evidence payloads into relational rows by default.
+
+#### D. Secret storage
+
+Secrets, tokens, passwords and private credentials must not live in roadmap YAML,
+prompt text, SQLite event payloads or Git.
+
+Store secret references only where needed.
+
+### Avoid dual sources of truth
+
+A Git-governed object is not silently duplicated as an independently mutable DB
+row.
+
+The DB may index a canonical artifact by stable ID, Git path, Git commit, SHA256
+and schema version while authoritative artifact bytes remain in Git.
+
+For operational events, the coordination store is authoritative runtime history.
+
+Only durable project decisions that change governance/project truth are promoted
+into explicit Git artifacts through reviewed transactions.
+
+### Initial schema families
+
+The eventual runtime should represent tables equivalent to:
+
+- `event_journal`;
+- `execution_runs`;
+- `execution_revalidations`;
+- `question_threads`;
+- `question_messages`;
+- `attention_events`;
+- `operator_decisions`;
+- `notification_deliveries`;
+- `worker_leases`;
+- `prompt_runtime_state`;
+- `module_runtime_state`;
+- `artifact_index`;
+- `idempotency_keys`;
+- `schema_migrations`.
+
+Exact normalization remains an implementation decision.
+
+### SQLite operating rules
+
+Pilot rules:
+
+- WAL mode;
+- foreign keys enabled;
+- explicit schema version;
+- migrations from day one;
+- bounded transactions;
+- deterministic unique/idempotency constraints;
+- one coordination-service write boundary;
+- assistants do not receive arbitrary direct SQL writes;
+- backup through SQLite-safe backup mechanisms, not naive live-file copies;
+- database binary is not committed to Git.
+
+### Migration-ready boundary
+
+Code depends on a storage interface such as `CoordinationStore`, not scattered
+SQLite-specific behavior.
+
+Use:
+
+- stable IDs;
+- UTC timestamps;
+- portable scalar types;
+- explicit migrations;
+- versioned event payload schemas;
+- repository/service interfaces;
+- database-independent contract tests.
+
+This keeps later migration to PostgreSQL mechanical.
+
+### When SQLite is enough
+
+SQLite remains appropriate while:
+
+- coordination runs mainly on one server;
+- write concurrency is moderate;
+- one coordination service owns writes;
+- HA is not required;
+- heavy evidence remains outside the DB.
+
+Large row counts alone are not a reason to migrate.
+
+### When to move to PostgreSQL/central storage
+
+Re-evaluate for real requirements such as:
+
+- multiple hosts writing concurrently;
+- high write contention;
+- remote workers requiring service access;
+- HA/failover;
+- replication;
+- richer operational analytics;
+- stronger concurrent transaction needs.
+
+Migration is driven by operational requirements, not file-count anxiety.
+
+### Separation from future ForPrint business database
+
+Do not accelerate the future business-database module merely to host development
+coordination.
+
+Customers, orders, products, pricing and logistics business truth have different
+ownership/security/lifecycle boundaries from development coordination events.
+
+Both may later share physical PostgreSQL infrastructure while keeping separate
+schemas/databases and contracts.
+
+Coordination must not be blocked on the business DB roadmap.
+
+### Retention and audit
+
+Define retention by class:
+
+- runtime projections may be rebuilt;
+- append-only audit events follow audit retention;
+- large logs may be archived/compressed;
+- durable project/operator decisions remain in Git;
+- DB backups are restore-tested.
+
+### Acceptance intent
+
+B2 is complete when there is an explicit source-of-truth matrix,
+migration-ready storage contract, retention/backup policy and tested decision
+about what remains in Git versus what later moves into SQLite.
+
+B2 does **not** itself enable a persistent daemon or live SQLite runtime. That
+implementation stays in the future autonomy/runtime program unless separately
+promoted.
+
 ## Q1 — blueprint_v0_4_1_clarification_question_lifecycle_v0_1
 
 Create first-class question threads.
@@ -149,7 +499,7 @@ After H9 acceptance, prove with Logistics:
 
 ## Proposed order
 
-H8 SEALED -> H9 CURRENT -> Q1 -> Q2 -> Q3 -> Q4 -> Q5 -> Q6 -> Q7 -> Q8
+H8 SEALED -> H9 CURRENT -> B1 -> B2 -> Q1 -> Q2 -> Q3 -> Q4 -> Q5 -> Q6 -> Q7 -> Q8
 -> H10 ecosystem rollout -> H11 legacy retirement/archive audit.
 
 Stable IDs, not display numbers, are durable.
@@ -168,6 +518,7 @@ Those belong to the future autonomy initiative.
 
 Preferred H10 entry:
 - H9 accepted;
+- B1-B2 accepted or explicitly waived;
 - Q1-Q8 accepted or explicitly waived;
 - current release docs reconciled;
 - Logistics still passes as reference;

@@ -21,6 +21,35 @@ Target separation:
 - AI workers = on-demand executors behind policy;
 - operator = final strategic authority.
 
+## Coordination data architecture
+
+The autonomy program inherits the v0.4.1 B2 source-of-truth boundary.
+
+Use multiple storage classes deliberately:
+
+- Git/YAML/Markdown for declarative, human-reviewable project truth;
+- coordination operational DB for high-churn runtime state;
+- filesystem/artifact storage for large evidence;
+- dedicated secret storage for credentials;
+- future ForPrint business DB for business-domain data.
+
+Do not collapse these into one database merely for architectural neatness.
+
+The operational coordination database is not the canonical home for roadmaps,
+released prompt bytes, standards or acceptance oracles. It references them by
+stable ID/path/commit/SHA.
+
+The future business database is not a prerequisite for development coordination
+and must not become coupled to assistant orchestration.
+
+Initial operational implementation should use SQLite WAL behind a migration-ready
+`CoordinationStore` boundary with explicit migrations, stable IDs, UTC
+timestamps, versioned payloads, idempotency constraints and
+database-independent tests.
+
+PostgreSQL or another central store becomes justified by actual concurrency,
+multi-host, HA, replication or analytics requirements rather than file count.
+
 ## AUT-01 — Initiative/epic layer
 
 Add non-executable:
@@ -93,8 +122,28 @@ Pilot:
 lightweight deterministic daemon + SQLite WAL + optional filesystem projections + systemd.
 Idempotent ingestion, worker leases, restart recovery.
 
+The daemon is the normal writer of operational coordination state.
+AI assistants do not receive unrestricted direct SQL write access.
+
+The SQLite store follows the v0.4.1 B2 data boundary and includes explicit
+schema migrations, foreign keys, idempotency constraints, backup/restore tests
+and an append-only event journal.
+
+Runtime rows reference canonical Git artifacts by stable ID/path/commit/SHA
+instead of becoming a second mutable copy of governance truth.
+
+Large logs/evidence stay outside the database and are referenced by artifact
+metadata and hashes.
+
 `inotify` may reduce latency but is not source of truth.
-Do not start with Redis/NATS/PostgreSQL unless scale requires it.
+Do not start with Redis/NATS/PostgreSQL unless real concurrency, multi-host,
+availability or analytics requirements justify migration.
+
+Storage sits behind `CoordinationStore` (or equivalent), so later PostgreSQL
+migration does not change event, question, execution or attention contracts.
+
+This coordination store remains separate from the future ForPrint business-data
+schema even if both later share physical database infrastructure.
 
 ## AUT-13 — Generic on-demand AI worker
 

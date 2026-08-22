@@ -21,3 +21,22 @@ Plans:
 Integration rule: promote a planned package only in a separate reviewed transaction
 after checking dependencies, current release authority, acceptance criteria and pilot state.
 Stable IDs are durable; display ordering such as H9/H10 may change.
+
+## Planned foundation extensions recorded 2026-08-22
+
+The v0.4.1 remaining-hardening plan now also reserves two foundation packages
+to be integrated only after the current H9 Logistics rollout is reviewed:
+
+- `B1 — blueprint_v0_4_1_execution_baseline_and_drift_control_v0_1`
+  defines release/execution/completion baselines, required-input manifests,
+  deterministic forward-drift compatibility, claim-time execution identity and
+  explicit revalidation/revocation semantics.
+
+- `B2 — blueprint_v0_4_1_coordination_data_classification_and_persistence_boundary_v0_1`
+  defines the hybrid source-of-truth model: Git/YAML/Markdown for declarative
+  canonical truth, a future SQLite WAL `CoordinationStore` for high-churn
+  operational state, filesystem storage for bulky evidence, dedicated secret
+  storage, and separation from the ForPrint business database.
+
+These are planning additions only. They do not change current release authority,
+do not change H9, and do not enable SQLite or autonomous execution.
