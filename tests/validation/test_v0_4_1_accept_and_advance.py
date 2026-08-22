@@ -759,4 +759,3 @@ def test_h6_override_evidence_failure_restores_exact_override_draft(
     )
     assert override_step["status"] == "planned"
     assert roadmap_after["metadata"]["current_step_id"] == "demo_prompt"
-
