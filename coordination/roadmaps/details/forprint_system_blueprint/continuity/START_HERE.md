@@ -5,6 +5,17 @@ Status: zero-context continuity entry point.
 This file is a navigation/handoff document, not runtime authority.
 Always revalidate Git and `coordination/releases/current.yaml` before mutation.
 
+## Current active workstream bootstrap
+
+For zero-context continuation of the active v0.4.1 release work, read first:
+
+- `coordination/instruction_intake/bootstrap/2026-08-23__forprint_system_blueprint__v0_4_1_current_release_zero_context_execution_handoff_v0_1.md`
+
+It records the current B1-P2 state, open F01-F04 correction, the full
+remaining v0.4.1 hardening path, and the bounded Logistics + Codex pilot
+finish line. It is navigation/handoff evidence, not runtime authority.
+Always revalidate Git and `coordination/releases/current.yaml` first.
+
 ## Project mission
 
 ForPrint is building a coordinated automation platform for a mini-printing business:
