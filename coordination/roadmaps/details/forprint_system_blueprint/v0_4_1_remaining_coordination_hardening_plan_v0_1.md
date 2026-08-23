@@ -534,3 +534,30 @@ Preferred H10 entry:
 - current release docs reconciled;
 - Logistics still passes as reference;
 - no new legacy dependency.
+
+## Forward cross-cutting planning record
+
+After current B1/B2/Q hardening and through H10/H11/AUT evolution, preserve the cross-cutting
+requirements in:
+
+`coordination/roadmaps/details/forprint_system_blueprint/portfolio_operator_governance_and_project_standardization_program_v0_1.md`
+
+This forward planning record does not alter B1 -> B2 -> Q1..Q8 -> H10 -> H11 ordering and does not
+activate any runtime capability.
+
+Important future integration points include:
+
+- system-level outcome-alignment review in addition to local prompt acceptance;
+- visual/color-coded portfolio progress, effective readiness, dependencies and priority;
+- durable historical portfolio/audit assessments;
+- time/event-triggered coordination obligations and major-milestone outcome-audit gates;
+- portfolio budget/model/resource governance;
+- remote/mobile operator control through a controlled gateway;
+- unified project skeleton and Make/command contract across modules;
+- reusable framework-like tooling only after repeated patterns prove stable.
+
+A major roadmap milestone should eventually be considered governance-complete only after its required
+outcome-alignment audit record exists. Future deterministic checks should verify audit obligation
+presence/freshness, not attempt to replace qualitative judgment.
+
+Planning marker: `PORTFOLIO_OPERATOR_GOVERNANCE_PROJECT_STANDARDIZATION_V0_1`.

@@ -158,3 +158,25 @@ package in `prompt_sequence_v0_1.yaml` whose dependencies and entry conditions a
 actually satisfied.
 
 If snapshot and Git disagree, trust Git/current release.
+
+## Cross-cutting planning to preserve across assistant replacement
+
+Read after the active hardening plan and AUT program when portfolio/operator strategy is relevant:
+
+`coordination/roadmaps/details/forprint_system_blueprint/portfolio_operator_governance_and_project_standardization_program_v0_1.md`
+
+It is planning guidance, not runtime authority.
+
+Zero-context assistants must preserve these high-level requirements:
+
+- significant work is judged both for local correctness and whole-system outcome advancement;
+- the operator portfolio view is visual and color-coded from its first usable version;
+- raw module progress is distinct from dependency-constrained effective readiness;
+- historical priority/progress/audit assessments are retained;
+- major roadmap milestones gain a required outcome-alignment audit gate;
+- recurring governance work moves into explicit time/event-triggered obligations rather than memory;
+- budget/model/resource policy remains explicit and human-governed;
+- modules converge on a familiar project skeleton and same-intent/same-command operator contract;
+- reusable framework behavior emerges from proven repeated patterns rather than premature abstraction.
+
+Planning marker: `PORTFOLIO_OPERATOR_GOVERNANCE_PROJECT_STANDARDIZATION_V0_1`.

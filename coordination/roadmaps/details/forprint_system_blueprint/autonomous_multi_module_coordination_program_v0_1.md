@@ -374,3 +374,34 @@ missing information produces visible bounded questions; low-risk intermediate wo
 under policy; operator is notified when judgment is required; major milestones remain human-reviewed;
 new assistants regain context quickly; audit/replay explains history; automation lowers operator load
 without increasing rework or architectural drift.
+
+## Cross-cutting portfolio/operator capability mapping
+
+The canonical detailed planning record is:
+
+`coordination/roadmaps/details/forprint_system_blueprint/portfolio_operator_governance_and_project_standardization_program_v0_1.md`
+
+It extends this AUT program without renumbering packages or changing the recommended dependency order.
+
+Mapping:
+
+- portfolio progress/dependency/priority and effective-readiness views -> AUT-01 + AUT-27;
+- AI budget/model/resource governance and funding rounds -> AUT-14 + AUT-19/20 + AUT-26 + AUT-27;
+- remote/mobile operator control -> AUT-20 + AUT-22;
+- outcome-alignment audits and major-milestone closure gate -> AUT-17 + AUT-19 + AUT-27;
+- recurring time/event coordination obligations -> deterministic runtime/attention layers, separately
+  activated;
+- unified project skeleton and same-intent/same-command contract -> ecosystem standardization/H10
+  compatibility plus later reusable tooling.
+
+Two additional program invariants:
+
+1. Locally correct agent work is not enough; significant work must also be reviewed for whether it
+   advances the whole system toward the agreed successful project outcome.
+2. Reusable framework capabilities emerge from repeated proven ForPrint patterns; do not create a
+   framework as an independent goal.
+
+This mapping is planning-only and grants no new execution, acceptance, publication or production
+authority.
+
+Planning marker: `PORTFOLIO_OPERATOR_GOVERNANCE_PROJECT_STANDARDIZATION_V0_1`.

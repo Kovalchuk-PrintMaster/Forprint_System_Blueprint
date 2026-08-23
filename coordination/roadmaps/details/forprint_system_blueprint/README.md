@@ -52,3 +52,18 @@ For assistant replacement or context-window recovery, start with:
 
 These continuity files are navigation/handoff artifacts, not runtime authority.
 `coordination/releases/current.yaml` and current Git state remain authoritative.
+
+## Cross-cutting portfolio/operator planning
+
+Canonical planning specification:
+
+- `coordination/roadmaps/details/forprint_system_blueprint/portfolio_operator_governance_and_project_standardization_program_v0_1.md`
+
+It records outcome-alignment governance, visual portfolio/dependency/priority views, historical
+assessments, budget/resource steering, remote/mobile operator control, recurring audit/scheduler
+requirements, major-milestone audit gates, and unified project skeleton/command standards.
+
+This is planning guidance only. It does not change current prompt order, release authority, runtime
+permissions, ACCEPT semantics or module-repository write boundaries.
+
+Planning marker: `PORTFOLIO_OPERATOR_GOVERNANCE_PROJECT_STANDARDIZATION_V0_1`.
