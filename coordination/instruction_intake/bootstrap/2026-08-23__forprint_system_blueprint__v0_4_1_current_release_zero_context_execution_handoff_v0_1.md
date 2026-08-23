@@ -38,6 +38,87 @@ order processing, production flow, quality control, intake and fulfillment.
 Blueprint coordinates the work. The operator remains final authority for product
 intent, architecture, significant risk and milestone acceptance.
 
+## Durable operating and documentation rules
+
+These rules are part of the zero-context operating contract and must not remain
+only in chat history.
+
+### Development-first governance
+
+ForPrint is a young and rapidly evolving project. Current architecture and
+governance must serve the best current system design, not preserve obsolete
+rules for their own sake.
+
+When an older policy, contract, document or workflow blocks a materially better
+design:
+
+1. first decide whether the old rule is still valid for current consumers;
+2. if the same document can still represent the concern cleanly, update it;
+3. if semantics materially change, create the next clear revision beside it;
+4. mark the older authority deprecated/superseded when appropriate;
+5. do not build long-lived workarounds solely to satisfy unused legacy behavior.
+
+Compatibility is retained only when it has an active consumer, migration value,
+or explicit operator/governance reason.
+
+### Durable project history
+
+Significant completed work must be recorded in the repository. Chat is not
+durable authority.
+
+Record major architecture choices, governance changes, completed substantial
+implementation slices, module/path decisions, milestone outcomes and important
+operator decisions with enough rationale to reconstruct:
+
+- what changed;
+- why this path was chosen;
+- what alternatives/constraints mattered;
+- what became authoritative or was superseded;
+- what roadmap/prompt/release state changed as a result.
+
+Do not create one permanent record for every tiny correction or intermediate
+attempt. Prefer one meaningful final/closeout record for a completed substantial
+piece of work.
+
+If an existing authoritative document logically continues the same concern,
+update it. If the previous document is semantically complete and the new state
+is a real next contract/revision, create the next revision beside it and make
+the authority transition explicit.
+
+### Structure discipline
+
+Reuse the existing `coordination/` architecture before creating directories.
+A new directory requires a real information-architecture need that cannot be
+represented cleanly by the existing structure.
+
+Do not accumulate dozens of intermediate documents that future operators will
+skip in favor of the final revision. Keep durable history useful, navigable and
+purposeful.
+
+### Planning discipline
+
+Roadmaps and prompt sequencing are the primary forward-planning instruments.
+Current work should continuously reconcile implementation state with the
+applicable roadmap and prompt sequence rather than rely on remembered chat
+context.
+
+### Operator terminal/script interface
+
+The operator intentionally uses a very small terminal paste surface.
+
+- Terminal commands supplied in chat must stay short: maximum about 15 lines,
+  preferably 1-3 lines.
+- Multi-step collectors, mutation scripts, archive builders, diagnostics or
+  any command sequence longer than that must be delivered as a downloadable
+  Python file intended to be placed/run as repository-root `tmp.py`.
+- Do not require the operator to paste long heredocs or long shell programs.
+- `tmp.py` should print an explicit `SCRIPT_ID`, its result, and output artifact
+  path/hash when applicable.
+- Temporary evidence/archives belong under repository `tmp/`; durable decisions
+  and final governance/history belong in tracked project documents.
+- Assistant replacement must preserve this interface so the operator does not
+  need to explain it again.
+
 ## Current exact state at capture
 
 Repository:
@@ -46,24 +127,33 @@ Repository:
 Branch:
 `audit/blueprint-inventory-refresh-2026-07-29`
 
-Published base authority:
-`2cbac131aa9f55b61338f154f1826eda077c225c`
+B1-P2 implementation seal commit:
+`da63cbcaf85a4c5505d807da47ec10a7bad40051`
 
-At capture:
+Remote publication base:
+`804999ec5cdcd7ff03dcdcb70c7ad44dcc13f276`
 
-- local HEAD = upstream = live remote = that commit;
-- divergence = 0/0;
-- index empty;
-- B1-P2 is an unsealed seven-file working-tree candidate;
-- no B1-P2 commit/push;
-- B1 overall is NOT complete.
+Current checkpoint:
 
-Revalidate before mutation.
+- B1-P2 v92 semantic rereview is zero-finding;
+- F01-F04 are CLOSED for the B1-P2 implementation package;
+- exact eleven-path implementation surface is locally sealed;
+- seal commit parent is `804999ec5cdcd7ff03dcdcb70c7ad44dcc13f276`;
+- local branch is ahead of upstream by one seal commit before this durable-record transaction;
+- live remote still points to `804999ec5cdcd7ff03dcdcb70c7ad44dcc13f276`;
+- no automatic ACCEPT occurred;
+- B1 overall is NOT complete;
+- Logistics B1 reference validation is still pending.
+
+The refreshed handoff and the durable review record are continuity/governance
+evidence, not B1 acceptance. Revalidate Git/current release before mutation.
 
 ## Current release order
 
 `H9 CLOSED`
-→ `B1`
+→ `B1-P2 LOCAL SEALED / PUBLICATION PENDING`
+→ `B1 Logistics reference validation`
+→ `B1 explicit ACCEPT`
 → `B2`
 → `Q1..Q8`
 → `H10`
@@ -71,51 +161,54 @@ Revalidate before mutation.
 → bounded AUT pilot path.
 
 H9 Logistics reference rollout is accepted/published/closed.
-B1 activation is published.
-B1-P1 plus its correction are published/current.
-B1-P2 is current functional work.
+B1 activation and B1-P1 are published/current.
+B1-P2 implementation is locally sealed after zero-finding semantic rereview.
+B1-P2 publication is the next transition; B1 acceptance remains separate.
 
 ## Active B1-P2 candidate
 
-Exact seven files:
+The B1-P2 implementation candidate is no longer an unsealed worktree
+candidate. It is locally sealed in:
+
+`da63cbcaf85a4c5505d807da47ec10a7bad40051`
+
+The seal contains exactly eleven implementation/test/template paths:
 
 - `Makefile`
 - `coordination/templates/module_completion_packet_v0_4.example.yaml`
 - `coordination/templates/module_prompt_execution_event_v0_1.example.yaml`
+- `coordination/templates/prompt_queue_v0_2.template.yaml`
+- `scripts/coordination/completion_discovery_and_intake_v0_4.py`
+- `scripts/coordination/manage_outgoing_prompt.py`
 - `scripts/coordination/prompt_execution_events_v0_1.py`
 - `scripts/coordination/validate_completion_packet_v0_4.py`
+- `tests/validation/test_v0_4_1_b1_p2_authoritative_binding.py`
 - `tests/validation/test_v0_4_1_prompt_execution_events.py`
 - `tests/validation/test_v0_4_completion_packet.py`
 
-Captured hashes:
-
-- Makefile:
-  `8f0d4724af0a47155902763b5ce55b0c4ee993d5ec723a4e7338c1c4419063d8`
-- completion template:
-  `68c5ee78e2c83824c66904e23dcad1568ec2065286b86fedf9a40528a6bf6d66`
-- event template:
-  `3d0986f1f41415a3e1710cea39c075496e78bff7cc5385054f386af90c8aa378`
-- event validator:
-  `9fdded9052621557f336610aa119ed11e2f305461b01add3a06f7c96e962b486`
-- completion validator:
-  `bfa5ef0a34934b715d5ff99215a6a54b203542ba11bb272e134bec202c2274d8`
-- event tests:
-  `3e0a64958bf98b39af156cabbe40dd27bc960eb413ec90944812e73cdb81856c`
-- completion tests:
-  `f6a9ac6354e27c0649df5087c86e4e8e9bd2d3cde049feef643a3816fa1ee045`
+The seal commit is implementation evidence only. Publication, Logistics
+reference validation and B1 ACCEPT are separate transitions.
 
 ## Open B1-P2 findings
 
-F01: B1 CLAIM execution identity can be bypassed by omission.
+F01: CLOSED — queue-authoritative B1 discrimination makes CLAIM execution
+identity mandatory.
 
-F02: B1 completion provenance can be bypassed by omission.
+F02: CLOSED — B1 completion provenance cannot be omitted.
 
-F03: `revalidation_performed` is not coherently bound to the previous fingerprint.
+F03: CLOSED — revalidation semantics bind previous/current fingerprints
+coherently.
 
-F04: release/execution baselines are self-asserted and not tied to immutable
-preflight evidence.
+F04: CLOSED — completion must match the actual validated CLAIM execution
+epoch, fingerprint and immutable preflight evidence path/SHA.
 
-DO NOT SEAL B1-P2 until all four are closed.
+Latest semantic rereview result:
+`B1_P2_V92_ZERO_FINDING=true`.
+
+Latest implementation seal:
+`B1_P2_LOCAL_SEALED=true`.
+
+There are no open B1-P2 semantic findings at this checkpoint.
 
 ## Binding decision already made
 
@@ -140,17 +233,16 @@ Latest read-only surface review concluded:
 
 ## Immediate next action
 
-Implement one bounded B1-P2 F01-F04 correction.
+1. Commit the durable B1-P2 seal/review record and this refreshed handoff.
+2. Explicitly publish the local B1-P2 seal/governance commits.
+3. Verify live remote containment and publication.
+4. Perform Logistics B1 reference validation:
+   exact, forward-compatible and material-drift-blocked scenarios.
+5. Only after successful Logistics validation proceed to explicit operator
+   B1 ACCEPT/seal/publication.
 
-Then:
-
-`read-only semantic review`
-→ `local seal`
-→ `explicit publication`
-→ `Logistics B1 reference validation`
-→ `explicit B1 ACCEPT/seal/publication`.
-
-No automatic commit/push during mutation/review.
+Do not combine publication with B1 ACCEPT. Do not release a business prompt as
+a side effect of this hardening transition.
 
 ## B1 closure conditions
 
@@ -356,34 +448,37 @@ Until explicitly changed:
 
 Do not ask the operator to reconstruct history.
 
-Capture:
+First revalidate:
 
 - branch/HEAD/upstream/live remote;
 - worktree/index;
-- current release;
+- `coordination/releases/current.yaml`;
 - this handoff;
-- B1-P2 candidate hashes;
-- `make check`;
-- B1 focused tests.
+- the durable B1-P2 local-seal review record;
+- seal commit `da63cbcaf85a4c5505d807da47ec10a7bad40051`;
+- publication state.
 
-If state matches, continue directly from:
+If the durable-record commit is local but unpublished, continue with explicit
+publication verification.
 
-**B1-P2 F01-F04 bounded correction.**
+If publication is already current remotely, continue directly to Logistics B1
+reference validation.
 
-If state differs, explain the exact drift before mutation.
+Preserve the development-first documentation rules and the short-terminal /
+downloadable-versioned-Python operator interface.
 
 ## Ten-step horizon
 
-1. B1-P2 F01-F04 correction.
-2. zero-finding B1-P2 review.
-3. B1-P2 seal/publication.
-4. Logistics B1 validation.
-5. B1 ACCEPT/publication.
-6. B2 implementation/acceptance.
-7. Q1-Q8 implementation/acceptance.
-8. H10 rollout.
-9. H11 retirement audit.
-10. AUT path to Logistics + Codex pilot.
+1. durable B1-P2 seal/review record.
+2. explicit B1-P2 publication + remote verification.
+3. Logistics B1 exact/forward-compatible/material-drift reference validation.
+4. explicit B1 ACCEPT/seal/publication and final B1 closeout.
+5. B2 activation/implementation/acceptance.
+6. Q1-Q8 implementation/acceptance.
+7. H10 ecosystem rollout.
+8. H11 retirement/archive audit.
+9. continuity/governance reconciliation.
+10. bounded AUT path to Logistics + Codex pilot.
 
 ## Refresh triggers
 
