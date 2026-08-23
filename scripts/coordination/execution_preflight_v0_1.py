@@ -268,6 +268,88 @@ def combine_status(
     return "READY_FORWARD_COMPATIBLE"
 
 
+
+def _valid_sha256(value: object) -> bool:
+    return (
+        isinstance(value, str)
+        and len(value) == 64
+        and all(char in "0123456789abcdef" for char in value)
+    )
+
+
+def release_authority_material_drift(
+    *,
+    authority_exists: bool,
+    expected_sha256: str,
+    current_sha256: str | None,
+) -> bool:
+    return bool(
+        authority_exists
+        and current_sha256 != expected_sha256
+    )
+
+
+def validate_previous_preflight_report(
+    previous: dict[str, Any],
+    *,
+    contract_id: str,
+    module_id: str,
+    prompt_id: str,
+    contract_path: Path,
+    release_baseline: dict[str, Any],
+) -> str:
+    # Fail closed unless a previous report belongs to the same B1 identity.
+    if previous.get("schema_version") != REPORT_SCHEMA:
+        raise PreflightError("previous preflight report schema mismatch")
+
+    previous_contract = previous.get("contract")
+    if not isinstance(previous_contract, dict):
+        raise PreflightError("previous preflight report contract must be a mapping")
+
+    expected_identity = {
+        "contract_id": contract_id,
+        "module_id": module_id,
+        "prompt_id": prompt_id,
+        "path": str(contract_path),
+    }
+    for key, expected in expected_identity.items():
+        if previous_contract.get(key) != expected:
+            raise PreflightError(
+                f"previous preflight report contract {key} mismatch"
+            )
+
+    if previous.get("release_baseline") != release_baseline:
+        raise PreflightError("previous preflight report release_baseline mismatch")
+
+    fingerprint = previous.get("preflight_fingerprint_sha256")
+    if not _valid_sha256(fingerprint):
+        raise PreflightError(
+            "previous preflight report fingerprint must be a lowercase sha256"
+        )
+
+    execution_identity = previous.get("execution_identity")
+    if not isinstance(execution_identity, dict):
+        raise PreflightError(
+            "previous preflight report execution_identity must be a mapping"
+        )
+    if execution_identity.get("execution_epoch_id") != fingerprint:
+        raise PreflightError(
+            "previous preflight report execution_epoch_id/fingerprint mismatch"
+        )
+
+    revalidation = previous.get("revalidation")
+    if not isinstance(revalidation, dict):
+        raise PreflightError(
+            "previous preflight report revalidation must be a mapping"
+        )
+    if revalidation.get("current_preflight_fingerprint_sha256") != fingerprint:
+        raise PreflightError(
+            "previous preflight report revalidation fingerprint mismatch"
+        )
+
+    return fingerprint
+
+
 def evaluate(
     *,
     blueprint_root: Path,
@@ -317,6 +399,14 @@ def evaluate(
     authority_path = safe_path(blueprint_root, authority["path"])
     authority_exists = authority_path.is_file()
     current_authority_sha = sha256_file(authority_path) if authority_exists else None
+    authority_material_drift = release_authority_material_drift(
+        authority_exists=authority_exists,
+        expected_sha256=authority["sha256"],
+        current_sha256=current_authority_sha,
+    )
+    authority_matches_release_baseline = (
+        authority_exists and not authority_material_drift
+    )
     current_authority = load_yaml(authority_path) if authority_exists else {}
     current_hardening_release = (
         current_authority.get("release", {}).get("hardening_release")
@@ -388,7 +478,7 @@ def evaluate(
         ancestor_ok=blueprint_ancestor,
         release_compatible=release_compatible,
         missing_required_input=missing_required or not authority_exists,
-        material_drift=material_drift,
+        material_drift=material_drift or authority_material_drift,
         prompt_superseded=prompt_superseded,
     )
 
@@ -400,7 +490,9 @@ def evaluate(
         "blueprint_state": blueprint_state,
         "module_state": module_state,
         "release_authority": {
+            "expected_sha256": authority["sha256"],
             "current_sha256": current_authority_sha,
+            "matches_release_baseline": authority_matches_release_baseline,
             "hardening_release": current_hardening_release,
         },
         "required_inputs": input_observations,
@@ -416,9 +508,14 @@ def evaluate(
     previous_fingerprint = None
     if previous_report is not None:
         previous = load_yaml(previous_report.resolve())
-        value = previous.get("preflight_fingerprint_sha256")
-        if isinstance(value, str):
-            previous_fingerprint = value
+        previous_fingerprint = validate_previous_preflight_report(
+            previous,
+            contract_id=metadata["contract_id"],
+            module_id=metadata["module_id"],
+            prompt_id=metadata["prompt_id"],
+            contract_path=contract_path,
+            release_baseline=release,
+        )
 
     status = combine_status(
         blueprint_status=blueprint_status,
@@ -441,7 +538,11 @@ def evaluate(
         "execution_baseline": {
             "blueprint": blueprint_state,
             "module": module_state,
+            "release_authority_expected_sha256": authority["sha256"],
             "release_authority_current_sha256": current_authority_sha,
+            "release_authority_matches_release_baseline": (
+                authority_matches_release_baseline
+            ),
             "current_hardening_release": current_hardening_release,
             "required_inputs": input_observations,
             "coordination_binding": {

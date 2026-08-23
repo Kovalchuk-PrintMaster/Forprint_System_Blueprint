@@ -348,3 +348,178 @@ def test_evaluate_wires_queue_superseded_into_blueprint_classification() -> None
     assert "prompt_superseded = prompt_superseded_from_queue_status(" in source
     assert "prompt_superseded=prompt_superseded" in source
     assert '"queue_status": binding["queue_status"]' in source
+
+
+def test_release_authority_material_drift_helper() -> None:
+    preflight = load_module(PREFLIGHT_PATH, "b1_release_authority_drift_helper")
+
+    expected = "a" * 64
+    assert (
+        preflight.release_authority_material_drift(
+            authority_exists=True,
+            expected_sha256=expected,
+            current_sha256="b" * 64,
+        )
+        is True
+    )
+    assert (
+        preflight.release_authority_material_drift(
+            authority_exists=True,
+            expected_sha256=expected,
+            current_sha256=expected,
+        )
+        is False
+    )
+    assert (
+        preflight.release_authority_material_drift(
+            authority_exists=False,
+            expected_sha256=expected,
+            current_sha256=None,
+        )
+        is False
+    )
+
+
+def test_b1_completion_correction_release_authority_and_previous_report_binding() -> None:
+    preflight = load_module(PREFLIGHT_PATH, "b1_preflight_completion_correction")
+
+    assert preflight._valid_sha256("a" * 64)
+    assert not preflight._valid_sha256("A" * 64)
+    assert not preflight._valid_sha256("a" * 63)
+
+    release_baseline = {
+        "blueprint_commit": "1" * 40,
+        "module_commit": "2" * 40,
+        "module_branch": "feature/demo",
+        "release_authority": {
+            "path": "coordination/releases/current.yaml",
+            "sha256": "3" * 64,
+            "hardening_release": "v0.4.1",
+        },
+        "required_inputs": [],
+    }
+    contract_path = Path("/tmp/demo_contract.yaml")
+    fingerprint = "4" * 64
+
+    previous = {
+        "schema_version": preflight.REPORT_SCHEMA,
+        "contract": {
+            "contract_id": "demo_contract",
+            "module_id": "demo_module",
+            "prompt_id": "demo_prompt_v0_1",
+            "path": str(contract_path),
+        },
+        "release_baseline": release_baseline,
+        "preflight_fingerprint_sha256": fingerprint,
+        "execution_identity": {
+            "execution_epoch_id": fingerprint,
+        },
+        "revalidation": {
+            "current_preflight_fingerprint_sha256": fingerprint,
+        },
+    }
+
+    assert (
+        preflight.validate_previous_preflight_report(
+            previous,
+            contract_id="demo_contract",
+            module_id="demo_module",
+            prompt_id="demo_prompt_v0_1",
+            contract_path=contract_path,
+            release_baseline=release_baseline,
+        )
+        == fingerprint
+    )
+
+    wrong_schema = dict(previous)
+    wrong_schema["schema_version"] = "unrelated_report_v0_1"
+    with pytest.raises(preflight.PreflightError, match="schema mismatch"):
+        preflight.validate_previous_preflight_report(
+            wrong_schema,
+            contract_id="demo_contract",
+            module_id="demo_module",
+            prompt_id="demo_prompt_v0_1",
+            contract_path=contract_path,
+            release_baseline=release_baseline,
+        )
+
+    wrong_contract = {
+        **previous,
+        "contract": {
+            **previous["contract"],
+            "prompt_id": "other_prompt_v0_1",
+        },
+    }
+    with pytest.raises(preflight.PreflightError, match="prompt_id mismatch"):
+        preflight.validate_previous_preflight_report(
+            wrong_contract,
+            contract_id="demo_contract",
+            module_id="demo_module",
+            prompt_id="demo_prompt_v0_1",
+            contract_path=contract_path,
+            release_baseline=release_baseline,
+        )
+
+    wrong_release = {
+        **previous,
+        "release_baseline": {
+            **release_baseline,
+            "blueprint_commit": "9" * 40,
+        },
+    }
+    with pytest.raises(preflight.PreflightError, match="release_baseline mismatch"):
+        preflight.validate_previous_preflight_report(
+            wrong_release,
+            contract_id="demo_contract",
+            module_id="demo_module",
+            prompt_id="demo_prompt_v0_1",
+            contract_path=contract_path,
+            release_baseline=release_baseline,
+        )
+
+    wrong_epoch = {
+        **previous,
+        "execution_identity": {
+            "execution_epoch_id": "5" * 64,
+        },
+    }
+    with pytest.raises(
+        preflight.PreflightError,
+        match="execution_epoch_id/fingerprint mismatch",
+    ):
+        preflight.validate_previous_preflight_report(
+            wrong_epoch,
+            contract_id="demo_contract",
+            module_id="demo_module",
+            prompt_id="demo_prompt_v0_1",
+            contract_path=contract_path,
+            release_baseline=release_baseline,
+        )
+
+    wrong_revalidation = {
+        **previous,
+        "revalidation": {
+            "current_preflight_fingerprint_sha256": "6" * 64,
+        },
+    }
+    with pytest.raises(
+        preflight.PreflightError,
+        match="revalidation fingerprint mismatch",
+    ):
+        preflight.validate_previous_preflight_report(
+            wrong_revalidation,
+            contract_id="demo_contract",
+            module_id="demo_module",
+            prompt_id="demo_prompt_v0_1",
+            contract_path=contract_path,
+            release_baseline=release_baseline,
+        )
+
+    source = PREFLIGHT_PATH.read_text(encoding="utf-8")
+    assert "release_authority_material_drift(" in source
+    assert (
+        "material_drift=material_drift or authority_material_drift"
+        in source
+    )
+    assert '"matches_release_baseline": authority_matches_release_baseline' in source
+    assert "validate_previous_preflight_report(" in source
