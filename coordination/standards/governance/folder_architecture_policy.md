@@ -59,6 +59,26 @@ scripts/
 
 Deep nesting is allowed only when it is clearly justified by responsibility, runtime behavior, data model, versioning, fixtures, or implementation logic.
 
+## Reuse Existing Structure Before Creating More
+
+Before creating a directory, first inspect the existing project structure and
+place the artifact in an established category when that category already fits.
+
+A new directory requires an enduring information-architecture reason such as a
+distinct responsibility, ownership boundary, query/recovery need, runtime
+boundary, versioned contract family or genuinely reusable artifact class.
+
+Do not create new `history`, `decisions`, `handoff`, `misc`, `temp` or similar
+trees merely to store one completed decision or one temporary transaction when
+an existing governance, roadmap, bootstrap, report or temporary-output area
+already represents the concern.
+
+Do not create serial directories or files for every intermediate mutation
+version. Prefer the final authoritative artifact or a meaningful next revision.
+
+The existing `coordination/` architecture is mature project infrastructure.
+Reuse it before inventing auxiliary structure.
+
 ## Growth Threshold
 
 When a directory contains more than 10 files of the same general type or purpose, the module maintainer must review whether thematic grouping is needed.
@@ -303,7 +323,7 @@ config/
   labs.py
 ```
 
-The project should preserve backward compatibility where practical.
+Backward compatibility should be preserved only when an active consumer, bounded migration path or explicit governance need justifies it. Structural design should not be distorted solely to preserve obsolete imports or assumptions.
 
 Example:
 
@@ -338,12 +358,13 @@ When this happens, the file should be treated as a legacy central config and spl
 
 The preferred refactor approach is:
 
-1. Do not break existing imports.
+1. Identify which existing imports still have active consumers.
 2. Describe the target structure first.
 3. Move one thematic block at a time.
-4. Add compatibility exports in `__init__.py` or the old module if needed.
-5. Run tests after every move.
-6. Commit each safe step separately.
+4. Add compatibility exports only for consumers that still require them.
+5. Retire obsolete compatibility deliberately instead of carrying it forever.
+6. Run tests after every move.
+7. Commit each safe step separately.
 
 ## Existing Files
 
@@ -371,7 +392,7 @@ When an assistant creates or modifies files in any ForPrint module, it should:
 6. Mention structural concerns before adding many files.
 7. Keep generated, temporary, source, test, fixture, report, and runtime files separated.
 8. Review large single files before adding unrelated new sections.
-9. Preserve backward compatibility during structural refactors.
+9. Preserve compatibility during structural refactors only for active consumers or an explicit migration/governance need.
 10. Respect existing module conventions unless a planned refactor is approved.
 
 ## Summary

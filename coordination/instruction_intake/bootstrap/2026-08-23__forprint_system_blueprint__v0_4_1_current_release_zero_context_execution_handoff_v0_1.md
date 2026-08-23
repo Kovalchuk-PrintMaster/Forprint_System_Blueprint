@@ -127,31 +127,33 @@ Repository:
 Branch:
 `audit/blueprint-inventory-refresh-2026-07-29`
 
-B1-P2 implementation seal commit:
-`da63cbcaf85a4c5505d807da47ec10a7bad40051`
+Published B1-P2 authority:
+`30177e408e90b1ffbfdfba4f7ec792539023ba54`
 
-Remote publication base:
-`804999ec5cdcd7ff03dcdcb70c7ad44dcc13f276`
+B1-P2 implementation seal:
+`da63cbcaf85a4c5505d807da47ec10a7bad40051`
 
 Current checkpoint:
 
 - B1-P2 v92 semantic rereview is zero-finding;
 - F01-F04 are CLOSED for the B1-P2 implementation package;
-- exact eleven-path implementation surface is locally sealed;
-- seal commit parent is `804999ec5cdcd7ff03dcdcb70c7ad44dcc13f276`;
-- local branch is ahead of upstream by one seal commit before this durable-record transaction;
-- live remote still points to `804999ec5cdcd7ff03dcdcb70c7ad44dcc13f276`;
+- exact eleven-path implementation surface is sealed and published;
+- durable B1-P2 review evidence is published;
+- local HEAD = upstream = live remote at the published authority;
+- worktree/index are expected clean;
 - no automatic ACCEPT occurred;
 - B1 overall is NOT complete;
-- Logistics B1 reference validation is still pending.
+- Logistics B1 reference validation is still pending;
+- project-wide development/documentation/structure rules are being persisted
+  into their existing canonical policy files as the current control point.
 
-The refreshed handoff and the durable review record are continuity/governance
-evidence, not B1 acceptance. Revalidate Git/current release before mutation.
+Revalidate Git/current release before mutation.
 
 ## Current release order
 
 `H9 CLOSED`
-→ `B1-P2 LOCAL SEALED / PUBLICATION PENDING`
+→ `B1-P2 PUBLISHED`
+→ `PROJECT GOVERNANCE POLICY PERSISTENCE`
 → `B1 Logistics reference validation`
 → `B1 explicit ACCEPT`
 → `B2`
@@ -160,10 +162,10 @@ evidence, not B1 acceptance. Revalidate Git/current release before mutation.
 → `H11`
 → bounded AUT pilot path.
 
-H9 Logistics reference rollout is accepted/published/closed.
-B1 activation and B1-P1 are published/current.
-B1-P2 implementation is locally sealed after zero-finding semantic rereview.
-B1-P2 publication is the next transition; B1 acceptance remains separate.
+B1-P2 publication is complete and remotely verified.
+The governance-policy persistence checkpoint does not alter B1 acceptance or
+release semantics; it makes already agreed operating principles durable before
+the project advances to Logistics reference validation.
 
 ## Active B1-P2 candidate
 
@@ -233,16 +235,22 @@ Latest read-only surface review concluded:
 
 ## Immediate next action
 
-1. Commit the durable B1-P2 seal/review record and this refreshed handoff.
-2. Explicitly publish the local B1-P2 seal/governance commits.
-3. Verify live remote containment and publication.
-4. Perform Logistics B1 reference validation:
-   exact, forward-compatible and material-drift-blocked scenarios.
-5. Only after successful Logistics validation proceed to explicit operator
-   B1 ACCEPT/seal/publication.
+Complete the bounded project-governance persistence transaction:
 
-Do not combine publication with B1 ACCEPT. Do not release a business prompt as
-a side effect of this hardening transition.
+- update the existing project doctrine with development-first governance;
+- strengthen documentation/recovery rules for durable significant history;
+- strengthen folder policy to reuse existing structure first;
+- retain the existing legacy compatibility policy because it already expresses
+  the required forward-architecture rule;
+- record one final governance adoption record in the existing Blueprint
+  governance area;
+- do not create new directories.
+
+If the governance commit is local but unpublished, publish and verify it.
+If it is already published, proceed directly to Logistics B1 reference
+validation.
+
+Do not combine this checkpoint with B1 ACCEPT.
 
 ## B1 closure conditions
 
@@ -454,30 +462,29 @@ First revalidate:
 - worktree/index;
 - `coordination/releases/current.yaml`;
 - this handoff;
-- the durable B1-P2 local-seal review record;
-- seal commit `da63cbcaf85a4c5505d807da47ec10a7bad40051`;
-- publication state.
+- B1-P2 seal `da63cbcaf85a4c5505d807da47ec10a7bad40051`;
+- B1-P2 durable review/publication authority
+  `30177e408e90b1ffbfdfba4f7ec792539023ba54`;
+- project-governance policy persistence publication state.
 
-If the durable-record commit is local but unpublished, continue with explicit
-publication verification.
-
-If publication is already current remotely, continue directly to Logistics B1
-reference validation.
-
-Preserve the development-first documentation rules and the short-terminal /
+Preserve development-first governance, durable repository history, existing
+structure reuse, roadmap/prompt planning discipline and the short-terminal /
 downloadable-versioned-Python operator interface.
+
+If the governance persistence transaction is unpublished, complete its explicit
+publication first. Otherwise continue to Logistics B1 reference validation.
 
 ## Ten-step horizon
 
-1. durable B1-P2 seal/review record.
-2. explicit B1-P2 publication + remote verification.
-3. Logistics B1 exact/forward-compatible/material-drift reference validation.
-4. explicit B1 ACCEPT/seal/publication and final B1 closeout.
-5. B2 activation/implementation/acceptance.
-6. Q1-Q8 implementation/acceptance.
+1. persist/publish development-first documentation and structure policy.
+2. Logistics B1 exact/forward-compatible/material-drift reference validation.
+3. explicit B1 ACCEPT/seal/publication and final B1 closeout.
+4. B2 activation.
+5. B2 implementation/reference validation/acceptance.
+6. Q1-Q8 semantics implementation/acceptance.
 7. H10 ecosystem rollout.
-8. H11 retirement/archive audit.
-9. continuity/governance reconciliation.
+8. H11 legacy retirement/archive audit.
+9. continuity/governance reconciliation and cleanup.
 10. bounded AUT path to Logistics + Codex pilot.
 
 ## Refresh triggers

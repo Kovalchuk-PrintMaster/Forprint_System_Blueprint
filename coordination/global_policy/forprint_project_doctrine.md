@@ -163,6 +163,31 @@ Each module must publish coordination status, reports and open questions.
 
 Manager/manual adjustments are allowed where needed, but they must be logged and later analyzed.
 
+11. Development-first governance
+
+ForPrint is a young, actively evolving system. Existing policy, protocol,
+document or workflow is not authoritative merely because it is older.
+
+When an existing rule blocks a materially better current design, first decide
+whether that rule still has an active consumer, migration value or explicit
+governance reason. If it does not, evolve the authority deliberately: update
+the current document when the concern is continuous, or create the next clear
+revision and mark the previous authority deprecated/superseded when semantics
+materially change.
+
+Backward compatibility is not a project goal by itself. Architecture must not
+be distorted solely to preserve obsolete assumptions.
+
+12. Durable project memory and forward control
+
+Significant completed implementation, architecture and governance decisions
+must be recoverable from repository evidence. Chat history is not canonical
+project memory.
+
+Roadmaps define intended project movement. Prompt sequencing defines executable
+coordination steps. Current work must stay reconciled with both so modules move
+at a balanced pace and dependent work is not advanced prematurely.
+
 Current strategic direction
 
 Near-term project direction:

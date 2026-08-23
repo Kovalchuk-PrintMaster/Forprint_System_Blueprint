@@ -1,0 +1,62 @@
+schema_version: blueprint_project_governance_policy_adoption_v0_1
+metadata:
+  created_at: '2026-08-23'
+  module_id: forprint_system_blueprint
+  owner: forprint_system_blueprint
+  status: LOCAL_COMMITTED_READY_FOR_EXPLICIT_PUBLICATION
+record_id: blueprint_development_first_documentation_structure_policy_adoption_v0_1
+decision:
+  result: ADOPTED
+  scope: project_wide_governance
+  principles:
+  - 'Development-first governance: legacy rules do not constrain new architecture merely because they
+    already exist.'
+  - Significant completed decisions and implementation closeouts must be recoverable from repository evidence,
+    not chat.
+  - Durable history records meaningful control points rather than every tiny intermediate attempt.
+  - Existing coordination/document structure is reused before new directories are created.
+  - Roadmaps and prompt sequencing remain the primary forward planning/control instruments.
+  - Operator terminal input remains short; longer workflows are delivered as versioned Python files intended
+    as root tmp.py.
+authority_updates:
+  coordination/global_policy/forprint_project_doctrine.md: Adds development-first governance and durable
+    project memory/planning principles.
+  coordination/standards/governance/documentation_and_recovery_gate.md: Defines significant-history closeout
+    discipline and the operator-facing script delivery/recovery contract.
+  coordination/standards/governance/folder_architecture_policy.md: Requires reuse of existing structure
+    before new directories and limits compatibility to active needs.
+  ? coordination/instruction_intake/bootstrap/2026-08-23__forprint_system_blueprint__v0_4_1_current_release_zero_context_execution_handoff_v0_1.md
+  : Surfaces the durable rules and current B1/governance checkpoint for zero-context recovery.
+retained_unchanged:
+  coordination/standards/governance/legacy_compatibility_retirement_policy_v0_1.md:
+    sha256: 34e5d404334106428d90767063f44fe50babb42a819c6b96e0412656a7efd81b
+    reason: Already states that deprecated compatibility must not define or block current architecture
+      and that foundational rules should be updated when too narrow.
+documentation_strategy:
+  new_directories_created: false
+  new_durable_records_created: 1
+  intermediate_attempt_records_created: 0
+  rule: Update existing authority when the concern continues; create a new revision only for material
+    semantic/authority change.
+planning_effect:
+  roadmap_changed: false
+  prompt_sequence_changed: false
+  current_release_changed: false
+  reason: This transaction persists already agreed governance rules; it does not change the B1 execution
+    sequence.
+  next_transition_after_publication: B1_LOGISTICS_REFERENCE_VALIDATION
+boundaries:
+  module_repository_writes: false
+  business_prompt_release: false
+  automatic_acceptance: false
+  b1_acceptance: false
+  sqlite_runtime_enabled: false
+  autonomous_execution_enabled: false
+evidence:
+  b1_p2_published_authority: 30177e408e90b1ffbfdfba4f7ec792539023ba54
+  b1_p2_local_seal: da63cbcaf85a4c5505d807da47ec10a7bad40051
+  required_gates:
+  - pytest tests/validation/test_blueprint_metadata_consistency.py
+  - pytest tests/test_validate_standards_index.py
+  - git diff --check
+  - make check
