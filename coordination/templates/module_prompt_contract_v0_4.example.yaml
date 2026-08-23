@@ -11,6 +11,28 @@ source_prompt:
   sha256: <sha256>
   origin_path_at_capture: <queue_prompt_path_at_capture>
   origin_sha256_at_capture: <sha256>
+execution_baseline_policy:
+  schema_version: module_execution_baseline_policy_v0_1
+  release_baseline:
+    blueprint_commit: <40-character lowercase git commit>
+    module_commit: <40-character lowercase git commit>
+    module_branch: <expected module branch>
+    release_authority:
+      path: coordination/releases/current.yaml
+      sha256: <64-character lowercase sha256>
+      hardening_release: v0.4.1
+  required_inputs:
+  - input_id: <stable material input id>
+    repository: blueprint
+    path: <repository-relative material input path>
+    sha256: <64-character lowercase sha256>
+    material: true
+  compatibility:
+    allow_blueprint_forward_descendant: true
+    allow_module_forward_descendant: true
+    material_inputs_must_match: true
+    require_clean_module_worktree: true
+    require_module_upstream_synced: true
 integrity:
   algorithm: sha256
   payload_sha256: <canonical_payload_sha256>

@@ -1302,3 +1302,28 @@ coordination-release-status:
 .PHONY: legacy-compat-status
 legacy-compat-status:
 	.venv_blueprint/bin/python scripts/coordination/legacy_compatibility_status_v0_1.py --root .
+
+# ---------------------------------------------------------------------------
+# B1 v0.4.1 execution baseline and drift control — P1 foundation
+# ---------------------------------------------------------------------------
+EXECUTION_PREFLIGHT_CONTRACT ?=
+EXECUTION_PREFLIGHT_MODULE_ROOT ?=
+EXECUTION_PREFLIGHT_PREVIOUS_REPORT ?=
+EXECUTION_PREFLIGHT_FORMAT ?= text
+
+.PHONY: execution-preflight-v0-1
+execution-preflight-v0-1:
+	@if [ -z "$(EXECUTION_PREFLIGHT_CONTRACT)" ]; then echo "FAILED: provide EXECUTION_PREFLIGHT_CONTRACT=<immutable prompt contract path>"; exit 2; fi
+	@if [ -z "$(EXECUTION_PREFLIGHT_MODULE_ROOT)" ]; then echo "FAILED: provide EXECUTION_PREFLIGHT_MODULE_ROOT=<module repository path>"; exit 2; fi
+	@set -- \
+		--root . \
+		--contract "$(EXECUTION_PREFLIGHT_CONTRACT)" \
+		--module-root "$(EXECUTION_PREFLIGHT_MODULE_ROOT)" \
+		--output-format "$(EXECUTION_PREFLIGHT_FORMAT)"; \
+	if [ -n "$(EXECUTION_PREFLIGHT_PREVIOUS_REPORT)" ]; then set -- "$$@" --previous-report "$(EXECUTION_PREFLIGHT_PREVIOUS_REPORT)"; fi; \
+	$(BLUEPRINT_PYTHON) scripts/coordination/execution_preflight_v0_1.py "$$@"
+
+.PHONY: test-v0-4-1-b1-p1
+test-v0-4-1-b1-p1:
+	@$(BLUEPRINT_PYTHON) -m pytest -q tests/validation/test_v0_4_1_execution_baseline_and_drift_control.py tests/validation/test_v0_4_immutable_prompt_contract.py
+	@$(BLUEPRINT_PYTHON) -m py_compile scripts/coordination/execution_preflight_v0_1.py scripts/coordination/validate_prompt_contract_v0_4.py
