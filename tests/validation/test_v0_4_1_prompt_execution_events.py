@@ -697,3 +697,160 @@ def test_blueprint_self_module_is_not_external_h3_source(
         "self_module_not_applicable"
     )
     assert report["summary"]["self_module_not_applicable"] == 1
+
+
+def _b1_execution_identity(
+    fingerprint: str = "a" * 64,
+) -> dict:
+    return {
+        "schema_version": "module_execution_identity_v0_1",
+        "execution_epoch_id": fingerprint,
+        "preflight_fingerprint_sha256": fingerprint,
+    }
+
+
+def test_historical_event_without_execution_identity_remains_valid(
+    tmp_path: Path,
+) -> None:
+    blueprint, module, registry = fixture(tmp_path)
+    path = write_event(
+        module,
+        event_data(
+            event_id="demo_historical_claimed_001",
+            sequence=1,
+            event_type="CLAIMED",
+        ),
+    )
+    report = validate_event(
+        path,
+        blueprint_root=blueprint,
+        repository_root=module,
+        registry_path=registry,
+    )
+    assert report["result"] == "PASSED"
+    assert report["execution_identity"] is None
+
+
+def test_b1_claim_execution_identity_projects_and_binds_epoch(
+    tmp_path: Path,
+) -> None:
+    blueprint, module, registry = fixture(tmp_path)
+    identity = _b1_execution_identity()
+    data = event_data(
+        event_id="demo_b1_claimed_001",
+        sequence=1,
+        event_type="CLAIMED",
+    )
+    data["execution_identity"] = identity
+    path = write_event(module, data)
+
+    validation = validate_event(
+        path,
+        blueprint_root=blueprint,
+        repository_root=module,
+        registry_path=registry,
+    )
+    assert validation["result"] == "PASSED"
+    assert validation["execution_identity"] == identity
+
+    report = discover_execution_events(
+        blueprint_root=blueprint,
+        registry_path=registry,
+    )
+    assert report["result_state"] == "EXECUTION_OBSERVATIONS_AVAILABLE"
+    assert report["projections"][0]["execution_identity"] == identity
+
+
+def test_b1_claim_rejects_epoch_fingerprint_mismatch(
+    tmp_path: Path,
+) -> None:
+    blueprint, module, registry = fixture(tmp_path)
+    data = event_data(
+        event_id="demo_b1_bad_claimed_001",
+        sequence=1,
+        event_type="CLAIMED",
+    )
+    data["execution_identity"] = {
+        "schema_version": "module_execution_identity_v0_1",
+        "execution_epoch_id": "a" * 64,
+        "preflight_fingerprint_sha256": "b" * 64,
+    }
+    path = write_event(module, data)
+
+    report = validate_event(
+        path,
+        blueprint_root=blueprint,
+        repository_root=module,
+        registry_path=registry,
+    )
+    assert report["result"] == "FAILED"
+    assert any(
+        "execution_epoch_id must equal preflight_fingerprint_sha256"
+        in error
+        for error in report["errors"]
+    )
+
+
+def test_b1_bound_chain_requires_identity_on_later_events(
+    tmp_path: Path,
+) -> None:
+    blueprint, module, registry = fixture(tmp_path)
+
+    first = event_data(
+        event_id="demo_b1_claimed_001",
+        sequence=1,
+        event_type="CLAIMED",
+    )
+    first["execution_identity"] = _b1_execution_identity()
+    write_event(module, first)
+
+    write_event(
+        module,
+        event_data(
+            event_id="demo_b1_progress_002",
+            sequence=2,
+            event_type="IN_PROGRESS",
+        ),
+    )
+
+    report = discover_execution_events(
+        blueprint_root=blueprint,
+        registry_path=registry,
+    )
+    assert report["result_state"] == "ATTENTION_REQUIRED"
+    assert any(
+        "missing execution_identity" in error
+        for error in report["transition_errors"]
+    )
+
+
+def test_b1_bound_chain_rejects_epoch_change(
+    tmp_path: Path,
+) -> None:
+    blueprint, module, registry = fixture(tmp_path)
+
+    first = event_data(
+        event_id="demo_b1_claimed_001",
+        sequence=1,
+        event_type="CLAIMED",
+    )
+    first["execution_identity"] = _b1_execution_identity("a" * 64)
+    write_event(module, first)
+
+    second = event_data(
+        event_id="demo_b1_progress_002",
+        sequence=2,
+        event_type="IN_PROGRESS",
+    )
+    second["execution_identity"] = _b1_execution_identity("b" * 64)
+    write_event(module, second)
+
+    report = discover_execution_events(
+        blueprint_root=blueprint,
+        registry_path=registry,
+    )
+    assert report["result_state"] == "ATTENTION_REQUIRED"
+    assert any(
+        "execution identity changed after CLAIMED" in error
+        for error in report["transition_errors"]
+    )

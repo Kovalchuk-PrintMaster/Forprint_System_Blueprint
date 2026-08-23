@@ -162,6 +162,241 @@ def _packet_path_from_event(
         return None
 
 
+def _queue_prompt_contract_binding(
+    blueprint_root: Path,
+    module_id: str,
+    prompt_id: str,
+) -> tuple[dict[str, Any] | None, list[str]]:
+    # Read queue-authoritative contract binding without mutating Blueprint.
+
+    queue_path = (
+        blueprint_root
+        / "coordination"
+        / "outgoing_prompts"
+        / module_id
+        / "index.yaml"
+    )
+    if not queue_path.is_file():
+        return None, []
+
+    try:
+        queue = load_yaml(queue_path)
+    except Exception as exc:
+        return None, [f"Prompt Queue YAML invalid during intake: {exc}"]
+    if queue.get("schema_version") != "prompt_queue_v0_2":
+        return None, ["Prompt Queue schema mismatch during intake"]
+    if queue.get("module") != module_id:
+        return None, ["Prompt Queue module mismatch during intake"]
+
+    rows = queue.get("prompt_queue")
+    if not isinstance(rows, list):
+        return None, ["Prompt Queue prompt_queue must be a list during intake"]
+    matches = [
+        item
+        for item in rows
+        if isinstance(item, dict)
+        and item.get("prompt_id") == prompt_id
+    ]
+    if not matches:
+        return None, []
+    if len(matches) != 1:
+        return None, [
+            f"Prompt Queue has {len(matches)} rows for prompt_id={prompt_id!r}"
+        ]
+
+    binding = matches[0].get("prompt_contract")
+    if binding is None:
+        return None, []
+    if not isinstance(binding, dict):
+        return None, [
+            "Prompt Queue prompt_contract binding must be a mapping or null"
+        ]
+    return dict(binding), []
+
+
+def _packet_queue_contract_errors(
+    packet_contract: Any,
+    queue_binding: dict[str, Any],
+) -> list[str]:
+    if not isinstance(packet_contract, dict):
+        return [
+            "Completion Packet prompt_contract cannot be compared to "
+            "queue-authoritative binding"
+        ]
+
+    errors: list[str] = []
+    for key in (
+        "schema_version",
+        "contract_id",
+        "path",
+        "file_sha256",
+        "payload_sha256",
+        "source_prompt_sha256",
+    ):
+        if packet_contract.get(key) != queue_binding.get(key):
+            errors.append(
+                "Completion Packet Prompt Contract does not match "
+                f"queue-authoritative binding: {key}"
+            )
+    return errors
+
+
+def _b1_completion_claim_binding_errors(
+    *,
+    blueprint_root: Path,
+    registry_path: Path,
+    repository_root: Path,
+    module_id: str,
+    prompt_id: str,
+    packet: dict[str, Any],
+    queue_binding: dict[str, Any],
+) -> list[str]:
+    # Bind B1 completion provenance to the actual validated CLAIM chain.
+    event_tool = _load_module(
+        blueprint_root
+        / "scripts/coordination/prompt_execution_events_v0_1.py",
+        "forprint_prompt_execution_events_v0_1_for_completion_intake",
+    )
+
+    (
+        b1_required,
+        _observed_binding,
+        _contract,
+        binding_errors,
+    ) = event_tool._queue_contract_binding_state(
+        blueprint_root,
+        {"prompt_contract": queue_binding},
+        module_id,
+        prompt_id,
+    )
+    if binding_errors:
+        return [
+            "B1 queue Prompt Contract cannot authorize completion: " + item
+            for item in binding_errors
+        ]
+    if not b1_required:
+        return []
+
+    provenance = packet.get("completion_provenance")
+    if not isinstance(provenance, dict):
+        return [
+            "B1 completion requires provenance before CLAIM binding comparison"
+        ]
+
+    completion_identity = provenance.get("execution_identity")
+    completion_evidence = provenance.get("preflight_evidence")
+    if not isinstance(completion_identity, dict):
+        return [
+            "B1 completion provenance execution_identity unavailable for "
+            "CLAIM binding comparison"
+        ]
+    if not isinstance(completion_evidence, dict):
+        return [
+            "B1 completion provenance preflight_evidence unavailable for "
+            "CLAIM binding comparison"
+        ]
+
+    events_rel = getattr(
+        event_tool,
+        "EVENTS_REL",
+        Path("coordination/prompt_execution_events/records"),
+    )
+    events_dir = _safe_repository_path(
+        repository_root,
+        Path(events_rel),
+    )
+    if not events_dir.is_dir():
+        return [
+            "B1 completion requires module-owned execution events with a "
+            "validated CLAIM"
+        ]
+
+    subject_records: list[dict[str, Any]] = []
+    errors: list[str] = []
+
+    for event_path in sorted(events_dir.glob("*.yaml")):
+        if not event_path.is_file():
+            continue
+        try:
+            raw = load_yaml(event_path)
+        except Exception:
+            continue
+
+        if (
+            raw.get("module_id") != module_id
+            or raw.get("prompt_id") != prompt_id
+        ):
+            continue
+
+        report = event_tool.validate_event(
+            event_path,
+            blueprint_root=blueprint_root,
+            repository_root=repository_root,
+            registry_path=registry_path,
+            template_mode=False,
+        )
+        if report.get("result") != "PASSED":
+            details = "; ".join(
+                str(item) for item in report.get("errors", [])
+            )
+            relative = event_path.relative_to(repository_root).as_posix()
+            errors.append(
+                "B1 completion subject execution event is invalid: "
+                + relative
+                + (f": {details}" if details else "")
+            )
+            continue
+
+        subject_records.append(dict(report))
+
+    if errors:
+        return errors
+    if not subject_records:
+        return [
+            "B1 completion requires a validated CLAIM execution event for "
+            f"{module_id}/{prompt_id}"
+        ]
+
+    subject_records.sort(
+        key=lambda item: (
+            int(item.get("sequence") or 0),
+            str(item.get("occurred_at") or ""),
+            str(item.get("event_id") or ""),
+        )
+    )
+    transition_errors = event_tool._transition_errors(subject_records)
+    if transition_errors:
+        return [
+            "B1 completion execution chain invalid: " + str(item)
+            for item in transition_errors
+        ]
+
+    claim = subject_records[0]
+    if claim.get("event_type") != "CLAIMED" or claim.get("sequence") != 1:
+        return ["B1 completion execution chain does not start with CLAIMED"]
+
+    claim_identity = claim.get("execution_identity")
+    if not isinstance(claim_identity, dict):
+        return ["B1 validated CLAIM execution_identity is unavailable"]
+
+    for key in (
+        "execution_epoch_id",
+        "preflight_fingerprint_sha256",
+    ):
+        if completion_identity.get(key) != claim_identity.get(key):
+            errors.append(
+                "B1 completion execution identity does not match CLAIM: "
+                + key
+            )
+
+    if completion_evidence != claim_identity.get("preflight_evidence"):
+        errors.append(
+            "B1 completion preflight evidence path/SHA does not match CLAIM"
+        )
+
+    return errors
+
+
 def _discover_module(
     *,
     module: dict[str, Any],
@@ -336,6 +571,72 @@ def _discover_module(
             }
             result["events"].append(event_record)
             continue
+
+        packet_module_id = packet.get("module_id")
+        packet_prompt_id = packet.get("prompt_id")
+        if (
+            not isinstance(packet_module_id, str)
+            or not isinstance(packet_prompt_id, str)
+        ):
+            event_record["classification"] = "invalid_completion_packet"
+            event_record["packet_validation"] = {
+                "result": "FAILED",
+                "errors": [
+                    "Completion Packet module_id/prompt_id unavailable for "
+                    "queue-authoritative contract binding"
+                ],
+                "warnings": [],
+            }
+            result["events"].append(event_record)
+            continue
+
+        queue_binding, queue_binding_errors = _queue_prompt_contract_binding(
+            blueprint_root,
+            packet_module_id,
+            packet_prompt_id,
+        )
+        if queue_binding_errors:
+            event_record["classification"] = "invalid_completion_packet"
+            event_record["packet_validation"] = {
+                "result": "FAILED",
+                "errors": queue_binding_errors,
+                "warnings": [],
+            }
+            result["events"].append(event_record)
+            continue
+        if queue_binding is not None:
+            binding_errors = _packet_queue_contract_errors(
+                packet.get("prompt_contract"),
+                queue_binding,
+            )
+            if binding_errors:
+                event_record["classification"] = "invalid_completion_packet"
+                event_record["packet_validation"] = {
+                    "result": "FAILED",
+                    "errors": binding_errors,
+                    "warnings": [],
+                }
+                result["events"].append(event_record)
+                continue
+
+            claim_binding_errors = _b1_completion_claim_binding_errors(
+                blueprint_root=blueprint_root,
+                registry_path=registry_path,
+                repository_root=repository_root,
+                module_id=packet_module_id,
+                prompt_id=packet_prompt_id,
+                packet=packet,
+                queue_binding=queue_binding,
+            )
+            if claim_binding_errors:
+                event_record["classification"] = "invalid_completion_packet"
+                event_record["packet_validation"] = {
+                    "result": "FAILED",
+                    "errors": claim_binding_errors,
+                    "warnings": [],
+                }
+                result["events"].append(event_record)
+                continue
 
         event_record["classification"] = "ready_for_blueprint_review"
         revision = event.get("revision")

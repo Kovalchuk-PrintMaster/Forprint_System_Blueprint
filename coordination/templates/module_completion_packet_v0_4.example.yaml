@@ -13,6 +13,29 @@ report_sha256: <64-character lowercase sha256>
 implementation_base_commit: <40-character lowercase git commit>
 implementation_commit: <40-character lowercase git commit>
 branch: <branch>
+completion_provenance:
+  schema_version: module_completion_provenance_v0_1
+  release_baseline:
+    source: <exact release_baseline mapping from execution preflight>
+  execution_baseline:
+    source: <exact execution_baseline mapping from execution preflight>
+  execution_identity:
+    execution_epoch_id: <64-character lowercase sha256>
+    preflight_fingerprint_sha256: <64-character lowercase sha256>
+  preflight_evidence:
+    path: coordination/execution_preflight/records/<prompt_id>__<execution_epoch_id>.yaml
+    sha256: <64-character lowercase sha256>
+  revalidation:
+    revalidation_performed: false
+    previous_preflight_fingerprint_sha256: null
+    current_preflight_fingerprint_sha256: <64-character lowercase sha256>
+  completion_baseline:
+    implementation_base_commit: <40-character lowercase git commit>
+    final_implementation_commit: <40-character lowercase git commit>
+    branch: <branch>
+  boundaries:
+    blueprint_acceptance_claimed: false
+    operator_decision_created: false
 prompt_contract:
   schema_version: module_prompt_contract_v0_4
   contract_id: <contract_id>

@@ -11,6 +11,7 @@ from typing import Any
 import yaml
 
 EVENT_SCHEMA = "module_prompt_execution_event_v0_1"
+EXECUTION_IDENTITY_SCHEMA = "module_execution_identity_v0_1"
 QUEUE_SCHEMA = "prompt_queue_v0_2"
 EVENTS_REL = Path("coordination/prompt_execution_events/records")
 REGISTRY_REL = Path("coordination/registry/coordination_source_registry_v0_1.yaml")
@@ -266,6 +267,421 @@ def _queue_prompt(
     return queue, prompt, queue_path
 
 
+
+def _queue_contract_binding_state(
+    blueprint_root: Path,
+    prompt: dict[str, Any],
+    module_id: str,
+    prompt_id: str,
+) -> tuple[
+    bool,
+    dict[str, Any] | None,
+    dict[str, Any] | None,
+    list[str],
+]:
+    # Resolve queue-authoritative Prompt Contract and B1 discriminator.
+
+    binding = prompt.get("prompt_contract")
+    if binding is None:
+        return False, None, None, []
+    if not isinstance(binding, dict):
+        return False, None, None, [
+            "prompt queue prompt_contract binding must be a mapping or null"
+        ]
+
+    errors: list[str] = []
+    required = (
+        "schema_version",
+        "contract_id",
+        "path",
+        "file_sha256",
+        "payload_sha256",
+        "source_prompt_sha256",
+    )
+    for key in required:
+        value = binding.get(key)
+        if not isinstance(value, str) or not value.strip():
+            errors.append(f"prompt queue prompt_contract.{key} missing")
+    for key in (
+        "file_sha256",
+        "payload_sha256",
+        "source_prompt_sha256",
+    ):
+        value = binding.get(key)
+        if (
+            isinstance(value, str)
+            and re.fullmatch(r"[0-9a-f]{64}", value) is None
+        ):
+            errors.append(
+                f"prompt queue prompt_contract.{key} must be lowercase SHA-256"
+            )
+    if (
+        binding.get("schema_version")
+        not in {None, "module_prompt_contract_v0_4"}
+    ):
+        errors.append("prompt queue Prompt Contract schema mismatch")
+    if errors:
+        return False, dict(binding), None, errors
+
+    rel = binding["path"]
+    contract_path = (blueprint_root / rel).resolve()
+    try:
+        contract_path.relative_to(blueprint_root.resolve())
+    except ValueError:
+        return False, dict(binding), None, [
+            "prompt queue Prompt Contract path escapes Blueprint root"
+        ]
+    if not contract_path.is_file():
+        return False, dict(binding), None, [
+            "prompt queue bound Prompt Contract is unavailable"
+        ]
+    if file_sha256(contract_path) != binding["file_sha256"]:
+        return False, dict(binding), None, [
+            "prompt queue bound Prompt Contract file SHA mismatch"
+        ]
+
+    try:
+        contract = load_yaml(contract_path)
+    except Exception as exc:
+        return False, dict(binding), None, [
+            f"prompt queue bound Prompt Contract YAML invalid: {exc}"
+        ]
+
+    metadata = contract.get("metadata")
+    source_prompt = contract.get("source_prompt")
+    integrity = contract.get("integrity")
+    if contract.get("schema_version") != "module_prompt_contract_v0_4":
+        errors.append("bound Prompt Contract schema mismatch")
+    if not isinstance(metadata, dict):
+        errors.append("bound Prompt Contract metadata missing")
+        metadata = {}
+    if metadata.get("contract_id") != binding.get("contract_id"):
+        errors.append("bound Prompt Contract contract_id mismatch")
+    if metadata.get("module_id") != module_id:
+        errors.append("bound Prompt Contract module_id mismatch")
+    if metadata.get("prompt_id") != prompt_id:
+        errors.append("bound Prompt Contract prompt_id mismatch")
+    if not isinstance(source_prompt, dict):
+        errors.append("bound Prompt Contract source_prompt missing")
+        source_prompt = {}
+    if source_prompt.get("sha256") != binding.get(
+        "source_prompt_sha256"
+    ):
+        errors.append("bound Prompt Contract source prompt SHA mismatch")
+    if not isinstance(integrity, dict):
+        errors.append("bound Prompt Contract integrity missing")
+        integrity = {}
+    if integrity.get("payload_sha256") != binding.get("payload_sha256"):
+        errors.append("bound Prompt Contract payload SHA mismatch")
+    if errors:
+        return False, dict(binding), contract, errors
+
+    policy = contract.get("execution_baseline_policy")
+    if policy is None:
+        return False, dict(binding), contract, []
+    if not isinstance(policy, dict):
+        return False, dict(binding), contract, [
+            "bound Prompt Contract execution_baseline_policy must be a mapping"
+        ]
+    if (
+        policy.get("schema_version")
+        != "module_execution_baseline_policy_v0_1"
+    ):
+        return False, dict(binding), contract, [
+            "bound Prompt Contract execution_baseline_policy schema mismatch"
+        ]
+    return True, dict(binding), contract, []
+
+
+def _expected_preflight_evidence_path(
+    prompt_id: str,
+    execution_epoch_id: str,
+) -> str:
+    return (
+        "coordination/execution_preflight/records/"
+        f"{prompt_id}__{execution_epoch_id}.yaml"
+    )
+
+
+def _validate_bound_preflight_evidence(
+    identity: dict[str, Any],
+    *,
+    repository_root: Path,
+    module_id: str,
+    prompt_id: str,
+    contract_binding: dict[str, Any],
+    contract: dict[str, Any],
+) -> list[str]:
+    # Validate immutable module-owned B1 preflight evidence for an event.
+
+    errors: list[str] = []
+    epoch = identity.get("execution_epoch_id")
+    fingerprint = identity.get("preflight_fingerprint_sha256")
+    evidence = identity.get("preflight_evidence")
+    if not isinstance(evidence, dict):
+        return [
+            "B1-bound execution_identity.preflight_evidence must be a mapping"
+        ]
+
+    path_value = evidence.get("path")
+    sha_value = evidence.get("sha256")
+    if not isinstance(path_value, str) or not path_value.strip():
+        errors.append(
+            "B1-bound execution_identity.preflight_evidence.path missing"
+        )
+    if (
+        not isinstance(sha_value, str)
+        or re.fullmatch(r"[0-9a-f]{64}", sha_value) is None
+    ):
+        errors.append(
+            "B1-bound execution_identity.preflight_evidence.sha256 "
+            "must be lowercase SHA-256"
+        )
+    if errors:
+        return errors
+
+    if isinstance(epoch, str):
+        expected_path = _expected_preflight_evidence_path(
+            prompt_id,
+            epoch,
+        )
+        if path_value != expected_path:
+            errors.append(
+                "B1 preflight evidence path must be canonical for "
+                "prompt_id + execution_epoch_id"
+            )
+
+    evidence_path = (repository_root / path_value).resolve()
+    try:
+        evidence_path.relative_to(repository_root.resolve())
+    except ValueError:
+        errors.append("B1 preflight evidence path escapes module repository")
+        return errors
+    if not evidence_path.is_file():
+        errors.append("B1 preflight evidence file is unavailable")
+        return errors
+    if file_sha256(evidence_path) != sha_value:
+        errors.append("B1 preflight evidence file SHA mismatch")
+        return errors
+
+    try:
+        report = load_yaml(evidence_path)
+    except Exception as exc:
+        errors.append(f"B1 preflight evidence YAML invalid: {exc}")
+        return errors
+
+    if report.get("schema_version") != "blueprint_execution_preflight_v0_1":
+        errors.append("B1 preflight evidence schema mismatch")
+    if report.get("result") != "READY":
+        errors.append("B1 preflight evidence result must be READY")
+
+    report_contract = report.get("contract")
+    if not isinstance(report_contract, dict):
+        errors.append("B1 preflight evidence contract must be a mapping")
+        report_contract = {}
+    if report_contract.get("contract_id") != contract_binding.get(
+        "contract_id"
+    ):
+        errors.append("B1 preflight contract_id mismatch")
+    if report_contract.get("module_id") != module_id:
+        errors.append("B1 preflight module_id mismatch")
+    if report_contract.get("prompt_id") != prompt_id:
+        errors.append("B1 preflight prompt_id mismatch")
+
+    policy = contract.get("execution_baseline_policy")
+    if not isinstance(policy, dict):
+        errors.append("B1 Prompt Contract policy unavailable")
+        policy = {}
+    if report.get("release_baseline") != policy.get("release_baseline"):
+        errors.append(
+            "B1 preflight release_baseline does not match Prompt Contract"
+        )
+    execution_baseline = report.get("execution_baseline")
+    if not isinstance(execution_baseline, dict) or not execution_baseline:
+        errors.append("B1 preflight execution_baseline must be non-empty")
+
+    report_fingerprint = report.get("preflight_fingerprint_sha256")
+    if report_fingerprint != fingerprint:
+        errors.append("B1 preflight fingerprint does not match CLAIM identity")
+
+    report_identity = report.get("execution_identity")
+    if not isinstance(report_identity, dict):
+        errors.append("B1 preflight execution_identity must be a mapping")
+        report_identity = {}
+    if report_identity.get("execution_epoch_id") != epoch:
+        errors.append("B1 preflight execution epoch does not match CLAIM")
+    if (
+        report_identity.get("claim_must_bind_preflight_fingerprint")
+        is not True
+    ):
+        errors.append(
+            "B1 preflight must require CLAIM to bind its fingerprint"
+        )
+    if report_identity.get("head_chasing_after_claim_allowed") is not False:
+        errors.append("B1 preflight must forbid HEAD chasing after CLAIM")
+
+    revalidation = report.get("revalidation")
+    if not isinstance(revalidation, dict):
+        errors.append("B1 preflight revalidation must be a mapping")
+
+    boundaries = report.get("boundaries")
+    if isinstance(boundaries, dict):
+        for key in (
+            "blueprint_repository_writes",
+            "module_repository_writes",
+            "operator_decision_created",
+            "automatic_acceptance",
+        ):
+            if boundaries.get(key) is not False:
+                errors.append(
+                    f"B1 preflight boundaries.{key} must be false"
+                )
+    return errors
+
+
+def _validate_execution_identity(
+    data: dict[str, Any],
+    *,
+    template_mode: bool,
+) -> tuple[dict[str, Any] | None, list[str]]:
+    if "execution_identity" not in data:
+        return None, []
+
+    identity = data.get("execution_identity")
+    if not isinstance(identity, dict):
+        return None, ["execution_identity must be a mapping"]
+
+    errors: list[str] = []
+    if identity.get("schema_version") != EXECUTION_IDENTITY_SCHEMA:
+        errors.append(
+            "execution_identity.schema_version must be "
+            + EXECUTION_IDENTITY_SCHEMA
+        )
+
+    epoch = identity.get("execution_epoch_id")
+    fingerprint = identity.get("preflight_fingerprint_sha256")
+
+    if template_mode:
+        if not isinstance(epoch, str) or not epoch.strip():
+            errors.append(
+                "execution_identity.execution_epoch_id must be non-empty"
+            )
+        if not isinstance(fingerprint, str) or not fingerprint.strip():
+            errors.append(
+                "execution_identity.preflight_fingerprint_sha256 "
+                "must be non-empty"
+            )
+    else:
+        if not isinstance(epoch, str) or HEX64.fullmatch(epoch) is None:
+            errors.append(
+                "execution_identity.execution_epoch_id must be "
+                "a 64-character lowercase sha256"
+            )
+        if (
+            not isinstance(fingerprint, str)
+            or HEX64.fullmatch(fingerprint) is None
+        ):
+            errors.append(
+                "execution_identity.preflight_fingerprint_sha256 must be "
+                "a 64-character lowercase sha256"
+            )
+
+    if (
+        isinstance(epoch, str)
+        and isinstance(fingerprint, str)
+        and epoch != fingerprint
+    ):
+        errors.append(
+            "execution_identity.execution_epoch_id must equal "
+            "preflight_fingerprint_sha256"
+        )
+
+    evidence = identity.get("preflight_evidence")
+    if evidence is not None:
+        if not isinstance(evidence, dict):
+            errors.append(
+                "execution_identity.preflight_evidence must be a mapping"
+            )
+        else:
+            path_value = evidence.get("path")
+            sha_value = evidence.get("sha256")
+            if not isinstance(path_value, str) or not path_value.strip():
+                errors.append(
+                    "execution_identity.preflight_evidence.path missing"
+                )
+            if not isinstance(sha_value, str) or not sha_value.strip():
+                errors.append(
+                    "execution_identity.preflight_evidence.sha256 missing"
+                )
+            elif (
+                not template_mode
+                and re.fullmatch(r"[0-9a-f]{64}", sha_value) is None
+            ):
+                errors.append(
+                    "execution_identity.preflight_evidence.sha256 must be "
+                    "a 64-character lowercase sha256"
+                )
+
+    return dict(identity), errors
+
+
+def _execution_identity_transition_errors(
+    records: list[dict[str, Any]],
+) -> list[str]:
+    if not records:
+        return []
+
+    errors: list[str] = []
+    first = records[0].get("execution_identity")
+
+    if first is None:
+        for record in records[1:]:
+            if record.get("execution_identity") is not None:
+                errors.append(
+                    "execution identity cannot be introduced after "
+                    f"historical CLAIMED event at {record.get('event_id')}"
+                )
+        return errors
+
+    if not isinstance(first, dict):
+        return ["CLAIMED execution_identity projection is invalid"]
+
+    expected_epoch = first.get("execution_epoch_id")
+    expected_fingerprint = first.get("preflight_fingerprint_sha256")
+    expected_evidence = first.get("preflight_evidence")
+
+    for record in records[1:]:
+        event_id = record.get("event_id")
+        identity = record.get("execution_identity")
+        if identity is None:
+            errors.append(
+                "B1-bound execution event is missing execution_identity "
+                f"at {event_id}"
+            )
+            continue
+        if not isinstance(identity, dict):
+            errors.append(
+                f"B1-bound execution_identity is invalid at {event_id}"
+            )
+            continue
+        if (
+            identity.get("execution_epoch_id") != expected_epoch
+            or identity.get("preflight_fingerprint_sha256")
+            != expected_fingerprint
+        ):
+            errors.append(
+                "B1 execution identity changed after CLAIMED "
+                f"at {event_id}"
+            )
+        if identity.get("preflight_evidence") != expected_evidence:
+            errors.append(
+                "B1 preflight evidence binding changed after CLAIMED "
+                f"at {event_id}"
+            )
+
+    return errors
+
+
 def _validate_boundaries(data: dict[str, Any]) -> list[str]:
     boundaries = data.get("boundaries")
     if not isinstance(boundaries, dict):
@@ -392,6 +808,11 @@ def validate_event(
     elif len(blocking_refs) != len(set(blocking_refs)):
         errors.append("execution.blocking_refs contains duplicates")
 
+    execution_identity, identity_errors = _validate_execution_identity(
+        data,
+        template_mode=template_mode,
+    )
+    errors.extend(identity_errors)
     errors.extend(_validate_boundaries(data))
 
     queue_status: str | None = None
@@ -446,6 +867,38 @@ def validate_event(
                         module,
                         str(prompt_id),
                     )
+                    (
+                        b1_required,
+                        queue_contract_binding,
+                        queue_contract,
+                        queue_contract_errors,
+                    ) = _queue_contract_binding_state(
+                        blueprint_root,
+                        prompt,
+                        module_id,
+                        str(prompt_id),
+                    )
+                    errors.extend(queue_contract_errors)
+                    if b1_required:
+                        if execution_identity is None:
+                            errors.append(
+                                "B1-bound Prompt Contract requires "
+                                "execution_identity on every execution event"
+                            )
+                        elif (
+                            queue_contract_binding is not None
+                            and queue_contract is not None
+                        ):
+                            errors.extend(
+                                _validate_bound_preflight_evidence(
+                                    execution_identity,
+                                    repository_root=repository_root,
+                                    module_id=module_id,
+                                    prompt_id=str(prompt_id),
+                                    contract_binding=queue_contract_binding,
+                                    contract=queue_contract,
+                                )
+                            )
                     module_execution = prompt.get("module_execution")
                     blueprint_review = prompt.get("blueprint_review")
                     if isinstance(module_execution, dict):
@@ -476,6 +929,7 @@ def validate_event(
         "event_type": event_type,
         "observed_status": EVENT_TYPES.get(str(event_type)),
         "occurred_at": data.get("occurred_at"),
+        "execution_identity": execution_identity,
         "queue_status_current": queue_status,
         "blueprint_review_status_current": queue_review_status,
         "prompt_queue_path": queue_path_text,
@@ -496,7 +950,7 @@ def validate_event(
 def _transition_errors(
     records: list[dict[str, Any]],
 ) -> list[str]:
-    errors: list[str] = []
+    errors: list[str] = _execution_identity_transition_errors(records)
     previous_type: str | None = None
     previous_time: datetime | None = None
     expected_sequence = 1
@@ -699,6 +1153,9 @@ def discover_execution_events(
                 "event_path": latest.get("event_path"),
                 "event_sha256": latest.get("event_sha256"),
                 "occurred_at": latest.get("occurred_at"),
+                "execution_identity": latest.get(
+                    "execution_identity"
+                ),
                 "classification": classification,
             }
         )

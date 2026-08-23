@@ -8,6 +8,14 @@ event_type: CLAIMED
 occurred_at: "2026-08-19T19:30:00+03:00"
 immutable: true
 
+execution_identity:
+  schema_version: module_execution_identity_v0_1
+  execution_epoch_id: <64-character lowercase sha256>
+  preflight_fingerprint_sha256: <64-character lowercase sha256>
+  preflight_evidence:
+    path: coordination/execution_preflight/records/<prompt_id>__<execution_epoch_id>.yaml
+    sha256: <64-character lowercase sha256>
+
 execution:
   reason_code: null
   reason: null

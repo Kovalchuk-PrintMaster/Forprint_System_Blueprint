@@ -14,6 +14,7 @@ EXPECTED_SCHEMA = "module_completion_packet_v0_4"
 EXPECTED_PROTOCOL = "module_completion_packet_protocol_v0_4"
 EXPECTED_STATUS = "completed_in_module_pending_blueprint_review"
 EXPECTED_CONTRACT_SCHEMA = "module_prompt_contract_v0_4"
+COMPLETION_PROVENANCE_SCHEMA = "module_completion_provenance_v0_1"
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
 SAFE_ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,199}$")
@@ -77,6 +78,439 @@ def require_hash(value: Any, label: str, errors: list[str]) -> None:
         errors.append(f"{label} must be a 64-character lowercase sha256")
 
 
+
+def _validate_completion_provenance(
+    packet: dict[str, Any],
+    errors: list[str],
+    *,
+    template_mode: bool,
+) -> None:
+    if "completion_provenance" not in packet:
+        return
+
+    provenance = packet.get("completion_provenance")
+    if not isinstance(provenance, dict):
+        errors.append("completion_provenance must be a mapping")
+        return
+
+    if provenance.get("schema_version") != COMPLETION_PROVENANCE_SCHEMA:
+        errors.append(
+            "completion_provenance.schema_version mismatch"
+        )
+
+    for key in ("release_baseline", "execution_baseline"):
+        value = provenance.get(key)
+        if not isinstance(value, dict) or not value:
+            errors.append(
+                f"completion_provenance.{key} must be a non-empty mapping"
+            )
+
+    identity = provenance.get("execution_identity")
+    if not isinstance(identity, dict):
+        errors.append(
+            "completion_provenance.execution_identity must be a mapping"
+        )
+        identity = {}
+
+    epoch = identity.get("execution_epoch_id")
+    fingerprint = identity.get("preflight_fingerprint_sha256")
+
+    if template_mode:
+        if not non_empty(epoch):
+            errors.append(
+                "completion_provenance.execution_identity."
+                "execution_epoch_id missing"
+            )
+        if not non_empty(fingerprint):
+            errors.append(
+                "completion_provenance.execution_identity."
+                "preflight_fingerprint_sha256 missing"
+            )
+    else:
+        require_hash(
+            epoch,
+            "completion_provenance.execution_identity."
+            "execution_epoch_id",
+            errors,
+        )
+        require_hash(
+            fingerprint,
+            "completion_provenance.execution_identity."
+            "preflight_fingerprint_sha256",
+            errors,
+        )
+
+    if (
+        isinstance(epoch, str)
+        and isinstance(fingerprint, str)
+        and epoch != fingerprint
+    ):
+        errors.append(
+            "completion_provenance execution_epoch_id must equal "
+            "preflight_fingerprint_sha256"
+        )
+
+    revalidation = provenance.get("revalidation")
+    if not isinstance(revalidation, dict):
+        errors.append(
+            "completion_provenance.revalidation must be a mapping"
+        )
+        revalidation = {}
+
+    if not isinstance(
+        revalidation.get("revalidation_performed"),
+        bool,
+    ):
+        errors.append(
+            "completion_provenance.revalidation."
+            "revalidation_performed must be boolean"
+        )
+
+    previous = revalidation.get(
+        "previous_preflight_fingerprint_sha256"
+    )
+    current = revalidation.get(
+        "current_preflight_fingerprint_sha256"
+    )
+
+    if not template_mode:
+        if previous is not None:
+            require_hash(
+                previous,
+                "completion_provenance.revalidation."
+                "previous_preflight_fingerprint_sha256",
+                errors,
+            )
+        require_hash(
+            current,
+            "completion_provenance.revalidation."
+            "current_preflight_fingerprint_sha256",
+            errors,
+        )
+    elif not non_empty(current):
+        errors.append(
+            "completion_provenance.revalidation."
+            "current_preflight_fingerprint_sha256 missing"
+        )
+
+    if (
+        isinstance(current, str)
+        and isinstance(fingerprint, str)
+        and current != fingerprint
+    ):
+        errors.append(
+            "completion_provenance current revalidation fingerprint "
+            "must equal preflight_fingerprint_sha256"
+        )
+
+    revalidation_performed = revalidation.get(
+        "revalidation_performed"
+    )
+    previous_fingerprint = revalidation.get(
+        "previous_preflight_fingerprint_sha256"
+    )
+    if revalidation_performed is True:
+        if (
+            not isinstance(previous_fingerprint, str)
+            or (
+                not template_mode
+                and HEX64.fullmatch(previous_fingerprint) is None
+            )
+        ):
+            errors.append(
+                "completion_provenance.revalidation previous fingerprint "
+                "is required when revalidation_performed=true"
+            )
+    elif revalidation_performed is False and previous_fingerprint is not None:
+        errors.append(
+            "completion_provenance.revalidation previous fingerprint must "
+            "be null when revalidation_performed=false"
+        )
+
+    preflight_evidence = provenance.get("preflight_evidence")
+    if preflight_evidence is not None:
+        if not isinstance(preflight_evidence, dict):
+            errors.append(
+                "completion_provenance.preflight_evidence must be a mapping"
+            )
+        else:
+            path_value = preflight_evidence.get("path")
+            sha_value = preflight_evidence.get("sha256")
+            if not non_empty(path_value):
+                errors.append(
+                    "completion_provenance.preflight_evidence.path missing"
+                )
+            if not non_empty(sha_value):
+                errors.append(
+                    "completion_provenance.preflight_evidence.sha256 missing"
+                )
+            elif not template_mode:
+                require_hash(
+                    sha_value,
+                    "completion_provenance.preflight_evidence.sha256",
+                    errors,
+                )
+
+    baseline = provenance.get("completion_baseline")
+    if not isinstance(baseline, dict):
+        errors.append(
+            "completion_provenance.completion_baseline must be a mapping"
+        )
+        baseline = {}
+
+    base_commit = baseline.get("implementation_base_commit")
+    final_commit = baseline.get("final_implementation_commit")
+    branch = baseline.get("branch")
+
+    if template_mode:
+        for label, value in (
+            ("implementation_base_commit", base_commit),
+            ("final_implementation_commit", final_commit),
+            ("branch", branch),
+        ):
+            if not non_empty(value):
+                errors.append(
+                    "completion_provenance.completion_baseline."
+                    f"{label} missing"
+                )
+    else:
+        for label, value in (
+            ("implementation_base_commit", base_commit),
+            ("final_implementation_commit", final_commit),
+        ):
+            if (
+                not isinstance(value, str)
+                or HEX40.fullmatch(value) is None
+            ):
+                errors.append(
+                    "completion_provenance.completion_baseline."
+                    f"{label} must be a full 40-character lowercase Git hash"
+                )
+        if not non_empty(branch):
+            errors.append(
+                "completion_provenance.completion_baseline.branch missing"
+            )
+
+    if (
+        base_commit is not None
+        and base_commit != packet.get("implementation_base_commit")
+    ):
+        errors.append(
+            "completion_provenance implementation_base_commit "
+            "must equal packet implementation_base_commit"
+        )
+    if (
+        final_commit is not None
+        and final_commit != packet.get("implementation_commit")
+    ):
+        errors.append(
+            "completion_provenance final_implementation_commit "
+            "must equal packet implementation_commit"
+        )
+    if branch is not None and branch != packet.get("branch"):
+        errors.append(
+            "completion_provenance branch must equal packet branch"
+        )
+
+    boundaries = provenance.get("boundaries")
+    if not isinstance(boundaries, dict):
+        errors.append(
+            "completion_provenance.boundaries must be a mapping"
+        )
+        boundaries = {}
+
+    for key in (
+        "blueprint_acceptance_claimed",
+        "operator_decision_created",
+    ):
+        if boundaries.get(key) is not False:
+            errors.append(
+                f"completion_provenance.boundaries.{key} must be false"
+            )
+
+
+def _expected_preflight_evidence_path(
+    prompt_id: str,
+    execution_epoch_id: str,
+) -> str:
+    return (
+        "coordination/execution_preflight/records/"
+        f"{prompt_id}__{execution_epoch_id}.yaml"
+    )
+
+
+def _validate_b1_completion_binding(
+    root: Path,
+    packet: dict[str, Any],
+    prompt_contract: dict[str, Any],
+    contract: dict[str, Any] | None,
+    errors: list[str],
+    *,
+    template_mode: bool,
+) -> None:
+    # Require exact provenance when the bound Prompt Contract is B1-enabled.
+
+    if template_mode or contract is None:
+        return
+
+    policy = contract.get("execution_baseline_policy")
+    if policy is None:
+        return
+    if not isinstance(policy, dict):
+        errors.append(
+            "bound Prompt Contract execution_baseline_policy must be a mapping"
+        )
+        return
+    if (
+        policy.get("schema_version")
+        != "module_execution_baseline_policy_v0_1"
+    ):
+        errors.append(
+            "bound Prompt Contract execution_baseline_policy schema mismatch"
+        )
+        return
+
+    provenance = packet.get("completion_provenance")
+    if not isinstance(provenance, dict):
+        errors.append(
+            "B1-bound Completion Packet requires completion_provenance"
+        )
+        return
+    if provenance.get("schema_version") != COMPLETION_PROVENANCE_SCHEMA:
+        return
+
+    identity = provenance.get("execution_identity")
+    if not isinstance(identity, dict):
+        return
+    epoch = identity.get("execution_epoch_id")
+    fingerprint = identity.get("preflight_fingerprint_sha256")
+    if (
+        not isinstance(epoch, str)
+        or HEX64.fullmatch(epoch) is None
+        or not isinstance(fingerprint, str)
+        or HEX64.fullmatch(fingerprint) is None
+    ):
+        return
+
+    evidence = provenance.get("preflight_evidence")
+    if not isinstance(evidence, dict):
+        errors.append(
+            "B1-bound completion_provenance requires preflight_evidence"
+        )
+        return
+    path_value = evidence.get("path")
+    sha_value = evidence.get("sha256")
+    if not non_empty(path_value):
+        errors.append(
+            "B1 completion preflight_evidence.path must be non-empty"
+        )
+        return
+    if not isinstance(sha_value, str) or HEX64.fullmatch(sha_value) is None:
+        errors.append(
+            "B1 completion preflight_evidence.sha256 must be lowercase SHA-256"
+        )
+        return
+
+    prompt_id = packet.get("prompt_id")
+    if isinstance(prompt_id, str):
+        expected_path = _expected_preflight_evidence_path(
+            prompt_id,
+            epoch,
+        )
+        if path_value != expected_path:
+            errors.append(
+                "B1 completion preflight evidence path must be canonical for "
+                "prompt_id + execution_epoch_id"
+            )
+
+    try:
+        evidence_path = safe_under(
+            root,
+            path_value,
+            "completion_provenance.preflight_evidence.path",
+        )
+    except ValueError as exc:
+        errors.append(str(exc))
+        return
+    if not evidence_path.is_file():
+        errors.append("B1 completion preflight evidence file is unavailable")
+        return
+    if sha256_file(evidence_path) != sha_value:
+        errors.append("B1 completion preflight evidence file SHA mismatch")
+        return
+
+    try:
+        report = load_yaml(evidence_path)
+    except Exception as exc:
+        errors.append(f"B1 completion preflight evidence YAML invalid: {exc}")
+        return
+
+    if report.get("schema_version") != "blueprint_execution_preflight_v0_1":
+        errors.append("B1 completion preflight evidence schema mismatch")
+    if report.get("result") != "READY":
+        errors.append("B1 completion preflight evidence result must be READY")
+
+    report_contract = report.get("contract")
+    if not isinstance(report_contract, dict):
+        errors.append(
+            "B1 completion preflight contract must be a mapping"
+        )
+        report_contract = {}
+    if report_contract.get("contract_id") != prompt_contract.get(
+        "contract_id"
+    ):
+        errors.append("B1 completion preflight contract_id mismatch")
+    if report_contract.get("module_id") != packet.get("module_id"):
+        errors.append("B1 completion preflight module_id mismatch")
+    if report_contract.get("prompt_id") != packet.get("prompt_id"):
+        errors.append("B1 completion preflight prompt_id mismatch")
+
+    if provenance.get("release_baseline") != policy.get("release_baseline"):
+        errors.append(
+            "B1 completion release_baseline does not match Prompt Contract"
+        )
+    if report.get("release_baseline") != provenance.get("release_baseline"):
+        errors.append(
+            "B1 completion release_baseline does not match preflight evidence"
+        )
+    if report.get("execution_baseline") != provenance.get(
+        "execution_baseline"
+    ):
+        errors.append(
+            "B1 completion execution_baseline does not match preflight evidence"
+        )
+    if report.get("revalidation") != provenance.get("revalidation"):
+        errors.append(
+            "B1 completion revalidation does not match preflight evidence"
+        )
+    if report.get("preflight_fingerprint_sha256") != fingerprint:
+        errors.append(
+            "B1 completion fingerprint does not match preflight evidence"
+        )
+
+    report_identity = report.get("execution_identity")
+    if not isinstance(report_identity, dict):
+        errors.append(
+            "B1 completion preflight execution_identity must be a mapping"
+        )
+        report_identity = {}
+    if report_identity.get("execution_epoch_id") != epoch:
+        errors.append(
+            "B1 completion execution epoch does not match preflight evidence"
+        )
+    if (
+        report_identity.get("claim_must_bind_preflight_fingerprint")
+        is not True
+    ):
+        errors.append(
+            "B1 completion preflight must require CLAIM fingerprint binding"
+        )
+    if report_identity.get("head_chasing_after_claim_allowed") is not False:
+        errors.append(
+            "B1 completion preflight must forbid HEAD chasing after CLAIM"
+        )
+
+
 def validate_packet(
     root: Path,
     packet_path: Path,
@@ -137,6 +571,12 @@ def validate_packet(
             errors.append(
                 "module completion packet must not contain Blueprint decision field: " + forbidden
             )
+
+    _validate_completion_provenance(
+        packet,
+        errors,
+        template_mode=template_mode,
+    )
 
     prompt_contract = packet.get("prompt_contract")
     if not isinstance(prompt_contract, dict):
@@ -426,6 +866,15 @@ def validate_packet(
             errors.append(f"publication.{key} must be false")
     if publication.get("external_publication_verification_required") is not True:
         errors.append("publication.external_publication_verification_required must be true")
+
+    _validate_b1_completion_binding(
+        root,
+        packet,
+        prompt_contract,
+        contract,
+        errors,
+        template_mode=template_mode,
+    )
 
     revision = packet.get("revision")
     if not isinstance(revision, dict):

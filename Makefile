@@ -1327,3 +1327,10 @@ execution-preflight-v0-1:
 test-v0-4-1-b1-p1:
 	@$(BLUEPRINT_PYTHON) -m pytest -q tests/validation/test_v0_4_1_execution_baseline_and_drift_control.py tests/validation/test_v0_4_immutable_prompt_contract.py
 	@$(BLUEPRINT_PYTHON) -m py_compile scripts/coordination/execution_preflight_v0_1.py scripts/coordination/validate_prompt_contract_v0_4.py
+
+.PHONY: test-v0-4-1-b1-p2
+test-v0-4-1-b1-p2:
+	@$(BLUEPRINT_PYTHON) -m pytest -q tests/validation/test_v0_4_1_prompt_execution_events.py tests/validation/test_v0_4_completion_packet.py tests/validation/test_v0_4_1_b1_p2_authoritative_binding.py
+	@$(BLUEPRINT_PYTHON) -m py_compile scripts/coordination/prompt_execution_events_v0_1.py scripts/coordination/validate_completion_packet_v0_4.py
+	@$(BLUEPRINT_PYTHON) scripts/coordination/prompt_execution_events_v0_1.py validate --root . --event "$(PROMPT_EXECUTION_EVENT_V0_1)" --template
+	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_completion_packet_v0_4.py --root . --packet "$(COMPLETION_PACKET_V0_4)" --template-mode

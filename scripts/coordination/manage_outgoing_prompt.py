@@ -561,6 +561,130 @@ def _find_prepared_draft(
     return matches[0] if matches else None
 
 
+def _resolve_prompt_contract_binding(
+    *,
+    root: Path,
+    module: str,
+    prompt_id: str,
+    prepared_text: str,
+) -> dict[str, str] | None:
+    # Resolve the immutable Prompt Contract that authoritatively binds release.
+    # Historical prompts without B1 remain backward compatible. Once a B1
+    # contract exists for this identity, release fails closed unless exactly
+    # one B1 contract binds the exact prepared prompt bytes.
+
+    contract_root = (
+        root
+        / "coordination"
+        / "prompt_contracts"
+        / module
+        / prompt_id
+    )
+    if not contract_root.is_dir():
+        return None
+
+    prepared_sha256 = _sha256_text(prepared_text)
+    exact_all: list[dict[str, str]] = []
+    exact_b1: list[dict[str, str]] = []
+    b1_seen = 0
+
+    for path in sorted(contract_root.glob("*.yaml")):
+        try:
+            data = yaml.safe_load(path.read_text(encoding="utf-8"))
+        except (OSError, yaml.YAMLError) as exc:
+            raise WorkflowError(
+                f"cannot load Prompt Contract candidate {path}: {exc}"
+            ) from exc
+        if not isinstance(data, dict):
+            raise WorkflowError(
+                f"Prompt Contract candidate must be a mapping: {path}"
+            )
+        if data.get("schema_version") != "module_prompt_contract_v0_4":
+            continue
+
+        metadata = data.get("metadata")
+        source_prompt = data.get("source_prompt")
+        integrity = data.get("integrity")
+        if not isinstance(metadata, dict):
+            raise WorkflowError(f"Prompt Contract metadata missing: {path}")
+        if (
+            metadata.get("module_id") != module
+            or metadata.get("prompt_id") != prompt_id
+        ):
+            continue
+        if not isinstance(source_prompt, dict):
+            raise WorkflowError(
+                f"Prompt Contract source_prompt missing: {path}"
+            )
+        if not isinstance(integrity, dict):
+            raise WorkflowError(f"Prompt Contract integrity missing: {path}")
+
+        contract_id = metadata.get("contract_id")
+        source_sha = source_prompt.get("sha256")
+        payload_sha = integrity.get("payload_sha256")
+        if not isinstance(contract_id, str) or not contract_id.strip():
+            raise WorkflowError(f"Prompt Contract contract_id missing: {path}")
+        for label, value in (
+            ("source_prompt.sha256", source_sha),
+            ("integrity.payload_sha256", payload_sha),
+        ):
+            if (
+                not isinstance(value, str)
+                or re.fullmatch(r"[0-9a-f]{64}", value) is None
+            ):
+                raise WorkflowError(
+                    f"Prompt Contract {label} invalid: {path}"
+                )
+
+        policy = data.get("execution_baseline_policy")
+        is_b1 = False
+        if policy is not None:
+            if not isinstance(policy, dict):
+                raise WorkflowError(
+                    f"Prompt Contract execution_baseline_policy invalid: {path}"
+                )
+            if (
+                policy.get("schema_version")
+                != "module_execution_baseline_policy_v0_1"
+            ):
+                raise WorkflowError(
+                    "Prompt Contract execution_baseline_policy schema "
+                    f"unsupported: {path}"
+                )
+            is_b1 = True
+            b1_seen += 1
+
+        if source_sha != prepared_sha256:
+            continue
+
+        binding = {
+            "schema_version": "module_prompt_contract_v0_4",
+            "contract_id": contract_id,
+            "path": path.relative_to(root).as_posix(),
+            "file_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+            "payload_sha256": payload_sha,
+            "source_prompt_sha256": source_sha,
+        }
+        exact_all.append(binding)
+        if is_b1:
+            exact_b1.append(binding)
+
+    if b1_seen:
+        if len(exact_b1) != 1:
+            raise WorkflowError(
+                "B1 Prompt Contract exists for this module/prompt but release "
+                "requires exactly one B1 contract bound to the exact prepared "
+                f"prompt bytes; matched={len(exact_b1)}"
+            )
+        return exact_b1[0]
+
+    if len(exact_all) > 1:
+        raise WorkflowError(
+            "multiple Prompt Contracts bind the exact prepared prompt bytes"
+        )
+    return exact_all[0] if exact_all else None
+
+
 def _existing_release(
     *,
     root: Path,
@@ -676,6 +800,13 @@ def release_prompt(
             "Logistics pilot release requires structured `roadmap_step_id`"
         )
 
+    prompt_contract_binding = _resolve_prompt_contract_binding(
+        root=root,
+        module=module,
+        prompt_id=prompt_id,
+        prepared_text=prepared_text,
+    )
+
     allowed, policy_evidence = _release_allowed(root, module)
     if not allowed:
         raise WorkflowError(policy_evidence)
@@ -712,6 +843,7 @@ def release_prompt(
         "roadmap_step_id": artifact.roadmap_step_id,
         "phase": artifact.phase,
         "priority": artifact.priority,
+        "prompt_contract": prompt_contract_binding,
         "module_execution": {
             "status": "ready_for_module_pull",
             "completion_commit": None,

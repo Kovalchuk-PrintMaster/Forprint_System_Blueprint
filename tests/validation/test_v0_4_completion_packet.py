@@ -368,3 +368,125 @@ def test_operational_v02_and_candidate_v03_revision_registry_are_unchanged() -> 
     assert candidate["completion_intake"] == "blueprint_completion_intake_v0_3"
     assert candidate["activation_state"] == "reference_validation"
     assert candidate["normal_acceptance_allowed"] is False
+
+
+def _attach_b1_completion_provenance(packet: dict) -> None:
+    fingerprint = "a" * 64
+    packet["completion_provenance"] = {
+        "schema_version": "module_completion_provenance_v0_1",
+        "release_baseline": {
+            "blueprint_commit": "b" * 40,
+        },
+        "execution_baseline": {
+            "blueprint": {"head": "c" * 40},
+            "module": {"head": "d" * 40},
+        },
+        "execution_identity": {
+            "execution_epoch_id": fingerprint,
+            "preflight_fingerprint_sha256": fingerprint,
+        },
+        "revalidation": {
+            "revalidation_performed": False,
+            "previous_preflight_fingerprint_sha256": None,
+            "current_preflight_fingerprint_sha256": fingerprint,
+        },
+        "completion_baseline": {
+            "implementation_base_commit": packet[
+                "implementation_base_commit"
+            ],
+            "final_implementation_commit": packet[
+                "implementation_commit"
+            ],
+            "branch": packet["branch"],
+        },
+        "boundaries": {
+            "blueprint_acceptance_claimed": False,
+            "operator_decision_created": False,
+        },
+    }
+
+
+def test_b1_completion_provenance_valid_and_backward_compatible(
+    tmp_path: Path,
+) -> None:
+    root, packet_path, packet, module = fixture(tmp_path)
+
+    historical = module.validate_packet(root, packet_path, packet)
+    assert historical["result"] == "PASSED"
+
+    _attach_b1_completion_provenance(packet)
+    recompute(packet, module)
+    report = module.validate_packet(root, packet_path, packet)
+    assert report["result"] == "PASSED", report
+
+
+def test_b1_completion_provenance_rejects_epoch_mismatch(
+    tmp_path: Path,
+) -> None:
+    root, packet_path, packet, module = fixture(tmp_path)
+    _attach_b1_completion_provenance(packet)
+    packet["completion_provenance"]["execution_identity"][
+        "execution_epoch_id"
+    ] = "b" * 64
+    recompute(packet, module)
+
+    report = module.validate_packet(root, packet_path, packet)
+    assert any(
+        "execution_epoch_id must equal preflight_fingerprint_sha256"
+        in error
+        for error in report["errors"]
+    )
+
+
+def test_b1_completion_provenance_rejects_final_commit_mismatch(
+    tmp_path: Path,
+) -> None:
+    root, packet_path, packet, module = fixture(tmp_path)
+    _attach_b1_completion_provenance(packet)
+    packet["completion_provenance"]["completion_baseline"][
+        "final_implementation_commit"
+    ] = "f" * 40
+    recompute(packet, module)
+
+    report = module.validate_packet(root, packet_path, packet)
+    assert (
+        "completion_provenance final_implementation_commit "
+        "must equal packet implementation_commit"
+        in report["errors"]
+    )
+
+
+def test_b1_completion_provenance_rejects_revalidation_mismatch(
+    tmp_path: Path,
+) -> None:
+    root, packet_path, packet, module = fixture(tmp_path)
+    _attach_b1_completion_provenance(packet)
+    packet["completion_provenance"]["revalidation"][
+        "current_preflight_fingerprint_sha256"
+    ] = "e" * 64
+    recompute(packet, module)
+
+    report = module.validate_packet(root, packet_path, packet)
+    assert any(
+        "current revalidation fingerprint must equal "
+        "preflight_fingerprint_sha256" in error
+        for error in report["errors"]
+    )
+
+
+def test_b1_completion_provenance_cannot_claim_blueprint_acceptance(
+    tmp_path: Path,
+) -> None:
+    root, packet_path, packet, module = fixture(tmp_path)
+    _attach_b1_completion_provenance(packet)
+    packet["completion_provenance"]["boundaries"][
+        "blueprint_acceptance_claimed"
+    ] = True
+    recompute(packet, module)
+
+    report = module.validate_packet(root, packet_path, packet)
+    assert (
+        "completion_provenance.boundaries."
+        "blueprint_acceptance_claimed must be false"
+        in report["errors"]
+    )
