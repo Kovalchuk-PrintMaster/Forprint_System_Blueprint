@@ -1,0 +1,65 @@
+schema_version: blueprint_governance_policy_clarification_v0_1
+metadata:
+  created_at: "2026-08-24"
+  module_id: forprint_system_blueprint
+  owner: forprint_system_blueprint
+  status: adopted_locally_pending_publication
+record_id: blueprint_execution_workspace_cleanliness_and_isolation_policy_clarification_v0_1
+recorded_at: "2026-08-24"
+scope: execution_workspace_compatibility
+status: adopted_locally_pending_publication
+reason:
+  problem: >
+    Historical clean-worktree assumptions can incorrectly block coordination
+    in a project where Blueprint development continues while prompts are
+    queued or executed. The same term "dirty" was also being used for two
+    different risks: unrelated coordinator work and unattributed module
+    execution bytes.
+  decision: >
+    Separate global repository cleanliness from required-input compatibility
+    and execution-lane attribution. Blueprint unrelated dirt is nonblocking;
+    material execution-input drift is classified by B1. Shared module lanes
+    remain attributable before CLAIM. Same-module parallelism requires
+    isolated execution workspaces rather than shared dirty-tree concurrency.
+normative_rules:
+  blueprint_global_cleanliness_required: false
+  blueprint_unrelated_dirty_paths_are_execution_blockers: false
+  blueprint_required_input_compatibility_required: true
+  material_drift_requires_revalidation_or_block: true
+  shared_module_lane_must_be_attributable_before_claim: true
+  shared_module_dirty_before_claim_blocks_new_claim: true
+  automatic_stash_to_manufacture_cleanliness: false
+  automatic_reset_or_clean_to_manufacture_cleanliness: false
+  head_chasing_after_claim_allowed: false
+  same_module_parallel_execution_requires_isolated_workspace: true
+  wip_one_per_shared_module_lane_default: true
+  sender_head_may_advance_after_task_publication_if_inputs_compatible: true
+mutation_tooling:
+  ecosystem_execution_policy_requires_global_clean_tree: false
+  bounded_dirty_tree_mutation_allowed_when_scope_preservation_is_proven: true
+  legacy_or_current_mutation_builder_may_keep_stricter_precondition_until_hardened: true
+  stricter_mutation_precondition_must_not_be_generalized_to_execution: true
+authority_updates:
+  - coordination/standards/governance/module_prompt_execution_and_reporting_protocol.md
+  - coordination/standards/governance/mutation_builder_contract_v0_1.md
+  - coordination/global_policy/forprint_project_doctrine.md
+  - coordination/global_policy/current_execution_focus.md
+  - coordination/instruction_intake/bootstrap/2026-08-23__forprint_system_blueprint__v0_4_1_current_release_zero_context_execution_handoff_v0_1.md
+release_effect:
+  release_transition: false
+  b1_acceptance: false
+  b1_completion: false
+  prompt_activation: false
+  business_prompt_release: false
+  autonomous_execution_enabled: false
+follow_up:
+  - >
+    Reconcile mutation-builder tooling with bounded dirty-tree preservation in
+    a separate implementation step before relaxing any tool-specific clean
+    precondition.
+  - >
+    Introduce isolated execution-lane/worktree tooling before permitting
+    multiple concurrent executions inside one module repository.
+  - >
+    Keep B1 execution-preflight semantics based on compatibility and declared
+    inputs rather than repository freshness alone.

@@ -111,3 +111,18 @@ Future core workflow should come from Calculator-generated packages.
 
 
 ---
+
+<!-- forprint-execution-workspace-compatibility-v0-1 -->
+## v0.4.1 execution-workspace interpretation
+
+Current B1 work uses the following interpretation:
+
+- Blueprint global cleanliness is not a readiness condition by itself.
+- Readiness is determined from release authority, prompt/contract binding, declared required inputs, compatibility classification, and preflight evidence.
+- Unrelated Blueprint development may coexist with queued or active module work.
+- The current shared module execution lane remains clean/attributable before CLAIM; a busy lane keeps later work queued.
+- Stable execution identity after CLAIM prevents `HEAD` chasing.
+- Future same-module parallel execution requires isolated execution workspaces; it is not authorized by simply relaxing the module dirty-worktree blocker.
+- Tool-specific clean-worktree requirements may remain temporarily where a mutation tool has not yet implemented exact dirty-scope preservation; such a tooling constraint is not an ecosystem compatibility rule.
+
+This clarification changes no B1 acceptance state and authorizes no autonomous execution by itself.

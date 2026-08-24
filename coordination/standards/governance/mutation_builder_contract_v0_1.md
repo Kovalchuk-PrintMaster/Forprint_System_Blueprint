@@ -149,3 +149,32 @@ that untracked files are outside the surface inspected by plain
 The temporary-index precommit validator is the canonical regression control for
 that failure mode. Builders must not replace it with a weaker worktree-only
 check.
+
+<!-- forprint-execution-workspace-compatibility-v0-1 -->
+## Scope of the v0.1 clean-worktree requirement
+
+The v0.1 mutation-builder contract intentionally retains its existing
+clean-worktree precondition.
+
+That requirement is a **tooling safety constraint for mutation_builder_v0_1**.
+It is not an ecosystem-wide definition of execution compatibility and must not
+be reused to block prompt selection, preflight, CLAIM, review, or completion
+merely because the Blueprint repository contains unrelated local work.
+
+The governing distinction is:
+
+```text
+mutation_builder_v0_1:
+    clean worktree required by this tool revision
+
+execution compatibility:
+    determined from authority + contract + declared required inputs
+```
+
+A future mutation-builder revision may relax the clean-worktree precondition
+only after it can prove exact preservation of unrelated dirty state, exact
+target-path ownership, exact staged/commit scope, and exact rollback.
+
+Until such a revision is implemented and adopted, callers must not bypass the
+v0.1 clean-tree guard by automatic stash, reset, clean, or by absorbing
+unrelated changes into the mutation.

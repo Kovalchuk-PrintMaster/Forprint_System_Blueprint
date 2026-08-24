@@ -654,3 +654,147 @@ H3 discovery therefore reports the Blueprint self module as
 use the dedicated self-coordination roadmap / prompt queue / completion
 lifecycle. This exception is identity-specific to `forprint_system_blueprint`;
 it does not relax read-only boundaries for any external module.
+
+<!-- forprint-execution-workspace-compatibility-v0-1 -->
+## Execution workspace compatibility, cleanliness, and isolation
+
+### Normative distinction
+
+Global worktree cleanliness is not the same thing as execution compatibility.
+
+The coordination layer must distinguish at least these concepts:
+
+- **repository freshness** — whether repository `HEAD` advanced relative to a release or prompt baseline;
+- **global worktree cleanliness** — whether any tracked or untracked path in a checkout differs from `HEAD`;
+- **required-input compatibility** — whether the prompt contract, release authority, queue binding, required material inputs, and other declared execution inputs still match the execution contract;
+- **execution-lane cleanliness** — whether the workspace in which a module is about to claim a prompt contains pre-existing changes that cannot be attributed to that execution;
+- **material drift** — a change to a declared required input or authority that can change the meaning or safety of the execution.
+
+These concepts MUST NOT be collapsed into one boolean `clean/dirty` decision.
+
+### Blueprint / coordination repository rule
+
+The Blueprint coordination repository MAY contain unrelated local development work while a prompt is selected, validated, claimed, executed, reviewed, or completed.
+
+A globally dirty Blueprint checkout is therefore **not, by itself, an execution blocker**.
+
+Blueprint execution preflight must evaluate the declared authority and required-input surface. Unrelated dirty paths are tolerated when they do not alter:
+
+- the active release authority relevant to the execution;
+- the selected prompt / prompt contract;
+- queue or registry bindings required by the execution;
+- declared material required inputs;
+- validator/tooling inputs explicitly included in the execution contract.
+
+If one of those execution inputs changes, the system must classify the change through the normal B1 compatibility / revalidation / material-drift rules. It must not hide the change merely because other unrelated work is present.
+
+The intended rule is:
+
+```text
+unrelated Blueprint dirt
+    != execution incompatibility
+
+required-input / authority drift
+    => revalidate or block according to the execution contract
+```
+
+This permits normal Blueprint development to continue while already released or queued work remains executable from its immutable contract surface.
+
+### Module shared execution-lane rule before CLAIM
+
+A module's **shared execution workspace** is stricter than the Blueprint coordination workspace.
+
+Before `CLAIMED`, the workspace used to execute a prompt must have a known, attributable state. Under the current shared-lane model, pre-existing module worktree changes are a blocker (`BLOCKED_MODULE_DIRTY`) because the system cannot safely prove whether those bytes belong to the new prompt, another prompt, or manual work.
+
+Therefore a prompt waiting for a busy shared module lane remains queued. It does not force-reset, auto-stash, discard, absorb, or reinterpret existing changes.
+
+This is a WIP / execution-lane safety rule, not a requirement that the whole ForPrint ecosystem be idle.
+
+### Module state after CLAIM
+
+Once a prompt is claimed, changes created by that execution are expected. The execution workspace may become dirty and its `HEAD` may advance through implementation commits.
+
+The execution identity remains bound to the accepted preflight fingerprint and execution epoch. The implementation must not "chase" a newer `HEAD` by silently redefining its execution baseline.
+
+In short:
+
+```text
+before CLAIM:
+    shared execution lane must be attributable / clean
+
+after CLAIM:
+    prompt-owned changes are expected
+    execution epoch remains stable
+```
+
+### Parallel work in one module
+
+Parallel execution of multiple prompts in the same module must not be implemented by allowing multiple agents to write concurrently into one dirty shared checkout.
+
+If true parallel module execution is enabled in the future, each active execution must receive an **isolated execution workspace** (for example a Git worktree or equivalent checkout) bound to its own:
+
+- prompt ID and contract;
+- baseline commit / branch policy;
+- preflight evidence;
+- execution fingerprint / epoch;
+- mutation surface;
+- completion provenance.
+
+Parallelism is therefore achieved by **workspace isolation**, not by weakening ownership of a shared dirty tree.
+
+Until isolated execution-lane tooling is explicitly activated, WIP=1 per shared module execution lane remains the safe default.
+
+### Sender / receiver independence
+
+A prompt or cross-module task is transferred through immutable coordination artifacts and declared required inputs, not through an assumption that the sender's live checkout will remain frozen.
+
+After publication, the sending repository may continue unrelated development. The receiving execution remains valid while its contract and required inputs remain compatible.
+
+The same rule applies to Blueprint-to-module and future module-to-module work:
+
+```text
+sender freshness != task compatibility
+```
+
+### Bounded Blueprint mutations while unrelated work exists
+
+Execution compatibility policy does not automatically authorize every mutation tool to operate on a dirty worktree.
+
+A bounded mutation may safely coexist with unrelated Blueprint work only when the mutation mechanism proves all of the following:
+
+1. its declared target paths were unmodified before the transaction;
+2. unrelated dirty paths are captured and preserved;
+3. only declared target paths are written;
+4. only declared target paths are staged / committed;
+5. validation covers new and tracked files in the declared scope;
+6. unrelated worktree state remains unchanged after success or rollback.
+
+A mutation builder that has not yet implemented these protections MAY retain a stricter clean-worktree precondition. That local tooling restriction MUST NOT be generalized into an ecosystem execution-compatibility rule.
+
+### Decision matrix
+
+| Situation | Result |
+| --- | --- |
+| Blueprint has unrelated dirty files | Allowed; evaluate declared required inputs |
+| Blueprint required input changed | Revalidate or block according to B1 classification |
+| Blueprint `HEAD` advanced, required inputs unchanged | Exact/forward-compatible/revalidated path; no historical checkout solely for freshness |
+| Shared module execution lane dirty before CLAIM | Block / keep prompt queued |
+| Shared module lane clean and compatible before CLAIM | CLAIM may proceed |
+| Claimed execution creates dirty files or commits | Expected; preserve execution epoch |
+| Second prompt targets a busy shared module lane | Queue it; do not merge execution ownership |
+| Multiple prompts must execute concurrently in one module | Require isolated execution workspaces |
+| Sender repository changes after task publication | Not a blocker unless declared task inputs drift |
+| Bounded Blueprint mutation amid unrelated dirt | Allowed only with explicit scope-preservation tooling |
+
+### Forbidden shortcuts
+
+The following are forbidden as substitutes for the policy above:
+
+- broad `git reset --hard` to manufacture cleanliness;
+- broad `git clean` to remove unrelated work;
+- automatic stash/pop of operator work as an execution precondition;
+- accepting all dirty module bytes as belonging to the next prompt;
+- silently rebasing an execution epoch onto a newer `HEAD`;
+- letting two autonomous executions mutate one shared dirty module checkout.
+
+The system must preserve operator work and reason about compatibility from declared authority, inputs, and execution ownership.

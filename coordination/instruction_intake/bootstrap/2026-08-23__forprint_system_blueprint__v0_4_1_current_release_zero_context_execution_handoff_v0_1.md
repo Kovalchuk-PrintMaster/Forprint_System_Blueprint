@@ -515,3 +515,28 @@ This workstream reaches its intended practical finish when:
 10. the chain is auditable, replayable and recoverable.
 
 Ecosystem-wide autonomous rollout after that remains a separate explicit decision.
+
+<!-- forprint-execution-workspace-compatibility-v0-1 -->
+## Execution workspace cleanliness clarification
+
+Do not require a globally clean Blueprint checkout before selecting, preflighting, validating, or reviewing an already contracted execution.
+
+Use the B1 compatibility surface:
+
+```text
+release authority
++ prompt / contract binding
++ queue / registry binding
++ declared required inputs
++ preflight evidence
+```
+
+Unrelated Blueprint dirt is nonblocking. Drift in the declared execution surface must be revalidated or blocked.
+
+For a module using the current shared execution lane, pre-existing module dirt before CLAIM remains blocking. Do not auto-stash or reset it. Keep subsequent work queued.
+
+After CLAIM, prompt-owned changes and implementation commits are expected, but the execution epoch stays bound to the CLAIM preflight evidence and must not chase later repository `HEAD`.
+
+If future coordination requires parallel execution of multiple prompts in one module, create isolated execution workspaces / worktrees per execution epoch. Do not permit multiple agents to write into the same dirty shared checkout.
+
+This distinction is authoritative for zero-context continuation of v0.4.1 B1.

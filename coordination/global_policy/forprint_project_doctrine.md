@@ -201,3 +201,14 @@ Near-term project direction:
 7. Keep Accounting Registry ready, but wait for sanitized 1C samples before deeper v0.6.
 
 ---
+
+<!-- forprint-execution-workspace-compatibility-v0-1 -->
+## Execution compatibility over global cleanliness
+
+ForPrint development is expected to remain active while coordination work is queued and executed. Global repository cleanliness is therefore not a project goal by itself.
+
+Execution must be judged from explicit authority, immutable contracts, required-input compatibility, and execution ownership. Unrelated Blueprint worktree changes do not invalidate a prompt. Material changes to required inputs do.
+
+Shared module execution lanes remain attributable before CLAIM. Future parallelism in one module must use isolated execution workspaces rather than multiple agents writing into one dirty checkout.
+
+No workflow may destroy, auto-stash, absorb, or silently reinterpret unrelated operator work merely to satisfy a historical "clean tree" assumption.
