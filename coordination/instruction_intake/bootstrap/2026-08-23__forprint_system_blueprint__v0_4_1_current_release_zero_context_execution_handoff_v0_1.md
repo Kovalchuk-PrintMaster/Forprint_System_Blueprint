@@ -661,3 +661,32 @@ automatic next activation, Telegram transport or cross-repository writes.
 Current functional package: `Q1`.
 
 Next completion gate: `Q1_ACCEPTED_PUBLISHED_CLOSED`.
+
+## Q1 explicit acceptance checkpoint
+
+Operator decision: `ACCEPT Q1`.
+
+Q1 implementation commit:
+
+`f0536f384c5524043e3a7a4cf4f6a8587e2eae6d`
+
+Acceptance readiness was revalidated in this transaction before any write:
+
+- exact Q1 implementation parent/subject/scope: PASS;
+- exact Q1 contract/validator/test hashes: PASS;
+- implementation published to the live remote: PASS;
+- Q1 semantic validator: PASS;
+- focused Q1 tests: PASS;
+- standards index validation: PASS;
+- canonical `make check`: PASS;
+- Q2 remains inactive;
+- live SQLite runtime / daemon / systemd / autonomy remain disabled.
+
+Acceptance transaction state:
+
+- Q1 operator decision: ACCEPT;
+- Q1 local acceptance seal: recorded by this transaction;
+- publication of this acceptance seal: separate explicit transaction;
+- Q2 remains inactive until Q1 acceptance seal is published and Q2 is separately activated.
+
+Next after publication: `Q2 — Bounded five-round clarification and escalation`.
