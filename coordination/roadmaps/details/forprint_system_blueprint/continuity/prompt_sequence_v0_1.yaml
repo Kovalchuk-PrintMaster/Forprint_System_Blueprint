@@ -51,13 +51,13 @@ packages:
 
   - id: B2-ACTIVATE
     stable_id: blueprint_v0_4_1_coordination_data_classification_and_persistence_boundary_v0_1
-    state: planned
+    state: completed
     depends_on: [B1-ACCEPT]
     objective: Promote B2 as current hardening slice in a separate reviewed transaction.
     exit_marker: B2_ACTIVE_CURRENT
 
   - id: B2-IMPLEMENT-ACCEPT
-    state: planned
+    state: current_functional_work
     depends_on: [B2-ACTIVATE]
     objective: >
       Define hybrid source-of-truth and persistence boundaries without enabling live SQLite runtime.

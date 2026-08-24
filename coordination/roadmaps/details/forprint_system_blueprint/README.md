@@ -38,9 +38,11 @@ to be integrated only after the current H9 Logistics rollout is reviewed:
   operational state, filesystem storage for bulky evidence, dedicated secret
   storage, and separation from the ForPrint business database.
 
-B1 was separately activated on 2026-08-22 after H9 was accepted and published.
-B2 remains a planning addition only. B1 activation does not enable SQLite runtime,
-autonomous execution, automatic ACCEPT, business prompt release or module-repository writes.
+B1 was separately activated on 2026-08-22 after H9 was accepted and published,
+then accepted, published and closed on 2026-08-24.
+B2 was separately activated on 2026-08-24 after B1 closure.
+B2 activation does not enable live SQLite runtime, autonomous execution, automatic
+ACCEPT, business prompt release or module-repository writes.
 
 ## Zero-context continuity entry point
 

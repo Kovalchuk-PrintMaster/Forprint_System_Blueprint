@@ -586,3 +586,21 @@ Prerequisites satisfied before acceptance:
 
 This transaction is the local acceptance/seal. Publication remains a separate
 explicit transition. B2 remains inactive until the seal is published.
+
+<!-- b2-explicit-activation-handoff-v0-1 -->
+## 2026-08-24 B2 activation
+
+Operator decision: `ACTIVATE B2`.
+
+B1 is `ACCEPTED / PUBLISHED / CLOSED`.
+
+Current v0.4.1 slice:
+
+`blueprint_v0_4_1_coordination_data_classification_and_persistence_boundary_v0_1`
+
+Current functional package: `B2-IMPLEMENT-ACCEPT`.
+
+B2 must produce an explicit source-of-truth matrix, migration-ready persistence
+boundary and retention/backup policy without enabling live SQLite runtime.
+Selection, implementation, acceptance and publication remain separate
+transitions.

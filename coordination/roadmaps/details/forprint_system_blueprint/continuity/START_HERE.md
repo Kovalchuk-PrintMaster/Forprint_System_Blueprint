@@ -259,3 +259,33 @@ Current boundaries:
 
 After explicit publication of this seal, the next legally eligible package is
 `B2-ACTIVATE`.
+
+<!-- b2-explicit-activation-v0-1 -->
+## B2 explicit activation checkpoint — 2026-08-24
+
+The operator explicitly issued:
+
+`ACTIVATE B2`
+
+B1 is accepted, published and closed at:
+
+`ebe71b4fad724e565c0f5968e878964f259cdf00`
+
+Current v0.4.1 slice is now:
+
+`blueprint_v0_4_1_coordination_data_classification_and_persistence_boundary_v0_1`
+
+B2 scope is limited to coordination data classification and persistence
+boundaries. It defines what remains declarative Git/YAML/Markdown truth, what
+may later become high-churn operational storage, how bulky evidence and secrets
+are separated, and how future coordination storage remains separate from the
+ForPrint business database.
+
+This activation does **not** enable live SQLite runtime, a daemon, systemd,
+autonomous execution, automatic ACCEPT or a business prompt release.
+
+Current functional work:
+
+`B2-IMPLEMENT-ACCEPT`
+
+The next completion gate is `B2_ACCEPTED_PUBLISHED_CLOSED`.

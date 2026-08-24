@@ -2,7 +2,7 @@ schema_version: forprint_current_release_projection_v0_1
 metadata:
   projection_id: forprint_coordination_current_release_v0_4_1
   owner: forprint_system_blueprint
-  updated_at: '2026-08-21'
+  updated_at: '2026-08-24'
   status: authoritative_current
   authority_scope: effective_current_coordination_release
   historical_artifact_metadata_is_not_runtime_authority: true
@@ -15,7 +15,7 @@ release:
     operator_decision: PROMOTE_V0_4
   hardening_release: v0.4.1
   hardening_state: ACTIVE_CURRENT
-  current_slice: blueprint_v0_4_1_execution_baseline_and_drift_control_v0_1
+  current_slice: blueprint_v0_4_1_coordination_data_classification_and_persistence_boundary_v0_1
 authority_model:
   effective_release_authority_source: coordination/releases/current.yaml
   artifact_publication_metadata: preserved as historical publication state and never used alone to infer
@@ -84,9 +84,6 @@ historical_non_authoritative_projections:
 - coordination/self_coordination/roadmap.yaml
 - coordination/self_coordination/prompt_queue/index.yaml
 planned_followups:
-- id: B2
-  title: Coordination data classification and persistence boundary
-  stable_id: blueprint_v0_4_1_coordination_data_classification_and_persistence_boundary_v0_1
 - id: Q1
   title: Clarification question lifecycle
 - id: Q2

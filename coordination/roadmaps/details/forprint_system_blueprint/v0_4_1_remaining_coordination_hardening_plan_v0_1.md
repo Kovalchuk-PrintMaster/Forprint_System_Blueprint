@@ -1,12 +1,14 @@
 # ForPrint v0.4.1 — Remaining Coordination Hardening Plan v0.1
 
-Status: ACTIVE / B1 CURRENT
-Current coordination-hardening slice: B1 — `blueprint_v0_4_1_execution_baseline_and_drift_control_v0_1`.
+Status: ACTIVE / B2 CURRENT
+Current coordination-hardening slice: B2 — `blueprint_v0_4_1_coordination_data_classification_and_persistence_boundary_v0_1`.
 H9 Logistics reference rollout: ACCEPTED / PUBLISHED / CLOSED.
+B1 execution baseline and drift control: ACCEPTED / PUBLISHED / CLOSED.
 
 This document captures missing coordination semantics discovered during the Logistics
-pilot. H9 is accepted, published and closed; B1 is now the current Blueprint-owned
-hardening slice. B2 and Q1-Q8 remain planned and inactive until separately promoted.
+pilot. H9 and B1 are accepted, published and closed; B2 is now the current
+Blueprint-owned hardening slice. Q1-Q8 remain planned and inactive until separately
+promoted.
 
 ## Why this belongs to v0.4.1
 

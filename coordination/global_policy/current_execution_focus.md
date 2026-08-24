@@ -153,3 +153,17 @@ acceptance-readiness review.
 This transaction creates the local B1 acceptance/seal. It does not activate B2.
 After separate publication of the exact seal commit, the next transition is
 `B2-ACTIVATE`.
+
+<!-- b2-explicit-activation-current-focus-v0-1 -->
+## v0.4.1 B2 current slice — 2026-08-24
+
+Operator decision: `ACTIVATE B2`.
+
+Current slice:
+
+`blueprint_v0_4_1_coordination_data_classification_and_persistence_boundary_v0_1`
+
+Current functional package: `B2-IMPLEMENT-ACCEPT`.
+
+B2 is a persistence-boundary/design hardening slice only. Live SQLite runtime,
+daemon/systemd execution and autonomous coordination remain disabled.
