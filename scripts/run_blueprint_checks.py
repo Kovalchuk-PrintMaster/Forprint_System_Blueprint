@@ -402,6 +402,18 @@ def build_checks() -> list[CheckDefinition]:
             group="documentation",
         ),
         CheckDefinition(
+            check_id="b2_persistence_boundary_validation",
+            title="B2 persistence boundary",
+            expected_result=(
+                "Source-of-truth, migration, retention and disabled-runtime boundaries are valid"
+            ),
+            command=(
+                python,
+                "scripts/validation/validate_b2_persistence_boundary.py",
+            ),
+            group="documentation",
+        ),
+        CheckDefinition(
             check_id="blueprint_command_applicability_validation",
             title="Blueprint command applicability",
             expected_result=("Blueprint command applicability and readiness blockers are valid"),

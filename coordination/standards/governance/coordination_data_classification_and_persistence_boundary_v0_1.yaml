@@ -1,0 +1,194 @@
+schema_version: coordination_data_classification_and_persistence_boundary_v0_1
+
+metadata:
+  standard_id: coordination_data_classification_and_persistence_boundary_v0_1
+  title: ForPrint Coordination Data Classification and Persistence Boundary v0.1
+  owner: forprint_system_blueprint
+  release: v0.4.1
+  package: B2-IMPLEMENT-ACCEPT
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+
+source_of_truth_matrix:
+  declarative_governance:
+    canonical_store: blueprint_git
+    authority: canonical
+    examples:
+      - current_release_authority
+      - standards_and_policies
+      - roadmaps
+      - released_prompts
+      - prompt_contracts
+      - acceptance_oracles
+      - durable_operator_scope_decisions
+      - sealed_reviews_and_promotion_decisions
+      - module_registry
+      - durable_architecture_documentation
+    runtime_copy_rule: immutable_reference_or_projection_only
+  coordination_runtime:
+    canonical_store: future_coordination_store
+    authority: runtime_when_separately_activated
+    examples:
+      - append_only_event_journal
+      - execution_runs
+      - execution_revalidations
+      - question_threads_and_messages
+      - attention_events
+      - notification_delivery_and_ack
+      - worker_leases_and_retry_state
+      - idempotency_records
+      - correlation_indexes
+      - runtime_health_projections
+  bulky_evidence:
+    canonical_store: filesystem_artifact_store
+    authority: artifact_payload
+    examples:
+      - logs
+      - archives
+      - generated_reports
+      - diffs
+      - context_packs
+    runtime_metadata_only: true
+  secrets:
+    canonical_store: dedicated_secret_storage
+    authority: secret_store
+    secret_values_allowed_in_git: false
+    secret_values_allowed_in_prompt_text: false
+    secret_values_allowed_in_coordination_event_payloads: false
+    references_only_outside_secret_store: true
+  business_domain:
+    canonical_store: forprint_business_storage
+    authority: business_domain_owner
+    examples:
+      - customers
+      - orders
+      - products
+      - pricing
+      - production_business_lifecycle
+      - logistics_business_lifecycle
+    coordination_store_must_not_absorb_business_truth: true
+  generated_projections:
+    canonical_store: none
+    authority: rebuildable_noncanonical
+    promotion_requires_reviewed_governance_transaction: true
+
+dual_truth_policy:
+  independently_mutable_duplicate_of_git_authority_allowed: false
+  runtime_reference_to_git_requires:
+    - stable_id
+    - git_path
+    - git_commit
+    - sha256
+    - schema_version
+  durable_governance_change_requires_git_record: true
+
+future_coordination_store_contract:
+  interface_name: CoordinationStore
+  backend_specific_calls_outside_adapter_allowed: false
+  required_primitives:
+    - stable_ids
+    - utc_timestamps
+    - explicit_schema_version
+    - explicit_migrations
+    - versioned_event_payloads
+    - bounded_transactions
+    - deterministic_unique_constraints
+    - deterministic_idempotency_constraints
+    - repository_or_service_interfaces
+    - database_independent_contract_tests
+    - single_coordination_service_write_boundary
+  conceptual_schema_families:
+    - event_journal
+    - execution_runs
+    - execution_revalidations
+    - question_threads
+    - question_messages
+    - attention_events
+    - operator_decisions
+    - notification_deliveries
+    - worker_leases
+    - prompt_runtime_state
+    - module_runtime_state
+    - artifact_index
+    - idempotency_keys
+    - schema_migrations
+  initial_backend_candidate:
+    technology: sqlite
+    wal_mode: required_if_activated
+    foreign_keys: required_if_activated
+    safe_backup_api: required_if_activated
+    database_binary_committed_to_git: false
+    activation_authorized_by_b2: false
+  migration_trigger_examples:
+    - multi_host_concurrent_writes
+    - high_write_contention
+    - high_availability
+    - replication
+    - remote_worker_service_access
+    - richer_operational_analytics
+  migration_target_example: postgresql
+  migration_trigger_is_file_count: false
+
+artifact_reference_contract:
+  required_fields:
+    - artifact_id
+    - path_or_uri
+    - sha256
+    - media_or_type
+    - producer
+    - correlation_id
+  large_payload_in_relational_row_by_default: false
+
+retention_backup_restore:
+  declarative_governance:
+    retention: git_history
+    sealed_history_mutable: false
+  runtime_projections:
+    retention: rebuildable
+    purge_requires_durable_source_preserved: true
+  append_only_runtime_audit:
+    retention: explicit_audit_policy_required
+    projection_cleanup_may_delete: false
+  bulky_evidence:
+    archive_or_compress_allowed: true
+    preserve_required_metadata_hashes_and_correlations: true
+  secrets:
+    lifecycle_owner: dedicated_secret_storage
+    coordination_backup_may_contain_secret_values: false
+  future_sqlite_backup:
+    sqlite_safe_backup_required: true
+    naive_live_file_copy_allowed: false
+    restore_test_required: true
+  restore_verification_requires:
+    - schema_migration_state
+    - idempotency_constraints
+    - pending_handoffs
+    - artifact_references
+    - canonical_git_bindings
+
+business_storage_separation:
+  coordination_depends_on_business_database: false
+  shared_physical_postgresql_may_be_considered_later: true
+  separate_schema_or_database_contract_required: true
+  separate_ownership_required: true
+
+current_capabilities:
+  live_sqlite_runtime_enabled: false
+  database_file_created_by_b2: false
+  daemon_enabled: false
+  systemd_enabled: false
+  autonomous_execution_enabled: false
+  automatic_acceptance_enabled: false
+  automatic_push_enabled: false
+  business_prompt_release_enabled: false
+  external_module_repository_writes_enabled: false
+
+acceptance:
+  source_of_truth_matrix_explicit: true
+  migration_ready_store_contract_explicit: true
+  retention_backup_restore_policy_explicit: true
+  git_reference_contract_explicit: true
+  dual_mutable_truth_forbidden: true
+  business_storage_separation_explicit: true
+  contract_tests_required: true
+  runtime_activation_forbidden_in_b2: true
