@@ -508,8 +508,8 @@ After H9 acceptance, prove with Logistics:
 - scope adjustment is separate evidence;
 - completion preserves deviations;
 - attention state is visible;
-- no automatic ACCEPT;
-- no automatic next release;
+- no automatic module/business prompt ACCEPT;
+- no unbounded or cross-phase automatic next release; same-phase Blueprint progression follows the phase-boundary gate policy;
 - no Blueprint write into module repo.
 
 ## Proposed order
@@ -523,7 +523,7 @@ Stable IDs, not display numbers, are durable.
 
 Do not implement here:
 persistent daemon, SQLite runtime, systemd, automatic Codex launch,
-automatic ACCEPT, automatic next activation, Telegram transport,
+automatic module/business prompt ACCEPT, unbounded or cross-phase automatic next activation, Telegram transport,
 intelligent development bot, full autonomous module-to-module runtime,
 AgentRunner, broad autonomy/risk classes.
 
@@ -565,3 +565,28 @@ outcome-alignment audit record exists. Future deterministic checks should verify
 presence/freshness, not attempt to replace qualitative judgment.
 
 Planning marker: `PORTFOLIO_OPERATOR_GOVERNANCE_PROJECT_STANDARDIZATION_V0_1`.
+
+<!-- phase-boundary-progression-gate-policy-v0-1 -->
+## Phase-boundary progression gate policy — 2026-08-24
+
+The operator changed the progress-confirmation rule.
+
+Manual progress confirmation is now required at **major phase boundaries**, not
+between every small Blueprint-owned package inside the same approved phase.
+
+For the current Q phase, Q1-Q8 are one phase. After a Q package satisfies its
+declared deterministic acceptance/semantic gates, publication and activation of
+the next eligible Q package do not require a new `ACCEPT Qn` or
+`ACTIVATE Qn+1` confirmation.
+
+This does not authorize automatic ACCEPT/RETURN/HOLD of module or business
+prompts. It does not waive WIP=1, dependency checks, semantic review,
+publication verification, or exception authority. RETURN/HOLD, waiver, scope
+change, dependency override, security/credential, destructive/production and
+other exceptional authority decisions remain manual.
+
+Current non-autonomous execution remains explicit and user-run; no background
+push is authorized.
+
+The next required manual **progress** gate after the Q phase is the Q -> H10
+phase transition.

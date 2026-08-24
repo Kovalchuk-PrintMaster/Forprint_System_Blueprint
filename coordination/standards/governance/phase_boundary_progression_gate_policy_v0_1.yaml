@@ -1,0 +1,112 @@
+schema_version: phase_boundary_progression_gate_policy_v0_1
+metadata:
+  standard_id: phase_boundary_progression_gate_policy_v0_1
+  owner: forprint_system_blueprint
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+scope:
+  applies_to: blueprint_internal_phase_package_progression
+  excludes:
+  - module_prompt_acceptance
+  - business_prompt_acceptance
+  - RETURN
+  - HOLD
+  - scope_change
+  - waiver
+  - dependency_override
+  - security_or_credential_authority
+  - production_or_destructive_authority
+  - cross_repository_write_authority
+phase_model:
+  B:
+  - B1
+  - B2
+  Q:
+  - Q1
+  - Q2
+  - Q3
+  - Q4
+  - Q5
+  - Q6
+  - Q7
+  - Q8
+  H10:
+  - H10
+  H11:
+  - H11
+  AUT:
+  - AUT-TRANSITION
+manual_progress_confirmation:
+  scope: phase_boundary_only
+  required_at_boundaries:
+  - B->Q
+  - Q->H10
+  - H10->H11
+  - H11->AUT
+  required_for_same_phase_advance: false
+  silence_counts_as_boundary_approval: false
+intra_phase_progression:
+  deterministic_closure_authorized: true
+  deterministic_next_activation_authorized: true
+  new_operator_accept_token_required: false
+  new_operator_activate_token_required: false
+  required_gates:
+  - git_release_authority_revalidated
+  - dependency_eligibility_revalidated
+  - reviewed_subject_scope_and_evidence_exact
+  - package_semantic_oracle_pass
+  - focused_tests_pass
+  - canonical_project_checks_pass
+  - publication_remote_containment_satisfied
+  - wip_one_preserved
+  - no_unresolved_blocking_governance_exception
+  - no_pending_manual_authority_decision
+  - next_package_same_phase_and_eligible
+  gate_failure_effect: stop_fail_closed
+current_operating_mode:
+  transaction_execution: explicit_user_run
+  background_commit_enabled: false
+  background_push_enabled: false
+  manual_semantic_progress_confirmation_per_same_phase_package: false
+acceptance_semantics:
+  blueprint_internal_package_acceptance_basis_allowed:
+  - explicit_operator_decision
+  - deterministic_phase_gate
+  deterministic_phase_gate_is_module_prompt_accept: false
+  module_or_business_prompt_automatic_accept_authorized: false
+  automatic_return_or_hold_authorized: false
+manual_exception_authority:
+  required: true
+  decisions:
+  - RETURN
+  - HOLD
+  - scope_change
+  - waiver
+  - dependency_override
+  - security_or_credential_boundary
+  - production_or_destructive_action
+  - cross_repository_write_authorization
+  - semantic_fidelity_unprovable
+q_track:
+  phase_id: Q
+  same_phase_packages:
+  - Q1
+  - Q2
+  - Q3
+  - Q4
+  - Q5
+  - Q6
+  - Q7
+  - Q8
+  q2_to_q3_manual_progress_confirmation_required: false
+  q8_to_h10_manual_phase_boundary_confirmation_required: true
+runtime_boundaries:
+  live_sqlite_runtime_enabled: false
+  daemon_enabled: false
+  systemd_enabled: false
+  telegram_transport_enabled: false
+  autonomous_worker_execution_enabled: false
+  automatic_module_business_accept_enabled: false
+  automatic_return_hold_enabled: false
+  automatic_cross_repository_writes_enabled: false
+  automatic_production_mutation_enabled: false

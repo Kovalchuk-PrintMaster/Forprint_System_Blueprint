@@ -134,3 +134,19 @@ Immutable v0.4 decisions and activation evidence are not rewritten.
 
 Sequence-first behavior remains historical evidence only. Current selection
 uses this policy.
+
+<!-- phase-boundary-progression-gate-next-work-refinement-v0-1 -->
+## Phase-boundary activation refinement
+
+The phrase `explicit activation confirmation` in the historical
+self-coordination selection description is refined for Blueprint internal phase
+progression.
+
+When the next eligible package belongs to the same already approved phase,
+`phase_boundary_progression_gate_policy_v0_1` is sufficient progression
+authorization after deterministic gates pass; no new operator progress token is
+required.
+
+Selection still does not itself bypass WIP=1, dependencies, prompt release
+authorization, publication evidence, or exception authority. Phase-boundary
+activation still requires explicit operator approval.

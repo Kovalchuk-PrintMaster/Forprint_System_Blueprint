@@ -43,11 +43,20 @@ boundaries:
   systemd_enabled: false
   telegram_transport_enabled: false
   autonomous_execution_enabled: false
-  automatic_acceptance: false
-  automatic_next_activation: false
   automatic_push: false
   business_prompt_release: false
   module_repository_writes: false
+  automatic_module_or_business_prompt_acceptance: false
+  unbounded_or_cross_phase_automatic_next_activation: false
+  same_phase_deterministic_next_activation_authorized: true
 next_transition:
   id: Q2-IMPLEMENT-ACCEPT
   exit_marker: Q2_ACCEPTED_PUBLISHED_CLOSED
+progression_policy_reconciliation:
+  policy_id: phase_boundary_progression_gate_policy_v0_1
+  policy_changed_after_local_q2_activation: true
+  q2_explicit_activation_historical_fact_preserved: true
+  q2_to_q3_same_phase: true
+  q2_to_q3_operator_progress_confirmation_required: false
+  deterministic_gate_failure_effect: stop_fail_closed
+  next_manual_progress_gate: Q8_TO_H10

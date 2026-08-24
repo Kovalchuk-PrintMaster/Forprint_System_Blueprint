@@ -106,3 +106,15 @@ planned_followups:
   - preserve immutable Git tag/branch or standalone archive only where useful
   - move or delete obsolete current-tree files after explicit retirement decision
   - remove obsolete default-test exclusions
+
+# phase-boundary-progression-gate-policy-v0-1
+progression_gate_policy:
+  standard_id: phase_boundary_progression_gate_policy_v0_1
+  current_phase: Q
+  manual_progress_confirmation_scope: phase_boundary_only
+  intra_phase_deterministic_progression_authorized: true
+  intra_phase_operator_accept_confirmation_required: false
+  intra_phase_operator_activation_confirmation_required: false
+  current_execution_mode: explicit_user_run
+  background_push_enabled: false
+  manual_exception_authority_preserved: true

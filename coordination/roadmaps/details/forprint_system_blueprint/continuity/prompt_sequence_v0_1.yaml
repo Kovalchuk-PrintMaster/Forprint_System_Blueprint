@@ -11,12 +11,22 @@ selection_rule: >
 
 global_rules:
   - no cross-repository writes from Blueprint into module repositories
-  - no automatic ACCEPT
+  - no automatic module/business prompt ACCEPT; Blueprint internal same-phase package closure may use deterministic_phase_gate
   - no automatic push
   - released prompts are immutable
   - WIP target is one active prompt
   - business prompt release is separate from coordination hardening
   - SQLite runtime and autonomous execution remain disabled unless separately authorized
+
+phase_boundary_progression_policy:
+  standard_id: phase_boundary_progression_gate_policy_v0_1
+  manual_progress_confirmation_scope: phase_boundary_only
+  current_phase: Q
+  intra_phase_operator_accept_confirmation_required: false
+  intra_phase_operator_activation_confirmation_required: false
+  deterministic_gate_failure: stop_fail_closed
+  q_track_same_phase: [Q1, Q2, Q3, Q4, Q5, Q6, Q7, Q8]
+  next_manual_phase_boundary: Q8_TO_H10
 
 packages:
   - id: B1-IMPL

@@ -300,3 +300,19 @@ Current effective coordination authority is projected by `coordination/releases/
 Historical publication metadata inside earlier v0.4 standard artifacts is preserved and does not override the promoted release decision.
 
 Deprecated compatibility assets are governed by `coordination/standards/governance/legacy_compatibility_retirement_policy_v0_1.md` and `coordination/legacy/compatibility_registry_v0_1.yaml`. They are available for historical/manual use but do not define or block current release behavior unless explicitly declared as a current compatibility dependency.
+
+<!-- phase-boundary-progression-gate-closed-loop-scope-v0-1 -->
+## Scope refinement for Blueprint internal phase packages
+
+The explicit ACCEPT/RETURN/HOLD decision gate in this standard remains
+authoritative for module/business prompt disposition and exceptional review
+decisions.
+
+Blueprint-internal hardening package closure under
+`phase_boundary_progression_gate_policy_v0_1` is a distinct control-plane
+mechanism. A package may be closed with acceptance basis
+`deterministic_phase_gate` inside an already approved phase. That closure is not
+an invented module prompt ACCEPT decision.
+
+RETURN/HOLD and any case that requires semantic/operator authority remain
+explicit decisions.

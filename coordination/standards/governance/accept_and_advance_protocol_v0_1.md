@@ -154,3 +154,16 @@ perform commit, push, merge, or global promotion.
 
 The self-coordination v0.4 selection/activation engine remains separate. H5
 targets canonical external module roadmaps plus Prompt Queue v0.2.
+
+<!-- phase-boundary-progression-gate-accept-advance-scope-v0-1 -->
+## Scope refinement for phase progression
+
+`ACCEPT_AND_ADVANCE` remains the explicit operator workflow for the prompt/review
+transaction it governs.
+
+It is not the canonical mechanism for routine progression between Blueprint
+hardening packages inside one already approved phase. Same-phase package
+progression is governed by `phase_boundary_progression_gate_policy_v0_1`.
+
+This refinement does not weaken prompt release authorization or module prompt
+ACCEPT/RETURN/HOLD rules.

@@ -427,6 +427,19 @@ def build_checks() -> list[CheckDefinition]:
             group="documentation",
         ),
         CheckDefinition(
+            check_id="phase_boundary_progression_gate_validation",
+            title="Phase-boundary progression gate",
+            expected_result=(
+                "Manual progress approval is phase-boundary-only while same-phase "
+                "progression remains deterministic and fail-closed"
+            ),
+            command=(
+                python,
+                "scripts/validation/validate_phase_boundary_progression_gate_policy.py",
+            ),
+            group="documentation",
+        ),
+        CheckDefinition(
             check_id="blueprint_command_applicability_validation",
             title="Blueprint command applicability",
             expected_result=("Blueprint command applicability and readiness blockers are valid"),
