@@ -540,3 +540,31 @@ After CLAIM, prompt-owned changes and implementation commits are expected, but t
 If future coordination requires parallel execution of multiple prompts in one module, create isolated execution workspaces / worktrees per execution epoch. Do not permit multiple agents to write into the same dirty shared checkout.
 
 This distinction is authoritative for zero-context continuation of v0.4.1 B1.
+
+<!-- b1-logistics-reference-validation-handoff-v0-1 -->
+## 2026-08-24 B1 Logistics reference validation checkpoint
+
+The B1 implementation and Logistics reference validation are now complete.
+
+Exit marker:
+
+`B1_LOGISTICS_REFERENCE_VALIDATION_PASS`
+
+Published repair authority:
+
+`0e79694d9fcbf3ec1bed64dcd473c9654f984dd8`
+
+Validated end-to-end behavior:
+
+- Logistics lifecycle scenarios: 9/9 PASS;
+- historical terminal ACCEPT is reconciled before current mutable-context
+  revalidation;
+- new/unreviewed B1 completion still performs current queue/CLAIM validation;
+- completion discovery: 2 events, 1 reconciled decision, 1 review candidate,
+  0 invalid events;
+- no module-project write, project-remote push, automatic ACCEPT or business
+  prompt release occurred in the validation fixture.
+
+Next transition: explicit `B1-ACCEPT`.
+
+B1 remains ACTIVE_CURRENT and not yet ACCEPTED/CLOSED. B2 remains inactive.

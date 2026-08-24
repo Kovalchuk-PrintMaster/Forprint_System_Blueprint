@@ -126,3 +126,18 @@ Current B1 work uses the following interpretation:
 - Tool-specific clean-worktree requirements may remain temporarily where a mutation tool has not yet implemented exact dirty-scope preservation; such a tooling constraint is not an ecosystem compatibility rule.
 
 This clarification changes no B1 acceptance state and authorizes no autonomous execution by itself.
+
+<!-- b1-logistics-reference-validation-current-focus-v0-1 -->
+## v0.4.1 current B1 checkpoint — 2026-08-24
+
+B1 implementation and Logistics reference validation are complete.
+
+Current durable exit marker:
+
+`B1_LOGISTICS_REFERENCE_VALIDATION_PASS`
+
+The next legally eligible transition is explicit `B1-ACCEPT` review / seal /
+publication.
+
+This checkpoint does not ACCEPT or close B1, does not activate B2, does not
+release a business prompt, and does not authorize autonomous execution.

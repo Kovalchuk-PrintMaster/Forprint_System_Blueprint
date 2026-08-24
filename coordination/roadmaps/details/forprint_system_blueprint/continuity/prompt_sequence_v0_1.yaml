@@ -21,7 +21,7 @@ global_rules:
 packages:
   - id: B1-IMPL
     stable_id: blueprint_v0_4_1_execution_baseline_and_drift_control_v0_1
-    state: current_functional_work
+    state: completed
     depends_on: [H9_ACCEPTED_PUBLISHED_CLOSED, B1_ACTIVATION_PUBLISHED]
     objective: >
       Implement release/execution/completion baselines, required-input manifests,
@@ -36,7 +36,7 @@ packages:
     exit_marker: B1_IMPLEMENTED_READY_FOR_REFERENCE_VALIDATION
 
   - id: B1-LOGISTICS-VALIDATION
-    state: planned
+    state: completed
     depends_on: [B1-IMPL]
     objective: >
       Prove exact, forward-compatible and material-drift-blocked execution scenarios

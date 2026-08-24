@@ -191,3 +191,40 @@ Zero-context assistants must preserve these high-level requirements:
 - reusable framework behavior emerges from proven repeated patterns rather than premature abstraction.
 
 Planning marker: `PORTFOLIO_OPERATOR_GOVERNANCE_PROJECT_STANDARDIZATION_V0_1`.
+
+<!-- b1-logistics-reference-validation-closeout-v0-1 -->
+## B1 Logistics reference validation — durable checkpoint
+
+Recorded: 2026-08-24.
+
+B1 implementation is complete and the Logistics reference validation has passed.
+
+Durable result:
+
+`B1_LOGISTICS_REFERENCE_VALIDATION_PASS`
+
+Evidence includes:
+
+- B1 terminal-decision reconciliation repair published at
+  `0e79694d9fcbf3ec1bed64dcd473c9654f984dd8`;
+- Logistics end-to-end lifecycle validation: 9/9 scenarios passed;
+- production completion discovery result:
+  `READY_FOR_BLUEPRINT_REVIEW`;
+- historical terminal decision reconciled: 1;
+- new B1 completion review candidate: 1;
+- invalid completion events: 0;
+- full current validation for the new completion remained enabled;
+- live Blueprint and Logistics repositories remained unchanged during the
+  end-to-end fixture run;
+- project `make check`: 30/30.
+
+Current transition state:
+
+- B1 implementation: completed;
+- B1 Logistics reference validation: completed / PASS;
+- B1 acceptance: **not yet performed**;
+- B1 completion: **false**;
+- next legally eligible package: `B1-ACCEPT`;
+- B2 remains inactive and requires B1 ACCEPT first.
+
+Do not infer B1 acceptance from this validation closeout.
