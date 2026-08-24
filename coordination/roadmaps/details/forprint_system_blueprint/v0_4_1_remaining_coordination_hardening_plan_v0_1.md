@@ -1,14 +1,15 @@
 # ForPrint v0.4.1 — Remaining Coordination Hardening Plan v0.1
 
-Status: ACTIVE / Q1 CURRENT
-Current coordination-hardening slice: Q1 — `blueprint_v0_4_1_clarification_question_lifecycle_v0_1`.
+Status: ACTIVE / Q2 CURRENT
+Current coordination-hardening slice: Q2 — `blueprint_v0_4_1_bounded_clarification_and_escalation_v0_1`.
 H9 Logistics reference rollout: ACCEPTED / PUBLISHED / CLOSED.
 B1 execution baseline and drift control: ACCEPTED / PUBLISHED / CLOSED.
 B2 persistence boundary: ACCEPTED / PUBLISHED / CLOSED.
+Q1 clarification lifecycle: ACCEPTED / PUBLISHED / CLOSED.
 
 This document captures missing coordination semantics discovered during the Logistics
-pilot. H9, B1 and B2 are accepted, published and closed; Q1 is now the current
-Blueprint-owned hardening slice. Q2-Q8 remain planned and inactive until separately
+pilot. H9, B1, B2 and Q1 are accepted, published and closed; Q2 is now the current
+Blueprint-owned hardening slice. Q3-Q8 remain planned and inactive until separately
 promoted.
 
 ## Why this belongs to v0.4.1

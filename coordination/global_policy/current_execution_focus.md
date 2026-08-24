@@ -253,3 +253,37 @@ Acceptance transaction state:
 - Q2 remains inactive until Q1 acceptance seal is published and Q2 is separately activated.
 
 Next after publication: `Q2 — Bounded five-round clarification and escalation`.
+
+## Q2 explicit activation checkpoint
+
+Operator decision: `ACTIVATE Q2`.
+
+Q1 exit marker `Q1_ACCEPTED_PUBLISHED_CLOSED` is satisfied and published at:
+
+`516ee17fc5b678112dc28732166a3bd16691d8a0`
+
+Current v0.4.1 slice:
+
+`blueprint_v0_4_1_bounded_clarification_and_escalation_v0_1`
+
+Current functional package: `Q2`.
+
+Q2 scope is semantic hardening for bounded clarification:
+
+- default `maximum_unresolved_round_trips_per_question_thread: 5`;
+- the limit is per unresolved question thread, not per whole prompt;
+- after round five, further autonomous dialogue for that thread stops;
+- the thread becomes `ESCALATED`;
+- a blocking prompt becomes visibly waiting/blocked, without silently becoming
+  RETURN or HOLD;
+- escalation evidence must preserve the original question, all rounds,
+  evidence, unresolved fact, impact, safe options and recommended next action.
+
+This activation defines the Q2 contract only. It does not enable a live
+autonomous dialogue worker, SQLite runtime, daemon/systemd, Telegram transport,
+automatic ACCEPT, automatic next activation, business prompt release, or
+cross-repository writes.
+
+Q3-Q8 remain planned and inactive.
+
+Next completion gate: `Q2_ACCEPTED_PUBLISHED_CLOSED`.
