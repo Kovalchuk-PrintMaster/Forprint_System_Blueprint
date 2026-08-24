@@ -414,6 +414,19 @@ def build_checks() -> list[CheckDefinition]:
             group="documentation",
         ),
         CheckDefinition(
+            check_id="q1_clarification_question_lifecycle_validation",
+            title="Q1 clarification lifecycle",
+            expected_result=(
+                "Question lifecycle, identity, prompt-coupling and deferred-boundary "
+                "semantics are valid"
+            ),
+            command=(
+                python,
+                "scripts/validation/validate_q1_clarification_question_lifecycle.py",
+            ),
+            group="documentation",
+        ),
+        CheckDefinition(
             check_id="blueprint_command_applicability_validation",
             title="Blueprint command applicability",
             expected_result=("Blueprint command applicability and readiness blockers are valid"),

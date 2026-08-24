@@ -1,0 +1,167 @@
+schema_version: clarification_question_lifecycle_contract_v0_1
+metadata:
+  standard_id: clarification_question_lifecycle_v0_1
+  owner: forprint_system_blueprint
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+  hardening_slice: Q1
+  stable_id: blueprint_v0_4_1_clarification_question_lifecycle_v0_1
+purpose: Define a first-class clarification question lifecycle without conflating clarification with prompt
+  disposition or enabling runtime.
+core_rule:
+  question_is_prompt_disposition: false
+  question_creation_implies_return: false
+  question_creation_implies_hold: false
+  question_lifecycle_mutates_released_prompt: false
+  released_prompt_remains_immutable: true
+  separate_decision_required_for:
+  - ACCEPT
+  - RETURN
+  - HOLD
+  - cancellation
+  - scope_adjustment
+  - waiver
+thread_identity:
+  required_fields:
+  - question_id
+  - module_id
+  - prompt_id
+  - roadmap_step_id
+  - requester
+  - target
+  - correlation_id
+  - blocking
+  - question_class
+  - round
+  - question
+  - answer
+  - evidence_refs
+  - timestamps
+  question_id_stable_and_immutable: true
+  correlation_id_is_not_question_id: true
+  requester_and_target_are_logical_actor_refs: true
+  transport_specific_address_required: false
+  question_class_vocabulary_owned_by_q1: false
+  round:
+    required: true
+    minimum: 1
+    maximum_defined_by_q1: false
+    bounded_limit_owner: Q2
+  answer:
+    required_field: true
+    nullable_before_answered: true
+    must_be_present_from_state: ANSWERED
+  evidence_refs:
+    required_field: true
+    secret_values_allowed: false
+    secret_references_allowed: true
+lifecycle:
+  normal_order:
+  - OPEN
+  - ROUTED
+  - ANSWERED
+  - CONFIRMED
+  - RESOLVED
+  alternative_terminals:
+  - ESCALATED
+  - CANCELLED
+  - EXPIRED
+  terminal_states:
+  - RESOLVED
+  - ESCALATED
+  - CANCELLED
+  - EXPIRED
+  terminal_transition_out_allowed: false
+  state_semantics:
+    OPEN: thread_created_not_yet_routed
+    ROUTED: logical_target_selected_awaiting_answer
+    ANSWERED: answer_present_not_yet_confirmed
+    CONFIRMED: answer_confirmed_as_addressing_clarification
+    RESOLVED: clarification_closed_successfully
+    ESCALATED: clarification_closed_from_q1_active_flow_for_explicit_escalation
+    CANCELLED: clarification_no_longer_required_or_explicitly_cancelled
+    EXPIRED: clarification_closed_due_to_explicit_expiry_policy_or_decision
+  answered_is_not_confirmed: true
+  confirmed_is_not_prompt_acceptance: true
+  resolved_is_not_prompt_acceptance: true
+  automatic_escalation_threshold_defined_by_q1: false
+  bounded_escalation_owner: Q2
+timestamps:
+  always_required:
+  - created_at
+  - state_changed_at
+  state_specific:
+    ROUTED:
+    - routed_at
+    ANSWERED:
+    - routed_at
+    - answered_at
+    CONFIRMED:
+    - routed_at
+    - answered_at
+    - confirmed_at
+    RESOLVED:
+    - routed_at
+    - answered_at
+    - confirmed_at
+    - resolved_at
+    ESCALATED:
+    - terminal_at
+    CANCELLED:
+    - terminal_at
+    EXPIRED:
+    - terminal_at
+  runtime_format: UTC-compatible ISO-8601
+  live_runtime_implemented_by_q1: false
+prompt_coupling:
+  prompt_status_may_remain: in_progress
+  coordination_condition: waiting_on_clarification
+  condition_is_return: false
+  condition_is_hold: false
+  blocking_field_required: true
+  blocking_true_means: affected_execution_scope_waits_for_clarification
+  blocking_true_means_whole_prompt_return: false
+  blocking_true_means_whole_prompt_hold: false
+  independent_work_may_continue_when_contract_allows: true
+reporting_bridge:
+  next_questions_for_blueprint_may_surface_questions: true
+  next_questions_for_blueprint_is_q1_authority: false
+  returned_for_fix_is_explicit_review_disposition: true
+  question_automatically_produces_returned_for_fix: false
+storage_boundary:
+  semantic_contract_only: true
+  future_runtime_store_owner: future_coordination_operational_store
+  future_schema_families:
+  - question_threads
+  - question_messages
+  database_backend_bound_by_q1: false
+  database_file_created_by_q1: false
+  live_sqlite_runtime_enabled: false
+deferred_boundaries:
+  Q2_bounded_five_round_escalation: true
+  Q3_blocker_taxonomy: true
+  Q4_operator_decision_adjustment_model: true
+  Q5_common_event_envelope: true
+  Q6_operator_attention_semantics: true
+  Q7_cross_module_routing_mechanics: true
+  Q8_logistics_reference_validation: true
+current_capabilities:
+  live_sqlite_runtime: false
+  database_file_created_by_q1: false
+  daemon: false
+  systemd: false
+  telegram_transport: false
+  autonomous_execution: false
+  automatic_acceptance: false
+  automatic_next_activation: false
+  cross_repository_writes: false
+  business_prompt_release: false
+acceptance:
+  normal_lifecycle_explicit: true
+  alternative_terminals_explicit: true
+  minimum_identity_explicit: true
+  prompt_waiting_semantics_explicit: true
+  question_not_return_or_hold: true
+  terminal_semantics_testable: true
+  q2_q8_deferred: true
+  runtime_disabled: true
