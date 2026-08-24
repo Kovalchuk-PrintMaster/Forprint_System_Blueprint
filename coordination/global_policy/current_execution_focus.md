@@ -190,3 +190,37 @@ Acceptance transaction state:
 - automatic ACCEPT: disabled.
 
 Next after publication: `Q1 — Clarification question lifecycle`.
+
+## Q1 explicit activation checkpoint
+
+Operator direction: proceed to the Q-track.
+
+Current v0.4.1 slice:
+
+`blueprint_v0_4_1_clarification_question_lifecycle_v0_1`
+
+Activation basis:
+
+- B2 exit marker `B2_ACCEPTED_PUBLISHED_CLOSED` is satisfied and published at
+  `c0b74c261b11f4c0e59d49fdd7bfc12d5be54788`;
+- Q1 dependency on `B2-IMPLEMENT-ACCEPT` is satisfied;
+- Q1 is the first legally eligible planned package;
+- Q2-Q8 remain planned and inactive;
+- WIP target remains one current functional package.
+
+Q1 scope:
+
+- first-class clarification question threads;
+- lifecycle `OPEN -> ROUTED -> ANSWERED -> CONFIRMED -> RESOLVED`;
+- alternative terminals `ESCALATED`, `CANCELLED`, `EXPIRED`;
+- prompt may remain `in_progress` with `waiting_on_clarification`;
+- minimum question identity and evidence correlation;
+- a question alone never implies RETURN or HOLD.
+
+This activation does not implement Q2 five-round escalation, Q3-Q8 semantics,
+live SQLite runtime, daemon/systemd, autonomous execution, automatic ACCEPT,
+automatic next activation, Telegram transport or cross-repository writes.
+
+Current functional package: `Q1`.
+
+Next completion gate: `Q1_ACCEPTED_PUBLISHED_CLOSED`.
