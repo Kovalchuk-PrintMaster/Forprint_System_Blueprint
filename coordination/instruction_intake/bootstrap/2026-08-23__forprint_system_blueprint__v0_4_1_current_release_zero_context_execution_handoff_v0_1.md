@@ -604,3 +604,26 @@ B2 must produce an explicit source-of-truth matrix, migration-ready persistence
 boundary and retention/backup policy without enabling live SQLite runtime.
 Selection, implementation, acceptance and publication remain separate
 transitions.
+
+## B2 explicit acceptance checkpoint
+
+Operator decision: `ACCEPT B2`.
+
+B2 implementation commit:
+
+`b0bf657677e1cde9e624fe81c85adf0dcba44d79`
+
+Acceptance transaction state:
+
+- B2 implementation: committed and published;
+- B2 semantic review: PASS;
+- B2 operator decision: ACCEPT;
+- B2 local acceptance seal: recorded by this transaction;
+- publication of this acceptance seal: separate explicit transaction;
+- Q1 remains inactive until B2 acceptance seal is published;
+- live SQLite runtime: disabled;
+- daemon/systemd: disabled;
+- autonomous execution: disabled;
+- automatic ACCEPT: disabled.
+
+Next after publication: `Q1 — Clarification question lifecycle`.
