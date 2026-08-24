@@ -568,3 +568,21 @@ Validated end-to-end behavior:
 Next transition: explicit `B1-ACCEPT`.
 
 B1 remains ACTIVE_CURRENT and not yet ACCEPTED/CLOSED. B2 remains inactive.
+
+<!-- b1-explicit-acceptance-handoff-v0-1 -->
+## 2026-08-24 explicit B1 acceptance
+
+Operator decision: `ACCEPT B1`.
+
+Prerequisites satisfied before acceptance:
+
+- B1 implementation completed;
+- `B1_LOGISTICS_REFERENCE_VALIDATION_PASS` published;
+- terminal-decision reconciliation repair published;
+- final B1-P2 gate: 52 passed / 1 skipped;
+- project gate: 30/30;
+- remote/current worktree synchronized and clean;
+- final acceptance-readiness verdict: PASS.
+
+This transaction is the local acceptance/seal. Publication remains a separate
+explicit transition. B2 remains inactive until the seal is published.

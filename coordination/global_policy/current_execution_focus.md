@@ -141,3 +141,15 @@ publication.
 
 This checkpoint does not ACCEPT or close B1, does not activate B2, does not
 release a business prompt, and does not authorize autonomous execution.
+
+<!-- b1-explicit-acceptance-current-focus-v0-1 -->
+## v0.4.1 B1 acceptance checkpoint — 2026-08-24
+
+Operator decision: `ACCEPT B1`.
+
+B1 has passed implementation, Logistics reference validation and final
+acceptance-readiness review.
+
+This transaction creates the local B1 acceptance/seal. It does not activate B2.
+After separate publication of the exact seal commit, the next transition is
+`B2-ACTIVATE`.

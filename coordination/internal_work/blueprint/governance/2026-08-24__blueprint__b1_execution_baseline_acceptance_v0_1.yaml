@@ -1,0 +1,56 @@
+schema_version: blueprint_b1_execution_baseline_acceptance_v0_1
+metadata:
+  created_at: '2026-08-24T15:35:00+03:00'
+  module_id: forprint_system_blueprint
+  owner: forprint_system_blueprint
+  status: LOCAL_SEALED_READY_FOR_EXPLICIT_PUBLICATION
+record_id: blueprint_b1_execution_baseline_acceptance_2026_08_24_v0_1
+workstream:
+  release: v0.4.1
+  slice: blueprint_v0_4_1_execution_baseline_and_drift_control_v0_1
+  package: B1-ACCEPT
+operator_decision:
+  decision: ACCEPT_B1
+  explicit_operator_input: true
+  confirmation_token: ACCEPT B1
+  automatic_acceptance: false
+decision:
+  result: ACCEPT
+  b1_accepted: true
+  local_seal: true
+  publication_pending: true
+  b1_published_closed: false
+prerequisites:
+  b1_implementation_complete: true
+  b1_logistics_reference_validation_pass: true
+  acceptance_readiness_pass: true
+evidence:
+  validation_closeout_commit: 8d8dc384908d72341f1e5967095b38e943fa84a3
+  terminal_decision_reconciliation_repair_commit: 0e79694d9fcbf3ec1bed64dcd473c9654f984dd8
+  final_b1_p2_gate:
+    tests_passed: 52
+    tests_skipped: 1
+  final_project_gate:
+    checks_ok: 30
+    checks_total: 30
+    blockers: 0
+  remote_current_before_acceptance: true
+  worktree_clean_before_acceptance: true
+governance_boundaries:
+  module_repository_writes: false
+  business_prompt_release: false
+  automatic_acceptance: false
+  automatic_push: false
+  b2_activated: false
+  sqlite_runtime_enabled: false
+  daemon_enabled: false
+  autonomous_execution_enabled: false
+release_effect:
+  current_release_projection_mutated: false
+  reason: >
+    B1 acceptance/seal is completed first. B2 activation is a separate reviewed
+    transaction after explicit publication of this exact seal.
+next_transition:
+  before_publication: EXPLICIT_B1_SEAL_PUBLICATION
+  after_publication: B2-ACTIVATE
+  b2_requires_separate_activation: true

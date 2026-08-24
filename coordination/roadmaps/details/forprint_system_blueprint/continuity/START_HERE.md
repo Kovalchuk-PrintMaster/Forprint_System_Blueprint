@@ -228,3 +228,34 @@ Current transition state:
 - B2 remains inactive and requires B1 ACCEPT first.
 
 Do not infer B1 acceptance from this validation closeout.
+
+<!-- b1-explicit-acceptance-v0-1 -->
+## B1 explicit acceptance checkpoint — 2026-08-24
+
+The operator explicitly issued:
+
+`ACCEPT B1`
+
+B1 implementation and Logistics reference validation had already completed and
+the final acceptance-readiness review passed before this decision.
+
+Acceptance result:
+
+`B1_ACCEPTED`
+
+This commit is the B1 local acceptance/seal transaction. The B1 exit marker
+`B1_ACCEPTED_PUBLISHED_CLOSED` becomes durable remote authority only after this
+exact reviewed commit is explicitly published.
+
+Current boundaries:
+
+- B1 acceptance decision: ACCEPT;
+- B1 local seal: recorded by this transaction;
+- B2: not activated by this transaction;
+- SQLite runtime / daemon / autonomous execution: not authorized;
+- automatic ACCEPT: false;
+- business prompt release: false;
+- module repository writes: false.
+
+After explicit publication of this seal, the next legally eligible package is
+`B2-ACTIVATE`.
