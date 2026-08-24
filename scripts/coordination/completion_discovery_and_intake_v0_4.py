@@ -405,6 +405,7 @@ def _discover_module(
     repository_root: Path,
     outbox_validator: Callable[..., dict[str, Any]],
     packet_validator: Callable[..., dict[str, Any]],
+    decision_index: dict[tuple[str, ...], dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     module_id = module.get("module_id")
     repository = module.get("repository", {})
@@ -590,53 +591,82 @@ def _discover_module(
             result["events"].append(event_record)
             continue
 
-        queue_binding, queue_binding_errors = _queue_prompt_contract_binding(
-            blueprint_root,
-            packet_module_id,
-            packet_prompt_id,
+        identity = event_record.get("identity", {})
+        terminal_subject = {
+            "module_id": module_id,
+            "prompt_id": identity.get("prompt_id"),
+            "event_id": identity.get("event_id"),
+            "event_path": event_record.get("path"),
+            "event_sha256": event_record.get("event_sha256"),
+            "packet_path": event_record.get("packet_path"),
+            "packet_sha256": event_record.get("packet_sha256"),
+        }
+        terminal_key = _decision_subject_key(terminal_subject)
+        terminal_decision = (
+            decision_index.get(terminal_key)
+            if decision_index is not None and terminal_key is not None
+            else None
         )
-        if queue_binding_errors:
-            event_record["classification"] = "invalid_completion_packet"
-            event_record["packet_validation"] = {
-                "result": "FAILED",
-                "errors": queue_binding_errors,
-                "warnings": [],
+        if terminal_decision is not None:
+            event_record["terminal_decision_reconciliation"] = {
+                "processed_decision_found": True,
+                "current_context_revalidation_skipped": True,
+                "reason": "exact_terminal_operator_decision_subject",
+                "decision_id": terminal_decision.get("decision_id"),
+                "operator_decision": terminal_decision.get(
+                    "operator_decision"
+                ),
+                "result": terminal_decision.get("result"),
+                "evidence_path": terminal_decision.get("evidence_path"),
             }
-            result["events"].append(event_record)
-            continue
-        if queue_binding is not None:
-            binding_errors = _packet_queue_contract_errors(
-                packet.get("prompt_contract"),
-                queue_binding,
+        else:
+            queue_binding, queue_binding_errors = _queue_prompt_contract_binding(
+                blueprint_root,
+                packet_module_id,
+                packet_prompt_id,
             )
-            if binding_errors:
+            if queue_binding_errors:
                 event_record["classification"] = "invalid_completion_packet"
                 event_record["packet_validation"] = {
                     "result": "FAILED",
-                    "errors": binding_errors,
+                    "errors": queue_binding_errors,
                     "warnings": [],
                 }
                 result["events"].append(event_record)
                 continue
+            if queue_binding is not None:
+                binding_errors = _packet_queue_contract_errors(
+                    packet.get("prompt_contract"),
+                    queue_binding,
+                )
+                if binding_errors:
+                    event_record["classification"] = "invalid_completion_packet"
+                    event_record["packet_validation"] = {
+                        "result": "FAILED",
+                        "errors": binding_errors,
+                        "warnings": [],
+                    }
+                    result["events"].append(event_record)
+                    continue
 
-            claim_binding_errors = _b1_completion_claim_binding_errors(
-                blueprint_root=blueprint_root,
-                registry_path=registry_path,
-                repository_root=repository_root,
-                module_id=packet_module_id,
-                prompt_id=packet_prompt_id,
-                packet=packet,
-                queue_binding=queue_binding,
-            )
-            if claim_binding_errors:
-                event_record["classification"] = "invalid_completion_packet"
-                event_record["packet_validation"] = {
-                    "result": "FAILED",
-                    "errors": claim_binding_errors,
-                    "warnings": [],
-                }
-                result["events"].append(event_record)
-                continue
+                claim_binding_errors = _b1_completion_claim_binding_errors(
+                    blueprint_root=blueprint_root,
+                    registry_path=registry_path,
+                    repository_root=repository_root,
+                    module_id=packet_module_id,
+                    prompt_id=packet_prompt_id,
+                    packet=packet,
+                    queue_binding=queue_binding,
+                )
+                if claim_binding_errors:
+                    event_record["classification"] = "invalid_completion_packet"
+                    event_record["packet_validation"] = {
+                        "result": "FAILED",
+                        "errors": claim_binding_errors,
+                        "warnings": [],
+                    }
+                    result["events"].append(event_record)
+                    continue
 
         event_record["classification"] = "ready_for_blueprint_review"
         revision = event.get("revision")
@@ -810,6 +840,10 @@ def discover_completions(
     outbox_validator = outbox_validator or _default_outbox_validator
     packet_validator = packet_validator or _default_packet_validator
 
+    decision_index, decision_evidence_errors = (
+        _load_operator_decision_index(blueprint_root)
+    )
+
     sources: list[dict[str, Any]] = []
     for module in sorted(
         _registered_modules(registry),
@@ -823,12 +857,10 @@ def discover_completions(
             repository_root=repository_root,
             outbox_validator=outbox_validator,
             packet_validator=packet_validator,
+            decision_index=decision_index,
         )
         sources.append(source_result)
 
-    decision_index, decision_evidence_errors = (
-        _load_operator_decision_index(blueprint_root)
-    )
     review_candidates = []
     reconciled_decisions = []
 
