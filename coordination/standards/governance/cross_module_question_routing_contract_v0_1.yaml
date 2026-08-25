@@ -1,0 +1,157 @@
+schema_version: cross_module_question_routing_contract_v0_1
+metadata:
+  standard_id: cross_module_question_routing_contract_v0_1
+  owner: forprint_system_blueprint
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+  hardening_slice: Q7
+  stable_id: blueprint_v0_4_1_cross_module_question_routing_contract_v0_1
+purpose: Define cross-module clarification routing as contract/evidence semantics without runtime delivery or cross-repository
+  writes.
+inherits:
+  q1_contract_path: coordination/standards/governance/clarification_question_lifecycle_v0_1.yaml
+  q1_contract_sha256: b6ac925638194422ace541943418cd822c33c28e5dc7aace8a3660fd167f75f5
+  q2_contract_path: coordination/standards/governance/bounded_clarification_and_escalation_v0_1.yaml
+  q2_contract_sha256: 0e1b2c98e8c7d42291e7c4120ff7d2c1c214300083757731fc90ebe134a17c7d
+  q3_contract_path: coordination/standards/governance/execution_blocker_taxonomy_v0_1.yaml
+  q3_contract_sha256: c85ec5eb4243fac09502f7c18b893a3cc5a8cb294e71e65a1a6822c50899ea8e
+  q4_contract_path: coordination/standards/governance/immutable_prompt_adjustment_and_decision_v0_1.yaml
+  q4_contract_sha256: 83559969e5671f3342a5ac115ebd4a52cb57f3a5e7be32c94232be7fad2b2aca
+  q5_contract_path: coordination/standards/governance/common_coordination_event_envelope_v0_1.yaml
+  q5_contract_sha256: a6c8f574b36d7b8d9334de61500c395d60352dce4800970f695c2777a665ebd0
+  q6_contract_path: coordination/standards/governance/operator_attention_semantics_v0_1.yaml
+  q6_contract_sha256: b2d719fa4a41914e340e6e68a19b0b6ac005cd191cbf2aca1e32c9b89d43cbf3
+routing:
+  route_directions:
+  - module_to_blueprint_or_operator
+  - module_to_module
+  - blueprint_to_module
+  route_direction_count: 3
+  unknown_route_direction_allowed: false
+  logical_identity_not_transport_address: true
+  routing_grants_mutation_authority: false
+q1_identity_preservation:
+  question_id_stable_across_reroute: true
+  correlation_id_stable_across_reroute: true
+  routing_rewrites_q1_thread: false
+  requester_target_remain_logical_actor_refs: true
+routing_record:
+  required_fields:
+  - routing_id
+  - question_id
+  - module_id
+  - prompt_id
+  - roadmap_step_id
+  - requester
+  - target
+  - route_direction
+  - correlation_id
+  - blocking
+  - question_class
+  - round
+  - routing_reason
+  - routing_outcome
+  - evidence_refs
+  - routed_at
+  routing_outcomes:
+  - routed
+  - no_eligible_route
+  - operator_escalation_required
+  append_only: true
+  prior_record_mutation_allowed: false
+  reroute_creates_new_routing_id: true
+round_budget:
+  owner: Q2
+  maximum_unresolved_round_trips_per_question_thread: 5
+  scope: per_question_thread
+  routing_alone_consumes_round: false
+  rerouting_alone_consumes_round: false
+  failed_route_consumes_round: false
+  round_six_allowed: false
+  round_advances_only_after: completed_answer_attempt_evaluated_insufficient
+answer_evidence:
+  required_fields:
+  - question_id
+  - responder
+  - correlation_id
+  - round
+  - answer
+  - evidence_refs
+  - answered_at
+  evidence_refs_min_items: 1
+  answer_without_evidence_refs_valid: false
+  secret_values_allowed: false
+  secret_references_allowed: true
+strategic_ambiguity:
+  must_escalate_to_blueprint_or_operator: true
+  module_to_module_guess_allowed: false
+  routing_escalation_is_operator_decision: false
+  q4_authority_preserved: true
+access_and_secrets:
+  may_route_directly_to_operator: true
+  routing_grants_access: false
+  secret_values_allowed: false
+  secret_references_allowed: true
+cross_repository_boundary:
+  blueprint_writes_module_to_deliver_question: false
+  module_writes_blueprint_to_deliver_question: false
+  module_writes_other_module_to_deliver_or_answer: false
+authority_boundary:
+  route_is_prompt_acceptance: false
+  route_is_return: false
+  route_is_hold: false
+  answer_is_prompt_acceptance: false
+  answer_is_scope_adjustment: false
+  answer_is_waiver: false
+  answer_clears_q3_blocker_automatically: false
+  routing_authorizes_dependency_override: false
+  routing_authorizes_security_credentials: false
+  routing_authorizes_production_destructive_action: false
+  routing_releases_next_prompt: false
+q5_event_integration:
+  semantic_event_types:
+  - clarification.routed
+  - clarification.rerouted
+  - clarification.route_failed
+  - clarification.escalated
+  - answer_resolution.received
+  adds_fields_to_q5_envelope: false
+  persistent_event_runtime_implemented: false
+q6_attention_integration:
+  allowed_attention_reasons:
+  - clarification_escalated
+  - access_required
+  - manual_review_required
+  - dependency_blocked
+  redefines_q6_attention_lifecycle: false
+  transport_implemented_by_q7: false
+deferred_boundaries:
+  Q8_logistics_reference_validation: true
+current_capabilities:
+  persistent_question_routing_runtime: false
+  live_sqlite_runtime: false
+  question_route_database_tables: false
+  daemon: false
+  systemd: false
+  telegram_transport: false
+  autonomous_module_to_module_messaging: false
+  automatic_module_business_acceptance: false
+  automatic_return_hold: false
+  automatic_next_prompt_release: false
+  cross_repository_writes: false
+  business_prompt_release: false
+acceptance:
+  route_direction_set_exact: true
+  q1_identity_preserved: true
+  routing_record_append_only: true
+  reroute_identity_preserved: true
+  q2_round_budget_preserved: true
+  routing_does_not_consume_round: true
+  answer_evidence_required: true
+  strategic_ambiguity_escalates: true
+  access_secret_boundary_preserved: true
+  authority_not_inferred: true
+  cross_repository_writes_disabled: true
+  q5_q6_semantic_integration_only: true
+  q8_deferred: true
+  runtime_disabled: true

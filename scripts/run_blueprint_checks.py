@@ -486,6 +486,19 @@ def build_checks() -> list[CheckDefinition]:
             group="documentation",
         ),
         CheckDefinition(
+            check_id="q7_cross_module_question_routing_validation",
+            title="Q7 cross-module question routing",
+            expected_result=(
+                "Cross-module question routing preserves Q1/Q2 identity and round semantics, "
+                "requires evidence-backed answers and forbids cross-repository writes"
+            ),
+            command=(
+                python,
+                "scripts/validation/validate_q7_cross_module_question_routing_contract.py",
+            ),
+            group="documentation",
+        ),
+        CheckDefinition(
             check_id="phase_boundary_progression_gate_validation",
             title="Phase-boundary progression gate",
             expected_result=(
