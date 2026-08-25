@@ -1,16 +1,17 @@
 # ForPrint v0.4.1 — Remaining Coordination Hardening Plan v0.1
 
-Status: ACTIVE / Q3 CURRENT
-Current coordination-hardening slice: Q3 — `blueprint_v0_4_1_execution_blocker_taxonomy_v0_1`.
+Status: ACTIVE / Q4 CURRENT
+Current coordination-hardening slice: Q4 — `blueprint_v0_4_1_immutable_prompt_adjustment_and_decision_v0_1`.
 H9 Logistics reference rollout: ACCEPTED / PUBLISHED / CLOSED.
 B1 execution baseline and drift control: ACCEPTED / PUBLISHED / CLOSED.
 B2 persistence boundary: ACCEPTED / PUBLISHED / CLOSED.
 Q1 clarification lifecycle: ACCEPTED / PUBLISHED / CLOSED.
 Q2 bounded clarification/escalation: ACCEPTED / PUBLISHED / CLOSED via `deterministic_phase_gate`.
+Q3 execution blocker taxonomy: ACCEPTED / PUBLISHED / CLOSED via `deterministic_phase_gate`.
 
 This document captures missing coordination semantics discovered during the Logistics
-pilot. H9, B1, B2, Q1 and Q2 are accepted, published and closed; Q3 is now the current
-Blueprint-owned hardening slice. Q4-Q8 remain planned and inactive until deterministic
+pilot. H9, B1, B2, Q1, Q2 and Q3 are accepted, published and closed; Q4 is now the current
+Blueprint-owned hardening slice. Q5-Q8 remain planned and inactive until deterministic
 same-phase progression or an explicit exception decision.
 
 ## Why this belongs to v0.4.1
@@ -445,6 +446,23 @@ Keep distinct:
 - HOLD.
 
 `unable_to_execute` is module evidence for review, not Blueprint RETURN.
+
+### Q3 deterministic closeout — 2026-08-25
+
+Q3 implementation commit `7993f873f2f8aba31b9ee2c52fd6f2d3799391be` passed its semantic validator, focused Q3 tests and
+canonical Blueprint checks, and was verified as published/remote-contained before closeout.
+
+Exit marker: `Q3_ACCEPTED_PUBLISHED_CLOSED`
+
+Acceptance basis: `deterministic_phase_gate`
+
+The Q3 taxonomy keeps coordination conditions, executor `unable_to_execute` evidence and
+governance `RETURN`/`HOLD` dispositions distinct.
+
+No automatic RETURN/HOLD, released-prompt mutation, runtime activation, business prompt release
+or cross-repository write is implied.
+
+Q4 is the next same-phase dependency-eligible package and is now current.
 
 ## Q4 — blueprint_v0_4_1_immutable_prompt_adjustment_and_decision_v0_1
 

@@ -385,3 +385,41 @@ Next:
 
 `Q3_IMPLEMENTATION_SCOPE_AND_ACCEPTANCE_CRITERIA_REVIEW`
 <!-- q2-deterministic-closeout-q3-activation-v0-1:end -->
+
+<!-- q3-deterministic-closeout-q4-activation-v0-1:start -->
+## Q3 deterministic closeout / Q4 activation — 2026-08-25
+
+Q3 implementation commit:
+
+`7993f873f2f8aba31b9ee2c52fd6f2d3799391be`
+
+Q3 result:
+
+`Q3_ACCEPTED_PUBLISHED_CLOSED`
+
+Acceptance basis:
+
+`deterministic_phase_gate`
+
+Current v0.4.1 slice:
+
+`blueprint_v0_4_1_immutable_prompt_adjustment_and_decision_v0_1`
+
+Current functional package:
+
+`Q4`
+
+Q4 scope is immutable prompt adjustment / operator decision / correlation semantics.
+Released prompts remain immutable; any governed adjustment must be represented by a separate,
+traceable decision/adjustment artifact rather than silently editing released prompt history.
+
+Q5-Q8 remain planned/inactive.
+
+Live SQLite runtime, daemon/systemd, Telegram transport, autonomous worker execution,
+automatic module/business ACCEPT, automatic RETURN/HOLD, business prompt release and
+cross-repository writes remain disabled.
+
+Next:
+
+`Q4_IMPLEMENTATION_SCOPE_AND_ACCEPTANCE_CRITERIA_REVIEW`
+<!-- q3-deterministic-closeout-q4-activation-v0-1:end -->

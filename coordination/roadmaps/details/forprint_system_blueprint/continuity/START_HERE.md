@@ -488,3 +488,34 @@ Resume from:
 
 `Q3_IMPLEMENTATION_SCOPE_AND_ACCEPTANCE_CRITERIA_REVIEW`
 <!-- q2-deterministic-closeout-q3-current-v0-1:end -->
+
+<!-- q3-deterministic-closeout-q4-current-v0-1:start -->
+## Q3 deterministic closeout / Q4 current — 2026-08-25
+
+Current release authority selects:
+
+`blueprint_v0_4_1_immutable_prompt_adjustment_and_decision_v0_1`
+
+Q3 implementation:
+
+`7993f873f2f8aba31b9ee2c52fd6f2d3799391be`
+
+Q3 exit marker:
+
+`Q3_ACCEPTED_PUBLISHED_CLOSED`
+
+Acceptance basis:
+
+`deterministic_phase_gate`
+
+Durable transition record:
+
+`coordination/internal_work/blueprint/governance/2026-08-25__blueprint__q3_deterministic_closeout_q4_activation_v0_1.yaml`
+
+A new Q3 ACCEPT / Q4 ACTIVATE progress token was not required because Q3 and Q4 are both
+inside phase `Q`. Module/business ACCEPT/RETURN/HOLD authority is unchanged.
+
+Resume from:
+
+`Q4_IMPLEMENTATION_SCOPE_AND_ACCEPTANCE_CRITERIA_REVIEW`
+<!-- q3-deterministic-closeout-q4-current-v0-1:end -->

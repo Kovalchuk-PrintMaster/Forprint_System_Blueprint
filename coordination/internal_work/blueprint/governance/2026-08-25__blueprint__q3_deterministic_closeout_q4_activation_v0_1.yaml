@@ -1,0 +1,59 @@
+schema_version: blueprint_q3_deterministic_closeout_q4_activation_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  owner: forprint_system_blueprint
+  created_at: '2026-08-25T14:08:00+03:00'
+  status: DETERMINISTIC_PHASE_GATE_TRANSITION
+record_id: blueprint_q3_deterministic_closeout_q4_activation_2026_08_25_v0_1
+phase: Q
+q3:
+  stable_id: blueprint_v0_4_1_execution_blocker_taxonomy_v0_1
+  implementation_commit: 7993f873f2f8aba31b9ee2c52fd6f2d3799391be
+  implementation_parent: 9841c8567cd2cb93c380e0e6b3100b857964e0d3
+  implementation_subject: 'blueprint: implement Q3 blocker taxonomy'
+  implementation_published: true
+  acceptance_basis: deterministic_phase_gate
+  exit_marker: Q3_ACCEPTED_PUBLISHED_CLOSED
+  evidence:
+    human_standard:
+      path: coordination/standards/governance/execution_blocker_taxonomy_v0_1.md
+      sha256: 3762ac6d5238e5db3b10fda7103bd9f73f8d5edc9178f07cb000898bea19aa32
+    machine_contract:
+      path: coordination/standards/governance/execution_blocker_taxonomy_v0_1.yaml
+      sha256: c85ec5eb4243fac09502f7c18b893a3cc5a8cb294e71e65a1a6822c50899ea8e
+    validator:
+      path: scripts/validation/validate_q3_execution_blocker_taxonomy.py
+      sha256: 101f7f5b5368fe04fe3021c45def366c9042727b5e0df927b50b1a9cc0be5ee0
+    focused_test:
+      path: tests/validation/test_v0_4_1_q3_execution_blocker_taxonomy.py
+      sha256: 1f7f8111eb3dae76ae73ae3d52099879d7273f237b8e4c6f8930be76bb57fd47
+deterministic_gates:
+  git_release_authority_revalidated: true
+  dependency_eligibility_revalidated: true
+  reviewed_subject_scope_and_evidence_exact: true
+  package_semantic_oracle_pass: true
+  focused_tests_pass: true
+  canonical_project_checks_pass: true
+  publication_remote_containment_satisfied: true
+  wip_one_preserved: true
+  no_unresolved_blocking_governance_exception: true
+  no_pending_manual_authority_decision: true
+  next_package_same_phase_and_eligible: true
+q4:
+  stable_id: blueprint_v0_4_1_immutable_prompt_adjustment_and_decision_v0_1
+  state: ACTIVE_CURRENT
+  activation_basis: Q3_ACCEPTED_PUBLISHED_CLOSED + deterministic_phase_gate
+  manual_q3_accept_token_required: false
+  manual_q4_activate_token_required: false
+  next_review: Q4_IMPLEMENTATION_SCOPE_AND_ACCEPTANCE_CRITERIA_REVIEW
+boundaries:
+  module_business_automatic_accept_authorized: false
+  automatic_return_hold_authorized: false
+  business_prompt_release_authorized: false
+  cross_repository_writes_authorized: false
+  live_sqlite_runtime_enabled: false
+  daemon_enabled: false
+  systemd_enabled: false
+  telegram_transport_enabled: false
+  autonomous_worker_enabled: false
+  q_to_h10_phase_boundary_crossed: false

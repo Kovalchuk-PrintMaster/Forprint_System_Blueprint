@@ -86,13 +86,16 @@ packages:
     objective: Define bounded five-round clarification and deterministic escalation.
     exit_marker: Q2_ACCEPTED_PUBLISHED_CLOSED
   - id: Q3
-    state: current_functional_work
+    state: completed
+    acceptance_basis: deterministic_phase_gate
+    implementation_commit: 7993f873f2f8aba31b9ee2c52fd6f2d3799391be
     activation_basis: Q2_ACCEPTED_PUBLISHED_CLOSED
     depends_on: [Q2]
     objective: Define blocker taxonomy and prompt blocking semantics.
     exit_marker: Q3_ACCEPTED_PUBLISHED_CLOSED
   - id: Q4
-    state: planned
+    state: current_functional_work
+    activation_basis: Q3_ACCEPTED_PUBLISHED_CLOSED
     depends_on: [Q3]
     objective: Define immutable released-prompt and operator-decision correlation.
     exit_marker: Q4_ACCEPTED_PUBLISHED_CLOSED
