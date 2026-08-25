@@ -499,6 +499,19 @@ def build_checks() -> list[CheckDefinition]:
             group="documentation",
         ),
         CheckDefinition(
+            check_id="q8_logistics_clarification_reference_validation",
+            title="Q8 Logistics clarification reference",
+            expected_result=(
+                "Accepted Logistics reference proves the composed Q1-Q7 clarification, blocker, "
+                "decision, attention and routing semantics while Q->H10 remains manual"
+            ),
+            command=(
+                python,
+                "scripts/validation/validate_q8_logistics_clarification_reference_validation.py",
+            ),
+            group="documentation",
+        ),
+        CheckDefinition(
             check_id="phase_boundary_progression_gate_validation",
             title="Phase-boundary progression gate",
             expected_result=(
