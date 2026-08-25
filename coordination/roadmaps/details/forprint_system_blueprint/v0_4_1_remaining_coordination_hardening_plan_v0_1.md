@@ -684,6 +684,36 @@ module/business ACCEPT/RETURN/HOLD.
 
 The next manual phase boundary after H10 is `H10 -> H11`.
 
+## H10 Logistics-only automation validation gate — 2026-08-25
+
+Operator decision:
+
+`blueprint_logistics_only_automation_pilot_scope_decision_v0_1`
+
+H10 remains the current rollout/adoption hardening slice, but the **new automation functionality is
+validated on Logistics only** before any other module is connected.
+
+Pilot rule:
+
+- sole validation module: `logistics_service`;
+- all other modules remain disconnected from this new functionality;
+- run at least `2` real prompts in automatic mode on Logistics;
+- all required checks must pass with no unresolved blocking regression;
+- expansion requires a positive operator stability review;
+- expansion to additional modules requires a separate reviewed decision.
+
+Library, Telegram and every other module are therefore **not current automation rollout targets**.
+Existing roadmap/capability work may continue as planning evidence, but it does not connect those
+modules to the new execution functionality.
+
+Website remains additionally paused/excluded until explicit operator resume.
+
+This decision does not release a business prompt, write a module repository, enable automatic
+ACCEPT/RETURN/HOLD, activate H11 or authorize broad rollout.
+
+Durable decision:
+
+`coordination/internal_work/blueprint/governance/2026-08-25__blueprint__logistics_only_automation_pilot_scope_decision_v0_1.yaml`
 ## H10 entry refinement
 
 Preferred H10 entry:

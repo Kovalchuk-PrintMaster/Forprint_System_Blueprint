@@ -703,3 +703,30 @@ Resume from:
 
 `H10_ENTRY_AND_ECOSYSTEM_ROLLOUT_SCOPE_REVIEW`
 <!-- q8-closeout-h10-current-v0-1:end -->
+
+<!-- logistics-only-automation-validation-rule-v0-1:start -->
+## Logistics-only automation validation rule — 2026-08-25
+
+H10 is current, but new automation execution is **Logistics-only** until stability is proven.
+
+Sole pilot:
+
+`logistics_service`
+
+Minimum evidence before expansion review:
+
+`2` successful real automatic prompt runs.
+
+Non-Logistics modules remain disconnected from the new functionality until:
+
+1. Logistics passes the stability gate;
+2. operator performs positive review;
+3. a separate reviewed expansion decision is recorded.
+
+Library/Telegram candidate or planning status does not grant connection/dispatch authority.
+Website remains paused/excluded.
+
+Authority decision:
+
+`coordination/internal_work/blueprint/governance/2026-08-25__blueprint__logistics_only_automation_pilot_scope_decision_v0_1.yaml`
+<!-- logistics-only-automation-validation-rule-v0-1:end -->

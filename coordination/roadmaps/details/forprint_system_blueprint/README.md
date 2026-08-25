@@ -8,7 +8,7 @@ Current authority remains `coordination/releases/current.yaml`. The historical
 `coordination/self_coordination/roadmap.yaml` remains non-authoritative unless a later
 explicit reconciliation promotes a replacement.
 
-Current hardening work is H10 — `blueprint_v0_4_1_ecosystem_rollout_balance_and_dependency_adoption_v0_1`. H9, B1, B2 and Q1-Q8 are accepted/published/closed; the operator explicitly approved the Q -> H10 phase boundary on 2026-08-25. Effective authority remains `coordination/releases/current.yaml`. H10 -> H11 is the next manual phase boundary.
+Current hardening work is H10 — `blueprint_v0_4_1_ecosystem_rollout_balance_and_dependency_adoption_v0_1`. H9, B1, B2 and Q1-Q8 are accepted/published/closed; the operator explicitly approved the Q -> H10 phase boundary on 2026-08-25. H10 new automation functionality is currently Logistics-only (`logistics_service` is the sole pilot): no other module is connected until at least two successful real automatic Logistics prompt runs pass the stability review and a separate expansion decision is recorded. Effective authority remains `coordination/releases/current.yaml`. H10 -> H11 is the next manual phase boundary.
 
 These files do not release prompts, activate work, authorize automatic execution,
 authorize automatic ACCEPT, or mutate module repositories.

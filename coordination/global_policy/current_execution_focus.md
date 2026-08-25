@@ -632,3 +632,41 @@ Next:
 
 `H10_ENTRY_AND_ECOSYSTEM_ROLLOUT_SCOPE_REVIEW`
 <!-- q8-closeout-h10-manual-phase-boundary-activation-v0-1:end -->
+
+<!-- logistics-only-automation-pilot-scope-v0-1:start -->
+## Logistics-only automation pilot scope — 2026-08-25
+
+Current H10 execution strategy is now explicit:
+
+`pilot_first_fail_closed`
+
+Sole module connected to the new automation validation flow:
+
+`logistics_service`
+
+All other modules:
+
+`not_connected_until_logistics_stability_gate`
+
+Before expansion:
+
+- run at least `2` real automatic prompts on Logistics;
+- obtain passing required checks and no unresolved blocking regression;
+- perform positive operator stability review;
+- record a separate reviewed expansion decision.
+
+Library and Telegram are not connected to the new functionality during this pilot.
+Website remains paused/excluded.
+
+This is a scope clarification for H10 execution strategy, not H10 closeout and not H11 activation.
+
+Durable decision:
+
+`coordination/internal_work/blueprint/governance/2026-08-25__blueprint__logistics_only_automation_pilot_scope_decision_v0_1.yaml`
+
+Immediate priority after publishing this clarification:
+
+1. build two temporary knowledge archives;
+2. preserve them outside repo history;
+3. resume H-series work only if operator time remains.
+<!-- logistics-only-automation-pilot-scope-v0-1:end -->

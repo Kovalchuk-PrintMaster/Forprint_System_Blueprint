@@ -80,6 +80,15 @@ module_scope:
   forprint_library: observe_only_until_rollout
   telegram_bot: observe_only_until_rollout
   website: paused_excluded_until_explicit_operator_resume
+automation_validation_pilot:
+  authority_decision: coordination/internal_work/blueprint/governance/2026-08-25__blueprint__logistics_only_automation_pilot_scope_decision_v0_1.yaml
+  mode: logistics_only_until_stability_proven
+  sole_pilot_module: logistics_service
+  all_other_modules_connected: false
+  minimum_successful_automatic_prompt_runs_before_expansion_review: 2
+  positive_stability_result_required: true
+  expansion_requires_separate_reviewed_decision: true
+  non_logistics_default: not_connected_until_logistics_stability_gate
 historical_non_authoritative_projections:
 - coordination/self_coordination/roadmap.yaml
 - coordination/self_coordination/prompt_queue/index.yaml

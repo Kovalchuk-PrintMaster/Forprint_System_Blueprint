@@ -141,6 +141,13 @@ packages:
     activation_basis: Q8_ACCEPTED_PUBLISHED_CLOSED + explicit_operator_q_to_h10_phase_boundary_approval
     depends_on: [Q8]
     objective: Roll current coordination mechanics across eligible modules.
+    pilot_validation_gate:
+      sole_pilot_module: logistics_service
+      all_other_modules_connected: false
+      minimum_successful_automatic_prompt_runs_before_expansion_review: 2
+      positive_stability_result_required: true
+      expansion_requires_separate_reviewed_decision: true
+      authority_decision: coordination/internal_work/blueprint/governance/2026-08-25__blueprint__logistics_only_automation_pilot_scope_decision_v0_1.yaml
     exit_marker: H10_ECOSYSTEM_ROLLOUT_ACCEPTED
 
   - id: H11

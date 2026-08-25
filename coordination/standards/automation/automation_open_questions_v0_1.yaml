@@ -12,7 +12,15 @@ topics:
   status: TBD
 - id: AUTO-Q-004
   question: Which module(s) are used for the first one/two executor pilots?
-  status: TBD
+  status: DECIDED_LOGISTICS_ONLY_PILOT
+  decision:
+    pilot_modules:
+    - logistics_service
+    minimum_successful_automatic_prompt_runs_before_expansion_review: 2
+    all_other_modules_connected: false
+    positive_stability_review_required: true
+    expansion_requires_separate_reviewed_decision: true
+    authority_decision: coordination/internal_work/blueprint/governance/2026-08-25__blueprint__logistics_only_automation_pilot_scope_decision_v0_1.yaml
 - id: AUTO-Q-005
   question: What evidence report format is easiest for direct chat review while remaining durable in repo?
   status: TBD

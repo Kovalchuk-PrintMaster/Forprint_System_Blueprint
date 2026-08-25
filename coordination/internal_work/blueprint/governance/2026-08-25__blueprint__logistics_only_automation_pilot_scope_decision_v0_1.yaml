@@ -1,0 +1,38 @@
+schema_version: blueprint_logistics_only_automation_pilot_scope_decision_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  owner: forprint_system_blueprint
+  created_at: '2026-08-25T19:08:00+03:00'
+  status: OPERATOR_DECISION_ACTIVE
+decision_id: blueprint_logistics_only_automation_pilot_scope_decision_v0_1
+hardening_slice: H10
+decision: LOGISTICS_ONLY_AUTOMATION_VALIDATION_PILOT
+operator_intent:
+  sole_pilot_module: logistics_service
+  all_other_modules_connected_to_new_functionality: false
+  minimum_successful_automatic_prompt_runs_before_expansion_review: 2
+  positive_stability_result_required: true
+  expansion_requires_separate_reviewed_decision: true
+  reason: Prove the new automation/coordination flow on Logistics first. Do not connect additional modules until multiple
+    automatic prompt runs demonstrate stable expected behavior.
+scope_effect:
+  h10_overall_scope_cancelled: false
+  h10_execution_strategy: pilot_first_fail_closed
+  logistics_service: sole_active_validation_target
+  forprint_library: not_connected_until_logistics_stability_gate
+  telegram_bot: not_connected_until_logistics_stability_gate
+  website: paused_and_not_connected
+  all_other_modules: not_connected_until_logistics_stability_gate
+stability_gate:
+  minimum_successful_automatic_prompt_runs: 2
+  runs_must_be_real_automatic_mode: true
+  all_required_checks_must_pass: true
+  no_unresolved_blocking_regression: true
+  operator_positive_review_required_before_expansion: true
+authority_boundaries:
+  this_decision_releases_a_business_prompt: false
+  this_decision_authorizes_module_repository_write: false
+  this_decision_enables_automatic_accept: false
+  this_decision_enables_automatic_return_hold: false
+  this_decision_connects_non_logistics_modules: false
+  this_decision_activates_h11: false
