@@ -440,6 +440,19 @@ def build_checks() -> list[CheckDefinition]:
             group="documentation",
         ),
         CheckDefinition(
+            check_id="q3_execution_blocker_taxonomy_validation",
+            title="Q3 execution blocker taxonomy",
+            expected_result=(
+                "Execution blocker reasons, scope blocking and separation from "
+                "unable-to-execute/RETURN/HOLD are valid"
+            ),
+            command=(
+                python,
+                "scripts/validation/validate_q3_execution_blocker_taxonomy.py",
+            ),
+            group="documentation",
+        ),
+        CheckDefinition(
             check_id="phase_boundary_progression_gate_validation",
             title="Phase-boundary progression gate",
             expected_result=(

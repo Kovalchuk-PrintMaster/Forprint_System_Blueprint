@@ -1,0 +1,39 @@
+schema_version: blueprint_q3_scope_and_acceptance_review_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  owner: forprint_system_blueprint
+  created_at: '2026-08-25T13:34:00+03:00'
+  status: PASS_TO_IMPLEMENTATION
+record_id: blueprint_q3_scope_and_acceptance_review_2026_08_25_v0_1
+hardening_slice: Q3
+stable_id: blueprint_v0_4_1_execution_blocker_taxonomy_v0_1
+review_result: PASS_TO_IMPLEMENTATION
+semantic_model:
+  coordination_conditions:
+  - clarification_required
+  - execution_blocked
+  executor_outcome_evidence:
+  - unable_to_execute
+  governance_dispositions:
+  - RETURN
+  - HOLD
+  automatic_mapping_between_families: false
+  released_prompt_mutation: false
+  canonical_reason_count: 13
+acceptance_criteria:
+- clarification_required, execution_blocked, unable_to_execute, RETURN and HOLD remain distinct
+- exact thirteen blocker reason codes are canonical
+- execution_blocked requires blocking=true
+- blockers require affected scope and evidence
+- blocking applies only to declared affected scope
+- independent work may continue when contract allows
+- unable_to_execute is executor evidence, not Blueprint disposition
+- blockers never automatically RETURN/HOLD
+- released prompt remains immutable
+- Q4-Q8 remain deferred
+- runtime/autonomy remain disabled
+- validator is in canonical make check
+- focused Q2+Q3 tests pass
+- canonical make check passes
+closeout_not_performed_by_this_record: true
+manual_exception_authority_preserved: true
