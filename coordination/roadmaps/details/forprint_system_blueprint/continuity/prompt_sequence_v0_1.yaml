@@ -110,13 +110,16 @@ packages:
     objective: Define common coordination event envelope.
     exit_marker: Q5_ACCEPTED_PUBLISHED_CLOSED
   - id: Q6
-    state: current_functional_work
+    state: completed
+    acceptance_basis: deterministic_phase_gate
+    implementation_commit: 7845ab850b334460a9120d827d2397f799339fc0
     activation_basis: Q5_ACCEPTED_PUBLISHED_CLOSED
     depends_on: [Q5]
     objective: Define operator-attention semantics and causes.
     exit_marker: Q6_ACCEPTED_PUBLISHED_CLOSED
   - id: Q7
-    state: planned
+    state: current_functional_work
+    activation_basis: Q6_ACCEPTED_PUBLISHED_CLOSED
     depends_on: [Q6]
     objective: Define cross-module question-routing contract without cross-repo writes.
     exit_marker: Q7_ACCEPTED_PUBLISHED_CLOSED

@@ -502,3 +502,45 @@ Next:
 
 `Q6_IMPLEMENTATION_SCOPE_AND_ACCEPTANCE_CRITERIA_REVIEW`
 <!-- q5-deterministic-closeout-q6-activation-v0-1:end -->
+
+<!-- q6-deterministic-closeout-q7-activation-v0-1:start -->
+## Q6 deterministic closeout / Q7 activation — 2026-08-25
+
+Q6 implementation commit:
+
+`7845ab850b334460a9120d827d2397f799339fc0`
+
+Q6 result:
+
+`Q6_ACCEPTED_PUBLISHED_CLOSED`
+
+Acceptance basis:
+
+`deterministic_phase_gate`
+
+Current v0.4.1 slice:
+
+`blueprint_v0_4_1_cross_module_question_routing_contract_v0_1`
+
+Current functional package:
+
+`Q7`
+
+Q7 scope is the cross-module question-routing contract. Current v0.4.1 authority requires
+contract/evidence semantics only, not persistent runtime. Allowed directional identities are
+module -> Blueprint/operator, module -> module, and Blueprint -> module.
+
+Q7 must preserve no cross-repository writes, evidence-backed answers, strategic ambiguity
+escalation, direct operator routing for secrets/access where appropriate, and the existing
+five-round per-thread clarification limit.
+
+Q8 remains planned/inactive.
+
+Live SQLite, daemon/systemd, Telegram transport, autonomous workers, automatic module/business
+ACCEPT, automatic RETURN/HOLD, automatic next-prompt release and business prompt release remain
+disabled.
+
+Next:
+
+`Q7_IMPLEMENTATION_SCOPE_AND_ACCEPTANCE_CRITERIA_REVIEW`
+<!-- q6-deterministic-closeout-q7-activation-v0-1:end -->

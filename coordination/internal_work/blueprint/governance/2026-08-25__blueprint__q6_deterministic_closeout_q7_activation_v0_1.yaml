@@ -1,0 +1,64 @@
+schema_version: blueprint_q6_deterministic_closeout_q7_activation_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  owner: forprint_system_blueprint
+  created_at: '2026-08-25T17:25:00+03:00'
+  status: DETERMINISTIC_PHASE_GATE_TRANSITION
+record_id: blueprint_q6_deterministic_closeout_q7_activation_2026_08_25_v0_1
+phase: Q
+q6:
+  stable_id: blueprint_v0_4_1_operator_attention_semantics_v0_1
+  implementation_commit: 7845ab850b334460a9120d827d2397f799339fc0
+  implementation_parent: 0a578d2f522cc039b3236a93ffbd9517fcc91699
+  implementation_subject: 'blueprint: implement Q6 operator attention semantics'
+  implementation_published: true
+  acceptance_basis: deterministic_phase_gate
+  exit_marker: Q6_ACCEPTED_PUBLISHED_CLOSED
+  evidence:
+    human_standard:
+      path: coordination/standards/governance/operator_attention_semantics_v0_1.md
+      sha256: 50d1e04e6166e1359f7ac1a80bdff2dcf481308027af61d878d30c1f3bbac6f5
+    machine_contract:
+      path: coordination/standards/governance/operator_attention_semantics_v0_1.yaml
+      sha256: b2d719fa4a41914e340e6e68a19b0b6ac005cd191cbf2aca1e32c9b89d43cbf3
+    validator:
+      path: scripts/validation/validate_q6_operator_attention_semantics.py
+      sha256: 08539b83728f5916ad9d449dc9d808384d015ffee069ddc8650f401ed37bc4cd
+    focused_test:
+      path: tests/validation/test_v0_4_1_q6_operator_attention_semantics.py
+      sha256: 3311769572baf9382eccef2afda4ee43cf4ec51b9f04d3852a6f193fc3f8408b
+deterministic_gates:
+  git_release_authority_revalidated: true
+  dependency_eligibility_revalidated: true
+  reviewed_subject_scope_and_evidence_exact: true
+  package_semantic_oracle_pass: true
+  focused_tests_pass: true
+  canonical_project_checks_pass: true
+  publication_remote_containment_satisfied: true
+  wip_one_preserved: true
+  no_unresolved_blocking_governance_exception: true
+  no_pending_manual_authority_decision: true
+  next_package_same_phase_and_eligible: true
+q7:
+  stable_id: blueprint_v0_4_1_cross_module_question_routing_contract_v0_1
+  state: ACTIVE_CURRENT
+  activation_basis: Q6_ACCEPTED_PUBLISHED_CLOSED + deterministic_phase_gate
+  manual_q6_accept_token_required: false
+  manual_q7_activate_token_required: false
+  next_review: Q7_IMPLEMENTATION_SCOPE_AND_ACCEPTANCE_CRITERIA_REVIEW
+boundaries:
+  q7_routing_runtime_implemented_by_this_transition: false
+  module_to_module_live_delivery_enabled: false
+  blueprint_to_module_live_delivery_enabled: false
+  module_to_blueprint_live_delivery_enabled: false
+  telegram_transport_authorized: false
+  module_business_automatic_accept_authorized: false
+  automatic_return_hold_authorized: false
+  automatic_next_prompt_release_authorized: false
+  business_prompt_release_authorized: false
+  cross_repository_writes_authorized: false
+  live_sqlite_runtime_enabled: false
+  daemon_enabled: false
+  systemd_enabled: false
+  autonomous_worker_enabled: false
+  q_to_h10_phase_boundary_crossed: false

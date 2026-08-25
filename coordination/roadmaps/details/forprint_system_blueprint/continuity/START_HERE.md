@@ -586,3 +586,38 @@ Resume from:
 
 `Q6_IMPLEMENTATION_SCOPE_AND_ACCEPTANCE_CRITERIA_REVIEW`
 <!-- q5-deterministic-closeout-q6-current-v0-1:end -->
+
+<!-- q6-deterministic-closeout-q7-current-v0-1:start -->
+## Q6 deterministic closeout / Q7 current — 2026-08-25
+
+Current release authority selects:
+
+`blueprint_v0_4_1_cross_module_question_routing_contract_v0_1`
+
+Q6 implementation:
+
+`7845ab850b334460a9120d827d2397f799339fc0`
+
+Q6 exit marker:
+
+`Q6_ACCEPTED_PUBLISHED_CLOSED`
+
+Acceptance basis:
+
+`deterministic_phase_gate`
+
+Durable transition record:
+
+`coordination/internal_work/blueprint/governance/2026-08-25__blueprint__q6_deterministic_closeout_q7_activation_v0_1.yaml`
+
+A new Q6 ACCEPT / Q7 ACTIVATE progress token was not required because Q6 and Q7 are both
+inside phase `Q`. Module/business ACCEPT/RETURN/HOLD authority is unchanged.
+
+Q7 activation defines the next semantic hardening scope only. It does not enable persistent
+question routing, cross-repository writes, Telegram, live SQLite, daemon/systemd or autonomous
+workers.
+
+Resume from:
+
+`Q7_IMPLEMENTATION_SCOPE_AND_ACCEPTANCE_CRITERIA_REVIEW`
+<!-- q6-deterministic-closeout-q7-current-v0-1:end -->

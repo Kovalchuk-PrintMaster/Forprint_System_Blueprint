@@ -1,7 +1,7 @@
 # ForPrint v0.4.1 — Remaining Coordination Hardening Plan v0.1
 
-Status: ACTIVE / Q6 CURRENT
-Current coordination-hardening slice: Q6 — `blueprint_v0_4_1_operator_attention_semantics_v0_1`.
+Status: ACTIVE / Q7 CURRENT
+Current coordination-hardening slice: Q7 — `blueprint_v0_4_1_cross_module_question_routing_contract_v0_1`.
 H9 Logistics reference rollout: ACCEPTED / PUBLISHED / CLOSED.
 B1 execution baseline and drift control: ACCEPTED / PUBLISHED / CLOSED.
 B2 persistence boundary: ACCEPTED / PUBLISHED / CLOSED.
@@ -10,10 +10,11 @@ Q2 bounded clarification/escalation: ACCEPTED / PUBLISHED / CLOSED via `determin
 Q3 execution blocker taxonomy: ACCEPTED / PUBLISHED / CLOSED via `deterministic_phase_gate`.
 Q4 immutable prompt adjustment/decision correlation: ACCEPTED / PUBLISHED / CLOSED via `deterministic_phase_gate`.
 Q5 common coordination event envelope: ACCEPTED / PUBLISHED / CLOSED via `deterministic_phase_gate`.
+Q6 operator attention semantics: ACCEPTED / PUBLISHED / CLOSED via `deterministic_phase_gate`.
 
 This document captures missing coordination semantics discovered during the Logistics
-pilot. H9, B1, B2, Q1, Q2, Q3, Q4 and Q5 are accepted, published and closed; Q6 is now the current
-Blueprint-owned hardening slice. Q7-Q8 remain planned and inactive until deterministic
+pilot. H9, B1, B2, Q1, Q2, Q3, Q4, Q5 and Q6 are accepted, published and closed; Q7 is now the current
+Blueprint-owned hardening slice. Q8 remains planned and inactive until deterministic
 same-phase progression or an explicit exception decision.
 
 ## Why this belongs to v0.4.1
@@ -550,6 +551,26 @@ manual_review_required, coordination_freshness_stale, dependency_blocked,
 repeated_verification_failure.
 
 Attention state is independent from transport.
+
+### Q6 deterministic closeout — 2026-08-25
+
+Q6 implementation commit `7845ab850b334460a9120d827d2397f799339fc0` passed its semantic validator, focused Q6 tests and
+canonical Blueprint checks, and was verified as published/remote-contained before closeout.
+
+Exit marker: `Q6_ACCEPTED_PUBLISHED_CLOSED`
+
+Acceptance basis: `deterministic_phase_gate`
+
+Operator attention now has canonical reasons, semantic lifecycle, Q5 event integration,
+transport-independent acknowledgement and evidence-backed resolution semantics.
+
+Attention acknowledgement remains distinct from resolution, transport receipt and
+ACCEPT/RETURN/HOLD authority.
+
+No Telegram transport, live SQLite, daemon/systemd, automatic ACCEPT/RETURN/HOLD, business prompt
+release, live cross-module routing or cross-repository write is implied.
+
+Q7 is the next same-phase dependency-eligible package and is now current.
 
 ## Q7 — blueprint_v0_4_1_cross_module_question_routing_contract_v0_1
 
