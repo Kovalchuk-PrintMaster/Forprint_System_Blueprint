@@ -1,7 +1,7 @@
 # ForPrint v0.4.1 — Remaining Coordination Hardening Plan v0.1
 
-Status: ACTIVE / Q8 CURRENT
-Current coordination-hardening slice: Q8 — `blueprint_v0_4_1_logistics_clarification_reference_validation_v0_1`.
+Status: ACTIVE / H10 CURRENT
+Current coordination-hardening slice: H10 — `blueprint_v0_4_1_ecosystem_rollout_balance_and_dependency_adoption_v0_1`.
 H9 Logistics reference rollout: ACCEPTED / PUBLISHED / CLOSED.
 B1 execution baseline and drift control: ACCEPTED / PUBLISHED / CLOSED.
 B2 persistence boundary: ACCEPTED / PUBLISHED / CLOSED.
@@ -12,11 +12,12 @@ Q4 immutable prompt adjustment/decision correlation: ACCEPTED / PUBLISHED / CLOS
 Q5 common coordination event envelope: ACCEPTED / PUBLISHED / CLOSED via `deterministic_phase_gate`.
 Q6 operator attention semantics: ACCEPTED / PUBLISHED / CLOSED via `deterministic_phase_gate`.
 Q7 cross-module question routing contract: ACCEPTED / PUBLISHED / CLOSED via `deterministic_phase_gate`.
+Q8 Logistics clarification reference validation: ACCEPTED / PUBLISHED / CLOSED via `deterministic_phase_gate`; Q -> H10 phase boundary explicitly approved by operator.
 
 This document captures missing coordination semantics discovered during the Logistics
-pilot. H9, B1, B2, Q1, Q2, Q3, Q4, Q5, Q6 and Q7 are accepted, published and closed; Q8 is now the current
-Blueprint-owned hardening slice. H10 remains planned/inactive and cannot be activated until Q8
-is accepted/published/closed and the explicit Q -> H10 manual phase-boundary confirmation is recorded.
+pilot. H9, B1, B2 and Q1-Q8 are accepted, published and closed. The operator explicitly approved
+the Q -> H10 phase boundary on 2026-08-25; H10 is now the current Blueprint-owned rollout slice.
+H11 remains planned/inactive and requires its own H10 -> H11 manual phase-boundary confirmation.
 
 ## Why this belongs to v0.4.1
 
@@ -642,6 +643,46 @@ intelligent development bot, full autonomous module-to-module runtime,
 AgentRunner, broad autonomy/risk classes.
 
 Those belong to the future autonomy initiative.
+
+## H10 current activation — 2026-08-25
+
+Current H10 stable ID:
+
+`blueprint_v0_4_1_ecosystem_rollout_balance_and_dependency_adoption_v0_1`
+
+Operator phase-boundary decision:
+
+`APPROVE_Q_TO_H10`
+
+Exact operator input:
+
+`Підтверджую перехід Q → H10.`
+
+Q8 implementation commit `a028f94ce20b273b459e6b7ecb853540d93f3657` was published/remote-contained and passed Q8 phase-completion
+revalidation before this transition.
+
+Q8 exit marker:
+
+`Q8_ACCEPTED_PUBLISHED_CLOSED`
+
+Q8 acceptance basis:
+
+`deterministic_phase_gate`
+
+H10 activation basis:
+
+- `Q8_ACCEPTED_PUBLISHED_CLOSED`;
+- explicit manual `Q -> H10` phase-boundary approval.
+
+The H10 stable ID is minted from the already canonical planned title "Ecosystem rollout, balance and
+dependency adoption"; this naming does not expand H10 scope beyond the existing objective to roll
+current coordination mechanics across eligible modules.
+
+H10 activation does not itself roll out any module, release any business prompt, authorize
+cross-repository writes, enable live SQLite/daemon/systemd/Telegram/autonomy, or create automatic
+module/business ACCEPT/RETURN/HOLD.
+
+The next manual phase boundary after H10 is `H10 -> H11`.
 
 ## H10 entry refinement
 

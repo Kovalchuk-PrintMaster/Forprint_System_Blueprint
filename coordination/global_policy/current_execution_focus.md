@@ -588,3 +588,47 @@ Next:
 
 `Q8_IMPLEMENTATION_SCOPE_AND_ACCEPTANCE_CRITERIA_REVIEW`
 <!-- q7-deterministic-closeout-q8-activation-v0-1:end -->
+
+<!-- q8-closeout-h10-manual-phase-boundary-activation-v0-1:start -->
+## Q8 closeout / H10 manual phase-boundary activation — 2026-08-25
+
+Operator explicitly approved:
+
+`Підтверджую перехід Q → H10.`
+
+Q8 implementation:
+
+`a028f94ce20b273b459e6b7ecb853540d93f3657`
+
+Q8 result:
+
+`Q8_ACCEPTED_PUBLISHED_CLOSED`
+
+Q8 acceptance basis:
+
+`deterministic_phase_gate`
+
+Current v0.4.1 slice:
+
+`blueprint_v0_4_1_ecosystem_rollout_balance_and_dependency_adoption_v0_1`
+
+Current functional package:
+
+`H10`
+
+H10 objective remains the existing canonical objective: roll current coordination mechanics across
+eligible modules. Activation is not rollout implementation.
+
+Before substantive H10 rollout, perform the H10 entry/scope review using the existing entry
+refinement: H9 accepted, B1-B2 complete, Q1-Q8 complete, current release reconciled, Logistics
+reference still passing, and no new legacy dependency.
+
+H11 remains planned/inactive and requires explicit manual `H10 -> H11` phase-boundary approval.
+
+Live SQLite, daemon/systemd, Telegram, autonomous workers, automatic module/business ACCEPT,
+automatic RETURN/HOLD, automatic business prompt release and cross-repository writes remain disabled.
+
+Next:
+
+`H10_ENTRY_AND_ECOSYSTEM_ROLLOUT_SCOPE_REVIEW`
+<!-- q8-closeout-h10-manual-phase-boundary-activation-v0-1:end -->

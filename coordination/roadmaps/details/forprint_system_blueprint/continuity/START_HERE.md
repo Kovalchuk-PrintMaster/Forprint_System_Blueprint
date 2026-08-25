@@ -658,3 +658,48 @@ Resume from:
 
 `Q8_IMPLEMENTATION_SCOPE_AND_ACCEPTANCE_CRITERIA_REVIEW`
 <!-- q7-deterministic-closeout-q8-current-v0-1:end -->
+
+<!-- q8-closeout-h10-current-v0-1:start -->
+## Q8 closeout / H10 current — 2026-08-25
+
+Explicit operator phase-boundary approval:
+
+`Підтверджую перехід Q → H10.`
+
+Current release authority now selects:
+
+`blueprint_v0_4_1_ecosystem_rollout_balance_and_dependency_adoption_v0_1`
+
+Q8 implementation:
+
+`a028f94ce20b273b459e6b7ecb853540d93f3657`
+
+Q8 exit marker:
+
+`Q8_ACCEPTED_PUBLISHED_CLOSED`
+
+Q8 acceptance basis:
+
+`deterministic_phase_gate`
+
+Boundary activation basis:
+
+`explicit_operator_q_to_h10_phase_boundary_approval`
+
+Durable transition record:
+
+`coordination/internal_work/blueprint/governance/2026-08-25__blueprint__q8_closeout_h10_manual_phase_boundary_activation_v0_1.yaml`
+
+H10 stable ID was minted from the existing canonical planned H10 title and does not expand H10
+scope.
+
+H10 activation does not itself mutate module repositories or enable SQLite runtime, daemon/systemd,
+Telegram, autonomous execution, automatic module/business ACCEPT/RETURN/HOLD or business prompt
+release.
+
+The next required manual progress boundary is `H10 -> H11`.
+
+Resume from:
+
+`H10_ENTRY_AND_ECOSYSTEM_ROLLOUT_SCOPE_REVIEW`
+<!-- q8-closeout-h10-current-v0-1:end -->

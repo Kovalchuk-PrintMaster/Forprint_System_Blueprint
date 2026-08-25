@@ -15,7 +15,7 @@ release:
     operator_decision: PROMOTE_V0_4
   hardening_release: v0.4.1
   hardening_state: ACTIVE_CURRENT
-  current_slice: blueprint_v0_4_1_logistics_clarification_reference_validation_v0_1
+  current_slice: blueprint_v0_4_1_ecosystem_rollout_balance_and_dependency_adoption_v0_1
 authority_model:
   effective_release_authority_source: coordination/releases/current.yaml
   artifact_publication_metadata: preserved as historical publication state and never used alone to infer
@@ -84,8 +84,6 @@ historical_non_authoritative_projections:
 - coordination/self_coordination/roadmap.yaml
 - coordination/self_coordination/prompt_queue/index.yaml
 planned_followups:
-- id: H10
-  title: Ecosystem rollout, balance and dependency adoption
 - id: H11
   title: Legacy compatibility retirement/archive audit
   entry_condition: H10 complete and all active assistants use current release tooling
@@ -98,7 +96,7 @@ planned_followups:
 # phase-boundary-progression-gate-policy-v0-1
 progression_gate_policy:
   standard_id: phase_boundary_progression_gate_policy_v0_1
-  current_phase: Q
+  current_phase: H10
   manual_progress_confirmation_scope: phase_boundary_only
   intra_phase_deterministic_progression_authorized: true
   intra_phase_operator_accept_confirmation_required: false

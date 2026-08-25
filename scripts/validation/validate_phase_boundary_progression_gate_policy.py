@@ -127,7 +127,8 @@ def validate() -> None:
         current_policy["standard_id"] == policy["metadata"]["standard_id"],
         "current policy id mismatch",
     )
-    require(current_policy["current_phase"] == "Q", "current phase must be Q")
+    current_phase = current_policy["current_phase"]
+    require(current_phase in policy["phase_model"], "current release phase not in phase model")
     require(
         current_policy["intra_phase_operator_accept_confirmation_required"] is False,
         "current release same-phase ACCEPT gate drift",
@@ -147,7 +148,10 @@ def validate() -> None:
         seq_policy["standard_id"] == policy["metadata"]["standard_id"],
         "sequence policy id mismatch",
     )
-    require(seq_policy["current_phase"] == "Q", "sequence current phase drift")
+    require(
+        seq_policy["current_phase"] == current_phase,
+        "sequence/current-release phase mismatch",
+    )
     require(
         seq_policy["intra_phase_operator_accept_confirmation_required"] is False,
         "sequence same-phase ACCEPT gate drift",
