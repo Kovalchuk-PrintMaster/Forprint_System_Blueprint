@@ -552,3 +552,37 @@ Resume from:
 
 `Q5_IMPLEMENTATION_SCOPE_AND_ACCEPTANCE_CRITERIA_REVIEW`
 <!-- q4-deterministic-closeout-q5-current-v0-1:end -->
+
+<!-- q5-deterministic-closeout-q6-current-v0-1:start -->
+## Q5 deterministic closeout / Q6 current — 2026-08-25
+
+Current release authority selects:
+
+`blueprint_v0_4_1_operator_attention_semantics_v0_1`
+
+Q5 implementation:
+
+`2309437b6a5e14b54f0a6de1c08e33f2bc5c553c`
+
+Q5 exit marker:
+
+`Q5_ACCEPTED_PUBLISHED_CLOSED`
+
+Acceptance basis:
+
+`deterministic_phase_gate`
+
+Durable transition record:
+
+`coordination/internal_work/blueprint/governance/2026-08-25__blueprint__q5_deterministic_closeout_q6_activation_v0_1.yaml`
+
+A new Q5 ACCEPT / Q6 ACTIVATE progress token was not required because Q5 and Q6 are both
+inside phase `Q`. Module/business ACCEPT/RETURN/HOLD authority is unchanged.
+
+Q6 activation defines the next semantic hardening scope only; it does not enable Telegram,
+live SQLite, daemon/systemd or autonomous workers.
+
+Resume from:
+
+`Q6_IMPLEMENTATION_SCOPE_AND_ACCEPTANCE_CRITERIA_REVIEW`
+<!-- q5-deterministic-closeout-q6-current-v0-1:end -->

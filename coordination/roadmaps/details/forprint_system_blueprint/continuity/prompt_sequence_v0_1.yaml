@@ -102,13 +102,16 @@ packages:
     objective: Define immutable released-prompt and operator-decision correlation.
     exit_marker: Q4_ACCEPTED_PUBLISHED_CLOSED
   - id: Q5
-    state: current_functional_work
+    state: completed
+    acceptance_basis: deterministic_phase_gate
+    implementation_commit: 2309437b6a5e14b54f0a6de1c08e33f2bc5c553c
     activation_basis: Q4_ACCEPTED_PUBLISHED_CLOSED
     depends_on: [Q4]
     objective: Define common coordination event envelope.
     exit_marker: Q5_ACCEPTED_PUBLISHED_CLOSED
   - id: Q6
-    state: planned
+    state: current_functional_work
+    activation_basis: Q5_ACCEPTED_PUBLISHED_CLOSED
     depends_on: [Q5]
     objective: Define operator-attention semantics and causes.
     exit_marker: Q6_ACCEPTED_PUBLISHED_CLOSED

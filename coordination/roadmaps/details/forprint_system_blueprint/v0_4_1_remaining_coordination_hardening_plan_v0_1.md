@@ -1,7 +1,7 @@
 # ForPrint v0.4.1 — Remaining Coordination Hardening Plan v0.1
 
-Status: ACTIVE / Q5 CURRENT
-Current coordination-hardening slice: Q5 — `blueprint_v0_4_1_common_coordination_event_envelope_v0_1`.
+Status: ACTIVE / Q6 CURRENT
+Current coordination-hardening slice: Q6 — `blueprint_v0_4_1_operator_attention_semantics_v0_1`.
 H9 Logistics reference rollout: ACCEPTED / PUBLISHED / CLOSED.
 B1 execution baseline and drift control: ACCEPTED / PUBLISHED / CLOSED.
 B2 persistence boundary: ACCEPTED / PUBLISHED / CLOSED.
@@ -9,10 +9,11 @@ Q1 clarification lifecycle: ACCEPTED / PUBLISHED / CLOSED.
 Q2 bounded clarification/escalation: ACCEPTED / PUBLISHED / CLOSED via `deterministic_phase_gate`.
 Q3 execution blocker taxonomy: ACCEPTED / PUBLISHED / CLOSED via `deterministic_phase_gate`.
 Q4 immutable prompt adjustment/decision correlation: ACCEPTED / PUBLISHED / CLOSED via `deterministic_phase_gate`.
+Q5 common coordination event envelope: ACCEPTED / PUBLISHED / CLOSED via `deterministic_phase_gate`.
 
 This document captures missing coordination semantics discovered during the Logistics
-pilot. H9, B1, B2, Q1, Q2, Q3 and Q4 are accepted, published and closed; Q5 is now the current
-Blueprint-owned hardening slice. Q6-Q8 remain planned and inactive until deterministic
+pilot. H9, B1, B2, Q1, Q2, Q3, Q4 and Q5 are accepted, published and closed; Q6 is now the current
+Blueprint-owned hardening slice. Q7-Q8 remain planned and inactive until deterministic
 same-phase progression or an explicit exception decision.
 
 ## Why this belongs to v0.4.1
@@ -520,6 +521,24 @@ Events are immutable observations; state is projected from events.
 Initial families:
 claim/status, clarification, answer/resolution, execution blocker,
 unable-to-execute, operator attention, operator decision, completion publication.
+
+### Q5 deterministic closeout — 2026-08-25
+
+Q5 implementation commit `2309437b6a5e14b54f0a6de1c08e33f2bc5c553c` passed its semantic validator, focused Q5 tests and
+canonical Blueprint checks, and was verified as published/remote-contained before closeout.
+
+Exit marker: `Q5_ACCEPTED_PUBLISHED_CLOSED`
+
+Acceptance basis: `deterministic_phase_gate`
+
+The common coordination event envelope is now contractually fixed: immutable observations,
+derived state projections, required correlation, nullable immediate-cause semantics and fail-closed
+idempotency conflicts.
+
+No live SQLite/event store, projection engine, operator-attention transport, automatic
+ACCEPT/RETURN/HOLD, business prompt release or cross-repository write is implied.
+
+Q6 is the next same-phase dependency-eligible package and is now current.
 
 ## Q6 — blueprint_v0_4_1_operator_attention_semantics_v0_1
 

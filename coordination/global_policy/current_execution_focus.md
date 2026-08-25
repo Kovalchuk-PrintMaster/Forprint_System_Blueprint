@@ -461,3 +461,44 @@ Next:
 
 `Q5_IMPLEMENTATION_SCOPE_AND_ACCEPTANCE_CRITERIA_REVIEW`
 <!-- q4-deterministic-closeout-q5-activation-v0-1:end -->
+
+<!-- q5-deterministic-closeout-q6-activation-v0-1:start -->
+## Q5 deterministic closeout / Q6 activation — 2026-08-25
+
+Q5 implementation commit:
+
+`2309437b6a5e14b54f0a6de1c08e33f2bc5c553c`
+
+Q5 result:
+
+`Q5_ACCEPTED_PUBLISHED_CLOSED`
+
+Acceptance basis:
+
+`deterministic_phase_gate`
+
+Current v0.4.1 slice:
+
+`blueprint_v0_4_1_operator_attention_semantics_v0_1`
+
+Current functional package:
+
+`Q6`
+
+Q6 scope is operator-attention semantics and causes. The hardening plan currently names attention
+reasons including clarification escalation, access required, execution blocked, unable to execute,
+no dispatchable work, operator execution/acceptance required, manual review, stale coordination,
+dependency blocked and repeated verification failure.
+
+Attention state must remain independent from transport. Q6 does not enable Telegram delivery,
+daemon/systemd or live SQLite merely by defining semantic attention state.
+
+Q7-Q8 remain planned/inactive.
+
+Automatic module/business ACCEPT, automatic RETURN/HOLD, automatic next-prompt release,
+business prompt release and cross-repository writes remain disabled.
+
+Next:
+
+`Q6_IMPLEMENTATION_SCOPE_AND_ACCEPTANCE_CRITERIA_REVIEW`
+<!-- q5-deterministic-closeout-q6-activation-v0-1:end -->
