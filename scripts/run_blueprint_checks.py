@@ -479,6 +479,13 @@ def build_checks() -> list[CheckDefinition]:
             group="documentation",
         ),
         CheckDefinition(
+            check_id="q6_operator_attention_semantics_validation",
+            title="Q6 operator attention semantics",
+            expected_result=("Operator-attention reasons, lifecycle and transport-independent semantics are valid"),
+            command=(python, "scripts/validation/validate_q6_operator_attention_semantics.py"),
+            group="documentation",
+        ),
+        CheckDefinition(
             check_id="phase_boundary_progression_gate_validation",
             title="Phase-boundary progression gate",
             expected_result=(

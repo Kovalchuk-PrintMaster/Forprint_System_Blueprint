@@ -1,0 +1,178 @@
+schema_version: operator_attention_semantics_contract_v0_1
+metadata:
+  standard_id: operator_attention_semantics_v0_1
+  owner: forprint_system_blueprint
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+  hardening_slice: Q6
+  stable_id: blueprint_v0_4_1_operator_attention_semantics_v0_1
+purpose: Define operator-attention reasons/lifecycle independently from transport and governance authority.
+inherits:
+  q1_contract_path: coordination/standards/governance/clarification_question_lifecycle_v0_1.yaml
+  q1_contract_sha256: b6ac925638194422ace541943418cd822c33c28e5dc7aace8a3660fd167f75f5
+  q2_contract_path: coordination/standards/governance/bounded_clarification_and_escalation_v0_1.yaml
+  q2_contract_sha256: 0e1b2c98e8c7d42291e7c4120ff7d2c1c214300083757731fc90ebe134a17c7d
+  q3_contract_path: coordination/standards/governance/execution_blocker_taxonomy_v0_1.yaml
+  q3_contract_sha256: c85ec5eb4243fac09502f7c18b893a3cc5a8cb294e71e65a1a6822c50899ea8e
+  q4_contract_path: coordination/standards/governance/immutable_prompt_adjustment_and_decision_v0_1.yaml
+  q4_contract_sha256: 83559969e5671f3342a5ac115ebd4a52cb57f3a5e7be32c94232be7fad2b2aca
+  q5_contract_path: coordination/standards/governance/common_coordination_event_envelope_v0_1.yaml
+  q5_contract_sha256: a6c8f574b36d7b8d9334de61500c395d60352dce4800970f695c2777a665ebd0
+attention_reasons:
+  canonical_reasons:
+  - clarification_escalated
+  - access_required
+  - execution_blocked
+  - unable_to_execute
+  - no_dispatchable_work
+  - operator_execution_required
+  - operator_acceptance_required
+  - manual_review_required
+  - coordination_freshness_stale
+  - dependency_blocked
+  - repeated_verification_failure
+  canonical_reason_count: 11
+  unknown_reason_allowed: false
+  new_reason_requires_versioned_review: true
+  definitions:
+    clarification_escalated: Bounded Q1/Q2 clarification requires operator resolution.
+    access_required: Authorized access or permission must be supplied through an operator-controlled boundary.
+    execution_blocked: Q3 execution blocker requires operator visibility or action.
+    unable_to_execute: Q3 unable-to-execute evidence requires operator review/action.
+    no_dispatchable_work: No work is currently dispatchable under dependency, WIP, policy and release constraints.
+    operator_execution_required: A required action is reserved for manual/operator execution.
+    operator_acceptance_required: A governed manual ACCEPT/RETURN/HOLD or equivalent decision is required.
+    manual_review_required: Qualitative review is required because deterministic evidence is insufficient.
+    coordination_freshness_stale: Coordination observations are too stale to continue without revalidation.
+    dependency_blocked: A required dependency cannot currently supply the needed capability/contract/fact/state.
+    repeated_verification_failure: Repeated verification failure makes additional blind retry unsafe or wasteful.
+attention_lifecycle:
+  states:
+  - OPEN
+  - ACKNOWLEDGED
+  - RESOLVED
+  - CANCELLED
+  allowed_transitions:
+  - OPEN->ACKNOWLEDGED
+  - OPEN->RESOLVED
+  - OPEN->CANCELLED
+  - ACKNOWLEDGED->RESOLVED
+  - ACKNOWLEDGED->CANCELLED
+  acknowledged_is_resolution: false
+  acknowledged_is_prompt_acceptance: false
+  acknowledged_is_transport_receipt: false
+  resolved_requires_evidence: true
+  cancelled_means_underlying_issue_resolved: false
+q5_event_integration:
+  family: operator_attention
+  canonical_actions:
+  - opened
+  - acknowledged
+  - refreshed
+  - resolved
+  - cancelled
+  adds_fields_to_q5_envelope: false
+  required_payload_fields:
+  - attention_id
+  - reason
+  - attention_state
+  - subject_refs
+  - attention_owner
+  - requested_action
+  - resolution_criteria
+  optional_payload_fields:
+  - related_question_id
+  - related_blocker_id
+  - related_decision_id
+  - related_report_id
+  - dependency_refs
+  - supersedes_attention_id
+  subject_refs_min_items: 1
+  attention_id_stable_per_thread: true
+  reason_change_requires_new_attention_id: true
+  published_events_immutable: true
+severity_semantics:
+  values:
+  - notice
+  - action_required
+  - urgent
+  - critical
+  severity_grants_authority: false
+  severity_implies_return_hold_accept: false
+  critical_inferred_from_reason_alone: false
+  critical_requires_explicit_evidence: true
+blocking_semantics:
+  attention_itself_creates_blocking: false
+  q5_blocking_reflects_underlying_contract: true
+  blocking_true_implies_whole_prompt_block: false
+  blocking_true_implies_return_hold_accept: false
+  acknowledgement_clears_blocking: false
+transport_independence:
+  attention_state_independent_from_transport: true
+  telegram_transport_defined_by_q6: false
+  delivery_receipt_is_semantic_ack: false
+  read_receipt_is_semantic_ack: false
+  api_success_is_semantic_ack: false
+  transport_retry_changes_attention_state: false
+resolution_semantics:
+  resolution_requires_same_attention_id: true
+  resolution_requires_q5_evidence_refs: true
+  resolution_requires_declared_criteria_satisfied: true
+  q1_q2_truth_may_be_fabricated_by_q6: false
+  q3_truth_may_be_fabricated_by_q6: false
+  q4_truth_may_be_fabricated_by_q6: false
+  refresh_rewrites_prior_event: false
+  refresh_may_change_reason: false
+reason_constraints:
+  clarification_escalated:
+    related_question_id_required: true
+  access_required:
+    secret_values_allowed: false
+  execution_blocked:
+    related_blocker_id_required: true
+  unable_to_execute:
+    related_report_id_required: true
+  no_dispatchable_work:
+    implies_project_complete: false
+  operator_execution_required:
+    attention_performs_manual_action: false
+  operator_acceptance_required:
+    attention_is_acceptance: false
+  manual_review_required:
+    attention_is_review_result: false
+  coordination_freshness_stale:
+    implies_incompatibility: false
+  dependency_blocked:
+    authorizes_dependency_override: false
+  repeated_verification_failure:
+    authorizes_unbounded_retry: false
+deferred_boundaries:
+  Q7_cross_module_routing_mechanics: true
+  Q8_logistics_reference_validation: true
+current_capabilities:
+  live_sqlite_runtime: false
+  attention_events_runtime_table_created_by_q6: false
+  notification_delivery_runtime: false
+  daemon: false
+  systemd: false
+  telegram_transport: false
+  autonomous_execution: false
+  automatic_module_business_acceptance: false
+  automatic_return_hold: false
+  automatic_next_prompt_release: false
+  dependency_override: false
+  cross_repository_writes: false
+  business_prompt_release: false
+acceptance:
+  attention_reason_set_exact: true
+  attention_lifecycle_defined: true
+  acknowledgement_separated_from_resolution: true
+  acknowledgement_separated_from_transport: true
+  q5_event_integration_defined: true
+  severity_semantics_defined: true
+  governance_authority_not_inferred: true
+  blocking_ownership_preserved: true
+  resolution_requires_evidence: true
+  q1_q5_histories_preserved: true
+  q7_q8_deferred: true
+  runtime_transport_disabled: true
