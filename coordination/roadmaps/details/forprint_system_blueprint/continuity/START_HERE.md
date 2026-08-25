@@ -457,3 +457,34 @@ They govern the portfolio operating model that is being prepared around/after th
 Existing non-Blueprint roadmaps must not be treated as sufficient post-Q automated execution-selection authority
 until their rebuild state is resolved.
 <!-- portfolio-automation-foundation-start-here-v0-1:end -->
+
+<!-- q2-deterministic-closeout-q3-current-v0-1:start -->
+## Q2 deterministic closeout / Q3 current — 2026-08-25
+
+Current release authority selects:
+
+`blueprint_v0_4_1_execution_blocker_taxonomy_v0_1`
+
+Q2 implementation:
+
+`ba5c83eab07a44cd65b72680d099f3a18d26f9b6`
+
+Q2 exit marker:
+
+`Q2_ACCEPTED_PUBLISHED_CLOSED`
+
+Acceptance basis:
+
+`deterministic_phase_gate`
+
+Durable transition record:
+
+`coordination/internal_work/blueprint/governance/2026-08-25__blueprint__q2_deterministic_closeout_q3_activation_v0_1.yaml`
+
+A new Q2 ACCEPT / Q3 ACTIVATE progress token was not required because Q2 and Q3 are both
+inside phase `Q`. This does not change module/business ACCEPT/RETURN/HOLD authority.
+
+Resume from:
+
+`Q3_IMPLEMENTATION_SCOPE_AND_ACCEPTANCE_CRITERIA_REVIEW`
+<!-- q2-deterministic-closeout-q3-current-v0-1:end -->

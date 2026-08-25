@@ -8,8 +8,7 @@ Current authority remains `coordination/releases/current.yaml`. The historical
 `coordination/self_coordination/roadmap.yaml` remains non-authoritative unless a later
 explicit reconciliation promotes a replacement.
 
-Current work remains H9 Logistics reference rollout. H8 is sealed locally at
-`73882db139595dc83a6ce402ebbadd46d0a72ac2`.
+Current hardening work is Q3 — `blueprint_v0_4_1_execution_blocker_taxonomy_v0_1`. H9, B1, B2, Q1 and Q2 are accepted/published/closed; effective authority remains `coordination/releases/current.yaml`.
 
 These files do not release prompts, activate work, authorize automatic execution,
 authorize automatic ACCEPT, or mutate module repositories.

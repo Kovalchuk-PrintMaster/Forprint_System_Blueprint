@@ -79,12 +79,15 @@ packages:
     objective: Define clarification question lifecycle.
     exit_marker: Q1_ACCEPTED_PUBLISHED_CLOSED
   - id: Q2
-    state: current_functional_work
+    state: completed
+    acceptance_basis: deterministic_phase_gate
+    implementation_commit: ba5c83eab07a44cd65b72680d099f3a18d26f9b6
     depends_on: [Q1]
     objective: Define bounded five-round clarification and deterministic escalation.
     exit_marker: Q2_ACCEPTED_PUBLISHED_CLOSED
   - id: Q3
-    state: planned
+    state: current_functional_work
+    activation_basis: Q2_ACCEPTED_PUBLISHED_CLOSED
     depends_on: [Q2]
     objective: Define blocker taxonomy and prompt blocking semantics.
     exit_marker: Q3_ACCEPTED_PUBLISHED_CLOSED

@@ -344,3 +344,44 @@ Resume target remains:
 
 `Q2_IMPLEMENTATION_SCOPE_AND_ACCEPTANCE_CRITERIA_REVIEW`
 <!-- portfolio-automation-foundation-current-focus-v0-1:end -->
+
+<!-- q2-deterministic-closeout-q3-activation-v0-1:start -->
+## Q2 deterministic closeout / Q3 activation — 2026-08-25
+
+The temporary portfolio-foundation pause is finished for the Q-track.
+
+Q2 implementation commit:
+
+`ba5c83eab07a44cd65b72680d099f3a18d26f9b6`
+
+Q2 result:
+
+`Q2_ACCEPTED_PUBLISHED_CLOSED`
+
+Acceptance basis:
+
+`deterministic_phase_gate`
+
+Current v0.4.1 slice:
+
+`blueprint_v0_4_1_execution_blocker_taxonomy_v0_1`
+
+Current functional package:
+
+`Q3`
+
+Q3 scope is blocker taxonomy and prompt blocking semantics. It must keep
+`clarification_required`, `execution_blocked`, `unable_to_execute`, `RETURN` and `HOLD`
+semantically distinct. `unable_to_execute` is module evidence for governance review, not an
+automatic Blueprint RETURN.
+
+Q4-Q8 remain planned/inactive.
+
+Live SQLite runtime, daemon/systemd, Telegram transport, autonomous worker execution,
+automatic module/business ACCEPT, automatic RETURN/HOLD, business prompt release and
+cross-repository writes remain disabled.
+
+Next:
+
+`Q3_IMPLEMENTATION_SCOPE_AND_ACCEPTANCE_CRITERIA_REVIEW`
+<!-- q2-deterministic-closeout-q3-activation-v0-1:end -->

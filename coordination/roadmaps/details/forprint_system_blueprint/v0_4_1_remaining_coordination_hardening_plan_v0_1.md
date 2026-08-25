@@ -1,16 +1,17 @@
 # ForPrint v0.4.1 — Remaining Coordination Hardening Plan v0.1
 
-Status: ACTIVE / Q2 CURRENT
-Current coordination-hardening slice: Q2 — `blueprint_v0_4_1_bounded_clarification_and_escalation_v0_1`.
+Status: ACTIVE / Q3 CURRENT
+Current coordination-hardening slice: Q3 — `blueprint_v0_4_1_execution_blocker_taxonomy_v0_1`.
 H9 Logistics reference rollout: ACCEPTED / PUBLISHED / CLOSED.
 B1 execution baseline and drift control: ACCEPTED / PUBLISHED / CLOSED.
 B2 persistence boundary: ACCEPTED / PUBLISHED / CLOSED.
 Q1 clarification lifecycle: ACCEPTED / PUBLISHED / CLOSED.
+Q2 bounded clarification/escalation: ACCEPTED / PUBLISHED / CLOSED via `deterministic_phase_gate`.
 
 This document captures missing coordination semantics discovered during the Logistics
-pilot. H9, B1, B2 and Q1 are accepted, published and closed; Q2 is now the current
-Blueprint-owned hardening slice. Q3-Q8 remain planned and inactive until separately
-promoted.
+pilot. H9, B1, B2, Q1 and Q2 are accepted, published and closed; Q3 is now the current
+Blueprint-owned hardening slice. Q4-Q8 remain planned and inactive until deterministic
+same-phase progression or an explicit exception decision.
 
 ## Why this belongs to v0.4.1
 
@@ -412,6 +413,20 @@ After round five:
 - blocking prompt state becomes visibly waiting/blocked;
 - escalation packet contains original question, all rounds, evidence, unresolved fact,
   impact, safe options and recommended next action.
+
+### Q2 deterministic closeout — 2026-08-25
+
+Q2 implementation commit `ba5c83eab07a44cd65b72680d099f3a18d26f9b6` passed its semantic validator, focused Q2 tests and
+canonical Blueprint checks, and was verified as published/remote-contained before closeout.
+
+Exit marker: `Q2_ACCEPTED_PUBLISHED_CLOSED`
+
+Acceptance basis: `deterministic_phase_gate`
+
+No module/business prompt ACCEPT, RETURN/HOLD, runtime activation, business prompt release or
+cross-repository write is implied.
+
+Q3 is the next same-phase dependency-eligible package and is now current.
 
 ## Q3 — blueprint_v0_4_1_execution_blocker_taxonomy_v0_1
 
