@@ -1,0 +1,154 @@
+schema_version: immutable_prompt_adjustment_and_decision_contract_v0_1
+metadata:
+  standard_id: immutable_prompt_adjustment_and_decision_v0_1
+  owner: forprint_system_blueprint
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+  hardening_slice: Q4
+  stable_id: blueprint_v0_4_1_immutable_prompt_adjustment_and_decision_v0_1
+purpose: Preserve released-prompt immutability while representing post-release decisions and adjustments as separate correlated
+  evidence.
+inherits:
+  q1_contract_path: coordination/standards/governance/clarification_question_lifecycle_v0_1.yaml
+  q1_contract_sha256: b6ac925638194422ace541943418cd822c33c28e5dc7aace8a3660fd167f75f5
+  q2_contract_path: coordination/standards/governance/bounded_clarification_and_escalation_v0_1.yaml
+  q2_contract_sha256: 0e1b2c98e8c7d42291e7c4120ff7d2c1c214300083757731fc90ebe134a17c7d
+  q3_contract_path: coordination/standards/governance/execution_blocker_taxonomy_v0_1.yaml
+  q3_contract_sha256: c85ec5eb4243fac09502f7c18b893a3cc5a8cb294e71e65a1a6822c50899ea8e
+released_prompt_immutability:
+  released_prompt_is_immutable_execution_contract: true
+  edit_released_requirements_allowed: false
+  delete_released_requirements_allowed: false
+  silent_rewrite_allowed: false
+  post_release_change_requires_correlated_artifact: true
+  unexecuted_requirement_may_disappear: false
+  original_prompt_bytes_remain_reconstructible: true
+artifact_model:
+  canonical_artifact_types:
+  - operator_decision
+  - scope_adjustment
+  - waiver
+  - skip_optional
+  - clarification_resolution
+  - blocker_resolution
+  - cancellation
+  - follow_up_prompt
+  - superseding_prompt
+  required_fields:
+  - decision_id
+  - artifact_type
+  - prompt_id
+  - module_id
+  - roadmap_step_id
+  - correlation_id
+  - target_refs
+  - actor
+  - reason_code
+  - explanation
+  - execution_effect
+  - acceptance_effect
+  - evidence_refs
+  - decided_at
+  optional_fields:
+  - execution_id
+  - related_question_id
+  - related_blocker_id
+  - related_event_id
+  - supersedes_decision_id
+  target_refs_min_items: 1
+  evidence_refs_required: true
+  whole_prompt_effect_requires_explicit_whole_prompt_target: true
+  published_artifacts_append_only: true
+  correction_rewrites_prior_artifact: false
+  correction_uses_superseding_artifact: true
+  secret_values_allowed: false
+  secret_references_allowed: true
+execution_effects:
+  values:
+  - no_execution_change
+  - clarify_only
+  - apply_scope_adjustment
+  - skip_optional
+  - resume_affected_scope
+  - cancel_affected_scope
+  - cancel_prompt
+  - require_follow_up_prompt
+  - supersede_prompt
+  effect_is_authority_grant: false
+acceptance_effects:
+  values:
+  - no_acceptance_change
+  - acceptance_scope_adjusted
+  - waived_requirement
+  - optional_item_excluded
+  - completion_requires_follow_up
+  - prompt_cancelled
+  - prompt_superseded
+  effect_is_automatic_prompt_acceptance: false
+authority_boundary:
+  manual_authority_required_artifact_types:
+  - operator_decision
+  - scope_adjustment
+  - waiver
+  - skip_optional
+  - cancellation
+  - superseding_prompt
+  scope_adjustment_manual: true
+  waiver_manual: true
+  waiver_inferred_from_omission: false
+  waiver_inferred_from_unable_to_execute: false
+  clarification_resolution_may_bypass_manual_scope_change: false
+  blocker_resolution_may_bypass_manual_scope_change: false
+  follow_up_prompt_auto_release: false
+artifact_semantics:
+  skip_optional_required_target_allowed: false
+  clarification_resolution_rewrites_q1_q2_history: false
+  material_clarification_change_requires_additional_adjustment_artifact: true
+  blocker_resolution_rewrites_q3_history: false
+  superseded_prompt_history_deleted: false
+  cancellation_deletes_cancelled_requirements: false
+correlation:
+  correlation_id_required: true
+  typed_optional_refs:
+  - related_question_id
+  - related_blocker_id
+  - related_event_id
+  - supersedes_decision_id
+  q5_causation_id_defined_by_q4: false
+  event_envelope_defined_by_q4: false
+completion_reporting:
+  required_section: Execution deviations / operator decisions
+  section_omission_allowed: false
+  explicit_none_allowed: true
+  decision_ids_required_when_present: true
+  target_refs_required_when_present: true
+deferred_boundaries:
+  Q5_common_event_envelope: true
+  Q6_operator_attention_semantics: true
+  Q7_cross_module_routing_mechanics: true
+  Q8_logistics_reference_validation: true
+current_capabilities:
+  live_sqlite_runtime: false
+  database_file_created_by_q4: false
+  daemon: false
+  systemd: false
+  telegram_transport: false
+  autonomous_execution: false
+  automatic_module_business_acceptance: false
+  automatic_return_hold: false
+  automatic_follow_up_prompt_release: false
+  cross_repository_writes: false
+  business_prompt_release: false
+acceptance:
+  released_prompt_immutable: true
+  artifact_vocabulary_exact: true
+  requirements_preserved_until_explicit_disposition: true
+  decision_identity_and_correlation_complete: true
+  append_only_correction_model: true
+  manual_authority_preserved: true
+  resolution_cannot_silently_change_scope: true
+  effect_vocabularies_bounded: true
+  completion_deviations_visible: true
+  automatic_accept_return_hold_disabled: true
+  q5_q8_deferred: true
+  runtime_disabled: true

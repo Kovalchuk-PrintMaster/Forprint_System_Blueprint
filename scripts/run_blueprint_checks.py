@@ -453,6 +453,19 @@ def build_checks() -> list[CheckDefinition]:
             group="documentation",
         ),
         CheckDefinition(
+            check_id="q4_immutable_prompt_adjustment_and_decision_validation",
+            title="Q4 immutable prompt decisions",
+            expected_result=(
+                "Released prompts stay immutable while correlated decisions/adjustments "
+                "preserve explicit execution and acceptance effects"
+            ),
+            command=(
+                python,
+                "scripts/validation/validate_q4_immutable_prompt_adjustment_and_decision.py",
+            ),
+            group="documentation",
+        ),
+        CheckDefinition(
             check_id="phase_boundary_progression_gate_validation",
             title="Phase-boundary progression gate",
             expected_result=(
