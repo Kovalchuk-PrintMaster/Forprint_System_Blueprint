@@ -621,3 +621,40 @@ Resume from:
 
 `Q7_IMPLEMENTATION_SCOPE_AND_ACCEPTANCE_CRITERIA_REVIEW`
 <!-- q6-deterministic-closeout-q7-current-v0-1:end -->
+
+<!-- q7-deterministic-closeout-q8-current-v0-1:start -->
+## Q7 deterministic closeout / Q8 current — 2026-08-25
+
+Current release authority selects:
+
+`blueprint_v0_4_1_logistics_clarification_reference_validation_v0_1`
+
+Q7 implementation:
+
+`501d53352cdf5f4ea755de335aefc6b077c6ff02`
+
+Q7 exit marker:
+
+`Q7_ACCEPTED_PUBLISHED_CLOSED`
+
+Acceptance basis:
+
+`deterministic_phase_gate`
+
+Durable transition record:
+
+`coordination/internal_work/blueprint/governance/2026-08-25__blueprint__q7_deterministic_closeout_q8_activation_v0_1.yaml`
+
+A new Q7 ACCEPT / Q8 ACTIVATE progress token was not required because Q7 and Q8 are both
+inside phase `Q`. Module/business ACCEPT/RETURN/HOLD authority is unchanged.
+
+Q8 is the final Q-phase package. After Q8 acceptance/publication/closure, transition to H10 requires
+explicit manual Q -> H10 phase-boundary progress confirmation; silence is not approval.
+
+Q8 activation does not enable persistent routing, cross-repository writes, Telegram, live SQLite,
+daemon/systemd or autonomous workers.
+
+Resume from:
+
+`Q8_IMPLEMENTATION_SCOPE_AND_ACCEPTANCE_CRITERIA_REVIEW`
+<!-- q7-deterministic-closeout-q8-current-v0-1:end -->

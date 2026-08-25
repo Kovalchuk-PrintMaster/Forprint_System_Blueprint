@@ -1,0 +1,66 @@
+schema_version: blueprint_q7_deterministic_closeout_q8_activation_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  owner: forprint_system_blueprint
+  created_at: '2026-08-25T17:48:00+03:00'
+  status: DETERMINISTIC_PHASE_GATE_TRANSITION
+record_id: blueprint_q7_deterministic_closeout_q8_activation_2026_08_25_v0_1
+phase: Q
+q7:
+  stable_id: blueprint_v0_4_1_cross_module_question_routing_contract_v0_1
+  implementation_commit: 501d53352cdf5f4ea755de335aefc6b077c6ff02
+  implementation_parent: 1497b964b73461abdda07ff210137c8c1b09c977
+  implementation_subject: 'blueprint: implement Q7 cross-module question routing'
+  implementation_published: true
+  acceptance_basis: deterministic_phase_gate
+  exit_marker: Q7_ACCEPTED_PUBLISHED_CLOSED
+  evidence:
+    human_standard:
+      path: coordination/standards/governance/cross_module_question_routing_contract_v0_1.md
+      sha256: 67a61024e806455174f0321481faf2e41258335cc721388bb10736cf3d2bbe44
+    machine_contract:
+      path: coordination/standards/governance/cross_module_question_routing_contract_v0_1.yaml
+      sha256: 2e6565703243c259e96f23321e84192010d97cc5401ba3b2189ce55063d247db
+    validator:
+      path: scripts/validation/validate_q7_cross_module_question_routing_contract.py
+      sha256: 25f524f00cc403328e6112ae02a9dc0c0242a286687aec1a01f28fc8c8b9e125
+    focused_test:
+      path: tests/validation/test_v0_4_1_q7_cross_module_question_routing_contract.py
+      sha256: 2423e4b59e83c0348bddc68dead32f6dcaeddf85bf534ef5dabeac26bb150b12
+deterministic_gates:
+  git_release_authority_revalidated: true
+  dependency_eligibility_revalidated: true
+  reviewed_subject_scope_and_evidence_exact: true
+  package_semantic_oracle_pass: true
+  focused_tests_pass: true
+  canonical_project_checks_pass: true
+  publication_remote_containment_satisfied: true
+  wip_one_preserved: true
+  no_unresolved_blocking_governance_exception: true
+  no_pending_manual_authority_decision: true
+  next_package_same_phase_and_eligible: true
+q8:
+  stable_id: blueprint_v0_4_1_logistics_clarification_reference_validation_v0_1
+  state: ACTIVE_CURRENT
+  activation_basis: Q7_ACCEPTED_PUBLISHED_CLOSED + deterministic_phase_gate
+  manual_q7_accept_token_required: false
+  manual_q8_activate_token_required: false
+  next_review: Q8_IMPLEMENTATION_SCOPE_AND_ACCEPTANCE_CRITERIA_REVIEW
+next_phase_boundary:
+  boundary: Q->H10
+  manual_progress_confirmation_required: true
+  silence_counts_as_boundary_approval: false
+  crossed_by_this_transition: false
+boundaries:
+  q8_logistics_reference_validation_implemented_by_this_transition: false
+  h10_activated_by_this_transition: false
+  module_business_automatic_accept_authorized: false
+  automatic_return_hold_authorized: false
+  automatic_next_prompt_release_authorized: false
+  business_prompt_release_authorized: false
+  cross_repository_writes_authorized: false
+  live_sqlite_runtime_enabled: false
+  daemon_enabled: false
+  systemd_enabled: false
+  telegram_transport_enabled: false
+  autonomous_worker_enabled: false

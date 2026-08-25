@@ -8,7 +8,7 @@ Current authority remains `coordination/releases/current.yaml`. The historical
 `coordination/self_coordination/roadmap.yaml` remains non-authoritative unless a later
 explicit reconciliation promotes a replacement.
 
-Current hardening work is Q7 — `blueprint_v0_4_1_cross_module_question_routing_contract_v0_1`. H9, B1, B2, Q1, Q2, Q3, Q4, Q5 and Q6 are accepted/published/closed; effective authority remains `coordination/releases/current.yaml`.
+Current hardening work is Q8 — `blueprint_v0_4_1_logistics_clarification_reference_validation_v0_1`. H9, B1, B2, Q1, Q2, Q3, Q4, Q5, Q6 and Q7 are accepted/published/closed; effective authority remains `coordination/releases/current.yaml`. Q8 -> H10 remains a manual phase boundary.
 
 These files do not release prompts, activate work, authorize automatic execution,
 authorize automatic ACCEPT, or mutate module repositories.

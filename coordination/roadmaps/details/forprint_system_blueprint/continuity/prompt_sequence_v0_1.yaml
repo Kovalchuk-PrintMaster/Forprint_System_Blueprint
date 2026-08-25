@@ -118,13 +118,16 @@ packages:
     objective: Define operator-attention semantics and causes.
     exit_marker: Q6_ACCEPTED_PUBLISHED_CLOSED
   - id: Q7
-    state: current_functional_work
+    state: completed
+    acceptance_basis: deterministic_phase_gate
+    implementation_commit: 501d53352cdf5f4ea755de335aefc6b077c6ff02
     activation_basis: Q6_ACCEPTED_PUBLISHED_CLOSED
     depends_on: [Q6]
     objective: Define cross-module question-routing contract without cross-repo writes.
     exit_marker: Q7_ACCEPTED_PUBLISHED_CLOSED
   - id: Q8
-    state: planned
+    state: current_functional_work
+    activation_basis: Q7_ACCEPTED_PUBLISHED_CLOSED
     depends_on: [Q7]
     objective: Validate clarification/blocker/attention semantics against Logistics.
     exit_marker: Q8_ACCEPTED_PUBLISHED_CLOSED

@@ -544,3 +544,47 @@ Next:
 
 `Q7_IMPLEMENTATION_SCOPE_AND_ACCEPTANCE_CRITERIA_REVIEW`
 <!-- q6-deterministic-closeout-q7-activation-v0-1:end -->
+
+<!-- q7-deterministic-closeout-q8-activation-v0-1:start -->
+## Q7 deterministic closeout / Q8 activation — 2026-08-25
+
+Q7 implementation commit:
+
+`501d53352cdf5f4ea755de335aefc6b077c6ff02`
+
+Q7 result:
+
+`Q7_ACCEPTED_PUBLISHED_CLOSED`
+
+Acceptance basis:
+
+`deterministic_phase_gate`
+
+Current v0.4.1 slice:
+
+`blueprint_v0_4_1_logistics_clarification_reference_validation_v0_1`
+
+Current functional package:
+
+`Q8`
+
+Q8 scope is Logistics clarification reference validation. It must prove the combined Q1-Q7
+semantics against the accepted Logistics reference: recoverable clarification without RETURN,
+representable module/operator routing identities, deterministic five-round escalation, explicit
+blocker reason, immutable released prompt, separate scope-adjustment evidence, completion
+deviations, visible attention state, no automatic module/business ACCEPT, no cross-repository
+Blueprint write, and no unbounded/cross-phase automatic release.
+
+H10 remains planned/inactive.
+
+Q8 -> H10 is a major phase boundary and requires explicit manual progress confirmation after Q8
+is accepted/published/closed. This Q7->Q8 transaction does not provide that approval.
+
+Live SQLite, daemon/systemd, Telegram transport, autonomous workers, automatic module/business
+ACCEPT, automatic RETURN/HOLD, automatic next-prompt release and business prompt release remain
+disabled.
+
+Next:
+
+`Q8_IMPLEMENTATION_SCOPE_AND_ACCEPTANCE_CRITERIA_REVIEW`
+<!-- q7-deterministic-closeout-q8-activation-v0-1:end -->

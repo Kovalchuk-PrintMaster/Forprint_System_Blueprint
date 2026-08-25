@@ -1,7 +1,7 @@
 # ForPrint v0.4.1 — Remaining Coordination Hardening Plan v0.1
 
-Status: ACTIVE / Q7 CURRENT
-Current coordination-hardening slice: Q7 — `blueprint_v0_4_1_cross_module_question_routing_contract_v0_1`.
+Status: ACTIVE / Q8 CURRENT
+Current coordination-hardening slice: Q8 — `blueprint_v0_4_1_logistics_clarification_reference_validation_v0_1`.
 H9 Logistics reference rollout: ACCEPTED / PUBLISHED / CLOSED.
 B1 execution baseline and drift control: ACCEPTED / PUBLISHED / CLOSED.
 B2 persistence boundary: ACCEPTED / PUBLISHED / CLOSED.
@@ -11,11 +11,12 @@ Q3 execution blocker taxonomy: ACCEPTED / PUBLISHED / CLOSED via `deterministic_
 Q4 immutable prompt adjustment/decision correlation: ACCEPTED / PUBLISHED / CLOSED via `deterministic_phase_gate`.
 Q5 common coordination event envelope: ACCEPTED / PUBLISHED / CLOSED via `deterministic_phase_gate`.
 Q6 operator attention semantics: ACCEPTED / PUBLISHED / CLOSED via `deterministic_phase_gate`.
+Q7 cross-module question routing contract: ACCEPTED / PUBLISHED / CLOSED via `deterministic_phase_gate`.
 
 This document captures missing coordination semantics discovered during the Logistics
-pilot. H9, B1, B2, Q1, Q2, Q3, Q4, Q5 and Q6 are accepted, published and closed; Q7 is now the current
-Blueprint-owned hardening slice. Q8 remains planned and inactive until deterministic
-same-phase progression or an explicit exception decision.
+pilot. H9, B1, B2, Q1, Q2, Q3, Q4, Q5, Q6 and Q7 are accepted, published and closed; Q8 is now the current
+Blueprint-owned hardening slice. H10 remains planned/inactive and cannot be activated until Q8
+is accepted/published/closed and the explicit Q -> H10 manual phase-boundary confirmation is recorded.
 
 ## Why this belongs to v0.4.1
 
@@ -588,6 +589,27 @@ Rules:
 - strategic ambiguity escalates;
 - secrets/access may route directly to operator;
 - five-round limit remains per thread.
+
+### Q7 deterministic closeout — 2026-08-25
+
+Q7 implementation commit `501d53352cdf5f4ea755de335aefc6b077c6ff02` passed its semantic validator, focused Q7 tests and
+canonical Blueprint checks, and was verified as published/remote-contained before closeout.
+
+Exit marker: `Q7_ACCEPTED_PUBLISHED_CLOSED`
+
+Acceptance basis: `deterministic_phase_gate`
+
+Cross-module clarification routing now preserves stable question/correlation identity, the Q2
+five-round per-thread budget, evidence-backed answers, strategic ambiguity escalation and the
+no-cross-repository-write boundary.
+
+No live routing runtime, SQLite, daemon/systemd, Telegram transport, automatic ACCEPT/RETURN/HOLD,
+business prompt release or cross-repository write is implied.
+
+Q8 is the final same-phase Q package and is now current.
+
+The next transition after Q8 is **not** same-phase: Q8 -> H10 requires explicit manual
+phase-boundary progress confirmation.
 
 ## Q8 — blueprint_v0_4_1_logistics_clarification_reference_validation_v0_1
 
