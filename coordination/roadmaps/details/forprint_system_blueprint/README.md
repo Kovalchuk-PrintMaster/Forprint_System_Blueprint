@@ -8,7 +8,7 @@ Current authority remains `coordination/releases/current.yaml`. The historical
 `coordination/self_coordination/roadmap.yaml` remains non-authoritative unless a later
 explicit reconciliation promotes a replacement.
 
-Current hardening work is Q4 — `blueprint_v0_4_1_immutable_prompt_adjustment_and_decision_v0_1`. H9, B1, B2, Q1, Q2 and Q3 are accepted/published/closed; effective authority remains `coordination/releases/current.yaml`.
+Current hardening work is Q5 — `blueprint_v0_4_1_common_coordination_event_envelope_v0_1`. H9, B1, B2, Q1, Q2, Q3 and Q4 are accepted/published/closed; effective authority remains `coordination/releases/current.yaml`.
 
 These files do not release prompts, activate work, authorize automatic execution,
 authorize automatic ACCEPT, or mutate module repositories.

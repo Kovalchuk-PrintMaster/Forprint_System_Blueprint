@@ -423,3 +423,41 @@ Next:
 
 `Q4_IMPLEMENTATION_SCOPE_AND_ACCEPTANCE_CRITERIA_REVIEW`
 <!-- q3-deterministic-closeout-q4-activation-v0-1:end -->
+
+<!-- q4-deterministic-closeout-q5-activation-v0-1:start -->
+## Q4 deterministic closeout / Q5 activation — 2026-08-25
+
+Q4 implementation commit:
+
+`711d22224e84fe280ab6ce8f0516a853436f207d`
+
+Q4 result:
+
+`Q4_ACCEPTED_PUBLISHED_CLOSED`
+
+Acceptance basis:
+
+`deterministic_phase_gate`
+
+Current v0.4.1 slice:
+
+`blueprint_v0_4_1_common_coordination_event_envelope_v0_1`
+
+Current functional package:
+
+`Q5`
+
+Q5 scope is the common coordination event envelope contract. It must define one immutable event
+shape before any daemon/runtime is built, while keeping event observations separate from projected
+state and preserving correlation/causation/idempotency semantics.
+
+Q6-Q8 remain planned/inactive.
+
+Live SQLite runtime, daemon/systemd, Telegram transport, autonomous worker execution,
+automatic module/business ACCEPT, automatic RETURN/HOLD, automatic follow-up prompt release,
+business prompt release and cross-repository writes remain disabled.
+
+Next:
+
+`Q5_IMPLEMENTATION_SCOPE_AND_ACCEPTANCE_CRITERIA_REVIEW`
+<!-- q4-deterministic-closeout-q5-activation-v0-1:end -->

@@ -1,17 +1,18 @@
 # ForPrint v0.4.1 — Remaining Coordination Hardening Plan v0.1
 
-Status: ACTIVE / Q4 CURRENT
-Current coordination-hardening slice: Q4 — `blueprint_v0_4_1_immutable_prompt_adjustment_and_decision_v0_1`.
+Status: ACTIVE / Q5 CURRENT
+Current coordination-hardening slice: Q5 — `blueprint_v0_4_1_common_coordination_event_envelope_v0_1`.
 H9 Logistics reference rollout: ACCEPTED / PUBLISHED / CLOSED.
 B1 execution baseline and drift control: ACCEPTED / PUBLISHED / CLOSED.
 B2 persistence boundary: ACCEPTED / PUBLISHED / CLOSED.
 Q1 clarification lifecycle: ACCEPTED / PUBLISHED / CLOSED.
 Q2 bounded clarification/escalation: ACCEPTED / PUBLISHED / CLOSED via `deterministic_phase_gate`.
 Q3 execution blocker taxonomy: ACCEPTED / PUBLISHED / CLOSED via `deterministic_phase_gate`.
+Q4 immutable prompt adjustment/decision correlation: ACCEPTED / PUBLISHED / CLOSED via `deterministic_phase_gate`.
 
 This document captures missing coordination semantics discovered during the Logistics
-pilot. H9, B1, B2, Q1, Q2 and Q3 are accepted, published and closed; Q4 is now the current
-Blueprint-owned hardening slice. Q5-Q8 remain planned and inactive until deterministic
+pilot. H9, B1, B2, Q1, Q2, Q3 and Q4 are accepted, published and closed; Q5 is now the current
+Blueprint-owned hardening slice. Q6-Q8 remain planned and inactive until deterministic
 same-phase progression or an explicit exception decision.
 
 ## Why this belongs to v0.4.1
@@ -486,6 +487,24 @@ acceptance effect and evidence refs.
 
 Completion report must include `Execution deviations / operator decisions`,
 or explicitly `none`.
+
+### Q4 deterministic closeout — 2026-08-25
+
+Q4 implementation commit `711d22224e84fe280ab6ce8f0516a853436f207d` passed its semantic validator, focused Q4 tests and
+canonical Blueprint checks, and was verified as published/remote-contained before closeout.
+
+Exit marker: `Q4_ACCEPTED_PUBLISHED_CLOSED`
+
+Acceptance basis: `deterministic_phase_gate`
+
+Released prompts remain immutable. Post-release decisions/adjustments remain separate,
+append-only correlated evidence with explicit execution and acceptance effects.
+
+No automatic prompt ACCEPT/RETURN/HOLD/follow-up release, runtime activation, business prompt
+release or cross-repository write is implied.
+
+Q5 is the next same-phase dependency-eligible package and is now current. This transition activates
+Q5 planning/implementation scope only; it does not implement or enable a live event runtime.
 
 ## Q5 — blueprint_v0_4_1_common_coordination_event_envelope_v0_1
 

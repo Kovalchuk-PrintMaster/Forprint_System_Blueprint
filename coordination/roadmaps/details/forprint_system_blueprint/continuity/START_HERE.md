@@ -519,3 +519,36 @@ Resume from:
 
 `Q4_IMPLEMENTATION_SCOPE_AND_ACCEPTANCE_CRITERIA_REVIEW`
 <!-- q3-deterministic-closeout-q4-current-v0-1:end -->
+
+<!-- q4-deterministic-closeout-q5-current-v0-1:start -->
+## Q4 deterministic closeout / Q5 current — 2026-08-25
+
+Current release authority selects:
+
+`blueprint_v0_4_1_common_coordination_event_envelope_v0_1`
+
+Q4 implementation:
+
+`711d22224e84fe280ab6ce8f0516a853436f207d`
+
+Q4 exit marker:
+
+`Q4_ACCEPTED_PUBLISHED_CLOSED`
+
+Acceptance basis:
+
+`deterministic_phase_gate`
+
+Durable transition record:
+
+`coordination/internal_work/blueprint/governance/2026-08-25__blueprint__q4_deterministic_closeout_q5_activation_v0_1.yaml`
+
+A new Q4 ACCEPT / Q5 ACTIVATE progress token was not required because Q4 and Q5 are both
+inside phase `Q`. Module/business ACCEPT/RETURN/HOLD authority is unchanged.
+
+Q5 activation does not enable a live coordination event store, SQLite runtime, daemon or worker.
+
+Resume from:
+
+`Q5_IMPLEMENTATION_SCOPE_AND_ACCEPTANCE_CRITERIA_REVIEW`
+<!-- q4-deterministic-closeout-q5-current-v0-1:end -->
