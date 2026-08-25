@@ -427,6 +427,19 @@ def build_checks() -> list[CheckDefinition]:
             group="documentation",
         ),
         CheckDefinition(
+            check_id="q2_bounded_clarification_and_escalation_validation",
+            title="Q2 bounded clarification",
+            expected_result=(
+                "Five unresolved rounds are bounded per question thread and "
+                "round-five escalation is deterministic/evidence-complete"
+            ),
+            command=(
+                python,
+                "scripts/validation/validate_q2_bounded_clarification_and_escalation.py",
+            ),
+            group="documentation",
+        ),
+        CheckDefinition(
             check_id="phase_boundary_progression_gate_validation",
             title="Phase-boundary progression gate",
             expected_result=(

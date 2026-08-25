@@ -1,0 +1,39 @@
+schema_version: blueprint_q2_scope_and_acceptance_review_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  owner: forprint_system_blueprint
+  created_at: '2026-08-25T11:19:00+03:00'
+  status: PASS_TO_IMPLEMENTATION
+record_id: blueprint_q2_scope_and_acceptance_review_2026_08_25_v0_1
+hardening_slice: Q2
+stable_id: blueprint_v0_4_1_bounded_clarification_and_escalation_v0_1
+review_result: PASS_TO_IMPLEMENTATION
+reviewed_semantics:
+  maximum_unresolved_round_trips_per_question_thread: 5
+  limit_is_per_thread_not_prompt: true
+  round_advance_requires_completed_insufficient_evaluation: true
+  round_five_sufficient_resolves_normally: true
+  round_five_insufficient_escalates: true
+  round_six_for_same_thread_forbidden: true
+  thread_identity_preserved: true
+  round_history_append_only: true
+  blocking_escalation_visible_without_return_hold: true
+  escalation_packet_required: true
+acceptance_criteria:
+- Q1 inheritance SHA-bound
+- five-round per-thread limit exact
+- no prompt-shared counter
+- round advancement deterministic
+- round five sufficient resolves normally
+- round five insufficient escalates
+- round six forbidden
+- round history preserved
+- escalation packet evidence-complete
+- RETURN/HOLD not implied
+- Q3-Q8 deferred
+- runtime/autonomy disabled
+- validator in make check
+- focused tests pass
+- canonical make check passes
+closeout_not_performed_by_this_record: true
+manual_exception_authority_preserved: true

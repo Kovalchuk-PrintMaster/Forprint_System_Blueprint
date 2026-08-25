@@ -1,0 +1,148 @@
+schema_version: bounded_clarification_and_escalation_contract_v0_1
+metadata:
+  standard_id: bounded_clarification_and_escalation_v0_1
+  owner: forprint_system_blueprint
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+  hardening_slice: Q2
+  stable_id: blueprint_v0_4_1_bounded_clarification_and_escalation_v0_1
+purpose: Define deterministic five-round unresolved clarification and evidence-complete escalation without runtime autonomy.
+inherits:
+  q1_contract_path: coordination/standards/governance/clarification_question_lifecycle_v0_1.yaml
+  q1_contract_sha256: b6ac925638194422ace541943418cd822c33c28e5dc7aace8a3660fd167f75f5
+  q1_question_identity_preserved: true
+  q1_terminal_states_preserved: true
+  released_prompt_immutability_preserved: true
+  question_remains_distinct_from_prompt_disposition: true
+round_budget:
+  setting_name: maximum_unresolved_round_trips_per_question_thread
+  maximum_unresolved_round_trips_per_question_thread: 5
+  scope: per_question_thread
+  prompt_shared_counter: false
+  new_question_thread_has_independent_counter: true
+  initial_round: 1
+  maximum_autonomous_round: 5
+  round_six_allowed: false
+  thread_question_id_stable_across_rounds: true
+  thread_correlation_id_stable_across_rounds: true
+  history_append_only: true
+  round_advances_only_after: completed_answer_attempt_evaluated_insufficient
+  missing_answer_does_not_consume_completed_round_trip: true
+  answer_not_yet_evaluated_does_not_advance: true
+  resolved_answer_does_not_advance: true
+round_flow:
+  rounds_1_through_4:
+    if_answer_sufficient:
+    - CONFIRMED
+    - RESOLVED
+    if_answer_insufficient:
+    - preserve_round_record
+    - increment_round
+    - return_same_thread_to_ROUTED_for_next_round
+  round_5:
+    if_answer_sufficient:
+    - CONFIRMED
+    - RESOLVED
+    if_answer_insufficient:
+    - preserve_round_record
+    - ESCALATED
+    - stop_further_autonomous_dialogue_for_thread
+    - emit_escalation_packet_semantics
+  terminal_thread_reopen_allowed: false
+  same_thread_round_6_after_escalation_allowed: false
+  cancel_or_expire_before_round_5_allowed_by_q1: true
+round_record:
+  required_fields:
+  - round
+  - question
+  - answer
+  - evidence_refs
+  - asked_at
+  - answered_at
+  - evaluation
+  - evaluated_at
+  evaluation_values:
+  - sufficient
+  - insufficient
+  prior_round_mutation_allowed: false
+  secret_values_allowed: false
+  secret_references_allowed: true
+escalation:
+  trigger: round_5_completed_and_evaluated_insufficient
+  resulting_thread_state: ESCALATED
+  terminal: true
+  further_autonomous_dialogue_for_same_thread: false
+  required_packet_fields:
+  - question_id
+  - module_id
+  - prompt_id
+  - roadmap_step_id
+  - requester
+  - target
+  - correlation_id
+  - blocking
+  - original_question
+  - round_history
+  - evidence_refs
+  - unresolved_fact
+  - impact
+  - safe_options
+  - recommended_next_action
+  - trigger
+  - escalated_at
+  round_history_must_cover:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  recommended_next_action_is_advisory: true
+  safe_options_are_not_automatic_actions: true
+  transport_or_attention_owner_defined_by_q2: false
+prompt_coupling:
+  nonblocking_escalated_thread_may_leave_prompt_in_progress: true
+  blocking_escalated_thread_condition: waiting_on_clarification_escalation
+  blocking_scope_progress_allowed: false
+  independent_prompt_work_may_continue_when_contract_allows: true
+  condition_is_return: false
+  condition_is_hold: false
+  condition_is_prompt_acceptance: false
+  q3_blocker_taxonomy_defined_here: false
+storage_boundary:
+  semantic_contract_only: true
+  live_question_store_created: false
+  database_backend_bound_by_q2: false
+  live_sqlite_runtime_enabled: false
+  round_history_future_store: future_coordination_operational_store
+deferred_boundaries:
+  Q3_blocker_taxonomy: true
+  Q4_operator_decision_adjustment_model: true
+  Q5_common_event_envelope: true
+  Q6_operator_attention_semantics: true
+  Q7_cross_module_routing_mechanics: true
+  Q8_logistics_reference_validation: true
+current_capabilities:
+  live_sqlite_runtime: false
+  database_file_created_by_q2: false
+  daemon: false
+  systemd: false
+  telegram_transport: false
+  autonomous_execution: false
+  automatic_module_business_acceptance: false
+  automatic_return_hold: false
+  automatic_next_cross_phase_activation: false
+  cross_repository_writes: false
+  business_prompt_release: false
+acceptance:
+  q1_inheritance_bound: true
+  per_thread_limit_exactly_five: true
+  prompt_shared_counter_forbidden: true
+  round_increment_semantics_explicit: true
+  round_five_resolution_path_preserved: true
+  round_five_unresolved_escalates: true
+  round_six_forbidden: true
+  round_history_preserved: true
+  escalation_packet_complete: true
+  return_hold_not_implied: true
+  q3_q8_deferred: true
+  runtime_disabled: true
