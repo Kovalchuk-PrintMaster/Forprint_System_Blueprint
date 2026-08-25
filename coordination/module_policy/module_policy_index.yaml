@@ -451,3 +451,82 @@ module_policy_index:
       next_focus:
         - Confirm current repository/path.
         - Align later after Calculator channel handoff is clearer.
+    - module_id: forprint_operations_assistant
+      module_name: ForPrint Operations Assistant
+      priority: p2
+      development_status: planned_concept_bootstrap
+      strategic_role: Internal operational assistant and low-friction human-to-system surface for physical shop-floor
+        observations, procedures, guided forms and knowledge.
+      main_goals:
+      - Provide contextual operational task/procedure assistance.
+      - Capture structured physical-world observations and exceptions.
+      - Provide a Knowledge Library with text/video procedures.
+      - Provide Guided Forms and approved corporate-template export.
+      - Remain outside canonical accounting/business truth ownership.
+      owns:
+      - operations_assistant_interaction_context
+      - guided_form_interaction
+      - knowledge_help_surface
+      - operational_observation_capture
+      must_not_own:
+      - accounting_truth
+      - canonical_order_registry
+      - canonical_catalog_truth
+      - crm_customer_pipeline
+      - unbounded_business_decision_authority
+      next_focus:
+      - Keep as planned concept while the Blueprint Q-series is completed.
+      - Reconcile full charter/capability/dependency roadmap before systematic implementation.
+    - module_id: forprint_system_administration
+      module_name: ForPrint System Administration
+      priority: p2
+      development_status: planned_non_blocking_support
+      strategic_role: Central IT/workplace administration surface for approved software, endpoint operations, backups,
+        disk health and workstation consistency.
+      main_goals:
+      - Provide the FP Administration web portal.
+      - Use a constrained Device/Endpoint Agent for typed local operations.
+      - Maintain approved/tested software, version and configuration profiles.
+      - Integrate existing backup and disk-health capabilities instead of duplicating them.
+      - Prepare future workstation onboarding and operational-readiness controls.
+      owns:
+      - administration_portal
+      - approved_software_catalog
+      - endpoint_operation_contract
+      - workstation_profile
+      - administrative_health_view
+      must_not_own:
+      - business_workflow
+      - accounting_truth
+      - canonical_order_registry
+      - arbitrary_remote_shell_authority
+      - license_entitlement_outside_authorized_policy
+      next_focus:
+      - Remain non-blocking for current core development.
+      - Become a future workplace/operational readiness gate before broad rollout.
+    - module_id: forprint_marketing_orchestrator
+      module_name: ForPrint Marketing Orchestrator
+      priority: deferred
+      development_status: planned_non_blocking_support
+      strategic_role: Future digital marketing/content orchestration layer across campaigns, social channels and specialized
+        AI image/video/content providers.
+      main_goals:
+      - Coordinate content calendar and campaign planning.
+      - Prepare text/image/video creative briefs and AI media prompts.
+      - Route assets through human review before publication.
+      - Track channel/campaign/provider/model cost and performance.
+      - Hand qualified lead/referral context to CRM without becoming a second CRM.
+      owns:
+      - marketing_content_plan
+      - campaign_content_workflow
+      - creative_brief
+      - marketing_asset_review_context
+      - campaign_performance_view
+      must_not_own:
+      - canonical_customer_history
+      - sales_pipeline_truth
+      - accounting_truth
+      - unapproved_external_publication
+      next_focus:
+      - Remain non-blocking until core business capability can create commercial value.
+      - Refine detailed roadmap later without blocking current portfolio work.

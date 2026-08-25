@@ -69,3 +69,25 @@ This is planning guidance only. It does not change current prompt order, release
 permissions, ACCEPT semantics or module-repository write boundaries.
 
 Planning marker: `PORTFOLIO_OPERATOR_GOVERNANCE_PROJECT_STANDARDIZATION_V0_1`.
+
+<!-- portfolio-roadmap-rebuild-authority-v0-1:start -->
+## Portfolio roadmap rebuild authority — 2026-08-25
+
+The Blueprint Q-series roadmap remains current execution authority.
+
+For future post-Q portfolio automation, existing non-Blueprint module roadmaps are classified as
+legacy/incomplete planning evidence pending rebuild. Accepted prompts, completion evidence and historical decisions
+remain durable evidence and are not erased.
+
+Rebuild program:
+
+`portfolio_roadmap_rebuild_program_v0_1.md`
+
+Machine-readable authority register:
+
+`non_blueprint_roadmap_authority_rebuild_register_v0_1.yaml`
+
+Common rebuild seeds:
+
+`portfolio_rebuild_seeds/`
+<!-- portfolio-roadmap-rebuild-authority-v0-1:end -->

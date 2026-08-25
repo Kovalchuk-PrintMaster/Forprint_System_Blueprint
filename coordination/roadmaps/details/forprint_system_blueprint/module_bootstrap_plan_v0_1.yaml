@@ -1,0 +1,17 @@
+schema_version: forprint_module_bootstrap_plan_v0_1
+modules:
+- module_id: forprint_operations_assistant
+  root_path: /srv/software_development/forprint-project/forprint_operations_assistant
+  root_action: ensure_exists
+  blueprint_policy_action: install_or_reconcile_package_concept
+  roadmap_action: install_provisional_then_reconcile
+- module_id: forprint_system_administration
+  root_path: /srv/software_development/forprint-project/forprint_system_administration
+  root_action: create_if_missing_empty
+  blueprint_policy_action: create_module_policy_directory_and_concept
+  roadmap_action: install_provisional_then_reconcile
+- module_id: forprint_marketing_orchestrator
+  root_path: /srv/software_development/forprint-project/forprint_marketing_orchestrator
+  root_action: create_if_missing_empty
+  blueprint_policy_action: create_module_policy_directory_and_concept
+  roadmap_action: install_provisional_then_reconcile

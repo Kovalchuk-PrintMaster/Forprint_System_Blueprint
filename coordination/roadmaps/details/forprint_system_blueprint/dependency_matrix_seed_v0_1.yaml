@@ -1,0 +1,25 @@
+schema_version: forprint_dependency_matrix_seed_v0_1
+status: STAGING_SEED_REQUIRES_CROSS_MODULE_REVIEW
+dependency_types:
+- hard_dependency
+- soft_dependency
+- data_dependency
+- contract_dependency
+- runtime_dependency
+- ux_dependency
+- operational_dependency
+- external_provider_dependency
+required_fields:
+- dependency_id
+- provider_module
+- consumer_module
+- type
+- capability_or_contract
+- earliest_required_stage
+- latest_safe_readiness_stage
+- blocking_severity
+- fallback
+- confidence
+- notes
+dependencies: []
+note: Intentionally not auto-invented; populate during portfolio cross-module analysis.

@@ -434,3 +434,26 @@ push is authorized.
 
 The next required manual **progress** gate after the Q phase is the Q -> H10
 phase transition.
+
+<!-- portfolio-automation-foundation-start-here-v0-1:start -->
+## Portfolio/automation foundation — read after current Q authority
+
+Cross-cutting foundation installed from the 2026-08-25 reviewed package.
+
+Authoritative navigation for this concern:
+
+1. `coordination/internal_work/blueprint/governance/2026-08-25__blueprint__portfolio_operating_model_transition_decision_v0_1.md`
+2. `coordination/standards/governance/module_concept_and_roadmap_traceability_standard_v0_1.md`
+3. `coordination/standards/governance/end_to_end_completeness_and_gray_zone_review_standard_v0_1.md`
+4. `coordination/standards/governance/portfolio_roadmap_dependency_and_prioritization_standard_v0_1.md`
+5. `coordination/standards/automation/`
+6. `coordination/standards/frontend/`
+7. `coordination/roadmaps/details/forprint_system_blueprint/portfolio_roadmap_rebuild_program_v0_1.md`
+8. `coordination/roadmaps/details/forprint_system_blueprint/non_blueprint_roadmap_authority_rebuild_register_v0_1.yaml`
+
+These files do not supersede the active Q2 slice.
+They govern the portfolio operating model that is being prepared around/after the current hardening track.
+
+Existing non-Blueprint roadmaps must not be treated as sufficient post-Q automated execution-selection authority
+until their rebuild state is resolved.
+<!-- portfolio-automation-foundation-start-here-v0-1:end -->

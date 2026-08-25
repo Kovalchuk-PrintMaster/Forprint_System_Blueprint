@@ -1,0 +1,113 @@
+schema_version: forprint_portfolio_module_inventory_seed_v0_1
+status: STAGING_SEED_NOT_YET_AUTHORITY
+identity_notes:
+- accounting_registry_service is treated as an alias/legacy identity for forprint_accounting_registry_service pending canonical
+  registry repair
+- forprint_contract_registry and forprint_strategic_control_plane appear in module policy evidence but need machine registry
+  reconciliation
+modules:
+- module_id: forprint_system_blueprint
+  role_summary: architecture/governance control plane
+  origin: existing
+  roadmap_action: preserve_current_blueprint_roadmap
+  blocking_class: TBD_REVIEW_REQUIRED
+- module_id: forprint_project_inspector
+  role_summary: architecture compliance checker
+  origin: existing
+  roadmap_action: rebuild_needed
+  blocking_class: TBD_REVIEW_REQUIRED
+- module_id: production_runtime_inspector
+  role_summary: future production/runtime monitoring
+  origin: existing
+  roadmap_action: rebuild_needed
+  blocking_class: TBD_REVIEW_REQUIRED
+- module_id: forprint_integration_gateway
+  role_summary: integration validation/routing boundary
+  origin: existing
+  roadmap_action: rebuild_needed
+  blocking_class: TBD_REVIEW_REQUIRED
+- module_id: forprint_crm
+  role_summary: business orchestration UI and analytics
+  origin: existing
+  roadmap_action: rebuild_needed_owner_review_priority
+  blocking_class: TBD_REVIEW_REQUIRED
+- module_id: forprint_operational_registry
+  role_summary: canonical operational business data registry
+  origin: existing
+  roadmap_action: rebuild_needed
+  blocking_class: TBD_REVIEW_REQUIRED
+- module_id: forprint_library
+  role_summary: canonical semantic/catalog/reference authority
+  origin: existing
+  roadmap_action: rebuild_needed_existing_evidence_rich
+  blocking_class: TBD_REVIEW_REQUIRED
+- module_id: calculator_engine
+  role_summary: calculation/quote/configuration engine
+  origin: existing
+  roadmap_action: rebuild_needed
+  blocking_class: TBD_REVIEW_REQUIRED
+- module_id: forprint_prepress_hub
+  role_summary: prepress/file readiness and preparation
+  origin: existing
+  roadmap_action: rebuild_needed_owner_review_priority
+  blocking_class: TBD_REVIEW_REQUIRED
+- module_id: forprint_accounting_registry_service
+  role_summary: accounting/1C boundary and registry
+  origin: existing
+  roadmap_action: rebuild_needed_owner_review_priority
+  blocking_class: TBD_REVIEW_REQUIRED
+- module_id: telegram_bot
+  role_summary: Telegram channel/client interaction
+  origin: existing
+  roadmap_action: rebuild_needed
+  blocking_class: TBD_REVIEW_REQUIRED
+- module_id: website
+  role_summary: public/client web interface
+  origin: existing
+  roadmap_action: rebuild_needed
+  blocking_class: TBD_REVIEW_REQUIRED
+- module_id: warehouse_service
+  role_summary: warehouse/material operational service
+  origin: existing
+  roadmap_action: rebuild_needed_thin_concept
+  blocking_class: TBD_REVIEW_REQUIRED
+- module_id: logistics_service
+  role_summary: delivery/logistics provider abstraction and operations
+  origin: existing
+  roadmap_action: rebuild_needed_top_level_charter_missing
+  blocking_class: TBD_REVIEW_REQUIRED
+- module_id: cloud_backup_manager
+  role_summary: backup/restore capability
+  origin: existing
+  roadmap_action: rebuild_needed_may_integrate_under_system_admin
+  blocking_class: TBD_REVIEW_REQUIRED
+- module_id: mobile_app
+  role_summary: future mobile client application
+  origin: existing
+  roadmap_action: rebuild_needed
+  blocking_class: TBD_REVIEW_REQUIRED
+- module_id: forprint_contract_registry
+  role_summary: contract registry/control
+  origin: existing_policy_only
+  roadmap_action: registry_reconciliation_needed
+  blocking_class: TBD_REVIEW_REQUIRED
+- module_id: forprint_strategic_control_plane
+  role_summary: strategic control/coordination role
+  origin: existing_policy_only
+  roadmap_action: registry_reconciliation_needed
+  blocking_class: TBD_REVIEW_REQUIRED
+- module_id: forprint_operations_assistant
+  role_summary: internal operational assistant
+  origin: newly_planned
+  roadmap_action: provisional_roadmap_in_package
+  blocking_class: TBD_REVIEW_REQUIRED
+- module_id: forprint_system_administration
+  role_summary: IT/workplace administration
+  origin: newly_planned
+  roadmap_action: provisional_roadmap_in_package
+  blocking_class: NON_BLOCKING_SUPPORT_CURRENT__FUTURE_OPERATIONAL_GATE
+- module_id: forprint_marketing_orchestrator
+  role_summary: digital marketing/content orchestration
+  origin: newly_planned
+  roadmap_action: provisional_roadmap_in_package
+  blocking_class: NON_BLOCKING_SUPPORT

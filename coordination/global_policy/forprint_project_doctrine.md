@@ -212,3 +212,27 @@ Execution must be judged from explicit authority, immutable contracts, required-
 Shared module execution lanes remain attributable before CLAIM. Future parallelism in one module must use isolated execution workspaces rather than multiple agents writing into one dirty checkout.
 
 No workflow may destroy, auto-stash, absorb, or silently reinterpret unrelated operator work merely to satisfy a historical "clean tree" assumption.
+
+<!-- portfolio-operated-development-doctrine-v0-1:start -->
+## Portfolio-operated development and roadmap continuity
+
+ForPrint module development is governed as a portfolio, not as isolated repositories.
+
+Blueprint must continuously maintain enough durable knowledge to recover:
+
+- why a module exists;
+- what it can/should do;
+- what the current target finish is;
+- what roadmap outcomes remain;
+- what dependencies exist and when they become blocking;
+- what evidence justifies progress.
+
+Roadmaps remain living control artifacts until final project delivery.
+A roadmap item whose design intent cannot be reconstructed is a governance defect.
+
+Module executors consume Blueprint standards as read-only authority. They may request clarification or propose a
+change, but they do not silently fork project-wide governance inside their own repositories.
+
+Portfolio optimization balances time, budget, dependency criticality, business/project value, risk and executor
+quality rather than maximizing one module's local velocity.
+<!-- portfolio-operated-development-doctrine-v0-1:end -->

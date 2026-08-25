@@ -315,3 +315,32 @@ push is authorized.
 
 The next required manual **progress** gate after the Q phase is the Q -> H10
 phase transition.
+
+<!-- portfolio-automation-foundation-current-focus-v0-1:start -->
+## 2026-08-25 portfolio/automation foundation checkpoint
+
+The published Q2 slice remains current:
+
+`blueprint_v0_4_1_bounded_clarification_and_escalation_v0_1`
+
+Development progression is intentionally paused for portfolio-foundation planning.
+This checkpoint does not implement Q2, activate Q3, release a business prompt or enable broad module automation.
+
+New cross-cutting planning foundation:
+
+- module concept/roadmap traceability;
+- end-to-end gray-zone review;
+- portfolio dependency/prioritization;
+- weighted progress/baseline measurement;
+- module readiness/blocking classification;
+- mandatory frontend design-system governance;
+- bounded module-executor automation standards;
+- provisional concepts/roadmaps for Operations Assistant, System Administration and Marketing Orchestrator.
+
+Existing non-Blueprint module roadmaps remain useful evidence, but they are not sufficient post-Q automated
+portfolio-selection authority until rebuilt under the new common roadmap model.
+
+Resume target remains:
+
+`Q2_IMPLEMENTATION_SCOPE_AND_ACCEPTANCE_CRITERIA_REVIEW`
+<!-- portfolio-automation-foundation-current-focus-v0-1:end -->
