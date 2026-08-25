@@ -466,6 +466,19 @@ def build_checks() -> list[CheckDefinition]:
             group="documentation",
         ),
         CheckDefinition(
+            check_id="q5_common_coordination_event_envelope_validation",
+            title="Q5 coordination event envelope",
+            expected_result=(
+                "Common immutable coordination event envelope, correlation/causation "
+                "and idempotency semantics are valid"
+            ),
+            command=(
+                python,
+                "scripts/validation/validate_q5_common_coordination_event_envelope.py",
+            ),
+            group="documentation",
+        ),
+        CheckDefinition(
             check_id="phase_boundary_progression_gate_validation",
             title="Phase-boundary progression gate",
             expected_result=(

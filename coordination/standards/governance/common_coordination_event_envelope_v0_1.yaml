@@ -1,0 +1,182 @@
+schema_version: common_coordination_event_envelope_contract_v0_1
+metadata:
+  standard_id: common_coordination_event_envelope_v0_1
+  owner: forprint_system_blueprint
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+  hardening_slice: Q5
+  stable_id: blueprint_v0_4_1_common_coordination_event_envelope_v0_1
+purpose: Define one immutable coordination event envelope before any live daemon/store is implemented.
+inherits:
+  q1_contract_path: coordination/standards/governance/clarification_question_lifecycle_v0_1.yaml
+  q1_contract_sha256: b6ac925638194422ace541943418cd822c33c28e5dc7aace8a3660fd167f75f5
+  q2_contract_path: coordination/standards/governance/bounded_clarification_and_escalation_v0_1.yaml
+  q2_contract_sha256: 0e1b2c98e8c7d42291e7c4120ff7d2c1c214300083757731fc90ebe134a17c7d
+  q3_contract_path: coordination/standards/governance/execution_blocker_taxonomy_v0_1.yaml
+  q3_contract_sha256: c85ec5eb4243fac09502f7c18b893a3cc5a8cb294e71e65a1a6822c50899ea8e
+  q4_contract_path: coordination/standards/governance/immutable_prompt_adjustment_and_decision_v0_1.yaml
+  q4_contract_sha256: 83559969e5671f3342a5ac115ebd4a52cb57f3a5e7be32c94232be7fad2b2aca
+envelope:
+  required_fields:
+  - event_id
+  - event_type
+  - occurred_at
+  - producer
+  - target
+  - module_id
+  - prompt_id
+  - roadmap_step_id
+  - correlation_id
+  - causation_id
+  - severity
+  - blocking
+  - schema_version
+  - payload
+  - evidence_refs
+  - idempotency_key
+  nullable_fields:
+  - module_id
+  - prompt_id
+  - roadmap_step_id
+  - causation_id
+  exact_envelope_field_count: 17
+  unknown_envelope_fields_allowed: false
+  nonempty_string_fields:
+  - event_id
+  - event_type
+  - occurred_at
+  - producer
+  - target
+  - correlation_id
+  - severity
+  - schema_version
+  - idempotency_key
+  blocking_type: boolean
+  payload_type: mapping
+  evidence_refs_type: list
+  secret_values_allowed: false
+  secret_references_allowed: true
+event_type:
+  format: <family>.<action>
+  family_action_lowercase_token_required: true
+  canonical_initial_families:
+  - claim_status
+  - clarification
+  - answer_resolution
+  - execution_blocker
+  - unable_to_execute
+  - operator_attention
+  - operator_decision
+  - completion_publication
+  initial_family_count: 8
+  unknown_family_allowed: false
+  new_family_requires_versioned_review: true
+immutability_and_projection:
+  events_are_immutable_observations: true
+  published_event_edit_allowed: false
+  published_event_delete_allowed: false
+  correction_requires_new_event: true
+  current_state_is_projection: true
+  projection_is_independent_source_of_truth: false
+  projection_must_remain_rebuildable: true
+  q5_projection_engine_implemented: false
+  occurred_at_is_total_order: false
+  journal_order_field_added_to_envelope: false
+correlation_and_causation:
+  correlation_id_required: true
+  causation_id_nullable: true
+  nonnull_causation_refs_immediate_predecessor_event_id: true
+  fabricate_unknown_causation_allowed: false
+  correlation_implies_direct_causation: false
+idempotency:
+  idempotency_key_required: true
+  same_logical_retry_reuses_key: true
+  same_key_equivalent_content_is_duplicate_attempt: true
+  same_key_materially_different_content_is_conflict: true
+  conflict_fail_closed: true
+  new_key_to_bypass_conflict_allowed: false
+  event_mutation_authorized_by_idempotency: false
+  q5_idempotency_store_implemented: false
+time_semantics:
+  occurred_at_utc_required: true
+  offset_aware_required: true
+  canonical_utc_suffixes:
+  - Z
+  - +00:00
+  local_naive_timestamp_allowed: false
+semantic_boundaries:
+  event_is_prompt_disposition: false
+  blocking_implies_return: false
+  blocking_implies_hold: false
+  blocking_implies_accept: false
+  blocking_implies_whole_prompt_block: false
+  severity_implies_operator_notification: false
+  severity_is_authority_grant: false
+  operator_attention_semantics_defined_by_q5: false
+  cross_module_routing_defined_by_q5: false
+  payload_may_rewrite_q1_q4_history: false
+  event_replaces_git_project_truth: false
+  completion_publication_is_operator_acceptance: false
+family_ownership:
+  claim_status:
+    purpose: execution claim/status observations
+    full_runtime_state_machine_defined_by_q5: false
+  clarification:
+    authoritative_contract: Q1_Q2
+    rewrites_question_history: false
+  answer_resolution:
+    authoritative_contract: Q1_Q2
+    rewrites_question_history: false
+  execution_blocker:
+    authoritative_contract: Q3
+    blocking_implies_return_hold: false
+  unable_to_execute:
+    authoritative_contract: Q3
+    is_blueprint_disposition: false
+  operator_attention:
+    semantic_owner: Q6
+    transport_implemented_by_q5: false
+  operator_decision:
+    authoritative_contract: Q4
+    event_replaces_durable_decision_artifact: false
+  completion_publication:
+    completion_is_operator_acceptance: false
+evidence_and_payload:
+  payload_mapping_required: true
+  large_logs_embedded_by_default: false
+  family_payloads_versioned: true
+  canonical_artifact_may_be_referenced: true
+  event_silently_replaces_canonical_artifact: false
+  artifact_store_boundary_preserved: true
+deferred_boundaries:
+  Q6_operator_attention_semantics: true
+  Q7_cross_module_routing_mechanics: true
+  Q8_logistics_reference_validation: true
+current_capabilities:
+  live_sqlite_runtime: false
+  event_journal_table_created_by_q5: false
+  projection_database: false
+  schema_migrations: false
+  daemon: false
+  systemd: false
+  telegram_transport: false
+  autonomous_execution: false
+  automatic_module_business_acceptance: false
+  automatic_return_hold: false
+  automatic_next_prompt_release: false
+  cross_repository_writes: false
+  business_prompt_release: false
+acceptance:
+  envelope_field_set_exact: true
+  initial_event_family_set_exact: true
+  event_type_format_defined: true
+  events_immutable_observations: true
+  state_is_projection: true
+  correlation_causation_separated: true
+  idempotency_conflict_fail_closed: true
+  utc_time_required: true
+  blocking_authority_not_inferred: true
+  severity_attention_not_inferred: true
+  canonical_histories_preserved: true
+  q6_q8_deferred: true
+  runtime_disabled: true
