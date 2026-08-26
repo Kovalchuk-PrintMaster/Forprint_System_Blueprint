@@ -123,3 +123,26 @@ Target definitions remain owned by:
 Module policy references these standards and does not duplicate the complete
 target list. Existing generated per-module policies are not bulk-rewritten by
 this closeout.
+
+<!-- theory-target-state-discovery-20260826:start -->
+## Provisional target-state addenda — 2026-08-26
+
+`module_policy.md` files in module subdirectories are generated from
+`coordination/module_policy/module_policy_index.yaml` and must remain generator-consistent.
+
+The following non-generated target-state addenda preserve owner/theory direction for the portfolio
+roadmap rebuild without claiming current implementation:
+
+- `forprint_accounting_registry_service/goods_receipt_automation_target_state_v0_1_20260826.md`
+- `forprint_operations_assistant/physical_quantity_estimation_target_state_v0_1_20260826.md`
+- `forprint_library/canonical_catalog_and_external_ingestion_target_state_v0_1_20260826.md`
+- `calculator_engine/calculator_target_state_v0_1_20260826.md`
+- `telegram_bot/telegram_conversational_operating_interface_target_state_v0_1_20260826.md`
+
+Project Inspector knowledge responsibility is governed centrally by:
+
+`coordination/standards/knowledge/knowledge_maintenance_and_inspector_boundary_v0_1.md`
+
+These addenda are `PROVISIONAL / SYNTHETIC` planning inputs. They do not override generated module
+policy authority or prove that the described capability already exists.
+<!-- theory-target-state-discovery-20260826:end -->

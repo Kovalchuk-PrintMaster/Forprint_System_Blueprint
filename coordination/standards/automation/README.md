@@ -13,3 +13,10 @@ Documents:
 
 These documents do not enable background autonomy. They define the rules that must exist before
 broader automation is allowed.
+
+<!-- knowledge-foundation-cross-reference-v0-1:start -->
+## Knowledge Foundation cross-reference
+
+Broad executor rollout also depends on `coordination/standards/knowledge/index.yaml`, which defines
+repository self-knowledge, readiness, Inspector boundaries, discoverability and initial inventory.
+<!-- knowledge-foundation-cross-reference-v0-1:end -->

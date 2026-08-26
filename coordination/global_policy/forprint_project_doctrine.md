@@ -236,3 +236,20 @@ change, but they do not silently fork project-wide governance inside their own r
 Portfolio optimization balances time, budget, dependency criticality, business/project value, risk and executor
 quality rather than maximizing one module's local velocity.
 <!-- portfolio-operated-development-doctrine-v0-1:end -->
+
+<!-- theory-knowledge-automation-principle-v0-1:start -->
+## Maximum useful automation and manual-work reduction
+
+ForPrint should systematically reduce avoidable manual work across business and development
+operations.
+
+Automation is valuable when it improves speed, consistency, recoverability or operator effort
+without sacrificing correctness, auditability, safety, semantic ownership or meaningful human
+control.
+
+Every module should treat reduction of repetitive manual work as a standing design objective where
+economically and operationally justified.
+
+This principle does not authorize uncontrolled autonomy, security/destructive actions, automatic
+business/module ACCEPT, or cross-repository mutation.
+<!-- theory-knowledge-automation-principle-v0-1:end -->

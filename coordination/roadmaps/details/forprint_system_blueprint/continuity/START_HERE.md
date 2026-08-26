@@ -730,3 +730,20 @@ Authority decision:
 
 `coordination/internal_work/blueprint/governance/2026-08-25__blueprint__logistics_only_automation_pilot_scope_decision_v0_1.yaml`
 <!-- logistics-only-automation-validation-rule-v0-1:end -->
+
+<!-- knowledge-foundation-continuity-v0-1:start -->
+## Planned Knowledge Foundation after v0.4.1
+
+Current release/Git authority remains primary.
+
+Owner-directed next major foundation after the **full v0.4.1 hardening program closes**:
+`ForPrint Blueprint Knowledge Foundation`.
+
+Read:
+1. `coordination/roadmaps/details/forprint_system_blueprint/knowledge_foundation_program_v0_1.md`
+2. `coordination/roadmaps/details/forprint_system_blueprint/knowledge_foundation_master_execution_brief_v0_1.md`
+3. `coordination/repository_knowledge/repository_knowledge_and_direction_snapshot_protocol_v0_3.md`
+4. `coordination/standards/knowledge/index.yaml`
+
+This plan does not override current H10/H11 and does not activate itself.
+<!-- knowledge-foundation-continuity-v0-1:end -->

@@ -65,3 +65,27 @@ The program is complete when:
 - dependency graph supports portfolio prioritization;
 - baseline progress can be rendered;
 - dashboard can project current state from durable data.
+
+<!-- synthetic-roadmap-refinement-v0-1:start -->
+## Synthetic target-state refinement rule — 2026-08-26
+
+Every known logical module must have an honest Target State and a full synthetic roadmap toward it.
+
+When evidence is insufficient, use explicit states:
+`UNKNOWN`, `UNCONFIRMED`, `PROVISIONAL`, `TBD`, `OPEN_QUESTION`.
+
+Do not create false precision.
+
+Refinement loop:
+
+`Target State -> synthetic full roadmap -> owner/theory review -> revised roadmap -> cross-module dependency analysis -> execution-ready detail for priority modules`
+
+Core modules receive deeper refinement first. Peripheral modules may remain synthetic until their
+dependencies/execution timing justify deeper design.
+
+If an immature module blocks a critical module, define the minimum dependency-ready slice that
+unblocks the critical path rather than fully completing the blocker.
+
+Unplanned evening theory discussion is preserved as Design/Theory Decision evidence and later merged
+into canonical docs; it is not a second competing roadmap.
+<!-- synthetic-roadmap-refinement-v0-1:end -->

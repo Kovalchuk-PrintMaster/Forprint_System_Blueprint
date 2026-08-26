@@ -78,3 +78,47 @@ Examples:
 - business semantics cannot be proven from authority;
 - cross-repository write required;
 - budget/retry/wall-clock breaker trips.
+
+<!-- strategic-context-advisory-knowledge-v0-1:start -->
+## Strategic context and bounded initiative
+
+A serious executor context SHOULD provide Module Mission/Charter, Target State, Strategic Horizon,
+relevant dependencies and the Active Work Package.
+
+Target State and Strategic Horizon are context, not execution authority.
+
+**See far, act near.**
+
+The executor MUST NOT implement future roadmap scope preemptively. It should implement the active
+scope while avoiding knowingly dead-end choices when strategic direction is already clear.
+
+## Mandatory non-trivial preflight
+
+Before implementing a meaningful capability, the executor MUST:
+1. check the knowledge/capability surface for existing/reusable capability;
+2. check central Blueprint standards relevant to the work;
+3. inspect current relevant dependencies.
+
+If authoritative information is unavailable/conflicting, surface the gap rather than inventing a
+local standard.
+
+## Advisory observations
+
+The executor MUST surface material observations it genuinely discovers: future blocker, dependency
+risk, duplication, roadmap mismatch, architectural risk, external-service risk, major
+simplification or meaningful improvement opportunity.
+
+It is not required to invent an observation just to populate a report.
+
+Advisories are `ADVISORY_ONLY` until Blueprint decides. They cannot autonomously change roadmap,
+priority, scope or another module.
+
+A useful advisory records observation, evidence, impact, urgency, confidence and recommendation.
+
+## Knowledge-maintenance findings
+
+Project Inspector findings enter the local governed maintenance queue. The local executor owns
+semantic interpretation/repair of module knowledge under Blueprint standards.
+
+A finding does not automatically interrupt the active Work Package unless classified blocking.
+<!-- strategic-context-advisory-knowledge-v0-1:end -->

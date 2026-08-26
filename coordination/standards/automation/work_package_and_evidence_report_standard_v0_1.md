@@ -88,3 +88,22 @@ The automation design should avoid a cycle where the operator must stop work eve
 read a trivial report and click continue.
 
 Progressive trust determines package size and review frequency.
+
+<!-- advisory-observations-knowledge-findings-v0-1:start -->
+## Advisory observations and knowledge-maintenance reporting
+
+Evidence reports SHOULD include optional stable sections:
+- `advisory_observations`
+- `knowledge_findings_resolved`
+- `knowledge_findings_remaining`
+
+`advisory_observations` may be empty. Executors must not manufacture suggestions.
+
+Material advisories should carry category, observation, evidence, expected impact, urgency,
+confidence and recommendation.
+
+Advisory output is not a roadmap/scope decision.
+
+When resolving an Inspector knowledge finding, report finding id, semantic artifacts updated,
+rationale and verification evidence so tooling can recheck it.
+<!-- advisory-observations-knowledge-findings-v0-1:end -->

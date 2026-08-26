@@ -115,3 +115,13 @@ Do not perform large destructive restructuring only because a standard exists.
 Prefer small, tested, reversible alignment steps.
 
 Large migrations require a dedicated Blueprint-approved checkpoint.
+
+<!-- knowledge-standards-group-v0-1:start -->
+## Knowledge standards
+
+Project self-knowledge, readiness, Inspector boundaries, semantic metadata and repository
+discoverability are grouped under `knowledge/index.yaml`.
+
+These are target standards for gradual adoption and do not by themselves activate autonomous
+execution.
+<!-- knowledge-standards-group-v0-1:end -->

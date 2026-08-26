@@ -81,3 +81,21 @@ Executor success in one package does not give it permission to:
 - write other module repositories;
 - issue business/module ACCEPT decisions;
 - enable background commit/push.
+
+<!-- knowledge-aware-executor-operation-v0-1:start -->
+## Knowledge-aware execution foundation
+
+Before non-trivial implementation, executors should perform:
+1. knowledge/capability lookup — what already exists and how is it meant to be reused?
+2. standards lookup — which Blueprint rules govern this work?
+3. relevant dependency check.
+
+Strategic context should include Mission, Target State and a bounded Strategic Horizon.
+
+**See far, act near.**
+
+Strategic context does not authorize future-scope implementation.
+
+Project Inspector findings are maintenance inputs and do not automatically replace the active Work
+Package unless their governed blocking class requires it.
+<!-- knowledge-aware-executor-operation-v0-1:end -->

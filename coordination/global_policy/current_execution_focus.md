@@ -670,3 +670,21 @@ Immediate priority after publishing this clarification:
 2. preserve them outside repo history;
 3. resume H-series work only if operator time remains.
 <!-- logistics-only-automation-pilot-scope-v0-1:end -->
+
+<!-- post-v0-4-1-knowledge-foundation-plan-v0-1:start -->
+## Post-v0.4.1 owner-directed Knowledge Foundation plan — 2026-08-26
+
+Current release authority remains `coordination/releases/current.yaml`.
+
+At this checkpoint the live v0.4.1 phase is H10. This planning note does not alter H10/H11, activate
+a package, release a business prompt or enable broad autonomy.
+
+Owner direction: after the full v0.4.1 hardening program closes, the next major Blueprint foundation
+is the Knowledge Foundation / project self-knowledge program before unrelated broad autonomous
+expansion.
+
+Planning references:
+- `coordination/roadmaps/details/forprint_system_blueprint/knowledge_foundation_program_v0_1.md`
+- `coordination/repository_knowledge/repository_knowledge_and_direction_snapshot_protocol_v0_3.md`
+- `coordination/standards/knowledge/index.yaml`
+<!-- post-v0-4-1-knowledge-foundation-plan-v0-1:end -->
