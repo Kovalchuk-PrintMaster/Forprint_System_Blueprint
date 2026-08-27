@@ -53,3 +53,23 @@ the reference implementation of ForPrint self-knowledge.
 Stop instead of inventing facts if semantic ownership is unclear, authority conflicts, a file move
 has unresolved consumers, cross-repository writing is required, generated projection conflicts with
 Git truth, a critical dependency is unknown, or scope exceeds the active package.
+
+<!-- theory-review-r2-controlled-experiment:start -->
+## First controlled batch-validation experiment
+
+Before scaling K3/K4, run one representative experiment:
+
+1. choose a meaningful repository subset;
+2. run deterministic inventory/analysis and preserve exact report + baseline;
+3. give raw source material to Reviewer A;
+4. give the generated analytical result to Reviewer B;
+5. compare both paths using one reconciliation rubric;
+6. classify script error / reviewer error / missing context / genuine ambiguity;
+7. deep-review disagreement and high-risk samples;
+8. update scanners/parsers/semantic tooling when machine analysis is wrong;
+9. run random control samples even when paths agree;
+10. repeat on several batches before broad trust is raised.
+
+Required evidence includes batch manifest, hashes, reviewer inputs, comparison result, disagreement
+classes, corrections, quality metrics and residual unknowns.
+<!-- theory-review-r2-controlled-experiment:end -->

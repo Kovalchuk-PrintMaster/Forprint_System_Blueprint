@@ -89,3 +89,84 @@ unblocks the critical path rather than fully completing the blocker.
 Unplanned evening theory discussion is preserved as Design/Theory Decision evidence and later merged
 into canonical docs; it is not a second competing roadmap.
 <!-- synthetic-roadmap-refinement-v0-1:end -->
+
+<!-- theory-review-r2-deep-review-method:start -->
+## Deep review method and target-milestone model — 2026-08-27
+
+Portfolio roadmap review is iterative rather than one giant one-pass design.
+
+- First pass: role, business value, target direction and obvious dependencies.
+- Second pass: expand unresolved major steps into whatever micro-step depth is necessary.
+- Later passes: reconcile contracts, dependencies, Knowledge Inventory and implementation evidence.
+- Once a step is explicitly understood/accepted, keep its detailed historical decomposition but
+  collapse it in ordinary review views.
+- Keep unresolved, changed, blocked and ambiguous steps expanded.
+- Mature/old modules may require inventory-first reconstruction before a final execution roadmap.
+- Every pass must expose gray zones rather than convert uncertainty into false precision.
+
+Roadmaps distinguish `TARGET_MILESTONE` from `STEADY_STATE_EVOLUTION`. ForPrint is expected to move
+from heavy build-out to recurring optimization/evolution, not to a permanent “finished forever”
+state.
+
+The module inventory used for portfolio automation must be explicitly reconciled. Historical review
+views may omit module identities; omission is never retirement authority.
+<!-- theory-review-r2-deep-review-method:end -->
+
+<!-- portfolio-ui-design-system-adoption-v0-1:start -->
+
+## Cross-module UI design-system adoption dependency
+
+Modules that introduce new UI capability should use the ForPrint Design System capability rather
+than inventing a new local visual baseline.
+
+Portfolio rebuild must distinguish:
+- new UI implementation;
+- existing UI already in production/use;
+- legacy UI needing gradual migration;
+- explicit exceptions.
+
+The Library roadmap receives a Design System slice covering inventory, tokens, shared components,
+themes, reference implementation, controlled adoption and drift management.
+
+<!-- portfolio-ui-design-system-adoption-v0-1:end -->
+
+<!-- website-design-system-migration-guard-v0-2:start -->
+
+## Website migration guard — explicit owner rule — 2026-08-27
+
+The current Website is an existing, already-formed UI product and is a special migration case.
+
+The shared ForPrint Design System **does not authorize an immediate Website redesign**.
+
+Required Website transition sequence:
+
+1. Keep the current Website visual design as the active production baseline.
+2. Do not automatically replace existing Website styling/components merely because the shared
+   Design System becomes available.
+3. A new Website visual variant/theme may enter development only after explicit operator approval
+   and a separate Website work package/prompt.
+4. Develop the new Website visual variant in parallel with the existing design rather than
+   destructively rewriting the active production presentation.
+5. Validate the new variant on the Website's local development/test server first.
+6. Do not publish the new design to hosting as a side effect of local development, design-system
+   publication, Library updates or portfolio adoption.
+7. Hosting deployment requires a separate explicit operator decision after local testing/review.
+8. During transition, the current and new Website visual variants may coexist where the Website
+   architecture permits, so rollback/comparison remains possible.
+9. Migration may proceed gradually by components/pages/surfaces rather than as one all-at-once
+   visual rewrite.
+10. Only after the operator accepts the tested target presentation should the new design become
+    the Website production default.
+
+General portfolio rule:
+
+- **newly created UI-bearing tools/modules** should use the canonical Design System from the start
+  unless a reviewed exception exists;
+- **already existing UI-bearing tools/modules** keep their current working presentation until
+  their own explicit migration plan is approved;
+- no assistant may infer "shared Design System exists" => "rewrite every existing interface now".
+
+Cloud Backup Manager remains a reusable reference/seed for shared components and layout patterns,
+not a command to make Website visually identical to Cloud Backup Manager.
+
+<!-- website-design-system-migration-guard-v0-2:end -->

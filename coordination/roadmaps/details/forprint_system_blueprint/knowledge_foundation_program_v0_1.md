@@ -63,3 +63,18 @@ owning semantics, routine maintenance is incremental, and broad autonomy can be 
 
 No live autonomy, live SQLite activation, automatic business/module ACCEPT, cross-repository writes,
 one-shot repository refactor, or manual semantic record for every helper function.
+
+<!-- theory-review-r2-batch-validation:start -->
+## 2026-08-27 batch-validation refinement
+
+Owner-approved intended experiment for K3/K4:
+
+`structural/automated analysis -> preserve generated report -> raw-source Reviewer A -> generated-result Reviewer B -> compare -> classify disagreement -> manually investigate disagreement/high-risk subsets -> strengthen tooling -> repeat across batches`.
+
+This changes the validation strategy, not Knowledge Foundation activation. It explicitly avoids
+line-by-line human validation of every generated record while preserving risk-weighted control,
+random control samples and measured script-vs-reviewer quality evidence.
+
+Inspector may later orchestrate/check this process and maintain findings, but does not become
+semantic owner.
+<!-- theory-review-r2-batch-validation:end -->

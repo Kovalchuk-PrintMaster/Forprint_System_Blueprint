@@ -747,3 +747,43 @@ Read:
 
 This plan does not override current H10/H11 and does not activate itself.
 <!-- knowledge-foundation-continuity-v0-1:end -->
+
+<!-- theory-review-r2-continuity:start -->
+## 2026-08-27 theory/roadmap reconciliation continuity
+
+After reading current release authority, use these planning inputs for the latest owner-reviewed
+roadmap direction:
+
+- `../portfolio_rebuild_inputs/2026-08-27__forprint_system_blueprint__revision1_owner_review_v0_1.md`
+- `../portfolio_rebuild_inputs/2026-08-27__calculator_engine__revision1_owner_review_v0_1.md`
+- `../portfolio_rebuild_inputs/2026-08-27__forprint_accounting_registry_service__revision1_owner_review_v0_1.md`
+- `../portfolio_rebuild_inputs/2026-08-27__cross_module_boundaries_and_open_questions_v0_1.md`
+- `../knowledge_foundation_batch_validation_experiment_v0_1.md`
+- `../../../../internal_work/blueprint/governance/2026-08-27__blueprint__theory_review_reconciliation_decision_v0_1.md`
+
+These are planning/reconciliation artifacts. They do not supersede `coordination/releases/current.yaml`,
+do not activate Knowledge Foundation, and do not change the Logistics-only H10 automation boundary.
+<!-- theory-review-r2-continuity:end -->
+
+<!-- operator-local-continuity-conventions-v0-1:start -->
+
+## Operator local working conventions — temporary continuity rule
+
+Status: continuity/operator preference; not runtime or release authority.
+
+Until the full Blueprint Knowledge Inventory is completed and these conventions are
+separately promoted into the canonical zero-context/global bootstrap instruction:
+
+- transient user-run Python scripts are executed through `tmp.py` in the Blueprint repository root;
+- the operator copies/replaces supplied script content into `<repo-root>/tmp.py`;
+- assistant instructions should prefer `python tmp.py ...` and should not repeatedly require
+  generated script filenames or unknown source paths;
+- when communicating with the operator in Ukrainian, use feminine grammatical forms when addressing the operator;
+- promotion into global/canonical assistant bootstrap rules is a separate reviewed transaction
+  after the Knowledge Inventory is complete.
+
+These conventions do not change `coordination/releases/current.yaml`, H10/H11 authority,
+prompt lifecycle authority, module write boundaries, ACCEPT semantics, Logistics-only
+automation pilot scope, or publication rules.
+
+<!-- operator-local-continuity-conventions-v0-1:end -->
