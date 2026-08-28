@@ -1,5 +1,42 @@
 # ForPrint Blueprint — START HERE
 
+<!-- FORPRINT_PORTFOLIO_CURRENT_STATE_BEGIN -->
+## Current portfolio coordination checkpoint - 2026-08-28
+
+This is navigation/continuity only. `coordination/releases/current.yaml` remains release authority.
+
+- Full B01-B10 first-pass Knowledge Inventory/reconciliation is COMPLETE in the temporary workspace.
+- 181 raw external findings were reduced to 14 global reconciliation programs.
+- Targeted evidence semantic adjudication N10-02 is COMPLETE.
+- P1 delegated prompt/release/packet: core implementations confirmed active; GR-03 still requires authority reconciliation.
+- P2 shared external-input helper: evidence gap CLOSED.
+- P3 old 8-10 roadmap horizon: no active executable enforcement found; current policy/knowledge cleanup still required.
+- P4 clean-worktree: no global ecosystem gate; only scoped tool/module constraints confirmed.
+- Confirmed technical repairs remain queued: Markdown fence scope corruption in module prompt protocol; zero-byte `reports/forprint_module_status.json`.
+- Current H10 phase authority: VALID / not invalidated.
+- Current H10 pilot scope: Logistics-only.
+- Future automatic Logistics runs do NOT count as sufficiently governed stability evidence until GR-02/GR-03 control-plane reconciliation.
+- Cross-module automation expansion: BLOCKED.
+- Automatic module/business ACCEPT/RETURN/HOLD: NOT AUTHORIZED.
+- Knowledge Foundation: PLANNED / NOT ACTIVE.
+- Next controlled step: **N10-03 - specify H10/control-plane remediation contract without implementing it**.
+- Working portfolio review pack: `coordination/internal_work/blueprint/portfolio_strategy_history/2026-08-28__forprint_portfolio__all_modules_microstep_review_v0_3/`.
+- Evening discussion rule: no implementation scripts; record owner decisions/synthetic candidates, then produce one consolidated update package when the evening session is explicitly closed.
+
+### Next 10 control steps
+1. N10-03 - specify B09/H10 blocker remediation, no implementation.
+2. N10-04 - design canonical current-state read model.
+3. N10-05 - normalize module identity/status universe.
+4. N10-06 - normalize artifact lifecycle/provenance.
+5. N10-07 - normalize roadmap/dependency/priority model.
+6. N10-08 - resolve owner-boundary decision queue.
+7. N10-09 - define Knowledge Foundation activation prerequisites.
+8. N10-10 - prepare bounded canonical remediation publication proposal.
+9. Execute only owner-approved remediation waves with tests/rollback.
+10. Re-open governed H10 run-evidence gate only after GR-02/GR-03 pass; any expansion still requires a separate owner decision.
+<!-- FORPRINT_PORTFOLIO_CURRENT_STATE_END -->
+
+
 Status: zero-context continuity entry point.
 
 This file is a navigation/handoff document, not runtime authority.
