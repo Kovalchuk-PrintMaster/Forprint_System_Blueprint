@@ -787,3 +787,18 @@ prompt lifecycle authority, module write boundaries, ACCEPT semantics, Logistics
 automation pilot scope, or publication rules.
 
 <!-- operator-local-continuity-conventions-v0-1:end -->
+
+<!-- evening-roadmap-review-convention-v0-1:start -->
+## Evening roadmap discussion convention — owner direction 2026-08-28
+
+When the owner states that the session is an evening roadmap-review conversation, assume no development-computer access unless explicitly stated otherwise.
+
+- Do not generate execution scripts or ask for routine terminal commands during the discussion.
+- Focus on role, target state, ownership, dependencies, risks, gray zones and roadmap intent.
+- Preserve explicit owner statements; keep assistant-added detail marked synthetic until reviewed.
+- Accumulate one coherent session delta.
+- Only after the owner explicitly closes the evening session, prepare one consolidated reconciliation archive for the next work period.
+
+Roadmaps are refined through repeated portfolio passes, not forced final in one conversation.
+This is continuity guidance only, not runtime/release authority. After the Knowledge Inventory/documentation rebuild, promote it into the proper zero-context assistant operating standard.
+<!-- evening-roadmap-review-convention-v0-1:end -->

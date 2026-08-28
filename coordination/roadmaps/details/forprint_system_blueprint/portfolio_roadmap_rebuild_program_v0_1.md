@@ -170,3 +170,15 @@ Cloud Backup Manager remains a reusable reference/seed for shared components and
 not a command to make Website visually identical to Cloud Backup Manager.
 
 <!-- website-design-system-migration-guard-v0-2:end -->
+
+<!-- iterative-portfolio-roadmap-review-v0-1:start -->
+## Iterative portfolio roadmap review method — owner direction 2026-08-28
+
+Pass 1 records role, business value, target state, ownership/non-ownership, dependencies, representative scenarios, gray zones and candidate microsteps.
+
+Pass 2 expands large steps into implementable microsteps with concrete artifacts, contracts, dependency gates, acceptance evidence, rollback/compatibility and explicit human/automation boundaries.
+
+Repeat further passes as needed; a module may need 10, 20, 50+ microsteps. The goal is substantial autonomous work packages while tightly-coupled modules remain synchronized.
+
+Do not invent work merely to justify an existing module. Modules with unclear independent value may remain deferred until the full capability/dependency map is visible.
+<!-- iterative-portfolio-roadmap-review-v0-1:end -->
