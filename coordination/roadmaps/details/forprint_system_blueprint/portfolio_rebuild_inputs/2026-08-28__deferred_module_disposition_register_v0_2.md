@@ -7,7 +7,7 @@ main portfolio capability map is clearer.
 
 | Module | Current hypothesis | Why defer | Later decision |
 |---|---|---|---|
-| `forprint_operational_registry` | Possible operational data/registry backbone. | Exact canonical entities and overlap with CRM, Calculator, Accounting, Library and warehouse capability remain unclear. | Retain / redefine / merge / retire after full capability map. |
+| `forprint_operations_control_registry` | Possible operational data/registry backbone. | Exact canonical entities and overlap with CRM, Calculator, Accounting, Library and warehouse capability remain unclear. | Retain / redefine / merge / retire after full capability map. |
 | `production_runtime_inspector` | Possible runtime/production observation capability. | Likely overlap with Project Inspector, System Administration and production monitoring. | Prove unique lifecycle/ownership or merge/retire. |
 | `warehouse_service` | Physical stock/availability/movement capability is likely needed. | Need to decide whether it justifies a dedicated module or belongs in another operational layer. | Resolve after Accounting/Calculator/Operations/Registry analysis. |
 | `forprint_contract_registry` | Could own lifecycle/catalog of versioned inter-module contracts. | May overlap Blueprint, Library and Integration Gateway; independent value not yet proven. | Retain only if contract lifecycle/version/adoption governance is substantial enough. |

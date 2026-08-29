@@ -28,7 +28,7 @@ Reason: authentication/identity/access is a cross-project capability and should 
 inside Website, CRM, Mobile App, Operations Assistant and other channels.
 
 ## Deferred disposition
-- forprint_operational_registry
+- forprint_operations_control_registry
 - production_runtime_inspector
 - warehouse_service
 - forprint_contract_registry

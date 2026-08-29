@@ -20,7 +20,7 @@ High-confidence directions:
 - Marketing Orchestrator consumes CRM/Accounting/Website/Library signals and returns leads/performance learning.
 
 Critical unresolved ownership knots:
-1. Operational Registry / order-data backbone.
+1. Operations Control Registry / order-data backbone.
 2. Warehouse physical truth and whether it is a separate module.
 3. Contract Registry vs Library/Blueprint/Gateway.
 4. Omnichannel conversation-history owner.

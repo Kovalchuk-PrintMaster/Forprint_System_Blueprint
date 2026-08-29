@@ -1,5 +1,37 @@
 # ForPrint Blueprint — START HERE
 
+<!-- FORPRINT_EVENING_OWNER_DECISIONS_20260829_BEGIN -->
+## Evening owner-decision integration checkpoint — 2026-08-29
+
+Navigation/checkpoint only. `coordination/releases/current.yaml` remains authoritative.
+
+- Evening architecture review package integrated as a working portfolio-history checkpoint.
+- Owner-approved display/working identity: **Operations Control Registry**.
+- Proposed technical ID: `operations_control_registry`.
+- The previous module identity is historical/compatibility-only; see the migration evidence preserved in portfolio history.
+- Standalone `Contract Registry` is an **ABSORB / RETIRE candidate**:
+  - Blueprint owns general contract-governance standards;
+  - Integration Gateway owns concrete machine-contract enforcement/indexing;
+  - Library owns canonical semantics referenced by contracts.
+- Contract Registry executable/tool dependency evidence: none identified in the 2026-08-29 adjudication.
+- Production Runtime Inspector remains unresolved: `KEEP / ABSORB / RETIRE` requires expanded review.
+- Warehouse remains a likely physical-stock authority candidate; final `KEEP / ABSORB` decision remains deferred.
+- Identity & Access Service is the centralized authentication/authorization module planned for shared client surfaces.
+- Persistent business data principle: centralized managed persistence + domain ownership + explicit write boundaries.
+- Next review format: **EXPANDED**, with plain-language explanations, synthetic options, recommendations and owner live examples embedded into roadmap steps.
+- Current H10 authority unchanged; Logistics-only scope unchanged.
+- Cross-module automation expansion remains blocked pending its separate control decision.
+- Knowledge Foundation remains planned, not activated.
+
+Next working step:
+1. build the expanded portfolio review from the v0.3 sheets + this evening decision pack;
+2. adjudicate remaining current-looking old-name references outside canonical roadmap surfaces;
+3. perform external project-directory rename only after the exact path/repository boundary is explicitly confirmed;
+4. keep historical snapshots unchanged;
+5. continue Knowledge Inventory closeout/remediation sequencing without changing release authority.
+<!-- FORPRINT_EVENING_OWNER_DECISIONS_20260829_END -->
+
+
 <!-- FORPRINT_PORTFOLIO_CURRENT_STATE_BEGIN -->
 ## Current portfolio coordination checkpoint - 2026-08-28
 
