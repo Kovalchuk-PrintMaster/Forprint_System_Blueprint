@@ -125,10 +125,10 @@ modules:
   - accounting_document
   - print_ready_file
 - id: forprint_operational_registry
-  title: ForPrint Operational Registry
+  title: ForPrint Operations Control Registry
   type: operational_data_registry
   status: planned
-  role: 'Канонічний реєстр операційних бізнес-записів: клієнти, замовлення, взаємодії, робочі статуси, історія виконання.'
+  role: 'Канонічний реєстр операційного стану та control-контексту ForPrint: замовлення, взаємодії, робочі статуси, історія виконання та авторизований operational write boundary; фізична persistence topology лишається централізованою і не є власністю одного модуля.'
   owns:
   - client
   - order

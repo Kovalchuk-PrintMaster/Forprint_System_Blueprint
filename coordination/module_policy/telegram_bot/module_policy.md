@@ -49,7 +49,7 @@ Current main customer channel adapter for Telegram communication.
 
 - `Keep order-intake/customer-request flow moving.`
 - `Prepare channel-agnostic request handoff to Calculator.`
-- `Plan gradual move away from Supabase toward internal DB/Operational Registry.`
+- `Plan gradual move away from Supabase toward internal DB/Operations Control Registry.`
 
 ## Adoption rule
 

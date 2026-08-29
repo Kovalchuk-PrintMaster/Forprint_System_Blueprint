@@ -77,16 +77,19 @@ module_policy_index:
         - Prepare downstream-ready structured output.
 
     - module_id: forprint_operational_registry
-      module_name: ForPrint Operational Registry
+      module_name: ForPrint Operations Control Registry
       priority: p1
       development_status: reference_ready_storage_ready
       strategic_role: >
-        Main physical/internal ForPrint DB and operational data custodian.
+        Operational/commercial control registry for ForPrint: owns the operational state and
+        authorized write boundary for orders, obligations, reservations, shortages, incidents,
+        deadlines and cross-module execution context without owning every domain rule or the
+        physical persistence topology.
       main_goals:
-        - Own internal ForPrint DB storage foundation.
-        - Store ClientAccount, ClientGroup, requests, orders, contacts and operational events.
-        - Provide clean data access for other modules.
-        - Remain 1C-aware and sync-friendly.
+        - Own the operational data model and authorized write boundary over centrally managed ForPrint persistence.
+        - Store ClientAccount, ClientGroup, requests, orders, contacts and operational events within that boundary.
+        - Provide clean operational state and context access for other modules.
+        - Remain 1C-aware and sync-friendly without mirroring 1C as the internal model.
       owns:
         - internal_forprint_db
         - client_account_records
@@ -199,7 +202,7 @@ module_policy_index:
         - crm_dashboard
       next_focus:
         - Hold active development.
-        - Re-activate when Calculator/Operational Registry handoff needs runtime transport.
+        - Re-activate when Calculator/Operations Control Registry handoff needs runtime transport.
 
     - module_id: forprint_contract_registry
       module_name: ForPrint Contract Registry
@@ -271,7 +274,7 @@ module_policy_index:
       next_focus:
         - Keep order-intake/customer-request flow moving.
         - Prepare channel-agnostic request handoff to Calculator.
-        - Plan gradual move away from Supabase toward internal DB/Operational Registry.
+        - Plan gradual move away from Supabase toward internal DB/Operations Control Registry.
 
     - module_id: forprint_crm
       module_name: ForPrint CRM
@@ -440,7 +443,7 @@ module_policy_index:
         Customer web channel/interface.
       main_goals:
         - Serve as future/request customer channel.
-        - Use same channel-agnostic Gateway/Calculator/Operational Registry contracts later.
+        - Use same channel-agnostic Gateway/Calculator/Operations Control Registry contracts later.
       owns:
         - website_customer_channel
       must_not_own:

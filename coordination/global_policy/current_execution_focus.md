@@ -43,7 +43,10 @@ coordination/reports/index.yaml;
 completion reports;
 questions for Blueprint.
 P1
-Operational Registry
+Operations Control Registry
+
+Compatibility: current machine/repository identifier remains `forprint_operational_registry`
+until a separately approved external-repository migration.
 
 Next planned direction:
 

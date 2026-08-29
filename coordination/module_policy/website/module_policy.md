@@ -25,7 +25,7 @@ Customer web channel/interface.
 ## Main goals
 
 - `Serve as future/request customer channel.`
-- `Use same channel-agnostic Gateway/Calculator/Operational Registry contracts later.`
+- `Use same channel-agnostic Gateway/Calculator/Operations Control Registry contracts later.`
 
 ## Owns
 

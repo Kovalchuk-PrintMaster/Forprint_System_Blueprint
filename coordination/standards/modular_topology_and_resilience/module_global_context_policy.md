@@ -62,13 +62,13 @@ Calculator Engine should understand:
 ```text
 Library provides semantic and catalog references.
 Calculator produces calculation packages, quote drafts and order drafts.
-Operational Registry owns canonical operational orders.
+Operations Control Registry owns canonical operational orders.
 Accounting Registry owns invoices and payment truth.
 Gateway will later route runtime handoffs.
 CRM will show operator views and decisions.
 ```
 
-Operational Registry should understand:
+Operations Control Registry should understand:
 
 ```text
 it owns operational truth;
@@ -93,7 +93,7 @@ Telegram Bot should understand:
 it owns channel interaction shell and dialog state;
 it does not own canonical clients or orders;
 it should hand off request context through approved contracts;
-it must not become CRM or Operational Registry.
+it must not become CRM or Operations Control Registry.
 ```
 
 ## Degraded mode awareness

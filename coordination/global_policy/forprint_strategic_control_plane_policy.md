@@ -38,7 +38,7 @@ The module should not start active runtime implementation until core modules are
 Required prerequisites:
 
 Calculator Engine produces structured calculation/order output.
-Operational Registry has stable core data model.
+Operations Control Registry has stable core data model.
 Library has canonical semantic/catalog authority.
 Accounting Registry has safe 1C import/export foundation.
 Module coordination/status reporting works across several modules.

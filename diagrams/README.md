@@ -15,7 +15,7 @@ which modules exist;
 how modules are connected;
 which module owns which data objects;
 where customer channels enter the system;
-where Gateway, CRM, Operational Registry, Library, Calculator and Accounting fit;
+where Gateway, CRM, Operations Control Registry, Library, Calculator and Accounting fit;
 which parts of the system are planned, active or external.
 ```
 Diagram files

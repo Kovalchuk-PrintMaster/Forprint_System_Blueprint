@@ -60,7 +60,7 @@ module_git_sources:
 
       '
   - module_id: forprint_operational_registry
-    module_name: ForPrint Operational Registry
+    module_name: ForPrint Operations Control Registry
     priority: p1
     development_status: reference_ready_storage_ready
     local_path: /srv/software_development/forprint-project/forprint_operational_registry
@@ -71,7 +71,10 @@ module_git_sources:
     prompt_index: coordination/prompts/index.yaml
     report_index: coordination/reports/index.yaml
     repo_status: confirmed
-    notes: 'Internal ForPrint DB/data custodian. Next planned direction is v0.6 Core ForPrint Data Model Expansion.
+    notes: 'Canonical display/working identity is ForPrint Operations Control Registry. The existing technical module_id,
+      local repository path and Git repository name remain compatibility identifiers until a separately approved external-repository
+      migration. The module owns operational control state and its authorized write boundary over centrally managed persistence;
+      it does not own the physical persistence topology for every domain.
 
       '
   - module_id: forprint_library

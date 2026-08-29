@@ -275,7 +275,7 @@ Example:
 Calculator must not own canonical client registry.
 Library must not own operational orders.
 Accounting Registry must not own CRM workflow.
-Operational Registry must not own Library catalog semantics.
+Operations Control Registry must not own Library catalog semantics.
 ```
 
 ## Coordination metadata checks

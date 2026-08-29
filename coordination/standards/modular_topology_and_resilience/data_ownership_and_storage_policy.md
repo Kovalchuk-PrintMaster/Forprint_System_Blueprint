@@ -94,7 +94,7 @@ Canonical truth belongs to owner modules.
 Examples:
 
 ```text
-Operational Registry owns operational clients, requests, orders, tasks and operational events.
+Operations Control Registry owns operational clients, requests, orders, tasks and operational events.
 Accounting Registry owns invoices, payments, accounting documents and 1C staging.
 Library owns semantic and catalog meaning.
 Calculator owns calculation packages, quotes and drafts.
@@ -138,7 +138,7 @@ A foreign reference is not ownership.
 Example:
 
 ```text
-Calculator may store operational_order_reference after Operational Registry accepts an order creation command.
+Calculator may store operational_order_reference after Operations Control Registry accepts an order creation command.
 Accounting Registry may store operational_order_reference for invoice mapping.
 CRM may store client_reference for UI view state.
 ```

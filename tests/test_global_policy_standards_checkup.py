@@ -49,7 +49,7 @@ def test_global_policy_mentions_core_module_roles() -> None:
         ROOT / "coordination" / "global_policy" / "forprint_project_doctrine.md"
     ).read_text(encoding="utf-8")
 
-    assert "Operational Registry" in content
+    assert "Operations Control Registry" in content
     assert "Library" in content
     assert "Calculator Engine" in content
     assert "Accounting Registry" in content

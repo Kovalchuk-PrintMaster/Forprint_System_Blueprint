@@ -29,7 +29,7 @@ The following ownership boundaries must remain explicit:
 ForPrint System Blueprint owns architecture and standards.
 ForPrint Library owns semantic and catalog meaning.
 Calculator Engine owns calculation outputs and drafts.
-ForPrint Operational Registry owns operational truth.
+ForPrint Operations Control Registry owns operational truth.
 ForPrint Accounting Registry Service owns accounting and 1C staging truth.
 ForPrint Integration Gateway owns transport and handoff reliability.
 Telegram Bot, Website and future Mobile App own customer channel shells.

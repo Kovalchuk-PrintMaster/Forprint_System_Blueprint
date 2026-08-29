@@ -56,11 +56,16 @@ ForPrint System Blueprint
 
 Owns architecture, module boundaries, execution queue, coordination standards and global project alignment.
 
-Operational Registry
+Operations Control Registry
 
-Main physical/internal data custodian of ForPrint.
+Canonical owner of ForPrint operational control state and operational write boundaries.
 
-It owns the internal ForPrint DB foundation and structured data access, but must not become the logical owner of every domain rule.
+It coordinates order state, obligations, reservations/shortages, incidents, deadlines and cross-module execution context.
+Persistent business data uses centrally managed persistence; the module does not own the physical storage topology for every domain.
+
+Compatibility note: the current technical identifier `forprint_operational_registry`, existing repository path/name,
+contract IDs and released prompt IDs/paths remain legacy compatibility identifiers until a separately approved technical migration.
+The canonical display/working identity is **Operations Control Registry**.
 
 Library
 
@@ -131,11 +136,12 @@ New orders should primarily pass through Calculator Engine.
 
 Manual and legacy paths are fallback only.
 
-5. Operational Registry keeps internal data
+5. Operations Control Registry owns operational state, not storage topology
 
-ForPrint DB is the internal data foundation.
+ForPrint persistent business data belongs in centrally managed persistence with explicit domain write boundaries.
 
-Operational Registry is the physical/internal data custodian.
+Operations Control Registry owns the operational model, operational state transitions and authorized writes for its domain.
+It must not become a hidden private database for every module or a substitute for Library, CRM, Accounting, Warehouse or Identity ownership.
 
 6. Library controls semantics
 
@@ -196,7 +202,7 @@ Near-term project direction:
 2. Apply module coordination standard.
 3. Use Calculator as first active module in the full coordination loop.
 4. Move Calculator toward CalculationOutputPackage / Quote / OrderDraft.
-5. Expand Operational Registry data model later.
+5. Expand Operations Control Registry operational-control model and centralized-persistence boundaries later.
 6. Strengthen Library canonical catalog/semantic authority.
 7. Keep Accounting Registry ready, but wait for sanitized 1C samples before deeper v0.6.
 

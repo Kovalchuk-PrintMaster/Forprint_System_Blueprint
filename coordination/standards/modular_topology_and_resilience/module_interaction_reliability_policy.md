@@ -108,7 +108,7 @@ Examples:
 Calculator may store a completed CalculationOutputPackage and mark order handoff as pending.
 Telegram Bot may store request context locally until Gateway is available.
 Gateway may keep a handoff in retry state until the target module is available.
-Operational Registry may reject or queue an incoming command depending on its current policy.
+Operations Control Registry may reject or queue an incoming command depending on its current policy.
 CRM may show stale reporting data with a clear warning.
 ```
 
@@ -160,7 +160,7 @@ Reliable handoff does not transfer business ownership.
 Examples:
 
 ```text
-Calculator sends an OrderDraft, but Operational Registry decides whether an operational order is created.
+Calculator sends an OrderDraft, but Operations Control Registry decides whether an operational order is created.
 Gateway routes an invoice request, but Accounting Registry owns invoice truth.
 Telegram sends request context, but it does not own canonical client or order records.
 ```

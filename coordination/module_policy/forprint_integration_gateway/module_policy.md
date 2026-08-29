@@ -49,7 +49,7 @@ Future runtime validation, normalization, routing, idempotency and correlation l
 ## Next focus
 
 - `Hold active development.`
-- `Re-activate when Calculator/Operational Registry handoff needs runtime transport.`
+- `Re-activate when Calculator/Operations Control Registry handoff needs runtime transport.`
 
 ## Adoption rule
 

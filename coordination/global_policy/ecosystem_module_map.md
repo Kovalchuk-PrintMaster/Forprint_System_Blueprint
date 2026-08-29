@@ -18,10 +18,10 @@ It defines module roles and prevents modules from taking ownership of responsibi
 |---|---|---|
 | forprint_strategic_control_plane | Future strategic governance, priority control, ecosystem status aggregation and decision-support layer | Active runtime orchestrator before core modules are alive |
 | forprint_system_blueprint | Architecture, boundaries, execution queue, coordination standards | Runtime service |
-| forprint_operational_registry | Internal DB/data custodian | Calculator, CRM, Library, 1C adapter |
+| forprint_operational_registry | Operations Control Registry: operational state/write-boundary authority (legacy technical ID retained) | Calculator, CRM, Library, Accounting, Warehouse, Logistics |
 | forprint_library | Canonical semantic/catalog authority | Operational DB |
 | calculator_engine | Calculation and order formalization engine | Order registry, CRM, accounting, warehouse |
-| forprint_accounting_registry_service | Accounting/1C synchronization boundary | Operational Registry, CRM, Library |
+| forprint_accounting_registry_service | Accounting/1C synchronization boundary | Operations Control Registry, CRM, Library |
 | forprint_integration_gateway | Runtime transport/validation/routing layer | Business brain |
 | forprint_contract_registry | Canonical inter-module interface contract catalog, ownership, version and compatibility authority | Runtime gateway, business-semantic owner or workflow orchestrator |
 | telegram_bot | Customer channel adapter | Business truth owner |
@@ -46,7 +46,7 @@ Calculator Engine
 ↓
 CalculationOutputPackage / Quote / OrderDraft
 ↓
-Operational Registry stores internal records
+Operations Control Registry records operational state through the centrally managed persistence boundary
 ↓
 Accounting Registry prepares accounting/1C sync
 ↓

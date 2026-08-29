@@ -1,4 +1,4 @@
-# Module Policy — ForPrint Operational Registry
+# Module Policy — ForPrint Operations Control Registry
 
 ## Module ID
 
@@ -20,14 +20,14 @@ reference_ready_storage_ready
 
 ## Strategic role
 
-Main physical/internal ForPrint DB and operational data custodian.
+Operational/commercial control registry for ForPrint: owns the operational state and authorized write boundary for orders, obligations, reservations, shortages, incidents, deadlines and cross-module execution context without owning every domain rule or the physical persistence topology.
 
 ## Main goals
 
-- `Own internal ForPrint DB storage foundation.`
-- `Store ClientAccount, ClientGroup, requests, orders, contacts and operational events.`
-- `Provide clean data access for other modules.`
-- `Remain 1C-aware and sync-friendly.`
+- `Own the operational data model and authorized write boundary over centrally managed ForPrint persistence.`
+- `Store ClientAccount, ClientGroup, requests, orders, contacts and operational events within that boundary.`
+- `Provide clean operational state and context access for other modules.`
+- `Remain 1C-aware and sync-friendly without mirroring 1C as the internal model.`
 
 ## Owns
 

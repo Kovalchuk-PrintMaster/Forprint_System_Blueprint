@@ -11,7 +11,7 @@ This protocol defines the global prompt execution and reporting workflow for all
 
 It connects the existing Blueprint prompt queue, module-side prompt reading, module-side completion reporting, completion packet automation and Blueprint-side review flow into one end-to-end protocol.
 
-This is a global protocol. It is not specific to Library, Telegram Bot, Website, Calculator Engine, Operational Registry or any other single module.
+This is a global protocol. It is not specific to Library, Telegram Bot, Website, Calculator Engine, Operations Control Registry or any other single module.
 
 ## Scope
 

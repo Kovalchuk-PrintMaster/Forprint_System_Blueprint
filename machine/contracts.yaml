@@ -75,7 +75,7 @@ contracts:
   - material_consumption_estimate
   description: CRM отримує кошторис і деталізацію ціни для показу людині.
 - id: calculator_to_registry_quote.v1
-  title: Calculator Quote to Operational Registry
+  title: Calculator Quote to Operations Control Registry
   provider: calculator_engine
   consumer: forprint_operational_registry
   version: v1
@@ -83,9 +83,9 @@ contracts:
   data_objects:
   - quote_draft
   - product_configuration
-  description: Operational Registry зберігає прив'язку кошторису до замовлення.
+  description: Operations Control Registry зберігає прив'язку кошторису до замовлення.
 - id: crm_to_operational_registry_command.v1
-  title: CRM Command to Operational Registry
+  title: CRM Command to Operations Control Registry
   provider: forprint_crm
   consumer: forprint_operational_registry
   version: v1
@@ -95,7 +95,7 @@ contracts:
   - workflow_decision
   description: CRM диригує створенням / зміною операційних записів.
 - id: operational_registry_to_prepress_order_context.v1
-  title: Operational Registry Order Context to Prepress
+  title: Operations Control Registry Order Context to Prepress
   provider: forprint_operational_registry
   consumer: forprint_prepress_hub
   version: v1
@@ -115,7 +115,7 @@ contracts:
   - print_ready_file
   description: CRM бачить стан підготовки файлів.
 - id: operational_registry_to_accounting_order.v1
-  title: Operational Registry Order to Accounting
+  title: Operations Control Registry Order to Accounting
   provider: forprint_operational_registry
   consumer: accounting_registry_service
   version: v1
@@ -286,7 +286,7 @@ contracts:
   - correlation_context
   description: Gateway передає Calculator тільки валідований розрахунковий запит.
 - id: integration_gateway_to_operational_registry_command.v1
-  title: Integration Gateway to Operational Registry Command
+  title: Integration Gateway to Operations Control Registry Command
   provider: forprint_integration_gateway
   consumer: forprint_operational_registry
   version: v1
