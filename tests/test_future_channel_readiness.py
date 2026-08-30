@@ -30,7 +30,7 @@ def test_mobile_app_readiness_mentions_key_modules() -> None:
     required_modules = {
         "forprint_crm",
         "forprint_integration_gateway",
-        "forprint_operational_registry",
+        "forprint_operations_control_registry",
         "calculator_engine",
         "telegram_bot",
         "website",

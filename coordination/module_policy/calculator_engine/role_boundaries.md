@@ -38,7 +38,7 @@ canonical product catalog;
 canonical material catalog;
 canonical service catalog;
 canonical operation catalog;
-Operational Registry;
+Operations Control Registry;
 ForPrint Library;
 Accounting Registry;
 1C synchronization adapter;
@@ -64,9 +64,9 @@ If Calculator detects product/service/material ambiguity, it should not invent p
 
 Ambiguity should be reported to Blueprint/Library.
 
-Relationship with Operational Registry
+Relationship with Operations Control Registry
 
-Operational Registry is the internal ForPrint DB/data custodian.
+Operations Control Registry is the internal ForPrint DB/data custodian.
 
 Calculator may produce structured order draft packages, but it must not become the canonical order database.
 
@@ -74,7 +74,7 @@ Future flow:
 
 Calculator OutputPackage
 ↓
-Operational Registry stores operational order/request records
+Operations Control Registry stores operational order/request records
 Relationship with Accounting Registry
 
 Accounting Registry owns accounting/1C sync boundary.

@@ -21,7 +21,7 @@ This protocol applies to every ForPrint module that receives work from ForPrint 
 - `telegram_bot`
 - `website`
 - `calculator_engine`
-- `forprint_operational_registry`
+- `forprint_operations_control_registry`
 - `forprint_integration_gateway`
 - `forprint_accounting_registry_service`
 - `forprint_prepress_hub`
@@ -35,7 +35,7 @@ A module must write only inside its own repository.
 
 A module assistant must not directly create, update, copy or commit files inside the Blueprint repository unless the current working repository is explicitly `forprint_system_blueprint` and the active task is a Blueprint task.
 
-Blueprint-side incoming reports, review records, acceptance metadata and prompt queue updates are created only from the Blueprint context.
+Blueprint-side completion intake, review records, acceptance metadata and prompt queue updates are created only from the Blueprint context.
 
 ## Repository ownership boundary
 
@@ -57,28 +57,38 @@ module tests
 module docs
 module local tooling
 
+```
+
 A module may not update:
 
+```text
 /srv/software_development/forprint-project/forprint_system_blueprint/...
+```
 
 from a module-side task.
 
-Blueprint repository
+### Blueprint repository
 
 Blueprint owns:
 
+```text
 coordination/outgoing_prompts/<module_id>/
 coordination/outgoing_prompts/<module_id>/index.yaml
+coordination/review_packets/<module_id>/processed/
+coordination/roadmaps/
 coordination/standards/
 coordination/templates/
-coordination/incoming_reports/
 Blueprint review metadata
 Blueprint acceptance metadata
 Blueprint prompt queue state
+```
 
-Blueprint may import, copy or register a module completion report into a Blueprint-side intake location, but this is a Blueprint-side action.
+Module completion reports and Completion Outbox records remain module-owned evidence.
+Blueprint reads them from the registered module repository in read-only mode, validates
+them during completion intake, and materializes only Blueprint-owned review/queue/roadmap
+evidence.
 
-End-to-end workflow
+## End-to-end workflow
 
 The normal prompt execution loop is:
 
@@ -92,11 +102,11 @@ The module updates its own coordination records.
 The module runs validation, tests and governance checks.
 The module commits and pushes its own repository.
 Blueprint reads the module-side report.
-Blueprint may create a Blueprint-side incoming report record.
+Blueprint validates module-owned completion evidence and may create a Blueprint-owned review packet.
 Blueprint reviews the result.
 Blueprint updates prompt queue execution and review metadata.
 Blueprint commits and pushes its own repository.
-Prompt reading
+## Prompt reading
 
 Modules should use queue-based prompt navigation.
 
@@ -117,7 +127,7 @@ A module must not execute draft prompts.
 
 Draft prompts may be read for awareness only. They become executable only after Blueprint promotes them into the active prompt queue.
 
-Module-side execution
+## Module-side execution
 
 After reading a prompt, the module assistant should:
 
@@ -130,7 +140,7 @@ avoid live external integrations unless explicitly approved;
 avoid production writes unless explicitly approved;
 update tests and documentation as required;
 prepare module-side completion reporting.
-Completion reporting automation
+## Completion reporting automation
 
 Manual editing of several coordination files is not the preferred workflow.
 
@@ -156,7 +166,7 @@ coordination/status/next_questions_for_blueprint.md
 
 The assistant should review the generated diff before committing.
 
-Completion automation boundary
+## Completion automation boundary
 
 Module-side completion automation may write only inside the module repository.
 
@@ -168,7 +178,7 @@ Completion scripts may include Blueprint prompt paths as read-only metadata, but
 
 A module-side completion script must not perform Blueprint-side intake, Blueprint review, prompt queue acceptance or Blueprint metadata commits.
 
-Deferred automation
+## Deferred automation
 
 A module may temporarily expose deferred-safe completion targets when full completion packet automation is not yet configured.
 
@@ -183,7 +193,7 @@ document the deferral in the completion report or status.
 
 Deferred-safe targets should later be replaced with real packet validation and application.
 
-Manual fallback
+## Manual fallback
 
 Manual completion reporting is allowed only as a fallback when completion automation is not yet available or when Blueprint explicitly requests a manual transition checkpoint.
 
@@ -196,27 +206,29 @@ do not write into Blueprint repo.
 
 Manual fallback should not become the normal workflow for active modules.
 
-Blueprint-side incoming reports
+## Blueprint-side completion intake and review evidence
 
-Blueprint may keep a received copy or metadata record for module reports.
+Blueprint does not require a second current copy of a module-owned completion report.
 
-Recommended Blueprint-side path:
+The current cross-repository flow is:
 
-coordination/incoming_reports/<module_id>/index.yaml
-coordination/incoming_reports/<module_id>/completion/<report>.md
+```text
+module-owned completion report / Completion Outbox
+-> Blueprint read-only discovery
+-> completion intake validation
+-> explicit Blueprint decision
+-> coordination/review_packets/<module_id>/processed/
+-> prompt queue and roadmap evidence update
+```
 
-Recommended incoming report statuses:
+`coordination/review_packets/<module_id>/processed/` is the durable Blueprint-owned
+review-evidence surface. The module-side report path remains provenance pointing back to
+the module repository.
 
-received_pending_blueprint_review
-accepted_by_blueprint
-returned_for_fix
-superseded
+A module assistant must not create or update Blueprint review packets, Blueprint prompt
+queues, or Blueprint roadmap acceptance evidence from a module-side task.
 
-This is Blueprint-owned metadata.
-
-A module assistant must not create or update these files from a module-side task.
-
-Blueprint review
+## Blueprint review
 
 Blueprint review should update the prompt queue record separately for:
 
@@ -231,7 +243,7 @@ Module completion is not the same as Blueprint acceptance.
 
 A prompt can be completed by the module while still pending Blueprint review.
 
-Make target expectations
+## Make target expectations
 
 Active modules should gradually support:
 
@@ -255,7 +267,7 @@ make check-report
 
 module-finish should run validation and completion reporting checks, but must not perform Blueprint-side review or Blueprint-side intake.
 
-Forbidden patterns
+## Forbidden patterns
 
 Module assistants must not:
 
@@ -267,7 +279,7 @@ treat draft prompts as executable work;
 treat module completion as Blueprint acceptance;
 manually maintain duplicated completion metadata when automation exists;
 write generated reports outside the module root.
-Allowed patterns
+## Allowed patterns
 
 Module assistants may:
 
@@ -283,13 +295,15 @@ ask Blueprint to review completion output.
 
 Blueprint assistants may:
 
-read module reports;
-copy or register module reports into Blueprint incoming_reports;
+read module-owned completion reports and Completion Outbox records in read-only mode;
+create Blueprint-owned review packets after explicit review decisions;
 update Blueprint prompt queues;
 record Blueprint review status;
+update Blueprint roadmap evidence;
 issue the next prompt;
 commit and push Blueprint-side metadata.
-Relationship to other standards
+
+## Relationship to other standards
 
 This protocol connects and clarifies:
 

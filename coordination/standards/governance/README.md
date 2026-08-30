@@ -58,3 +58,8 @@ tracked and newly created files, a clean unchanged real Git index, and verified
 clean rollback after any failure.
 
 <!-- mutation-builder-contract-v0-1:end -->
+
+## Blueprint document taxonomy
+
+`blueprint_document_taxonomy.md` defines current document placement, the retired
+top-level `human/` rule, historical-path semantics and source→derived copy discipline.

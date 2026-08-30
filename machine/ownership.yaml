@@ -18,24 +18,24 @@ ownership:
     consumers:
     - forprint_project_inspector
   client:
-    owner: forprint_operational_registry
+    owner: forprint_operations_control_registry
     consumers:
     - forprint_crm
-    - accounting_registry_service
+    - forprint_accounting_registry_service
     - telegram_bot
     - website
     - logistics_service
   order:
-    owner: forprint_operational_registry
+    owner: forprint_operations_control_registry
     consumers:
     - forprint_crm
-    - accounting_registry_service
+    - forprint_accounting_registry_service
     - forprint_prepress_hub
     - warehouse_service
     - logistics_service
     - telegram_bot
   client_interaction:
-    owner: forprint_operational_registry
+    owner: forprint_operations_control_registry
     consumers:
     - forprint_crm
     - telegram_bot
@@ -62,8 +62,8 @@ ownership:
     owner: calculator_engine
     consumers:
     - forprint_crm
-    - forprint_operational_registry
-    - accounting_registry_service
+    - forprint_operations_control_registry
+    - forprint_accounting_registry_service
     - telegram_bot
     - website
   material_consumption_estimate:
@@ -75,7 +75,7 @@ ownership:
     owner: forprint_prepress_hub
     consumers:
     - forprint_crm
-    - forprint_operational_registry
+    - forprint_operations_control_registry
     - telegram_bot
   print_ready_file:
     owner: forprint_prepress_hub
@@ -83,19 +83,19 @@ ownership:
     - forprint_crm
     - telegram_bot
   invoice:
-    owner: accounting_registry_service
+    owner: forprint_accounting_registry_service
     consumers:
     - forprint_crm
     - telegram_bot
     - website
-    - forprint_operational_registry
+    - forprint_operations_control_registry
   payment_status:
-    owner: accounting_registry_service
+    owner: forprint_accounting_registry_service
     consumers:
     - forprint_crm
     - telegram_bot
     - website
-    - forprint_operational_registry
+    - forprint_operations_control_registry
   material_stock:
     owner: warehouse_service
     consumers:
@@ -105,14 +105,14 @@ ownership:
     owner: warehouse_service
     consumers:
     - forprint_crm
-    - forprint_operational_registry
+    - forprint_operations_control_registry
   delivery_status:
     owner: logistics_service
     consumers:
     - forprint_crm
     - telegram_bot
     - website
-    - forprint_operational_registry
+    - forprint_operations_control_registry
   backup_status_report:
     owner: cloud_backup_manager
     consumers:
@@ -170,16 +170,16 @@ ownership:
     owner: forprint_crm
     consumers: []
   order_status_history:
-    owner: forprint_operational_registry
+    owner: forprint_operations_control_registry
     consumers: []
   order_context:
-    owner: forprint_operational_registry
+    owner: forprint_operations_control_registry
     consumers: []
   client_history:
-    owner: forprint_operational_registry
+    owner: forprint_operations_control_registry
     consumers: []
   client_context:
-    owner: forprint_operational_registry
+    owner: forprint_operations_control_registry
     consumers: []
   print_mode:
     owner: forprint_library
@@ -203,13 +203,13 @@ ownership:
     owner: forprint_prepress_hub
     consumers: []
   accounting_document:
-    owner: accounting_registry_service
+    owner: forprint_accounting_registry_service
     consumers: []
   one_c_sync_event:
-    owner: accounting_registry_service
+    owner: forprint_accounting_registry_service
     consumers: []
   accounting_export:
-    owner: accounting_registry_service
+    owner: forprint_accounting_registry_service
     consumers: []
   telegram_dialog_state:
     owner: telegram_bot
@@ -281,9 +281,9 @@ ownership:
     owner: forprint_integration_gateway
     consumers:
     - calculator_engine
-    - forprint_operational_registry
+    - forprint_operations_control_registry
     - warehouse_service
-    - accounting_registry_service
+    - forprint_accounting_registry_service
   integration_response:
     owner: forprint_integration_gateway
     consumers:

@@ -1,0 +1,347 @@
+schema_version: forprint_blueprint_prompt_query_index_v0_1
+status: derived_non_authoritative
+authority: none
+queues:
+- module_id: calculator_engine
+  directory_id: calculator_engine
+  schema_version: legacy_prompt_index
+  index_path: coordination/outgoing_prompts/calculator_engine/index.yaml
+  identity_state: canonical
+  canonical_id_if_alias: null
+  authority_state: current_queue_surface
+  entry_count: 0
+  execution_status_counts: {}
+  review_status_counts: {}
+  entries: []
+- module_id: forprint_accounting_registry_service
+  directory_id: forprint_accounting_registry_service
+  schema_version: legacy_prompt_index
+  index_path: coordination/outgoing_prompts/forprint_accounting_registry_service/index.yaml
+  identity_state: canonical
+  canonical_id_if_alias: null
+  authority_state: current_queue_surface
+  entry_count: 0
+  execution_status_counts: {}
+  review_status_counts: {}
+  entries: []
+- module_id: forprint_integration_gateway
+  directory_id: forprint_integration_gateway
+  schema_version: legacy_prompt_index
+  index_path: coordination/outgoing_prompts/forprint_integration_gateway/index.yaml
+  identity_state: canonical
+  canonical_id_if_alias: null
+  authority_state: current_queue_surface
+  entry_count: 6
+  execution_status_counts:
+    completed_accepted: 5
+    ready_for_module_pull: 1
+  review_status_counts: {}
+  entries:
+  - prompt_id: gateway_blueprint_standards_visibility_advisory_alignment_v0_7
+    sequence: null
+    target_module: forprint_integration_gateway
+    execution_status: ready_for_module_pull
+    review_status: null
+    prompt_path: coordination/outgoing_prompts/forprint_integration_gateway/drafts/2026-06-15__gateway__standards_visibility_advisory_alignment_v0_7.md
+    prompt_path_exists: true
+    prompt_lifecycle_replacement: null
+    completion_report: null
+    completion_report_scope: null
+  - prompt_id: gateway_channel_intake_operational_handoff_contracts_v0_3
+    sequence: null
+    target_module: forprint_integration_gateway
+    execution_status: completed_accepted
+    review_status: null
+    prompt_path: null
+    prompt_path_exists: null
+    prompt_lifecycle_replacement: null
+    completion_report: null
+    completion_report_scope: null
+  - prompt_id: gateway_v0_3_1_coordination_records_fix
+    sequence: null
+    target_module: forprint_integration_gateway
+    execution_status: completed_accepted
+    review_status: null
+    prompt_path: null
+    prompt_path_exists: null
+    prompt_lifecycle_replacement: null
+    completion_report: null
+    completion_report_scope: null
+  - prompt_id: gateway_adapter_contracts_error_taxonomy_v0_4
+    sequence: null
+    target_module: forprint_integration_gateway
+    execution_status: completed_accepted
+    review_status: null
+    prompt_path: null
+    prompt_path_exists: null
+    prompt_lifecycle_replacement: null
+    completion_report: null
+    completion_report_scope: null
+  - prompt_id: gateway_contract_compatibility_replay_dry_run_v0_5
+    sequence: null
+    target_module: forprint_integration_gateway
+    execution_status: completed_accepted
+    review_status: null
+    prompt_path: null
+    prompt_path_exists: null
+    prompt_lifecycle_replacement: null
+    completion_report: null
+    completion_report_scope: null
+  - prompt_id: gateway_contract_release_consumer_acceptance_v0_6
+    sequence: null
+    target_module: forprint_integration_gateway
+    execution_status: completed_accepted
+    review_status: null
+    prompt_path: null
+    prompt_path_exists: null
+    prompt_lifecycle_replacement: null
+    completion_report: null
+    completion_report_scope: null
+- module_id: forprint_library
+  directory_id: forprint_library
+  schema_version: prompt_queue_v0_2
+  index_path: coordination/outgoing_prompts/forprint_library/index.yaml
+  identity_state: canonical
+  canonical_id_if_alias: null
+  authority_state: current_queue_surface
+  entry_count: 6
+  execution_status_counts:
+    completed_by_module: 5
+    ready_for_module_pull: 1
+  review_status_counts:
+    accepted_by_blueprint: 5
+    not_started: 1
+  entries:
+  - prompt_id: library_make_first_semantic_reference_readiness_v0_1
+    sequence: 1
+    target_module: forprint_library
+    execution_status: completed_by_module
+    review_status: accepted_by_blueprint
+    prompt_path: coordination/outgoing_prompts/forprint_library/approved/2026-06-23__library__make_first_semantic_reference_readiness_v0_1.md
+    prompt_path_exists: true
+    prompt_lifecycle_replacement: null
+    completion_report: coordination/reports/completion/2026-06-25__forprint_library__report__make-first-semantic-reference-readiness-v0-1.md
+    completion_report_scope: target_module_repository
+  - prompt_id: library_reference_contract_foundation_v0_2
+    sequence: 2
+    target_module: forprint_library
+    execution_status: completed_by_module
+    review_status: accepted_by_blueprint
+    prompt_path: coordination/outgoing_prompts/forprint_library/approved/2026-06-29__library__reference_contract_foundation_v0_2.md
+    prompt_path_exists: true
+    prompt_lifecycle_replacement: null
+    completion_report: coordination/reports/completion/2026-06-29__forprint_library__report__reference-contract-foundation-v0-2.md
+    completion_report_scope: target_module_repository
+  - prompt_id: library_coordination_foundation_alignment_v0_1
+    sequence: 3
+    target_module: forprint_library
+    execution_status: completed_by_module
+    review_status: accepted_by_blueprint
+    prompt_path: coordination/outgoing_prompts/forprint_library/approved/2026-07-03__library__coordination_foundation_alignment_v0_1.md
+    prompt_path_exists: true
+    prompt_lifecycle_replacement: null
+    completion_report: coordination/reports/completion/2026-07-03__forprint_library__report__coordination-foundation-alignment-v0-1.md
+    completion_report_scope: target_module_repository
+  - prompt_id: library_reference_consumption_pilot_v0_3
+    sequence: 4
+    target_module: forprint_library
+    execution_status: completed_by_module
+    review_status: accepted_by_blueprint
+    prompt_path: coordination/outgoing_prompts/forprint_library/approved/2026-07-08__library__reference_consumption_pilot_v0_3.md
+    prompt_path_exists: true
+    prompt_lifecycle_replacement: null
+    completion_report: coordination/reports/completion/2026-07-08__forprint_library__report__reference-consumption-pilot-v0-3.md
+    completion_report_scope: target_module_repository
+  - prompt_id: library_configurable_product_workbench_business_card_skeleton_v0_1
+    sequence: 5
+    target_module: forprint_library
+    execution_status: completed_by_module
+    review_status: accepted_by_blueprint
+    prompt_path: coordination/outgoing_prompts/forprint_library/approved/2026-07-11__library__configurable_product_workbench_business_card_skeleton_v0_1.md
+    prompt_path_exists: true
+    prompt_lifecycle_replacement: null
+    completion_report: null
+    completion_report_scope: null
+  - prompt_id: forprint_library_calculator_input_contract_v0_1
+    sequence: 6
+    target_module: forprint_library
+    execution_status: ready_for_module_pull
+    review_status: not_started
+    prompt_path: coordination/outgoing_prompts/forprint_library/approved/2026-07-17__forprint_library__calculator_input_contract_v0_1.md
+    prompt_path_exists: true
+    prompt_lifecycle_replacement: null
+    completion_report: null
+    completion_report_scope: null
+- module_id: forprint_operational_registry
+  directory_id: forprint_operational_registry
+  schema_version: legacy_prompt_index
+  index_path: coordination/outgoing_prompts/forprint_operational_registry/index.yaml
+  identity_state: historical_alias
+  canonical_id_if_alias: forprint_operations_control_registry
+  authority_state: historical_non_authoritative
+  entry_count: 1
+  execution_status_counts:
+    ready_for_module_pull: 1
+  review_status_counts: {}
+  entries:
+  - prompt_id: operational_registry_local_operator_command_query_readiness_v0_1
+    sequence: null
+    target_module: forprint_operational_registry
+    execution_status: ready_for_module_pull
+    review_status: null
+    prompt_path: coordination/outgoing_prompts/forprint_operational_registry/approved/2026-06-19__operational_registry__local_operator_command_query_readiness_v0_1.md
+    prompt_path_exists: true
+    prompt_lifecycle_replacement: null
+    completion_report: null
+    completion_report_scope: null
+- module_id: forprint_operations_control_registry
+  directory_id: forprint_operations_control_registry
+  schema_version: prompt_queue_v0_2
+  index_path: coordination/outgoing_prompts/forprint_operations_control_registry/index.yaml
+  identity_state: canonical
+  canonical_id_if_alias: null
+  authority_state: current_queue_surface
+  entry_count: 0
+  execution_status_counts: {}
+  review_status_counts: {}
+  entries: []
+- module_id: forprint_project_inspector
+  directory_id: forprint_project_inspector
+  schema_version: legacy_prompt_index
+  index_path: coordination/outgoing_prompts/forprint_project_inspector/index.yaml
+  identity_state: canonical
+  canonical_id_if_alias: null
+  authority_state: current_queue_surface
+  entry_count: 1
+  execution_status_counts:
+    ready_for_module_pull: 1
+  review_status_counts: {}
+  entries:
+  - prompt_id: project_inspector_make_first_bootstrap_v0_1
+    sequence: null
+    target_module: forprint_project_inspector
+    execution_status: ready_for_module_pull
+    review_status: null
+    prompt_path: coordination/outgoing_prompts/forprint_project_inspector/drafts/2026-06-23__project_inspector__make_first_bootstrap_v0_1.md
+    prompt_path_exists: true
+    prompt_lifecycle_replacement: null
+    completion_report: null
+    completion_report_scope: null
+- module_id: logistics_service
+  directory_id: logistics_service
+  schema_version: prompt_queue_v0_2
+  index_path: coordination/outgoing_prompts/logistics_service/index.yaml
+  identity_state: canonical
+  canonical_id_if_alias: null
+  authority_state: current_queue_surface
+  entry_count: 5
+  execution_status_counts:
+    completed_by_module: 5
+  review_status_counts:
+    accepted_by_blueprint: 5
+  entries:
+  - prompt_id: logistics_service_bootstrap_and_coordination_foundation_v0_1
+    sequence: 1
+    target_module: logistics_service
+    execution_status: completed_by_module
+    review_status: accepted_by_blueprint
+    prompt_path: coordination/outgoing_prompts/logistics_service/approved/2026-07-09__logistics_service__bootstrap_and_coordination_foundation_v0_1.md
+    prompt_path_exists: true
+    prompt_lifecycle_replacement: null
+    completion_report: coordination/reports/completion/logistics_service_bootstrap_and_coordination_foundation_v0_1_completion.md
+    completion_report_scope: target_module_repository
+  - prompt_id: logistics_service_boundary_and_local_model_v0_1
+    sequence: 2
+    target_module: logistics_service
+    execution_status: completed_by_module
+    review_status: accepted_by_blueprint
+    prompt_path: coordination/outgoing_prompts/logistics_service/approved/2026-07-11__logistics_service__boundary_and_local_model_v0_1.md
+    prompt_path_exists: true
+    prompt_lifecycle_replacement: null
+    completion_report: coordination/reports/completion/logistics_service_boundary_and_local_model_v0_1_completion.md
+    completion_report_scope: target_module_repository
+  - prompt_id: logistics_service_test_address_book_v0_1
+    sequence: 3
+    target_module: logistics_service
+    execution_status: completed_by_module
+    review_status: accepted_by_blueprint
+    prompt_path: coordination/outgoing_prompts/logistics_service/approved/2026-07-13__logistics_service__test_address_book_v0_1.md
+    prompt_path_exists: true
+    prompt_lifecycle_replacement: null
+    completion_report: coordination/reports/completion/logistics_service_test_address_book_v0_1_completion.md
+    completion_report_scope: target_module_repository
+  - prompt_id: logistics_service_provider_adapter_contract_v0_1
+    sequence: 4
+    target_module: logistics_service
+    execution_status: completed_by_module
+    review_status: accepted_by_blueprint
+    prompt_path: coordination/outgoing_prompts/logistics_service/approved/2026-07-14__logistics_service__provider_adapter_contract_v0_1.md
+    prompt_path_exists: true
+    prompt_lifecycle_replacement: null
+    completion_report: coordination/reports/completion/logistics_service_provider_adapter_contract_v0_1_completion.md
+    completion_report_scope: target_module_repository
+  - prompt_id: logistics_service_tracking_events_v0_1
+    sequence: 5
+    target_module: logistics_service
+    execution_status: completed_by_module
+    review_status: accepted_by_blueprint
+    prompt_path: coordination/outgoing_prompts/logistics_service/completed/2026-07-29__logistics_service__tracking_events_v0_1.md
+    prompt_path_exists: true
+    prompt_lifecycle_replacement: null
+    completion_report: coordination/reports/completion/2026-08-07__logistics_service__tracking_events_v0_1_completion_superseding_v0_2.md
+    completion_report_scope: target_module_repository
+- module_id: telegram_bot
+  directory_id: telegram_bot
+  schema_version: prompt_queue_v0_2
+  index_path: coordination/outgoing_prompts/telegram_bot/index.yaml
+  identity_state: canonical
+  canonical_id_if_alias: null
+  authority_state: current_queue_surface
+  entry_count: 4
+  execution_status_counts:
+    completed_by_module: 3
+    ready_for_module_pull: 1
+  review_status_counts:
+    accepted_by_blueprint: 3
+    not_started: 1
+  entries:
+  - prompt_id: telegram_bot_analysis_draft_handoff_preview_v0_1
+    sequence: 1
+    target_module: telegram_bot
+    execution_status: completed_by_module
+    review_status: accepted_by_blueprint
+    prompt_path: coordination/outgoing_prompts/telegram_bot/approved/2026-07-07__telegram_bot__analysis_draft_handoff_preview_v0_1.md
+    prompt_path_exists: true
+    prompt_lifecycle_replacement: null
+    completion_report: coordination/reports/completion/telegram_bot_analysis_draft_handoff_preview_v0_1_completion.md
+    completion_report_scope: target_module_repository
+  - prompt_id: telegram_bot_sqlite_conversation_state_v0_1
+    sequence: 2
+    target_module: telegram_bot
+    execution_status: completed_by_module
+    review_status: accepted_by_blueprint
+    prompt_path: coordination/outgoing_prompts/telegram_bot/approved/2026-07-08__telegram_bot__sqlite_conversation_state_v0_1.md
+    prompt_path_exists: true
+    prompt_lifecycle_replacement: null
+    completion_report: coordination/reports/completion/telegram_bot_sqlite_conversation_state_v0_1_completion.md
+    completion_report_scope: target_module_repository
+  - prompt_id: telegram_bot_dialogue_audit_events_v0_1
+    sequence: 3
+    target_module: telegram_bot
+    execution_status: completed_by_module
+    review_status: accepted_by_blueprint
+    prompt_path: coordination/outgoing_prompts/telegram_bot/approved/2026-07-09__telegram_bot__dialogue_audit_events_v0_1.md
+    prompt_path_exists: true
+    prompt_lifecycle_replacement: null
+    completion_report: null
+    completion_report_scope: null
+  - prompt_id: telegram_bot_governance_baseline_adoption_v0_1
+    sequence: 4
+    target_module: telegram_bot
+    execution_status: ready_for_module_pull
+    review_status: not_started
+    prompt_path: coordination/outgoing_prompts/telegram_bot/approved/2026-07-17__telegram_bot__governance_baseline_adoption_v0_1.md
+    prompt_path_exists: true
+    prompt_lifecycle_replacement: null
+    completion_report: null
+    completion_report_scope: null

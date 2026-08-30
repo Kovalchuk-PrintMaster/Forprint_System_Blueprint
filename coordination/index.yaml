@@ -1,6 +1,23 @@
 coordination_index:
-  version: 0.1.0
-  transport: git
-  note: >
-    На старті промти і запити передаються через файлову структуру та git.
-    Пізніше це можна підключити до Inspector або CRM dashboard.
+  schema_version: forprint_blueprint_coordination_index_v1_0
+  status: navigation_only
+  authority: none
+  effective_release:
+    path: coordination/releases/current.yaml
+  current_blueprint_roadmaps:
+    root: coordination/roadmaps/details/forprint_system_blueprint
+  areas:
+    standards: coordination/standards/
+    outgoing_prompts: coordination/outgoing_prompts/
+    incoming_requests: coordination/incoming_requests/
+    review_packets: coordination/review_packets/
+    module_sources: coordination/module_sources/
+    module_policy: coordination/module_policy/
+    reports: coordination/reports/
+    internal_work: coordination/internal_work/
+    repository_knowledge: coordination/repository_knowledge/
+    templates: coordination/templates/
+  historical:
+    early_alignment: coordination/internal_work/blueprint/legacy_alignment/
+  derived_navigation:
+    root: indexes/

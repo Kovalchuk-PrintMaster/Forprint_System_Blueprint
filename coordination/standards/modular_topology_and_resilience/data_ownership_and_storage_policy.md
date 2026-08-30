@@ -33,7 +33,7 @@ Example:
 
 ```text
 forprint_core_db
-  operational_registry.*
+  operations_control_registry.*
   accounting_registry.*
   library.*
   calculator.*

@@ -199,7 +199,7 @@ data_objects:
   - reason
   - created_at
 - id: client
-  owner: forprint_operational_registry
+  owner: forprint_operations_control_registry
   description: Клієнт або організація, яка замовляє продукт.
   canonical_fields:
   - client_id
@@ -208,7 +208,7 @@ data_objects:
   - status
   - created_at
 - id: order
-  owner: forprint_operational_registry
+  owner: forprint_operations_control_registry
   description: Підтверджене або робоче замовлення.
   canonical_fields:
   - order_id
@@ -218,7 +218,7 @@ data_objects:
   - total_amount
   - created_at
 - id: client_interaction
-  owner: forprint_operational_registry
+  owner: forprint_operations_control_registry
   description: Історія взаємодії з клієнтом.
   canonical_fields:
   - interaction_id
@@ -227,7 +227,7 @@ data_objects:
   - message_summary
   - created_at
 - id: order_status_history
-  owner: forprint_operational_registry
+  owner: forprint_operations_control_registry
   description: Історія зміни статусів замовлення.
   canonical_fields:
   - event_id
@@ -237,7 +237,7 @@ data_objects:
   - changed_at
   - reason
 - id: order_context
-  owner: forprint_operational_registry
+  owner: forprint_operations_control_registry
   description: Контекст замовлення для інших модулів.
   canonical_fields:
   - order_id
@@ -246,7 +246,7 @@ data_objects:
   - current_status
   - linked_files
 - id: client_history
-  owner: forprint_operational_registry
+  owner: forprint_operations_control_registry
   description: Агрегована історія клієнта.
   canonical_fields:
   - client_id
@@ -254,7 +254,7 @@ data_objects:
   - interactions
   - financial_summary
 - id: client_context
-  owner: forprint_operational_registry
+  owner: forprint_operations_control_registry
   description: Мінімальний контекст клієнта для розрахунків, сайту або бота.
   canonical_fields:
   - client_id
@@ -392,7 +392,7 @@ data_objects:
   - image_ref
   - generated_at
 - id: invoice
-  owner: accounting_registry_service
+  owner: forprint_accounting_registry_service
   description: Рахунок на оплату.
   canonical_fields:
   - invoice_id
@@ -402,7 +402,7 @@ data_objects:
   - status
   - issued_at
 - id: payment_status
-  owner: accounting_registry_service
+  owner: forprint_accounting_registry_service
   description: Стан оплати.
   canonical_fields:
   - payment_id
@@ -412,7 +412,7 @@ data_objects:
   - status
   - paid_at
 - id: accounting_document
-  owner: accounting_registry_service
+  owner: forprint_accounting_registry_service
   description: Акт, видаткова, бухгалтерський документ або інший фінансовий запис.
   canonical_fields:
   - document_id
@@ -422,7 +422,7 @@ data_objects:
   - status
   - external_ref
 - id: one_c_sync_event
-  owner: accounting_registry_service
+  owner: forprint_accounting_registry_service
   description: Подія експорту або синхронізації з 1С.
   canonical_fields:
   - event_id
@@ -432,7 +432,7 @@ data_objects:
   - status
   - error_message
 - id: accounting_export
-  owner: accounting_registry_service
+  owner: forprint_accounting_registry_service
   description: Експортований пакет даних для бухгалтерії або 1С.
   canonical_fields:
   - export_id

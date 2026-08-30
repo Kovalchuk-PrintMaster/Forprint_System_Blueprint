@@ -1,0 +1,41 @@
+schema_version: forprint_blueprint_authority_index_v0_2
+status: derived_non_authoritative
+authority_precedence:
+- role: effective_release_authority
+  path: coordination/releases/current.yaml
+  state: current
+- role: canonical_module_identity_authority
+  path: machine/module_identity_registry.yaml
+  state: current
+- role: canonical_machine_architecture
+  path: machine/
+  state: current_curated_surface
+- role: canonical_project_structure_standard
+  path: coordination/standards/project_structure_standard.md
+  state: current
+- role: document_taxonomy_policy
+  path: coordination/standards/governance/blueprint_document_taxonomy.md
+  state: current
+- role: minimal_structure_adoption_profile
+  path: coordination/standards/repository_structure_baseline.md
+  state: reference_only
+historical_non_authoritative:
+- coordination/self_coordination/roadmap.yaml
+- coordination/self_coordination/prompt_queue/index.yaml
+- coordination/outgoing_prompts/forprint_operational_registry/index.yaml
+- coordination/internal_work/blueprint/legacy_alignment/
+resolved_normalization:
+- id: legacy_operations_registry_prompt_routing
+  state: resolved
+  current_path: coordination/outgoing_prompts/forprint_operations_control_registry/index.yaml
+- id: accounting_registry_service_identity_split
+  state: resolved
+  canonical_id: forprint_accounting_registry_service
+- id: legacy_human_document_root
+  state: resolved_archived_and_consolidated
+  current_docs_root: docs/
+- id: legacy_prompt_dispatch_control
+  state: resolved_historical
+  current_prompt_authority: Prompt Queue v0.2 module indexes
+- id: repository_knowledge_duplicate_authority
+  state: resolved_source_to_derived

@@ -1,0 +1,25 @@
+# Integrated from Evening Architecture Package v1.0 on 2026-08-30.
+# This document does not change release/H10 authority by itself.
+
+schema_version: forprint_evening_architecture_acceptance_matrix_v1_0
+cross_cutting_invariants:
+- domain source of truth remains with domain owner
+- derived indexes remain non-authoritative
+- AI self-report is evidence input, not acceptance authority
+- critical actions require current-state permission check
+- blocked/revoked revisions cannot complete normal handoff
+- paper/QR artifacts are identifiers/projections, not authority
+- business standards are not auto-rewritten from raw telemetry
+- cross-module process contracts are versioned
+- historical relationships and order contexts are not silently rewritten
+promotion_gate:
+- canonical IDs resolved
+- no protected authority mutation without explicit decision
+- roadmap dependencies valid
+- knowledge/specialized indexes rebuilt
+- index drift checks PASS
+- semantic structure PASS
+- focused tests PASS
+- full pytest PASS
+- make check PASS
+- protected surfaces PASS

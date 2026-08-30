@@ -1,0 +1,20 @@
+schema_version: forprint_blueprint_document_index_v0_1
+status: derived_non_authoritative
+current_human_architecture:
+- path: docs/architecture/system_architecture.md
+  role: system_architecture_explanation
+- path: docs/architecture/module_boundaries.md
+  role: module_boundary_explanation
+- path: docs/architecture/integration_architecture.md
+  role: integration_architecture_explanation
+documentation_roots:
+- path: docs/architecture/
+  role: stable_architecture_docs
+- path: docs/operations/
+  role: runbooks_and_recovery
+- path: adr/
+  role: decision_history
+normative_root: coordination/standards/
+historical_root: coordination/internal_work/blueprint/legacy_alignment/
+retired_roots:
+- human/

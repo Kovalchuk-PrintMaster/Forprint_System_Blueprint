@@ -18,7 +18,7 @@ It defines module roles and prevents modules from taking ownership of responsibi
 |---|---|---|
 | forprint_strategic_control_plane | Future strategic governance, priority control, ecosystem status aggregation and decision-support layer | Active runtime orchestrator before core modules are alive |
 | forprint_system_blueprint | Architecture, boundaries, execution queue, coordination standards | Runtime service |
-| forprint_operational_registry | Operations Control Registry: operational state/write-boundary authority (legacy technical ID retained) | Calculator, CRM, Library, Accounting, Warehouse, Logistics |
+| forprint_operations_control_registry | Operations Control Registry: operational state/write-boundary authority (legacy technical ID retained) | Calculator, CRM, Library, Accounting, Warehouse, Logistics |
 | forprint_library | Canonical semantic/catalog authority | Operational DB |
 | calculator_engine | Calculation and order formalization engine | Order registry, CRM, accounting, warehouse |
 | forprint_accounting_registry_service | Accounting/1C synchronization boundary | Operations Control Registry, CRM, Library |

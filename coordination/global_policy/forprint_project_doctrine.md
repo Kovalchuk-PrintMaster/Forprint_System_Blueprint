@@ -63,7 +63,7 @@ Canonical owner of ForPrint operational control state and operational write boun
 It coordinates order state, obligations, reservations/shortages, incidents, deadlines and cross-module execution context.
 Persistent business data uses centrally managed persistence; the module does not own the physical storage topology for every domain.
 
-Compatibility note: the current technical identifier `forprint_operational_registry`, existing repository path/name,
+Compatibility note: the current technical identifier `forprint_operations_control_registry`, existing repository path/name,
 contract IDs and released prompt IDs/paths remain legacy compatibility identifiers until a separately approved technical migration.
 The canonical display/working identity is **Operations Control Registry**.
 

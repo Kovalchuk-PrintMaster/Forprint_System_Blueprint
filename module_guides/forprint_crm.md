@@ -53,7 +53,7 @@
 
 - `calculator_quote_to_crm`: `calculator_engine` → `forprint_crm` via `calculator_to_crm_quote.v1`; objects: `quote_draft`, `price_breakdown`, `material_consumption_estimate`; status: `active_development`; criticality: `high`
 - `prepress_report_to_crm`: `forprint_prepress_hub` → `forprint_crm` via `prepress_to_crm_report.v1`; objects: `prepress_report`, `file_preview`, `print_ready_file`; status: `active_development`; criticality: `high`
-- `accounting_financial_status_to_crm`: `accounting_registry_service` → `forprint_crm` via `accounting_to_crm_financial_status.v1`; objects: `invoice`, `payment_status`, `accounting_document`; status: `active_development`; criticality: `high`
+- `accounting_financial_status_to_crm`: `forprint_accounting_registry_service` → `forprint_crm` via `accounting_to_crm_financial_status.v1`; objects: `invoice`, `payment_status`, `accounting_document`; status: `active_development`; criticality: `high`
 - `telegram_requests_to_crm`: `telegram_bot` → `forprint_crm` via `telegram_to_crm_request.v1`; objects: `client_request`, `workflow_command`, `ai_assisted_task_request`; status: `active_development`; criticality: `high`
 - `website_requests_to_crm`: `website` → `forprint_crm` via `website_to_crm_request.v1`; objects: `website_request`; status: `planned`; criticality: `medium`
 - `warehouse_status_to_crm`: `warehouse_service` → `forprint_crm` via `warehouse_to_crm_inventory_status.v1`; objects: `material_stock`, `material_reservation`, `inventory_availability_report`; status: `planned`; criticality: `high`
@@ -63,7 +63,7 @@
 
 ## Outgoing data flows
 
-- `crm_commands_operational_registry`: `forprint_crm` → `forprint_operational_registry` via `crm_to_operational_registry_command.v1`; objects: `business_command`, `workflow_decision`; status: `planned`; criticality: `high`
+- `crm_commands_operations_control_registry`: `forprint_crm` → `forprint_operations_control_registry` via `crm_to_operations_control_registry_command.v1`; objects: `business_command`, `workflow_decision`; status: `planned`; criticality: `high`
 - `crm_reservation_request_to_warehouse`: `forprint_crm` → `warehouse_service` via `crm_to_warehouse_reservation.v1`; objects: `business_command`, `material_consumption_estimate`; status: `planned`; criticality: `high`
 - `crm_delivery_request_to_logistics`: `forprint_crm` → `logistics_service` via `crm_to_logistics_delivery.v1`; objects: `business_command`, `delivery_request`; status: `planned`; criticality: `medium`
 - `crm_commands_to_integration_gateway`: `forprint_crm` → `forprint_integration_gateway` via `crm_to_integration_gateway_command.v1`; objects: `business_command`, `workflow_decision`, `integration_request`; status: `planned`; criticality: `high`
@@ -72,7 +72,7 @@
 
 - `calculator_to_crm_quote.v1`: provider `calculator_engine`, consumer `forprint_crm`, status `active_development`; objects: `quote_draft`, `price_breakdown`, `material_consumption_estimate`
 - `prepress_to_crm_report.v1`: provider `forprint_prepress_hub`, consumer `forprint_crm`, status `active_development`; objects: `prepress_report`, `file_preview`, `print_ready_file`
-- `accounting_to_crm_financial_status.v1`: provider `accounting_registry_service`, consumer `forprint_crm`, status `active_development`; objects: `invoice`, `payment_status`, `accounting_document`
+- `accounting_to_crm_financial_status.v1`: provider `forprint_accounting_registry_service`, consumer `forprint_crm`, status `active_development`; objects: `invoice`, `payment_status`, `accounting_document`
 - `telegram_to_crm_request.v1`: provider `telegram_bot`, consumer `forprint_crm`, status `active_development`; objects: `client_request`, `workflow_command`, `ai_assisted_task_request`
 - `website_to_crm_request.v1`: provider `website`, consumer `forprint_crm`, status `planned`; objects: `website_request`
 - `warehouse_to_crm_inventory_status.v1`: provider `warehouse_service`, consumer `forprint_crm`, status `planned`; objects: `material_stock`, `material_reservation`, `inventory_availability_report`
@@ -82,7 +82,7 @@
 
 ## Provided contracts
 
-- `crm_to_operational_registry_command.v1`: provider `forprint_crm`, consumer `forprint_operational_registry`, status `planned`; objects: `business_command`, `workflow_decision`
+- `crm_to_operations_control_registry_command.v1`: provider `forprint_crm`, consumer `forprint_operations_control_registry`, status `planned`; objects: `business_command`, `workflow_decision`
 - `crm_to_warehouse_reservation.v1`: provider `forprint_crm`, consumer `warehouse_service`, status `planned`; objects: `business_command`, `material_consumption_estimate`
 - `crm_to_logistics_delivery.v1`: provider `forprint_crm`, consumer `logistics_service`, status `planned`; objects: `business_command`, `delivery_request`
 - `crm_to_integration_gateway_command.v1`: provider `forprint_crm`, consumer `forprint_integration_gateway`, status `planned`; objects: `business_command`, `workflow_decision`, `integration_request`

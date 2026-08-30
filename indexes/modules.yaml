@@ -1,0 +1,42 @@
+schema_version: forprint_blueprint_module_index_v0_1
+status: derived_non_authoritative
+generated_from: machine/module_identity_registry.yaml
+identity_authority_state: canonical
+canonical_module_ids:
+- calculator_engine
+- cloud_backup_manager
+- forprint_accounting_registry_service
+- forprint_contract_registry
+- forprint_crm
+- forprint_integration_gateway
+- forprint_library
+- forprint_marketing_orchestrator
+- forprint_operations_assistant
+- forprint_operations_control_registry
+- forprint_prepress_hub
+- forprint_project_inspector
+- forprint_strategic_control_plane
+- forprint_system_administration
+- forprint_system_blueprint
+- logistics_service
+- mobile_app
+- production_runtime_inspector
+- telegram_bot
+- warehouse_service
+- website
+aliases:
+- alias: accounting_registry_service
+  canonical_id: forprint_accounting_registry_service
+  status: deprecated_historical_alias
+  current_use_allowed: false
+  retained_for:
+  - immutable_or_historical_prompt_paths
+  - historical_reports_and_evidence
+- alias: forprint_operational_registry
+  canonical_id: forprint_operations_control_registry
+  status: historical_only_alias
+  current_use_allowed: false
+  retained_for:
+  - immutable_prompt_ids_and_prompt_files
+  - historical_reports_and_evidence
+  - git_remote_transport_slug

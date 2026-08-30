@@ -1,0 +1,34 @@
+schema_version: forprint_blueprint_structure_normalization_foundation_wave_a_v0_1
+date: '2026-08-29'
+scope: forprint_system_blueprint_only
+status: local_implementation_candidate
+source_audit:
+  - ForPrint_Blueprint_Structure_Normalization_Audit_v0_1
+  - ForPrint_Blueprint_Structure_Normalization_Decision_Bundle_v0_1
+owner_decisions_applied:
+  OD-01:
+    selected_option: B
+    decision: introduce_machine_module_identity_registry
+    implementation_state: candidate_foundation_not_yet_promoted
+  OD-02:
+    selected_option: A
+    decision: project_structure_standard_is_canonical
+    repository_structure_baseline_role: minimal_adoption_profile
+wave_a_scope:
+  - clarify current release authority over historical self-coordination projections
+  - specialize repository_structure_baseline as a minimal profile
+  - introduce candidate module identity registry
+  - introduce derived non-authoritative root index foundation
+wave_b_reserved:
+  - reconcile accounting_registry_service current identity split
+  - retire current-looking forprint_operational_registry routing index
+  - promote canonical module identity authority after registry reconciliation
+  - begin active human-to-docs path normalization
+  - convert repository knowledge duplicates to source-to-derived generation
+safety:
+  git_commit: false
+  git_push: false
+  git_remote_change: false
+  released_prompt_rewrite: false
+  current_release_change: false
+  h10_authority_change: false

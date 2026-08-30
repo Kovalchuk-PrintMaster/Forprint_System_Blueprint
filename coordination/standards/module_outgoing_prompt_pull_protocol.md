@@ -75,7 +75,7 @@ Rollout policy
 Initial rollout targets:
 
 forprint_integration_gateway
-forprint_operational_registry
+forprint_operations_control_registry
 forprint_library
 calculator_engine
 forprint_accounting_registry_service

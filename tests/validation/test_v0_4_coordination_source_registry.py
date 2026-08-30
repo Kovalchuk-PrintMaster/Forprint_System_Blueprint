@@ -28,7 +28,7 @@ EXPECTED_IDS = {
     "forprint_integration_gateway",
     "forprint_library",
     "logistics_service",
-    "forprint_operational_registry",
+    "forprint_operations_control_registry",
     "forprint_system_blueprint",
     "website",
     "telegram_bot",

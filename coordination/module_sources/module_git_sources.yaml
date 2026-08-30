@@ -1,7 +1,7 @@
 module_git_sources:
   version: '0.1'
-  purpose: 'Registry of ForPrint module repositories and local paths used by ForPrint System Blueprint / future Control Plane
-    to collect module coordination status through Git.
+  purpose: 'Registry of ForPrint module repositories and local paths used by ForPrint System Blueprint / future
+    Control Plane to collect module coordination status through Git.
 
     '
   default_branch: main
@@ -22,8 +22,7 @@ module_git_sources:
     prompt_index: coordination/prompts/index.yaml
     report_index: coordination/reports/index.yaml
     repo_status: confirmed
-    notes: 'Central architecture and coordination repository. Currently also keeps the module coordination standard and execution
-      queue.
+    notes: 'Central architecture and coordination repository. Current work authority is resolved through release/roadmap governance; early execution-queue artifacts are historical.
 
       '
   - module_id: calculator_engine
@@ -38,8 +37,8 @@ module_git_sources:
     prompt_index: coordination/prompts/index.yaml
     report_index: coordination/reports/index.yaml
     repo_status: confirmed
-    notes: 'Primary order/calculation formalization point. Local path currently points to the active app directory used for
-      development.
+    notes: 'Primary order/calculation formalization point. Local path currently points to the active app directory
+      used for development.
 
       '
   - module_id: forprint_accounting_registry_service
@@ -55,15 +54,15 @@ module_git_sources:
     report_index: coordination/reports/index.yaml
     repo_status: confirmed
     waiting_for: real_sanitized_one_c_export_samples
-    notes: 'v0.5 accepted. Maintains sandbox 1C import/export/parser/mapping readiness. Further v0.6 work is conditional on
-      real sanitized 1C samples.
+    notes: 'v0.5 accepted. Maintains sandbox 1C import/export/parser/mapping readiness. Further v0.6 work is conditional
+      on real sanitized 1C samples.
 
       '
-  - module_id: forprint_operational_registry
+  - module_id: forprint_operations_control_registry
     module_name: ForPrint Operations Control Registry
     priority: p1
     development_status: reference_ready_storage_ready
-    local_path: /srv/software_development/forprint-project/forprint_operational_registry
+    local_path: /srv/software_development/forprint-project/forprint_operations_control_registry
     repo_url: git@github.com:Kovalchuk-PrintMaster/Forprint_Operational_Registry.git
     branch: main
     coordination_root: coordination
@@ -71,12 +70,9 @@ module_git_sources:
     prompt_index: coordination/prompts/index.yaml
     report_index: coordination/reports/index.yaml
     repo_status: confirmed
-    notes: 'Canonical display/working identity is ForPrint Operations Control Registry. The existing technical module_id,
-      local repository path and Git repository name remain compatibility identifiers until a separately approved external-repository
-      migration. The module owns operational control state and its authorized write boundary over centrally managed persistence;
-      it does not own the physical persistence topology for every domain.
-
-      '
+    notes: Canonical module_id and local project directory are migrated to forprint_operations_control_registry.
+      The GitHub transport endpoint still uses the existing repository slug Forprint_Operational_Registry; this
+      transport name does not define module identity. Historical released prompt IDs/paths remain unchanged.
   - module_id: forprint_library
     module_name: ForPrint Library
     priority: p1
@@ -89,8 +85,8 @@ module_git_sources:
     prompt_index: coordination/prompts/index.yaml
     report_index: coordination/reports/index.yaml
     repo_status: confirmed
-    notes: 'Canonical semantic/catalog authority. Owns product/service/material/ operation IDs, aliases, definitions, contracts
-      and catalog semantics.
+    notes: 'Canonical semantic/catalog authority. Owns product/service/material/ operation IDs, aliases, definitions,
+      contracts and catalog semantics.
 
       '
   - module_id: logistics_service
@@ -105,9 +101,9 @@ module_git_sources:
     prompt_index: coordination/prompts/index.yaml
     report_index: coordination/reports/index.yaml
     repo_status: confirmed
-    notes: Provider-neutral delivery and tracking truth owner. Canonical local repository path and origin were verified read-only
-      by Blueprint at registration. The branch field records the observed working branch for the current tracking-events slice;
-      module implementation and Git lifecycle remain owned by Logistics Service.
+    notes: Provider-neutral delivery and tracking truth owner. Canonical local repository path and origin were verified
+      read-only by Blueprint at registration. The branch field records the observed working branch for the current
+      tracking-events slice; module implementation and Git lifecycle remain owned by Logistics Service.
   - module_id: forprint_integration_gateway
     module_name: ForPrint Integration Gateway
     priority: hold
@@ -120,7 +116,8 @@ module_git_sources:
     prompt_index: coordination/prompts/index.yaml
     report_index: coordination/reports/index.yaml
     repo_status: confirmed
-    notes: 'Runtime validation/routing/idempotency/correlation foundation exists. Hold until real runtime handoff is needed.
+    notes: 'Runtime validation/routing/idempotency/correlation foundation exists. Hold until real runtime handoff
+      is needed.
 
       '
   - module_id: forprint_prepress_hub
@@ -166,8 +163,8 @@ module_git_sources:
     prompt_index: coordination/prompts/index.yaml
     report_index: coordination/reports/index.yaml
     repo_status: confirm_required
-    notes: 'Customer channel adapter. Repo URL and exact local path should be confirmed before aggregation. Must remain channel
-      adapter, not business truth owner.
+    notes: 'Customer channel adapter. Repo URL and exact local path should be confirmed before aggregation. Must
+      remain channel adapter, not business truth owner.
 
       '
   - module_id: forprint_crm
@@ -182,7 +179,8 @@ module_git_sources:
     prompt_index: coordination/prompts/index.yaml
     report_index: coordination/reports/index.yaml
     repo_status: confirm_required
-    notes: 'Future human-facing dashboard/workflow coordination layer. Must not own internal DB or become operational truth.
+    notes: 'Future human-facing dashboard/workflow coordination layer. Must not own internal DB or become operational
+      truth.
 
       '
   - module_id: cloud_backup_manager
@@ -227,8 +225,8 @@ module_git_sources:
     prompt_index: coordination/prompts/index.yaml
     report_index: coordination/reports/index.yaml
     repo_status: planned_not_created
-    notes: 'Future customer channel. Must be kept in architecture as deferred. Development starts only after Calculator is
-      mature.
+    notes: 'Future customer channel. Must be kept in architecture as deferred. Development starts only after Calculator
+      is mature.
 
       '
   - module_id: forprint_project_inspector
@@ -243,8 +241,9 @@ module_git_sources:
     prompt_index: coordination/prompts/index.yaml
     report_index: coordination/reports/index.yaml
     repo_status: planned_directory_created
-    notes: 'Future project-level verification and inspection module. Local directory exists. Active implementation is not
-      started yet. Blueprint may temporarily host portable project verification scripts until this module is bootstrapped.
+    notes: 'Future project-level verification and inspection module. Local directory exists. Active implementation
+      is not started yet. Blueprint may temporarily host portable project verification scripts until this module
+      is bootstrapped.
 
       '
   - module_id: forprint_strategic_control_plane
@@ -262,8 +261,8 @@ module_git_sources:
     prompt_index: coordination/prompts/index.yaml
     report_index: coordination/reports/index.yaml
     repo_status: planned_directory_created
-    notes: 'Future strategic governance/control module. Local directory exists, but active implementation is deferred until
-      core ForPrint modules are alive and the coordination/status loop is stable.
+    notes: 'Future strategic governance/control module. Local directory exists, but active implementation is deferred
+      until core ForPrint modules are alive and the coordination/status loop is stable.
 
       '
   - module_id: forprint_operations_assistant

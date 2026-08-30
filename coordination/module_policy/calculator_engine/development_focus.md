@@ -41,7 +41,7 @@ warnings preserved;
 manual/custom operation draft preserved;
 safe examples/fixtures;
 tests for package creation and serialization;
-documentation explaining future handoff to Operational Registry, Accounting and Prepress.
+documentation explaining future handoff to Operations Control Registry, Accounting and Prepress.
 Allowed temporary development helpers
 
 Calculator may use:
@@ -61,7 +61,7 @@ Avoid overbuilding
 
 Do not implement real integrations yet.
 
-Do not wait for Gateway, Operational Registry, Library or Accounting Registry to be complete.
+Do not wait for Gateway, Operations Control Registry, Library or Accounting Registry to be complete.
 
 Use safe local projections and clear boundaries.
 
@@ -79,7 +79,7 @@ Not in current focus
 
 Do not implement now:
 
-real Operational Registry integration;
+real Operations Control Registry integration;
 real Accounting Registry integration;
 real 1C integration;
 real Gateway runtime integration;

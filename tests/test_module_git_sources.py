@@ -39,7 +39,7 @@ def test_module_git_sources_include_core_modules() -> None:
         "forprint_system_blueprint",
         "calculator_engine",
         "forprint_accounting_registry_service",
-        "forprint_operational_registry",
+        "forprint_operations_control_registry",
         "forprint_library",
         "forprint_integration_gateway",
         "logistics_service",

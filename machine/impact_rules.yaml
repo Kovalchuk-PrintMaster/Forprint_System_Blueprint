@@ -49,8 +49,8 @@ impact_rules:
   - material_consumption_estimate
   notify_modules:
   - forprint_crm
-  - forprint_operational_registry
-  - accounting_registry_service
+  - forprint_operations_control_registry
+  - forprint_accounting_registry_service
   - warehouse_service
   - telegram_bot
   - website
@@ -65,7 +65,7 @@ impact_rules:
   - order_status_history
   notify_modules:
   - forprint_crm
-  - accounting_registry_service
+  - forprint_accounting_registry_service
   - forprint_prepress_hub
   - warehouse_service
   - logistics_service
@@ -83,7 +83,7 @@ impact_rules:
   notify_modules:
   - forprint_crm
   - telegram_bot
-  - forprint_operational_registry
+  - forprint_operations_control_registry
   required_actions:
   - review_file_flow
   - update_guides
@@ -96,7 +96,7 @@ impact_rules:
   - one_c_sync_event
   notify_modules:
   - forprint_crm
-  - forprint_operational_registry
+  - forprint_operations_control_registry
   - telegram_bot
   - website
   required_actions:
@@ -111,7 +111,7 @@ impact_rules:
   notify_modules:
   - forprint_crm
   - calculator_engine
-  - forprint_operational_registry
+  - forprint_operations_control_registry
   required_actions:
   - review_reservation_flow
   - update_module_guides
@@ -126,7 +126,7 @@ impact_rules:
   - forprint_crm
   - telegram_bot
   - website
-  - forprint_operational_registry
+  - forprint_operations_control_registry
   required_actions:
   - review_delivery_flow
   - update_module_guides

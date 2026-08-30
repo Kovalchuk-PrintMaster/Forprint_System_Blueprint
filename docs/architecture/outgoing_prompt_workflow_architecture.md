@@ -25,12 +25,14 @@ The index must use:
 schema_version: prompt_queue_v0_2
 ```
 
-The legacy file below is validation-only compatibility data and is not mutated
-by the new workflow:
+The former central Prompt Dispatch index belongs to the early manual-alignment
+phase and is preserved only as historical evidence:
 
 ```text
-machine/prompt_dispatch_index.yaml
+coordination/internal_work/blueprint/legacy_alignment/machine/prompt_dispatch_index.yaml
 ```
+
+It is not a current validation or routing authority.
 
 The `sent/` directory is not a release state for Prompt Queue v0.2.
 
@@ -132,7 +134,7 @@ The workflow must never:
 
 - write outside the Blueprint repository;
 - modify a target module repository;
-- mutate `machine/prompt_dispatch_index.yaml`;
+- mutate the archived early Prompt Dispatch evidence;
 - use `sent/` as the release mechanism;
 - release an unprepared artifact;
 - release while governance policy is gated;

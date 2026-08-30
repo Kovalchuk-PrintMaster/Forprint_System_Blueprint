@@ -153,32 +153,32 @@ modules:
     blueprint_may_write_repository: false
     module_owns_completion_outbox: true
     remote_containment_required_for_publication_proof: true
-- module_id: forprint_operational_registry
+- module_id: forprint_operations_control_registry
   repository:
-    repository_id: forprint_operational_registry
-    local_path: /srv/software_development/forprint-project/forprint_operational_registry
+    repository_id: forprint_operations_control_registry
+    local_path: /srv/software_development/forprint-project/forprint_operations_control_registry
     origin: git@github.com:Kovalchuk-PrintMaster/Forprint_Operational_Registry.git
     remote_name: origin
     identity_source: observed_local_git_repository
   sources:
     module_source:
-      owner: forprint_operational_registry
-      repository: forprint_operational_registry
+      owner: forprint_operations_control_registry
+      repository: forprint_operations_control_registry
       path: .
       availability: present
     roadmap:
       owner: forprint_system_blueprint
       repository: forprint_system_blueprint
-      path: coordination/roadmaps/forprint_operational_registry.yaml
+      path: coordination/roadmaps/forprint_operations_control_registry.yaml
       availability: not_registered
     prompt_queue:
       owner: forprint_system_blueprint
       repository: forprint_system_blueprint
-      path: coordination/outgoing_prompts/forprint_operational_registry/index.yaml
+      path: coordination/outgoing_prompts/forprint_operations_control_registry/index.yaml
       availability: present
     completion_outbox:
-      owner: forprint_operational_registry
-      repository: forprint_operational_registry
+      owner: forprint_operations_control_registry
+      repository: forprint_operations_control_registry
       path: coordination/completion_outbox/records
       availability: not_present_yet
       implementation_step: blueprint_v0_4_completion_outbox_v0_1

@@ -1,0 +1,316 @@
+schema_version: forprint_blueprint_contract_query_index_v0_1
+status: derived_non_authoritative
+authority: none
+machine_contract_count: 32
+machine_contracts:
+- id: blueprint_to_module_guide.v1
+  provider: forprint_system_blueprint
+  consumer: any_module
+  status: active_development
+  data_objects:
+  - module_guide
+  - architecture_change_prompt
+- id: blueprint_to_inspector_architecture.v1
+  provider: forprint_system_blueprint
+  consumer: forprint_project_inspector
+  status: planned
+  data_objects:
+  - module_definition
+  - data_flow_definition
+  - contract_definition
+  - impact_rule
+- id: module_to_inspector_manifest.v1
+  provider: any_module
+  consumer: forprint_project_inspector
+  status: planned
+  data_objects:
+  - module_manifest
+  - module_status_report
+- id: library_to_calculator_catalog.v1
+  provider: forprint_library
+  consumer: calculator_engine
+  status: active_development
+  data_objects:
+  - material_catalog
+  - product_catalog
+  - machine_capability
+  - print_mode
+- id: library_to_prepress_capabilities.v1
+  provider: forprint_library
+  consumer: forprint_prepress_hub
+  status: active_development
+  data_objects:
+  - material_catalog
+  - machine_capability
+  - print_mode
+- id: library_to_warehouse_materials.v1
+  provider: forprint_library
+  consumer: warehouse_service
+  status: planned
+  data_objects:
+  - material_catalog
+- id: calculator_to_crm_quote.v1
+  provider: calculator_engine
+  consumer: forprint_crm
+  status: active_development
+  data_objects:
+  - quote_draft
+  - price_breakdown
+  - material_consumption_estimate
+- id: calculator_to_registry_quote.v1
+  provider: calculator_engine
+  consumer: forprint_operations_control_registry
+  status: planned
+  data_objects:
+  - quote_draft
+  - product_configuration
+- id: crm_to_operations_control_registry_command.v1
+  provider: forprint_crm
+  consumer: forprint_operations_control_registry
+  status: planned
+  data_objects:
+  - business_command
+  - workflow_decision
+- id: operations_control_registry_to_prepress_order_context.v1
+  provider: forprint_operations_control_registry
+  consumer: forprint_prepress_hub
+  status: planned
+  data_objects:
+  - order_context
+- id: prepress_to_crm_report.v1
+  provider: forprint_prepress_hub
+  consumer: forprint_crm
+  status: active_development
+  data_objects:
+  - prepress_report
+  - file_preview
+  - print_ready_file
+- id: operations_control_registry_to_accounting_order.v1
+  provider: forprint_operations_control_registry
+  consumer: forprint_accounting_registry_service
+  status: planned
+  data_objects:
+  - order
+  - client
+  - quote_draft
+- id: accounting_to_crm_financial_status.v1
+  provider: forprint_accounting_registry_service
+  consumer: forprint_crm
+  status: active_development
+  data_objects:
+  - invoice
+  - payment_status
+  - accounting_document
+- id: accounting_to_one_c_export.v1
+  provider: forprint_accounting_registry_service
+  consumer: external_1c
+  status: planned
+  data_objects:
+  - accounting_export
+  - one_c_sync_event
+- id: telegram_to_crm_request.v1
+  provider: telegram_bot
+  consumer: forprint_crm
+  status: active_development
+  data_objects:
+  - client_request
+  - workflow_command
+  - ai_assisted_task_request
+- id: website_to_crm_request.v1
+  provider: website
+  consumer: forprint_crm
+  status: planned
+  data_objects:
+  - website_request
+- id: crm_to_warehouse_reservation.v1
+  provider: forprint_crm
+  consumer: warehouse_service
+  status: planned
+  data_objects:
+  - business_command
+  - material_consumption_estimate
+- id: warehouse_to_crm_inventory_status.v1
+  provider: warehouse_service
+  consumer: forprint_crm
+  status: planned
+  data_objects:
+  - material_stock
+  - material_reservation
+  - inventory_availability_report
+- id: crm_to_logistics_delivery.v1
+  provider: forprint_crm
+  consumer: logistics_service
+  status: planned
+  data_objects:
+  - business_command
+  - delivery_request
+- id: logistics_to_crm_delivery_status.v1
+  provider: logistics_service
+  consumer: forprint_crm
+  status: planned
+  data_objects:
+  - delivery_status
+  - delivery_label
+  - delivery_cost_estimate
+- id: backup_to_crm_status.v1
+  provider: cloud_backup_manager
+  consumer: forprint_crm
+  status: planned
+  data_objects:
+  - backup_status_report
+  - backup_inventory
+- id: blueprint_to_integration_gateway_contracts.v1
+  provider: forprint_system_blueprint
+  consumer: forprint_integration_gateway
+  status: planned
+  data_objects:
+  - contract_definition
+  - data_flow_definition
+  - routing_rule
+- id: website_to_integration_gateway_request.v1
+  provider: website
+  consumer: forprint_integration_gateway
+  status: planned
+  data_objects:
+  - website_request
+  - integration_request
+- id: telegram_to_integration_gateway_request.v1
+  provider: telegram_bot
+  consumer: forprint_integration_gateway
+  status: planned
+  data_objects:
+  - client_request
+  - workflow_command
+  - ai_assisted_task_request
+  - integration_request
+- id: crm_to_integration_gateway_command.v1
+  provider: forprint_crm
+  consumer: forprint_integration_gateway
+  status: planned
+  data_objects:
+  - business_command
+  - workflow_decision
+  - integration_request
+- id: calculator_to_integration_gateway_result.v1
+  provider: calculator_engine
+  consumer: forprint_integration_gateway
+  status: planned
+  data_objects:
+  - quote_draft
+  - price_breakdown
+  - material_consumption_estimate
+  - integration_response
+- id: integration_gateway_to_calculator_request.v1
+  provider: forprint_integration_gateway
+  consumer: calculator_engine
+  status: planned
+  data_objects:
+  - routed_module_request
+  - product_configuration
+  - correlation_context
+- id: integration_gateway_to_operations_control_registry_command.v1
+  provider: forprint_integration_gateway
+  consumer: forprint_operations_control_registry
+  status: planned
+  data_objects:
+  - routed_module_request
+  - quote_draft
+  - product_configuration
+  - correlation_context
+- id: integration_gateway_to_warehouse_reservation.v1
+  provider: forprint_integration_gateway
+  consumer: warehouse_service
+  status: planned
+  data_objects:
+  - routed_module_request
+  - material_consumption_estimate
+  - correlation_context
+- id: integration_gateway_to_accounting_invoice_request.v1
+  provider: forprint_integration_gateway
+  consumer: forprint_accounting_registry_service
+  status: planned
+  data_objects:
+  - routed_module_request
+  - quote_draft
+  - client
+  - order
+  - correlation_context
+- id: integration_gateway_to_crm_status.v1
+  provider: forprint_integration_gateway
+  consumer: forprint_crm
+  status: planned
+  data_objects:
+  - integration_response
+  - validation_error
+  - integration_audit_event
+- id: integration_gateway_to_inspector_audit.v1
+  provider: forprint_integration_gateway
+  consumer: forprint_project_inspector
+  status: planned
+  data_objects:
+  - integration_audit_event
+  - validation_error
+  - security_filter_event
+prompt_contract_package_count: 10
+prompt_contract_packages:
+- module_id: forprint_system_blueprint
+  package_id: blueprint_v0_4_immutable_prompt_contract_v0_1
+  path: coordination/prompt_contracts/forprint_system_blueprint/blueprint_v0_4_immutable_prompt_contract_v0_1
+  yaml_artifacts:
+  - coordination/prompt_contracts/forprint_system_blueprint/blueprint_v0_4_immutable_prompt_contract_v0_1/blueprint_v0_4_immutable_prompt_contract_v0_1__contract_v0_1.yaml
+  source_prompt_snapshot: coordination/prompt_contracts/forprint_system_blueprint/blueprint_v0_4_immutable_prompt_contract_v0_1/source_prompt_snapshot.md
+- module_id: logistics_service
+  package_id: logistics_service_channel_interaction_contract_v0_1
+  path: coordination/prompt_contracts/logistics_service/logistics_service_channel_interaction_contract_v0_1
+  yaml_artifacts:
+  - coordination/prompt_contracts/logistics_service/logistics_service_channel_interaction_contract_v0_1/logistics_service_channel_interaction_contract_v0_1__contract_v0_4_h7_v0_1.yaml
+  source_prompt_snapshot: coordination/prompt_contracts/logistics_service/logistics_service_channel_interaction_contract_v0_1/source_prompt_snapshot.md
+- module_id: logistics_service
+  package_id: logistics_service_local_persistence_and_migration_boundary_v0_1
+  path: coordination/prompt_contracts/logistics_service/logistics_service_local_persistence_and_migration_boundary_v0_1
+  yaml_artifacts:
+  - coordination/prompt_contracts/logistics_service/logistics_service_local_persistence_and_migration_boundary_v0_1/logistics_service_local_persistence_and_migration_boundary_v0_1__contract_v0_4_h7_v0_1.yaml
+  source_prompt_snapshot: coordination/prompt_contracts/logistics_service/logistics_service_local_persistence_and_migration_boundary_v0_1/source_prompt_snapshot.md
+- module_id: logistics_service
+  package_id: logistics_service_normalized_quote_booking_operation_contract_v0_1
+  path: coordination/prompt_contracts/logistics_service/logistics_service_normalized_quote_booking_operation_contract_v0_1
+  yaml_artifacts:
+  - coordination/prompt_contracts/logistics_service/logistics_service_normalized_quote_booking_operation_contract_v0_1/logistics_service_normalized_quote_booking_operation_contract_v0_1__contract_v0_4_h7_v0_1.yaml
+  source_prompt_snapshot: coordination/prompt_contracts/logistics_service/logistics_service_normalized_quote_booking_operation_contract_v0_1/source_prompt_snapshot.md
+- module_id: logistics_service
+  package_id: logistics_service_nova_poshta_read_only_foundation_v0_1
+  path: coordination/prompt_contracts/logistics_service/logistics_service_nova_poshta_read_only_foundation_v0_1
+  yaml_artifacts:
+  - coordination/prompt_contracts/logistics_service/logistics_service_nova_poshta_read_only_foundation_v0_1/logistics_service_nova_poshta_read_only_foundation_v0_1__contract_v0_4_h7_v0_1.yaml
+  source_prompt_snapshot: coordination/prompt_contracts/logistics_service/logistics_service_nova_poshta_read_only_foundation_v0_1/source_prompt_snapshot.md
+- module_id: logistics_service
+  package_id: logistics_service_provider_runtime_registry_and_capability_policy_v0_1
+  path: coordination/prompt_contracts/logistics_service/logistics_service_provider_runtime_registry_and_capability_policy_v0_1
+  yaml_artifacts:
+  - coordination/prompt_contracts/logistics_service/logistics_service_provider_runtime_registry_and_capability_policy_v0_1/logistics_service_provider_runtime_registry_and_capability_policy_v0_1__contract_v0_4_h7_v0_1.yaml
+  source_prompt_snapshot: coordination/prompt_contracts/logistics_service/logistics_service_provider_runtime_registry_and_capability_policy_v0_1/source_prompt_snapshot.md
+- module_id: logistics_service
+  package_id: logistics_service_taxi_provider_abstraction_v0_1
+  path: coordination/prompt_contracts/logistics_service/logistics_service_taxi_provider_abstraction_v0_1
+  yaml_artifacts:
+  - coordination/prompt_contracts/logistics_service/logistics_service_taxi_provider_abstraction_v0_1/logistics_service_taxi_provider_abstraction_v0_1__contract_v0_4_h7_v0_1.yaml
+  source_prompt_snapshot: coordination/prompt_contracts/logistics_service/logistics_service_taxi_provider_abstraction_v0_1/source_prompt_snapshot.md
+- module_id: logistics_service
+  package_id: logistics_service_tracking_events_v0_1
+  path: coordination/prompt_contracts/logistics_service/logistics_service_tracking_events_v0_1
+  yaml_artifacts:
+  - coordination/prompt_contracts/logistics_service/logistics_service_tracking_events_v0_1/logistics_service_tracking_events_v0_1__contract_v0_4_reference_v0_1.yaml
+  - coordination/prompt_contracts/logistics_service/logistics_service_tracking_events_v0_1/logistics_service_tracking_events_v0_1__contract_v0_4_reference_v0_2.yaml
+  source_prompt_snapshot: coordination/prompt_contracts/logistics_service/logistics_service_tracking_events_v0_1/source_prompt_snapshot.md
+- module_id: logistics_service
+  package_id: logistics_service_uklon_delivery_read_only_foundation_v0_1
+  path: coordination/prompt_contracts/logistics_service/logistics_service_uklon_delivery_read_only_foundation_v0_1
+  yaml_artifacts:
+  - coordination/prompt_contracts/logistics_service/logistics_service_uklon_delivery_read_only_foundation_v0_1/logistics_service_uklon_delivery_read_only_foundation_v0_1__contract_v0_4_h7_v0_1.yaml
+  source_prompt_snapshot: coordination/prompt_contracts/logistics_service/logistics_service_uklon_delivery_read_only_foundation_v0_1/source_prompt_snapshot.md
+- module_id: logistics_service
+  package_id: logistics_service_ukrposhta_read_only_foundation_v0_1
+  path: coordination/prompt_contracts/logistics_service/logistics_service_ukrposhta_read_only_foundation_v0_1
+  yaml_artifacts:
+  - coordination/prompt_contracts/logistics_service/logistics_service_ukrposhta_read_only_foundation_v0_1/logistics_service_ukrposhta_read_only_foundation_v0_1__contract_v0_4_h7_v0_1.yaml
+  source_prompt_snapshot: coordination/prompt_contracts/logistics_service/logistics_service_ukrposhta_read_only_foundation_v0_1/source_prompt_snapshot.md

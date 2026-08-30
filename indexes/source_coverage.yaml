@@ -1,0 +1,395 @@
+schema_version: forprint_blueprint_source_coverage_index_v0_2
+status: derived_non_authoritative
+authority: none
+canonical_module_count: 21
+modules:
+- module_id: calculator_engine
+  module_source_registered: true
+  module_source:
+    repo_status: confirmed
+    development_status: active_development
+    local_path: /srv/software_development/forprint-project/calculator_engine/app
+    repo_url: git@github.com:Kovalchuk-PrintMaster/Calculator_Engine.git
+  coordination_source_registered: false
+  coordination_sources: {}
+  module_policy_registered: true
+  module_policy_documents:
+  - coordination/module_policy/calculator_engine/calculator_target_state_v0_1_20260826.md
+  - coordination/module_policy/calculator_engine/development_focus.md
+  - coordination/module_policy/calculator_engine/module_goals.md
+  - coordination/module_policy/calculator_engine/module_policy.md
+  - coordination/module_policy/calculator_engine/role_boundaries.md
+- module_id: cloud_backup_manager
+  module_source_registered: true
+  module_source:
+    repo_status: confirmed
+    development_status: active_utility
+    local_path: /opt/forprint-utils/cloud_backup_manager
+    repo_url: git@github.com:Kovalchuk-PrintMaster/Cloud_Backup_Manager.git
+  coordination_source_registered: false
+  coordination_sources: {}
+  module_policy_registered: true
+  module_policy_documents:
+  - coordination/module_policy/cloud_backup_manager/module_policy.md
+- module_id: forprint_accounting_registry_service
+  module_source_registered: true
+  module_source:
+    repo_status: confirmed
+    development_status: sandbox_1c_import_export_ready
+    local_path: /srv/software_development/forprint-project/forprint_accounting_registry_service
+    repo_url: git@github.com:Kovalchuk-PrintMaster/Forprint_Accounting_Registry_Service.git
+  coordination_source_registered: true
+  coordination_sources:
+    module_source:
+      path: .
+      availability: present
+      repository: forprint_accounting_registry_service
+    roadmap:
+      path: coordination/roadmaps/forprint_accounting_registry_service.yaml
+      availability: not_registered
+      repository: forprint_system_blueprint
+    prompt_queue:
+      path: coordination/outgoing_prompts/forprint_accounting_registry_service/index.yaml
+      availability: present
+      repository: forprint_system_blueprint
+    completion_outbox:
+      path: coordination/completion_outbox/records
+      availability: not_present_yet
+      repository: forprint_accounting_registry_service
+  module_policy_registered: true
+  module_policy_documents:
+  - coordination/module_policy/forprint_accounting_registry_service/goods_receipt_automation_target_state_v0_1_20260826.md
+  - coordination/module_policy/forprint_accounting_registry_service/module_policy.md
+- module_id: forprint_contract_registry
+  module_source_registered: true
+  module_source:
+    repo_status: planned_directory_created
+    development_status: planned_placeholder_contract_foundation_pending
+    local_path: /srv/software_development/forprint-project/forprint_contract_registry
+    repo_url: null
+  coordination_source_registered: false
+  coordination_sources: {}
+  module_policy_registered: true
+  module_policy_documents:
+  - coordination/module_policy/forprint_contract_registry/contract_registry_architecture_and_activation_brief.md
+  - coordination/module_policy/forprint_contract_registry/module_policy.md
+- module_id: forprint_crm
+  module_source_registered: true
+  module_source:
+    repo_status: confirm_required
+    development_status: planned_or_alignment_needed
+    local_path: /srv/software_development/forprint-project/forprint_crm
+    repo_url: null
+  coordination_source_registered: false
+  coordination_sources: {}
+  module_policy_registered: true
+  module_policy_documents:
+  - coordination/module_policy/forprint_crm/module_policy.md
+- module_id: forprint_integration_gateway
+  module_source_registered: true
+  module_source:
+    repo_status: confirmed
+    development_status: paused_after_v0_2
+    local_path: /srv/software_development/forprint-project/forprint_integration_gateway
+    repo_url: git@github.com:Kovalchuk-PrintMaster/Forprint_Integration_Gateway.git
+  coordination_source_registered: true
+  coordination_sources:
+    module_source:
+      path: .
+      availability: present
+      repository: forprint_integration_gateway
+    roadmap:
+      path: coordination/roadmaps/forprint_integration_gateway.yaml
+      availability: not_registered
+      repository: forprint_system_blueprint
+    prompt_queue:
+      path: coordination/outgoing_prompts/forprint_integration_gateway/index.yaml
+      availability: present
+      repository: forprint_system_blueprint
+    completion_outbox:
+      path: coordination/completion_outbox/records
+      availability: not_present_yet
+      repository: forprint_integration_gateway
+  module_policy_registered: true
+  module_policy_documents:
+  - coordination/module_policy/forprint_integration_gateway/module_policy.md
+- module_id: forprint_library
+  module_source_registered: true
+  module_source:
+    repo_status: confirmed
+    development_status: active_development
+    local_path: /srv/software_development/forprint-project/forprint_library
+    repo_url: git@github.com:Kovalchuk-PrintMaster/Forprint_Library.git
+  coordination_source_registered: true
+  coordination_sources:
+    module_source:
+      path: .
+      availability: present
+      repository: forprint_library
+    roadmap:
+      path: coordination/roadmaps/forprint_library.yaml
+      availability: present
+      repository: forprint_system_blueprint
+    prompt_queue:
+      path: coordination/outgoing_prompts/forprint_library/index.yaml
+      availability: present
+      repository: forprint_system_blueprint
+    completion_outbox:
+      path: coordination/completion_outbox/records
+      availability: not_present_yet
+      repository: forprint_library
+  module_policy_registered: true
+  module_policy_documents:
+  - coordination/module_policy/forprint_library/canonical_catalog_and_external_ingestion_target_state_v0_1_20260826.md
+  - coordination/module_policy/forprint_library/module_policy.md
+- module_id: forprint_marketing_orchestrator
+  module_source_registered: true
+  module_source:
+    repo_status: planned_directory_created
+    development_status: planned_non_blocking_support
+    local_path: /srv/software_development/forprint-project/forprint_marketing_orchestrator
+    repo_url: null
+  coordination_source_registered: false
+  coordination_sources: {}
+  module_policy_registered: true
+  module_policy_documents:
+  - coordination/module_policy/forprint_marketing_orchestrator/capability_catalog_v0_1.yaml
+  - coordination/module_policy/forprint_marketing_orchestrator/forprint_marketing_orchestrator_concept_v0_1_20260825.md
+  - coordination/module_policy/forprint_marketing_orchestrator/module_policy.md
+- module_id: forprint_operations_assistant
+  module_source_registered: true
+  module_source:
+    repo_status: planned_directory_created
+    development_status: planned_concept_bootstrap
+    local_path: /srv/software_development/forprint-project/forprint_operations_assistant
+    repo_url: null
+  coordination_source_registered: false
+  coordination_sources: {}
+  module_policy_registered: true
+  module_policy_documents:
+  - coordination/module_policy/forprint_operations_assistant/capability_catalog_v0_1.yaml
+  - coordination/module_policy/forprint_operations_assistant/forprint_operations_assistant_concept_v0_2_20260825.md
+  - coordination/module_policy/forprint_operations_assistant/module_policy.md
+  - coordination/module_policy/forprint_operations_assistant/physical_quantity_estimation_target_state_v0_1_20260826.md
+- module_id: forprint_operations_control_registry
+  module_source_registered: true
+  module_source:
+    repo_status: confirmed
+    development_status: reference_ready_storage_ready
+    local_path: /srv/software_development/forprint-project/forprint_operations_control_registry
+    repo_url: git@github.com:Kovalchuk-PrintMaster/Forprint_Operational_Registry.git
+  coordination_source_registered: true
+  coordination_sources:
+    module_source:
+      path: .
+      availability: present
+      repository: forprint_operations_control_registry
+    roadmap:
+      path: coordination/roadmaps/forprint_operations_control_registry.yaml
+      availability: not_registered
+      repository: forprint_system_blueprint
+    prompt_queue:
+      path: coordination/outgoing_prompts/forprint_operations_control_registry/index.yaml
+      availability: present
+      repository: forprint_system_blueprint
+    completion_outbox:
+      path: coordination/completion_outbox/records
+      availability: not_present_yet
+      repository: forprint_operations_control_registry
+  module_policy_registered: true
+  module_policy_documents:
+  - coordination/module_policy/forprint_operations_control_registry/module_policy.md
+- module_id: forprint_prepress_hub
+  module_source_registered: true
+  module_source:
+    repo_status: confirm_required
+    development_status: bootstrap_or_alignment_needed
+    local_path: /srv/software_development/forprint-project/forprint_prepress_hub
+    repo_url: null
+  coordination_source_registered: false
+  coordination_sources: {}
+  module_policy_registered: true
+  module_policy_documents:
+  - coordination/module_policy/forprint_prepress_hub/module_policy.md
+- module_id: forprint_project_inspector
+  module_source_registered: true
+  module_source:
+    repo_status: planned_directory_created
+    development_status: planned_bootstrap_pending
+    local_path: /srv/software_development/forprint-project/forprint_project_inspector
+    repo_url: null
+  coordination_source_registered: false
+  coordination_sources: {}
+  module_policy_registered: true
+  module_policy_documents:
+  - coordination/module_policy/forprint_project_inspector/module_policy.md
+- module_id: forprint_strategic_control_plane
+  module_source_registered: true
+  module_source:
+    repo_status: planned_directory_created
+    development_status: planned_high_priority_deferred_until_core_modules_alive
+    local_path: /srv/software_development/forprint-project/forprint_strategic_control_plane
+    repo_url: null
+  coordination_source_registered: false
+  coordination_sources: {}
+  module_policy_registered: true
+  module_policy_documents:
+  - coordination/module_policy/forprint_strategic_control_plane/module_policy.md
+- module_id: forprint_system_administration
+  module_source_registered: true
+  module_source:
+    repo_status: planned_directory_created
+    development_status: planned_non_blocking_support
+    local_path: /srv/software_development/forprint-project/forprint_system_administration
+    repo_url: null
+  coordination_source_registered: false
+  coordination_sources: {}
+  module_policy_registered: true
+  module_policy_documents:
+  - coordination/module_policy/forprint_system_administration/capability_catalog_v0_1.yaml
+  - coordination/module_policy/forprint_system_administration/forprint_system_administration_concept_v0_1_20260825.md
+  - coordination/module_policy/forprint_system_administration/module_policy.md
+- module_id: forprint_system_blueprint
+  module_source_registered: true
+  module_source:
+    repo_status: confirmed
+    development_status: active_development
+    local_path: /srv/software_development/forprint-project/forprint_system_blueprint
+    repo_url: git@github.com:Kovalchuk-PrintMaster/Forprint_System_Blueprint.git
+  coordination_source_registered: true
+  coordination_sources:
+    module_source:
+      path: .
+      availability: present
+      repository: forprint_system_blueprint
+    roadmap:
+      path: coordination/self_coordination/roadmap.yaml
+      availability: present
+      repository: forprint_system_blueprint
+    prompt_queue:
+      path: coordination/self_coordination/prompt_queue/index.yaml
+      availability: present
+      repository: forprint_system_blueprint
+    completion_outbox:
+      path: coordination/completion_outbox/records
+      availability: not_present_yet
+      repository: forprint_system_blueprint
+  module_policy_registered: true
+  module_policy_documents:
+  - coordination/module_policy/forprint_system_blueprint/module_policy.md
+- module_id: logistics_service
+  module_source_registered: true
+  module_source:
+    repo_status: confirmed
+    development_status: active_development
+    local_path: /srv/software_development/forprint-project/forprint_logistics_service
+    repo_url: git@github.com:Kovalchuk-PrintMaster/Forprint_Logistics_Service.git
+  coordination_source_registered: true
+  coordination_sources:
+    module_source:
+      path: .
+      availability: present
+      repository: forprint_logistics_service
+    roadmap:
+      path: coordination/roadmaps/logistics_service.yaml
+      availability: present
+      repository: forprint_system_blueprint
+    prompt_queue:
+      path: coordination/outgoing_prompts/logistics_service/index.yaml
+      availability: present
+      repository: forprint_system_blueprint
+    completion_outbox:
+      path: coordination/completion_outbox/records
+      availability: not_present_yet
+      repository: forprint_logistics_service
+  module_policy_registered: false
+  module_policy_documents: []
+- module_id: mobile_app
+  module_source_registered: true
+  module_source:
+    repo_status: planned_not_created
+    development_status: planned_deferred_until_calculator_ready
+    local_path: null
+    repo_url: null
+  coordination_source_registered: false
+  coordination_sources: {}
+  module_policy_registered: true
+  module_policy_documents:
+  - coordination/module_policy/mobile_app/module_policy.md
+- module_id: production_runtime_inspector
+  module_source_registered: false
+  module_source: {}
+  coordination_source_registered: false
+  coordination_sources: {}
+  module_policy_registered: false
+  module_policy_documents: []
+- module_id: telegram_bot
+  module_source_registered: true
+  module_source:
+    repo_status: confirm_required
+    development_status: active_development
+    local_path: /srv/software_development/forprint-project/telegram_bot
+    repo_url: null
+  coordination_source_registered: true
+  coordination_sources:
+    module_source:
+      path: .
+      availability: present
+      repository: telegram_bot
+    roadmap:
+      path: coordination/roadmaps/telegram_bot.yaml
+      availability: present
+      repository: forprint_system_blueprint
+    prompt_queue:
+      path: coordination/outgoing_prompts/telegram_bot/index.yaml
+      availability: present
+      repository: forprint_system_blueprint
+    completion_outbox:
+      path: coordination/completion_outbox/records
+      availability: not_present_yet
+      repository: telegram_bot
+  module_policy_registered: true
+  module_policy_documents:
+  - coordination/module_policy/telegram_bot/module_policy.md
+  - coordination/module_policy/telegram_bot/telegram_conversational_operating_interface_target_state_v0_1_20260826.md
+- module_id: warehouse_service
+  module_source_registered: false
+  module_source: {}
+  coordination_source_registered: false
+  coordination_sources: {}
+  module_policy_registered: false
+  module_policy_documents: []
+- module_id: website
+  module_source_registered: true
+  module_source:
+    repo_status: confirm_required
+    development_status: planned_or_existing_external
+    local_path: null
+    repo_url: null
+  coordination_source_registered: true
+  coordination_sources:
+    module_source:
+      path: .
+      availability: present
+      repository: forprint_website
+    roadmap:
+      path: coordination/roadmaps/website.yaml
+      availability: present
+      repository: forprint_system_blueprint
+    prompt_queue:
+      path: coordination/outgoing_prompts/website/index.yaml
+      availability: not_registered
+      repository: forprint_system_blueprint
+    completion_outbox:
+      path: coordination/completion_outbox/records
+      availability: not_present_yet
+      repository: forprint_website
+  module_policy_registered: true
+  module_policy_documents:
+  - coordination/module_policy/website/module_policy.md
+historical_aliases:
+- alias: accounting_registry_service
+  canonical_id: forprint_accounting_registry_service
+- alias: forprint_operational_registry
+  canonical_id: forprint_operations_control_registry
+unknown_specialized_registry_ids: []

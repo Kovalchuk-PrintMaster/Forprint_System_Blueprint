@@ -472,13 +472,14 @@ manifest-example:
 
 # =============================================================================
 
-# 11 Prompt dispatch / outgoing prompts START
+# 11 Prompt queue / outgoing prompts START
 
 # =============================================================================
 
 .PHONY: prompt-dispatch
 prompt-dispatch:
-	$(PYTHON) scripts/validate_prompt_dispatch_index.py
+	@echo "DEPRECATED compatibility alias: validating Prompt Queue v0.2"
+	$(PYTHON) scripts/coordination/validate_prompt_queue.py
 
 .PHONY: outgoing-prompts
 outgoing-prompts:
@@ -1164,7 +1165,7 @@ next-prompt-selection-activation-v0-4:
 # =============================================================================
 
 TRACKING_EVENTS_REFERENCE_BUNDLE ?= tmp/step27_tracking_events_reference_sources.txt
-TRACKING_EVENTS_SOURCE_PROMPT ?= coordination/outgoing_prompts/logistics_service/approved/2026-07-29__logistics_service__tracking_events_v0_1.md
+TRACKING_EVENTS_SOURCE_PROMPT ?= coordination/prompt_contracts/logistics_service/logistics_service_tracking_events_v0_1/source_prompt_snapshot.md
 TRACKING_EVENTS_V0_3_CONTRACT ?= coordination/prompt_contracts/logistics_service/logistics_service_tracking_events_v0_1.yaml
 PROMPT_CONTRACT_V0_4_STANDARD ?= coordination/standards/governance/module_prompt_contract_v0_4.yaml
 PROMPT_CONTRACT_V0_4_EXAMPLE ?= coordination/templates/module_prompt_contract_v0_4.example.yaml

@@ -1,0 +1,60 @@
+schema_version: forprint_module_identity_registry_v0_1
+status: active
+authority_state: canonical
+authority_scope: stable_module_identifier_only
+purpose: >-
+  Canonical source for stable ForPrint module identifiers. Business role, runtime
+  status, architecture participation, repository location, policy coverage and prompt
+  lifecycle remain owned by their specialized registries.
+rules:
+  canonical_ids_are_unique: true
+  aliases_are_not_current_ids: true
+  historical_prompt_ids_are_not_rewritten: true
+  module_identity_is_separate_from_architecture_participation: true
+  specialized_registries_must_use_canonical_ids_for_current_records: true
+canonical_module_ids:
+  - calculator_engine
+  - cloud_backup_manager
+  - forprint_accounting_registry_service
+  - forprint_contract_registry
+  - forprint_crm
+  - forprint_integration_gateway
+  - forprint_library
+  - forprint_marketing_orchestrator
+  - forprint_operations_assistant
+  - forprint_operations_control_registry
+  - forprint_prepress_hub
+  - forprint_project_inspector
+  - forprint_strategic_control_plane
+  - forprint_system_administration
+  - forprint_system_blueprint
+  - logistics_service
+  - mobile_app
+  - production_runtime_inspector
+  - telegram_bot
+  - warehouse_service
+  - website
+aliases:
+  - alias: accounting_registry_service
+    canonical_id: forprint_accounting_registry_service
+    status: deprecated_historical_alias
+    current_use_allowed: false
+    retained_for:
+      - immutable_or_historical_prompt_paths
+      - historical_reports_and_evidence
+  - alias: forprint_operational_registry
+    canonical_id: forprint_operations_control_registry
+    status: historical_only_alias
+    current_use_allowed: false
+    retained_for:
+      - immutable_prompt_ids_and_prompt_files
+      - historical_reports_and_evidence
+      - git_remote_transport_slug
+promotion_evidence:
+  owner_decision: OD-01-B
+  accounting_current_machine_identity_reconciled: true
+  operations_current_prompt_routing_reconciled: true
+  specialized_registry_subset_validation_required: true
+forbidden_current_ids:
+  - accounting_registry_service
+  - forprint_operational_registry

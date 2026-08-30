@@ -181,10 +181,10 @@ def build_checks() -> list[CheckDefinition]:
             group="core_quality",
         ),
         CheckDefinition(
-            check_id="prompt_dispatch_validation",
-            title="Prompt dispatch",
-            expected_result="Prompt dispatch index is valid",
-            command=(python, "scripts/validate_prompt_dispatch_index.py"),
+            check_id="semantic_structure_validation",
+            title="Semantic structure",
+            expected_result="Current, derived and historical Blueprint surfaces are separated",
+            command=(python, "scripts/indexing/validate_semantic_structure.py"),
             group="coordination",
         ),
         CheckDefinition(

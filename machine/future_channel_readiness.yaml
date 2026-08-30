@@ -7,13 +7,13 @@ future_channel_readiness:
     compatibility_principle: >-
       Mobile App не розробляється зараз, але всі customer-facing контракти
       мають бути channel-agnostic, щоб у майбутньому Mobile App міг
-      підключитися без перепроєктування CRM, Gateway, Operational Registry
+      підключитися без перепроєктування CRM, Gateway, Operations Control Registry
       або Calculator Engine.
 
     must_be_considered_by:
       - forprint_crm
       - forprint_integration_gateway
-      - forprint_operational_registry
+      - forprint_operations_control_registry
       - calculator_engine
       - telegram_bot
       - website
@@ -31,7 +31,7 @@ future_channel_readiness:
         Website, Telegram Bot і майбутнім Mobile App.
       - >-
         Mobile App не має отримувати власну окрему бізнес-логіку, якщо така
-        логіка вже має жити в CRM, Gateway, Operational Registry або Calculator.
+        логіка вже має жити в CRM, Gateway, Operations Control Registry або Calculator.
       - >-
         Якщо новий контракт створюється для Website або Telegram Bot, треба
         перевірити, чи не правильніше назвати його customer_channel_*.

@@ -1,0 +1,171 @@
+schema_version: forprint_evening_architecture_action_matrix_v1_0
+date: '2026-08-30'
+status: approved_design_direction_pending_canonical_integration
+authority: NONE
+protected_boundaries:
+  current_yaml_change: false
+  h10_change: false
+  released_prompt_rewrite: false
+  git_network_required: false
+new_module_candidates:
+- module_id_candidate: forprint_semantic_retrieval_service
+  display_name_candidate: ForPrint Semantic Retrieval Service
+  status: PROPOSED
+  principle: search_finds_candidates_domain_owner_decides
+  consumers:
+  - forprint_operations_assistant
+  - telegram_bot
+  - forprint_crm
+  - warehouse_service
+  - forprint_library
+  - forprint_operations_control_registry
+  - calculator_engine
+capabilities:
+- id: assistant_bootstrap_context_bundle
+  owner: forprint_system_blueprint
+  priority: P0
+  supporting:
+  - forprint_project_inspector
+  acceptance:
+  - single front door
+  - bootstrap/task bundles
+  - manifest with hashes/governance snapshot
+  - operator profile separated
+- id: versioned_process_contract_lifecycle
+  owner: forprint_system_blueprint
+  priority: P0
+  supporting:
+  - forprint_project_inspector
+  acceptance:
+  - ACTIVE/SUPPORTED_LEGACY/DEPRECATED/BLOCKED/REVOKED
+  - pinned revision
+  - finish-time status check
+  - blocked/revoked handoff prevention
+- id: governance_snapshot_conformance
+  owner: forprint_system_blueprint
+  priority: P0
+  supporting:
+  - forprint_project_inspector
+  dependencies:
+  - versioned_process_contract_lifecycle
+  acceptance:
+  - machine-readable applicability
+  - snapshot ID
+  - step start record
+  - completion attestation
+  - index freshness gate
+- id: customer_identity_representation_graph
+  owner: forprint_crm
+  priority: P1
+  supporting:
+  - telegram_bot
+  - forprint_operations_control_registry
+  acceptance:
+  - immutable person/org IDs
+  - multi-channel identifiers
+  - phone lookup not canonical PK
+  - historical representation
+  - order context snapshot
+- id: manual_alternative_order_intake
+  owner: calculator_engine
+  priority: P1
+  supporting:
+  - forprint_operations_assistant
+  - telegram_bot
+  dependencies:
+  - canonical_calculation_request
+  acceptance:
+  - versioned filename contract
+  - canonical normalization
+  - clarification on ambiguity
+  - same business validators
+- id: semantic_retrieval_service
+  owner: forprint_semantic_retrieval_service
+  priority: P1
+  supporting:
+  - forprint_operations_assistant
+  - telegram_bot
+  - forprint_crm
+  - warehouse_service
+  - forprint_library
+  - forprint_operations_control_registry
+  dependencies:
+  - canonical_domain_ids
+  acceptance:
+  - hybrid retrieval
+  - multimodal roadmap
+  - ACL-aware results
+  - confidence/no-match semantics
+  - evaluation corpus
+- id: accounts_receivable_collection
+  owner: forprint_accounting_registry_service
+  priority: P1
+  supporting:
+  - forprint_crm
+  - telegram_bot
+  - forprint_operations_control_registry
+  - forprint_integration_gateway
+  dependencies:
+  - invoice_order_linkage
+  - payment_reconciliation
+  acceptance:
+  - collection state machine
+  - promise-to-pay
+  - bounded adaptive dialogue
+  - dispute/partial payment
+  - audit history
+- id: order_execution_job_ticket
+  owner: forprint_operations_control_registry
+  priority: P1
+  supporting:
+  - calculator_engine
+  - forprint_operations_assistant
+  - warehouse_service
+  - forprint_accounting_registry_service
+  - forprint_crm
+  - forprint_system_administration
+  dependencies:
+  - canonical_order_job_specification
+  acceptance:
+  - execution gates
+  - queue projections
+  - revisioned job ticket
+  - QR to live order
+  - printer fallback
+- id: critical_stop_work_execution_lock
+  owner: forprint_operations_control_registry
+  priority: P0
+  supporting:
+  - forprint_operations_assistant
+  - telegram_bot
+  - forprint_crm
+  - forprint_system_administration
+  dependencies:
+  - order_execution_job_ticket
+  acceptance:
+  - high-priority event
+  - audio+visual alert
+  - ack/escalation
+  - start/finish/handoff hard check
+  - WIP location
+  - QR not permission
+- id: production_standard_actual_variance
+  owner: calculator_engine
+  priority: P1
+  supporting:
+  - forprint_operations_control_registry
+  - forprint_operations_assistant
+  - warehouse_service
+  - forprint_accounting_registry_service
+  - forprint_library
+  - production_runtime_inspector
+  dependencies:
+  - canonical_operation_identity
+  acceptance:
+  - setup/waste/time norms
+  - quantity bands
+  - planned vs actual
+  - lightweight executor signal
+  - supervisor refinement
+  - yield/scrap/rework distinction
+  - no automatic norm rewrite

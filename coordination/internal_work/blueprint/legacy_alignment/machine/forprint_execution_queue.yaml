@@ -1,0 +1,182 @@
+
+execution_queue:
+  version: "0.1"
+  governance_mode: owner_assistant_blueprint
+  control_plane_status: planned_high_priority_deferred_until_core_modules_alive
+  current_focus: strategic_agreements_and_core_module_alignment
+
+  active_decisions:
+    - id: operations_control_registry_internal_data_custodian
+      title: Operations Control Registry is the internal ForPrint DB custodian
+      status: accepted
+      owner_module: forprint_operations_control_registry
+      summary: >
+        Operations Control Registry physically stores and maintains the main internal
+        ForPrint database foundation, but logical/domain ownership remains
+        separated between modules.
+
+    - id: library_canonical_semantic_authority
+      title: Library is the canonical semantic/catalog authority
+      status: accepted
+      owner_module: forprint_library
+      summary: >
+        Library owns canonical product/service/material/operation IDs, names,
+        aliases, catalog definitions, semantic registry and contract definitions.
+
+    - id: calculator_primary_order_formalization_point
+      title: Calculator is the primary formalization point for new orders
+      status: accepted
+      owner_module: calculator_engine
+      summary: >
+        New customer and manager order/calculation requests should primarily
+        pass through Calculator, which produces structured machine-readable
+        calculation and order draft packages.
+
+    - id: phone_lookup_not_identity_truth
+      title: Phone is lookup key, not canonical identity
+      status: accepted
+      owner_module: forprint_operations_control_registry
+      summary: >
+        Phone is a strong practical lookup/contact key. Canonical customer
+        identity is ClientAccount ID.
+
+    - id: customer_requests_are_stored
+      title: Every identifiable customer request should be stored
+      status: accepted
+      owner_module: forprint_operations_control_registry
+      summary: >
+        Identifiable customer requests, intents, unresolved requests, rejected
+        requests and non-converted inquiries should be stored for analytics.
+
+    - id: one_c_is_sync_contour
+      title: 1C is accounting synchronization contour, not global ForPrint truth
+      status: accepted
+      owner_module: forprint_accounting_registry_service
+      summary: >
+        ForPrint internal DB is the main internal management/accounting/operational
+        data foundation. 1C remains an important accountant-facing work interface
+        and synchronization contour.
+
+  priorities:
+    p0:
+      - id: blueprint_strategic_agreements_pack
+        module_id: forprint_system_blueprint
+        title: Record strategic agreements and execution queue
+        status: in_progress
+        reason: >
+          The ecosystem needs a single documented queue and accepted strategic
+          decisions before module assistants continue.
+
+      - id: module_status_reporting_standard
+        module_id: all_active_modules
+        title: Add coordination/status standard to active repositories
+        status: queued
+        reason: >
+          Every active module should maintain machine-readable and human-readable
+          current status files so ecosystem state can be collected through Git.
+
+      - id: calculator_output_package
+        module_id: calculator_engine
+        title: Build CalculationOutputPackage / Quote / OrderDraft foundation
+        status: queued
+        reason: >
+          Calculator is the primary order formalization point and must produce
+          stable downstream machine-readable packages.
+
+      - id: accounting_registry_after_v0_5_hold
+        module_id: forprint_accounting_registry_service
+        title: Maintain sandbox 1C import/export readiness after v0.5
+        status: selective_hold
+        reason: >
+          Accounting Registry v0.5 is accepted. v0.6 should wait for real
+          sanitized 1C export samples.
+
+    p1:
+      - id: operations_control_registry_v0_6_core_data_model
+        module_id: forprint_operations_control_registry
+        title: Core ForPrint Data Model Expansion
+        status: queued
+        reason: >
+          Operations Control Registry must evolve as the internal DB custodian with
+          ClientAccount, ClientGroup, relationships, CustomerRequest lifecycle
+          and 1C-aware references.
+
+      - id: library_canonical_product_service_governance
+        module_id: forprint_library
+        title: Canonical Product/Service ID and Alias Governance
+        status: queued
+        reason: >
+          Library must prevent product/service/material naming drift between
+          Calculator, Prepress, Accounting, Warehouse and CRM.
+
+      - id: telegram_channel_agnostic_intake
+        module_id: telegram_bot
+        title: Channel-agnostic CustomerRequest and Calculator handoff
+        status: queued
+        reason: >
+          Telegram must remain a customer channel adapter, not the owner of
+          customer/order business logic.
+
+    p2:
+      - id: crm_dashboard_later
+        module_id: forprint_crm
+        title: Dashboard, workflow and manual decision interface
+        status: planned
+        reason: >
+          CRM is important, but should not become the database or business truth owner.
+
+      - id: gateway_runtime_later
+        module_id: forprint_integration_gateway
+        title: Runtime transport after real handoff need
+        status: hold
+        reason: >
+          Gateway foundation exists, but real runtime routing should wait for
+          stable handoff shapes.
+
+      - id: control_plane_deferred
+        module_id: forprint_control_plane
+        title: Strategic governance layer
+        status: planned_high_priority_deferred
+        reason: >
+          Control Plane is accepted conceptually, but should start after core
+          modules are alive and producing regular status/impact signals.
+
+      - id: legacy_file_parser_fallback
+        module_id: legacy_file_parser
+        title: Legacy file-name parser fallback
+        status: planned_low_priority
+        reason: >
+          Legacy file parsing may help historical/manual workflows, but future
+          core workflow should come from Calculator-generated packages.
+
+  hold:
+    - module_id: forprint_integration_gateway
+      status: hold_after_foundation
+      reason: Runtime handoff is not yet needed.
+
+    - module_id: forprint_control_plane
+      status: planned_deferred
+      reason: Core modules must be alive before strategic control automation starts.
+
+  blocked_or_waiting:
+    - module_id: forprint_accounting_registry_service
+      waiting_for: real_sanitized_one_c_export_samples
+      next_allowed_step: real_export_profile_pack
+      forbidden_until_approved:
+        - live_1c_connection
+        - live_1c_write
+        - production_sync
+        - automatic_posting
+
+  module_status_reporting_standard:
+    status: queued
+    required_directory: coordination/status
+    required_files:
+      - coordination/status/current_status.yaml
+      - coordination/status/current_status.md
+      - coordination/status/latest_completion_report.md
+      - coordination/status/next_questions_for_blueprint.md
+
+  next_recommended_action: >
+    Complete the System Blueprint strategic agreements pack, then apply the
+    module status reporting standard to active module repositories.

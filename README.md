@@ -1,112 +1,131 @@
 # ForPrint System Blueprint
 
-**ForPrint System Blueprint** — це верхній архітектурний шар для всієї екосистеми ForPrint.
+<!-- FORPRINT_AI_ASSISTANT_ENTRY_START -->
+## AI assistant entry
 
-Він не приймає замовлення, не рахує ціни, не обробляє файли і не виконує бізнес-операції. Його задача — тримати архітектурну правду: які модулі існують, хто за що відповідає, які дані кому належать, які контракти між модулями, які потоки даних активні або плануються.
+A new AI assistant with no repository context should start with
+[`AGENTS.md`](AGENTS.md), which is the canonical onboarding/navigation front door.
+<!-- FORPRINT_AI_ASSISTANT_ENTRY_END -->
 
-## Головна формула
+
+**ForPrint System Blueprint** is the architecture and coordination control repository for
+the ForPrint ecosystem.
+
+It does not execute customer orders, calculate prices or run production workflows. It
+defines and validates how modules fit together, which module owns which data, which
+contracts/flows exist, and which coordination/release state is effective.
+
+## Authority map
 
 ```text
-Blueprint каже: “так має бути”.
-Inspector каже: “ось що реально є”.
-CRM диригує бізнес-процесом і показує людям робочий інтерфейс.
-Прикладні модулі виконують свою предметну роботу.
+coordination/releases/current.yaml
+    effective Blueprint release/work authority
+
+machine/module_identity_registry.yaml
+    stable module identifiers
+
+machine/modules.yaml
+machine/data_objects.yaml
+machine/ownership.yaml
+machine/contracts.yaml
+machine/data_flows.yaml
+machine/system_layers.yaml
+    current machine-readable architecture
+
+coordination/standards/
+    normative governance and engineering rules
+
+docs/
+    stable human explanation
+
+indexes/
+    derived non-authoritative navigation
 ```
 
-## Важливе уточнення про CRM
+## Human architecture entry points
 
-У цьому Blueprint CRM не вважається фізичним сховищем клієнтів, замовлень і документів.
+- `docs/architecture/system_architecture.md`
+- `docs/architecture/module_boundaries.md`
+- `docs/architecture/integration_architecture.md`
 
-`forprint_crm` — це бізнес-диригент / прикладний оркестратор / людський інтерфейс. Він координує бізнес-процеси, показує клієнтів, замовлення, статуси, аналітику і звіти, але канонічні записи мають належати окремим реєстрам або предметним модулям.
+Historical early alignment material is preserved under
+`coordination/internal_work/blueprint/legacy_alignment/` and is not current authority.
 
-Початковий розподіл:
-
-- `forprint_operational_registry` — клієнти, замовлення, історія взаємодій, операційні статуси.
-- `accounting_registry_service` — рахунки, оплати, бухгалтерські документи, сумісність / синхронізація з 1С.
-- `forprint_crm` — керування процесом, візуалізація, звіти, аналітика, координація модулів.
-
-Це можна буде уточнювати, але в стартовому каркасі ми не змішуємо “диригента” і “сховище правди”.
-
-## Швидкий старт на Debian
+## Quick start
 
 ```bash
 cd /srv/software_development/forprint-project/forprint_system_blueprint
-python3.11 -m venv .venv_blueprint
 source .venv_blueprint/bin/activate
-python -m pip install --upgrade pip
-python -m pip install -e ".[dev]"
 make check
 ```
 
-## Основні команди
+## Main commands
 
 ```bash
-make validate   # перевірити YAML-опис архітектури
-make diagrams   # згенерувати Mermaid-діаграми
-make guides     # згенерувати module_guides/*.md
-make test       # запустити unit-тести
-make check      # lint + тести + валідація + генерація
+make validate
+make diagrams
+make guides
+make test
+make check
+make check-report
+make prompt-queue-validate
+make coordination-check
 ```
 
-## Структура
+## Repository structure
 
 ```text
 forprint_system_blueprint/
-├── human/          # людські пояснення архітектури
-├── machine/        # YAML-джерело архітектурної правди
-├── diagrams/       # Mermaid-діаграми
-├── module_guides/  # промти / guide-файли для окремих модулів
-├── coordination/   # робочі черги промтів, запитів і review-пакетів
-├── adr/            # архітектурні рішення
-├── scripts/        # генератори і валідатори
-└── tests/          # самоконтроль цього Blueprint-проєкту
+├── machine/        # current machine-readable architecture/control truth
+├── docs/           # stable authored human documentation
+├── coordination/   # releases, roadmaps, prompts, standards, evidence and workflows
+├── indexes/        # derived non-authoritative navigation
+├── diagrams/       # generated/manual explanatory Mermaid views
+├── module_guides/  # generated module-facing guides
+├── adr/            # architecture decision history
+├── scripts/        # generators, validators and workflow tooling
+├── tests/          # deterministic repository validation
+├── reports/        # generated reports/evidence
+└── tools/          # reusable support tooling/templates
 ```
 
-## Принцип роботи з модулями
+## Module boundary rule
 
-1. Зміна архітектури вноситься в `machine/*.yaml`.
-2. Запускається `make check`.
-3. Генеруються оновлені діаграми і module guides.
-4. Якщо зміна стосується дочірнього модуля, формується файл у `coordination/outgoing_prompts/<module_id>/drafts/`.
-5. Після погодження промт переходить у `approved/`, потім у `sent/`.
-6. Дочірній модуль може надсилати запити назад у `coordination/incoming_requests/<module_id>/new/`.
-7. Для великих шматків діалогу, архівів або аналізу є `coordination/review_packets/<module_id>/new/`.
+CRM coordinates business workflow and operator views; it is not the physical owner of
+all business data.
 
-## Git-практика
+Current canonical identities include:
 
-Після кожного завершеного проміжного кроку:
+- `forprint_operations_control_registry` — operational client/order/task/status truth;
+- `forprint_accounting_registry_service` — accounting/invoice/payment/1C contour;
+- `forprint_library` — semantic/catalog/reference truth;
+- `calculator_engine` — calculation and quote logic.
+
+Exact role/status/ownership remains defined by current `machine/*.yaml`.
+
+## Working with modules
+
+Current prompt release/pull is governed by Prompt Queue v0.2:
+
+`coordination/outgoing_prompts/<module_id>/index.yaml`
+
+Released prompts are execution contracts and are not rewritten by generic structural
+cleanup.
+
+Module completion/review progression must follow current coordination standards and the
+effective release authority.
+
+## Git safety
+
+Repository tooling may provide explicit mutation commands, but structural or governance
+work must not imply commit/push/merge automatically.
+
+Before publication, review:
 
 ```bash
 make check
-git status
-git add .
-git commit -m "Describe completed blueprint step"
-git push
-```
-
-Не комітити:
-
-- `.venv_blueprint/`
-- `__pycache__/`
-- `.pytest_cache/`
-- тимчасові архіви
-- службове сміття редакторів
-
-- `.gitignore` for Python caches, virtual environments, local logs, temporary files, archives and secrets.
-- `.gitkeep` files for empty coordination folders so the prompt/request/review structure is preserved in Git.
-
-## Integration Gateway decision
-
-Blueprint now includes `forprint_integration_gateway` as a planned transport/contract layer. It validates requests, normalizes payloads, adds correlation/idempotency context, routes requests between modules, and reports integration/audit events. It must not own business truth or business decisions.
-
-
-
-
-After unpacking, run:
-
-```bash
-make clean
 git status --short
+git diff --check
 ```
 
-The `.venv_blueprint/` directory must not appear in `git status --short`.
+Commit/push remains an explicit operator decision.

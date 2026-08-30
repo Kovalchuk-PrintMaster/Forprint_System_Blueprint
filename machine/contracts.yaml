@@ -77,26 +77,26 @@ contracts:
 - id: calculator_to_registry_quote.v1
   title: Calculator Quote to Operations Control Registry
   provider: calculator_engine
-  consumer: forprint_operational_registry
+  consumer: forprint_operations_control_registry
   version: v1
   status: planned
   data_objects:
   - quote_draft
   - product_configuration
   description: Operations Control Registry зберігає прив'язку кошторису до замовлення.
-- id: crm_to_operational_registry_command.v1
+- id: crm_to_operations_control_registry_command.v1
   title: CRM Command to Operations Control Registry
   provider: forprint_crm
-  consumer: forprint_operational_registry
+  consumer: forprint_operations_control_registry
   version: v1
   status: planned
   data_objects:
   - business_command
   - workflow_decision
   description: CRM диригує створенням / зміною операційних записів.
-- id: operational_registry_to_prepress_order_context.v1
+- id: operations_control_registry_to_prepress_order_context.v1
   title: Operations Control Registry Order Context to Prepress
-  provider: forprint_operational_registry
+  provider: forprint_operations_control_registry
   consumer: forprint_prepress_hub
   version: v1
   status: planned
@@ -114,10 +114,10 @@ contracts:
   - file_preview
   - print_ready_file
   description: CRM бачить стан підготовки файлів.
-- id: operational_registry_to_accounting_order.v1
+- id: operations_control_registry_to_accounting_order.v1
   title: Operations Control Registry Order to Accounting
-  provider: forprint_operational_registry
-  consumer: accounting_registry_service
+  provider: forprint_operations_control_registry
+  consumer: forprint_accounting_registry_service
   version: v1
   status: planned
   data_objects:
@@ -127,7 +127,7 @@ contracts:
   description: Accounting отримує дані для рахунку / акта / 1С.
 - id: accounting_to_crm_financial_status.v1
   title: Accounting Financial Status to CRM
-  provider: accounting_registry_service
+  provider: forprint_accounting_registry_service
   consumer: forprint_crm
   version: v1
   status: active_development
@@ -138,7 +138,7 @@ contracts:
   description: CRM показує фінансовий статус замовлення.
 - id: accounting_to_one_c_export.v1
   title: Accounting Export to 1C
-  provider: accounting_registry_service
+  provider: forprint_accounting_registry_service
   consumer: external_1c
   version: v1
   status: planned
@@ -285,10 +285,10 @@ contracts:
   - product_configuration
   - correlation_context
   description: Gateway передає Calculator тільки валідований розрахунковий запит.
-- id: integration_gateway_to_operational_registry_command.v1
+- id: integration_gateway_to_operations_control_registry_command.v1
   title: Integration Gateway to Operations Control Registry Command
   provider: forprint_integration_gateway
-  consumer: forprint_operational_registry
+  consumer: forprint_operations_control_registry
   version: v1
   status: planned
   data_objects:
@@ -311,7 +311,7 @@ contracts:
 - id: integration_gateway_to_accounting_invoice_request.v1
   title: Integration Gateway to Accounting Invoice Request
   provider: forprint_integration_gateway
-  consumer: accounting_registry_service
+  consumer: forprint_accounting_registry_service
   version: v1
   status: planned
   data_objects:

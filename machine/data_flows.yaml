@@ -67,30 +67,30 @@ data_flows:
   contract: calculator_to_crm_quote.v1
   status: active_development
   criticality: high
-- id: calculator_quote_to_operational_registry
+- id: calculator_quote_to_operations_control_registry
   source: calculator_engine
-  target: forprint_operational_registry
+  target: forprint_operations_control_registry
   data_objects:
   - quote_draft
   - product_configuration
   contract: calculator_to_registry_quote.v1
   status: planned
   criticality: high
-- id: crm_commands_operational_registry
+- id: crm_commands_operations_control_registry
   source: forprint_crm
-  target: forprint_operational_registry
+  target: forprint_operations_control_registry
   data_objects:
   - business_command
   - workflow_decision
-  contract: crm_to_operational_registry_command.v1
+  contract: crm_to_operations_control_registry_command.v1
   status: planned
   criticality: high
 - id: operational_order_context_to_prepress
-  source: forprint_operational_registry
+  source: forprint_operations_control_registry
   target: forprint_prepress_hub
   data_objects:
   - order_context
-  contract: operational_registry_to_prepress_order_context.v1
+  contract: operations_control_registry_to_prepress_order_context.v1
   status: planned
   criticality: high
 - id: prepress_report_to_crm
@@ -104,17 +104,17 @@ data_flows:
   status: active_development
   criticality: high
 - id: operational_order_to_accounting
-  source: forprint_operational_registry
-  target: accounting_registry_service
+  source: forprint_operations_control_registry
+  target: forprint_accounting_registry_service
   data_objects:
   - order
   - client
   - quote_draft
-  contract: operational_registry_to_accounting_order.v1
+  contract: operations_control_registry_to_accounting_order.v1
   status: planned
   criticality: high
 - id: accounting_financial_status_to_crm
-  source: accounting_registry_service
+  source: forprint_accounting_registry_service
   target: forprint_crm
   data_objects:
   - invoice
@@ -124,7 +124,7 @@ data_flows:
   status: active_development
   criticality: high
 - id: accounting_export_to_one_c
-  source: accounting_registry_service
+  source: forprint_accounting_registry_service
   target: external_1c
   data_objects:
   - accounting_export
@@ -258,15 +258,15 @@ data_flows:
   contract: calculator_to_integration_gateway_result.v1
   status: planned
   criticality: high
-- id: integration_gateway_routes_to_operational_registry
+- id: integration_gateway_routes_to_operations_control_registry
   source: forprint_integration_gateway
-  target: forprint_operational_registry
+  target: forprint_operations_control_registry
   data_objects:
   - routed_module_request
   - quote_draft
   - product_configuration
   - correlation_context
-  contract: integration_gateway_to_operational_registry_command.v1
+  contract: integration_gateway_to_operations_control_registry_command.v1
   status: planned
   criticality: high
 - id: integration_gateway_routes_to_warehouse
@@ -281,7 +281,7 @@ data_flows:
   criticality: high
 - id: integration_gateway_routes_to_accounting
   source: forprint_integration_gateway
-  target: accounting_registry_service
+  target: forprint_accounting_registry_service
   data_objects:
   - routed_module_request
   - quote_draft

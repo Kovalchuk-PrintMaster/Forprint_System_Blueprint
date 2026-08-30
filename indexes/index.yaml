@@ -1,0 +1,57 @@
+schema_version: forprint_blueprint_index_registry_v0_2
+status: derived_non_authoritative
+authority: none
+indexes:
+- id: modules
+  path: indexes/modules.yaml
+  generated_from: machine/module_identity_registry.yaml
+- id: authorities
+  path: indexes/authorities.yaml
+  generated_from: explicit_normalization_classification
+- id: documents
+  path: indexes/documents.yaml
+  generated_from: document_taxonomy_and_current_docs
+- id: legacy
+  path: indexes/legacy.yaml
+  generated_from: coordination/internal_work/blueprint/legacy_alignment/index.yaml
+- id: derivations
+  path: indexes/derivations.yaml
+  generated_from: coordination/templates/repository_knowledge_template/derivation_manifest.yaml
+- id: files
+  path: indexes/files.json
+  generated_from: scripts/indexing/build_blueprint_knowledge_index.py
+- id: document_catalog
+  path: indexes/document_catalog.yaml
+  generated_from: scripts/indexing/build_blueprint_knowledge_index.py
+- id: references
+  path: indexes/references.json
+  generated_from: scripts/indexing/build_blueprint_knowledge_index.py
+- id: dependencies
+  path: indexes/dependencies.json
+  generated_from: scripts/indexing/build_blueprint_knowledge_index.py
+- id: review_candidates
+  path: indexes/review_candidates.yaml
+  generated_from: scripts/indexing/build_blueprint_knowledge_index.py
+- id: knowledge_summary
+  path: indexes/knowledge_summary.yaml
+  generated_from: scripts/indexing/build_blueprint_knowledge_index.py
+- id: prompts
+  path: indexes/prompts.yaml
+  generated_from: scripts/indexing/build_blueprint_specialized_indexes.py
+- id: roadmaps
+  path: indexes/roadmaps.yaml
+  generated_from: scripts/indexing/build_blueprint_specialized_indexes.py
+- id: governance
+  path: indexes/governance.yaml
+  generated_from: scripts/indexing/build_blueprint_specialized_indexes.py
+- id: contracts
+  path: indexes/contracts.yaml
+  generated_from: scripts/indexing/build_blueprint_specialized_indexes.py
+- id: source_coverage
+  path: indexes/source_coverage.yaml
+  generated_from: scripts/indexing/build_blueprint_specialized_indexes.py
+- id: incoming_requests
+  path: indexes/incoming_requests.yaml
+  generated_from: scripts/indexing/build_blueprint_specialized_indexes.py
+planned_indexes:
+- artifacts

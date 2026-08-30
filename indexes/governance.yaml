@@ -1,0 +1,732 @@
+schema_version: forprint_blueprint_governance_query_index_v0_2
+status: derived_non_authoritative
+authority: none
+effective_release:
+  path: coordination/releases/current.yaml
+  projection_id: forprint_coordination_current_release_v0_4_1
+  release_status: authoritative_current
+  base_release: v0.4
+  hardening_release: v0.4.1
+  hardening_state: ACTIVE_CURRENT
+  current_slice: blueprint_v0_4_1_ecosystem_rollout_balance_and_dependency_adoption_v0_1
+effective_governance:
+  prompt_contract:
+    artifact: coordination/standards/governance/module_prompt_contract_v0_4.yaml
+    artifact_publication_status_preserved: candidate_reference_only
+    effective_status: active_current
+  completion_packet:
+    artifact: coordination/standards/governance/module_completion_packet_v0_4.yaml
+    artifact_publication_status_preserved: candidate_reference_only
+    effective_status: active_current
+  completion_outbox:
+    artifact: coordination/standards/governance/module_completion_outbox_v0_4.yaml
+    artifact_publication_status_preserved: candidate_reference_only
+    effective_status: active_current
+  health_policy:
+    artifact: coordination/standards/governance/coordination_health_policy_v0_1.yaml
+    artifact_publication_status_preserved: candidate_v0_4
+    effective_status: active_v0_4_1
+progression_gate_policy:
+  standard_id: phase_boundary_progression_gate_policy_v0_1
+  current_phase: H10
+  manual_progress_confirmation_scope: phase_boundary_only
+  intra_phase_deterministic_progression_authorized: true
+  intra_phase_operator_accept_confirmation_required: false
+  intra_phase_operator_activation_confirmation_required: false
+  current_execution_mode: explicit_user_run
+  background_push_enabled: false
+  manual_exception_authority_preserved: true
+historical_non_authoritative_projections:
+- coordination/self_coordination/roadmap.yaml
+- coordination/self_coordination/prompt_queue/index.yaml
+standards_count: 108
+standards:
+- standard_id: standards_readme
+  title: Standards Readme
+  path: coordination/standards/README.md
+  exists: true
+  status: advisory_guidance
+  adoption_mode: gradual_alignment
+- standard_id: standards_governance_readme
+  title: Standards Governance Readme
+  path: coordination/standards/governance/README.md
+  exists: true
+  status: advisory_guidance
+  adoption_mode: reference_only
+- standard_id: standards_governance_index
+  title: Standards Governance Index
+  path: coordination/standards/governance/index.yaml
+  exists: true
+  status: advisory_guidance
+  adoption_mode: reference_only
+- standard_id: standards_directory_policy
+  title: Standards Directory Policy
+  path: coordination/standards/governance/standards_directory_policy.md
+  exists: true
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: coordination_document_awareness_policy
+  title: Coordination Document Awareness Policy
+  path: coordination/standards/governance/coordination_document_awareness_policy.md
+  exists: true
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: folder_architecture_policy
+  title: Folder Architecture Policy
+  path: coordination/standards/governance/folder_architecture_policy.md
+  exists: true
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: prompt_queue_navigation_policy
+  title: Prompt Queue Navigation Policy
+  path: coordination/standards/governance/prompt_queue_navigation_policy.md
+  exists: true
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: outgoing_prompt_release_policy
+  title: Outgoing Prompt Release Policy
+  path: coordination/standards/governance/outgoing_prompt_release_policy_v0_1.yaml
+  exists: true
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: module_prompt_execution_and_reporting_protocol
+  title: Module Prompt Execution and Reporting Protocol
+  path: coordination/standards/governance/module_prompt_execution_and_reporting_protocol.md
+  exists: true
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: module_coordination_sync_protocol_v0_1
+  title: ForPrint Module Coordination Sync Protocol v0.1
+  path: coordination/standards/governance/module_coordination_sync_protocol_v0_1.md
+  exists: true
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: accept_and_advance_protocol_v0_1
+  title: ForPrint ACCEPT_AND_ADVANCE Protocol v0.1
+  path: coordination/standards/governance/accept_and_advance_protocol_v0_1.md
+  exists: true
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: next_work_selection_policy_v0_1
+  title: ForPrint Next Work Selection Policy v0.1
+  path: coordination/standards/governance/next_work_selection_policy_v0_1.md
+  exists: true
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: module_completion_exchange_protocol_v0_3
+  title: Module Completion Exchange Protocol v0.3
+  path: coordination/standards/governance/module_completion_exchange_protocol_v0_3.md
+  exists: true
+  status: draft
+  adoption_mode: reference_only
+- standard_id: modular_topology_resilience_readme
+  title: Modular Topology And Resilience Readme
+  path: coordination/standards/modular_topology_and_resilience/README.md
+  exists: true
+  status: advisory_guidance
+  adoption_mode: reference_only
+- standard_id: modular_topology_resilience_index
+  title: Modular Topology And Resilience Index
+  path: coordination/standards/modular_topology_and_resilience/index.yaml
+  exists: true
+  status: advisory_guidance
+  adoption_mode: reference_only
+- standard_id: architecture_topology_policy
+  title: Architecture Topology Policy
+  path: coordination/standards/modular_topology_and_resilience/architecture_topology_policy.md
+  exists: true
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: data_ownership_and_storage_policy
+  title: Data Ownership And Storage Policy
+  path: coordination/standards/modular_topology_and_resilience/data_ownership_and_storage_policy.md
+  exists: true
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: module_interaction_reliability_policy
+  title: Module Interaction Reliability Policy
+  path: coordination/standards/modular_topology_and_resilience/module_interaction_reliability_policy.md
+  exists: true
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: gateway_responsibility_policy
+  title: Gateway Responsibility Policy
+  path: coordination/standards/modular_topology_and_resilience/gateway_responsibility_policy.md
+  exists: true
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: module_global_context_policy
+  title: Module Global Context Policy
+  path: coordination/standards/modular_topology_and_resilience/module_global_context_policy.md
+  exists: true
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: third_party_reuse_readme
+  title: Third-Party Reuse Readme
+  path: coordination/standards/third_party_reuse/README.md
+  exists: true
+  status: advisory_guidance
+  adoption_mode: reference_only
+- standard_id: third_party_reuse_index
+  title: Third-Party Reuse Index
+  path: coordination/standards/third_party_reuse/index.yaml
+  exists: true
+  status: advisory_guidance
+  adoption_mode: reference_only
+- standard_id: third_party_reuse_policy
+  title: Third-Party Reuse Policy
+  path: coordination/standards/third_party_reuse/third_party_reuse_policy.md
+  exists: true
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: configuration_policy
+  title: Configuration Policy
+  path: coordination/standards/configuration_policy.md
+  exists: true
+  status: target_standard
+  adoption_mode: gradual_alignment
+- standard_id: secrets_and_env_policy
+  title: Secrets and Environment Policy
+  path: coordination/standards/secrets_and_env_policy.md
+  exists: true
+  status: target_standard
+  adoption_mode: gradual_alignment
+- standard_id: development_environment_policy
+  title: Development Environment and Tooling Policy
+  path: coordination/standards/development_environment_policy.md
+  exists: true
+  status: target_standard
+  adoption_mode: gradual_alignment
+- standard_id: coordination_metadata_policy
+  title: Coordination Metadata Policy
+  path: coordination/standards/coordination_metadata_policy.md
+  exists: true
+  status: target_standard
+  adoption_mode: reference_only
+- standard_id: current_status_extension_policy
+  title: Current Status Extension Policy
+  path: coordination/standards/current_status_extension_policy.md
+  exists: true
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: directive_index_schema
+  title: Directive Index Schema
+  path: coordination/standards/directive_index_schema.md
+  exists: true
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: make_command_standard
+  title: Make Command Standard
+  path: coordination/standards/make_command_standard.md
+  exists: true
+  status: target_standard
+  adoption_mode: gradual_alignment
+- standard_id: module_alignment_policy
+  title: Module Alignment Policy
+  path: coordination/standards/module_alignment_policy.md
+  exists: true
+  status: advisory_guidance
+  adoption_mode: gradual_alignment
+- standard_id: module_assistant_start_protocol
+  title: Module Assistant Start Protocol
+  path: coordination/standards/module_assistant_start_protocol.md
+  exists: true
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: module_coordination_records_protocol
+  title: Module Coordination Records Protocol
+  path: coordination/standards/module_coordination_records_protocol.md
+  exists: true
+  status: draft
+  adoption_mode: gradual_alignment
+- standard_id: module_governance_make_targets
+  title: Module Governance Make Targets
+  path: coordination/standards/module_governance_make_targets.md
+  exists: true
+  status: target_standard
+  adoption_mode: gradual_alignment
+- standard_id: module_governance_protocol
+  title: Module Governance Protocol
+  path: coordination/standards/module_governance_protocol.md
+  exists: true
+  status: active_standard
+  adoption_mode: reference_only
+- standard_id: module_make_target_contract
+  title: Module Make Target Contract
+  path: coordination/standards/module_make_target_contract.md
+  exists: true
+  status: draft
+  adoption_mode: gradual_alignment
+- standard_id: module_outgoing_prompt_pull_protocol
+  title: Module Outgoing Prompt Pull Protocol
+  path: coordination/standards/module_outgoing_prompt_pull_protocol.md
+  exists: true
+  status: active_standard
+  adoption_mode: reference_only
+- standard_id: module_pre_commit_protocol
+  title: Module Pre Commit Protocol
+  path: coordination/standards/module_pre_commit_protocol.md
+  exists: true
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: module_prompt_completion_protocol
+  title: Module Prompt Completion Protocol
+  path: coordination/standards/module_prompt_completion_protocol.md
+  exists: true
+  status: draft
+  adoption_mode: gradual_alignment
+- standard_id: module_standards_awareness_protocol
+  title: Module Standards Awareness Protocol
+  path: coordination/standards/module_standards_awareness_protocol.md
+  exists: true
+  status: active_standard
+  adoption_mode: reference_only
+- standard_id: project_structure_standard
+  title: Project Structure Standard
+  path: coordination/standards/project_structure_standard.md
+  exists: true
+  status: target_standard
+  adoption_mode: gradual_alignment
+- standard_id: repository_structure_baseline
+  title: Repository Structure Minimal Adoption Profile
+  path: coordination/standards/repository_structure_baseline.md
+  exists: true
+  status: advisory_guidance
+  adoption_mode: reference_only
+- standard_id: testing_and_check_report_standard
+  title: Testing And Check Report Standard
+  path: coordination/standards/testing_and_check_report_standard.md
+  exists: true
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: module_development_roadmap_policy
+  title: ForPrint Module Development Roadmap Policy
+  path: coordination/standards/governance/module_development_roadmap_policy.md
+  exists: true
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: visual_interface_index
+  title: Visual Interface Index
+  path: coordination/standards/visual_interface/index.yaml
+  exists: true
+  status: advisory_guidance
+  adoption_mode: reference_only
+- standard_id: visual_interface_color_tokens_policy
+  title: ForPrint Visual Status Tokens Policy
+  path: coordination/standards/visual_interface/color_tokens_policy.md
+  exists: true
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: boxed_table_layout_policy
+  title: ForPrint Boxed Table Layout Policy
+  path: coordination/standards/visual_interface/boxed_table_layout_policy.md
+  exists: true
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: documentation_and_recovery_gate
+  title: ForPrint Documentation And Recovery Gate
+  path: coordination/standards/governance/documentation_and_recovery_gate.md
+  exists: true
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: module_workflow_automation_and_external_input_policy
+  title: Module Workflow Automation And External Input Policy
+  path: coordination/standards/governance/module_workflow_automation_and_external_input_policy.md
+  exists: true
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: module_workflow_command_architecture
+  title: Module Workflow Command Architecture
+  path: coordination/standards/governance/module_workflow_command_architecture_v0_1.md
+  exists: true
+  status: target_standard
+  adoption_mode: reference_only
+- standard_id: module_workflow_adoption_matrix
+  title: Module Workflow Adoption Matrix
+  path: coordination/standards/adoption/module_workflow_adoption_matrix_v0_1.yaml
+  exists: true
+  status: draft
+  adoption_mode: reference_only
+- standard_id: blueprint_command_applicability
+  title: Blueprint Command Applicability and Implementation Inventory
+  path: coordination/standards/adoption/blueprint_command_applicability_v0_1.yaml
+  exists: true
+  status: active_standard
+  adoption_mode: reference_only
+- standard_id: mutation_builder_contract
+  title: ForPrint Mutation Builder Contract
+  path: coordination/standards/governance/mutation_builder_contract_v0_1.md
+  exists: true
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: mutation_builder_contract_machine_contract
+  title: ForPrint Mutation Builder Machine Contract
+  path: coordination/standards/governance/mutation_builder_contract_v0_1.yaml
+  exists: true
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: coordination_data_classification_and_persistence_boundary_v0_1
+  title: ForPrint Coordination Data Classification and Persistence Boundary v0.1
+  path: coordination/standards/governance/coordination_data_classification_and_persistence_boundary_v0_1.md
+  exists: true
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: coordination_data_classification_and_persistence_boundary_machine_contract_v0_1
+  title: ForPrint Coordination Data Classification and Persistence Boundary Machine Contract v0.1
+  path: coordination/standards/governance/coordination_data_classification_and_persistence_boundary_v0_1.yaml
+  exists: true
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: coordination_health_policy_v0_1
+  title: ForPrint Coordination Health Policy v0.1
+  path: coordination/standards/governance/coordination_health_policy_v0_1.yaml
+  exists: true
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: module_prompt_contract_v0_4
+  title: Module Prompt Contract v0.4
+  path: coordination/standards/governance/module_prompt_contract_v0_4.yaml
+  exists: true
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: module_completion_packet_v0_4
+  title: Module Completion Packet v0.4
+  path: coordination/standards/governance/module_completion_packet_v0_4.yaml
+  exists: true
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: module_completion_outbox_v0_4
+  title: Module Completion Outbox v0.4
+  path: coordination/standards/governance/module_completion_outbox_v0_4.yaml
+  exists: true
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: closed_loop_coordination_lifecycle_v0_1
+  title: ForPrint Closed-Loop Coordination Lifecycle v0.1
+  path: coordination/standards/governance/closed_loop_coordination_lifecycle_v0_1.md
+  exists: true
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: legacy_compatibility_retirement_policy_v0_1
+  title: ForPrint Legacy Compatibility and Retirement Policy v0.1
+  path: coordination/standards/governance/legacy_compatibility_retirement_policy_v0_1.md
+  exists: true
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: clarification_question_lifecycle_v0_1
+  title: ForPrint Clarification Question Lifecycle v0.1
+  path: coordination/standards/governance/clarification_question_lifecycle_v0_1.md
+  exists: true
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: clarification_question_lifecycle_machine_contract_v0_1
+  title: ForPrint Clarification Question Lifecycle Machine Contract v0.1
+  path: coordination/standards/governance/clarification_question_lifecycle_v0_1.yaml
+  exists: true
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: bounded_clarification_and_escalation_v0_1
+  title: ForPrint Bounded Clarification and Escalation v0.1
+  path: coordination/standards/governance/bounded_clarification_and_escalation_v0_1.md
+  exists: true
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: bounded_clarification_and_escalation_machine_contract_v0_1
+  title: ForPrint Bounded Clarification and Escalation Machine Contract v0.1
+  path: coordination/standards/governance/bounded_clarification_and_escalation_v0_1.yaml
+  exists: true
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: execution_blocker_taxonomy_v0_1
+  title: ForPrint Execution Blocker Taxonomy and Prompt Blocking Semantics v0.1
+  path: coordination/standards/governance/execution_blocker_taxonomy_v0_1.md
+  exists: true
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: execution_blocker_taxonomy_machine_contract_v0_1
+  title: ForPrint Execution Blocker Taxonomy Machine Contract v0.1
+  path: coordination/standards/governance/execution_blocker_taxonomy_v0_1.yaml
+  exists: true
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: immutable_prompt_adjustment_and_decision_v0_1
+  title: ForPrint Immutable Prompt Adjustment and Operator Decision Correlation v0.1
+  path: coordination/standards/governance/immutable_prompt_adjustment_and_decision_v0_1.md
+  exists: true
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: immutable_prompt_adjustment_and_decision_machine_contract_v0_1
+  title: ForPrint Immutable Prompt Adjustment and Operator Decision Machine Contract v0.1
+  path: coordination/standards/governance/immutable_prompt_adjustment_and_decision_v0_1.yaml
+  exists: true
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: common_coordination_event_envelope_v0_1
+  title: ForPrint Common Coordination Event Envelope v0.1
+  path: coordination/standards/governance/common_coordination_event_envelope_v0_1.md
+  exists: true
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: common_coordination_event_envelope_machine_contract_v0_1
+  title: ForPrint Common Coordination Event Envelope Machine Contract v0.1
+  path: coordination/standards/governance/common_coordination_event_envelope_v0_1.yaml
+  exists: true
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: operator_attention_semantics_v0_1
+  title: ForPrint Operator Attention Semantics v0.1
+  path: coordination/standards/governance/operator_attention_semantics_v0_1.md
+  exists: true
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: operator_attention_semantics_machine_contract_v0_1
+  title: ForPrint Operator Attention Semantics Machine Contract v0.1
+  path: coordination/standards/governance/operator_attention_semantics_v0_1.yaml
+  exists: true
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: cross_module_question_routing_contract_v0_1
+  title: ForPrint Cross-Module Question Routing Contract v0.1
+  path: coordination/standards/governance/cross_module_question_routing_contract_v0_1.md
+  exists: true
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: cross_module_question_routing_contract_machine_contract_v0_1
+  title: ForPrint Cross-Module Question Routing Machine Contract v0.1
+  path: coordination/standards/governance/cross_module_question_routing_contract_v0_1.yaml
+  exists: true
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: logistics_clarification_reference_validation_v0_1
+  title: ForPrint Logistics Clarification Reference Validation v0.1
+  path: coordination/standards/governance/logistics_clarification_reference_validation_v0_1.md
+  exists: true
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: logistics_clarification_reference_validation_machine_contract_v0_1
+  title: ForPrint Logistics Clarification Reference Validation Machine Contract v0.1
+  path: coordination/standards/governance/logistics_clarification_reference_validation_v0_1.yaml
+  exists: true
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: phase_boundary_progression_gate_policy_v0_1
+  title: ForPrint Phase-Boundary Progression Gate Policy v0.1
+  path: coordination/standards/governance/phase_boundary_progression_gate_policy_v0_1.md
+  exists: true
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: phase_boundary_progression_gate_machine_policy_v0_1
+  title: ForPrint Phase-Boundary Progression Gate Machine Policy v0.1
+  path: coordination/standards/governance/phase_boundary_progression_gate_policy_v0_1.yaml
+  exists: true
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: module_concept_and_roadmap_traceability_standard_v0_1
+  title: ForPrint Module Concept and Roadmap Traceability Standard v0.1
+  path: coordination/standards/governance/module_concept_and_roadmap_traceability_standard_v0_1.md
+  exists: true
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: end_to_end_completeness_and_gray_zone_review_standard_v0_1
+  title: ForPrint End-to-End Completeness and Gray-Zone Review Standard v0.1
+  path: coordination/standards/governance/end_to_end_completeness_and_gray_zone_review_standard_v0_1.md
+  exists: true
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: portfolio_roadmap_dependency_and_prioritization_standard_v0_1
+  title: ForPrint Portfolio Roadmap Dependency and Prioritization Standard v0.1
+  path: coordination/standards/governance/portfolio_roadmap_dependency_and_prioritization_standard_v0_1.md
+  exists: true
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: module_progress_weighting_and_baseline_measurement_standard_v0_1
+  title: ForPrint Module Progress Weighting and Baseline Measurement Standard v0.1
+  path: coordination/standards/governance/module_progress_weighting_and_baseline_measurement_standard_v0_1.md
+  exists: true
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: module_readiness_and_blocking_classification_standard_v0_1
+  title: ForPrint Module Readiness and Blocking Classification Standard v0.1
+  path: coordination/standards/governance/module_readiness_and_blocking_classification_standard_v0_1.md
+  exists: true
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: automation_group_readme
+  title: ForPrint Automation Standards Readme
+  path: coordination/standards/automation/README.md
+  exists: true
+  status: advisory_guidance
+  adoption_mode: reference_only
+- standard_id: automation_group_index
+  title: ForPrint Automation Standards Index
+  path: coordination/standards/automation/index.yaml
+  exists: true
+  status: advisory_guidance
+  adoption_mode: reference_only
+- standard_id: automation_operating_model_v0_1
+  title: ForPrint Automation Operating Model v0.1
+  path: coordination/standards/automation/automation_operating_model_v0_1.md
+  exists: true
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: module_executor_contract_v0_1
+  title: ForPrint Module Executor Contract v0.1
+  path: coordination/standards/automation/module_executor_contract_v0_1.md
+  exists: true
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: work_package_and_evidence_report_standard_v0_1
+  title: ForPrint Work Package and Evidence Report Standard v0.1
+  path: coordination/standards/automation/work_package_and_evidence_report_standard_v0_1.md
+  exists: true
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: budget_runaway_and_progressive_activation_policy_v0_1
+  title: ForPrint Budget Runaway and Progressive Activation Policy v0.1
+  path: coordination/standards/automation/budget_runaway_and_progressive_activation_policy_v0_1.md
+  exists: true
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: executor_performance_and_cost_metrics_standard_v0_1
+  title: ForPrint Executor Performance and Cost Metrics Standard v0.1
+  path: coordination/standards/automation/executor_performance_and_cost_metrics_standard_v0_1.md
+  exists: true
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: automation_open_questions_v0_1
+  title: ForPrint Automation Open Questions v0.1
+  path: coordination/standards/automation/automation_open_questions_v0_1.yaml
+  exists: true
+  status: draft
+  adoption_mode: reference_only
+- standard_id: frontend_group_readme
+  title: ForPrint Frontend Standards Readme
+  path: coordination/standards/frontend/README.md
+  exists: true
+  status: advisory_guidance
+  adoption_mode: reference_only
+- standard_id: frontend_group_index
+  title: ForPrint Frontend Standards Index
+  path: coordination/standards/frontend/index.yaml
+  exists: true
+  status: advisory_guidance
+  adoption_mode: reference_only
+- standard_id: forprint_ui_design_system_and_frontend_consistency_standard_v0_1
+  title: ForPrint UI Design System and Frontend Consistency Standard v0.1
+  path: coordination/standards/frontend/forprint_ui_design_system_and_frontend_consistency_standard_v0_1.md
+  exists: true
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: knowledge_standards_readme
+  title: ForPrint Knowledge Standards Readme
+  path: coordination/standards/knowledge/README.md
+  exists: true
+  status: advisory_guidance
+  adoption_mode: reference_only
+- standard_id: knowledge_standards_index
+  title: ForPrint Knowledge Standards Index
+  path: coordination/standards/knowledge/index.yaml
+  exists: true
+  status: advisory_guidance
+  adoption_mode: reference_only
+- standard_id: system_knowledge_registry_standard_v0_1
+  title: ForPrint System Knowledge Registry Standard v0.1
+  path: coordination/standards/knowledge/system_knowledge_registry_standard_v0_1.md
+  exists: true
+  status: target_standard
+  adoption_mode: gradual_alignment
+- standard_id: knowledge_foundation_readiness_gate_v0_1
+  title: ForPrint Knowledge Foundation Readiness Gate v0.1
+  path: coordination/standards/knowledge/knowledge_foundation_readiness_gate_v0_1.md
+  exists: true
+  status: target_standard
+  adoption_mode: gradual_alignment
+- standard_id: knowledge_maintenance_and_inspector_boundary_v0_1
+  title: ForPrint Knowledge Maintenance and Inspector Boundary v0.1
+  path: coordination/standards/knowledge/knowledge_maintenance_and_inspector_boundary_v0_1.md
+  exists: true
+  status: target_standard
+  adoption_mode: gradual_alignment
+- standard_id: artifact_and_semantic_metadata_standard_v0_1
+  title: ForPrint Artifact and Semantic Metadata Standard v0.1
+  path: coordination/standards/knowledge/artifact_and_semantic_metadata_standard_v0_1.md
+  exists: true
+  status: target_standard
+  adoption_mode: gradual_alignment
+- standard_id: repository_entrypoint_makefile_discoverability_standard_v0_1
+  title: ForPrint Repository Entrypoint and Makefile Discoverability Standard v0.1
+  path: coordination/standards/knowledge/repository_entrypoint_and_makefile_discoverability_standard_v0_1.md
+  exists: true
+  status: target_standard
+  adoption_mode: gradual_alignment
+- standard_id: parallel_initial_inventory_map_reduce_reconcile_playbook_v0_1
+  title: ForPrint Parallel Initial Inventory Map Reduce Reconcile Playbook v0.1
+  path: coordination/standards/knowledge/parallel_initial_inventory_map_reduce_reconcile_playbook_v0_1.md
+  exists: true
+  status: advisory_guidance
+  adoption_mode: reference_only
+- standard_id: blueprint_document_taxonomy
+  title: Blueprint Document Taxonomy and Placement Policy
+  path: coordination/standards/governance/blueprint_document_taxonomy.md
+  exists: true
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: assistant_bootstrap_governance_and_process_contract_direction_v0_1
+  title: Assistant Bootstrap Governance And Process Contract Direction v0.1
+  path: coordination/standards/governance/assistant_bootstrap_governance_and_process_contract_direction_v0_1.md
+  exists: true
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: forprint_evening_architecture_acceptance_matrix_v0_1
+  title: ForPrint Evening Architecture Acceptance Matrix v0.1
+  path: coordination/standards/governance/forprint_evening_architecture_acceptance_matrix_v0_1.yaml
+  exists: true
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: operator_interaction_profile_v0_1
+  title: ForPrint Operator Interaction Profile v0.1
+  path: coordination/standards/governance/operator_interaction_profile_v0_1.yaml
+  exists: true
+  status: active_standard
+  adoption_mode: gradual_alignment
+governance_group_document_count: 46
+coordination_template_document_count: 38
+coordination_template_documents:
+- coordination/templates/acceptance_oracle_v0_1.example.yaml
+- coordination/templates/blueprint_completion_review_packet.template.yaml
+- coordination/templates/config/adapters.template.yaml
+- coordination/templates/config/defaults.template.yaml
+- coordination/templates/config/environment.template.yaml
+- coordination/templates/config/module.template.yaml
+- coordination/templates/config/paths.template.yaml
+- coordination/templates/coordination_document_source_registry.template.yaml
+- coordination/templates/environment/development_environment.template.md
+- coordination/templates/environment/tooling_manifest.template.yaml
+- coordination/templates/forprint_module_manifest.template.yaml
+- coordination/templates/incoming_request_template.md
+- coordination/templates/module_completion_outbox_v0_4.example.yaml
+- coordination/templates/module_completion_packet_v0_3.example.yaml
+- coordination/templates/module_completion_packet_v0_4.example.yaml
+- coordination/templates/module_coordination_prompt.md
+- coordination/templates/module_development_roadmap_v0_1.template.yaml
+- coordination/templates/module_document_awareness_ledger.template.yaml
+- coordination/templates/module_makefile_standard.template.mk
+- coordination/templates/module_prompt_contract_v0_3.example.yaml
+- coordination/templates/module_prompt_contract_v0_4.example.yaml
+- coordination/templates/module_prompt_execution_event_v0_1.example.yaml
+- coordination/templates/module_roadmap_substeps_v0_1.example.yaml
+- coordination/templates/module_status_report.template.json
+- coordination/templates/next_work_suggestion.template.yaml
+- coordination/templates/outgoing_prompt_template.md
+- coordination/templates/project_tree.template.md
+- coordination/templates/prompt_queue_v0_2.template.yaml
+- coordination/templates/repository_knowledge_template/README.md
+- coordination/templates/repository_knowledge_template/derivation_manifest.yaml
+- coordination/templates/repository_knowledge_template/repository_knowledge_and_direction_snapshot_protocol_v0_2.md
+- coordination/templates/repository_knowledge_template/templates/historical_snapshot_review_assignment_v0_1.md
+- coordination/templates/repository_knowledge_template/templates/module_snapshot_assignment_v0_2.md
+- coordination/templates/repository_knowledge_template/templates/repository_capability_inventory_v0_2.template.yaml
+- coordination/templates/repository_knowledge_template/templates/repository_execution_dependency_map_v0_2.template.yaml
+- coordination/templates/repository_knowledge_template/templates/state_direction_rationale_snapshot_v0_1.template.yaml
+- coordination/templates/review_packet_template.md
+- coordination/templates/visual_status_tokens_v0_1.template.yaml

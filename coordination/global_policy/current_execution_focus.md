@@ -45,7 +45,7 @@ questions for Blueprint.
 P1
 Operations Control Registry
 
-Compatibility: current machine/repository identifier remains `forprint_operational_registry`
+Compatibility: current machine/repository identifier remains `forprint_operations_control_registry`
 until a separately approved external-repository migration.
 
 Next planned direction:
