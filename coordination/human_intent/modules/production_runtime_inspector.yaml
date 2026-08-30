@@ -1,0 +1,31 @@
+schema_version: forprint_module_human_intent_ledger_v0_1
+module_id: production_runtime_inspector
+display_name: Production Runtime Inspector
+authority: planning_context_not_release_authority
+append_only: true
+intents:
+- status: AGREED
+  text: Production Runtime Inspector збирає machine and runtime telemetry, але не визначає бізнес-статус замовлення.
+  context: Він є technical evidence source.
+  roadmap: ''
+  intent_id: HI-PRODUCTION-RUNTIME-INSPECTOR-001
+- status: AGREED
+  text: Telemetry потрібна для actual cycle time, downtime, machine problems і виявлення аномалій.
+  context: Operations Control Registry використовує її для planned-vs-actual view.
+  roadmap: ''
+  intent_id: HI-PRODUCTION-RUNTIME-INSPECTOR-002
+- status: AGREED
+  text: Broken machine або довгі простої не повинні автоматично 'навчити' систему, що погана швидкість є новою нормою.
+  context: Norm change лише через proposal/review.
+  roadmap: ''
+  intent_id: HI-PRODUCTION-RUNTIME-INSPECTOR-003
+- status: AGREED
+  text: Runtime data треба корелювати з order_id/operation_id/machine_id/revision там, де це безпечно.
+  context: Щоб факти не змішувалися між роботами.
+  roadmap: ''
+  intent_id: HI-PRODUCTION-RUNTIME-INSPECTOR-004
+- status: AGREED
+  text: При STOP_WORK critical state runtime integration не повинна запускати нові commands після gate check failure.
+  context: Перед machine command перевіряється current order state.
+  roadmap: ''
+  intent_id: HI-PRODUCTION-RUNTIME-INSPECTOR-005

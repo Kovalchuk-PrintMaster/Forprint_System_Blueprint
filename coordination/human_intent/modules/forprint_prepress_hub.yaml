@@ -1,0 +1,38 @@
+schema_version: forprint_module_human_intent_ledger_v0_1
+module_id: forprint_prepress_hub
+display_name: ForPrint Prepress Hub
+authority: planning_context_not_release_authority
+append_only: true
+intents:
+- status: RECOVERED
+  text: Prepress Hub має визначити file lifecycle від upload до production-ready, readiness statuses, blockers, warnings,
+    fixable issues і evidence.
+  context: Master file і derived previews потрібно розділяти.
+  roadmap: ''
+  intent_id: HI-FP-PREPRESS-HUB-001
+- status: RECOVERED
+  text: 'Core preflight: format/pages/dimensions/orientation/resolution/bleed/color-space/fonts де це можливо.'
+  context: Порівнювати з Calculator job spec і Library requirements.
+  roadmap: ''
+  intent_id: HI-FP-PREPRESS-HUB-002
+- status: RECOVERED
+  text: Safe previews/thumbnails і bounded normalization/conversion можуть бути автоматичними, але master не модифікується
+    тихо.
+  context: Потрібен before/after evidence.
+  roadmap: ''
+  intent_id: HI-FP-PREPRESS-HUB-003
+- status: RECOVERED
+  text: Operator-assisted fix workflow потрібен для неоднозначних випадків.
+  context: Автоматизація не замінює judgment там, де немає детермінованої відповіді.
+  roadmap: ''
+  intent_id: HI-FP-PREPRESS-HUB-004
+- status: AGREED
+  text: Prepress blockers стають HOLD_PREPRESS у Operations Control Registry і блокують production start.
+  context: Гейт має бути видимий в job ticket.
+  roadmap: ''
+  intent_id: HI-FP-PREPRESS-HUB-005
+- status: AGREED
+  text: Production-ready package передає verdict + asset refs + revision, щоб стара версія файлу не пішла у виробництво.
+  context: Revision consistency критична.
+  roadmap: ''
+  intent_id: HI-FP-PREPRESS-HUB-006

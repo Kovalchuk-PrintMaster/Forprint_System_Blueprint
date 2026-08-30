@@ -1,0 +1,37 @@
+schema_version: forprint_module_human_intent_ledger_v0_1
+module_id: warehouse_service
+display_name: Warehouse Service
+authority: planning_context_not_release_authority
+append_only: true
+intents:
+- status: AGREED
+  text: Warehouse володіє physical stock truth, reservations і actual material writeoff.
+  context: Calculator рахує потребу, але не списує склад.
+  roadmap: ''
+  intent_id: HI-WAREHOUSE-SERVICE-001
+- status: AGREED
+  text: Operations Control Registry резервує матеріал через Warehouse і отримує HOLD_MATERIAL, якщо ресурс не готовий.
+  context: Ніяких прямих прихованих змін stock з інших модулів.
+  roadmap: ''
+  intent_id: HI-WAREHOUSE-SERVICE-002
+- status: AGREED
+  text: Semantic Retrieval допомагає знайти inventory item за описом/фото при відсутньому QR, але Warehouse/оператор підтверджує
+    істину.
+  context: Search лише кандидат.
+  roadmap: ''
+  intent_id: HI-WAREHOUSE-SERVICE-003
+- status: AGREED
+  text: Actual consumption/scrap/rework від production має завершуватися коректним physical writeoff у Warehouse.
+  context: Категорії setup waste, production scrap, test samples, destroyed WIP треба розрізняти.
+  roadmap: ''
+  intent_id: HI-WAREHOUSE-SERVICE-004
+- status: RECOVERED
+  text: Guided stock checks і discrepancy capture можуть виконуватися через Operations Assistant.
+  context: Physical observation має evidence.
+  roadmap: ''
+  intent_id: HI-WAREHOUSE-SERVICE-005
+- status: AGREED
+  text: Одиниці виміру повинні бути нормалізовані, щоб порівнювати expected vs actual.
+  context: Інакше variance не має сенсу.
+  roadmap: ''
+  intent_id: HI-WAREHOUSE-SERVICE-006

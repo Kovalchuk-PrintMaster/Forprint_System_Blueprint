@@ -1,0 +1,38 @@
+schema_version: forprint_module_human_intent_ledger_v0_1
+module_id: forprint_project_inspector
+display_name: ForPrint Project Inspector
+authority: planning_context_not_release_authority
+append_only: true
+intents:
+- status: RECOVERED
+  text: 'Inspector — незалежний observer/auditor: знаходить repo/standards/knowledge/metadata/dependency drift.'
+  context: Не є semantic owner.
+  roadmap: ''
+  intent_id: HI-FP-PROJECT-INSPECTOR-001
+- status: RECOVERED
+  text: 'Цикл: Inspector detects -> local executor repairs/interprets -> Inspector rechecks -> Blueprint governs.'
+  context: Так зберігається separation of concerns.
+  roadmap: ''
+  intent_id: HI-FP-PROJECT-INSPECTOR-002
+- status: AGREED
+  text: Inspector має незалежно перевіряти completion attestation проти pinned governance snapshot.
+  context: Модуль не може сам собі остаточно засвідчити compliance.
+  roadmap: ''
+  intent_id: HI-FP-PROJECT-INSPECTOR-003
+- status: AGREED
+  text: Findings треба ранжувати BLOCKING/HIGH/NORMAL/LOW і подавати в local maintenance queues.
+  context: Не всі проблеми однаково критичні.
+  roadmap: ''
+  intent_id: HI-FP-PROJECT-INSPECTOR-004
+- status: AGREED
+  text: Safe deterministic repairs можуть з’явитися пізніше, але semantic/business changes не повинні виконуватись Inspector-ом
+    самостійно.
+  context: Межа автоматизації має бути явною.
+  roadmap: ''
+  intent_id: HI-FP-PROJECT-INSPECTOR-005
+- status: AGREED
+  text: Inspector має бачити drift між стандартом, з яким стартував крок, і current standard, але враховувати supported legacy
+    revision policy.
+  context: Не робити фальшиві FAIL лише через новішу ревізію.
+  roadmap: ''
+  intent_id: HI-FP-PROJECT-INSPECTOR-006

@@ -1,0 +1,31 @@
+schema_version: forprint_module_human_intent_ledger_v0_1
+module_id: mobile_app
+display_name: Mobile App
+authority: planning_context_not_release_authority
+append_only: true
+intents:
+- status: RECOVERED
+  text: Спочатку треба підтвердити реальну цінність native app проти PWA/responsive web.
+  context: Не будувати native лише тому, що 'має бути додаток'.
+  roadmap: ''
+  intent_id: HI-MOBILE-APP-001
+- status: RECOVERED
+  text: 'Унікальна mobile value: push, camera, file share, device integration, low-friction operational/customer flows.'
+  context: Business logic не дублюється на device.
+  roadmap: ''
+  intent_id: HI-MOBILE-APP-002
+- status: RECOVERED
+  text: MVP може включати catalog/configuration/calculation/order creation/status через shared APIs.
+  context: Calculator/identity/API readiness — dependency.
+  roadmap: ''
+  intent_id: HI-MOBILE-APP-003
+- status: AGREED
+  text: Для працівників shop-floor частина mobile UX може бути Operations Assistant surface, а не окремий паралельний бізнес-додаток.
+  context: Треба не дублювати функції між customer app та internal assistant.
+  roadmap: ''
+  intent_id: HI-MOBILE-APP-004
+- status: AGREED
+  text: Єдиний design language з Website/Library UI system є обов'язковим.
+  context: Щоб не з'явилися три різні ForPrint UI.
+  roadmap: ''
+  intent_id: HI-MOBILE-APP-005

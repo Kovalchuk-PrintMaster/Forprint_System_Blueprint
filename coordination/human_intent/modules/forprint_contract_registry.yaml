@@ -1,0 +1,31 @@
+schema_version: forprint_module_human_intent_ledger_v0_1
+module_id: forprint_contract_registry
+display_name: ForPrint Contract Registry
+authority: planning_context_not_release_authority
+append_only: true
+intents:
+- status: PROPOSED
+  text: Contract Registry має зберігати versioned inter-module/public contracts і їх adoption/compatibility metadata.
+  context: Не implementation code.
+  roadmap: ''
+  intent_id: HI-FP-CONTRACT-REGISTRY-001
+- status: AGREED
+  text: Roadmap steps і completion attestations повинні посилатися на конкретні contract revisions, коли вони є dependency.
+  context: Щоб не було 'контракт десь оновили'.
+  roadmap: ''
+  intent_id: HI-FP-CONTRACT-REGISTRY-002
+- status: PROPOSED
+  text: Потрібна видимість consumer/provider compatibility і deprecation windows.
+  context: Особливо для Calculator/Library/Gateway/OCR flows.
+  roadmap: ''
+  intent_id: HI-FP-CONTRACT-REGISTRY-003
+- status: AGREED
+  text: 'Human-intent ledger не замінює contract registry: людська теза пояснює навіщо, контракт описує точну machine boundary.'
+  context: Обидва рівні потрібні.
+  roadmap: ''
+  intent_id: HI-FP-CONTRACT-REGISTRY-004
+- status: GAP
+  text: Ми ще не проговорили детально кінцевий набір contract-lifecycle функцій цього модуля.
+  context: Портфоліо має показувати цю невідомість, а не заповнювати її синтетикою.
+  roadmap: ''
+  intent_id: HI-FP-CONTRACT-REGISTRY-005

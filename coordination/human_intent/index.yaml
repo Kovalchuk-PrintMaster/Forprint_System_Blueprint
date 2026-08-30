@@ -1,0 +1,103 @@
+schema_version: forprint_human_intent_index_v0_1
+status: active_planning_context
+authority: not_release_authority
+append_only: true
+portfolio_projection_policy:
+  machine_narrow: generated_or_linked_for_agent_bootstrap
+  technical_balanced: generated_from_project_and_roadmap_surfaces
+  human_expanded: generated_from_human_intent_ledger_without_silent_point_loss
+modules:
+- module_id: forprint_system_blueprint
+  display_name: ForPrint System Blueprint
+  file: modules/forprint_system_blueprint.yaml
+  intent_count: 13
+- module_id: calculator_engine
+  display_name: Calculator Engine
+  file: modules/calculator_engine.yaml
+  intent_count: 13
+- module_id: forprint_operations_assistant
+  display_name: ForPrint Operations Assistant
+  file: modules/forprint_operations_assistant.yaml
+  intent_count: 11
+- module_id: forprint_operations_control_registry
+  display_name: ForPrint Operations Control Registry
+  file: modules/forprint_operations_control_registry.yaml
+  intent_count: 10
+- module_id: forprint_crm
+  display_name: ForPrint CRM
+  file: modules/forprint_crm.yaml
+  intent_count: 8
+- module_id: forprint_accounting_registry_service
+  display_name: ForPrint Accounting Registry Service
+  file: modules/forprint_accounting_registry_service.yaml
+  intent_count: 8
+- module_id: forprint_semantic_retrieval_service
+  display_name: ForPrint Semantic Retrieval Service (PROPOSED)
+  file: modules/forprint_semantic_retrieval_service.yaml
+  intent_count: 9
+- module_id: telegram_bot
+  display_name: Telegram Bot
+  file: modules/telegram_bot.yaml
+  intent_count: 7
+- module_id: website
+  display_name: Website
+  file: modules/website.yaml
+  intent_count: 7
+- module_id: mobile_app
+  display_name: Mobile App
+  file: modules/mobile_app.yaml
+  intent_count: 5
+- module_id: forprint_library
+  display_name: ForPrint Library
+  file: modules/forprint_library.yaml
+  intent_count: 8
+- module_id: forprint_prepress_hub
+  display_name: ForPrint Prepress Hub
+  file: modules/forprint_prepress_hub.yaml
+  intent_count: 6
+- module_id: warehouse_service
+  display_name: Warehouse Service
+  file: modules/warehouse_service.yaml
+  intent_count: 6
+- module_id: production_runtime_inspector
+  display_name: Production Runtime Inspector
+  file: modules/production_runtime_inspector.yaml
+  intent_count: 5
+- module_id: forprint_project_inspector
+  display_name: ForPrint Project Inspector
+  file: modules/forprint_project_inspector.yaml
+  intent_count: 6
+- module_id: forprint_strategic_control_plane
+  display_name: ForPrint Strategic Control Plane
+  file: modules/forprint_strategic_control_plane.yaml
+  intent_count: 5
+- module_id: forprint_integration_gateway
+  display_name: ForPrint Integration Gateway
+  file: modules/forprint_integration_gateway.yaml
+  intent_count: 5
+- module_id: logistics_service
+  display_name: Logistics Service
+  file: modules/logistics_service.yaml
+  intent_count: 5
+- module_id: forprint_system_administration
+  display_name: ForPrint System Administration
+  file: modules/forprint_system_administration.yaml
+  intent_count: 5
+- module_id: forprint_contract_registry
+  display_name: ForPrint Contract Registry
+  file: modules/forprint_contract_registry.yaml
+  intent_count: 5
+- module_id: forprint_marketing_orchestrator
+  display_name: ForPrint Marketing Orchestrator
+  file: modules/forprint_marketing_orchestrator.yaml
+  intent_count: 5
+- module_id: cloud_backup_manager
+  display_name: Cloud Backup Manager
+  file: modules/cloud_backup_manager.yaml
+  intent_count: 5
+known_gaps:
+- gap_id: GAP-CALCULATOR-DESIGN-REFERENCE-URLS-001
+  module_id: calculator_engine
+  summary: Exact external calculator and design reference names and URLs for personalized T-shirt and cap configurators were discussed
+    earlier but are not recoverable from the currently accessible project and file corpus.
+  rule: Do not invent replacements. Recover exact resources before implementation or close the gap by explicit owner decision.

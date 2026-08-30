@@ -1,0 +1,79 @@
+schema_version: forprint_module_human_intent_ledger_v0_1
+module_id: calculator_engine
+display_name: Calculator Engine
+authority: planning_context_not_release_authority
+append_only: true
+intents:
+- status: AGREED
+  text: 'Calculator Engine має бути головним власником canonical product/job calculation specification: продукт, параметри,
+    матеріали, відходи, технологічні операції, ціна і розрахунковий час.'
+  context: Він не повинен перетворюватися на CRM, Warehouse чи Accounting.
+  roadmap: ''
+  intent_id: HI-CALCULATOR-ENGINE-001
+- status: AGREED
+  text: Ручне замовлення з filename, hot-folder, CSV, операторської форми або legacy-джерела повинно нормалізуватися в той
+    самий canonical request, що й онлайн-калькулятор.
+  context: Не створюємо другу модель замовлення для ручного потоку.
+  roadmap: ''
+  intent_id: HI-CALCULATOR-ENGINE-002
+- status: AGREED
+  text: 'Парсер filename/ручного вводу не має вгадувати неоднозначні параметри: при ambiguity він повинен вимагати clarification.'
+  context: Безпечніше запитати, ніж тихо підставити неправильний матеріал чи тираж.
+  roadmap: ''
+  intent_id: HI-CALCULATOR-ENGINE-003
+- status: AGREED
+  text: Після стабілізації canonical schema потрібно зробити versioned filename grammar/parser і hot-folder workflow.
+  context: Спочатку схема, потім адаптери.
+  roadmap: ''
+  intent_id: HI-CALCULATOR-ENGINE-004
+- status: AGREED
+  text: Calculator формує canonical Job/Order Specification, який далі використовують Operations Control Registry, Prepress,
+    Warehouse і production.
+  context: Паперові/екранні представлення не повинні дублювати business truth.
+  roadmap: ''
+  intent_id: HI-CALCULATOR-ENGINE-005
+- status: AGREED
+  text: Нормативні setup/waste/time rules повинні бути доступні Calculator для оцінки ціни, матеріалу та дедлайну.
+  context: Фактичні production дані можуть пропонувати зміну норми, але не переписувати її автоматично.
+  roadmap: ''
+  intent_id: HI-CALCULATOR-ENGINE-006
+- status: RECOVERED
+  text: Website і Mobile повинні вбудовувати Calculator/configurator без дублювання формул та цін у frontend.
+  context: Це вже фіксувалося в попередньому портфоліо.
+  roadmap: ''
+  intent_id: HI-CALCULATOR-ENGINE-007
+- status: RECOVERED
+  text: Calculator споживає canonical product/material/machine and print-mode definitions з Library через стабільний контракт.
+  context: Попередні технічні матеріали явно відокремлювали Library reference input від pricing logic.
+  roadmap: ''
+  intent_id: HI-CALCULATOR-ENGINE-008
+- status: AGREED
+  text: Для товарів на кшталт футболок, кепок та інших персоналізованих виробів потрібні зручні графічні інструменти/конструктори,
+    які мають бути прив'язані до product configuration.
+  context: Це людська вимога до майбутнього UX калькулятора, а не лише технічний configurator.
+  roadmap: ''
+  intent_id: HI-CALCULATOR-ENGINE-009
+- status: GAP
+  text: Ми раніше називали конкретні зовнішні ресурси/сервіси як референси для конструкторів футболок/кепок і навіть визначали
+    пріоритетний. У доступному корпусі файлів точні назви/URL зараз не відновилися.
+  context: Це реальний documentation gap. Його не можна замінювати вигаданими назвами; перед реалізацією треба відновити точний
+    список.
+  roadmap: ''
+  intent_id: HI-CALCULATOR-ENGINE-010
+- status: AGREED
+  text: Референсні зовнішні сервіси потрібні не для сліпого копіювання, а як орієнтир по UX, поведінці configurator-а, прев'ю
+    і роботі з зонами друку.
+  context: У roadmap треба зберігати і самі URL/назви, і що саме з них беремо як орієнтир.
+  roadmap: ''
+  intent_id: HI-CALCULATOR-ENGINE-011
+- status: AGREED
+  text: 'Кожен затверджений UX-reference повинен мати priority: primary reference / secondary reference / inspiration only.'
+  context: Щоб виконавець не змішував рівнозначно різні джерела.
+  roadmap: ''
+  intent_id: HI-CALCULATOR-ENGINE-012
+- status: AGREED
+  text: Якщо в розмові названо конкретний зовнішній сайт/інструмент як референс, його назва й URL повинні потрапити в human-intent
+    entry без узагальнення.
+  context: Саме цього зараз не вистачило для calculator design references.
+  roadmap: ''
+  intent_id: HI-CALCULATOR-ENGINE-013

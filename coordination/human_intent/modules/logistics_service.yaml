@@ -1,0 +1,32 @@
+schema_version: forprint_module_human_intent_ledger_v0_1
+module_id: logistics_service
+display_name: Logistics Service
+authority: planning_context_not_release_authority
+append_only: true
+intents:
+- status: RECOVERED
+  text: Logistics Service — provider-neutral owner delivery/tracking truth.
+  context: Telegram/CRM показують його стани, але не дублюють provider logic.
+  roadmap: ''
+  intent_id: HI-LOGISTICS-SERVICE-001
+- status: RECOVERED
+  text: Taxi/local delivery має окремий provider contract, quote/request/assigned/in-progress/completed/cancelled states.
+  context: Money-spending booking потребує human approval boundary.
+  roadmap: ''
+  intent_id: HI-LOGISTICS-SERVICE-002
+- status: RECOVERED
+  text: Provider substitution/fallback не повинен змінювати channel contract.
+  context: Інші модулі не мають знати специфіку кожного перевізника.
+  roadmap: ''
+  intent_id: HI-LOGISTICS-SERVICE-003
+- status: RECOVERED
+  text: Retry/backoff/circuit breaker і reconciliation provider state vs local canonical state потрібні для надійності.
+  context: Події delay/exception можуть бути proactive.
+  roadmap: ''
+  intent_id: HI-LOGISTICS-SERVICE-004
+- status: AGREED
+  text: Order cancellation/stop-work і delivery cancellation — пов’язані, але окремі workflows; Operations Control Registry
+    ініціює business stop, Logistics керує delivery consequence.
+  context: Не змішувати production і перевізника.
+  roadmap: ''
+  intent_id: HI-LOGISTICS-SERVICE-005

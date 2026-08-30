@@ -1,0 +1,50 @@
+schema_version: forprint_module_human_intent_ledger_v0_1
+module_id: forprint_accounting_registry_service
+display_name: ForPrint Accounting Registry Service
+authority: planning_context_not_release_authority
+append_only: true
+intents:
+- status: AGREED
+  text: 'Accounting Registry Service є owner accounts receivable workflow: invoice/order, amount due/paid, due date, payment
+    status, overdue days, promise-to-pay date.'
+  context: CRM і Telegram лише допомагають комунікувати.
+  roadmap: ''
+  intent_id: HI-FP-ACCOUNTING-REGISTRY-SERVICE-001
+- status: AGREED
+  text: 'Базовий state machine: DUE -> OVERDUE_SOFT -> OVERDUE_REMINDER -> PROMISE_TO_PAY -> WAITING_PROMISED_DATE -> OVERDUE_ESCALATED
+    -> HUMAN_ATTENTION.'
+  context: Клієнтська відповідь змінює стан workflow, а не просто додається коментарем.
+  roadmap: ''
+  intent_id: HI-FP-ACCOUNTING-REGISTRY-SERVICE-002
+- status: AGREED
+  text: 'Side states: DISPUTED, PARTIAL_PAYMENT, PAYMENT_PENDING_RECONCILIATION, CONTACT_UNAVAILABLE, PAUSED, PAID.'
+  context: Щоб не штовхати кожен кейс в одну лінійну схему.
+  roadmap: ''
+  intent_id: HI-FP-ACCOUNTING-REGISTRY-SERVICE-003
+- status: AGREED
+  text: AI може адаптувати тон нагадування, але не може самостійно блокувати клієнта, зупиняти production/shipping, скасовувати
+    кредит чи списувати борг.
+  context: Це рішення людини/політики.
+  roadmap: ''
+  intent_id: HI-FP-ACCOUNTING-REGISTRY-SERVICE-004
+- status: AGREED
+  text: 'Cadence нагадувань має бути конфігурованим: quiet hours, max per day, importance/history і поточний контекст клієнта.'
+  context: Не перетворювати автоматизацію на спам.
+  roadmap: ''
+  intent_id: HI-FP-ACCOUNTING-REGISTRY-SERVICE-005
+- status: RECOVERED
+  text: Для procurement/goods receipt потрібен intake з Excel/CSV/PDF, OCR для фото/сканів і focused operator review.
+  context: Попередній портфель уже містив цей напрям.
+  roadmap: ''
+  intent_id: HI-FP-ACCOUNTING-REGISTRY-SERVICE-006
+- status: RECOVERED
+  text: Supplier alias learning і fuzzy candidate mapping корисні, але OCR/matching не повинні ставати silent truth.
+  context: Підтверджені mappings можна перевикористовувати.
+  roadmap: ''
+  intent_id: HI-FP-ACCOUNTING-REGISTRY-SERVICE-007
+- status: AGREED
+  text: Фактична production variance впливає на actual cost analytics через Accounting, але первинні physical facts приходять
+    від production/Warehouse.
+  context: Не переносити production measurement у бухгалтерський модуль.
+  roadmap: ''
+  intent_id: HI-FP-ACCOUNTING-REGISTRY-SERVICE-008

@@ -1,0 +1,43 @@
+schema_version: forprint_module_human_intent_ledger_v0_1
+module_id: website
+display_name: Website
+authority: planning_context_not_release_authority
+append_only: true
+intents:
+- status: RECOVERED
+  text: Website є customer web channel і повинен використовувати ті самі canonical backend capabilities, не створювати власні
+    ціни/матеріали/order truth.
+  context: Це було в попередньому портфоліо.
+  roadmap: ''
+  intent_id: HI-WEBSITE-001
+- status: RECOVERED
+  text: Website має вбудовувати Calculator configurator/quote flow без дублювання formulas.
+  context: Frontend лише представляє конфігурацію і результати.
+  roadmap: ''
+  intent_id: HI-WEBSITE-002
+- status: RECOVERED
+  text: Потрібні catalog, file upload/design editor integration/preview, checkout, account/status/repeat order.
+  context: Старий портфель вже містив цей flow.
+  roadmap: ''
+  intent_id: HI-WEBSITE-003
+- status: AGREED
+  text: Visual product designer для персоналізованих виробів має спиратися на затверджені референсні сервіси й canonical design-system
+    правила.
+  context: Точний список calculator design references зараз позначений GAP до відновлення.
+  roadmap: ''
+  intent_id: HI-WEBSITE-004
+- status: RECOVERED
+  text: Website повинен використовувати canonical ForPrint Design System tokens/components/themes/density/accessibility.
+  context: Є окремий Blueprint addendum про owner design system.
+  roadmap: ''
+  intent_id: HI-WEBSITE-005
+- status: AGREED
+  text: Website не повинен зберігати business truth у frontend state; assets/order refs мають вести до owning modules.
+  context: Особливо при refresh/retry.
+  roadmap: ''
+  intent_id: HI-WEBSITE-006
+- status: RECOVERED
+  text: Потрібні explicit review/confirmation перед final submission і mobile/performance/accessibility considerations.
+  context: Не жертвувати зрозумілістю заради складного конструктора.
+  roadmap: ''
+  intent_id: HI-WEBSITE-007

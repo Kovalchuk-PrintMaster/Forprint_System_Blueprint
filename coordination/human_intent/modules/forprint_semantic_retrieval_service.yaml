@@ -1,0 +1,55 @@
+schema_version: forprint_module_human_intent_ledger_v0_1
+module_id: forprint_semantic_retrieval_service
+display_name: ForPrint Semantic Retrieval Service (PROPOSED)
+authority: planning_context_not_release_authority
+append_only: true
+intents:
+- status: AGREED
+  text: 'Ключовий принцип Semantic Retrieval: search finds candidates, domain owner decides truth.'
+  context: Пошук не може сам створити canonical клієнта, матеріал чи замовлення.
+  roadmap: ''
+  intent_id: HI-FP-SEMANTIC-RETRIEVAL-SERVICE-001
+- status: AGREED
+  text: 'Сервіс має бути cross-cutting: exact IDs + structured filters + lexical/BM25/trigram + text embeddings + image embeddings
+    + domain/ACL filters + reranking.'
+  context: Гібридний пошук, а не лише vector DB.
+  roadmap: ''
+  intent_id: HI-FP-SEMANTIC-RETRIEVAL-SERVICE-002
+- status: AGREED
+  text: Search projection містить entity_id, entity_type, source_module, searchable_text, structured attrs, embedding/media
+    refs, source_revision, indexed_at.
+  context: Truth лишається у CRM/Warehouse/Library/OCR.
+  roadmap: ''
+  intent_id: HI-FP-SEMANTIC-RETRIEVAL-SERVICE-003
+- status: AGREED
+  text: 'Result state має бути явним: MATCHES / UNCERTAIN / NO_MATCH / POSSIBLE_NEW_ENTITY.'
+  context: Краще UNCERTAIN, ніж неправильний confident match.
+  roadmap: ''
+  intent_id: HI-FP-SEMANTIC-RETRIEVAL-SERVICE-004
+- status: AGREED
+  text: 'Warehouse use case: якщо QR зіпсований або відсутній, працівник описує предмет або фотографує його, а система показує
+    кандидатів.'
+  context: Вибір остаточно підтверджує доменний owner/оператор.
+  roadmap: ''
+  intent_id: HI-FP-SEMANTIC-RETRIEVAL-SERVICE-005
+- status: AGREED
+  text: 'Telegram use case: клієнт надсилає фото і пише ''мені треба така штука''; Semantic Retrieval повертає candidates,
+    Telegram уточнює і передає підтверджений контекст у Calculator.'
+  context: Це один із головних multimodal сценаріїв.
+  roadmap: ''
+  intent_id: HI-FP-SEMANTIC-RETRIEVAL-SERVICE-006
+- status: AGREED
+  text: 'Потрібен evaluation corpus: recall@5, precision, MRR, no-match accuracy, false-confident-match rate.'
+  context: Без вимірювання semantic search легко здається кращим, ніж є.
+  roadmap: ''
+  intent_id: HI-FP-SEMANTIC-RETRIEVAL-SERVICE-007
+- status: AGREED
+  text: ACL filtering має відбуватися до disclosure результатів.
+  context: Навіть релевантний кандидат не можна показати користувачу без права доступу.
+  roadmap: ''
+  intent_id: HI-FP-SEMANTIC-RETRIEVAL-SERVICE-008
+- status: AGREED
+  text: Сервіс поки лишається PROPOSED_FOR_FORMAL_ADOPTION, не активний canonical module.
+  context: Спочатку formal adoption у Blueprint окремим кроком.
+  roadmap: ''
+  intent_id: HI-FP-SEMANTIC-RETRIEVAL-SERVICE-009

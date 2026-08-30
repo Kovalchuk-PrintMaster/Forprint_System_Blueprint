@@ -1,0 +1,42 @@
+schema_version: forprint_module_human_intent_ledger_v0_1
+module_id: telegram_bot
+display_name: Telegram Bot
+authority: planning_context_not_release_authority
+append_only: true
+intents:
+- status: RECOVERED
+  text: 'Telegram має бути conversational operating interface: identity + memory + natural-language intent + multimodal +
+    order/admin orchestration.'
+  context: Факти бере з canonical модулів.
+  roadmap: ''
+  intent_id: HI-TELEGRAM-BOT-001
+- status: AGREED
+  text: Фото/опис товару йде в Semantic Retrieval, після чого Telegram показує кілька candidates і задає clarification.
+  context: Не відповідати впевнено на основі одного fuzzy match.
+  roadmap: ''
+  intent_id: HI-TELEGRAM-BOT-002
+- status: AGREED
+  text: Після підтвердження товару/варіанта Telegram передає structured request у Calculator.
+  context: Chat history не є canonical order.
+  roadmap: ''
+  intent_id: HI-TELEGRAM-BOT-003
+- status: RECOVERED
+  text: Speech-to-text повинен проходити через той самий intent pipeline, що й текст.
+  context: Не створювати окрему бізнес-логіку для голосу.
+  roadmap: ''
+  intent_id: HI-TELEGRAM-BOT-004
+- status: RECOVERED
+  text: Admin commands і money/destructive actions вимагають strong auth/confirmation.
+  context: Наприклад taxi/procurement/status через owning modules.
+  roadmap: ''
+  intent_id: HI-TELEGRAM-BOT-005
+- status: RECOVERED
+  text: Proactive events можуть повідомляти readiness/delay/courier/clarification, але лише з актуальних canonical states.
+  context: Telegram не вигадує статус.
+  roadmap: ''
+  intent_id: HI-TELEGRAM-BOT-006
+- status: AGREED
+  text: Для CRM identity Telegram може один раз у контексті замовлення підтвердити organization representation.
+  context: Це допомагає зв'язати канал з CRM без ручного дублювання.
+  roadmap: ''
+  intent_id: HI-TELEGRAM-BOT-007

@@ -1,0 +1,32 @@
+schema_version: forprint_module_human_intent_ledger_v0_1
+module_id: forprint_integration_gateway
+display_name: ForPrint Integration Gateway
+authority: planning_context_not_release_authority
+append_only: true
+intents:
+- status: RECOVERED
+  text: 'Gateway має бути тонким integration boundary: validation, normalization, routing, idempotency, correlation.'
+  context: Не бізнес-мозок.
+  roadmap: ''
+  intent_id: HI-FP-INTEGRATION-GATEWAY-001
+- status: RECOVERED
+  text: Він не повинен зберігати client/order/material/payment truth.
+  context: Canonical data лишаються в owning modules.
+  roadmap: ''
+  intent_id: HI-FP-INTEGRATION-GATEWAY-002
+- status: AGREED
+  text: Manual intake після нормалізації в Calculator і Telegram/Website requests можуть проходити через Gateway тоді, коли
+    з’явиться реальна runtime handoff потреба.
+  context: Не реактивувати його лише заради архітектурної краси.
+  roadmap: ''
+  intent_id: HI-FP-INTEGRATION-GATEWAY-003
+- status: RECOVERED
+  text: Errors мають бути typed/structurally stable і не приховувати bad payload silent fixes.
+  context: Краще explicit validation error.
+  roadmap: ''
+  intent_id: HI-FP-INTEGRATION-GATEWAY-004
+- status: AGREED
+  text: Semantic Retrieval є окремим сервісом і не повинен перетворювати Gateway на search/AI engine.
+  context: Gateway транспортує запит, не вирішує semantic truth.
+  roadmap: ''
+  intent_id: HI-FP-INTEGRATION-GATEWAY-005

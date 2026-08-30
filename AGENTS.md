@@ -30,3 +30,10 @@ and produce completion/conformance evidence.
 Derived indexes are navigation/evidence, not authority. `make check` validates;
 it must not silently auto-fix project state.
 <!-- FORPRINT_BLUEPRINT_ASSISTANT_PROTOCOL_END -->
+
+
+<!-- human-intent-ledger-v0-1:start -->
+## Human intent preservation
+For substantial architecture / evening-review work, read `coordination/human_intent/README.md`.
+Completion of the review requires a Human Intent Delta, append-only module intent updates, regenerated expanded human portfolio, and an explicit GAP list. Do not replace missing exact human details with invented equivalents.
+<!-- human-intent-ledger-v0-1:end -->

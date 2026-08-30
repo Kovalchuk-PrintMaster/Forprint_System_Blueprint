@@ -1,0 +1,48 @@
+schema_version: forprint_module_human_intent_ledger_v0_1
+module_id: forprint_crm
+display_name: ForPrint CRM
+authority: planning_context_not_release_authority
+append_only: true
+intents:
+- status: AGREED
+  text: CRM має використовувати immutable person_id і organization_id; номер телефону — сильний практичний lookup, але не
+    primary key БД.
+  context: Людина може змінювати телефон, email чи месенджер.
+  roadmap: ''
+  intent_id: HI-FP-CRM-001
+- status: AGREED
+  text: Одна людина може представляти різні організації в різний час; це temporal relationship з role, valid_from/to, status,
+    source, confidence.
+  context: При звільненні relation закривається, історія не стирається.
+  roadmap: ''
+  intent_id: HI-FP-CRM-002
+- status: AGREED
+  text: 'Замовлення зберігає snapshot representation: person_id, organization_id, representation_id, confirmed_at.'
+  context: Щоб через рік було зрозуміло, від чийого імені робилося замовлення.
+  roadmap: ''
+  intent_id: HI-FP-CRM-003
+- status: AGREED
+  text: Telegram або інший канал може один раз на замовлення уточнити, яку організацію людина зараз представляє.
+  context: Це не повинно перетворюватися на нав'язливе підтвердження в кожному повідомленні.
+  roadmap: ''
+  intent_id: HI-FP-CRM-004
+- status: AGREED
+  text: Потрібна generic anonymous one-off customer модель для випадків, де повний профіль не має сенсу.
+  context: Не змушувати менеджера створювати фіктивні організації.
+  roadmap: ''
+  intent_id: HI-FP-CRM-005
+- status: AGREED
+  text: CRM повинна вміти merge/split/dedup identity і зберігати cross-channel identifiers.
+  context: Телефон, email, Telegram/Viber IDs — це identifiers, а не сама сутність людини.
+  roadmap: ''
+  intent_id: HI-FP-CRM-006
+- status: RECOVERED
+  text: 'CRM — людський cockpit: open work, orders, blockers, communication context, next actions, dashboards і follow-ups.'
+  context: Вона не повинна ставати другою базою клієнтів/замовлень/платежів.
+  roadmap: ''
+  intent_id: HI-FP-CRM-007
+- status: AGREED
+  text: CRM бере контактний контекст для AR collection, але сам фінансовий стан боргу належить Accounting.
+  context: Менеджер бачить борг і діалог, але ledger truth не дублюється.
+  roadmap: ''
+  intent_id: HI-FP-CRM-008

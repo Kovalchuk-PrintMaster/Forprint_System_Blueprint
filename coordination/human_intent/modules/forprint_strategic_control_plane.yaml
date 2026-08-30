@@ -1,0 +1,33 @@
+schema_version: forprint_module_human_intent_ledger_v0_1
+module_id: forprint_strategic_control_plane
+display_name: ForPrint Strategic Control Plane
+authority: planning_context_not_release_authority
+append_only: true
+intents:
+- status: PROPOSED
+  text: Strategic Control Plane у зрілому стані може отримати частину portfolio-level planning/optimization, яку Blueprint
+    тимчасово тримає зараз.
+  context: Точний поділ ще не погоджений.
+  roadmap: ''
+  intent_id: HI-FP-STRATEGIC-CONTROL-PLANE-001
+- status: AGREED
+  text: Стратегічні рішення — priority shifts, phase boundaries, destructive/security/cross-repo exceptions — залишаються
+    human-controlled.
+  context: Навіть при сильній автоматизації.
+  roadmap: ''
+  intent_id: HI-FP-STRATEGIC-CONTROL-PLANE-002
+- status: PROPOSED
+  text: Може аналізувати cost/quality/lead-time/executor evidence і пропонувати балансування портфеля.
+  context: Але не міняти roadmap authority без governance path.
+  roadmap: ''
+  intent_id: HI-FP-STRATEGIC-CONTROL-PLANE-003
+- status: PROPOSED
+  text: Може підтримувати what-if planning і critical-path scenarios для кількох модулів наперед.
+  context: Це кандидат на майбутній рівень, не поточний blocker.
+  roadmap: ''
+  intent_id: HI-FP-STRATEGIC-CONTROL-PLANE-004
+- status: GAP
+  text: Не завершено рішення, які функції назавжди лишаться у Blueprint, а які перейдуть сюди/Inspector.
+  context: Це відкрите архітектурне питання.
+  roadmap: ''
+  intent_id: HI-FP-STRATEGIC-CONTROL-PLANE-005

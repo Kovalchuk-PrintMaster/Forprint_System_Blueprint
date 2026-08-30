@@ -1,0 +1,50 @@
+schema_version: forprint_module_human_intent_ledger_v0_1
+module_id: forprint_library
+display_name: ForPrint Library
+authority: planning_context_not_release_authority
+append_only: true
+intents:
+- status: RECOVERED
+  text: Library володіє stable canonical IDs і versioned schemas для products/materials/services/operations.
+  context: Price/accounting/operational state від цього відділений.
+  roadmap: ''
+  intent_id: HI-FP-LIBRARY-001
+- status: RECOVERED
+  text: Aliases, supplier part numbers, alternate names, normalization rules і provenance/confidence мають бути частиною semantic
+    layer.
+  context: Це дозволяє безпечно мапити зовнішні джерела.
+  roadmap: ''
+  intent_id: HI-FP-LIBRARY-002
+- status: RECOVERED
+  text: External catalog ingestion повинен зберігати source/provider/fetched-at/key/hash/raw snapshot refs і давати human
+    review для ambiguous merge.
+  context: Не переписувати canonical truth без підтвердження.
+  roadmap: ''
+  intent_id: HI-FP-LIBRARY-003
+- status: AGREED
+  text: Library є canonical owner calibration profiles для фізичних вимірювань Operations Assistant, включно з параметрами
+    товщини/ваги/толерансів.
+  context: Сам Assistant лише використовує профіль.
+  roadmap: ''
+  intent_id: HI-FP-LIBRARY-004
+- status: RECOVERED
+  text: Library -> Calculator reference input має бути deterministic, typed, versioned і read-only.
+  context: Pricing formulas залишаються в Calculator.
+  roadmap: ''
+  intent_id: HI-FP-LIBRARY-005
+- status: AGREED
+  text: Library повинна зберігати SOP/instruction/media knowledge для contextual work guidance.
+  context: Operations Assistant показує потрібну інструкцію з контексту.
+  roadmap: ''
+  intent_id: HI-FP-LIBRARY-006
+- status: RECOVERED
+  text: Canonical ForPrint Design System owner закріплений за Library; Website та інші UI мають мігрувати до нього без page-local
+    систем.
+  context: Це вже було окремо додано в Blueprint.
+  roadmap: ''
+  intent_id: HI-FP-LIBRARY-007
+- status: AGREED
+  text: Reference photos/product media можуть індексуватися Semantic Retrieval, але Library лишається owner canonical assets/metadata.
+  context: Пошуковий індекс — projection.
+  roadmap: ''
+  intent_id: HI-FP-LIBRARY-008
