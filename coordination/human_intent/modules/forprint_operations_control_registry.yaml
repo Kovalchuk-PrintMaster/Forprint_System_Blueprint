@@ -5,13 +5,15 @@ authority: planning_context_not_release_authority
 append_only: true
 intents:
 - status: AGREED
-  text: Operations Control Registry володіє operational order lifecycle після canonical specification від Calculator.
+  text: Operations Control Registry володіє operational order lifecycle після canonical
+    specification від Calculator.
   context: Він координує виконання, а не рахує ціни й не веде бухгалтерію.
   roadmap: ''
   intent_id: HI-FP-OPERATIONS-CONTROL-REGISTRY-001
 - status: AGREED
   text: Він резервує матеріал через Warehouse, веде execution gates і production queue.
-  context: 'Гейти: READY_FOR_PRODUCTION, HOLD_PAYMENT, HOLD_MATERIAL, HOLD_APPROVAL, HOLD_CLARIFICATION, HOLD_PREPRESS.'
+  context: 'Гейти: READY_FOR_PRODUCTION, HOLD_PAYMENT, HOLD_MATERIAL, HOLD_APPROVAL,
+    HOLD_CLARIFICATION, HOLD_PREPRESS.'
   roadmap: ''
   intent_id: HI-FP-OPERATIONS-CONTROL-REGISTRY-002
 - status: AGREED
@@ -20,41 +22,87 @@ intents:
   roadmap: ''
   intent_id: HI-FP-OPERATIONS-CONTROL-REGISTRY-003
 - status: AGREED
-  text: Скан старої ревізії job ticket повинен попередити про застарілий документ і запропонувати актуальну версію.
+  text: Скан старої ревізії job ticket повинен попередити про застарілий документ
+    і запропонувати актуальну версію.
   context: Стара роздруківка не може дозволяти виконання старого плану.
   roadmap: ''
   intent_id: HI-FP-OPERATIONS-CONTROL-REGISTRY-004
 - status: AGREED
-  text: Критичні стани STOP_WORK_REQUIRED, CANCELLED_BY_CUSTOMER та EMERGENCY_HOLD йдуть окремим high-priority channel.
+  text: Критичні стани STOP_WORK_REQUIRED, CANCELLED_BY_CUSTOMER та EMERGENCY_HOLD
+    йдуть окремим high-priority channel.
   context: Сповіщення мають мати audio + visual + acknowledgement + escalation.
   roadmap: ''
   intent_id: HI-FP-OPERATIONS-CONTROL-REGISTRY-005
 - status: AGREED
-  text: 'Кожна production action перевіряє current order state: перед START, перед auto machine command, на FINISH і перед
-    handoff.'
+  text: 'Кожна production action перевіряє current order state: перед START, перед
+    auto machine command, на FINISH і перед handoff.'
   context: QR ідентифікує замовлення, але ніколи не є permission token.
   roadmap: ''
   intent_id: HI-FP-OPERATIONS-CONTROL-REGISTRY-006
 - status: AGREED
-  text: Якщо cancellation приходить посеред операції, система фіксує фактично виконану частину, блокує handoff і записує physical
-    WIP location/state.
+  text: Якщо cancellation приходить посеред операції, система фіксує фактично виконану
+    частину, блокує handoff і записує physical WIP location/state.
   context: Не можна вдавати, що операція не починалась або повністю завершена.
   roadmap: ''
   intent_id: HI-FP-OPERATIONS-CONTROL-REGISTRY-007
 - status: AGREED
-  text: 'Для зупиненого WIP потрібен окремий event: order_id, operation_id, location_id, quantity_state, stopped_at, stopped_by,
-    reason.'
+  text: 'Для зупиненого WIP потрібен окремий event: order_id, operation_id, location_id,
+    quantity_state, stopped_at, stopped_by, reason.'
   context: 'Далі менеджер вирішує disposition: scrap/retain/rework/repurpose/give/transfer/other.'
   roadmap: ''
   intent_id: HI-FP-OPERATIONS-CONTROL-REGISTRY-008
 - status: AGREED
-  text: Система може автоматично зупинити лише майбутні операції; доля вже виготовленого WIP — авторизоване управлінське рішення.
+  text: Система може автоматично зупинити лише майбутні операції; доля вже виготовленого
+    WIP — авторизоване управлінське рішення.
   context: Accounting окремо веде фінансові наслідки.
   roadmap: ''
   intent_id: HI-FP-OPERATIONS-CONTROL-REGISTRY-009
 - status: AGREED
-  text: Operations Control Registry тримає planned-vs-actual operational state по routing/operations, але physical material
-    writeoff лишається у Warehouse.
+  text: Operations Control Registry тримає planned-vs-actual operational state по
+    routing/operations, але physical material writeoff лишається у Warehouse.
   context: Чітко розвести production execution і складський truth.
   roadmap: ''
   intent_id: HI-FP-OPERATIONS-CONTROL-REGISTRY-010
+- intent_id: HI-FP-OPERATIONS-CONTROL-REGISTRY-011
+  status: AGREED
+  text: Operations Control Registry owns the versioned Job Ticket as the complete
+    human production document; filename remains a compact projection.
+  context: Job Ticket can carry detailed operations, geometry, priority, holds, QR
+    and revision.
+  roadmap: OCR-TICKET-01
+- intent_id: HI-FP-OPERATIONS-CONTROL-REGISTRY-012
+  status: AGREED
+  text: The future order/job identifier replaces the legacy dollar marker as the structured
+    link between production file and canonical order/accounting flow.
+  context: Dollar remains a legacy hint only.
+  roadmap: OCR-FILE-01
+- intent_id: HI-FP-OPERATIONS-CONTROL-REGISTRY-013
+  status: AGREED
+  text: Legacy wait should become explicit HOLD reasons such as HOLD_APPROVAL, HOLD_PAYMENT
+    or HOLD_CLARIFICATION with START blocked until the gate clears.
+  context: The file may be prepared in advance but cannot start printing while held.
+  roadmap: OCR-HOLD-01
+- intent_id: HI-FP-OPERATIONS-CONTROL-REGISTRY-014
+  status: AGREED
+  text: Legacy first should become structured expedite/priority class rather than
+    hidden filename ordering.
+  context: Several jobs may share the same high-priority class.
+  roadmap: OCR-PRIORITY-01
+- intent_id: HI-FP-OPERATIONS-CONTROL-REGISTRY-015
+  status: AGREED
+  text: Reprint must be a linked child-job workflow with reason, responsibility, quantity/material
+    impact and separate billing consequence.
+  context: Internal defect reprint may cost ForPrint without charging the customer.
+  roadmap: OCR-REPRINT-01
+- intent_id: HI-FP-OPERATIONS-CONTROL-REGISTRY-016
+  status: AGREED
+  text: Proof/sample purpose must be structured independently from billing policy;
+    a prova/proof can be free, included or paid.
+  context: Production purpose must not silently dictate accounting.
+  roadmap: OCR-PROOF-01
+- intent_id: HI-FP-OPERATIONS-CONTROL-REGISTRY-017
+  status: AGREED
+  text: A scanned stale Job Ticket/QR must warn that the paper revision is old and
+    offer the current ticket; QR identifies the job but is not permission to execute.
+  context: Current order state remains the execution gate.
+  roadmap: OCR-TICKET-02

@@ -5,29 +5,52 @@ authority: planning_context_not_release_authority
 append_only: true
 intents:
 - status: AGREED
-  text: System Administration відповідає за printer routing/fallback для job tickets та інших physical outputs.
+  text: System Administration відповідає за printer routing/fallback для job tickets
+    та інших physical outputs.
   context: Business order truth лишається в Operations Control Registry.
   roadmap: ''
   intent_id: HI-FP-SYSTEM-ADMINISTRATION-001
 - status: AGREED
-  text: Printer/machine availability та fallback мають бути технічними capability, а permission to choose/override — через
-    Identity & Access policy.
+  text: Printer/machine availability та fallback мають бути технічними capability,
+    а permission to choose/override — через Identity & Access policy.
   context: Не плутати routing з authorization.
   roadmap: ''
   intent_id: HI-FP-SYSTEM-ADMINISTRATION-002
 - status: AGREED
-  text: Critical alerts потребують надійної audio/visual delivery infrastructure і escalation timers.
+  text: Critical alerts потребують надійної audio/visual delivery infrastructure і
+    escalation timers.
   context: Але semantic state STOP належить OCR.
   roadmap: ''
   intent_id: HI-FP-SYSTEM-ADMINISTRATION-003
 - status: PROPOSED
-  text: Може підтримувати service health, local device inventory, deployment/runbook surfaces для shop-floor systems.
+  text: Може підтримувати service health, local device inventory, deployment/runbook
+    surfaces для shop-floor systems.
   context: Це інфраструктурний шар, не business orchestration.
   roadmap: ''
   intent_id: HI-FP-SYSTEM-ADMINISTRATION-004
 - status: AGREED
-  text: 'Temporary/report workspace policy має бути впроваджена технічно: окремі operator_exchange/reports, artifacts, work,
-    diagnostics, backups.'
+  text: 'Temporary/report workspace policy має бути впроваджена технічно: окремі operator_exchange/reports,
+    artifacts, work, diagnostics, backups.'
   context: Щоб tmp корінь не перетворювався на смітник.
   roadmap: ''
   intent_id: HI-FP-SYSTEM-ADMINISTRATION-005
+- intent_id: HI-FP-SYSTEM-ADMINISTRATION-006
+  status: AGREED
+  text: System Administration must distinguish physical device instances by stable
+    asset/device identity, model and serial even when workers casually call several
+    machines 'Epson'.
+  context: Operational analytics must know which actual device performed work.
+  roadmap: SYS-DEVICE-01
+- intent_id: HI-FP-SYSTEM-ADMINISTRATION-007
+  status: AGREED
+  text: Production planning should distinguish required capability, eligible device
+    group/queue and concrete device instance instead of encoding a printer serial
+    in every human filename.
+  context: This permits failover between similar machines.
+  roadmap: SYS-DEVICE-02
+- intent_id: HI-FP-SYSTEM-ADMINISTRATION-008
+  status: AGREED
+  text: System Administration owns physical routing/fallback for Job Ticket printing;
+    Operations Assistant may request a reprint but does not own printer configuration.
+  context: Keep human interface separate from infrastructure routing.
+  roadmap: SYS-TICKET-01

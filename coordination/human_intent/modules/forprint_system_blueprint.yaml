@@ -5,79 +5,118 @@ authority: planning_context_not_release_authority
 append_only: true
 intents:
 - status: AGREED
-  text: Після кожного великого вечірнього діалогу має з’являтися не лише технічний пакет інтеграції, а й окремий людський
-    список домовленостей по кожному модулю.
-  context: Це нове правило сформульоване сьогодні, щоб не втрачати сенс розмови під час технічної нормалізації.
+  text: Після кожного великого вечірнього діалогу має з’являтися не лише технічний
+    пакет інтеграції, а й окремий людський список домовленостей по кожному модулю.
+  context: Це нове правило сформульоване сьогодні, щоб не втрачати сенс розмови під
+    час технічної нормалізації.
   roadmap: ''
   intent_id: HI-FP-SYSTEM-BLUEPRINT-001
 - status: AGREED
-  text: 'Людські тези мають накопичуватися append-only: нові записи додаються, старі не зникають; якщо думка змінилася, стара
-    теза позначається superseded, але лишається видимою.'
-  context: Портфоліо повинно показувати історію наміру, а не лише поточну машинну формулу.
+  text: 'Людські тези мають накопичуватися append-only: нові записи додаються, старі
+    не зникають; якщо думка змінилася, стара теза позначається superseded, але лишається
+    видимою.'
+  context: Портфоліо повинно показувати історію наміру, а не лише поточну машинну
+    формулу.
   roadmap: ''
   intent_id: HI-FP-SYSTEM-BLUEPRINT-002
 - status: AGREED
-  text: Для кожного roadmap step потрібне посилання на human-intent записи, які пояснюють, навіщо цей крок існує і що саме
-    люди мали на увазі.
+  text: Для кожного roadmap step потрібне посилання на human-intent записи, які пояснюють,
+    навіщо цей крок існує і що саме люди мали на увазі.
   context: Це дає можливість повернутися до контексту при двозначності реалізації.
   roadmap: ''
   intent_id: HI-FP-SYSTEM-BLUEPRINT-003
 - status: AGREED
-  text: 'Потрібно підтримувати три представлення портфоліо: вузьке машинне, збалансоване технічне та велике людське українською
-    мовою.'
-  context: Велике портфоліо не повинно стискати десятки домовленостей до однієї загальної фрази.
+  text: 'Потрібно підтримувати три представлення портфоліо: вузьке машинне, збалансоване
+    технічне та велике людське українською мовою.'
+  context: Велике портфоліо не повинно стискати десятки домовленостей до однієї загальної
+    фрази.
   roadmap: ''
   intent_id: HI-FP-SYSTEM-BLUEPRINT-004
 - status: AGREED
-  text: Один front door для нового помічника має вести до current authority, roadmap, standards, knowledge indexes, active
-    work і потрібного context bundle.
-  context: Без задачі даємо широкий bootstrap; з конкретною задачею — вузький task bundle.
+  text: Один front door для нового помічника має вести до current authority, roadmap,
+    standards, knowledge indexes, active work і потрібного context bundle.
+  context: Без задачі даємо широкий bootstrap; з конкретною задачею — вузький task
+    bundle.
   roadmap: ''
   intent_id: HI-FP-SYSTEM-BLUEPRINT-005
 - status: AGREED
-  text: 'make check залишається детермінованим і read-only: він може сказати INDEX_DRIFT, але не повинен тихо переписувати
-    індекси чи завершувати роботу за людину.'
+  text: 'make check залишається детермінованим і read-only: він може сказати INDEX_DRIFT,
+    але не повинен тихо переписувати індекси чи завершувати роботу за людину.'
   context: Автоматичні виправлення не повинні ховатися всередині перевірки.
   roadmap: ''
   intent_id: HI-FP-SYSTEM-BLUEPRINT-006
 - status: AGREED
-  text: Кожна робота стартує на pinned governance/process revision і здається проти цієї ревізії, якщо вона не була явно BLOCKED/REVOKED.
-  context: Нова ревізія не повинна ретроспективно ламати вже розпочату роботу без явної причини.
+  text: Кожна робота стартує на pinned governance/process revision і здається проти
+    цієї ревізії, якщо вона не була явно BLOCKED/REVOKED.
+  context: Нова ревізія не повинна ретроспективно ламати вже розпочату роботу без
+    явної причини.
   roadmap: ''
   intent_id: HI-FP-SYSTEM-BLUEPRINT-007
 - status: AGREED
-  text: Completion attestation має містити pinned snapshot, standards versions, context bundle, checks, evidence paths, deviations
-    і стан roadmap/contracts.
+  text: Completion attestation має містити pinned snapshot, standards versions, context
+    bundle, checks, evidence paths, deviations і стан roadmap/contracts.
   context: Мета — довести відповідність, а не просто написати 'помічник прочитав стандарти'.
   roadmap: ''
   intent_id: HI-FP-SYSTEM-BLUEPRINT-008
 - status: AGREED
-  text: Inspector повинен незалежно перевіряти completion reports і drift, а Blueprint — показувати портфельну картину та
-    баланс між модулями.
+  text: Inspector повинен незалежно перевіряти completion reports і drift, а Blueprint
+    — показувати портфельну картину та баланс між модулями.
   context: Inspector не стає semantic owner модулів.
   roadmap: ''
   intent_id: HI-FP-SYSTEM-BLUEPRINT-009
 - status: RECOVERED
-  text: Blueprint має бачити critical path, blockers, WIP, progress weight, cost/quality/executor evidence і балансувати рух
-    модулів.
+  text: Blueprint має бачити critical path, blockers, WIP, progress weight, cost/quality/executor
+    evidence і балансувати рух модулів.
   context: Це вже було в попередньому розширеному портфоліо.
   roadmap: ''
   intent_id: HI-FP-SYSTEM-BLUEPRINT-010
 - status: AGREED
-  text: PDF-портфоліо є projection для людського review, а не authority. Authority — структуровані записи, roadmap і governance
-    surfaces.
+  text: PDF-портфоліо є projection для людського review, а не authority. Authority
+    — структуровані записи, roadmap і governance surfaces.
   context: Щоб дизайн документа не ставав єдиним місцем, де живе домовленість.
   roadmap: ''
   intent_id: HI-FP-SYSTEM-BLUEPRINT-011
 - status: AGREED
-  text: Canonical UI design system має бути reusable across Website/Mobile/internal surfaces; page-local visual systems не
-    повинні множитися.
+  text: Canonical UI design system має бути reusable across Website/Mobile/internal
+    surfaces; page-local visual systems не повинні множитися.
   context: Library owner, consumers adopt.
   roadmap: ''
   intent_id: HI-FP-SYSTEM-BLUEPRINT-012
 - status: AGREED
-  text: 'Human portfolio має показувати dependency of each step, а не лише функціональність: хто має закінчити що, щоб цей
-    модуль міг рухатися далі.'
+  text: 'Human portfolio має показувати dependency of each step, а не лише функціональність:
+    хто має закінчити що, щоб цей модуль міг рухатися далі.'
   context: Це основа балансування модулів.
   roadmap: ''
   intent_id: HI-FP-SYSTEM-BLUEPRINT-013
+- intent_id: HI-FP-SYSTEM-BLUEPRINT-014
+  status: AGREED
+  text: Expanded portfolio rendering/content rules must be documented so the same
+    recognizable PDF structure can be regenerated by another assistant or generator.
+  context: Portfolio layout must not depend on conversational memory.
+  roadmap: BP-PORTFOLIO-01
+- intent_id: HI-FP-SYSTEM-BLUEPRINT-015
+  status: AGREED
+  text: Portfolio roadmap should show the rough full route to target state even when
+    distant steps are not yet fully discussed.
+  context: Future steps may be synthetic if they are visibly marked and do not pretend
+    to be approved implementation.
+  roadmap: BP-PORTFOLIO-02
+- intent_id: HI-FP-SYSTEM-BLUEPRINT-016
+  status: AGREED
+  text: Synthetic portfolio content is useful and should remain visible with a distinct
+    status/color plus confidence/evidence basis.
+  context: Synthetic does not mean bad; it means useful forward projection that still
+    needs review.
+  roadmap: BP-PORTFOLIO-03
+- intent_id: HI-FP-SYSTEM-BLUEPRINT-017
+  status: AGREED
+  text: Historical portfolio PDFs must remain in the project under versioned/date
+    filenames and must not be overwritten by a newer projection.
+  context: The PDF is history/projection, not release authority.
+  roadmap: BP-PORTFOLIO-04
+- intent_id: HI-FP-SYSTEM-BLUEPRINT-018
+  status: AGREED
+  text: Cross-module semantic invariants should become a machine-readable governance
+    surface consumed by Inspector.
+  context: Examples include phone-not-identity, QR-not-permission and filename-not-source-of-truth.
+  roadmap: BP-SEMANTIC-01

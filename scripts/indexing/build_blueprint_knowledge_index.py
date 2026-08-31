@@ -773,6 +773,24 @@ def _duplicate_classification(
     if all(Path(path).name == ".gitkeep" for path in paths):
         return "structural_placeholder"
 
+    portfolio_history_roots = (
+        "coordination/internal_work/blueprint/"
+        "portfolio_reviews/history/",
+        "coordination/internal_work/blueprint/"
+        "portfolio_strategy_history/",
+    )
+    portfolio_history_hits = {
+        root
+        for path in paths
+        for root in portfolio_history_roots
+        if path.startswith(root)
+    }
+    if (
+        len(portfolio_history_hits) == len(portfolio_history_roots)
+        and all(path.startswith(portfolio_history_roots) for path in paths)
+    ):
+        return "historical_duplicate"
+
     return "review_exact_duplicate"
 
 def _machine_module_dependencies() -> tuple[list[dict], list[str]]:

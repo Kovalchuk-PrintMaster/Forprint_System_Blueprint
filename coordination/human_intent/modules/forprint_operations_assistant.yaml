@@ -5,67 +5,103 @@ authority: planning_context_not_release_authority
 append_only: true
 intents:
 - status: AGREED
-  text: 'Operations Assistant має бути максимально простим shop-floor interface: телефон/планшет, QR, великі кнопки, мінімум
-    тексту, poka-yoke.'
+  text: 'Operations Assistant має бути максимально простим shop-floor interface: телефон/планшет,
+    QR, великі кнопки, мінімум тексту, poka-yoke.'
   context: Працівник не повинен вчитися працювати зі складною ERP.
   roadmap: ''
   intent_id: HI-FP-OPERATIONS-ASSISTANT-001
 - status: AGREED
-  text: 'Працівник є сенсором: швидко повідомляє факт/аномалію, а система валідовує і маршрутизує його до canonical owner.'
+  text: 'Працівник є сенсором: швидко повідомляє факт/аномалію, а система валідовує
+    і маршрутизує його до canonical owner.'
   context: Assistant не стає Accounting/Warehouse/production truth.
   roadmap: ''
   intent_id: HI-FP-OPERATIONS-ASSISTANT-002
 - status: RECOVERED
-  text: Потрібні guided forms і contextual knowledge для receiving, stock check, production checkpoints, QC та видачі.
+  text: Потрібні guided forms і contextual knowledge для receiving, stock check, production
+    checkpoints, QC та видачі.
   context: Це вже було в старому портфоліо.
   roadmap: ''
   intent_id: HI-FP-OPERATIONS-ASSISTANT-003
 - status: AGREED
-  text: 'Для оцінки кількості аркушів або дрібних однотипних предметів має бути практичний режим: поміряти лінійкою висоту
-    стопки і оцінити кількість по calibration profile.'
-  context: Саме цей 'лінійка + висота стопки' контекст треба зберігати як людську тезу, а не стискати до абстрактного quantity
-    estimation.
+  text: 'Для оцінки кількості аркушів або дрібних однотипних предметів має бути практичний
+    режим: поміряти лінійкою висоту стопки і оцінити кількість по calibration profile.'
+  context: Саме цей 'лінійка + висота стопки' контекст треба зберігати як людську
+    тезу, а не стискати до абстрактного quantity estimation.
   roadmap: ''
   intent_id: HI-FP-OPERATIONS-ASSISTANT-004
 - status: AGREED
-  text: Calibration profile для матеріалу/товщини зберігається канонічно в Library; Assistant використовує його як довідкове
-    правило.
+  text: Calibration profile для матеріалу/товщини зберігається канонічно в Library;
+    Assistant використовує його як довідкове правило.
   context: Для кожної оцінки потрібні tolerance/confidence і можливість ручної корекції.
   roadmap: ''
   intent_id: HI-FP-OPERATIONS-ASSISTANT-005
 - status: AGREED
-  text: 'Якщо вимірювання виходить за нормальний діапазон, Assistant має запропонувати next safe action: переміряти, розбити
-    стопку, запросити керівника, перейти на вагу/поштучний контроль.'
+  text: 'Якщо вимірювання виходить за нормальний діапазон, Assistant має запропонувати
+    next safe action: переміряти, розбити стопку, запросити керівника, перейти на
+    вагу/поштучний контроль.'
   context: Не давати впевнене число при поганій якості вимірювання.
   roadmap: ''
   intent_id: HI-FP-OPERATIONS-ASSISTANT-006
 - status: AGREED
-  text: 'Worker feedback по production variance має бути дуже коротким: normal / трохи вище / x2 / x5 / severe / machine problem
-    або короткий voice note.'
+  text: 'Worker feedback по production variance має бути дуже коротким: normal / трохи
+    вище / x2 / x5 / severe / machine problem або короткий voice note.'
   context: Детальне виробниче обліковування не можна перекладати на виконавця.
   roadmap: ''
   intent_id: HI-FP-OPERATIONS-ASSISTANT-007
 - status: AGREED
-  text: На поточному кроці працівник може запитати 'що мені робити?', а Assistant має показати інструкцію з урахуванням order/product/machine, material and role
+  text: На поточному кроці працівник може запитати 'що мені робити?', а Assistant
+    має показати інструкцію з урахуванням order/product/machine, material and role
     context.
   context: 'Перевага: текст -> картинки/схеми -> анімація -> реальне відео.'
   roadmap: ''
   intent_id: HI-FP-OPERATIONS-ASSISTANT-008
 - status: AGREED
-  text: Assistant повинен показувати STOP/hold події вище звичайної черги і вимагати acknowledgement, якщо працівник є адресатом
-    критичної події.
+  text: Assistant повинен показувати STOP/hold події вище звичайної черги і вимагати
+    acknowledgement, якщо працівник є адресатом критичної події.
   context: Скасоване замовлення не повинно тихо залишатися в списку робіт.
   roadmap: ''
   intent_id: HI-FP-OPERATIONS-ASSISTANT-009
 - status: AGREED
-  text: 'Усі physical observations повинні мати evidence там, де це практично: фото, timestamp, device/operator, quantity/measurement
-    context.'
+  text: 'Усі physical observations повинні мати evidence там, де це практично: фото,
+    timestamp, device/operator, quantity/measurement context.'
   context: Щоб пізніше можна було відновити, звідки взялася цифра.
   roadmap: ''
   intent_id: HI-FP-OPERATIONS-ASSISTANT-010
 - status: AGREED
-  text: Лінійка/вага/камера/QR — це різні sensing methods; система повинна обирати найпростіший достатньо точний метод під
-    конкретний матеріал.
+  text: Лінійка/вага/камера/QR — це різні sensing methods; система повинна обирати
+    найпростіший достатньо точний метод під конкретний матеріал.
   context: Не кожну інвентаризацію треба робити однаково.
   roadmap: ''
   intent_id: HI-FP-OPERATIONS-ASSISTANT-011
+- intent_id: HI-FP-OPERATIONS-ASSISTANT-012
+  status: AGREED
+  text: Operations Assistant should teach a new worker how to read the short production
+    filename and which material/process each token implies in the active profile.
+  context: Use text first, then schemes/reference images, later real equipment photos
+    when useful.
+  roadmap: OA-TICKET-01
+- intent_id: HI-FP-OPERATIONS-ASSISTANT-013
+  status: AGREED
+  text: Operations Assistant displays the current Job Ticket on phone/tablet and can
+    request another paper copy if the original is lost or damaged.
+  context: OCR owns the ticket revision; Assistant is the human interface.
+  roadmap: OA-TICKET-02
+- intent_id: HI-FP-OPERATIONS-ASSISTANT-014
+  status: AGREED
+  text: Assistant production queue should expose structured priority and HOLD state
+    with text/icon as well as color; color alone is insufficient.
+  context: Urgent jobs must be obvious and held jobs must not look runnable.
+  roadmap: OA-QUEUE-01
+- intent_id: HI-FP-OPERATIONS-ASSISTANT-015
+  status: AGREED
+  text: Where Library has standardized finishing geometry, Assistant can show a visual
+    final-result hint; otherwise an order-specific manager note/image can be displayed.
+  context: 'Example: hole diameter and top-center position on a badge/tag.'
+  roadmap: OA-TICKET-03
+- intent_id: HI-FP-OPERATIONS-ASSISTANT-016
+  status: AGREED
+  text: Assistant should expose a simple reprint reporting action from the Job Ticket/QR
+    flow so the worker can report defect/reprint reason without learning a complex
+    ERP.
+  context: The resulting reprint semantics belong to OCR/Accounting/Warehouse.
+  roadmap: OA-REPRINT-01

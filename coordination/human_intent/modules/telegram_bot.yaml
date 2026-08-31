@@ -5,18 +5,20 @@ authority: planning_context_not_release_authority
 append_only: true
 intents:
 - status: RECOVERED
-  text: 'Telegram має бути conversational operating interface: identity + memory + natural-language intent + multimodal +
-    order/admin orchestration.'
+  text: 'Telegram має бути conversational operating interface: identity + memory +
+    natural-language intent + multimodal + order/admin orchestration.'
   context: Факти бере з canonical модулів.
   roadmap: ''
   intent_id: HI-TELEGRAM-BOT-001
 - status: AGREED
-  text: Фото/опис товару йде в Semantic Retrieval, після чого Telegram показує кілька candidates і задає clarification.
+  text: Фото/опис товару йде в Semantic Retrieval, після чого Telegram показує кілька
+    candidates і задає clarification.
   context: Не відповідати впевнено на основі одного fuzzy match.
   roadmap: ''
   intent_id: HI-TELEGRAM-BOT-002
 - status: AGREED
-  text: Після підтвердження товару/варіанта Telegram передає structured request у Calculator.
+  text: Після підтвердження товару/варіанта Telegram передає structured request у
+    Calculator.
   context: Chat history не є canonical order.
   roadmap: ''
   intent_id: HI-TELEGRAM-BOT-003
@@ -31,12 +33,41 @@ intents:
   roadmap: ''
   intent_id: HI-TELEGRAM-BOT-005
 - status: RECOVERED
-  text: Proactive events можуть повідомляти readiness/delay/courier/clarification, але лише з актуальних canonical states.
+  text: Proactive events можуть повідомляти readiness/delay/courier/clarification,
+    але лише з актуальних canonical states.
   context: Telegram не вигадує статус.
   roadmap: ''
   intent_id: HI-TELEGRAM-BOT-006
 - status: AGREED
-  text: Для CRM identity Telegram може один раз у контексті замовлення підтвердити organization representation.
+  text: Для CRM identity Telegram може один раз у контексті замовлення підтвердити
+    organization representation.
   context: Це допомагає зв'язати канал з CRM без ручного дублювання.
   roadmap: ''
   intent_id: HI-TELEGRAM-BOT-007
+- intent_id: HI-TELEGRAM-BOT-008
+  status: AGREED
+  text: When a person can represent an organization, Telegram should lightly state
+    the currently selected customer/billing context once per relevant order/dialogue.
+  context: 'Example: ''оформляю замовлення на Medicom'' so the person sees where the
+    order will be billed.'
+  roadmap: TG-ID-01
+- intent_id: HI-TELEGRAM-BOT-009
+  status: AGREED
+  text: Telegram must let the same person switch an order from organization context
+    to personal context without creating a duplicate person.
+  context: One channel identity may legitimately map to several business contexts.
+  roadmap: TG-ID-02
+- intent_id: HI-TELEGRAM-BOT-010
+  status: AGREED
+  text: Closed organization representations must not be proposed for new Telegram
+    orders, while historical order snapshots remain reconstructible.
+  context: Temporal CRM relationship drives channel suggestions.
+  roadmap: TG-ID-03
+- intent_id: HI-TELEGRAM-BOT-011
+  status: AGREED
+  text: Order-relevant Telegram confirmations should be persisted as structured/auditable
+    evidence linked to the order, independent of whether the channel UI later still
+    shows the message.
+  context: A future retention/privacy policy must govern how much raw conversation
+    is retained.
+  roadmap: TG-AUDIT-01

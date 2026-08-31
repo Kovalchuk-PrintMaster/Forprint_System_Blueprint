@@ -5,7 +5,8 @@ authority: planning_context_not_release_authority
 append_only: true
 intents:
 - status: RECOVERED
-  text: 'Gateway має бути тонким integration boundary: validation, normalization, routing, idempotency, correlation.'
+  text: 'Gateway має бути тонким integration boundary: validation, normalization,
+    routing, idempotency, correlation.'
   context: Не бізнес-мозок.
   roadmap: ''
   intent_id: HI-FP-INTEGRATION-GATEWAY-001
@@ -15,18 +16,34 @@ intents:
   roadmap: ''
   intent_id: HI-FP-INTEGRATION-GATEWAY-002
 - status: AGREED
-  text: Manual intake після нормалізації в Calculator і Telegram/Website requests можуть проходити через Gateway тоді, коли
-    з’явиться реальна runtime handoff потреба.
+  text: Manual intake після нормалізації в Calculator і Telegram/Website requests
+    можуть проходити через Gateway тоді, коли з’явиться реальна runtime handoff потреба.
   context: Не реактивувати його лише заради архітектурної краси.
   roadmap: ''
   intent_id: HI-FP-INTEGRATION-GATEWAY-003
 - status: RECOVERED
-  text: Errors мають бути typed/structurally stable і не приховувати bad payload silent fixes.
+  text: Errors мають бути typed/structurally stable і не приховувати bad payload silent
+    fixes.
   context: Краще explicit validation error.
   roadmap: ''
   intent_id: HI-FP-INTEGRATION-GATEWAY-004
 - status: AGREED
-  text: Semantic Retrieval є окремим сервісом і не повинен перетворювати Gateway на search/AI engine.
+  text: Semantic Retrieval є окремим сервісом і не повинен перетворювати Gateway на
+    search/AI engine.
   context: Gateway транспортує запит, не вирішує semantic truth.
   roadmap: ''
   intent_id: HI-FP-INTEGRATION-GATEWAY-005
+- intent_id: HI-FP-INTEGRATION-GATEWAY-006
+  status: AGREED
+  text: Gateway should validate and route runtime payloads against published ACTIVE
+    contract revisions rather than owning the contract lifecycle itself.
+  context: Contract Registry says what is agreed; Gateway applies that agreement in
+    transport/runtime.
+  roadmap: GW-CONTRACT-01
+- intent_id: HI-FP-INTEGRATION-GATEWAY-007
+  status: AGREED
+  text: Gateway must not silently reinterpret Library/CRM/Accounting semantics when
+    normalizing a payload.
+  context: If a semantic mapping changes, it requires the appropriate authority/contract
+    revision.
+  roadmap: GW-CONTRACT-02

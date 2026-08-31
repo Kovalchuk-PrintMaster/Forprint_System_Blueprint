@@ -5,34 +5,119 @@ authority: planning_context_not_release_authority
 append_only: true
 intents:
 - status: RECOVERED
-  text: 'Inspector — незалежний observer/auditor: знаходить repo/standards/knowledge/metadata/dependency drift.'
+  text: 'Inspector — незалежний observer/auditor: знаходить repo/standards/knowledge/metadata/dependency
+    drift.'
   context: Не є semantic owner.
   roadmap: ''
   intent_id: HI-FP-PROJECT-INSPECTOR-001
 - status: RECOVERED
-  text: 'Цикл: Inspector detects -> local executor repairs/interprets -> Inspector rechecks -> Blueprint governs.'
+  text: 'Цикл: Inspector detects -> local executor repairs/interprets -> Inspector
+    rechecks -> Blueprint governs.'
   context: Так зберігається separation of concerns.
   roadmap: ''
   intent_id: HI-FP-PROJECT-INSPECTOR-002
 - status: AGREED
-  text: Inspector має незалежно перевіряти completion attestation проти pinned governance snapshot.
+  text: Inspector має незалежно перевіряти completion attestation проти pinned governance
+    snapshot.
   context: Модуль не може сам собі остаточно засвідчити compliance.
   roadmap: ''
   intent_id: HI-FP-PROJECT-INSPECTOR-003
 - status: AGREED
-  text: Findings треба ранжувати BLOCKING/HIGH/NORMAL/LOW і подавати в local maintenance queues.
+  text: Findings треба ранжувати BLOCKING/HIGH/NORMAL/LOW і подавати в local maintenance
+    queues.
   context: Не всі проблеми однаково критичні.
   roadmap: ''
   intent_id: HI-FP-PROJECT-INSPECTOR-004
 - status: AGREED
-  text: Safe deterministic repairs можуть з’явитися пізніше, але semantic/business changes не повинні виконуватись Inspector-ом
-    самостійно.
+  text: Safe deterministic repairs можуть з’явитися пізніше, але semantic/business
+    changes не повинні виконуватись Inspector-ом самостійно.
   context: Межа автоматизації має бути явною.
   roadmap: ''
   intent_id: HI-FP-PROJECT-INSPECTOR-005
 - status: AGREED
-  text: Inspector має бачити drift між стандартом, з яким стартував крок, і current standard, але враховувати supported legacy
-    revision policy.
+  text: Inspector має бачити drift між стандартом, з яким стартував крок, і current
+    standard, але враховувати supported legacy revision policy.
   context: Не робити фальшиві FAIL лише через новішу ревізію.
   roadmap: ''
   intent_id: HI-FP-PROJECT-INSPECTOR-006
+- intent_id: HI-FP-PROJECT-INSPECTOR-007
+  status: AGREED
+  text: Project Inspector owns Semantic Consistency Audit as an internal capability;
+    no separate semantic-audit ForPrint module is created.
+  context: Keep the ecosystem small; Inspector remains independent and does not become
+    domain owner.
+  roadmap: PI-S1
+- intent_id: HI-FP-PROJECT-INSPECTOR-008
+  status: AGREED
+  text: Incremental Inspector review must compare last_inspected_commit/checkpoint
+    to the current target commit, not rely only on git status.
+  context: Committed daytime changes must remain visible to the next audit.
+  roadmap: PI-S1
+- intent_id: HI-FP-PROJECT-INSPECTOR-009
+  status: AGREED
+  text: Anything that can be proven deterministically should be checked by scripts
+    before involving an LLM.
+  context: Schemas, revisions, indexes, tests, contract support and evidence are cheaper/more
+    reliable mechanically.
+  roadmap: PI-S2
+- intent_id: HI-FP-PROJECT-INSPECTOR-010
+  status: AGREED
+  text: When interpretive policy/business/legal/customer-facing content changes, Inspector
+    builds a bounded semantic audit package for an LLM worker.
+  context: The worker receives changed content plus applicable authorities, contracts,
+    Human Intent and explicit questions.
+  roadmap: PI-S4
+- intent_id: HI-FP-PROJECT-INSPECTOR-011
+  status: AGREED
+  text: The semantic LLM worker may ask Inspector for additional bounded context instead
+    of guessing missing authority.
+  context: Inspector can repack relevant documents and rerun the review.
+  roadmap: PI-S5
+- intent_id: HI-FP-PROJECT-INSPECTOR-012
+  status: AGREED
+  text: Semantic review triggers are risk-based, not diff-size-based; a one-line policy
+    change can require immediate LLM review.
+  context: High-risk categories include identity, payment, legal, customer-facing,
+    production-safety and authority changes.
+  roadmap: PI-S7
+- intent_id: HI-FP-PROJECT-INSPECTOR-013
+  status: AGREED
+  text: A portfolio-wide semantic sweep should initially run about monthly and may
+    move to quarterly/semiannual cadence as the architecture matures.
+  context: Event-driven high-risk audits remain active even when full-sweep cadence
+    decreases.
+  roadmap: PI-S8
+- intent_id: HI-FP-PROJECT-INSPECTOR-014
+  status: AGREED
+  text: Inspector semantic findings need a stable taxonomy covering contradiction,
+    ambiguity, ownership violation, contract divergence, term drift, stale authority,
+    Human Intent divergence, hidden defaults, orphan rules and cross-module behavior
+    conflict.
+  context: Findings must be structured rather than a vague AI opinion.
+  roadmap: PI-S6
+- intent_id: HI-FP-PROJECT-INSPECTOR-015
+  status: AGREED
+  text: Semantic findings must carry severity, confidence, evidence, affected modules
+    and recommended resolution owner.
+  context: The report must be usable by Blueprint/human governance.
+  roadmap: PI-S6
+- intent_id: HI-FP-PROJECT-INSPECTOR-016
+  status: AGREED
+  text: Inspector and its LLM worker detect, verify, compare, classify, report and
+    route; they do not invent business rules or silently rewrite domain semantics.
+  context: A suspected defect in an authority document is routed back to that authority
+    owner.
+  roadmap: PI-S10
+- intent_id: HI-FP-PROJECT-INSPECTOR-017
+  status: AGREED
+  text: For legally meaningful content, LLM review performs issue spotting and contradiction
+    analysis but does not declare material legal compliance confirmed.
+  context: Final legal certainty remains a separate human/legal-review boundary.
+  roadmap: PI-S10
+- intent_id: HI-FP-PROJECT-INSPECTOR-018
+  status: AGREED
+  text: Inspector should consume a future machine-readable Cross-Module Invariant
+    Registry maintained under Blueprint governance.
+  context: The registry makes semantic checks more deterministic without giving Inspector
+    semantic ownership.
+  roadmap: PI-S3

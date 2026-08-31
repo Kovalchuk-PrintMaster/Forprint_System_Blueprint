@@ -1,0 +1,41 @@
+schema_version: forprint_blueprint_prompt_plan_v0_1
+date: '2026-08-31'
+status: planned_not_released
+released_prompt_mutation: false
+items:
+- target: forprint_project_inspector
+  after:
+  - PI-S1
+  - PI-S2
+  title: Semantic audit change-boundary and deterministic classification foundation
+- target: forprint_project_inspector
+  after:
+  - PI-S3
+  - PI-S4
+  title: Bounded semantic context package builder
+- target: forprint_contract_registry
+  after:
+  - CR-01
+  title: Contract Record and lifecycle foundation
+- target: calculator_engine
+  after:
+  - CALC-FILE-01
+  title: Legacy production filename corpus/parser foundation
+- target: forprint_library
+  after:
+  - LIB-FILE-01
+  title: Production naming profile and alias registry foundation
+- target: forprint_operations_control_registry
+  after:
+  - OCR-TICKET-01
+  title: Versioned Job Ticket foundation
+- target: forprint_crm
+  after:
+  - CRM-ID-01
+  title: Personal vs organization order-context identity slice
+- target: telegram_bot
+  after:
+  - TG-ID-01
+  title: Visible billing/customer context confirmation slice
+rule: These are planning candidates only. Generate/release bounded prompts through
+  normal Blueprint prompt lifecycle after prerequisites are reviewed.

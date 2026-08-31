@@ -37,3 +37,6 @@ it must not silently auto-fix project state.
 For substantial architecture / evening-review work, read `coordination/human_intent/README.md`.
 Completion of the review requires a Human Intent Delta, append-only module intent updates, regenerated expanded human portfolio, and an explicit GAP list. Do not replace missing exact human details with invented equivalents.
 <!-- human-intent-ledger-v0-1:end -->
+
+- Portfolio review rendering/content standard: `coordination/standards/governance/portfolio_rendering_and_content_specification_v0_1.md`
+- Latest integrated evening-review architecture index: `coordination/internal_work/blueprint/evening_reviews/2026-08-31/README.md`

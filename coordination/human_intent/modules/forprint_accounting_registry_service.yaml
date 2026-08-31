@@ -5,46 +5,63 @@ authority: planning_context_not_release_authority
 append_only: true
 intents:
 - status: AGREED
-  text: 'Accounting Registry Service є owner accounts receivable workflow: invoice/order, amount due/paid, due date, payment
-    status, overdue days, promise-to-pay date.'
+  text: 'Accounting Registry Service є owner accounts receivable workflow: invoice/order,
+    amount due/paid, due date, payment status, overdue days, promise-to-pay date.'
   context: CRM і Telegram лише допомагають комунікувати.
   roadmap: ''
   intent_id: HI-FP-ACCOUNTING-REGISTRY-SERVICE-001
 - status: AGREED
-  text: 'Базовий state machine: DUE -> OVERDUE_SOFT -> OVERDUE_REMINDER -> PROMISE_TO_PAY -> WAITING_PROMISED_DATE -> OVERDUE_ESCALATED
-    -> HUMAN_ATTENTION.'
+  text: 'Базовий state machine: DUE -> OVERDUE_SOFT -> OVERDUE_REMINDER -> PROMISE_TO_PAY
+    -> WAITING_PROMISED_DATE -> OVERDUE_ESCALATED -> HUMAN_ATTENTION.'
   context: Клієнтська відповідь змінює стан workflow, а не просто додається коментарем.
   roadmap: ''
   intent_id: HI-FP-ACCOUNTING-REGISTRY-SERVICE-002
 - status: AGREED
-  text: 'Side states: DISPUTED, PARTIAL_PAYMENT, PAYMENT_PENDING_RECONCILIATION, CONTACT_UNAVAILABLE, PAUSED, PAID.'
+  text: 'Side states: DISPUTED, PARTIAL_PAYMENT, PAYMENT_PENDING_RECONCILIATION, CONTACT_UNAVAILABLE,
+    PAUSED, PAID.'
   context: Щоб не штовхати кожен кейс в одну лінійну схему.
   roadmap: ''
   intent_id: HI-FP-ACCOUNTING-REGISTRY-SERVICE-003
 - status: AGREED
-  text: AI може адаптувати тон нагадування, але не може самостійно блокувати клієнта, зупиняти production/shipping, скасовувати
-    кредит чи списувати борг.
+  text: AI може адаптувати тон нагадування, але не може самостійно блокувати клієнта,
+    зупиняти production/shipping, скасовувати кредит чи списувати борг.
   context: Це рішення людини/політики.
   roadmap: ''
   intent_id: HI-FP-ACCOUNTING-REGISTRY-SERVICE-004
 - status: AGREED
-  text: 'Cadence нагадувань має бути конфігурованим: quiet hours, max per day, importance/history і поточний контекст клієнта.'
+  text: 'Cadence нагадувань має бути конфігурованим: quiet hours, max per day, importance/history
+    і поточний контекст клієнта.'
   context: Не перетворювати автоматизацію на спам.
   roadmap: ''
   intent_id: HI-FP-ACCOUNTING-REGISTRY-SERVICE-005
 - status: RECOVERED
-  text: Для procurement/goods receipt потрібен intake з Excel/CSV/PDF, OCR для фото/сканів і focused operator review.
+  text: Для procurement/goods receipt потрібен intake з Excel/CSV/PDF, OCR для фото/сканів
+    і focused operator review.
   context: Попередній портфель уже містив цей напрям.
   roadmap: ''
   intent_id: HI-FP-ACCOUNTING-REGISTRY-SERVICE-006
 - status: RECOVERED
-  text: Supplier alias learning і fuzzy candidate mapping корисні, але OCR/matching не повинні ставати silent truth.
+  text: Supplier alias learning і fuzzy candidate mapping корисні, але OCR/matching
+    не повинні ставати silent truth.
   context: Підтверджені mappings можна перевикористовувати.
   roadmap: ''
   intent_id: HI-FP-ACCOUNTING-REGISTRY-SERVICE-007
 - status: AGREED
-  text: Фактична production variance впливає на actual cost analytics через Accounting, але первинні physical facts приходять
-    від production/Warehouse.
+  text: Фактична production variance впливає на actual cost analytics через Accounting,
+    але первинні physical facts приходять від production/Warehouse.
   context: Не переносити production measurement у бухгалтерський модуль.
   roadmap: ''
   intent_id: HI-FP-ACCOUNTING-REGISTRY-SERVICE-008
+- intent_id: HI-FP-ACCOUNTING-REGISTRY-009
+  status: AGREED
+  text: 'Reprint responsibility and customer billing consequence are separate fields:
+    an internal-defect reprint may consume material/cost without a new customer charge.'
+  context: Accounting records the financial consequence; OCR owns the reprint execution
+    workflow.
+  roadmap: ACC-REPRINT-01
+- intent_id: HI-FP-ACCOUNTING-REGISTRY-010
+  status: AGREED
+  text: Proof/sample purpose does not automatically mean free; billing policy can
+    be FREE, INCLUDED or PAID per case/policy.
+  context: Do not infer finance solely from the legacy proba token.
+  roadmap: ACC-PROOF-01

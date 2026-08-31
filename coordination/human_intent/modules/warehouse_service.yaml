@@ -10,23 +10,27 @@ intents:
   roadmap: ''
   intent_id: HI-WAREHOUSE-SERVICE-001
 - status: AGREED
-  text: Operations Control Registry резервує матеріал через Warehouse і отримує HOLD_MATERIAL, якщо ресурс не готовий.
+  text: Operations Control Registry резервує матеріал через Warehouse і отримує HOLD_MATERIAL,
+    якщо ресурс не готовий.
   context: Ніяких прямих прихованих змін stock з інших модулів.
   roadmap: ''
   intent_id: HI-WAREHOUSE-SERVICE-002
 - status: AGREED
-  text: Semantic Retrieval допомагає знайти inventory item за описом/фото при відсутньому QR, але Warehouse/оператор підтверджує
-    істину.
+  text: Semantic Retrieval допомагає знайти inventory item за описом/фото при відсутньому
+    QR, але Warehouse/оператор підтверджує істину.
   context: Search лише кандидат.
   roadmap: ''
   intent_id: HI-WAREHOUSE-SERVICE-003
 - status: AGREED
-  text: Actual consumption/scrap/rework від production має завершуватися коректним physical writeoff у Warehouse.
-  context: Категорії setup waste, production scrap, test samples, destroyed WIP треба розрізняти.
+  text: Actual consumption/scrap/rework від production має завершуватися коректним
+    physical writeoff у Warehouse.
+  context: Категорії setup waste, production scrap, test samples, destroyed WIP треба
+    розрізняти.
   roadmap: ''
   intent_id: HI-WAREHOUSE-SERVICE-004
 - status: RECOVERED
-  text: Guided stock checks і discrepancy capture можуть виконуватися через Operations Assistant.
+  text: Guided stock checks і discrepancy capture можуть виконуватися через Operations
+    Assistant.
   context: Physical observation має evidence.
   roadmap: ''
   intent_id: HI-WAREHOUSE-SERVICE-005
@@ -35,3 +39,17 @@ intents:
   context: Інакше variance не має сенсу.
   roadmap: ''
   intent_id: HI-WAREHOUSE-SERVICE-006
+- intent_id: HI-WAREHOUSE-SERVICE-007
+  status: AGREED
+  text: A production reprint caused by internal defect must generate traceable additional
+    physical material consumption/writeoff without silently changing the original
+    planned quantity.
+  context: OCR provides reprint execution context; Warehouse remains physical stock
+    truth.
+  roadmap: WH-REPRINT-01
+- intent_id: HI-WAREHOUSE-SERVICE-008
+  status: AGREED
+  text: Legacy filename material tokens are parser candidates; Warehouse consumes
+    canonical material IDs after Library/Calculator normalization.
+  context: Do not make warehouse stock truth depend on a misspelled filename token.
+  roadmap: WH-FILE-01

@@ -1,0 +1,241 @@
+schema_version: forprint_blueprint_roadmap_amendment_bundle_v0_1
+date: '2026-08-31'
+status: planning_amendment_not_release_authority
+rules:
+  synthetic_steps_visible: true
+  synthetic_steps_require_review: true
+  current_release_unchanged: true
+  h10_unchanged: true
+modules:
+  forprint_system_blueprint:
+  - step_id: BP-PORTFOLIO-01
+    title: Portfolio rendering/content specification
+    maturity: AGREED
+    intent_refs:
+    - HI-FP-SYSTEM-BLUEPRINT-014
+    - HI-FP-SYSTEM-BLUEPRINT-017
+  - step_id: BP-PORTFOLIO-02
+    title: Full-horizon synthetic roadmap projection
+    maturity: AGREED
+    intent_refs:
+    - HI-FP-SYSTEM-BLUEPRINT-015
+    - HI-FP-SYSTEM-BLUEPRINT-016
+  - step_id: BP-SEMANTIC-01
+    title: Cross-Module Invariant Registry
+    maturity: SYNTHETIC
+    confidence: MEDIUM
+    needs_review: true
+    intent_refs:
+    - HI-FP-SYSTEM-BLUEPRINT-018
+  forprint_project_inspector:
+  - step_id: PI-S1
+    title: Change Boundary Detection
+    maturity: AGREED
+  - step_id: PI-S2
+    title: Deterministic Change Classification
+    maturity: AGREED
+  - step_id: PI-S3
+    title: Authority & Applicability Resolution
+    maturity: AGREED
+  - step_id: PI-S4
+    title: Incremental Semantic Audit Package Builder
+    maturity: AGREED
+  - step_id: PI-S5
+    title: LLM Semantic Consistency Worker
+    maturity: AGREED
+  - step_id: PI-S6
+    title: Structured Semantic Finding Taxonomy
+    maturity: AGREED
+  - step_id: PI-S7
+    title: Risk-Based Semantic Trigger Policy
+    maturity: AGREED
+  - step_id: PI-S8
+    title: Monthly Portfolio-Wide Semantic Sweep
+    maturity: AGREED
+  - step_id: PI-S9
+    title: Maturity-Based Audit Cadence
+    maturity: AGREED
+  - step_id: PI-S10
+    title: Human Review / Escalation Workflow
+    maturity: AGREED
+  forprint_contract_registry:
+  - step_id: CR-01
+    title: Role, boundaries and ownership
+    maturity: AGREED
+    confidence: HIGH
+  - step_id: CR-02
+    title: Canonical Contract Record schema
+    maturity: SYNTHETIC
+    confidence: MEDIUM
+    needs_review: true
+  - step_id: CR-03
+    title: Contract families and transport-neutral core
+    maturity: SYNTHETIC
+    confidence: MEDIUM
+    needs_review: true
+  - step_id: CR-04
+    title: Contract revision lifecycle
+    maturity: AGREED
+    confidence: MEDIUM_HIGH
+  - step_id: CR-05
+    title: Breaking/non-breaking compatibility classification
+    maturity: AGREED
+    confidence: MEDIUM_HIGH
+  - step_id: CR-06
+    title: Provider/consumer adoption manifests
+    maturity: SYNTHETIC
+    confidence: MEDIUM
+    needs_review: true
+  - step_id: CR-07
+    title: Fixtures and conformance validators
+    maturity: SYNTHETIC
+    confidence: MEDIUM
+    needs_review: true
+  - step_id: CR-08
+    title: Contract impact/dependency graph
+    maturity: SYNTHETIC
+    confidence: MEDIUM
+    needs_review: true
+  - step_id: CR-09
+    title: First lifecycle pilot — Calculator Job Specification → Operations Control
+      Registry
+    maturity: AGREED_DIRECTION
+    confidence: MEDIUM
+  - step_id: CR-10
+    title: Gateway consumption of ACTIVE contracts
+    maturity: SYNTHETIC
+    confidence: MEDIUM
+    needs_review: true
+  - step_id: CR-11
+    title: Inspector adoption/conformance verification
+    maturity: SYNTHETIC
+    confidence: MEDIUM
+    needs_review: true
+  - step_id: CR-12
+    title: Blueprint activation workflow for breaking revisions
+    maturity: AGREED_DIRECTION
+    confidence: MEDIUM_HIGH
+  - step_id: CR-13
+    title: Generated schema/client projections
+    maturity: SYNTHETIC
+    confidence: LOW_MEDIUM
+    needs_review: true
+  - step_id: CR-14
+    title: Deprecation/migration/retirement automation
+    maturity: SYNTHETIC
+    confidence: LOW
+    needs_review: true
+  - step_id: CR-15
+    title: Portfolio-wide contract compatibility dashboard
+    maturity: SYNTHETIC
+    confidence: LOW
+    needs_review: true
+  - step_id: CR-16
+    title: Mature deterministic lifecycle for proven safe changes
+    maturity: SYNTHETIC
+    confidence: LOW
+    needs_review: true
+  calculator_engine:
+  - step_id: CALC-FILE-01
+    title: Legacy production filename grammar corpus + parser
+    maturity: AGREED_DIRECTION
+  - step_id: CALC-FILE-02
+    title: Canonical naming-profile renderer
+    maturity: AGREED_DIRECTION
+  - step_id: CALC-FILE-03
+    title: Sheet-count and file-evidence validation
+    maturity: AGREED_DIRECTION
+  - step_id: CALC-FILE-04
+    title: Manual/offline reconciliation into canonical job flow
+    maturity: AGREED_DIRECTION
+  - step_id: CALC-CONTRACT-01
+    title: Job Specification contract pilot preparation
+    maturity: AGREED_DIRECTION
+  forprint_library:
+  - step_id: LIB-FILE-01
+    title: Material/operation/device alias registry
+    maturity: AGREED_DIRECTION
+  - step_id: LIB-FILE-02
+    title: Versioned naming profiles and human short tokens/defaults
+    maturity: AGREED_DIRECTION
+  - step_id: LIB-FILE-03
+    title: Production instruction/SOP visual knowledge
+    maturity: AGREED_DIRECTION
+  forprint_crm:
+  - step_id: CRM-ID-01
+    title: Person + personal account + temporal organization representation
+    maturity: AGREED
+  - step_id: CRM-ID-02
+    title: Order billing/representation snapshot
+    maturity: AGREED
+  telegram_bot:
+  - step_id: TG-ID-01
+    title: Visible organization/personal order context confirmation
+    maturity: AGREED
+  - step_id: TG-AUDIT-01
+    title: Order-relevant conversation decision evidence
+    maturity: AGREED_DIRECTION
+  forprint_operations_control_registry:
+  - step_id: OCR-TICKET-01
+    title: Versioned Job Ticket as human production document
+    maturity: AGREED
+  - step_id: OCR-HOLD-01
+    title: Legacy wait → explicit HOLD reasons
+    maturity: AGREED
+  - step_id: OCR-PRIORITY-01
+    title: Legacy first → structured priority class
+    maturity: AGREED
+  - step_id: OCR-REPRINT-01
+    title: Linked reprint workflow
+    maturity: AGREED
+  - step_id: OCR-PROOF-01
+    title: Proof/sample production purpose
+    maturity: AGREED
+  forprint_prepress_hub:
+  - step_id: PP-FILE-01
+    title: Reusable deterministic PDF/document probe
+    maturity: AGREED_DIRECTION
+  - step_id: PP-INTEROP-01
+    title: Future PDF metadata / JDF-XJDF interop adapter evaluation
+    maturity: SYNTHETIC
+    confidence: LOW
+    needs_review: true
+  forprint_operations_assistant:
+  - step_id: OA-TICKET-01
+    title: Filename-reading guidance and current Job Ticket view
+    maturity: AGREED
+  - step_id: OA-QUEUE-01
+    title: Priority/HOLD-aware production queue
+    maturity: AGREED_DIRECTION
+  - step_id: OA-REPRINT-01
+    title: Simple worker reprint reporting action
+    maturity: AGREED_DIRECTION
+  forprint_system_administration:
+  - step_id: SYS-DEVICE-01
+    title: Stable physical device instance inventory
+    maturity: AGREED_DIRECTION
+  - step_id: SYS-DEVICE-02
+    title: Capability group/queue vs concrete device routing
+    maturity: AGREED_DIRECTION
+  - step_id: SYS-TICKET-01
+    title: Job Ticket printer routing/fallback
+    maturity: AGREED_DIRECTION
+  production_runtime_inspector:
+  - step_id: PRI-DEVICE-01
+    title: Actual physical device correlation in runtime evidence
+    maturity: AGREED_DIRECTION
+  forprint_integration_gateway:
+  - step_id: GW-CONTRACT-01
+    title: Runtime validation/routing against ACTIVE Contract Registry revisions
+    maturity: AGREED_DIRECTION
+  forprint_accounting_registry_service:
+  - step_id: ACC-REPRINT-01
+    title: Reprint responsibility/billing consequence
+    maturity: AGREED_DIRECTION
+  - step_id: ACC-PROOF-01
+    title: Proof/sample billing policy
+    maturity: AGREED_DIRECTION
+  warehouse_service:
+  - step_id: WH-REPRINT-01
+    title: Reprint additional material writeoff
+    maturity: AGREED_DIRECTION

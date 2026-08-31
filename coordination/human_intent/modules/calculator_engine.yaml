@@ -5,75 +5,140 @@ authority: planning_context_not_release_authority
 append_only: true
 intents:
 - status: AGREED
-  text: 'Calculator Engine має бути головним власником canonical product/job calculation specification: продукт, параметри,
-    матеріали, відходи, технологічні операції, ціна і розрахунковий час.'
+  text: 'Calculator Engine має бути головним власником canonical product/job calculation
+    specification: продукт, параметри, матеріали, відходи, технологічні операції,
+    ціна і розрахунковий час.'
   context: Він не повинен перетворюватися на CRM, Warehouse чи Accounting.
   roadmap: ''
   intent_id: HI-CALCULATOR-ENGINE-001
 - status: AGREED
-  text: Ручне замовлення з filename, hot-folder, CSV, операторської форми або legacy-джерела повинно нормалізуватися в той
-    самий canonical request, що й онлайн-калькулятор.
+  text: Ручне замовлення з filename, hot-folder, CSV, операторської форми або legacy-джерела
+    повинно нормалізуватися в той самий canonical request, що й онлайн-калькулятор.
   context: Не створюємо другу модель замовлення для ручного потоку.
   roadmap: ''
   intent_id: HI-CALCULATOR-ENGINE-002
 - status: AGREED
-  text: 'Парсер filename/ручного вводу не має вгадувати неоднозначні параметри: при ambiguity він повинен вимагати clarification.'
+  text: 'Парсер filename/ручного вводу не має вгадувати неоднозначні параметри: при
+    ambiguity він повинен вимагати clarification.'
   context: Безпечніше запитати, ніж тихо підставити неправильний матеріал чи тираж.
   roadmap: ''
   intent_id: HI-CALCULATOR-ENGINE-003
 - status: AGREED
-  text: Після стабілізації canonical schema потрібно зробити versioned filename grammar/parser і hot-folder workflow.
+  text: Після стабілізації canonical schema потрібно зробити versioned filename grammar/parser
+    і hot-folder workflow.
   context: Спочатку схема, потім адаптери.
   roadmap: ''
   intent_id: HI-CALCULATOR-ENGINE-004
 - status: AGREED
-  text: Calculator формує canonical Job/Order Specification, який далі використовують Operations Control Registry, Prepress,
-    Warehouse і production.
+  text: Calculator формує canonical Job/Order Specification, який далі використовують
+    Operations Control Registry, Prepress, Warehouse і production.
   context: Паперові/екранні представлення не повинні дублювати business truth.
   roadmap: ''
   intent_id: HI-CALCULATOR-ENGINE-005
 - status: AGREED
-  text: Нормативні setup/waste/time rules повинні бути доступні Calculator для оцінки ціни, матеріалу та дедлайну.
-  context: Фактичні production дані можуть пропонувати зміну норми, але не переписувати її автоматично.
+  text: Нормативні setup/waste/time rules повинні бути доступні Calculator для оцінки
+    ціни, матеріалу та дедлайну.
+  context: Фактичні production дані можуть пропонувати зміну норми, але не переписувати
+    її автоматично.
   roadmap: ''
   intent_id: HI-CALCULATOR-ENGINE-006
 - status: RECOVERED
-  text: Website і Mobile повинні вбудовувати Calculator/configurator без дублювання формул та цін у frontend.
+  text: Website і Mobile повинні вбудовувати Calculator/configurator без дублювання
+    формул та цін у frontend.
   context: Це вже фіксувалося в попередньому портфоліо.
   roadmap: ''
   intent_id: HI-CALCULATOR-ENGINE-007
 - status: RECOVERED
-  text: Calculator споживає canonical product/material/machine and print-mode definitions з Library через стабільний контракт.
-  context: Попередні технічні матеріали явно відокремлювали Library reference input від pricing logic.
+  text: Calculator споживає canonical product/material/machine and print-mode definitions
+    з Library через стабільний контракт.
+  context: Попередні технічні матеріали явно відокремлювали Library reference input
+    від pricing logic.
   roadmap: ''
   intent_id: HI-CALCULATOR-ENGINE-008
 - status: AGREED
-  text: Для товарів на кшталт футболок, кепок та інших персоналізованих виробів потрібні зручні графічні інструменти/конструктори,
-    які мають бути прив'язані до product configuration.
+  text: Для товарів на кшталт футболок, кепок та інших персоналізованих виробів потрібні
+    зручні графічні інструменти/конструктори, які мають бути прив'язані до product
+    configuration.
   context: Це людська вимога до майбутнього UX калькулятора, а не лише технічний configurator.
   roadmap: ''
   intent_id: HI-CALCULATOR-ENGINE-009
 - status: GAP
-  text: Ми раніше називали конкретні зовнішні ресурси/сервіси як референси для конструкторів футболок/кепок і навіть визначали
-    пріоритетний. У доступному корпусі файлів точні назви/URL зараз не відновилися.
-  context: Це реальний documentation gap. Його не можна замінювати вигаданими назвами; перед реалізацією треба відновити точний
-    список.
+  text: Ми раніше називали конкретні зовнішні ресурси/сервіси як референси для конструкторів
+    футболок/кепок і навіть визначали пріоритетний. У доступному корпусі файлів точні
+    назви/URL зараз не відновилися.
+  context: Це реальний documentation gap. Його не можна замінювати вигаданими назвами;
+    перед реалізацією треба відновити точний список.
   roadmap: ''
   intent_id: HI-CALCULATOR-ENGINE-010
 - status: AGREED
-  text: Референсні зовнішні сервіси потрібні не для сліпого копіювання, а як орієнтир по UX, поведінці configurator-а, прев'ю
-    і роботі з зонами друку.
+  text: Референсні зовнішні сервіси потрібні не для сліпого копіювання, а як орієнтир
+    по UX, поведінці configurator-а, прев'ю і роботі з зонами друку.
   context: У roadmap треба зберігати і самі URL/назви, і що саме з них беремо як орієнтир.
   roadmap: ''
   intent_id: HI-CALCULATOR-ENGINE-011
 - status: AGREED
-  text: 'Кожен затверджений UX-reference повинен мати priority: primary reference / secondary reference / inspiration only.'
+  text: 'Кожен затверджений UX-reference повинен мати priority: primary reference
+    / secondary reference / inspiration only.'
   context: Щоб виконавець не змішував рівнозначно різні джерела.
   roadmap: ''
   intent_id: HI-CALCULATOR-ENGINE-012
 - status: AGREED
-  text: Якщо в розмові названо конкретний зовнішній сайт/інструмент як референс, його назва й URL повинні потрапити в human-intent
-    entry без узагальнення.
+  text: Якщо в розмові названо конкретний зовнішній сайт/інструмент як референс, його
+    назва й URL повинні потрапити в human-intent entry без узагальнення.
   context: Саме цього зараз не вистачило для calculator design references.
   roadmap: ''
   intent_id: HI-CALCULATOR-ENGINE-013
+- intent_id: HI-CALCULATOR-ENGINE-014
+  status: AGREED
+  text: Calculator is the primary implementation owner for parsing, normalizing and
+    rendering human production filenames, while Library owns the vocabulary/profile
+    semantics.
+  context: One generator/parser should prevent different modules inventing different
+    naming rules.
+  roadmap: CALC-FILE-01
+- intent_id: HI-CALCULATOR-ENGINE-015
+  status: AGREED
+  text: Canonical human production filenames use single underscore semantic blocks;
+    mandatory double-underscore separators are rejected as visually unnecessary.
+  context: Human typing speed and readability are first-class requirements.
+  roadmap: CALC-FILE-02
+- intent_id: HI-CALCULATOR-ENGINE-016
+  status: AGREED
+  text: In the production filename quantity expression copies x N, N means physical
+    sheets per copy, not PDF pages.
+  context: The operator thinks in sheets; future validation must preserve this meaning.
+  roadmap: CALC-FILE-03
+- intent_id: HI-CALCULATOR-ENGINE-017
+  status: AGREED
+  text: Calculator should validate manually created filenames against deterministic
+    file/job evidence and correct/report sheet-count mismatches when the production
+    convention makes the result unambiguous.
+  context: If the evidence is ambiguous, ask rather than silently guess.
+  roadmap: CALC-FILE-04
+- intent_id: HI-CALCULATOR-ENGINE-018
+  status: AGREED
+  text: For the Ricoh sheet profile, lamMat is the short human token for the agreed
+    default matte 25 µm roll lamination without forcing the operator to type 25.
+  context: Canonical database state still stores the exact lamination properties.
+  roadmap: CALC-FILE-05
+- intent_id: HI-CALCULATOR-ENGINE-019
+  status: AGREED
+  text: 'Manual/offline production files remain supported: after systems recover,
+    Calculator parses and reconciles them into canonical job/order flow while preserving
+    original filename and provenance.'
+  context: Do not make server availability a requirement for emergency manual production.
+  roadmap: CALC-FILE-06
+- intent_id: HI-CALCULATOR-ENGINE-020
+  status: AGREED
+  text: Calculator should emit required production capability/profile context in structured
+    data so an abstract file is not misinterpreted when removed from its legacy machine
+    directory.
+  context: Human filename does not need to carry a physical printer serial number.
+  roadmap: CALC-FILE-07
+- intent_id: HI-CALCULATOR-ENGINE-021
+  status: AGREED
+  text: Calculator Job Specification is the agreed first Contract Registry lifecycle
+    pilot toward Operations Control Registry.
+  context: The exact contract remains to be detailed when Calculator target architecture
+    is sufficiently mature.
+  roadmap: CALC-CONTRACT-01
