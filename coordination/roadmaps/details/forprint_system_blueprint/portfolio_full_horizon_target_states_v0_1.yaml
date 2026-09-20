@@ -1,0 +1,881 @@
+schema_version: forprint_portfolio_full_horizon_target_states_v0_1
+date: '2026-09-01'
+status: PROPOSED_PORTFOLIO_BASELINE_REQUIRES_OWNER_REVIEW
+authority: planning_projection_not_release_authority
+global_execution_gate:
+  ordinary_module_implementation_allowed: false
+  requirements_before_resume:
+    - full-horizon roadmaps sufficiently reconciled
+    - mature target states sufficiently meaningful
+    - module self-inventory/self-indexing baseline
+    - dependency/readiness/priority dashboard
+  assistant_distribution_allowed: false
+  assistant_distribution_resume_requirements:
+    - portfolio analysis and semantic reconciliation complete
+    - module-specific roadmaps and mature targets reviewed
+    - dependency/readiness/priority balance reviewed
+    - open semantic conflicts dispositioned
+    - explicit operator approval to distribute work
+    - cleanliness-conformance state and local cleanliness-pack roadmap recorded for every canonical module
+    - AI Execution Safety & Runtime Governance gate reviewed and configured for future assistant/runtime execution
+  project_cleanliness_conformance_required: true
+  project_cleanliness_policy_ref: coordination/standards/governance/project_cleanliness_and_machine_surface_normalization_standard_v0_1.md
+  blueprint_cleanliness_automation_status: IMPLEMENTED
+  cross_repository_cleanliness_automation_status: PLANNED_NOT_IMPLEMENTED
+  ai_execution_safety_runtime_governance_required: true
+  ai_execution_safety_runtime_governance_state: PLANNING_REQUIRED_NOT_IMPLEMENTED
+  ai_execution_safety_runtime_governance_ref: coordination/roadmaps/details/forprint_system_blueprint/ai_execution_safety_runtime_governance_gate_v0_1.md
+modules:
+  forprint_system_blueprint:
+    strategic_priority: P0
+    role: Portfolio architecture, ownership, governance, roadmap/dependency balancing and release/distribution gate authority.
+    target_state:
+      agreed_or_recovered:
+        - Global architecture, boundaries, standards, Human Intent, dependency/readiness balance.
+        - Blueprint must formalize managed autonomy, Verification Lab, development/runtime separation and a common module maturity path before future distribution.
+        - >-
+          Historical Asset Index is accepted as real portfolio work, implemented as a projection over domain-owned asset, technical and operational evidence rather than as a new competing source of truth.
+        - >-
+          The retrieval host remains an explicit architecture decision; the existing Semantic Retrieval candidate must not be promoted automatically merely because historical indexing is required.
+        - >-
+          The working portfolio host for the first durable Process Manager capability is Operations Control Registry; no standalone Process Manager module is created initially.
+        - >-
+          Process Manager is deliberately designed as a hosted-but-extractable capability, so later separation requires evidence rather than an early architectural guess.
+      synthetic_or_proposed:
+        - Stronger automated portfolio health/decision-support projections.
+        - Mature Blueprint should reduce human control to a small number of portfolio/exception/approval surfaces while preserving explicit high-impact authority.
+    full_horizon_steps:
+      - Integrate u92 architecture decisions into Human Intent, canonical portfolio roadmaps and governance without opening implementation.
+      - Promote Verification Lab to canonical module identity while Semantic Retrieval remains proposed/noncanonical.
+      - Formalize DEV → VERIFICATION → RELEASE → RUNTIME separation and immutable-runtime/self-evolution rules.
+      - Formalize M0-M9 module maturity and production-entry sequence for all future modules.
+      - Formalize shared resource concurrency/availability states, retry/backpressure/dead-letter semantics.
+      - Formalize Execution Policy Gate, capability-shaped tools and risk-class authorization.
+      - Formalize managed-autonomy levels, context checkpoint/handoff and AI budget-runway evidence.
+      - Strengthen dependency-constrained readiness and assistant-distribution prerequisites using the 23-module canonical set.
+      - Require Verification Lab and Project Inspector evidence before production promotion while keeping their roles separate.
+      - Keep assistant distribution, module implementation, H10 widening and automatic acceptance closed until explicit operator approval.
+      - >-
+        Define the cross-module Historical Asset Index contract over Library reference semantics, Prepress technical asset facts and Operations Control Registry order/job/revision state.
+      - >-
+        Define candidate retrieval stages as cheap scoped retrieval followed by deeper comparison of a small candidate set and explicit human/customer selection when ambiguity remains.
+      - >-
+        Resolve the final hosted-capability location only after comparing an existing-host implementation with the noncanonical Semantic Retrieval module candidate.
+      - >-
+        Govern the hosted Process Manager boundary so process truth, domain truth, transport state and human-facing workflow UI remain explicitly separated.
+      - >-
+        Review extraction triggers after real usage evidence, including independent scaling, availability, topology, ownership pressure and cross-domain coupling.
+    dependencies_or_inputs:
+      - forprint_project_inspector
+      - forprint_contract_registry
+      - verification_lab
+    human_control_surfaces:
+      - DEVELOPER_AUDIT
+      - ADMIN_FACING
+    inventory_state: STRONG_EXISTING_FOUNDATION
+    implementation_eligible_now: false
+    portfolio_gate: HOLD_UNTIL_PORTFOLIO_READINESS_BASELINE_COMPLETE
+    module_value_test: KEEP
+  calculator_engine:
+    strategic_priority: P0
+    role: Canonical production calculation, quote-item semantics and production-filename interpretation engine.
+    target_state:
+      agreed_or_recovered:
+        - Calculation/quote/order drafts, price/material/time estimates, early visual configuration, exact reference set recovered.
+        - Calculator owns calculated quote/item semantics and production filename interpretation, not the whole customer basket or order.
+      synthetic_or_proposed:
+        - Reusable constructor family, outsourcing decisions and partner-adapter integration.
+        - Mature Calculator should expose deterministic contracts, offline estimate rules with revalidation and Verification Lab regression surfaces.
+    full_horizon_steps:
+      - Preserve Calculator ownership of calculation, quote-item and production-filename semantics.
+      - Keep Library as vocabulary/profile source and avoid local shadow aliases/defaults.
+      - Separate calculated item/quote from CRM basket/checkout and OCR canonical operational order state.
+      - Define stable request/result contracts with provenance, assumptions and deterministic rounding rules.
+      - Define offline estimate behavior where allowed and mandatory server/current-norm revalidation before commitment.
+      - Define deterministic filename correction only for unambiguous cases and retain source/provenance.
+      - Define Prepress capability/probe handoff without Calculator owning file-repair execution.
+      - Provide deterministic fixtures and boundary cases to Verification Lab for regression.
+      - Use Runtime Inspector actuals only as proposal evidence for norm changes, never silent rewrite.
+      - Hold broader automation until Library/Contract Registry/consumer adoption evidence is portfolio-ready.
+    dependencies_or_inputs:
+      - forprint_library
+      - forprint_prepress_hub
+    human_control_surfaces:
+      - USER_FACING
+      - OPERATOR_FACING
+      - ADMIN_FACING
+    inventory_state: OWNER_DIRECTION_CLEAR_DEEP_INVENTORY_REQUIRED
+    implementation_eligible_now: false
+    portfolio_gate: HOLD_UNTIL_PORTFOLIO_READINESS_BASELINE_COMPLETE
+    module_value_test: KEEP
+  forprint_library:
+    strategic_priority: P0
+    role: Canonical semantic/catalog/reference and shared UI publication authority
+    target_state:
+      agreed_or_recovered:
+        - Canonical products/materials/services/operations/aliases/profiles; shared UI package publication.
+        - >-
+          Historical/reference asset semantics use stable asset and revision references; Library may own canonical reference-media metadata where applicable, while customer/order/production truth remains with its domain owners.
+        - >-
+          Historical Asset Index entries are projections over authoritative sources; an index/search result never becomes canonical asset, order or production truth.
+      synthetic_or_proposed:
+        - Fast capability/semantic discovery and mature version/adoption lifecycle.
+    full_horizon_steps:
+      - Reconcile current Library catalog, alias, template, naming-profile and UI publication evidence.
+      - Confirm Library ownership of product/material/service/operation semantics and shared UI publication, excluding business workflows.
+      - Complete capability/self-inventory for canonical IDs, aliases, misspellings, production tokens, templates and technical cards.
+      - Define versioned naming/profile/default semantics consumed by Calculator, Prepress and operations surfaces.
+      - Define material/product/service canonical identifiers and stable lookup contracts for Warehouse and other consumers.
+      - 'Define UI design-system package lifecycle: lookup, proposal, prototype, Inspector review, operator approval, publish and adoption.'
+      - Add version/adoption metadata and compatibility rules without creating live global CSS or uncontrolled defaults.
+      - Plan fast capability/semantic discovery while keeping retrieval candidate-only and domain-owner truth authoritative.
+      - Define deprecation/migration paths for legacy aliases/profiles and evidence requirements for consumer adoption.
+      - Hold broader implementation until Contract Registry and consumer readiness are reconciled in the portfolio.
+      - >-
+        Define stable historical/reference asset metadata semantics including asset ID, source module, entity links, revision references, media type and provenance.
+      - >-
+        Define the boundary between Library-owned canonical reference media and customer/order/production assets owned by operational domains.
+    dependencies_or_inputs:
+      - forprint_contract_registry
+    human_control_surfaces:
+      - DEVELOPER_AUDIT
+      - ADMIN_FACING
+    inventory_state: OWNER_DIRECTION_CLEAR
+    implementation_eligible_now: false
+    portfolio_gate: HOLD_UNTIL_PORTFOLIO_READINESS_BASELINE_COMPLETE
+    module_value_test: KEEP
+  forprint_contract_registry:
+    strategic_priority: P0
+    role: Versioned inter-module contract lifecycle registry
+    target_state:
+      agreed_or_recovered:
+        - Contract manifests/revisions/compatibility/adoption; first pilot Calculator Job Specification -> OCR.
+      synthetic_or_proposed:
+        - Generated projections, migration/deprecation automation and compatibility view after proven pilots.
+    full_horizon_steps:
+      - Reconcile existing contract concepts, manifests, lifecycle states and governance references.
+      - Confirm Contract Registry as lifecycle/compatibility authority, not business semantics or runtime routing authority.
+      - Complete self-inventory for contract IDs, revisions, producer/consumer registration, fixtures and compatibility evidence.
+      - Finalize lifecycle states and the rule that breaking revisions cannot become ACTIVE before mandatory consumers support them.
+      - Use Calculator Job Specification to OCR/Prepress as the first full contract-lifecycle planning pilot.
+      - Define adoption matrix, compatibility checks, migration metadata and Inspector evidence expectations.
+      - Define deprecation, supported-legacy, revoked and retired handling with explicit operator/governance boundaries.
+      - Plan generated read-only contract catalogs and projections without creating a second semantic source of truth.
+      - Define Integration Gateway consumption of ACTIVE contracts only and prevent unilateral activation by producers or consumers.
+      - Hold runtime activation until pilot evidence and portfolio dependency gates are explicitly approved.
+    dependencies_or_inputs:
+      - forprint_system_blueprint
+      - forprint_project_inspector
+    human_control_surfaces:
+      - DEVELOPER_AUDIT
+      - ADMIN_FACING
+    inventory_state: DIRECTION_CLEAR_FOUNDATION_PENDING
+    implementation_eligible_now: false
+    portfolio_gate: HOLD_UNTIL_PORTFOLIO_READINESS_BASELINE_COMPLETE
+    module_value_test: KEEP
+  forprint_project_inspector:
+    strategic_priority: P0
+    role: Read-only structural, semantic, cleanliness, architecture and governance conformance verification.
+    target_state:
+      agreed_or_recovered:
+        - Detects drift/contradictions/ownership violations; never invents domain truth.
+        - Project Inspector detects drift/conflicts/duplication candidates but never invents or activates domain truth.
+      synthetic_or_proposed:
+        - Self-inventory health, duplicate-capability detection, UI conformance, bounded semantic review.
+        - Mature Inspector should verify dev/runtime boundary, module maturity, autonomy evidence and intake Verification Lab findings as conformance evidence.
+    full_horizon_steps:
+      - Reconcile Project Inspector scope against Blueprint, Runtime Inspector and Verification Lab.
+      - Confirm Inspector is read-only conformance authority and not an adversarial test executor or domain owner.
+      - 'Define deterministic checks first: schema, generators, indexes, ownership, cleanliness and contract adoption.'
+      - Define duplicate/equivalent-capability candidate detection with owner-reviewed dispositions and no auto-delete.
+      - Define module current-state, roadmap, maturity M0-M9 and dependency-constrained readiness conformance.
+      - Define DEV/VERIFICATION/RELEASE/RUNTIME separation and immutable-runtime conformance checks.
+      - Define bounded semantic review after deterministic evidence with stable finding taxonomy.
+      - Define periodic/risk-triggered review and checkpoint-to-commit evidence packages.
+      - Ingest Verification Lab results as evidence while leaving intentional test generation to Verification Lab.
+      - Keep foreign-repo mutation, truth activation and autonomous deletion forbidden.
+    dependencies_or_inputs:
+      - forprint_system_blueprint
+      - forprint_contract_registry
+    human_control_surfaces:
+      - DEVELOPER_AUDIT
+      - ADMIN_FACING
+    inventory_state: STRONG_DIRECTION
+    implementation_eligible_now: false
+    portfolio_gate: HOLD_UNTIL_PORTFOLIO_READINESS_BASELINE_COMPLETE
+    module_value_test: KEEP
+  forprint_identity_access_service:
+    strategic_priority: P0
+    role: Shared identity/authentication/authorization/access service
+    target_state:
+      agreed_or_recovered:
+        - One shared identity/access capability; roles + user overrides; deny-by-default cross-client access.
+      synthetic_or_proposed:
+        - Sessions/devices/recovery/MFA/passkeys/SSO/admin access-review.
+    full_horizon_steps:
+      - Reconcile the new IAM concept against current module identity, CRM business-person and SysAdmin security boundaries.
+      - Confirm ownership of technical accounts/auth/session/authorization while CRM retains business person/customer relationships.
+      - Complete self-inventory for account IDs, sessions, devices, roles, permissions, overrides, recovery and audit.
+      - Define account_id to CRM person_id linkage and separate selected business context from authenticated technical identity.
+      - Define deny-by-default authorization, role baselines and per-user overrides with auditable access decisions.
+      - Plan modern password hashing, MFA/passkeys, recovery and device/session controls.
+      - Define SSO/shared-client boundary for web, mobile, Telegram/admin clients without duplicating business context.
+      - Separate external partner credentials into centralized SysAdmin secrets infrastructure with least privilege and rotation.
+      - Define admin access-review UI, security audit evidence and revocation/recovery procedures.
+      - Keep module unimplemented until portfolio roadmap, SysAdmin and operational dependencies are approved.
+    dependencies_or_inputs:
+      - forprint_operations_control_registry
+      - forprint_system_administration
+    human_control_surfaces:
+      - USER_FACING
+      - ADMIN_FACING
+    inventory_state: CONFIRMED_NEW_MODULE_NOT_IMPLEMENTED
+    implementation_eligible_now: false
+    portfolio_gate: HOLD_UNTIL_PORTFOLIO_READINESS_BASELINE_COMPLETE
+    module_value_test: KEEP
+  forprint_operations_control_registry:
+    strategic_priority: P0
+    role: Canonical operational party/order/task/control registry and write boundary
+    target_state:
+      agreed_or_recovered:
+        - Operational orders/requests/events/tasks/blockers and stable shared party/order IDs.
+        - >-
+          Operations Control Registry remains authoritative for operational order/job identity, Job Ticket revision and production lifecycle state referenced by historical assets.
+        - >-
+          Historical asset revision-family projections must derive operational status from explicit order/job/revision evidence rather than filenames or search inference.
+        - >-
+          The first durable Process Manager capability is hosted inside Operations Control Registry because this module already owns the canonical operational state and write boundary for orders, tasks, blockers, incidents, deadlines and cross-module execution context.
+        - >-
+          Hosted Process Manager state is a distinct capability namespace: it owns durable process instances, current step, waiting conditions, expected events, timers, deadlines, retry state, escalation state and transitions without absorbing foreign domain truth.
+        - >-
+          The hosted capability must remain extraction-ready through explicit contracts, its own state model, adapters, tests and minimal imports from the Operations Control Registry host.
+      synthetic_or_proposed:
+        - Mature operational lifecycle, Job Ticket state, reservations/obligations and resilient commands/events.
+    full_horizon_steps:
+      - Reconcile operational order/request/task/event/party concepts and historical aliases.
+      - Confirm stable operational identities and authorized write boundary without absorbing foreign domain semantics.
+      - Complete self-inventory for business partner references, order IDs, requests, tasks, blockers, incidents and deadlines.
+      - Define operational order/Job Ticket lifecycle and explicit HOLD, priority, proof, reprint and exception states.
+      - Define obligations, reservations, shortages and execution context contracts with Warehouse, Accounting and Logistics.
+      - Define command/query boundaries plus outbox/inbox/idempotency/correlation rules for resilient cross-module interactions.
+      - Separate communicator, customer, billing and organization context while preserving historical relationships.
+      - Define read/write interfaces used by CRM and channels without transferring ownership of operational truth.
+      - Plan reporting projections and exception/event evidence for dashboards without making read models authoritative.
+      - Hold expanded execution until Calculator/Library/Contract Registry producer dependencies and portfolio gates are ready.
+      - >-
+        Define the operational historical-asset link contract connecting asset references to order ID, job ID, revision and authoritative operational state.
+      - >-
+        Define explicit current/superseded/production-result and approval-related revision evidence required by historical asset consumers.
+      - >-
+        Expose operational revision/status projections for historical retrieval without transferring operational truth into the search/index layer.
+      - >-
+        Define the hosted Process Manager namespace and durable process-instance identity/state model inside Operations Control Registry.
+      - >-
+        Define current-step, waiting-condition, expected-event, timer, deadline, retry, escalation and transition semantics for long-running processes.
+      - >-
+        Define an append-only process transition/event ledger with correlation, idempotency, restart recovery and deterministic resume semantics.
+      - >-
+        Define operator-attention and authorized human-decision integration without letting unattended workflow state silently authorize foreign-domain actions.
+      - >-
+        Define domain adapters so CRM, Telegram, Logistics and other modules can observe or participate through typed process intents/events without owning the durable process instance.
+      - >-
+        Add explicit extraction-readiness criteria so the capability can later move to a standalone Process Manager service if scale, topology or ownership evidence justifies separation.
+    dependencies_or_inputs:
+      - calculator_engine
+      - forprint_contract_registry
+      - forprint_library
+    human_control_surfaces:
+      - OPERATOR_FACING
+      - ADMIN_FACING
+    inventory_state: FOUNDATION_EXISTS_DEEP_REVIEW_REQUIRED
+    implementation_eligible_now: false
+    portfolio_gate: HOLD_UNTIL_PORTFOLIO_READINESS_BASELINE_COMPLETE
+    module_value_test: KEEP
+  forprint_accounting_registry_service:
+    strategic_priority: P0
+    role: Operational/commercial accounting registry and 1C compatibility boundary
+    target_state:
+      agreed_or_recovered:
+        - Invoices/payments/accounting documents/reconciliation/1C staging; supplier-document automation.
+      synthetic_or_proposed:
+        - Management accounting, settlements, safe conditional mandates and mature 1C exchange.
+    full_horizon_steps:
+      - Reconcile current accounting registry, 1C staging, document and supplier-automation evidence.
+      - Confirm accounting ownership of accounting references/documents/reconciliation while excluding operational order and catalog truth.
+      - Complete self-inventory for 1C snapshots, mappings, import/export/reconciliation jobs and accounting documents.
+      - Define billing/customer/responsibility contexts and prevent proof/sample classifications from implying payment semantics.
+      - Define rounding, totals, taxes/fees and reconciliation boundaries so accounting never silently changes Calculator semantics.
+      - Plan supplier-document parsing into reviewable staging rather than direct authoritative posting.
+      - Define payment/reconciliation views and safe conditional mandates with explicit approval and audit boundaries.
+      - Define management-accounting and settlement projections while preserving operational/accounting truth separation.
+      - Plan mature 1C exchange, failure recovery and evidence without allowing 1C compatibility to dominate internal architecture.
+      - Hold automation expansion until operational, warehouse, calculator and identity dependencies are contractually ready.
+    dependencies_or_inputs:
+      - forprint_operations_control_registry
+      - forprint_library
+      - warehouse_service
+      - calculator_engine
+    human_control_surfaces:
+      - OPERATOR_FACING
+      - ADMIN_FACING
+    inventory_state: OWNER_DIRECTION_CLEAR_DECOMPOSITION_REQUIRED
+    implementation_eligible_now: false
+    portfolio_gate: HOLD_UNTIL_PORTFOLIO_READINESS_BASELINE_COMPLETE
+    module_value_test: KEEP
+  warehouse_service:
+    strategic_priority: P1
+    role: Physical inventory/material-location truth and movement service
+    target_state:
+      agreed_or_recovered:
+        - Physical stock fact distinct from accounting valuation and Calculator planned need.
+      synthetic_or_proposed:
+        - Reservations, receipts/issues/writeoffs, locations, shortages, cycle count, traceable reprint consumption.
+    full_horizon_steps:
+      - Reconcile warehouse stock, location, movement, material and defect/reprint evidence.
+      - Confirm Warehouse ownership of physical inventory truth distinct from accounting valuation and Calculator planned consumption.
+      - Complete self-inventory for stock facts, locations, lots, movements, reservations, shortages and counts.
+      - Bind all stock/material records to Library canonical material IDs and controlled alias resolution.
+      - Define receipts, issues, transfers, writeoffs and reservations against stable operational order/job references.
+      - Define shortage and availability contracts for Calculator/OCR without letting Warehouse decide pricing or production rules.
+      - Define internal-defect/reprint material consumption as traceable physical movements with reason/evidence.
+      - Plan cycle counts, discrepancy workflows and audit trails with explicit human resolution.
+      - Define Accounting handoff for valuation/documents while retaining physical quantity/location truth.
+      - Hold automation until Library, operational registry and accounting contracts are accepted.
+    dependencies_or_inputs:
+      - forprint_library
+      - forprint_operations_control_registry
+      - forprint_accounting_registry_service
+    human_control_surfaces:
+      - OPERATOR_FACING
+      - ADMIN_FACING
+    inventory_state: DEEP_REVIEW_REQUIRED
+    implementation_eligible_now: false
+    portfolio_gate: HOLD_UNTIL_PORTFOLIO_READINESS_BASELINE_COMPLETE
+    module_value_test: KEEP
+  forprint_prepress_hub:
+    strategic_priority: P1
+    role: Prepress/file preparation and production-readiness evidence
+    target_state:
+      agreed_or_recovered:
+        - PDF/document probe and readiness evidence consuming Calculator + Library.
+        - >-
+          Prepress contributes deterministic technical asset facts and derived preview evidence for historical indexing without owning customer/order history or search-result truth.
+        - >-
+          Technical asset evidence may include exact file hash, type, size, page count, dimensions, color/resolution facts, preview references and file revision provenance.
+      synthetic_or_proposed:
+        - Preflight/normalization/imposition/profile/hot-folder and future metadata projections.
+    full_horizon_steps:
+      - Reconcile current PDF/document probe, readiness and prepress planning evidence.
+      - Confirm Prepress ownership of file preparation/readiness evidence, not Calculator logic, catalog truth or device identity.
+      - Complete self-inventory for probes, requirements, blockers, corrections, profiles, imposition and production-package outputs.
+      - Define consumption of accepted Calculator Job Spec and Library naming/material/profile contracts.
+      - Specify deterministic PDF validation/correction boundaries; ambiguous semantic repair must escalate rather than guess.
+      - Plan imposition, normalization and production profile selection with explicit evidence and reproducible fixtures.
+      - Define hot-folder/station preset policy while concrete device identity/capability remains SysAdmin-owned.
+      - Define HOLD/reject/readiness evidence and handoff to operational Job Ticket/QC flows.
+      - Plan production-file provenance and future metadata projections without making filenames the source of truth.
+      - Hold implementation expansion until Calculator, Library and Contract Registry dependencies are accepted.
+      - >-
+        Define a machine-readable technical Asset Fact Packet containing deterministic file facts, source revision, hashes and safe preview references.
+      - >-
+        Define deterministic fingerprint/probe outputs suitable for downstream candidate retrieval while keeping semantic match decisions outside Prepress.
+      - >-
+        Define historical-file provenance and master-versus-derived relationships without making Prepress the raw archive or historical search owner.
+    dependencies_or_inputs:
+      - calculator_engine
+      - forprint_library
+      - forprint_contract_registry
+    human_control_surfaces:
+      - OPERATOR_FACING
+    inventory_state: FIRST_PASS_DIRECTION_RECORDED
+    implementation_eligible_now: false
+    portfolio_gate: HOLD_UNTIL_PORTFOLIO_READINESS_BASELINE_COMPLETE
+    module_value_test: KEEP
+  production_runtime_inspector:
+    strategic_priority: P1
+    role: Runtime execution evidence, actuals, device-used, queue/retry/health and AI/tool-cost telemetry observer.
+    target_state:
+      agreed_or_recovered:
+        - Records concrete device and actuals without silently rewriting approved norms.
+        - Runtime Inspector records facts and actuals but never silently rewrites approved norms.
+      synthetic_or_proposed:
+        - Operation actuals, quality/variance signals, telemetry and norm-change proposals.
+        - Mature runtime inspection should trace retries, waiting states, dead letters, AI/tool usage, latency, cost and deployment/canary evidence.
+    full_horizon_steps:
+      - Reconcile runtime execution, device-used and actuals evidence scope.
+      - Confirm Runtime Inspector observes facts but owns neither approved norms nor architecture policy.
+      - Define end-to-end request/job trace identifiers across queue, tool, AI and external dependencies.
+      - Define WAITING/RETRY/DEGRADED/dead-letter/stuck-work evidence and detection.
+      - 'Define AI/tool telemetry: calls, repetitions, tokens, latency, cost, retries and escalation counts.'
+      - Define budget-runway and abnormal-cost signals without autonomously changing business strategy.
+      - Define actual-vs-standard variance evidence and proposal-only norm-change feedback.
+      - Define deployment/shadow/canary runtime evidence consumed by Verification Lab and release decisions.
+      - 'Define privacy/retention boundaries: execution evidence, not hidden chain-of-thought capture.'
+      - Hold any active control-loop behavior until bounded autonomy and portfolio gates are explicitly approved.
+    dependencies_or_inputs:
+      - forprint_operations_control_registry
+      - forprint_system_administration
+      - forprint_library
+    human_control_surfaces:
+      - OPERATOR_FACING
+      - DEVELOPER_AUDIT
+    inventory_state: DEEP_REVIEW_REQUIRED
+    implementation_eligible_now: false
+    portfolio_gate: HOLD_UNTIL_PORTFOLIO_READINESS_BASELINE_COMPLETE
+    module_value_test: KEEP
+  forprint_crm:
+    strategic_priority: P1
+    role: Business workflow coordinator, Customer Portal composition layer and cross-domain human workspace.
+    target_state:
+      agreed_or_recovered:
+        - Owner-data aggregation without foreign-data ownership; dashboards/wallboards; composite workflows.
+        - CRM may compose Customer Portal and basket/checkout workflow while domain-owned semantics remain with their actual owners.
+        - >-
+          Customer intelligence is a layered CRM capability with separate Seed Profile, Observed Customer Model and Effective Policy layers; this does not make CRM the canonical client registry or owner of foreign domain truth.
+        - >-
+          Seed Profile is a simple manager-selected starting preset for relationship and communication handling and is not inferred authority.
+        - >-
+          Observed Customer Model is derived from evidence with provenance, recency, confidence and domain-specific coverage rather than from opaque permanent labels.
+        - >-
+          Effective Policy combines approved policy rules with permitted customer-model evidence but must never silently expand commercial, financial or operational authority.
+        - >-
+          Customer-specific semantics distinguish baseline, exception, possible shift, probable shift and new baseline using recency weighting, minimum evidence, hysteresis and contextual segmentation.
+        - >-
+          Customer relationship health and trajectory are multidimensional projections covering payment health, commercial value, growth momentum, margin quality, service burden, order clarity, dispute risk, relationship stability and strategic potential, with underlying facts retained by their owner modules.
+        - >-
+          Customer-model updates combine event-driven evidence with periodic reconciliation; stale, conflicting and insufficient evidence must remain explicit.
+        - >-
+          Profile and policy transitions require durable provenance, transition history and auditable human override rather than destructive replacement of prior state.
+        - >-
+          CRM is the primary human-facing Process Manager control surface but does not own durable process instances, timers, retries, deadlines or transition truth.
+      synthetic_or_proposed:
+        - Customer/Supplier 360, universal search, saved role views, activity timeline, exception center.
+        - Mature CRM should provide customer/supplier 360, exception/task workspaces, universal search, timeline and cross-domain projections without absorbing foreign truth.
+    full_horizon_steps:
+      - Reconcile CRM as business coordinator and human workspace rather than physical owner of all ForPrint data.
+      - Preserve person/organization/context semantics and phone as strong identifier/search aid, not immutable identity.
+      - Define Customer Portal composition with shared IAM and selected business context.
+      - Define basket/checkout orchestration around Calculator quote items without creating calculator or accounting truth.
+      - Define request/order handoff through Operations Control Registry with stable operational identifiers.
+      - Define payment/accounting/logistics/warehouse views through owner-provided projections and explicit provenance.
+      - Define Task/Case/Exception Center and role-specific workspaces as CRM-owned workflow composition.
+      - Define universal search/timeline/customer-supplier 360 over read models without cross-domain write ownership.
+      - Define analytics/variance views while strategic recommendation ownership remains with Strategic Control Plane.
+      - Keep cross-domain writes contract-bound and dependency-gated before assistant distribution.
+      - >-
+        Define the CRM customer-intelligence model as separate Seed Profile, Observed Customer Model and Effective Policy layers without absorbing canonical client identity or foreign domain truth.
+      - >-
+        Define manager-selectable Seed Profiles as bootstrap presets with explicit scope, version and provenance.
+      - >-
+        Define the Observed Customer Model with evidence provenance, recency, confidence, domain-specific coverage and safe handling of insufficient evidence.
+      - >-
+        Define Effective Policy composition so approved rules may consume customer-model evidence without silently expanding financial, commercial or operational authority.
+      - >-
+        Implement baseline-to-shift semantics with exception, possible-shift, probable-shift and new-baseline states plus recency weighting, minimum evidence, hysteresis and contextual segmentation.
+      - >-
+        Define multidimensional customer health and trajectory projections using owner-sourced payment, value, growth, margin, service-burden, clarity, dispute, stability and strategic-potential evidence.
+      - >-
+        Define event-driven customer-model updates plus periodic reconciliation, freshness checks and explicit conflict/staleness handling.
+      - >-
+        Define immutable profile/policy transition history, provenance and auditable human override before customer-specific policy automation is considered mature.
+      - >-
+        Define CRM views for active processes, current step, blockers, waiting state, deadlines, escalations and next authorized actions from Process Manager projections.
+      - >-
+        Define structured operator commands for clarification, acknowledgement, override request and authorized intervention without creating shadow workflow state.
+    dependencies_or_inputs:
+      - forprint_operations_control_registry
+      - forprint_identity_access_service
+      - calculator_engine
+      - forprint_accounting_registry_service
+      - logistics_service
+    human_control_surfaces:
+      - OPERATOR_FACING
+      - ADMIN_FACING
+    inventory_state: FIRST_PASS_PLUS_NEW_OWNER_DIRECTION
+    implementation_eligible_now: false
+    portfolio_gate: HOLD_UNTIL_PORTFOLIO_READINESS_BASELINE_COMPLETE
+    module_value_test: KEEP
+  logistics_service:
+    strategic_priority: P1
+    role: Provider-neutral shipment/pickup/delivery/tracking truth
+    target_state:
+      agreed_or_recovered:
+        - Provider adapters, shipment drafts/tracking/events; current H10 sole automation pilot.
+        - >-
+          Logistics retains authoritative shipment-specific workflow state machines, retries and reconciliation, while broader cross-domain Process Manager state is hosted by Operations Control Registry.
+      synthetic_or_proposed:
+        - Mature carrier/taxi/courier adapters, evidence handoff, delivery exceptions and bounded automation.
+    full_horizon_steps:
+      - Reconcile Logistics provider-neutral shipment/pickup/delivery/tracking model and existing H10 pilot evidence.
+      - Confirm Logistics truth boundaries against OCR operational identities, Accounting costs and IAM access.
+      - Complete self-inventory for shipment drafts, provider adapters, tracking events, delivery evidence and exceptions.
+      - Define stable shipment/order/address references and provider-neutral command/response contracts.
+      - Define carrier/taxi/courier adapter boundary, secrets usage, retries, idempotency and correlation.
+      - Define pickup/delivery/tracking event lifecycle plus evidence for failures, cancellation and manual takeover.
+      - Define cost/charge handoff to Accounting without making Logistics accounting authority.
+      - Define delivery exception and escalation workflows with Telegram/operator attention but no hidden auto-decisions.
+      - Evaluate the existing Logistics-only H10 automation pilot against cost, quality, retry and operator-intervention evidence.
+      - Do not widen H10 or authorize other modules until the pilot and full portfolio are explicitly approved.
+      - >-
+        Define the boundary between Logistics shipment lifecycle state and a parent or linked cross-domain Process Manager instance.
+      - >-
+        Expose typed shipment events, waiting conditions and outcomes to Process Manager without transferring carrier/provider truth out of Logistics.
+    dependencies_or_inputs:
+      - forprint_operations_control_registry
+      - forprint_accounting_registry_service
+      - forprint_identity_access_service
+    human_control_surfaces:
+      - OPERATOR_FACING
+      - ADMIN_FACING
+    inventory_state: IMPLEMENTATION_EXISTS_RUNTIME_SCOPE_GATED
+    implementation_eligible_now: false
+    portfolio_gate: HOLD_UNTIL_PORTFOLIO_READINESS_BASELINE_COMPLETE
+    module_value_test: KEEP
+  telegram_bot:
+    strategic_priority: P1
+    role: Conversational customer/staff channel adapter
+    target_state:
+      agreed_or_recovered:
+        - Structured request/response channel without owning CRM/order/accounting truth.
+        - Personalized communication orchestration: Telegram preserves dialogue continuity and renders canonical domain facts according to approved customer communication context without changing those facts.
+        - Structured inbound requests and outbound communication intents are the preferred cross-module communication contract.
+        - Customer-specific communication context may be consumed by Telegram, while canonical customer profile, commercial policy and customer economics remain outside Telegram ownership.
+        - Clarification converges toward structured Order Drafts using canonical Library, Calculator and other domain constraints.
+        - AI remains a replaceable helper after deterministic rules, history, classifiers, customer context and clarification, with human escalation for unresolved ambiguity.
+        - Historical asset retrieval is consumed through a machine-readable index; Telegram does not own archives, fingerprints or historical asset truth.
+        - Long-running business processes are external durable process truth; Telegram participates only through communication intents, acknowledgements and clarification.
+      synthetic_or_proposed:
+        - Voice transcription, supplier enrichment, richer self-service, future TTS/voice.
+    full_horizon_steps:
+      - Reconcile current Telegram channel flows, identity/context handling and historical execution evidence.
+      - Confirm Telegram as channel adapter only, never canonical CRM/order/calculation/accounting/catalog truth.
+      - Complete self-inventory for dialog flow, message UI, uploads, confirmations and channel context.
+      - Define authentication/linkage through IAM and visible customer/billing/business context selection.
+      - Define structured calculation/order request handoff to Calculator/OCR with audited confirmations.
+      - Define file/status/payment/delivery views as domain-owned read projections with clear freshness/provenance.
+      - Define context switching without duplicate CRM persons/orders and without phone becoming immutable identity.
+      - Plan voice transcription and richer interaction as bounded channel capabilities with fallback and operator visibility.
+      - Define retry/idempotency/correlation and anti-loop budgets for channel-to-domain interactions.
+      - Hold new execution until IAM, Gateway/contract and portfolio readiness gates are approved.
+      - Define personalized communication orchestration with conversation continuity, approved communication preferences and strict presentation-versus-facts separation.
+      - Define channel-neutral inbound structured domain requests/events and outbound structured communication intents with correlation and provenance.
+      - Define consumption of customer-specific communication context without moving canonical customer profile, commercial policy or analytics into Telegram.
+      - Define bounded clarification and structured Order Draft interaction using canonical Library/Calculator/domain constraints.
+      - Define deterministic-to-context-to-AI-to-human escalation with replaceable model/provider slots and progress/contradiction based escalation.
+      - Define Telegram consumption of historical customer asset retrieval results without live archive scanning or asset-index ownership.
+      - Define Telegram as a communication participant for durable long-running business processes while process state/timers/deadlines/transitions remain with the eventual canonical Process Manager owner.
+    planning_sources:
+      - coordination/internal_work/blueprint/evening_reviews/2026-09-19/forprint_evening_architecture_handoff_20260919_v0_1/02_evening_architecture_summary.md
+      - coordination/roadmaps/telegram_bot.yaml
+    dependencies_or_inputs:
+      - calculator_engine
+      - forprint_crm
+      - forprint_identity_access_service
+      - forprint_integration_gateway
+    human_control_surfaces:
+      - USER_FACING
+      - ADMIN_FACING
+    inventory_state: ACTIVE_HISTORY_NEW_EXECUTION_HELD
+    implementation_eligible_now: false
+    portfolio_gate: HOLD_UNTIL_PORTFOLIO_READINESS_BASELINE_COMPLETE
+    module_value_test: KEEP
+  forprint_operations_assistant:
+    strategic_priority: P1
+    role: Low-friction human entry point for guided operational and bounded technical assistance.
+    target_state:
+      agreed_or_recovered:
+        - Procedures/guided forms/Job Ticket assistance/physical observations.
+        - Operations Assistant is a human entry surface and may route technical requests to SysAdmin without becoming technical-system authority.
+      synthetic_or_proposed:
+        - Role-aware training, visual SOPs, reprint/exception capture, bounded operational AI.
+        - Mature capability may support voice/mobile/Telegram entry, fuzzy intent resolution, role-aware SOPs and bounded tool invocation.
+    full_horizon_steps:
+      - Reconcile shop-floor assistant, SOP, guided form, Job Ticket and technical-help entry responsibilities.
+      - Confirm Operations Assistant owns interaction context, not operational/order/accounting/technical platform truth.
+      - Define role-aware guided forms, SOP discovery and visual instruction flows.
+      - Define voice/mobile/Telegram entry as optional interfaces to the same bounded interaction model.
+      - Define fuzzy intent/entity resolution with deterministic confirmation before sensitive action.
+      - Define routing of technical requests to SysAdmin capabilities and business requests to domain owners.
+      - Define IAM-aware capability checks and Execution Policy Gate before any tool side effect.
+      - Define low-friction reprint/exception/observation capture with provenance.
+      - Define bounded operational AI with repeat/hop/budget/manual-review limits.
+      - Keep autonomous high-impact action disabled until Verification Lab and portfolio gates pass.
+    dependencies_or_inputs:
+      - forprint_library
+      - forprint_operations_control_registry
+      - forprint_identity_access_service
+      - forprint_system_administration
+    human_control_surfaces:
+      - OPERATOR_FACING
+    inventory_state: FIRST_PASS_DIRECTION_RECORDED
+    implementation_eligible_now: false
+    portfolio_gate: HOLD_UNTIL_PORTFOLIO_READINESS_BASELINE_COMPLETE
+    module_value_test: KEEP
+  forprint_system_administration:
+    strategic_priority: P1
+    role: Recovery-first technical operations, device, endpoint, data-platform, secrets and offline-continuity administration.
+    target_state:
+      agreed_or_recovered:
+        - Workstation/admin surface plus physical PostgreSQL and secrets-platform operations.
+        - SysAdmin is the recovery-first technical operations helper and may integrate with voice/mobile/Telegram through bounded interfaces.
+      synthetic_or_proposed:
+        - Fleet onboarding, device capability inventory, backup/PITR, health and operational-readiness gates.
+        - Mature SysAdmin should manage known-good endpoint state, software/driver lifecycle, recovery artifacts, diagnostics and bounded technical actions with offline continuity.
+    full_horizon_steps:
+      - Reconcile device, endpoint, PostgreSQL, secrets, backup and recovery responsibilities into one technical-operations boundary.
+      - Confirm SysAdmin owns technical platform/device administration but not business workflow or domain semantics.
+      - Define stable device inventory, discovery and capability evidence distinct from concrete job assignment.
+      - Define known-good workstation/device configuration profiles and drift evidence.
+      - Define corporate software/workspace/plugin deployment packs while domain owners retain semantic ownership of business resources.
+      - Define stable/pinned driver lifecycle, rollback and compatibility evidence rather than uncontrolled latest-driver upgrades.
+      - Define recovery images/snapshots, offline artifact bank and restore procedures with measurable evidence.
+      - Integrate Operations Assistant/voice/Telegram as human entry surfaces to bounded SysAdmin capabilities.
+      - Define diagnostics and approved-manual troubleshooting with no invented repair procedures or arbitrary shell authority.
+      - Hold broad autonomous IT actions until IAM, Execution Policy Gate, Verification Lab and operator approval criteria are satisfied.
+    dependencies_or_inputs:
+      - cloud_backup_manager
+      - forprint_project_inspector
+      - forprint_operations_assistant
+      - forprint_identity_access_service
+    human_control_surfaces:
+      - ADMIN_FACING
+      - DEVELOPER_AUDIT
+    inventory_state: FIRST_PASS_DIRECTION_RECORDED
+    implementation_eligible_now: false
+    portfolio_gate: HOLD_UNTIL_PORTFOLIO_READINESS_BASELINE_COMPLETE
+    module_value_test: KEEP
+  forprint_integration_gateway:
+    strategic_priority: P2
+    role: Narrow-waist transport, schema/version routing, idempotency, correlation and delivery-state boundary.
+    target_state:
+      agreed_or_recovered:
+        - Routes/validates ACTIVE contracts without business ownership.
+        - Gateway owns transport/contract mechanics, not domain truth or business decisions.
+        - >-
+          Gateway delivery state, retry, queue and dead-letter handling remain transport mechanics and must not become durable business Process Manager state.
+      synthetic_or_proposed:
+        - Delivery ledger, observability and scalable routing when runtime need justifies activation.
+        - Mature Gateway should expose explicit queue/busy/retry/degraded outcomes, backpressure, deadlines, circuit breaking and dead-letter evidence.
+    full_horizon_steps:
+      - Reconcile Gateway as narrow-waist transport and contract-validation infrastructure only.
+      - Confirm no domain truth, pricing, customer, accounting or workflow-decision ownership.
+      - Bind routing to supported Contract Registry revisions and reject unsupported revisions deterministically.
+      - Define request envelopes, idempotency keys, correlation/causation and persistent delivery-state ledger semantics.
+      - Define shared outcomes OK/QUEUED/BUSY_RETRYABLE/TEMPORARILY_UNAVAILABLE/TIMEOUT/CONFLICT/NOT_FOUND/PERMISSION_DENIED/FAILED_PERMANENT.
+      - Define WAITING_RESOURCE/WAITING_EXTERNAL_DEPENDENCY/RETRY_SCHEDULED and distinguish temporary unavailability from not-found.
+      - Define bounded retries, exponential backoff, deadlines/TTL, circuit breaker, dead-letter and manual-review escalation.
+      - Define backpressure/resource-queue behavior while domain owners retain transactional concurrency decisions.
+      - Define observability projections without becoming operational event truth.
+      - Remain PAUSED until concrete runtime traffic and portfolio approval demonstrate shared Gateway value.
+      - >-
+        Define transport correlation between Gateway delivery attempts and Process Manager process/event identities without merging their state machines.
+      - >-
+        Keep Gateway retry/dead-letter decisions transport-scoped while business waiting, deadline and escalation truth remains in the hosted Process Manager capability.
+    dependencies_or_inputs:
+      - forprint_contract_registry
+      - forprint_operations_control_registry
+      - forprint_identity_access_service
+    human_control_surfaces:
+      - DEVELOPER_AUDIT
+      - ADMIN_FACING
+    inventory_state: PAUSED_UNTIL_RUNTIME_NEED
+    implementation_eligible_now: false
+    portfolio_gate: HOLD_UNTIL_PORTFOLIO_READINESS_BASELINE_COMPLETE
+    module_value_test: KEEP
+  website:
+    strategic_priority: P2
+    role: Public web presence, SEO entry point and conversion router; not a business-truth owner.
+    target_state:
+      agreed_or_recovered:
+        - Must not duplicate Calculator/catalog/order truth; legacy surface needs controlled reconciliation.
+        - Website is the public façade and SEO entry point, not authentication, pricing, payment, cart or canonical order truth.
+      synthetic_or_proposed:
+        - Modern self-service, account/order/calculation/files/payment/delivery views.
+        - Mature public web should maximize organic discovery and route customers into shared Calculator and Customer Portal/domain workflows.
+    full_horizon_steps:
+      - Reconcile Website strictly as public façade, SEO entry point and service discovery surface.
+      - Confirm Website owns no authentication, price truth, payment truth, basket truth or canonical order state.
+      - Define explicit routing from public service/product pages into Calculator, design tools and Customer Portal workflows.
+      - Define crawl/index hygiene, canonical URLs, sitemap, robots and structured-data rules.
+      - Define mobile-first performance and Core Web Vitals targets without duplicating native-app functionality.
+      - Define service/product landing semantics from Library/Calculator truth with no local shadow catalog.
+      - Define Search Console, analytics, conversion and query-to-order measurement with privacy-aware evidence.
+      - Plan content freshness, internal linking and authority-building as governed marketing/website collaboration.
+      - Plan organic-query → landing → calculation → customer-workflow optimization with measurable funnel evidence.
+      - Keep business logic external and implementation deferred until required shared contracts are portfolio-ready.
+    dependencies_or_inputs:
+      - calculator_engine
+      - forprint_library
+      - forprint_crm
+    human_control_surfaces:
+      - USER_FACING
+    inventory_state: FIRST_PASS_DIRECTION_RECORDED
+    implementation_eligible_now: false
+    portfolio_gate: HOLD_UNTIL_PORTFOLIO_READINESS_BASELINE_COMPLETE
+    module_value_test: KEEP
+  mobile_app:
+    strategic_priority: P2
+    role: Deferred native mobile customer/staff channel that reuses shared domain contracts.
+    target_state:
+      agreed_or_recovered:
+        - Deferred until Calculator/Identity/API contracts mature.
+        - Native mobile implementation remains paused until customer scale and native-only value justify it.
+      synthetic_or_proposed:
+        - Secure mobile self-service over the same domain contracts as web.
+        - Mature native app may provide fast calculation, orders, push, camera/QR and offline non-authoritative cache over shared APIs.
+    full_horizon_steps:
+      - Keep Mobile App in PAUSED/PROPOSED planning state and define measurable activation triggers.
+      - Use responsive/mobile-first web and shared Customer Portal capabilities as the present customer-mobile baseline.
+      - Define future native client as a channel only, with no local domain-truth ownership.
+      - Define IAM/session/device security and shared selected business-context behavior before native implementation.
+      - Plan fast Calculator and basket/order composition over the same contracts used by web.
+      - Define offline cache/estimate behavior as non-authoritative and requiring server revalidation before commitment.
+      - Plan push notifications and customer confirmations through audited shared messaging/event contracts.
+      - Plan camera, QR and file-upload capabilities without making QR a permission mechanism.
+      - Plan unified conversation/history through shared CRM/communication services rather than mobile-only shadow state.
+      - Authorize native implementation only after usage, client-base and native-value evidence clears the portfolio gate.
+    dependencies_or_inputs:
+      - calculator_engine
+      - forprint_crm
+      - forprint_identity_access_service
+      - forprint_library
+    human_control_surfaces:
+      - USER_FACING
+    inventory_state: DEFERRED
+    implementation_eligible_now: false
+    portfolio_gate: HOLD_UNTIL_PORTFOLIO_READINESS_BASELINE_COMPLETE
+    module_value_test: KEEP
+  forprint_marketing_orchestrator:
+    strategic_priority: P3
+    role: Brand, campaign and content operations orchestration with human-governed publication.
+    target_state:
+      agreed_or_recovered:
+        - Campaign/content planning and human-reviewed publication without becoming CRM.
+        - Marketing Orchestrator is a distinct Brand & Content Operations capability, not merely a post generator and not CRM/customer truth.
+      synthetic_or_proposed:
+        - Multi-channel automation, AI creative routing, cost/performance learning and lead handoff.
+        - Mature capability may orchestrate cross-channel campaigns, AI creative routing, brand-character consistency, reuse, analytics and bounded low-risk auto-publication.
+    full_horizon_steps:
+      - Reconcile Marketing Orchestrator as brand/content operations distinct from CRM and Website ownership.
+      - Confirm product/customer/accounting truth always comes from domain owners.
+      - Define brand system, tone, visual rules and Brand Character Bible for persistent mascot/spokescharacter consistency.
+      - Define website visual/content audit and handoff with Website/Prepress/Library.
+      - Define multi-channel campaign plan, editorial calendar and reusable content asset lifecycle.
+      - Define short-form image/video/content generation with provider abstraction, centralized secrets and cost budgets.
+      - Define publication maturity DRAFT_ONLY → HUMAN_APPROVAL_REQUIRED → bounded low-risk auto-publish.
+      - Define provenance, rollback and audit for all external publication.
+      - Define campaign performance learning as advisory proposals and CRM lead/conversion handoff without duplicate customer history.
+      - Remain non-blocking/future until core operations mature and operator explicitly approves activation.
+    dependencies_or_inputs:
+      - forprint_crm
+      - website
+      - forprint_library
+      - forprint_accounting_registry_service
+    human_control_surfaces:
+      - OPERATOR_FACING
+      - ADMIN_FACING
+    inventory_state: NON_BLOCKING_FUTURE
+    implementation_eligible_now: false
+    portfolio_gate: HOLD_UNTIL_PORTFOLIO_READINESS_BASELINE_COMPLETE
+    module_value_test: KEEP
+  forprint_strategic_control_plane:
+    strategic_priority: P3
+    role: Long-horizon business decision intelligence, scenario analysis and strategy-memory plane.
+    target_state:
+      agreed_or_recovered:
+        - Tracks goals/priorities and challenges stale direction without overriding Blueprint/operator.
+        - Strategic Control Plane supports long-horizon quantified human decisions rather than acting as an autonomous strategic executor.
+      synthetic_or_proposed:
+        - Scenario analysis, strategic KPI aggregation and advisory loops.
+        - Mature capability should maintain strategic objectives/KPIs, economics/capacity/market intelligence, scenarios, investment cases and forecast→decision→actual memory.
+    full_horizon_steps:
+      - Reconcile Strategic Control Plane as decision intelligence, not dashboard duplication or operational control.
+      - Confirm strategic recommendations remain human decisions and do not directly mutate operational truth.
+      - Define strategic objectives registry and structured KPI catalog with provenance.
+      - Define product/customer economics, capacity, bottleneck and investment evidence inputs from domain owners.
+      - Define external market/search/competitor intelligence as sourced evidence, never invented fact.
+      - Define scenario engine with assumptions, uncertainty, risk and sensitivity.
+      - Define investment cases and measurable expected return/capacity/quality effects.
+      - Define strategy memory linking forecast → recommendation → human decision → actual outcome.
+      - Define monthly refresh, quarterly deep review, annual rebaseline and event-triggered recalculation cadence.
+      - Keep autonomous execution forbidden; mature output is quantified options and evidence for operator decisions.
+    dependencies_or_inputs:
+      - forprint_crm
+      - forprint_accounting_registry_service
+      - forprint_operations_control_registry
+      - warehouse_service
+      - production_runtime_inspector
+    human_control_surfaces:
+      - ADMIN_FACING
+      - DEVELOPER_AUDIT
+    inventory_state: NON_BLOCKING_FUTURE
+    implementation_eligible_now: false
+    portfolio_gate: HOLD_UNTIL_PORTFOLIO_READINESS_BASELINE_COMPLETE
+    module_value_test: KEEP
+  cloud_backup_manager:
+    strategic_priority: SUPPORT
+    role: Off-site backup, controlled one-way corporate-resource replication and recovery-evidence support service.
+    target_state:
+      agreed_or_recovered:
+        - Backup/health support; UI reference shell candidate.
+        - Cloud Backup Manager covers off-site backup, controlled one-way corporate-resource replication and retention/integrity/recovery evidence.
+      synthetic_or_proposed:
+        - Possible absorption into System Administration if lifecycle evidence justifies it.
+        - Mature backup operation should be provider-neutral, encrypted, checksum-verified, restore-tested and resilient to temporary network loss.
+    full_horizon_steps:
+      - Reconcile implemented backup utility capabilities and exact overlap with SysAdmin platform operations.
+      - Confirm Cloud Backup Manager owns backup/replication jobs and recovery evidence, not business data semantics.
+      - Define domain-owned prepared-artifact backup inputs with explicit source ownership and provenance.
+      - Define one canonical publisher → many consumers replication for approved corporate resources without overwriting user areas.
+      - Define retention, versioning/immutability options, encryption, checksum and centralized secret requirements.
+      - Define RPO/RTO objectives and periodic restore verification as first-class acceptance evidence.
+      - Define provider abstraction, quota/health reporting and safe credential rotation boundaries.
+      - Define persistent offline queue/retry so temporary internet loss becomes WAITING/RETRY, never silent loss.
+      - Define bandwidth scheduling, retry backoff, alerts and degraded-mode behavior.
+      - Reassess KEEP versus merge into SysAdmin only after capability overlap and migration evidence are explicit.
+    dependencies_or_inputs:
+      - forprint_system_administration
+      - forprint_library
+    human_control_surfaces:
+      - ADMIN_FACING
+    inventory_state: IMPLEMENTED_SUPPORT_MODULE
+    implementation_eligible_now: false
+    portfolio_gate: HOLD_UNTIL_PORTFOLIO_READINESS_BASELINE_COMPLETE
+    module_value_test: KEEP
+  verification_lab:
+    strategic_priority: P0
+    role: Independent verification, adversarial testing, fault-injection and deterministic regression evidence module.
+    target_state:
+      agreed_or_recovered:
+        - Detects drift/contradictions/ownership violations; never invents domain truth.
+        - Verification Lab is a distinct canonical module that intentionally tries to prove the system wrong before customers or incidents do.
+      synthetic_or_proposed:
+        - Self-inventory health, duplicate-capability detection, UI conformance, bounded semantic review.
+        - Mature Verification Lab should support black/gray/white-box Test Plane campaigns, adversarial/fault/concurrency testing, deterministic regression and release-gate evidence with synthetic side effects only.
+    full_horizon_steps:
+      - Establish Verification Lab canonical identity, charter and strict separation from Project Inspector and Runtime Inspector.
+      - Define BLACK_BOX, GRAY_BOX and WHITE_BOX read-only diagnostic modes and their evidence boundaries.
+      - Define Test Plane isolation with fake/synthetic payment, courier, printer, email, cloud, Telegram and database side effects.
+      - Define normal/invalid/boundary/malformed/combinatorial/multilingual/out-of-domain/auth/data-isolation test taxonomy.
+      - Define prompt-adversarial, tool-misuse, state-machine, concurrency, idempotency, stale-cache and schema-fuzz campaigns.
+      - Define fault/recovery, timeout, unavailable-resource, retry/dead-letter, load/performance and cost-regression campaigns.
+      - Convert useful AI-discovered failures into owner-confirmed deterministic regression corpus rather than permanent stochastic-only tests.
+      - Define change-triggered, nightly, weekly, manual, pre-release and post-release verification campaign policy.
+      - Define trace-aware evaluation of intermediate contract/tool/state behavior, not only final user-visible answer.
+      - Remain planning-only until Test Plane, Execution Policy Gate, IAM and explicit operator distribution/implementation approval are ready.
+    dependencies_or_inputs:
+      - forprint_system_blueprint
+      - forprint_contract_registry
+      - forprint_project_inspector
+      - forprint_system_administration
+    human_control_surfaces:
+      - DEVELOPER_AUDIT
+      - ADMIN_FACING
+    inventory_state: CONFIRMED_NEW_MODULE_NOT_IMPLEMENTED
+    implementation_eligible_now: false
+    portfolio_gate: HOLD_UNTIL_PORTFOLIO_READINESS_BASELINE_COMPLETE
+    module_value_test: KEEP
+proposed_noncanonical_modules:
+  forprint_semantic_retrieval_service:
+    status: PROPOSED_ONLY_NOT_CANONICAL_MODULE_ID
+    module_value_test: REVIEW_BEFORE_PROMOTION

@@ -1,0 +1,2963 @@
+schema_version: forprint_portfolio_module_roadmap_approval_matrix_v0_1
+date: '2026-09-01'
+status: ACTIVE_INTERNAL_PORTFOLIO_ANALYSIS
+authority: planning_projection_not_release_or_execution_authority
+distribution_gate:
+  state: CLOSED
+  assistant_contact_allowed: false
+  assistant_task_distribution_allowed: false
+  prompt_activation_allowed: false
+  module_implementation_allowed: false
+  reopen_requires:
+    - portfolio analysis complete
+    - module roadmaps reviewed
+    - dependency/readiness balance reviewed
+    - semantic conflicts dispositioned
+    - explicit operator approval
+    - AI Execution Safety & Runtime Governance gate reviewed for assistant launch
+  ai_execution_safety_runtime_governance_state: PLANNING_REQUIRED_NOT_IMPLEMENTED
+approval_legend:
+  AGREED_PLANNING_DIRECTION: Direction is established for planning only.
+  AGREED_OR_RECOVERED_TARGET: Grounded in existing agreed/recovered target evidence.
+  PROPOSED_TARGET_REFINEMENT: Blueprint synthesis for mature-state completeness; owner review required.
+  HOLD_FOR_FINAL_PORTFOLIO_APPROVAL: Stop before any assistant distribution or execution.
+  REVIEW_ONLY_PROPOSED_NONCANONICAL: Not canonical and not executable.
+operator_decision:
+  summary: First absorb all morning/evening information into Blueprint, deepen roadmaps and portfolio, finish analysis, then distribute tasks later.
+  verbatim_quote: поки що ми нічого помічникам не даємо мені саме головне зафіксувати всі домовленості в нашому особистому проекті і розписати погодження кроків по родмап для помічників поки що помічників ми не чіпаємо ми тільки наповнюємо дорожні карти і оформлюємо скажімо так портфоліо і ну скажімо робимо розуміння нашого проекту більш глибше поки що нікого не запускаємо в роботу
+modules:
+  calculator_engine:
+    identity_state: CANONICAL
+    strategic_priority: P0
+    role: Canonical production calculation, quote-item semantics and production-filename interpretation engine.
+    module_value_test: KEEP
+    inventory_state: OWNER_DIRECTION_CLEAR_DEEP_INVENTORY_REQUIRED
+    dependencies_or_inputs:
+      - forprint_library
+      - forprint_contract_registry
+      - forprint_prepress_hub
+      - warehouse_service
+    owns:
+      - calculation_logic
+      - calculation_output_package
+      - quote_draft
+      - order_draft
+      - price_breakdown
+      - material_consumption_estimate
+      - calculation_warnings
+    must_not_own:
+      - canonical_client_registry
+      - canonical_order_registry
+      - canonical_catalog_truth
+      - accounting_truth
+      - one_c_synchronization
+      - warehouse_stock_truth
+      - prepress_lifecycle
+      - crm_workflow
+    target_state:
+      agreed_or_recovered:
+        - Calculation/quote/order drafts, price/material/time estimates, early visual configuration, exact reference set recovered.
+        - Calculator owns calculated quote/item semantics and production filename interpretation, not the whole customer basket or order.
+      synthetic_or_proposed:
+        - Reusable constructor family, outsourcing decisions and partner-adapter integration.
+        - Mature Calculator should expose deterministic contracts, offline estimate rules with revalidation and Verification Lab regression surfaces.
+    roadmap_status: PLANNING_ONLY_NOT_DISTRIBUTED
+    steps:
+      - sequence: 1
+        step_id: CALCULATOR_ENGINE-H01
+        title: Preserve Calculator ownership of calculation, quote-item and production-filename semantics.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 2
+        step_id: CALCULATOR_ENGINE-H02
+        title: Keep Library as vocabulary/profile source and avoid local shadow aliases/defaults.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 3
+        step_id: CALCULATOR_ENGINE-H03
+        title: Separate calculated item/quote from CRM basket/checkout and OCR canonical operational order state.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 4
+        step_id: CALCULATOR_ENGINE-H04
+        title: Define stable request/result contracts with provenance, assumptions and deterministic rounding rules.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 5
+        step_id: CALCULATOR_ENGINE-H05
+        title: Define offline estimate behavior where allowed and mandatory server/current-norm revalidation before commitment.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 6
+        step_id: CALCULATOR_ENGINE-H06
+        title: Define deterministic filename correction only for unambiguous cases and retain source/provenance.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 7
+        step_id: CALCULATOR_ENGINE-H07
+        title: Define Prepress capability/probe handoff without Calculator owning file-repair execution.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 8
+        step_id: CALCULATOR_ENGINE-H08
+        title: Provide deterministic fixtures and boundary cases to Verification Lab for regression.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 9
+        step_id: CALCULATOR_ENGINE-H09
+        title: Use Runtime Inspector actuals only as proposal evidence for norm changes, never silent rewrite.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 10
+        step_id: CALCULATOR_ENGINE-H10
+        title: Hold broader automation until Library/Contract Registry/consumer adoption evidence is portfolio-ready.
+        approval_state: HOLD_FOR_FINAL_PORTFOLIO_APPROVAL
+        source_basis: operator_distribution_gate
+        execution_authority: false
+        dependency_gate: []
+  cloud_backup_manager:
+    identity_state: CANONICAL
+    strategic_priority: SUPPORT
+    role: Off-site backup, controlled one-way corporate-resource replication and recovery-evidence support service.
+    module_value_test: REVIEW_MERGE_LATER
+    inventory_state: IMPLEMENTED_SUPPORT_MODULE
+    dependencies_or_inputs:
+      - forprint_system_administration
+      - forprint_library
+    owns:
+      - backup_jobs
+      - backup_targets
+      - backup_sources
+      - backup_health_reports
+    must_not_own:
+      - business_workflow
+      - client_registry
+      - order_registry
+      - accounting_truth
+      - catalog_truth
+    target_state:
+      agreed_or_recovered:
+        - Backup/health support; UI reference shell candidate.
+        - Cloud Backup Manager covers off-site backup, controlled one-way corporate-resource replication and retention/integrity/recovery evidence.
+      synthetic_or_proposed:
+        - Possible absorption into System Administration if lifecycle evidence justifies it.
+        - Mature backup operation should be provider-neutral, encrypted, checksum-verified, restore-tested and resilient to temporary network loss.
+    roadmap_status: PLANNING_ONLY_NOT_DISTRIBUTED
+    steps:
+      - sequence: 1
+        step_id: CLOUD_BACKUP_MANAGER-H01
+        title: Reconcile implemented backup utility capabilities and exact overlap with SysAdmin platform operations.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 2
+        step_id: CLOUD_BACKUP_MANAGER-H02
+        title: Confirm Cloud Backup Manager owns backup/replication jobs and recovery evidence, not business data semantics.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 3
+        step_id: CLOUD_BACKUP_MANAGER-H03
+        title: Define domain-owned prepared-artifact backup inputs with explicit source ownership and provenance.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 4
+        step_id: CLOUD_BACKUP_MANAGER-H04
+        title: Define one canonical publisher → many consumers replication for approved corporate resources without overwriting user areas.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 5
+        step_id: CLOUD_BACKUP_MANAGER-H05
+        title: Define retention, versioning/immutability options, encryption, checksum and centralized secret requirements.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 6
+        step_id: CLOUD_BACKUP_MANAGER-H06
+        title: Define RPO/RTO objectives and periodic restore verification as first-class acceptance evidence.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 7
+        step_id: CLOUD_BACKUP_MANAGER-H07
+        title: Define provider abstraction, quota/health reporting and safe credential rotation boundaries.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 8
+        step_id: CLOUD_BACKUP_MANAGER-H08
+        title: Define persistent offline queue/retry so temporary internet loss becomes WAITING/RETRY, never silent loss.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 9
+        step_id: CLOUD_BACKUP_MANAGER-H09
+        title: Define bandwidth scheduling, retry backoff, alerts and degraded-mode behavior.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 10
+        step_id: CLOUD_BACKUP_MANAGER-H10
+        title: Reassess KEEP versus merge into SysAdmin only after capability overlap and migration evidence are explicit.
+        approval_state: HOLD_FOR_FINAL_PORTFOLIO_APPROVAL
+        source_basis: operator_distribution_gate
+        execution_authority: false
+        dependency_gate: []
+  forprint_accounting_registry_service:
+    identity_state: CANONICAL
+    strategic_priority: P0
+    role: Operational/commercial accounting registry and 1C compatibility boundary
+    module_value_test: KEEP
+    inventory_state: OWNER_DIRECTION_CLEAR_DECOMPOSITION_REQUIRED
+    dependencies_or_inputs: &id001
+      - forprint_operations_control_registry
+      - forprint_library
+      - warehouse_service
+      - calculator_engine
+    owns:
+      - accounting_references
+      - one_c_raw_snapshot
+      - one_c_staging_record
+      - one_c_mapping_record
+      - import_job
+      - export_job
+      - reconciliation_job
+      - sandbox_one_c_io
+    must_not_own:
+      - operational_client_registry
+      - operational_order_registry
+      - canonical_catalog_truth
+      - crm_workflow
+      - calculator_logic
+      - warehouse_stock_truth
+    target_state:
+      agreed_or_recovered:
+        - Invoices/payments/accounting documents/reconciliation/1C staging; supplier-document automation.
+      synthetic_or_proposed:
+        - Management accounting, settlements, safe conditional mandates and mature 1C exchange.
+    roadmap_status: PLANNING_ONLY_NOT_DISTRIBUTED
+    steps:
+      - sequence: 1
+        step_id: FORPRINT_ACCOUNTING_REGISTRY_SERVICE-H01
+        title: Reconcile current accounting registry, 1C staging, document and supplier-automation evidence.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: current_evidence_reconciliation
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 2
+        step_id: FORPRINT_ACCOUNTING_REGISTRY_SERVICE-H02
+        title: Confirm accounting ownership of accounting references/documents/reconciliation while excluding operational order and catalog truth.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: ownership_and_role_boundary
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 3
+        step_id: FORPRINT_ACCOUNTING_REGISTRY_SERVICE-H03
+        title: Complete self-inventory for 1C snapshots, mappings, import/export/reconciliation jobs and accounting documents.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: self_inventory_requirement
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 4
+        step_id: FORPRINT_ACCOUNTING_REGISTRY_SERVICE-H04
+        title: Define billing/customer/responsibility contexts and prevent proof/sample classifications from implying payment semantics.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: dependency_and_contract_planning
+        execution_authority: false
+        dependency_gate: *id001
+      - sequence: 5
+        step_id: FORPRINT_ACCOUNTING_REGISTRY_SERVICE-H05
+        title: Define rounding, totals, taxes/fees and reconciliation boundaries so accounting never silently changes Calculator semantics.
+        approval_state: AGREED_OR_RECOVERED_TARGET
+        source_basis: agreed_or_recovered_target_state
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 6
+        step_id: FORPRINT_ACCOUNTING_REGISTRY_SERVICE-H06
+        title: Plan supplier-document parsing into reviewable staging rather than direct authoritative posting.
+        approval_state: AGREED_OR_RECOVERED_TARGET
+        source_basis: agreed_or_recovered_target_state
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 7
+        step_id: FORPRINT_ACCOUNTING_REGISTRY_SERVICE-H07
+        title: Define payment/reconciliation views and safe conditional mandates with explicit approval and audit boundaries.
+        approval_state: AGREED_OR_RECOVERED_TARGET
+        source_basis: agreed_or_recovered_target_state
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 8
+        step_id: FORPRINT_ACCOUNTING_REGISTRY_SERVICE-H08
+        title: Define management-accounting and settlement projections while preserving operational/accounting truth separation.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: proposed_mature_target
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 9
+        step_id: FORPRINT_ACCOUNTING_REGISTRY_SERVICE-H09
+        title: Plan mature 1C exchange, failure recovery and evidence without allowing 1C compatibility to dominate internal architecture.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: proposed_mature_target
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 10
+        step_id: FORPRINT_ACCOUNTING_REGISTRY_SERVICE-H10
+        title: Hold automation expansion until operational, warehouse, calculator and identity dependencies are contractually ready.
+        approval_state: HOLD_FOR_FINAL_PORTFOLIO_APPROVAL
+        source_basis: operator_distribution_gate
+        execution_authority: false
+        dependency_gate: *id001
+  forprint_contract_registry:
+    identity_state: CANONICAL
+    strategic_priority: P0
+    role: Versioned inter-module contract lifecycle registry
+    module_value_test: KEEP
+    inventory_state: DIRECTION_CLEAR_FOUNDATION_PENDING
+    dependencies_or_inputs: &id002
+      - forprint_system_blueprint
+      - forprint_project_inspector
+    owns:
+      - inter_module_contract_registry
+      - contract_manifest_schema
+      - contract_id_namespace
+      - interface_contract_version_history
+      - producer_consumer_registration
+      - contract_lifecycle_metadata
+      - contract_compatibility_baselines
+      - contract_compatibility_results
+      - contract_examples_and_fixtures
+      - contract_release_metadata
+      - contract_deprecation_and_migration_metadata
+      - generated_read_only_contract_catalog
+    must_not_own:
+      - business_workflow_decisions
+      - runtime_request_routing
+      - runtime_transport_execution
+      - catalog_business_semantics
+      - product_or_material_definitions
+      - pricing_logic
+      - module_internal_data_models
+      - operational_data_truth
+      - prompt_governance
+      - project_priority_decisions
+    target_state:
+      agreed_or_recovered:
+        - Contract manifests/revisions/compatibility/adoption; first pilot Calculator Job Specification -> OCR.
+      synthetic_or_proposed:
+        - Generated projections, migration/deprecation automation and compatibility view after proven pilots.
+    roadmap_status: PLANNING_ONLY_NOT_DISTRIBUTED
+    steps:
+      - sequence: 1
+        step_id: FORPRINT_CONTRACT_REGISTRY-H01
+        title: Reconcile existing contract concepts, manifests, lifecycle states and governance references.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: current_evidence_reconciliation
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 2
+        step_id: FORPRINT_CONTRACT_REGISTRY-H02
+        title: Confirm Contract Registry as lifecycle/compatibility authority, not business semantics or runtime routing authority.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: ownership_and_role_boundary
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 3
+        step_id: FORPRINT_CONTRACT_REGISTRY-H03
+        title: Complete self-inventory for contract IDs, revisions, producer/consumer registration, fixtures and compatibility evidence.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: self_inventory_requirement
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 4
+        step_id: FORPRINT_CONTRACT_REGISTRY-H04
+        title: Finalize lifecycle states and the rule that breaking revisions cannot become ACTIVE before mandatory consumers support them.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: dependency_and_contract_planning
+        execution_authority: false
+        dependency_gate: *id002
+      - sequence: 5
+        step_id: FORPRINT_CONTRACT_REGISTRY-H05
+        title: Use Calculator Job Specification to OCR/Prepress as the first full contract-lifecycle planning pilot.
+        approval_state: AGREED_OR_RECOVERED_TARGET
+        source_basis: agreed_or_recovered_target_state
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 6
+        step_id: FORPRINT_CONTRACT_REGISTRY-H06
+        title: Define adoption matrix, compatibility checks, migration metadata and Inspector evidence expectations.
+        approval_state: AGREED_OR_RECOVERED_TARGET
+        source_basis: agreed_or_recovered_target_state
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 7
+        step_id: FORPRINT_CONTRACT_REGISTRY-H07
+        title: Define deprecation, supported-legacy, revoked and retired handling with explicit operator/governance boundaries.
+        approval_state: AGREED_OR_RECOVERED_TARGET
+        source_basis: agreed_or_recovered_target_state
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 8
+        step_id: FORPRINT_CONTRACT_REGISTRY-H08
+        title: Plan generated read-only contract catalogs and projections without creating a second semantic source of truth.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: proposed_mature_target
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 9
+        step_id: FORPRINT_CONTRACT_REGISTRY-H09
+        title: Define Integration Gateway consumption of ACTIVE contracts only and prevent unilateral activation by producers or consumers.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: proposed_mature_target
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 10
+        step_id: FORPRINT_CONTRACT_REGISTRY-H10
+        title: Hold runtime activation until pilot evidence and portfolio dependency gates are explicitly approved.
+        approval_state: HOLD_FOR_FINAL_PORTFOLIO_APPROVAL
+        source_basis: operator_distribution_gate
+        execution_authority: false
+        dependency_gate: *id002
+  forprint_crm:
+    identity_state: CANONICAL
+    strategic_priority: P1
+    role: Business workflow coordinator, Customer Portal composition layer and cross-domain human workspace.
+    module_value_test: KEEP
+    inventory_state: FIRST_PASS_PLUS_NEW_OWNER_DIRECTION
+    dependencies_or_inputs:
+      - forprint_operations_control_registry
+      - calculator_engine
+      - forprint_accounting_registry_service
+      - warehouse_service
+      - logistics_service
+      - forprint_identity_access_service
+    owns:
+      - human_dashboard
+      - workflow_coordination_ui
+      - operator_decision_views
+      - analytics_views
+      - composite_cross_module_workflow_ui
+      - configurable_operational_dashboards
+      - cross_module_read_projections
+      - variance_and_exception_views
+    must_not_own:
+      - internal_forprint_db
+      - canonical_client_registry
+      - calculator_logic
+      - accounting_truth
+      - catalog_truth
+      - foreign_domain_write_authority
+      - physical_persistence_platform
+    target_state:
+      agreed_or_recovered:
+        - Owner-data aggregation without foreign-data ownership; dashboards/wallboards; composite workflows.
+        - CRM may compose Customer Portal and basket/checkout workflow while domain-owned semantics remain with their actual owners.
+      synthetic_or_proposed:
+        - Customer/Supplier 360, universal search, saved role views, activity timeline, exception center.
+        - Mature CRM should provide customer/supplier 360, exception/task workspaces, universal search, timeline and cross-domain projections without absorbing foreign truth.
+    roadmap_status: PLANNING_ONLY_NOT_DISTRIBUTED
+    steps:
+      - sequence: 1
+        step_id: FORPRINT_CRM-H01
+        title: Reconcile CRM as business coordinator and human workspace rather than physical owner of all ForPrint data.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 2
+        step_id: FORPRINT_CRM-H02
+        title: Preserve person/organization/context semantics and phone as strong identifier/search aid, not immutable identity.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 3
+        step_id: FORPRINT_CRM-H03
+        title: Define Customer Portal composition with shared IAM and selected business context.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 4
+        step_id: FORPRINT_CRM-H04
+        title: Define basket/checkout orchestration around Calculator quote items without creating calculator or accounting truth.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 5
+        step_id: FORPRINT_CRM-H05
+        title: Define request/order handoff through Operations Control Registry with stable operational identifiers.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 6
+        step_id: FORPRINT_CRM-H06
+        title: Define payment/accounting/logistics/warehouse views through owner-provided projections and explicit provenance.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 7
+        step_id: FORPRINT_CRM-H07
+        title: Define Task/Case/Exception Center and role-specific workspaces as CRM-owned workflow composition.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 8
+        step_id: FORPRINT_CRM-H08
+        title: Define universal search/timeline/customer-supplier 360 over read models without cross-domain write ownership.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 9
+        step_id: FORPRINT_CRM-H09
+        title: Define analytics/variance views while strategic recommendation ownership remains with Strategic Control Plane.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 10
+        step_id: FORPRINT_CRM-H10
+        title: Keep cross-domain writes contract-bound and dependency-gated before assistant distribution.
+        approval_state: HOLD_FOR_FINAL_PORTFOLIO_APPROVAL
+        source_basis: operator_distribution_gate
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 11
+        step_id: FORPRINT_CRM-H11
+        title: >-
+          Define the CRM customer-intelligence model as separate Seed Profile, Observed Customer Model and Effective Policy layers without absorbing canonical client identity or foreign domain truth.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: operator_confirmed_evening_architecture_20260919
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 12
+        step_id: FORPRINT_CRM-H12
+        title: >-
+          Define manager-selectable Seed Profiles as bootstrap presets with explicit scope, version and provenance.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: operator_confirmed_evening_architecture_20260919
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 13
+        step_id: FORPRINT_CRM-H13
+        title: >-
+          Define the Observed Customer Model with evidence provenance, recency, confidence, domain-specific coverage and safe handling of insufficient evidence.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: operator_confirmed_evening_architecture_20260919
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 14
+        step_id: FORPRINT_CRM-H14
+        title: >-
+          Define Effective Policy composition so approved rules may consume customer-model evidence without silently expanding financial, commercial or operational authority.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: operator_confirmed_evening_architecture_20260919
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 15
+        step_id: FORPRINT_CRM-H15
+        title: >-
+          Implement baseline-to-shift semantics with exception, possible-shift, probable-shift and new-baseline states plus recency weighting, minimum evidence, hysteresis and contextual segmentation.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: operator_confirmed_evening_architecture_20260919
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 16
+        step_id: FORPRINT_CRM-H16
+        title: >-
+          Define multidimensional customer health and trajectory projections using owner-sourced payment, value, growth, margin, service-burden, clarity, dispute, stability and strategic-potential evidence.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: operator_confirmed_evening_architecture_20260919
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 17
+        step_id: FORPRINT_CRM-H17
+        title: >-
+          Define event-driven customer-model updates plus periodic reconciliation, freshness checks and explicit conflict/staleness handling.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: operator_confirmed_evening_architecture_20260919
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 18
+        step_id: FORPRINT_CRM-H18
+        title: >-
+          Define immutable profile/policy transition history, provenance and auditable human override before customer-specific policy automation is considered mature.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: operator_confirmed_evening_architecture_20260919
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 19
+        step_id: FORPRINT_CRM-H19
+        title: >-
+          Define CRM views for active processes, current step, blockers, waiting state, deadlines, escalations and next authorized actions from Process Manager projections.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: operator_confirmed_evening_architecture_20260919
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 20
+        step_id: FORPRINT_CRM-H20
+        title: >-
+          Define structured operator commands for clarification, acknowledgement, override request and authorized intervention without creating shadow workflow state.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: operator_confirmed_evening_architecture_20260919
+        execution_authority: false
+        dependency_gate: []
+  forprint_integration_gateway:
+    identity_state: CANONICAL
+    strategic_priority: P2
+    role: Narrow-waist transport, schema/version routing, idempotency, correlation and delivery-state boundary.
+    module_value_test: KEEP
+    inventory_state: PAUSED_UNTIL_RUNTIME_NEED
+    dependencies_or_inputs:
+      - forprint_contract_registry
+      - forprint_operations_control_registry
+      - forprint_identity_access_service
+    owns:
+      - integration_request_envelope
+      - integration_response_envelope
+      - routing_rule
+      - validation_error
+      - idempotency_boundary
+      - correlation_context
+    must_not_own:
+      - business_workflow_decisions
+      - client_registry
+      - order_registry
+      - catalog_truth
+      - accounting_truth
+      - crm_dashboard
+    target_state:
+      agreed_or_recovered:
+        - Routes/validates ACTIVE contracts without business ownership.
+        - Gateway owns transport/contract mechanics, not domain truth or business decisions.
+      synthetic_or_proposed:
+        - Delivery ledger, observability and scalable routing when runtime need justifies activation.
+        - Mature Gateway should expose explicit queue/busy/retry/degraded outcomes, backpressure, deadlines, circuit breaking and dead-letter evidence.
+    roadmap_status: PLANNING_ONLY_NOT_DISTRIBUTED
+    steps:
+      - sequence: 1
+        step_id: FORPRINT_INTEGRATION_GATEWAY-H01
+        title: Reconcile Gateway as narrow-waist transport and contract-validation infrastructure only.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 2
+        step_id: FORPRINT_INTEGRATION_GATEWAY-H02
+        title: Confirm no domain truth, pricing, customer, accounting or workflow-decision ownership.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 3
+        step_id: FORPRINT_INTEGRATION_GATEWAY-H03
+        title: Bind routing to supported Contract Registry revisions and reject unsupported revisions deterministically.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 4
+        step_id: FORPRINT_INTEGRATION_GATEWAY-H04
+        title: Define request envelopes, idempotency keys, correlation/causation and persistent delivery-state ledger semantics.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 5
+        step_id: FORPRINT_INTEGRATION_GATEWAY-H05
+        title: Define shared outcomes OK/QUEUED/BUSY_RETRYABLE/TEMPORARILY_UNAVAILABLE/TIMEOUT/CONFLICT/NOT_FOUND/PERMISSION_DENIED/FAILED_PERMANENT.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 6
+        step_id: FORPRINT_INTEGRATION_GATEWAY-H06
+        title: Define WAITING_RESOURCE/WAITING_EXTERNAL_DEPENDENCY/RETRY_SCHEDULED and distinguish temporary unavailability from not-found.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 7
+        step_id: FORPRINT_INTEGRATION_GATEWAY-H07
+        title: Define bounded retries, exponential backoff, deadlines/TTL, circuit breaker, dead-letter and manual-review escalation.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 8
+        step_id: FORPRINT_INTEGRATION_GATEWAY-H08
+        title: Define backpressure/resource-queue behavior while domain owners retain transactional concurrency decisions.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 9
+        step_id: FORPRINT_INTEGRATION_GATEWAY-H09
+        title: Define observability projections without becoming operational event truth.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 10
+        step_id: FORPRINT_INTEGRATION_GATEWAY-H10
+        title: Remain PAUSED until concrete runtime traffic and portfolio approval demonstrate shared Gateway value.
+        approval_state: HOLD_FOR_FINAL_PORTFOLIO_APPROVAL
+        source_basis: operator_distribution_gate
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 11
+        step_id: FORPRINT_INTEGRATION_GATEWAY-H11
+        title: >-
+          Define transport correlation between Gateway delivery attempts and Process Manager process/event identities without merging their state machines.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: operator_confirmed_evening_architecture_20260919
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 12
+        step_id: FORPRINT_INTEGRATION_GATEWAY-H12
+        title: >-
+          Keep Gateway retry/dead-letter decisions transport-scoped while business waiting, deadline and escalation truth remains in the hosted Process Manager capability.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: operator_confirmed_evening_architecture_20260919
+        execution_authority: false
+        dependency_gate: []
+  forprint_identity_access_service:
+    identity_state: CANONICAL
+    strategic_priority: P0
+    role: Shared identity/authentication/authorization/access service
+    module_value_test: KEEP
+    inventory_state: CONFIRMED_NEW_MODULE_NOT_IMPLEMENTED
+    dependencies_or_inputs: &id003
+      - forprint_operations_control_registry
+      - forprint_system_administration
+    owns:
+      - account_identity
+      - authentication_factors
+      - session_and_device_state
+      - role_and_permission_policy
+      - per_user_permission_override
+      - account_recovery
+      - access_decision_audit
+      - shared_sso_boundary
+      - security_authentication_audit
+    must_not_own:
+      - crm_relationship_truth
+      - accounting_truth
+      - operational_order_truth
+      - external_provider_credentials
+      - canonical_business_partner_relationship_truth
+      - business_domain_authority
+    target_state:
+      agreed_or_recovered:
+        - One shared identity/access capability; roles + user overrides; deny-by-default cross-client access.
+      synthetic_or_proposed:
+        - Sessions/devices/recovery/MFA/passkeys/SSO/admin access-review.
+    roadmap_status: PLANNING_ONLY_NOT_DISTRIBUTED
+    steps:
+      - sequence: 1
+        step_id: FORPRINT_IDENTITY_ACCESS_SERVICE-H01
+        title: Reconcile the new IAM concept against current module identity, CRM business-person and SysAdmin security boundaries.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: current_evidence_reconciliation
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 2
+        step_id: FORPRINT_IDENTITY_ACCESS_SERVICE-H02
+        title: Confirm ownership of technical accounts/auth/session/authorization while CRM retains business person/customer relationships.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: ownership_and_role_boundary
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 3
+        step_id: FORPRINT_IDENTITY_ACCESS_SERVICE-H03
+        title: Complete self-inventory for account IDs, sessions, devices, roles, permissions, overrides, recovery and audit.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: self_inventory_requirement
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 4
+        step_id: FORPRINT_IDENTITY_ACCESS_SERVICE-H04
+        title: Define account_id to CRM person_id linkage and separate selected business context from authenticated technical identity.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: dependency_and_contract_planning
+        execution_authority: false
+        dependency_gate: *id003
+      - sequence: 5
+        step_id: FORPRINT_IDENTITY_ACCESS_SERVICE-H05
+        title: Define deny-by-default authorization, role baselines and per-user overrides with auditable access decisions.
+        approval_state: AGREED_OR_RECOVERED_TARGET
+        source_basis: agreed_or_recovered_target_state
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 6
+        step_id: FORPRINT_IDENTITY_ACCESS_SERVICE-H06
+        title: Plan modern password hashing, MFA/passkeys, recovery and device/session controls.
+        approval_state: AGREED_OR_RECOVERED_TARGET
+        source_basis: agreed_or_recovered_target_state
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 7
+        step_id: FORPRINT_IDENTITY_ACCESS_SERVICE-H07
+        title: Define SSO/shared-client boundary for web, mobile, Telegram/admin clients without duplicating business context.
+        approval_state: AGREED_OR_RECOVERED_TARGET
+        source_basis: agreed_or_recovered_target_state
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 8
+        step_id: FORPRINT_IDENTITY_ACCESS_SERVICE-H08
+        title: Separate external partner credentials into centralized SysAdmin secrets infrastructure with least privilege and rotation.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: proposed_mature_target
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 9
+        step_id: FORPRINT_IDENTITY_ACCESS_SERVICE-H09
+        title: Define admin access-review UI, security audit evidence and revocation/recovery procedures.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: proposed_mature_target
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 10
+        step_id: FORPRINT_IDENTITY_ACCESS_SERVICE-H10
+        title: Keep module unimplemented until portfolio roadmap, SysAdmin and operational dependencies are approved.
+        approval_state: HOLD_FOR_FINAL_PORTFOLIO_APPROVAL
+        source_basis: operator_distribution_gate
+        execution_authority: false
+        dependency_gate: *id003
+  forprint_library:
+    identity_state: CANONICAL
+    strategic_priority: P0
+    role: Canonical semantic/catalog/reference and shared UI publication authority
+    module_value_test: KEEP
+    inventory_state: OWNER_DIRECTION_CLEAR
+    dependencies_or_inputs: &id004
+      - forprint_contract_registry
+    owns:
+      - product_catalog_semantics
+      - service_catalog_semantics
+      - material_catalog_semantics
+      - operation_catalog_semantics
+      - aliases
+      - templates
+      - technical_cards
+      - contract_definitions
+      - ui_design_system_publication
+      - shared_ui_component_catalog
+      - ui_component_version_and_adoption_metadata
+    must_not_own:
+      - operational_orders
+      - client_database
+      - accounting_truth
+      - production_runtime
+      - crm_workflow
+      - domain_business_rules_outside_library_semantics
+    target_state:
+      agreed_or_recovered:
+        - Canonical products/materials/services/operations/aliases/profiles; shared UI package publication.
+      synthetic_or_proposed:
+        - Fast capability/semantic discovery and mature version/adoption lifecycle.
+    roadmap_status: PLANNING_ONLY_NOT_DISTRIBUTED
+    steps:
+      - sequence: 1
+        step_id: FORPRINT_LIBRARY-H01
+        title: Reconcile current Library catalog, alias, template, naming-profile and UI publication evidence.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: current_evidence_reconciliation
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 2
+        step_id: FORPRINT_LIBRARY-H02
+        title: Confirm Library ownership of product/material/service/operation semantics and shared UI publication, excluding business workflows.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: ownership_and_role_boundary
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 3
+        step_id: FORPRINT_LIBRARY-H03
+        title: Complete capability/self-inventory for canonical IDs, aliases, misspellings, production tokens, templates and technical cards.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: self_inventory_requirement
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 4
+        step_id: FORPRINT_LIBRARY-H04
+        title: Define versioned naming/profile/default semantics consumed by Calculator, Prepress and operations surfaces.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: dependency_and_contract_planning
+        execution_authority: false
+        dependency_gate: *id004
+      - sequence: 5
+        step_id: FORPRINT_LIBRARY-H05
+        title: Define material/product/service canonical identifiers and stable lookup contracts for Warehouse and other consumers.
+        approval_state: AGREED_OR_RECOVERED_TARGET
+        source_basis: agreed_or_recovered_target_state
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 6
+        step_id: FORPRINT_LIBRARY-H06
+        title: 'Define UI design-system package lifecycle: lookup, proposal, prototype, Inspector review, operator approval, publish and adoption.'
+        approval_state: AGREED_OR_RECOVERED_TARGET
+        source_basis: agreed_or_recovered_target_state
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 7
+        step_id: FORPRINT_LIBRARY-H07
+        title: Add version/adoption metadata and compatibility rules without creating live global CSS or uncontrolled defaults.
+        approval_state: AGREED_OR_RECOVERED_TARGET
+        source_basis: agreed_or_recovered_target_state
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 8
+        step_id: FORPRINT_LIBRARY-H08
+        title: Plan fast capability/semantic discovery while keeping retrieval candidate-only and domain-owner truth authoritative.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: proposed_mature_target
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 9
+        step_id: FORPRINT_LIBRARY-H09
+        title: Define deprecation/migration paths for legacy aliases/profiles and evidence requirements for consumer adoption.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: proposed_mature_target
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 10
+        step_id: FORPRINT_LIBRARY-H10
+        title: Hold broader implementation until Contract Registry and consumer readiness are reconciled in the portfolio.
+        approval_state: HOLD_FOR_FINAL_PORTFOLIO_APPROVAL
+        source_basis: operator_distribution_gate
+        execution_authority: false
+        dependency_gate: *id004
+      - sequence: 11
+        step_id: FORPRINT_LIBRARY-H11
+        title: >-
+          Define stable historical/reference asset metadata semantics including asset ID, source module, entity links, revision references, media type and provenance.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: operator_confirmed_evening_architecture_20260919
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 12
+        step_id: FORPRINT_LIBRARY-H12
+        title: >-
+          Define the boundary between Library-owned canonical reference media and customer/order/production assets owned by operational domains.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: operator_confirmed_evening_architecture_20260919
+        execution_authority: false
+        dependency_gate: []
+  forprint_marketing_orchestrator:
+    identity_state: CANONICAL
+    strategic_priority: P3
+    role: Brand, campaign and content operations orchestration with human-governed publication.
+    module_value_test: KEEP
+    inventory_state: NON_BLOCKING_FUTURE
+    dependencies_or_inputs:
+      - forprint_crm
+      - website
+      - forprint_library
+      - forprint_accounting_registry_service
+    owns:
+      - marketing_content_plan
+      - campaign_content_workflow
+      - creative_brief
+      - marketing_asset_review_context
+      - campaign_performance_view
+    must_not_own:
+      - canonical_customer_history
+      - sales_pipeline_truth
+      - accounting_truth
+      - unapproved_external_publication
+    target_state:
+      agreed_or_recovered:
+        - Campaign/content planning and human-reviewed publication without becoming CRM.
+        - Marketing Orchestrator is a distinct Brand & Content Operations capability, not merely a post generator and not CRM/customer truth.
+      synthetic_or_proposed:
+        - Multi-channel automation, AI creative routing, cost/performance learning and lead handoff.
+        - Mature capability may orchestrate cross-channel campaigns, AI creative routing, brand-character consistency, reuse, analytics and bounded low-risk auto-publication.
+    roadmap_status: PLANNING_ONLY_NOT_DISTRIBUTED
+    steps:
+      - sequence: 1
+        step_id: FORPRINT_MARKETING_ORCHESTRATOR-H01
+        title: Reconcile Marketing Orchestrator as brand/content operations distinct from CRM and Website ownership.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 2
+        step_id: FORPRINT_MARKETING_ORCHESTRATOR-H02
+        title: Confirm product/customer/accounting truth always comes from domain owners.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 3
+        step_id: FORPRINT_MARKETING_ORCHESTRATOR-H03
+        title: Define brand system, tone, visual rules and Brand Character Bible for persistent mascot/spokescharacter consistency.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 4
+        step_id: FORPRINT_MARKETING_ORCHESTRATOR-H04
+        title: Define website visual/content audit and handoff with Website/Prepress/Library.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 5
+        step_id: FORPRINT_MARKETING_ORCHESTRATOR-H05
+        title: Define multi-channel campaign plan, editorial calendar and reusable content asset lifecycle.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 6
+        step_id: FORPRINT_MARKETING_ORCHESTRATOR-H06
+        title: Define short-form image/video/content generation with provider abstraction, centralized secrets and cost budgets.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 7
+        step_id: FORPRINT_MARKETING_ORCHESTRATOR-H07
+        title: Define publication maturity DRAFT_ONLY → HUMAN_APPROVAL_REQUIRED → bounded low-risk auto-publish.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 8
+        step_id: FORPRINT_MARKETING_ORCHESTRATOR-H08
+        title: Define provenance, rollback and audit for all external publication.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 9
+        step_id: FORPRINT_MARKETING_ORCHESTRATOR-H09
+        title: Define campaign performance learning as advisory proposals and CRM lead/conversion handoff without duplicate customer history.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 10
+        step_id: FORPRINT_MARKETING_ORCHESTRATOR-H10
+        title: Remain non-blocking/future until core operations mature and operator explicitly approves activation.
+        approval_state: HOLD_FOR_FINAL_PORTFOLIO_APPROVAL
+        source_basis: operator_distribution_gate
+        execution_authority: false
+        dependency_gate: []
+  forprint_operations_assistant:
+    identity_state: CANONICAL
+    strategic_priority: P1
+    role: Low-friction human entry point for guided operational and bounded technical assistance.
+    module_value_test: KEEP
+    inventory_state: FIRST_PASS_DIRECTION_RECORDED
+    dependencies_or_inputs:
+      - forprint_library
+      - forprint_operations_control_registry
+      - forprint_identity_access_service
+      - forprint_system_administration
+    owns:
+      - operations_assistant_interaction_context
+      - guided_form_interaction
+      - knowledge_help_surface
+      - operational_observation_capture
+    must_not_own:
+      - accounting_truth
+      - canonical_order_registry
+      - canonical_catalog_truth
+      - crm_customer_pipeline
+      - unbounded_business_decision_authority
+    target_state:
+      agreed_or_recovered:
+        - Procedures/guided forms/Job Ticket assistance/physical observations.
+        - Operations Assistant is a human entry surface and may route technical requests to SysAdmin without becoming technical-system authority.
+      synthetic_or_proposed:
+        - Role-aware training, visual SOPs, reprint/exception capture, bounded operational AI.
+        - Mature capability may support voice/mobile/Telegram entry, fuzzy intent resolution, role-aware SOPs and bounded tool invocation.
+    roadmap_status: PLANNING_ONLY_NOT_DISTRIBUTED
+    steps:
+      - sequence: 1
+        step_id: FORPRINT_OPERATIONS_ASSISTANT-H01
+        title: Reconcile shop-floor assistant, SOP, guided form, Job Ticket and technical-help entry responsibilities.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 2
+        step_id: FORPRINT_OPERATIONS_ASSISTANT-H02
+        title: Confirm Operations Assistant owns interaction context, not operational/order/accounting/technical platform truth.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 3
+        step_id: FORPRINT_OPERATIONS_ASSISTANT-H03
+        title: Define role-aware guided forms, SOP discovery and visual instruction flows.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 4
+        step_id: FORPRINT_OPERATIONS_ASSISTANT-H04
+        title: Define voice/mobile/Telegram entry as optional interfaces to the same bounded interaction model.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 5
+        step_id: FORPRINT_OPERATIONS_ASSISTANT-H05
+        title: Define fuzzy intent/entity resolution with deterministic confirmation before sensitive action.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 6
+        step_id: FORPRINT_OPERATIONS_ASSISTANT-H06
+        title: Define routing of technical requests to SysAdmin capabilities and business requests to domain owners.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 7
+        step_id: FORPRINT_OPERATIONS_ASSISTANT-H07
+        title: Define IAM-aware capability checks and Execution Policy Gate before any tool side effect.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 8
+        step_id: FORPRINT_OPERATIONS_ASSISTANT-H08
+        title: Define low-friction reprint/exception/observation capture with provenance.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 9
+        step_id: FORPRINT_OPERATIONS_ASSISTANT-H09
+        title: Define bounded operational AI with repeat/hop/budget/manual-review limits.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 10
+        step_id: FORPRINT_OPERATIONS_ASSISTANT-H10
+        title: Keep autonomous high-impact action disabled until Verification Lab and portfolio gates pass.
+        approval_state: HOLD_FOR_FINAL_PORTFOLIO_APPROVAL
+        source_basis: operator_distribution_gate
+        execution_authority: false
+        dependency_gate: []
+  forprint_operations_control_registry:
+    identity_state: CANONICAL
+    strategic_priority: P0
+    role: Canonical operational party/order/task/control registry and write boundary
+    module_value_test: KEEP
+    inventory_state: FOUNDATION_EXISTS_DEEP_REVIEW_REQUIRED
+    dependencies_or_inputs: &id005
+      - calculator_engine
+      - forprint_contract_registry
+      - forprint_library
+    owns:
+      - internal_forprint_db
+      - client_account_records
+      - client_group_records
+      - operational_orders
+      - customer_requests
+      - operational_events
+      - operational_tasks
+      - operational_blockers
+      - logistics_addresses
+      - stable_business_partner_reference_boundary
+      - stable_order_identity_boundary
+    must_not_own:
+      - calculator_logic
+      - canonical_catalog_semantics
+      - one_c_adapter_logic
+      - crm_dashboard
+      - customer_channel_runtime
+      - physical_postgresql_platform_operations
+    target_state:
+      agreed_or_recovered:
+        - Operational orders/requests/events/tasks/blockers and stable shared party/order IDs.
+      synthetic_or_proposed:
+        - Mature operational lifecycle, Job Ticket state, reservations/obligations and resilient commands/events.
+    roadmap_status: PLANNING_ONLY_NOT_DISTRIBUTED
+    steps:
+      - sequence: 1
+        step_id: FORPRINT_OPERATIONS_CONTROL_REGISTRY-H01
+        title: Reconcile operational order/request/task/event/party concepts and historical aliases.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: current_evidence_reconciliation
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 2
+        step_id: FORPRINT_OPERATIONS_CONTROL_REGISTRY-H02
+        title: Confirm stable operational identities and authorized write boundary without absorbing foreign domain semantics.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: ownership_and_role_boundary
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 3
+        step_id: FORPRINT_OPERATIONS_CONTROL_REGISTRY-H03
+        title: Complete self-inventory for business partner references, order IDs, requests, tasks, blockers, incidents and deadlines.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: self_inventory_requirement
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 4
+        step_id: FORPRINT_OPERATIONS_CONTROL_REGISTRY-H04
+        title: Define operational order/Job Ticket lifecycle and explicit HOLD, priority, proof, reprint and exception states.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: dependency_and_contract_planning
+        execution_authority: false
+        dependency_gate: *id005
+      - sequence: 5
+        step_id: FORPRINT_OPERATIONS_CONTROL_REGISTRY-H05
+        title: Define obligations, reservations, shortages and execution context contracts with Warehouse, Accounting and Logistics.
+        approval_state: AGREED_OR_RECOVERED_TARGET
+        source_basis: agreed_or_recovered_target_state
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 6
+        step_id: FORPRINT_OPERATIONS_CONTROL_REGISTRY-H06
+        title: Define command/query boundaries plus outbox/inbox/idempotency/correlation rules for resilient cross-module interactions.
+        approval_state: AGREED_OR_RECOVERED_TARGET
+        source_basis: agreed_or_recovered_target_state
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 7
+        step_id: FORPRINT_OPERATIONS_CONTROL_REGISTRY-H07
+        title: Separate communicator, customer, billing and organization context while preserving historical relationships.
+        approval_state: AGREED_OR_RECOVERED_TARGET
+        source_basis: agreed_or_recovered_target_state
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 8
+        step_id: FORPRINT_OPERATIONS_CONTROL_REGISTRY-H08
+        title: Define read/write interfaces used by CRM and channels without transferring ownership of operational truth.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: proposed_mature_target
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 9
+        step_id: FORPRINT_OPERATIONS_CONTROL_REGISTRY-H09
+        title: Plan reporting projections and exception/event evidence for dashboards without making read models authoritative.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: proposed_mature_target
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 10
+        step_id: FORPRINT_OPERATIONS_CONTROL_REGISTRY-H10
+        title: Hold expanded execution until Calculator/Library/Contract Registry producer dependencies and portfolio gates are ready.
+        approval_state: HOLD_FOR_FINAL_PORTFOLIO_APPROVAL
+        source_basis: operator_distribution_gate
+        execution_authority: false
+        dependency_gate: *id005
+      - sequence: 11
+        step_id: FORPRINT_OPERATIONS_CONTROL_REGISTRY-H11
+        title: >-
+          Define the operational historical-asset link contract connecting asset references to order ID, job ID, revision and authoritative operational state.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: operator_confirmed_evening_architecture_20260919
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 12
+        step_id: FORPRINT_OPERATIONS_CONTROL_REGISTRY-H12
+        title: >-
+          Define explicit current/superseded/production-result and approval-related revision evidence required by historical asset consumers.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: operator_confirmed_evening_architecture_20260919
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 13
+        step_id: FORPRINT_OPERATIONS_CONTROL_REGISTRY-H13
+        title: >-
+          Expose operational revision/status projections for historical retrieval without transferring operational truth into the search/index layer.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: operator_confirmed_evening_architecture_20260919
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 14
+        step_id: FORPRINT_OPERATIONS_CONTROL_REGISTRY-H14
+        title: >-
+          Define the hosted Process Manager namespace and durable process-instance identity/state model inside Operations Control Registry.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: operator_confirmed_evening_architecture_20260919
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 15
+        step_id: FORPRINT_OPERATIONS_CONTROL_REGISTRY-H15
+        title: >-
+          Define current-step, waiting-condition, expected-event, timer, deadline, retry, escalation and transition semantics for long-running processes.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: operator_confirmed_evening_architecture_20260919
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 16
+        step_id: FORPRINT_OPERATIONS_CONTROL_REGISTRY-H16
+        title: >-
+          Define an append-only process transition/event ledger with correlation, idempotency, restart recovery and deterministic resume semantics.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: operator_confirmed_evening_architecture_20260919
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 17
+        step_id: FORPRINT_OPERATIONS_CONTROL_REGISTRY-H17
+        title: >-
+          Define operator-attention and authorized human-decision integration without letting unattended workflow state silently authorize foreign-domain actions.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: operator_confirmed_evening_architecture_20260919
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 18
+        step_id: FORPRINT_OPERATIONS_CONTROL_REGISTRY-H18
+        title: >-
+          Define domain adapters so CRM, Telegram, Logistics and other modules can observe or participate through typed process intents/events without owning the durable process instance.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: operator_confirmed_evening_architecture_20260919
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 19
+        step_id: FORPRINT_OPERATIONS_CONTROL_REGISTRY-H19
+        title: >-
+          Add explicit extraction-readiness criteria so the capability can later move to a standalone Process Manager service if scale, topology or ownership evidence justifies separation.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: operator_confirmed_evening_architecture_20260919
+        execution_authority: false
+        dependency_gate: []
+  forprint_prepress_hub:
+    identity_state: CANONICAL
+    strategic_priority: P1
+    role: Prepress/file preparation and production-readiness evidence
+    module_value_test: KEEP
+    inventory_state: FIRST_PASS_DIRECTION_RECORDED
+    dependencies_or_inputs: &id006
+      - calculator_engine
+      - forprint_library
+      - forprint_contract_registry
+    owns:
+      - prepress_file_readiness
+      - prepress_requirements
+      - prepress_blockers
+      - station_preset_policy
+      - hotfolder_direction
+    must_not_own:
+      - calculator_logic
+      - accounting_truth
+      - operational_order_registry
+      - canonical_catalog_truth
+      - crm_workflow
+    target_state:
+      agreed_or_recovered:
+        - PDF/document probe and readiness evidence consuming Calculator + Library.
+      synthetic_or_proposed:
+        - Preflight/normalization/imposition/profile/hot-folder and future metadata projections.
+    roadmap_status: PLANNING_ONLY_NOT_DISTRIBUTED
+    steps:
+      - sequence: 1
+        step_id: FORPRINT_PREPRESS_HUB-H01
+        title: Reconcile current PDF/document probe, readiness and prepress planning evidence.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: current_evidence_reconciliation
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 2
+        step_id: FORPRINT_PREPRESS_HUB-H02
+        title: Confirm Prepress ownership of file preparation/readiness evidence, not Calculator logic, catalog truth or device identity.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: ownership_and_role_boundary
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 3
+        step_id: FORPRINT_PREPRESS_HUB-H03
+        title: Complete self-inventory for probes, requirements, blockers, corrections, profiles, imposition and production-package outputs.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: self_inventory_requirement
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 4
+        step_id: FORPRINT_PREPRESS_HUB-H04
+        title: Define consumption of accepted Calculator Job Spec and Library naming/material/profile contracts.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: dependency_and_contract_planning
+        execution_authority: false
+        dependency_gate: *id006
+      - sequence: 5
+        step_id: FORPRINT_PREPRESS_HUB-H05
+        title: Specify deterministic PDF validation/correction boundaries; ambiguous semantic repair must escalate rather than guess.
+        approval_state: AGREED_OR_RECOVERED_TARGET
+        source_basis: agreed_or_recovered_target_state
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 6
+        step_id: FORPRINT_PREPRESS_HUB-H06
+        title: Plan imposition, normalization and production profile selection with explicit evidence and reproducible fixtures.
+        approval_state: AGREED_OR_RECOVERED_TARGET
+        source_basis: agreed_or_recovered_target_state
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 7
+        step_id: FORPRINT_PREPRESS_HUB-H07
+        title: Define hot-folder/station preset policy while concrete device identity/capability remains SysAdmin-owned.
+        approval_state: AGREED_OR_RECOVERED_TARGET
+        source_basis: agreed_or_recovered_target_state
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 8
+        step_id: FORPRINT_PREPRESS_HUB-H08
+        title: Define HOLD/reject/readiness evidence and handoff to operational Job Ticket/QC flows.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: proposed_mature_target
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 9
+        step_id: FORPRINT_PREPRESS_HUB-H09
+        title: Plan production-file provenance and future metadata projections without making filenames the source of truth.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: proposed_mature_target
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 10
+        step_id: FORPRINT_PREPRESS_HUB-H10
+        title: Hold implementation expansion until Calculator, Library and Contract Registry dependencies are accepted.
+        approval_state: HOLD_FOR_FINAL_PORTFOLIO_APPROVAL
+        source_basis: operator_distribution_gate
+        execution_authority: false
+        dependency_gate: *id006
+      - sequence: 11
+        step_id: FORPRINT_PREPRESS_HUB-H11
+        title: >-
+          Define a machine-readable technical Asset Fact Packet containing deterministic file facts, source revision, hashes and safe preview references.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: operator_confirmed_evening_architecture_20260919
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 12
+        step_id: FORPRINT_PREPRESS_HUB-H12
+        title: >-
+          Define deterministic fingerprint/probe outputs suitable for downstream candidate retrieval while keeping semantic match decisions outside Prepress.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: operator_confirmed_evening_architecture_20260919
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 13
+        step_id: FORPRINT_PREPRESS_HUB-H13
+        title: >-
+          Define historical-file provenance and master-versus-derived relationships without making Prepress the raw archive or historical search owner.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: operator_confirmed_evening_architecture_20260919
+        execution_authority: false
+        dependency_gate: []
+  forprint_project_inspector:
+    identity_state: CANONICAL
+    strategic_priority: P0
+    role: Read-only structural, semantic, cleanliness, architecture and governance conformance verification.
+    module_value_test: KEEP
+    inventory_state: STRONG_DIRECTION
+    dependencies_or_inputs:
+      - forprint_system_blueprint
+      - forprint_contract_registry
+    owns:
+      - project_structure_verification
+      - module_makefile_standard_audit
+      - coordination_metadata_audit
+      - module_readiness_summary
+      - cross_module_advisory_reports
+      - module_self_inventory_conformance
+      - duplicate_capability_detection
+      - shared_ui_conformance
+      - repository_cleanliness_audit
+      - document_surface_conformance_audit
+      - generated_surface_drift_detection
+    must_not_own:
+      - architecture_policy
+      - module_business_logic
+      - production_runtime_control
+      - operational_order_truth
+      - accounting_truth
+      - warehouse_stock_truth
+      - live_integrations
+      - ui_design_system_semantics
+      - capability_ownership_decision
+      - foreign_module_semantic_rewrite
+    target_state:
+      agreed_or_recovered:
+        - Detects drift/contradictions/ownership violations; never invents domain truth.
+        - Project Inspector detects drift/conflicts/duplication candidates but never invents or activates domain truth.
+      synthetic_or_proposed:
+        - Self-inventory health, duplicate-capability detection, UI conformance, bounded semantic review.
+        - Mature Inspector should verify dev/runtime boundary, module maturity, autonomy evidence and intake Verification Lab findings as conformance evidence.
+    roadmap_status: PLANNING_ONLY_NOT_DISTRIBUTED
+    steps:
+      - sequence: 1
+        step_id: FORPRINT_PROJECT_INSPECTOR-H01
+        title: Reconcile Project Inspector scope against Blueprint, Runtime Inspector and Verification Lab.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 2
+        step_id: FORPRINT_PROJECT_INSPECTOR-H02
+        title: Confirm Inspector is read-only conformance authority and not an adversarial test executor or domain owner.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 3
+        step_id: FORPRINT_PROJECT_INSPECTOR-H03
+        title: 'Define deterministic checks first: schema, generators, indexes, ownership, cleanliness and contract adoption.'
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 4
+        step_id: FORPRINT_PROJECT_INSPECTOR-H04
+        title: Define duplicate/equivalent-capability candidate detection with owner-reviewed dispositions and no auto-delete.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 5
+        step_id: FORPRINT_PROJECT_INSPECTOR-H05
+        title: Define module current-state, roadmap, maturity M0-M9 and dependency-constrained readiness conformance.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 6
+        step_id: FORPRINT_PROJECT_INSPECTOR-H06
+        title: Define DEV/VERIFICATION/RELEASE/RUNTIME separation and immutable-runtime conformance checks.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 7
+        step_id: FORPRINT_PROJECT_INSPECTOR-H07
+        title: Define bounded semantic review after deterministic evidence with stable finding taxonomy.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 8
+        step_id: FORPRINT_PROJECT_INSPECTOR-H08
+        title: Define periodic/risk-triggered review and checkpoint-to-commit evidence packages.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 9
+        step_id: FORPRINT_PROJECT_INSPECTOR-H09
+        title: Ingest Verification Lab results as evidence while leaving intentional test generation to Verification Lab.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 10
+        step_id: FORPRINT_PROJECT_INSPECTOR-H10
+        title: Keep foreign-repo mutation, truth activation and autonomous deletion forbidden.
+        approval_state: HOLD_FOR_FINAL_PORTFOLIO_APPROVAL
+        source_basis: operator_distribution_gate
+        execution_authority: false
+        dependency_gate: []
+  forprint_strategic_control_plane:
+    identity_state: CANONICAL
+    strategic_priority: P3
+    role: Long-horizon business decision intelligence, scenario analysis and strategy-memory plane.
+    module_value_test: KEEP
+    inventory_state: NON_BLOCKING_FUTURE
+    dependencies_or_inputs:
+      - forprint_system_blueprint
+      - forprint_crm
+      - forprint_accounting_registry_service
+      - forprint_operations_control_registry
+      - warehouse_service
+      - production_runtime_inspector
+    owns:
+      - strategic_control_policy
+      - ecosystem_status_aggregation
+      - priority_control_rules
+      - future_control_plane_workflows
+    must_not_own:
+      - runtime_orchestration_now
+      - business_workflow_runtime_now
+      - production_automation_now
+      - accounting_posting
+      - operational_db
+    target_state:
+      agreed_or_recovered:
+        - Tracks goals/priorities and challenges stale direction without overriding Blueprint/operator.
+        - Strategic Control Plane supports long-horizon quantified human decisions rather than acting as an autonomous strategic executor.
+      synthetic_or_proposed:
+        - Scenario analysis, strategic KPI aggregation and advisory loops.
+        - Mature capability should maintain strategic objectives/KPIs, economics/capacity/market intelligence, scenarios, investment cases and forecast→decision→actual memory.
+    roadmap_status: PLANNING_ONLY_NOT_DISTRIBUTED
+    steps:
+      - sequence: 1
+        step_id: FORPRINT_STRATEGIC_CONTROL_PLANE-H01
+        title: Reconcile Strategic Control Plane as decision intelligence, not dashboard duplication or operational control.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 2
+        step_id: FORPRINT_STRATEGIC_CONTROL_PLANE-H02
+        title: Confirm strategic recommendations remain human decisions and do not directly mutate operational truth.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 3
+        step_id: FORPRINT_STRATEGIC_CONTROL_PLANE-H03
+        title: Define strategic objectives registry and structured KPI catalog with provenance.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 4
+        step_id: FORPRINT_STRATEGIC_CONTROL_PLANE-H04
+        title: Define product/customer economics, capacity, bottleneck and investment evidence inputs from domain owners.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 5
+        step_id: FORPRINT_STRATEGIC_CONTROL_PLANE-H05
+        title: Define external market/search/competitor intelligence as sourced evidence, never invented fact.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 6
+        step_id: FORPRINT_STRATEGIC_CONTROL_PLANE-H06
+        title: Define scenario engine with assumptions, uncertainty, risk and sensitivity.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 7
+        step_id: FORPRINT_STRATEGIC_CONTROL_PLANE-H07
+        title: Define investment cases and measurable expected return/capacity/quality effects.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 8
+        step_id: FORPRINT_STRATEGIC_CONTROL_PLANE-H08
+        title: Define strategy memory linking forecast → recommendation → human decision → actual outcome.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 9
+        step_id: FORPRINT_STRATEGIC_CONTROL_PLANE-H09
+        title: Define monthly refresh, quarterly deep review, annual rebaseline and event-triggered recalculation cadence.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 10
+        step_id: FORPRINT_STRATEGIC_CONTROL_PLANE-H10
+        title: Keep autonomous execution forbidden; mature output is quantified options and evidence for operator decisions.
+        approval_state: HOLD_FOR_FINAL_PORTFOLIO_APPROVAL
+        source_basis: operator_distribution_gate
+        execution_authority: false
+        dependency_gate: []
+  forprint_system_administration:
+    identity_state: CANONICAL
+    strategic_priority: P1
+    role: Recovery-first technical operations, device, endpoint, data-platform, secrets and offline-continuity administration.
+    module_value_test: KEEP
+    inventory_state: FIRST_PASS_DIRECTION_RECORDED
+    dependencies_or_inputs:
+      - cloud_backup_manager
+      - forprint_project_inspector
+      - forprint_operations_assistant
+      - forprint_identity_access_service
+    owns:
+      - administration_portal
+      - approved_software_catalog
+      - endpoint_operation_contract
+      - workstation_profile
+      - administrative_health_view
+      - postgresql_platform_operations
+      - centralized_secrets_infrastructure
+      - database_role_and_credential_operations
+      - backup_restore_pitr
+    must_not_own:
+      - business_workflow
+      - accounting_truth
+      - canonical_order_registry
+      - arbitrary_remote_shell_authority
+      - license_entitlement_outside_authorized_policy
+      - domain_schema_semantics
+      - business_data_write_policy
+    target_state:
+      agreed_or_recovered:
+        - Workstation/admin surface plus physical PostgreSQL and secrets-platform operations.
+        - SysAdmin is the recovery-first technical operations helper and may integrate with voice/mobile/Telegram through bounded interfaces.
+      synthetic_or_proposed:
+        - Fleet onboarding, device capability inventory, backup/PITR, health and operational-readiness gates.
+        - Mature SysAdmin should manage known-good endpoint state, software/driver lifecycle, recovery artifacts, diagnostics and bounded technical actions with offline continuity.
+    roadmap_status: PLANNING_ONLY_NOT_DISTRIBUTED
+    steps:
+      - sequence: 1
+        step_id: FORPRINT_SYSTEM_ADMINISTRATION-H01
+        title: Reconcile device, endpoint, PostgreSQL, secrets, backup and recovery responsibilities into one technical-operations boundary.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 2
+        step_id: FORPRINT_SYSTEM_ADMINISTRATION-H02
+        title: Confirm SysAdmin owns technical platform/device administration but not business workflow or domain semantics.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 3
+        step_id: FORPRINT_SYSTEM_ADMINISTRATION-H03
+        title: Define stable device inventory, discovery and capability evidence distinct from concrete job assignment.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 4
+        step_id: FORPRINT_SYSTEM_ADMINISTRATION-H04
+        title: Define known-good workstation/device configuration profiles and drift evidence.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 5
+        step_id: FORPRINT_SYSTEM_ADMINISTRATION-H05
+        title: Define corporate software/workspace/plugin deployment packs while domain owners retain semantic ownership of business resources.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 6
+        step_id: FORPRINT_SYSTEM_ADMINISTRATION-H06
+        title: Define stable/pinned driver lifecycle, rollback and compatibility evidence rather than uncontrolled latest-driver upgrades.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 7
+        step_id: FORPRINT_SYSTEM_ADMINISTRATION-H07
+        title: Define recovery images/snapshots, offline artifact bank and restore procedures with measurable evidence.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 8
+        step_id: FORPRINT_SYSTEM_ADMINISTRATION-H08
+        title: Integrate Operations Assistant/voice/Telegram as human entry surfaces to bounded SysAdmin capabilities.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 9
+        step_id: FORPRINT_SYSTEM_ADMINISTRATION-H09
+        title: Define diagnostics and approved-manual troubleshooting with no invented repair procedures or arbitrary shell authority.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 10
+        step_id: FORPRINT_SYSTEM_ADMINISTRATION-H10
+        title: Hold broad autonomous IT actions until IAM, Execution Policy Gate, Verification Lab and operator approval criteria are satisfied.
+        approval_state: HOLD_FOR_FINAL_PORTFOLIO_APPROVAL
+        source_basis: operator_distribution_gate
+        execution_authority: false
+        dependency_gate: []
+  forprint_system_blueprint:
+    identity_state: CANONICAL
+    strategic_priority: P0
+    role: Portfolio architecture, ownership, governance, roadmap/dependency balancing and release/distribution gate authority.
+    module_value_test: KEEP
+    inventory_state: STRONG_EXISTING_FOUNDATION
+    dependencies_or_inputs:
+      - forprint_project_inspector
+      - forprint_contract_registry
+      - verification_lab
+    owns:
+      - architecture_policy
+      - module_boundaries
+      - execution_queue
+      - coordination_standards
+      - module_policy
+      - module_source_registry
+      - coordination_metadata_tools
+      - project_cleanliness_governance
+      - document_type_registry
+      - surface_normalization_program
+    must_not_own:
+      - runtime_business_logic
+      - production_order_processing
+      - accounting_posting
+      - customer_channel_runtime
+      - foreign_module_business_semantics_during_normalization
+    target_state:
+      agreed_or_recovered:
+        - Global architecture, boundaries, standards, Human Intent, dependency/readiness balance.
+        - Blueprint must formalize managed autonomy, Verification Lab, development/runtime separation and a common module maturity path before future distribution.
+      synthetic_or_proposed:
+        - Stronger automated portfolio health/decision-support projections.
+        - Mature Blueprint should reduce human control to a small number of portfolio/exception/approval surfaces while preserving explicit high-impact authority.
+    roadmap_status: PLANNING_ONLY_NOT_DISTRIBUTED
+    steps:
+      - sequence: 1
+        step_id: FORPRINT_SYSTEM_BLUEPRINT-H01
+        title: Integrate u92 architecture decisions into Human Intent, canonical portfolio roadmaps and governance without opening implementation.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 2
+        step_id: FORPRINT_SYSTEM_BLUEPRINT-H02
+        title: Promote Verification Lab to canonical module identity while Semantic Retrieval remains proposed/noncanonical.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 3
+        step_id: FORPRINT_SYSTEM_BLUEPRINT-H03
+        title: Formalize DEV → VERIFICATION → RELEASE → RUNTIME separation and immutable-runtime/self-evolution rules.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 4
+        step_id: FORPRINT_SYSTEM_BLUEPRINT-H04
+        title: Formalize M0-M9 module maturity and production-entry sequence for all future modules.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 5
+        step_id: FORPRINT_SYSTEM_BLUEPRINT-H05
+        title: Formalize shared resource concurrency/availability states, retry/backpressure/dead-letter semantics.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 6
+        step_id: FORPRINT_SYSTEM_BLUEPRINT-H06
+        title: Formalize Execution Policy Gate, capability-shaped tools and risk-class authorization.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 7
+        step_id: FORPRINT_SYSTEM_BLUEPRINT-H07
+        title: Formalize managed-autonomy levels, context checkpoint/handoff and AI budget-runway evidence.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 8
+        step_id: FORPRINT_SYSTEM_BLUEPRINT-H08
+        title: Strengthen dependency-constrained readiness and assistant-distribution prerequisites using the 23-module canonical set.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 9
+        step_id: FORPRINT_SYSTEM_BLUEPRINT-H09
+        title: Require Verification Lab and Project Inspector evidence before production promotion while keeping their roles separate.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 10
+        step_id: FORPRINT_SYSTEM_BLUEPRINT-H10
+        title: Keep assistant distribution, module implementation, H10 widening and automatic acceptance closed until explicit operator approval.
+        approval_state: HOLD_FOR_FINAL_PORTFOLIO_APPROVAL
+        source_basis: operator_distribution_gate
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 11
+        step_id: FORPRINT_SYSTEM_BLUEPRINT-H11
+        title: >-
+          Define the cross-module Historical Asset Index contract over Library reference semantics, Prepress technical asset facts and Operations Control Registry order/job/revision state.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: operator_confirmed_evening_architecture_20260919
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 12
+        step_id: FORPRINT_SYSTEM_BLUEPRINT-H12
+        title: >-
+          Define candidate retrieval stages as cheap scoped retrieval followed by deeper comparison of a small candidate set and explicit human/customer selection when ambiguity remains.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: operator_confirmed_evening_architecture_20260919
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 13
+        step_id: FORPRINT_SYSTEM_BLUEPRINT-H13
+        title: >-
+          Resolve the final hosted-capability location only after comparing an existing-host implementation with the noncanonical Semantic Retrieval module candidate.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: operator_confirmed_evening_architecture_20260919
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 14
+        step_id: FORPRINT_SYSTEM_BLUEPRINT-H14
+        title: >-
+          Govern the hosted Process Manager boundary so process truth, domain truth, transport state and human-facing workflow UI remain explicitly separated.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: operator_confirmed_evening_architecture_20260919
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 15
+        step_id: FORPRINT_SYSTEM_BLUEPRINT-H15
+        title: >-
+          Review extraction triggers after real usage evidence, including independent scaling, availability, topology, ownership pressure and cross-domain coupling.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: operator_confirmed_evening_architecture_20260919
+        execution_authority: false
+        dependency_gate: []
+  logistics_service:
+    identity_state: CANONICAL
+    strategic_priority: P1
+    role: Provider-neutral shipment/pickup/delivery/tracking truth
+    module_value_test: KEEP
+    inventory_state: IMPLEMENTATION_EXISTS_RUNTIME_SCOPE_GATED
+    dependencies_or_inputs: &id007
+      - forprint_operations_control_registry
+      - forprint_accounting_registry_service
+      - forprint_identity_access_service
+    owns: []
+    must_not_own: []
+    target_state:
+      agreed_or_recovered:
+        - Provider adapters, shipment drafts/tracking/events; current H10 sole automation pilot.
+      synthetic_or_proposed:
+        - Mature carrier/taxi/courier adapters, evidence handoff, delivery exceptions and bounded automation.
+    roadmap_status: PLANNING_ONLY_NOT_DISTRIBUTED
+    steps:
+      - sequence: 1
+        step_id: LOGISTICS_SERVICE-H01
+        title: Reconcile Logistics provider-neutral shipment/pickup/delivery/tracking model and existing H10 pilot evidence.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: current_evidence_reconciliation
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 2
+        step_id: LOGISTICS_SERVICE-H02
+        title: Confirm Logistics truth boundaries against OCR operational identities, Accounting costs and IAM access.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: ownership_and_role_boundary
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 3
+        step_id: LOGISTICS_SERVICE-H03
+        title: Complete self-inventory for shipment drafts, provider adapters, tracking events, delivery evidence and exceptions.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: self_inventory_requirement
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 4
+        step_id: LOGISTICS_SERVICE-H04
+        title: Define stable shipment/order/address references and provider-neutral command/response contracts.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: dependency_and_contract_planning
+        execution_authority: false
+        dependency_gate: *id007
+      - sequence: 5
+        step_id: LOGISTICS_SERVICE-H05
+        title: Define carrier/taxi/courier adapter boundary, secrets usage, retries, idempotency and correlation.
+        approval_state: AGREED_OR_RECOVERED_TARGET
+        source_basis: agreed_or_recovered_target_state
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 6
+        step_id: LOGISTICS_SERVICE-H06
+        title: Define pickup/delivery/tracking event lifecycle plus evidence for failures, cancellation and manual takeover.
+        approval_state: AGREED_OR_RECOVERED_TARGET
+        source_basis: agreed_or_recovered_target_state
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 7
+        step_id: LOGISTICS_SERVICE-H07
+        title: Define cost/charge handoff to Accounting without making Logistics accounting authority.
+        approval_state: AGREED_OR_RECOVERED_TARGET
+        source_basis: agreed_or_recovered_target_state
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 8
+        step_id: LOGISTICS_SERVICE-H08
+        title: Define delivery exception and escalation workflows with Telegram/operator attention but no hidden auto-decisions.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: proposed_mature_target
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 9
+        step_id: LOGISTICS_SERVICE-H09
+        title: Evaluate the existing Logistics-only H10 automation pilot against cost, quality, retry and operator-intervention evidence.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: proposed_mature_target
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 10
+        step_id: LOGISTICS_SERVICE-H10
+        title: Do not widen H10 or authorize other modules until the pilot and full portfolio are explicitly approved.
+        approval_state: HOLD_FOR_FINAL_PORTFOLIO_APPROVAL
+        source_basis: operator_distribution_gate
+        execution_authority: false
+        dependency_gate: *id007
+      - sequence: 11
+        step_id: LOGISTICS_SERVICE-H11
+        title: >-
+          Define the boundary between Logistics shipment lifecycle state and a parent or linked cross-domain Process Manager instance.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: operator_confirmed_evening_architecture_20260919
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 12
+        step_id: LOGISTICS_SERVICE-H12
+        title: >-
+          Expose typed shipment events, waiting conditions and outcomes to Process Manager without transferring carrier/provider truth out of Logistics.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: operator_confirmed_evening_architecture_20260919
+        execution_authority: false
+        dependency_gate: []
+  mobile_app:
+    identity_state: CANONICAL
+    strategic_priority: P2
+    role: Deferred native mobile customer/staff channel that reuses shared domain contracts.
+    module_value_test: KEEP
+    inventory_state: DEFERRED
+    dependencies_or_inputs:
+      - calculator_engine
+      - forprint_identity_access_service
+      - forprint_integration_gateway
+      - forprint_crm
+      - forprint_library
+    owns:
+      - mobile_customer_channel_future
+    must_not_own:
+      - calculator_logic
+      - operational_db
+      - accounting_truth
+      - catalog_truth
+      - crm_workflow
+    target_state:
+      agreed_or_recovered:
+        - Deferred until Calculator/Identity/API contracts mature.
+        - Native mobile implementation remains paused until customer scale and native-only value justify it.
+      synthetic_or_proposed:
+        - Secure mobile self-service over the same domain contracts as web.
+        - Mature native app may provide fast calculation, orders, push, camera/QR and offline non-authoritative cache over shared APIs.
+    roadmap_status: PLANNING_ONLY_NOT_DISTRIBUTED
+    steps:
+      - sequence: 1
+        step_id: MOBILE_APP-H01
+        title: Keep Mobile App in PAUSED/PROPOSED planning state and define measurable activation triggers.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 2
+        step_id: MOBILE_APP-H02
+        title: Use responsive/mobile-first web and shared Customer Portal capabilities as the present customer-mobile baseline.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 3
+        step_id: MOBILE_APP-H03
+        title: Define future native client as a channel only, with no local domain-truth ownership.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 4
+        step_id: MOBILE_APP-H04
+        title: Define IAM/session/device security and shared selected business-context behavior before native implementation.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 5
+        step_id: MOBILE_APP-H05
+        title: Plan fast Calculator and basket/order composition over the same contracts used by web.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 6
+        step_id: MOBILE_APP-H06
+        title: Define offline cache/estimate behavior as non-authoritative and requiring server revalidation before commitment.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 7
+        step_id: MOBILE_APP-H07
+        title: Plan push notifications and customer confirmations through audited shared messaging/event contracts.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 8
+        step_id: MOBILE_APP-H08
+        title: Plan camera, QR and file-upload capabilities without making QR a permission mechanism.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 9
+        step_id: MOBILE_APP-H09
+        title: Plan unified conversation/history through shared CRM/communication services rather than mobile-only shadow state.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 10
+        step_id: MOBILE_APP-H10
+        title: Authorize native implementation only after usage, client-base and native-value evidence clears the portfolio gate.
+        approval_state: HOLD_FOR_FINAL_PORTFOLIO_APPROVAL
+        source_basis: operator_distribution_gate
+        execution_authority: false
+        dependency_gate: []
+  production_runtime_inspector:
+    identity_state: CANONICAL
+    strategic_priority: P1
+    role: Runtime execution evidence, actuals, device-used, queue/retry/health and AI/tool-cost telemetry observer.
+    module_value_test: KEEP
+    inventory_state: DEEP_REVIEW_REQUIRED
+    dependencies_or_inputs:
+      - forprint_operations_control_registry
+      - forprint_system_administration
+      - forprint_library
+    owns: []
+    must_not_own: []
+    target_state:
+      agreed_or_recovered:
+        - Records concrete device and actuals without silently rewriting approved norms.
+        - Runtime Inspector records facts and actuals but never silently rewrites approved norms.
+      synthetic_or_proposed:
+        - Operation actuals, quality/variance signals, telemetry and norm-change proposals.
+        - Mature runtime inspection should trace retries, waiting states, dead letters, AI/tool usage, latency, cost and deployment/canary evidence.
+    roadmap_status: PLANNING_ONLY_NOT_DISTRIBUTED
+    steps:
+      - sequence: 1
+        step_id: PRODUCTION_RUNTIME_INSPECTOR-H01
+        title: Reconcile runtime execution, device-used and actuals evidence scope.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 2
+        step_id: PRODUCTION_RUNTIME_INSPECTOR-H02
+        title: Confirm Runtime Inspector observes facts but owns neither approved norms nor architecture policy.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 3
+        step_id: PRODUCTION_RUNTIME_INSPECTOR-H03
+        title: Define end-to-end request/job trace identifiers across queue, tool, AI and external dependencies.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 4
+        step_id: PRODUCTION_RUNTIME_INSPECTOR-H04
+        title: Define WAITING/RETRY/DEGRADED/dead-letter/stuck-work evidence and detection.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 5
+        step_id: PRODUCTION_RUNTIME_INSPECTOR-H05
+        title: 'Define AI/tool telemetry: calls, repetitions, tokens, latency, cost, retries and escalation counts.'
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 6
+        step_id: PRODUCTION_RUNTIME_INSPECTOR-H06
+        title: Define budget-runway and abnormal-cost signals without autonomously changing business strategy.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 7
+        step_id: PRODUCTION_RUNTIME_INSPECTOR-H07
+        title: Define actual-vs-standard variance evidence and proposal-only norm-change feedback.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 8
+        step_id: PRODUCTION_RUNTIME_INSPECTOR-H08
+        title: Define deployment/shadow/canary runtime evidence consumed by Verification Lab and release decisions.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 9
+        step_id: PRODUCTION_RUNTIME_INSPECTOR-H09
+        title: 'Define privacy/retention boundaries: execution evidence, not hidden chain-of-thought capture.'
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 10
+        step_id: PRODUCTION_RUNTIME_INSPECTOR-H10
+        title: Hold any active control-loop behavior until bounded autonomy and portfolio gates are explicitly approved.
+        approval_state: HOLD_FOR_FINAL_PORTFOLIO_APPROVAL
+        source_basis: operator_distribution_gate
+        execution_authority: false
+        dependency_gate: []
+  telegram_bot:
+    identity_state: CANONICAL
+    strategic_priority: P1
+    role: Conversational customer/staff channel adapter
+    module_value_test: KEEP
+    inventory_state: ACTIVE_HISTORY_NEW_EXECUTION_HELD
+    dependencies_or_inputs: &id008
+      - calculator_engine
+      - forprint_crm
+      - forprint_identity_access_service
+      - forprint_integration_gateway
+    owns:
+      - telegram_channel_adapter
+      - telegram_dialog_flow
+      - telegram_message_ui
+      - telegram_user_interaction_shell
+    must_not_own:
+      - canonical_client_registry
+      - canonical_order_registry
+      - calculator_logic
+      - accounting_truth
+      - operational_db
+      - catalog_truth
+    target_state:
+      agreed_or_recovered:
+        - Structured request/response channel without owning CRM/order/accounting truth.
+      synthetic_or_proposed:
+        - Voice transcription, supplier enrichment, richer self-service, future TTS/voice.
+    roadmap_status: PLANNING_ONLY_NOT_DISTRIBUTED
+    steps:
+      - sequence: 1
+        step_id: TELEGRAM_BOT-H01
+        title: Reconcile current Telegram channel flows, identity/context handling and historical execution evidence.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: current_evidence_reconciliation
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 2
+        step_id: TELEGRAM_BOT-H02
+        title: Confirm Telegram as channel adapter only, never canonical CRM/order/calculation/accounting/catalog truth.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: ownership_and_role_boundary
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 3
+        step_id: TELEGRAM_BOT-H03
+        title: Complete self-inventory for dialog flow, message UI, uploads, confirmations and channel context.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: self_inventory_requirement
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 4
+        step_id: TELEGRAM_BOT-H04
+        title: Define authentication/linkage through IAM and visible customer/billing/business context selection.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: dependency_and_contract_planning
+        execution_authority: false
+        dependency_gate: *id008
+      - sequence: 5
+        step_id: TELEGRAM_BOT-H05
+        title: Define structured calculation/order request handoff to Calculator/OCR with audited confirmations.
+        approval_state: AGREED_OR_RECOVERED_TARGET
+        source_basis: agreed_or_recovered_target_state
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 6
+        step_id: TELEGRAM_BOT-H06
+        title: Define file/status/payment/delivery views as domain-owned read projections with clear freshness/provenance.
+        approval_state: AGREED_OR_RECOVERED_TARGET
+        source_basis: agreed_or_recovered_target_state
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 7
+        step_id: TELEGRAM_BOT-H07
+        title: Define context switching without duplicate CRM persons/orders and without phone becoming immutable identity.
+        approval_state: AGREED_OR_RECOVERED_TARGET
+        source_basis: agreed_or_recovered_target_state
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 8
+        step_id: TELEGRAM_BOT-H08
+        title: Plan voice transcription and richer interaction as bounded channel capabilities with fallback and operator visibility.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: proposed_mature_target
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 9
+        step_id: TELEGRAM_BOT-H09
+        title: Define retry/idempotency/correlation and anti-loop budgets for channel-to-domain interactions.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: proposed_mature_target
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 10
+        step_id: TELEGRAM_BOT-H10
+        title: Hold new execution until IAM, Gateway/contract and portfolio readiness gates are approved.
+        approval_state: HOLD_FOR_FINAL_PORTFOLIO_APPROVAL
+        source_basis: operator_distribution_gate
+        execution_authority: false
+        dependency_gate: *id008
+      - sequence: 11
+        step_id: TELEGRAM_BOT-H11
+        title: Define personalized communication orchestration with conversation continuity, approved communication preferences and strict presentation-versus-facts separation.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: operator_confirmed_evening_architecture_20260919
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 12
+        step_id: TELEGRAM_BOT-H12
+        title: >-
+          Define channel-neutral inbound structured domain requests/events and outbound structured communication intents with correlation and provenance.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: operator_confirmed_evening_architecture_20260919
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 13
+        step_id: TELEGRAM_BOT-H13
+        title: >-
+          Define consumption of customer-specific communication context without moving canonical customer profile, commercial policy or analytics into Telegram.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: operator_confirmed_evening_architecture_20260919
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 14
+        step_id: TELEGRAM_BOT-H14
+        title: >-
+          Define bounded clarification and structured Order Draft interaction using canonical Library/Calculator/domain constraints.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: operator_confirmed_evening_architecture_20260919
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 15
+        step_id: TELEGRAM_BOT-H15
+        title: Define deterministic-to-context-to-AI-to-human escalation with replaceable model/provider slots and progress/contradiction based escalation.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: operator_confirmed_evening_architecture_20260919
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 16
+        step_id: TELEGRAM_BOT-H16
+        title: >-
+          Define Telegram consumption of historical customer asset retrieval results without live archive scanning or asset-index ownership.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: operator_confirmed_evening_architecture_20260919
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 17
+        step_id: TELEGRAM_BOT-H17
+        title: >-
+          Define Telegram as a communication participant for durable long-running business processes while process state/timers/deadlines/transitions remain with the eventual canonical Process Manager owner.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: operator_confirmed_evening_architecture_20260919
+        execution_authority: false
+        dependency_gate: []
+  warehouse_service:
+    identity_state: CANONICAL
+    strategic_priority: P1
+    role: Physical inventory/material-location truth and movement service
+    module_value_test: KEEP
+    inventory_state: DEEP_REVIEW_REQUIRED
+    dependencies_or_inputs: &id009
+      - forprint_library
+      - forprint_operations_control_registry
+      - forprint_accounting_registry_service
+    owns: []
+    must_not_own: []
+    target_state:
+      agreed_or_recovered:
+        - Physical stock fact distinct from accounting valuation and Calculator planned need.
+      synthetic_or_proposed:
+        - Reservations, receipts/issues/writeoffs, locations, shortages, cycle count, traceable reprint consumption.
+    roadmap_status: PLANNING_ONLY_NOT_DISTRIBUTED
+    steps:
+      - sequence: 1
+        step_id: WAREHOUSE_SERVICE-H01
+        title: Reconcile warehouse stock, location, movement, material and defect/reprint evidence.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: current_evidence_reconciliation
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 2
+        step_id: WAREHOUSE_SERVICE-H02
+        title: Confirm Warehouse ownership of physical inventory truth distinct from accounting valuation and Calculator planned consumption.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: ownership_and_role_boundary
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 3
+        step_id: WAREHOUSE_SERVICE-H03
+        title: Complete self-inventory for stock facts, locations, lots, movements, reservations, shortages and counts.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: self_inventory_requirement
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 4
+        step_id: WAREHOUSE_SERVICE-H04
+        title: Bind all stock/material records to Library canonical material IDs and controlled alias resolution.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: dependency_and_contract_planning
+        execution_authority: false
+        dependency_gate: *id009
+      - sequence: 5
+        step_id: WAREHOUSE_SERVICE-H05
+        title: Define receipts, issues, transfers, writeoffs and reservations against stable operational order/job references.
+        approval_state: AGREED_OR_RECOVERED_TARGET
+        source_basis: agreed_or_recovered_target_state
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 6
+        step_id: WAREHOUSE_SERVICE-H06
+        title: Define shortage and availability contracts for Calculator/OCR without letting Warehouse decide pricing or production rules.
+        approval_state: AGREED_OR_RECOVERED_TARGET
+        source_basis: agreed_or_recovered_target_state
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 7
+        step_id: WAREHOUSE_SERVICE-H07
+        title: Define internal-defect/reprint material consumption as traceable physical movements with reason/evidence.
+        approval_state: AGREED_OR_RECOVERED_TARGET
+        source_basis: agreed_or_recovered_target_state
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 8
+        step_id: WAREHOUSE_SERVICE-H08
+        title: Plan cycle counts, discrepancy workflows and audit trails with explicit human resolution.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: proposed_mature_target
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 9
+        step_id: WAREHOUSE_SERVICE-H09
+        title: Define Accounting handoff for valuation/documents while retaining physical quantity/location truth.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: proposed_mature_target
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 10
+        step_id: WAREHOUSE_SERVICE-H10
+        title: Hold automation until Library, operational registry and accounting contracts are accepted.
+        approval_state: HOLD_FOR_FINAL_PORTFOLIO_APPROVAL
+        source_basis: operator_distribution_gate
+        execution_authority: false
+        dependency_gate: *id009
+  website:
+    identity_state: CANONICAL
+    strategic_priority: P2
+    role: Public web presence, SEO entry point and conversion router; not a business-truth owner.
+    module_value_test: KEEP
+    inventory_state: FIRST_PASS_DIRECTION_RECORDED
+    dependencies_or_inputs:
+      - calculator_engine
+      - forprint_identity_access_service
+      - forprint_library
+      - forprint_operations_control_registry
+      - forprint_crm
+    owns:
+      - website_customer_channel
+    must_not_own:
+      - calculator_logic
+      - operational_db
+      - accounting_truth
+      - catalog_truth
+    target_state:
+      agreed_or_recovered:
+        - Must not duplicate Calculator/catalog/order truth; legacy surface needs controlled reconciliation.
+        - Website is the public façade and SEO entry point, not authentication, pricing, payment, cart or canonical order truth.
+      synthetic_or_proposed:
+        - Modern self-service, account/order/calculation/files/payment/delivery views.
+        - Mature public web should maximize organic discovery and route customers into shared Calculator and Customer Portal/domain workflows.
+    roadmap_status: PLANNING_ONLY_NOT_DISTRIBUTED
+    steps:
+      - sequence: 1
+        step_id: WEBSITE-H01
+        title: Reconcile Website strictly as public façade, SEO entry point and service discovery surface.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 2
+        step_id: WEBSITE-H02
+        title: Confirm Website owns no authentication, price truth, payment truth, basket truth or canonical order state.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 3
+        step_id: WEBSITE-H03
+        title: Define explicit routing from public service/product pages into Calculator, design tools and Customer Portal workflows.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 4
+        step_id: WEBSITE-H04
+        title: Define crawl/index hygiene, canonical URLs, sitemap, robots and structured-data rules.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 5
+        step_id: WEBSITE-H05
+        title: Define mobile-first performance and Core Web Vitals targets without duplicating native-app functionality.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 6
+        step_id: WEBSITE-H06
+        title: Define service/product landing semantics from Library/Calculator truth with no local shadow catalog.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 7
+        step_id: WEBSITE-H07
+        title: Define Search Console, analytics, conversion and query-to-order measurement with privacy-aware evidence.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 8
+        step_id: WEBSITE-H08
+        title: Plan content freshness, internal linking and authority-building as governed marketing/website collaboration.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 9
+        step_id: WEBSITE-H09
+        title: Plan organic-query → landing → calculation → customer-workflow optimization with measurable funnel evidence.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 10
+        step_id: WEBSITE-H10
+        title: Keep business logic external and implementation deferred until required shared contracts are portfolio-ready.
+        approval_state: HOLD_FOR_FINAL_PORTFOLIO_APPROVAL
+        source_basis: operator_distribution_gate
+        execution_authority: false
+        dependency_gate: []
+  verification_lab:
+    identity_state: CANONICAL
+    strategic_priority: P0
+    role: Independent verification, adversarial testing, fault-injection and deterministic regression evidence module.
+    module_value_test: KEEP
+    inventory_state: CONFIRMED_NEW_MODULE_NOT_IMPLEMENTED
+    dependencies_or_inputs:
+      - forprint_system_blueprint
+      - forprint_contract_registry
+      - forprint_project_inspector
+      - forprint_system_administration
+    owns:
+      - verification_campaign_definition
+      - synthetic_test_case_corpus
+      - test_plane_scenario
+      - adversarial_test_execution
+      - deterministic_regression_corpus
+      - verification_finding_evidence
+      - release_candidate_verification_result
+      - fault_injection_profile
+    must_not_own:
+      - architecture_policy
+      - business_domain_truth
+      - production_runtime_control
+      - deployment_approval
+      - live_external_side_effects
+      - unrestricted_shell_authority
+      - secrets
+      - foreign_module_semantic_rewrite
+    target_state:
+      agreed_or_recovered:
+        - Verification Lab is a distinct canonical module that intentionally tries to prove the system wrong before customers or incidents do.
+      synthetic_or_proposed:
+        - Mature Verification Lab should support black/gray/white-box Test Plane campaigns, adversarial/fault/concurrency testing, deterministic regression and release-gate evidence with synthetic side effects only.
+    roadmap_status: PLANNING_ONLY_NOT_DISTRIBUTED
+    steps:
+      - sequence: 1
+        step_id: VERIFICATION_LAB-H01
+        title: Establish Verification Lab canonical identity, charter and strict separation from Project Inspector and Runtime Inspector.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 2
+        step_id: VERIFICATION_LAB-H02
+        title: Define BLACK_BOX, GRAY_BOX and WHITE_BOX read-only diagnostic modes and their evidence boundaries.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 3
+        step_id: VERIFICATION_LAB-H03
+        title: Define Test Plane isolation with fake/synthetic payment, courier, printer, email, cloud, Telegram and database side effects.
+        approval_state: AGREED_PLANNING_DIRECTION
+        source_basis: u92_owner_confirmed_architecture_direction
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 4
+        step_id: VERIFICATION_LAB-H04
+        title: Define normal/invalid/boundary/malformed/combinatorial/multilingual/out-of-domain/auth/data-isolation test taxonomy.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 5
+        step_id: VERIFICATION_LAB-H05
+        title: Define prompt-adversarial, tool-misuse, state-machine, concurrency, idempotency, stale-cache and schema-fuzz campaigns.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 6
+        step_id: VERIFICATION_LAB-H06
+        title: Define fault/recovery, timeout, unavailable-resource, retry/dead-letter, load/performance and cost-regression campaigns.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 7
+        step_id: VERIFICATION_LAB-H07
+        title: Convert useful AI-discovered failures into owner-confirmed deterministic regression corpus rather than permanent stochastic-only tests.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 8
+        step_id: VERIFICATION_LAB-H08
+        title: Define change-triggered, nightly, weekly, manual, pre-release and post-release verification campaign policy.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 9
+        step_id: VERIFICATION_LAB-H09
+        title: Define trace-aware evaluation of intermediate contract/tool/state behavior, not only final user-visible answer.
+        approval_state: PROPOSED_TARGET_REFINEMENT
+        source_basis: u92_mature_target_synthesis_for_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 10
+        step_id: VERIFICATION_LAB-H10
+        title: Remain planning-only until Test Plane, Execution Policy Gate, IAM and explicit operator distribution/implementation approval are ready.
+        approval_state: HOLD_FOR_FINAL_PORTFOLIO_APPROVAL
+        source_basis: operator_distribution_gate
+        execution_authority: false
+        dependency_gate: []
+proposed_noncanonical_modules:
+  forprint_semantic_retrieval_service:
+    identity_state: PROPOSED_NONCANONICAL_REVIEW_ONLY
+    roadmap_status: REVIEW_ONLY_DO_NOT_DISTRIBUTE
+    module_value_test: REVIEW_BEFORE_PROMOTION
+    human_intent_count: 9
+    steps:
+      - sequence: 1
+        step_id: FORPRINT_SEMANTIC_RETRIEVAL_SERVICE-R01
+        title: Reconcile the proposed semantic retrieval concept against Library, Inspector, CRM search and Blueprint capability boundaries.
+        approval_state: REVIEW_ONLY_PROPOSED_NONCANONICAL
+        source_basis: module_value_and_boundary_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 2
+        step_id: FORPRINT_SEMANTIC_RETRIEVAL_SERVICE-R02
+        title: Run module-necessity/value test before any canonical promotion.
+        approval_state: REVIEW_ONLY_PROPOSED_NONCANONICAL
+        source_basis: module_value_and_boundary_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 3
+        step_id: FORPRINT_SEMANTIC_RETRIEVAL_SERVICE-R03
+        title: 'Define candidate-only retrieval semantics: retrieval finds candidates; domain owner decides truth.'
+        approval_state: REVIEW_ONLY_PROPOSED_NONCANONICAL
+        source_basis: module_value_and_boundary_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 4
+        step_id: FORPRINT_SEMANTIC_RETRIEVAL_SERVICE-R04
+        title: Define source/index provenance, freshness and access-control requirements.
+        approval_state: REVIEW_ONLY_PROPOSED_NONCANONICAL
+        source_basis: module_value_and_boundary_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 5
+        step_id: FORPRINT_SEMANTIC_RETRIEVAL_SERVICE-R05
+        title: Define bounded indexing/query interfaces without creating a second semantic authority.
+        approval_state: REVIEW_ONLY_PROPOSED_NONCANONICAL
+        source_basis: module_value_and_boundary_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 6
+        step_id: FORPRINT_SEMANTIC_RETRIEVAL_SERVICE-R06
+        title: Define evaluation datasets and precision/recall acceptance evidence for realistic project queries.
+        approval_state: REVIEW_ONLY_PROPOSED_NONCANONICAL
+        source_basis: module_value_and_boundary_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 7
+        step_id: FORPRINT_SEMANTIC_RETRIEVAL_SERVICE-R07
+        title: Define permission-aware retrieval and prevention of cross-domain data leakage.
+        approval_state: REVIEW_ONLY_PROPOSED_NONCANONICAL
+        source_basis: module_value_and_boundary_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 8
+        step_id: FORPRINT_SEMANTIC_RETRIEVAL_SERVICE-R08
+        title: Compare implementation cost/complexity against simpler indexed lookup/search capabilities.
+        approval_state: REVIEW_ONLY_PROPOSED_NONCANONICAL
+        source_basis: module_value_and_boundary_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 9
+        step_id: FORPRINT_SEMANTIC_RETRIEVAL_SERVICE-R09
+        title: Choose PROMOTE, MERGE or RETIRE as an explicit portfolio decision.
+        approval_state: REVIEW_ONLY_PROPOSED_NONCANONICAL
+        source_basis: module_value_and_boundary_review
+        execution_authority: false
+        dependency_gate: []
+      - sequence: 10
+        step_id: FORPRINT_SEMANTIC_RETRIEVAL_SERVICE-R10
+        title: If promoted, only then create canonical identity, ownership policy, dependencies and implementation roadmap.
+        approval_state: REVIEW_ONLY_PROPOSED_NONCANONICAL
+        source_basis: module_value_and_boundary_review
+        execution_authority: false
+        dependency_gate: []
+project_cleanliness_conformance:
+  status: ACTIVE_PORTFOLIO_REQUIREMENT
+  single_policy_point: coordination/standards/governance/project_cleanliness_and_machine_surface_normalization_standard_v0_1.md
+  policy_owner: forprint_system_blueprint
+  cross_repository_auditor: forprint_project_inspector
+  module_local_cleanliness_owner: each_module_owner
+  blueprint_automation_status: IMPLEMENTED
+  blueprint_automation_evidence:
+    - coordination/standards/governance/document_type_registry_v0_1.yaml
+    - scripts/validation/validate_document_surface_registry_v0_1.py
+    - make surface-normalization-check
+    - make check
+  inspector_cross_repository_automation_status: PLANNED_NOT_IMPLEMENTED
+  other_module_local_pack_status: REQUIRED_PLANNED_NOT_STARTED
+  required_before_future_assistant_distribution: true
+  required_before_module_maturity: true
+  no_duplicate_global_cleanliness_standards: true
+  modules:
+    calculator_engine:
+      status: REQUIRED_PLANNED_MODULE_LOCAL_PACK
+      policy_ref: coordination/standards/governance/project_cleanliness_and_machine_surface_normalization_standard_v0_1.md
+      local_repository_owner_responsible: true
+      parallel_global_standard_allowed: false
+      assistant_distribution_authorized: false
+      implementation_authorized: false
+      next_action: record local cleanliness inventory/check roadmap before future assistant distribution
+    cloud_backup_manager:
+      status: REQUIRED_PLANNED_MODULE_LOCAL_PACK
+      policy_ref: coordination/standards/governance/project_cleanliness_and_machine_surface_normalization_standard_v0_1.md
+      local_repository_owner_responsible: true
+      parallel_global_standard_allowed: false
+      assistant_distribution_authorized: false
+      implementation_authorized: false
+      next_action: record local cleanliness inventory/check roadmap before future assistant distribution
+    forprint_accounting_registry_service:
+      status: REQUIRED_PLANNED_MODULE_LOCAL_PACK
+      policy_ref: coordination/standards/governance/project_cleanliness_and_machine_surface_normalization_standard_v0_1.md
+      local_repository_owner_responsible: true
+      parallel_global_standard_allowed: false
+      assistant_distribution_authorized: false
+      implementation_authorized: false
+      next_action: record local cleanliness inventory/check roadmap before future assistant distribution
+    forprint_contract_registry:
+      status: REQUIRED_PLANNED_MODULE_LOCAL_PACK
+      policy_ref: coordination/standards/governance/project_cleanliness_and_machine_surface_normalization_standard_v0_1.md
+      local_repository_owner_responsible: true
+      parallel_global_standard_allowed: false
+      assistant_distribution_authorized: false
+      implementation_authorized: false
+      next_action: record local cleanliness inventory/check roadmap before future assistant distribution
+    forprint_crm:
+      status: REQUIRED_PLANNED_MODULE_LOCAL_PACK
+      policy_ref: coordination/standards/governance/project_cleanliness_and_machine_surface_normalization_standard_v0_1.md
+      local_repository_owner_responsible: true
+      parallel_global_standard_allowed: false
+      assistant_distribution_authorized: false
+      implementation_authorized: false
+      next_action: record local cleanliness inventory/check roadmap before future assistant distribution
+    forprint_integration_gateway:
+      status: REQUIRED_PLANNED_MODULE_LOCAL_PACK
+      policy_ref: coordination/standards/governance/project_cleanliness_and_machine_surface_normalization_standard_v0_1.md
+      local_repository_owner_responsible: true
+      parallel_global_standard_allowed: false
+      assistant_distribution_authorized: false
+      implementation_authorized: false
+      next_action: record local cleanliness inventory/check roadmap before future assistant distribution
+    forprint_identity_access_service:
+      status: REQUIRED_PLANNED_MODULE_LOCAL_PACK
+      policy_ref: coordination/standards/governance/project_cleanliness_and_machine_surface_normalization_standard_v0_1.md
+      local_repository_owner_responsible: true
+      parallel_global_standard_allowed: false
+      assistant_distribution_authorized: false
+      implementation_authorized: false
+      next_action: record local cleanliness inventory/check roadmap before future assistant distribution
+    forprint_library:
+      status: REQUIRED_PLANNED_MODULE_LOCAL_PACK
+      policy_ref: coordination/standards/governance/project_cleanliness_and_machine_surface_normalization_standard_v0_1.md
+      local_repository_owner_responsible: true
+      parallel_global_standard_allowed: false
+      assistant_distribution_authorized: false
+      implementation_authorized: false
+      next_action: record local cleanliness inventory/check roadmap before future assistant distribution
+    forprint_marketing_orchestrator:
+      status: REQUIRED_PLANNED_MODULE_LOCAL_PACK
+      policy_ref: coordination/standards/governance/project_cleanliness_and_machine_surface_normalization_standard_v0_1.md
+      local_repository_owner_responsible: true
+      parallel_global_standard_allowed: false
+      assistant_distribution_authorized: false
+      implementation_authorized: false
+      next_action: record local cleanliness inventory/check roadmap before future assistant distribution
+    forprint_operations_assistant:
+      status: REQUIRED_PLANNED_MODULE_LOCAL_PACK
+      policy_ref: coordination/standards/governance/project_cleanliness_and_machine_surface_normalization_standard_v0_1.md
+      local_repository_owner_responsible: true
+      parallel_global_standard_allowed: false
+      assistant_distribution_authorized: false
+      implementation_authorized: false
+      next_action: record local cleanliness inventory/check roadmap before future assistant distribution
+    forprint_operations_control_registry:
+      status: REQUIRED_PLANNED_MODULE_LOCAL_PACK
+      policy_ref: coordination/standards/governance/project_cleanliness_and_machine_surface_normalization_standard_v0_1.md
+      local_repository_owner_responsible: true
+      parallel_global_standard_allowed: false
+      assistant_distribution_authorized: false
+      implementation_authorized: false
+      next_action: record local cleanliness inventory/check roadmap before future assistant distribution
+    forprint_prepress_hub:
+      status: REQUIRED_PLANNED_MODULE_LOCAL_PACK
+      policy_ref: coordination/standards/governance/project_cleanliness_and_machine_surface_normalization_standard_v0_1.md
+      local_repository_owner_responsible: true
+      parallel_global_standard_allowed: false
+      assistant_distribution_authorized: false
+      implementation_authorized: false
+      next_action: record local cleanliness inventory/check roadmap before future assistant distribution
+    forprint_project_inspector:
+      status: PLANNED_LOCAL_PACK_PLUS_CROSS_REPO_AUDITOR
+      policy_ref: coordination/standards/governance/project_cleanliness_and_machine_surface_normalization_standard_v0_1.md
+      local_repository_owner_responsible: true
+      parallel_global_standard_allowed: false
+      assistant_distribution_authorized: false
+      implementation_authorized: false
+      next_action: plan module-local cleanliness pack and future bounded cross-repository audit pack
+    forprint_strategic_control_plane:
+      status: REQUIRED_PLANNED_MODULE_LOCAL_PACK
+      policy_ref: coordination/standards/governance/project_cleanliness_and_machine_surface_normalization_standard_v0_1.md
+      local_repository_owner_responsible: true
+      parallel_global_standard_allowed: false
+      assistant_distribution_authorized: false
+      implementation_authorized: false
+      next_action: record local cleanliness inventory/check roadmap before future assistant distribution
+    forprint_system_administration:
+      status: REQUIRED_PLANNED_MODULE_LOCAL_PACK
+      policy_ref: coordination/standards/governance/project_cleanliness_and_machine_surface_normalization_standard_v0_1.md
+      local_repository_owner_responsible: true
+      parallel_global_standard_allowed: false
+      assistant_distribution_authorized: false
+      implementation_authorized: false
+      next_action: record local cleanliness inventory/check roadmap before future assistant distribution
+    forprint_system_blueprint:
+      status: IMPLEMENTED_BLUEPRINT_LOCAL_CORE
+      policy_ref: coordination/standards/governance/project_cleanliness_and_machine_surface_normalization_standard_v0_1.md
+      local_repository_owner_responsible: true
+      parallel_global_standard_allowed: false
+      assistant_distribution_authorized: false
+      implementation_authorized: false
+      next_action: continue class-by-class normalization and keep automated checks green
+    logistics_service:
+      status: REQUIRED_PLANNED_MODULE_LOCAL_PACK
+      policy_ref: coordination/standards/governance/project_cleanliness_and_machine_surface_normalization_standard_v0_1.md
+      local_repository_owner_responsible: true
+      parallel_global_standard_allowed: false
+      assistant_distribution_authorized: false
+      implementation_authorized: false
+      next_action: record local cleanliness inventory/check roadmap before future assistant distribution
+    mobile_app:
+      status: REQUIRED_PLANNED_MODULE_LOCAL_PACK
+      policy_ref: coordination/standards/governance/project_cleanliness_and_machine_surface_normalization_standard_v0_1.md
+      local_repository_owner_responsible: true
+      parallel_global_standard_allowed: false
+      assistant_distribution_authorized: false
+      implementation_authorized: false
+      next_action: record local cleanliness inventory/check roadmap before future assistant distribution
+    production_runtime_inspector:
+      status: REQUIRED_PLANNED_MODULE_LOCAL_PACK
+      policy_ref: coordination/standards/governance/project_cleanliness_and_machine_surface_normalization_standard_v0_1.md
+      local_repository_owner_responsible: true
+      parallel_global_standard_allowed: false
+      assistant_distribution_authorized: false
+      implementation_authorized: false
+      next_action: record local cleanliness inventory/check roadmap before future assistant distribution
+    telegram_bot:
+      status: REQUIRED_PLANNED_MODULE_LOCAL_PACK
+      policy_ref: coordination/standards/governance/project_cleanliness_and_machine_surface_normalization_standard_v0_1.md
+      local_repository_owner_responsible: true
+      parallel_global_standard_allowed: false
+      assistant_distribution_authorized: false
+      implementation_authorized: false
+      next_action: record local cleanliness inventory/check roadmap before future assistant distribution
+    warehouse_service:
+      status: REQUIRED_PLANNED_MODULE_LOCAL_PACK
+      policy_ref: coordination/standards/governance/project_cleanliness_and_machine_surface_normalization_standard_v0_1.md
+      local_repository_owner_responsible: true
+      parallel_global_standard_allowed: false
+      assistant_distribution_authorized: false
+      implementation_authorized: false
+      next_action: record local cleanliness inventory/check roadmap before future assistant distribution
+    website:
+      status: REQUIRED_PLANNED_MODULE_LOCAL_PACK
+      policy_ref: coordination/standards/governance/project_cleanliness_and_machine_surface_normalization_standard_v0_1.md
+      local_repository_owner_responsible: true
+      parallel_global_standard_allowed: false
+      assistant_distribution_authorized: false
+      implementation_authorized: false
+      next_action: record local cleanliness inventory/check roadmap before future assistant distribution

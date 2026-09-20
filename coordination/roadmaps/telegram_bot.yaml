@@ -1,12 +1,14 @@
 schema_version: module_development_roadmap_v0_1
 module: telegram_bot
+status: active_planning_context
+authority: canonical_planning_not_release_or_execution_authority
 
 metadata:
   module: telegram_bot
   module_working_name: ForPrint Telegram Bot
   current_step_id: telegram_bot_dialogue_audit_events_v0_1
-  roadmap_version: telegram_bot_order_intake_stabilization_v0_3
-  updated_at: "2026-07-09"
+  roadmap_version: telegram_bot_communication_orchestration_v0_4
+  updated_at: "2026-09-19"
   repository_root: /srv/software_development/forprint-project/telegram_bot
   implementation_type: channel_runtime_intake_assistant
   current_stage: Telegram channel runtime stabilization and logistics preparation
@@ -400,3 +402,197 @@ roadmap:
       - required downstream owners listed
       - no Gateway write implemented
       - no canonical order creation
+  - sequence: 15
+    step_id: telegram_bot_personalized_communication_orchestration_v0_1
+    title: Personalized communication orchestration
+    status: planned
+    priority: critical
+    owner_module: telegram_bot
+    depends_on:
+      - telegram_bot_dialogue_audit_events_v0_1
+      - telegram_bot_operator_handoff_contract_v0_1
+    evidence: {}
+    summary: >
+      Evolve Telegram Bot from a channel-local intake assistant into the
+      personalized communication orchestration layer for approved customer
+      and operator interactions while preserving all canonical business truth
+      in responsible domain modules.
+    expected_outputs:
+      - explicit communication-orchestrator runtime boundary
+      - conversation continuity across related dialogue episodes
+      - preferred language/formality/addressing/verbosity handling
+      - context-aware natural rendering of structured domain facts
+      - traceable communication history and rendered-message provenance
+      - domain facts preserved without silent rewriting
+    forbidden_outputs:
+      - canonical customer ownership
+      - canonical order ownership
+      - pricing authority
+      - accounting or payment authority
+      - logistics truth ownership
+      - production truth ownership
+      - durable business-process ownership
+
+  - sequence: 16
+    step_id: telegram_bot_communication_intent_contract_v0_1
+    title: Structured inbound and outbound communication intent contract
+    status: planned
+    priority: critical
+    owner_module: telegram_bot
+    depends_on:
+      - telegram_bot_personalized_communication_orchestration_v0_1
+    evidence: {}
+    summary: >
+      Define channel-neutral typed contracts so inbound human communication
+      becomes a structured domain request/event and outbound domain facts
+      become structured communication intents rendered by Telegram Bot.
+    expected_outputs:
+      - inbound normalize/classify/clarify contract
+      - typed structured domain request or event
+      - outbound structured communication intent
+      - communication-profile application during rendering
+      - dialogue-context application during rendering
+      - correlation and provenance references
+      - explicit preservation of factual values
+    forbidden_outputs:
+      - free-text-only cross-module contract
+      - Telegram-generated price truth
+      - Telegram-generated deadline truth
+      - Telegram-generated payment or delivery truth
+
+  - sequence: 17
+    step_id: telegram_bot_customer_context_consumption_v0_1
+    title: Customer-specific communication context consumption
+    status: planned
+    priority: high
+    owner_module: telegram_bot
+    depends_on:
+      - telegram_bot_communication_intent_contract_v0_1
+    evidence: {}
+    summary: >
+      Consume approved customer-specific descriptive context, communication
+      preferences and interaction history without making Telegram Bot the
+      canonical owner of customer profile, commercial policy or customer
+      economics.
+    expected_outputs:
+      - preferred language and addressing consumption
+      - communication style and verbosity consumption
+      - customer-specific terminology support
+      - recurring interaction-pattern context
+      - explicit baseline versus exceptional-context handling
+      - provenance for customer-context inputs
+      - safe neutral fallback when context is unavailable
+    forbidden_outputs:
+      - canonical customer-profile ownership
+      - automatic commercial-policy expansion
+      - customer economic analytics ownership
+      - silent conversion of customer-specific semantics into global semantics
+
+  - sequence: 18
+    step_id: telegram_bot_structured_clarification_workspace_v0_1
+    title: Structured clarification and order-draft interaction
+    status: planned
+    priority: high
+    owner_module: telegram_bot
+    depends_on:
+      - telegram_bot_communication_intent_contract_v0_1
+      - telegram_bot_customer_context_consumption_v0_1
+    evidence: {}
+    summary: >
+      Replace prolonged ambiguous message chains with bounded clarification
+      flows that produce a structured Order Draft while relying on canonical
+      Library, Calculator and other domain contracts for business constraints.
+    expected_outputs:
+      - high-confidence short confirmation flow
+      - editable single-item clarification flow
+      - multi-item or grouping clarification flow
+      - explicit unresolved-item representation
+      - structured Order Draft output
+      - canonical Library and Calculator constraint consumption
+      - operator escalation when ambiguity does not converge
+    forbidden_outputs:
+      - canonical order creation inside Telegram Bot
+      - Telegram-owned product configuration truth
+      - Telegram-owned pricing logic
+
+  - sequence: 19
+    step_id: telegram_bot_ai_escalation_pipeline_v0_1
+    title: Deterministic-to-AI-to-human escalation pipeline
+    status: planned
+    priority: high
+    owner_module: telegram_bot
+    depends_on:
+      - telegram_bot_structured_clarification_workspace_v0_1
+    evidence: {}
+    summary: >
+      Formalize AI as a replaceable fallback/helper after deterministic
+      rules, history, classifiers, customer context and clarification rather
+      than as the primary authority for business decisions.
+    expected_outputs:
+      - deterministic rule layer
+      - relevant-history layer
+      - classifier layer
+      - customer-context layer
+      - clarification layer
+      - replaceable AI helper layer
+      - focused Context Packet for escalation
+      - human exception path
+      - progress and contradiction based escalation criteria
+    forbidden_outputs:
+      - permanent dependency on one model provider
+      - AI authority over canonical domain facts
+      - fixed retry count as the only escalation criterion
+
+  - sequence: 20
+    step_id: telegram_bot_historical_asset_retrieval_consumer_v0_1
+    title: Historical asset index retrieval consumer
+    status: planned
+    priority: high
+    owner_module: telegram_bot
+    depends_on:
+      - telegram_bot_structured_clarification_workspace_v0_1
+    evidence: {}
+    summary: >
+      Allow Telegram Bot to consume a future machine-readable historical
+      customer asset index for repeat-order clarification while keeping
+      archive storage, indexing, fingerprints and asset truth outside the
+      Telegram runtime.
+    expected_outputs:
+      - customer-scoped asset candidate request
+      - candidate-result rendering
+      - support for screenshot or visual-reference lookup requests
+      - explicit customer selection when multiple revisions remain plausible
+      - revision and production-status presentation from authoritative sources
+      - retrieval provenance in conversation context
+    forbidden_outputs:
+      - live recursive archive scanning by Telegram Bot
+      - historical asset storage ownership
+      - fingerprint/index ownership
+      - invented certainty between ambiguous revisions
+
+  - sequence: 21
+    step_id: telegram_bot_process_manager_communication_participant_v0_1
+    title: Durable Process Manager communication participant contract
+    status: planned
+    priority: high
+    owner_module: telegram_bot
+    depends_on:
+      - telegram_bot_communication_intent_contract_v0_1
+    evidence: {}
+    summary: >
+      Define Telegram Bot as a communication participant in durable
+      long-running business processes without storing or controlling the
+      canonical process instance, timers, deadlines, retries or transitions.
+    expected_outputs:
+      - process-event communication intent consumption
+      - customer notification rendering
+      - clarification and acknowledgement return events
+      - operator-attention communication support
+      - correlation to external durable process instance
+      - prior-communication awareness for repeated notifications
+    forbidden_outputs:
+      - durable process-instance ownership
+      - timer or deadline authority
+      - workflow transition authority
+      - retry-state ownership
+      - process escalation truth ownership
