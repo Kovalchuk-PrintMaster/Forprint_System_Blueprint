@@ -6,7 +6,7 @@ from pathlib import Path
 import yaml
 
 ROOT = Path(__file__).resolve().parents[2]
-BOOTSTRAP = ROOT / "coordination/instruction_intake/bootstrap/assistant_bootstrap_v0_1.yaml"
+BOOTSTRAP = ROOT / "coordination/instruction_intake/bootstrap/assistant_bootstrap_v0_2.yaml"
 HANDOFF = ROOT / "coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml"
 ROADMAP_REVIEW = (
     ROOT
@@ -36,7 +36,7 @@ def make_targets() -> set[str]:
 
 def test_stable_bootstrap_contract_is_machine_oriented() -> None:
     data = load_yaml(BOOTSTRAP)
-    assert data["schema_version"] == "blueprint_assistant_bootstrap_v0_1"
+    assert data["schema_version"] == "blueprint_assistant_bootstrap_v0_2"
     assert data["metadata"]["module_id"] == "forprint_system_blueprint"
     assert data["metadata"]["machine_first"] is True
     assert data["metadata"]["stateful_snapshot"] is False
@@ -140,5 +140,5 @@ def test_roadmap_freshness_review_is_non_mutating_governance_evidence() -> None:
 def test_reading_order_surfaces_bootstrap_entrypoint() -> None:
     text = READING_ORDER.read_text(encoding="utf-8")
     assert "## Blueprint assistant bootstrap handoff entrypoint" in text
-    assert "coordination/instruction_intake/bootstrap/assistant_bootstrap_v0_1.yaml" in text
+    assert "coordination/instruction_intake/bootstrap/assistant_bootstrap_v0_2.yaml" in text
     assert "coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml" in text

@@ -1,0 +1,191 @@
+schema_version: forprint_roadmap_enrichment_source_map_v0_1
+metadata:
+  artifact_role: living_roadmap_enrichment_navigation
+  authority: navigation_and_reusable_process_knowledge_not_execution_authority
+  owner: blueprint_coordination
+  last_verified_commit: a4399af4035a6c3fcb29d4001d4445e63a6b1dc9
+  update_required_every_session: false
+  update_trigger: verified_reusable_lesson_or_source_role_change
+boundaries:
+  is_release_authority: false
+  is_work_authority: false
+  is_activation_authority: false
+  raw_session_transcript_allowed: false
+  generated_index_is_authority: false
+startup_sequence:
+- coordination/instruction_intake/assistant_reading_order.md
+- coordination/instruction_intake/bootstrap/assistant_bootstrap_v0_2.yaml
+- coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml
+- coordination/releases/current.yaml
+- coordination/standards/governance/roadmap_enrichment_and_knowledge_saturation_operating_guide_v0_1.md
+- coordination/repository_knowledge/roadmap_enrichment/README.md
+- coordination/repository_knowledge/roadmap_enrichment/source_map.yaml
+sources:
+- id: assistant_reading_order
+  path: coordination/instruction_intake/assistant_reading_order.md
+  role: stable_operational_front_door
+  authority: instruction_navigation
+  freshness: current_tracked_source
+  use_for:
+  - startup_order
+  - instruction_intake_navigation
+- id: assistant_bootstrap
+  path: coordination/instruction_intake/bootstrap/assistant_bootstrap_v0_2.yaml
+  role: stable_machine_operating_model
+  authority: bootstrap_routing_not_execution_grant
+  freshness: current_tracked_source
+  use_for:
+  - zero_context_bootstrap
+  - authority_boundaries
+  - source_map_navigation
+  - enrichment_startup_protocol
+- id: current_handoff
+  path: coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml
+  role: latest_observed_coordination_snapshot
+  authority: baseline_snapshot_reconcile_git_before_action
+  freshness: must_reconcile_with_git
+  use_for:
+  - continuation_context
+  - recent_coordination_state
+- id: current_release
+  path: coordination/releases/current.yaml
+  role: current_release_authority
+  authority: canonical_control
+  freshness: verify_before_mutation
+  use_for:
+  - current_release_state
+  - release_boundary
+- id: roadmap_enrichment_operating_guide
+  path: coordination/standards/governance/roadmap_enrichment_and_knowledge_saturation_operating_guide_v0_1.md
+  role: stable_enrichment_method
+  authority: governance_operating_standard
+  freshness: current_tracked_source
+  use_for:
+  - knowledge_saturation_method
+  - reuse_first
+  - maturity_and_authority_boundaries
+  - clean_candidate_workflow
+- id: living_field_guide
+  path: coordination/repository_knowledge/roadmap_enrichment/README.md
+  role: durable_accumulating_reusable_process_knowledge
+  authority: advisory_navigation_not_execution_authority
+  freshness: last_verified_commit_per_lesson
+  use_for:
+  - fast_paths
+  - pitfalls
+  - lessons
+  - recommended_sequences
+- id: living_source_map
+  path: coordination/repository_knowledge/roadmap_enrichment/source_map.yaml
+  role: machine_readable_enrichment_navigation
+  authority: navigation_not_semantic_owner
+  freshness: review_when_source_roles_change
+  use_for:
+  - source_discovery
+  - authority_role_lookup
+  - freshness_lookup
+- id: repository_knowledge_protocol
+  path: coordination/repository_knowledge/repository_knowledge_and_direction_snapshot_protocol_v0_3.md
+  role: repository_self_knowledge_method
+  authority: repository_knowledge_protocol
+  freshness: current_v0_3_direction
+  use_for:
+  - incremental_knowledge_maintenance
+  - canonicalization
+  - stale_unknown_conflict_handling
+- id: artifact_authority_policy
+  path: coordination/repository_knowledge/artifact_authority_policy_v0_1.yaml
+  role: artifact_authority_classification
+  authority: canonical_policy
+  freshness: current_tracked_source
+  use_for:
+  - authority_classification
+  - generated_vs_canonical_distinction
+- id: repository_inventory_maintenance
+  path: coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
+  role: repository_knowledge_maintenance_policy
+  authority: maintenance_policy
+  freshness: current_tracked_source
+  use_for:
+  - snapshot_lifecycle
+  - maintenance_rules
+- id: blueprint_roadmap_detail
+  path: coordination/roadmaps/details/forprint_system_blueprint/README.md
+  role: blueprint_roadmap_detail_navigation
+  authority: roadmap_source_context
+  freshness: verify_against_current_git_and_release
+  use_for:
+  - roadmap_owner_discovery
+  - blueprint_detail_navigation
+- id: human_intent_blueprint
+  path: coordination/human_intent/modules/forprint_system_blueprint.yaml
+  role: owner_intent_planning_context
+  authority: planning_context_not_release_authority
+  freshness: append_only_owner_intent
+  use_for:
+  - owner_direction
+  - planning_context
+- id: continuity_start_here
+  path: coordination/roadmaps/details/forprint_system_blueprint/continuity/START_HERE.md
+  role: zero_context_navigation_and_handoff
+  authority: navigation_not_runtime_authority
+  freshness: revalidate_git_and_release
+  use_for:
+  - continuity_navigation
+  - historical_recovery
+- id: next_work_selection
+  path: coordination/standards/governance/next_work_selection_policy_v0_1.md
+  role: next_work_selection_policy
+  authority: selection_policy_not_activation
+  freshness: current_tracked_source
+  use_for:
+  - next_work_selection
+  - selection_vs_execution_boundary
+- id: mutation_builder_contract
+  path: coordination/standards/governance/mutation_builder_contract_v0_1.md
+  role: bounded_mutation_and_temporary_index_contract
+  authority: mutation_governance
+  freshness: current_tracked_source
+  use_for:
+  - dirty_repo_publication
+  - temporary_index
+  - exact_delta
+- id: portfolio_roadmap_policy
+  path: coordination/standards/governance/portfolio_roadmap_dependency_and_prioritization_standard_v0_1.md
+  role: portfolio_roadmap_dependency_and_prioritization
+  authority: roadmap_governance
+  freshness: current_tracked_source
+  use_for:
+  - portfolio_dependencies
+  - prioritization
+- id: traceability_standard
+  path: coordination/standards/governance/module_concept_and_roadmap_traceability_standard_v0_1.md
+  role: concept_and_roadmap_traceability
+  authority: traceability_governance
+  freshness: current_tracked_source
+  use_for:
+  - concept_ownership
+  - roadmap_traceability
+source_role_rules:
+- rule: canonical_source_beats_generated_projection
+- rule: git_and_current_authority_beat_stale_handoff_or_chat
+- rule: navigation_does_not_grant_execution_authority
+- rule: historical_snapshot_is_evidence_not_current_control
+- rule: dirty_worktree_state_must_not_leak_into_bounded_publication
+contribution_protocol:
+  required_fields:
+  - discovery_or_lesson
+  - why_reusable
+  - source_or_evidence
+  - scope
+  - authority_level
+  - known_caveat
+  - recommended_sequence_or_fast_path
+  - last_verified_commit
+  - supersedes_or_conflicts_with
+  do_not:
+  - append_raw_session_transcript
+  - promote_unverified_guess
+  - duplicate_existing_lesson_without_reason
+  - silently_replace_authority
+  - treat_navigation_as_activation_authority
