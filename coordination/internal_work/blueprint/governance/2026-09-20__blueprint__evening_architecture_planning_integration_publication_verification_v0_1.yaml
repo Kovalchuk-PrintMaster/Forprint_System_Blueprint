@@ -1,0 +1,77 @@
+schema_version: blueprint_publication_verification_v0_1
+metadata:
+  evidence_id: "blueprint_evening_architecture_planning_integration_publication_verification_2026_09_20_v0_1"
+  module_id: forprint_system_blueprint
+  created_at: "2026-09-20T15:48:17+03:00"
+  owner: forprint_system_blueprint
+
+subject:
+  roadmap_step_id: "evening_architecture_planning_integration_2026_09_19"
+  publication_subject_commit: d262a48bd37b1c887cb2ac301fcf8046a88ef08e
+  publication_subject_message: "docs(blueprint): publish evening architecture planning integration"
+  branch: audit/blueprint-inventory-refresh-2026-07-29
+  remote: origin
+
+verification:
+  local_head: d262a48bd37b1c887cb2ac301fcf8046a88ef08e
+  remote_head: d262a48bd37b1c887cb2ac301fcf8046a88ef08e
+  remote_contains_subject: true
+  worktree_clean_before_seal_transaction: false
+  real_index_empty_before_seal_transaction: true
+  previous_published_subject_commit: 4739fdcd8b213814f8440dd6a6681f596d8da456
+  publication_subject_is_seal_commit: false
+  seal_commit_pending: true
+  seal_commit_is_recursively_sealed: false
+
+governance_state:
+  evening_architecture_review_date: '2026-09-19'
+  canonical_integration_state: published_on_audit_branch
+  publication_branch_synchronized: true
+  release_authority_changed: false
+  implementation_authority_changed: false
+  worker_dispatch_authority_changed: false
+  cf10_binding: false
+  cf10_activation: false
+  continuity_projection_state: refreshed_local_generated_pass
+  continuity_projections_git_authority: none
+  new_2026_09_20_handoff_integration_started: false
+
+boundaries:
+  roadmap_mutated_by_subject_commit: true
+  prompt_queue_mutated: false
+  prompt_files_mutated: false
+  module_repository_writes: false
+  worker_dispatch_performed: false
+  automatic_acceptance: false
+  automatic_return: false
+  automatic_hold: false
+  automatic_commit: false
+  automatic_push: false
+  main_branch_mutated: false
+  rollout_or_production_write: false
+
+validation:
+  state: passed
+  checks:
+    remote_subject_commit:
+      returncode: 0
+      result: passed
+    portfolio_module_roadmap_approval_matrix:
+      returncode: 0
+      result: passed
+    semantic_structure:
+      returncode: 0
+      result: passed
+    knowledge_index:
+      returncode: 0
+      result: passed
+    specialized_indexes:
+      returncode: 0
+      result: passed
+    continuity_projections:
+      returncode: 0
+      result: passed
+    roadmap_execution_reconciliation:
+      returncode: 0
+      result: passed
+  result: PUBLICATION_VERIFIED_READY_FOR_MANUAL_SEAL_COMMIT
