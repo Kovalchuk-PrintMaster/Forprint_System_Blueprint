@@ -1,0 +1,215 @@
+schema_version: forprint_blueprint_architecture_handoff_semantic_integration_decision_v0_1
+metadata:
+  decision_id: blueprint_architecture_handoff_2026_09_20_semantic_integration_v0_1
+  created_at: '2026-09-20T14:16:00Z'
+  status: ACCEPTED_FOR_ARCHITECTURE_PLANNING_ONLY
+  authority_scope: blueprint_internal_governance
+  blueprint_head_at_decision: 34e14f023fb4c3bdf83fb44a8c31e0013b608e28
+source_handoff:
+  package: tmp/ForPrint_Blueprint_Architecture_Handoff_2026-09-20_v0_1.zip
+  sha256: 5f0d3130309f7473949f8a1a14adf41023e2a86b1e3eaa3aaa1cf96b927eb4d9
+  package_file_count: 18
+  package_checksum_validated: true
+  immutable_source: true
+audit_provenance:
+  intake_discovery:
+    step: '0123'
+    result: PASS
+  owner_first_semantic_review:
+    step: '0124'
+    result: PASS
+  canonical_target_audit:
+    step: '0125'
+    result: PASS
+decision:
+  model: owner_first_reuse_before_novelty
+  canonical_owner_mapping_confirmed: true
+  new_subsystem_required: false
+  replacement_required: false
+  extend_count: 9
+  adapt_count: 1
+  reuse_count: 0
+  new_count: 0
+  replace_count: 0
+  principle: >-
+    A new artifact, analytical method, projection or lifecycle
+    mechanism does not create a new subsystem when an existing
+    canonical architectural owner already exists.
+capability_decisions:
+  - capability_id: execution_profiles_and_sandbox
+    disposition: EXTEND
+    owner: 'execution-control / authority / Work Front'
+    horizon: NEAR_TERM
+    package_source:
+      path: 04_worker_execution_security_and_profiles.md
+      sha256: f8df50a313e7c7f2df6cf59ed8aaf59d6fb6c6eb1ae8dcb3aaea6dceedfecfe6
+    implementation_authority_granted: false
+    activation_authority_granted: false
+  - capability_id: reuse_first_novelty_gate
+    disposition: EXTEND
+    owner: 'governance / Work Front admission'
+    horizon: NEAR_TERM
+    package_source:
+      path: 05_reuse_first_novelty_gate.md
+      sha256: 1749b8612ef34d38479d3ff28dea4258a72b789c31522e555ae148a377eb1b74
+    implementation_authority_granted: false
+    activation_authority_granted: false
+  - capability_id: implementation_traceability_graph
+    disposition: EXTEND
+    owner: 'knowledge / traceability'
+    horizon: NEAR_TERM
+    package_source:
+      path: 06_implementation_knowledge_traceability_graph.md
+      sha256: cac41300457f252f6b750accca216de341023659a747ece727ca8977ef107db9
+    implementation_authority_granted: false
+    activation_authority_granted: false
+  - capability_id: publication_control_plane
+    disposition: EXTEND
+    owner: 'publication verification / promotion'
+    horizon: NEAR_TERM
+    package_source:
+      path: 07_publication_control_and_git_promotion.md
+      sha256: 41364e71904acdea7dc643fd5991edcd8e9a591217d5cc3d330b2478f6eafe39
+    implementation_authority_granted: false
+    activation_authority_granted: false
+  - capability_id: promotion_manifest
+    disposition: EXTEND
+    owner: 'publication control plane'
+    horizon: NEAR_TERM
+    package_source:
+      path: 07_publication_control_and_git_promotion.md
+      sha256: 41364e71904acdea7dc643fd5991edcd8e9a591217d5cc3d330b2478f6eafe39
+    implementation_authority_granted: false
+    activation_authority_granted: false
+  - capability_id: capability_lifecycle_catalog
+    disposition: EXTEND
+    owner: 'portfolio capability catalog'
+    horizon: NEAR_TERM
+    package_source:
+      path: 08_capability_catalog_lifecycle_distribution.md
+      sha256: 24579b781f44ac9fc540ee823e0f473ef931e1757edc4c93950fd230f5c20ebc
+    implementation_authority_granted: false
+    activation_authority_granted: false
+  - capability_id: portfolio_planning_engine
+    disposition: EXTEND
+    owner: 'portfolio planning / dependency control'
+    horizon: NEAR_TERM_TO_MID_TERM
+    package_source:
+      path: 09_portfolio_planning_convergence_engine.md
+      sha256: c86b037dcf1fa13d694f7e642065c35422f144ed1f32bd6c81ffa846bae92d46
+    implementation_authority_granted: false
+    activation_authority_granted: false
+  - capability_id: advanced_planning_methods
+    disposition: EXTEND
+    owner: 'portfolio planning engine'
+    horizon: FAR_HORIZON
+    package_source:
+      path: 11_far_horizon_methods_catalog.md
+      sha256: a3aa814571f4ac160326a4bd75a5e42c1592b127b180bb1b1681b42db3fe8eae
+    implementation_authority_granted: false
+    activation_authority_granted: false
+  - capability_id: architecture_views
+    disposition: EXTEND
+    owner: 'knowledge / traceability projection layer'
+    horizon: FAR_HORIZON
+    package_source:
+      path: 10_knowledge_projection_strategy_indexes_graphs_c4.md
+      sha256: e3585791d24722689680d14199f6386cf34ddc972700ac8d1c3f98475ea5012e
+    implementation_authority_granted: false
+    activation_authority_granted: false
+  - capability_id: multi_worker_parallelism
+    disposition: ADAPT
+    owner: 'control plane / Dispatcher / Worker Portfolio'
+    horizon: FAR_HORIZON_LAST
+    package_source:
+      path: 11_far_horizon_methods_catalog.md
+      sha256: a3aa814571f4ac160326a4bd75a5e42c1592b127b180bb1b1681b42db3fe8eae
+    implementation_authority_granted: false
+    activation_authority_granted: false
+architectural_invariants:
+  promotion_manifest_is_new_subsystem: false
+  advanced_planning_is_new_subsystem: false
+  architecture_views_are_new_subsystem: false
+  multi_worker_direct_reuse_allowed: false
+  no_replace_without_supersession_evidence: true
+  see_does_not_imply_execute: true
+integration_boundaries:
+  this_artifact_is_architecture_decision_only: true
+  implementation_authority_granted: false
+  roadmap_mutation_authorized: false
+  standards_mutation_authorized: false
+  existing_dirty_surface_mutation_authorized: false
+  cf10_binding_authorized: false
+  cf10_activation_authorized: false
+  far_horizon_activation_authorized: false
+  multi_worker_parallel_mutation_authorized: false
+  automatic_next_work_activation_authorized: false
+  package_files_copied_to_canonical_surfaces: false
+observed_reconciliation_boundary:
+  reference_head: 34e14f023fb4c3bdf83fb44a8c31e0013b608e28
+  dirty_or_worktree_only_targets:
+    - path: coordination/global_policy/architecture_improvement_horizon_v0_1.yaml
+      observed_state: WORKTREE_ONLY_UNTRACKED
+      mutation_authorized_by_this_decision: false
+      revalidation_required_before_future_mutation: true
+    - path: coordination/roadmaps/details/forprint_system_blueprint/control_foundation_near_horizon_program_v0_1.yaml
+      observed_state: WORKTREE_ONLY_UNTRACKED
+      mutation_authorized_by_this_decision: false
+      revalidation_required_before_future_mutation: true
+    - path: coordination/standards/governance/module_workflow_automation_and_external_input_policy.md
+      observed_state: DIRTY_TRACKED
+      mutation_authorized_by_this_decision: false
+      revalidation_required_before_future_mutation: true
+    - path: coordination/standards/governance/module_concept_and_roadmap_traceability_standard_v0_1.md
+      observed_state: DIRTY_TRACKED
+      mutation_authorized_by_this_decision: false
+      revalidation_required_before_future_mutation: true
+    - path: coordination/standards/automation/work_front_contract_v0_1.yaml
+      observed_state: WORKTREE_ONLY_UNTRACKED
+      mutation_authorized_by_this_decision: false
+      revalidation_required_before_future_mutation: true
+    - path: coordination/standards/automation/control_plane/central_listener_dispatcher_monitor_v0_1.yaml
+      observed_state: WORKTREE_ONLY_UNTRACKED
+      mutation_authorized_by_this_decision: false
+      revalidation_required_before_future_mutation: true
+    - path: coordination/standards/automation/continuity_contract_v0_1.yaml
+      observed_state: WORKTREE_ONLY_UNTRACKED
+      mutation_authorized_by_this_decision: false
+      revalidation_required_before_future_mutation: true
+  clean_reference_targets:
+    - path: coordination/roadmaps/details/forprint_system_blueprint/portfolio_full_horizon_target_states_v0_1.yaml
+      observed_state: CLEAN_TRACKED
+      mutation_authorized_by_this_decision: false
+      explicit_gap_required_before_future_update: true
+    - path: coordination/roadmaps/details/forprint_system_blueprint/portfolio_full_horizon_target_states_v0_1.md
+      observed_state: CLEAN_TRACKED
+      mutation_authorized_by_this_decision: false
+      explicit_gap_required_before_future_update: true
+    - path: coordination/roadmaps/details/forprint_system_blueprint/portfolio_module_roadmap_approval_matrix_v0_1.yaml
+      observed_state: CLEAN_TRACKED
+      mutation_authorized_by_this_decision: false
+      explicit_gap_required_before_future_update: true
+    - path: coordination/roadmaps/details/forprint_system_blueprint/portfolio_module_roadmap_approval_matrix_v0_1.md
+      observed_state: CLEAN_TRACKED
+      mutation_authorized_by_this_decision: false
+      explicit_gap_required_before_future_update: true
+    - path: coordination/standards/knowledge/artifact_and_semantic_metadata_standard_v0_1.md
+      observed_state: CLEAN_TRACKED
+      mutation_authorized_by_this_decision: false
+      explicit_gap_required_before_future_update: true
+next_allowed_direction:
+  action: >-
+    Reconcile the accepted architecture decisions into their
+    existing canonical roadmap/governance owners through
+    separate bounded transactions after revalidating each
+    target surface against its current dirty/worktree state.
+  implementation_may_start: false
+  cf10_may_bind: false
+  cf10_may_activate: false
+  far_horizon_work_may_activate: false
+validation:
+  source_package_identity_verified: true
+  semantic_owner_review_passed: true
+  canonical_target_audit_passed: true
+  isolated_create_boundary_required: true
+  unrelated_repository_state_must_remain_unchanged: true
