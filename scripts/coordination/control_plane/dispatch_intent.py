@@ -1109,7 +1109,10 @@ def build_cf10_dispatcher_canonical_ack(
     from pathlib import Path as _Path
 
     root_path = _Path(root).resolve()
-    if worker_id != "worker-01" or attempt_id != "cf10-u180j-a001":
+    if worker_id != "worker-01" or attempt_id not in (
+        "cf10-u180j-a001",
+        "cf10-u180j-a002",
+    ):
         raise ValueError(
             "canonical ACK is limited to the exact first CF10 attempt"
         )
@@ -1254,7 +1257,10 @@ def authorize_cf10_internal_zero_stage_explicit_dispatch(
             "Assistant ACK must be validated before explicit dispatch"
         )
 
-    if worker_id != "worker-01" or attempt_id != "cf10-u180j-a001":
+    if worker_id != "worker-01" or attempt_id not in (
+        "cf10-u180j-a001",
+        "cf10-u180j-a002",
+    ):
         raise ValueError(
             "explicit dispatch is limited to the exact first attempt"
         )
@@ -1326,7 +1332,7 @@ def authorize_cf10_internal_zero_stage_explicit_dispatch(
     workspace = _Path(workspace_repo).expanduser().resolve()
     suffix = _Path(
         "forprint_system_blueprint/worker-01/"
-        "cf10-u180j-a001/workspace/repo"
+        f"{attempt_id}/workspace/repo"
     )
     if not workspace.is_dir():
         raise ValueError("isolated workspace repo is missing")
