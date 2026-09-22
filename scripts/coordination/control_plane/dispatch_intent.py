@@ -1380,3 +1380,279 @@ def authorize_cf10_internal_zero_stage_explicit_dispatch(
         "grants_broad_dispatch_authority": False,
     }
 # cf10-first-worker-launch-extension-v0-1:end
+# cf10-a003-operator-status-binding-v0-3:start
+CF10_OPERATOR_STATUS_A003_BINDING_V0_1 = {
+    "work_id": "u180j",
+    "module": "forprint_system_blueprint",
+    "work_front": (
+        "coordination/work_fronts/"
+        "cf10_operator_status_surface_self_hardening_v0_1.yaml"
+    ),
+    "task_prompt_id": "cf10-operator-status-surface-self-hardening-v0-1",
+    "task_module_root": ".",
+    "execution_profile": "light-maintenance",
+    "procedure_id": "governed_canonical_mutation",
+    "worker_id": "worker-01",
+    "attempt_id": "cf10-u180j-a003",
+}
+
+
+def _validate_cf10_operator_status_a003_exact(
+    *, work_id: str, module: str, work_front: str, task_prompt_id: str,
+    task_module_root: str, execution_profile: str, procedure_id: str,
+    worker_id: str, attempt_id: str, blueprint_ai_trial_ready: bool = False,
+) -> dict:
+    if blueprint_ai_trial_ready is not False:
+        raise ValueError("CF-10 a003 requires BLUEPRINT_AI_TRIAL_READY=false")
+    observed = {
+        "work_id": work_id, "module": module, "work_front": work_front,
+        "task_prompt_id": task_prompt_id, "task_module_root": task_module_root,
+        "execution_profile": execution_profile, "procedure_id": procedure_id,
+        "worker_id": worker_id, "attempt_id": attempt_id,
+    }
+    bad = [k for k, v in CF10_OPERATOR_STATUS_A003_BINDING_V0_1.items()
+           if observed.get(k) != v]
+    if bad:
+        raise ValueError("CF-10 operator-status a003 binding mismatch: " + ",".join(bad))
+    return {
+        "schema_version": "forprint_cf10_operator_status_a003_binding_v0_1",
+        "eligible": True,
+        "scope": "CF10_U180J_A003_OPERATOR_STATUS_ONLY",
+        "mode": "MANUAL_SHADOW",
+        "candidate_only": True,
+        "bindings": dict(CF10_OPERATOR_STATUS_A003_BINDING_V0_1),
+        "assistant_ack_required": True,
+        "assistant_ack_validated": False,
+        "explicit_dispatch_decision_required": True,
+        "explicit_dispatch_decision_recorded": False,
+        "worker_process_launch_allowed": False,
+        "canonical_attempt_ledger_append_allowed": False,
+        "authority": {
+            "execution_authority_granted": False,
+            "dispatch_authority_granted": False,
+            "worker_dispatch_performed": False,
+            "external_dispatch_allowed": False,
+            "release_allowed": False,
+            "push_allowed": False,
+            "merge_allowed": False,
+            "foreign_repository_write_allowed": False,
+            "automatic_accept_allowed": False,
+        },
+    }
+
+
+def prepare_cf10_operator_status_a003_pre_dispatch(
+    *, root, worker_id: str, attempt_id: str,
+    blueprint_ai_trial_ready: bool = False, runner=None,
+) -> dict:
+    binding = dict(CF10_OPERATOR_STATUS_A003_BINDING_V0_1)
+    exact = _validate_cf10_operator_status_a003_exact(
+        work_id=binding["work_id"], module=binding["module"],
+        work_front=binding["work_front"], task_prompt_id=binding["task_prompt_id"],
+        task_module_root=binding["task_module_root"],
+        execution_profile=binding["execution_profile"],
+        procedure_id=binding["procedure_id"], worker_id=worker_id,
+        attempt_id=attempt_id, blueprint_ai_trial_ready=blueprint_ai_trial_ready,
+    )
+    prepared = prepare_cf09_task_execution(
+        root=root, work_front=binding["work_front"],
+        execution_profile=binding["execution_profile"],
+        task_prompt_id=binding["task_prompt_id"],
+        task_module_root=binding["task_module_root"], module=binding["module"],
+        procedure_id=binding["procedure_id"], runner=runner,
+    )
+    if prepared.get("state") != "AWAITING_ASSISTANT_ACK":
+        raise ValueError("CF-10 a003 must stop at AWAITING_ASSISTANT_ACK")
+    if prepared.get("assistant_ack_validated") is not False:
+        raise ValueError("CF-10 a003 cannot consume ACK during preparation")
+    authority = prepared.get("authority")
+    if not isinstance(authority, dict):
+        raise ValueError("CF-10 a003 authority block missing")
+    forbidden = (
+        "execution_authority_granted", "dispatch_authority_granted",
+        "worker_dispatch_performed", "external_dispatch_allowed",
+        "release_allowed", "push_allowed", "merge_allowed",
+    )
+    widened = [k for k in forbidden if authority.get(k) is not False]
+    if widened:
+        raise ValueError("CF-10 a003 authority widened: " + ",".join(widened))
+    result = dict(prepared)
+    result["cf10_operator_status_a003_binding"] = exact
+    result["worker_id"] = worker_id
+    result["attempt_id"] = attempt_id
+    result["workspace_required_before_dispatch"] = True
+    result["worker_process_launch_allowed"] = False
+    result["canonical_attempt_ledger_append_allowed"] = False
+    return result
+
+
+def _cf10_operator_status_a003_required(execution: dict) -> dict:
+    required = {
+        "module": "forprint_system_blueprint",
+        "work_front_id": (
+            "coordination/work_fronts/"
+            "cf10_operator_status_surface_self_hardening_v0_1.yaml"
+        ),
+        "task_prompt_id": "cf10-operator-status-surface-self-hardening-v0-1",
+        "procedure_id": "governed_canonical_mutation",
+    }
+    for key, expected in required.items():
+        if execution.get(key) != expected:
+            raise ValueError(f"execution is outside CF10 a003 binding: {key}")
+    gate = execution.get("work_front_gate")
+    if not isinstance(gate, dict) or gate.get("validated") is not True:
+        raise ValueError("CF-10 a003 Work Front gate invalid")
+    if gate.get("work_front_id") != (
+        "wf-cf10-operator-status-surface-self-hardening-v0-1"
+    ):
+        raise ValueError("CF-10 a003 Work Front ID mismatch")
+    if execution.get("execution_profile_ref") not in {
+        "light-maintenance", "light-maintenance@r1"
+    }:
+        raise ValueError("CF-10 a003 execution profile mismatch")
+    return required
+
+
+def build_cf10_operator_status_a003_canonical_ack(
+    *, root, prepared_execution: dict, source_state_fingerprint: str,
+    worker_id: str, attempt_id: str,
+) -> dict:
+    import re as _re
+    from pathlib import Path as _Path
+
+    root_path = _Path(root).resolve()
+    if worker_id != "worker-01" or attempt_id != "cf10-u180j-a003":
+        raise ValueError("canonical ACK is limited to exact CF10 a003")
+    if prepared_execution.get("mode") != "TASK_EXECUTION":
+        raise ValueError("canonical ACK requires TASK_EXECUTION")
+    if prepared_execution.get("state") != "AWAITING_ASSISTANT_ACK":
+        raise ValueError("canonical ACK requires AWAITING_ASSISTANT_ACK")
+    if prepared_execution.get("assistant_ack_validated") is not False:
+        raise ValueError("canonical ACK cannot rebuild consumed ACK")
+    if not _re.fullmatch(r"[0-9a-f]{64}", source_state_fingerprint):
+        raise ValueError("source_state_fingerprint must be sha256 hex")
+
+    required = _cf10_operator_status_a003_required(prepared_execution)
+    manifest = prepared_execution.get("handoff_manifest_sha256")
+    if not isinstance(manifest, str) or not _re.fullmatch(r"[0-9a-f]{64}", manifest):
+        raise ValueError("prepared execution manifest hash invalid")
+
+    constitution = root_path / "coordination/standards/governance/project_constitution_v0_1.yaml"
+    module_policy = root_path / "coordination/module_policy/forprint_system_blueprint/module_policy.md"
+    work_front = root_path / "coordination/work_fronts/cf10_operator_status_surface_self_hardening_v0_1.yaml"
+    profiles = root_path / "coordination/registry/execution_profiles_v0_1.yaml"
+    procedure = root_path / "coordination/registry/governed_canonical_mutation_procedure_v0_1.yaml"
+
+    return {
+        "schema_version": "forprint_assistant_handoff_v2_ack_v0_1",
+        "handoff_manifest_sha256": manifest,
+        "launch_mode": "TASK_EXECUTION",
+        "context_fingerprint": source_state_fingerprint,
+        "authority_ack": {
+            "scope": "CF10_U180J_A003_OPERATOR_STATUS_ONLY",
+            "project_constitution_sha256": _cf10_sha256_file(constitution),
+            "module_policy_sha256": _cf10_sha256_file(module_policy),
+            "authority_widening": False,
+        },
+        "work_front_ack": {
+            "work_front_id": "wf-cf10-operator-status-surface-self-hardening-v0-1",
+            "work_front_ref": required["work_front_id"],
+            "sha256": _cf10_sha256_file(work_front),
+        },
+        "profile_ack": {
+            "profile_ref": "light-maintenance@r1",
+            "registry_sha256": _cf10_sha256_file(profiles),
+        },
+        "procedure_ack": {
+            "procedure_id": "governed_canonical_mutation",
+            "sha256": _cf10_sha256_file(procedure),
+        },
+        "freshness_ack": {
+            "source_state_fingerprint": source_state_fingerprint,
+            "worker_id": worker_id,
+            "attempt_id": attempt_id,
+            "workspace_equivalence_required": True,
+        },
+    }
+
+
+def authorize_cf10_operator_status_a003_explicit_dispatch(
+    *, root, ready_execution: dict, worker_id: str, attempt_id: str,
+    source_state_fingerprint: str, workspace_repo,
+    runtime_provider: str, runtime_model: str,
+) -> dict:
+    import hashlib as _hashlib
+    import json as _json
+    import re as _re
+    from pathlib import Path as _Path
+
+    _ = _Path(root).resolve()
+    if ready_execution.get("state") != "READY_FOR_EXPLICIT_DISPATCH":
+        raise ValueError("execution must be READY_FOR_EXPLICIT_DISPATCH")
+    if ready_execution.get("assistant_ack_validated") is not True:
+        raise ValueError("Assistant ACK must be validated before dispatch")
+    if worker_id != "worker-01" or attempt_id != "cf10-u180j-a003":
+        raise ValueError("explicit dispatch is limited to exact CF10 a003")
+    if not _re.fullmatch(r"[0-9a-f]{64}", source_state_fingerprint):
+        raise ValueError("source_state_fingerprint must be sha256 hex")
+    if runtime_provider != "github_copilot_cli":
+        raise ValueError("CF10 a003 runtime provider must be github_copilot_cli")
+    if runtime_model != "auto":
+        raise ValueError("CF10 a003 runtime model selection must be auto")
+
+    required = _cf10_operator_status_a003_required(ready_execution)
+    authority = ready_execution.get("authority")
+    if not isinstance(authority, dict):
+        raise ValueError("ready execution authority block missing")
+    for key in (
+        "execution_authority_granted", "dispatch_authority_granted",
+        "worker_dispatch_performed", "external_dispatch_allowed",
+        "release_allowed", "push_allowed", "merge_allowed",
+    ):
+        if authority.get(key) is not False:
+            raise ValueError(f"forbidden pre-dispatch authority widening: {key}")
+
+    workspace = _Path(workspace_repo).expanduser().resolve()
+    suffix = _Path(
+        "forprint_system_blueprint/worker-01/"
+        f"{attempt_id}/workspace/repo"
+    )
+    if not workspace.is_dir():
+        raise ValueError("isolated workspace repo is missing")
+    if tuple(workspace.parts[-len(suffix.parts):]) != suffix.parts:
+        raise ValueError("workspace repo is outside exact CF10 attempt layout")
+
+    binding = {
+        "work_id": "u180j",
+        "worker_id": worker_id,
+        "attempt_id": attempt_id,
+        "source_state_fingerprint": source_state_fingerprint,
+        "work_front_id": "wf-cf10-operator-status-surface-self-hardening-v0-1",
+        "work_front_ref": required["work_front_id"],
+        "profile_ref": "light-maintenance@r1",
+        "procedure_id": required["procedure_id"],
+        "runtime_provider": runtime_provider,
+        "runtime_model": runtime_model,
+        "workspace_repo": str(workspace),
+    }
+    decision_id = _hashlib.sha256(
+        _json.dumps(binding, sort_keys=True).encode("utf-8")
+    ).hexdigest()
+    return {
+        "schema_version": "forprint_cf10_internal_explicit_dispatch_decision_v0_1",
+        "decision_id": decision_id,
+        "decision": "ALLOW_EXACT_FIRST_INTERNAL_WORKER_LAUNCH",
+        "binding": binding,
+        "assistant_ack_validated": True,
+        "explicit_dispatch_decision_recorded": True,
+        "worker_process_launch_allowed": True,
+        "canonical_attempt_ledger_append_allowed": True,
+        "external_dispatch_allowed": False,
+        "release_allowed": False,
+        "push_allowed": False,
+        "merge_allowed": False,
+        "foreign_repository_write_allowed": False,
+        "automatic_accept_allowed": False,
+        "grants_broad_dispatch_authority": False,
+    }
+# cf10-a003-operator-status-binding-v0-3:end

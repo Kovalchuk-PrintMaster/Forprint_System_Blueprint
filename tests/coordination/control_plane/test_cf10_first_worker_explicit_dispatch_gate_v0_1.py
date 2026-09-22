@@ -246,3 +246,67 @@ def test_cf10_canonical_ack_rejects_a003() -> None:
             attempt_id="cf10-u180j-a003",
         )
 
+# cf10-a003-operator-status-binding-tests-v0-3:start
+def test_cf10_operator_status_a003_ack_and_dispatch(tmp_path: Path) -> None:
+    attempt_id = "cf10-u180j-a003"
+    fingerprint = "cd" * 32
+    prepared_a003 = dispatch.prepare_cf10_operator_status_a003_pre_dispatch(
+        root=ROOT, worker_id="worker-01", attempt_id=attempt_id,
+        blueprint_ai_trial_ready=False,
+    )
+    assert prepared_a003["state"] == "AWAITING_ASSISTANT_ACK"
+    assert prepared_a003["task_prompt_id"] == (
+        "cf10-operator-status-surface-self-hardening-v0-1"
+    )
+    assert prepared_a003["work_front_gate"]["work_front_id"] == (
+        "wf-cf10-operator-status-surface-self-hardening-v0-1"
+    )
+    assert prepared_a003["worker_process_launch_allowed"] is False
+
+    ack = dispatch.build_cf10_operator_status_a003_canonical_ack(
+        root=ROOT, prepared_execution=prepared_a003,
+        source_state_fingerprint=fingerprint,
+        worker_id="worker-01", attempt_id=attempt_id,
+    )
+    assert list(ack) == dispatch._cf09_ack_contract(ROOT)["exact_fields"]
+    assert ack["freshness_ack"]["attempt_id"] == attempt_id
+
+    ready = dispatch.validate_cf09_assistant_ack(
+        root=ROOT, prepared_execution=prepared_a003,
+        assistant_ack=dict(ack), expected_ack=ack,
+        expected_ack_source="DISPATCHER_CANONICAL_BINDING",
+    )
+    workspace = (
+        tmp_path / "forprint_system_blueprint/worker-01" /
+        attempt_id / "workspace/repo"
+    )
+    workspace.mkdir(parents=True)
+    decision = dispatch.authorize_cf10_operator_status_a003_explicit_dispatch(
+        root=ROOT, ready_execution=ready, worker_id="worker-01",
+        attempt_id=attempt_id, source_state_fingerprint=fingerprint,
+        workspace_repo=workspace, runtime_provider="github_copilot_cli",
+        runtime_model="auto",
+    )
+    assert decision["binding"]["attempt_id"] == attempt_id
+    assert decision["binding"]["work_id"] == "u180j"
+    assert decision["worker_process_launch_allowed"] is True
+    assert decision["external_dispatch_allowed"] is False
+    assert decision["release_allowed"] is False
+    assert decision["push_allowed"] is False
+    assert decision["merge_allowed"] is False
+    assert decision["foreign_repository_write_allowed"] is False
+    assert decision["automatic_accept_allowed"] is False
+
+
+def test_cf10_operator_status_a003_rejects_task1_prepared() -> None:
+    old = dispatch.prepare_cf10_internal_zero_stage_pre_dispatch(
+        root=ROOT, worker_id="worker-01", attempt_id="cf10-u180j-a002",
+        blueprint_ai_trial_ready=False,
+    )
+    with pytest.raises(ValueError, match="outside CF10 a003 binding"):
+        dispatch.build_cf10_operator_status_a003_canonical_ack(
+            root=ROOT, prepared_execution=old,
+            source_state_fingerprint="ef" * 32,
+            worker_id="worker-01", attempt_id="cf10-u180j-a003",
+        )
+# cf10-a003-operator-status-binding-tests-v0-3:end
