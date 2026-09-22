@@ -1,0 +1,78 @@
+work_front_id: wf-cf10-operator-status-surface-self-hardening-v0-1
+objective: Extend the existing Execution Attempt Ledger CLI with one bounded read-only operator status surface that derives
+  the latest immutable record for each attempt from existing ledger facts without changing append semantics, lifecycle
+  authority or execution authority.
+scope:
+- scripts/coordination/execution_attempt_ledger_v0_1.py
+- tests/validation/test_execution_attempt_ledger_v0_1.py
+- coordination/standards/automation/execution_attempt_ledger_contract_v0_1.yaml
+exclusions:
+- Do not modify coordination/standards/automation/execution_attempt_ledger_contract_v0_1.yaml.
+- Do not modify lifecycle events, roadmap bindings, Work Front mechanics or dispatcher behavior.
+- Do not create a new status store, registry, projection authority or execution-state source of truth.
+- Do not write any repository other than forprint_system_blueprint.
+- Do not commit, push, merge, release or automatically ACCEPT results.
+- Do not modify worker runtime, provider configuration or candidate-promotion mechanics.
+provenance:
+  source_refs:
+  - roadmap:control_foundation_near_horizon/CF-10
+  - lifecycle:u180j/WORK_ACTIVATED/sequence-67
+  - training_task:operator_status_surface_self_hardening
+  - scripts/coordination/execution_attempt_ledger_v0_1.py
+  - tests/validation/test_execution_attempt_ledger_v0_1.py
+  - coordination/standards/automation/execution_attempt_ledger_contract_v0_1.yaml
+  chat_is_authority: false
+dependencies:
+- CF-09/u180i CLOSED sequence 65
+- CF-10/u180j ACTIVE sequence 67
+- dispatcher_zero_stage_regression_mutation_proof accepted
+- candidate promotion/review path demonstrated
+- append-only same-attempt terminal history supported
+- latest_attempt_record derivation available
+outputs:
+- One read-only status subcommand added to the existing Execution Attempt Ledger CLI.
+- One derived latest immutable record per attempt in operator-visible status output.
+- Existing list command remains the full immutable history view.
+- Focused deterministic regression coverage for status derivation and filtering.
+- Structured worker result for operator review; no automatic acceptance.
+acceptance:
+- Only scripts/coordination/execution_attempt_ledger_v0_1.py and tests/validation/test_execution_attempt_ledger_v0_1.py
+  are changed by the worker.
+- The status command derives state from existing immutable ledger records and never writes ledger state.
+- The status command presents exactly one latest record per attempt after optional work-front filtering.
+- The status command supports the existing store-root override pattern and work-front filtering.
+- Output ordering is deterministic.
+- Existing validate, append and list behavior remains compatible.
+- Existing append-only history, retry semantics and latest-attempt derivation remain unchanged.
+- Focused execution-attempt-ledger pytest passes.
+- git diff --check passes in the isolated worker workspace.
+- No lifecycle mutation, authority widening, commit, push, merge, release, foreign write or automatic ACCEPT occurs.
+stop_conditions:
+- Execution Attempt Ledger contract modification appears necessary.
+- Lifecycle, Work Front, dispatcher or worker-runtime modification appears necessary.
+- A path outside the two declared worker mutation targets must be modified.
+- Status cannot be derived from existing immutable ledger facts.
+- Any new mutable status store or duplicate execution-state authority appears necessary.
+- Any cross-module write, commit, push, merge, release or automatic ACCEPT is requested.
+- Required governed context is stale or inconsistent.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false
+capability_reuse:
+  search_performed: true
+  searched_surfaces:
+  - scripts/coordination/control_plane
+  - scripts/coordination/execution_progress.py
+  - scripts/coordination/render_blueprint_governance_status.py
+  - scripts/coordination/render_blueprint_self_coordination_status.py
+  - scripts/coordination/execution_attempt_ledger_v0_1.py
+  - tests/validation/test_execution_attempt_ledger_v0_1.py
+  disposition: EXTEND
+  target_refs:
+  - scripts/coordination/execution_attempt_ledger_v0_1.py
+  - tests/validation/test_execution_attempt_ledger_v0_1.py
+  read_only_refs:
+  - coordination/standards/automation/execution_attempt_ledger_contract_v0_1.yaml
