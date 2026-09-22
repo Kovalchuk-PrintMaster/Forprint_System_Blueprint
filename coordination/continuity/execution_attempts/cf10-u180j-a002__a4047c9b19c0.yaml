@@ -1,0 +1,30 @@
+schema_version: forprint_execution_attempt_record_v0_1
+attempt_id: cf10-u180j-a002
+work_front_id: wf-cf10-zero-stage-dispatch-boundary-regression-v0-1
+recorded_at: '2026-09-22T15:34:45.641193Z'
+actor_or_worker_ref: worker-01
+where: /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a002/workspace/repo
+why: Retry first bounded CF-10 internal worker task after github_copilot_cli edit/apply_patch
+  capability probe PASS.
+source_fingerprint: c5a23225096f53c304a03de9967cb84a8f0061f8433ba5546a69e6e62edc01fe
+profile_ref_or_revision: light-maintenance@r1
+pack_hash_or_context_hash: 3fd766f7d83060af519ef1c355523521e76c68d4622afb051b06fe11e838fb6e
+launch_or_invocation_ref: /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a002/input/cf10_a002_provider_invocation_v0_1.yaml
+attempt_stage: FINISHED
+result_state: SUCCEEDED
+result_refs:
+- worker_result_sha256:114cef79bd27f98d9334106246ea8c0d0f9b51f21713e88a6f175395498306c1
+- promotion_commit:8fecd947c0830d0f1ae64f301d01d1c45159c540
+- promoted_target_sha256:f307250e404290064e330c6f528cc420778f491c8089f62b50191f1253023542
+validator_outcome: PASS
+validator_evidence_refs:
+- worker_benchmark_sha256:7daceab8fce505318071ace3150e8ebc818d2595b475012b21a641d5a4f8bfe3
+- candidate_patch_sha256:bfc4bb006b7f0da39af33fae7c8e10dee2e2f0fba61cada7d690c329ae3d5a88
+failure_or_retry_ref: retry:cf10-u180j-a001
+resume:
+  latest_accepted_ref: null
+  resume_coordinates: []
+  replay_forbidden_refs:
+  - attempt:cf10-u180j-a001
+  - ledger:/srv/software_development/forprint-project/forprint_system_blueprint/coordination/continuity/execution_attempts/cf10-u180j-a001__b7db6fcf6c08.yaml
+retry_of_attempt_id: cf10-u180j-a001
