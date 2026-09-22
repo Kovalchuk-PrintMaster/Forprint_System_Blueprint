@@ -1,0 +1,150 @@
+schema_version: forprint_execution_attempt_ledger_contract_v0_1
+status: active_standard
+authority: none
+owner: forprint_system_blueprint
+record_role: durable_attempt_fact_history
+purpose: >-
+  Preserve every bounded execution attempt, including failed, partial and retry
+  attempts, with durable resume coordinates and validation evidence.
+authority_model:
+  work_front_contract_is_execution_authority: true
+  lifecycle_event_store_is_roadmap_execution_authority: true
+  attempt_ledger_is_fact_authority_only: true
+  generated_projections_are_authority: false
+  raw_chat_is_execution_authority: false
+  grants_worker_dispatch_authority: false
+  grants_release_authority: false
+  grants_foreign_repository_write_authority: false
+storage:
+  model: append_only_immutable_files
+  default_root: coordination/continuity/execution_attempts
+  overwrite_existing_attempt: forbidden
+  duplicate_attempt_id: controlled_terminal_transition_only
+  duplicate_record_digest: forbidden
+  content_hash_bound_filename: true
+record_schema:
+  schema_version: forprint_execution_attempt_record_v0_1
+  required_fields:
+    - schema_version
+    - attempt_id
+    - work_front_id
+    - recorded_at
+    - actor_or_worker_ref
+    - where
+    - why
+    - source_fingerprint
+    - profile_ref_or_revision
+    - pack_hash_or_context_hash
+    - launch_or_invocation_ref
+    - attempt_stage
+    - result_state
+    - result_refs
+    - validator_outcome
+    - validator_evidence_refs
+    - failure_or_retry_ref
+    - resume
+  nullable_when_unavailable:
+    - profile_ref_or_revision
+    - pack_hash_or_context_hash
+    - launch_or_invocation_ref
+    - failure_or_retry_ref
+  result_states:
+    - PENDING
+    - SUCCEEDED
+    - FAILED
+    - BLOCKED
+    - PARTIAL
+    - CANCELLED
+  attempt_stages:
+    - PREPARED
+    - STARTED
+    - MUTATION_APPLIED
+    - VALIDATING
+    - FINISHED
+    - FAILED
+    - BLOCKED
+    - INTERRUPTED
+  validator_outcomes:
+    - NOT_RUN
+    - PASS
+    - FAIL
+    - PARTIAL
+  resume_required_fields:
+    - latest_accepted_ref
+    - resume_coordinates
+    - replay_forbidden_refs
+  forbidden_authority_fields:
+    - authority
+    - permissions
+    - dispatch_authority
+    - release_authority
+    - foreign_repository_write_authority
+retry_semantics:
+  retry_creates_new_attempt_id: true
+  retry_of_attempt_id_must_reference_prior_record: true
+  failed_attempt_remains_durable: true
+resume_semantics:
+  partial_or_interrupted_attempt_requires_resume_coordinate: true
+  replay_of_accepted_mutation_or_event_is_forbidden: true
+  latest_accepted_mutation_or_event_may_be_resume_anchor: true
+separation:
+  workfront_history_and_execution_attempts_are_distinct_record_families: true
+  attempt_record_does_not_mutate_work_front: true
+  attempt_record_does_not_mutate_lifecycle_state: true
+scope_exclusions:
+  execution_profile_registry: CF-06
+  procedure_graphs: CF-07
+  handoff_compiler_v2: CF-08
+  dispatcher_launch_integration: CF-09
+  actual_worker_launch: false
+
+# cf10-first-worker-launch-extension-v0-1
+cf10_first_actual_launch_extension_v0_1:
+  historical_cf05_scope_exclusion_preserved: true
+  exact_scope:
+    work_id: u180j
+    worker_id: worker-01
+    attempt_id: cf10-u180j-a001
+  launch_fact:
+    append_condition: process_start_succeeded
+    attempt_stage: STARTED
+    result_state: PENDING
+    validator_outcome: NOT_RUN
+    fact_authority_only: true
+    grants_dispatch_authority: false
+  retry:
+    after_process_start_uses_new_attempt_id: true
+    first_retry_attempt_id: cf10-u180j-a002
+    overwrite_a001: false
+
+attempt_history_semantics:
+  model: one_ledger_append_only_attempt_history
+  attempt_identity: attempt_id
+  record_identity:
+    persisted_record_id_required: false
+    derivation: record_digest_plus_content_hash_filename
+  latest_state:
+    stored: false
+    derivation: latest_attempt_record
+    ordering: recorded_at_asc_record_digest_tiebreaker
+  same_attempt_append:
+    exact_record_reappend_allowed: false
+    previous_latest_result_state_required: PENDING
+    new_result_state_must_not_be: PENDING
+    recorded_at_strictly_increases: true
+    stable_fields:
+      - attempt_id
+      - work_front_id
+      - actor_or_worker_ref
+      - where
+      - why
+      - source_fingerprint
+      - profile_ref_or_revision
+      - pack_hash_or_context_hash
+      - launch_or_invocation_ref
+      - retry_of_attempt_id
+    post_terminal_append_allowed: false
+  retry:
+    new_attempt_id_required: true
+    retry_reference_satisfied_by_any_record_for_attempt: true
+  historical_migration_required: false
