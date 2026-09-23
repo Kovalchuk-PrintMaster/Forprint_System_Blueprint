@@ -1,0 +1,86 @@
+schema_version: forprint_module_current_state_reconciliation_closeout_v0_1
+status: CLOSED
+module: forprint_library
+reconciliation_subject: library_historical_candidates_and_human_intent_current_state
+historical:
+  provenance_records:
+  - dftb_library_blueprint_standardization_calculator_contract_20260705_reconciliation
+  - dftb_library_architecture_genesis_20260516_reconciliation
+  actual_candidates:
+  - dftb_library_blueprint_standardization_calculator_contract_20260705_governance_candidate
+  - dftb_library_blueprint_standardization_calculator_contract_20260705_calculator_candidate
+  - dftb_library_architecture_genesis_20260516_admin_candidate
+  - dftb_library_architecture_genesis_20260516_contract_lineage_candidate
+  human_intents:
+  - HI-FP-LIBRARY-STRUCTURE-20260705-001
+  - HI-FP-REPORT-DEDUP-20260705-001
+  - HI-FP-LIBRARY-ADMIN-20260516-001
+  - HI-FP-DATA-CONTRACT-CONSISTENCY-20260516-001
+  - HI-FP-CONTRACT-DUAL-FORM-20260516-001
+live_module:
+  repository: /srv/software_development/forprint-project/forprint_library
+  branch: feature/library-calculator-input-contract-v01
+  head: bba52bf6001f256a5c13ea7dbe175336b431754c
+  upstream: origin/feature/library-calculator-input-contract-v01
+  upstream_head: bba52bf6001f256a5c13ea7dbe175336b431754c
+  worktree_clean: true
+focused_evidence:
+  human_intents_verified: 5
+  human_intents_focused_current_proof: 5
+  human_intents_exact_assertion_review: 0
+  human_intents_partial_current: 0
+  human_intents_no_focused_evidence: 0
+  test_symbols_scanned: 194
+  production_symbols_scanned: 287
+candidate_mapping:
+  governance_candidate:
+    candidate_id: dftb_library_blueprint_standardization_calculator_contract_20260705_governance_candidate
+    primary_human_intent: HI-FP-REPORT-DEDUP-20260705-001
+    secondary_human_intent: HI-FP-LIBRARY-STRUCTURE-20260705-001
+  calculator_candidate:
+    candidate_id: dftb_library_blueprint_standardization_calculator_contract_20260705_calculator_candidate
+    current_contract_context: true
+    human_intent_context:
+    - HI-FP-LIBRARY-STRUCTURE-20260705-001
+    - HI-FP-DATA-CONTRACT-CONSISTENCY-20260516-001
+  admin_candidate:
+    candidate_id: dftb_library_architecture_genesis_20260516_admin_candidate
+    primary_human_intent: HI-FP-LIBRARY-ADMIN-20260516-001
+  contract_lineage_candidate:
+    candidate_id: dftb_library_architecture_genesis_20260516_contract_lineage_candidate
+    primary_human_intent: HI-FP-DATA-CONTRACT-CONSISTENCY-20260516-001
+    secondary_human_intent: HI-FP-CONTRACT-DUAL-FORM-20260516-001
+authority_review:
+  initial_apparent_signals: 4
+  negative_validation_or_fixture_occurrences: 4
+  actual_authority_leakage_candidates: 0
+  final_disposition: AUTHORITY_SIGNALS_ARE_NEGATIVE_VALIDATION_FIXTURES
+  phrases:
+  - Library owns order state
+  - Library owns pricing logic
+  - Library owns warehouse stock truth
+  - Library owns payment/accounting truth
+  related_test_functions: 6
+decision:
+  disposition: CURRENT_LIBRARY_HISTORICAL_CANDIDATES_CONFIRMED
+  actual_candidates_closed: 4
+  implementation_gap: false
+  new_library_implementation_required: false
+  authority_leakage: false
+  library_truth_scope: semantic_reference_catalog_truth
+  operational_truth_owner: forprint_operations_control_registry
+  accounting_truth_owner: forprint_accounting_registry_service
+  warehouse_truth_owner: forprint_warehouse_service
+  pricing_truth_owner: calculator_engine
+  authority_effect: evidence_only_no_execution_activation
+safety:
+  test_execution_performed: false
+  make_execution_performed: false
+  live_module_mutated: false
+  source_map_mutated: false
+  human_intent_ledger_mutated: false
+  roadmap_mutated: false
+  cf10_touched: false
+next:
+  work_mode: continue_module_current_state_analysis_and_reconciliation
+  forprint_library_front: closed
