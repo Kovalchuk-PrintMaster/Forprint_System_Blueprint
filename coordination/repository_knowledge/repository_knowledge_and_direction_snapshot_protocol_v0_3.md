@@ -126,3 +126,16 @@ because this protocol exists.
 
 Existing v0.2 snapshots remain valid historical evidence. Full v0.3 automation is a separate
 roadmap workstream.
+
+<!-- module-self-inventory-required-surface-2026-09-01:start -->
+## Module self-inventory target surface
+
+Before broad autonomous module execution, every module should expose a fast machine-readable self-view:
+role/boundaries; implemented/partial/planned/deferred capabilities; roadmap + mature target;
+contracts; standards; dependencies/blockers; conflicts/gaps; last verified commit/evidence; semantic review status.
+
+Deterministic facts should be generated where possible. Semantic meaning remains owner-maintained.
+
+Before meaningful new functionality, query indexes for existing capability, semantic owner, reusable
+primitive, contract and implementation. Search is anti-duplication evidence, not permission to copy.
+<!-- module-self-inventory-required-surface-2026-09-01:end -->

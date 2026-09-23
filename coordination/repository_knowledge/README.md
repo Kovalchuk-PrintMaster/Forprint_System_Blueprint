@@ -55,19 +55,3 @@ incremental maintenance and layered retrieval.
 
 Historical snapshots are never rewritten to match the new protocol.
 <!-- repository-knowledge-v0-3-direction-v0-1:end -->
-
-## Roadmap enrichment living knowledge
-
-Reusable roadmap-enrichment process knowledge lives under:
-
-- `coordination/repository_knowledge/roadmap_enrichment/README.md` — human-readable field guide with proven fast paths,
-  pitfalls, reusable lessons, and recommended discovery/validation sequences;
-- `coordination/repository_knowledge/roadmap_enrichment/source_map.yaml` — machine-readable source-role, authority, freshness,
-  and navigation map.
-
-These artifacts are repository self-knowledge and navigation aids. They do not
-grant release, implementation, binding, activation, or publication authority.
-
-Update them only when a verified reusable lesson or source-role relationship
-has been established. Raw session transcripts and temporary audit output do
-not belong in the durable living-knowledge pack.

@@ -1,0 +1,57 @@
+schema_version: forprint_blueprint_primary_dialogue_second_pass_checkpoint_v0_1
+captured_on: '2026-09-22'
+status: BLUEPRINT_SELF_DIALOGUE_SECOND_PASS_BOUNDARY_REACHED
+scope: forprint_system_blueprint historical primary-dialogue second-pass reconciliation
+authority: repository_knowledge_checkpoint_not_execution_authority
+completed_second_pass_sources:
+- 2026-06-14_source_label
+- '2026-07-14'
+- '2026-08-05'
+- 2026-08-05-continuation
+- '2026-08-17'
+- 2026-08-31-preflight
+- '2026-09-05'
+- 2026-09-07-control-foundation
+- '2026-09-08'
+- '2026-09-09'
+- '2026-09-10'
+- '2026-09-12'
+- 2026-09-14-continuation
+- '2026-09-21'
+source_quality_corrections:
+  rule: Earlier LOSSY_CYRILLIC labels created during raw/intermediate MHTML inspection are superseded. Correct MIME/quoted-printable
+    payload decoding shows UTF-8 Cyrillic is intact; the real limitation is partial/virtualized DOM capture and
+    sparse assistant narrative.
+  superseded_artifacts:
+  - coordination/internal_work/blueprint/evening_reviews/2026-08-05/DFTB_blueprint_20260805_v0_1/20_primary_mhtml_second_pass_reconciliation_20260922_v0_1.yaml
+  - coordination/internal_work/blueprint/evening_reviews/2026-09-08/DFTB_blueprint_20260908_v0_1/20_primary_mhtml_second_pass_reconciliation_20260922_v0_1.yaml
+  - coordination/internal_work/blueprint/evening_reviews/2026-09-10/DFTB_blueprint_infrastructure_hardening_v0_1/20_primary_mhtml_second_pass_reconciliation_20260922_v0_1.yaml
+  - coordination/internal_work/blueprint/evening_reviews/2026-09-12/DFTB_blueprint_continuity_control_foundation_continuation_v0_1/20_primary_mhtml_second_pass_reconciliation_20260922_v0_1.yaml
+  corrected_interpretation: UTF8_RECOVERABLE_PARTIAL_OR_VIRTUALIZED_CHAT_SNAPSHOT
+  cyrillic_loss: false
+makefile_policy:
+  standard_id: makefile_operator_functional_map_policy_v0_1
+  status: ACTIVE_STANDARD_AFTER_THIS_APPLY
+  functional_coverage_audit: PENDING_SEPARATE_LIVE_AUDIT
+  reason: Historical 17.08, 09.09, 07.09 and later sources already identify Make as an operational/transparency
+    surface. The 22.09 operator decision makes full functional coverage a durable project rule.
+master_memory_navigation:
+  preferred: ForPrint Dialogue Master Memory v3.7
+  historical_retained:
+  - v1.3
+  - v1.6
+  - v3.6
+  authority: derived_navigation_not_current_runtime_authority
+nonblocking_note: The 2026-08-27 dialogue is already present in the normalized/master-memory lineage and first-pass
+  reconciliation. No separate current-turn primary second-pass artifact was produced in this sequence; revisit only
+  if the operator later supplies or requests a dedicated primary second-pass.
+next_phase: Begin source-by-source enrichment of other ForPrint modules using the same reuse-first, provenance-aware,
+  no-duplicate methodology.
+mutations_not_granted:
+- roadmap
+- execution_authority
+- lifecycle
+- dispatch
+- release
+- acceptance
+- commit_push_merge
