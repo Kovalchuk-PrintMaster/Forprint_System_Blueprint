@@ -120,3 +120,68 @@ intents:
     surface consumed by Inspector.
   context: Examples include phone-not-identity, QR-not-permission and filename-not-source-of-truth.
   roadmap: BP-SEMANTIC-01
+- intent_id: HI-FP-LIBRARY-STRUCTURE-20260705-001
+  status: RECOVERED
+  text: 'ForPrint repositories expected to accumulate many scripts or files should group new content into thematic subdirectories, generally keeping one level of nesting unless deeper structure has clear value; stable legacy layout should not be mass-moved merely for cosmetic consistency.'
+  context: 'Recovered from direct owner Library repository-structure rules in visible turns 89 and 93; current general architecture-hygiene material covers related placement concerns but does not preserve this one-level/thematic rule explicitly.'
+  roadmap: ''
+  source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2026-07-05_source_label/DFTB_library_blueprint_standardization_calculator_contract_v0_1/00_intake_manifest_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-07-05_source_label/DFTB_library_blueprint_standardization_calculator_contract_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-07-05_source_label/DFTB_library_blueprint_standardization_calculator_contract_v0_1/package/dialogue_memory.yaml
+- intent_id: HI-FP-REPORT-DEDUP-20260705-001
+  status: RECOVERED
+  text: 'Operator-facing validation reports should consolidate semantically identical repeated checks or evidence rows, while retaining separate entries when they prove genuinely different evidence classes or semantics.'
+  context: 'Recovered from the owner reporting correction in visible turn 177; deduplication must not collapse distinct evidence classes.'
+  roadmap: ''
+  source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2026-07-05_source_label/DFTB_library_blueprint_standardization_calculator_contract_v0_1/00_intake_manifest_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-07-05_source_label/DFTB_library_blueprint_standardization_calculator_contract_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-07-05_source_label/DFTB_library_blueprint_standardization_calculator_contract_v0_1/package/dialogue_memory.yaml
+- intent_id: HI-FP-LIBRARY-ADMIN-20260516-001
+  status: RECOVERED
+  text: 'Routine changes to Library-owned canonical references, rules and versions should be manageable through a strong human-friendly governed administration surface; adding a material, currency or similar reference should not require editing server code.'
+  context: 'Recovered from direct owner turn 1. Current Library planning is ADMIN_FACING but does not preserve this explicit no-routine-server-code administration requirement; implementation ownership still requires reconciliation with shared Control Center/System Administration surfaces.'
+  roadmap: ''
+  source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2026-05-16_source_label/DFTB_library_architecture_genesis_canonical_boundary_v0_1/00_intake_manifest_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-05-16_source_label/DFTB_library_architecture_genesis_canonical_boundary_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-05-16_source_label/DFTB_library_architecture_genesis_canonical_boundary_v0_1/package/dialogue_memory.yaml
+- intent_id: HI-FP-DATA-CONTRACT-CONSISTENCY-20260516-001
+  status: RECOVERED
+  text: 'ForPrint canonical exchange forms and structured definitions should be tested for cross-module data sufficiency and consistency before publication, so data accepted at intake is also adequate for the downstream accounting, warehouse, production and related processes that consume it.'
+  context: 'Recovered from direct owner turn 1 requirement that every important step be covered by tests checking whether incoming fields are sufficient and mutually consistent across downstream operational uses. Current generic test governance is reused, while semantic ownership is reconciled with Contract Registry/Gateway/domain owners.'
+  roadmap: ''
+  source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2026-05-16_source_label/DFTB_library_architecture_genesis_canonical_boundary_v0_1/00_intake_manifest_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-05-16_source_label/DFTB_library_architecture_genesis_canonical_boundary_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-05-16_source_label/DFTB_library_architecture_genesis_canonical_boundary_v0_1/package/dialogue_memory.yaml
+- intent_id: HI-FP-CONTRACT-DUAL-FORM-20260516-001
+  status: RECOVERED
+  text: 'External partner integrations should receive a clear human-readable form or specification together with an equivalent machine-readable contract or payload format, with explicit versioning so people and systems share one unambiguous exchange model.'
+  context: 'Recovered from the owner partner-integration example in turn 1: one human-understandable form plus one technical/machine form such as JSON. This is preserved as cross-module intent, not as proof that Library remains the current contract authority.'
+  roadmap: ''
+  source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2026-05-16_source_label/DFTB_library_architecture_genesis_canonical_boundary_v0_1/00_intake_manifest_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-05-16_source_label/DFTB_library_architecture_genesis_canonical_boundary_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-05-16_source_label/DFTB_library_architecture_genesis_canonical_boundary_v0_1/package/dialogue_memory.yaml
+- intent_id: HI-FP-GOV-IDEMPOTENT-GENERATED-20260529-001
+  status: RECOVERED
+  text: "Generated coordination snapshots, sync outputs and completion automation must be semantically idempotent: repeating the same verification or generation against unchanged semantic inputs must not create tracked Git differences solely because timestamps or equivalent non-semantic metadata were regenerated."
+  context: Recovered from the Operational Registry historical source. The operator relayed a Blueprint clarification requiring idempotent sync snapshots and completion automation and explicitly called out timestamp-only churn. The source filename is only a 2026-05-29 label; visible history extends through 2026-06-19, so no exact logical date is asserted for this turn.
+  roadmap: ''
+  source_refs:
+  - coordination/internal_work/blueprint/evening_reviews/2026-05-29_source_label/DFTB_operational_registry_lineage_idempotency_v0_1/00_intake_manifest_v0_1.yaml
+  - coordination/internal_work/blueprint/evening_reviews/2026-05-29_source_label/DFTB_operational_registry_lineage_idempotency_v0_1/17_portfolio_reconciliation_20260923_v0_1.yaml
+  - coordination/internal_work/blueprint/evening_reviews/2026-05-29_source_label/DFTB_operational_registry_lineage_idempotency_v0_1/19_generated_coordination_artifact_idempotency_candidate_v0_1.yaml
+  - coordination/internal_work/blueprint/evening_reviews/2026-05-29_source_label/DFTB_operational_registry_lineage_idempotency_v0_1/package/dialogue_memory.yaml
+- intent_id: HI-FP-LOGISTICS-REPORT-VISIBILITY-20260610-001
+  status: RECOVERED
+  text: Human-facing module/check reports should provide an immediately scannable table in which each named check has an explicit PASS/WARN/FAIL result with clear green/yellow/red visual semantics; raw log lines remain evidence but should not be the only operator-facing summary.
+  context: Recovered from the long-running Logistics dialogue. The operator explicitly requested a full visual table so successful, warning-level and failed checks can be distinguished immediately. This refines the existing unified-reporting direction without changing machine completion-envelope authority. The source filename is only a 2026-06-10 label and is not treated as the exact logical date of the turn.
+  roadmap: BP-H10-UNIFIED-REPORTING
+  source_refs:
+  - coordination/internal_work/blueprint/evening_reviews/2026-06-10_source_label/DFTB_logistics_h9_lineage_report_visibility_v0_1/00_intake_manifest_v0_1.yaml
+  - coordination/internal_work/blueprint/evening_reviews/2026-06-10_source_label/DFTB_logistics_h9_lineage_report_visibility_v0_1/17_portfolio_reconciliation_20260923_v0_1.yaml
+  - coordination/internal_work/blueprint/evening_reviews/2026-06-10_source_label/DFTB_logistics_h9_lineage_report_visibility_v0_1/18_h9_h10_and_report_visibility_origin_map_v0_1.yaml
+  - coordination/internal_work/blueprint/evening_reviews/2026-06-10_source_label/DFTB_logistics_h9_lineage_report_visibility_v0_1/package/dialogue_memory.yaml
