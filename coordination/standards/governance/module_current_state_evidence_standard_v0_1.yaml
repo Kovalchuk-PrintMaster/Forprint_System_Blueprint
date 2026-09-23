@@ -1,0 +1,84 @@
+schema_version: '0.1'
+status: ACTIVE
+authority: BLUEPRINT_PORTFOLIO_DOCUMENTATION_GOVERNANCE
+title: Module Inventory and Current-State Evidence Standard v0.1
+purpose: Give every canonical ForPrint module one predictable current-state profile so a future assistant or operator can understand the module before implementation, without confusing Blueprint planning documentation with verified repository/runtime evidence.
+principles:
+  - Current state, target state, and proposal must never be blended.
+  - Blueprint documentation is useful evidence but does not prove another module's repository implementation.
+  - Unknown or unverified fields stay explicit; they are not filled by inference.
+  - Current-state evidence must identify provenance and verification level.
+  - A mature module profile should be sufficient for onboarding/navigation before implementation work begins.
+  - Repository/code/test/runtime verification is a separate later evidence step.
+  - Cross-repository evidence collection is not started by this standard.
+  - Assistant distribution remains closed until the portfolio gate is explicitly opened.
+evidence_levels:
+  - VERIFIED_LOCAL_REPOSITORY
+  - VERIFIED_RUNTIME
+  - BLUEPRINT_CANONICAL_DOCUMENTATION
+  - HUMAN_CONFIRMED
+  - PROPOSED
+  - UNKNOWN
+state_labels:
+  - CURRENT_CONFIRMED
+  - CURRENT_BLUEPRINT_DOCUMENTED_NOT_REPO_VERIFIED
+  - TARGET_AGREED
+  - TARGET_PROPOSED
+  - UNKNOWN
+required_profile_sections:
+  - role
+  - current_capabilities
+  - owned_data
+  - contracts
+  - interfaces
+  - implemented_components
+  - test_and_acceptance_evidence
+  - blockers
+  - dependencies
+  - target_state
+  - roadmap_position
+  - conflicts_and_stale_material
+  - last_verified
+  - canonical_paths
+section_rules:
+  role:
+    must_distinguish_current_from_target: true
+  current_capabilities:
+    repo_verification_required_for_implemented_claim: true
+  owned_data:
+    semantic_owner_claim_requires_authoritative_reference: true
+  contracts:
+    registry_or_authoritative_contract_reference_preferred: true
+  interfaces:
+    current_interface_claim_requires_evidence: true
+  implemented_components:
+    repository_or_runtime_evidence_required: true
+  test_and_acceptance_evidence:
+    test_command_or_acceptance_artifact_required_for_verified_claim: true
+  blockers:
+    unknown_is_allowed: true
+  dependencies:
+    producer_consumer_constraints_must_be_visible: true
+  target_state:
+    agreed_and_proposed_must_be_separated: true
+  roadmap_position:
+    roadmap_authority_reference_required: true
+  conflicts_and_stale_material:
+    stale_or_conflicting_evidence_must_not_be_silently_discarded: true
+  last_verified:
+    date_and_verification_level_required: true
+  canonical_paths:
+    current_authority_paths_must_be_distinguished_from_navigation_indexes: true
+portfolio_rules:
+  canonical_module_count: 23
+  blueprint_local_repository_may_be_verified_now: true
+  other_module_repository_verification_started_now: false
+  cross_repo_diagnostics_started_now: false
+  assistant_distribution_allowed_now: false
+  module_implementation_allowed_now: false
+  future_distribution_requires_current_state_profile: true
+tooling:
+  portfolio_registry: coordination/internal_work/blueprint/module_inventory/module_current_state_evidence_portfolio_v0_1.yaml
+  profile_renderer: scripts/coordination/render_module_current_state_profile_v0_1.py
+  validator: scripts/validation/validate_module_current_state_evidence_v0_1.py
+  check_command: make module-current-state-check

@@ -1,4 +1,6 @@
 schema_version: operator_attention_semantics_contract_v0_1
+status: active_standard
+authority: forprint_system_blueprint
 metadata:
   standard_id: operator_attention_semantics_v0_1
   owner: forprint_system_blueprint
@@ -9,28 +11,28 @@ metadata:
 purpose: Define operator-attention reasons/lifecycle independently from transport and governance authority.
 inherits:
   q1_contract_path: coordination/standards/governance/clarification_question_lifecycle_v0_1.yaml
-  q1_contract_sha256: b6ac925638194422ace541943418cd822c33c28e5dc7aace8a3660fd167f75f5
+  q1_contract_sha256: 17b884cd7203d6994871b4cd41936d771433b531e07d1d59adf0c3544268c655
   q2_contract_path: coordination/standards/governance/bounded_clarification_and_escalation_v0_1.yaml
-  q2_contract_sha256: 0e1b2c98e8c7d42291e7c4120ff7d2c1c214300083757731fc90ebe134a17c7d
+  q2_contract_sha256: 45c7721d5e82a800bdf60c3583a5980b79872cc6f9f40ae04dee8fd3c4870ca0
   q3_contract_path: coordination/standards/governance/execution_blocker_taxonomy_v0_1.yaml
-  q3_contract_sha256: c85ec5eb4243fac09502f7c18b893a3cc5a8cb294e71e65a1a6822c50899ea8e
+  q3_contract_sha256: a378202ff92ddf2e27622bc05c4349d5c5f4e93d1fba93a51be77fb120e393ce
   q4_contract_path: coordination/standards/governance/immutable_prompt_adjustment_and_decision_v0_1.yaml
-  q4_contract_sha256: 83559969e5671f3342a5ac115ebd4a52cb57f3a5e7be32c94232be7fad2b2aca
+  q4_contract_sha256: f142990e826cde57687f6b8640315a7a8c4dfd29930bafea177c1b08e87028c5
   q5_contract_path: coordination/standards/governance/common_coordination_event_envelope_v0_1.yaml
-  q5_contract_sha256: a6c8f574b36d7b8d9334de61500c395d60352dce4800970f695c2777a665ebd0
+  q5_contract_sha256: 543e6d1418916f7364d511b54762387b71bec78e6e63d047454b659b474695e6
 attention_reasons:
   canonical_reasons:
-  - clarification_escalated
-  - access_required
-  - execution_blocked
-  - unable_to_execute
-  - no_dispatchable_work
-  - operator_execution_required
-  - operator_acceptance_required
-  - manual_review_required
-  - coordination_freshness_stale
-  - dependency_blocked
-  - repeated_verification_failure
+    - clarification_escalated
+    - access_required
+    - execution_blocked
+    - unable_to_execute
+    - no_dispatchable_work
+    - operator_execution_required
+    - operator_acceptance_required
+    - manual_review_required
+    - coordination_freshness_stale
+    - dependency_blocked
+    - repeated_verification_failure
   canonical_reason_count: 11
   unknown_reason_allowed: false
   new_reason_requires_versioned_review: true
@@ -48,16 +50,16 @@ attention_reasons:
     repeated_verification_failure: Repeated verification failure makes additional blind retry unsafe or wasteful.
 attention_lifecycle:
   states:
-  - OPEN
-  - ACKNOWLEDGED
-  - RESOLVED
-  - CANCELLED
+    - OPEN
+    - ACKNOWLEDGED
+    - RESOLVED
+    - CANCELLED
   allowed_transitions:
-  - OPEN->ACKNOWLEDGED
-  - OPEN->RESOLVED
-  - OPEN->CANCELLED
-  - ACKNOWLEDGED->RESOLVED
-  - ACKNOWLEDGED->CANCELLED
+    - OPEN->ACKNOWLEDGED
+    - OPEN->RESOLVED
+    - OPEN->CANCELLED
+    - ACKNOWLEDGED->RESOLVED
+    - ACKNOWLEDGED->CANCELLED
   acknowledged_is_resolution: false
   acknowledged_is_prompt_acceptance: false
   acknowledged_is_transport_receipt: false
@@ -66,37 +68,37 @@ attention_lifecycle:
 q5_event_integration:
   family: operator_attention
   canonical_actions:
-  - opened
-  - acknowledged
-  - refreshed
-  - resolved
-  - cancelled
+    - opened
+    - acknowledged
+    - refreshed
+    - resolved
+    - cancelled
   adds_fields_to_q5_envelope: false
   required_payload_fields:
-  - attention_id
-  - reason
-  - attention_state
-  - subject_refs
-  - attention_owner
-  - requested_action
-  - resolution_criteria
+    - attention_id
+    - reason
+    - attention_state
+    - subject_refs
+    - attention_owner
+    - requested_action
+    - resolution_criteria
   optional_payload_fields:
-  - related_question_id
-  - related_blocker_id
-  - related_decision_id
-  - related_report_id
-  - dependency_refs
-  - supersedes_attention_id
+    - related_question_id
+    - related_blocker_id
+    - related_decision_id
+    - related_report_id
+    - dependency_refs
+    - supersedes_attention_id
   subject_refs_min_items: 1
   attention_id_stable_per_thread: true
   reason_change_requires_new_attention_id: true
   published_events_immutable: true
 severity_semantics:
   values:
-  - notice
-  - action_required
-  - urgent
-  - critical
+    - notice
+    - action_required
+    - urgent
+    - critical
   severity_grants_authority: false
   severity_implies_return_hold_accept: false
   critical_inferred_from_reason_alone: false

@@ -151,3 +151,70 @@ Until final project delivery, Blueprint MUST continuously:
 Continuity/START_HERE should point to this standard or its successor.
 START_HERE itself should remain a navigation/authority document rather than accumulating the entire
 standard inline.
+
+<!-- roadmap-curated-quotes-and-mature-target-2026-09-01:start -->
+## Curated human-source excerpts
+
+Do not archive whole chats into roadmap files. However, when exact human wording materially explains
+why a roadmap step exists, Blueprint SHOULD preserve a short curated verbatim quote linked to source
+date/session, Human Intent, roadmap step and normalized interpretation.
+
+The quote is context/evidence, not authority by itself.
+
+## Final Target State requirement
+
+Every portfolio module MUST have a recoverable mature target state even when distant future is partly
+synthetic. Separate `AGREED / HUMAN-CONFIRMED` from `SYNTHETIC / PROPOSED`.
+
+If a coherent mature responsibility/value cannot be formulated after inventory and serious
+synthetic reconstruction, flag the module for merge/absorption/pause/removal review.
+<!-- roadmap-curated-quotes-and-mature-target-2026-09-01:end -->
+
+## Implementation ↔ Inventory ↔ Roadmap reconciliation
+
+Module preparation and roadmap maintenance MUST preserve this four-way invariant:
+
+```text
+ACTUAL IMPLEMENTATION / EVIDENCE
+        ↕
+MODULE INVENTORY / LINEAGE / DOCUMENT AUTHORITY
+        ↕
+MODULE ROADMAP
+        ↕
+BLUEPRINT-ASSIGNED RESPONSIBILITIES
+```
+
+Reconciliation is required after forensic inventory/consolidation, after a material
+Blueprint architecture responsibility change, and before a module is treated as fully
+prepared for normal roadmap development.
+
+The reconciliation must distinguish at least:
+
+- capability exists and roadmap already represents it;
+- capability exists but roadmap omits it;
+- roadmap plans work that implementation evidence suggests already exists;
+- roadmap and implementation lineage conflict;
+- roadmap intent is stale, superseded or deprecated;
+- useful discovered capability is a future roadmap enrichment candidate;
+- evidence is insufficient and the result remains `UNKNOWN_LEGACY` or an explicit open question.
+
+No assistant may invent historical intent or mark implementation complete merely because a
+similarly named file, class, endpoint or roadmap title exists.
+
+### Blueprint-derived module obligations
+
+When Blueprint assigns or materially changes a responsibility of another module, that
+responsibility MUST become one of:
+
+1. linked implementation evidence proving the responsibility already exists;
+2. an explicit module roadmap obligation/candidate;
+3. an explicit unresolved responsibility gap.
+
+A responsibility must not live only in Blueprint prose while remaining invisible to the
+affected module roadmap/preparation state.
+
+The future Module Preparation Registry/Queue should carry pending obligations until module
+roadmap or implementation evidence resolves them.
+
+A reconciliation report is evidence/navigation, not prompt release or execution authority.
+Canonical roadmap mutation remains a separate semantic review/apply action.

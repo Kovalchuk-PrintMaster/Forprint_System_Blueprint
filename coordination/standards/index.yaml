@@ -1,6 +1,8 @@
+schema_version: forprint_standards_index_v0_1
 standards_index_version: v0_1
 status: active
-updated_at: '2026-08-31T00:00:00+00:00'
+authority: forprint_system_blueprint
+updated_at: '2026-09-06T00:00:00+00:00'
 default_semantics: advisory_guidance_gradual_alignment
 policy:
   continuous_read_required: true
@@ -480,6 +482,56 @@ standards:
   title: ForPrint Automation Open Questions v0.1
   status: draft
   adoption_mode: reference_only
+- standard_id: central_listener_dispatcher_monitor_contract_v0_1
+  file: automation/control_plane/central_listener_dispatcher_monitor_v0_1.yaml
+  title: ForPrint Central Listener Dispatcher Monitor Contract v0.1
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: completion_intake_inspector_conformance_contract_v0_1
+  file: automation/control_plane/completion_intake_inspector_conformance_v0_1.yaml
+  title: ForPrint Completion Intake and Inspector Conformance Contract v0.1
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: module_bootstrap_execution_policy_v0_1
+  file: automation/control_plane/module_bootstrap_execution_policy_v0_1.yaml
+  title: ForPrint Module Bootstrap Execution Policy v0.1
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: bootstrap_task_context_mode_v0_1
+  file: automation/control_plane/bootstrap_task_context_mode_v0_1.yaml
+  title: ForPrint Bootstrap Task Context Mode v0.1
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: module_readiness_levels_v0_1
+  file: automation/control_plane/module_readiness_levels_v0_1.yaml
+  title: ForPrint Module Bootstrap and Development Readiness Levels v0.1
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: bootstrap_worker_runtime_profile_v0_1
+  file: automation/control_plane/bootstrap_worker_runtime_profile_v0_1.yaml
+  title: ForPrint Blueprint-owned Bootstrap Worker Runtime Profile v0.1
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: inspector_reviewer_registry_v0_1
+  file: automation/control_plane/inspector_reviewer_registry_v0_1.yaml
+  title: ForPrint Inspector Reviewer Registry and Binding v0.1
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: module_bootstrap_prompt_requirements_v0_1
+  file: automation/control_plane/module_bootstrap_prompt_requirements_v0_1.yaml
+  title: ForPrint Module Bootstrap Prompt Requirements v0.1
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: module_preparation_registry_v0_1
+  file: automation/control_plane/module_preparation_registry_v0_1.yaml
+  title: ForPrint Module Preparation Registry and Queue v0.1
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: module_repository_provisioning_gate_v0_1
+  file: automation/control_plane/module_repository_provisioning_gate_v0_1.yaml
+  title: ForPrint Module Repository Provisioning Gate v0.1
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
 - standard_id: frontend_group_readme
   file: frontend/README.md
   title: ForPrint Frontend Standards Readme
@@ -540,12 +592,16 @@ standards:
   title: Blueprint Document Taxonomy and Placement Policy
   status: active_standard
   adoption_mode: gradual_alignment
-
 - standard_id: assistant_bootstrap_governance_and_process_contract_direction_v0_1
   file: governance/assistant_bootstrap_governance_and_process_contract_direction_v0_1.md
   title: Assistant Bootstrap Governance And Process Contract Direction v0.1
   status: active_standard
   adoption_mode: gradual_alignment
+- standard_id: assistant_temporary_execution_and_artifact_handoff_protocol_v0_1
+  file: governance/assistant_temporary_execution_and_artifact_handoff_protocol_v0_1.md
+  title: Assistant Temporary Execution and Artifact Handoff Protocol v0.1
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
 - standard_id: forprint_evening_architecture_acceptance_matrix_v0_1
   file: governance/forprint_evening_architecture_acceptance_matrix_v0_1.yaml
   title: ForPrint Evening Architecture Acceptance Matrix v0.1
@@ -556,20 +612,198 @@ standards:
   title: ForPrint Operator Interaction Profile v0.1
   status: active_standard
   adoption_mode: gradual_alignment
-
 - standard_id: human_intent_capture_and_portfolio_projection_protocol_v0_1
   file: governance/human_intent_capture_and_portfolio_projection_protocol_v0_1.md
   title: Human Intent Capture and Portfolio Projection Protocol v0.1
   status: active_standard
   adoption_mode: gradual_alignment
-
 - standard_id: portfolio_rendering_and_content_specification_v0_1
   file: governance/portfolio_rendering_and_content_specification_v0_1.md
   title: Portfolio Rendering and Content Specification v0.1
   status: active_standard
   adoption_mode: gradual_alignment
+- standard_id: project_cleanliness_and_machine_surface_normalization_standard_v0_1
+  file: governance/project_cleanliness_and_machine_surface_normalization_standard_v0_1.md
+  title: Project Cleanliness & Machine-Surface Normalization Standard v0.1
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: document_type_registry_v0_1
+  file: governance/document_type_registry_v0_1.yaml
+  title: ForPrint Document Type Registry v0.1
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: pytest_skip_inventory_policy_v0_1
+  file: governance/pytest_skip_inventory_policy_v0_1.yaml
+  title: Pytest Skip Inventory Policy v0.1
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: safe_mutation_pipeline_v0_1
+  file: governance/safe_mutation_pipeline_v0_1.yaml
+  title: Canonical Safe Mutation Pipeline v0.1
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: asset_lifecycle_retirement_policy_v0_1
+  file: governance/asset_lifecycle_retirement_policy_v0_1.yaml
+  title: Asset Lifecycle and Retirement Policy v0.1
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: module_cleanliness_conformance_pack_v0_1
+  file: governance/module_cleanliness_conformance_pack_v0_1.yaml
+  title: Reusable Module Cleanliness Conformance Pack v0.1
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: module_current_state_evidence_standard_v0_1
+  file: governance/module_current_state_evidence_standard_v0_1.yaml
+  title: Module Inventory and Current-State Evidence Standard v0.1
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: verification_and_adversarial_testing_policy_v0_1
+  file: governance/verification_and_adversarial_testing_policy_v0_1.md
+  title: ForPrint Verification and Adversarial Testing Policy v0.1
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: module_reference_rollout_execution_pool_policy_v0_1
+  file: governance/module_reference_rollout_execution_pool_policy_v0_1.md
+  title: Module Reference Rollout and Execution Pool Policy v0.1
+  status: active_standard
+  adoption_mode: prompt_or_directive_required
+- standard_id: continuity_contract_v0_1
+  file: automation/continuity_contract_v0_1.yaml
+  title: ForPrint Continuity Contract v0.1
+  status: active_standard
+  adoption_mode: continuous_read
+- standard_id: execution_dependency_contract_v0_1
+  file: automation/execution_dependency_contract_v0_1.yaml
+  title: Execution Dependency Contract v0.1
+  status: active_standard
+  adoption_mode: continuous_read
+- standard_id: execution_progress_visibility_contract_v0_1
+  file: automation/execution_progress_visibility_contract_v0_1.yaml
+  title: Execution Progress Visibility Contract v0.1
+  status: active_standard
+  adoption_mode: continuous_read
+- standard_id: generator_derivation_contract_v0_1
+  file: automation/generator_derivation_contract_v0_1.yaml
+  title: Generator and Derivation Contract v0.1
+  status: active_standard
+  adoption_mode: continuous_read
+- standard_id: mutation_compiler_contract_v0_1
+  file: automation/mutation_compiler_contract_v0_1.yaml
+  title: ForPrint Mutation Compiler Contract v0.1
+  status: active_standard
+  adoption_mode: continuous_read
+- standard_id: non_mutating_check_contract_v0_1
+  file: automation/non_mutating_check_contract_v0_1.yaml
+  title: Non-mutating Make Check Contract v0.1
+  status: active_standard
+  adoption_mode: continuous_read
+- standard_id: module_continuity_transfer_contract_v0_1
+  file: automation/module_continuity_transfer_contract_v0_1.yaml
+  title: ForPrint Module Continuity Transfer Contract v0.1
+  status: active_standard
+  adoption_mode: continuous_read
+- standard_id: roadmap_execution_reconciliation_contract_v0_1
+  file: automation/roadmap_execution_reconciliation_contract_v0_1.yaml
+  title: ForPrint Roadmap Execution Reconciliation Contract v0.1
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: project_constitution_v0_1
+  file: governance/project_constitution_v0_1.yaml
+  title: ForPrint Project Constitution v0.1
+  status: active_standard
+  adoption_mode: continuous_read
+- standard_id: project_constitution_human_readable_companion_v0_1
+  file: governance/project_constitution_v0_1.md
+  title: ForPrint Project Constitution v0.1 - Human-readable Companion
+  status: active_standard
+  adoption_mode: continuous_read
+- standard_id: work_front_contract_v0_1
+  file: automation/work_front_contract_v0_1.yaml
+  title: ForPrint Work Front Contract v0.1
+  status: active_standard
+  adoption_mode: continuous_read
+- standard_id: workfront_history_contract_v0_1
+  file: automation/workfront_history_contract_v0_1.yaml
+  title: ForPrint Workfront History Contract v0.1
+  status: active_standard
+  adoption_mode: continuous_read
+- standard_id: execution_attempt_ledger_contract_v0_1
+  file: automation/execution_attempt_ledger_contract_v0_1.yaml
+  title: ForPrint Execution Attempt Ledger Contract v0.1
+  status: active_standard
+  adoption_mode: continuous_read
+- standard_id: execution_profile_registry_contract_v0_1
+  file: automation/execution_profile_registry_contract_v0_1.yaml
+  title: ForPrint Execution Profile Registry Contract v0.1
+  status: active_standard
+  adoption_mode: continuous_read
+- standard_id: governed_procedure_graph_contract_v0_1
+  file: automation/governed_procedure_graph_contract_v0_1.yaml
+  title: ForPrint Governed Procedure Graph Contract v0.1
+  status: active_standard
+  adoption_mode: continuous_read
+- standard_id: governed_procedure_registry_contract_v0_1
+  file: automation/governed_procedure_registry_contract_v0_1.yaml
+  title: ForPrint Governed Procedure Registry Contract v0.1
+  status: active_standard
+  adoption_mode: continuous_read
+- standard_id: procedure_run_manifest_contract_v0_1
+  file: automation/procedure_run_manifest_contract_v0_1.yaml
+  title: ForPrint Procedure Run Manifest Contract v0.1
+  status: active_standard
+  adoption_mode: continuous_read
+- standard_id: assistant_handoff_v2_contract_v0_1
+  file: automation/assistant_handoff_v2_contract_v0_1.yaml
+  title: ForPrint Assistant Handoff v2 Contract v0.1
+  status: active_standard
+  adoption_mode: continuous_read
+- standard_id: assistant_handoff_v2_runtime_contract_v0_1
+  file: automation/assistant_handoff_v2_runtime_contract_v0_1.yaml
+  title: ForPrint Assistant Handoff v2 Runtime Contract v0.1
+  status: active_standard
+  adoption_mode: continuous_read
+- standard_id: assistant_handoff_v2_result_contract_v0_1
+  file: automation/assistant_handoff_v2_result_contract_v0_1.yaml
+  title: ForPrint Assistant Handoff v2 Result Contract v0.1
+  status: active_standard
+  adoption_mode: continuous_read
+- standard_id: assistant_handoff_v2_freshness_resume_contract_v0_1
+  file: automation/assistant_handoff_v2_freshness_resume_contract_v0_1.yaml
+  title: ForPrint Assistant Handoff v2 Freshness + Resume Contract v0.1
+  status: active_standard
+  adoption_mode: continuous_read
+- standard_id: worker_task_envelope_contract_v0_1
+  file: automation/worker_task_envelope_contract_v0_1.yaml
+  title: ForPrint Worker Task Envelope Contract v0.1
+  status: active_standard
+  adoption_mode: continuous_read
+- standard_id: worker_workspace_contract_v0_1
+  file: automation/worker_workspace_contract_v0_1.yaml
+  title: ForPrint Worker Workspace Contract v0.1
+  status: active_standard
+  adoption_mode: continuous_read
+- standard_id: worker_candidate_promotion_contract_v0_1
+  file: automation/worker_candidate_promotion_contract_v0_1.yaml
+  title: ForPrint Worker Candidate Promotion Contract v0.1
+  status: active_standard
+  adoption_mode: continuous_read
 - standard_id: roadmap_enrichment_and_knowledge_saturation_operating_guide_v0_1
   file: governance/roadmap_enrichment_and_knowledge_saturation_operating_guide_v0_1.md
-  title: "Roadmap Enrichment and Knowledge Saturation Operating Guide v0.1"
+  title: Roadmap Enrichment and Knowledge Saturation Operating Guide v0.1
+  status: active_standard
+  adoption_mode: gradual_alignment
+- standard_id: worker_runtime_adapter_registry_contract_v0_1
+  file: automation/worker_runtime_adapter_registry_contract_v0_1.yaml
+  title: ForPrint Worker Runtime Adapter Registry Contract v0.1
+  status: active_standard
+  adoption_mode: continuous_read
+- standard_id: worker_runtime_benchmark_contract_v0_1
+  file: automation/worker_runtime_benchmark_contract_v0_1.yaml
+  title: ForPrint Worker Runtime Benchmark Contract v0.1
+  status: active_standard
+  adoption_mode: continuous_read
+- standard_id: makefile_operator_functional_map_policy_v0_1
+  file: governance/makefile_operator_functional_map_policy_v0_1.yaml
+  title: Makefile Operator Functional Map Policy v0.1
   status: active_standard
   adoption_mode: gradual_alignment

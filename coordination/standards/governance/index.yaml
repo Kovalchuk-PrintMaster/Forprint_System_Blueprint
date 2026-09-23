@@ -1,3 +1,6 @@
+schema_version: forprint_governance_standards_index_v0_1
+status: active
+authority: forprint_system_blueprint
 standards_group:
   group_id: governance
   title: Standards Governance
@@ -6,233 +9,279 @@ standards_group:
 
     '
   documents:
-  - file: README.md
-    status: advisory_guidance
-    order: 10
-  - file: standards_directory_policy.md
-    status: active_standard
-    order: 20
-  - file: folder_architecture_policy.md
-    title: Folder Architecture Policy
-    status: active_standard
-    adoption_mode: gradual_alignment
-    order: 30
-  - file: prompt_queue_navigation_policy.md
-    title: Prompt Queue Navigation Policy
-    status: active_standard
-    adoption_mode: gradual_alignment
-    order: 40
-  - file: coordination_document_awareness_policy.md
-    title: Coordination Document Awareness Policy
-    status: active_standard
-    adoption_mode: gradual_alignment
-    order: 50
-  - file: module_development_roadmap_policy.md
-    title: ForPrint Module Development Roadmap Policy
-    status: active_standard
-    adoption_mode: gradual_alignment
-    order: 60
-  - file: module_prompt_execution_and_reporting_protocol.md
-    title: Module Prompt Execution and Reporting Protocol
-    status: active_standard
-    adoption_mode: gradual_alignment
-    order: 70
-  - file: module_coordination_sync_protocol_v0_1.md
-    title: ForPrint Module Coordination Sync Protocol v0.1
-    status: active_standard
-    adoption_mode: gradual_alignment
-    order: 71
-  - file: accept_and_advance_protocol_v0_1.md
-    title: ForPrint ACCEPT_AND_ADVANCE Protocol v0.1
-    status: active_standard
-    adoption_mode: gradual_alignment
-    order: 72
-  - file: next_work_selection_policy_v0_1.md
-    title: ForPrint Next Work Selection Policy v0.1
-    status: active_standard
-    adoption_mode: gradual_alignment
-    order: 73
-  - file: coordination_health_policy_v0_1.yaml
-    title: ForPrint Coordination Health Policy v0.1
-    status: active_standard
-    adoption_mode: gradual_alignment
-    order: 74
-  - file: module_completion_exchange_protocol_v0_3.md
-    title: Module Completion Exchange Protocol v0.3
-    status: draft
-    adoption_mode: reference_only
-    order: 75
-  - file: closed_loop_coordination_lifecycle_v0_1.md
-    title: ForPrint Closed-Loop Coordination Lifecycle v0.1
-    status: active_standard
-    adoption_mode: gradual_alignment
-    order: 76
-  - file: module_prompt_contract_v0_4.yaml
-    title: Module Prompt Contract v0.4
-    status: active_standard
-    adoption_mode: gradual_alignment
-    order: 77
-  - file: module_completion_packet_v0_4.yaml
-    title: Module Completion Packet v0.4
-    status: active_standard
-    adoption_mode: gradual_alignment
-    order: 78
-  - file: module_completion_outbox_v0_4.yaml
-    title: Module Completion Outbox v0.4
-    status: active_standard
-    adoption_mode: gradual_alignment
-    order: 79
-  - file: module_workflow_automation_and_external_input_policy.md
-    title: Module Workflow Automation and External Input Policy
-    status: active_standard
-    adoption_mode: gradual_alignment
-    order: 80
-  - file: legacy_compatibility_retirement_policy_v0_1.md
-    title: ForPrint Legacy Compatibility and Retirement Policy v0.1
-    status: active_standard
-    adoption_mode: gradual_alignment
-    order: 85
-  - file: mutation_builder_contract_v0_1.md
-    title: ForPrint Mutation Builder Contract
-    status: active_standard
-    adoption_mode: prompt_or_directive_required
-    order: 90
-  - file: mutation_builder_contract_v0_1.yaml
-    title: ForPrint Mutation Builder Machine Contract
-    status: active_standard
-    adoption_mode: prompt_or_directive_required
-    order: 100
-  - file: coordination_data_classification_and_persistence_boundary_v0_1.md
-    title: ForPrint Coordination Data Classification and Persistence Boundary v0.1
-    status: active_standard
-    adoption_mode: prompt_or_directive_required
-    order: 110
-  - file: coordination_data_classification_and_persistence_boundary_v0_1.yaml
-    title: ForPrint Coordination Data Classification and Persistence Boundary Machine Contract v0.1
-    status: active_standard
-    adoption_mode: prompt_or_directive_required
-    order: 120
-  - file: clarification_question_lifecycle_v0_1.md
-    title: ForPrint Clarification Question Lifecycle v0.1
-    status: active_standard
-    adoption_mode: prompt_or_directive_required
-    order: 130
-  - file: clarification_question_lifecycle_v0_1.yaml
-    title: ForPrint Clarification Question Lifecycle Machine Contract v0.1
-    status: active_standard
-    adoption_mode: prompt_or_directive_required
-    order: 140
-  - file: bounded_clarification_and_escalation_v0_1.md
-    title: ForPrint Bounded Clarification and Escalation v0.1
-    status: active_standard
-    adoption_mode: prompt_or_directive_required
-    order: 145
-  - file: bounded_clarification_and_escalation_v0_1.yaml
-    title: ForPrint Bounded Clarification and Escalation Machine Contract v0.1
-    status: active_standard
-    adoption_mode: prompt_or_directive_required
-    order: 147
-  - file: execution_blocker_taxonomy_v0_1.md
-    title: ForPrint Execution Blocker Taxonomy and Prompt Blocking Semantics v0.1
-    status: active_standard
-    adoption_mode: prompt_or_directive_required
-    order: 148
-  - file: execution_blocker_taxonomy_v0_1.yaml
-    title: ForPrint Execution Blocker Taxonomy Machine Contract v0.1
-    status: active_standard
-    adoption_mode: prompt_or_directive_required
-    order: 149
-  - file: immutable_prompt_adjustment_and_decision_v0_1.md
-    title: ForPrint Immutable Prompt Adjustment and Operator Decision Correlation v0.1
-    status: active_standard
-    adoption_mode: prompt_or_directive_required
-    order: 150
-  - file: immutable_prompt_adjustment_and_decision_v0_1.yaml
-    title: ForPrint Immutable Prompt Adjustment and Operator Decision Machine Contract v0.1
-    status: active_standard
-    adoption_mode: prompt_or_directive_required
-    order: 151
-  - file: common_coordination_event_envelope_v0_1.md
-    title: ForPrint Common Coordination Event Envelope v0.1
-    status: active_standard
-    adoption_mode: prompt_or_directive_required
-    order: 152
-  - file: common_coordination_event_envelope_v0_1.yaml
-    title: ForPrint Common Coordination Event Envelope Machine Contract v0.1
-    status: active_standard
-    adoption_mode: prompt_or_directive_required
-    order: 153
-  - file: operator_attention_semantics_v0_1.md
-    title: ForPrint Operator Attention Semantics v0.1
-    status: active_standard
-    adoption_mode: prompt_or_directive_required
-    order: 154
-  - file: operator_attention_semantics_v0_1.yaml
-    title: ForPrint Operator Attention Semantics Machine Contract v0.1
-    status: active_standard
-    adoption_mode: prompt_or_directive_required
-    order: 155
-  - file: cross_module_question_routing_contract_v0_1.md
-    title: ForPrint Cross-Module Question Routing Contract v0.1
-    status: active_standard
-    adoption_mode: prompt_or_directive_required
-    order: 156
-  - file: cross_module_question_routing_contract_v0_1.yaml
-    title: ForPrint Cross-Module Question Routing Machine Contract v0.1
-    status: active_standard
-    adoption_mode: prompt_or_directive_required
-    order: 157
-  - file: logistics_clarification_reference_validation_v0_1.md
-    title: ForPrint Logistics Clarification Reference Validation v0.1
-    status: active_standard
-    adoption_mode: prompt_or_directive_required
-    order: 158
-  - file: logistics_clarification_reference_validation_v0_1.yaml
-    title: ForPrint Logistics Clarification Reference Validation Machine Contract v0.1
-    status: active_standard
-    adoption_mode: prompt_or_directive_required
-    order: 159
-  - file: phase_boundary_progression_gate_policy_v0_1.md
-    title: ForPrint Phase-Boundary Progression Gate Policy v0.1
-    status: active_standard
-    adoption_mode: prompt_or_directive_required
-    order: 150
-  - file: phase_boundary_progression_gate_policy_v0_1.yaml
-    title: ForPrint Phase-Boundary Progression Gate Machine Policy v0.1
-    status: active_standard
-    adoption_mode: prompt_or_directive_required
-    order: 160
-  - file: module_concept_and_roadmap_traceability_standard_v0_1.md
-    title: ForPrint Module Concept and Roadmap Traceability Standard v0.1
-    status: active_standard
-    adoption_mode: prompt_or_directive_required
-    order: 170
-  - file: end_to_end_completeness_and_gray_zone_review_standard_v0_1.md
-    title: ForPrint End-to-End Completeness and Gray-Zone Review Standard v0.1
-    status: active_standard
-    adoption_mode: prompt_or_directive_required
-    order: 180
-  - file: portfolio_roadmap_dependency_and_prioritization_standard_v0_1.md
-    title: ForPrint Portfolio Roadmap Dependency and Prioritization Standard v0.1
-    status: active_standard
-    adoption_mode: gradual_alignment
-    order: 190
-  - file: module_progress_weighting_and_baseline_measurement_standard_v0_1.md
-    title: ForPrint Module Progress Weighting and Baseline Measurement Standard v0.1
-    status: active_standard
-    adoption_mode: gradual_alignment
-    order: 200
-  - file: module_readiness_and_blocking_classification_standard_v0_1.md
-    title: ForPrint Module Readiness and Blocking Classification Standard v0.1
-    status: active_standard
-    adoption_mode: prompt_or_directive_required
-    order: 210
-  - file: blueprint_document_taxonomy.md
-    title: Blueprint Document Taxonomy and Placement Policy
-    status: active_standard
-    adoption_mode: gradual_alignment
-    order: 220
-  - file: roadmap_enrichment_and_knowledge_saturation_operating_guide_v0_1.md
-    order: 230
-    status: active_standard
-    title: "Roadmap Enrichment and Knowledge Saturation Operating Guide v0.1"
+    - file: README.md
+      status: advisory_guidance
+      order: 10
+    - file: standards_directory_policy.md
+      status: active_standard
+      order: 20
+    - file: folder_architecture_policy.md
+      title: Folder Architecture Policy
+      status: active_standard
+      adoption_mode: gradual_alignment
+      order: 30
+    - file: prompt_queue_navigation_policy.md
+      title: Prompt Queue Navigation Policy
+      status: active_standard
+      adoption_mode: gradual_alignment
+      order: 40
+    - file: coordination_document_awareness_policy.md
+      title: Coordination Document Awareness Policy
+      status: active_standard
+      adoption_mode: gradual_alignment
+      order: 50
+    - file: module_development_roadmap_policy.md
+      title: ForPrint Module Development Roadmap Policy
+      status: active_standard
+      adoption_mode: gradual_alignment
+      order: 60
+    - file: module_prompt_execution_and_reporting_protocol.md
+      title: Module Prompt Execution and Reporting Protocol
+      status: active_standard
+      adoption_mode: gradual_alignment
+      order: 70
+    - file: assistant_temporary_execution_and_artifact_handoff_protocol_v0_1.md
+      title: Assistant Temporary Execution and Artifact Handoff Protocol v0.1
+      status: active_standard
+      adoption_mode: prompt_or_directive_required
+      order: 84
+    - file: module_coordination_sync_protocol_v0_1.md
+      title: ForPrint Module Coordination Sync Protocol v0.1
+      status: active_standard
+      adoption_mode: gradual_alignment
+      order: 71
+    - file: accept_and_advance_protocol_v0_1.md
+      title: ForPrint ACCEPT_AND_ADVANCE Protocol v0.1
+      status: active_standard
+      adoption_mode: gradual_alignment
+      order: 72
+    - file: next_work_selection_policy_v0_1.md
+      title: ForPrint Next Work Selection Policy v0.1
+      status: active_standard
+      adoption_mode: gradual_alignment
+      order: 73
+    - file: coordination_health_policy_v0_1.yaml
+      title: ForPrint Coordination Health Policy v0.1
+      status: active_standard
+      adoption_mode: gradual_alignment
+      order: 74
+    - file: module_completion_exchange_protocol_v0_3.md
+      title: Module Completion Exchange Protocol v0.3
+      status: draft
+      adoption_mode: reference_only
+      order: 75
+    - file: closed_loop_coordination_lifecycle_v0_1.md
+      title: ForPrint Closed-Loop Coordination Lifecycle v0.1
+      status: active_standard
+      adoption_mode: gradual_alignment
+      order: 76
+    - file: module_prompt_contract_v0_4.yaml
+      title: Module Prompt Contract v0.4
+      status: active_standard
+      adoption_mode: gradual_alignment
+      order: 77
+    - file: module_completion_packet_v0_4.yaml
+      title: Module Completion Packet v0.4
+      status: active_standard
+      adoption_mode: gradual_alignment
+      order: 78
+    - file: module_completion_outbox_v0_4.yaml
+      title: Module Completion Outbox v0.4
+      status: active_standard
+      adoption_mode: gradual_alignment
+      order: 79
+    - file: module_workflow_automation_and_external_input_policy.md
+      title: Module Workflow Automation and External Input Policy
+      status: active_standard
+      adoption_mode: gradual_alignment
+      order: 80
+    - file: legacy_compatibility_retirement_policy_v0_1.md
+      title: ForPrint Legacy Compatibility and Retirement Policy v0.1
+      status: active_standard
+      adoption_mode: gradual_alignment
+      order: 85
+    - file: mutation_builder_contract_v0_1.md
+      title: ForPrint Mutation Builder Contract
+      status: active_standard
+      adoption_mode: prompt_or_directive_required
+      order: 90
+    - file: mutation_builder_contract_v0_1.yaml
+      title: ForPrint Mutation Builder Machine Contract
+      status: active_standard
+      adoption_mode: prompt_or_directive_required
+      order: 100
+    - file: coordination_data_classification_and_persistence_boundary_v0_1.md
+      title: ForPrint Coordination Data Classification and Persistence Boundary v0.1
+      status: active_standard
+      adoption_mode: prompt_or_directive_required
+      order: 110
+    - file: coordination_data_classification_and_persistence_boundary_v0_1.yaml
+      title: ForPrint Coordination Data Classification and Persistence Boundary Machine Contract v0.1
+      status: active_standard
+      adoption_mode: prompt_or_directive_required
+      order: 120
+    - file: clarification_question_lifecycle_v0_1.md
+      title: ForPrint Clarification Question Lifecycle v0.1
+      status: active_standard
+      adoption_mode: prompt_or_directive_required
+      order: 130
+    - file: clarification_question_lifecycle_v0_1.yaml
+      title: ForPrint Clarification Question Lifecycle Machine Contract v0.1
+      status: active_standard
+      adoption_mode: prompt_or_directive_required
+      order: 140
+    - file: bounded_clarification_and_escalation_v0_1.md
+      title: ForPrint Bounded Clarification and Escalation v0.1
+      status: active_standard
+      adoption_mode: prompt_or_directive_required
+      order: 145
+    - file: bounded_clarification_and_escalation_v0_1.yaml
+      title: ForPrint Bounded Clarification and Escalation Machine Contract v0.1
+      status: active_standard
+      adoption_mode: prompt_or_directive_required
+      order: 147
+    - file: execution_blocker_taxonomy_v0_1.md
+      title: ForPrint Execution Blocker Taxonomy and Prompt Blocking Semantics v0.1
+      status: active_standard
+      adoption_mode: prompt_or_directive_required
+      order: 148
+    - file: execution_blocker_taxonomy_v0_1.yaml
+      title: ForPrint Execution Blocker Taxonomy Machine Contract v0.1
+      status: active_standard
+      adoption_mode: prompt_or_directive_required
+      order: 149
+    - file: immutable_prompt_adjustment_and_decision_v0_1.md
+      title: ForPrint Immutable Prompt Adjustment and Operator Decision Correlation v0.1
+      status: active_standard
+      adoption_mode: prompt_or_directive_required
+      order: 150
+    - file: immutable_prompt_adjustment_and_decision_v0_1.yaml
+      title: ForPrint Immutable Prompt Adjustment and Operator Decision Machine Contract v0.1
+      status: active_standard
+      adoption_mode: prompt_or_directive_required
+      order: 151
+    - file: common_coordination_event_envelope_v0_1.md
+      title: ForPrint Common Coordination Event Envelope v0.1
+      status: active_standard
+      adoption_mode: prompt_or_directive_required
+      order: 152
+    - file: common_coordination_event_envelope_v0_1.yaml
+      title: ForPrint Common Coordination Event Envelope Machine Contract v0.1
+      status: active_standard
+      adoption_mode: prompt_or_directive_required
+      order: 153
+    - file: operator_attention_semantics_v0_1.md
+      title: ForPrint Operator Attention Semantics v0.1
+      status: active_standard
+      adoption_mode: prompt_or_directive_required
+      order: 154
+    - file: operator_attention_semantics_v0_1.yaml
+      title: ForPrint Operator Attention Semantics Machine Contract v0.1
+      status: active_standard
+      adoption_mode: prompt_or_directive_required
+      order: 155
+    - file: cross_module_question_routing_contract_v0_1.md
+      title: ForPrint Cross-Module Question Routing Contract v0.1
+      status: active_standard
+      adoption_mode: prompt_or_directive_required
+      order: 156
+    - file: cross_module_question_routing_contract_v0_1.yaml
+      title: ForPrint Cross-Module Question Routing Machine Contract v0.1
+      status: active_standard
+      adoption_mode: prompt_or_directive_required
+      order: 157
+    - file: logistics_clarification_reference_validation_v0_1.md
+      title: ForPrint Logistics Clarification Reference Validation v0.1
+      status: active_standard
+      adoption_mode: prompt_or_directive_required
+      order: 158
+    - file: logistics_clarification_reference_validation_v0_1.yaml
+      title: ForPrint Logistics Clarification Reference Validation Machine Contract v0.1
+      status: active_standard
+      adoption_mode: prompt_or_directive_required
+      order: 159
+    - file: phase_boundary_progression_gate_policy_v0_1.md
+      title: ForPrint Phase-Boundary Progression Gate Policy v0.1
+      status: active_standard
+      adoption_mode: prompt_or_directive_required
+      order: 150
+    - file: phase_boundary_progression_gate_policy_v0_1.yaml
+      title: ForPrint Phase-Boundary Progression Gate Machine Policy v0.1
+      status: active_standard
+      adoption_mode: prompt_or_directive_required
+      order: 160
+    - file: module_concept_and_roadmap_traceability_standard_v0_1.md
+      title: ForPrint Module Concept and Roadmap Traceability Standard v0.1
+      status: active_standard
+      adoption_mode: prompt_or_directive_required
+      order: 170
+    - file: project_cleanliness_and_machine_surface_normalization_standard_v0_1.md
+      title: Project Cleanliness & Machine-Surface Normalization Standard v0.1
+      status: active_standard
+      adoption_mode: prompt_or_directive_required
+      order: 170
+    - file: end_to_end_completeness_and_gray_zone_review_standard_v0_1.md
+      title: ForPrint End-to-End Completeness and Gray-Zone Review Standard v0.1
+      status: active_standard
+      adoption_mode: prompt_or_directive_required
+      order: 180
+    - file: portfolio_roadmap_dependency_and_prioritization_standard_v0_1.md
+      title: ForPrint Portfolio Roadmap Dependency and Prioritization Standard v0.1
+      status: active_standard
+      adoption_mode: gradual_alignment
+      order: 190
+    - file: module_progress_weighting_and_baseline_measurement_standard_v0_1.md
+      title: ForPrint Module Progress Weighting and Baseline Measurement Standard v0.1
+      status: active_standard
+      adoption_mode: gradual_alignment
+      order: 200
+    - file: module_readiness_and_blocking_classification_standard_v0_1.md
+      title: ForPrint Module Readiness and Blocking Classification Standard v0.1
+      status: active_standard
+      adoption_mode: prompt_or_directive_required
+      order: 210
+    - file: blueprint_document_taxonomy.md
+      title: Blueprint Document Taxonomy and Placement Policy
+      status: active_standard
+      adoption_mode: gradual_alignment
+      order: 220
+    - file: document_type_registry_v0_1.yaml
+      title: ForPrint Document Type Registry v0.1
+      status: active_standard
+      adoption_mode: prompt_or_directive_required
+      order: 171
+    - file: pytest_skip_inventory_policy_v0_1.yaml
+      title: Pytest Skip Inventory Policy v0.1
+      status: active_standard
+      adoption_mode: prompt_or_directive_required
+      order: 221
+    - file: safe_mutation_pipeline_v0_1.yaml
+      title: Canonical Safe Mutation Pipeline v0.1
+      status: active_standard
+      adoption_mode: prompt_or_directive_required
+      order: 222
+    - file: asset_lifecycle_retirement_policy_v0_1.yaml
+      title: Asset Lifecycle and Retirement Policy v0.1
+      status: active_standard
+      adoption_mode: prompt_or_directive_required
+      order: 223
+    - file: module_cleanliness_conformance_pack_v0_1.yaml
+      title: Reusable Module Cleanliness Conformance Pack v0.1
+      status: active_standard
+      adoption_mode: prompt_or_directive_required
+      order: 224
+    - file: module_current_state_evidence_standard_v0_1.yaml
+      title: Module Inventory and Current-State Evidence Standard v0.1
+      status: active_standard
+      adoption_mode: prompt_or_directive_required
+      order: 225
+    - file: verification_and_adversarial_testing_policy_v0_1.md
+      title: ForPrint Verification and Adversarial Testing Policy v0.1
+      status: active_standard
+      adoption_mode: gradual_alignment
+      order: 235
+    - file: module_reference_rollout_execution_pool_policy_v0_1.md
+      title: Module Reference Rollout and Execution Pool Policy v0.1
+      status: active_standard
+      adoption_mode: prompt_or_directive_required
+      order: 236

@@ -1,4 +1,6 @@
 schema_version: execution_blocker_taxonomy_contract_v0_1
+status: active_standard
+authority: forprint_system_blueprint
 metadata:
   standard_id: execution_blocker_taxonomy_v0_1
   owner: forprint_system_blueprint
@@ -10,37 +12,37 @@ purpose: Define execution blocker vocabulary and scope blocking without conflati
   dispositions.
 inherits:
   q1_contract_path: coordination/standards/governance/clarification_question_lifecycle_v0_1.yaml
-  q1_contract_sha256: b6ac925638194422ace541943418cd822c33c28e5dc7aace8a3660fd167f75f5
+  q1_contract_sha256: 17b884cd7203d6994871b4cd41936d771433b531e07d1d59adf0c3544268c655
   q2_contract_path: coordination/standards/governance/bounded_clarification_and_escalation_v0_1.yaml
-  q2_contract_sha256: 0e1b2c98e8c7d42291e7c4120ff7d2c1c214300083757731fc90ebe134a17c7d
+  q2_contract_sha256: 45c7721d5e82a800bdf60c3583a5980b79872cc6f9f40ae04dee8fd3c4870ca0
 semantic_separation:
   coordination_conditions:
-  - clarification_required
-  - execution_blocked
+    - clarification_required
+    - execution_blocked
   executor_outcomes:
-  - unable_to_execute
+    - unable_to_execute
   governance_dispositions:
-  - RETURN
-  - HOLD
+    - RETURN
+    - HOLD
   conditions_are_prompt_dispositions: false
   unable_to_execute_is_prompt_disposition: false
   automatic_condition_to_return_hold: false
   released_prompt_mutation_allowed: false
 reason_taxonomy:
   canonical_reason_codes:
-  - missing_input
-  - ambiguous_requirement
-  - access_required
-  - credential_or_token_expired
-  - external_resource_unavailable
-  - dependency_contract_missing
-  - dependency_module_blocked
-  - provider_api_unavailable
-  - environment_failure
-  - policy_conflict
-  - unsupported_capability
-  - security_boundary
-  - manual_decision_required
+    - missing_input
+    - ambiguous_requirement
+    - access_required
+    - credential_or_token_expired
+    - external_resource_unavailable
+    - dependency_contract_missing
+    - dependency_module_blocked
+    - provider_api_unavailable
+    - environment_failure
+    - policy_conflict
+    - unsupported_capability
+    - security_boundary
+    - manual_decision_required
   reason_code_is_prompt_disposition: false
   unknown_reason_allowed: false
   definitions:
@@ -59,23 +61,23 @@ reason_taxonomy:
     manual_decision_required: Progress requires a semantic or exception decision reserved to operator/Blueprint authority.
 blocker_record:
   required_fields:
-  - blocker_id
-  - module_id
-  - prompt_id
-  - roadmap_step_id
-  - condition
-  - reason_code
-  - blocking
-  - affected_scope_refs
-  - summary
-  - evidence_refs
-  - created_at
+    - blocker_id
+    - module_id
+    - prompt_id
+    - roadmap_step_id
+    - condition
+    - reason_code
+    - blocking
+    - affected_scope_refs
+    - summary
+    - evidence_refs
+    - created_at
   optional_fields:
-  - execution_id
-  - related_question_id
+    - execution_id
+    - related_question_id
   condition_values:
-  - clarification_required
-  - execution_blocked
+    - clarification_required
+    - execution_blocked
   affected_scope_refs_min_items: 1
   evidence_refs_required: true
   secret_values_allowed: false
@@ -98,18 +100,18 @@ unable_to_execute_evidence:
   automatically_returns_prompt: false
   automatically_holds_prompt: false
   required_fields:
-  - report_id
-  - module_id
-  - prompt_id
-  - roadmap_step_id
-  - execution_id
-  - reason_code
-  - affected_scope_refs
-  - summary
-  - attempted_or_verified
-  - evidence_refs
-  - safe_next_options
-  - created_at
+    - report_id
+    - module_id
+    - prompt_id
+    - roadmap_step_id
+    - execution_id
+    - reason_code
+    - affected_scope_refs
+    - summary
+    - attempted_or_verified
+    - evidence_refs
+    - safe_next_options
+    - created_at
   safe_next_options_are_advisory: true
   secret_values_allowed: false
 q2_bridge:

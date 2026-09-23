@@ -1,4 +1,6 @@
 schema_version: common_coordination_event_envelope_contract_v0_1
+status: active_standard
+authority: forprint_system_blueprint
 metadata:
   standard_id: common_coordination_event_envelope_v0_1
   owner: forprint_system_blueprint
@@ -9,48 +11,48 @@ metadata:
 purpose: Define one immutable coordination event envelope before any live daemon/store is implemented.
 inherits:
   q1_contract_path: coordination/standards/governance/clarification_question_lifecycle_v0_1.yaml
-  q1_contract_sha256: b6ac925638194422ace541943418cd822c33c28e5dc7aace8a3660fd167f75f5
+  q1_contract_sha256: 17b884cd7203d6994871b4cd41936d771433b531e07d1d59adf0c3544268c655
   q2_contract_path: coordination/standards/governance/bounded_clarification_and_escalation_v0_1.yaml
-  q2_contract_sha256: 0e1b2c98e8c7d42291e7c4120ff7d2c1c214300083757731fc90ebe134a17c7d
+  q2_contract_sha256: 45c7721d5e82a800bdf60c3583a5980b79872cc6f9f40ae04dee8fd3c4870ca0
   q3_contract_path: coordination/standards/governance/execution_blocker_taxonomy_v0_1.yaml
-  q3_contract_sha256: c85ec5eb4243fac09502f7c18b893a3cc5a8cb294e71e65a1a6822c50899ea8e
+  q3_contract_sha256: a378202ff92ddf2e27622bc05c4349d5c5f4e93d1fba93a51be77fb120e393ce
   q4_contract_path: coordination/standards/governance/immutable_prompt_adjustment_and_decision_v0_1.yaml
-  q4_contract_sha256: 83559969e5671f3342a5ac115ebd4a52cb57f3a5e7be32c94232be7fad2b2aca
+  q4_contract_sha256: f142990e826cde57687f6b8640315a7a8c4dfd29930bafea177c1b08e87028c5
 envelope:
   required_fields:
-  - event_id
-  - event_type
-  - occurred_at
-  - producer
-  - target
-  - module_id
-  - prompt_id
-  - roadmap_step_id
-  - correlation_id
-  - causation_id
-  - severity
-  - blocking
-  - schema_version
-  - payload
-  - evidence_refs
-  - idempotency_key
+    - event_id
+    - event_type
+    - occurred_at
+    - producer
+    - target
+    - module_id
+    - prompt_id
+    - roadmap_step_id
+    - correlation_id
+    - causation_id
+    - severity
+    - blocking
+    - schema_version
+    - payload
+    - evidence_refs
+    - idempotency_key
   nullable_fields:
-  - module_id
-  - prompt_id
-  - roadmap_step_id
-  - causation_id
+    - module_id
+    - prompt_id
+    - roadmap_step_id
+    - causation_id
   exact_envelope_field_count: 17
   unknown_envelope_fields_allowed: false
   nonempty_string_fields:
-  - event_id
-  - event_type
-  - occurred_at
-  - producer
-  - target
-  - correlation_id
-  - severity
-  - schema_version
-  - idempotency_key
+    - event_id
+    - event_type
+    - occurred_at
+    - producer
+    - target
+    - correlation_id
+    - severity
+    - schema_version
+    - idempotency_key
   blocking_type: boolean
   payload_type: mapping
   evidence_refs_type: list
@@ -60,14 +62,14 @@ event_type:
   format: <family>.<action>
   family_action_lowercase_token_required: true
   canonical_initial_families:
-  - claim_status
-  - clarification
-  - answer_resolution
-  - execution_blocker
-  - unable_to_execute
-  - operator_attention
-  - operator_decision
-  - completion_publication
+    - claim_status
+    - clarification
+    - answer_resolution
+    - execution_blocker
+    - unable_to_execute
+    - operator_attention
+    - operator_decision
+    - completion_publication
   initial_family_count: 8
   unknown_family_allowed: false
   new_family_requires_versioned_review: true
@@ -101,8 +103,8 @@ time_semantics:
   occurred_at_utc_required: true
   offset_aware_required: true
   canonical_utc_suffixes:
-  - Z
-  - +00:00
+    - Z
+    - +00:00
   local_naive_timestamp_allowed: false
 semantic_boundaries:
   event_is_prompt_disposition: false

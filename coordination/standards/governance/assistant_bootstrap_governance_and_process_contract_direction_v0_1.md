@@ -152,3 +152,17 @@ Deterministic checks = те, що можна машинно довести.
 Inspector = ecosystem-level незалежна перевірка.
 
 Self-report модуля — evidence input, не authority.
+
+<!-- evening-return-reconciliation-and-bootstrap-salience-v0-1:start -->
+## E. Evening/return reconciliation and bootstrap salience
+
+The broad-assistant bootstrap must front-load operational rules that otherwise get lost in deep documentation: operator interaction mode, human-readable roadmap communication, unique Python action identity, Z-package intake, contradiction handling and active reconciliation questions.
+
+A Z-package is an atomic decision/evidence intake package, not an executable batch. Morning intake classifies each item as minor/local, current-critical, existing-future-step, new-roadmap-step or unresolved/ambiguous. Only currently due work is executed after canonical planning/dependency reconciliation.
+
+Fresh agreements do not automatically override older project law. When fresh operator intent conflicts with canonical policy, collect both rationales/provenance and raise a reconciliation decision with retain/modify/supplement/supersede options and dependency impact.
+
+The active bootstrap question projection reuses Q1 semantics by reference and grants no parallel question authority. Resolved items are removed from the startup projection and remain discoverable through historical evidence/indexes.
+
+Roadmap mutation is dynamic but governed. A significant insertion triggers dependency/order refresh, dispatcher/work-queue implications, projections/index refresh and consistency validation before downstream execution.
+<!-- evening-return-reconciliation-and-bootstrap-salience-v0-1:end -->

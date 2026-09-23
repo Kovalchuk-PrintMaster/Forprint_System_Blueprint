@@ -1,4 +1,6 @@
 schema_version: cross_module_question_routing_contract_v0_1
+status: active_standard
+authority: forprint_system_blueprint
 metadata:
   standard_id: cross_module_question_routing_contract_v0_1
   owner: forprint_system_blueprint
@@ -10,22 +12,22 @@ purpose: Define cross-module clarification routing as contract/evidence semantic
   writes.
 inherits:
   q1_contract_path: coordination/standards/governance/clarification_question_lifecycle_v0_1.yaml
-  q1_contract_sha256: b6ac925638194422ace541943418cd822c33c28e5dc7aace8a3660fd167f75f5
+  q1_contract_sha256: 17b884cd7203d6994871b4cd41936d771433b531e07d1d59adf0c3544268c655
   q2_contract_path: coordination/standards/governance/bounded_clarification_and_escalation_v0_1.yaml
-  q2_contract_sha256: 0e1b2c98e8c7d42291e7c4120ff7d2c1c214300083757731fc90ebe134a17c7d
+  q2_contract_sha256: 45c7721d5e82a800bdf60c3583a5980b79872cc6f9f40ae04dee8fd3c4870ca0
   q3_contract_path: coordination/standards/governance/execution_blocker_taxonomy_v0_1.yaml
-  q3_contract_sha256: c85ec5eb4243fac09502f7c18b893a3cc5a8cb294e71e65a1a6822c50899ea8e
+  q3_contract_sha256: a378202ff92ddf2e27622bc05c4349d5c5f4e93d1fba93a51be77fb120e393ce
   q4_contract_path: coordination/standards/governance/immutable_prompt_adjustment_and_decision_v0_1.yaml
-  q4_contract_sha256: 83559969e5671f3342a5ac115ebd4a52cb57f3a5e7be32c94232be7fad2b2aca
+  q4_contract_sha256: f142990e826cde57687f6b8640315a7a8c4dfd29930bafea177c1b08e87028c5
   q5_contract_path: coordination/standards/governance/common_coordination_event_envelope_v0_1.yaml
-  q5_contract_sha256: a6c8f574b36d7b8d9334de61500c395d60352dce4800970f695c2777a665ebd0
+  q5_contract_sha256: 543e6d1418916f7364d511b54762387b71bec78e6e63d047454b659b474695e6
   q6_contract_path: coordination/standards/governance/operator_attention_semantics_v0_1.yaml
-  q6_contract_sha256: b2d719fa4a41914e340e6e68a19b0b6ac005cd191cbf2aca1e32c9b89d43cbf3
+  q6_contract_sha256: cc9a663800cb05035c4537a8a3dbd21fae14c66b050fd118feb0ac66fb6c7539
 routing:
   route_directions:
-  - module_to_blueprint_or_operator
-  - module_to_module
-  - blueprint_to_module
+    - module_to_blueprint_or_operator
+    - module_to_module
+    - blueprint_to_module
   route_direction_count: 3
   unknown_route_direction_allowed: false
   logical_identity_not_transport_address: true
@@ -37,26 +39,26 @@ q1_identity_preservation:
   requester_target_remain_logical_actor_refs: true
 routing_record:
   required_fields:
-  - routing_id
-  - question_id
-  - module_id
-  - prompt_id
-  - roadmap_step_id
-  - requester
-  - target
-  - route_direction
-  - correlation_id
-  - blocking
-  - question_class
-  - round
-  - routing_reason
-  - routing_outcome
-  - evidence_refs
-  - routed_at
+    - routing_id
+    - question_id
+    - module_id
+    - prompt_id
+    - roadmap_step_id
+    - requester
+    - target
+    - route_direction
+    - correlation_id
+    - blocking
+    - question_class
+    - round
+    - routing_reason
+    - routing_outcome
+    - evidence_refs
+    - routed_at
   routing_outcomes:
-  - routed
-  - no_eligible_route
-  - operator_escalation_required
+    - routed
+    - no_eligible_route
+    - operator_escalation_required
   append_only: true
   prior_record_mutation_allowed: false
   reroute_creates_new_routing_id: true
@@ -71,13 +73,13 @@ round_budget:
   round_advances_only_after: completed_answer_attempt_evaluated_insufficient
 answer_evidence:
   required_fields:
-  - question_id
-  - responder
-  - correlation_id
-  - round
-  - answer
-  - evidence_refs
-  - answered_at
+    - question_id
+    - responder
+    - correlation_id
+    - round
+    - answer
+    - evidence_refs
+    - answered_at
   evidence_refs_min_items: 1
   answer_without_evidence_refs_valid: false
   secret_values_allowed: false
@@ -110,19 +112,19 @@ authority_boundary:
   routing_releases_next_prompt: false
 q5_event_integration:
   semantic_event_types:
-  - clarification.routed
-  - clarification.rerouted
-  - clarification.route_failed
-  - clarification.escalated
-  - answer_resolution.received
+    - clarification.routed
+    - clarification.rerouted
+    - clarification.route_failed
+    - clarification.escalated
+    - answer_resolution.received
   adds_fields_to_q5_envelope: false
   persistent_event_runtime_implemented: false
 q6_attention_integration:
   allowed_attention_reasons:
-  - clarification_escalated
-  - access_required
-  - manual_review_required
-  - dependency_blocked
+    - clarification_escalated
+    - access_required
+    - manual_review_required
+    - dependency_blocked
   redefines_q6_attention_lifecycle: false
   transport_implemented_by_q7: false
 deferred_boundaries:

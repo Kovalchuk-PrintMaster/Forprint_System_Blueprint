@@ -217,3 +217,29 @@ This policy does not define detailed message retry logic.
 Message reliability is defined in `module_interaction_reliability_policy.md`.
 
 Gateway storage responsibility is defined in `gateway_responsibility_policy.md`.
+
+<!-- central-postgres-stable-identities-2026-09-01:start -->
+## 2026-09-01 canonical clarification
+
+The existing schema-per-module strategy is confirmed:
+`one primary PostgreSQL platform + logical domain schemas + separate roles + reporting`.
+
+Distinguish permanently:
+- physical persistence/platform ownership: System Administration operates PostgreSQL;
+- semantic/write ownership: each domain module controls meaning and approved mutation of its logical records.
+
+Central physical storage does not authorize every module to write every table.
+
+Use stable shared IDs:
+- one Business Partner/Person/Organization identity rather than unrelated duplicate customer/supplier/carrier masters;
+- one stable operational order_id;
+- stable job/resource IDs where required.
+
+A Business Partner may hold CUSTOMER, SUPPLIER, SUBCONTRACTOR and CARRIER roles.
+
+Operations Control Registry remains the current operational registry/write boundary for shared party/order
+state unless a later explicit ownership revision replaces it.
+
+Heavy cross-domain reporting should use reporting views/materialized views/read models rather than
+live fan-out queries.
+<!-- central-postgres-stable-identities-2026-09-01:end -->

@@ -1,4 +1,6 @@
 schema_version: module_completion_packet_standard_v0_4
+status: candidate_reference_only
+authority: forprint_system_blueprint
 metadata:
   standard_id: module_completion_packet_v0_4
   title: Module Completion Packet v0.4
@@ -6,8 +8,7 @@ metadata:
   owner: forprint_system_blueprint
   immutable_packet_instances: true
 purpose:
-  summary: Immutable module-owned completion evidence bound to Prompt Contract v0.4
-    without granting Blueprint acceptance.
+  summary: Immutable module-owned completion evidence bound to Prompt Contract v0.4 without granting Blueprint acceptance.
   separates_module_completion_from_operator_acceptance: true
   preserves_human_semantic_review: true
 instance:
@@ -25,9 +26,9 @@ prompt_contract_binding:
   require_module_id_match: true
   require_prompt_id_match: true
   complete_target_categories:
-  - implementation_obligations
-  - verification_obligations
-  - completion_evidence_obligations
+    - implementation_obligations
+    - verification_obligations
+    - completion_evidence_obligations
   unknown_obligation_results_allowed: false
   duplicate_obligation_results_allowed: false
 evidence:
@@ -37,9 +38,9 @@ evidence:
   completion_report_must_be_manifested: true
 checks:
   summary_mapping_required:
-  - check_report
-  - tests
-  - governance_check
+    - check_report
+    - tests
+    - governance_check
   detailed_check_results_required: true
   failed_required_check_allowed: false
 semantic_fidelity:
@@ -56,9 +57,9 @@ publication:
   automatic_push: false
 revision:
   superseding_fields:
-  - supersedes_completion_id
-  - supersedes_packet_path
-  - revision_reason
+    - supersedes_completion_id
+    - supersedes_packet_path
+    - revision_reason
   all_or_none: true
   rewrite_historical_packet: false
 promotion:

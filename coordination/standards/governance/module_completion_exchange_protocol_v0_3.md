@@ -2,7 +2,7 @@
 
 This v0.3 transition protocol is retained for migration/forensic use and is no longer current runtime authority. See `coordination/releases/current.yaml` and `coordination/legacy/compatibility_registry_v0_1.yaml`.
 
-# ForPrint Module Completion Exchange Protocol v0.3
+## ForPrint Module Completion Exchange Protocol v0.3
 
 Status: candidate for reference validation
 Revision: `v0.3`

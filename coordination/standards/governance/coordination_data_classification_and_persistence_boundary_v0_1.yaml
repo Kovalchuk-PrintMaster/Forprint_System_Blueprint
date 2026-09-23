@@ -1,5 +1,6 @@
 schema_version: coordination_data_classification_and_persistence_boundary_v0_1
-
+status: active_standard
+authority: forprint_system_blueprint
 metadata:
   standard_id: coordination_data_classification_and_persistence_boundary_v0_1
   title: ForPrint Coordination Data Classification and Persistence Boundary v0.1
@@ -8,7 +9,6 @@ metadata:
   package: B2-IMPLEMENT-ACCEPT
   status: active_standard
   adoption_mode: prompt_or_directive_required
-
 source_of_truth_matrix:
   declarative_governance:
     canonical_store: blueprint_git
@@ -71,7 +71,6 @@ source_of_truth_matrix:
     canonical_store: none
     authority: rebuildable_noncanonical
     promotion_requires_reviewed_governance_transaction: true
-
 dual_truth_policy:
   independently_mutable_duplicate_of_git_authority_allowed: false
   runtime_reference_to_git_requires:
@@ -81,7 +80,6 @@ dual_truth_policy:
     - sha256
     - schema_version
   durable_governance_change_requires_git_record: true
-
 future_coordination_store_contract:
   interface_name: CoordinationStore
   backend_specific_calls_outside_adapter_allowed: false
@@ -128,7 +126,6 @@ future_coordination_store_contract:
     - richer_operational_analytics
   migration_target_example: postgresql
   migration_trigger_is_file_count: false
-
 artifact_reference_contract:
   required_fields:
     - artifact_id
@@ -138,7 +135,6 @@ artifact_reference_contract:
     - producer
     - correlation_id
   large_payload_in_relational_row_by_default: false
-
 retention_backup_restore:
   declarative_governance:
     retention: git_history
@@ -165,13 +161,11 @@ retention_backup_restore:
     - pending_handoffs
     - artifact_references
     - canonical_git_bindings
-
 business_storage_separation:
   coordination_depends_on_business_database: false
   shared_physical_postgresql_may_be_considered_later: true
   separate_schema_or_database_contract_required: true
   separate_ownership_required: true
-
 current_capabilities:
   live_sqlite_runtime_enabled: false
   database_file_created_by_b2: false
@@ -182,7 +176,6 @@ current_capabilities:
   automatic_push_enabled: false
   business_prompt_release_enabled: false
   external_module_repository_writes_enabled: false
-
 acceptance:
   source_of_truth_matrix_explicit: true
   migration_ready_store_contract_explicit: true

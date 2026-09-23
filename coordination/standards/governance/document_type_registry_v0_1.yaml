@@ -1,0 +1,558 @@
+schema_version: forprint_document_type_registry_v0_1
+status: CURRENT_NORMATIVE_MACHINE_SURFACE
+authority: forprint_system_blueprint
+purpose: Single registry for recurring ForPrint document and machine-surface structural profiles.
+default_policy:
+  new_unregistered_type_allowed: false
+  manual_edit_generated_surface_allowed: false
+  legacy_debt_requires_baseline_entry: true
+  semantic_rewrite_during_normalization_allowed: false
+  classified_preserved_surface_allowed: true
+  preserved_surface_requires_disposition_register: true
+types:
+  - document_type: module_policy_canonical_index
+    path_patterns:
+      - coordination/module_policy/module_policy_index.yaml
+    authority_class: CANONICAL
+    format: yaml
+    canonical_source: self
+    mutation_method: edit canonical index then regenerate policy projections
+    required_top_level:
+      - module_policy_index
+    validation:
+      - python scripts/generate_module_policy_docs.py --check
+      - make module-policy-check
+    migration_state: STRICT
+  - document_type: generated_module_policy_projection
+    path_patterns:
+      - coordination/module_policy/*/module_policy.md
+    authority_class: GENERATED
+    format: markdown
+    canonical_source: coordination/module_policy/module_policy_index.yaml
+    generator: scripts/generate_module_policy_docs.py
+    mutation_method: DO_NOT_EDIT_DIRECTLY
+    validation:
+      - python scripts/generate_module_policy_docs.py --check
+    migration_state: STRICT
+  - document_type: human_intent_module_ledger
+    path_patterns:
+      - coordination/human_intent/modules/*.yaml
+    authority_class: CANONICAL_PLANNING_CONTEXT
+    format: yaml
+    required_top_level:
+      - schema_version
+      - module_id
+      - authority
+      - append_only
+      - status
+      - intents
+    mutation_method: python scripts/coordination/human_intent_mutation_v0_1.py append/sync
+    validation:
+      - python scripts/coordination/human_intent_mutation_v0_1.py validate
+      - python scripts/coordination/human_intent_mutation_v0_1.py sync --check
+      - make human-intent-check
+      - python scripts/validation/validate_document_surface_registry_v0_1.py
+    migration_state: STRICT
+    canonical_source: self
+  - document_type: human_intent_delta
+    path_patterns:
+      - coordination/human_intent/deltas/*.yaml
+    authority_class: CANONICAL_PLANNING_CONTEXT
+    format: yaml
+    required_top_level:
+      - schema_version
+      - status
+      - authority
+      - modules
+    mutation_method: controlled dated Human Intent Delta + scripts/validation/validate_human_intent_surfaces_v0_1.py
+    validation:
+      - make human-intent-check
+      - python scripts/validation/validate_document_surface_registry_v0_1.py
+    migration_state: STRICT
+    canonical_source: self
+  - document_type: roadmap
+    path_patterns:
+      - coordination/roadmaps/*.yaml
+    authority_class: CANONICAL_PLANNING
+    format: yaml
+    required_top_level:
+      - schema_version
+      - module
+      - status
+      - authority
+      - metadata
+      - roadmap
+    mutation_method: existing roadmap coordination workflows using scripts/coordination/module_roadmap.py and scripts/coordination/validate_module_roadmap.py;
+      completion/review transactions remain the guarded writers
+    validation:
+      - python scripts/coordination/validate_module_roadmap.py --roadmap <path>
+      - make root-roadmap-check
+      - python scripts/validation/validate_document_surface_registry_v0_1.py
+    migration_state: STRICT
+    authority_note: canonical module planning surface; never release or execution authority
+  - document_type: roadmap_detail
+    path_patterns:
+      - coordination/roadmaps/details/**/*
+    authority_class: PLANNING_DETAIL
+    format: mixed
+    mutation_method: class-specific controlled mutation
+    validation:
+      - make roadmap-detail-check
+      - python scripts/validation/validate_document_surface_registry_v0_1.py
+    migration_state: STRICT
+    strict_subclasses:
+      - subclass_id: portfolio_rebuild_seed
+        path_pattern: coordination/roadmaps/details/forprint_system_blueprint/portfolio_rebuild_seeds/*.yaml
+        schema_version: forprint_portfolio_roadmap_rebuild_seed_v0_1
+        authority_class: PROVISIONAL_PLANNING_INPUT
+        required_top_level:
+          - schema_version
+          - module_id
+          - role_summary
+          - status
+          - authority
+          - source_action
+          - steps
+        migration_state: STRICT
+        mutation_method: controlled Blueprint portfolio roadmap rebuild workflow; not release/execution mutation authority
+        validation:
+          - make roadmap-rebuild-seed-check
+          - python scripts/validation/validate_document_surface_registry_v0_1.py
+        format: yaml
+      - subclass_id: continuity_prompt_sequence
+        path_pattern: coordination/roadmaps/details/forprint_system_blueprint/continuity/prompt_sequence_v0_1.yaml
+        schema_version: forprint_blueprint_prompt_sequence_v0_1
+        format: yaml
+        authority_class: CONTINUITY_SELECTION_CONTROL
+        required_top_level:
+          - schema_version
+          - status
+          - purpose
+          - authority
+          - selection_rule
+          - global_rules
+          - phase_boundary_progression_policy
+          - packages
+        migration_state: STRICT
+        mutation_method: controlled Blueprint continuity update; preserve authority locator mapping and revalidate coordination/releases/current.yaml
+          before mutation
+        validation:
+          - make continuity-surface-check
+          - python scripts/validation/validate_phase_boundary_progression_gate_policy.py
+          - python scripts/validation/validate_document_surface_registry_v0_1.py
+      - subclass_id: continuity_snapshot
+        path_pattern: coordination/roadmaps/details/forprint_system_blueprint/continuity/snapshots/*.yaml
+        schema_version: forprint_blueprint_continuity_snapshot_v0_1
+        format: yaml
+        authority_class: HISTORICAL_NAVIGATION_SNAPSHOT
+        required_top_level:
+          - schema_version
+          - status
+          - authority
+          - snapshot_at
+          - snapshot_class
+          - authoritative
+          - warning
+          - blueprint
+          - release
+          - closed
+          - current
+          - inactive
+        migration_state: STRICT
+        mutation_method: historical continuity snapshots are immutable after normalization; create a new dated snapshot instead
+          of editing historical state
+        validation:
+          - make continuity-surface-check
+          - python scripts/validation/validate_document_surface_registry_v0_1.py
+      - subclass_id: planning_template
+        path_pattern: coordination/roadmaps/details/forprint_system_blueprint/*template_v0_*.yaml
+        schema_versions:
+          - forprint_module_baseline_progress_assessment_v0_1
+          - forprint_module_roadmap_v0_2_template
+        format: yaml
+        authority_class: PLANNING_TEMPLATE
+        required_top_level:
+          - schema_version
+          - status
+          - authority
+          - module_id
+        migration_state: STRICT
+        mutation_method: template-governed update; templates are planning scaffolds, never release or execution authority
+        validation:
+          - make roadmap-detail-check
+          - python scripts/validation/validate_document_surface_registry_v0_1.py
+      - subclass_id: specialized_planning_seed
+        path_pattern: coordination/roadmaps/details/forprint_system_blueprint/*_seed_v0_1.yaml
+        schema_versions:
+          - forprint_dependency_matrix_seed_v0_1
+          - forprint_portfolio_module_inventory_seed_v0_1
+          - forprint_requirements_backlog_seed_v0_1
+        format: yaml
+        authority_class: STAGING_PLANNING_INPUT
+        required_top_level:
+          - schema_version
+          - status
+          - authority
+        migration_state: STRICT
+        mutation_method: controlled Blueprint planning-seed update; no automatic promotion into authority
+        validation:
+          - make roadmap-detail-check
+          - python scripts/validation/validate_document_surface_registry_v0_1.py
+      - subclass_id: knowledge_foundation_program
+        path_pattern: coordination/roadmaps/details/forprint_system_blueprint/knowledge_foundation_program_v0_1.yaml
+        schema_version: forprint_blueprint_knowledge_foundation_program_v0_1
+        format: yaml
+        authority_class: FUTURE_PLANNING_PROGRAM
+        required_top_level:
+          - schema_version
+          - status
+          - authority
+          - owner
+          - activation_boundary
+          - steps
+          - invariants
+        migration_state: STRICT
+        mutation_method: controlled Blueprint planning update; activation remains a separate reviewed authority decision
+        validation:
+          - make roadmap-detail-check
+          - python scripts/validation/validate_document_surface_registry_v0_1.py
+      - subclass_id: module_bootstrap_plan
+        path_pattern: coordination/roadmaps/details/forprint_system_blueprint/module_bootstrap_plan_v0_1.yaml
+        schema_version: forprint_module_bootstrap_plan_v0_1
+        format: yaml
+        authority_class: PLANNING_BOOTSTRAP_INPUT
+        required_top_level:
+          - schema_version
+          - status
+          - authority
+          - modules
+        migration_state: STRICT
+        mutation_method: controlled Blueprint planning update; file does not execute root/module creation by itself
+        validation:
+          - make roadmap-detail-check
+          - python scripts/validation/validate_document_surface_registry_v0_1.py
+      - subclass_id: roadmap_authority_rebuild_register
+        path_pattern: coordination/roadmaps/details/forprint_system_blueprint/non_blueprint_roadmap_authority_rebuild_register_v0_1.yaml
+        schema_version: non_blueprint_roadmap_authority_rebuild_register_v0_1
+        format: yaml
+        authority_class: PORTFOLIO_REBUILD_CONTROL
+        required_top_level:
+          - schema_version
+          - status
+          - authority
+          - metadata
+          - principle
+          - roadmaps
+        migration_state: STRICT
+        mutation_method: controlled Blueprint roadmap-authority classification update; never self-promotes post-Q execution
+          authority
+        validation:
+          - make roadmap-detail-check
+          - python scripts/validation/validate_document_surface_registry_v0_1.py
+      - subclass_id: portfolio_target_projection
+        path_pattern: coordination/roadmaps/details/forprint_system_blueprint/portfolio_full_horizon_target_states_v0_1.yaml
+        schema_version: forprint_portfolio_full_horizon_target_states_v0_1
+        format: yaml
+        authority_class: PLANNING_PROJECTION
+        required_top_level:
+          - schema_version
+          - date
+          - status
+          - authority
+          - global_execution_gate
+          - modules
+          - proposed_noncanonical_modules
+        migration_state: STRICT
+        mutation_method: controlled portfolio projection update from reconciled planning evidence; not release/execution authority
+        validation:
+          - make roadmap-detail-check
+          - make portfolio-readiness-dashboard
+          - python scripts/validation/validate_document_surface_registry_v0_1.py
+      - subclass_id: portfolio_rebuild_input
+        path_pattern: coordination/roadmaps/details/forprint_system_blueprint/portfolio_rebuild_inputs/*.yaml
+        schema_version: forprint_portfolio_first_pass_status_map_v0_1
+        format: yaml
+        authority_class: NONAUTHORITATIVE_PLANNING_INPUT
+        required_top_level:
+          - schema_version
+          - status
+          - authority
+          - session
+          - modules
+          - notes
+        migration_state: STRICT
+        mutation_method: dated portfolio review input; create/revise as planning evidence without changing release authority
+        validation:
+          - make roadmap-detail-check
+          - python scripts/validation/validate_document_surface_registry_v0_1.py
+      - subclass_id: evening_architecture_action_matrix
+        path_pattern: coordination/roadmaps/details/forprint_system_blueprint/forprint_evening_architecture_action_matrix_v0_1.yaml
+        schema_version: forprint_evening_architecture_action_matrix_v1_0
+        format: yaml
+        authority_class: DESIGN_DIRECTION_INPUT_NO_AUTHORITY
+        required_top_level:
+          - schema_version
+          - date
+          - status
+          - authority
+          - protected_boundaries
+          - new_module_candidates
+          - capabilities
+        migration_state: STRICT
+        mutation_method: controlled architecture-review integration; canonical owners must absorb accepted semantics separately
+        validation:
+          - make roadmap-detail-check
+          - python scripts/validation/validate_document_surface_registry_v0_1.py
+      - subclass_id: portfolio_module_roadmap_approval_matrix
+        path_pattern: coordination/roadmaps/details/forprint_system_blueprint/portfolio_module_roadmap_approval_matrix_v0_1.yaml
+        schema_version: forprint_portfolio_module_roadmap_approval_matrix_v0_1
+        format: yaml
+        authority_class: INTERNAL_PORTFOLIO_PLANNING_CONTROL
+        required_top_level:
+          - schema_version
+          - date
+          - status
+          - authority
+          - distribution_gate
+          - approval_legend
+          - operator_decision
+          - modules
+          - proposed_noncanonical_modules
+        migration_state: STRICT
+        mutation_method: Blueprint-only portfolio planning update; cannot contact assistants, activate prompts or authorize
+          implementation.
+        validation:
+          - python scripts/validation/validate_portfolio_module_roadmap_approval_matrix_v0_1.py
+          - make roadmap-detail-check
+          - python scripts/validation/validate_document_surface_registry_v0_1.py
+      - subclass_id: control_foundation_near_horizon_program
+        path_pattern: coordination/roadmaps/details/forprint_system_blueprint/control_foundation_near_horizon_program_v0_1.yaml
+        schema_version: forprint_control_foundation_near_horizon_program_v0_1
+        format: yaml
+        authority_class: CANONICAL_PLANNING
+        required_top_level:
+          - schema_version
+          - status
+          - authority
+          - owner
+          - program_id
+          - purpose
+          - execution_mode
+          - source_reconciliation
+          - manual_operator_working_conventions
+          - operator_interfaces_target
+          - execution_profile_model
+          - steps
+          - blueprint_ai_trial_readiness_gate
+          - roadmap_execution_reconciliation
+          - invariants
+        migration_state: STRICT
+        mutation_method: controlled Blueprint planning update via FORPRINT MUTATION COMPILER; activation, worker dispatch, release and autonomy remain separate reviewed decisions
+        validation:
+          - make roadmap-detail-check
+          - python scripts/validation/validate_document_surface_registry_v0_1.py
+      - subclass_id: continuity_execution_micro_roadmap
+        path_pattern: coordination/roadmaps/details/forprint_system_blueprint/continuity/2026-09-10__continuity_assistant_handoff_micro_roadmap_v0_1.yaml
+        schema_version: forprint_continuity_assistant_handoff_micro_roadmap_v0_1
+        format: yaml
+        authority_class: CANONICAL_PLANNING
+        required_top_level:
+          - schema_version
+          - status
+          - authority
+          - owner
+          - date
+          - purpose
+          - steps
+          - next_action
+        migration_state: STRICT
+        mutation_method: FORPRINT MUTATION COMPILER bounded roadmap mutation followed by validate_continuity_micro_roadmap_v0_1.py
+        validation:
+          - make continuity-micro-roadmap-check
+          - make roadmap-detail-check
+    migration_note: All current Blueprint roadmap-detail YAML is covered by STRICT subclasses; Markdown roadmap-detail structure
+      has zero-baseline one-H1 enforcement. File-specific status/authority still governs semantic currency.
+    strict_scope_note: YAML requires a registered STRICT subclass. Markdown requires exactly one H1; historical/planning meaning
+      is preserved and does not become release/execution authority.
+  - document_type: continuity_projection
+    path_patterns:
+      - coordination/continuity/projections/*.yaml
+    authority_class: DERIVED_CONTINUITY_PROJECTION_NO_AUTHORITY
+    format: yaml
+    required_top_level:
+      - schema_version
+      - projection_id
+      - status
+      - authority
+      - generated_only
+      - manual_edit_forbidden
+      - basis
+      - payload
+    mutation_method: generated only by scripts/coordination/build_continuity_projections.py; manual edit forbidden
+    validation:
+      - make continuity-projections-check
+      - python scripts/validation/validate_document_surface_registry_v0_1.py
+    migration_state: STRICT
+    authority_note: current-state convenience projection only; never release, queue, worker-dispatch or operator-approval authority
+
+  - document_type: roadmap_execution_projection
+    path_patterns:
+      - coordination/roadmap_execution/projections/*.yaml
+    authority_class: DERIVED_ROADMAP_EXECUTION_PROJECTION_NO_AUTHORITY
+    format: yaml
+    required_top_level:
+      - schema_version
+      - authority
+      - latest_event_sequence
+    mutation_method: generated only by scripts/coordination/roadmap_execution_reconciliation.py; manual edit forbidden
+    validation:
+      - make roadmap-sync-check
+      - python scripts/validation/validate_document_surface_registry_v0_1.py
+    migration_state: STRICT
+    authority_note: desired-plan versus event-sourced execution convenience projection only; never activation, dispatch, release or plan-mutation authority
+
+  - document_type: continuity_event
+    path_patterns:
+      - coordination/continuity/events/*.yaml
+    authority_class: CONTINUITY_EVIDENCE_NON_RELEASE_AUTHORITY
+    format: yaml
+    required_top_level:
+      - schema_version
+      - event_id
+      - event_type
+      - sequence
+      - previous_event_id
+      - previous_event_sha256
+      - work_id
+      - occurred_at
+      - actor
+      - summary
+      - source_state_ref
+    mutation_method: append only through scripts/coordination/continuity.py checkpoint or scripts/coordination/continuity_lifecycle.py transition; accepted events are never edited in place
+    validation:
+      - make continuity-event-store-check
+      - python scripts/validation/validate_document_surface_registry_v0_1.py
+    migration_state: STRICT
+    authority_note: immutable continuity evidence; never release, queue, worker-dispatch or operator-approval authority
+  - document_type: machine_authority
+    path_patterns:
+      - machine/*.yaml
+    authority_class: MACHINE_AUTHORITY
+    format: yaml
+    mutation_method: explicit authority-aware mutation only
+    validation:
+      - python scripts/indexing/validate_module_identity_registry.py
+      - python scripts/indexing/validate_semantic_structure.py
+    migration_state: STRICT
+    normalization_requirements:
+      - schema_version/status/authority on reviewed current machine YAML
+      - canonical indented YAML sequences
+  - document_type: derived_index
+    path_patterns:
+      - indexes/*
+    authority_class: DERIVED
+    format: mixed
+    canonical_source: repository canonical/current surfaces
+    generator: scripts/indexing/build_blueprint_index.py + specialized builders
+    mutation_method: DO_NOT_EDIT_DIRECTLY
+    validation:
+      - python scripts/indexing/build_blueprint_index.py --check
+      - python scripts/indexing/build_blueprint_knowledge_index.py --check
+      - python scripts/indexing/build_blueprint_specialized_indexes.py --check
+    migration_state: STRICT_GENERATED_BOUNDARY
+    normalization_requirements:
+      - regenerate from canonical index builders
+      - canonical indented YAML sequences
+  - document_type: standard_or_policy
+    path_patterns:
+      - coordination/standards/**/*
+    authority_class: NORMATIVE_OR_SUPPORTING
+    format: mixed
+    strict_subclasses:
+      - subclass_id: module_continuity_transfer_contract
+        path_pattern: coordination/standards/automation/module_continuity_transfer_contract_v0_1.yaml
+        schema_version: forprint_module_continuity_transfer_contract_v0_1
+        format: yaml
+        authority_class: NORMATIVE_OR_SUPPORTING
+        required_top_level:
+          - schema_version
+          - status
+          - authority
+          - contract_id
+          - purpose
+          - required_profile_fields
+          - source_state_modes
+          - portable_surfaces
+          - reference_acceptance
+        migration_state: STRICT
+        mutation_method: bounded update via FORPRINT MUTATION COMPILER
+        validation:
+          - make continuity-transfer-check
+          - python scripts/validation/validate_document_surface_registry_v0_1.py
+      - subclass_id: roadmap_execution_reconciliation_contract
+        path_pattern: coordination/standards/automation/roadmap_execution_reconciliation_contract_v0_1.yaml
+        schema_version: forprint_roadmap_execution_reconciliation_contract_v0_1
+        format: yaml
+        authority_class: NORMATIVE_OR_SUPPORTING
+        required_top_level:
+          - schema_version
+          - status
+          - authority
+          - contract_id
+          - purpose
+          - authority_precedence
+          - sync_states
+          - reason_codes
+          - registered_roadmaps
+          - generated_outputs
+          - manual_mode
+          - gates
+          - public_surfaces
+          - migration
+        migration_state: STRICT
+        mutation_method: bounded update via FORPRINT MUTATION COMPILER
+        validation:
+          - make roadmap-sync-check
+          - python scripts/validation/validate_document_surface_registry_v0_1.py
+    mutation_method: registered standard update
+    validation:
+      - python scripts/validate_standards_index.py
+      - document surface registry validator
+    migration_state: STRICT_WITH_CLASSIFIED_PRESERVED_EXCEPTIONS
+    normalization_requirements:
+      - reviewed current YAML has schema_version/status/authority
+      - current normalized Markdown has one H1
+      - preserved historical/support surfaces require disposition registration
+  - document_type: internal_work
+    path_patterns:
+      - coordination/internal_work/**/*
+    authority_class: INTERNAL_WORK_NON_AUTHORITY
+    format: mixed
+    mutation_method: bounded review/evidence artifact
+    validation:
+      - knowledge index / semantic structure
+    migration_state: PRESERVED_CLASSIFIED_HISTORY
+  - document_type: incoming_request_surface
+    path_patterns:
+      - coordination/incoming_requests/**/*
+    authority_class: COORDINATION_LIFECYCLE
+    format: mixed
+    mutation_method: incoming-request lifecycle tooling
+    validation:
+      - python scripts/indexing/validate_blueprint_specialized_indexes.py
+    migration_state: STRUCTURAL_ROUTE_STRICT_CONTENT_BASELINED
+  - document_type: template
+    path_patterns:
+      - coordination/templates/**/*
+    authority_class: TEMPLATE
+    format: mixed
+    mutation_method: template-governed update
+    validation:
+      - class-specific validator
+    migration_state: STRICT
+    normalization_requirements:
+      - canonical indented YAML sequences
+baseline_debt_register: coordination/internal_work/blueprint/normalization/2026-09-01__document_surface_normalization_baseline_v0_1.yaml
+validator: scripts/validation/validate_document_surface_registry_v0_1.py
+next_migration_class: generator_registry_and_mutation_api_enforcement
+classified_disposition_register: coordination/internal_work/blueprint/normalization/2026-09-01__remaining_surface_disposition_register_v0_1.yaml

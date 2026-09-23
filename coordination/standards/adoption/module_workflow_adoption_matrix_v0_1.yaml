@@ -1,9 +1,10 @@
 schema_version: module_workflow_adoption_matrix_v0_1
-
+status: draft
+authority: reference_only
 metadata:
   title: Module Workflow Adoption Matrix
   owner: forprint_system_blueprint
-  created_at: "2026-08-01"
+  created_at: '2026-08-01'
   status: draft
   authority: reference_only
   source_standard:
@@ -12,11 +13,8 @@ metadata:
     relationship: approved_target_standard
     baseline_commit: 45b67706e7742136ab4a24d96e36c61545f3db69
     approval_evidence: coordination/internal_work/blueprint/governance/2026-08-01__blueprint__module_workflow_command_architecture_approval_v0_1.yaml
-  purpose: >-
-    Define repository-class command adoption rules for the complete ForPrint
-    project while keeping current repository assessments separate from the
-    architecture scope.
-
+  purpose: Define repository-class command adoption rules for the complete ForPrint project while keeping current repository
+    assessments separate from the architecture scope.
 scope_model:
   project_id: forprint_project
   logical_project_root: forprint_project_root
@@ -24,10 +22,8 @@ scope_model:
   scope_authority:
     - blueprint_owned_module_registry
     - blueprint_approved_module_onboarding_record
-  repository_membership_rule: >-
-    Every current or future repository admitted as a ForPrint module through
-    Blueprint-owned registration or onboarding metadata inherits the module
-    command profile without requiring this standard or matrix to be rewritten.
+  repository_membership_rule: Every current or future repository admitted as a ForPrint module through Blueprint-owned registration
+    or onboarding metadata inherits the module command profile without requiring this standard or matrix to be rewritten.
   included_lifecycle_states:
     - planned
     - onboarding
@@ -44,11 +40,8 @@ scope_model:
     target_conformance: unknown
     rollout_authorized: false
     command_profile: standard_module_workflow
-  directory_boundary_note: >-
-    A runtime directory may be used to locate repositories, but directory
-    presence alone does not establish module identity because the project root
-    may also contain temporary worktrees, tooling, archives, and experiments.
-
+  directory_boundary_note: A runtime directory may be used to locate repositories, but directory presence alone does not establish
+    module identity because the project root may also contain temporary worktrees, tooling, archives, and experiments.
 governance:
   architecture_approval:
     state: approved
@@ -119,7 +112,6 @@ governance:
     - return
     - update
     - fix
-
 command_contract_defaults:
   read_only:
     tracked_writes: false
@@ -137,7 +129,6 @@ command_contract_defaults:
   publication:
     merge_allowed: false
     protected_branch_merge_allowed: false
-
 repository_class_profiles:
   blueprint_workflow:
     repository_class: blueprint
@@ -149,7 +140,6 @@ repository_class_profiles:
       - completion-intake-check
       - completion-accept
       - completion-return
-
   standard_module_workflow:
     repository_class: module
     commands:
@@ -164,7 +154,6 @@ repository_class_profiles:
       - completion-packet-preview
       - completion-packet-apply
       - completion-packet-idempotency-check
-
 command_catalog:
   - command_id: prompt-prepare
     owner_repository_class: blueprint
@@ -173,7 +162,6 @@ command_catalog:
     repository_write_scope: blueprint_only
     git_behavior: none
     target_state_change: draft_to_prepared
-
   - command_id: prompt-release
     owner_repository_class: blueprint
     command_class: blueprint_prompt_mutation
@@ -181,7 +169,6 @@ command_catalog:
     repository_write_scope: blueprint_only
     git_behavior: none
     target_state_change: prepared_to_released
-
   - command_id: prompt-status
     owner_repository_class: blueprint
     command_class: navigation
@@ -189,7 +176,6 @@ command_catalog:
     repository_write_scope: none
     git_behavior: none
     target_state_change: none
-
   - command_id: module-start
     owner_repository_class: module
     command_class: module_local_mutation
@@ -197,7 +183,6 @@ command_catalog:
     repository_write_scope: module_only
     git_behavior: none
     target_state_change: released_to_in_progress
-
   - command_id: module-sync
     owner_repository_class: module
     command_class: module_local_mutation
@@ -205,7 +190,6 @@ command_catalog:
     repository_write_scope: module_only
     git_behavior: none
     target_state_change: module_awareness_refresh
-
   - command_id: module-status
     owner_repository_class: module
     command_class: navigation
@@ -213,7 +197,6 @@ command_catalog:
     repository_write_scope: none
     git_behavior: none
     target_state_change: none
-
   - command_id: module-validate
     owner_repository_class: module
     command_class: validation
@@ -221,7 +204,6 @@ command_catalog:
     repository_write_scope: none
     git_behavior: none
     target_state_change: none
-
   - command_id: module-finish
     owner_repository_class: module
     command_class: module_local_mutation
@@ -229,7 +211,6 @@ command_catalog:
     repository_write_scope: module_only
     git_behavior: no_commit_no_push_no_merge
     target_state_change: in_progress_to_completed_in_module
-
   - command_id: module-publish
     owner_repository_class: module
     command_class: publication
@@ -237,7 +218,6 @@ command_catalog:
     repository_write_scope: module_only
     git_behavior: commit_and_push_current_branch_no_merge
     target_state_change: completed_in_module_to_published_by_module
-
   - command_id: completion-packet-validate
     owner_repository_class: module
     command_class: validation
@@ -245,7 +225,6 @@ command_catalog:
     repository_write_scope: none
     git_behavior: none
     target_state_change: none
-
   - command_id: completion-packet-check
     owner_repository_class: module
     command_class: evidence_and_lineage_check
@@ -254,7 +233,6 @@ command_catalog:
     git_behavior: none
     target_state_change: none
     apply_invocation_allowed: false
-
   - command_id: completion-packet-preview
     owner_repository_class: module
     command_class: preview
@@ -262,7 +240,6 @@ command_catalog:
     repository_write_scope: none
     git_behavior: none
     target_state_change: none
-
   - command_id: completion-packet-apply
     owner_repository_class: module
     command_class: module_local_mutation
@@ -270,7 +247,6 @@ command_catalog:
     repository_write_scope: module_only
     git_behavior: no_commit_no_push_no_merge
     target_state_change: completion_state_apply
-
   - command_id: completion-packet-idempotency-check
     owner_repository_class: module
     command_class: validation
@@ -279,7 +255,6 @@ command_catalog:
     git_behavior: none
     target_state_change: none
     live_worktree_apply_allowed: false
-
   - command_id: completion-intake-preview
     owner_repository_class: blueprint
     command_class: preview
@@ -287,7 +262,6 @@ command_catalog:
     repository_write_scope: none
     git_behavior: none
     target_state_change: none
-
   - command_id: completion-intake-check
     owner_repository_class: blueprint
     command_class: independent_validation
@@ -296,7 +270,6 @@ command_catalog:
     git_behavior: none
     target_state_change: none
     module_executable_invocation_allowed: false
-
   - command_id: completion-accept
     owner_repository_class: blueprint
     command_class: blueprint_decision_mutation
@@ -304,7 +277,6 @@ command_catalog:
     repository_write_scope: blueprint_only
     git_behavior: no_commit_no_push_no_merge
     target_state_change: received_pending_review_to_accepted_by_blueprint
-
   - command_id: completion-return
     owner_repository_class: blueprint
     command_class: blueprint_decision_mutation
@@ -312,7 +284,6 @@ command_catalog:
     repository_write_scope: blueprint_only
     git_behavior: no_commit_no_push_no_merge
     target_state_change: received_pending_review_to_returned_for_fix
-
 publication_evidence:
   pre_publication:
     remote_containment: PENDING_PUBLICATION
@@ -326,16 +297,13 @@ publication_evidence:
   preferred_remote_check:
     command_family: git_ls_remote
     local_remote_tracking_ref_update: false
-
 pilot_reference:
   repository_id: logistics_service
   role: current_reference_pilot
   scope_effect: none
   permanent_architecture_dependency: false
-  rationale: >-
-    Logistics currently provides the most complete observable workflow for
-    validating the target architecture. Its selection as a pilot does not
-    restrict the standard to Logistics or to any fixed set of modules.
+  rationale: Logistics currently provides the most complete observable workflow for validating the target architecture. Its
+    selection as a pilot does not restrict the standard to Logistics or to any fixed set of modules.
   reference_branch: feature/logistics-tracking-events-contract-v01
   reference_commit: 2b7261038110c77295c13e49012e5d393f48a0e7
   known_deviations:
@@ -355,9 +323,8 @@ pilot_reference:
       severity: major
       current_behavior: responsibilities_not_fully_separated
       target_behavior: module_finish_then_module_publish
-
 assessment_snapshot:
-  snapshot_date: "2026-08-01"
+  snapshot_date: '2026-08-01'
   coverage: partial
   exhaustive: false
   omission_means_out_of_scope: false
@@ -440,17 +407,13 @@ assessment_snapshot:
         explicit_write_flow_recovery_contract_evidence: coordination/internal_work/blueprint/governance/2026-08-03__blueprint__explicit_write_flow_recovery_contract_v0_1.yaml
         write_flow_recovery_closeout_evidence: coordination/internal_work/blueprint/governance/2026-08-03__blueprint__write_flow_recovery_closeout_v0_1.yaml
         operational_readiness_review_closeout_evidence: coordination/internal_work/blueprint/governance/2026-08-04__blueprint__operational_readiness_review_closeout_v0_1.yaml
-
     - repository_id: logistics_service
       repository_class: module
       assessment_status: known_deviations
       target_conformance: blocked
       rollout_authorized: false
       command_profile: standard_module_workflow
-      next_required_step: >-
-        await explicit pilot authorization after Blueprint operational
-        readiness review is GREEN
-
+      next_required_step: await explicit pilot authorization after Blueprint operational readiness review is GREEN
     - repository_id: telegram_bot
       repository_class: module
       assessment_status: not_assessed
@@ -458,7 +421,6 @@ assessment_snapshot:
       rollout_authorized: false
       command_profile: standard_module_workflow
       next_required_step: assess_in_registered_module_batch
-
     - repository_id: forprint_library
       repository_class: module
       assessment_status: not_assessed
@@ -466,7 +428,6 @@ assessment_snapshot:
       rollout_authorized: false
       command_profile: standard_module_workflow
       next_required_step: assess_in_registered_module_batch
-
 migration_sequence:
   - step: 1
     action: approve_command_architecture
@@ -478,81 +439,93 @@ migration_sequence:
     action: validate_adoption_matrix_schema_and_semantics
     status: completed
     owner: forprint_system_blueprint
-    depends_on: [approve_command_architecture]
+    depends_on:
+      - approve_command_architecture
     rollout_effect: none
   - step: 3
     action: add_command_behavior_classification_validator
     status: completed
     owner: forprint_system_blueprint
-    depends_on: [validate_adoption_matrix_schema_and_semantics]
+    depends_on:
+      - validate_adoption_matrix_schema_and_semantics
     rollout_effect: none
   - step: 4
     action: implement_completion_intake_check
     status: completed
     owner: forprint_system_blueprint
-    depends_on: [add_command_behavior_classification_validator]
+    depends_on:
+      - add_command_behavior_classification_validator
     rollout_effect: none
   - step: 5
     action: refactor_blueprint_makefile_and_canonical_module_template
     status: completed
     owner: forprint_system_blueprint
-    depends_on: [implement_completion_intake_check]
+    depends_on:
+      - implement_completion_intake_check
     rollout_effect: blueprint_internal_and_template_reference_only
   - step: 6
     action: blueprint_operational_readiness_review
     status: completed
     owner: forprint_system_blueprint
-    depends_on: [refactor_blueprint_makefile_and_canonical_module_template]
+    depends_on:
+      - refactor_blueprint_makefile_and_canonical_module_template
     rollout_effect: none
   - step: 7
     action: authorize_reference_pilot_migration
     status: not_authorized
     owner: forprint_system_blueprint
-    depends_on: [blueprint_operational_readiness_review]
+    depends_on:
+      - blueprint_operational_readiness_review
     rollout_effect: none
   - step: 8
     action: migrate_reference_pilot_completion_check
     status: blocked
     owner: selected_reference_module
-    depends_on: [authorize_reference_pilot_migration]
+    depends_on:
+      - authorize_reference_pilot_migration
     rollout_effect: reference_pilot_only
   - step: 9
     action: add_reference_pilot_completion_preview
     status: blocked
     owner: selected_reference_module
-    depends_on: [migrate_reference_pilot_completion_check]
+    depends_on:
+      - migrate_reference_pilot_completion_check
     rollout_effect: reference_pilot_only
   - step: 10
     action: add_reference_pilot_sandbox_idempotency_check
     status: blocked
     owner: selected_reference_module
-    depends_on: [add_reference_pilot_completion_preview]
+    depends_on:
+      - add_reference_pilot_completion_preview
     rollout_effect: reference_pilot_only
   - step: 11
     action: add_reference_pilot_owned_coordination_validator
     status: blocked
     owner: selected_reference_module
-    depends_on: [add_reference_pilot_sandbox_idempotency_check]
+    depends_on:
+      - add_reference_pilot_sandbox_idempotency_check
     rollout_effect: reference_pilot_only
   - step: 12
     action: validate_reference_pilot_conformance
     status: blocked
     owner: forprint_system_blueprint
-    depends_on: [add_reference_pilot_owned_coordination_validator]
+    depends_on:
+      - add_reference_pilot_owned_coordination_validator
     rollout_effect: none
   - step: 13
     action: assess_remaining_registered_modules_in_controlled_batches
     status: blocked
     owner: forprint_system_blueprint
-    depends_on: [validate_reference_pilot_conformance]
+    depends_on:
+      - validate_reference_pilot_conformance
     rollout_effect: controlled_batches_only
   - step: 14
     action: authorize_external_rollout
     status: not_authorized
     owner: forprint_system_blueprint
-    depends_on: [assess_remaining_registered_modules_in_controlled_batches]
+    depends_on:
+      - assess_remaining_registered_modules_in_controlled_batches
     rollout_effect: none
-
 validation_requirements:
   schema_validator_required: true
   command_id_uniqueness_required: true
@@ -570,7 +543,6 @@ validation_requirements:
   idempotency_check_must_not_mutate_live_worktree: true
   blueprint_intake_check_must_be_blueprint_owned: true
   external_rollout_must_remain_gated_until_operational_readiness_green: true
-
 result:
   matrix_state: generalized_draft_ready_for_validation_implementation
   architecture_state: approved_target_standard

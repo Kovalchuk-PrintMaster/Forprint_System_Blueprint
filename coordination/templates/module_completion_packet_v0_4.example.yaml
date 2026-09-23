@@ -44,12 +44,12 @@ prompt_contract:
   payload_sha256: <64-character lowercase sha256>
   source_prompt_sha256: <64-character lowercase sha256>
 requirement_results:
-- obligation_id: <IMP/VER/CE obligation id>
-  category: implementation
-  result: satisfied
-  evidence_ids:
-  - <evidence_id>
-  notes: <optional concise note>
+  - obligation_id: <IMP/VER/CE obligation id>
+    category: implementation
+    result: satisfied
+    evidence_ids:
+      - <evidence_id>
+    notes: <optional concise note>
 checks:
   check_report: passed
   tests: passed
@@ -58,16 +58,16 @@ checks:
   check_report_warnings: 0
   check_report_failed: 0
 check_results:
-- check_id: <check_id>
-  command: <command>
-  result: passed
-  evidence_ids:
-  - <evidence_id>
+  - check_id: <check_id>
+    command: <command>
+    result: passed
+    evidence_ids:
+      - <evidence_id>
 evidence_manifest:
-- evidence_id: <evidence_id>
-  kind: <report|test_output|governance_check|artifact>
-  path: <module-relative evidence path>
-  sha256: <64-character lowercase sha256>
+  - evidence_id: <evidence_id>
+    kind: <report|test_output|governance_check|artifact>
+    path: <module-relative evidence path>
+    sha256: <64-character lowercase sha256>
 boundary_confirmations:
   automatic_acceptance_performed: false
   automatic_return_performed: false

@@ -63,23 +63,23 @@ The exact commands inside each block may differ by module, but the block structu
 Recommended visual separator:
 
 ```make
-# =============================================================================
-# 00 Environment / constants START
-# =============================================================================
+## =============================================================================
+## 00 Environment / constants START
+## =============================================================================
 
-# Purpose: define local runtime constants, Python binary, Blueprint path and colors.
-# Result: shared variables are available to all targets.
+## Purpose: define local runtime constants, Python binary, Blueprint path and colors.
+## Result: shared variables are available to all targets.
 
-# =============================================================================
-# 00 Environment / constants FINISH
-# =============================================================================
+## =============================================================================
+## 00 Environment / constants FINISH
+## =============================================================================
 ```
 
 Every public target should have a short comment before it:
 
 ```make
-# Purpose: run the main local validation flow before commit.
-# Result: lint, tests and module validation pass or return non-zero.
+## Purpose: run the main local validation flow before commit.
+## Result: lint, tests and module validation pass or return non-zero.
 .PHONY: check
 check:
 	$(MAKE) lint-fix

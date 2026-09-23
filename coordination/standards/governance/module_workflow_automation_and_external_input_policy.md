@@ -175,3 +175,27 @@ No workflow may:
 - overwrite unconsumed operator input;
 - treat an expected waiting state as successful completion;
 - hide an unknown by converting it to a guessed value.
+
+<!-- FORPRINT_U92_EXECUTION_POLICY_GATE_20260903:START -->
+## Execution Policy Gate and capability-shaped tools
+
+AI output is intent/proposal, not execution authorization.
+
+A side effect follows:
+structured tool request → deterministic Execution Policy Gate → IAM/resource policy →
+capability-shaped tool → execution evidence.
+
+Prefer narrow capabilities such as `restart_known_service`, `print_authorized_document`,
+`restore_known_backup`, or `queue_provider_request` over arbitrary shell access.
+
+Risk classes:
+
+- `DEV_LOCAL` — autonomous inside the approved development boundary.
+- `SAFE_REVERSIBLE` — bounded reversible pipeline action.
+- `CROSS_MODULE` — requires explicit contract/governance checks.
+- `PROD_HIGH_IMPACT` — policy plus human approval unless a separately approved narrow routine exists.
+- `FORBIDDEN` — denied.
+
+Human approval packets should explain desired outcome, reason, affected resources, side effects,
+risk and recovery/rollback rather than presenting opaque shell text as the decision object.
+<!-- FORPRINT_U92_EXECUTION_POLICY_GATE_20260903:END -->

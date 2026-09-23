@@ -1,0 +1,86 @@
+schema_version: "0.1"
+status: ACTIVE
+authority: BLUEPRINT_CLEANLINESS_GOVERNANCE
+title: Asset Lifecycle and Retirement Policy v0.1
+purpose: >-
+  Prevent long-lived ForPrint repositories from accumulating obsolete scripts,
+  documents, tests, helpers, and other project assets without an explicit lifecycle
+  decision.
+principles:
+  - Age is a review signal, never an automatic deletion reason.
+  - No asset is deleted only because it is old, unmodified, or currently unreferenced.
+  - Every retirement candidate must have an owner, evidence, status, disposition, and
+    review condition.
+  - Git history is the normal recovery mechanism for removed source assets; a separate
+    archive is reserved for assets with continuing historical, migration, legal,
+    acceptance, disaster-recovery, or operator-reference value.
+  - Archived assets must not become current authority, runtime dependencies, build
+    inputs, or normal execution surfaces.
+  - Archived assets remain subject to lightweight integrity, metadata, secret, and
+    active-dependency checks even when ordinary runtime/lint checks no longer apply.
+  - Project Inspector may detect candidates and conformance problems but may not
+    silently delete, move, merge, or activate semantic truth.
+  - Each module will eventually maintain its own module-local lifecycle registry under
+    the shared Blueprint policy; Blueprint owns the portfolio policy, not every
+    module's physical files.
+  - Retirement actions require explicit review; REMOVE_APPROVED and ARCHIVE_APPROVED
+    are never produced automatically by age scanning.
+review_signals:
+  default_dormancy_days: 365
+  signals:
+    - DORMANT_BY_GIT_HISTORY
+    - NO_KNOWN_TEXTUAL_REFERENCES
+    - NO_KNOWN_TEST_REFERENCES
+    - DUPLICATE_OR_EQUIVALENT_CAPABILITY_CANDIDATE
+    - DEPRECATED_COMPATIBILITY_ONLY
+    - SUPERSEDED_DOCUMENT_CANDIDATE
+    - ORPHANED_OWNER_OR_PURPOSE
+    - GENERATED_WITHOUT_CANONICAL_SOURCE
+    - ROADMAP_IRRELEVANT_CANDIDATE
+lifecycle_statuses:
+  - ACTIVE
+  - DEPRECATED
+  - RETIREMENT_CANDIDATE
+  - NEEDS_OWNER_REVIEW
+  - ARCHIVE_APPROVED
+  - REMOVE_APPROVED
+  - HISTORICAL_ONLY
+  - RETIRED
+dispositions:
+  - KEEP
+  - MOVE
+  - MERGE
+  - REWRITE
+  - DEPRECATE
+  - REMOVE
+  - NEEDS_OWNER_REVIEW
+required_registry_fields:
+  - asset_id
+  - path
+  - asset_type
+  - owner
+  - lifecycle_status
+  - disposition
+  - reason
+  - evidence
+  - review_after
+  - removal_or_archive_condition
+approval_rules:
+  automatic_deletion_allowed: false
+  automatic_archive_allowed: false
+  age_only_removal_allowed: false
+  remove_approved_requires_operator_or_owner_evidence: true
+  archive_approved_requires_operator_or_owner_evidence: true
+archive_boundary:
+  current_authority_allowed: false
+  runtime_dependency_allowed: false
+  build_or_ci_input_allowed: false
+  normal_execution_allowed: false
+  lightweight_integrity_check_required: true
+  secret_check_required: true
+  active_dependency_check_required: true
+tooling:
+  registry: coordination/internal_work/blueprint/cleanliness/asset_retirement_registry_v0_1.yaml
+  scanner: scripts/coordination/scan_asset_retirement_candidates_v0_1.py
+  validator: scripts/validation/validate_asset_retirement_registry_v0_1.py
+  check_command: make asset-retirement-check

@@ -1,4 +1,6 @@
 schema_version: clarification_question_lifecycle_contract_v0_1
+status: active_standard
+authority: forprint_system_blueprint
 metadata:
   standard_id: clarification_question_lifecycle_v0_1
   owner: forprint_system_blueprint
@@ -6,8 +8,8 @@ metadata:
   adoption_mode: prompt_or_directive_required
   hardening_slice: Q1
   stable_id: blueprint_v0_4_1_clarification_question_lifecycle_v0_1
-purpose: Define a first-class clarification question lifecycle without conflating clarification with prompt
-  disposition or enabling runtime.
+purpose: Define a first-class clarification question lifecycle without conflating clarification with prompt disposition or
+  enabling runtime.
 core_rule:
   question_is_prompt_disposition: false
   question_creation_implies_return: false
@@ -15,28 +17,28 @@ core_rule:
   question_lifecycle_mutates_released_prompt: false
   released_prompt_remains_immutable: true
   separate_decision_required_for:
-  - ACCEPT
-  - RETURN
-  - HOLD
-  - cancellation
-  - scope_adjustment
-  - waiver
+    - ACCEPT
+    - RETURN
+    - HOLD
+    - cancellation
+    - scope_adjustment
+    - waiver
 thread_identity:
   required_fields:
-  - question_id
-  - module_id
-  - prompt_id
-  - roadmap_step_id
-  - requester
-  - target
-  - correlation_id
-  - blocking
-  - question_class
-  - round
-  - question
-  - answer
-  - evidence_refs
-  - timestamps
+    - question_id
+    - module_id
+    - prompt_id
+    - roadmap_step_id
+    - requester
+    - target
+    - correlation_id
+    - blocking
+    - question_class
+    - round
+    - question
+    - answer
+    - evidence_refs
+    - timestamps
   question_id_stable_and_immutable: true
   correlation_id_is_not_question_id: true
   requester_and_target_are_logical_actor_refs: true
@@ -57,20 +59,20 @@ thread_identity:
     secret_references_allowed: true
 lifecycle:
   normal_order:
-  - OPEN
-  - ROUTED
-  - ANSWERED
-  - CONFIRMED
-  - RESOLVED
+    - OPEN
+    - ROUTED
+    - ANSWERED
+    - CONFIRMED
+    - RESOLVED
   alternative_terminals:
-  - ESCALATED
-  - CANCELLED
-  - EXPIRED
+    - ESCALATED
+    - CANCELLED
+    - EXPIRED
   terminal_states:
-  - RESOLVED
-  - ESCALATED
-  - CANCELLED
-  - EXPIRED
+    - RESOLVED
+    - ESCALATED
+    - CANCELLED
+    - EXPIRED
   terminal_transition_out_allowed: false
   state_semantics:
     OPEN: thread_created_not_yet_routed
@@ -88,29 +90,29 @@ lifecycle:
   bounded_escalation_owner: Q2
 timestamps:
   always_required:
-  - created_at
-  - state_changed_at
+    - created_at
+    - state_changed_at
   state_specific:
     ROUTED:
-    - routed_at
+      - routed_at
     ANSWERED:
-    - routed_at
-    - answered_at
+      - routed_at
+      - answered_at
     CONFIRMED:
-    - routed_at
-    - answered_at
-    - confirmed_at
+      - routed_at
+      - answered_at
+      - confirmed_at
     RESOLVED:
-    - routed_at
-    - answered_at
-    - confirmed_at
-    - resolved_at
+      - routed_at
+      - answered_at
+      - confirmed_at
+      - resolved_at
     ESCALATED:
-    - terminal_at
+      - terminal_at
     CANCELLED:
-    - terminal_at
+      - terminal_at
     EXPIRED:
-    - terminal_at
+      - terminal_at
   runtime_format: UTC-compatible ISO-8601
   live_runtime_implemented_by_q1: false
 prompt_coupling:
@@ -132,8 +134,8 @@ storage_boundary:
   semantic_contract_only: true
   future_runtime_store_owner: future_coordination_operational_store
   future_schema_families:
-  - question_threads
-  - question_messages
+    - question_threads
+    - question_messages
   database_backend_bound_by_q1: false
   database_file_created_by_q1: false
   live_sqlite_runtime_enabled: false

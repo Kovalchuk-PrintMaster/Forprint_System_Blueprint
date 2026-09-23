@@ -1,6 +1,8 @@
 # Roadmap Enrichment and Knowledge Saturation Operating Guide v0.1
 
-        Intended canonical destination:
+    Status: `DRAFT_CLEAN_CANDIDATE`
+
+    Intended canonical destination:
     `coordination/standards/governance/roadmap_enrichment_and_knowledge_saturation_operating_guide_v0_1.md`
 
     This document is an operating guide under the existing Blueprint
@@ -122,6 +124,48 @@
     `REPLACE` requires supersession evidence and migration semantics.
 
     New terminology alone is not evidence that a new subsystem is required.
+
+
+    ### 6.1 Pre-Implementation Reconciliation Gate
+
+    Reuse-first discovery is mandatory before any **significant** new capability,
+    subsystem, service, registry, control plane, contract family, workflow, or
+    cross-module behavior is implemented.
+
+    Before code creation, reconcile at least:
+
+    1. current repository implementation and available current-state evidence;
+    2. the owning module's canonical roadmap and current active/planned work;
+    3. Human Intent linked to the capability or problem;
+    4. target-state, capability-catalog and module-concept surfaces;
+    5. known owners, contracts, dependencies and adjacent mechanisms;
+    6. relevant portfolio roadmaps when the capability is shared or cross-module;
+    7. strategic/horizon material when the change is architecturally significant.
+
+    Then assign one explicit disposition:
+
+    `REUSE / EXTEND / ADAPT / REPLACE / NEW`
+
+    If equivalent intent already exists in the roadmap, do not create a duplicate
+    function or second roadmap obligation. Reconcile the existing item instead:
+    clarify, enrich, split/merge, change dependency representation, or propose a
+    priority adjustment through the applicable planning authority.
+
+    `NEW` is allowed only after documented search evidence shows that no suitable
+    implementation, owner, roadmap obligation, or safely extensible mechanism
+    already covers the need.
+
+    `REPLACE` additionally requires supersession, migration and retirement
+    semantics.
+
+    A local helper inside an already-approved implementation step does not require
+    a full portfolio scan. The minimum scope is proportional to architectural
+    significance: module-local reconciliation for local work, relevant
+    cross-module/portfolio reconciliation for shared architecture.
+
+    Material uncertainty affecting architecture, ownership, financial exposure,
+    security, governance, or portfolio priority must be raised for operator
+    decision rather than silently resolved by invention.
 
     ## 7. Owner-first reconciliation
 
@@ -289,10 +333,101 @@
 
     Sufficient coverage and traceable uncertainty are.
 
+
+    ### 15.1 Portfolio-wide source extraction rule
+
+    Knowledge recovery is source-centric and portfolio-wide.
+
+    A conversation archive, planning document, handoff, implementation report,
+    or owner statement should normally receive one substantive extraction pass
+    across the entire ForPrint portfolio rather than being reread separately
+    for Telegram, Calculator, CRM, Blueprint, or another module.
+
+    One source pass should identify, where applicable:
+
+    - all affected modules;
+    - Human Intent and useful compact evidence excerpts;
+    - current-state facts;
+    - mature target-state implications;
+    - capabilities;
+    - roadmap candidates;
+    - strategic implications;
+    - cross-module dependencies and ownership boundaries;
+    - provenance and maturity;
+    - contradictions, gray zones, and open questions.
+
+    Portfolio-wide analysis does not require uncontrolled portfolio-wide
+    mutation. Durable changes may still be integrated in bounded owner-specific
+    transactions.
+
+    ### 15.2 Completion Gate A — structural coverage and critical-gap closure
+
+    Knowledge Saturation may approach completion only after the available source
+    corpus has been materially exhausted and the remaining gaps have been
+    reviewed across the portfolio.
+
+    Ordinary technical connective gaps may be completed synthetically when the
+    intended architecture is sufficiently constrained by existing owners and
+    contracts. Synthetic completion must remain explicitly identifiable as
+    synthetic or proposed rather than being rewritten as recovered history.
+
+    Material gaps that can significantly change business economics, financial
+    exposure, governance, ownership, architecture, security, external
+    commitments, or other project-wide decisions must not be silently invented.
+
+    Such gaps become explicit operator questions containing at least:
+
+    - the unresolved decision;
+    - affected modules or strategic surfaces;
+    - why the answer materially changes planning;
+    - what downstream planning remains blocked or unreliable without it.
+
+    Gate A is satisfied only when remaining uncertainty is either safely
+    synthetic, explicitly deferred, or represented by a bounded set of material
+    operator decisions.
+
+    ### 15.3 Completion Gate B — operator capability challenge
+
+    Knowledge Saturation also requires a practical retrieval test.
+
+    The project owner may name an arbitrary desired ForPrint capability,
+    micro-function, workflow, or module idea without first identifying its
+    canonical owner.
+
+    The knowledge base should allow a later assistant to determine quickly
+    whether that intent is already represented and, when represented, identify
+    the relevant:
+
+    - module owner or owners;
+    - target-state or capability representation;
+    - roadmap representation where applicable;
+    - major dependencies and provider/consumer relationships;
+    - provenance and maturity;
+    - material unresolved questions.
+
+    If the requested capability is not represented, that result is itself a
+    discovered coverage gap and should enter the enrichment process.
+
+    Gate B is satisfied when repeated arbitrary owner challenges cease to expose
+    material unrepresented capabilities and the represented capabilities can be
+    located and explained without reconstructing the project from raw history.
+
+    ### 15.4 Transition rule
+
+    Passing only one completion gate is insufficient.
+
+    Broader roadmap normalization, dependency sequencing, portfolio
+    prioritization, wave planning, and dynamic-control work should be proposed
+    only after both Gate A and Gate B are materially satisfied.
+
+    The required transition is:
+
+    `knowledge saturation -> structural reconciliation -> roadmap normalization -> dependency sequencing -> prioritization -> dynamic planning`
+
     ## 16. Assistant fast-start protocol
 
     A new Blueprint assistant should begin by establishing repository identity,
-    current branch/upstream state, current coordination and continuity state, and
+    current branch/upstream state, current coordination/continuity state, and
     active authority boundaries.
 
     It should then read the current canonical architecture decision and this
@@ -373,8 +508,10 @@
 - `coordination/standards/governance/portfolio_roadmap_dependency_and_prioritization_standard_v0_1.md`
 - `coordination/standards/governance/next_work_selection_policy_v0_1.md`
 - `coordination/standards/governance/mutation_builder_contract_v0_1.md`
+- `coordination/standards/governance/safe_mutation_pipeline_v0_1.yaml`
 - `coordination/standards/governance/module_concept_and_roadmap_traceability_standard_v0_1.md`
 - `coordination/standards/governance/module_workflow_automation_and_external_input_policy.md`
+- `coordination/standards/automation/work_front_contract_v0_1.yaml`
 
     Where a normative conflict is discovered, the conflict must be surfaced for
     bounded reconciliation rather than silently resolved by this guide.

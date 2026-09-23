@@ -812,3 +812,125 @@ The following are forbidden as substitutes for the policy above:
 - letting two autonomous executions mutate one shared dirty module checkout.
 
 The system must preserve operator work and reason about compatibility from declared authority, inputs, and execution ownership.
+
+<!-- unified-module-completion-report-profile-v0-1:start -->
+## Unified module completion report profile v0.1
+
+All ForPrint modules MUST expose prompt-completion results through one normalized semantic
+report envelope. Domain implementation may differ; the required report semantics must not
+silently fork by module.
+
+This profile complements the applicable Completion Packet / Completion Outbox protocol.
+It does not replace current evidence transport and does not create acceptance authority.
+
+A prose-only completion message is insufficient.
+
+Minimum machine-readable envelope:
+
+```yaml
+schema_version: forprint_module_completion_report_profile_v0_1
+identity:
+  module_id: ...
+  pool_id: ...
+  prompt_id: ...
+  roadmap_step_id: ...
+  worker_execution_id: ...
+  fresh_worker: true
+  prompt_sha256: ...
+  prompt_contract_path: ...
+  acceptance_oracle_path: ...
+
+outcome:
+  state: completed|blocked|returned_for_correction
+  objective_summary: ...
+  operator_attention_required: true|false
+
+requirement_results:
+  - requirement_id: ...
+    status: passed|failed|not_applicable
+    evidence_refs: [...]
+
+changed_files:
+  - path: ...
+    change_role: implementation|test|documentation|inventory|coordination
+
+validation:
+  - check_id: ...
+    command: ...
+    exit_code: 0
+    status: passed
+    executed_at: ...
+    output_sha256: ...
+
+self_knowledge:
+  inventory_updated: true|false
+  inventory_check_status: ...
+  documentation_authority_changed: true|false
+  implementation_lineage_changed: true|false
+  fresh_context_validation_status: ...
+
+boundaries:
+  blueprint_write: false
+  cross_repository_write: false
+  production_write: false
+  live_provider_write: false
+  automatic_accept: false
+  automatic_release_next_prompt: false
+  commit_push_performed: false
+
+repository_state:
+  baseline_commit: ...
+  completion_commit: ...
+  branch: ...
+  unexpected_paths: []
+
+resource_observability:
+  tokens:
+    status: observed|not_observable
+    input: null
+    output: null
+  cost:
+    status: observed|not_observable
+    value: null
+    currency: null
+  elapsed_seconds:
+    status: observed|not_observable
+    value: null
+  retries:
+    status: observed|not_observable
+    value: null
+
+gaps_and_risks:
+  - id: ...
+    severity: ...
+    summary: ...
+
+evidence_manifest:
+  - evidence_id: ...
+    path: ...
+    sha256: ...
+
+next_step_advisory:
+  eligible_from_module_view: true|false
+  recommendation: ...
+  authority: advisory_not_release_or_acceptance
+```
+
+Rules:
+
+1. The same required field names and meanings apply to every module.
+2. A module may add namespaced extension fields but must not redefine required fields.
+3. Unavailable telemetry must be explicit; never fabricate token/cost/runtime values.
+4. Requirement results must map to the active prompt/contract.
+5. Evidence references must be concrete and machine-checkable.
+6. `next_step_advisory` is never next-prompt authority.
+7. Module completion is not Blueprint acceptance.
+8. Blueprint/Inspector tooling should validate this profile with shared tooling instead of
+   module-specific prose interpretation.
+9. The first Logistics pool is the reference calibration run for this profile.
+10. Generally useful report improvements discovered in Logistics should be promoted to the
+    shared profile before portfolio reuse.
+
+Execution-pool semantics:
+`coordination/standards/governance/module_reference_rollout_execution_pool_policy_v0_1.md`
+<!-- unified-module-completion-report-profile-v0-1:end -->

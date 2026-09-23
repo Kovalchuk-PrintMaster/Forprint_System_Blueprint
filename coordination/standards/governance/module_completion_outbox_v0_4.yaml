@@ -1,4 +1,6 @@
 schema_version: module_completion_outbox_standard_v0_4
+status: candidate_reference_only
+authority: forprint_system_blueprint
 metadata:
   standard_id: module_completion_outbox_v0_4
   title: Module Completion Outbox v0.4
@@ -6,8 +8,8 @@ metadata:
   owner: forprint_system_blueprint
   event_instances_are_module_owned: true
 purpose:
-  summary: Module-owned immutable publication event that points to a Completion Packet
-    v0.4 and exposes it for later Blueprint discovery without granting Blueprint acceptance.
+  summary: Module-owned immutable publication event that points to a Completion Packet v0.4 and exposes it for later Blueprint
+    discovery without granting Blueprint acceptance.
   separates_module_publication_from_blueprint_discovery: true
   separates_module_completion_from_operator_acceptance: true
 instance:
@@ -64,9 +66,9 @@ publication_evidence:
   automatic_push: false
 revision:
   superseding_fields:
-  - supersedes_event_id
-  - supersedes_event_path
-  - revision_reason
+    - supersedes_event_id
+    - supersedes_event_path
+    - revision_reason
   all_or_none: true
   superseded_event_path_must_be_canonical: true
   self_supersede_allowed: false

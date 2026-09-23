@@ -395,3 +395,49 @@ refs absent from the manifest, and requires each criterion `requirement_ref`
 to be represented by at least one cited evidence ID that the validated packet
 itself binds to that obligation. A waiver may bypass an unsatisfied blocking
 criterion, but it cannot make an unknown/fabricated evidence reference valid.
+
+<!-- FORPRINT_U92_CANONICAL_MODULE_MATURITY_SEQUENCE_20260903:START -->
+## Canonical module maturity / production-entry sequence
+
+Every new or materially reworked module should be able to locate itself on this sequence:
+
+- **M0** portfolio justification / module-value test
+- **M1** governance, ownership, Human Intent and roadmap
+- **M2** development baseline and repository cleanliness/current-state evidence
+- **M3** capability implementation
+- **M4** verification readiness / Test Plane contract
+- **M5** adversarial and resilience verification
+- **M6** release candidate with reproducible artifact/provenance/rollback
+- **M7** staging, shadow and/or canary
+- **M8** production
+- **M9** managed self-evolution through the same DEV→VERIFY→RELEASE path
+
+Advancing maturity is not equivalent to assistant distribution. Portfolio, dependency and operator
+gates remain independently authoritative.
+<!-- FORPRINT_U92_CANONICAL_MODULE_MATURITY_SEQUENCE_20260903:END -->
+
+## Post-inventory roadmap reconciliation gate
+
+After module forensic inventory/consolidation and before normal roadmap development, Blueprint
+must reconcile actual implementation evidence, module inventory/lineage/document authority and
+the canonical module roadmap.
+
+Minimum cases:
+
+- **capability exists but roadmap omits it** → verify current/intentional status and enrich the
+  roadmap or register a future capability candidate;
+- **roadmap plans capability already implemented** → verify behavior/evidence and project the
+  real state instead of rebuilding from scratch;
+- **roadmap contradicts implementation or lineage** → reconcile before dependent development;
+- **Blueprint assigns a new responsibility** → bind existing implementation evidence or create
+  an explicit roadmap obligation/gap;
+- **legacy provenance cannot be proven** → retain `UNKNOWN_LEGACY`.
+
+The reconciliation output must bind exact source paths/hashes and identify whether canonical
+roadmap apply remains pending.
+
+Automated discovery may produce candidates, but semantic ambiguity must go to review rather
+than auto-edit roadmap intent.
+
+Roadmap reconciliation does not grant prompt release, worker activation, `ACCEPT`, or
+next-prompt release.

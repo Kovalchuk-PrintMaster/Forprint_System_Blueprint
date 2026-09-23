@@ -328,7 +328,7 @@ Backward compatibility should be preserved only when an active consumer, bounded
 Example:
 
 ```python
-# config/__init__.py
+## config/__init__.py
 from .telegram import BOT_TOKEN, ADMIN_CHAT_ID
 from .database import SUPABASE_URL, SUPABASE_KEY, SUPABASE_READY
 ```

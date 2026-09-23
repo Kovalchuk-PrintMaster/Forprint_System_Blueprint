@@ -92,3 +92,33 @@ This protocol does not by itself:
 - activate proposed modules;
 - authorize cross-repository writes;
 - authorize commit or push.
+
+<!-- human-intent-normalization-v0-1:start -->
+## Canonical machine status taxonomy and mutation path
+
+The Human Intent ledger uses exactly four machine statuses:
+
+- `AGREED` — explicitly agreed or reconfirmed;
+- `RECOVERED` — recovered from existing project/portfolio evidence;
+- `PROPOSED` — working synthesis or synthetic planning content not yet agreed;
+- `GAP` — a known exact detail is missing and must not be invented.
+
+`SYNTHETIC` is not a Human Intent machine status. It may be a portfolio/roadmap
+presentation label, but machine ledger records use `PROPOSED`.
+
+Current module ledgers use `status: active_planning_context` at document level.
+Module counts in `index.yaml` and module navigation in `README.md` are synchronized
+surfaces and should be maintained through the canonical mutation helper.
+
+Routine mutations should use:
+
+`python scripts/coordination/human_intent_mutation_v0_1.py validate`
+
+`python scripts/coordination/human_intent_mutation_v0_1.py sync --check`
+
+New records use the guarded `append` command with a YAML record packet.
+Duplicate intent IDs and non-canonical statuses are rejected.
+
+Historical portfolio closures remain frozen against their dated source/snapshot
+artifacts and must not be revalidated against the mutable current ledger.
+<!-- human-intent-normalization-v0-1:end -->

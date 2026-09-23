@@ -1,0 +1,36 @@
+schema_version: forprint_makefile_operator_functional_map_policy_v0_1
+standard_id: makefile_operator_functional_map_policy_v0_1
+title: Makefile Operator Functional Map Policy v0.1
+status: active_standard
+authority: forprint_system_blueprint
+adoption_mode: gradual_alignment
+purpose: Treat Makefile as the operator-facing functional map of supported project workflows and keep it synchronized
+  with live implementation.
+invariants:
+  supported_operator_workflow_requires_makefile_coverage: true
+  newly_discovered_supported_workflow_triggers_coverage_review: true
+  retired_functionality_requires_stale_target_removal_or_reclassification: true
+  read_only_targets_must_not_hide_mutation: true
+  historical_target_names_do_not_override_live_implementation: true
+closeout_triggers:
+- new_supported_operator_workflow
+- material_operator_workflow_change
+- existing_supported_workflow_missing_from_makefile
+- retired_or_removed_functionality_still_exposed_by_makefile
+finding_classes:
+- COVERED
+- MISSING_TARGET_OR_ROUTE
+- STALE_TARGET
+- SEMANTIC_DRIFT
+- INTERNAL_ONLY_NOT_OPERATOR_SURFACE
+- DEFERRED_WITH_REASON
+non_authority:
+- roadmap
+- execution
+- lifecycle
+- dispatch
+- acceptance
+- release
+- commit
+- push
+- merge

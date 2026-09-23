@@ -1,10 +1,10 @@
 schema_version: blueprint_command_applicability_v0_1
-
+status: current
+authority: forprint_system_blueprint
 metadata:
   owner: forprint_system_blueprint
-  created_at: "2026-08-02"
+  created_at: '2026-08-02'
   status: current
-
 repository_profile:
   repository_id: forprint_system_blueprint
   repository_class: blueprint
@@ -17,7 +17,6 @@ repository_profile:
   prompt_workflow_state: implemented_gated
   prompt_workflow_evidence: coordination/internal_work/blueprint/governance/2026-08-02__blueprint__prompt_workflow_operator_integration_v0_1.yaml
   external_rollout: gated
-
 commands:
   - command_id: prompt-prepare
     public_target: prompt-prepare
@@ -34,7 +33,6 @@ commands:
     external_repository_writes: false
     git_behavior: none
     conformance: pass
-
   - command_id: prompt-release
     public_target: prompt-release
     target_present: true
@@ -52,7 +50,6 @@ commands:
     external_repository_writes: false
     git_behavior: none
     conformance: pass
-
   - command_id: prompt-status
     public_target: prompt-status
     target_present: true
@@ -67,7 +64,6 @@ commands:
       external_module_queue_allowed: false
     implementation_state: implemented
     conformance: pass
-
   - command_id: completion-intake-preview
     public_target: completion-intake-preview
     target_present: true
@@ -78,7 +74,6 @@ commands:
     implementation: scripts/coordination/module_completion_intake.py
     implementation_state: implemented
     conformance: pass
-
   - command_id: completion-intake-check
     public_target: completion-intake-check
     target_present: true
@@ -89,7 +84,6 @@ commands:
     implementation: scripts/coordination/completion_intake_check.py
     implementation_state: implemented
     conformance: pass
-
   - command_id: completion-accept
     public_target: completion-accept
     target_present: true
@@ -100,7 +94,6 @@ commands:
     implementation: scripts/coordination/module_completion_intake.py
     implementation_state: implemented
     conformance: pass
-
   - command_id: completion-return
     public_target: completion-return
     target_present: true
@@ -111,7 +104,6 @@ commands:
     implementation: scripts/coordination/module_completion_intake.py
     implementation_state: implemented
     conformance: pass
-
   - command_id: module-workflow-check
     public_target: module-workflow-check
     target_present: true
@@ -122,7 +114,6 @@ commands:
     implementation: scripts/coordination/modules/module_workflow_cli.py
     implementation_state: implemented
     conformance: pass
-
   - command_id: standards-check
     public_target: standards-check
     target_present: true
@@ -133,7 +124,6 @@ commands:
     implementation: scripts/validate_standards_index.py
     implementation_state: implemented
     conformance: pass
-
   - command_id: check-report
     public_target: check-report
     target_present: true
@@ -144,7 +134,6 @@ commands:
     implementation: scripts/run_blueprint_checks.py
     implementation_state: implemented
     conformance: pass
-
   - command_id: coordination-check
     public_target: coordination-check
     target_present: true
@@ -156,7 +145,6 @@ commands:
     not_applicable_reason: module_coordination_metadata_contract
     implementation_state: implemented
     conformance: not_applicable
-
   - command_id: blueprint-self-audit
     public_target: blueprint-self-audit
     target_present: true
@@ -168,7 +156,6 @@ commands:
     implementation_state: implemented_requires_runtime_state
     runtime_state: completed_with_unknowns
     conformance: pass
-
   - command_id: blueprint-self-status
     public_target: blueprint-self-status
     target_present: true
@@ -179,7 +166,6 @@ commands:
     implementation: scripts/coordination/modules/forprint_system_blueprint/workflows/self_audit.py
     implementation_state: implemented
     conformance: pass
-
   - command_id: blueprint-self-report-full
     public_target: blueprint-self-report-full
     target_present: true
@@ -191,7 +177,6 @@ commands:
     implementation_state: implemented_requires_runtime_state
     runtime_state: available
     conformance: pass
-
   - command_id: modules-self-status
     public_target: modules-self-status
     target_present: true
@@ -203,7 +188,6 @@ commands:
     implementation_state: implemented
     current_scope: registered_blueprint_workflow_only
     conformance: pass
-
 result:
   inventory_state: completed
   conformance_state: pass

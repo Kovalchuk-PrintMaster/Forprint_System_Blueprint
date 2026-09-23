@@ -191,3 +191,17 @@ It consumes the Human Intent index and append-only module ledgers. It must fail 
 generated source does not contain every indexed intent ID exactly once. The generated
 PDF remains a human review projection, never architecture/release authority.
 <!-- portfolio-rendering-v0-1-residual-closure-2026-08-31:end -->
+
+<!-- expanded-portfolio-quotes-and-target-state-2026-09-01:start -->
+## Expanded portfolio extension
+
+Expanded human portfolio per-module sections should also show:
+- explicit Final Target State;
+- AGREED/HUMAN-CONFIRMED mature capabilities;
+- SYNTHETIC/PROPOSED mature capabilities;
+- compact mature-capability list;
+- selected curated operator quotes under roadmap steps where they preserve rationale.
+
+Narrow machine view may omit long quote payloads. Balanced view may use concise source references.
+This does not make the PDF authority and does not require full chat archival.
+<!-- expanded-portfolio-quotes-and-target-state-2026-09-01:end -->

@@ -1,0 +1,80 @@
+schema_version: forprint_project_constitution_v0_1
+status: CANONICAL
+authority: PROJECT_CONSTITUTION
+owner: forprint_system_blueprint
+purpose: >-
+  Define the highest-level project laws and deterministic authority precedence
+  for Blueprint coordination and execution control.
+scope:
+  applies_to:
+    - forprint_system_blueprint_control_plane
+    - module_policy
+    - execution_profile
+    - work_front
+    - assistant_context_and_handoff
+    - lifecycle_and_roadmap_gates
+  does_not_grant:
+    - release_authority
+    - worker_dispatch_authority
+    - foreign_repository_write_authority
+    - automatic_next_step_activation
+authority_precedence:
+  order:
+    - PROJECT_CONSTITUTION
+    - MODULE_POLICY
+    - EXECUTION_PROFILE
+    - WORK_FRONT
+  lower_layer_may_narrow: true
+  lower_layer_may_widen_without_explicit_gate: false
+  widening_requires:
+    gate: EXPLICIT_AUTHORITY_WIDENING_GATE
+    approver_class: OPERATOR_OR_HIGHER_CANONICAL_AUTHORITY
+    evidence_required: true
+  conflict_rule: HIGHEST_PRECEDENCE_RESTRICTIVE_RULE_WINS
+  missing_layer_rule: MISSING_LOWER_LAYER_DOES_NOT_WIDEN_AUTHORITY
+project_laws:
+  - id: LAW_CANONICAL_OVER_GENERATED
+    rule: Canonical source authority outranks generated projections and views.
+  - id: LAW_IMMUTABLE_HISTORY
+    rule: Accepted history is append-only and must not be rewritten in place.
+  - id: LAW_CHAT_NOT_AUTHORITY
+    rule: Chat transcripts and conversational intent are not execution authority.
+  - id: LAW_REUSE_BEFORE_NEW
+    rule: Existing canonical capability must be evaluated before creating a competing NEW implementation.
+  - id: LAW_NO_FOREIGN_WRITE_WITHOUT_AUTHORITY
+    rule: Cross-repository or foreign-module mutation requires explicit authority.
+  - id: LAW_CRITICAL_PROCEDURE_EVIDENCE
+    rule: Critical governed procedures must produce durable evidence.
+  - id: LAW_NO_SILENT_BYPASS
+    rule: A required hard gate may not be silently skipped or converted into an observation.
+  - id: LAW_BREAKING_CHANGE_OPERATOR_GATE
+    rule: Breaking, subtractive, destructive or authority-widening change requires explicit operator gate.
+  - id: LAW_RAW_CONVERSATION_IS_EVIDENCE_ONLY
+    rule: Raw conversation evidence may support decisions but is not itself canonical authority.
+  - id: LAW_FRESH_AGENT_ACCEPTED_STATE
+    rule: A fresh assistant must reconstruct work from accepted canonical state rather than chat memory.
+  - id: LAW_INDEPENDENT_VALIDATION_BEFORE_COMPLETION
+    rule: Completion requires independent validation separate from the implementing action.
+  - id: LAW_AUTONOMY_BY_CAPABILITY_AND_BLAST_RADIUS
+    rule: Autonomy is granted by bounded capability and blast radius, never as an undifferentiated global permission.
+  - id: LAW_AI_CANNOT_SELF_CERTIFY_GUARDRAILS
+    rule: Blueprint AI may not both modify its own governing guardrails and certify that same modification as accepted.
+module_invariant_extension:
+  allowed: true
+  rule: Module policy may add or tighten invariants but may not weaken Project Constitution constraints.
+generated_artifact_semantics:
+  generated_views_are_authority: false
+  generated_views_may_narrow_runtime_behavior: false
+  generated_views_may_widen_authority: false
+independent_validation:
+  required_for_completion: true
+  implementer_may_be_sole_acceptance_authority: false
+guardrail_change:
+  self_modification_and_self_certification_allowed: false
+  explicit_external_acceptance_required: true
+compatibility:
+  existing_governance_is_reused: true
+  competing_parallel_constitution_allowed: false
+  cf04_work_front_schema_implemented_here: false
+  cf06_execution_profile_registry_implemented_here: false
+  dispatcher_launch_authority_implemented_here: false

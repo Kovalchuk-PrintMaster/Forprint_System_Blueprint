@@ -1,4 +1,6 @@
 schema_version: module_prompt_contract_standard_v0_4
+status: candidate_reference_only
+authority: forprint_system_blueprint
 metadata:
   standard_id: forprint_module_prompt_contract_v0_4
   owner: forprint_system_blueprint
@@ -8,15 +10,14 @@ contract_schema_version: module_prompt_contract_v0_4
 immutability:
   instance_path_pattern: coordination/prompt_contracts/<module_id>/<prompt_id>/<contract_id>.yaml
   published_instance_mutation_allowed: false
-  supersession_rule: Create a new contract_id and immutable instance; do not rewrite
-    a published historical instance.
+  supersession_rule: Create a new contract_id and immutable instance; do not rewrite a published historical instance.
 identity:
   required_fields:
-  - contract_id
-  - module_id
-  - prompt_id
-  - created_at
-  - status
+    - contract_id
+    - module_id
+    - prompt_id
+    - created_at
+    - status
   contract_id_unique_within_prompt: true
 integrity:
   source_prompt_sha256_required: true
@@ -24,8 +25,7 @@ integrity:
   source_prompt_origin_path_recorded: true
   payload_sha256_required: true
   payload_hash_algorithm: sha256
-  payload_hash_scope: canonical JSON of the entire YAML document with integrity.payload_sha256
-    omitted
+  payload_hash_scope: canonical JSON of the entire YAML document with integrity.payload_sha256 omitted
 source_obligation_fidelity:
   source_obligation_ids_unique: true
   target_obligation_ids_unique: true

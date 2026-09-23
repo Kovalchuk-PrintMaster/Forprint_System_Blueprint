@@ -288,3 +288,23 @@ A new visual pattern either:
 2. remains an explicitly approved experiment/exception.
 
 Frontend inconsistency is not postponed until ten pages have already diverged.
+
+<!-- control-center-and-component-lifecycle-2026-09-01:start -->
+## ForPrint Control Center shell
+
+Working navigation convention:
+- left vertical navigation selects module/workspace;
+- top tabs inside selected workspace switch that module's functional areas.
+
+Cloud Backup Manager may be used as a reference shell, not automatic UI authority.
+
+Each module roadmap should classify Human Control Surface:
+USER_FACING / OPERATOR_FACING / ADMIN_FACING / DEVELOPER_AUDIT / HEADLESS.
+
+Important modules should receive useful visual feedback early:
+UI-0 shell -> UI-1 read-only -> UI-2 safe controls -> UI-3 core workflows -> UI-4 refinement -> UI-5 mature.
+
+If a reusable component is missing:
+search catalog -> bounded proposal/prototype -> Inspector conformance/accessibility review -> early
+operator/Blueprint approval -> Library publishes versioned component -> catalog/adoption update -> controlled adoption.
+<!-- control-center-and-component-lifecycle-2026-09-01:end -->
