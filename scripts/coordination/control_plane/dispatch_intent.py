@@ -854,6 +854,135 @@ def finalize_cf09_task_execution(
 
 
 
+def collect_cf10_post_worker_result_artifact(
+    *,
+    explicit_dispatch_decision: dict,
+    result_artifact_path,
+) -> dict:
+    """Load one Handoff v2 result from the bound isolated attempt result dir.
+
+    This function performs collection/binding checks only. Full Handoff result
+    semantics remain owned by the existing finalization validator.
+    """
+    from pathlib import Path as _Path
+
+    if not isinstance(explicit_dispatch_decision, dict):
+        raise ValueError("explicit dispatch decision must be a mapping")
+
+    binding = explicit_dispatch_decision.get("binding")
+    if not isinstance(binding, dict):
+        raise ValueError("explicit dispatch decision binding missing")
+
+    attempt_id = _cf09_safe_value(
+        str(binding.get("attempt_id", "")),
+        label="attempt_id",
+    )
+    workspace_value = binding.get("workspace_repo")
+    if not isinstance(workspace_value, str) or not workspace_value.strip():
+        raise ValueError(
+            "explicit dispatch decision workspace_repo missing"
+        )
+
+    workspace_repo = _Path(workspace_value).expanduser().resolve()
+    if (
+        workspace_repo.name != "repo"
+        or workspace_repo.parent.name != "workspace"
+    ):
+        raise ValueError(
+            "bound workspace_repo does not match workspace/repo layout"
+        )
+
+    attempt_root = workspace_repo.parent.parent
+    if attempt_root.name != attempt_id:
+        raise ValueError(
+            "bound workspace attempt directory does not match attempt_id"
+        )
+
+    result_root = attempt_root / "result"
+    if result_root.is_symlink():
+        raise ValueError("bound result directory cannot be a symlink")
+    if not result_root.is_dir():
+        raise ValueError("bound result directory is missing")
+
+    artifact_input = _Path(result_artifact_path).expanduser()
+    artifact = (
+        artifact_input
+        if artifact_input.is_absolute()
+        else result_root / artifact_input
+    )
+    if artifact.is_symlink():
+        raise ValueError("worker result artifact cannot be a symlink")
+
+    resolved_root = result_root.resolve()
+    resolved_artifact = artifact.resolve()
+    try:
+        resolved_artifact.relative_to(resolved_root)
+    except ValueError as exc:
+        raise ValueError(
+            "worker result artifact escapes bound attempt result directory"
+        ) from exc
+
+    if not resolved_artifact.is_file():
+        raise ValueError("worker result artifact is missing")
+    if resolved_artifact.suffix.lower() not in {".yaml", ".yml"}:
+        raise ValueError("worker result artifact must be YAML")
+
+    result = yaml.safe_load(
+        resolved_artifact.read_text(encoding="utf-8")
+    )
+    if not isinstance(result, dict):
+        raise ValueError("worker result artifact must contain a mapping")
+    if result.get("schema_version") != (
+        "forprint_assistant_handoff_v2_result_v0_1"
+    ):
+        raise ValueError("worker result artifact Handoff v2 schema mismatch")
+    if result.get("attempt_id") != attempt_id:
+        raise ValueError(
+            "worker result artifact attempt_id does not match bound attempt"
+        )
+
+    return result
+
+
+def finalize_cf10_workspace_result_artifact(
+    *,
+    root,
+    explicit_dispatch_decision: dict,
+    result_artifact_path,
+    origin_manifest: dict,
+    attempt_record: dict,
+    attempt_number: int,
+    requested_max_attempts: int | None = None,
+    next_attempt_id: str | None = None,
+    dispatcher_telemetry: dict | None = None,
+    ledger_store_override=None,
+    telemetry_root_override=None,
+    runtime_loader=None,
+    ledger_loader=None,
+    worker_delta_loader=None,
+) -> dict:
+    """Collect a bound worker result artifact and finalize via existing gates."""
+    result = collect_cf10_post_worker_result_artifact(
+        explicit_dispatch_decision=explicit_dispatch_decision,
+        result_artifact_path=result_artifact_path,
+    )
+    return finalize_cf10_workspace_task_execution(
+        root=root,
+        explicit_dispatch_decision=explicit_dispatch_decision,
+        origin_manifest=origin_manifest,
+        result=result,
+        attempt_record=attempt_record,
+        attempt_number=attempt_number,
+        requested_max_attempts=requested_max_attempts,
+        next_attempt_id=next_attempt_id,
+        dispatcher_telemetry=dispatcher_telemetry,
+        ledger_store_override=ledger_store_override,
+        telemetry_root_override=telemetry_root_override,
+        runtime_loader=runtime_loader,
+        ledger_loader=ledger_loader,
+        worker_delta_loader=worker_delta_loader,
+    )
+
 def finalize_cf10_workspace_task_execution(
     *,
     root,
