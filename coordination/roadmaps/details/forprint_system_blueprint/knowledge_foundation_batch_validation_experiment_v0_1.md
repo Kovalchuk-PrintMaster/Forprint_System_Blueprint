@@ -2,18 +2,18 @@
 
 Status: PLANNED EXPERIMENT / AGREED DIRECTION / NOT ACTIVE EXECUTION AUTHORITY.
 
-# Knowledge Inventory Acceleration Strategy
+## Knowledge Inventory Acceleration Strategy
 
 Status: `AGREED_WITH_OWNER` as an intended experimentation path.
 
-## Problem
+### Problem
 
 Structural scanning is not the only bottleneck.
 Semantic validation consumes major time.
 
 The owner does not want manual line-by-line validation of every generated inventory report.
 
-## Proposed experiment
+### Proposed experiment
 
 Process repository content in meaningful batches.
 
@@ -29,7 +29,7 @@ For each batch:
 9. record cases where assistants are wrong or lack project context;
 10. repeat on several batches before trusting broad automated conclusions.
 
-## Validation philosophy
+### Validation philosophy
 
 Use:
 - batch evaluation;
@@ -39,7 +39,7 @@ Use:
 - periodic random control samples;
 - measured script-vs-reviewer quality evidence.
 
-## Inspector candidate role
+### Inspector candidate role
 
 Inspector can eventually:
 - orchestrate structural/semantic checks;
@@ -50,7 +50,7 @@ Inspector can eventually:
 
 Inspector must not become semantic owner.
 
-## Tomorrow's practical next step
+### Tomorrow's practical next step
 
 Design one controlled experiment:
 - select representative repository subset;
@@ -63,7 +63,7 @@ Design one controlled experiment:
 - identify tooling improvements before scaling.
 
 <!-- dual-path-knowledge-inventory-validation-v0-1:start -->
-## Dual-path batch validation — owner reaffirmation 2026-08-28
+### Dual-path batch validation — owner reaffirmation 2026-08-28
 
 For each meaningful Blueprint inventory batch run two independent paths.
 

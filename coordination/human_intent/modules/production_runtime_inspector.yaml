@@ -2,47 +2,70 @@ schema_version: forprint_module_human_intent_ledger_v0_1
 module_id: production_runtime_inspector
 display_name: Production Runtime Inspector
 authority: planning_context_not_release_authority
+status: active_planning_context
 append_only: true
 intents:
-- status: AGREED
-  text: Production Runtime Inspector збирає machine and runtime telemetry, але не
-    визначає бізнес-статус замовлення.
-  context: Він є technical evidence source.
-  roadmap: ''
-  intent_id: HI-PRODUCTION-RUNTIME-INSPECTOR-001
-- status: AGREED
-  text: Telemetry потрібна для actual cycle time, downtime, machine problems і виявлення
-    аномалій.
-  context: Operations Control Registry використовує її для planned-vs-actual view.
-  roadmap: ''
-  intent_id: HI-PRODUCTION-RUNTIME-INSPECTOR-002
-- status: AGREED
-  text: Broken machine або довгі простої не повинні автоматично 'навчити' систему,
-    що погана швидкість є новою нормою.
-  context: Norm change лише через proposal/review.
-  roadmap: ''
-  intent_id: HI-PRODUCTION-RUNTIME-INSPECTOR-003
-- status: AGREED
-  text: Runtime data треба корелювати з order_id/operation_id/machine_id/revision
-    там, де це безпечно.
-  context: Щоб факти не змішувалися між роботами.
-  roadmap: ''
-  intent_id: HI-PRODUCTION-RUNTIME-INSPECTOR-004
-- status: AGREED
-  text: При STOP_WORK critical state runtime integration не повинна запускати нові
-    commands після gate check failure.
-  context: Перед machine command перевіряється current order state.
-  roadmap: ''
-  intent_id: HI-PRODUCTION-RUNTIME-INSPECTOR-005
-- intent_id: HI-PRODUCTION-RUNTIME-INSPECTOR-006
-  status: AGREED
-  text: Runtime Inspector records the concrete physical device instance actually used
-    for an operation, not only a generic machine family.
-  context: Needed for maintenance, quality and true machine-performance analytics.
-  roadmap: PRI-DEVICE-01
-- intent_id: HI-PRODUCTION-RUNTIME-INSPECTOR-007
-  status: AGREED
-  text: Similar/replaceable printers may share a capability queue while runtime evidence
-    still identifies the exact device used.
-  context: Planning capability and actual telemetry are separate concerns.
-  roadmap: PRI-DEVICE-02
+  - status: AGREED
+    text: Production Runtime Inspector збирає machine and runtime telemetry, але не визначає бізнес-статус замовлення.
+    context: Він є technical evidence source.
+    roadmap: ''
+    intent_id: HI-PRODUCTION-RUNTIME-INSPECTOR-001
+  - status: AGREED
+    text: Telemetry потрібна для actual cycle time, downtime, machine problems і виявлення аномалій.
+    context: Operations Control Registry використовує її для planned-vs-actual view.
+    roadmap: ''
+    intent_id: HI-PRODUCTION-RUNTIME-INSPECTOR-002
+  - status: AGREED
+    text: Broken machine або довгі простої не повинні автоматично 'навчити' систему, що погана швидкість є новою нормою.
+    context: Norm change лише через proposal/review.
+    roadmap: ''
+    intent_id: HI-PRODUCTION-RUNTIME-INSPECTOR-003
+  - status: AGREED
+    text: Runtime data треба корелювати з order_id/operation_id/machine_id/revision там, де це безпечно.
+    context: Щоб факти не змішувалися між роботами.
+    roadmap: ''
+    intent_id: HI-PRODUCTION-RUNTIME-INSPECTOR-004
+  - status: AGREED
+    text: При STOP_WORK critical state runtime integration не повинна запускати нові commands після gate check failure.
+    context: Перед machine command перевіряється current order state.
+    roadmap: ''
+    intent_id: HI-PRODUCTION-RUNTIME-INSPECTOR-005
+  - intent_id: HI-PRODUCTION-RUNTIME-INSPECTOR-006
+    status: AGREED
+    text: Runtime Inspector records the concrete physical device instance actually used for an operation, not only a generic machine family.
+    context: Needed for maintenance, quality and true machine-performance analytics.
+    roadmap: PRI-DEVICE-01
+  - intent_id: HI-PRODUCTION-RUNTIME-INSPECTOR-007
+    status: AGREED
+    text: Similar/replaceable printers may share a capability queue while runtime evidence still identifies the exact device used.
+    context: Planning capability and actual telemetry are separate concerns.
+    roadmap: PRI-DEVICE-02
+  - intent_id: HI-PRODUCTION-RUNTIME-INSPECTOR-008
+    status: AGREED
+    text: 'Runtime Inspector must observe end-to-end execution traces: process start, module/tool calls, waits, durations, retries, outcomes and dependency blocking.'
+    context: Its focus is what the live system actually executed, not repository/project conformance.
+    roadmap: RTI-TRACE-01
+  - intent_id: HI-PRODUCTION-RUNTIME-INSPECTOR-009
+    status: AGREED
+    text: Runtime Inspector must expose repeated-call, retry, wait-time and bottleneck evidence so loops and asymmetric producer/consumer delays can be detected and analyzed.
+    context: 'Example: one module repeatedly waiting on another should become visible as runtime evidence.'
+    roadmap: RTI-LOOP-01
+  - intent_id: HI-PRODUCTION-RUNTIME-INSPECTOR-010
+    status: AGREED
+    text: Runtime governance must track separate configurable budgets for retries, repeated call signatures, inter-module hops, database/tool calls, AI usage/cost and timeout/TTL.
+    context: Configured budget exhaustion must lead to stop/degraded/manual-review behavior rather than endless retries.
+    roadmap: RTI-BUDGET-01
+  - intent_id: HI-PRODUCTION-RUNTIME-INSPECTOR-011
+    status: AGREED
+    text: Runtime observability should minimize sensitive payload exposure; identifiers, contract versions, status, timings, classifications/hashes and error evidence are preferred unless payload access is explicitly authorized.
+    context: Observability must not create a new unrestricted data-leak surface.
+    roadmap: RTI-DATA-01
+  - intent_id: HI-FP-U92-20260903-010
+    status: PROPOSED
+    text: Runtime evidence should include AI/tool calls, repeat patterns, tokens, latency, cost, retries, escalation and budget-runway signals; provisional context checkpoint/handoff thresholds remain policy-tunable rather than hard business truth.
+    source_refs:
+      - coordination/internal_work/blueprint/evening_packages/2026-09-03__u92/
+      - coordination/internal_work/blueprint/evening_reviews/2026-09-03/2026-09-03__u92_architecture_governance_integration_v0_1.md
+    roadmap_refs:
+      - coordination/roadmaps/details/forprint_system_blueprint/portfolio_module_roadmap_approval_matrix_v0_1.yaml
+      - coordination/roadmaps/details/forprint_system_blueprint/portfolio_full_horizon_target_states_v0_1.yaml

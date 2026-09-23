@@ -90,3 +90,21 @@ Common rebuild seeds:
 
 `portfolio_rebuild_seeds/`
 <!-- portfolio-roadmap-rebuild-authority-v0-1:end -->
+
+<!-- control-foundation-near-horizon-v0-1:start -->
+## Control Foundation near horizon — reconciled 2026-09-15
+
+Machine-readable planning program:
+
+- `control_foundation_near_horizon_program_v0_1.yaml`
+
+The Continuity foundation and CF-01 through CF-06 are closed. CF-07, CF-08 and CF-09 build the minimum governed procedure / handoff / dispatcher stack.
+
+A new CF-10 then runs one **bounded internal Blueprint worker zero-stage pilot** in manual/shadow mode. It is intentionally earlier than the broad readiness review so real internal work can test isolation, profiles, budgets, context, recovery, validation and result handling before non-blocking conveniences are implemented manually.
+
+CF-10 grants no broad autonomy, external-module dispatch, release, push, merge, automatic ACCEPT or cross-repository write authority. After internal stability, Logistics remains the first external/module pilot.
+
+The later broad readiness audit is now CF-19. It reviews the earlier CF-10 evidence together with discoverability, verification tiers, Project Health, cross-module controls, wave planning and operator views. CF-20 is the later broad-assistant/follow-up-worker trial and autonomy-promotion review.
+
+Planning files themselves grant no dispatch, release, automatic ACCEPT, foreign-repository-write or autonomy authority.
+<!-- control-foundation-near-horizon-v0-1:end -->

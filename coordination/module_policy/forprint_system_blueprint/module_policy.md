@@ -28,6 +28,8 @@ Architecture, ownership boundaries, execution queue, coordination standards, mod
 - `Keep module boundaries explicit.`
 - `Maintain global policy, module policy and coordination standards.`
 - `Collect module status and support owner/mentor decisions.`
+- `Maintain repository/document/machine-surface cleanliness as a permanent architecture objective.`
+- `Govern the Document Type Registry, normalization debt baseline and class-by-class migration program.`
 
 ## Owns
 
@@ -38,6 +40,9 @@ Architecture, ownership boundaries, execution queue, coordination standards, mod
 - `module_policy`
 - `module_source_registry`
 - `coordination_metadata_tools`
+- `project_cleanliness_governance`
+- `document_type_registry`
+- `surface_normalization_program`
 
 ## Must not own
 
@@ -45,12 +50,14 @@ Architecture, ownership boundaries, execution queue, coordination standards, mod
 - `production_order_processing`
 - `accounting_posting`
 - `customer_channel_runtime`
+- `foreign_module_business_semantics_during_normalization`
 
 ## Next focus
 
 - `Stabilize module policy for all active modules.`
 - `Keep coordination metadata validator/fixer central.`
 - `Prepare future ecosystem-check foundation.`
+- `Normalize current machine-active document classes before broad module implementation resumes.`
 
 ## Adoption rule
 

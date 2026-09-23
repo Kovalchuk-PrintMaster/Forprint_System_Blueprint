@@ -29,6 +29,8 @@ Central IT/workplace administration surface for approved software, endpoint oper
 - `Maintain approved/tested software, version and configuration profiles.`
 - `Integrate existing backup and disk-health capabilities instead of duplicating them.`
 - `Prepare future workstation onboarding and operational-readiness controls.`
+- `Operate the shared PostgreSQL platform including backup/restore/PITR, monitoring and database roles.`
+- `Operate approved centralized secrets infrastructure for external provider credentials and secret lifecycle.`
 
 ## Owns
 
@@ -37,6 +39,10 @@ Central IT/workplace administration surface for approved software, endpoint oper
 - `endpoint_operation_contract`
 - `workstation_profile`
 - `administrative_health_view`
+- `postgresql_platform_operations`
+- `centralized_secrets_infrastructure`
+- `database_role_and_credential_operations`
+- `backup_restore_pitr`
 
 ## Must not own
 
@@ -45,11 +51,14 @@ Central IT/workplace administration surface for approved software, endpoint oper
 - `canonical_order_registry`
 - `arbitrary_remote_shell_authority`
 - `license_entitlement_outside_authorized_policy`
+- `domain_schema_semantics`
+- `business_data_write_policy`
 
 ## Next focus
 
 - `Remain non-blocking for current core development.`
 - `Become a future workplace/operational readiness gate before broad rollout.`
+- `Establish the PostgreSQL platform and centralized secrets baseline before broad runtime rollout.`
 
 ## Adoption rule
 

@@ -111,3 +111,23 @@ Until that research is complete, the listed product categories are planning exam
 priority order.
 
 <!-- calculator-reference-benchmarks-v0-1:end -->
+
+<!-- calculator-external-references-and-outsourcing-2026-09-01:start -->
+## External reference recovery — 2026-09-01
+
+PRIMARY: `https://sborka.ua/`
+SECONDARY: `https://www.fastprint.pro/?utm_source=fastprintua&utm_medium=fastprintua&utm_campaign=fastprintpro_page#/CreateOrder/Sheetcut`
+SECONDARY: `https://wolf.ua/uk/category/calc-polygraphy/`
+
+Constructors:
+- `https://vizitka.com/uk/creator/universal`
+- `https://www.fatline.com.ua/ua/products/constructor.html?gad_source=1&gad_campaignid=21944915723&gbraid=0AAAAADofqFsWsNStwjI1wEsxA-veD7ZSz&gclid=Cj0KCQjw79nUBhCgARIsADSHka05AlJIGb8gFc1HqJpIYlWges3j6e9trtymYMJS4QREHkHrogd_I10aAsz-EALw_wcB&validate=1`
+- `https://maikoff.ua/konstruktor.html?srsltid=AfmBOorh0s1Xwt1juB0r9TX8l6BiVqsxEyc2_zGNvyWWVpFyDAoblaZ_`
+
+Use comparative patterns, not blind cloning. Calculator gets an early visual product/configuration surface.
+
+Mature outsourcing direction:
+Calculator emits canonical Job Specification/outsource intent. Partner-specific execution lives behind
+provider adapters. If no API exists, controlled browser automation may be used with evidence/retry
+bounds/human escalation. Credentials remain in approved secrets infrastructure.
+<!-- calculator-external-references-and-outsourcing-2026-09-01:end -->

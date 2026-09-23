@@ -1,0 +1,25 @@
+schema_version: forprint_module_human_intent_ledger_v0_1
+module_id: verification_lab
+display_name: ForPrint Verification Lab (PROPOSED)
+authority: planning_context_not_release_authority
+status: active_planning_context
+append_only: true
+intents:
+  - intent_id: HI-FP-U92-20260903-011
+    status: AGREED
+    text: ForPrint requires a separate Verification Lab that intentionally generates valid, invalid, edge, adversarial, concurrency, fault and recovery tests before production exposure.
+    source_refs:
+      - coordination/internal_work/blueprint/evening_packages/2026-09-03__u92/
+      - coordination/internal_work/blueprint/evening_reviews/2026-09-03/2026-09-03__u92_architecture_governance_integration_v0_1.md
+    roadmap_refs:
+      - coordination/roadmaps/details/forprint_system_blueprint/portfolio_module_roadmap_approval_matrix_v0_1.yaml
+      - coordination/roadmaps/details/forprint_system_blueprint/portfolio_full_horizon_target_states_v0_1.yaml
+  - intent_id: HI-FP-U92-20260903-012
+    status: AGREED
+    text: 'Verification Lab is distinct from Project Inspector and Runtime Inspector: Inspector audits conformance, Runtime Inspector observes live facts, Verification Lab actively challenges behavior in an isolated Test Plane.'
+    source_refs:
+      - coordination/internal_work/blueprint/evening_packages/2026-09-03__u92/
+      - coordination/internal_work/blueprint/evening_reviews/2026-09-03/2026-09-03__u92_architecture_governance_integration_v0_1.md
+    roadmap_refs:
+      - coordination/roadmaps/details/forprint_system_blueprint/portfolio_module_roadmap_approval_matrix_v0_1.yaml
+      - coordination/roadmaps/details/forprint_system_blueprint/portfolio_full_horizon_target_states_v0_1.yaml

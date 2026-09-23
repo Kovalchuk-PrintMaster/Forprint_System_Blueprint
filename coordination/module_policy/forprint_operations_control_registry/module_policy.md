@@ -28,6 +28,8 @@ Operational/commercial control registry for ForPrint: owns the operational state
 - `Store ClientAccount, ClientGroup, requests, orders, contacts and operational events within that boundary.`
 - `Provide clean operational state and context access for other modules.`
 - `Remain 1C-aware and sync-friendly without mirroring 1C as the internal model.`
+- `Use stable Business Partner/Person/Organization and order/job identifiers across domain schemas.`
+- `Keep physical PostgreSQL persistence ownership separate from operational semantic/write ownership.`
 
 ## Owns
 
@@ -40,6 +42,8 @@ Operational/commercial control registry for ForPrint: owns the operational state
 - `operational_tasks`
 - `operational_blockers`
 - `logistics_addresses`
+- `stable_business_partner_reference_boundary`
+- `stable_order_identity_boundary`
 
 ## Must not own
 
@@ -48,12 +52,15 @@ Operational/commercial control registry for ForPrint: owns the operational state
 - `one_c_adapter_logic`
 - `crm_dashboard`
 - `customer_channel_runtime`
+- `physical_postgresql_platform_operations`
 
 ## Next focus
 
 - `Core ForPrint Data Model Expansion.`
 - `Add ClientAccount / ClientGroup / Contact relationship policy.`
 - `Prepare request/order lifecycle for analytics.`
+- `Reconcile ClientAccount / ClientGroup concepts with the stable Business Partner identity model.`
+- `Attach cross-domain records to stable order_id and job/resource identifiers.`
 
 ## Adoption rule
 

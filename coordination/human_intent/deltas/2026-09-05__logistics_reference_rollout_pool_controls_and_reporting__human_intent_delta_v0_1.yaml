@@ -1,0 +1,99 @@
+schema_version: forprint_human_intent_delta_v0_1
+date: '2026-09-05'
+status: PLANNING_INTEGRATION_NOT_RELEASE_AUTHORITY
+authority: operator_clarification_2026_09_05
+modules:
+  forprint_system_blueprint:
+    - intent_id: HI-FP-U129B-20260905-001
+      status: AGREED
+      text: Logistics Service is the reference pilot for reusable module self-knowledge, fresh-worker, coordination
+        and reporting behavior; proven patterns should later be propagated to other canonical modules.
+      context: Modules inherit the behavioral contract, not necessarily Logistics domain internals or byte-for-byte
+        code.
+      roadmap: BP-H10-REFERENCE-ROLLOUT
+    - intent_id: HI-FP-U129B-20260905-002
+      status: AGREED
+      text: The first substantial Logistics execution pool is fully manually gated; every prompt result is reviewed
+        by the operator before the next prompt is released.
+      context: The first pool calibrates quality, continuity and reporting before any automation widening.
+      roadmap: BP-H10-POOL-CONTROL
+    - intent_id: HI-FP-U129B-20260905-003
+      status: AGREED
+      text: Later pools may use full-manual, checkpointed or automated child progression depending on prior-pool
+        review, but every pool always ends at a human review gate.
+      context: Automation level is selected by the operator and never widens itself.
+      roadmap: BP-H10-POOL-CONTROL
+    - intent_id: HI-FP-U129B-20260905-004
+      status: AGREED
+      text: Machine closure of a child prompt inside an approved pool is conformance/progression evidence and must
+        not be silently redefined as Blueprint ACCEPT.
+      context: Preserve explicit human ACCEPT/RETURN/HOLD semantics while enabling future intra-pool automation.
+      roadmap: BP-H10-POOL-CONTROL
+    - intent_id: HI-FP-U129B-20260905-005
+      status: AGREED
+      text: All modules must report prompt completion through one normalized semantic envelope so Blueprint and
+        Inspector can validate them with shared tooling rather than interpreting different prose formats.
+      context: Module internals may differ; completion evidence shape and semantics should be standardized.
+      roadmap: BP-H10-UNIFIED-REPORTING
+    - intent_id: HI-FP-U129B-20260905-006
+      status: AGREED
+      text: The target execution model starts a fresh AI worker for each prompt and reconstructs continuity from
+        repository-owned AGENTS, inventory/index, current authority, current prompt/contract/oracle and previous
+        completion evidence.
+      context: Conversation memory must not be required for safe continuation.
+      roadmap: BP-H10-FRESH-WORKER
+    - intent_id: HI-FP-U129B-20260905-007
+      status: AGREED
+      text: After the first Logistics pool, perform an independent inventory/audit and compare worker claims against
+        repository reality before selecting the next automation level or propagating the reference profile.
+      context: Self-reporting alone is insufficient to decide whether automation is mature.
+      roadmap: BP-H10-REFERENCE-ROLLOUT
+    - intent_id: HI-FP-U129B-20260905-008
+      status: AGREED
+      text: Temporary assistant/operator artifacts must have semantic unique non-overwriting names; cleanup permission
+        is optional and the operator may retain archives for later analysis.
+      context: Artifact identity should survive relocation outside its original tmp session folder.
+      roadmap: BP-ASSISTANT-HANDOFF
+    - intent_id: HI-FP-U129B-20260905-009
+      status: AGREED
+      text: In Ukrainian the AI assistant uses feminine grammatical self-reference and addresses the human operator
+        with masculine grammatical forms.
+      context: Make the convention explicit in AGENTS-linked documentation so it is not repeatedly clarified.
+      roadmap: BP-ASSISTANT-INTERACTION
+  logistics_service:
+    - intent_id: HI-LOGISTICS-U129B-20260905-001
+      status: AGREED
+      text: Logistics is the first reference module for validating module-local self-knowledge, inventory/index
+        maintenance, fresh-worker continuity and standardized completion reporting.
+      context: Successful behavior becomes a reusable portfolio reference after explicit review.
+      roadmap: LOG-H10-REFERENCE
+    - intent_id: HI-LOGISTICS-U129B-20260905-002
+      status: AGREED
+      text: The first substantial Logistics pool requires manual operator review after every prompt before another
+        prompt is released.
+      context: This is the calibration pool for later control-level decisions.
+      roadmap: LOG-H10-REFERENCE
+    - intent_id: HI-LOGISTICS-U129B-20260905-003
+      status: AGREED
+      text: Each Logistics prompt should be executable by a fresh assistant from repository-owned AGENTS, inventory/index,
+        prompt/contract/oracle, roadmap and prior completion evidence without requiring previous chat memory.
+      context: Self-maintaining module knowledge is a prerequisite for reliable automation.
+      roadmap: LOG-H10-BOOTSTRAP
+    - intent_id: HI-LOGISTICS-U129B-20260905-004
+      status: AGREED
+      text: After the first Logistics pool, an independent inventory/audit must verify the actual repository result
+        before automation is widened or the reference profile is propagated.
+      context: Compare claims, inventory, lineage, documentation, tests and repository reality.
+      roadmap: LOG-H10-REFERENCE
+gaps:
+  - gap_id: GAP-H10-POOL-AUTOMATION-PROMOTION-THRESHOLDS-001
+    module_id: forprint_system_blueprint
+    summary: Exact quantitative promotion thresholds from full-manual to checkpointed or automated child progression
+      are not yet agreed.
+    rule: Determine them from first Logistics pool evidence; do not invent thresholds before calibration.
+    status: OPEN_NONBLOCKING_FIRST_POOL
+  - gap_id: GAP-H10-AI-RESOURCE-TELEMETRY-001
+    module_id: forprint_system_blueprint
+    summary: The exact trustworthy token/cost telemetry source for future fresh AI workers is not yet confirmed.
+    rule: Report not_observable until a trustworthy source exists; never fabricate token or cost values.
+    status: OPEN_NONBLOCKING_FIRST_POOL

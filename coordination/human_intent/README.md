@@ -42,25 +42,27 @@ Current initial ledger snapshot: `index.yaml`.
 
 These links are the canonical navigation surface for the per-module human-intent ledgers.
 
-- [ForPrint System Blueprint](modules/forprint_system_blueprint.yaml) — 13 captured human-intent entries.
-- [Calculator Engine](modules/calculator_engine.yaml) — 13 captured human-intent entries.
-- [ForPrint Operations Assistant](modules/forprint_operations_assistant.yaml) — 11 captured human-intent entries.
-- [ForPrint Operations Control Registry](modules/forprint_operations_control_registry.yaml) — 10 captured human-intent entries.
-- [ForPrint CRM](modules/forprint_crm.yaml) — 8 captured human-intent entries.
-- [ForPrint Accounting Registry Service](modules/forprint_accounting_registry_service.yaml) — 8 captured human-intent entries.
-- [ForPrint Semantic Retrieval Service (PROPOSED)](modules/forprint_semantic_retrieval_service.yaml) — 9 captured human-intent entries.
-- [Telegram Bot](modules/telegram_bot.yaml) — 7 captured human-intent entries.
-- [Website](modules/website.yaml) — 7 captured human-intent entries.
-- [Mobile App](modules/mobile_app.yaml) — 5 captured human-intent entries.
-- [ForPrint Library](modules/forprint_library.yaml) — 8 captured human-intent entries.
-- [ForPrint Prepress Hub](modules/forprint_prepress_hub.yaml) — 6 captured human-intent entries.
-- [Warehouse Service](modules/warehouse_service.yaml) — 6 captured human-intent entries.
-- [Production Runtime Inspector](modules/production_runtime_inspector.yaml) — 5 captured human-intent entries.
-- [ForPrint Project Inspector](modules/forprint_project_inspector.yaml) — 6 captured human-intent entries.
-- [ForPrint Strategic Control Plane](modules/forprint_strategic_control_plane.yaml) — 5 captured human-intent entries.
-- [ForPrint Integration Gateway](modules/forprint_integration_gateway.yaml) — 5 captured human-intent entries.
-- [Logistics Service](modules/logistics_service.yaml) — 5 captured human-intent entries.
-- [ForPrint System Administration](modules/forprint_system_administration.yaml) — 5 captured human-intent entries.
-- [ForPrint Contract Registry](modules/forprint_contract_registry.yaml) — 5 captured human-intent entries.
-- [ForPrint Marketing Orchestrator](modules/forprint_marketing_orchestrator.yaml) — 5 captured human-intent entries.
-- [Cloud Backup Manager](modules/cloud_backup_manager.yaml) — 5 captured human-intent entries.
+- [ForPrint System Blueprint](modules/forprint_system_blueprint.yaml) — 55 captured human-intent entries.
+- [Calculator Engine](modules/calculator_engine.yaml) — 27 captured human-intent entries.
+- [ForPrint Operations Assistant](modules/forprint_operations_assistant.yaml) — 20 captured human-intent entries.
+- [ForPrint Operations Control Registry](modules/forprint_operations_control_registry.yaml) — 18 captured human-intent entries.
+- [ForPrint CRM](modules/forprint_crm.yaml) — 19 captured human-intent entries.
+- [ForPrint Accounting Registry Service](modules/forprint_accounting_registry_service.yaml) — 13 captured human-intent entries.
+- [ForPrint Semantic Retrieval Service (PROPOSED)](modules/forprint_semantic_retrieval_service.yaml) — 12 captured human-intent entries.
+- [Telegram Bot](modules/telegram_bot.yaml) — 20 captured human-intent entries.
+- [Website](modules/website.yaml) — 8 captured human-intent entries.
+- [Mobile App](modules/mobile_app.yaml) — 6 captured human-intent entries.
+- [ForPrint Library](modules/forprint_library.yaml) — 19 captured human-intent entries.
+- [ForPrint Prepress Hub](modules/forprint_prepress_hub.yaml) — 10 captured human-intent entries.
+- [Warehouse Service](modules/warehouse_service.yaml) — 11 captured human-intent entries.
+- [Production Runtime Inspector](modules/production_runtime_inspector.yaml) — 12 captured human-intent entries.
+- [ForPrint Project Inspector](modules/forprint_project_inspector.yaml) — 28 captured human-intent entries.
+- [ForPrint Strategic Control Plane](modules/forprint_strategic_control_plane.yaml) — 6 captured human-intent entries.
+- [ForPrint Integration Gateway](modules/forprint_integration_gateway.yaml) — 12 captured human-intent entries.
+- [ForPrint Identity & Access Service](modules/forprint_identity_access_service.yaml) — 8 captured human-intent entries.
+- [Logistics Service](modules/logistics_service.yaml) — 11 captured human-intent entries.
+- [ForPrint System Administration](modules/forprint_system_administration.yaml) — 11 captured human-intent entries.
+- [ForPrint Contract Registry](modules/forprint_contract_registry.yaml) — 18 captured human-intent entries.
+- [ForPrint Marketing Orchestrator](modules/forprint_marketing_orchestrator.yaml) — 6 captured human-intent entries.
+- [Cloud Backup Manager](modules/cloud_backup_manager.yaml) — 6 captured human-intent entries.
+- [ForPrint Verification Lab](modules/verification_lab.yaml) — 2 captured human-intent entries.

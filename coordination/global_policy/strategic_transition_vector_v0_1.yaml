@@ -1,0 +1,25 @@
+schema_version: forprint_strategic_transition_vector_v0_1
+status: active_temporary_direction
+authority: directional_context_only
+launch_path:
+- CF-08
+- CF-09
+- CF-10
+early_retry:
+  mode: observation_first
+  looser_but_bounded: true
+  hard_runaway_ceiling: true
+  tighten_from_statistics: true
+sunset:
+  trigger: first_coordinated_multi_module_worker_wave_started
+  action: retire_and_remove_from_mandatory_startup_context
+persistent_policy: governed_change_and_acceptance_policy_direction_v0_1
+lifecycle_model:
+  mechanism_persistent: true
+  current_epoch_finite: true
+  current_epoch_sunset_trigger: FIRST_COORDINATED_MULTI_MODULE_WORKER_WAVE_COMPLETED
+  successor_epoch_review_required: true
+  execution_authority: none
+  roadmap_authority: none
+  interpretation: The Strategic Vector mechanism persists across strategic epochs; this v0.1 epoch ends at its sunset trigger
+    and must be reviewed, closed/superseded and replaced when continued strategic guidance is needed.

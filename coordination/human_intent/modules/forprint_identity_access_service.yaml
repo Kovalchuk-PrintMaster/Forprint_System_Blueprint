@@ -1,0 +1,49 @@
+schema_version: forprint_module_human_intent_ledger_v0_1
+module_id: forprint_identity_access_service
+display_name: ForPrint Identity & Access Service
+authority: planning_context_not_release_authority
+status: active_planning_context
+append_only: true
+intents:
+  - intent_id: HI-FP-IDENTITY-ACCESS-001
+    status: AGREED
+    text: ForPrint should use one shared Identity & Access Service instead of separate authentication inside Website,
+      Calculator, CRM and Mobile.
+    context: The module existed as a prior candidate and is now explicitly confirmed for formation.
+    roadmap: IAM-01
+  - intent_id: HI-FP-IDENTITY-ACCESS-002
+    status: AGREED
+    text: Identity, authentication and authorization are distinct concerns and must remain explicit in architecture.
+    context: Business relationship truth remains outside credential/session ownership.
+    roadmap: IAM-01
+  - intent_id: HI-FP-IDENTITY-ACCESS-003
+    status: AGREED
+    text: Access control must support role defaults plus explicit per-user permission additions or restrictions.
+    context: A manager can receive extra Production/Logistics access without a duplicate person.
+    roadmap: IAM-03
+  - intent_id: HI-FP-IDENTITY-ACCESS-004
+    status: AGREED
+    text: Phone, email and Telegram are identifiers/contact paths, not immutable primary database keys.
+    context: Use stable internal Account/Person IDs.
+    roadmap: IAM-02
+  - intent_id: HI-FP-IDENTITY-ACCESS-005
+    status: AGREED
+    text: Cross-client/cross-organization access is deny-by-default and requires explicit scoped permission.
+    context: Representing multiple organizations does not grant universal access.
+    roadmap: IAM-04
+  - intent_id: HI-FP-IDENTITY-ACCESS-006
+    status: PROPOSED
+    text: Mature Identity should support sessions/devices, recovery, revocation, MFA/passkeys and auditable security
+      events.
+    context: Synthetic full-horizon capability for owner review.
+    roadmap: IAM-05
+  - intent_id: HI-FP-IDENTITY-ACCESS-007
+    status: PROPOSED
+    text: Mature Identity should provide shared SSO/session semantics across ForPrint web/internal/mobile surfaces.
+    context: Exact protocols remain an implementation decision.
+    roadmap: IAM-07
+  - intent_id: HI-FP-IDENTITY-ACCESS-008
+    status: AGREED
+    text: External provider passwords/API keys are not user identity and belong to centralized secrets infrastructure.
+    context: Identity may authorize access to secret-backed actions but does not own the external secret.
+    roadmap: IAM-BOUNDARY-01

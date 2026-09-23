@@ -2,59 +2,207 @@ schema_version: forprint_module_human_intent_ledger_v0_1
 module_id: forprint_prepress_hub
 display_name: ForPrint Prepress Hub
 authority: planning_context_not_release_authority
+status: active_planning_context
 append_only: true
 intents:
-- status: RECOVERED
-  text: Prepress Hub має визначити file lifecycle від upload до production-ready,
-    readiness statuses, blockers, warnings, fixable issues і evidence.
-  context: Master file і derived previews потрібно розділяти.
-  roadmap: ''
-  intent_id: HI-FP-PREPRESS-HUB-001
-- status: RECOVERED
-  text: 'Core preflight: format/pages/dimensions/orientation/resolution/bleed/color-space/fonts
-    де це можливо.'
-  context: Порівнювати з Calculator job spec і Library requirements.
-  roadmap: ''
-  intent_id: HI-FP-PREPRESS-HUB-002
-- status: RECOVERED
-  text: Safe previews/thumbnails і bounded normalization/conversion можуть бути автоматичними,
-    але master не модифікується тихо.
-  context: Потрібен before/after evidence.
-  roadmap: ''
-  intent_id: HI-FP-PREPRESS-HUB-003
-- status: RECOVERED
-  text: Operator-assisted fix workflow потрібен для неоднозначних випадків.
-  context: Автоматизація не замінює judgment там, де немає детермінованої відповіді.
-  roadmap: ''
-  intent_id: HI-FP-PREPRESS-HUB-004
-- status: AGREED
-  text: Prepress blockers стають HOLD_PREPRESS у Operations Control Registry і блокують
-    production start.
-  context: Гейт має бути видимий в job ticket.
-  roadmap: ''
-  intent_id: HI-FP-PREPRESS-HUB-005
-- status: AGREED
-  text: Production-ready package передає verdict + asset refs + revision, щоб стара
-    версія файлу не пішла у виробництво.
-  context: Revision consistency критична.
-  roadmap: ''
-  intent_id: HI-FP-PREPRESS-HUB-006
-- intent_id: HI-FP-PREPRESS-HUB-007
-  status: AGREED
-  text: Prepress should expose a reusable deterministic document probe for PDF page
-    count, dimensions and other technical evidence used by Calculator validation.
-  context: Calculator initiates business validation; Prepress supplies file facts.
-  roadmap: PP-FILE-01
-- intent_id: HI-FP-PREPRESS-HUB-008
-  status: AGREED
-  text: Production filename sheet-count correction may be automatic only when the
-    agreed production/PDF convention makes physical sheet count deterministic; otherwise
-    clarification is required.
-  context: Do not guess duplex/imposition meaning from ambiguous files.
-  roadmap: PP-FILE-02
-- intent_id: HI-FP-PREPRESS-HUB-009
-  status: AGREED
-  text: PDF production metadata may later carry stable production properties as an
-    interoperability projection, but it does not replace canonical order/job state.
-  context: JDF/XJDF/PDF metadata remain future adapter directions.
-  roadmap: PP-INTEROP-01
+  - status: RECOVERED
+    text: Prepress Hub має визначити file lifecycle від upload до production-ready, readiness statuses, blockers, warnings,
+      fixable issues і evidence.
+    context: Master file і derived previews потрібно розділяти.
+    roadmap: ''
+    intent_id: HI-FP-PREPRESS-HUB-001
+  - status: RECOVERED
+    text: 'Core preflight: format/pages/dimensions/orientation/resolution/bleed/color-space/fonts де це можливо.'
+    context: Порівнювати з Calculator job spec і Library requirements.
+    roadmap: ''
+    intent_id: HI-FP-PREPRESS-HUB-002
+  - status: RECOVERED
+    text: Safe previews/thumbnails і bounded normalization/conversion можуть бути автоматичними, але master не модифікується
+      тихо.
+    context: Потрібен before/after evidence.
+    roadmap: ''
+    intent_id: HI-FP-PREPRESS-HUB-003
+  - status: RECOVERED
+    text: Operator-assisted fix workflow потрібен для неоднозначних випадків.
+    context: Автоматизація не замінює judgment там, де немає детермінованої відповіді.
+    roadmap: ''
+    intent_id: HI-FP-PREPRESS-HUB-004
+  - status: AGREED
+    text: Prepress blockers стають HOLD_PREPRESS у Operations Control Registry і блокують production start.
+    context: Гейт має бути видимий в job ticket.
+    roadmap: ''
+    intent_id: HI-FP-PREPRESS-HUB-005
+  - status: AGREED
+    text: Production-ready package передає verdict + asset refs + revision, щоб стара версія файлу не пішла у виробництво.
+    context: Revision consistency критична.
+    roadmap: ''
+    intent_id: HI-FP-PREPRESS-HUB-006
+  - intent_id: HI-FP-PREPRESS-HUB-007
+    status: AGREED
+    text: Prepress should expose a reusable deterministic document probe for PDF page count, dimensions and other technical
+      evidence used by Calculator validation.
+    context: Calculator initiates business validation; Prepress supplies file facts.
+    roadmap: PP-FILE-01
+  - intent_id: HI-FP-PREPRESS-HUB-008
+    status: AGREED
+    text: Production filename sheet-count correction may be automatic only when the agreed production/PDF convention makes
+      physical sheet count deterministic; otherwise clarification is required.
+    context: Do not guess duplex/imposition meaning from ambiguous files.
+    roadmap: PP-FILE-02
+  - intent_id: HI-FP-PREPRESS-HUB-009
+    status: AGREED
+    text: PDF production metadata may later carry stable production properties as an interoperability projection, but it does
+      not replace canonical order/job state.
+    context: JDF/XJDF/PDF metadata remain future adapter directions.
+    roadmap: PP-INTEROP-01
+  - intent_id: HI-FP-PREPRESS-HUB-010
+    status: AGREED
+    text: 'Prepress Hub roadmap deepening must be recovery-first: recover all prior detailed operator discussions, project
+      evidence and existing module capabilities before filling only genuine gaps with PROPOSED synthesis.'
+    context: The operator previously described this module in substantial detail and does not want that intent replaced by
+      a fresh generic design.
+    roadmap: PREPRESS-RECOVERY-01
+  - intent_id: HI-PREPRESS-ARCH-20260919-001
+    status: RECOVERED
+    text: Prepress should be able to emit machine-readable technical asset facts and fingerprints for historical indexing,
+      including provenance and representative-page evidence, while not becoming the archive, customer-history or search-result
+      authority.
+    context: Recovered from the 2026-09-19 historical asset indexing discussion.
+    roadmap: ''
+    source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2026-09-19/forprint_evening_architecture_handoff_20260919_v0_1/00_README.md
+    - coordination/internal_work/blueprint/evening_reviews/2026-09-19/forprint_evening_architecture_handoff_20260919_v0_1/10_portfolio_reconciliation_20260921_v0_1.yaml
+  - intent_id: HI-PREPRESS-CAPABILITY-20260922-001
+    status: RECOVERED
+    text: 'Prepress development should be capability-first: first determine which practical file-processing tasks
+      can actually be automated, which native tools already exist and which utilities ForPrint must build; only after
+      that should broader cross-module integration architecture be designed.'
+    context: Recovered directly from the 27.06 owner discussion. This refines the broad May zero-platform proposal
+      without discarding the canonical Prepress module itself.
+    roadmap: ''
+    source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2026-06-27_source_label/DFTB_prepress_hub_capability_first_v0_1/00_intake_manifest_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-06-27_source_label/DFTB_prepress_hub_capability_first_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-06-27_source_label/DFTB_prepress_hub_capability_first_v0_1/package/dialogue_memory.yaml
+  - intent_id: HI-PREPRESS-ASSISTANTS-20260922-001
+    status: RECOVERED
+    text: Prepress assistants should remain product-specific where domain behavior differs—such as Photoshop, Illustrator,
+      CorelDRAW and PDF/Acrobat—while reusable low-level file inspection belongs in shared fact-oriented tools that
+      return stable structured technical evidence rather than making production decisions.
+    context: Recovered from the owner's rejection of one abstract Raster Assistant and the accepted shared-tools model.
+      Specialized assistants should reuse common inspection capabilities instead of duplicating them.
+    roadmap: ''
+    source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2026-06-27_source_label/DFTB_prepress_hub_capability_first_v0_1/00_intake_manifest_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-06-27_source_label/DFTB_prepress_hub_capability_first_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-06-27_source_label/DFTB_prepress_hub_capability_first_v0_1/package/dialogue_memory.yaml
+  - intent_id: HI-PREPRESS-CANDIDATES-20260922-001
+    status: RECOVERED
+    text: A single input may legitimately produce several controlled Prepress processing candidates because different
+      tools or strategies can yield different visual quality; candidate ordering must depend on file type, task and
+      risk rather than a universal tool hierarchy, and each candidate should expose preview plus risk/confidence evidence.
+    context: Recovered from the owner's bleed/edge example and explicit requirement to show different processing variants
+      when multiple tools can produce materially different results.
+    roadmap: ''
+    source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2026-06-27_source_label/DFTB_prepress_hub_capability_first_v0_1/00_intake_manifest_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-06-27_source_label/DFTB_prepress_hub_capability_first_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-06-27_source_label/DFTB_prepress_hub_capability_first_v0_1/package/dialogue_memory.yaml
+  - intent_id: HI-PREPRESS-EXECUTION-20260922-001
+    status: RECOVERED
+    text: Prepress execution should be Unix-first whenever deterministic inspection or preparation is practical, while
+      Windows/Photoshop is a bounded quality executor for Photoshop-specific, layered or visually sensitive work;
+      the workstation must not become the central orchestration brain.
+    context: Recovered directly from the owner's request to keep practical work on Unix where possible and use the
+      remote Windows graphics station only when its specialized tooling adds real value.
+    roadmap: ''
+    source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2026-06-27_source_label/DFTB_prepress_hub_capability_first_v0_1/00_intake_manifest_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-06-27_source_label/DFTB_prepress_hub_capability_first_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-06-27_source_label/DFTB_prepress_hub_capability_first_v0_1/package/dialogue_memory.yaml
+  - intent_id: HI-PREPRESS-RASTER-POLICY-20260922-001
+    status: RECOVERED
+    text: Raster preflight should treat effective resolution and aspect suitability as separate checks and use configurable
+      policy thresholds for minimum effective DPI and maximum automatic nonproportional adjustment; outside the allowed
+      policy envelope the workflow must request confirmation or operator review instead of guessing.
+    context: Historical examples mentioned about 25 DPI and 3–5% distortion, but those values are examples/configuration
+      ideas rather than permanent production constants.
+    roadmap: ''
+    source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2026-06-27_source_label/DFTB_prepress_hub_capability_first_v0_1/00_intake_manifest_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-06-27_source_label/DFTB_prepress_hub_capability_first_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-06-27_source_label/DFTB_prepress_hub_capability_first_v0_1/package/dialogue_memory.yaml
+  - intent_id: HI-PREPRESS-RASTER-POLICY-20260922-002
+    status: RECOVERED
+    text: Automatic K-only enhancement of thin dark raster text must be treated as a heuristic candidate with explicit
+      confidence/risk gating and preview/manual fallback; automation must not blindly recolor dark image or design
+      content.
+    context: Recovered from the owner's real print-quality problem and the accepted safety boundary that rasterized
+      text cannot always be distinguished reliably from other dark artwork.
+    roadmap: ''
+    source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2026-06-27_source_label/DFTB_prepress_hub_capability_first_v0_1/00_intake_manifest_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-06-27_source_label/DFTB_prepress_hub_capability_first_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-06-27_source_label/DFTB_prepress_hub_capability_first_v0_1/package/dialogue_memory.yaml
+  - intent_id: HI-PREPRESS-PDF-AUTOMATION-20260922-001
+    status: RECOVERED
+    text: 'ForPrint should automate client file intake as far as safely possible: accept uploaded/SFTP-style files,
+      validate them against product/prepress rules, apply deterministic low-risk corrections automatically, generate
+      a visual proof for confirmation, ask structured clarification when required, and route cases that cannot be
+      safely automated to manual paid prepress rather than silently guessing.'
+    context: Recovered directly from the PDF Assistant primary conversation. This extends current Prepress lifecycle,
+      safe-preview and operator-fallback intent with an explicit online intake/proof/clarification loop.
+    roadmap: ''
+    source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2026-09-22_discovered_primary_sources/prepress_additional_primary_sources_v0_1/00_intake_manifest_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-09-22_discovered_primary_sources/prepress_additional_primary_sources_v0_1/17_portfolio_reconciliation_v0_1.yaml
+  - intent_id: HI-PREPRESS-PDF-ENGINEERING-20260922-001
+    status: RECOVERED
+    text: ForPrint-owned PDF automation should be Python-first for orchestration, rules, adapters and reporting; non-Python/native
+      components such as C++ may be introduced only for bounded functions where a concrete performance or capability
+      gap justifies the added complexity, rather than moving the whole PDF subsystem to another language.
+    context: Recovered from the owner's explicit confirmation of the preferred engineering policy in the PDF Assistant
+      conversation.
+    roadmap: ''
+    source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2026-09-22_discovered_primary_sources/prepress_additional_primary_sources_v0_1/00_intake_manifest_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-09-22_discovered_primary_sources/prepress_additional_primary_sources_v0_1/17_portfolio_reconciliation_v0_1.yaml
+  - intent_id: HI-PREPRESS-PDF-STRATEGY-20260922-001
+    status: RECOVERED
+    text: ForPrint should evaluate and plan a ForPrint-owned PDF Control Layer capable of gradually covering the business-critical
+      callas-like automation needed by the printshop, while keeping external commercial or native PDF engines replaceable
+      rather than making one vendor the owner of ForPrint PDF business logic; the exact scope must be reconciled and
+      approved through Blueprint before implementation.
+    context: Recovered from the owner's request to prepare a machine-oriented Blueprint prompt for an internal callas-like
+      PDF project with roughly a year available for implementation. The source does not authorize a full clone of
+      callas or a specific commercial-engine purchase.
+    roadmap: ''
+    source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2026-09-22_discovered_primary_sources/prepress_additional_primary_sources_v0_1/00_intake_manifest_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-09-22_discovered_primary_sources/prepress_additional_primary_sources_v0_1/17_portfolio_reconciliation_v0_1.yaml
+  - intent_id: HI-PREPRESS-RASTER-PIPELINE-20260922-001
+    status: RECOVERED
+    text: Raster client inputs such as PNG/JPEG and similar formats should be prepared for print through a bounded
+      raster-processing stage, normalized to an appropriate PDF representation, passed through PDF-specific validation,
+      and then handed to Prepress Hub for downstream readiness/production handling; this pipeline should preserve
+      the separation between raster adaptation, PDF validation and overall Prepress orchestration.
+    context: Recovered directly from the Prepress Assistant architecture primary source. Product-specific assistants
+      and Unix/Windows execution separation are corroborating evidence already captured from the 27.06 source.
+    roadmap: ''
+    source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2026-09-22_discovered_primary_sources/prepress_additional_primary_sources_v0_1/00_intake_manifest_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-09-22_discovered_primary_sources/prepress_additional_primary_sources_v0_1/17_portfolio_reconciliation_v0_1.yaml
+  - intent_id: HI-PREPRESS-OPERATOR-SURFACE-20260922-001
+    status: RECOVERED
+    text: Prepress should provide one lightweight operator surface where a file can be drag-dropped or selected, a
+      reusable ordered preset/chain can orchestrate the needed Acrobat/Photoshop/Illustrator or other product-specific
+      processing steps, and the output destination can be defaulted or chosen; this surface is orchestration UX and
+      must not collapse product-specific assistants into one universal domain brain.
+    context: Recovered directly from CRM-source turn 1, which predates the later Prepress sources. Reconciled with
+      the 27.06 owner decision that product-specific assistants remain separate while shared orchestration/tools may
+      compose their work.
+    roadmap: ''
+    source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2026-05-22_embedded_alignment_anchor/DFTB_crm_architecture_genesis_v0_1/00_intake_manifest_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-05-22_embedded_alignment_anchor/DFTB_crm_architecture_genesis_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-05-22_embedded_alignment_anchor/DFTB_crm_architecture_genesis_v0_1/19_prepress_post_closeout_cross_module_evidence_amendment_v0_1.yaml

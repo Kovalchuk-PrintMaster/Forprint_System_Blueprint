@@ -12,20 +12,20 @@ detected_current_control:
   current_step_title: Tracking events and notification contracts
   open_prompt_ids: []
 planned_horizon:
-- sequence: 1
-  intent: Complete and accept the Tracking Events Contract.
-  gate: Contract tests and completion evidence are GREEN.
-- sequence: 2
-  intent: Stabilize provider-to-tracking event flow and recovery behavior.
-  gate: Tracking Events Contract is accepted.
-- sequence: 3
-  intent: Prepare module-local read-only inventory rollout.
-  gate: Blueprint operational readiness releases external inventory.
+  - sequence: 1
+    intent: Complete and accept the Tracking Events Contract.
+    gate: Contract tests and completion evidence are GREEN.
+  - sequence: 2
+    intent: Stabilize provider-to-tracking event flow and recovery behavior.
+    gate: Tracking Events Contract is accepted.
+  - sequence: 3
+    intent: Prepare module-local read-only inventory rollout.
+    gate: Blueprint operational readiness releases external inventory.
 coordination_rules:
-- Do not activate a new prompt while current work is unresolved.
-- Require completion evidence before roadmap advancement.
-- Keep producer-consumer ordering explicit.
-- External inventory starts only after Blueprint readiness.
+  - Do not activate a new prompt while current work is unresolved.
+  - Require completion evidence before roadmap advancement.
+  - Keep producer-consumer ordering explicit.
+  - External inventory starts only after Blueprint readiness.
 safety:
   module_repository_writes: false
   module_roadmap_writes: false

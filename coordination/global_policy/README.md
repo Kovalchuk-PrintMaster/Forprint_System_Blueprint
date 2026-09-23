@@ -59,3 +59,11 @@ large logs;
 binary files.
 
 ---
+
+<!-- strategic-transition-vector-2026-09-16:start -->
+## Transition and governed-change direction
+- `strategic_transition_vector_v0_1.md` — current finite Strategic Vector epoch; the Strategic Vector mechanism persists and requires a reviewed successor epoch after its sunset boundary.
+- `governed_change_and_acceptance_policy_direction_v0_1.md` — persistent through development, stabilization and production.
+<!-- strategic-transition-vector-2026-09-16:end -->
+<!-- architecture-improvement-horizon-2026-09-17 -->
+- `architecture_improvement_horizon_v0_1.md` / `.yaml` — persistent non-executable Architecture / Improvement Horizon for candidates that must be preserved and reassessed without gaining roadmap authority.

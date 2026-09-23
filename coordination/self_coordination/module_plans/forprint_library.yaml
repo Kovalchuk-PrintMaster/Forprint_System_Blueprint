@@ -12,20 +12,20 @@ detected_current_control:
   current_step_title: Configurable Product Workbench v0.1 — Business Card Skeleton
   open_prompt_ids: []
 planned_horizon:
-- sequence: 1
-  intent: Accept the current Calculator Input Contract completion evidence.
-  gate: Completion packet and implementation reference are valid.
-- sequence: 2
-  intent: Stabilize calculator contract integration and regression coverage.
-  gate: Current contract acceptance is GREEN.
-- sequence: 3
-  intent: Prepare module-local read-only inventory rollout.
-  gate: Blueprint operational readiness releases external inventory.
+  - sequence: 1
+    intent: Accept the current Calculator Input Contract completion evidence.
+    gate: Completion packet and implementation reference are valid.
+  - sequence: 2
+    intent: Stabilize calculator contract integration and regression coverage.
+    gate: Current contract acceptance is GREEN.
+  - sequence: 3
+    intent: Prepare module-local read-only inventory rollout.
+    gate: Blueprint operational readiness releases external inventory.
 coordination_rules:
-- Do not activate a new prompt while current work is unresolved.
-- Require completion evidence before roadmap advancement.
-- Keep producer-consumer ordering explicit.
-- External inventory starts only after Blueprint readiness.
+  - Do not activate a new prompt while current work is unresolved.
+  - Require completion evidence before roadmap advancement.
+  - Keep producer-consumer ordering explicit.
+  - External inventory starts only after Blueprint readiness.
 safety:
   module_repository_writes: false
   module_roadmap_writes: false

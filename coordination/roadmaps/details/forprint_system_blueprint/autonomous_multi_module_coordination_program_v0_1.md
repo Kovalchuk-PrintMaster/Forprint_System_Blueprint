@@ -82,6 +82,14 @@ optional roadmap/prompts/history, exclude secrets, print one upload path.
 
 Goal: zero-context assistant becomes productive in 2–3 short context rounds.
 
+Implementation checkpoint — 2026-09-08:
+- AUT-02: `coordination/bootstrap/START_HERE.md`, linked from root README and `AGENTS.md`;
+- AUT-03: `coordination/bootstrap/index_v0_1.yaml` machine-readable topic/source index;
+- AUT-04: `scripts/coordination/build_project_context_archive.py` with
+  `make assistant-context-pack` and manifest/hash/freshness evidence;
+- the project-entry archive is portfolio context and does not replace the canonical
+  task-specific `scripts/coordination/build_context_bundle.py --task-context` path.
+
 ## AUT-05 — Module bootstrap views
 
 Blueprint owns canonical onboarding. Modules keep a visible pointer and optional generated,
@@ -348,6 +356,117 @@ Goal: context-window replacement causes near-zero project slowdown.
 12. Human milestone gates remain for significant initiatives.
 13. Blueprint strategic AI remains human-started by default.
 
+<!-- bounded-portfolio-autonomy-strategic-direction-2026-09-17:start -->
+## Bounded portfolio autonomy and exception-driven governance — 2026-09-17
+
+This section records a **strategic planning direction only**. It grants no worker-dispatch,
+acceptance, release, publication, cross-repository write, or autonomy authority.
+
+### Target operating model
+
+The long-term operating model is intentionally layered:
+
+- **founder/operator + external strategic assistant** define strategic direction, portfolio
+  priorities, policy/authority boundaries, and decisions that exceed delegated policy;
+- **Blueprint / Dispatcher** resolves and executes only work already inside an explicitly
+  authorized bounded portfolio and enforces Work Front, profile, procedure, budget, path/tool,
+  ACK, result-validation, retry/repair, history and escalation contracts;
+- **workers** execute bounded work and return machine-validatable evidence; they do not invent
+  project strategy or silently widen their own authority;
+- the external strategic assistant is a strategic/planning aid, **not a required dependency of
+  the runtime execution loop**;
+- Blueprint remains a coordination/control layer and must not absorb module-owned domain logic.
+
+Bounded autonomy means the system may sequence and execute eligible work only inside an
+explicitly authorized portfolio whose dependencies, authority and acceptance rules are
+satisfied. It is not authority to create a new strategic direction.
+
+### Progressive supervision target
+
+Human oversight should move only when evidence justifies it:
+
+1. human controls each step;
+2. human controls each Work Front;
+3. human controls milestone / wave boundaries;
+4. human controls exceptions;
+5. human controls strategy and portfolio direction.
+
+This is a maturity ladder, not an automatic authority-promotion rule. Existing execution,
+acceptance and advance permissions remain independent.
+
+### Operator interaction direction
+
+Normal operation should prefer concise periodic portfolio / milestone summaries. Immediate
+operator attention should be reserved for defined exception classes such as:
+
+- authority widening;
+- unresolved blocker or repeated repair/retry exhaustion;
+- canonical-state inconsistency;
+- destructive, production-impacting, external or cross-repository side effect;
+- budget/time threshold breach;
+- novel architecture or strategy decision outside delegated policy.
+
+### Autonomy effectiveness metrics
+
+Track whether automation actually lowers operator load without increasing drift or rework.
+Useful directional measures include:
+
+- completed Work Fronts per week;
+- median Work Front lead time;
+- first-pass acceptance rate;
+- rework rate;
+- human interventions per Work Front;
+- blocked time;
+- validation time;
+- unresolved exception age;
+- control-plane work versus domain-value work.
+
+### Human context evidence
+
+The strategic thesis above is supported by short excerpts from the 2026-09-17 planning
+conversation. These excerpts preserve the founder/operator's own language so a later human
+reviewer can reconstruct why the direction was adopted. They are rationale evidence, not
+execution authority.
+
+**Strategic thesis: reduce operator micromanagement.**
+
+> «глобальна така задача відв'язати мене від контролю там проекту ну як мінімум якщо не щоденного то ну хоча би не кожну годину»
+
+**Strategic thesis: move toward weekly-scale supervision.**
+
+> «в ідеалі ну хоча би дожати до там щотижневого»
+
+**Strategic thesis: autonomy grows only after observed stability.**
+
+> «перші там кроки ми там контролюємо більш щільно тобто майже кожен крок перевіряємо»
+
+> «далі там чим більше передбачувана іде робота ми бачимо що більш все стабільно виконується тобто ми переходимо до більш скажімо такі глобальних перевірок»
+
+**Strategic thesis: operator interaction should be exception-driven.**
+
+> «наш диспетчер буде там кидати на telegram якісь сповіщення де там якісь не вирішувальні будуть виникати проблеми»
+
+**Strategic thesis: human-readable strategy must retain dialogue context.**
+
+> «такі коротенькі зжаті вирізки з наших розмов мають підкріплювати ті чи інші думки які будуть описані в цьому стратегічному радмап»
+
+Derived planning interpretation:
+
+- The intended split is that the founder and chat-based strategic assistant shape direction,
+  while Dispatcher and bounded workers execute and report within explicit contracts.
+- The desired mature state is exception-driven execution inside an explicitly authorized
+  portfolio, not unconstrained self-directed project evolution.
+- Machine-readable planning remains necessary for automation, while the human-readable
+  strategic layer preserves compact dialogue evidence explaining why the direction exists.
+- Human intent should be strengthened with missing engineering dimensions, acceptance
+  criteria and proven practices rather than transcribed mechanically.
+
+Stable raw-conversation capture, immutable source IDs/hashes and citation remain a separate
+CF-11 concern; until that infrastructure exists, these short excerpts are contextual rationale
+only and must not be treated as a canonical raw-conversation archive.
+
+<!-- bounded-portfolio-autonomy-strategic-direction-2026-09-17:end -->
+
 ## Recommended dependency order
 
 AUT-01 -> AUT-02..06 -> AUT-07..11 -> AUT-12..13 ->
@@ -405,3 +524,79 @@ This mapping is planning-only and grants no new execution, acceptance, publicati
 authority.
 
 Planning marker: `PORTFOLIO_OPERATOR_GOVERNANCE_PROJECT_STANDARDIZATION_V0_1`.
+
+<!-- FORPRINT_U118_AUT_CONTEXT_WORKER_ALIGNMENT_20260905:START -->
+## Human-confirmed H9 → AUT publication / observation / context / worker boundary — 2026-09-05
+
+This section clarifies the intended relationship between the already implemented H9/v0.4.1
+coordination primitives and the future AUT runtime. It does **not** activate AUT-12/AUT-13.
+
+### Five ownership axes
+
+1. **Prompt publication is Blueprint-owned.**
+   Blueprint writes immutable prompt artifacts and the authoritative Prompt Queue state.
+   The module never writes into Blueprint to claim, edit, accept, return, hold, or advance a prompt.
+
+2. **Prompt observation is module-owned and Blueprint is read-only to the module.**
+   A filesystem/Git/polling event may wake the module observer, but the event is not execution authority.
+   After wake-up, the module runs the deterministic H9 startup/read path and executes only when the
+   validated Prompt Queue exposes exactly one eligible `ready_for_module_pull` prompt.
+
+3. **Task context assembly is deterministic.**
+   The execution context is assembled from the prompt contract plus bounded authoritative references,
+   not from a long-lived chat memory. Reuse the existing context-bundle tooling rather than creating a
+   second context system.
+
+4. **AI worker lifecycle is fresh-per-prompt.**
+   The permanent listener/daemon remains deterministic and lightweight. A fresh AI worker is started
+   only for policy-authorized work and ends after producing completion/handoff evidence. Do not keep an
+   AI assistant as the permanent listener.
+
+5. **Completion observation is Blueprint read-only over module-owned evidence.**
+   The module writes its completion packet/report/outbox in its own repository. Blueprint later
+   discovers and validates that evidence. Module completion never implies automatic Blueprint ACCEPT.
+
+### Wake-up rule
+
+`filesystem/Git/poll event → wake-up only → module-start → queue validation → execution decision`
+
+A new file appearing under a Blueprint outgoing-prompt directory is not, by itself, authority to execute.
+
+### Manual fallback
+
+The deterministic manual path such as `make module-start` remains a supported recovery path even after
+AUT listener/daemon activation. Automation wraps deterministic primitives; it does not replace them.
+
+### Fresh-worker context manifest
+
+The future task-context bundle should carry, by stable path/hash where applicable:
+
+- current prompt and prompt contract;
+- current release projection;
+- current module roadmap step plus bounded next-step horizon;
+- module `AGENTS.md` / bootstrap entry point;
+- module indexes and implementation-lineage entry point;
+- applicable ownership/contracts/governance references;
+- previous relevant completion handoff;
+- unresolved blockers/questions;
+- acceptance oracle / verification obligations;
+- Git branch/baseline identity;
+- explicit stop/escalation conditions.
+
+A previous completion report may be included by reference, but the new worker must not depend on
+unbounded replay of all historical reports.
+
+### Completion handoff minimum
+
+For deterministic next-context assembly, completion evidence should expose at minimum:
+
+`prompt_id`, `completion_id`, `result`, `implementation_commit`, `changed_capabilities`,
+`current_implementation_ids`, `roadmap_step_completed`, `roadmap_step_next`, `unresolved_items`,
+`relevant_evidence`, `tests`, `known_deviations`, and `recommended_context_for_next_prompt`.
+
+### Activation boundary
+
+This clarification does not enable SQLite coordination runtime, daemon/systemd execution, automatic
+ACCEPT, or automatic next-prompt release. Those remain separate reviewed activation decisions under
+AUT-12/AUT-13 and the current release controls.
+<!-- FORPRINT_U118_AUT_CONTEXT_WORKER_ALIGNMENT_20260905:END -->

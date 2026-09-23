@@ -96,6 +96,13 @@ module implementation. Its job is to keep the roadmap coherent, balance module
 assistants against dependencies, preserve WIP discipline, review completion evidence,
 maintain release/prompt lifecycle rules and keep a clear forward horizon.
 
+## Zero-context project entry
+
+A fresh Blueprint assistant starts at `coordination/bootstrap/START_HERE.md` and
+builds the current bounded portfolio archive with `make assistant-context-pack`.
+This implements the AUT-02/AUT-03/AUT-04 project-entry path. The generated archive
+is context/navigation evidence only; current Git/release/task authority still wins.
+
 ## Canonical authority order
 
 When context is missing, read in this order:
@@ -871,3 +878,21 @@ When the owner states that the session is an evening roadmap-review conversation
 Roadmaps are refined through repeated portfolio passes, not forced final in one conversation.
 This is continuity guidance only, not runtime/release authority. After the Knowledge Inventory/documentation rebuild, promote it into the proper zero-context assistant operating standard.
 <!-- evening-roadmap-review-convention-v0-1:end -->
+
+<!-- h10-logistics-bootstrap-release-evidence-v0-1:start -->
+## H10 Logistics bootstrap release evidence — 2026-09-05
+
+Status: transitional navigation/evidence binding only. This block does not make
+`START_HERE.md` release authority and does not change the planned migration toward
+`AGENTS.md` as the stable single entry point.
+
+Durable references for the first H10 Logistics bootstrap release:
+
+1. `coordination/outgoing_prompts/logistics_service/approved/2026-09-05__logistics_service_authority_lineage_and_module_bootstrap_v0_1.md`
+2. `coordination/internal_work/blueprint/governance/2026-09-05__blueprint__logistics_authority_lineage_bootstrap_one_shot_release_authorization_v0_1.yaml`
+3. `coordination/outgoing_prompts/logistics_service/index.yaml`
+
+Authority remains `coordination/releases/current.yaml`.
+Prompt execution state remains owned by the module Prompt Queue record.
+Automatic ACCEPT and automatic release-next remain disabled.
+<!-- h10-logistics-bootstrap-release-evidence-v0-1:end -->

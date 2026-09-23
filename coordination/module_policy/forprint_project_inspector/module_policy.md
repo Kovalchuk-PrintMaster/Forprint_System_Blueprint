@@ -29,6 +29,11 @@ Future project-level verification and inspection module for ForPrint repository 
 - `Aggregate module readiness and coordination status.`
 - `Provide read-only project verification reports.`
 - `Prepare migration of temporary Blueprint project verification scripts.`
+- `Detect module self-inventory drift and missing/stale capability evidence.`
+- `Detect duplicate capability candidates and cross-module semantic divergence.`
+- `Audit shared UI design-system adoption, stale component versions and accessibility/conformance drift.`
+- `Audit repository cleanliness and structural conformance across ForPrint projects.`
+- `Detect unregistered surface types, generated-file drift, orphan documents, duplicate capability/semantic surfaces and structural zoo growth.`
 
 ## Owns
 
@@ -37,6 +42,12 @@ Future project-level verification and inspection module for ForPrint repository 
 - `coordination_metadata_audit`
 - `module_readiness_summary`
 - `cross_module_advisory_reports`
+- `module_self_inventory_conformance`
+- `duplicate_capability_detection`
+- `shared_ui_conformance`
+- `repository_cleanliness_audit`
+- `document_surface_conformance_audit`
+- `generated_surface_drift_detection`
 
 ## Must not own
 
@@ -47,12 +58,17 @@ Future project-level verification and inspection module for ForPrint repository 
 - `accounting_truth`
 - `warehouse_stock_truth`
 - `live_integrations`
+- `ui_design_system_semantics`
+- `capability_ownership_decision`
+- `foreign_module_semantic_rewrite`
 
 ## Next focus
 
 - `Keep bootstrap pending.`
 - `Define read-only project verification scope.`
 - `Prepare portable verification scripts migrated from Blueprint later.`
+- `Add read-only self-inventory, duplicate-capability and shared-UI conformance checks.`
+- `Build the first read-only Inspector Cleanliness Pack from the Blueprint normalization validator set.`
 
 ## Adoption rule
 

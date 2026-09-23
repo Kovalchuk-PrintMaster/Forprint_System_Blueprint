@@ -2,12 +2,12 @@
 
 Status: AGREED OWNER/THEORY INPUT; NOT RELEASE AUTHORITY; NOT DISPATCHABLE.
 
-# Blueprint — Revision 1 Owner Notes
+## Blueprint — Revision 1 Owner Notes
 
 Status: `REVISION_1_DISCUSSED`
 Next: `READY_FOR_DEEP_DECOMPOSITION`
 
-## R0 — Zero-context entry path — AGREED_WITH_OWNER
+### R0 — Zero-context entry path — AGREED_WITH_OWNER
 
 R0 is a guided staircase, not only START_HERE.
 
@@ -26,7 +26,7 @@ Expected flow:
 If the step is not formally accepted, expand it into all needed micro-steps, even 20-40+.
 Once accepted, retain detailed history but collapse the step in ordinary reports.
 
-## R1 — Knowledge Inventory — AGREED_WITH_OWNER
+### R1 — Knowledge Inventory — AGREED_WITH_OWNER
 
 Knowledge Inventory is:
 - an initial deep inventory;
@@ -42,7 +42,7 @@ Purposes:
 Next review must explain the full lifecycle:
 Git baseline -> structural scan -> semantic review -> reconciliation -> confidence/freshness -> incremental maintenance -> inspection/drift -> lookup.
 
-## R2 / R3 — Roadmap and dashboard — AGREED_WITH_OWNER
+### R2 / R3 — Roadmap and dashboard — AGREED_WITH_OWNER
 
 Roadmap = where we are going.
 Dashboard = how movement toward the roadmap is progressing.
@@ -53,14 +53,14 @@ Implementation direction:
 - show progress dynamics, blockers, dependencies and movement toward target;
 - later add weighted progress, critical path, executor/model, cost, quality and trends.
 
-## R4 — Automated execution loop — AGREED_WITH_OWNER
+### R4 — Automated execution loop — AGREED_WITH_OWNER
 
 Target:
 `prompt -> execution -> report -> validation -> next prompt / clarification / exception`.
 
 Inspector belongs in the supervisory loop.
 
-## Telegram emergency/remote-control gateway
+### Telegram emergency/remote-control gateway
 
 Concept: `AGREED_WITH_OWNER`
 Security/authority model: `OPEN_QUESTION`
@@ -75,7 +75,7 @@ Scenario:
 Candidate remote operational commands should exist, but must not become an unrestricted remote shell.
 Later policy should separate low-risk read-only diagnostics from mutation/destructive/security operations and require allowlists, authentication, audit, correlation/idempotency and stronger confirmation where needed.
 
-## Current broad-automation blockers — AGREED_WITH_OWNER
+### Current broad-automation blockers — AGREED_WITH_OWNER
 
 1. Critical/blocking modules do not yet all have sufficiently agreed roadmaps.
 2. Critical/blocking modules do not yet have sufficiently deep Knowledge Inventory.
@@ -84,7 +84,7 @@ Still open:
 - exact set of blocking modules;
 - exact readiness thresholds.
 
-## Blueprint target milestone / steady state — AGREED_WITH_OWNER
+### Blueprint target milestone / steady state — AGREED_WITH_OWNER
 
 Blueprint is not "finished forever".
 
@@ -104,13 +104,13 @@ After milestone:
 - architecture refinement;
 - portfolio balancing.
 
-## Provisional role boundary
+### Provisional role boundary
 
 Blueprint = authority / roadmap / priority / coordination / governance.
 Inspector = machine observation / audit / health / findings / rechecks / candidate emergency gateway.
 Strategic Control Plane = future analytics/decision support only if a distinct module is justified.
 
-## Remaining gray zones
+### Remaining gray zones
 
 - Knowledge Inventory readiness thresholds.
 - Blocking-module set.

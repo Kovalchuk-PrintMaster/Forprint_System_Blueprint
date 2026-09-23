@@ -1,0 +1,242 @@
+schema_version: forprint_human_intent_delta_v0_1
+date: '2026-09-01'
+status: PLANNING_INTEGRATION_NOT_RELEASE_AUTHORITY
+authority: operator_evening_discussion_2026_09_01
+modules:
+  forprint_system_blueprint:
+    - intent_id: HI-FP-SYSTEM-BLUEPRINT-032
+      status: AGREED
+      text: Before future module assistants are started, Blueprint must define and review an AI Execution Safety and Runtime
+        Governance gate covering ingress validation, tool-call validation, egress/data-release control, bounded retries/loops,
+        cost budgets, execution logging and manual escalation.
+      context: A raw Telegram message or arbitrary AI request must not automatically become trusted executable work.
+      roadmap: BP-AI-SAFETY-01
+    - intent_id: HI-FP-SYSTEM-BLUEPRINT-033
+      status: AGREED
+      text: Retry, clarification, inter-module, database, tool, AI/token/cost and time limits must be configurable by operation/risk
+        class rather than one universal fixed retry count.
+      context: Repeated identical invalid calls must terminate or escalate instead of entering an unbounded loop.
+      roadmap: BP-AI-SAFETY-02
+    - intent_id: HI-FP-SYSTEM-BLUEPRINT-034
+      status: AGREED
+      text: Before the next detailed portfolio is approved, older and under-documented modules must be reconciled against
+        their repository inventories so historical capabilities, stale instructions and misowned functionality are not silently
+        carried into the mature architecture.
+      context: Calculator and Telegram are especially important because they existed before most current domain modules.
+      roadmap: BP-PORTFOLIO-10
+  calculator_engine:
+    - intent_id: HI-CALCULATOR-ENGINE-027
+      status: AGREED
+      text: Calculator requires a deep historical capability/ownership inventory before the next mature portfolio because
+        early project stages placed cross-domain functionality inside Calculator.
+      context: Candidate capabilities must be classified KEEP/MOVE/MERGE/REWRITE/DEPRECATE/REMOVE rather than deleted blindly.
+      roadmap: CALC-INVENTORY-01
+  forprint_prepress_hub:
+    - intent_id: HI-FP-PREPRESS-HUB-010
+      status: AGREED
+      text: 'Prepress Hub roadmap deepening must be recovery-first: recover all prior detailed operator discussions, project
+        evidence and existing module capabilities before filling only genuine gaps with PROPOSED synthesis.'
+      context: The operator previously described this module in substantial detail and does not want that intent replaced
+        by a fresh generic design.
+      roadmap: PREPRESS-RECOVERY-01
+  warehouse_service:
+    - intent_id: HI-WAREHOUSE-SERVICE-009
+      status: AGREED
+      text: Warehouse must reserve stock for active orders and calculate projected available stock after reservations, not
+        only physical on-hand quantity.
+      context: Reservation can push projected stock below the replenishment threshold before physical consumption occurs.
+      roadmap: WH-STOCK-01
+    - intent_id: HI-WAREHOUSE-SERVICE-010
+      status: AGREED
+      text: Each controlled material needs a stock policy including at least minimum/reorder threshold and a normal replenishment
+        quantity or target so Warehouse can raise a structured replenishment need.
+      context: Financial feasibility and purchase execution remain separate ownership questions to reconcile.
+      roadmap: WH-REPLENISH-01
+    - intent_id: HI-WAREHOUSE-SERVICE-011
+      status: AGREED
+      text: Warehouse must support controlled write-off/adjustment reasons for damaged, spoiled or otherwise unusable materials
+        while preserving traceability of the stock movement.
+      context: Storage damage and production-related material loss must not disappear from stock without evidence.
+      roadmap: WH-ADJUST-01
+  forprint_operations_assistant:
+    - intent_id: HI-FP-OPERATIONS-ASSISTANT-017
+      status: AGREED
+      text: Operations Assistant must provide equipment error/help lookup from parsed and indexed approved equipment documentation,
+        including Ukrainian explanation and source illustrations when present.
+      context: Exact error-code lookup should be preferred when a code exists.
+      roadmap: OPS-EQUIP-01
+    - intent_id: HI-FP-OPERATIONS-ASSISTANT-018
+      status: AGREED
+      text: For production equipment, Operations Assistant must not invent repair procedures or freely search the internet
+        for a repair answer; if approved documentation contains no answer it returns NOT_FOUND and escalates.
+      context: Production-equipment troubleshooting is documentation-grounded only.
+      roadmap: OPS-EQUIP-02
+    - intent_id: HI-FP-OPERATIONS-ASSISTANT-019
+      status: AGREED
+      text: 'Equipment-problem escalation is role-aware: a normal printer/operator can escalate to the production manager,
+        while an authorized manager may create a service-support request through an approved channel.'
+      context: Permissions control who may contact the external service directly.
+      roadmap: OPS-EQUIP-03
+    - intent_id: HI-FP-OPERATIONS-ASSISTANT-020
+      status: PROPOSED
+      text: Indexed manual procedures should progress from text and static figures to ordered step galleries and only later
+        to optional animation where it adds real value.
+      context: Animation is a later usability enhancement, not an early dependency.
+      roadmap: OPS-EQUIP-04
+  production_runtime_inspector:
+    - intent_id: HI-PRODUCTION-RUNTIME-INSPECTOR-008
+      status: AGREED
+      text: 'Runtime Inspector must observe end-to-end execution traces: process start, module/tool calls, waits, durations,
+        retries, outcomes and dependency blocking.'
+      context: Its focus is what the live system actually executed, not repository/project conformance.
+      roadmap: RTI-TRACE-01
+    - intent_id: HI-PRODUCTION-RUNTIME-INSPECTOR-009
+      status: AGREED
+      text: Runtime Inspector must expose repeated-call, retry, wait-time and bottleneck evidence so loops and asymmetric
+        producer/consumer delays can be detected and analyzed.
+      context: 'Example: one module repeatedly waiting on another should become visible as runtime evidence.'
+      roadmap: RTI-LOOP-01
+    - intent_id: HI-PRODUCTION-RUNTIME-INSPECTOR-010
+      status: AGREED
+      text: Runtime governance must track separate configurable budgets for retries, repeated call signatures, inter-module
+        hops, database/tool calls, AI usage/cost and timeout/TTL.
+      context: Configured budget exhaustion must lead to stop/degraded/manual-review behavior rather than endless retries.
+      roadmap: RTI-BUDGET-01
+    - intent_id: HI-PRODUCTION-RUNTIME-INSPECTOR-011
+      status: AGREED
+      text: Runtime observability should minimize sensitive payload exposure; identifiers, contract versions, status, timings,
+        classifications/hashes and error evidence are preferred unless payload access is explicitly authorized.
+      context: Observability must not create a new unrestricted data-leak surface.
+      roadmap: RTI-DATA-01
+  forprint_project_inspector:
+    - intent_id: HI-FP-PROJECT-INSPECTOR-021
+      status: AGREED
+      text: Project Inspector must detect candidate duplicate/equivalent functions and compare them with common fixtures,
+        edge cases and invalid inputs to expose semantic divergence such as different price/rounding results.
+      context: A candidate duplicate is not automatically the same semantic function; evidence is required.
+      roadmap: PI-DUP-01
+    - intent_id: HI-FP-PROJECT-INSPECTOR-022
+      status: AGREED
+      text: When equivalent functionality exists in multiple modules, Inspector should report implementation quality, ownership
+        and consolidation options but must not automatically merge or replace implementations.
+      context: Target direction is one appropriate canonical owner/contract where semantics are truly shared.
+      roadmap: PI-DUP-02
+    - intent_id: HI-FP-PROJECT-INSPECTOR-023
+      status: AGREED
+      text: Dormant scripts, functions, and documents are review candidates, not automatic deletion candidates; Inspector must use
+        evidence such as usage, ownership, dependencies, documentation, fallback purpose and current roadmap relevance.
+      context: Rare disaster-recovery or safety functionality can be important despite long periods without use.
+      roadmap: PI-DORMANT-01
+    - intent_id: HI-FP-PROJECT-INSPECTOR-024
+      status: AGREED
+      text: Project Inspector must identify orphaned or misowned historical capabilities and route them for KEEP/MOVE/MERGE/REWRITE/DEPRECATE/REMOVE
+        review with evidence.
+      context: Old Calculator/Telegram functionality is a priority area for this audit.
+      roadmap: PI-OWNERSHIP-01
+    - intent_id: HI-FP-PROJECT-INSPECTOR-025
+      status: AGREED
+      text: Project Inspector must support periodic and risk-triggered conformance audits and emit bounded findings with evidence,
+        severity, responsible owner and recommended disposition.
+      context: Cleanliness, duplicate standards, stale instructions and semantic conflicts are ongoing controls.
+      roadmap: PI-AUDIT-01
+  forprint_integration_gateway:
+    - intent_id: HI-FP-INTEGRATION-GATEWAY-008
+      status: AGREED
+      text: Integration Gateway must provide a canonical inter-module message envelope and validate contract/schema/version
+        compatibility before routing a request or response.
+      context: Internal module implementation can differ; the boundary format must remain controlled.
+      roadmap: IG-CONTRACT-01
+    - intent_id: HI-FP-INTEGRATION-GATEWAY-009
+      status: AGREED
+      text: Invalid or incompatible payloads must be rejected/quarantined with visible evidence rather than silently guessed,
+        reshaped or ignored.
+      context: The operator needs an administrative view of invalid exchanges and why they failed.
+      roadmap: IG-VALIDATE-01
+    - intent_id: HI-FP-INTEGRATION-GATEWAY-010
+      status: AGREED
+      text: Gateway integration control must include idempotency, bounded retries, dead-letter/quarantine behavior and audit/correlation
+        evidence for failed or repeated inter-module exchanges.
+      context: Transport reliability must not create duplicate business operations or hidden infinite loops.
+      roadmap: IG-RELIABILITY-01
+    - intent_id: HI-FP-INTEGRATION-GATEWAY-011
+      status: AGREED
+      text: Gateway validates transport/contract boundaries but does not become universal business-semantic owner; domain
+        modules validate their own semantics and Contract Registry controls contract lifecycle.
+      context: Runtime Inspector observes execution; Project Inspector audits design/conformance.
+      roadmap: IG-BOUNDARY-01
+  logistics_service:
+    - intent_id: HI-LOGISTICS-SERVICE-006
+      status: AGREED
+      text: Logistics Service roadmap deepening must be recovery-first because substantial prior design evidence already exists;
+        only genuine gaps should be filled with PROPOSED synthesis before the next portfolio review.
+      context: Do not replace the detailed existing Logistics design with a generic rewrite.
+      roadmap: LOG-RECOVERY-01
+  forprint_semantic_retrieval_service:
+    - intent_id: HI-FP-SEMANTIC-RETRIEVAL-SERVICE-010
+      status: AGREED
+      text: Semantic Retrieval remains a noncanonical review-only candidate until its independent module value is proven.
+      context: Do not promote it automatically because earlier artifacts exist.
+      roadmap: SEM-REVIEW-01
+    - intent_id: HI-FP-SEMANTIC-RETRIEVAL-SERVICE-011
+      status: AGREED
+      text: Semantic retrieval may find fuzzy/semantic candidates such as a likely material or related document, but the relevant
+        domain owner remains responsible for canonical truth and current state.
+      context: Search finds candidates; domain owner decides truth.
+      roadmap: SEM-BOUNDARY-01
+    - intent_id: HI-FP-SEMANTIC-RETRIEVAL-SERVICE-012
+      status: PROPOSED
+      text: Candidate value should be evaluated for multilingual/fuzzy material search and Project Inspector document/procedure
+        similarity discovery before deciding PROMOTE, MERGE or RETIRE.
+      context: Evaluation must compare the service with simpler alias/full-text/search approaches.
+      roadmap: SEM-EVAL-01
+  telegram_bot:
+    - intent_id: HI-TELEGRAM-BOT-014
+      status: AGREED
+      text: Telegram Bot is the primary human communication orchestrator across customers, suppliers, carriers/taxi and other
+        external contacts, while business decisions remain with the appropriate domain modules.
+      context: Telegram communicates domain results rather than becoming the owner of Logistics/Accounting/etc.
+      roadmap: TG-ROLE-01
+    - intent_id: HI-TELEGRAM-BOT-015
+      status: AGREED
+      text: Telegram must support both controlled menu-driven workflows for sensitive/financial interactions and a more natural
+        conversational mode for ordinary communication.
+      context: Sensitive flows use explicit identity/context/permissions and bounded choices.
+      roadmap: TG-MODE-01
+    - intent_id: HI-TELEGRAM-BOT-016
+      status: AGREED
+      text: Before dispatching a task to Calculator, Logistics or another domain module, Telegram must collect the required
+        input set for that module or explicitly route a structured missing-information state.
+      context: Avoid wasteful request/clarification ping-pong caused by obviously incomplete tickets.
+      roadmap: TG-TICKET-01
+    - intent_id: HI-TELEGRAM-BOT-017
+      status: AGREED
+      text: Completed and interrupted conversations must be preserved as traceable conversation episodes linked to participants
+        and business context, while allowing multiple topics to coexist in one physical chat.
+      context: Dialogue history may later be required for quality, disputes, delivery or accounting context.
+      roadmap: TG-DIALOGUE-01
+    - intent_id: HI-TELEGRAM-BOT-018
+      status: AGREED
+      text: 'Telegram must actively close communication loops such as delivery handoff: notify, monitor expected arrival,
+        warn about paid waiting/timeout when applicable, confirm receipt and escalate contact when necessary.'
+      context: Future voice/call adapter may be used for authorized escalation when text is not acknowledged.
+      roadmap: TG-FOLLOWUP-01
+    - intent_id: HI-TELEGRAM-BOT-019
+      status: AGREED
+      text: Telegram requires a deep repository inventory and ownership reconciliation before the next mature portfolio because
+        it is one of the oldest modules and may contain stale or cross-domain instructions/capabilities.
+      context: Conflicting historical instructions must be classified and removed/reassigned only through reviewed migration.
+      roadmap: TG-INVENTORY-01
+    - intent_id: HI-TELEGRAM-BOT-020
+      status: AGREED
+      text: External inbound messages must pass relevance/security/intake validation before they can trigger expensive search,
+        AI dialogue or downstream module work.
+      context: Accidental personal messages, pocket/noise text and suspicious extraction attempts must not become trusted
+        tasks.
+      roadmap: TG-INGRESS-01
+  forprint_system_administration:
+    - intent_id: HI-FP-SYSTEM-ADMINISTRATION-010
+      status: AGREED
+      text: SysAdmin autonomous troubleshooting must follow an explicit allowlist of low-risk supported actions; unlisted
+        or higher-risk physical/system interventions must escalate rather than being improvised.
+      context: Internet-assisted guidance is acceptable only within approved low-risk troubleshooting classes.
+      roadmap: SYSADMIN-SAFETY-01

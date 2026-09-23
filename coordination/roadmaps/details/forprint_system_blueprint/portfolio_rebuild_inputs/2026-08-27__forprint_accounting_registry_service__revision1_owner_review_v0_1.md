@@ -2,12 +2,12 @@
 
 Status: AGREED OWNER/THEORY INPUT; READY FOR DEEP DECOMPOSITION; NOT EXECUTION AUTHORITY.
 
-# Accounting Registry Service — Revision 1 Owner Notes
+## Accounting Registry Service — Revision 1 Owner Notes
 
 Status: `REVISION_1_DISCUSSED`
 Next: `TARGET_DIRECTION_CLEAR_READY_FOR_DEEP_DECOMPOSITION`
 
-## Strategic role — AGREED_WITH_OWNER
+### Strategic role — AGREED_WITH_OWNER
 
 Build ForPrint's own operational/commercial accounting registry and gradually move daily business work away from dependence on 1C.
 
@@ -25,7 +25,7 @@ Core scope:
 - document state;
 - reconciliation.
 
-## 1C relationship — AGREED_WITH_OWNER
+### 1C relationship — AGREED_WITH_OWNER
 
 Accountants will continue using 1C for statutory/reporting needs.
 
@@ -43,7 +43,7 @@ Long-term direction:
 ForPrint's own registry becomes the primary operational commercial system.
 1C remains a compatibility/downstream accounting environment as long as needed.
 
-## Functional benchmark — AGREED_WITH_OWNER direction
+### Functional benchmark — AGREED_WITH_OWNER direction
 
 Use useful 1C management/commercial-accounting capabilities as a benchmark, but do not copy 1C architecture or poor UX blindly.
 
@@ -56,7 +56,7 @@ The next deep decomposition should identify the closest functional 1C scope for:
 - production/business analytics;
 without making statutory accounting the initial core.
 
-## Candidate capability families — SYNTHETIC_CANDIDATE
+### Candidate capability families — SYNTHETIC_CANDIDATE
 
 - counterparties and financial attributes;
 - orders/invoices/realization;
@@ -72,7 +72,7 @@ without making statutory accounting the initial core.
 - management reports;
 - exception workflows.
 
-## Warehouse boundary — PROVISIONAL_BOUNDARY
+### Warehouse boundary — PROVISIONAL_BOUNDARY
 
 Warehouse owns physical fact:
 - what;
@@ -87,7 +87,7 @@ Accounting Registry owns:
 
 A mismatch between system stock and physical stock is a reconciliation incident, not permission for silent competing truths.
 
-## Calculator boundary — PROVISIONAL_BOUNDARY
+### Calculator boundary — PROVISIONAL_BOUNDARY
 
 Calculator provides:
 - planned materials;
@@ -97,7 +97,7 @@ Calculator provides:
 
 Actual consumption must remain distinguishable from planned consumption.
 
-## Human involvement — AGREED_WITH_OWNER
+### Human involvement — AGREED_WITH_OWNER
 
 Normal workflow should be highly automated.
 
@@ -110,7 +110,7 @@ Human is needed mainly for:
 
 Fast exception handling should later be possible through UI and potentially a governed Telegram admin/emergency channel.
 
-## 1C sync authority — OPEN_QUESTION
+### 1C sync authority — OPEN_QUESTION
 
 Must later define:
 - what flows ForPrint -> 1C automatically;
@@ -123,7 +123,7 @@ Must later define:
 Working preference:
 ForPrint is operational authority; 1C is primarily downstream for accountant/statutory needs.
 
-## Stabilization — AGREED_WITH_OWNER direction
+### Stabilization — AGREED_WITH_OWNER direction
 
 Accounting needs a longer proving period than Calculator.
 
@@ -138,7 +138,7 @@ Metrics should be class-specific:
 - material/accounting discrepancies are controlled and visible;
 - manual corrections are rare and auditable.
 
-## Remaining gray zones
+### Remaining gray zones
 
 - exact Warehouse/Accounting contract;
 - exact Calculator planned-vs-actual flow;

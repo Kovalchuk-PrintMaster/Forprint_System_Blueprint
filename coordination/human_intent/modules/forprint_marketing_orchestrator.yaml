@@ -2,30 +2,79 @@ schema_version: forprint_module_human_intent_ledger_v0_1
 module_id: forprint_marketing_orchestrator
 display_name: ForPrint Marketing Orchestrator
 authority: planning_context_not_release_authority
+status: active_planning_context
 append_only: true
 intents:
-- status: RECOVERED
-  text: Marketing Orchestrator — майбутній AI-assisted модуль для campaigns/social/content providers.
-  context: Не blocker commercial core.
-  roadmap: ''
-  intent_id: HI-FP-MARKETING-ORCHESTRATOR-001
-- status: RECOVERED
-  text: Може вести content calendar, briefs, multi-model generation, approval workflow, publishing і performance learning.
-  context: Autopublish boundary ще треба погодити.
-  roadmap: ''
-  intent_id: HI-FP-MARKETING-ORCHESTRATOR-002
-- status: RECOVERED
-  text: Provider/model routing має порівнювати cost/quality/speed для text/image/video.
-  context: Не прив’язувати архітектуру до одного AI provider.
-  roadmap: ''
-  intent_id: HI-FP-MARKETING-ORCHESTRATOR-003
-- status: AGREED
-  text: Leads і customer response context мають переходити в CRM через contract, а не жити лише в marketing tool.
-  context: CRM — customer workflow owner.
-  roadmap: ''
-  intent_id: HI-FP-MARKETING-ORCHESTRATOR-004
-- status: GAP
-  text: Перший production-complete channel/content slice ще не визначено.
-  context: Потрібно окреме продуктове рішення.
-  roadmap: ''
-  intent_id: HI-FP-MARKETING-ORCHESTRATOR-005
+  - status: RECOVERED
+    text: Marketing Orchestrator — майбутній AI-assisted модуль для campaigns/social/content providers.
+    context: Не blocker commercial core.
+    roadmap: ''
+    intent_id: HI-FP-MARKETING-ORCHESTRATOR-001
+  - status: RECOVERED
+    text: Може вести content calendar, briefs, multi-model generation, approval workflow, publishing і performance learning.
+    context: Autopublish boundary ще треба погодити.
+    roadmap: ''
+    intent_id: HI-FP-MARKETING-ORCHESTRATOR-002
+  - status: RECOVERED
+    text: Provider/model routing має порівнювати cost/quality/speed для text/image/video.
+    context: Не прив’язувати архітектуру до одного AI provider.
+    roadmap: ''
+    intent_id: HI-FP-MARKETING-ORCHESTRATOR-003
+  - status: AGREED
+    text: Leads і customer response context мають переходити в CRM через contract, а не жити лише в marketing tool.
+    context: CRM — customer workflow owner.
+    roadmap: ''
+    intent_id: HI-FP-MARKETING-ORCHESTRATOR-004
+  - status: GAP
+    text: Перший production-complete channel/content slice ще не визначено.
+    context: Потрібно окреме продуктове рішення.
+    roadmap: ''
+    intent_id: HI-FP-MARKETING-ORCHESTRATOR-005
+  - intent_id: HI-FP-U92-20260903-008
+    status: AGREED
+    text: Marketing Orchestrator is a distinct Brand & Content Operations capability for campaigns, content, brand consistency and governed publication, not CRM/customer truth.
+    source_refs:
+      - coordination/internal_work/blueprint/evening_packages/2026-09-03__u92/
+      - coordination/internal_work/blueprint/evening_reviews/2026-09-03/2026-09-03__u92_architecture_governance_integration_v0_1.md
+    roadmap_refs:
+      - coordination/roadmaps/details/forprint_system_blueprint/portfolio_module_roadmap_approval_matrix_v0_1.yaml
+      - coordination/roadmaps/details/forprint_system_blueprint/portfolio_full_horizon_target_states_v0_1.yaml
+  - intent_id: HI-MKT-CREATIVE-TOOLCHAIN-20260922-001
+    status: RECOVERED
+    text: For repeated short-video production, ForPrint should normally standardize the operator workflow on one primary
+      video generator at a time so prompt patterns, operator skill and repeatability can accumulate instead of fragmenting
+      effort across several parallel tools; this operating preference must not hard-wire the architecture to one permanent
+      provider.
+    context: Recovered from the owner's explicit July SMM statement that he does not want to work with several generators
+      at once and wants one tool to learn gradually. The preserved source does not contain a final owner acceptance
+      of Google Veo or any other specific provider.
+    roadmap: ''
+    source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2026-07-25_source_label/DFTB_smm_assistant_creative_tooling_v0_1/00_intake_manifest_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-07-25_source_label/DFTB_smm_assistant_creative_tooling_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-07-25_source_label/DFTB_smm_assistant_creative_tooling_v0_1/package/dialogue_memory.yaml
+  - intent_id: HI-MKT-ACQUISITION-20260922-001
+    status: RECOVERED
+    text: 'A newly launched ForPrint website should not rely on passive organic discovery alone: Marketing should
+      deliberately seed an initial stream of real visitors so demand, usability and conversion behavior can be observed
+      instead of waiting indefinitely for search traffic to appear.'
+    context: 'Recovered directly from the owner''s June SMM cold-start problem: a new site may remain effectively
+      invisible and therefore needs deliberate exposure to at least a narrow audience. Exact channel/budget are not
+      fixed here.'
+    roadmap: ''
+    source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2026-06-25_source_label/DFTB_smm_assistant_acquisition_bootstrap_v0_1/00_intake_manifest_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-06-25_source_label/DFTB_smm_assistant_acquisition_bootstrap_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-06-25_source_label/DFTB_smm_assistant_acquisition_bootstrap_v0_1/package/dialogue_memory.yaml
+  - intent_id: HI-MKT-ACQUISITION-20260922-002
+    status: RECOVERED
+    text: 'The first ForPrint acquisition experiments should be targeted and selective rather than broad: start with
+      audiences where a positive response is plausibly higher, including local proximity as a business hypothesis,
+      and measure whether that locality assumption actually improves conversion before treating it as durable policy.'
+    context: Recovered from the owner's explicit agreement with a point/selective promo campaign and his reasoning
+      that nearby print customers have a convenience advantage. The source contains no measured ROI proof.
+    roadmap: ''
+    source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2026-06-25_source_label/DFTB_smm_assistant_acquisition_bootstrap_v0_1/00_intake_manifest_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-06-25_source_label/DFTB_smm_assistant_acquisition_bootstrap_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-06-25_source_label/DFTB_smm_assistant_acquisition_bootstrap_v0_1/package/dialogue_memory.yaml

@@ -2,32 +2,40 @@ schema_version: forprint_module_human_intent_ledger_v0_1
 module_id: cloud_backup_manager
 display_name: Cloud Backup Manager
 authority: planning_context_not_release_authority
+status: active_planning_context
 append_only: true
 intents:
-- status: RECOVERED
-  text: Cloud Backup Manager тримає backup inventory, status dashboard plan і operator runbook.
-  context: Web admin не повинен тихо запускати destructive backup/restore.
-  roadmap: ''
-  intent_id: HI-CLOUD-BACKUP-MANAGER-001
-- status: RECOVERED
-  text: 'Operator flow: preview -> execute -> verify -> report; guarded actions потребують terminal confirmation.'
-  context: Це вже зафіксовано в project roadmap.
-  roadmap: ''
-  intent_id: HI-CLOUD-BACKUP-MANAGER-002
-- status: RECOVERED
-  text: Scheduler має бути disabled-by-default до окремої readiness/authorization фази.
-  context: Не вмикати automation просто тому, що код готовий.
-  roadmap: ''
-  intent_id: HI-CLOUD-BACKUP-MANAGER-003
-- status: AGREED
-  text: Blueprint portfolio має бачити backup readiness як dependency для критичних модулів, але не управляти backup execution
-    напряму.
-  context: Модуль лишається самодостатнім.
-  roadmap: ''
-  intent_id: HI-CLOUD-BACKUP-MANAGER-004
-- status: PROPOSED
-  text: Human-intent ledger для Backup може зберігати операторські причини safety boundaries, щоб майбутній помічник не зняв
-    їх як 'зайві обмеження'.
-  context: Особливо корисно для restore/mirror режимів.
-  roadmap: ''
-  intent_id: HI-CLOUD-BACKUP-MANAGER-005
+  - status: RECOVERED
+    text: Cloud Backup Manager тримає backup inventory, status dashboard plan і operator runbook.
+    context: Web admin не повинен тихо запускати destructive backup/restore.
+    roadmap: ''
+    intent_id: HI-CLOUD-BACKUP-MANAGER-001
+  - status: RECOVERED
+    text: 'Operator flow: preview -> execute -> verify -> report; guarded actions потребують terminal confirmation.'
+    context: Це вже зафіксовано в project roadmap.
+    roadmap: ''
+    intent_id: HI-CLOUD-BACKUP-MANAGER-002
+  - status: RECOVERED
+    text: Scheduler має бути disabled-by-default до окремої readiness/authorization фази.
+    context: Не вмикати automation просто тому, що код готовий.
+    roadmap: ''
+    intent_id: HI-CLOUD-BACKUP-MANAGER-003
+  - status: AGREED
+    text: Blueprint portfolio має бачити backup readiness як dependency для критичних модулів, але не управляти backup execution напряму.
+    context: Модуль лишається самодостатнім.
+    roadmap: ''
+    intent_id: HI-CLOUD-BACKUP-MANAGER-004
+  - status: PROPOSED
+    text: Human-intent ledger для Backup може зберігати операторські причини safety boundaries, щоб майбутній помічник не зняв їх як 'зайві обмеження'.
+    context: Особливо корисно для restore/mirror режимів.
+    roadmap: ''
+    intent_id: HI-CLOUD-BACKUP-MANAGER-005
+  - intent_id: HI-FP-U92-20260903-005
+    status: AGREED
+    text: 'Cloud Backup Manager has three core responsibilities: off-site backup of prepared domain artifacts, controlled one-way corporate-resource replication, and retention/integrity/recovery evidence.'
+    source_refs:
+      - coordination/internal_work/blueprint/evening_packages/2026-09-03__u92/
+      - coordination/internal_work/blueprint/evening_reviews/2026-09-03/2026-09-03__u92_architecture_governance_integration_v0_1.md
+    roadmap_refs:
+      - coordination/roadmaps/details/forprint_system_blueprint/portfolio_module_roadmap_approval_matrix_v0_1.yaml
+      - coordination/roadmaps/details/forprint_system_blueprint/portfolio_full_horizon_target_states_v0_1.yaml

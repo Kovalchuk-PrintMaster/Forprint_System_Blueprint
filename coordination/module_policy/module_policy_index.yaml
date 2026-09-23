@@ -1,29 +1,28 @@
 module_policy_index:
-  version: "0.1"
+  version: '0.1'
   status: active
   source_module: forprint_system_blueprint
-  purpose: >
-    Blueprint-owned strategic policy index for ForPrint modules. This file is
-    the machine-readable source for generated module policy documents.
+  purpose: 'Blueprint-owned strategic policy index for ForPrint modules. This file is the machine-readable source for generated module policy documents.
 
-  adoption_mode: >
-    Module policy is strategic guidance. It does not automatically authorize
-    large refactors. Modules should compare this policy with their current
-    implementation and report alignment, conflicts or questions.
+    '
+  adoption_mode: 'Module policy is strategic guidance. It does not automatically authorize large refactors. Modules should compare this policy with their current implementation and report alignment, conflicts or questions.
 
+    '
   modules:
     - module_id: forprint_system_blueprint
       module_name: ForPrint System Blueprint
       priority: p0
       development_status: active_governance
-      strategic_role: >
-        Architecture, ownership boundaries, execution queue, coordination
-        standards, module policy and project-wide governance.
+      strategic_role: 'Architecture, ownership boundaries, execution queue, coordination standards, module policy and project-wide governance.
+
+        '
       main_goals:
         - Maintain global ForPrint architecture.
         - Keep module boundaries explicit.
         - Maintain global policy, module policy and coordination standards.
         - Collect module status and support owner/mentor decisions.
+        - Maintain repository/document/machine-surface cleanliness as a permanent architecture objective.
+        - Govern the Document Type Registry, normalization debt baseline and class-by-class migration program.
       owns:
         - architecture_policy
         - module_boundaries
@@ -32,22 +31,27 @@ module_policy_index:
         - module_policy
         - module_source_registry
         - coordination_metadata_tools
+        - project_cleanliness_governance
+        - document_type_registry
+        - surface_normalization_program
       must_not_own:
         - runtime_business_logic
         - production_order_processing
         - accounting_posting
         - customer_channel_runtime
+        - foreign_module_business_semantics_during_normalization
       next_focus:
         - Stabilize module policy for all active modules.
         - Keep coordination metadata validator/fixer central.
         - Prepare future ecosystem-check foundation.
-
+        - Normalize current machine-active document classes before broad module implementation resumes.
     - module_id: calculator_engine
       module_name: Calculator Engine
       priority: p0
       development_status: active_development
-      strategic_role: >
-        Primary calculation and order formalization module.
+      strategic_role: 'Primary calculation and order formalization module.
+
+        '
       main_goals:
         - Produce CalculationOutputPackage.
         - Produce QuoteDraft / CommercialOfferDraft.
@@ -75,21 +79,20 @@ module_policy_index:
         - Harden CalculationOutputPackage / Quote / OrderDraft Foundation.
         - Keep local catalog fixtures non-canonical.
         - Prepare downstream-ready structured output.
-
     - module_id: forprint_operations_control_registry
       module_name: ForPrint Operations Control Registry
       priority: p1
       development_status: reference_ready_storage_ready
-      strategic_role: >
-        Operational/commercial control registry for ForPrint: owns the operational state and
-        authorized write boundary for orders, obligations, reservations, shortages, incidents,
-        deadlines and cross-module execution context without owning every domain rule or the
-        physical persistence topology.
+      strategic_role: 'Operational/commercial control registry for ForPrint: owns the operational state and authorized write boundary for orders, obligations, reservations, shortages, incidents, deadlines and cross-module execution context without owning every domain rule or the physical persistence topology.
+
+        '
       main_goals:
         - Own the operational data model and authorized write boundary over centrally managed ForPrint persistence.
         - Store ClientAccount, ClientGroup, requests, orders, contacts and operational events within that boundary.
         - Provide clean operational state and context access for other modules.
         - Remain 1C-aware and sync-friendly without mirroring 1C as the internal model.
+        - Use stable Business Partner/Person/Organization and order/job identifiers across domain schemas.
+        - Keep physical PostgreSQL persistence ownership separate from operational semantic/write ownership.
       owns:
         - internal_forprint_db
         - client_account_records
@@ -100,29 +103,35 @@ module_policy_index:
         - operational_tasks
         - operational_blockers
         - logistics_addresses
+        - stable_business_partner_reference_boundary
+        - stable_order_identity_boundary
       must_not_own:
         - calculator_logic
         - canonical_catalog_semantics
         - one_c_adapter_logic
         - crm_dashboard
         - customer_channel_runtime
+        - physical_postgresql_platform_operations
       next_focus:
         - Core ForPrint Data Model Expansion.
         - Add ClientAccount / ClientGroup / Contact relationship policy.
         - Prepare request/order lifecycle for analytics.
-
+        - Reconcile ClientAccount / ClientGroup concepts with the stable Business Partner identity model.
+        - Attach cross-domain records to stable order_id and job/resource identifiers.
     - module_id: forprint_library
       module_name: ForPrint Library
       priority: p1
       development_status: active_development
-      strategic_role: >
-        Canonical semantic, catalog, naming, alias and contract-definition
-        authority for products, services, materials, operations and templates.
+      strategic_role: 'Canonical semantic, catalog, naming, alias and contract-definition authority for products, services, materials, operations and templates.
+
+        '
       main_goals:
         - Own canonical product/service/material/operation IDs.
         - Maintain aliases and naming rules.
         - Provide semantic resolution for module ambiguity.
         - Keep contract definitions and catalog semantics versioned.
+        - Publish the versioned shared ForPrint UI design-system package and reusable component catalog.
+        - Expose searchable semantic and reusable-capability references before modules create competing implementations.
       owns:
         - product_catalog_semantics
         - service_catalog_semantics
@@ -132,23 +141,29 @@ module_policy_index:
         - templates
         - technical_cards
         - contract_definitions
+        - ui_design_system_publication
+        - shared_ui_component_catalog
+        - ui_component_version_and_adoption_metadata
       must_not_own:
         - operational_orders
         - client_database
         - accounting_truth
         - production_runtime
         - crm_workflow
+        - domain_business_rules_outside_library_semantics
       next_focus:
         - Canonical Product/Service ID and Alias Governance.
         - Define ambiguity routing and approval lifecycle.
         - Prepare contract registry direction.
-
+        - Publish the first versioned shared UI component/catalog surface.
+        - Strengthen reusable semantic/capability discoverability without absorbing domain ownership.
     - module_id: forprint_accounting_registry_service
       module_name: ForPrint Accounting Registry Service
       priority: selective
       development_status: sandbox_1c_import_export_ready
-      strategic_role: >
-        Accounting boundary and 1C synchronization/staging module.
+      strategic_role: 'Accounting boundary and 1C synchronization/staging module.
+
+        '
       main_goals:
         - Maintain accounting-only references and 1C staging.
         - Support sanitized import/export experiments.
@@ -174,14 +189,13 @@ module_policy_index:
         - Maintain v0.5 sandbox readiness.
         - Wait for real sanitized 1C samples before v0.6.
         - Do not proceed to live 1C integration yet.
-
     - module_id: forprint_integration_gateway
       module_name: ForPrint Integration Gateway
       priority: hold
       development_status: paused_after_v0_2
-      strategic_role: >
-        Future runtime validation, normalization, routing, idempotency and
-        correlation layer between channels, CRM and internal modules.
+      strategic_role: 'Future runtime validation, normalization, routing, idempotency and correlation layer between channels, CRM and internal modules.
+
+        '
       main_goals:
         - Keep transport/validation boundary ready.
         - Avoid business workflow ownership.
@@ -203,15 +217,13 @@ module_policy_index:
       next_focus:
         - Hold active development.
         - Re-activate when Calculator/Operations Control Registry handoff needs runtime transport.
-
     - module_id: forprint_contract_registry
       module_name: ForPrint Contract Registry
       priority: deferred
       development_status: planned_placeholder_contract_foundation_pending
-      strategic_role: >
-        Canonical registry and lifecycle authority for versioned inter-module
-        interface contracts, ownership metadata, compatibility baselines and
-        generated read-only contract catalogs.
+      strategic_role: 'Canonical registry and lifecycle authority for versioned inter-module interface contracts, ownership metadata, compatibility baselines and generated read-only contract catalogs.
+
+        '
       main_goals:
         - Maintain discoverable versioned inter-module contract packages.
         - Register contract owners, producers and consumers.
@@ -247,13 +259,13 @@ module_policy_index:
         - Keep placeholder only.
         - Prepare Contract Foundation ADR and interaction inventory.
         - Reassess activation for the Library-to-Calculator contract pilot.
-
     - module_id: telegram_bot
       module_name: Telegram Bot
       priority: p0
       development_status: active_development
-      strategic_role: >
-        Current main customer channel adapter for Telegram communication.
+      strategic_role: 'Current main customer channel adapter for Telegram communication.
+
+        '
       main_goals:
         - Collect customer request information.
         - Keep channel-specific UI separate from business logic.
@@ -275,40 +287,50 @@ module_policy_index:
         - Keep order-intake/customer-request flow moving.
         - Prepare channel-agnostic request handoff to Calculator.
         - Plan gradual move away from Supabase toward internal DB/Operations Control Registry.
-
     - module_id: forprint_crm
       module_name: ForPrint CRM
       priority: p2
       development_status: planned_or_alignment_needed
-      strategic_role: >
-        Future human-facing dashboard, business workflow coordination and
-        analytics interface.
+      strategic_role: 'Future human-facing dashboard, business workflow coordination and analytics interface.
+
+        '
       main_goals:
         - Provide human UI for workflow coordination.
         - Show dashboards and analytics.
         - Help operators resolve ambiguous cases.
         - Avoid becoming physical database owner.
+        - Provide composite cross-module human workflows so one business task does not require manual tab hopping.
+        - Provide configurable role/department dashboards and wallboards over owner-module data.
+        - Surface plan-versus-actual variance and operational exceptions using configurable tolerances.
       owns:
         - human_dashboard
         - workflow_coordination_ui
         - operator_decision_views
         - analytics_views
+        - composite_cross_module_workflow_ui
+        - configurable_operational_dashboards
+        - cross_module_read_projections
+        - variance_and_exception_views
       must_not_own:
         - internal_forprint_db
         - canonical_client_registry
         - calculator_logic
         - accounting_truth
         - catalog_truth
+        - foreign_domain_write_authority
+        - physical_persistence_platform
       next_focus:
         - Keep planned/alignment status.
         - Activate after core data and Calculator outputs are clearer.
-
+        - Define guided supplier/material onboarding as a canonical composite-workflow example.
+        - Define role-specific dashboard/wallboard profiles while keeping the capability extractable later.
     - module_id: forprint_prepress_hub
       module_name: ForPrint Prepress Hub
       priority: p2
       development_status: bootstrap_or_alignment_needed
-      strategic_role: >
-        Future prepress/file preparation and production-readiness support module.
+      strategic_role: 'Future prepress/file preparation and production-readiness support module.
+
+        '
       main_goals:
         - Prepare file/prepress lifecycle.
         - Track prepress requirements and blockers.
@@ -328,27 +350,36 @@ module_policy_index:
       next_focus:
         - Keep bootstrap/alignment status.
         - Use Calculator prepress requirement drafts later.
-
     - module_id: forprint_project_inspector
       module_name: ForPrint Project Inspector
       priority: p2
       development_status: planned_bootstrap_pending
-      strategic_role: >
-        Future project-level verification and inspection module for ForPrint
-        repository structure, Makefile standards, coordination metadata,
-        module readiness and cross-module advisory reports.
+      strategic_role: 'Future project-level verification and inspection module for ForPrint repository structure, Makefile standards, coordination metadata, module readiness and cross-module advisory reports.
+
+        '
       main_goals:
         - Inspect module alignment with Blueprint standards.
         - Audit Makefile standard adoption across modules.
         - Aggregate module readiness and coordination status.
         - Provide read-only project verification reports.
         - Prepare migration of temporary Blueprint project verification scripts.
+        - Detect module self-inventory drift and missing/stale capability evidence.
+        - Detect duplicate capability candidates and cross-module semantic divergence.
+        - Audit shared UI design-system adoption, stale component versions and accessibility/conformance drift.
+        - Audit repository cleanliness and structural conformance across ForPrint projects.
+        - Detect unregistered surface types, generated-file drift, orphan documents, duplicate capability/semantic surfaces and structural zoo growth.
       owns:
         - project_structure_verification
         - module_makefile_standard_audit
         - coordination_metadata_audit
         - module_readiness_summary
         - cross_module_advisory_reports
+        - module_self_inventory_conformance
+        - duplicate_capability_detection
+        - shared_ui_conformance
+        - repository_cleanliness_audit
+        - document_surface_conformance_audit
+        - generated_surface_drift_detection
       must_not_own:
         - architecture_policy
         - module_business_logic
@@ -357,18 +388,22 @@ module_policy_index:
         - accounting_truth
         - warehouse_stock_truth
         - live_integrations
+        - ui_design_system_semantics
+        - capability_ownership_decision
+        - foreign_module_semantic_rewrite
       next_focus:
         - Keep bootstrap pending.
         - Define read-only project verification scope.
         - Prepare portable verification scripts migrated from Blueprint later.
-
+        - Add read-only self-inventory, duplicate-capability and shared-UI conformance checks.
+        - Build the first read-only Inspector Cleanliness Pack from the Blueprint normalization validator set.
     - module_id: forprint_strategic_control_plane
       module_name: ForPrint Strategic Control Plane
       priority: deferred
       development_status: planned_high_priority_deferred_until_core_modules_alive
-      strategic_role: >
-        Future strategic governance, priority control, ecosystem status
-        aggregation and decision-support layer.
+      strategic_role: 'Future strategic governance, priority control, ecosystem status aggregation and decision-support layer.
+
+        '
       main_goals:
         - Track strategic goals and module priorities.
         - Detect stale high-priority modules.
@@ -388,13 +423,13 @@ module_policy_index:
       next_focus:
         - Stay planned/deferred.
         - Do not start active implementation until core modules are alive.
-
     - module_id: cloud_backup_manager
       module_name: Cloud Backup Manager
       priority: p2
       development_status: active_utility
-      strategic_role: >
-        Infrastructure backup utility for project/server safety.
+      strategic_role: 'Infrastructure backup utility for project/server safety.
+
+        '
       main_goals:
         - Backup important project/server data.
         - Provide health/status checks for backup flows.
@@ -413,13 +448,13 @@ module_policy_index:
       next_focus:
         - Keep as utility module.
         - Later align coordination reporting with Blueprint.
-
     - module_id: mobile_app
       module_name: Mobile App
       priority: deferred
       development_status: planned_deferred_until_calculator_ready
-      strategic_role: >
-        Future customer channel/client interface.
+      strategic_role: 'Future customer channel/client interface.
+
+        '
       main_goals:
         - Remain planned until Calculator is mature.
         - Use channel-agnostic contracts later.
@@ -434,13 +469,13 @@ module_policy_index:
       next_focus:
         - Keep deferred.
         - Do not start development yet.
-
     - module_id: website
       module_name: Website
       priority: p2
       development_status: planned_or_existing_external
-      strategic_role: >
-        Customer web channel/interface.
+      strategic_role: 'Customer web channel/interface.
+
+        '
       main_goals:
         - Serve as future/request customer channel.
         - Use same channel-agnostic Gateway/Calculator/Operations Control Registry contracts later.
@@ -458,78 +493,153 @@ module_policy_index:
       module_name: ForPrint Operations Assistant
       priority: p2
       development_status: planned_concept_bootstrap
-      strategic_role: Internal operational assistant and low-friction human-to-system surface for physical shop-floor
-        observations, procedures, guided forms and knowledge.
+      strategic_role: Internal operational assistant and low-friction human-to-system surface for physical shop-floor observations, procedures, guided forms and knowledge.
       main_goals:
-      - Provide contextual operational task/procedure assistance.
-      - Capture structured physical-world observations and exceptions.
-      - Provide a Knowledge Library with text/video procedures.
-      - Provide Guided Forms and approved corporate-template export.
-      - Remain outside canonical accounting/business truth ownership.
+        - Provide contextual operational task/procedure assistance.
+        - Capture structured physical-world observations and exceptions.
+        - Provide a Knowledge Library with text/video procedures.
+        - Provide Guided Forms and approved corporate-template export.
+        - Remain outside canonical accounting/business truth ownership.
       owns:
-      - operations_assistant_interaction_context
-      - guided_form_interaction
-      - knowledge_help_surface
-      - operational_observation_capture
+        - operations_assistant_interaction_context
+        - guided_form_interaction
+        - knowledge_help_surface
+        - operational_observation_capture
       must_not_own:
-      - accounting_truth
-      - canonical_order_registry
-      - canonical_catalog_truth
-      - crm_customer_pipeline
-      - unbounded_business_decision_authority
+        - accounting_truth
+        - canonical_order_registry
+        - canonical_catalog_truth
+        - crm_customer_pipeline
+        - unbounded_business_decision_authority
       next_focus:
-      - Keep as planned concept while the Blueprint Q-series is completed.
-      - Reconcile full charter/capability/dependency roadmap before systematic implementation.
+        - Keep as planned concept while the Blueprint Q-series is completed.
+        - Reconcile full charter/capability/dependency roadmap before systematic implementation.
     - module_id: forprint_system_administration
       module_name: ForPrint System Administration
       priority: p2
       development_status: planned_non_blocking_support
-      strategic_role: Central IT/workplace administration surface for approved software, endpoint operations, backups,
-        disk health and workstation consistency.
+      strategic_role: Central IT/workplace administration surface for approved software, endpoint operations, backups, disk health and workstation consistency.
       main_goals:
-      - Provide the FP Administration web portal.
-      - Use a constrained Device/Endpoint Agent for typed local operations.
-      - Maintain approved/tested software, version and configuration profiles.
-      - Integrate existing backup and disk-health capabilities instead of duplicating them.
-      - Prepare future workstation onboarding and operational-readiness controls.
+        - Provide the FP Administration web portal.
+        - Use a constrained Device/Endpoint Agent for typed local operations.
+        - Maintain approved/tested software, version and configuration profiles.
+        - Integrate existing backup and disk-health capabilities instead of duplicating them.
+        - Prepare future workstation onboarding and operational-readiness controls.
+        - Operate the shared PostgreSQL platform including backup/restore/PITR, monitoring and database roles.
+        - Operate approved centralized secrets infrastructure for external provider credentials and secret lifecycle.
       owns:
-      - administration_portal
-      - approved_software_catalog
-      - endpoint_operation_contract
-      - workstation_profile
-      - administrative_health_view
+        - administration_portal
+        - approved_software_catalog
+        - endpoint_operation_contract
+        - workstation_profile
+        - administrative_health_view
+        - postgresql_platform_operations
+        - centralized_secrets_infrastructure
+        - database_role_and_credential_operations
+        - backup_restore_pitr
       must_not_own:
-      - business_workflow
-      - accounting_truth
-      - canonical_order_registry
-      - arbitrary_remote_shell_authority
-      - license_entitlement_outside_authorized_policy
+        - business_workflow
+        - accounting_truth
+        - canonical_order_registry
+        - arbitrary_remote_shell_authority
+        - license_entitlement_outside_authorized_policy
+        - domain_schema_semantics
+        - business_data_write_policy
       next_focus:
-      - Remain non-blocking for current core development.
-      - Become a future workplace/operational readiness gate before broad rollout.
+        - Remain non-blocking for current core development.
+        - Become a future workplace/operational readiness gate before broad rollout.
+        - Establish the PostgreSQL platform and centralized secrets baseline before broad runtime rollout.
     - module_id: forprint_marketing_orchestrator
       module_name: ForPrint Marketing Orchestrator
       priority: deferred
       development_status: planned_non_blocking_support
-      strategic_role: Future digital marketing/content orchestration layer across campaigns, social channels and specialized
-        AI image/video/content providers.
+      strategic_role: Future digital marketing/content orchestration layer across campaigns, social channels and specialized AI image/video/content providers.
       main_goals:
-      - Coordinate content calendar and campaign planning.
-      - Prepare text/image/video creative briefs and AI media prompts.
-      - Route assets through human review before publication.
-      - Track channel/campaign/provider/model cost and performance.
-      - Hand qualified lead/referral context to CRM without becoming a second CRM.
+        - Coordinate content calendar and campaign planning.
+        - Prepare text/image/video creative briefs and AI media prompts.
+        - Route assets through human review before publication.
+        - Track channel/campaign/provider/model cost and performance.
+        - Hand qualified lead/referral context to CRM without becoming a second CRM.
       owns:
-      - marketing_content_plan
-      - campaign_content_workflow
-      - creative_brief
-      - marketing_asset_review_context
-      - campaign_performance_view
+        - marketing_content_plan
+        - campaign_content_workflow
+        - creative_brief
+        - marketing_asset_review_context
+        - campaign_performance_view
       must_not_own:
-      - canonical_customer_history
-      - sales_pipeline_truth
-      - accounting_truth
-      - unapproved_external_publication
+        - canonical_customer_history
+        - sales_pipeline_truth
+        - accounting_truth
+        - unapproved_external_publication
       next_focus:
-      - Remain non-blocking until core business capability can create commercial value.
-      - Refine detailed roadmap later without blocking current portfolio work.
+        - Remain non-blocking until core business capability can create commercial value.
+        - Refine detailed roadmap later without blocking current portfolio work.
+    - module_id: forprint_identity_access_service
+      module_name: ForPrint Identity & Access Service
+      priority: p1
+      development_status: confirmed_planned_not_active
+      strategic_role: Shared cross-project identity, authentication, authorization, session and access-policy service.
+      main_goals:
+        - Provide one registration/authentication/session foundation.
+        - Support role defaults plus per-user permission overrides.
+        - Support recovery, future MFA/passkeys and security audit.
+        - Provide one shared identity/authentication/authorization foundation across ForPrint web, internal and future mobile surfaces.
+        - Support role defaults plus explicit per-user permission additions or restrictions.
+        - Keep cross-client/cross-organization access deny-by-default unless explicitly scoped.
+        - Support session/recovery/security-audit foundations and later MFA/passkeys/SSO adoption.
+      owns:
+        - account_identity
+        - authentication_factors
+        - session_and_device_state
+        - role_and_permission_policy
+        - per_user_permission_override
+        - account_recovery
+        - access_decision_audit
+        - shared_sso_boundary
+        - security_authentication_audit
+      must_not_own:
+        - crm_relationship_truth
+        - accounting_truth
+        - operational_order_truth
+        - external_provider_credentials
+        - canonical_business_partner_relationship_truth
+        - business_domain_authority
+      next_focus:
+        - Build full charter/capability/dependency roadmap before implementation.
+        - Remain NOT ACTIVE until portfolio readiness gate is cleared.
+        - Define stable Account/Person linkage without using phone/email/Telegram as immutable primary keys.
+        - Define customer/staff realms, least-privilege policy and admin access-control surface.
+        - Keep implementation NOT ACTIVE until the portfolio readiness gate is cleared.
+    - module_id: verification_lab
+      module_name: ForPrint Verification Lab
+      priority: p0
+      development_status: planned_bootstrap_pending_distribution_closed
+      strategic_role: Independent isolated verification/adversarial/fault/concurrency test service and deterministic regression evidence owner; not project conformance or runtime truth.
+      main_goals:
+        - Build Test Plane and synthetic side-effect adapters before implementation.
+        - Challenge normal, invalid, boundary, adversarial, concurrency and recovery behavior.
+        - Convert useful exploratory findings into deterministic regression corpus.
+        - Provide reproducible verification evidence for release/staging/canary decisions.
+        - Remain separated from Project Inspector and Production Runtime Inspector.
+      owns:
+        - verification_campaign_definition
+        - synthetic_test_case_corpus
+        - test_plane_scenario
+        - adversarial_test_execution
+        - deterministic_regression_corpus
+        - verification_finding_evidence
+        - release_candidate_verification_result
+        - fault_injection_profile
+      must_not_own:
+        - architecture_policy
+        - business_domain_truth
+        - production_runtime_control
+        - deployment_approval
+        - live_external_side_effects
+        - unrestricted_shell_authority
+        - secrets
+        - foreign_module_semantic_rewrite
+      next_focus:
+        - Keep implementation NOT STARTED and assistant distribution CLOSED.
+        - Complete portfolio dependencies, Test Plane contract and Execution Policy Gate design.
+        - Define deterministic regression/evidence interfaces with Contract Registry and Project Inspector.

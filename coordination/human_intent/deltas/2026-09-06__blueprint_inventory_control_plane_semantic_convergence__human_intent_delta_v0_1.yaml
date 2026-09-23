@@ -1,0 +1,151 @@
+schema_version: forprint_human_intent_delta_v0_1
+date: '2026-09-06'
+status: PLANNING_INTEGRATION_NOT_RELEASE_AUTHORITY
+authority: operator_architecture_clarification_2026_09_05_to_2026_09_06
+modules:
+  forprint_system_blueprint:
+    - intent_id: HI-FP-U131-20260906-001
+      status: AGREED
+      text: 'Module inventory is intended as long-lived implementation memory: it must explain purpose, provenance,
+        lifecycle, lineage, interfaces, dependencies, evidence, duplicates, roadmap role and retirement impact rather
+        than acting as a file list.'
+      context: The current Inventory Program is the foundation and should be extended rather than replaced.
+      roadmap: BP-H10-INVENTORY-VNEXT
+    - intent_id: HI-FP-U131-20260906-002
+      status: AGREED
+      text: Blueprint Control Plane evolution runs in parallel with the Logistics pilot and must reuse existing
+        transparency, repository-knowledge freshness, safe-mutation and context-bundle primitives instead of creating
+        competing frameworks.
+      context: The Logistics pilot must not be blocked by broad control-plane modernization unless a concrete safety
+        dependency exists.
+      roadmap: BP-H10-CONTROL-PLANE
+    - intent_id: HI-FP-U131-20260906-003
+      status: AGREED
+      text: Critical current-state projections need explicit freshness and dependency contracts so a source change
+        can deterministically identify which AGENTS, inventory, lineage, index, roadmap or context surfaces became
+        stale.
+      context: Fresh workers should start from a coherent snapshot with freshness proof, not from documents merely
+        assumed current.
+      roadmap: BP-H10-FRESHNESS
+    - intent_id: HI-FP-U131-20260906-004
+      status: AGREED
+      text: Significant implementation surfaces should eventually carry a short language-independent machine-readable
+        metadata passport that identifies semantic role and points to durable inventory/lineage without embedding
+        a full historical log in source code.
+      context: Trivial helpers and generated/support surfaces should not create global metadata bureaucracy.
+      roadmap: BP-H10-IMPLEMENTATION-METADATA
+    - intent_id: HI-FP-U131-20260906-005
+      status: AGREED
+      text: ForPrint should converge gradually on stable shared semantic IDs, aliases, contracts, events and statuses
+        without a mass rename; old implementations may be mapped or migrated on touch while shared semantics become
+        increasingly standardized.
+      context: Semantic identity, implementation name and contract version are separate concepts.
+      roadmap: BP-H10-SEMANTIC-CONVERGENCE
+    - intent_id: HI-FP-U131-20260906-006
+      status: AGREED
+      text: Before creating a significant potentially shared implementation, workers should query the existing Library
+        semantic reference; missing or insufficient semantics should use registration/enrichment proposals and explicit
+        provisional bindings without blocking ordinary local work.
+      context: Cross-module breaking or high-risk interfaces may still require approval before integration.
+      roadmap: BP-H10-SEMANTIC-CONVERGENCE
+    - intent_id: HI-FP-U131-20260906-007
+      status: AGREED
+      text: Project Inspector should use Library semantics, module inventory, implementation metadata and dependency
+        relationships to filter candidates before deep source analysis and report whether matches are canonical,
+        alias-based, provisional or inferred.
+      context: The objective is to reduce AI guessing and focus human attention on ambiguous inferred cases.
+      roadmap: BP-H10-INSPECTOR-CONFIDENCE
+  forprint_library:
+    - intent_id: HI-LIBRARY-U131-20260906-001
+      status: AGREED
+      text: ForPrint Library is the shared semantic and contract reference authority; modules should consult its
+        existing canonical/recommended semantics before creating significant competing shared implementations.
+      context: This extends the Library role already present in module policy; it does not move domain business
+        ownership into Library.
+      roadmap: LIB-SEMANTIC-REGISTRY
+    - intent_id: HI-LIBRARY-U131-20260906-002
+      status: AGREED
+      text: A first registered semantic ID may remain stable while maturity, recommended implementation names, aliases
+        and contract versions evolve.
+      context: Registration does not automatically mean CANONICAL.
+      roadmap: LIB-SEMANTIC-REGISTRY
+    - intent_id: HI-LIBRARY-U131-20260906-003
+      status: AGREED
+      text: Semantic registration should prioritize module-public, cross-module, external-boundary, high-criticality
+        and widely reused surfaces rather than every local helper.
+      context: Interaction scope and criticality are independent signals for standardization review.
+      roadmap: LIB-SEMANTIC-REGISTRY
+    - intent_id: HI-LIBRARY-U131-20260906-004
+      status: AGREED
+      text: Library should batch unresolved semantic registration/enrichment proposals and publish versioned semantic
+        changes; Blueprint remains responsible for rollout timing and adoption mode across affected modules.
+      context: Adoption may be informational, new-code-only, migrate-on-touch, roadmap-required or migration-required.
+      roadmap: LIB-SEMANTIC-REGISTRY
+  forprint_project_inspector:
+    - intent_id: HI-INSPECTOR-U131-20260906-001
+      status: AGREED
+      text: Inspector should resolve a question to shared semantics, filter modules through inventory/index evidence,
+        then filter significant implementations through metadata and dependency relationships before deep source
+        inspection.
+      context: This reduces full-repository semantic guessing.
+      roadmap: INSPECTOR-SEMANTIC-QUERY
+    - intent_id: HI-INSPECTOR-U131-20260906-002
+      status: AGREED
+      text: Inspector findings should distinguish exact canonical matches, known aliases, linked provisional implementations
+        and AI-inferred matches so uncertainty is visible rather than hidden.
+      context: Manual review should concentrate on inferred or conflicting cases.
+      roadmap: INSPECTOR-SEMANTIC-CONFIDENCE
+    - intent_id: HI-INSPECTOR-U131-20260906-003
+      status: AGREED
+      text: Inspector should detect duplicate current implementations without lineage/coexistence justification
+        and later support read-only impact and conformance queries over shared contracts.
+      context: Inspector advises and verifies; it must not silently delete, merge or reassign semantic ownership.
+      roadmap: INSPECTOR-INVENTORY-CONFORMANCE
+  logistics_service:
+    - intent_id: HI-LOGISTICS-U131-20260906-001
+      status: AGREED
+      text: The Logistics H10 bootstrap should become the first practical reference for stronger module memory and
+        lineage, but it should not be expanded into full retrospective metadata archaeology of every trivial helper
+        before the first pilot pool can start.
+      context: Establish significant implementation self-knowledge first, then grow coverage continuously.
+      roadmap: LOG-H10-BOOTSTRAP
+gaps:
+  - gap_id: GAP-H10-INVENTORY-VNEXT-SCHEMA-001
+    module_id: forprint_system_blueprint
+    status: OPEN
+    summary: The existing RCI/current-state/cleanliness/lineage primitives do not yet form one reusable lifetime
+      module-memory schema for significant implementations.
+    rule: Extend existing inventory contracts; do not replace them with a parallel framework.
+  - gap_id: GAP-H10-FRESHNESS-IMPACT-CONTRACT-001
+    module_id: forprint_system_blueprint
+    status: OPEN
+    summary: Repository snapshot freshness exists, but dependency-driven stale-surface impact and generated current-state
+      projection contracts are not yet implemented.
+    rule: The next control-plane implementation should extend existing transparency and freshness primitives read-only
+      first.
+  - gap_id: GAP-H10-SEMANTIC-REGISTRY-OPERATING-CONTRACT-001
+    module_id: forprint_library
+    status: OPEN
+    summary: Library has canonical semantic/naming/alias/contract authority direction, but pre-implementation lookup
+      evidence, registration/enrichment lifecycle and change-feed operation remain to be specified.
+    rule: Implement inside the existing Library semantic-registry direction; no competing Blueprint registry.
+  - gap_id: GAP-H10-INSPECTOR-SEMANTIC-CONFIDENCE-001
+    module_id: forprint_project_inspector
+    status: OPEN
+    summary: Inspector policy includes duplicate/self-inventory drift detection, but metadata-first semantic filtering
+      and explicit confidence categories are not yet operational.
+    rule: Build after shared inventory/Library contracts are stable enough to consume.
+  - gap_id: GAP-H10-GENERATED-MODULE-POLICY-SOURCE-001
+    module_id: forprint_system_blueprint
+    status: OPEN
+    summary: Library and Inspector module_policy.md surfaces are generated; the canonical generation source for
+      incorporating the new semantic-convergence and confidence directions must be discovered before policy regeneration.
+    rule: Never patch generated module policies directly; update the owning source and regenerate through the registered
+      mechanism.
+  - gap_id: GAP-H10-CONTROL-PLANE-ROADMAP-DETAIL-SCHEMA-001
+    module_id: forprint_system_blueprint
+    status: OPEN
+    summary: The new Blueprint Control Plane planning program is durable internal planning evidence but is not yet
+      a registered strict roadmap_detail subclass.
+    rule: Do not place unregistered YAML into coordination/roadmaps/details; add a canonical roadmap-detail projection
+      only through document-surface registry/schema governance.

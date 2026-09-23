@@ -1,0 +1,49 @@
+schema_version: forprint_architecture_improvement_horizon_v0_1
+status: ACTIVE_NON_EXECUTABLE_HORIZON
+authority: NONE
+roadmap_authority: false
+execution_authority: false
+owner: forprint_system_blueprint
+purpose: Preserve promising architecture, governance and resilience candidates for evidence-based reassessment without promoting
+  them into committed work.
+candidate_states:
+- WATCH
+- ASSESS
+- TRIAL
+- READY_FOR_DECISION
+- ADOPTED
+- REJECTED
+- SUPERSEDED
+promotion_rule: A candidate gains roadmap authority only through a separate deliberate review and canonical roadmap mutation.
+review_model:
+  lightweight_review_trigger: MAJOR_WAVE_BOUNDARY
+  first_full_reassessment_trigger: FIRST_MATURE_COORDINATED_MULTI_MODULE_WORKER_WAVE_BOUNDARY
+candidates:
+- candidate_id: HZN-001
+  title: Protocol sovereignty, implementation replaceability and continuous evidence
+  status: ASSESS
+  core_idea: Implementation is replaceable; governing intent plus protocol/invariants and evidence determine admissibility.
+  revisit_trigger: After stable multi-module worker operation and richer Project Health/runtime evidence.
+- candidate_id: HZN-002
+  title: Governance Policy Taxonomy and Enforcement Map
+  status: ASSESS
+  core_idea: One canonical policy identity may have multiple legitimate enforcement points; distinguish that from duplicate
+    policy ownership.
+  revisit_trigger: After governance surfaces across Blueprint and modules can be inventoried together.
+- candidate_id: HZN-003
+  title: Lightweight cross-module architecture review
+  status: ASSESS
+  core_idea: Review quality-attribute and accumulated architecture risks that deterministic validators can miss.
+  revisit_trigger: At the first mature coordinated multi-module worker-wave boundary and selected major waves.
+- candidate_id: HZN-004
+  title: Operation-level runtime dependency and resilience model
+  status: WATCH
+  core_idea: Evaluate health at business-operation level, separate development dependencies from runtime dependencies and
+    model operation-specific success predicates.
+  revisit_trigger: After real runtime chains and telemetry exist.
+- candidate_id: HZN-005
+  title: Operation Trace Evidence and Runtime Path Regression
+  status: ASSESS
+  core_idea: Compare expected and observed business-operation trace paths to detect new critical dependencies, canonical-capability
+    bypasses and critical-path regressions.
+  revisit_trigger: After cross-module runtime chains are stable enough to observe.

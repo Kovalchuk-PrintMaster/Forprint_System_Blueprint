@@ -2,9 +2,9 @@
 
 Status: MIXED — AGREED / PROVISIONAL / OPEN; NOT RUNTIME AUTHORITY.
 
-# Cross-Module Boundaries and Open Questions
+## Cross-Module Boundaries and Open Questions
 
-## Library as canonical semantic truth — AGREED_WITH_OWNER
+### Library as canonical semantic truth — AGREED_WITH_OWNER
 
 Library is expected to hold foundational project truth:
 - material/product semantics;
@@ -17,12 +17,12 @@ Library is expected to hold foundational project truth:
 
 Other modules consume Library rather than invent competing semantic truth.
 
-## Calculator / production queue — AGREED_WITH_OWNER current direction
+### Calculator / production queue — AGREED_WITH_OWNER current direction
 
 Keep queue/scheduling inside Calculator for now because ETA depends on it continuously.
 Re-evaluate only if scheduling grows into a large independent domain.
 
-## Calculator / Warehouse / Accounting — PROVISIONAL_BOUNDARY
+### Calculator / Warehouse / Accounting — PROVISIONAL_BOUNDARY
 
 Likely lifecycle:
 1. Calculator predicts planned need.
@@ -31,13 +31,13 @@ Likely lifecycle:
 4. Accounting records the accounting/financial consequence.
 5. Deviations feed back into coefficient tuning.
 
-## Blueprint / Inspector / Strategic Control Plane — PROVISIONAL_BOUNDARY
+### Blueprint / Inspector / Strategic Control Plane — PROVISIONAL_BOUNDARY
 
 Blueprint = authority and coordination.
 Inspector = observation/audit/health/findings.
 Strategic Control Plane = decision support only if distinct value is later proven.
 
-## Telegram emergency/admin channel
+### Telegram emergency/admin channel
 
 Concept: `AGREED_WITH_OWNER`
 Authority details: `OPEN_QUESTION`
@@ -52,7 +52,7 @@ Prefer one governed transport/command policy rather than multiple incompatible a
 
 <!-- cross-module-ui-design-system-boundary-v0-1:start -->
 
-## Shared UI / ForPrint Design System boundary — owner discussion 2026-08-27
+### Shared UI / ForPrint Design System boundary — owner discussion 2026-08-27
 
 `AGREED_WITH_OWNER`: independently developed ForPrint interfaces must converge on one shared
 design-system language rather than defining unrelated colors/buttons/warnings/components.
@@ -74,7 +74,7 @@ consumer artifacts. Avoid an unversioned runtime blast radius.
 
 <!-- website-design-system-migration-guard-v0-2:start -->
 
-## Website migration guard — explicit owner rule — 2026-08-27
+### Website migration guard — explicit owner rule — 2026-08-27
 
 The current Website is an existing, already-formed UI product and is a special migration case.
 

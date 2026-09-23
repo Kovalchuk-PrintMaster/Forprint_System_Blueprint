@@ -1,0 +1,17 @@
+schema_version: forprint_governed_change_and_acceptance_policy_direction_v0_1
+status: active_policy_direction
+authority: policy_direction_not_runtime_grant
+mutation_provenance:
+  rule: declared_authorized_mutation_evidence_reconciles_with_observed_diff
+  unexplained_diff: block_acceptance_and_investigate
+  adapter_tool_ledger: append_only_target
+modes:
+  development: broad_but_bounded_attributable
+  stabilization: progressively_protected
+  production: deny_by_default_for_functionality_change
+production_change: structured_proposal_then_temporary_scoped_auto_expiring_authority
+acceptance:
+  within_wave: target_automatic_when_proven
+  wave_boundary: human_required
+  automatic_next_wave: false
+lifecycle: persistent_beyond_transition_vector

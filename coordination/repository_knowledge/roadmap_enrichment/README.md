@@ -19,6 +19,63 @@ Machine-readable navigation is in:
 
 `coordination/repository_knowledge/roadmap_enrichment/source_map.yaml`
 
+
+## 1.1. Current workstream continuity — temporary parallel-assistant convention
+
+As of 2026-09-21, two independent assistant workstreams may operate in this
+repository at the same time:
+
+1. **CF-10 / Internal Worker Engineering**
+   - bounded internal Blueprint AI worker implementation;
+   - runtime, Dispatcher, Handoff v2, validation, recovery, worker tooling,
+     and related Blueprint self-hardening;
+   - it does not own global portfolio planning.
+
+2. **Roadmap Enrichment / Portfolio Knowledge Saturation**
+   - portfolio-wide knowledge recovery and enrichment;
+   - deep module audits and current-state reconstruction;
+   - mature target states and capability coverage;
+   - Human Intent and conversation evidence;
+   - roadmap enrichment and strategic objectives;
+   - cross-module dependency discovery;
+   - preparation of high-quality knowledge for later automatic planning.
+
+This is a temporary coordination convention, not a new execution-authority,
+locking, or multi-worker framework.
+
+Each assistant stays inside its assigned workstream and current task boundary.
+Incidental cleanup of another workstream is not permitted.
+
+If a task requires mutation of a shared surface or a surface clearly belonging
+to the other active workstream, prepare a short operator-mediated
+cross-workstream notice **before mutation** containing:
+
+- affected file or surface;
+- reason for the change;
+- expected mutation;
+- possible collision risk.
+
+The operator may relay that notice to the other assistant. Silence does not
+grant write authority. Existing canonical authority, lifecycle, Git
+reconciliation, and governance remain unchanged.
+
+### Current enrichment focus
+
+The current enrichment milestone is:
+
+`Portfolio Knowledge Baseline v0.1`
+
+Its purpose is to establish portfolio-wide coverage before global sequencing or
+roadmap reformatting.
+
+A source should normally be analyzed once for the **whole portfolio**, not once
+per module. During one pass, extract all relevant module implications,
+capabilities, target-state evidence, roadmap candidates, dependencies,
+strategic implications, provenance, and unresolved questions.
+
+Durable mutation may still be reconciled in bounded owner-specific changes even
+when analysis is portfolio-wide.
+
 ## 2. Update rule
 
 Update this guide only when a session discovers a **verified, reusable lesson**.
@@ -353,3 +410,23 @@ It remains subject to:
 - `coordination/repository_knowledge/inventory_maintenance_v0_1.yaml`
 
 It does not create a second authority layer.
+
+
+### Lesson FP-RE-009 — reconcile implementation reality and roadmap before novelty
+
+Dirty repository state is context, not an automatic stop condition. Before a
+significant new implementation is created, inspect both repository reality and
+planning reality: current implementation/inventory, the owning module roadmap,
+Human Intent, target/capability surfaces, dependencies and relevant portfolio
+plans. Assign `REUSE / EXTEND / ADAPT / REPLACE / NEW` before code creation.
+
+If the capability is already represented, enrich or reconcile the existing
+owner/roadmap item instead of creating duplicate functionality. `NEW` requires
+search evidence; `REPLACE` requires migration/supersession semantics.
+
+The search scope is proportional to significance: module-local for local work,
+relevant portfolio-wide for shared/cross-module architecture.
+
+Evidence:
+`coordination/standards/governance/roadmap_enrichment_and_knowledge_saturation_operating_guide_v0_1.md`
+

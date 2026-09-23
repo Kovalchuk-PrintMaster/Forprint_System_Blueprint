@@ -1,0 +1,224 @@
+schema_version: forprint_human_intent_delta_v0_1
+date: '2026-09-01'
+status: PLANNING_INTEGRATION_NOT_RELEASE_AUTHORITY
+authority: operator_evening_discussion_2026_08_31_to_2026_09_01
+modules:
+  forprint_system_blueprint:
+    - intent_id: HI-FP-SYSTEM-BLUEPRINT-019
+      status: AGREED
+      text: Important operator wording that explains why a roadmap step exists must be preserved as curated verbatim
+        quotes linked to Human Intent and roadmap context.
+      context: Preserve selected exact wording, not a full chat archive.
+      roadmap: BP-PORTFOLIO-05
+    - intent_id: HI-FP-SYSTEM-BLUEPRINT-020
+      status: AGREED
+      text: Every module roadmap must show a visible route to a mature Final Target State split into human-confirmed
+        and synthetic/proposed capabilities.
+      context: If a useful mature purpose cannot be formulated even synthetically, reassess whether the module should
+        exist.
+      roadmap: BP-PORTFOLIO-06
+    - intent_id: HI-FP-SYSTEM-BLUEPRINT-021
+      status: AGREED
+      text: Ordinary module implementation remains held until full-horizon roadmaps, module self-inventory and a
+        dependency/readiness/priority dashboard are sufficiently complete.
+      context: Planning, inventory and Blueprint tooling remain allowed.
+      roadmap: BP-PORTFOLIO-07
+    - intent_id: HI-FP-SYSTEM-BLUEPRINT-022
+      status: AGREED
+      text: Meaningful new capabilities must be checked against project capability/index surfaces before implementation
+        to reduce duplicate code and semantic drift.
+      context: Self-inventory is an architecture control, not only documentation.
+      roadmap: BP-SEMANTIC-02
+    - intent_id: HI-FP-SYSTEM-BLUEPRINT-023
+      status: AGREED
+      text: ForPrint uses one central PostgreSQL operational platform with logical domain schemas, stable shared
+        IDs, controlled writes and reporting projections.
+      context: Physical centralization does not mean shared semantic ownership.
+      roadmap: BP-DATA-01
+    - intent_id: HI-FP-SYSTEM-BLUEPRINT-024
+      status: AGREED
+      text: ForPrint Control Center uses left-side module navigation and top tabs within the selected module workspace.
+      context: Cloud Backup Manager is a reference shell; shared Library UI rules remain authoritative.
+      roadmap: BP-UI-01
+    - intent_id: HI-FP-SYSTEM-BLUEPRINT-025
+      status: AGREED
+      text: Deterministic-to-AI fallbacks should be logged and periodically reviewed for conversion into safe deterministic
+        automation.
+      context: Do not repeatedly pay for the same solvable automation gap.
+      roadmap: BP-AUTOMATION-01
+  calculator_engine:
+    - intent_id: HI-CALCULATOR-ENGINE-022
+      status: AGREED
+      text: 'Exact Calculator references are recovered: sborka.ua is primary; FastPrint Pro and Wolf calc-polygraphy
+        are secondary.'
+      context: Comparative reference only; not canonical truth or mandatory clone.
+      roadmap: CALC-REF-01
+    - intent_id: HI-CALCULATOR-ENGINE-023
+      status: AGREED
+      text: Exact constructor references include Vizitka universal creator, FATLINE constructor and Maikoff constructor.
+      context: Use them to study reusable personalized-product constructor patterns.
+      roadmap: CALC-REF-02
+    - intent_id: HI-CALCULATOR-ENGINE-024
+      status: AGREED
+      text: Calculator needs an early visual product/configuration interface so operator usability feedback arrives
+        while rules are still evolving.
+      context: Visual UI is an early development instrument, not end-stage cosmetics.
+      roadmap: CALC-UI-01
+    - intent_id: HI-CALCULATOR-ENGINE-025
+      status: AGREED
+      text: Calculator should support structured outsourcing of jobs to approved print partners when internal capacity/equipment/staff
+        cannot safely fulfill them.
+      context: Partner-specific execution belongs behind provider adapters.
+      roadmap: CALC-OUTSOURCE-01
+    - intent_id: HI-CALCULATOR-ENGINE-026
+      status: AGREED
+      text: If a partner has no usable API, controlled browser automation may be used with evidence, retry bounds
+        and human escalation.
+      context: Credentials remain in centralized secrets infrastructure.
+      roadmap: CALC-OUTSOURCE-02
+  forprint_crm:
+    - intent_id: HI-FP-CRM-013
+      status: AGREED
+      text: 'CRM is a unified operational entry point: one guided interface may compose related actions across multiple
+        owner modules.'
+      context: Humans should not manually visit many module tabs for one normal workflow.
+      roadmap: CRM-WORKSPACE-01
+    - intent_id: HI-FP-CRM-014
+      status: AGREED
+      text: CRM should provide configurable role/department dashboards and large-screen wallboards for operational
+        visibility.
+      context: Keep dashboard capability encapsulated in CRM for now and extract later only if objectively justified.
+      roadmap: CRM-DASH-01
+    - intent_id: HI-FP-CRM-015
+      status: AGREED
+      text: CRM may read/present cross-domain truth and submit structured commands, but it does not own Accounting,
+        Warehouse, Production, Logistics or other foreign domain truth.
+      context: Shared PostgreSQL does not remove logical ownership.
+      roadmap: CRM-BOUNDARY-01
+    - intent_id: HI-FP-CRM-016
+      status: AGREED
+      text: Management/CRM views should surface plan-versus-actual variance for time, material, cost/price, reprints,
+        delays and resource blockers.
+      context: Configurable tolerance breaches become visible exceptions.
+      roadmap: CRM-DASH-02
+    - intent_id: HI-FP-CRM-017
+      status: AGREED
+      text: A composite CRM workflow should support onboarding a new supplier/material from partial information
+        and route enrichment/validation to domain owners.
+      context: Enter known information once; gate only critical missing facts before irreversible actions.
+      roadmap: CRM-WORKSPACE-02
+    - intent_id: HI-FP-CRM-018
+      status: AGREED
+      text: CRM should evolve toward Customer/Supplier 360, universal search, cross-module activity timeline, saved
+        role workspaces and exception/task centers.
+      context: These are views/projections, not a competing master database.
+      roadmap: CRM-WORKSPACE-03
+  forprint_accounting_registry_service:
+    - intent_id: HI-FP-ACCOUNTING-REGISTRY-011
+      status: AGREED
+      text: Accounting should support incoming supplier-document parsing for Excel, PDF, Word and scans/photos with
+        human confirmation when financial facts are uncertain.
+      context: Repeated supplier templates should become increasingly deterministic.
+      roadmap: ACC-GOODS-01
+    - intent_id: HI-FP-ACCOUNTING-REGISTRY-012
+      status: AGREED
+      text: Supplier-specific descriptions/part numbers map to one canonical material while preserving supplier
+        alias/SKU provenance.
+      context: The organization's preferred material identity remains stable.
+      roadmap: ACC-GOODS-02
+    - intent_id: HI-FP-ACCOUNTING-REGISTRY-013
+      status: AGREED
+      text: A mature Accounting roadmap may include bounded preauthorized conditional payment mandates with strict
+        limits, idempotency and audit.
+      context: Early stages require confirmation; auto-payment is later high-risk automation.
+      roadmap: ACC-PAYMENT-01
+  forprint_operations_control_registry:
+    - intent_id: HI-FP-OPERATIONS-CONTROL-REGISTRY-018
+      status: AGREED
+      text: Stable shared Business Partner/person/organization and order/job identifiers should link Calculator,
+        Accounting, Warehouse, Production, Logistics and CRM records.
+      context: Operations Control Registry remains the current operational write/semantic boundary for shared party/order
+        state.
+      roadmap: OCR-DATA-01
+  forprint_library:
+    - intent_id: HI-FP-LIBRARY-014
+      status: AGREED
+      text: Library is publication owner for shared ForPrint UI tokens, themes, reusable components, component catalog,
+        versions and adoption metadata.
+      context: Blueprint governs; consumers compose; Inspector validates.
+      roadmap: LIB-UI-01
+    - intent_id: HI-FP-LIBRARY-015
+      status: AGREED
+      text: Shared indexes should help modules discover reusable technical primitives and semantic definitions before
+        creating competing implementations.
+      context: Domain business rules still belong to domain owners.
+      roadmap: LIB-INDEX-01
+  forprint_system_administration:
+    - intent_id: HI-FP-SYSTEM-ADMINISTRATION-009
+      status: AGREED
+      text: System Administration owns the physical PostgreSQL platform operations and centralized secrets infrastructure.
+      context: Domain modules retain semantic ownership; provider credentials do not live in Telegram/Calculator.
+      roadmap: SYS-DATA-01
+  forprint_project_inspector:
+    - intent_id: HI-FP-PROJECT-INSPECTOR-019
+      status: AGREED
+      text: Inspector should detect shared-UI drift, stale component adoption, self-inventory inconsistency, duplicate
+        capability implementations and cross-module semantic divergence.
+      context: Inspector reports/routes; it does not own the underlying semantics.
+      roadmap: PI-S11
+  telegram_bot:
+    - intent_id: HI-TELEGRAM-BOT-012
+      status: AGREED
+      text: Telegram should support bounded supplier/contact enrichment dialogues that collect missing structured
+        information without repeated manual relaying.
+      context: Confirmed facts are routed to the correct domain owner.
+      roadmap: TG-SUPPLIER-01
+    - intent_id: HI-TELEGRAM-BOT-013
+      status: AGREED
+      text: Telegram roadmap should include voice-message transcription feeding the same structured intent pipeline
+        as text, with future TTS/voice interaction later.
+      context: Voice is a channel modality, not separate business logic.
+      roadmap: TG-VOICE-01
+  forprint_identity_access_service:
+    - intent_id: HI-FP-IDENTITY-ACCESS-001
+      status: AGREED
+      text: ForPrint should use one shared Identity & Access Service instead of separate authentication inside Website,
+        Calculator, CRM and Mobile.
+      context: The module existed as a prior candidate and is now explicitly confirmed for formation.
+      roadmap: IAM-01
+    - intent_id: HI-FP-IDENTITY-ACCESS-002
+      status: AGREED
+      text: Identity, authentication and authorization are distinct concerns and must remain explicit in architecture.
+      context: Business relationship truth remains outside credential/session ownership.
+      roadmap: IAM-01
+    - intent_id: HI-FP-IDENTITY-ACCESS-003
+      status: AGREED
+      text: Access control must support role defaults plus explicit per-user permission additions or restrictions.
+      context: A manager can receive extra Production/Logistics access without a duplicate person.
+      roadmap: IAM-03
+    - intent_id: HI-FP-IDENTITY-ACCESS-004
+      status: AGREED
+      text: Phone, email and Telegram are identifiers/contact paths, not immutable primary database keys.
+      context: Use stable internal Account/Person IDs.
+      roadmap: IAM-02
+    - intent_id: HI-FP-IDENTITY-ACCESS-005
+      status: AGREED
+      text: Cross-client/cross-organization access is deny-by-default and requires explicit scoped permission.
+      context: Representing multiple organizations does not grant universal access.
+      roadmap: IAM-04
+    - intent_id: HI-FP-IDENTITY-ACCESS-006
+      status: PROPOSED
+      text: Mature Identity should support sessions/devices, recovery, revocation, MFA/passkeys and auditable security
+        events.
+      context: Synthetic full-horizon capability for owner review.
+      roadmap: IAM-05
+    - intent_id: HI-FP-IDENTITY-ACCESS-007
+      status: PROPOSED
+      text: Mature Identity should provide shared SSO/session semantics across ForPrint web/internal/mobile surfaces.
+      context: Exact protocols remain an implementation decision.
+      roadmap: IAM-07
+    - intent_id: HI-FP-IDENTITY-ACCESS-008
+      status: AGREED
+      text: External provider passwords/API keys are not user identity and belong to centralized secrets infrastructure.
+      context: Identity may authorize access to secret-backed actions but does not own the external secret.
+      roadmap: IAM-BOUNDARY-01

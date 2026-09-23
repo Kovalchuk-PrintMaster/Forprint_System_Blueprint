@@ -2,72 +2,400 @@ schema_version: forprint_module_human_intent_ledger_v0_1
 module_id: telegram_bot
 display_name: Telegram Bot
 authority: planning_context_not_release_authority
+status: active_planning_context
 append_only: true
 intents:
-- status: RECOVERED
-  text: 'Telegram має бути conversational operating interface: identity + memory +
-    natural-language intent + multimodal + order/admin orchestration.'
-  context: Факти бере з canonical модулів.
-  roadmap: ''
-  intent_id: HI-TELEGRAM-BOT-001
-- status: AGREED
-  text: Фото/опис товару йде в Semantic Retrieval, після чого Telegram показує кілька
-    candidates і задає clarification.
-  context: Не відповідати впевнено на основі одного fuzzy match.
-  roadmap: ''
-  intent_id: HI-TELEGRAM-BOT-002
-- status: AGREED
-  text: Після підтвердження товару/варіанта Telegram передає structured request у
-    Calculator.
-  context: Chat history не є canonical order.
-  roadmap: ''
-  intent_id: HI-TELEGRAM-BOT-003
-- status: RECOVERED
-  text: Speech-to-text повинен проходити через той самий intent pipeline, що й текст.
-  context: Не створювати окрему бізнес-логіку для голосу.
-  roadmap: ''
-  intent_id: HI-TELEGRAM-BOT-004
-- status: RECOVERED
-  text: Admin commands і money/destructive actions вимагають strong auth/confirmation.
-  context: Наприклад taxi/procurement/status через owning modules.
-  roadmap: ''
-  intent_id: HI-TELEGRAM-BOT-005
-- status: RECOVERED
-  text: Proactive events можуть повідомляти readiness/delay/courier/clarification,
-    але лише з актуальних canonical states.
-  context: Telegram не вигадує статус.
-  roadmap: ''
-  intent_id: HI-TELEGRAM-BOT-006
-- status: AGREED
-  text: Для CRM identity Telegram може один раз у контексті замовлення підтвердити
-    organization representation.
-  context: Це допомагає зв'язати канал з CRM без ручного дублювання.
-  roadmap: ''
-  intent_id: HI-TELEGRAM-BOT-007
-- intent_id: HI-TELEGRAM-BOT-008
-  status: AGREED
-  text: When a person can represent an organization, Telegram should lightly state
-    the currently selected customer/billing context once per relevant order/dialogue.
-  context: 'Example: ''оформляю замовлення на Medicom'' so the person sees where the
-    order will be billed.'
-  roadmap: TG-ID-01
-- intent_id: HI-TELEGRAM-BOT-009
-  status: AGREED
-  text: Telegram must let the same person switch an order from organization context
-    to personal context without creating a duplicate person.
-  context: One channel identity may legitimately map to several business contexts.
-  roadmap: TG-ID-02
-- intent_id: HI-TELEGRAM-BOT-010
-  status: AGREED
-  text: Closed organization representations must not be proposed for new Telegram
-    orders, while historical order snapshots remain reconstructible.
-  context: Temporal CRM relationship drives channel suggestions.
-  roadmap: TG-ID-03
-- intent_id: HI-TELEGRAM-BOT-011
-  status: AGREED
-  text: Order-relevant Telegram confirmations should be persisted as structured/auditable
-    evidence linked to the order, independent of whether the channel UI later still
-    shows the message.
-  context: A future retention/privacy policy must govern how much raw conversation
-    is retained.
-  roadmap: TG-AUDIT-01
+  - status: RECOVERED
+    text: 'Telegram має бути conversational operating interface: identity + memory + natural-language intent + multimodal
+      + order/admin orchestration.'
+    context: Факти бере з canonical модулів.
+    roadmap: ''
+    intent_id: HI-TELEGRAM-BOT-001
+  - status: AGREED
+    text: Фото/опис товару йде в Semantic Retrieval, після чого Telegram показує кілька candidates і задає clarification.
+    context: Не відповідати впевнено на основі одного fuzzy match.
+    roadmap: ''
+    intent_id: HI-TELEGRAM-BOT-002
+  - status: AGREED
+    text: Після підтвердження товару/варіанта Telegram передає structured request у Calculator.
+    context: Chat history не є canonical order.
+    roadmap: ''
+    intent_id: HI-TELEGRAM-BOT-003
+  - status: RECOVERED
+    text: Speech-to-text повинен проходити через той самий intent pipeline, що й текст.
+    context: Не створювати окрему бізнес-логіку для голосу.
+    roadmap: ''
+    intent_id: HI-TELEGRAM-BOT-004
+  - status: RECOVERED
+    text: Admin commands і money/destructive actions вимагають strong auth/confirmation.
+    context: Наприклад taxi/procurement/status через owning modules.
+    roadmap: ''
+    intent_id: HI-TELEGRAM-BOT-005
+  - status: RECOVERED
+    text: Proactive events можуть повідомляти readiness/delay/courier/clarification, але лише з актуальних canonical states.
+    context: Telegram не вигадує статус.
+    roadmap: ''
+    intent_id: HI-TELEGRAM-BOT-006
+  - status: AGREED
+    text: Для CRM identity Telegram може один раз у контексті замовлення підтвердити organization representation.
+    context: Це допомагає зв'язати канал з CRM без ручного дублювання.
+    roadmap: ''
+    intent_id: HI-TELEGRAM-BOT-007
+  - intent_id: HI-TELEGRAM-BOT-008
+    status: AGREED
+    text: When a person can represent an organization, Telegram should lightly state the currently selected customer/billing
+      context once per relevant order/dialogue.
+    context: 'Example: ''оформляю замовлення на Medicom'' so the person sees where the order will be billed.'
+    roadmap: TG-ID-01
+  - intent_id: HI-TELEGRAM-BOT-009
+    status: AGREED
+    text: Telegram must let the same person switch an order from organization context to personal context without creating
+      a duplicate person.
+    context: One channel identity may legitimately map to several business contexts.
+    roadmap: TG-ID-02
+  - intent_id: HI-TELEGRAM-BOT-010
+    status: AGREED
+    text: Closed organization representations must not be proposed for new Telegram orders, while historical order snapshots
+      remain reconstructible.
+    context: Temporal CRM relationship drives channel suggestions.
+    roadmap: TG-ID-03
+  - intent_id: HI-TELEGRAM-BOT-011
+    status: AGREED
+    text: Order-relevant Telegram confirmations should be persisted as structured/auditable evidence linked to the order,
+      independent of whether the channel UI later still shows the message.
+    context: A future retention/privacy policy must govern how much raw conversation is retained.
+    roadmap: TG-AUDIT-01
+  - intent_id: HI-TELEGRAM-BOT-012
+    status: AGREED
+    text: Telegram should support bounded supplier/contact enrichment dialogues that collect missing structured information
+      without repeated manual relaying.
+    context: Confirmed facts are routed to the correct domain owner.
+    roadmap: TG-SUPPLIER-01
+  - intent_id: HI-TELEGRAM-BOT-013
+    status: AGREED
+    text: Telegram roadmap should include voice-message transcription feeding the same structured intent pipeline as text,
+      with future TTS/voice interaction later.
+    context: Voice is a channel modality, not separate business logic.
+    roadmap: TG-VOICE-01
+  - intent_id: HI-TELEGRAM-BOT-014
+    status: AGREED
+    text: Telegram Bot is the primary human communication orchestrator across customers, suppliers, carriers/taxi and other
+      external contacts, while business decisions remain with the appropriate domain modules.
+    context: Telegram communicates domain results rather than becoming the owner of Logistics/Accounting/etc.
+    roadmap: TG-ROLE-01
+  - intent_id: HI-TELEGRAM-BOT-015
+    status: AGREED
+    text: Telegram must support both controlled menu-driven workflows for sensitive/financial interactions and a more natural
+      conversational mode for ordinary communication.
+    context: Sensitive flows use explicit identity/context/permissions and bounded choices.
+    roadmap: TG-MODE-01
+  - intent_id: HI-TELEGRAM-BOT-016
+    status: AGREED
+    text: Before dispatching a task to Calculator, Logistics or another domain module, Telegram must collect the required
+      input set for that module or explicitly route a structured missing-information state.
+    context: Avoid wasteful request/clarification ping-pong caused by obviously incomplete tickets.
+    roadmap: TG-TICKET-01
+  - intent_id: HI-TELEGRAM-BOT-017
+    status: AGREED
+    text: Completed and interrupted conversations must be preserved as traceable conversation episodes linked to participants
+      and business context, while allowing multiple topics to coexist in one physical chat.
+    context: Dialogue history may later be required for quality, disputes, delivery or accounting context.
+    roadmap: TG-DIALOGUE-01
+  - intent_id: HI-TELEGRAM-BOT-018
+    status: AGREED
+    text: 'Telegram must actively close communication loops such as delivery handoff: notify, monitor expected arrival, warn
+      about paid waiting/timeout when applicable, confirm receipt and escalate contact when necessary.'
+    context: Future voice/call adapter may be used for authorized escalation when text is not acknowledged.
+    roadmap: TG-FOLLOWUP-01
+  - intent_id: HI-TELEGRAM-BOT-019
+    status: AGREED
+    text: Telegram requires a deep repository inventory and ownership reconciliation before the next mature portfolio because
+      it is one of the oldest modules and may contain stale or cross-domain instructions/capabilities.
+    context: Conflicting historical instructions must be classified and removed/reassigned only through reviewed migration.
+    roadmap: TG-INVENTORY-01
+  - intent_id: HI-TELEGRAM-BOT-020
+    status: AGREED
+    text: External inbound messages must pass relevance/security/intake validation before they can trigger expensive search,
+      AI dialogue or downstream module work.
+    context: Accidental personal messages, pocket/noise text and suspicious extraction attempts must not become trusted tasks.
+    roadmap: TG-INGRESS-01
+  - intent_id: HI-TG-ARCH-20260919-001
+    status: RECOVERED
+    text: Telegram may adapt tone, structure, length, formality and contextual explanation, but it must not silently
+      alter domain facts such as price, quantity, deadline, status, payment requirement, delivery fact or guarantee.
+    context: Recovered from the 2026-09-19 evening architecture handoff; communication presentation is separate from
+      business truth.
+    roadmap: ''
+    source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2026-09-19/forprint_evening_architecture_handoff_20260919_v0_1/00_README.md
+    - coordination/internal_work/blueprint/evening_reviews/2026-09-19/forprint_evening_architecture_handoff_20260919_v0_1/10_portfolio_reconciliation_20260921_v0_1.yaml
+  - intent_id: HI-TG-ARCH-20260919-002
+    status: RECOVERED
+    text: Cross-module communication should prefer structured inbound domain requests/events and structured outbound
+      communication intents; Telegram combines them with conversation state and communication context to render natural
+      language.
+    context: Recovered from the 2026-09-19 evening architecture handoff.
+    roadmap: ''
+    source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2026-09-19/forprint_evening_architecture_handoff_20260919_v0_1/00_README.md
+    - coordination/internal_work/blueprint/evening_reviews/2026-09-19/forprint_evening_architecture_handoff_20260919_v0_1/10_portfolio_reconciliation_20260921_v0_1.yaml
+  - intent_id: HI-TG-ARCH-20260919-003
+    status: RECOVERED
+    text: Customer-specific terminology, recurring patterns, exceptions and communication preferences may inform Telegram
+      behavior, but customer-specific semantics must not silently become global semantics.
+    context: Recovered from the 2026-09-19 evening architecture handoff.
+    roadmap: ''
+    source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2026-09-19/forprint_evening_architecture_handoff_20260919_v0_1/00_README.md
+    - coordination/internal_work/blueprint/evening_reviews/2026-09-19/forprint_evening_architecture_handoff_20260919_v0_1/10_portfolio_reconciliation_20260921_v0_1.yaml
+  - intent_id: HI-TG-ARCH-20260919-004
+    status: RECOVERED
+    text: Ambiguous or multi-file conversations should converge toward a structured Order Draft through bounded clarification
+      modes; Calculator, Library and other domain services remain the canonical constraint providers.
+    context: Recovered from the 2026-09-19 evening architecture handoff; avoid endless free-text clarification loops.
+    roadmap: ''
+    source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2026-09-19/forprint_evening_architecture_handoff_20260919_v0_1/00_README.md
+    - coordination/internal_work/blueprint/evening_reviews/2026-09-19/forprint_evening_architecture_handoff_20260919_v0_1/10_portfolio_reconciliation_20260921_v0_1.yaml
+  - intent_id: HI-TG-ARCH-20260919-005
+    status: RECOVERED
+    text: Telegram should query a machine-readable historical asset index and deep-compare only a narrowed candidate
+      set; it must not scan the raw customer archive live or own historical asset truth.
+    context: Recovered from the 2026-09-19 evening architecture handoff.
+    roadmap: ''
+    source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2026-09-19/forprint_evening_architecture_handoff_20260919_v0_1/00_README.md
+    - coordination/internal_work/blueprint/evening_reviews/2026-09-19/forprint_evening_architecture_handoff_20260919_v0_1/10_portfolio_reconciliation_20260921_v0_1.yaml
+  - intent_id: HI-TG-ARCH-20260919-006
+    status: RECOVERED
+    text: Long-running process state, waiting conditions, timers, deadlines, retries and transitions must live outside
+      Telegram; Telegram participates through communication intents, acknowledgements and clarification.
+    context: Recovered from the 2026-09-19 evening architecture handoff.
+    roadmap: ''
+    source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2026-09-19/forprint_evening_architecture_handoff_20260919_v0_1/00_README.md
+    - coordination/internal_work/blueprint/evening_reviews/2026-09-19/forprint_evening_architecture_handoff_20260919_v0_1/10_portfolio_reconciliation_20260921_v0_1.yaml
+  - intent_id: HI-TG-DATA-INGEST-20260922-001
+    status: RECOVERED
+    text: Telegram dialogue history should be recoverable from exported customer-chat HTML through a deterministic
+      parser that produces structured semantic input/response examples, merges short same-context messages where appropriate,
+      and does not turn non-text media placeholders into dialogue examples.
+    context: Recovered from the filename-label 07.10 Telegram data-ingest dialogue. The historical 20-column Supabase
+      shape is evidence, not automatically the current schema.
+    roadmap: ''
+    source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2026-10-07_filename_label/DFTB_telegram_bot_data_ingest_v0_1/00_intake_manifest_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-10-07_filename_label/DFTB_telegram_bot_data_ingest_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-10-07_filename_label/DFTB_telegram_bot_data_ingest_v0_1/package/dialogue_memory.yaml
+  - intent_id: HI-TG-DATA-INGEST-20260922-002
+    status: RECOVERED
+    text: Dialogue/corpus ingestion should resolve an existing customer identity reference rather than invent a new
+      client identity from the chat export; current canonical customer identity remains outside Telegram Bot.
+    context: Historical source explicitly maps client_id from an existing clients table. Current architecture refines
+      the owner to CRM/identity surfaces.
+    roadmap: ''
+    source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2026-10-07_filename_label/DFTB_telegram_bot_data_ingest_v0_1/00_intake_manifest_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-10-07_filename_label/DFTB_telegram_bot_data_ingest_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-10-07_filename_label/DFTB_telegram_bot_data_ingest_v0_1/package/dialogue_memory.yaml
+  - intent_id: HI-TG-DATA-INGEST-20260922-003
+    status: RECOVERED
+    text: Before expanding Telegram training data synthetically, use known-good examples that already import successfully
+      to establish the active schema/format contract instead of guessing headers or field shapes.
+    context: Owner explicitly changed the historical workflow to compatibility-first generation after providing known-good
+      CSV samples.
+    roadmap: ''
+    source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2026-10-07_filename_label/DFTB_telegram_bot_data_ingest_v0_1/00_intake_manifest_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-10-07_filename_label/DFTB_telegram_bot_data_ingest_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-10-07_filename_label/DFTB_telegram_bot_data_ingest_v0_1/package/dialogue_memory.yaml
+  - intent_id: HI-TG-DATA-INGEST-20260922-004
+    status: RECOVERED
+    text: Synthetic order_modification coverage should include realistic changes to an existing order such as add/replace/change,
+      references to a previous order, and quantity or detail modifications rather than only new-order requests.
+    context: Recovered directly from the historical synthetic-data expansion request.
+    roadmap: ''
+    source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2026-10-07_filename_label/DFTB_telegram_bot_data_ingest_v0_1/00_intake_manifest_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-10-07_filename_label/DFTB_telegram_bot_data_ingest_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-10-07_filename_label/DFTB_telegram_bot_data_ingest_v0_1/package/dialogue_memory.yaml
+  - intent_id: HI-TG-BEHAVIOR-20260922-001
+    status: RECOVERED
+    text: Telegram intent/classification semantics should explicitly represent sales opportunity, customer refusal
+      and objection-handling states so downstream dialogue logic can choose appropriate selling, clarification or
+      fallback behavior instead of treating all requests as one generic dialogue class.
+    context: Recovered from the internally anchored 2025-10-12 behavior-model dialogue. Exact current taxonomy names
+      remain subject to live classifier/schema reconciliation.
+    roadmap: ''
+    source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2025-10-12_internal_anchor/DFTB_telegram_bot_behavior_model_v0_1/00_intake_manifest_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2025-10-12_internal_anchor/DFTB_telegram_bot_behavior_model_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2025-10-12_internal_anchor/DFTB_telegram_bot_behavior_model_v0_1/package/dialogue_memory.yaml
+  - intent_id: HI-TG-ML-20260922-001
+    status: RECOVERED
+    text: Telegram classifier training data should remain modular by behavior/domain rather than be forced into one
+      giant table, so weak domains such as sales, objections or order handling can be improved independently while
+      the training pipeline combines them under a versioned dataset contract.
+    context: Recovered directly from the owner discussion of separate dialogue/sales/objection/order datasets. Dataset
+      registry, weighting and merge mechanics remain to be reconciled.
+    roadmap: ''
+    source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2025-10-12_internal_anchor/DFTB_telegram_bot_behavior_model_v0_1/00_intake_manifest_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2025-10-12_internal_anchor/DFTB_telegram_bot_behavior_model_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2025-10-12_internal_anchor/DFTB_telegram_bot_behavior_model_v0_1/package/dialogue_memory.yaml
+  - intent_id: HI-TG-ML-20260922-002
+    status: RECOVERED
+    text: Recurring Telegram classifier evaluation must not rely indefinitely on one static test dataset that can
+      leak into tuning; long-running quality evidence should include fresh unseen cases, provenance/leakage controls
+      and an independent expected-label oracle or review path before automated retraining or promotion decisions.
+    context: Recovered from the owner's explicit concern that DeBERTa can adapt to a repeatedly used test set. External
+      LLM generation is only one historical candidate for fresh cases, not the oracle and not a required provider.
+    roadmap: ''
+    source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2025-10-12_internal_anchor/DFTB_telegram_bot_behavior_model_v0_1/00_intake_manifest_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2025-10-12_internal_anchor/DFTB_telegram_bot_behavior_model_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2025-10-12_internal_anchor/DFTB_telegram_bot_behavior_model_v0_1/package/dialogue_memory.yaml
+  - intent_id: HI-TG-HUMAN-TALK-20260922-001
+    status: RECOVERED
+    text: Telegram human-talk response templates should use normalized intent/style/sentiment references and produce
+      short, natural, non-verbatim-repetitive responses with multilingual support for Ukrainian, Russian and English;
+      template priority remains a bounded ranking input rather than business truth.
+    context: Recovered from the filename-label 12.10 human-talk/template dialogue. The owner explicitly moved the
+      schema from textual style/sentiment fields to style_id/sentiment_id foreign-key references, required 1–2 sentence
+      natural responses, uk/ru/en support and priority 0–10.
+    roadmap: ''
+    source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2026-10-12_filename_label/DFTB_telegram_bot_human_talk_templates_v0_1/00_intake_manifest_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-10-12_filename_label/DFTB_telegram_bot_human_talk_templates_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-10-12_filename_label/DFTB_telegram_bot_human_talk_templates_v0_1/package/dialogue_memory.yaml
+  - intent_id: HI-TG-HUMAN-TALK-20260922-002
+    status: RECOVERED
+    text: Telegram template and synthetic-data generation must stay inside the current canonical intent, style and
+      sentiment lookup vocabularies; generated rows must not silently invent new labels or expand the taxonomy without
+      an explicit schema/taxonomy decision.
+    context: The owner supplied explicit lookup tables. Later assistant-generated rows introduced unsupported friendly/playful/aggressive/urgent
+      values; this is preserved as a historical contract-drift defect, not an authorized taxonomy expansion.
+    roadmap: ''
+    source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2026-10-12_filename_label/DFTB_telegram_bot_human_talk_templates_v0_1/00_intake_manifest_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-10-12_filename_label/DFTB_telegram_bot_human_talk_templates_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-10-12_filename_label/DFTB_telegram_bot_human_talk_templates_v0_1/package/dialogue_memory.yaml
+  - intent_id: HI-TG-ML-ENGINEERING-20260922-001
+    status: RECOVERED
+    text: Before retraining Telegram classifiers, datasets should be audited for invalid labels, conflicting duplicate
+      texts, ordinary duplicates, suspicious/low-quality examples, class imbalance and train/validation/test leakage;
+      the resulting split and augmentation lineage should remain explicit.
+    context: Recovered from the October-2025 Telegram ML engineering dialogue after owner-reported style accuracy
+      0.6394. The owner asked for dataset correction, balancing and detailed review before retraining.
+    roadmap: ''
+    source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2025-10-14_internal_anchor/DFTB_telegram_bot_ml_engineering_v0_1/00_intake_manifest_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2025-10-14_internal_anchor/DFTB_telegram_bot_ml_engineering_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2025-10-14_internal_anchor/DFTB_telegram_bot_ml_engineering_v0_1/package/dialogue_memory.yaml
+  - intent_id: HI-TG-ML-ENGINEERING-20260922-002
+    status: RECOVERED
+    text: Telegram intent, style and sentiment classifiers should follow one shared structural discipline across training,
+      classification and evaluation while preserving entity-specific datasets, label contracts, model artifacts, revisions,
+      reports and paths so one classifier domain cannot collide with another.
+    context: Recovered from repeated owner requests to align intent/style/sentiment training and evaluation scripts
+      without collapsing their separate artifact namespaces.
+    roadmap: ''
+    source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2025-10-14_internal_anchor/DFTB_telegram_bot_ml_engineering_v0_1/00_intake_manifest_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2025-10-14_internal_anchor/DFTB_telegram_bot_ml_engineering_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2025-10-14_internal_anchor/DFTB_telegram_bot_ml_engineering_v0_1/package/dialogue_memory.yaml
+  - intent_id: HI-TG-ML-ENGINEERING-20260922-003
+    status: RECOVERED
+    text: 'Existing Telegram classifier label-map files are durable compatibility contracts: training, classify and
+      evaluate code should read rather than silently overwrite them, deliberately support documented name-to-id and
+      id-to-name forms where required, and preserve downstream decoder compatibility.'
+    context: Recovered from the owner's explicit label-map preservation rule and historical intent-decoder failures.
+    roadmap: ''
+    source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2025-10-14_internal_anchor/DFTB_telegram_bot_ml_engineering_v0_1/00_intake_manifest_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2025-10-14_internal_anchor/DFTB_telegram_bot_ml_engineering_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2025-10-14_internal_anchor/DFTB_telegram_bot_ml_engineering_v0_1/package/dialogue_memory.yaml
+  - intent_id: HI-TG-ML-ENGINEERING-20260922-004
+    status: RECOVERED
+    text: Telegram ML paths and operational settings should be centralized and composed from canonical configuration
+      roots rather than scattered hard-coded strings; config refactors must preserve existing consumers and classifier-domain-specific
+      path constants must prevent intent/style/sentiment artifact collisions.
+    context: Recovered from repeated config.py/.env/path refactoring requests and the historical generic DEBERTA_ARCHIVE_BASE_DIR
+      collision.
+    roadmap: ''
+    source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2025-10-14_internal_anchor/DFTB_telegram_bot_ml_engineering_v0_1/00_intake_manifest_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2025-10-14_internal_anchor/DFTB_telegram_bot_ml_engineering_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2025-10-14_internal_anchor/DFTB_telegram_bot_ml_engineering_v0_1/package/dialogue_memory.yaml
+  - intent_id: HI-TG-ML-ENGINEERING-20260922-005
+    status: RECOVERED
+    text: Telegram classifier evaluation should emit both machine-readable metrics/artifacts and human-readable diagnostics,
+      including per-class/confusion evidence where useful, stable artifact identities and explicit paths to created
+      outputs so the operator can inspect results without losing reproducibility.
+    context: Recovered from the owner's requests for readable Excel-oriented evaluation alongside JSON/confusion artifacts
+      and predictable metrics/log filenames.
+    roadmap: ''
+    source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2025-10-14_internal_anchor/DFTB_telegram_bot_ml_engineering_v0_1/00_intake_manifest_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2025-10-14_internal_anchor/DFTB_telegram_bot_ml_engineering_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2025-10-14_internal_anchor/DFTB_telegram_bot_ml_engineering_v0_1/package/dialogue_memory.yaml
+  - intent_id: HI-TG-BEHAVIOR-RUNTIME-20260922-001
+    status: RECOVERED
+    text: Telegram behavior should be modeled and reviewed explicitly before production execution logic is allowed
+      to drive architecture; synthetic phrases and scenario fixtures validate behavior specifications but must not
+      silently become the source of production business rules.
+    context: Recovered from the long-running Telegram history where the owner explicitly reset priority from classifier/runtime
+      tuning back to behavior-model design and treated synthetic phrases as behavior fixtures.
+    roadmap: ''
+    source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2026-07-29_terminal_anchor/DFTB_telegram_bot_long_running_v0_1/00_intake_manifest_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-07-29_terminal_anchor/DFTB_telegram_bot_long_running_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-07-29_terminal_anchor/DFTB_telegram_bot_long_running_v0_1/package/dialogue_memory.yaml
+  - intent_id: HI-TG-QUALIFICATION-20260922-001
+    status: RECOVERED
+    text: Telegram may conversationally collect missing customer qualification data such as contact details, activity/product
+      interests and preferred delivery method, but any durable profile update must be expressed as a confirmed write
+      intent to the canonical CRM/identity owner rather than maintained as Telegram-owned customer truth.
+    context: Recovered from historical client-qualification behavior and reconciled with current CRM identity ownership.
+      The exact writable field contract remains to be defined with CRM.
+    roadmap: ''
+    source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2026-07-29_terminal_anchor/DFTB_telegram_bot_long_running_v0_1/00_intake_manifest_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-07-29_terminal_anchor/DFTB_telegram_bot_long_running_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-07-29_terminal_anchor/DFTB_telegram_bot_long_running_v0_1/package/dialogue_memory.yaml
+  - intent_id: HI-TG-BEHAVIOR-REGISTRY-20260922-001
+    status: RECOVERED
+    text: Telegram behavior specifications should have one structured canonical registry and may generate operator-friendly
+      Excel/HTML views with integrity, duplicate and KPI/coverage indicators; generated views must remain derived
+      projections rather than manually maintained competing sources of truth.
+    context: Recovered from the historical behavior-registry workflow where Excel/HTML were requested as default operator
+      artifacts and integrity/KPI/duplicate metadata were part of the registry.
+    roadmap: ''
+    source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2026-07-29_terminal_anchor/DFTB_telegram_bot_long_running_v0_1/00_intake_manifest_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-07-29_terminal_anchor/DFTB_telegram_bot_long_running_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-07-29_terminal_anchor/DFTB_telegram_bot_long_running_v0_1/package/dialogue_memory.yaml
+  - intent_id: HI-TG-BEHAVIOR-RUNTIME-20260922-002
+    status: RECOVERED
+    text: Telegram behavior registries, XLS workbooks, wizard simulators and other design/test artifacts must be clearly
+      classified and separated from production runtime dependencies; scenario simulation should remain modular behind
+      a small dispatcher while production runtime consumes only approved runtime contracts.
+    context: Recovered from the historical ORDER/VENDORS wizard evolution and the owner's explicit separation of XLS/wizard
+      development artifacts from the real Supabase-backed Telegram runtime.
+    roadmap: ''
+    source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2026-07-29_terminal_anchor/DFTB_telegram_bot_long_running_v0_1/00_intake_manifest_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-07-29_terminal_anchor/DFTB_telegram_bot_long_running_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-07-29_terminal_anchor/DFTB_telegram_bot_long_running_v0_1/package/dialogue_memory.yaml
+  - intent_id: HI-TG-TOOLING-20260922-001
+    status: RECOVERED
+    text: Telegram tooling that mutates generated workbooks, registries or other artifacts must verify the artifact-level
+      postcondition after a claimed success; command exit success alone is insufficient when the expected file content
+      or structural change did not actually occur.
+    context: Recovered from a historical false-success candidate where a patcher reported success but the owner observed
+      that the workbook had not changed.
+    roadmap: ''
+    source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2026-07-29_terminal_anchor/DFTB_telegram_bot_long_running_v0_1/00_intake_manifest_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-07-29_terminal_anchor/DFTB_telegram_bot_long_running_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+    - coordination/internal_work/blueprint/evening_reviews/2026-07-29_terminal_anchor/DFTB_telegram_bot_long_running_v0_1/package/dialogue_memory.yaml

@@ -12,20 +12,20 @@ detected_current_control:
   current_step_title: Dialogue audit events
   open_prompt_ids: []
 planned_horizon:
-- sequence: 1
-  intent: Complete and accept governance baseline completion evidence.
-  gate: Canonical completion packet is GREEN.
-- sequence: 2
-  intent: Align Telegram planning with accepted Logistics tracking events.
-  gate: Logistics event contract is accepted.
-- sequence: 3
-  intent: Prepare module-local read-only inventory rollout.
-  gate: Blueprint operational readiness releases external inventory.
+  - sequence: 1
+    intent: Complete and accept governance baseline completion evidence.
+    gate: Canonical completion packet is GREEN.
+  - sequence: 2
+    intent: Align Telegram planning with accepted Logistics tracking events.
+    gate: Logistics event contract is accepted.
+  - sequence: 3
+    intent: Prepare module-local read-only inventory rollout.
+    gate: Blueprint operational readiness releases external inventory.
 coordination_rules:
-- Do not activate a new prompt while current work is unresolved.
-- Require completion evidence before roadmap advancement.
-- Keep producer-consumer ordering explicit.
-- External inventory starts only after Blueprint readiness.
+  - Do not activate a new prompt while current work is unresolved.
+  - Require completion evidence before roadmap advancement.
+  - Keep producer-consumer ordering explicit.
+  - External inventory starts only after Blueprint readiness.
 safety:
   module_repository_writes: false
   module_roadmap_writes: false

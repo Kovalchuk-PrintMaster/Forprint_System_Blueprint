@@ -2,31 +2,80 @@ schema_version: forprint_module_human_intent_ledger_v0_1
 module_id: logistics_service
 display_name: Logistics Service
 authority: planning_context_not_release_authority
+status: active_planning_context
 append_only: true
 intents:
-- status: RECOVERED
-  text: Logistics Service — provider-neutral owner delivery/tracking truth.
-  context: Telegram/CRM показують його стани, але не дублюють provider logic.
-  roadmap: ''
-  intent_id: HI-LOGISTICS-SERVICE-001
-- status: RECOVERED
-  text: Taxi/local delivery має окремий provider contract, quote/request/assigned/in-progress/completed/cancelled states.
-  context: Money-spending booking потребує human approval boundary.
-  roadmap: ''
-  intent_id: HI-LOGISTICS-SERVICE-002
-- status: RECOVERED
-  text: Provider substitution/fallback не повинен змінювати channel contract.
-  context: Інші модулі не мають знати специфіку кожного перевізника.
-  roadmap: ''
-  intent_id: HI-LOGISTICS-SERVICE-003
-- status: RECOVERED
-  text: Retry/backoff/circuit breaker і reconciliation provider state vs local canonical state потрібні для надійності.
-  context: Події delay/exception можуть бути proactive.
-  roadmap: ''
-  intent_id: HI-LOGISTICS-SERVICE-004
-- status: AGREED
-  text: Order cancellation/stop-work і delivery cancellation — пов’язані, але окремі workflows; Operations Control Registry
-    ініціює business stop, Logistics керує delivery consequence.
-  context: Не змішувати production і перевізника.
-  roadmap: ''
-  intent_id: HI-LOGISTICS-SERVICE-005
+  - status: RECOVERED
+    text: Logistics Service — provider-neutral owner delivery/tracking truth.
+    context: Telegram/CRM показують його стани, але не дублюють provider logic.
+    roadmap: ''
+    intent_id: HI-LOGISTICS-SERVICE-001
+  - status: RECOVERED
+    text: Taxi/local delivery має окремий provider contract, quote/request/assigned/in-progress/completed/cancelled
+      states.
+    context: Money-spending booking потребує human approval boundary.
+    roadmap: ''
+    intent_id: HI-LOGISTICS-SERVICE-002
+  - status: RECOVERED
+    text: Provider substitution/fallback не повинен змінювати channel contract.
+    context: Інші модулі не мають знати специфіку кожного перевізника.
+    roadmap: ''
+    intent_id: HI-LOGISTICS-SERVICE-003
+  - status: RECOVERED
+    text: Retry/backoff/circuit breaker і reconciliation provider state vs local canonical state потрібні для надійності.
+    context: Події delay/exception можуть бути proactive.
+    roadmap: ''
+    intent_id: HI-LOGISTICS-SERVICE-004
+  - status: AGREED
+    text: Order cancellation/stop-work і delivery cancellation — пов’язані, але окремі workflows; Operations Control
+      Registry ініціює business stop, Logistics керує delivery consequence.
+    context: Не змішувати production і перевізника.
+    roadmap: ''
+    intent_id: HI-LOGISTICS-SERVICE-005
+  - intent_id: HI-LOGISTICS-SERVICE-006
+    status: AGREED
+    text: Logistics Service roadmap deepening must be recovery-first because substantial prior design evidence already
+      exists; only genuine gaps should be filled with PROPOSED synthesis before the next portfolio review.
+    context: Do not replace the detailed existing Logistics design with a generic rewrite.
+    roadmap: LOG-RECOVERY-01
+  - intent_id: HI-LOGISTICS-U129B-20260905-001
+    status: AGREED
+    text: Logistics is the first reference module for validating module-local self-knowledge, inventory/index maintenance,
+      fresh-worker continuity and standardized completion reporting.
+    context: Successful behavior becomes a reusable portfolio reference after explicit review.
+    roadmap: LOG-H10-REFERENCE
+  - intent_id: HI-LOGISTICS-U129B-20260905-002
+    status: AGREED
+    text: The first substantial Logistics pool requires manual operator review after every prompt before another
+      prompt is released.
+    context: This is the calibration pool for later control-level decisions.
+    roadmap: LOG-H10-REFERENCE
+  - intent_id: HI-LOGISTICS-U129B-20260905-003
+    status: AGREED
+    text: Each Logistics prompt should be executable by a fresh assistant from repository-owned AGENTS, inventory/index,
+      prompt/contract/oracle, roadmap and prior completion evidence without requiring previous chat memory.
+    context: Self-maintaining module knowledge is a prerequisite for reliable automation.
+    roadmap: LOG-H10-BOOTSTRAP
+  - intent_id: HI-LOGISTICS-U129B-20260905-004
+    status: AGREED
+    text: After the first Logistics pool, an independent inventory/audit must verify the actual repository result
+      before automation is widened or the reference profile is propagated.
+    context: Compare claims, inventory, lineage, documentation, tests and repository reality.
+    roadmap: LOG-H10-REFERENCE
+  - intent_id: HI-LOGISTICS-U131-20260906-001
+    status: AGREED
+    text: The Logistics H10 bootstrap should become the first practical reference for stronger module memory and
+      lineage, but it should not be expanded into full retrospective metadata archaeology of every trivial helper
+      before the first pilot pool can start.
+    context: Establish significant implementation self-knowledge first, then grow coverage continuously.
+    roadmap: LOG-H10-BOOTSTRAP
+  - intent_id: HI-LOGISTICS-ARCH-20260919-001
+    status: AGREED
+    text: Logistics retains authoritative shipment-specific workflow/provider/tracking truth while a parent or linked
+      cross-domain Process Manager may consume typed shipment events, waiting conditions and outcomes.
+    context: Recovered from the 2026-09-19 long-running-process discussion and reconciled with the current Logistics
+      target-state direction.
+    roadmap: ''
+    source_refs:
+    - coordination/internal_work/blueprint/evening_reviews/2026-09-19/forprint_evening_architecture_handoff_20260919_v0_1/00_README.md
+    - coordination/internal_work/blueprint/evening_reviews/2026-09-19/forprint_evening_architecture_handoff_20260919_v0_1/10_portfolio_reconciliation_20260921_v0_1.yaml

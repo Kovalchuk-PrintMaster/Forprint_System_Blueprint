@@ -23,3 +23,19 @@ Preserve original source, parsed values, mapping/confidence, corrections, confir
 final posted facts.
 
 Canonical material semantics belong to Library.
+
+<!-- supplier-document-business-partner-clarification-2026-09-01:start -->
+## 2026-09-01 clarification
+
+Supplier identity references the shared Business Partner master; Accounting owns financial attributes
+and posting consequences.
+
+Preserve supplier item provenance:
+supplier_business_partner_id + supplier_part_number + supplier_description -> canonical Library material ID.
+
+Incoming supplier documents may be Excel/structured, PDF, Word-like or scans/photos. Low-confidence
+financial facts remain human-confirmed.
+
+Future conditional payment mandates are later high-risk automation requiring preauthorization, limits,
+duplicate prevention, idempotency, audit and staged activation.
+<!-- supplier-document-business-partner-clarification-2026-09-01:end -->

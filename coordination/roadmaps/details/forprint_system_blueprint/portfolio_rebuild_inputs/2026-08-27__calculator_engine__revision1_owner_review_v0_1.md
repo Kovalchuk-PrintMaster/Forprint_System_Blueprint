@@ -2,12 +2,12 @@
 
 Status: AGREED OWNER/THEORY INPUT; FINAL EXECUTION ROADMAP DEFERRED UNTIL DEEP INVENTORY.
 
-# Calculator Engine — Revision 1 Owner Notes
+## Calculator Engine — Revision 1 Owner Notes
 
 Status: `REVISION_1_DISCUSSED`
 Next: `INVENTORY_FIRST_TARGET_DIRECTION_CLEAR`
 
-## Inventory-first rule — AGREED_WITH_OWNER
+### Inventory-first rule — AGREED_WITH_OWNER
 
 Calculator is old and already significantly developed.
 
@@ -18,7 +18,7 @@ Sequence:
 3. map actual state to Target State;
 4. then build the final detailed roadmap.
 
-## Strategic role — AGREED_WITH_OWNER
+### Strategic role — AGREED_WITH_OWNER
 
 Calculator is a central order decision engine.
 
@@ -29,7 +29,7 @@ It must answer:
 - what materials/operations/equipment are needed;
 - what structured order/job specification should move onward.
 
-## Dynamic pricing — AGREED_WITH_OWNER
+### Dynamic pricing — AGREED_WITH_OWNER
 
 Pricing must react to:
 - material;
@@ -47,7 +47,7 @@ Pricing must react to:
 Example:
 temporary staff shortage on thermal binding may justify a time-limited price coefficient increase to reduce demand instead of promising impossible delivery.
 
-## Dynamic commercial & availability control — AGREED_WITH_OWNER
+### Dynamic commercial & availability control — AGREED_WITH_OWNER
 
 This deserves a deep dedicated roadmap section.
 
@@ -65,7 +65,7 @@ Examples:
 - gray out unavailable material/product;
 - hide a product while critical equipment is down.
 
-## Library boundary — AGREED_WITH_OWNER
+### Library boundary — AGREED_WITH_OWNER
 
 Calculator owns no foundational truth.
 
@@ -78,7 +78,7 @@ Library is canonical for:
 
 Calculator reads permitted canonical facts from Library.
 
-## Production queue / lead time — AGREED_WITH_OWNER
+### Production queue / lead time — AGREED_WITH_OWNER
 
 Customer ETA is not only normative process duration.
 
@@ -93,7 +93,7 @@ Dynamic behavior:
 - Calculator emits earlier/later readiness events;
 - Telegram informs customers.
 
-## Planned materials / write-off — AGREED_WITH_OWNER, boundary refinement later
+### Planned materials / write-off — AGREED_WITH_OWNER, boundary refinement later
 
 Calculator knows planned material demand including technical waste.
 
@@ -105,25 +105,25 @@ Later passes must separate:
 - physical actual consumption;
 - accounting posting.
 
-## Visual constructors / Prepress — AGREED_WITH_OWNER
+### Visual constructors / Prepress — AGREED_WITH_OWNER
 
 Calculator owns/orchestrates product visual constructors and previews and, where appropriate, production-ready design assistance.
 
 Calculator and Prepress will have close bidirectional interaction.
 
-## Channel interaction — AGREED_WITH_OWNER
+### Channel interaction — AGREED_WITH_OWNER
 
 Website: structured self-service configuration.
 Telegram: conversational collection/clarification -> structured request -> Calculator -> structured quote/order form -> Telegram renders price/timing/confirmation.
 
 Accepted order becomes a structured job/order package for operational execution.
 
-## Warehouse relationship — AGREED_WITH_OWNER
+### Warehouse relationship — AGREED_WITH_OWNER
 
 Calculator sees real material availability.
 Unavailable material must make affected options unavailable/gray/hidden rather than promising impossible production.
 
-## Accounting relationship — AGREED_WITH_OWNER
+### Accounting relationship — AGREED_WITH_OWNER
 
 Calculator can provide:
 - client/order ID where available;
@@ -134,7 +134,7 @@ Calculator can provide:
 
 Accounting owns accounting/business-registry consequences.
 
-## Human role — AGREED_WITH_OWNER
+### Human role — AGREED_WITH_OWNER
 
 Normal mode should be automatic.
 Human involvement is mainly for abnormal conditions:
@@ -144,7 +144,7 @@ Human involvement is mainly for abnormal conditions:
 - special commercial policy;
 - unresolved data conflict.
 
-## Stabilization — AGREED_WITH_OWNER direction
+### Stabilization — AGREED_WITH_OWNER direction
 
 Candidate:
 about one month of stable live operation after tuning.
@@ -157,12 +157,12 @@ Separate metrics are needed for:
 - waste coefficients;
 - other prediction classes.
 
-## Benchmark — SYNTHETIC_CANDIDATE
+### Benchmark — SYNTHETIC_CANDIDATE
 
 `zborka.ua` remains a future functional/UX reference baseline, not authority or ceiling.
 Perform a dedicated benchmark later.
 
-## Remaining gray zones
+### Remaining gray zones
 
 - actual current implementation until Knowledge Inventory exists;
 - exact write-off ownership;
@@ -172,7 +172,7 @@ Perform a dedicated benchmark later.
 
 <!-- calculator-owner-addendum-reference-examples-v0-1:start -->
 
-## Owner addendum — reference examples for Calculator and constructors — 2026-08-27
+### Owner addendum — reference examples for Calculator and constructors — 2026-08-27
 
 Classification:
 
