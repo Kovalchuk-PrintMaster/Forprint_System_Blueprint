@@ -1,8 +1,8 @@
 work_front_id: wf-cf10-verification-tier-self-hardening-v0-1
-objective: >-
-  Harden the existing generic validation-suite surface with explicit verification-tier
-  semantics so operators and callers can distinguish LOCAL/FOCUSED, RELATED, CORE and
-  FULL validation intent without changing or weakening any registered validation steps.
+objective: Harden the existing generic validation-suite surface with explicit verification-tier
+  semantics so operators and callers can distinguish LOCAL/FOCUSED, RELATED, CORE
+  and FULL validation intent without changing or weakening any registered validation
+  steps.
 scope:
 - scripts/validation/run_validation_suite_v0_1.py
 - coordination/standards/automation/validation_suite_registry_v0_1.yaml
@@ -10,10 +10,13 @@ scope:
 exclusions:
 - Do not modify Makefile; the existing generic validation-suite target is reused.
 - Do not add a CF-10-specific Makefile target.
-- Do not remove, skip, reorder or weaken any existing registered validator or pytest step.
-- Do not modify dispatcher, workspace, worker-runtime, Handoff, lifecycle or roadmap code.
+- Do not remove, skip, reorder or weaken any existing registered validator or pytest
+  step.
+- Do not modify dispatcher, workspace, worker-runtime, Handoff, lifecycle or roadmap
+  code.
 - Do not modify Execution Attempt Ledger history or cf10-u180j-a003 terminal records.
-- Do not create a second validation registry, second status authority or alternate execution path.
+- Do not create a second validation registry, second status authority or alternate
+  execution path.
 - Do not write another repository.
 - Do not commit, push, merge, release or automatically ACCEPT worker results.
 provenance:
@@ -30,21 +33,26 @@ provenance:
 dependencies:
 - CF-10/u180j remains the active internal worker pilot.
 - dispatcher_zero_stage_regression_mutation_proof is accepted through cf10-u180j-a002.
-- operator_status_surface_self_hardening candidate was independently revalidated and promoted.
+- operator_status_surface_self_hardening candidate was independently revalidated and
+  promoted.
 - cf10-u180j-a003 immutable terminal FAILED history remains unchanged.
 - Generic validation-suite runner and registry are already published and passing.
 - Makefile already defines LOCAL/FOCUSED, RELATED, CORE and FULL scope vocabulary.
 outputs:
-- Add one required per-suite verification_tier field to the existing validation-suite registry.
+- Add one required per-suite verification_tier field to the existing validation-suite
+  registry.
 - Use the bounded vocabulary LOCAL_FOCUSED, RELATED, CORE and FULL.
 - Bind the existing cf10-worker-pipeline suite to LOCAL_FOCUSED.
 - Make the existing runner validate and report the resolved verification tier.
-- Add an optional --require-tier exact gate that fails closed before execution when the requested tier does not match.
-- Preserve the exact registered command sequence for the existing cf10-worker-pipeline suite.
+- Add an optional --require-tier exact gate that fails closed before execution when
+  the requested tier does not match.
+- Preserve the exact registered command sequence for the existing cf10-worker-pipeline
+  suite.
 - Add deterministic focused tests for tier validation, reporting and mismatch refusal.
 acceptance:
 - Only the three declared scope files are changed by the worker.
-- The existing cf10-worker-pipeline validator/pytest step list is byte-for-byte semantically unchanged.
+- The existing cf10-worker-pipeline validator/pytest step list is byte-for-byte semantically
+  unchanged.
 - Registry validation rejects missing or unsupported verification_tier values.
 - The runner reports VALIDATION_SUITE_TIER=LOCAL_FOCUSED for cf10-worker-pipeline.
 - --require-tier LOCAL_FOCUSED permits the existing suite path.
@@ -53,14 +61,17 @@ acceptance:
 - Existing validation-suite focused tests remain passing and new tier tests pass.
 - Existing CF-10 worker-pipeline validation suite still passes unchanged.
 - git diff --check passes in the isolated worker workspace.
-- No lifecycle mutation, authority widening, cross-module write, commit, push, merge, release or automatic ACCEPT occurs.
+- No lifecycle mutation, authority widening, cross-module write, commit, push, merge,
+  release or automatic ACCEPT occurs.
 stop_conditions:
 - Implementing explicit tier semantics would require Makefile modification.
 - Existing suite command semantics would need to change.
 - A validator or pytest step would need to be removed, skipped or weakened.
-- Dispatcher, worker-runtime, Handoff, lifecycle, roadmap or ledger mutation becomes necessary.
+- Dispatcher, worker-runtime, Handoff, lifecycle, roadmap or ledger mutation becomes
+  necessary.
 - A path outside the three declared scope files must be modified.
-- Tier semantics cannot be represented as validation/reporting plus a fail-closed exact requirement gate.
+- Tier semantics cannot be represented as validation/reporting plus a fail-closed
+  exact requirement gate.
 - Any cross-module write, commit, push, merge, release or automatic ACCEPT is requested.
 - Required governed context is stale or inconsistent.
 authority:
@@ -71,11 +82,17 @@ authority:
   widening_requested: false
 capability_reuse:
   search_performed: true
-  disposition: EXTEND_EXISTING_GENERIC_VALIDATION_SUITE
+  disposition: EXTEND
   target_refs:
   - scripts/validation/run_validation_suite_v0_1.py
   - coordination/standards/automation/validation_suite_registry_v0_1.yaml
   - tests/validation/test_validation_suite_runner_v0_1.py
   read_only_refs:
+  - Makefile
+  - coordination/internal_work/blueprint/worker_training/cf10_worker_training_queue_v0_1.yaml
+  searched_surfaces:
+  - scripts/validation/run_validation_suite_v0_1.py
+  - coordination/standards/automation/validation_suite_registry_v0_1.yaml
+  - tests/validation/test_validation_suite_runner_v0_1.py
   - Makefile
   - coordination/internal_work/blueprint/worker_training/cf10_worker_training_queue_v0_1.yaml
