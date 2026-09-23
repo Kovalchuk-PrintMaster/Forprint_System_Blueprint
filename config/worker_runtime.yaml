@@ -1,0 +1,79 @@
+schema_version: forprint_module_worker_runtime_v0_1
+module_id: forprint_system_blueprint
+runtime_policy: multi_provider_console_runtime
+
+provider_adapter: CONSOLE_COMMAND
+model: auto
+working_directory: ATTEMPT_WORKSPACE_REPO
+timeout_seconds: 900
+network_policy: ALLOW
+
+budget:
+  max_input_tokens: 30000
+  max_output_tokens: 8000
+  max_total_tokens: 38000
+  max_cost: 0.0
+  currency: USD
+  provider_specific:
+    max_ai_credits: 30
+
+environment_allowlist: []
+required_environment: []
+
+command:
+  representation: ARGV_NO_SHELL
+  provider_id: github_copilot_cli
+  runtime_id: github_copilot_cli
+  executable: /usr/local/bin/copilot
+  base_argv:
+    - /usr/local/bin/copilot
+  prompt_transport: provider_adapter_owned
+  shell: false
+
+completion:
+  capture_stdout: true
+  capture_stderr: true
+  capture_exit_code: true
+  expected_artifacts:
+    - worker_completion_report.yaml
+    - stdout.log
+    - stderr.log
+    - invocation_manifest.yaml
+
+provider_selection:
+  mode: per_attempt
+  registry: coordination/registry/worker_runtime_adapters_v0_1.yaml
+  configured_default_provider: github_copilot_cli
+  configured_default_model: auto
+  default_is_architectural_authority: false
+
+auth:
+  mode: external_runtime_auth
+  provider_id: github_copilot_cli
+  secret_source: outside_git
+  secret_value_in_config: false
+  token_value_in_config: false
+  revalidate_at_dispatch: true
+
+tool_policy:
+  exact_runtime_argv_deferred_to_launch_adapter: true
+  workspace_read_required: true
+  workspace_write_required: task_scope_bound
+  command_execution_required: validation_only
+  canonical_repository_write_allowed: false
+  foreign_repository_write_allowed: false
+  git_commit_allowed: false
+  git_push_allowed: false
+  merge_allowed: false
+  release_allowed: false
+  automatic_accept_allowed: false
+
+authority:
+  config_grants_execution_authority: false
+  config_grants_dispatch_authority: false
+  config_grants_release_authority: false
+  provider_selection_grants_authority: false
+
+benchmark:
+  contract: coordination/standards/automation/worker_runtime_benchmark_contract_v0_1.yaml
+  required_for_cf10_runtime_comparison: true
