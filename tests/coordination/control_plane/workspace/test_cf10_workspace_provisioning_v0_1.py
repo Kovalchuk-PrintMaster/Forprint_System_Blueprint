@@ -8,6 +8,8 @@ import pytest
 
 from scripts.coordination.control_plane.workspace import (
     WorkspaceProvisionError,
+    capture_worker_baseline,
+    derive_worker_delta,
     plan_workspace,
     provision_workspace,
     verify_workspace_equivalence,
@@ -36,6 +38,8 @@ def init_repo(tmp_path: Path) -> Path:
     (repo / "modified.txt").write_text("base\n", encoding="utf-8")
     (repo / "deleted.txt").write_text("delete-me\n", encoding="utf-8")
     (repo / "keep.txt").write_text("keep\n", encoding="utf-8")
+    (repo / "target_a.py").write_text("a = 1\n", encoding="utf-8")
+    (repo / "target_b.py").write_text("b = 1\n", encoding="utf-8")
     git(repo, "add", ".")
     git(repo, "commit", "-m", "baseline")
     return repo
@@ -146,3 +150,126 @@ def test_runtime_root_inside_canonical_is_rejected(tmp_path: Path) -> None:
             attempt_id="attempt-bad-root",
             source_state=supplied_state(repo, []),
         )
+
+
+def test_worker_delta_excludes_inherited_dirty_baseline(
+    tmp_path: Path,
+) -> None:
+    repo = init_repo(tmp_path)
+    (repo / "modified.txt").write_text(
+        "inherited-dirty\n", encoding="utf-8"
+    )
+    plan = plan_workspace(
+        canonical_repo=repo,
+        runtime_root=tmp_path / "runtime",
+        module_id="forprint_system_blueprint",
+        worker_id="worker-01",
+        attempt_id="attempt-worker-delta",
+        source_state=supplied_state(repo, ["modified.txt"]),
+    )
+    provision_workspace(plan)
+    baseline = capture_worker_baseline(plan)
+
+    before = derive_worker_delta(plan)
+    assert before["changed_paths"] == []
+    assert "modified.txt" in before["inherited_dirty_paths"]
+    assert Path(baseline["evidence_path"]).is_file()
+
+    workspace = plan.layout.workspace_repo
+    (workspace / "target_a.py").write_text("a = 2\n", encoding="utf-8")
+    (workspace / "target_b.py").write_text("b = 2\n", encoding="utf-8")
+
+    delta = derive_worker_delta(plan)
+    assert delta["worker_delta_exact"] is True
+    assert delta["changed_paths"] == ["target_a.py", "target_b.py"]
+    assert "modified.txt" not in delta["changed_paths"]
+
+
+def test_worker_delta_detects_change_inside_inherited_dirty_path(
+    tmp_path: Path,
+) -> None:
+    repo = init_repo(tmp_path)
+    (repo / "modified.txt").write_text(
+        "inherited-dirty\n", encoding="utf-8"
+    )
+    plan = plan_workspace(
+        canonical_repo=repo,
+        runtime_root=tmp_path / "runtime",
+        module_id="forprint_system_blueprint",
+        worker_id="worker-01",
+        attempt_id="attempt-worker-dirty-edit",
+        source_state=supplied_state(repo, ["modified.txt"]),
+    )
+    provision_workspace(plan)
+    capture_worker_baseline(plan)
+
+    workspace = plan.layout.workspace_repo
+    (workspace / "modified.txt").write_text(
+        "worker-changed-inherited-dirty\n", encoding="utf-8"
+    )
+    delta = derive_worker_delta(plan)
+    assert delta["changed_paths"] == ["modified.txt"]
+
+
+def test_worker_delta_fails_closed_when_workspace_head_changes(
+    tmp_path: Path,
+) -> None:
+    repo = init_repo(tmp_path)
+    plan = plan_workspace(
+        canonical_repo=repo,
+        runtime_root=tmp_path / "runtime",
+        module_id="forprint_system_blueprint",
+        worker_id="worker-01",
+        attempt_id="attempt-worker-head-drift",
+        source_state=supplied_state(repo, []),
+    )
+    provision_workspace(plan)
+    capture_worker_baseline(plan)
+
+    workspace = plan.layout.workspace_repo
+    git(workspace, "config", "user.email", "worker@example.invalid")
+    git(workspace, "config", "user.name", "Worker Test")
+    (workspace / "target_a.py").write_text("a = 3\n", encoding="utf-8")
+    git(workspace, "add", "target_a.py")
+    git(workspace, "commit", "-m", "worker must not hide delta in commit")
+
+    with pytest.raises(
+        WorkspaceProvisionError,
+        match="HEAD changed after worker baseline",
+    ):
+        derive_worker_delta(plan)
+
+
+def test_worker_baseline_cannot_be_recaptured_after_mutation(
+    tmp_path: Path,
+) -> None:
+    repo = init_repo(tmp_path)
+    plan = plan_workspace(
+        canonical_repo=repo,
+        runtime_root=tmp_path / "runtime",
+        module_id="forprint_system_blueprint",
+        worker_id="worker-01",
+        attempt_id="attempt-baseline-immutable",
+        source_state=supplied_state(repo, []),
+    )
+    provision_workspace(plan)
+    baseline = capture_worker_baseline(plan)
+
+    evidence_path = Path(baseline["evidence_path"])
+    evidence_before = evidence_path.read_bytes()
+
+    workspace = plan.layout.workspace_repo
+    (workspace / "target_a.py").write_text(
+        "a = 99\n",
+        encoding="utf-8",
+    )
+
+    with pytest.raises(
+        WorkspaceProvisionError,
+        match="recapture is forbidden",
+    ):
+        capture_worker_baseline(plan)
+
+    assert evidence_path.read_bytes() == evidence_before
+    delta = derive_worker_delta(plan)
+    assert delta["changed_paths"] == ["target_a.py"]

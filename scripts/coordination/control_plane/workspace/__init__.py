@@ -3,6 +3,8 @@
 from .provision import (
     WorkspacePlan,
     WorkspaceProvisionError,
+    capture_worker_baseline,
+    derive_worker_delta,
     plan_workspace,
     provision_workspace,
     seal_pre_dispatch_workspace,
@@ -15,6 +17,8 @@ __all__ = [
     "WorkspacePlan",
     "WorkspaceProvisionError",
     "build_workspace_layout",
+    "capture_worker_baseline",
+    "derive_worker_delta",
     "plan_workspace",
     "provision_workspace",
     "seal_pre_dispatch_workspace",

@@ -12,6 +12,7 @@ This module grants no execution or dispatch authority.
 from __future__ import annotations
 
 import hashlib
+import json
 import os
 import shutil
 import subprocess
@@ -271,23 +272,27 @@ def _path_snapshot(root: Path, relative: str) -> dict[str, str | None]:
             "kind": "symlink",
             "sha256": hashlib.sha256(target.encode("utf-8")).hexdigest(),
             "symlink_target": target,
+            "mode": f"{path.lstat().st_mode & 0o7777:04o}",
         }
     if path.is_file():
         return {
             "kind": "file",
             "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
             "symlink_target": None,
+            "mode": f"{path.stat().st_mode & 0o7777:04o}",
         }
     if path.exists():
         return {
             "kind": "directory",
             "sha256": None,
             "symlink_target": None,
+            "mode": f"{path.stat().st_mode & 0o7777:04o}",
         }
     return {
         "kind": "missing",
         "sha256": None,
         "symlink_target": None,
+        "mode": None,
     }
 
 
@@ -374,6 +379,222 @@ def verify_workspace_equivalence(
         "worker_dispatch_performed": False,
     }
 
+WORKER_BASELINE_SCHEMA = "forprint_worker_workspace_baseline_v0_1"
+WORKER_DELTA_SCHEMA = "forprint_worker_workspace_delta_v0_1"
+
+
+def _dirty_paths_against_head(root: Path) -> list[str]:
+    """Return final dirty paths relative to HEAD, including rename endpoints."""
+    tracked_cp = _run(
+        [
+            "git",
+            "diff",
+            "--name-status",
+            "--find-renames",
+            "--find-copies-harder",
+            "-z",
+            "HEAD",
+        ],
+        cwd=root,
+    )
+    if tracked_cp.returncode:
+        raise WorkspaceProvisionError(
+            "cannot inspect workspace tracked delta:\n" + tracked_cp.stdout
+        )
+
+    tokens = [item for item in tracked_cp.stdout.split("\0") if item]
+    paths: set[str] = set()
+    index = 0
+    while index < len(tokens):
+        status = tokens[index]
+        index += 1
+        if status.startswith(("R", "C")):
+            if index + 1 >= len(tokens):
+                raise WorkspaceProvisionError(
+                    "malformed rename/copy record in workspace delta"
+                )
+            paths.add(_safe_relative_path(tokens[index]).as_posix())
+            paths.add(_safe_relative_path(tokens[index + 1]).as_posix())
+            index += 2
+        else:
+            if index >= len(tokens):
+                raise WorkspaceProvisionError(
+                    "malformed tracked record in workspace delta"
+                )
+            paths.add(_safe_relative_path(tokens[index]).as_posix())
+            index += 1
+
+    untracked_cp = _run(
+        ["git", "ls-files", "--others", "--exclude-standard", "-z"],
+        cwd=root,
+    )
+    if untracked_cp.returncode:
+        raise WorkspaceProvisionError(
+            "cannot inspect workspace untracked paths:\n" + untracked_cp.stdout
+        )
+    for item in untracked_cp.stdout.split("\0"):
+        if item:
+            paths.add(_safe_relative_path(item).as_posix())
+    return sorted(paths)
+
+
+def _baseline_fingerprint(payload: dict[str, Any]) -> str:
+    encoded = json.dumps(
+        payload,
+        sort_keys=True,
+        separators=(",", ":"),
+        ensure_ascii=False,
+    ).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
+
+
+def capture_worker_baseline(
+    plan: WorkspacePlan,
+    *,
+    equivalence: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Capture exact pre-worker workspace content as runtime evidence only."""
+    workspace = plan.layout.workspace_repo
+    if not workspace.is_dir():
+        raise WorkspaceProvisionError("workspace repository is missing")
+
+    checked = equivalence if equivalence is not None else verify_workspace_equivalence(plan)
+    if checked.get("equivalent") is not True:
+        raise WorkspaceProvisionError(
+            "worker baseline requires equivalent pre-dispatch workspace"
+        )
+
+    workspace_head = _require(["git", "rev-parse", "HEAD"], cwd=workspace)
+    if workspace_head != plan.source_head:
+        raise WorkspaceProvisionError(
+            "worker baseline HEAD differs from workspace source_head"
+        )
+
+    baseline_dirty_paths = _dirty_paths_against_head(workspace)
+    snapshot_paths = sorted(
+        set(plan.durable_dirty_paths) | set(baseline_dirty_paths)
+    )
+    snapshots = {
+        relative: _path_snapshot(workspace, relative)
+        for relative in snapshot_paths
+    }
+    core: dict[str, Any] = {
+        "schema_version": WORKER_BASELINE_SCHEMA,
+        "source_head": plan.source_head,
+        "workspace_repo": str(workspace),
+        "durable_dirty_paths": list(plan.durable_dirty_paths),
+        "baseline_dirty_paths": baseline_dirty_paths,
+        "baseline_path_snapshots": snapshots,
+        "worker_process_started": False,
+        "authority_granted": False,
+    }
+    core["baseline_fingerprint_sha256"] = _baseline_fingerprint(core)
+
+    evidence_dir = plan.layout.evidence
+    evidence_dir.mkdir(parents=True, exist_ok=True)
+    evidence_path = evidence_dir / "worker_baseline_v0_1.yaml"
+    if evidence_path.exists():
+        raise WorkspaceProvisionError(
+            "worker baseline evidence already exists; recapture is forbidden"
+        )
+    evidence_path.write_text(
+        __import__("yaml").safe_dump(
+            core,
+            sort_keys=False,
+            allow_unicode=True,
+            width=110,
+        ),
+        encoding="utf-8",
+    )
+    result = dict(core)
+    result["evidence_path"] = str(evidence_path)
+    return result
+
+
+def _load_worker_baseline(plan: WorkspacePlan) -> dict[str, Any]:
+    evidence_path = plan.layout.evidence / "worker_baseline_v0_1.yaml"
+    if not evidence_path.is_file():
+        raise WorkspaceProvisionError("worker baseline evidence is missing")
+    value = __import__("yaml").safe_load(
+        evidence_path.read_text(encoding="utf-8")
+    )
+    if not isinstance(value, dict):
+        raise WorkspaceProvisionError(
+            "worker baseline evidence must be a mapping"
+        )
+    return value
+
+
+def derive_worker_delta(
+    plan: WorkspacePlan,
+    *,
+    baseline: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Derive worker mutations relative to the captured pre-worker baseline."""
+    workspace = plan.layout.workspace_repo
+    value = dict(
+        baseline if baseline is not None else _load_worker_baseline(plan)
+    )
+    if value.get("schema_version") != WORKER_BASELINE_SCHEMA:
+        raise WorkspaceProvisionError("worker baseline schema mismatch")
+    if value.get("source_head") != plan.source_head:
+        raise WorkspaceProvisionError("worker baseline source_head mismatch")
+    if value.get("workspace_repo") != str(workspace):
+        raise WorkspaceProvisionError(
+            "worker baseline workspace binding mismatch"
+        )
+
+    expected_fingerprint = value.get("baseline_fingerprint_sha256")
+    fingerprint_input = dict(value)
+    fingerprint_input.pop("baseline_fingerprint_sha256", None)
+    fingerprint_input.pop("evidence_path", None)
+    if expected_fingerprint != _baseline_fingerprint(fingerprint_input):
+        raise WorkspaceProvisionError("worker baseline fingerprint mismatch")
+
+    workspace_head = _require(["git", "rev-parse", "HEAD"], cwd=workspace)
+    if workspace_head != plan.source_head:
+        raise WorkspaceProvisionError(
+            "workspace HEAD changed after worker baseline"
+        )
+
+    snapshots = value.get("baseline_path_snapshots")
+    if not isinstance(snapshots, dict):
+        raise WorkspaceProvisionError(
+            "worker baseline path snapshots missing"
+        )
+
+    post_dirty_paths = _dirty_paths_against_head(workspace)
+    universe = sorted(set(snapshots) | set(post_dirty_paths))
+    changed_paths: list[str] = []
+    for relative in universe:
+        if relative in snapshots:
+            before = snapshots[relative]
+            if not isinstance(before, dict):
+                raise WorkspaceProvisionError(
+                    f"invalid baseline snapshot for {relative}"
+                )
+            if _path_snapshot(workspace, relative) != before:
+                changed_paths.append(relative)
+        elif relative in post_dirty_paths:
+            # Pre-worker path був clean/absent, post-worker став dirty.
+            changed_paths.append(relative)
+
+    return {
+        "schema_version": WORKER_DELTA_SCHEMA,
+        "source_head": plan.source_head,
+        "baseline_fingerprint_sha256": expected_fingerprint,
+        "inherited_dirty_paths": list(
+            value.get("baseline_dirty_paths") or []
+        ),
+        "post_worker_dirty_paths": post_dirty_paths,
+        "changed_paths": sorted(changed_paths),
+        "worker_delta_exact": True,
+        "authority_granted": False,
+        "candidate_promoted": False,
+        "canonical_write_performed": False,
+    }
+
+
 def seal_pre_dispatch_workspace(
     plan: WorkspacePlan,
     *,
@@ -425,6 +646,11 @@ def seal_pre_dispatch_workspace(
             "canonical durable dirty path set changed after freeze"
         )
 
+    worker_baseline = capture_worker_baseline(
+        plan,
+        equivalence=equivalence,
+    )
+
     manifest_path = plan.layout.manifest
     manifest = __import__("yaml").safe_load(
         manifest_path.read_text(encoding="utf-8")
@@ -439,6 +665,11 @@ def seal_pre_dispatch_workspace(
             "source_state_fingerprint": frozen_fingerprint,
             "source_state_revalidated": True,
             "workspace_equivalence_validated": True,
+            "worker_baseline_captured": True,
+            "worker_baseline_fingerprint_sha256": worker_baseline[
+                "baseline_fingerprint_sha256"
+            ],
+            "worker_baseline_evidence": worker_baseline["evidence_path"],
             "assistant_ack_validated": False,
             "explicit_dispatch_decision_recorded": False,
             "dispatch_authority_granted": False,
@@ -465,6 +696,11 @@ def seal_pre_dispatch_workspace(
         "source_state_fingerprint": frozen_fingerprint,
         "durable_dirty_path_count": len(plan.durable_dirty_paths),
         "equivalence": equivalence,
+        "worker_baseline_captured": True,
+        "worker_baseline_fingerprint_sha256": worker_baseline[
+            "baseline_fingerprint_sha256"
+        ],
+        "worker_baseline_evidence": worker_baseline["evidence_path"],
         "assistant_ack_validated": False,
         "explicit_dispatch_decision_recorded": False,
         "dispatch_authority_granted": False,
@@ -485,6 +721,7 @@ def seal_pre_dispatch_workspace(
         "manifest": manifest,
         "evidence": evidence,
         "evidence_path": str(evidence_path),
+        "worker_baseline": worker_baseline,
     }
 
 
