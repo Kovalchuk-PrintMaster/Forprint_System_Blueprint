@@ -133,3 +133,68 @@ capability_reuse:
   existing_isolation_executor_found: true
   existing_isolation_executor: scripts/validation/run_non_mutating_make_check.py
   disposition: EXTEND_BY_COMPOSITION
+completion:
+  state: SATISFIED
+  closed_against_commit: efb1b32537b38efb80ec83dad5981cc65f1d240b
+  implementation_commit:
+    sha: efb1b32537b38efb80ec83dad5981cc65f1d240b
+    message: Add generic validation suite operator surface
+  dependency_publications:
+    makefile_operator_map:
+      commit: 37479dccfdaff3343595af5b4fd197a77012ce42
+      result: SATISFIED
+    non_mutating_check_foundation:
+      commit: b300183f5405223fd1c561f1fc61a2b1fb5bda6d
+      result: SATISFIED
+  delivered:
+    generic_make_target: validation-suite
+    first_suite: cf10-worker-pipeline
+    dedicated_cf10_make_target: false
+    registry_based_selection: true
+    existing_isolation_reused: true
+    arbitrary_shell_commands_allowed: false
+  acceptance_evidence:
+    registry_validator:
+      result: PASS
+      suite_count: 1
+      arbitrary_shell_commands_allowed: false
+      paths_repository_relative: true
+    generic_runner_focused_tests:
+      result: PASS
+      passed: 7
+    cf10_worker_delta_governance_reconciliation:
+      result: PASS
+      live_worker_dispatch_authorized: false
+      shared_historical_paths_in_scope: false
+    cf10_post_worker_result_collection:
+      result: PASS
+      live_worker_launched: false
+      attempt_ledger_mutated: false
+    cf10_worker_pipeline_suite:
+      result: PASS
+      focused_tests_passed: 39
+    non_mutating_isolation:
+      result: PASS
+      isolated_target: validation-suite
+      source_blueprint_preserved: true
+    make_command_surface:
+      result: PASS
+      passed: 18
+    diff_check:
+      result: PASS
+  safety_closeout:
+    cf10_production_mutated_by_closeout: false
+    lifecycle_mutated: false
+    roadmap_mutated: false
+    historical_dialogue_paths_mutated: false
+    shared_roadmap_source_map_mutated: false
+    shared_blueprint_human_intent_mutated: false
+    cross_module_write_performed: false
+    live_worker_launched: false
+    release_performed: false
+    merge_performed: false
+    automatic_accept_performed: false
+  residual:
+    production_gap: none
+    operator_surface_gap: none
+    work_front_status: CLOSED
