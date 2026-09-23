@@ -37,20 +37,18 @@ module_directives:
       metadata, run checks, commit and push.
 
       '
-  - directive_id: 2026-06-03__calculator_engine__directive__final-coordination-checkpoint-and-pause-v1
+  - directive_id: 2026-09-23__calculator_engine__directive__historical-candidate-gap-completion-v0-1
     status: active
     priority: p0
-    created_at: '2026-06-03'
+    created_at: '2026-09-23'
     file: coordination/directives/modules/calculator_engine/active/2026-09-23__calculator_engine__directive__historical-candidate-gap-completion-v0-1.md
-    summary: 'Calculator Engine must prepare a final coordination checkpoint report, update coordination metadata,
-      and enter a controlled temporary pause until Blueprint finalizes sync command standards and Library catalog
-      seed direction.
-
-      '
+    summary: 'Calculator Engine may resume only the bounded implementation gaps confirmed by the 2026-09-23 current-state
+      reconciliation: filtered bulk pricing-policy updates, quote provenance/reference versions, and the seven focused
+      test gaps defined by the approved prompt.'
     requires_acknowledgement: true
-    expected_report_id: 2026-06-03__calculator_engine__report__final-coordination-checkpoint-and-pause
-    expected_module_action: 'Pull Blueprint, detect this directive, prepare final coordination report, update status
-      metadata, run checks, commit and push.
-
-      '
+    expected_report_id: 2026-09-23__calculator_engine__report__historical-candidate-gap-completion-v0-1
+    related_phase: historical_candidate_gap_completion_v0_1
+    expected_module_action: Pull Blueprint, sync this directive, formally intake the approved Calculator prompt,
+      implement only the bounded gaps tests-first, run full checks, and return a completion report for Blueprint
+      review.
   archived: []
