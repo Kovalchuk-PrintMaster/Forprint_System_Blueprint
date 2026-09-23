@@ -1,0 +1,148 @@
+from __future__ import annotations
+
+import os
+import subprocess
+from pathlib import Path
+
+import pytest
+
+from scripts.coordination.control_plane.workspace import (
+    WorkspaceProvisionError,
+    plan_workspace,
+    provision_workspace,
+    verify_workspace_equivalence,
+)
+
+
+def git(repo: Path, *args: str) -> str:
+    cp = subprocess.run(
+        ["git", *args],
+        cwd=repo,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        check=False,
+    )
+    assert cp.returncode == 0, cp.stdout
+    return cp.stdout.strip()
+
+
+def init_repo(tmp_path: Path) -> Path:
+    repo = tmp_path / "canonical"
+    repo.mkdir()
+    git(repo, "init")
+    git(repo, "config", "user.email", "cf10@example.invalid")
+    git(repo, "config", "user.name", "CF10 Test")
+    (repo / "modified.txt").write_text("base\n", encoding="utf-8")
+    (repo / "deleted.txt").write_text("delete-me\n", encoding="utf-8")
+    (repo / "keep.txt").write_text("keep\n", encoding="utf-8")
+    git(repo, "add", ".")
+    git(repo, "commit", "-m", "baseline")
+    return repo
+
+
+def supplied_state(repo: Path, paths: list[str]) -> dict:
+    return {
+        "git_head": git(repo, "rev-parse", "HEAD"),
+        "git_branch": git(repo, "branch", "--show-current") or None,
+        "fingerprint_sha256": "f" * 64,
+        "durable_dirty_paths": paths,
+    }
+
+
+def test_provision_materializes_modified_untracked_deleted_and_symlink(
+    tmp_path: Path,
+) -> None:
+    repo = init_repo(tmp_path)
+    (repo / "modified.txt").write_text("changed\n", encoding="utf-8")
+    (repo / "deleted.txt").unlink()
+    (repo / "new.txt").write_text("new\n", encoding="utf-8")
+    os.symlink("keep.txt", repo / "link.txt")
+    runtime_noise = repo / "tmp/runtime.log"
+    runtime_noise.parent.mkdir()
+    runtime_noise.write_text("noise\n", encoding="utf-8")
+
+    paths = ["modified.txt", "deleted.txt", "new.txt", "link.txt"]
+    plan = plan_workspace(
+        canonical_repo=repo,
+        runtime_root=tmp_path / "runtime",
+        module_id="forprint_system_blueprint",
+        worker_id="worker-01",
+        attempt_id="attempt-001",
+        source_state=supplied_state(repo, paths),
+    )
+    manifest = provision_workspace(plan)
+    evidence = verify_workspace_equivalence(plan)
+
+    workspace = plan.layout.workspace_repo
+    assert manifest["provisioning_performed"] is True
+    assert manifest["worker_launch_performed"] is False
+    assert evidence["equivalent"] is True
+    assert evidence["branch_identity_compared"] is False
+    assert (workspace / "modified.txt").read_text(encoding="utf-8") == "changed\n"
+    assert not (workspace / "deleted.txt").exists()
+    assert (workspace / "new.txt").read_text(encoding="utf-8") == "new\n"
+    assert (workspace / "link.txt").is_symlink()
+    assert os.readlink(workspace / "link.txt") == "keep.txt"
+    assert not (workspace / "tmp/runtime.log").exists()
+
+
+def test_plan_is_no_write(tmp_path: Path) -> None:
+    repo = init_repo(tmp_path)
+    (repo / "modified.txt").write_text("changed\n", encoding="utf-8")
+    plan = plan_workspace(
+        canonical_repo=repo,
+        runtime_root=tmp_path / "runtime",
+        module_id="forprint_system_blueprint",
+        worker_id="worker-01",
+        attempt_id="attempt-plan",
+        source_state=supplied_state(repo, ["modified.txt"]),
+    )
+    assert not plan.layout.attempt_root.exists()
+
+
+def test_workspace_is_independent_git_repository(tmp_path: Path) -> None:
+    repo = init_repo(tmp_path)
+    (repo / "new.txt").write_text("new\n", encoding="utf-8")
+    plan = plan_workspace(
+        canonical_repo=repo,
+        runtime_root=tmp_path / "runtime",
+        module_id="forprint_system_blueprint",
+        worker_id="worker-01",
+        attempt_id="attempt-002",
+        source_state=supplied_state(repo, ["new.txt"]),
+    )
+    provision_workspace(plan)
+
+    canonical_git = git(repo, "rev-parse", "--git-dir")
+    workspace_git = git(plan.layout.workspace_repo, "rev-parse", "--git-dir")
+    assert canonical_git
+    assert workspace_git
+    assert (plan.layout.workspace_repo / ".git").exists()
+    assert plan.layout.workspace_repo != repo
+
+
+def test_unsafe_durable_path_is_rejected(tmp_path: Path) -> None:
+    repo = init_repo(tmp_path)
+    with pytest.raises(WorkspaceProvisionError, match="escapes repository"):
+        plan_workspace(
+            canonical_repo=repo,
+            runtime_root=tmp_path / "runtime",
+            module_id="forprint_system_blueprint",
+            worker_id="worker-01",
+            attempt_id="attempt-bad",
+            source_state=supplied_state(repo, ["../escape.txt"]),
+        )
+
+
+def test_runtime_root_inside_canonical_is_rejected(tmp_path: Path) -> None:
+    repo = init_repo(tmp_path)
+    with pytest.raises(ValueError, match="isolated"):
+        plan_workspace(
+            canonical_repo=repo,
+            runtime_root=repo / "runtime",
+            module_id="forprint_system_blueprint",
+            worker_id="worker-01",
+            attempt_id="attempt-bad-root",
+            source_state=supplied_state(repo, []),
+        )
