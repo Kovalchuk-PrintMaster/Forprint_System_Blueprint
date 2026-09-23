@@ -1,0 +1,135 @@
+work_front_id: wf-validation-suite-operator-surface-foundation-v0-1
+objective: >-
+  Establish one reusable validation-suite mechanism for Blueprint operator and
+  control-plane checks so Makefile remains a functional command map instead of
+  accumulating one target per historical implementation step. The first suite
+  is cf10-worker-pipeline, but the mechanism is generic and reusable.
+
+scope:
+  - coordination/work_fronts/validation_suite_operator_surface_foundation_v0_1.yaml
+  - coordination/standards/automation/validation_suite_registry_v0_1.yaml
+  - scripts/validation/run_validation_suite_v0_1.py
+  - scripts/validation/validate_validation_suite_registry_v0_1.py
+  - tests/validation/test_validation_suite_runner_v0_1.py
+  - Makefile
+
+read_only_refs:
+  - coordination/standards/automation/non_mutating_check_contract_v0_1.yaml
+  - scripts/validation/run_non_mutating_make_check.py
+  - scripts/validation/validate_cf10_worker_delta_governance_reconciliation_v0_1.py
+  - scripts/validation/validate_cf10_post_worker_result_collection_v0_1.py
+  - tests/validation/test_cf10_worker_delta_governance_reconciliation_v0_1.py
+  - tests/coordination/control_plane/test_cf10_post_worker_result_collection_v0_1.py
+  - tests/coordination/control_plane/workspace/test_cf10_workspace_provisioning_v0_1.py
+  - tests/coordination/control_plane/test_cf09_dispatcher_attempt_result_integration_v0_1.py
+
+design:
+  make_entrypoint:
+    target: validation-suite
+    selector: SUITE
+    example: make validation-suite SUITE=cf10-worker-pipeline
+    dedicated_cf10_make_target_allowed: false
+  registry:
+    path: coordination/standards/automation/validation_suite_registry_v0_1.yaml
+    arbitrary_shell_commands_allowed: false
+    allowed_step_kinds:
+      - python_script
+      - pytest
+  runner:
+    path: scripts/validation/run_validation_suite_v0_1.py
+    must_reuse_existing_isolation_primitives: true
+    must_not_duplicate_non_mutating_mirror_implementation: true
+    source_repository_mutation_allowed: false
+  first_suite:
+    suite_id: cf10-worker-pipeline
+    validators:
+      - scripts/validation/validate_cf10_worker_delta_governance_reconciliation_v0_1.py
+      - scripts/validation/validate_cf10_post_worker_result_collection_v0_1.py
+    pytest_paths:
+      - tests/validation/test_cf10_worker_delta_governance_reconciliation_v0_1.py
+      - tests/coordination/control_plane/test_cf10_post_worker_result_collection_v0_1.py
+      - tests/coordination/control_plane/workspace/test_cf10_workspace_provisioning_v0_1.py
+      - tests/coordination/control_plane/test_cf09_dispatcher_attempt_result_integration_v0_1.py
+
+parallel_dependency_boundary:
+  makefile_worktree_blob_observed: c12d78f952602a85fb783bd70d7e1639fba041d5
+  makefile_owner: PARALLEL_WORKSTREAM
+  isolation_runner_status: PARALLEL_IN_FLIGHT_NOT_YET_PUBLISHED
+  isolation_contract_status: PARALLEL_IN_FLIGHT_NOT_YET_PUBLISHED
+  may_modify_makefile_before_parallel_publication: false
+  may_commit_runner_that_depends_on_unpublished_isolation_layer: false
+  required_before_implementation_seal:
+    - Publish the parallel Makefile refactor.
+    - Publish scripts/validation/run_non_mutating_make_check.py.
+    - Publish coordination/standards/automation/non_mutating_check_contract_v0_1.yaml.
+    - Re-read their published versions before implementing the suite runner.
+    - Verify the generic validation-suite target does not collide with the published Makefile.
+
+exclusions:
+  - Do not create make cf10-worker-pipeline-check.
+  - Do not accept arbitrary shell command text from SUITE or registry data.
+  - Do not duplicate durable-fingerprint or repository-mirror implementation.
+  - Do not modify CF-10 production control-plane code.
+  - Do not modify workspace provisioning or worker-runtime code.
+  - Do not rewrite immutable execution-attempt history.
+  - Do not mutate lifecycle or roadmap state.
+  - Do not launch or retry a live worker.
+  - Do not append a live Execution Attempt Ledger record.
+  - Do not stage, commit, push, merge, release or automatically ACCEPT from validation-suite execution.
+  - Do not overwrite, restore, stash, reset, checkout or replace the parallel dirty Makefile.
+  - Do not modify coordination/internal_work/blueprint/evening_reviews/.
+  - Do not modify historical-enrichment checkpoints or source materials.
+  - Do not modify coordination/repository_knowledge/roadmap_enrichment/source_map.yaml.
+  - Do not modify coordination/human_intent/modules/forprint_system_blueprint.yaml.
+  - Do not write another ForPrint module repository.
+
+acceptance:
+  - Registry schema is deterministic, typed and rejects arbitrary shell commands.
+  - Unknown suite IDs fail closed.
+  - Unknown step kinds fail closed.
+  - Registry paths must be repository-relative and traversal-safe.
+  - Suite execution occurs in a disposable repository mirror.
+  - Durable Blueprint source fingerprint is preserved before and after execution.
+  - Existing non-mutating isolation primitives are reused rather than copied.
+  - cf10-worker-pipeline runs the two published validators and four focused pytest paths.
+  - cf10-worker-pipeline passes.
+  - Generic runner and registry focused tests pass.
+  - Registry validator passes.
+  - After parallel publication, Makefile exposes only the generic validation-suite target for this mechanism.
+  - make validation-suite SUITE=cf10-worker-pipeline passes.
+  - make test-make-command-surface passes after the generic target is added.
+  - No dedicated CF-10 Make target is introduced.
+  - No production control-plane, lifecycle, roadmap, historical-dialogue, shared-source-map or cross-module mutation occurs.
+
+stop_conditions:
+  - A path outside this Work Front becomes necessary.
+  - The published isolation runner semantics differ materially from the reviewed in-flight version.
+  - The published Makefile already provides an equivalent generic validation-suite mechanism.
+  - Reuse would require changing the isolation runner contract rather than consuming it.
+  - A suite requires arbitrary shell execution.
+  - A suite requires live worker dispatch or canonical state mutation.
+  - lifecycle or roadmap mutation becomes necessary.
+  - A shared historical-enrichment path must be modified.
+  - Cross-module write, release, merge, automatic ACCEPT or force push is requested.
+
+authority:
+  layer: WORK_FRONT
+  permissions:
+    - read
+    - write_blueprint
+  widening_requested: false
+  prospective_only: true
+  live_worker_dispatch_authorized: false
+  lifecycle_mutation_authorized: false
+  roadmap_mutation_authorized: false
+  release_authorized: false
+  merge_authorized: false
+  automatic_accept_authorized: false
+
+capability_reuse:
+  search_performed: true
+  existing_suite_registry_found: false
+  existing_suite_runner_found: false
+  existing_isolation_executor_found: true
+  existing_isolation_executor: scripts/validation/run_non_mutating_make_check.py
+  disposition: EXTEND_BY_COMPOSITION
