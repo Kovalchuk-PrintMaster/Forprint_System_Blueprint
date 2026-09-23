@@ -1,0 +1,64 @@
+schema_version: forprint_non_mutating_check_contract_v0_1
+status: current_standard
+authority: forprint_system_blueprint
+implementation: scripts/validation/run_non_mutating_make_check.py
+purpose: >-
+  Guarantee that the public make check surface treats the current Blueprint
+  working tree and selected sibling module as read-only inputs while validations
+  execute in disposable repository mirrors.
+
+invariants:
+  - id: public_check_isolation
+    rule: make check MUST invoke the isolation runner and MUST NOT execute check-core dependencies in the durable source repository.
+  - id: dirty_state_is_input
+    rule: The isolated mirror MUST overlay current tracked modifications, deletions and untracked files from the source working tree.
+  - id: faithful_reports_input
+    rule: Existing top-level reports MUST be mirrored as part of the current working-tree input; any writes to those reports occur only in the disposable mirror.
+  - id: sterile_dependency_audit_is_separate
+    rule: Removing runtime artifacts to test dependency closure is a distinct sterile audit surface and MUST NOT be conflated with the normal non-mutating check input model.
+  - id: git_metadata_is_independent
+    rule: The isolated mirror MUST use its own Git metadata and MUST NOT share the source repository worktree/index.
+  - id: source_fingerprint_preserved
+    rule: Durable source content and modes MUST match the pre-check fingerprint after isolated validation completes.
+  - id: sibling_module_isolation
+    rule: When MODULE_ROOT exists and is a Git repository it MUST be mirrored before checks use it.
+  - id: validation_writes_are_disposable
+    rule: Reports, generated files and other writes produced by inner checks are permitted only inside the disposable mirror.
+  - id: exclusion_paths_are_explicit
+    rule: Runtime exclusions MUST be repository-relative namespace rules; a nested durable path MUST NOT be excluded merely because one directory component is named reports or tmp.
+  - id: nested_durable_namespaces_are_preserved
+    rule: Durable namespaces such as coordination/reports MUST be mirrored even when a top-level runtime root with the same basename is excluded.
+  - id: secret_like_environment_files_not_mirrored
+    rule: .env and .env.* files MUST NOT be copied into the disposable mirror.
+  - id: internal_check_target
+    rule: check-core is an internal execution target and MUST be reached through make check for normal operator validation.
+  - id: no_source_git_mutation
+    rule: The isolation runner MUST NOT stage, commit, push, reset, stash or rebase the source repositories.
+
+result_states:
+  PASS:
+    meaning: inner check-core passed and durable source fingerprints were preserved
+  FAIL_INNER:
+    meaning: inner validation failed; source repositories remain unchanged
+  FAIL_ISOLATION:
+    meaning: mirror preparation or source-preservation verification failed
+
+isolation_namespace_policy:
+  top_level_non_mirrored_roots:
+    - .git
+    - .venv_blueprint
+    - tmp
+  mirrored_disposable_write_roots:
+    - reports
+  recursive_cache_excludes:
+    - .pytest_cache
+    - .ruff_cache
+    - .mypy_cache
+    - .tox
+    - .nox
+    - __pycache__
+    - node_modules
+  secret_name_excludes:
+    - .env
+    - .env.*
+  basename_only_runtime_exclusion_forbidden: true
