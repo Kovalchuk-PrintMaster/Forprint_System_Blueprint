@@ -1,0 +1,20 @@
+schema_version: blueprint_completion_intake_inspector_conformance_integration_v0_1_adoption
+metadata:
+  module_id: forprint_system_blueprint
+  created_at: '2026-09-06'
+  status: IMPLEMENTED
+package: scripts/coordination/control_plane/completion
+inspector_repository_binding: UNBOUND_EXTERNAL_REVIEWER
+inspector_read_only: true
+human_acceptance_authority: true
+machine_conformant_is_blueprint_accept: false
+legacy_completion_entrypoints_moved: false
+execution_boundaries:
+  worker_process_started: false
+  prompt_claim_created: false
+  logistics_repository_write: false
+  inspector_repository_write: false
+  blueprint_accept: false
+  next_prompt_release: false
+  commit_push: false
+next: first_approval_gated_logistics_worker_pilot_preflight_v0_1

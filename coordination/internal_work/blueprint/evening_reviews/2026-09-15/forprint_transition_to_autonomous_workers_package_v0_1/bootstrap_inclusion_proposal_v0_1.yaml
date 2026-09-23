@@ -1,0 +1,15 @@
+schema_version: forprint_bootstrap_inclusion_proposal_v0_1
+status: proposal_only
+document: strategic_transition_vector_v0_1
+role: temporary_must_read_directional_context
+placement_preference:
+- existing Blueprint-local architecture/strategy/governance location for temporary phase direction
+- existing bootstrap/governance location if such document class already exists
+- only if neither exists create a minimal Blueprint-local strategic-direction subdirectory and register it
+bootstrap_behavior:
+- include in fresh-assistant bootstrap/assistant-pack while active
+- MUST_READ for global/chat coordination assistants
+- not execution authority
+- do not inject into narrow worker task context unless relevant
+sunset_trigger: first_coordinated_multi_module_worker_wave_started
+sunset_action: mark retired and remove from MUST_READ set while preserving history

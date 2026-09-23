@@ -1,0 +1,140 @@
+schema_version: forprint_portfolio_forensic_disposition_and_coverage_design_candidate_v0_1
+candidate_id: BP-PORTFOLIO-FORENSICS-DISPOSITION-COVERAGE
+status: CANDIDATE_BOUND_TO_CURRENT_ROADMAP_ENRICHMENT_NOT_NEW_ROADMAP_ITEM
+authority:
+  roadmap_authority: false
+  execution_authority: false
+  automatic_destructive_disposition_authority: false
+purpose: Provide a repeatable machine-readable X-ray of each module against the current ForPrint course, with evidence-separated
+  status dimensions, disposition, coverage and unresolved findings.
+analysis_axis:
+- project_mission
+- current_policy
+- target_architecture
+- module_role_and_ownership
+- dependencies_and_consumers
+- verified_repository_actual_state
+- runtime_or_operational_evidence_when_relevant
+- roadmap_and_target_state
+- alignment_and_gap
+required_status_dimensions:
+  implementation_state:
+  - ABSENT
+  - PARTIAL
+  - IMPLEMENTED
+  - VALIDATED
+  - UNKNOWN
+  roadmap_state:
+  - UNPLANNED
+  - PLANNED
+  - CURRENT
+  - COMPLETE
+  - SUPERSEDED
+  - UNKNOWN
+  execution_permission:
+  - NOT_AUTHORIZED
+  - OPERATOR_GATED
+  - AUTHORIZED_BOUNDED
+  - PAUSED
+  - UNKNOWN
+  dispatch_eligibility:
+  - NOT_ELIGIBLE
+  - BLOCKED
+  - READY
+  - ACTIVE
+  - UNKNOWN
+  semantic_freshness:
+  - FRESH
+  - STALE
+  - UNPROVEN
+  - NOT_APPLICABLE
+module_disposition:
+  values:
+  - KEEP
+  - RECONCILE
+  - PAUSE
+  - DEPRECATE
+  - REMOVE
+  - ADVANCE
+  - UNKNOWN_REVIEW_REQUIRED
+  rules:
+  - Disposition is a review conclusion, not an execution command.
+  - PAUSE/DEPRECATE/REMOVE or other destructive/subtractive action requires explicit operator/governance authority.
+  - KEEP does not imply no cleanup; KEEP_AND_RECONCILE may be represented by disposition=RECONCILE with preserve_domain_implementation=true.
+  - Final disposition requires local module evidence plus project-course/dependency evidence.
+  - Missing evidence yields UNKNOWN_REVIEW_REQUIRED rather than a guessed disposition.
+evidence_classes:
+- authority_and_current_policy
+- repository_structure_and_code
+- module_inventory_and_metadata
+- contracts_and_interfaces
+- tests_and_static_validation
+- semantic_freshness
+- runtime_or_live_evidence_when_needed
+- dependencies_and_cross_repo_consumers
+- roadmap_and_target_state
+- human_intent_and_provenance
+- generated_projection_lineage
+coverage_model:
+  rule: Do not present one opaque completeness percentage as authoritative unless denominator and evidence-class
+    weights are explicit.
+  per_class:
+  - covered
+  - partial
+  - missing
+  - not_applicable
+  recommended_outputs:
+  - evidence_class_coverage
+  - critical_gap_count
+  - unresolved_count
+  - confidence_basis
+  - next_evidence_class_to_collect
+  historical_note: The 08.09 dialogue reported an approximate 72% Logistics forensic coverage with confidence 0.91,
+    but the calculation method was not preserved; treat that number as historical heuristic only.
+unresolved_registry:
+  required_fields:
+  - issue_id
+  - subject
+  - reason_unresolved
+  - evidence_refs
+  - affected_modules
+  - materiality
+  - required_resolution_type
+  - operator_question_if_needed
+  - status
+  statuses:
+  - OPEN
+  - NEEDS_REPOSITORY_EVIDENCE
+  - NEEDS_CROSS_MODULE_EVIDENCE
+  - NEEDS_OPERATOR_DECISION
+  - DEFERRED_NON_MATERIAL
+  - RESOLVED
+  - SUPERSEDED
+collector_invariants:
+- repository identity must be validated before collection
+- nonzero check return code must be reported as check failure
+- captured command output is not equivalent to successful validation
+- do not repeat a collection pass that adds no new evidence class
+- temporary collectors must be reconstructible from durable instructions
+- reconcile source/authority lineage before regenerating derived projections
+- raw historical claims must not be silently promoted to current facts
+workflow:
+- select_missing_or_weak_evidence_class
+- collect_bounded_evidence
+- validate_identity_and_hashes
+- classify_actual_state_and_freshness
+- reconcile_against_current_project_course
+- update_disposition_candidate
+- update_coverage_and_unresolved_registry
+- stop_when_next_pass_would_add_no_new_evidence_class_or_when_gate_is_satisfied
+connection_to_current_knowledge_saturation:
+  gate_a: Supports Structural Coverage / Critical Gap Closure by making evidence classes, critical gaps and unresolved
+    questions explicit.
+  gate_b: Supports Capability Retrieval / Operator Challenge Test by requiring traceability from requested capability
+    to owner, current state, roadmap, dependencies and provenance.
+non_goals:
+- automatic code deletion
+- automatic module retirement
+- rewriting healthy domain code because governance projections are stale
+- one scalar percentage as the sole project health signal
+- replacing current Roadmap Enrichment with a second forensic control plane

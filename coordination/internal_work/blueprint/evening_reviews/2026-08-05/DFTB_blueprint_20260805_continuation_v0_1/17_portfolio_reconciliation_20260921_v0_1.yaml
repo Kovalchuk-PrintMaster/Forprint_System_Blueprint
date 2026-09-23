@@ -1,0 +1,203 @@
+schema_version: forprint_dftb_blueprint_20260805_continuation_portfolio_reconciliation_v0_1
+source_date_label: 2026-08-05-continuation
+reconciled_on: '2026-09-21'
+source_archive_sha256: 0f1e3dd73be539948a5ba2d09058fdaa2697c793a712aea2046a962699dcc358
+source_dialogue_hash_sha256: ddc8e37bcd183ce3c85339b6a99d3b2e4240ae1ee6a330906b2f39ae410c71d1
+source_authority: HISTORICAL_CONTINUATION_EVIDENCE_NOT_CURRENT_AUTHORITY
+source_completeness:
+  classification: PARTIAL_CONTINUATION_CAPTURE
+  retained_turn_containers: 87
+  text_bearing_turn_containers: 86
+  message_blocks:
+    user: 83
+    assistant: 3
+  artifact_labels: 60
+  implementation_verification_in_bundle: false
+duplicate_boundary:
+  previous_bundle: DFTB-blueprint-2026-08-05
+  previous_source_sha256: dba07b5cfb41381f4a651d0c5c43cd34647a5aaf2a56ffb10c01f7a3e26982ae
+  message_id_overlap: 0
+  classification: NOT_DUPLICATE_CONTINUATION
+  note: The source begins from the prior package's final mutation-builder/transparency checkpoint and continues
+    into transparency, completion intake, roadmap/prompt synchronization and v0.4 work.
+cross_dialogue_position:
+  continues: DFTB-blueprint-2026-08-05
+  precedes: DFTB-blueprint-2026-08-17
+  historical_end_state: STEP27 historically reported active/ready_for_module_pull while STEP26 manual seal commit
+    remained pending inside this source. Do not resolve that state from this bundle alone.
+summary: 'This continuation is the origin of the mature closed-loop coordination model: prompt issuance, module
+  execution, machine-discoverable completion publication, Blueprint intake/review, separate acceptance, roadmap
+  reconciliation and governed next-work progression. It also records the move away from synchronized temporary repository
+  copies, the prompt/completion exchange contract, prompt archival after closure, planning-buffer health semantics
+  and the historical v0.4 roadmap/prompt/implementation drift problem. Later governance already materializes the
+  major mechanisms.'
+topic_reconciliation:
+- topic: continuation_state_reverification
+  item_refs:
+  - IT-BP0508C-0001
+  - IT-BP0508C-0002
+  disposition: RETAIN_AS_DURABLE_CONTINUITY_INVARIANT
+  source_rule: Handoff/report state is observed input until current worktree/release/authority is directly reverified
+    before mutation or progression.
+  current_connection:
+  - bootstrap/current-authority resolution
+  - dirty-tree/baseline snapshots
+  - Handoff v2
+  - fresh-worker continuity
+- topic: makefile_as_operator_chain_map
+  item_refs:
+  - IT-BP0508C-0003
+  disposition: RETAIN_AS_OPERATOR_DISCOVERABILITY_PROVENANCE
+  source_rule: Stable Make/operator entrypoints should make project/module operating chains visible and executable
+    without requiring hidden chat knowledge.
+- topic: parallel_work_isolation
+  item_refs:
+  - IT-BP0508C-0004
+  - IT-BP0508C-0034
+  disposition: MATERIALIZED_AND_MATURED
+  source_rule: Do not use repeatedly synchronized temporary repository clones as the normal parallel-work mechanism;
+    prefer attributable canonical Git branches/worktrees or explicitly isolated execution workspaces.
+  current_connection:
+  - bounded dirty-tree execution
+  - isolated workspace dispatch
+  - parallel assistant collision discipline
+- topic: completion_intake_and_exchange_contract
+  item_refs:
+  - IT-BP0508C-0005
+  - IT-BP0508C-0006
+  - IT-BP0508C-0007
+  - IT-BP0508C-0008
+  - IT-BP0508C-0009
+  - IT-BP0508C-0014
+  - IT-BP0508C-0015
+  - IT-BP0508C-0033
+  disposition: MATERIALIZED_AND_MATURED
+  source_rules:
+  - completion availability is machine-discoverable and does not depend on chat notification
+  - completion intake belongs to the normal coordination command chain
+  - prompt issuance and completion reporting form a structured exchange contract
+  - completion evidence includes task-level evidence and final test state
+  - completion semantics and involved scripts are durably documented
+  current_connection:
+  - normalized completion semantic envelope
+  - module-owned completion packets/outbox
+  - Blueprint read-only intake/review
+  - prompt/completion contract validation
+- topic: historical_v03_chain_failure
+  item_refs:
+  - IT-BP0508C-0010
+  disposition: HISTORICAL_FAILURE_PROVENANCE
+  source_rule: The historical v0.3 completion/publication chain was explicitly not working end to end; v0.4 redesign
+    was motivated by that gap.
+- topic: planning_buffer_health
+  item_refs:
+  - IT-BP0508C-0011
+  - IT-BP0508C-0012
+  - IT-BP0508C-0013
+  disposition: GENERAL_HEALTH_SEMANTIC_RETAINED_EXACT_THRESHOLDS_SUPERSEDED
+  historical_rule: Approximately 5-8 future roadmap steps plus at least 2 draft prompts; depletion is a warning,
+    not an automatic stop.
+  current_reconciliation: Current full-horizon roadmaps/target states and governed prompt lifecycle supersede fixed
+    numeric minimums. The durable idea is that planning-depth depletion is observable health/risk evidence, not
+    automatic execution authority.
+- topic: prompt_queue_roadmap_binding
+  item_refs:
+  - IT-BP0508C-0016
+  - IT-BP0508C-0017
+  - IT-BP0508C-0032
+  disposition: MATERIALIZED_AND_MATURED
+  source_rules:
+  - prompt queue has deterministic default ordering with explicit operator reprioritization
+  - prompts and completion reports bind to roadmap items
+  - roadmap, prompt queue and implementation state must be reconciled because they can drift
+  current_connection:
+  - roadmap reconciliation
+  - continuity event store / actual execution truth
+  - Dispatcher selection
+  - dependency/convergence planning
+- topic: closed_loop_coordination
+  item_refs:
+  - IT-BP0508C-0018
+  - IT-BP0508C-0019
+  - IT-BP0508C-0031
+  disposition: MATERIALIZED_DIRECTION_WITH_STRONGER_LATER_AUTHORITY_BOUNDARY
+  source_target: prompt -> module work -> completion publication -> intake/review -> acceptance -> roadmap reconciliation
+    -> next prompt
+  authority_reconciliation: Later governance keeps machine evidence/progression separate from business/Blueprint
+    ACCEPT. Automatic next-work progression is allowed only where current procedure/profile/Dispatcher authority
+    explicitly permits it; completion evidence alone never grants acceptance authority.
+- topic: continuity_master_prompt
+  item_refs:
+  - IT-BP0508C-0020
+  disposition: SUPERSEDED_BY_STRUCTURED_REPOSITORY_OWNED_CONTINUITY
+  historical_rule: A large v0.4 master prompt doubled as a continuity package for replacement assistants.
+  current_reconciliation: Current bootstrap/context/Handoff/roadmap/authority surfaces supersede a monolithic master
+    prompt while preserving zero-context resumability.
+- topic: prompt_archive_lifecycle
+  item_refs:
+  - IT-BP0508C-0021
+  disposition: MATERIALIZED_AND_MATURED
+  source_rule: Accepted/closed prompts leave current/approved actionable surfaces and move to completed/archive
+    history.
+  current_connection:
+  - received/active/archived module intake
+  - Blueprint prompt queue lifecycle
+  - history/index retention
+- topic: historical_step20_step26_step27_lineage
+  item_refs:
+  - IT-BP0508C-0022
+  - IT-BP0508C-0025
+  - IT-BP0508C-0026
+  - IT-BP0508C-0027
+  - IT-BP0508C-0028
+  - IT-BP0508C-0029
+  - IT-BP0508C-0030
+  disposition: HISTORICAL_EXECUTION_LINEAGE_ONLY
+  source_rule: Publication/seal verification remains bounded and does not itself execute the next step, mutate module
+    repos, auto-commit/push or globally promote v0.4.
+  historical_boundary: This source ends with STEP27 reported ready_for_module_pull and STEP26 manual seal commit
+    still pending. Later 17.08 evidence should be reconciled separately.
+- topic: website_ui_side_branch
+  item_refs:
+  - IT-BP0508C-0023
+  disposition: FOREIGN_SCOPE_PRESERVE_ONLY
+  source_rule: Website/mobile UI material appearing inside this Blueprint continuation is not promoted into Blueprint
+    governance requirements without a current owner/roadmap source.
+- topic: latest_current_docs_vs_stale_docs
+  item_refs:
+  - IT-BP0508C-0024
+  disposition: RETAINED_AND_MATURED
+  source_rule: When applicable documentation conflicts, resolve current authority/freshness and revise or deprecate
+    stale rules rather than blindly following historical text.
+open_loop_reconciliation:
+- loop: LOOP-BP0508C-0001
+  status: MATERIALIZED_DIRECTION_CURRENT_IMPLEMENTATION_SEPARATELY_AUDITABLE
+  note: Transparency/status/Make control surfaces later expanded substantially.
+- loop: LOOP-BP0508C-0002
+  status: RESOLVED_DIRECTIONALLY
+  note: Current parallel-work doctrine prefers isolated workspaces/worktrees; do not revive sync-heavy temp clones.
+- loop: LOOP-BP0508C-0003
+  status: MATERIALIZED_DIRECTION
+  note: Completion envelope/outbox/intake/oracle semantics are later explicit; exact runtime proof remains a current
+    implementation audit.
+- loop: LOOP-BP0508C-0004
+  status: NUMERIC_BUFFER_POLICY_SUPERSEDED
+  note: Retain planning-depth health semantics, not fixed 5-8/2 thresholds.
+- loop: LOOP-BP0508C-0005
+  status: MATERIALIZED_WITH_LATER_AUTHORITY_CLARIFICATION
+  note: Closed-loop coordination remains, but ACCEPT is distinct from machine closure/progression.
+- loop: LOOP-BP0508C-0006
+  status: MATERIALIZED_DIRECTION
+  note: Prompt current/history separation is now part of established prompt lifecycle.
+- loop: LOOP-BP0508C-0007
+  status: FOREIGN_SCOPE_NOT_PROMOTED
+  note: Website/UI work requires Website ownership evidence, not this continuation.
+- loop: LOOP-BP0508C-0008
+  status: DEFER_TO_SEPARATE_2026_08_17_SOURCE
+  note: Do not collapse source-end STEP26 pending state with later historical resolution.
+- loop: LOOP-BP0508C-0009
+  status: HISTORICAL_SEPARATE_PROMOTION_BOUNDARY_RETAINED
+  note: Global v0.4 promotion was separate and was not authorized merely by STEP26/27 readiness in this source.
+roadmap_mutation_required: false
+execution_authority_mutation_required: false
+new_roadmap_step_required: false

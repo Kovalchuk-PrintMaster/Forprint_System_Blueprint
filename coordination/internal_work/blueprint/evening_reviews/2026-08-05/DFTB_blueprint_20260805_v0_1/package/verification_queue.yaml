@@ -1,0 +1,652 @@
+schema_version: forprint_dftb_verification_queue_v0_1
+bundle_id: DFTB-blueprint-2026-08-05
+warning: Historical evidence is not current authority.
+queue:
+- item_id: IT-BP0508-0001
+  title: Repository-knowledge snapshots require evidence, not templates
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - repository_knowledge
+  - forprint_system_blueprint
+  verification_targets:
+  - docs
+  - config
+  - operations
+  evidence_refs:
+  - EV-BP0508-0001
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact active baseline first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP0508-0002
+  title: Repository knowledge uses explicit confidence classes
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - repository_knowledge
+  - evidence
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP0508-0002
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact active baseline first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP0508-0003
+  title: Repository snapshots bind to exact Git baseline
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - repository_knowledge
+  - git_workflow
+  verification_targets:
+  - docs
+  - config
+  - operations
+  evidence_refs:
+  - EV-BP0508-0003
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact active baseline first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP0508-0004
+  title: Makefile is the discoverable operational surface
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - make
+  - forprint_system_blueprint
+  verification_targets:
+  - code
+  - docs
+  - tests
+  evidence_refs:
+  - EV-BP0508-0004
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact active baseline first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP0508-0005
+  title: Clean Blueprint internal structure before broader assistant work
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - forprint_system_blueprint
+  - repository_structure
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP0508-0005
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact active baseline first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP0508-0006
+  title: Lifecycle audit found completion-report and prompt-naming repairs
+  importance: normal
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - prompt_lifecycle
+  - reporting
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP0508-0006
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact active baseline first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP0508-0007
+  title: Module roadmaps maintain 8–10 forward steps
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - roadmap
+  - portfolio
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP0508-0007
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact active baseline first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP0508-0008
+  title: Index coverage is not semantic understanding
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - self_knowledge
+  - repository_knowledge
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0508-0008
+  - EV-BP0508-0009
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact active baseline first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP0508-0009
+  title: Blueprint self-audit supports bounded external semantic assessment
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - self_knowledge
+  - external_analysis
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0508-0010
+  - EV-BP0508-0012
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact active baseline first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP0508-0010
+  title: External audit roundtrip preserves request identity and checksum
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - external_analysis
+  - provenance
+  verification_targets:
+  - code
+  - tests
+  - config
+  evidence_refs:
+  - EV-BP0508-0011
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact active baseline first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP0508-0011
+  title: Downloadable reports use project-local temporary workspace
+  importance: normal
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - reporting
+  - repository_structure
+  verification_targets:
+  - docs
+  - operations
+  evidence_refs:
+  - EV-BP0508-0013
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact active baseline first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP0508-0012
+  title: Module assistants pull current workfront into their own workflow
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - module_assistants
+  - prompt_lifecycle
+  verification_targets:
+  - code
+  - docs
+  - operations
+  evidence_refs:
+  - EV-BP0508-0014
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact active baseline first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP0508-0013
+  title: Each module operates through module-owned scripts
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - module_assistants
+  - ownership
+  verification_targets:
+  - code
+  - docs
+  - tests
+  evidence_refs:
+  - EV-BP0508-0015
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact active baseline first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP0508-0014
+  title: Blueprint inspects modules through Blueprint-owned tooling
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - forprint_system_blueprint
+  - ownership
+  verification_targets:
+  - code
+  - docs
+  - tests
+  evidence_refs:
+  - EV-BP0508-0016
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact active baseline first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP0508-0015
+  title: Module workfront completion updates status and produces evidence
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - module_assistants
+  - completion_reporting
+  verification_targets:
+  - code
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP0508-0017
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact active baseline first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP0508-0016
+  title: Read-only checks must not be disguised mutations
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - make
+  - command_semantics
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0508-0018
+  - EV-BP0508-0019
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact active baseline first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP0508-0017
+  title: Prefer clean target architecture over awkward legacy command behavior
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - architecture
+  - make
+  verification_targets:
+  - docs
+  - code
+  - tests
+  evidence_refs:
+  - EV-BP0508-0020
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact active baseline first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP0508-0018
+  title: Worktree/copy identity must be unambiguous
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - git_workflow
+  - operator_ux
+  verification_targets:
+  - docs
+  - code
+  - operations
+  evidence_refs:
+  - EV-BP0508-0021
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact active baseline first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP0508-0019
+  title: Completion intake and acceptance-gate validators were historically implemented
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - completion_reporting
+  - governance
+  verification_targets:
+  - code
+  - tests
+  - config
+  evidence_refs:
+  - EV-BP0508-0022
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact active baseline first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP0508-0020
+  title: Pilot migration remains separately authorized
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - pilot
+  - operator_approval
+  verification_targets:
+  - docs
+  - config
+  - operations
+  evidence_refs:
+  - EV-BP0508-0023
+  - EV-BP0508-0038
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact active baseline first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP0508-0021
+  title: External rollout remains gated until explicit authorization
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - rollout
+  - governance
+  verification_targets:
+  - docs
+  - config
+  - operations
+  evidence_refs:
+  - EV-BP0508-0024
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact active baseline first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP0508-0022
+  title: Blueprint needs its own status/prompts/reports indexing surfaces
+  importance: high
+  dialogue_status: discussed
+  confidence: medium
+  owner_or_domain:
+  - forprint_system_blueprint
+  - indexes
+  verification_targets:
+  - docs
+  - config
+  - code
+  evidence_refs:
+  - EV-BP0508-0025
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact active baseline first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP0508-0023
+  title: Governance workflow must be stable and unambiguous
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - governance
+  - operability
+  verification_targets:
+  - docs
+  - code
+  - tests
+  evidence_refs:
+  - EV-BP0508-0026
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact active baseline first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP0508-0024
+  title: Prompt workflow received governance closeout inventory
+  importance: normal
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - prompt_lifecycle
+  - governance
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP0508-0027
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact active baseline first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP0508-0025
+  title: Operational readiness became a formal review workfront
+  importance: high
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - operational_readiness
+  - governance
+  verification_targets:
+  - docs
+  - config
+  - tests
+  evidence_refs:
+  - EV-BP0508-0028
+  - EV-BP0508-0031
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact active baseline first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP0508-0026
+  title: Write-flow recovery was classified and bounded-reviewed
+  importance: high
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - write_flow
+  - recovery
+  verification_targets:
+  - docs
+  - config
+  - tests
+  evidence_refs:
+  - EV-BP0508-0029
+  - EV-BP0508-0030
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact active baseline first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP0508-0027
+  title: Validator behavior is formalized as a contract
+  importance: critical
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - validation
+  - governance
+  verification_targets:
+  - docs
+  - config
+  - code
+  - tests
+  evidence_refs:
+  - EV-BP0508-0032
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact active baseline first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP0508-0028
+  title: Write/mutation architecture uses exact contracts
+  importance: critical
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - write_flow
+  - governance
+  verification_targets:
+  - docs
+  - config
+  - code
+  - tests
+  evidence_refs:
+  - EV-BP0508-0033
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact active baseline first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP0508-0029
+  title: Project transparency has a durable machine-readable baseline
+  importance: critical
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - transparency
+  - governance
+  verification_targets:
+  - docs
+  - config
+  - code
+  evidence_refs:
+  - EV-BP0508-0034
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact active baseline first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP0508-0030
+  title: Canonical mutation builder contract
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - mutation_builder
+  - governance
+  verification_targets:
+  - docs
+  - config
+  - code
+  - tests
+  evidence_refs:
+  - EV-BP0508-0035
+  - EV-BP0508-0037
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact active baseline first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP0508-0031
+  title: Mutation path preserves rollback
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - mutation_builder
+  - rollback
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0508-0039
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact active baseline first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP0508-0032
+  title: Mutation-builder integration historically passed canonical gate
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - mutation_builder
+  - validation
+  verification_targets:
+  - code
+  - tests
+  - config
+  evidence_refs:
+  - EV-BP0508-0036
+  - EV-BP0508-0037
+  - EV-BP0508-0042
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact active baseline first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP0508-0033
+  title: Current-state transparency manifest is next control-layer step
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - transparency
+  - governance
+  verification_targets:
+  - config
+  - code
+  - docs
+  evidence_refs:
+  - EV-BP0508-0040
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact active baseline first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP0508-0034
+  title: Read-only governance status command is next control-layer step
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - transparency
+  - make
+  - command_semantics
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0508-0043
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact active baseline first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP0508-0035
+  title: Transparency control layer exposes phase blockers boundaries dependencies and next action
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - transparency
+  - operator_ux
+  verification_targets:
+  - config
+  - code
+  - docs
+  evidence_refs:
+  - EV-BP0508-0045
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact active baseline first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP0508-0036
+  title: Transparency view includes roughly ten-step forward plan
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - transparency
+  - roadmap
+  verification_targets:
+  - config
+  - docs
+  evidence_refs:
+  - EV-BP0508-0041
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact active baseline first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP0508-0037
+  title: Do not authorize pilot before control layer is explicit
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - pilot
+  - transparency
+  verification_targets:
+  - docs
+  - config
+  - operations
+  evidence_refs:
+  - EV-BP0508-0038
+  - EV-BP0508-0046
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact active baseline first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP0508-0038
+  title: Session handoff must carry exact current state and reading path
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - continuity
+  - bootstrap
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP0508-0044
+  - EV-BP0508-0045
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact active baseline first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP0508-0039
+  title: Markdown/document structural cleanup became a prolonged maintenance stream
+  importance: normal
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - documentation
+  - repository_hygiene
+  verification_targets:
+  - docs
+  - tests
+  evidence_refs:
+  - EV-BP0508-0006
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact active baseline first; then verify in current code/tests/config/docs/runtime.
+- item_id: IT-BP0508-0040
+  title: Canonical gates and authorization states remain distinct
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - governance
+  - validation
+  verification_targets:
+  - docs
+  - config
+  - tests
+  evidence_refs:
+  - EV-BP0508-0036
+  - EV-BP0508-0038
+  - EV-BP0508-0024
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact active baseline first; then verify in current code/tests/config/docs/runtime.

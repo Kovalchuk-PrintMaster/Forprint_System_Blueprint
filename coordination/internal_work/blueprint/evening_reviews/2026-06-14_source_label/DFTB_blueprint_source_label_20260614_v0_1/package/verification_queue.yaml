@@ -1,0 +1,556 @@
+schema_version: forprint_dftb_verification_queue_v0_1
+bundle_id: DFTB-blueprint-source-label-2026-06-14
+warning: Historical dialogue intent is not current authority. Filename date is temporally ambiguous.
+queue:
+- item_id: IT-BP1406-0001
+  title: Blueprint coordinator keeps portfolio and module plans aligned
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - forprint_system_blueprint
+  - portfolio
+  verification_targets:
+  - docs
+  - config
+  - operations
+  evidence_refs:
+  - EV-BP1406-0002
+  - EV-BP1406-0003
+  - EV-BP1406-0010
+  - EV-BP1406-0015
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    reports are insufficient.
+- item_id: IT-BP1406-0002
+  title: Do not let one module outrun dependencies
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - portfolio
+  - dependency_management
+  verification_targets:
+  - docs
+  - operations
+  evidence_refs:
+  - EV-BP1406-0003
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    reports are insufficient.
+- item_id: IT-BP1406-0003
+  title: Avoid fake dependency truth as normal strategy
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - data_architecture
+  - module_assistants
+  verification_targets:
+  - docs
+  - tests
+  evidence_refs:
+  - EV-BP1406-0005
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    reports are insufficient.
+- item_id: IT-BP1406-0004
+  title: Library readiness historically blocks Calculator and Telegram
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - forprint_library
+  - calculator_engine
+  - telegram_bot
+  verification_targets:
+  - docs
+  - code
+  - database
+  evidence_refs:
+  - EV-BP1406-0006
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    reports are insufficient.
+- item_id: IT-BP1406-0005
+  title: Telegram + Logistics as parallel self-contained automation line
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - logistics_service
+  verification_targets:
+  - code
+  - tests
+  - api
+  - docs
+  evidence_refs:
+  - EV-BP1406-0007
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    reports are insufficient.
+- item_id: IT-BP1406-0006
+  title: Calculator is a priority business module
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - calculator_engine
+  verification_targets:
+  - roadmap
+  - code
+  - tests
+  evidence_refs:
+  - EV-BP1406-0008
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    reports are insufficient.
+- item_id: IT-BP1406-0007
+  title: Telegram is a priority operational module
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  verification_targets:
+  - roadmap
+  - code
+  - tests
+  evidence_refs:
+  - EV-BP1406-0009
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    reports are insufficient.
+- item_id: IT-BP1406-0008
+  title: Maintain global and per-module roadmaps
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - roadmap
+  - portfolio
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP1406-0010
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    reports are insufficient.
+- item_id: IT-BP1406-0009
+  title: Roadmaps should carry meaningful forward depth
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - roadmap
+  - coordination
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP1406-0015
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    reports are insufficient.
+- item_id: IT-BP1406-0010
+  title: Do not invent the next front
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - prompt_lifecycle
+  - roadmap
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1406-0012
+  - EV-BP1406-0013
+  - EV-BP1406-0014
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    reports are insufficient.
+- item_id: IT-BP1406-0011
+  title: Complete integrated prompt/report coordination workflow
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - coordination_runtime
+  - tooling
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1406-0011
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    reports are insufficient.
+- item_id: IT-BP1406-0012
+  title: Regular reports are compact and table-first
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - reporting
+  - operator_ux
+  verification_targets:
+  - code
+  - docs
+  - tests
+  evidence_refs:
+  - EV-BP1406-0016
+  - EV-BP1406-0026
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    reports are insufficient.
+- item_id: IT-BP1406-0013
+  title: Status reports use consistent visual/color semantics
+  importance: normal
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - reporting
+  - operator_ux
+  verification_targets:
+  - code
+  - docs
+  evidence_refs:
+  - EV-BP1406-0017
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    reports are insufficient.
+- item_id: IT-BP1406-0014
+  title: Detailed reports end with compact colored summary
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - reporting
+  - operator_ux
+  verification_targets:
+  - code
+  - docs
+  - tests
+  evidence_refs:
+  - EV-BP1406-0027
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    reports are insufficient.
+- item_id: IT-BP1406-0015
+  title: Blueprint dogfoods shared standards
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - forprint_system_blueprint
+  - governance
+  verification_targets:
+  - docs
+  - code
+  - operations
+  evidence_refs:
+  - EV-BP1406-0018
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    reports are insufficient.
+- item_id: IT-BP1406-0016
+  title: Document process and rule evolution durably
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - project_memory
+  - governance
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP1406-0019
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    reports are insufficient.
+- item_id: IT-BP1406-0017
+  title: Propagate shared workflow changes into templates/standards/policy
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - make
+  - standards
+  - module_policy
+  verification_targets:
+  - docs
+  - config
+  - code
+  evidence_refs:
+  - EV-BP1406-0020
+  - EV-BP1406-0021
+  - EV-BP1406-0022
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    reports are insufficient.
+- item_id: IT-BP1406-0018
+  title: Closeout includes documentation and replayability
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - closeout
+  - project_memory
+  verification_targets:
+  - docs
+  - config
+  - tests
+  evidence_refs:
+  - EV-BP1406-0023
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    reports are insufficient.
+- item_id: IT-BP1406-0019
+  title: Library business-card configurable-product skeleton reported complete
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - forprint_library
+  verification_targets:
+  - code
+  - tests
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP1406-0024
+  - EV-BP1406-0025
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    reports are insufficient.
+- item_id: IT-BP1406-0020
+  title: Repository-knowledge input supports Blueprint self-analysis
+  importance: high
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - forprint_system_blueprint
+  - knowledge
+  verification_targets:
+  - docs
+  - config
+  - tooling
+  evidence_refs:
+  - EV-BP1406-0028
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    reports are insufficient.
+- item_id: IT-BP1406-0021
+  title: Reports must be semantically consumed, not merely generated
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - analytics
+  - governance
+  verification_targets:
+  - operations
+  - docs
+  evidence_refs:
+  - EV-BP1406-0031
+  - EV-BP1406-0032
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    reports are insufficient.
+- item_id: IT-BP1406-0022
+  title: Build a reusable Blueprint repository self-analysis capability
+  importance: high
+  dialogue_status: discussed
+  confidence: medium
+  owner_or_domain:
+  - forprint_system_blueprint
+  - self_analysis
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1406-0030
+  - EV-BP1406-0033
+  - EV-BP1406-0034
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    reports are insufficient.
+- item_id: IT-BP1406-0023
+  title: Self-analysis covers newly added files
+  importance: high
+  dialogue_status: discussed
+  confidence: medium
+  owner_or_domain:
+  - self_analysis
+  - knowledge
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1406-0034
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    reports are insufficient.
+- item_id: IT-BP1406-0024
+  title: New scripts carry machine-readable responsibility metadata
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - standards
+  - script_metadata
+  verification_targets:
+  - code
+  - docs
+  - tests
+  evidence_refs:
+  - EV-BP1406-0035
+  - EV-BP1406-0036
+  - EV-BP1406-0037
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    reports are insufficient.
+- item_id: IT-BP1406-0025
+  title: Audit metadata against actual code behavior
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - script_metadata
+  - self_analysis
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1406-0038
+  - EV-BP1406-0039
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    reports are insufficient.
+- item_id: IT-BP1406-0026
+  title: Flag metadata-update candidates instead of constant manual edits
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - script_metadata
+  - maintenance
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1406-0038
+  - EV-BP1406-0039
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    reports are insufficient.
+- item_id: IT-BP1406-0027
+  title: Promote script-metadata/audit model into general policy
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - governance
+  - standards
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP1406-0035
+  - EV-BP1406-0040
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    reports are insufficient.
+- item_id: IT-BP1406-0028
+  title: Coordination information should be quickly visually scannable
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - operator_ux
+  - coordination
+  verification_targets:
+  - code
+  - docs
+  evidence_refs:
+  - EV-BP1406-0016
+  - EV-BP1406-0017
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    reports are insufficient.
+- item_id: IT-BP1406-0029
+  title: Shared standards should converge module behavior
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - portfolio
+  - standards
+  verification_targets:
+  - docs
+  - config
+  - operations
+  evidence_refs:
+  - EV-BP1406-0018
+  - EV-BP1406-0019
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    reports are insufficient.
+- item_id: IT-BP1406-0030
+  title: Session replacement must be recoverable from project artifacts
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - continuity
+  - project_memory
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP1406-0001
+  - EV-BP1406-0019
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    reports are insufficient.
+- item_id: IT-BP1406-0031
+  title: Source filename date is not reliable chronology
+  importance: normal
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - provenance
+  verification_targets:
+  - docs
+  evidence_refs:
+  - EV-BP1406-0024
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    reports are insufficient.
+- item_id: IT-BP1406-0032
+  title: Module completion evidence should support coordinator acceptance review
+  importance: high
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - completion_reporting
+  - coordination
+  verification_targets:
+  - docs
+  - tests
+  - config
+  evidence_refs:
+  - EV-BP1406-0024
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify in current code/tests/config/docs/runtime. Historical
+    reports are insufficient.

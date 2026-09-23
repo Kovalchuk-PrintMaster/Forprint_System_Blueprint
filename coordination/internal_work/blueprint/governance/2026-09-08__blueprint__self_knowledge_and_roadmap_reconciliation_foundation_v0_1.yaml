@@ -1,0 +1,19 @@
+schema_version: blueprint_self_knowledge_and_roadmap_reconciliation_foundation_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  created_at: '2026-09-08'
+  status: IMPLEMENTED
+invariants:
+  implementation_inventory_roadmap_alignment_required: true
+  blueprint_derived_module_obligation_projection_required: true
+  unknown_legacy_invention_forbidden: true
+  canonical_roadmap_auto_apply: false
+logistics_reference:
+  report_path: coordination/internal_work/blueprint/module_inventory/logistics_service/2026-09-08__logistics_service__roadmap_reconciliation_report_v0_1.yaml
+  report_sha256: 3d98182bf4af41b0bb4505e904e43514af9453517ed760314b49a3bfd45fe1f8
+  state: REVIEW_READY_PENDING_CANONICAL_ROADMAP_APPLY
+  roadmap_step_count: 33
+  canonical_apply_pending: true
+next:
+  control_plane: module_preparation_registry_and_queue_v0_1
+  logistics: semantic_review_then_canonical_roadmap_apply_if_evidence_requires_change

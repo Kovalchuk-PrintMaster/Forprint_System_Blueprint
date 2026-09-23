@@ -1,0 +1,1749 @@
+schema_version: forprint_dftb_dialogue_memory_v0_1
+bundle_id: DFTB-blueprint-2026-08-17
+source:
+  source_id: SRC-blueprint-2026-08-17
+  title: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26
+  source_type: chatgpt_mhtml_snapshot
+  source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  source_hash_sha256: 9d693e7905ba827b9c6b9d3920357546a653437745f1531adac1bce11102f0c1
+  conversation_started_at: null
+  conversation_ended_at: Sat, 12 Sep 2026 16:34:13 +0300
+  participants:
+  - user
+  - assistant
+  language:
+  - uk
+  - en
+  completeness: partial
+  completeness_notes: All 142 retained turn containers have text, but only 4 assistant narrative messages are preserved; many intermediate
+    reports are represented only by attachment labels.
+extraction:
+  created_at: '2026-09-12T17:19:00+03:00'
+  extractor: GPT-5.6 Sol / Asistans_Forprint_Blueprint
+  extraction_mode: independent_dialogue_reconstruction
+  implementation_verification_performed: false
+  notes: Historical intent/execution evidence only. Current repository was not audited.
+evidence_index:
+- evidence_id: EV-BP1708-0001
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: eeec353c-7603-4961-9ed3-9fa34d9f8627
+    message_id: eeec353c-7603-4961-9ed3-9fa34d9f8627
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: и ревізію 04 робимо по взаємній роботі з підрядними модулями і в мене закінчилася контекстне вікно з моїм попереднім помічником
+    тому я тобі даю деяку інформацію що у нас є і ми маємо з тобою продовжити роботу я ще тобі дам останній крок який ми з ним встигли
+    пропрацювати і якщо в тебе будуть якісь питання то ти будеш мені там задавати я тобі буду робити ви
+  quote_whitespace_normalized: true
+  context_before: Owner starts this session specifically as continuity recovery after a context-window break.
+  context_after: null
+  evidence_role:
+  - owner_context
+  - continuity
+- evidence_id: EV-BP1708-0002
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: ef16dc9a-faf2-464c-9f63-d8fb622989ae
+    message_id: f7d77b5a-bf3a-4db1-9202-e8c3ea2ebdc5
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: 'відновив. Можемо продовжувати без повернення до STEP26. Твій останній live-вивід має вищий пріоритет за work.tar , бо архів
+    зроблений ще в стані, де в handoff стоїть seal_commit_pending: true . Фактичний новіший стан уже такий: STEP26 — ACCEPTED / PUBLISHED
+    / SEALED ; seal commit — 6072958e022ba6dcaa3822a3f4af9a7828aa812b ; LOCAL_HEAD == REMOTE_HEAD ; worktree чистий; r'
+  quote_whitespace_normalized: true
+  context_before: Assistant establishes live repository evidence over stale archive state.
+  context_after: null
+  evidence_role:
+  - assistant_decision
+  - authority
+- evidence_id: EV-BP1708-0003
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: ef16dc9a-faf2-464c-9f63-d8fb622989ae
+    message_id: f7d77b5a-bf3a-4db1-9202-e8c3ea2ebdc5
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: 'romotion заборонена до окремого рішення. Що саме є STEP27 Це важливо: STEP27 — не нова реалізація Tracking Events з нуля .
+    У нас уже є історичний Tracking Events у logistics_service . Саме на ньому v0.3 виявив semantic dark zone: машинна перевірка показувала
+    повне покриття, але частина обов''язків source prompt не була окремо змодельована. Зокрема були проблемні категорії: детал'
+  quote_whitespace_normalized: true
+  context_before: STEP27 is framed as reference-chain validation, not rebuilding the module feature.
+  context_after: null
+  evidence_role:
+  - assistant_decision
+  - scope
+- evidence_id: EV-BP1708-0004
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: ef16dc9a-faf2-464c-9f63-d8fb622989ae
+    message_id: f7d77b5a-bf3a-4db1-9202-e8c3ea2ebdc5
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: 'з повний v0.4 reference chain , але без підміни власності артефактів: source prompt → immutable Prompt Contract v0.4 → module
+    completion evidence → Completion Packet v0.4 → Completion Outbox → Blueprint discovery/intake → READY_FOR_BLUEPRINT_REVIEW При цьому:
+    Blueprint може читати module repo, створювати Blueprint-owned contract/findings/review evidence. Blueprint не може с'
+  quote_whitespace_normalized: true
+  context_before: Assistant defines the intended v0.4 evidence chain from prompt through Blueprint review.
+  context_after: null
+  evidence_role:
+  - assistant_decision
+  - traceability
+- evidence_id: EV-BP1708-0005
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: ef16dc9a-faf2-464c-9f63-d8fb622989ae
+    message_id: f7d77b5a-bf3a-4db1-9202-e8c3ea2ebdc5
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: 'e repo, створювати Blueprint-owned contract/findings/review evidence. Blueprint не може сам переписувати module-owned packet/report/outbox
+    або код logistics_service . І ще принципово: результат STEP27 не повинен автоматично означати ACCEPT Tracking Events і не повинен
+    означати promotion v0.4 . Зараз я не хочу одразу давати mutation-команди , бо в work.tar є тільки coordination-частина Blueprint;'
+  quote_whitespace_normalized: true
+  context_before: Assistant preserves module-owned artifact boundaries during Blueprint review.
+  context_after: null
+  evidence_role:
+  - assistant_decision
+  - ownership
+- evidence_id: EV-BP1708-0006
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: ef16dc9a-faf2-464c-9f63-d8fb622989ae
+    message_id: f7d77b5a-bf3a-4db1-9202-e8c3ea2ebdc5
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: '/outbox або код logistics_service . І ще принципово: результат STEP27 не повинен автоматично означати ACCEPT Tracking Events
+    і не повинен означати promotion v0.4 . Зараз я не хочу одразу давати mutation-команди , бо в work.tar є тільки coordination-частина
+    Blueprint; там немає актуальних scripts/tests і немає live logistics_service repository. Нам спочатку треба зробити короткий ST'
+  quote_whitespace_normalized: true
+  context_before: STEP27 must not auto-accept or auto-promote v0.4.
+  context_after: null
+  evidence_role:
+  - assistant_decision
+  - operator_gate
+- evidence_id: EV-BP1708-0007
+  speaker: user
+  locator:
+    conversation_turn: 3
+    turn_id: 44e4ec0f-fe45-4ee2-ad89-8e651c765e14
+    message_id: 44e4ec0f-fe45-4ee2-ad89-8e651c765e14
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: sted text (2).txt Document У нас дуже важлива така домовленість що ми всі процедури виконуємо через make файл і там ну він
+    має відображати максимально прозоро нашу роботу ну і охоплювати взагалі весь функціонал нашого проекту тому ознайомся з ним і ну
+    якщо що можеш там щось уточнити також дам тобі ще дерево нашого проекту щоб в принципі треба було розуміння що вже є
+  quote_whitespace_normalized: true
+  context_before: Owner defines Makefile as the primary transparent operational surface.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - tooling
+- evidence_id: EV-BP1708-0008
+  speaker: user
+  locator:
+    conversation_turn: 61
+    turn_id: 137cef0e-0914-42e0-b497-1b3b2391504c
+    message_id: 137cef0e-0914-42e0-b497-1b3b2391504c
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: ext.txt Document Так дивися з помічниками ми працюємо наступним чином ми самі нічого не робимо і ну скажімо так ніяку не кодову
+    частину і нічого такого глобального проекті теж не міняємо ми працюємо виключно по типу видачі промків тобто ми видаємо фронт публікуємо
+    і скажімо так помічник помічниця виконує цю всю роботу і звітує перед нами в нормальному
+  quote_whitespace_normalized: true
+  context_before: Owner defines Blueprint/operator role as issuing/publishing prompts rather than implementing module code directly.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - coordination_model
+- evidence_id: EV-BP1708-0009
+  speaker: user
+  locator:
+    conversation_turn: 61
+    turn_id: 137cef0e-0914-42e0-b497-1b3b2391504c
+    message_id: 137cef0e-0914-42e0-b497-1b3b2391504c
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: о типу видачі промків тобто ми видаємо фронт публікуємо і скажімо так помічник помічниця виконує цю всю роботу і звітує перед
+    нами в нормальному варіанті це все відбувається через наші ну скажімо так внутрішні мей команди але якщо десь зараз є обрив в якийсь
+    там ланцюжку в якомусь да то ну можна там передати промт через чат там цьому там немає проблеми на етапі розробки але ко
+  quote_whitespace_normalized: true
+  context_before: Module assistants execute the work and report back.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - coordination_model
+- evidence_id: EV-BP1708-0010
+  speaker: user
+  locator:
+    conversation_turn: 61
+    turn_id: 137cef0e-0914-42e0-b497-1b3b2391504c
+    message_id: 137cef0e-0914-42e0-b497-1b3b2391504c
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: жімо так помічник помічниця виконує цю всю роботу і звітує перед нами в нормальному варіанті це все відбувається через наші
+    ну скажімо так внутрішні мей команди але якщо десь зараз є обрив в якийсь там ланцюжку в якомусь да то ну можна там передати промт
+    через чат там цьому там немає проблеми на етапі розробки але коли йде вже поточне нормальна робота по просуванню проекту то ми в
+  quote_whitespace_normalized: true
+  context_before: Normal module coordination should flow through internal Make-based mechanisms.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - tooling
+- evidence_id: EV-BP1708-0011
+  speaker: user
+  locator:
+    conversation_turn: 77
+    turn_id: 2181b4e1-315d-45d1-814a-88e96b023e97
+    message_id: 2181b4e1-315d-45d1-814a-88e96b023e97
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: elopment/forprint-project/forprint_system_blueprint/tmp - на майбутне сюди будемо класти звіти
+  quote_whitespace_normalized: true
+  context_before: Owner designates Blueprint tmp directory as future report drop location.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - reporting
+- evidence_id: EV-BP1708-0012
+  speaker: user
+  locator:
+    conversation_turn: 89
+    turn_id: 37dc1d97-2b18-4b43-9988-fd5980e01ed2
+    message_id: 37dc1d97-2b18-4b43-9988-fd5980e01ed2
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: 'urce_errors'': 0}, ''governance'': {''operator_decision_created'': False, ''automatic_acceptance'': False, ''automatic_return'':
+    False, ''automatic_hold'': False, ''roadmap_mutated'': False, ''prompt_queue_mutated'': False, ''prompt_file_mutated'': False, ''module_repository_writes'':
+    False, ''next_prompt_selection_performed'': False, ''next_prompt_activation_performed'': False,'
+  quote_whitespace_normalized: true
+  context_before: Live status evidence shows review is read-only and automatic decisions/mutations are disabled.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - safety_gate
+- evidence_id: EV-BP1708-0013
+  speaker: user
+  locator:
+    conversation_turn: 91
+    turn_id: df61c2e3-0f7a-4ac5-b743-a73d974ae5c6
+    message_id: df61c2e3-0f7a-4ac5-b743-a73d974ae5c6
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: '9 passed in 5.88s ForPrint Completion Discovery + Intake v0.4 result: READY_FOR_BLUEPRINT_REVIEW mode: local_read_only network_independent:
+    true registered_sources: 8 events_discovered: 1 review_candidates: 1 superseded_events: 0 invalid_events: 0 source_errors: 0 discovery_fingerprint_sha256:
+    881f79e41034847c7f93dda0c9dc8a7615ee25519225be79a90df7d7ebf5d'
+  quote_whitespace_normalized: true
+  context_before: Completion discovery/intake reaches a review-candidate state without automatic acceptance.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - review_state
+- evidence_id: EV-BP1708-0014
+  speaker: user
+  locator:
+    conversation_turn: 111
+    turn_id: 22a005c8-81ae-4190-8518-7ce5a8218c20
+    message_id: 22a005c8-81ae-4190-8518-7ce5a8218c20
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: 'mat "text"; \ if [ "0" = "1" ]; then \ test -n "" || { \ echo "ERROR: REVIEW_OPERATOR_CONFIRMATION is required when REVIEW_TRANSACTION_APPLY=1";
+    \ exit 2; \ }; \ set -- "$@" --apply \ --operator-confirmation ""; \ elif [ "0" != "0" ]; then \ echo "ERROR: REVIEW_TRANSACTION_APPLY
+    must be 0 or 1"; \ exit 2; \ fi; \ .venv_blueprint/bin/python scripts/coordination/review_'
+  quote_whitespace_normalized: true
+  context_before: Make review transaction requires explicit operator confirmation for apply mode.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - operator_gate
+- evidence_id: EV-BP1708-0015
+  speaker: user
+  locator:
+    conversation_turn: 115
+    turn_id: 07146de4-9370-4435-9acd-8d88ad17aea7
+    message_id: 07146de4-9370-4435-9acd-8d88ad17aea7
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: 'se: tracking_events_v0_1 priority: critical module_execution: status: completed_by_module completion_commit: 1f0b73df4dd7f5dc2cf04ffddff11fc8465c741a
+    completion_report: coordination/reports/completion/2026-08-07__logistics_service__tracking_events_v0_1_completion_superseding_v0_2.md
+    completed_at: ''2026-08-07'' blueprint_review: status: not_started'
+  quote_whitespace_normalized: true
+  context_before: Roadmap/prompt mapping distinguishes module completion from Blueprint review status.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - lifecycle
+- evidence_id: EV-BP1708-0016
+  speaker: user
+  locator:
+    conversation_turn: 131
+    turn_id: b5284e89-6b11-4fe5-ab9b-eab25806c2ad
+    message_id: b5284e89-6b11-4fe5-ab9b-eab25806c2ad
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: '81f79e41034847c7f93dda0c9dc8a7615ee25519225be79a90df7d7ebf5d69d ===== REAL ACCEPT PLAN ===== ===== POST-PLAN WORKTREE =====
+    RESULT: STEP27_TRACKING_EVENTS_REAL_ACCEPT_PLAN_READY Show more Show less'
+  quote_whitespace_normalized: true
+  context_before: A concrete operator decision transaction is planned before mutation.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - acceptance
+- evidence_id: EV-BP1708-0017
+  speaker: user
+  locator:
+    conversation_turn: 155
+    turn_id: 4896c38f-34b3-4f14-b80a-9f4d78f2780a
+    message_id: 4896c38f-34b3-4f14-b80a-9f4d78f2780a
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: 'ct/forprint_system_blueprint# make seal-commit \ SEAL_COMMIT_MESSAGE="governance(blueprint): seal STEP27 tracking events v0.4
+    acceptance" [audit/blueprint-inventory-refresh-2026-07-29 59a90fe] governance(blueprint): seal STEP27 tracking events v0.4 acceptance
+    8 files changed, 518 insertions(+), 123 deletions(-) rename coordination/outgoing_prompts/logistics_service/{approved => completed}/2026'
+  quote_whitespace_normalized: true
+  context_before: STEP27 acceptance is sealed through explicit commit/push flow.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - publication
+- evidence_id: EV-BP1708-0018
+  speaker: user
+  locator:
+    conversation_turn: 155
+    turn_id: 4896c38f-34b3-4f14-b80a-9f4d78f2780a
+    message_id: 4896c38f-34b3-4f14-b80a-9f4d78f2780a
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: 'ry-refresh-2026-07-29 -> audit/blueprint-inventory-refresh-2026-07-29 LOCAL_HEAD: 59a90feefa626ad26dc4fecaa7fefcb2eefe078a
+    REMOTE_HEAD: 59a90feefa626ad26dc4fecaa7fefcb2eefe078a WORKTREE: root@s01:/srv/software_development/forprint-project/forprint_system_blueprint#
+    { echo "===== WORKTREE =====" make worktree-status echo echo "===== LOCAL =====" git rev-parse HEAD echo echo "====='
+  quote_whitespace_normalized: true
+  context_before: Acceptance seal reports local/remote containment and clean reconciliation.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - publication
+- evidence_id: EV-BP1708-0019
+  speaker: user
+  locator:
+    conversation_turn: 157
+    turn_id: 463ef672-17b1-421e-a585-1cf6708be18b
+    message_id: 463ef672-17b1-421e-a585-1cf6708be18b
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: Pasted text.txt Document roadmap поки не чіпаємо доробимо цю задачу потім я скажу що будемо робити і побудуємо вже roadmap
+  quote_whitespace_normalized: true
+  context_before: Owner freezes roadmap changes until the current task is finished.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - roadmap
+- evidence_id: EV-BP1708-0020
+  speaker: user
+  locator:
+    conversation_turn: 177
+    turn_id: 068c8b60-9413-498d-9a28-7f25d771866c
+    message_id: 068c8b60-9413-498d-9a28-7f25d771866c
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: е буде зрозуміло всю глибину я думаю що тоді треба зробити так щоб ну за потреби була там підпункти тобто в нас є якась основна
+    задача яку ми видаємо а вона може складатися там з там трьох-чотирьох п'яти п'яти підпунктів неважно неважливо скільки але вони
+    всі є ну логічним продовженням однієї задачі і логічним її наповненням тобто тоді ми бачимо які кроки м
+  quote_whitespace_normalized: true
+  context_before: Owner asks for hierarchical roadmap tasks/subtasks to expose implementation depth.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - roadmap
+- evidence_id: EV-BP1708-0021
+  speaker: user
+  locator:
+    conversation_turn: 177
+    turn_id: 068c8b60-9413-498d-9a28-7f25d771866c
+    message_id: 068c8b60-9413-498d-9a28-7f25d771866c
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: ти ну або буде виводитись взагалі дві таблиці може бути да я думаю що буде дві таблиці одна таблиця яка виводить за замовчуванням
+    вона виводить тільки заголовки ну умовно головні задачі а має бути ще там я думаю що інший вивід це коли виводиться вже таблиця
+    і де кожна задача з підзадачами і тоді вони можуть уже рости у висоту тобто це може бути
+  quote_whitespace_normalized: true
+  context_before: Owner proposes compact top-level and detailed subtask roadmap views.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - roadmap_ui
+- evidence_id: EV-BP1708-0022
+  speaker: user
+  locator:
+    conversation_turn: 263
+    turn_id: 5b68afa2-2e63-4e2d-8342-870bdfbd7bac
+    message_id: 5b68afa2-2e63-4e2d-8342-870bdfbd7bac
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: Pasted text.txt Document Так дивись ми вправі змінювати логіку нашого роботи нашого проекту я сам приймаю рішення відносно
+    цього і якщо ти бачиш що поточна архітектура або застаріла або не відповідає якимось нормам який вже в нас нові ми реалізовуємо
+    то ми можемо оновити документацію оновити вимоги до там make файлу дати нові команди або змінити пор
+  quote_whitespace_normalized: true
+  context_before: Owner explicitly authorizes changing project workflow/architecture when old logic is no longer useful.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - governance
+- evidence_id: EV-BP1708-0023
+  speaker: user
+  locator:
+    conversation_turn: 263
+    turn_id: 5b68afa2-2e63-4e2d-8342-870bdfbd7bac
+    message_id: 5b68afa2-2e63-4e2d-8342-870bdfbd7bac
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: оманд тобто наша головна мета - це зробити нашу роботу нашого проекту більшу передбачуваною стабільною і прозорою і нам не
+    треба впиратись щоби там підтримувати все старе насліддя саме тому ця ревізія 04 і була розпочата в роботу тобто ми не тягнемо там
+    за собою всі старі хвости тобто нам треба максимально оптимізувати максимально дивитися вперед як там буде простіше пра
+  quote_whitespace_normalized: true
+  context_before: Primary optimization goal is predictability, stability and transparency rather than preserving legacy mechanisms.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - governance
+- evidence_id: EV-BP1708-0024
+  speaker: user
+  locator:
+    conversation_turn: 343
+    turn_id: ca0e090e-ad42-4dfb-b506-434dedb2b089
+    message_id: ca0e090e-ad42-4dfb-b506-434dedb2b089
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: v0_4_1_h6_website_acceptance_shape_diagnostic_v7.txt Document website поки не чіпаємо він у нас в далеких планах поки тому
+    можна якось позначити що на паузі чи щось таке
+  quote_whitespace_normalized: true
+  context_before: Website is intentionally paused/deferred.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - module_lifecycle
+- evidence_id: EV-BP1708-0025
+  speaker: user
+  locator:
+    conversation_turn: 365
+    turn_id: 74e2aaf8-71a0-4bb2-9d26-2396e42300cc
+    message_id: 74e2aaf8-71a0-4bb2-9d26-2396e42300cc
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: зній стадії підготовки і на різній стадії опрацювання тому ми поки що опираємося тільки на один модуль це модуль доставки і
+    на ньому маємо відпрацювати нову модель тобто коли ми повністю відпрацюємо вже модель на модулі доставки і побачимо що все працює
+    ми просто цю модель вже будемо переносити на всі інші модулі і підтягувати їх до актуального стану тому що зараз дійсно в різно
+  quote_whitespace_normalized: true
+  context_before: Logistics is the single pilot module for the new operating model.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - pilot
+- evidence_id: EV-BP1708-0026
+  speaker: user
+  locator:
+    conversation_turn: 365
+    turn_id: 74e2aaf8-71a0-4bb2-9d26-2396e42300cc
+    message_id: 74e2aaf8-71a0-4bb2-9d26-2396e42300cc
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: дулі доставки і побачимо що все працює ми просто цю модель вже будемо переносити на всі інші модулі і підтягувати їх до актуального
+    стану тому що зараз дійсно в різнобій всі вони налаштовані і ну немає сенсу втягнутись зразу всіх одним гамузом тому що це може
+    ну ускладнити нам роботу опираємося тільки на один наш тестовий модуль модуль доставки і скажем так шліфуємо роботу тіл
+  quote_whitespace_normalized: true
+  context_before: Stable Logistics model should later be propagated to other modules.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - rollout
+- evidence_id: EV-BP1708-0027
+  speaker: user
+  locator:
+    conversation_turn: 399
+    turn_id: e9cb0fc3-c8c6-43e9-8439-5e10362f8b60
+    message_id: e9cb0fc3-c8c6-43e9-8439-5e10362f8b60
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: elegram_logistics_commercial_delivery_capture_v17.txt Document Дивись я даю тобі опис задачі ну з прикладами реальних якихось
+    таких варіантів ну в силу того свого там прикладного розуміння але всієї широти скажімо так кодової бази да кодових шаблонів я не
+    розумію тут мені треба твоя допомога тому я кажу практичні речі а ти дійсно переводиш в такі заг
+  quote_whitespace_normalized: true
+  context_before: Owner provides business/practical intent and expects assistant to translate it into technically correct modular prompts.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - prompt_design
+- evidence_id: EV-BP1708-0028
+  speaker: user
+  locator:
+    conversation_turn: 399
+    turn_id: e9cb0fc3-c8c6-43e9-8439-5e10362f8b60
+    message_id: e9cb0fc3-c8c6-43e9-8439-5e10362f8b60
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: да описуєш задачу вже там технічним язиком машиноподібних пром так ми виключно машиноподібні використовуємо варіанти для того
+    щоб ми мали універсальні схеми роботи тобто завтра нам треба добавити ще якусь кур'єрську службу або якогось відмовитись якусь заборонити
+    або поставити якусь пріоритетну тобто ну я думаю що тобі легше як мінімум зробити якусь там швидку аналітику в і
+  quote_whitespace_normalized: true
+  context_before: Owner wants machine-like, reusable prompt/spec formats rather than literal prose transcription.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - prompt_design
+- evidence_id: EV-BP1708-0029
+  speaker: user
+  locator:
+    conversation_turn: 441
+    turn_id: d0d2a3cc-b46e-4b06-a108-8a5274c787e4
+    message_id: d0d2a3cc-b46e-4b06-a108-8a5274c787e4
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: аріле хай десь жовтеньким щось підсвічує але не блокує роботу тобто я не хочу бути залежним від старого старих алгоритмів роботи
+    тобто і підтримувати їх постійно да там і впиратися щоб ми падаємо на якихось помилках тому що у нас там то тестере десь пропало
+    то це старе не підтримується я думаю що коли ми доведемо цей пакет 4.1 запустимо вже повністю добре в роботу то одним із подальших
+  quote_whitespace_normalized: true
+  context_before: Owner rejects keeping obsolete tests/scripts as blockers of current work.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - legacy_retirement
+- evidence_id: EV-BP1708-0030
+  speaker: user
+  locator:
+    conversation_turn: 441
+    turn_id: d0d2a3cc-b46e-4b06-a108-8a5274c787e4
+    message_id: d0d2a3cc-b46e-4b06-a108-8a5274c787e4
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: овністю добре в роботу то одним із подальших шляхів ну кроків це буде винести застарілі інструменти в окремо кудись директорію
+    і просто мати до них можливість звернутися там за потребою але вони вже в сучасних перевірках і в сучасному житті проекту не мають
+    бути задіяні там щоб на них не відволікатись на їхні проблеми Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Owner proposes later isolation/archive of deprecated tools while retaining optional access.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - legacy_retirement
+- evidence_id: EV-BP1708-0031
+  speaker: user
+  locator:
+    conversation_turn: 547
+    turn_id: b2565ee0-fc0f-4f8e-a568-63c108fbce1b
+    message_id: b2565ee0-fc0f-4f8e-a568-63c108fbce1b
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: 'ed: false ===== FINAL VERDICT ===== H9_ACCEPTED_PUBLISHED_CLOSED=true B1_ACTIVE_CURRENT=true B2_ACTIVE=false Q_TRACK_ACTIVE=false
+    SQLITE_RUNTIME_ENABLED=false AUTONOMOUS_EXECUTION_ENABLED=false AUTOMATIC_ACCEPT_ENABLED=false RESULT: B1_ACTIVATION_ZERO_FINDING_READ_ONLY_SEMANTIC_REVIEW_PASS_READY_FOR_LOCAL_SEAL_COMMIT
+    Show more Show less'
+  quote_whitespace_normalized: true
+  context_before: Read-only B1 activation review reports H9 closed and B1 current.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - phase
+- evidence_id: EV-BP1708-0032
+  speaker: user
+  locator:
+    conversation_turn: 569
+    turn_id: 15256330-f601-43b4-9a55-8ae6e942c594
+    message_id: 15256330-f601-43b4-9a55-8ae6e942c594
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: 'Pasted markdown.md File RESULT: B1_EXACT_INTEGRATION_SURFACE_REVIEW_PASS_READY_FOR_BOUNDED_MUTATION_DESIGN REPORT=/srv/software_development/forprint-project/forprint_system_blueprint/tmp/b1_exact_integration_surface_review_v60.md
+    COMMIT_PERFORMED=false PUSH_PERFORMED=false RESULT: B1_EXACT_INTEGRATION_SURFACE_REVIEW_PASS_READY_FOR_BOUNDED_MUTATION_DESIGN root@s01:'
+  quote_whitespace_normalized: true
+  context_before: B1 exact integration surface review reaches a bounded-mutation-ready state.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - phase
+- evidence_id: EV-BP1708-0033
+  speaker: user
+  locator:
+    conversation_turn: 585
+    turn_id: 0778a463-8c16-4e45-b7f3-e10f0f750465
+    message_id: 0778a463-8c16-4e45-b7f3-e10f0f750465
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: б якась між ними була різниця хай буде трошечки більше так ага кнопки фільтрів прибилися вже до пошукового фільтру супер а
+    оці кнопки їх треба опустити і вони теж мають прийняти такий характер як всі наші кнопки скруглені такі ну овальні а вони прямокутні
+    в нас прямокутні тільки кнопки які будуть в дві строки це десь треба налаштувати т
+  quote_whitespace_normalized: true
+  context_before: Side UI branch includes filter/browser layout and styling refinements.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - ux
+- evidence_id: EV-BP1708-0034
+  speaker: user
+  locator:
+    conversation_turn: 585
+    turn_id: 0778a463-8c16-4e45-b7f3-e10f0f750465
+    message_id: 0778a463-8c16-4e45-b7f3-e10f0f750465
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: зрозуміти я думаю що ну тіпа глибина відступа вправо тобто наступний рівень має бути трішечки більший тобто вправо здвигатися
+    вони мають більше коли розкриваєш якісь директорії тому що воно тут наче все в одному рядочку тобто не видно зміщення по вкладеності
+    так і тут щось select якийсь набут select не активний ага якийсь напевно що директорії системні не мож
+  quote_whitespace_normalized: true
+  context_before: Owner wants visible hierarchy indentation in tree/browser navigation.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - ux
+- evidence_id: EV-BP1708-0035
+  speaker: user
+  locator:
+    conversation_turn: 585
+    turn_id: 0778a463-8c16-4e45-b7f3-e10f0f750465
+    message_id: 0778a463-8c16-4e45-b7f3-e10f0f750465
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: і все зміниться так як ми собі плануємо я дуже довольний ага єдине що в хлібних крихтах треба зробити відступ там трошки завеликий
+    вони знову трошки з'їхали наліво вони починаються мають з блоку покажу де відстань от у нас оці кнопки сейф рід оператор мото тут
+    відступ між ними ідеальний я тобі даю фото от такий має бути в хлібних крихтах то він
+  quote_whitespace_normalized: true
+  context_before: Breadcrumb alignment should match the main-content start line.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - ux
+- evidence_id: EV-BP1708-0036
+  speaker: user
+  locator:
+    conversation_turn: 623
+    turn_id: 60416759-8a35-43a8-947b-d600cc7e3ded
+    message_id: 60416759-8a35-43a8-947b-d600cc7e3ded
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: Pasted text.txt Document ок продовжуємо дожимаємо поточне питання і прописємо роадмап
+  quote_whitespace_normalized: true
+  context_before: Owner wants current issue finished before formalizing the roadmap.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - roadmap
+- evidence_id: EV-BP1708-0037
+  speaker: user
+  locator:
+    conversation_turn: 665
+    turn_id: a613ba13-504a-49f2-a331-191d02fef604
+    message_id: a613ba13-504a-49f2-a331-191d02fef604
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: ін нормально прописаний давай оновимо будтрапний файл на рахунок того щоб новий помічник міг підхопити нашу роботу якщо в нас
+    закінчиться контекстне вікно і ну там чітко розумів на якому ми етапі зараз і куди саме головне рухаємося і саме головне має бути
+    описана покроково в срапі саме до кінця лінія яка фінішна мета нашого поточного релізу над яким ми працюємо да версії
+  quote_whitespace_normalized: true
+  context_before: Owner asks for zero-context bootstrap capable of surviving another context-window break.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - continuity
+- evidence_id: EV-BP1708-0038
+  speaker: user
+  locator:
+    conversation_turn: 665
+    turn_id: a613ba13-504a-49f2-a331-191d02fef604
+    message_id: a613ba13-504a-49f2-a331-191d02fef604
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: і зараз і куди саме головне рухаємося і саме головне має бути описана покроково в срапі саме до кінця лінія яка фінішна мета
+    нашого поточного релізу над яким ми працюємо да версії і щоб він прям міг самостійно закінчити роботу а потім ми вже перечитуємо
+    основний наш головний будстрап і мап і потім вже йдемо працювати там покроково щоб закриття контекстного вікна не зламало мені лан
+  quote_whitespace_normalized: true
+  context_before: Bootstrap should include the end-to-end line to release completion, not only the immediate next step.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - continuity
+- evidence_id: EV-BP1708-0039
+  speaker: user
+  locator:
+    conversation_turn: 665
+    turn_id: a613ba13-504a-49f2-a331-191d02fef604
+    message_id: a613ba13-504a-49f2-a331-191d02fef604
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: цював повністю ланцюжок той який ми проговорювали і прописували тобто на тестовому модулі логістичному ми маємо опрацювати
+    повністю весь автоматичний ланцюжок з кодексом давай цей зробимо документ щоб він в мене був щоб я не був залежний від поточної
+    ситуації яка може обірватися Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Release goal includes an end-to-end automatic chain on the Logistics test module with Codex/task/report flow.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - release_goal
+- evidence_id: EV-BP1708-0040
+  speaker: assistant
+  locator:
+    conversation_turn: 674
+    turn_id: 2cae6707-d22c-4b7c-a1a5-626fd96ccf97
+    message_id: 03b2f035-0cae-4a18-8d4f-2ffaccfde4a4
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: 'Continuity local seal готовий до publication. Завантажити v0_4_1_zero_context_workstream_bootstrap_explicit_publication_v85_20260823.py
+    Запуск: Bash python v0_4_1_zero_context_workstream_bootstrap_explicit_publication_v85_20260823.py \ 2 >&1 | tee tmp/v0_4_1_zero_context_workstream_bootstrap_explicit_pu'
+  quote_whitespace_normalized: true
+  context_before: Assistant prepares publication of the zero-context workstream handoff.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - continuity
+- evidence_id: EV-BP1708-0041
+  speaker: assistant
+  locator:
+    conversation_turn: 674
+    turn_id: 2cae6707-d22c-4b7c-a1a5-626fd96ccf97
+    message_id: 03b2f035-0cae-4a18-8d4f-2ffaccfde4a4
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: 'candidate залишився exact і unstaged; force push не використовувався; B1_COMPLETE=false . Очікуваний фінал: RESULT: V0_4_1_ZERO_CONTEXT_WORKSTREAM_BOOTSTRAP_PUBLISHED_REMOTE_CURRENT_READY_TO_RESUME_B1_P2_F01_F04
+    Після цього continuity-страховка буде вже опублікована, і повертаємося без відхилень до B1-P2 F01–F04 bounded correction .'
+  quote_whitespace_normalized: true
+  context_before: Continuity publication explicitly preserves B1 as incomplete.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - phase
+- evidence_id: EV-BP1708-0042
+  speaker: assistant
+  locator:
+    conversation_turn: 676
+    turn_id: fa910ef1-be25-44ec-8d63-15e230c6bb10
+    message_id: aa86c399-103f-4895-9607-0170cd588bce
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: Continuity-пакет уже CLOSED/PUBLISHED/current на 804999ec5cdcd7ff03dcdcb70c7ad44dcc13f276 . B1 при цьому все ще B1_COMPLETE=false
+    , а 7-файловий B1-P2 candidate збережений exact. Тепер повертаємось до F01–F04. Я підготував один останній read-only exact anchor
+    capture після continuity publication, щоб нас
+  quote_whitespace_normalized: true
+  context_before: Assistant reports continuity package published/current.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - publication
+- evidence_id: EV-BP1708-0043
+  speaker: assistant
+  locator:
+    conversation_turn: 676
+    turn_id: fa910ef1-be25-44ec-8d63-15e230c6bb10
+    message_id: aa86c399-103f-4895-9607-0170cd588bce
+    source_file: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26.mhtml
+  quote: 'COMPLETE=false , а 7-файловий B1-P2 candidate збережений exact. Тепер повертаємось до F01–F04. Я підготував один останній
+    read-only exact anchor capture після continuity publication, щоб наступна mutation була вже по актуальному HEAD і без здогадок.
+    Завантажити b1_p2_f01_f04_post_continuity_exact_anchor_capture_v86_20260823.py Запуск: Bash python b1_p'
+  quote_whitespace_normalized: true
+  context_before: After continuity publication, work resumes the bounded B1-P2 F01–F04 correction.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - next_step
+items:
+- item_id: IT-BP1708-0001
+  kind: process_rule
+  title: Live state outranks stale handoff archives
+  statement: When continuity is restored after a session break, live repository/release evidence should override older archived handoff
+    state.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - continuity
+  - authority
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - config
+  - operations
+  evidence_refs:
+  - EV-BP1708-0001
+  - EV-BP1708-0002
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1708-0002
+  kind: process_rule
+  title: Makefile is the primary operational surface
+  statement: Project procedures should be exposed transparently through Make commands and Make should cover the main operational workflow.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - tooling
+  - forprint_system_blueprint
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - tests
+  - docs
+  - operations
+  evidence_refs:
+  - EV-BP1708-0007
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1708-0003
+  kind: architecture_constraint
+  title: Blueprint coordinates; module assistants implement
+  statement: Blueprint/operator work should normally issue/publish prompts and review results rather than directly implement module-owned
+    code.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - forprint_system_blueprint
+  - module_assistants
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - operations
+  evidence_refs:
+  - EV-BP1708-0008
+  - EV-BP1708-0009
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1708-0004
+  kind: process_rule
+  title: Normal inter-module coordination uses internal Make mechanisms
+  statement: Routine module work should flow through the project's internal Make-based prompt/report mechanisms; chat handoff is only
+    a development fallback.
+  dialogue_status: agreed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - coordination_runtime
+  - tooling
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - docs
+  - operations
+  evidence_refs:
+  - EV-BP1708-0010
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1708-0005
+  kind: architecture_constraint
+  title: STEP27 is reference-chain validation, not feature rewrite
+  statement: Tracking Events STEP27 should validate/migrate the existing implementation through the v0.4 reference chain rather than
+    rebuild the feature from scratch.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - logistics_service
+  - v0_4
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - tests
+  - config
+  evidence_refs:
+  - EV-BP1708-0003
+  - EV-BP1708-0004
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1708-0006
+  kind: architecture_constraint
+  title: Blueprint must respect module-owned artifacts
+  statement: Blueprint may read module evidence and create Blueprint-owned review/contract artifacts but must not rewrite module-owned
+    completion packet/report/outbox or module code.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - forprint_system_blueprint
+  - module_repositories
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1708-0005
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1708-0007
+  kind: process_rule
+  title: No automatic acceptance or promotion from review readiness
+  statement: READY_FOR_BLUEPRINT_REVIEW or successful STEP27 evidence must not itself trigger ACCEPT or global promotion.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - review
+  - release
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1708-0006
+  - EV-BP1708-0012
+  - EV-BP1708-0013
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1708-0008
+  kind: process_rule
+  title: Explicit operator confirmation for review mutations
+  statement: Review/roadmap/queue apply transactions require explicit operator confirmation.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - operator_approval
+  - review_transaction
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1708-0014
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1708-0009
+  kind: architecture_constraint
+  title: Separate module completion from Blueprint acceptance
+  statement: Roadmap/prompt state should distinguish completed-by-module from Blueprint-reviewed/accepted.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - roadmap
+  - prompt_lifecycle
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - code
+  - docs
+  evidence_refs:
+  - EV-BP1708-0015
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1708-0010
+  kind: process_rule
+  title: Acceptance requires an explicit transaction and seal
+  statement: Module acceptance should be planned, applied, reconciled, sealed and published as an explicit transaction rather than inferred
+    from completion.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - review
+  - publication
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - tests
+  - operations
+  evidence_refs:
+  - EV-BP1708-0016
+  - EV-BP1708-0017
+  - EV-BP1708-0018
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1708-0011
+  kind: process_rule
+  title: Use tmp as ephemeral report workspace
+  statement: Blueprint diagnostic/review reports may be placed under the repository tmp workspace rather than scattered across durable
+    project structure.
+  dialogue_status: agreed
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - reporting
+  - repository_structure
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - operations
+  evidence_refs:
+  - EV-BP1708-0011
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1708-0012
+  kind: process_rule
+  title: Finish bounded task before roadmap re-planning
+  statement: Do not continually rewrite the roadmap in the middle of a bounded task; finish the current issue, then update the roadmap
+    deliberately.
+  dialogue_status: agreed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - roadmap
+  - coordination
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - operations
+  evidence_refs:
+  - EV-BP1708-0019
+  - EV-BP1708-0036
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1708-0013
+  kind: requirement
+  title: Hierarchical roadmap tasks and subtasks
+  statement: Roadmap items should support meaningful subtasks so the real implementation depth and partial completion state remain visible.
+  dialogue_status: agreed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - roadmap
+  - reporting
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - config
+  - docs
+  evidence_refs:
+  - EV-BP1708-0020
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1708-0014
+  kind: ux_requirement
+  title: Roadmap compact and detailed views
+  statement: Provide a compact default roadmap view for main tasks and a detailed view showing task/subtask hierarchy.
+  dialogue_status: agreed
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - roadmap_ui
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1708-0021
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1708-0015
+  kind: process_rule
+  title: Current architecture may supersede legacy workflow
+  statement: Project workflow, Make commands and documentation may be changed when older architecture no longer supports current standards
+    or reliability goals.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - governance
+  - tooling
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - code
+  - tests
+  evidence_refs:
+  - EV-BP1708-0022
+  - EV-BP1708-0023
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1708-0016
+  kind: nonfunctional_requirement
+  title: Optimize for predictability, stability and transparency
+  statement: Coordination architecture should prioritize predictable, stable and transparent operation over preserving every historical
+    mechanism.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - ecosystem
+  - coordination
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - tests
+  - operations
+  evidence_refs:
+  - EV-BP1708-0023
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1708-0017
+  kind: deferred_item
+  title: Website remains paused
+  statement: Website work should remain paused/deferred until explicitly resumed later.
+  dialogue_status: agreed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - website
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP1708-0024
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1708-0018
+  kind: process_rule
+  title: Logistics is the sole pilot for the new model
+  statement: Do not pull all unevenly prepared modules into the new coordination model at once; stabilize it on Logistics first.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - logistics_service
+  - portfolio
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - operations
+  - config
+  evidence_refs:
+  - EV-BP1708-0025
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1708-0019
+  kind: plan
+  title: Propagate stable Logistics model to other modules
+  statement: After the new operating model is proven stable on Logistics, roll it out to the remaining modules and bring them up to
+    current standards.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - portfolio
+  - module_assistants
+  implementation_expectation: required
+  verification_targets:
+  - roadmap
+  - docs
+  - operations
+  evidence_refs:
+  - EV-BP1708-0026
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1708-0020
+  kind: process_rule
+  title: Owner business intent is translated into technical machine prompts
+  statement: Owner may provide practical/business examples; assistant should generalize them into technically correct modular machine-readable
+    prompts/specifications.
+  dialogue_status: agreed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - prompt_design
+  - module_assistants
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - operations
+  evidence_refs:
+  - EV-BP1708-0027
+  - EV-BP1708-0028
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1708-0021
+  kind: process_rule
+  title: Prefer reusable machine-like specifications
+  statement: Prompts/specs should be structured for reusable module patterns rather than literal one-off transcription of the owner's
+    examples.
+  dialogue_status: agreed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - prompt_design
+  - architecture
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP1708-0028
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1708-0022
+  kind: process_rule
+  title: Legacy tests/tools should not block current platform
+  statement: Once new mechanisms supersede old ones, deprecated tests/scripts should be marked and prevented from blocking current work
+    solely for legacy compatibility.
+  dialogue_status: agreed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - legacy
+  - testing
+  implementation_expectation: required
+  verification_targets:
+  - tests
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP1708-0029
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1708-0023
+  kind: plan
+  title: Archive legacy tooling for optional access
+  statement: After v0.4.1 is stable and modules migrate, obsolete tools/tests should be isolated/archived while retaining optional historical
+    access.
+  dialogue_status: agreed
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - legacy
+  - repository_structure
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - config
+  - code
+  evidence_refs:
+  - EV-BP1708-0030
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1708-0024
+  kind: implementation_claim
+  title: STEP27 acceptance was sealed and published
+  statement: Historical execution evidence reports STEP27 Tracking Events v0.4 acceptance sealed, committed and pushed with local/remote
+    containment.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - step27
+  - logistics_service
+  implementation_expectation: unverifiable
+  verification_targets:
+  - code
+  - tests
+  - config
+  evidence_refs:
+  - EV-BP1708-0017
+  - EV-BP1708-0018
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical command output, not current repository audit.
+- item_id: IT-BP1708-0025
+  kind: implementation_claim
+  title: B1 became active after H9 closure
+  statement: Historical read-only review reports H9 accepted/published/closed and B1 active/current while B2/Q tracks remained inactive.
+  dialogue_status: accepted
+  importance: high
+  confidence: medium
+  owner_or_domain:
+  - v0_4_1
+  - B1
+  implementation_expectation: unverifiable
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP1708-0031
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical command output only.
+- item_id: IT-BP1708-0026
+  kind: implementation_claim
+  title: B1 exact integration review reached bounded-mutation-ready
+  statement: Historical report says B1 exact integration surface review passed and was ready for bounded mutation design.
+  dialogue_status: accepted
+  importance: normal
+  confidence: medium
+  owner_or_domain:
+  - v0_4_1
+  - B1
+  implementation_expectation: unverifiable
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1708-0032
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical report marker only.
+- item_id: IT-BP1708-0027
+  kind: ux_requirement
+  title: Shared filter/browser styling should be centrally reusable
+  statement: The UI side branch expects common CSS/component rules so filter/button/browser changes propagate consistently across similar
+    screens.
+  dialogue_status: agreed
+  importance: normal
+  confidence: medium
+  owner_or_domain:
+  - ui
+  - design_system
+  implementation_expectation: required
+  verification_targets:
+  - ui
+  - code
+  - tests
+  evidence_refs:
+  - EV-BP1708-0033
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Exact target component/module is not explicit in preserved text.
+- item_id: IT-BP1708-0028
+  kind: ux_requirement
+  title: Tree hierarchy needs visible indentation
+  statement: Nested file/directory tree levels should visibly shift right to make hierarchy legible.
+  dialogue_status: agreed
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - ui
+  - browser
+  implementation_expectation: required
+  verification_targets:
+  - ui
+  - code
+  evidence_refs:
+  - EV-BP1708-0034
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1708-0029
+  kind: ux_requirement
+  title: Breadcrumbs align to main-content origin
+  statement: Breadcrumbs should begin at the same horizontal origin as the main content block.
+  dialogue_status: agreed
+  importance: low
+  confidence: high
+  owner_or_domain:
+  - ui
+  - browser
+  implementation_expectation: required
+  verification_targets:
+  - ui
+  - code
+  evidence_refs:
+  - EV-BP1708-0035
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1708-0030
+  kind: process_rule
+  title: Zero-context bootstrap must survive session loss
+  statement: Current workstream state and final release goal should be written so a new assistant can resume independently after context
+    loss.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - bootstrap
+  - continuity
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP1708-0037
+  - EV-BP1708-0038
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1708-0031
+  kind: requirement
+  title: Bootstrap carries the full remaining release path
+  statement: The workstream bootstrap should describe the remaining steps through the end goal of the current release, not only the
+    immediate next command.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - bootstrap
+  - roadmap
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP1708-0038
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1708-0032
+  kind: requirement
+  title: End-to-end Logistics/Codex automatic chain is a release objective
+  statement: 'The v0.4.1 workstream should demonstrate the complete automatic chain on Logistics: connect Codex/worker, issue a test
+    task, obtain/report result, and exercise the designed coordination loop.'
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - logistics_service
+  - codex
+  - coordination_runtime
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - tests
+  - operations
+  - docs
+  evidence_refs:
+  - EV-BP1708-0039
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1708-0033
+  kind: implementation_claim
+  title: Zero-context continuity package was published current
+  statement: Historical assistant report says the continuity handoff was closed/published/current while B1 remained incomplete.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - bootstrap
+  - continuity
+  - B1
+  implementation_expectation: unverifiable
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP1708-0040
+  - EV-BP1708-0041
+  - EV-BP1708-0042
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Must be checked against current repository.
+- item_id: IT-BP1708-0034
+  kind: plan
+  title: Resume bounded B1-P2 F01–F04 after continuity publication
+  statement: After publishing continuity, work should resume the preserved exact B1-P2 F01–F04 correction rather than start a new architecture
+    cycle.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - B1
+  - v0_4_1
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1708-0043
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1708-0035
+  kind: process_rule
+  title: Global promotion remains a separate decision
+  statement: Reference-chain completion, dark-zone audit and global v0.4/v0.4.1 promotion are distinct lifecycle stages and promotion
+    must remain separately authorized.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - release
+  - governance
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - config
+  - operations
+  evidence_refs:
+  - EV-BP1708-0006
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1708-0036
+  kind: process_rule
+  title: Read-only diagnostics before mutation
+  statement: When live source/test surfaces are uncertain, capture exact read-only state before deciding the bounded mutation.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - diagnostics
+  - governance
+  implementation_expectation: required
+  verification_targets:
+  - operations
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1708-0002
+  - EV-BP1708-0043
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+relations:
+- relation_id: REL-BP1708-0001
+  from_item: IT-BP1708-0002
+  type: enables
+  to_item: IT-BP1708-0004
+  evidence_refs:
+  - EV-BP1708-0007
+  - EV-BP1708-0010
+  confidence: high
+- relation_id: REL-BP1708-0002
+  from_item: IT-BP1708-0006
+  type: blocks
+  to_item: IT-BP1708-0003
+  evidence_refs:
+  - EV-BP1708-0005
+  confidence: medium
+- relation_id: REL-BP1708-0003
+  from_item: IT-BP1708-0008
+  type: enables
+  to_item: IT-BP1708-0010
+  evidence_refs:
+  - EV-BP1708-0014
+  confidence: high
+- relation_id: REL-BP1708-0004
+  from_item: IT-BP1708-0013
+  type: enables
+  to_item: IT-BP1708-0014
+  evidence_refs:
+  - EV-BP1708-0020
+  - EV-BP1708-0021
+  confidence: high
+- relation_id: REL-BP1708-0005
+  from_item: IT-BP1708-0018
+  type: enables
+  to_item: IT-BP1708-0019
+  evidence_refs:
+  - EV-BP1708-0025
+  - EV-BP1708-0026
+  confidence: high
+- relation_id: REL-BP1708-0006
+  from_item: IT-BP1708-0030
+  type: enables
+  to_item: IT-BP1708-0034
+  evidence_refs:
+  - EV-BP1708-0037
+  - EV-BP1708-0043
+  confidence: high
+- relation_id: REL-BP1708-0007
+  from_item: IT-BP1708-0031
+  type: refines
+  to_item: IT-BP1708-0030
+  evidence_refs:
+  - EV-BP1708-0038
+  confidence: high
+- relation_id: REL-BP1708-0008
+  from_item: IT-BP1708-0032
+  type: derives_from
+  to_item: IT-BP1708-0018
+  evidence_refs:
+  - EV-BP1708-0039
+  - EV-BP1708-0025
+  confidence: medium
+- relation_id: REL-BP1708-0009
+  from_item: IT-BP1708-0023
+  type: enables
+  to_item: IT-BP1708-0015
+  evidence_refs:
+  - EV-BP1708-0030
+  - EV-BP1708-0022
+  confidence: medium
+anomalies:
+- anomaly_id: ANOM-BP1708-0001
+  type: assistant_side_capture_gap
+  description: All 142 retained conversation containers have text, but only four assistant narrative messages survive. Most intermediate
+    reasoning is represented by owner-supplied report attachments and follow-up instructions.
+  item_refs: []
+  evidence_refs: []
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP1708-0002
+  type: authority_recovery_risk
+  description: The session itself begins after a context-window break and demonstrates that archived handoff state can already be stale
+    relative to live repository state.
+  item_refs:
+  - IT-BP1708-0001
+  - IT-BP1708-0030
+  evidence_refs:
+  - EV-BP1708-0001
+  - EV-BP1708-0002
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP1708-0003
+  type: roadmap_granularity_gap
+  description: Owner explicitly identifies that flat roadmap tasks hide partial implementation depth, motivating subtask hierarchy and
+    dual views.
+  item_refs:
+  - IT-BP1708-0013
+  - IT-BP1708-0014
+  evidence_refs:
+  - EV-BP1708-0020
+  - EV-BP1708-0021
+  severity: normal
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP1708-0004
+  type: legacy_compatibility_drag
+  description: Old tests/scripts are seen as potential blockers even after their operating model is superseded; owner wants deprecation/isolation
+    instead of permanent compatibility burden.
+  item_refs:
+  - IT-BP1708-0022
+  - IT-BP1708-0023
+  evidence_refs:
+  - EV-BP1708-0029
+  - EV-BP1708-0030
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP1708-0005
+  type: module_rollout_imbalance
+  description: Modules are acknowledged to be at very different maturity levels. Pulling all of them into the new model simultaneously
+    is explicitly rejected in favor of Logistics-only validation.
+  item_refs:
+  - IT-BP1708-0018
+  - IT-BP1708-0019
+  evidence_refs:
+  - EV-BP1708-0025
+  - EV-BP1708-0026
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP1708-0006
+  type: side_branch_scope_contamination
+  description: A substantial UI/browser styling branch appears inside a Blueprint hardening conversation. It contains real requirements
+    but its owning module/component is not clearly named in the preserved source.
+  item_refs:
+  - IT-BP1708-0027
+  - IT-BP1708-0028
+  - IT-BP1708-0029
+  evidence_refs:
+  - EV-BP1708-0033
+  - EV-BP1708-0034
+  - EV-BP1708-0035
+  severity: normal
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP1708-0007
+  type: historical_report_not_current_proof
+  description: Many H3–H9/B1 states survive as report filenames or historical command output. They are useful execution chronology but
+    are not proof of today's repository state.
+  item_refs:
+  - IT-BP1708-0024
+  - IT-BP1708-0025
+  - IT-BP1708-0026
+  - IT-BP1708-0033
+  evidence_refs: []
+  severity: normal
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP1708-0008
+  type: release_goal_drift_risk
+  description: v0.4.1 hardening spans many subphases and the owner explicitly worries that another context loss could break the long
+    idea chain before the end-to-end Logistics/Codex objective is reached.
+  item_refs:
+  - IT-BP1708-0030
+  - IT-BP1708-0031
+  - IT-BP1708-0032
+  evidence_refs:
+  - EV-BP1708-0037
+  - EV-BP1708-0038
+  - EV-BP1708-0039
+  severity: critical
+  confidence: high
+  requires_followup: true
+open_loops:
+- loop_id: LOOP-BP1708-0001
+  description: Verify the current Makefile still represents the canonical operational surface and whether any important workflow bypasses
+    it.
+  item_refs:
+  - IT-BP1708-0002
+  - IT-BP1708-0004
+  last_known_state: Owner explicitly made Make the transparency/control surface during this dialogue.
+  recommended_verification: Audit current Make targets against runtime/coordination commands and current documentation.
+- loop_id: LOOP-BP1708-0002
+  description: Verify current module/Blueprint ownership around completion packet/outbox/review mutations.
+  item_refs:
+  - IT-BP1708-0006
+  - IT-BP1708-0007
+  - IT-BP1708-0008
+  last_known_state: v0.4 design separates module-owned completion evidence from Blueprint-owned review and requires explicit confirmation.
+  recommended_verification: Inspect current schemas, validators, review transaction and runtime behavior.
+- loop_id: LOOP-BP1708-0003
+  description: Verify whether roadmap hierarchy/subtask dual-view design became canonical.
+  item_refs:
+  - IT-BP1708-0013
+  - IT-BP1708-0014
+  last_known_state: Owner accepted the concept while v0.4.1 roadmap hardening was underway.
+  recommended_verification: Inspect current roadmap schema/renderers and module roadmaps.
+- loop_id: LOOP-BP1708-0004
+  description: Verify legacy test/tool retirement strategy.
+  item_refs:
+  - IT-BP1708-0022
+  - IT-BP1708-0023
+  last_known_state: Owner wanted deprecated mechanisms to stop blocking modern checks and later be isolated/archive-accessible.
+  recommended_verification: Check current legacy/deprecation policy, test selection and archive strategy.
+- loop_id: LOOP-BP1708-0005
+  description: Identify the owner/component for the UI/browser requirements side branch.
+  item_refs:
+  - IT-BP1708-0027
+  - IT-BP1708-0028
+  - IT-BP1708-0029
+  last_known_state: Requirements were actively refined, but target module is not explicit in preserved text.
+  recommended_verification: Search later dialogues/current UI repositories for filter browser, breadcrumb and shared button-style work.
+- loop_id: LOOP-BP1708-0006
+  description: Verify the final v0.4.1 zero-context bootstrap and end-to-end Logistics/Codex release objective.
+  item_refs:
+  - IT-BP1708-0030
+  - IT-BP1708-0031
+  - IT-BP1708-0032
+  - IT-BP1708-0033
+  - IT-BP1708-0034
+  last_known_state: Continuity package was reported published/current; B1 remained incomplete and work returned to B1-P2 F01–F04.
+  recommended_verification: Compare current release/bootstrap/roadmap/runtime pilot evidence and determine what remains incomplete or
+    has been superseded.
+implementation_audit_ref: implementation_audit.stub.yaml

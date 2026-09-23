@@ -1,0 +1,98 @@
+schema_version: forprint_dftb_blueprint_20260805_continuation_intake_manifest_v0_1
+source_date_label: 2026-08-05-continuation
+intake_date: '2026-09-21'
+authority: historical_continuation_evidence_not_current_authority
+package_archive_sha256: 0f1e3dd73be539948a5ba2d09058fdaa2697c793a712aea2046a962699dcc358
+source_dialogue_hash_sha256: ddc8e37bcd183ce3c85339b6a99d3b2e4240ae1ee6a330906b2f39ae410c71d1
+duplicate_check:
+  previous_source_sha256: dba07b5cfb41381f4a651d0c5c43cd34647a5aaf2a56ffb10c01f7a3e26982ae
+  message_id_overlap: 0
+  classification: NOT_DUPLICATE_CONTINUATION
+package_files:
+- path: package/ANOMALIES.md
+  sha256: 29dff26303e734ac46914bdb81794b36382c5d23ceac976c1e1998feafded393
+  bytes: 4938
+- path: package/DUPLICATE_CHECK.md
+  sha256: 0d23d32c40dac6a83e8f874649a36387e4169deee1b6fbd5949d5e2845287e87
+  bytes: 555
+- path: package/PACKAGE_MANIFEST.yaml
+  sha256: 8abdce940049a83c08dd57989e8f462d5e44ed88472da454f046033cfcc6435f
+  bytes: 1862
+- path: package/README.md
+  sha256: ee94fd310d9f8fa088c96f2fb50f3f0a18b8773113da2aa775ee2b4740ad68d1
+  bytes: 805
+- path: package/SOURCE_COVERAGE.md
+  sha256: f8c44d1baeb7306176571d09b1a503a04ecc42502def9d897f09480debc22359
+  bytes: 737
+- path: package/cross_dialogue_relations.yaml
+  sha256: a235b1c288a8cc6be7f4299975423fb66680dfab7d41cb9cc410acfa8e6d811a
+  bytes: 1021
+- path: package/dialogue_memory.yaml
+  sha256: 2ca782675987b038506d2d986735adc4655bc5dba7467eb047d763f443d33903
+  bytes: 76607
+- path: package/evidence_portfolio.md
+  sha256: 6c5b4f23157679578d183dd5af29c3fbbf6e8083513404c347fc1f0cac871d30
+  bytes: 37622
+- path: package/execution_artifact_timeline.md
+  sha256: 010f35b41aa05909dc34531a8687accde1e7d33d684fce68ed619d0d83eac6f9
+  bytes: 5495
+- path: package/execution_artifact_timeline.yaml
+  sha256: f191e10e72d145edfed36636a223d5275b5dd146ccf2061a149530e779b42674
+  bytes: 14673
+- path: package/implementation_audit.stub.yaml
+  sha256: cd2dda8e90fd6be474ae6c9f0073bba9190ff36bf28f8b5ab3f9cb9ce8d6bcb9
+  bytes: 264
+- path: package/session_digest.md
+  sha256: bbf15c076f828c8ed56c41b0c70d2cf94090371c6719f205e11a7e09b430d0da
+  bytes: 9602
+- path: package/source_manifest.yaml
+  sha256: 010a722598fa00faf06ba7d055d53839ae8ea58d026f838a6615b8af148de66d
+  bytes: 692
+- path: package/traceability_matrix.md
+  sha256: bae366581802c545dba2a7123870aa3597acf4d16f75b1f415b625eeeb87f26c
+  bytes: 6625
+- path: package/verification_queue.yaml
+  sha256: 5a6d3ce5bcda07adcb5e4b907214724a9e705c458b23d07c9838af7e19e6d937
+  bytes: 19101
+- path: package/visible_transcript.md
+  sha256: a27994c738efb9e677154568013e539cc85b45a6cf1020f56fa5cd5f6a3bb3f0
+  bytes: 91357
+separately_uploaded_files:
+- attachment: execution_artifact_timeline(6).md
+  package_member: execution_artifact_timeline.md
+  byte_identical_to_package_member: true
+- attachment: ANOMALIES(6).md
+  package_member: ANOMALIES.md
+  byte_identical_to_package_member: true
+- attachment: verification_queue(6).yaml
+  package_member: verification_queue.yaml
+  byte_identical_to_package_member: true
+- attachment: cross_dialogue_relations(2).yaml
+  package_member: cross_dialogue_relations.yaml
+  byte_identical_to_package_member: true
+- attachment: DUPLICATE_CHECK(2).md
+  package_member: DUPLICATE_CHECK.md
+  byte_identical_to_package_member: true
+- attachment: session_digest(8).md
+  package_member: session_digest.md
+  byte_identical_to_package_member: true
+- attachment: evidence_portfolio(8).md
+  package_member: evidence_portfolio.md
+  byte_identical_to_package_member: true
+- attachment: dialogue_memory(7).yaml
+  package_member: dialogue_memory.yaml
+  byte_identical_to_package_member: true
+duplicate_storage_rule: The eight separately uploaded DFTB files were byte-identical to package members and are
+  not stored twice.
+source_boundary:
+  classification: PARTIAL_CONTINUATION_CAPTURE
+  retained_turn_containers: 87
+  text_bearing_turn_containers: 86
+  message_blocks:
+    user: 83
+    assistant: 3
+  artifact_labels: 60
+  implementation_verification_in_bundle: false
+cross_dialogue:
+  continues: DFTB-blueprint-2026-08-05
+  precedes: DFTB-blueprint-2026-08-17

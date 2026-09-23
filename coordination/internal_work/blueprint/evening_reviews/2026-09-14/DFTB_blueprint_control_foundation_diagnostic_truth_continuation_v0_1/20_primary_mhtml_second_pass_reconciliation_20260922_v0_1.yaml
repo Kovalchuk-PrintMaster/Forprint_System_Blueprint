@@ -1,0 +1,182 @@
+schema_version: forprint_blueprint_20260914_continuation_primary_mhtml_second_pass_reconciliation_v0_1
+reconciled_on: '2026-09-22'
+
+source:
+  operator_supplied_filename: Asistans_Forprint_Blueprint - Forprint_Blueprint_14.09.26.mhtml
+  sha256: 9911992845f537bfc18eaae65c2193c0e767c6ce0e4b927917312f9db133b707
+  relationship_to_existing_intake: BYTE_IDENTICAL_SOURCE_IDENTITY_ALREADY_NORMALIZED
+  existing_source_id: DFTB-blueprint-2026-09-14-continuation
+  existing_source_root: coordination/internal_work/blueprint/evening_reviews/2026-09-14/DFTB_blueprint_control_foundation_diagnostic_truth_continuation_v0_1
+
+overlap_boundary:
+  classification: OVERLAPPING_CONTINUATION_DELTA
+  full_export_message_blocks: 61
+  duplicate_message_ids_with_20260912: 18
+  genuinely_new_messages: 43
+  messages_present_in_20260912_but_absent_here: 5
+  rule: >
+    Do not treat the full 61-message export as a new independent source root.
+    Only the 43 genuinely new messages are the 14.09 continuation delta.
+
+source_quality:
+  classification: PRIMARY_MHTML_UTF8_RECOVERABLE_PARTIAL_ATTACHMENT_HEAVY_SPARSE_ASSISTANT_NARRATIVE
+  recoverable_message_blocks:
+    user: 57
+    assistant: 4
+  lossy_cyrillic_after_correct_mime_decode: false
+  mime_note: >
+    The HTML MIME payload is quoted-printable and decodes cleanly as UTF-8.
+    Replacement symbols seen under naive decoding are a parser artifact, not source loss.
+  limitation: >
+    The real limitation is attachment-heavy partial capture. Many intermediate CF-03/CF-04
+    turns are attachment placeholders without embedded bodies, and the final 0104 result
+    is not preserved. Missing attachment content and assistant reasoning must not be
+    reconstructed by guesswork.
+
+second_pass_coverage:
+  verdict: FIRST_PASS_SEMANTIC_EXTRACTION_SUBSTANTIALLY_COMPLETE
+  already_preserved_topics:
+    - CF-02 hardening and later legacy terminal-state retirement
+    - state-aware recovery after partial canonical advancement
+    - generated artifact delivery integrity
+    - explicit Website/UI scope rejection
+    - CF-03/CF-04 attachment-only lineage gap
+    - targeted diagnosis before expensive rerun
+    - diagnostic freshness: current tree versus stale materialized/public-check report
+    - historical release/buffer projection is not current authority
+    - final 0104 result remains unknown
+  new_human_intent_required: false
+  new_roadmap_step_required: false
+  new_source_map_entry_required: false
+  execution_authority_mutation_required: false
+
+second_pass_delta:
+  - topic: diagnostic_truth_current_tree_vs_materialized_report
+    source_items:
+      - IT-BP1409-0011
+      - IT-BP1409-0012
+      - IT-BP1409-0013
+      - IT-BP1409-0014
+      - IT-BP1409-0015
+      - IT-BP1409-0016
+      - IT-BP1409-0020
+    source_rule: >
+      When focused current-tree checks are green but an aggregate/public/materialized
+      report still shows an old controlled-failure hash or stale result, distinguish
+      current working-tree truth from isolated/materialized report truth before
+      changing source or tests. Repair the stale derivation/materialization/report
+      boundary rather than manufacturing a new source defect.
+    current_connection:
+      - diagnostic freshness/provenance controls
+      - repository-knowledge derivation/freshness checks
+      - current-tree versus isolated/public-check separation
+      - generated context/report non-authority rule
+      - bounded targeted diagnosis before expensive aggregate reruns
+    action: RECORD_PROVENANCE_BRIDGE_ONLY
+
+  - topic: state_aware_recovery_reinforcement
+    source_items:
+      - IT-BP1409-0006
+      - IT-BP1409-0007
+    existing_origin:
+      - IT-BP1209-0023
+      - IT-BP1209-0025
+      - HI-FP-RECOVERY-ORIGIN-20260912-001
+    source_rule: >
+      A closure/check may fail after canonical lifecycle state already advanced.
+      Inspect durable state/fingerprint first and repair only the failed downstream
+      lifecycle/evidence/projection boundary; never blindly replay the source mutation.
+    current_connection:
+      - Mutation Compiler recovery semantics
+      - append-only lifecycle/event authority
+      - roadmap/execution reconciliation
+      - bounded repair/resume discipline
+    human_intent_action: NO_DUPLICATE
+    action: NO_DUPLICATE
+
+  - topic: generated_artifact_delivery_integrity
+    source_items:
+      - IT-BP1409-0008
+    source_rule: >
+      A generated downloadable script/file is not executable evidence until artifact
+      identity and completeness are proven. Ambiguous/truncated delivery must be
+      regenerated under distinct identity and checked with checksum, byte count,
+      line count and/or terminal completeness markers.
+    current_connection:
+      - current large-script delivery contract
+      - SHA-256 / bytes / lines reporting
+      - EOF/completeness marker practice
+      - apply-script self-check before mutation
+      - downloadable script instead of oversized terminal paste
+    current_operator_workflow_note: >
+      The current operator workflow explicitly uses downloadable Python for larger
+      changes, copies it to repository-root tmp.py, executes it, and returns the report.
+      This is a matured operational continuation of the 14.09 integrity rule.
+    action: RECORD_PROVENANCE_BRIDGE_ONLY
+
+  - topic: attachment_only_lineage_non_inference
+    source_items:
+      - IT-BP1409-0010
+    source_rule: >
+      Exact CF-03/CF-04 intermediate bodies are absent from this historical snapshot.
+      If exact transition detail is ever required, recover it from durable repository
+      history/events rather than infer it from filenames or placeholders.
+    classification: HISTORICAL_LINEAGE_GAP_NOT_CURRENT_CAPABILITY_GAP
+    action: PRESERVE_NON_INFERENCE_BOUNDARY
+
+  - topic: historical_0104_result_boundary
+    source_items:
+      - IT-BP1409-0014
+      - IT-BP1409-0015
+      - IT-BP1409-0016
+      - IT-BP1409-0020
+    historical_boundary: >
+      Read-only 0104 was prepared to compare current-tree and materialized/public-check
+      truth, but its final result is not preserved in this source.
+    current_rule: >
+      Do not retrospectively mark 0104 PASS or FAIL. Later/current diagnostic-freshness
+      behavior may be audited separately without rewriting the missing historical result.
+    action: PRESERVE_UNKNOWN_RESULT
+
+  - topic: website_ui_scope_exclusion
+    source_items:
+      - IT-BP1409-0009
+    source_rule: >
+      The accidental Website/UI branch is not Blueprint Control Foundation work.
+      Website work remains with its owning module unless later explicit authority
+      changes ownership.
+    current_connection:
+      - parallel-work exact write-set / semantic-collision discipline
+      - module ownership boundaries
+      - current Roadmap Enrichment versus CF-10 workstream separation
+    action: NO_DUPLICATE
+
+  - topic: historical_release_buffer_projection_non_authority
+    source_items:
+      - IT-BP1409-0017
+      - IT-BP1409-0018
+      - IT-BP1409-0019
+    source_projection:
+      - v0.4 sealed / v0.4.1 active-current
+      - roadmap health 5/8
+      - prompt buffer 2/3
+      - semantic structure PASS
+    current_reconciliation: >
+      Preserve as historical projection only. Do not project fixed planning-buffer
+      heuristics or historical release labels into current roadmap/runtime authority.
+      Current full-horizon planning, lifecycle and workfront sources remain authoritative.
+    action: NO_DUPLICATE
+
+second_pass_verdict:
+  new_source_root: false
+  new_human_intent_required: false
+  new_roadmap_step_required: false
+  source_map_entry_required: false
+  execution_authority_mutation_required: false
+  valuable_new_persistence:
+    - exact primary-MHTML identity confirmation
+    - corrected encoding interpretation: UTF-8 Cyrillic is intact
+    - explicit 12.09 overlap handling confirmation
+    - provenance bridge from 14.09 diagnostic-truth rule to current freshness/derivation discipline
+    - provenance bridge from artifact-delivery integrity to current downloadable-script completeness contract
+    - preserved non-inference boundaries for attachment-only CF-03/CF-04 history and missing 0104 result

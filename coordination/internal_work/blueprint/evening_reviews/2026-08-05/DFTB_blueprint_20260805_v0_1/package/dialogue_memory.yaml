@@ -1,0 +1,1918 @@
+schema_version: forprint_dftb_dialogue_memory_v0_1
+bundle_id: DFTB-blueprint-2026-08-05
+source:
+  source_id: SRC-blueprint-2026-08-05
+  title: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26
+  source_type: chatgpt_mhtml_snapshot
+  source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  source_hash_sha256: dba07b5cfb41381f4a651d0c5c43cd34647a5aaf2a56ffb10c01f7a3e26982ae
+  conversation_started_at: null
+  conversation_ended_at: Sat, 12 Sep 2026 16:59:56 +0300
+  participants:
+  - user
+  - assistant
+  language:
+  - uk
+  - en
+  completeness: partial
+  completeness_notes: All 107/107 retained turns have text; assistant narrative blocks=4. Most execution history is artifact labels/pasted output.
+extraction:
+  created_at: '2026-09-12T19:00:00+03:00'
+  extractor: GPT-5.6 Sol / Asistans_Forprint_Blueprint
+  extraction_mode: independent_dialogue_reconstruction
+  implementation_verification_performed: false
+  notes: Historical intent/execution lineage only. Current repository/runtime not audited.
+evidence_index:
+- evidence_id: EV-BP0508-0001
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: f06b3fa0-0f49-4dd6-bb18-2e58f098f964
+    message_id: b3d5605e-af91-4363-a928-50f4f9dd8959
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: 'резервна копія протоколу та шаблонів. Мій висновок Статус приймання: RESULT: INVALID Усередині є: протокол Repository Knowledge & Direction
+    Snapshot Protocol v0.2 ; шаблони RCI, REDM і SDRS; інструкції для створення snapshot; реєстр джерел документів; текстовий перелік структури
+    репозиторію; порожні каталоги з .gitkeep . Але немає головного: заповненого Repository Capability Inventory — RCI ; заповнен'
+  quote_whitespace_normalized: true
+  context_before: Initial repository-knowledge package is rejected because it contains templates/protocols but not evidence-backed current-state
+    analysis.
+  context_after: null
+  evidence_role:
+  - assistant_decision
+  - repository_knowledge
+- evidence_id: EV-BP0508-0002
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: f06b3fa0-0f49-4dd6-bb18-2e58f098f964
+    message_id: b3d5605e-af91-4363-a928-50f4f9dd8959
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: айлів, а не лише їхні назви; для кожного суттєвого твердження вказати verified , inferred , unknown або conflicting ; відобразити поточні
+    цілі, завершені та активні роботи; показати міжмодульні залежності та блокери; визначити перевантажені й занедбані напрями; відобразити duplicate,
+    dormant та orphan candidates; показати щонайменше основні operational flows від trigger до terminal result; перевірити всі YAML-файли парсером;
+    додати
+  quote_whitespace_normalized: true
+  context_before: Repository knowledge claims should carry evidence/confidence classification instead of unsupported certainty.
+  context_after: null
+  evidence_role:
+  - assistant_decision
+  - evidence_model
+- evidence_id: EV-BP0508-0003
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: f06b3fa0-0f49-4dd6-bb18-2e58f098f964
+    message_id: b3d5605e-af91-4363-a928-50f4f9dd8959
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: rection/module_self_view/ не відповідає Blueprint profile. Не вказані branch, повний commit SHA і working tree state. Немає доказового
+    аналізу реальних entrypoints, scripts, Make targets, contracts, reports і operational flows. Немає карти залежностей, блокерів, дублювань,
+    dormant/orphan candidates та recovery paths. Немає порівняння з попереднім snapshot. Немає підтвердження YAML validation. Потрібно повторно
+    виконати аналіз реальн
+  quote_whitespace_normalized: true
+  context_before: Repository snapshots should be bound to an exact Git baseline and worktree state.
+  context_after: null
+  evidence_role:
+  - assistant_decision
+  - provenance
+- evidence_id: EV-BP0508-0004
+  speaker: user
+  locator:
+    conversation_turn: 5
+    turn_id: 3c5c145f-6e28-46b3-8ec1-9b9ea02b00fd
+    message_id: 3c5c145f-6e28-46b3-8ec1-9b9ea02b00fd
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: руктурі подивитися що в нас вже є у нас така ідеологія що ми всі свої основні функції прописуємо через make файл і там мають бути ну
+    там промальовані послідовності як і що ми робимо тобто по make файлу зрозуміло які основні функції ми виконуємо і наша задача ну навести певну
+    структуру і певний порядок в власній інфраструктурі ну і потім уже взятися за помічників тобто там у нас наші документації є певна інформація
+    про помічників
+  quote_whitespace_normalized: true
+  context_before: Owner states Makefile should expose the project's main operational functions and sequences.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - make
+- evidence_id: EV-BP0508-0005
+  speaker: user
+  locator:
+    conversation_turn: 5
+    turn_id: 3c5c145f-6e28-46b3-8ec1-9b9ea02b00fd
+    message_id: 3c5c145f-6e28-46b3-8ec1-9b9ea02b00fd
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: вітують тобто треба це все ну розібратися і ну там скажімо так трошки підчистити структуру нашого проекта організувати щоб і власну інформацію
+    ми могли упорадичено читати за потреби ну і розвивати документацію по помічникам Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Owner wants Blueprint internal structure organized before expanding to assistant/module work.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - repository_structure
+- evidence_id: EV-BP0508-0006
+  speaker: user
+  locator:
+    conversation_turn: 29
+    turn_id: 85a4ef08-8e43-4cab-9f70-6756ed3abcb0
+    message_id: 85a4ef08-8e43-4cab-9f70-6756ed3abcb0
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: 'blueprint_lifecycle_audit.txt Document Key signals: - completion report: REPAIR_REQUIRED - extensionless prompt: RENAME_REQUIRED - reporting
+    comparisons: 9 - website files inspected: 5'
+  quote_whitespace_normalized: true
+  context_before: Lifecycle audit reports completion-report repair and prompt naming cleanup needs.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - lifecycle
+- evidence_id: EV-BP0508-0007
+  speaker: user
+  locator:
+    conversation_turn: 223
+    turn_id: dbb4d168-df3a-4e69-89c8-5bcd86e6345e
+    message_id: dbb4d168-df3a-4e69-89c8-5bcd86e6345e
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: ent також треба подивитись на дорожню карту у нас має бути проиписано 8-10 кроків на перед вони можуть корегаватись в процесі але завжди
+    повинні показувати шлях по якомуми плануємо рухати конкретний модуль
+  quote_whitespace_normalized: true
+  context_before: Owner requires each module roadmap to maintain roughly 8–10 forward steps.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - roadmap
+- evidence_id: EV-BP0508-0008
+  speaker: user
+  locator:
+    conversation_turn: 253
+    turn_id: 59b80dfe-5e85-4a37-86e6-2814aa96efa1
+    message_id: 59b80dfe-5e85-4a37-86e6-2814aa96efa1
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: ────┤ │ Repository files │ 695 │ INFO │ Current Git-visible scope │ │ Files indexed │ 695 / 695 │ HEALTHY │ 100.0% │ │ Purpose understood
+    │ 22 / 695 │ LOW │ 3.2% │ │ Dependencies mapped │ 4 / 695 │ LOW │ 0.6% │ │ Fully verified │ 1 / 695 │ LOW │ 0.1% │ │ Python parsed │ 128 /
+    128 │ HEALTHY │ 100.0% │ │ Workflow Make targets │ 8 / 8 │ HEALTHY │ 100.0% │ │ Workflows documented │ 2 / 2 │ HEALTHY │ 100.0% │ │ Workfl
+  quote_whitespace_normalized: true
+  context_before: Historical self-knowledge report shows complete indexing but low semantic verification coverage.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - self_knowledge
+- evidence_id: EV-BP0508-0009
+  speaker: user
+  locator:
+    conversation_turn: 253
+    turn_id: 59b80dfe-5e85-4a37-86e6-2814aa96efa1
+    message_id: 59b80dfe-5e85-4a37-86e6-2814aa96efa1
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: it-visible scope │ │ Files indexed │ 695 / 695 │ HEALTHY │ 100.0% │ │ Purpose understood │ 22 / 695 │ LOW │ 3.2% │ │ Dependencies mapped
+    │ 4 / 695 │ LOW │ 0.6% │ │ Fully verified │ 1 / 695 │ LOW │ 0.1% │ │ Python parsed │ 128 / 128 │ HEALTHY │ 100.0% │ │ Workflow Make targets
+    │ 8 / 8 │ HEALTHY │ 100.0% │ │ Workflows documented │ 2 / 2 │ HEALTHY │ 100.0% │ │ Workflows automated │ 2 / 2 │ HEALTHY │ 100.0% │ │ Recovery
+  quote_whitespace_normalized: true
+  context_before: Historical self-knowledge report distinguishes indexing from actual understanding.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - self_knowledge
+- evidence_id: EV-BP0508-0010
+  speaker: user
+  locator:
+    conversation_turn: 253
+    turn_id: 59b80dfe-5e85-4a37-86e6-2814aa96efa1
+    message_id: 59b80dfe-5e85-4a37-86e6-2814aa96efa1
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: 'Self Audit Completed stage: repository scan and local coverage report Analysis bundle: tmp/module_workflows/forprint_system_blueprint/bsa-20260729T113112Z/analysis_bundle.tar.gz
+    Archive SHA256: 835474ee09933070d5c2eda6015dabd4c027be899a29aa6bee1f4907b9fe66a1 Content checksum: f67ad6029774c4b78985deaf110fd3feff9c2e6182ac454fd79952999c3aa8f1
+    Expected response file: operator_input/forprint_system_blueprint/bsa.yaml Required action: 1. Send the analysis'
+  quote_whitespace_normalized: true
+  context_before: Self-audit creates a bounded analysis bundle for external semantic input.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - external_analysis
+- evidence_id: EV-BP0508-0011
+  speaker: user
+  locator:
+    conversation_turn: 253
+    turn_id: 59b80dfe-5e85-4a37-86e6-2814aa96efa1
+    message_id: 59b80dfe-5e85-4a37-86e6-2814aa96efa1
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: 'k for the exact YAML structure included as response.template.yaml. 3. Keep module_id, workflow_id, request_id and content checksum unchanged.
+    4. Fill analysis.summary, confidence and the structured list fields. 5. Set status: provided. 6. Save the result as operator_input/forprint_system_blueprint/bsa.yaml.
+    7. Run: make blueprint-self-audit-resume Expected result after resume: Validated external assessment is archived and merged into the full
+    report. RESUL'
+  quote_whitespace_normalized: true
+  context_before: External-assessment roundtrip preserves workflow/request identity and checksum.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - provenance
+- evidence_id: EV-BP0508-0012
+  speaker: user
+  locator:
+    conversation_turn: 253
+    turn_id: 59b80dfe-5e85-4a37-86e6-2814aa96efa1
+    message_id: 59b80dfe-5e85-4a37-86e6-2814aa96efa1
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: 'result as operator_input/forprint_system_blueprint/bsa.yaml. 7. Run: make blueprint-self-audit-resume Expected result after resume:
+    Validated external assessment is archived and merged into the full report. RESULT: AWAITING_EXTERNAL_INPUT make[1]: Leaving directory ''/srv/software_development/forprint-project/forprint_system_blueprint''
+    CURRENT BRANCH RUN: git branch --show-current audit/blueprint-inventory-refresh-2026'
+  quote_whitespace_normalized: true
+  context_before: Validated external assessment is expected to resume/merge into full self-audit.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - external_analysis
+- evidence_id: EV-BP0508-0013
+  speaker: user
+  locator:
+    conversation_turn: 397
+    turn_id: 697785c5-7adb-4840-a7cd-9cd424bb6ca6
+    message_id: 697785c5-7adb-4840-a7cd-9cd424bb6ca6
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: 4e98-b255-f65201575564.zip Zip Archive на майбутне звти будемо класти не в системний tmp а в наш локальний в проекті так швидше мені
+    забирати
+  quote_whitespace_normalized: true
+  context_before: Owner decides future downloadable reports should go to project-local tmp.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - artifact_location
+- evidence_id: EV-BP0508-0014
+  speaker: user
+  locator:
+    conversation_turn: 421
+    turn_id: a3191bce-7c22-4c1b-a4cf-410bc5695b5f
+    message_id: a3191bce-7c22-4c1b-a4cf-410bc5695b5f
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: онт тобто вони мають прочитати директорію наших власних директоріях і взяти собі поточний промт тобто ну виявити які там останній і забрати
+    собі в роботу далі вони там виконують цей фронт і готують звітну документацію тобто там у них має бути там послідовність команд яка описує
+    що було зроблено змінює там є документи в них у кожного модуля в себе є там документи які мають оновитися який статус поточних задач що
+  quote_whitespace_normalized: true
+  context_before: Modules should discover/pull their current prompt into their own execution flow.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - module_workflow
+- evidence_id: EV-BP0508-0015
+  speaker: user
+  locator:
+    conversation_turn: 421
+    turn_id: a3191bce-7c22-4c1b-a4cf-410bc5695b5f
+    message_id: a3191bce-7c22-4c1b-a4cf-410bc5695b5f
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: ерація далі у наша власна тобто це виконується їхніми скриптами тобто кожен модуль має оперувати власними скриптами а не забирати чиїсь
+    чужі тобто ми як blue print якщо ми робимо перевірку модуля то ми теж маємо користуватися власною архітектурою власними скриптами і не лазити
+    в чужі скрипти ну тому що нам можливо там ми захочемо якось змінити поведінку тих чи інших інструментів і вийде так що ми щось змінимо а помічники
+    про це зна
+  quote_whitespace_normalized: true
+  context_before: Each module should operate through module-owned scripts.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - ownership
+- evidence_id: EV-BP0508-0016
+  speaker: user
+  locator:
+    conversation_turn: 421
+    turn_id: a3191bce-7c22-4c1b-a4cf-410bc5695b5f
+    message_id: a3191bce-7c22-4c1b-a4cf-410bc5695b5f
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: чиїсь чужі тобто ми як blue print якщо ми робимо перевірку модуля то ми теж маємо користуватися власною архітектурою власними скриптами
+    і не лазити в чужі скрипти ну тому що нам можливо там ми захочемо якось змінити поведінку тих чи інших інструментів і вийде так що ми щось
+    змінимо а помічники про це знати не будуть тому у нас має бути ланцюжок свій повністю ми маємо працювати від свого кореневого каталогу і перевіряти
+    що там помічники зробили чи який
+  quote_whitespace_normalized: true
+  context_before: Blueprint should use its own architecture/scripts when inspecting modules.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - ownership
+- evidence_id: EV-BP0508-0017
+  speaker: user
+  locator:
+    conversation_turn: 421
+    turn_id: a3191bce-7c22-4c1b-a4cf-410bc5695b5f
+    message_id: a3191bce-7c22-4c1b-a4cf-410bc5695b5f
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: останній і забрати собі в роботу далі вони там виконують цей фронт і готують звітну документацію тобто там у них має бути там послідовність
+    команд яка описує що було зроблено змінює там є документи в них у кожного модуля в себе є там документи які мають оновитися який статус поточних
+    задач що зроблено чи виконаний фронт чи не виконаний тобто там має бути автогенерація далі у наша власна тобто це виконується їхнім
+  quote_whitespace_normalized: true
+  context_before: Module execution should update status/documents and generate completion evidence.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - completion_reporting
+- evidence_id: EV-BP0508-0018
+  speaker: user
+  locator:
+    conversation_turn: 425
+    turn_id: cb8b1d5e-c72e-4da1-895d-89f05b9f0211
+    message_id: cb8b1d5e-c72e-4da1-895d-89f05b9f0211
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: Pasted text.txt Document Так стане неможливо назвати mutating sequence словом check. - може цю команду урізати в функціоналі а додати
+    ще одну яка буде більш коректно відображати логіку виконання і додати в документацію make файли і шаблони поки не чіпав треба не підлаштовуватись
+    під щось існуючу а вибудуовувати нормальну єфективну робочу схему Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Owner rejects naming a mutating sequence as `check`.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - command_semantics
+- evidence_id: EV-BP0508-0019
+  speaker: user
+  locator:
+    conversation_turn: 425
+    turn_id: cb8b1d5e-c72e-4da1-895d-89f05b9f0211
+    message_id: cb8b1d5e-c72e-4da1-895d-89f05b9f0211
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: Так стане неможливо назвати mutating sequence словом check. - може цю команду урізати в функціоналі а додати ще одну яка буде більш коректно
+    відображати логіку виконання і додати в документацію make файли і шаблони поки не чіпав треба не підлаштовуватись під щось існуючу а вибудуовувати
+    нормальну єфективну робочу схему Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Owner suggests keeping `check` read-only/reduced and adding a separate mutation command.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - command_semantics
+- evidence_id: EV-BP0508-0020
+  speaker: user
+  locator:
+    conversation_turn: 425
+    turn_id: cb8b1d5e-c72e-4da1-895d-89f05b9f0211
+    message_id: cb8b1d5e-c72e-4da1-895d-89f05b9f0211
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: ання і додати в документацію make файли і шаблони поки не чіпав треба не підлаштовуватись під щось існуючу а вибудуовувати нормальну
+    єфективну робочу схему Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Owner prefers a clean target workflow over preserving awkward existing behavior.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - architecture_evolution
+- evidence_id: EV-BP0508-0021
+  speaker: user
+  locator:
+    conversation_turn: 489
+    turn_id: 0aaf8e19-0616-4a59-9307-26f1ddac3e68
+    message_id: 0aaf8e19-0616-4a59-9307-26f1ddac3e68
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: ted text.txt Document не розумію я якісь ріні файли обробляю чи що бо в одномувивиді бачу дублі в іншому нв в VS у мене нема дублів тут
+    /srv/software_development/forprint-project/tmp/forprint_system_blueprint_command_architecture/coordination/standards/adoption/module_workflow_adoption_matrix_v0_1.yaml
+  quote_whitespace_normalized: true
+  context_before: Owner encounters contradictory views of the same worktree/file and suspects different copies.
+  context_after: null
+  evidence_role:
+  - owner_observation
+  - worktree_identity
+- evidence_id: EV-BP0508-0022
+  speaker: user
+  locator:
+    conversation_turn: 541
+    turn_id: 535c0eb6-dcc3-4592-bf0e-107a110641d2
+    message_id: 535c0eb6-dcc3-4592-bf0e-107a110641d2
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: 'option validator: implemented command behavior validator: implemented completion intake check: implemented completion acceptance gate:
+    implemented reference pilot migration: not_authorized canonical Make template migration: not_authorized external rollout: gated next step:
+    controlled Makefile/template refactor automatic commit: False RESULT: BLUEPRINT_WORKFLOW_IMPLEMENTATION_PROGRESS_READY root@s01:/srv/software_developmen'
+  quote_whitespace_normalized: true
+  context_before: Historical progress report says completion intake and acceptance-gate checks were implemented.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - workflow_progress
+- evidence_id: EV-BP0508-0023
+  speaker: user
+  locator:
+    conversation_turn: 541
+    turn_id: 535c0eb6-dcc3-4592-bf0e-107a110641d2
+    message_id: 535c0eb6-dcc3-4592-bf0e-107a110641d2
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: 'ion intake check: implemented completion acceptance gate: implemented reference pilot migration: not_authorized canonical Make template
+    migration: not_authorized external rollout: gated next step: controlled Makefile/template refactor automatic commit: False RESULT: BLUEPRINT_WORKFLOW_IMPLEMENTATION_PROGRESS_READY
+    root@s01:/srv/software_development/forprint-project/tmp/forprint_system_blueprint_command_architecture# root@s01:/s'
+  quote_whitespace_normalized: true
+  context_before: Historical progress report keeps reference-pilot migration unauthorized.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - pilot_gate
+- evidence_id: EV-BP0508-0024
+  speaker: user
+  locator:
+    conversation_turn: 541
+    turn_id: 535c0eb6-dcc3-4592-bf0e-107a110641d2
+    message_id: 535c0eb6-dcc3-4592-bf0e-107a110641d2
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: 'ion: not_authorized canonical Make template migration: not_authorized external rollout: gated next step: controlled Makefile/template
+    refactor automatic commit: False RESULT: BLUEPRINT_WORKFLOW_IMPLEMENTATION_PROGRESS_READY root@s01:/srv/software_development/forprint-project/tmp/forprint_system_blueprint_command_architecture#
+    root@s01:/srv/software_development/forprint-project/tmp/forprint_system_blueprint_com'
+  quote_whitespace_normalized: true
+  context_before: Historical progress report keeps external rollout gated.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - pilot_gate
+- evidence_id: EV-BP0508-0025
+  speaker: user
+  locator:
+    conversation_turn: 567
+    turn_id: 3d35bde0-81fc-45f3-8862-35b71331d1ee
+    message_id: 3d35bde0-81fc-45f3-8862-35b71331d1ee
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: Pasted text.txt Document coordination/status/current_status.yaml coordination/status/current_status.md coordination/status/next_questions_for_blueprint.md
+    coordination/prompts/index.yaml coordination/reports/index.yaml це перелік файлів для аудиту інших помічників власного аудиту ми собі ще створювали
+    тому у власній архутектурі їх певно нема Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Owner notes status/prompts/reports index files for module audits and questions Blueprint-local equivalents.
+  context_after: null
+  evidence_role:
+  - owner_observation
+  - status_indexes
+- evidence_id: EV-BP0508-0026
+  speaker: user
+  locator:
+    conversation_turn: 619
+    turn_id: 537957e8-fdc6-42f6-8135-dbee85980c17
+    message_id: 537957e8-fdc6-42f6-8135-dbee85980c17
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: Pasted text.txt Document треба зробити робочу стійку систему і описати в документації що в майбуному не було плутанини і чітко було зрозуміло
+    логіку роботи без двозначностей
+  quote_whitespace_normalized: true
+  context_before: Owner requires a stable working system documented without ambiguity.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - operability
+- evidence_id: EV-BP0508-0027
+  speaker: user
+  locator:
+    conversation_turn: 650
+    turn_id: 034638af-f77d-4f19-bb5f-bcfd405e0f02
+    message_id: 034638af-f77d-4f19-bb5f-bcfd405e0f02
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: prompt_workflow_governance_closeout_inventory.txt Document
+  quote_whitespace_normalized: true
+  context_before: Dedicated prompt-workflow governance closeout inventory is produced.
+  context_after: null
+  evidence_role:
+  - attachment_name_only
+  - prompt_workflow
+- evidence_id: EV-BP0508-0028
+  speaker: user
+  locator:
+    conversation_turn: 662
+    turn_id: cf4b2483-2a46-4547-8e75-cd6198b4f3e7
+    message_id: cf4b2483-2a46-4547-8e75-cd6198b4f3e7
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: blueprint_operational_readiness_inventory.txt Document
+  quote_whitespace_normalized: true
+  context_before: Operational readiness inventory becomes a distinct workfront.
+  context_after: null
+  evidence_role:
+  - attachment_name_only
+  - operational_readiness
+- evidence_id: EV-BP0508-0029
+  speaker: user
+  locator:
+    conversation_turn: 686
+    turn_id: c0b97cd6-cdce-4887-bbc4-54ca50464795
+    message_id: c0b97cd6-cdce-4887-bbc4-54ca50464795
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: write_flow_recovery_classification.yaml File write_flow_recovery_classification.md File
+  quote_whitespace_normalized: true
+  context_before: Write-flow recovery is classified in machine-readable form.
+  context_after: null
+  evidence_role:
+  - attachment_name_only
+  - write_flow
+- evidence_id: EV-BP0508-0030
+  speaker: user
+  locator:
+    conversation_turn: 694
+    turn_id: c2e16dd6-8c5e-45f3-a43a-53084eaf5d71
+    message_id: c2e16dd6-8c5e-45f3-a43a-53084eaf5d71
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: write_flow_recovery_bounded_review.yaml File write_flow_recovery_bounded_review.md File
+  quote_whitespace_normalized: true
+  context_before: Write-flow recovery receives bounded review.
+  context_after: null
+  evidence_role:
+  - attachment_name_only
+  - write_flow
+- evidence_id: EV-BP0508-0031
+  speaker: user
+  locator:
+    conversation_turn: 724
+    turn_id: bad9d1db-0812-42c9-85a6-b49763188c52
+    message_id: bad9d1db-0812-42c9-85a6-b49763188c52
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: operational_readiness_final_review.yaml File operational_readiness_final_review.md File
+  quote_whitespace_normalized: true
+  context_before: Operational readiness reaches a final-review artifact.
+  context_after: null
+  evidence_role:
+  - attachment_name_only
+  - operational_readiness
+- evidence_id: EV-BP0508-0032
+  speaker: user
+  locator:
+    conversation_turn: 736
+    turn_id: 7e922b83-a712-4f93-b4e4-5ce8f586b5db
+    message_id: 7e922b83-a712-4f93-b4e4-5ce8f586b5db
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: validator_contract.yaml File validator_contract.md File
+  quote_whitespace_normalized: true
+  context_before: Validator contract becomes an explicit governance artifact.
+  context_after: null
+  evidence_role:
+  - attachment_name_only
+  - validator_contract
+- evidence_id: EV-BP0508-0033
+  speaker: user
+  locator:
+    conversation_turn: 748
+    turn_id: 153b0381-5e42-4a92-9184-f056d1a4d321
+    message_id: 153b0381-5e42-4a92-9184-f056d1a4d321
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: exact_contract.yaml File exact_contract.md File
+  quote_whitespace_normalized: true
+  context_before: Exact-contract artifact follows validator-contract work.
+  context_after: null
+  evidence_role:
+  - attachment_name_only
+  - exact_contract
+- evidence_id: EV-BP0508-0034
+  speaker: user
+  locator:
+    conversation_turn: 760
+    turn_id: 14f1ffd2-014f-405b-86ea-5bc8d4c52ac9
+    message_id: 14f1ffd2-014f-405b-86ea-5bc8d4c52ac9
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: project_transparency_baseline.yaml File project_transparency_baseline.md File project_dependency_map.mmd File
+  quote_whitespace_normalized: true
+  context_before: Project transparency baseline and dependency map are produced.
+  context_after: null
+  evidence_role:
+  - attachment_name_only
+  - transparency
+- evidence_id: EV-BP0508-0035
+  speaker: user
+  locator:
+    conversation_turn: 762
+    turn_id: 87592544-58c9-4d0e-a76b-69904cdc5075
+    message_id: 87592544-58c9-4d0e-a76b-69904cdc5075
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: mutation_builder_contract_integration.yaml File mutation_builder_contract_integration.md File
+  quote_whitespace_normalized: true
+  context_before: Mutation-builder contract integration becomes an explicit workfront.
+  context_after: null
+  evidence_role:
+  - attachment_name_only
+  - mutation_builder
+- evidence_id: EV-BP0508-0036
+  speaker: assistant
+  locator:
+    conversation_turn: 777
+    turn_id: 2ec19ac9-2d1f-4f53-bb3c-3e70ab267086
+    message_id: bc468ec5-3a95-4c7b-beff-c40c238287e7
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: 'Успішно. Інтеграція завершена правильно: Canonical gate: 28/28 Mutation-builder contract: active Validator: canonical Rollback: verified
+    Pilot authorized: false External rollout: gated git diff --stat показав лише 5 tracked-файлів, бо 4 нові файли ще untracked. Загальний bounded-набір
+    правильний: 9 файлів . Зафіксуй рівно їх: Bash cd /srv/software_development/forprint-project/tmp'
+  quote_whitespace_normalized: true
+  context_before: Assistant reports canonical gate passing after mutation-builder integration.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - validation
+- evidence_id: EV-BP0508-0037
+  speaker: assistant
+  locator:
+    conversation_turn: 777
+    turn_id: 2ec19ac9-2d1f-4f53-bb3c-3e70ab267086
+    message_id: bc468ec5-3a95-4c7b-beff-c40c238287e7
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: 'Успішно. Інтеграція завершена правильно: Canonical gate: 28/28 Mutation-builder contract: active Validator: canonical Rollback: verified
+    Pilot authorized: false External rollout: gated git diff --stat показав лише 5 tracked-файлів, бо 4 нові файли ще untracked. Загальний bounded-набір
+    правильний: 9 файлів . Зафіксуй рівно їх: Bash cd /srv/software_development/forprint-project/tmp/forprint_system_blueprint_command'
+  quote_whitespace_normalized: true
+  context_before: Assistant reports mutation-builder contract active and validator canonical.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - mutation_builder
+- evidence_id: EV-BP0508-0038
+  speaker: assistant
+  locator:
+    conversation_turn: 777
+    turn_id: 2ec19ac9-2d1f-4f53-bb3c-3e70ab267086
+    message_id: bc468ec5-3a95-4c7b-beff-c40c238287e7
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: 'tion-builder contract: active Validator: canonical Rollback: verified Pilot authorized: false External rollout: gated git diff --stat
+    показав лише 5 tracked-файлів, бо 4 нові файли ще untracked. Загальний bounded-набір правильний: 9 файлів . Зафіксуй рівно їх: Bash cd /srv/software_development/forprint-project/tmp/forprint_system_blueprint_command_architecture
+    git add -- \ coordination/standards/governance/REA'
+  quote_whitespace_normalized: true
+  context_before: Assistant preserves pilot as unauthorized after integration.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - pilot_gate
+- evidence_id: EV-BP0508-0039
+  speaker: assistant
+  locator:
+    conversation_turn: 777
+    turn_id: 2ec19ac9-2d1f-4f53-bb3c-3e70ab267086
+    message_id: bc468ec5-3a95-4c7b-beff-c40c238287e7
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: 'al gate: 28/28 Mutation-builder contract: active Validator: canonical Rollback: verified Pilot authorized: false External rollout: gated
+    git diff --stat показав лише 5 tracked-файлів, бо 4 нові файли ще untracked. Загальний bounded-набір правильний: 9 файлів . Зафіксуй рівно
+    їх: Bash cd /srv/software_development/forprint-project/tmp/forprint_system_blueprint_command_architecture git add -- \ coordination/'
+  quote_whitespace_normalized: true
+  context_before: Assistant reports rollback verification for canonical mutation-builder path.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - rollback
+- evidence_id: EV-BP0508-0040
+  speaker: assistant
+  locator:
+    conversation_turn: 777
+    turn_id: 2ec19ac9-2d1f-4f53-bb3c-3e70ab267086
+    message_id: bc468ec5-3a95-4c7b-beff-c40c238287e7
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: 'ontract_validator — completed Наступний bounded етап після коміту: 3. establish_current_state_transparency_manifest 4. add_read_only_governance_status_command
+    Саме ці два кроки дадуть єдину машинозчитувану картину: current HEAD current phase active blockers authorized / gated boundaries dependency
+    chain next required action 10-step forward plan canonical check state Pilot усе ще не рухаємо, доки цей операторський control layer не б'
+  quote_whitespace_normalized: true
+  context_before: Next control-layer step is current-state transparency manifest.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - transparency
+- evidence_id: EV-BP0508-0041
+  speaker: assistant
+  locator:
+    conversation_turn: 777
+    turn_id: 2ec19ac9-2d1f-4f53-bb3c-3e70ab267086
+    message_id: bc468ec5-3a95-4c7b-beff-c40c238287e7
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: s authorized / gated boundaries dependency chain next required action 10-step forward plan canonical check state Pilot усе ще не рухаємо,
+    доки цей операторський control layer не буде зафіксований.
+  quote_whitespace_normalized: true
+  context_before: Transparency control layer should expose the forward plan.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - roadmap
+- evidence_id: EV-BP0508-0042
+  speaker: assistant
+  locator:
+    conversation_turn: 779
+    turn_id: 3be54912-b8c2-4655-8cf2-203bc818d32e
+    message_id: 7354aeda-54e5-459d-bdbc-f7d0eb9189b1
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: 'Коміт зафіксований правильно: HEAD: 9caf51155b98fb515c6aa663e2991a61a7dea4cd Files: 9 Insertions: 1300 Deletions: 1 Working tree: clean
+    Canonical gate: 28/28 Закрито два кроки плану: 1. formalize_canonical_mutation_builder_contract — completed 2. integrate_mutation_builder_contract_validator
+    — completed Тепер переходимо до control layer: 3. establish_current_state_transparency_manifest 4. add_'
+  quote_whitespace_normalized: true
+  context_before: Mutation-builder commit is reported with exact HEAD.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - publication
+- evidence_id: EV-BP0508-0043
+  speaker: assistant
+  locator:
+    conversation_turn: 779
+    turn_id: 3be54912-b8c2-4655-8cf2-203bc818d32e
+    message_id: 7354aeda-54e5-459d-bdbc-f7d0eb9189b1
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: 'до control layer: 3. establish_current_state_transparency_manifest 4. add_read_only_governance_status_command Підготував read-only inspection
+    для точного визначення інтеграції. Завантажити inspect_project_transparency_control_layer.py SHA-256: 7e888cf12b11d8b5b20aef8c7e979818aa4a46ac38f8130fe7a5eaa369b07e3f
+    Скрипт перевірить: точні source-of-truth файли; наявні status/dashboard renderer patterns; наявні read-only CLI conventi'
+  quote_whitespace_normalized: true
+  context_before: Next command surface is explicitly a read-only governance status command.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - command_semantics
+- evidence_id: EV-BP0508-0044
+  speaker: user
+  locator:
+    conversation_turn: 780
+    turn_id: 3c2a6423-8cf6-4b30-b079-da7ac92ed546
+    message_id: 3c2a6423-8cf6-4b30-b079-da7ac92ed546
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: дай промт для нового помічника щоб я міг продовжити нашу роботу опиши поточний стан і що реба робити і де читати потрібну документацію
+  quote_whitespace_normalized: true
+  context_before: Owner asks for a zero-context continuation prompt with current state, next work and reading path.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - continuity
+- evidence_id: EV-BP0508-0045
+  speaker: assistant
+  locator:
+    conversation_turn: 781
+    turn_id: 37e5dde7-3798-413c-af87-69794878b416
+    message_id: b1ca040d-704a-40cc-a820-f4bf4db02012
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: 'est має показувати: current HEAD current branch canonical check count current phase active blockers next required action pilot authorization
+    state external prompt release state external rollout state migration dependency chain 10-step forward plan source files and their hashes source
+    agreement/disagreement Manifest не повинен ставати новим незалежним джерелом правди. Він має бути projection із: progr'
+  quote_whitespace_normalized: true
+  context_before: Final handoff requires machine-readable current phase, blockers, boundaries, dependencies, next action and forward plan.
+  context_after: null
+  evidence_role:
+  - assistant_handoff
+  - transparency
+- evidence_id: EV-BP0508-0046
+  speaker: assistant
+  locator:
+    conversation_turn: 781
+    turn_id: 37e5dde7-3798-413c-af87-69794878b416
+    message_id: b1ca040d-704a-40cc-a820-f4bf4db02012
+    source_file: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26.mhtml
+  quote: 'governance дія: reference_pilot_migration_authorization_decision Але pilot зараз не можна авторизовувати. Поточні safety boundaries:
+    reference pilot authorized: false external prompts released: false external rollout: gated release policy global enabled: false authorized
+    modules: [] authorization evidence: null 4. Уже закриті контрольні кроки З transparency-плану завершено: 1. formalize_canonical_mutation_builder_contrac'
+  quote_whitespace_normalized: true
+  context_before: Final handoff forbids pilot authorization at this checkpoint.
+  context_after: null
+  evidence_role:
+  - assistant_handoff
+  - pilot_gate
+items:
+- item_id: IT-BP0508-0001
+  kind: process_rule
+  title: Repository-knowledge snapshots require evidence, not templates
+  statement: A repository-knowledge deliverable is not valid merely because protocols/templates exist; it must contain filled capability, execution/dependency
+    and direction snapshots grounded in repository evidence.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - repository_knowledge
+  - forprint_system_blueprint
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - config
+  - operations
+  evidence_refs:
+  - EV-BP0508-0001
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0508-0002
+  kind: requirement
+  title: Repository knowledge uses explicit confidence classes
+  statement: Material repository-knowledge claims should be classified as verified, inferred, unknown or conflicting.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - repository_knowledge
+  - evidence
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP0508-0002
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0508-0003
+  kind: requirement
+  title: Repository snapshots bind to exact Git baseline
+  statement: Knowledge/audit snapshots should record branch, full commit SHA and worktree state.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - repository_knowledge
+  - git_workflow
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - config
+  - operations
+  evidence_refs:
+  - EV-BP0508-0003
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0508-0004
+  kind: process_rule
+  title: Makefile is the discoverable operational surface
+  statement: Blueprint's primary functions and major command sequences should be discoverable from Make targets.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - make
+  - forprint_system_blueprint
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - docs
+  - tests
+  evidence_refs:
+  - EV-BP0508-0004
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0508-0005
+  kind: plan
+  title: Clean Blueprint internal structure before broader assistant work
+  statement: Organize Blueprint's own structure and self-knowledge first so module coordination can remain coherent.
+  dialogue_status: agreed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - forprint_system_blueprint
+  - repository_structure
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP0508-0005
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0508-0006
+  kind: implementation_claim
+  title: Lifecycle audit found completion-report and prompt-naming repairs
+  statement: Historical lifecycle audit reported a completion report needing repair and an extensionless prompt needing rename.
+  dialogue_status: accepted
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - prompt_lifecycle
+  - reporting
+  implementation_expectation: unverifiable
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP0508-0006
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical audit output only.
+- item_id: IT-BP0508-0007
+  kind: process_rule
+  title: Module roadmaps maintain 8–10 forward steps
+  statement: Each module roadmap should normally expose approximately 8–10 next steps, adjustable as work evolves.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - roadmap
+  - portfolio
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP0508-0007
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0508-0008
+  kind: risk
+  title: Index coverage is not semantic understanding
+  statement: Self-knowledge must distinguish files merely indexed from files whose purpose/dependencies are actually understood and verified.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - self_knowledge
+  - repository_knowledge
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0508-0008
+  - EV-BP0508-0009
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0508-0009
+  kind: workflow
+  title: Blueprint self-audit supports bounded external semantic assessment
+  statement: Self-audit may package a bounded analysis bundle for external semantic review and resume after validated structured response.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - self_knowledge
+  - external_analysis
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0508-0010
+  - EV-BP0508-0012
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0508-0010
+  kind: data_contract
+  title: External audit roundtrip preserves request identity and checksum
+  statement: External assessment must preserve module/workflow/request identifiers and content checksum.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - external_analysis
+  - provenance
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - tests
+  - config
+  evidence_refs:
+  - EV-BP0508-0011
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0508-0011
+  kind: process_rule
+  title: Downloadable reports use project-local temporary workspace
+  statement: Operator-retrievable reports should use project-local tmp/workspace rather than system tmp where practical.
+  dialogue_status: agreed
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - reporting
+  - repository_structure
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - operations
+  evidence_refs:
+  - EV-BP0508-0013
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0508-0012
+  kind: workflow
+  title: Module assistants pull current workfront into their own workflow
+  statement: A module should discover/read its current prompt/workfront and execute it through its own module workflow.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - module_assistants
+  - prompt_lifecycle
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - docs
+  - operations
+  evidence_refs:
+  - EV-BP0508-0014
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0508-0013
+  kind: architecture_constraint
+  title: Each module operates through module-owned scripts
+  statement: Modules should not depend on another module's private scripts for their normal workflow.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - module_assistants
+  - ownership
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - docs
+  - tests
+  evidence_refs:
+  - EV-BP0508-0015
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0508-0014
+  kind: architecture_constraint
+  title: Blueprint inspects modules through Blueprint-owned tooling
+  statement: Blueprint should use its own architecture/scripts for coordination and inspection rather than execute module-private scripts.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - forprint_system_blueprint
+  - ownership
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - docs
+  - tests
+  evidence_refs:
+  - EV-BP0508-0016
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0508-0015
+  kind: workflow
+  title: Module workfront completion updates status and produces evidence
+  statement: Module execution should update task/status documents and produce structured completion/report evidence.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - module_assistants
+  - completion_reporting
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP0508-0017
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0508-0016
+  kind: process_rule
+  title: Read-only checks must not be disguised mutations
+  statement: A command called `check` should be read-only; mutating sequences need separate names and documented semantics.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - make
+  - command_semantics
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0508-0018
+  - EV-BP0508-0019
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0508-0017
+  kind: process_rule
+  title: Prefer clean target architecture over awkward legacy command behavior
+  statement: Do not preserve confusing command semantics merely for compatibility when a clearer workflow can be built.
+  dialogue_status: agreed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - architecture
+  - make
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - code
+  - tests
+  evidence_refs:
+  - EV-BP0508-0020
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0508-0018
+  kind: risk
+  title: Worktree/copy identity must be unambiguous
+  statement: Tooling and operator guidance must make active repository/worktree identity explicit to prevent processing the wrong copy.
+  dialogue_status: agreed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - git_workflow
+  - operator_ux
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - code
+  - operations
+  evidence_refs:
+  - EV-BP0508-0021
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0508-0019
+  kind: implementation_claim
+  title: Completion intake and acceptance-gate validators were historically implemented
+  statement: Historical output reports completion-intake checking and completion-acceptance gating implemented.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - completion_reporting
+  - governance
+  implementation_expectation: unverifiable
+  verification_targets:
+  - code
+  - tests
+  - config
+  evidence_refs:
+  - EV-BP0508-0022
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical pasted output only.
+- item_id: IT-BP0508-0020
+  kind: process_rule
+  title: Pilot migration remains separately authorized
+  statement: Implementation readiness must not itself authorize reference-pilot migration.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - pilot
+  - operator_approval
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - config
+  - operations
+  evidence_refs:
+  - EV-BP0508-0023
+  - EV-BP0508-0038
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0508-0021
+  kind: process_rule
+  title: External rollout remains gated until explicit authorization
+  statement: Internal workflow readiness does not automatically enable external rollout.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - rollout
+  - governance
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - config
+  - operations
+  evidence_refs:
+  - EV-BP0508-0024
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0508-0022
+  kind: requirement
+  title: Blueprint needs its own status/prompts/reports indexing surfaces
+  statement: Blueprint self-governance should expose current status, next questions, prompt index and report index equivalents.
+  dialogue_status: discussed
+  importance: high
+  confidence: medium
+  owner_or_domain:
+  - forprint_system_blueprint
+  - indexes
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - config
+  - code
+  evidence_refs:
+  - EV-BP0508-0025
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Exact final layout needs current audit.
+- item_id: IT-BP0508-0023
+  kind: nonfunctional_requirement
+  title: Governance workflow must be stable and unambiguous
+  statement: Operating logic should be robust and documented so future operators/assistants understand it without ambiguity.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - governance
+  - operability
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - code
+  - tests
+  evidence_refs:
+  - EV-BP0508-0026
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0508-0024
+  kind: implementation_claim
+  title: Prompt workflow received governance closeout inventory
+  statement: Historical lineage includes a prompt-workflow governance closeout inventory.
+  dialogue_status: accepted
+  importance: normal
+  confidence: medium
+  owner_or_domain:
+  - prompt_lifecycle
+  - governance
+  implementation_expectation: unverifiable
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP0508-0027
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Artifact-label evidence only.
+- item_id: IT-BP0508-0025
+  kind: implementation_claim
+  title: Operational readiness became a formal review workfront
+  statement: Historical lineage includes operational-readiness inventory and final review.
+  dialogue_status: accepted
+  importance: high
+  confidence: medium
+  owner_or_domain:
+  - operational_readiness
+  - governance
+  implementation_expectation: unverifiable
+  verification_targets:
+  - docs
+  - config
+  - tests
+  evidence_refs:
+  - EV-BP0508-0028
+  - EV-BP0508-0031
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Artifact-label evidence only.
+- item_id: IT-BP0508-0026
+  kind: implementation_claim
+  title: Write-flow recovery was classified and bounded-reviewed
+  statement: Historical lineage contains write-flow recovery classification and bounded review artifacts.
+  dialogue_status: accepted
+  importance: high
+  confidence: medium
+  owner_or_domain:
+  - write_flow
+  - recovery
+  implementation_expectation: unverifiable
+  verification_targets:
+  - docs
+  - config
+  - tests
+  evidence_refs:
+  - EV-BP0508-0029
+  - EV-BP0508-0030
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Artifact-label evidence only.
+- item_id: IT-BP0508-0027
+  kind: requirement
+  title: Validator behavior is formalized as a contract
+  statement: Validation semantics should be an explicit contract rather than scattered implicit behavior.
+  dialogue_status: accepted
+  importance: critical
+  confidence: medium
+  owner_or_domain:
+  - validation
+  - governance
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - config
+  - code
+  - tests
+  evidence_refs:
+  - EV-BP0508-0032
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Exact contract content requires audit.
+- item_id: IT-BP0508-0028
+  kind: requirement
+  title: Write/mutation architecture uses exact contracts
+  statement: Critical write/mutation behavior should be governed by exact machine-checkable contracts.
+  dialogue_status: accepted
+  importance: critical
+  confidence: medium
+  owner_or_domain:
+  - write_flow
+  - governance
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - config
+  - code
+  - tests
+  evidence_refs:
+  - EV-BP0508-0033
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Artifact lineage only.
+- item_id: IT-BP0508-0029
+  kind: requirement
+  title: Project transparency has a durable machine-readable baseline
+  statement: Governance should expose a durable transparency baseline and dependency map.
+  dialogue_status: accepted
+  importance: critical
+  confidence: medium
+  owner_or_domain:
+  - transparency
+  - governance
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - config
+  - code
+  evidence_refs:
+  - EV-BP0508-0034
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Verify current implementation.
+- item_id: IT-BP0508-0030
+  kind: requirement
+  title: Canonical mutation builder contract
+  statement: Project mutations should follow a canonical mutation-builder contract with canonical validation and bounded stages.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - mutation_builder
+  - governance
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - config
+  - code
+  - tests
+  evidence_refs:
+  - EV-BP0508-0035
+  - EV-BP0508-0037
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0508-0031
+  kind: process_rule
+  title: Mutation path preserves rollback
+  statement: Canonical mutation handling must preserve verified rollback/fail-closed behavior.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - mutation_builder
+  - rollback
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0508-0039
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0508-0032
+  kind: implementation_claim
+  title: Mutation-builder integration historically passed canonical gate
+  statement: Assistant reports gate 28/28 with mutation-builder active and validator canonical.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - mutation_builder
+  - validation
+  implementation_expectation: unverifiable
+  verification_targets:
+  - code
+  - tests
+  - config
+  evidence_refs:
+  - EV-BP0508-0036
+  - EV-BP0508-0037
+  - EV-BP0508-0042
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical assistant report/commit only.
+- item_id: IT-BP0508-0033
+  kind: plan
+  title: Current-state transparency manifest is next control-layer step
+  statement: After mutation-builder integration, establish a machine-readable current-state transparency manifest.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - transparency
+  - governance
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - code
+  - docs
+  evidence_refs:
+  - EV-BP0508-0040
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0508-0034
+  kind: plan
+  title: Read-only governance status command is next control-layer step
+  statement: Add a read-only governance/status command presenting canonical current state without mutation.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - transparency
+  - make
+  - command_semantics
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0508-0043
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0508-0035
+  kind: requirement
+  title: Transparency control layer exposes phase blockers boundaries dependencies and next action
+  statement: Control layer should expose exact HEAD/current phase, blockers, authorized/gated boundaries, dependency chain, next action and canonical
+    check state.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - transparency
+  - operator_ux
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - code
+  - docs
+  evidence_refs:
+  - EV-BP0508-0045
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0508-0036
+  kind: requirement
+  title: Transparency view includes roughly ten-step forward plan
+  statement: Current-state transparency should include the forward roadmap horizon.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - transparency
+  - roadmap
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - docs
+  evidence_refs:
+  - EV-BP0508-0041
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0508-0037
+  kind: process_rule
+  title: Do not authorize pilot before control layer is explicit
+  statement: Reference pilot must remain unauthorized until transparency/operator-control layer is fixed and inspectable.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - pilot
+  - transparency
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - config
+  - operations
+  evidence_refs:
+  - EV-BP0508-0038
+  - EV-BP0508-0046
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0508-0038
+  kind: process_rule
+  title: Session handoff must carry exact current state and reading path
+  statement: Replacement assistant should receive current baseline, closed/current/next work, safety boundaries and exact documentation to read.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - continuity
+  - bootstrap
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP0508-0044
+  - EV-BP0508-0045
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP0508-0039
+  kind: risk
+  title: Markdown/document structural cleanup became a prolonged maintenance stream
+  statement: Repeated markdown-fence/nested-fence/duplicate-pair review waves indicate significant document-structure cleanup effort.
+  dialogue_status: accepted
+  importance: normal
+  confidence: medium
+  owner_or_domain:
+  - documentation
+  - repository_hygiene
+  implementation_expectation: unverifiable
+  verification_targets:
+  - docs
+  - tests
+  evidence_refs:
+  - EV-BP0508-0006
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Mostly evidenced by artifact timeline.
+- item_id: IT-BP0508-0040
+  kind: process_rule
+  title: Canonical gates and authorization states remain distinct
+  statement: Passing canonical checks must not be conflated with pilot authorization, external rollout or business acceptance.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - governance
+  - validation
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - config
+  - tests
+  evidence_refs:
+  - EV-BP0508-0036
+  - EV-BP0508-0038
+  - EV-BP0508-0024
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+relations:
+- relation_id: REL-BP0508-0001
+  from_item: IT-BP0508-0002
+  type: refines
+  to_item: IT-BP0508-0001
+  evidence_refs:
+  - EV-BP0508-0002
+  confidence: high
+- relation_id: REL-BP0508-0002
+  from_item: IT-BP0508-0003
+  type: enables
+  to_item: IT-BP0508-0001
+  evidence_refs:
+  - EV-BP0508-0003
+  confidence: high
+- relation_id: REL-BP0508-0003
+  from_item: IT-BP0508-0010
+  type: enables
+  to_item: IT-BP0508-0009
+  evidence_refs:
+  - EV-BP0508-0011
+  - EV-BP0508-0012
+  confidence: high
+- relation_id: REL-BP0508-0004
+  from_item: IT-BP0508-0014
+  type: refines
+  to_item: IT-BP0508-0013
+  evidence_refs:
+  - EV-BP0508-0016
+  confidence: high
+- relation_id: REL-BP0508-0005
+  from_item: IT-BP0508-0016
+  type: related_to
+  to_item: IT-BP0508-0034
+  evidence_refs:
+  - EV-BP0508-0018
+  - EV-BP0508-0043
+  confidence: high
+- relation_id: REL-BP0508-0006
+  from_item: IT-BP0508-0027
+  type: enables
+  to_item: IT-BP0508-0028
+  evidence_refs:
+  - EV-BP0508-0032
+  - EV-BP0508-0033
+  confidence: medium
+- relation_id: REL-BP0508-0007
+  from_item: IT-BP0508-0028
+  type: enables
+  to_item: IT-BP0508-0030
+  evidence_refs:
+  - EV-BP0508-0033
+  - EV-BP0508-0035
+  confidence: medium
+- relation_id: REL-BP0508-0008
+  from_item: IT-BP0508-0030
+  type: enables
+  to_item: IT-BP0508-0033
+  evidence_refs:
+  - EV-BP0508-0037
+  - EV-BP0508-0040
+  confidence: high
+- relation_id: REL-BP0508-0009
+  from_item: IT-BP0508-0033
+  type: enables
+  to_item: IT-BP0508-0034
+  evidence_refs:
+  - EV-BP0508-0040
+  - EV-BP0508-0043
+  confidence: high
+- relation_id: REL-BP0508-0010
+  from_item: IT-BP0508-0037
+  type: blocks
+  to_item: IT-BP0508-0020
+  evidence_refs:
+  - EV-BP0508-0038
+  - EV-BP0508-0046
+  confidence: high
+- relation_id: REL-BP0508-0011
+  from_item: IT-BP0508-0007
+  type: refines
+  to_item: IT-BP0508-0036
+  evidence_refs:
+  - EV-BP0508-0007
+  - EV-BP0508-0041
+  confidence: high
+anomalies:
+- anomaly_id: ANOM-BP0508-0001
+  type: assistant_capture_gap
+  description: All 107 retained turns contain text, but only four assistant narrative blocks survive; most execution history is artifacts/pasted
+    command output.
+  item_refs: []
+  evidence_refs: []
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP0508-0002
+  type: templates_masquerading_as_analysis
+  description: Initial report contained repository-knowledge scaffolding but lacked filled evidence-backed analysis.
+  item_refs:
+  - IT-BP0508-0001
+  - IT-BP0508-0002
+  - IT-BP0508-0003
+  evidence_refs:
+  - EV-BP0508-0001
+  - EV-BP0508-0002
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP0508-0003
+  type: index_vs_understanding_gap
+  description: Historical self-knowledge indexed 695/695 files while understanding only 22 and dependency-mapping only four.
+  item_refs:
+  - IT-BP0508-0008
+  evidence_refs:
+  - EV-BP0508-0008
+  - EV-BP0508-0009
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP0508-0004
+  type: command_semantics_confusion
+  description: A mutating sequence was represented as `check`; owner explicitly requests separation and clearer naming.
+  item_refs:
+  - IT-BP0508-0016
+  - IT-BP0508-0017
+  evidence_refs:
+  - EV-BP0508-0018
+  - EV-BP0508-0019
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP0508-0005
+  type: worktree_identity_confusion
+  description: Owner sees duplicates in one view but not another and suspects different copies/worktrees are being processed.
+  item_refs:
+  - IT-BP0508-0018
+  evidence_refs:
+  - EV-BP0508-0021
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP0508-0006
+  type: markdown_structural_cleanup_churn
+  description: Long markdown-fence/nested-fence/duplicate review sequence suggests validator blind spots and repeated structural cleanup.
+  item_refs:
+  - IT-BP0508-0039
+  evidence_refs: []
+  severity: normal
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP0508-0007
+  type: status_surface_asymmetry
+  description: Status/prompt/report indexes existed for module audits while owner was unsure equivalent Blueprint self-governance surfaces existed.
+  item_refs:
+  - IT-BP0508-0022
+  evidence_refs:
+  - EV-BP0508-0025
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP0508-0008
+  type: validation_vs_authorization_confusion_risk
+  description: Canonical gates can be fully green while pilot authorization remains false and rollout gated.
+  item_refs:
+  - IT-BP0508-0020
+  - IT-BP0508-0021
+  - IT-BP0508-0040
+  evidence_refs:
+  - EV-BP0508-0036
+  - EV-BP0508-0038
+  - EV-BP0508-0024
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP0508-0009
+  type: historical_lineage_not_current_proof
+  description: Readiness/write-flow/contract/transparency artifacts establish chronology but not today's implementation state.
+  item_refs:
+  - IT-BP0508-0024
+  - IT-BP0508-0025
+  - IT-BP0508-0026
+  - IT-BP0508-0027
+  - IT-BP0508-0028
+  - IT-BP0508-0029
+  evidence_refs: []
+  severity: normal
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP0508-0010
+  type: local_tmp_vs_canonical_repo_risk
+  description: Active development worktree lived under project tmp, requiring explicit path/branch/HEAD discipline to avoid confusion with disposable
+    artifacts or canonical repo.
+  item_refs:
+  - IT-BP0508-0011
+  - IT-BP0508-0018
+  - IT-BP0508-0038
+  evidence_refs:
+  - EV-BP0508-0013
+  - EV-BP0508-0042
+  severity: high
+  confidence: high
+  requires_followup: true
+open_loops:
+- loop_id: LOOP-BP0508-0001
+  description: Verify current Repository Knowledge distinguishes evidence-backed understanding from file indexing.
+  item_refs:
+  - IT-BP0508-0001
+  - IT-BP0508-0002
+  - IT-BP0508-0003
+  - IT-BP0508-0008
+  last_known_state: Initial report rejected; later self-audit had full indexing but low understanding.
+  recommended_verification: Inspect current repository-knowledge schemas/generators and sample claims for evidence/confidence/baseline fields.
+- loop_id: LOOP-BP0508-0002
+  description: Verify current Make architecture separates read-only checks from mutating operations.
+  item_refs:
+  - IT-BP0508-0004
+  - IT-BP0508-0016
+  - IT-BP0508-0017
+  - IT-BP0508-0034
+  last_known_state: Owner rejected mutating `check`; later read-only governance status planned.
+  recommended_verification: Audit current Make targets, CLI side effects, docs and tests.
+- loop_id: LOOP-BP0508-0003
+  description: Verify module-owned workflow boundaries and Blueprint-owned inspection tooling.
+  item_refs:
+  - IT-BP0508-0012
+  - IT-BP0508-0013
+  - IT-BP0508-0014
+  - IT-BP0508-0015
+  last_known_state: Owner required modules and Blueprint to use their own scripts/architectures.
+  recommended_verification: Inspect current listener/module runtime/completion contracts and Blueprint inspection paths.
+- loop_id: LOOP-BP0508-0004
+  description: Verify Blueprint self-status/prompts/reports indexes are canonical.
+  item_refs:
+  - IT-BP0508-0022
+  - IT-BP0508-0035
+  last_known_state: Owner identified possible asymmetry; transparency layer was next.
+  recommended_verification: Inspect current status manifest/command and prompt/report indexes.
+- loop_id: LOOP-BP0508-0005
+  description: Verify readiness/write-flow/validator/exact-contract chain against current implementation.
+  item_refs:
+  - IT-BP0508-0025
+  - IT-BP0508-0026
+  - IT-BP0508-0027
+  - IT-BP0508-0028
+  last_known_state: Dedicated historical review/contract artifacts exist.
+  recommended_verification: Locate current contracts/validators and run canonical gates.
+- loop_id: LOOP-BP0508-0006
+  description: Verify canonical mutation-builder contract remains current and rollback is enforced.
+  item_refs:
+  - IT-BP0508-0030
+  - IT-BP0508-0031
+  - IT-BP0508-0032
+  last_known_state: Historical commit 9caf511... reported active/canonical and 28/28.
+  recommended_verification: Inspect current standard, validator catalog, tests and execution path.
+- loop_id: LOOP-BP0508-0007
+  description: Verify transparency manifest and read-only governance status were completed.
+  item_refs:
+  - IT-BP0508-0033
+  - IT-BP0508-0034
+  - IT-BP0508-0035
+  - IT-BP0508-0036
+  last_known_state: Immediate next bounded steps after mutation-builder integration.
+  recommended_verification: Find current manifest/status command and verify exposed state fields.
+- loop_id: LOOP-BP0508-0008
+  description: Verify pilot authorization remained gated until control-layer criteria were satisfied.
+  item_refs:
+  - IT-BP0508-0020
+  - IT-BP0508-0021
+  - IT-BP0508-0037
+  - IT-BP0508-0040
+  last_known_state: Pilot unauthorized; external rollout gated.
+  recommended_verification: Resolve current release/pilot authority and inspect authorization evidence.
+- loop_id: LOOP-BP0508-0009
+  description: Verify markdown/document structural cleanup reached a stable end state.
+  item_refs:
+  - IT-BP0508-0006
+  - IT-BP0508-0039
+  last_known_state: Many bounded fence/duplicate review waves occurred.
+  recommended_verification: Run current document/fence validators and inspect exceptions.
+- loop_id: LOOP-BP0508-0010
+  description: Verify zero-context handoff now derives from canonical current state.
+  item_refs:
+  - IT-BP0508-0038
+  last_known_state: Owner requested a hand-written replacement-assistant prompt; later history built stronger continuity tooling.
+  recommended_verification: Inspect current assistant-context/handoff compiler and compare output with current authority.
+implementation_audit_ref: implementation_audit.stub.yaml

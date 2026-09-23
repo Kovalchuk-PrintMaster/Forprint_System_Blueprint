@@ -1,0 +1,116 @@
+schema_version: forprint_transition_to_autonomous_workers_20260915_reconciliation_v0_1
+source_date: '2026-09-15'
+reconciled_on: '2026-09-21'
+source_archive_sha256: 0bfb34c223aeb0f5694ef2e2a63abe1192449091bc70f9700634514a7575729a
+source_authority: PROPOSAL_ONLY_NON_EXECUTABLE
+reconciliation_authority: ROADMAP_ENRICHMENT_EVIDENCE_NOT_EXECUTION_AUTHORITY
+summary: The 2026-09-15 transition package is now primarily provenance for the current Strategic Vector and Control
+  Foundation steps CF-09..CF-19. Its proposed mechanisms were largely integrated into current canonical planning.
+  This intake does not create new roadmap steps.
+materialization_map:
+- source: strategic_transition_vector_v0_1.md/yaml
+  disposition: MATERIALIZED_REUSE
+  current:
+  - coordination/global_policy/strategic_transition_vector_v0_1.md
+  - coordination/global_policy/strategic_transition_vector_v0_1.yaml
+  notes: Current global policy preserves the minimum CF-08→CF-09→CF-10 launch path, post-launch delegation, portfolio
+    enrichment focus, observation-first retries, registered-capability direction and sunset semantics.
+- source: roadmap_update_proposal_v0_1.yaml#CF-09
+  disposition: MATERIALIZED_REUSE
+  current: control_foundation_near_horizon_program_v0_1.yaml#CF-09
+  covered:
+  - structured worker telemetry
+  - failure fingerprints
+  - retry/repair outcomes
+  - restart reasons
+  - durable resume coordinates
+  - observation-first bounded retry budgets
+- source: roadmap_update_proposal_v0_1.yaml#CF-10
+  disposition: MATERIALIZED_REUSE
+  current: control_foundation_near_horizon_program_v0_1.yaml#CF-10
+  covered:
+  - first bounded internal worker
+  - wider but bounded discovery retry budget
+  - friction statistics
+  - simple observable self-hardening tasks
+  - no global program planning by the worker
+- source: roadmap_update_proposal_v0_1.yaml#CF-13
+  disposition: MATERIALIZED_REUSE
+  current: control_foundation_near_horizon_program_v0_1.yaml#CF-13
+  covered:
+  - machine-readable Capability Registry
+  - describe/help
+  - Golden Path through registered capabilities
+  - protected-surface-to-capability mapping
+- source: roadmap_update_proposal_v0_1.yaml#CF-14
+  disposition: MATERIALIZED_REUSE
+  current: control_foundation_near_horizon_program_v0_1.yaml#CF-14
+  covered:
+  - Change Impact Resolver
+  - affected validation tiers
+  - safe auto-repair lane
+  - immutable-vs-live hash/reference classification
+  - evidence-based validation optimization
+- source: roadmap_update_proposal_v0_1.yaml#CF-15
+  disposition: MATERIALIZED_REUSE
+  current: control_foundation_near_horizon_program_v0_1.yaml#CF-15
+  covered:
+  - Project Health machine model
+  - Reference Integrity/Mutation Provenance health
+  - worker-friction telemetry
+- source: roadmap_update_proposal_v0_1.yaml#CF-17
+  disposition: MATERIALIZED_REUSE
+  current: control_foundation_near_horizon_program_v0_1.yaml#CF-17
+  covered:
+  - portfolio priority/dependency/readiness matrix
+  - balancing/catch-up waves
+  - forward-development waves
+  - first coordinated worker wave as strategic epoch boundary
+- source: roadmap_update_proposal_v0_1.yaml#CF-18
+  disposition: MATERIALIZED_REUSE
+  current: control_foundation_near_horizon_program_v0_1.yaml#CF-18
+  covered:
+  - Project Tool Gateway/operator CLI
+  - describe/run/status/resume/check/roadmap/project-health surfaces
+  - actionable denial guidance for protected direct writes
+- source: roadmap_update_proposal_v0_1.yaml#CF-19
+  disposition: MATERIALIZED_REUSE
+  current: control_foundation_near_horizon_program_v0_1.yaml#CF-19
+  covered:
+  - protected canonical surface enforcement
+  - authority non-widening
+  - readiness audit before broad autonomy
+- source: internal_worker_self_hardening_backlog_v0_1.yaml
+  disposition: DISTRIBUTED_ACROSS_CURRENT_CF10_CF13_CF14_CF18_CF19
+  notes: Do not create a second backlog unless future reconciliation finds an uncovered item.
+- source: worker_retry_telemetry_ramp_v0_1.yaml
+  disposition: MATERIALIZED_DIRECTION_REUSE
+  current:
+  - CF-09 structured telemetry/retry/restart/resume
+  - CF-10 discovery retry budget and friction statistics
+  - CF-15 worker-friction health visibility
+  notes: Exact production thresholds remain evidence-derived, not predeclared constants.
+- source: bootstrap_inclusion_proposal_v0_1.yaml
+  disposition: MATERIALIZED_DIRECTION_REUSE
+  current: current Strategic Vector is mandatory directional context while active
+source_non_goals_preserved:
+- do_not_replace_build_system
+- do_not_add_database_as_new_canonical_source_of_truth
+- do_not_build_all_gateway_capabilities_before_first_worker
+- do_not_start_broad_module_workers_before_inventory_and_wave_planning
+- first_internal_worker_does_not_own_global_strategy
+- first_internal_worker_does_not_own_roadmap_authority
+- first_internal_worker_does_not_get_release_push_merge_authority
+- first_internal_worker_does_not_get_unrestricted_cross_repository_writes
+remaining_questions:
+- id: EARLY_RETRY_PRODUCTION_THRESHOLDS
+  status: EVIDENCE_REQUIRED_NOT_DESIGN_GAP
+  question: What retry/repair/restart thresholds should production use after enough telemetry exists?
+- id: STRATEGIC_VECTOR_EPOCH_SUNSET_ALIGNMENT
+  status: ALREADY_RECORDED_RECONCILIATION_REQUIRED
+  question: Align current start-vs-completion sunset wording when the Strategic Vector lifecycle is next touched.
+- id: BROAD_AUTONOMY_READINESS
+  status: GATED_BY_EXISTING_CF17_CF19
+  question: Broad module autonomy remains blocked until portfolio wave/readiness planning and autonomy-readiness
+    evidence are accepted.
+conclusion: NO_NEW_ROADMAP_ITEM_REQUIRED_FROM_THIS_PACKAGE

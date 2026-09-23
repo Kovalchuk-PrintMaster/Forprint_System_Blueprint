@@ -1,0 +1,48 @@
+schema_version: blueprint_governance_operational_decision_v0_1
+metadata:
+  created_at: "2026-09-05"
+  module_id: forprint_system_blueprint
+  owner: forprint_system_blueprint
+  status: adopted
+record_id: blueprint_semantic_unique_temporary_artifact_naming_policy_adoption_v0_1
+recorded_at: "2026-09-05"
+scope: blueprint_assistant_operator_temporary_artifact_naming
+status: adopted
+human_intent:
+  semantic_names_required: >
+    Generated archives, reports and other return artifacts must use unique,
+    descriptive names that identify the current task and artifact role so the
+    operator can understand their contents later without reopening every file.
+  no_overwrite_required: >
+    Separate work cycles must not overwrite one another merely because they use
+    the same generic output filename.
+  independent_review_supported: >
+    The operator may intentionally keep temporary archives after a work cycle
+    for later independent analysis; cleanup permission must never imply forced
+    deletion.
+decision:
+  generic_primary_handoff_names_allowed: false
+  semantic_unique_user_facing_names_required: true
+  silent_overwrite_allowed: false
+  collision_resistance_required: true
+  artifact_name_should_survive_session_relocation: true
+  cleanup_allowed_means_cleanup_required: false
+  operator_retention_after_cycle_close_allowed: true
+  retained_temporary_artifact_becomes_project_authority: false
+recommended_filename_components:
+  - work_or_task_identity
+  - artifact_role
+  - state_or_stage_when_material
+  - utc_timestamp_or_collision_resistant_identity
+authority_effect:
+  release_transition: false
+  prompt_activation: false
+  automatic_acceptance: false
+  automatic_release_next_prompt: false
+  module_implementation_authority_widened: false
+  cross_repository_write_authority_widened: false
+  commit_push_authority_widened: false
+canonical_standard:
+  path: coordination/standards/governance/assistant_temporary_execution_and_artifact_handoff_protocol_v0_1.md
+entry_point:
+  path: AGENTS.md

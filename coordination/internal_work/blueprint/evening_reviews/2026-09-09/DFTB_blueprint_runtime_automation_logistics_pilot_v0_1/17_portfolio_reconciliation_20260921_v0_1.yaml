@@ -1,0 +1,186 @@
+schema_version: forprint_dftb_blueprint_20260909_portfolio_reconciliation_v0_1
+source_date_label: '2026-09-09'
+reconciled_on: '2026-09-21'
+source_archive_sha256: 08cd3dac91176c6b01f0e27fc9060ec631255640ab6ada2df07dcd8df9947b11
+source_dialogue_hash_sha256: 31714097725698cf29018be3cda4abab429c0751937d4675f778bd6ee4c6ccdb
+source_authority: HISTORICAL_RUNTIME_AUTOMATION_LOGISTICS_PILOT_EVIDENCE_NOT_CURRENT_AUTHORITY
+source_completeness:
+  classification: PARTIAL_HIGH_TURN_COVERAGE_LOW_ASSISTANT_NARRATIVE
+  retained_turn_containers: 103
+  text_bearing_turn_containers: 102
+  message_blocks:
+    user: 101
+    assistant: 3
+  unique_handoff_context_zip_names: 94
+  implementation_verification_in_bundle: false
+  rule: PASS/FAIL/read_only tokens parsed from archive filenames are historical chronology only. They do not prove
+    current implementation or current release state.
+summary: 'The 09.09 dialogue is the origin layer for ForPrint''s controlled fresh-worker runtime: durable module
+  self-knowledge, one substantial prompt per fresh worker, generated task context, manual Logistics pilot, bounded
+  automatic progression inside an approved work pool and manual acceptance at major pool/phase boundaries. The handoff
+  lineage then develops Task Context Compiler, Operator Approval Gateway, Console Worker Adapter, Listener/Dispatcher/Monitor,
+  Completion Intake + Inspector Conformance, dependency readiness, bootstrap/runtime policy and startup-authority
+  cleanup. Most capabilities are materially represented in later Control Foundation surfaces; this intake preserves
+  provenance and resolves historical ownership/policy ambiguities without creating a parallel runtime.'
+topic_reconciliation:
+- topic: release_authority_generated_context_fail_closed
+  item_refs:
+  - IT-BP0909-0001
+  - IT-BP0909-0002
+  - IT-BP0909-0003
+  - IT-BP0909-0004
+  disposition: MATERIALIZED_AND_MATURED
+  source_rules:
+  - resolve current release/authority before implementation
+  - prefer generated task/bootstrap context to manual file transfer
+  - do not infer PASS/readiness from missing evidence
+  - use unique descriptive evidence/handoff identities
+  current_connection:
+  - Handoff v2 / continuity freshness
+  - Task Context/Fresh Context
+  - artifact identity and immutable provenance
+  - fail-closed current-state reconciliation
+- topic: durable_module_self_knowledge_and_fresh_worker
+  item_refs:
+  - IT-BP0909-0005
+  - IT-BP0909-0006
+  - IT-BP0909-0007
+  - IT-BP0909-0016
+  - IT-BP0909-0033
+  - IT-BP0909-0034
+  disposition: MATERIALIZED_DIRECTION_REUSE_EXISTING_HUMAN_INTENT
+  source_target:
+  - module knowledge survives worker replacement
+  - one fresh worker per substantial prompt/work package
+  - generated current task snapshot includes authority, indexes, roadmap and previous completion evidence/navigation
+  - initial module bootstrap establishes automated inventory/index maintenance
+  current_connection:
+  - U129B reference-pilot Human Intent
+  - U131 module inventory/implementation memory
+  - Task Context Compiler
+  - Handoff v2 TASK_EXECUTION mode
+  note: Do not duplicate later U129B/U131 Human Intent solely for provenance.
+- topic: automation_within_pool_human_major_boundary
+  item_refs:
+  - IT-BP0909-0008
+  - IT-BP0909-0009
+  - IT-BP0909-0010
+  - IT-BP0909-0027
+  disposition: RETAIN_AS_DURABLE_AUTOMATION_AUTHORITY_BOUNDARY
+  source_model: 'Inside an explicitly approved work pool: prompt -> worker -> report -> validation -> next prompt
+    may become automatic. Completion of a major pool/phase requires explicit human/operator acceptance before widening
+    to the next pool.'
+  current_connection:
+  - Operator Approval Gateway
+  - Work Front / Execution Profile / Dispatcher authority
+  - Strategic transition human wave-boundary acceptance
+  - staged autonomy
+  historical_policy_note: The exact Logistics-only pilot state is historical. The manual major-boundary rule survives;
+    current Work Front/Profile/Procedure authority determines what may progress automatically inside a bounded pool.
+- topic: listener_dispatcher_ownership
+  item_refs:
+  - IT-BP0909-0011
+  - IT-BP0909-0025
+  disposition: RESOLVED_DIRECTIONALLY_BY_CURRENT_BLUEPRINT_CONTROL_PLANE
+  historical_question: Standalone component/module versus embedded Blueprint/runtime capability.
+  current_reconciliation: Do not create a new top-level listener/dispatcher module. Later CF-09/Dispatcher and Control
+    Plane runtime own central dispatch, retry/resume/result routing and worker-launch integration inside Blueprint
+    governance. Monitoring/health remains a supporting observability concern, not independent semantic authority.
+- topic: documentation_and_repository_structure
+  item_refs:
+  - IT-BP0909-0012
+  - IT-BP0909-0013
+  disposition: MATERIALIZED_OPERATOR_AND_REPOSITORY_HYGIENE_INVARIANT
+  source_rule: Runtime/architecture agreements belong in durable project documentation and canonical indexes; project
+    structures remain nested and readable rather than accumulating flat root-level artifacts.
+- topic: foreign_repo_git_boundary
+  item_refs:
+  - IT-BP0909-0014
+  - IT-BP0909-0015
+  disposition: RETAIN_WITH_LATER_AUTHORITY_NARROWING
+  source_rule: Blueprint should not spend routine coordination effort repairing another module repository's Git
+    baseline. Module-local workers/adapters may prepare the bounded local baseline needed for their task.
+  authority_reconciliation: Being module-local does not itself grant commit/push/merge authority. Publication remains
+    the intersection of higher policy, Execution Profile, Work Front/Procedure and explicit approval where required.
+- topic: startup_authority_and_context_history
+  item_refs:
+  - IT-BP0909-0017
+  - IT-BP0909-0018
+  - IT-BP0909-0019
+  - IT-BP0909-0020
+  - IT-BP0909-0021
+  - IT-BP0909-0037
+  - IT-BP0909-0038
+  - IT-BP0909-0039
+  disposition: MATERIALIZED_AND_REFRAMED_BY_MODE_SPECIFIC_CONTINUITY
+  source_target:
+  - one canonical current startup entry
+  - old continuity material becomes historical evidence rather than competing authority
+  - stable project mission belongs in durable policy rather than accumulated chat history
+  - history should not contaminate default current context
+  current_reconciliation: Later Handoff v2 distinguishes PROJECT_ONBOARD and TASK_EXECUTION rather than one universal
+    broad default context. Project onboarding may be broad; task execution is bounded and authority-aware. Historical
+    u175/u175a filenames are not current proof.
+- topic: runtime_stack_origin
+  item_refs:
+  - IT-BP0909-0022
+  - IT-BP0909-0023
+  - IT-BP0909-0024
+  - IT-BP0909-0025
+  - IT-BP0909-0026
+  - IT-BP0909-0028
+  - IT-BP0909-0029
+  - IT-BP0909-0030
+  - IT-BP0909-0031
+  - IT-BP0909-0035
+  disposition: MATERIALIZED_AS_LATER_CONTROL_FOUNDATION_SURFACES
+  historical_components:
+  - Task Context Compiler
+  - Operator Approval Gateway
+  - Console Worker Adapter
+  - Central Listener / Dispatcher / Monitor
+  - Completion Intake + Inspector Conformance
+  - Prompt-scoped Dependency Readiness
+  - Module Bootstrap Execution Policy
+  - Bootstrap Task Context Mode
+  - Worker Runtime Profile
+  - Module Preparation Registry / Queue
+  current_evidence: Later current Make/check surfaces include task-context-compiler, launch-request-gate, operator-approval-gateway,
+    console-worker-adapter, control-plane-runtime and completion-control-plane checks; CF-08/09 further normalize
+    context/handoff/dispatch.
+  non_goal: Do not recreate the 09.09 components as a second runtime stack.
+- topic: project_inspector_binding_and_provisioning
+  item_refs:
+  - IT-BP0909-0032
+  - IT-BP0909-0036
+  disposition: CANONICAL_MODULE_DIRECTION_RESOLVED_CURRENT_IMPLEMENTATION_EVIDENCE_SEPARATE
+  current_reconciliation: Project Inspector is now a canonical portfolio module with later target-state/Human Intent
+    surfaces. Whether every historical provisioning artifact exists in the live repository remains current-state
+    audit evidence, not a reason to create a new module or roadmap capability.
+open_loop_reconciliation:
+- loop: LOOP-BP0909-0001
+  status: RESOLVED_DIRECTIONALLY
+  note: Central listener/dispatcher responsibilities now belong to Blueprint Dispatcher/Control Plane runtime, not
+    a new standalone top-level module.
+- loop: LOOP-BP0909-0002
+  status: RESOLVED_AT_POLICY_LEVEL_CURRENT_PROFILE_SPECIFIC_AUTHORITY_APPLIES
+  note: Module-local baseline preparation is allowed only within current Work Front/Profile/Procedure bounds; commit/push/merge
+    is never implied.
+- loop: LOOP-BP0909-0003
+  status: MATERIALIZED_DIRECTION_CURRENT_LOGISTICS_IMPLEMENTATION_SEPARATELY_AUDITABLE
+  note: Later U129B/U131 and module-memory/bootstrap surfaces cover the requirement; current module files remain
+    implementation-evidence scope.
+- loop: LOOP-BP0909-0004
+  status: CURRENT_CF09_CF10_EXECUTION_PROOF_STILL_SEPARATE
+  note: The architecture boundary is preserved, but historical 09.09 filenames do not prove a current end-to-end
+    automatic pilot. Current CF-09/CF-10 runtime evidence is the correct verification surface.
+- loop: LOOP-BP0909-0005
+  status: RESOLVED_DIRECTIONALLY_BY_CURRENT_BOOTSTRAP_HANDOFF_ARCHITECTURE
+  note: Do not infer u175a PASS; later current bootstrap/Handoff surfaces supersede this historical attempt.
+- loop: LOOP-BP0909-0006
+  status: RESOLVED_AT_CANONICAL_MODULE_LEVEL_IMPLEMENTATION_EVIDENCE_PENDING
+  note: Project Inspector is canonical; provisioning/repository state belongs in the portfolio current-state evidence
+    audit.
+roadmap_mutation_required: false
+execution_authority_mutation_required: false
+new_roadmap_step_required: false

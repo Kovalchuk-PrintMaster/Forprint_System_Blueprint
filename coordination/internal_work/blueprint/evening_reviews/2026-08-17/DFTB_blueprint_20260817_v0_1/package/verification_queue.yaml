@@ -1,0 +1,621 @@
+schema_version: forprint_dftb_verification_queue_v0_1
+bundle_id: DFTB-blueprint-2026-08-17
+warning: Historical dialogue intent and old reports are not current authority.
+queue:
+- item_id: IT-BP1708-0001
+  title: Live state outranks stale handoff archives
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - continuity
+  - authority
+  verification_targets:
+  - docs
+  - config
+  - operations
+  evidence_refs:
+  - EV-BP1708-0001
+  - EV-BP1708-0002
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current owner first; then verify semantically in current code/tests/config/docs/runtime. Historical
+    report markers are insufficient.
+- item_id: IT-BP1708-0002
+  title: Makefile is the primary operational surface
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - tooling
+  - forprint_system_blueprint
+  verification_targets:
+  - code
+  - tests
+  - docs
+  - operations
+  evidence_refs:
+  - EV-BP1708-0007
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current owner first; then verify semantically in current code/tests/config/docs/runtime. Historical
+    report markers are insufficient.
+- item_id: IT-BP1708-0003
+  title: Blueprint coordinates; module assistants implement
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - forprint_system_blueprint
+  - module_assistants
+  verification_targets:
+  - docs
+  - operations
+  evidence_refs:
+  - EV-BP1708-0008
+  - EV-BP1708-0009
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current owner first; then verify semantically in current code/tests/config/docs/runtime. Historical
+    report markers are insufficient.
+- item_id: IT-BP1708-0004
+  title: Normal inter-module coordination uses internal Make mechanisms
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - coordination_runtime
+  - tooling
+  verification_targets:
+  - code
+  - docs
+  - operations
+  evidence_refs:
+  - EV-BP1708-0010
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current owner first; then verify semantically in current code/tests/config/docs/runtime. Historical
+    report markers are insufficient.
+- item_id: IT-BP1708-0005
+  title: STEP27 is reference-chain validation, not feature rewrite
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - logistics_service
+  - v0_4
+  verification_targets:
+  - docs
+  - tests
+  - config
+  evidence_refs:
+  - EV-BP1708-0003
+  - EV-BP1708-0004
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current owner first; then verify semantically in current code/tests/config/docs/runtime. Historical
+    report markers are insufficient.
+- item_id: IT-BP1708-0006
+  title: Blueprint must respect module-owned artifacts
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - forprint_system_blueprint
+  - module_repositories
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1708-0005
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current owner first; then verify semantically in current code/tests/config/docs/runtime. Historical
+    report markers are insufficient.
+- item_id: IT-BP1708-0007
+  title: No automatic acceptance or promotion from review readiness
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - review
+  - release
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1708-0006
+  - EV-BP1708-0012
+  - EV-BP1708-0013
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current owner first; then verify semantically in current code/tests/config/docs/runtime. Historical
+    report markers are insufficient.
+- item_id: IT-BP1708-0008
+  title: Explicit operator confirmation for review mutations
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - operator_approval
+  - review_transaction
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1708-0014
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current owner first; then verify semantically in current code/tests/config/docs/runtime. Historical
+    report markers are insufficient.
+- item_id: IT-BP1708-0009
+  title: Separate module completion from Blueprint acceptance
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - roadmap
+  - prompt_lifecycle
+  verification_targets:
+  - config
+  - code
+  - docs
+  evidence_refs:
+  - EV-BP1708-0015
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current owner first; then verify semantically in current code/tests/config/docs/runtime. Historical
+    report markers are insufficient.
+- item_id: IT-BP1708-0010
+  title: Acceptance requires an explicit transaction and seal
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - review
+  - publication
+  verification_targets:
+  - code
+  - tests
+  - operations
+  evidence_refs:
+  - EV-BP1708-0016
+  - EV-BP1708-0017
+  - EV-BP1708-0018
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current owner first; then verify semantically in current code/tests/config/docs/runtime. Historical
+    report markers are insufficient.
+- item_id: IT-BP1708-0011
+  title: Use tmp as ephemeral report workspace
+  importance: normal
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - reporting
+  - repository_structure
+  verification_targets:
+  - docs
+  - operations
+  evidence_refs:
+  - EV-BP1708-0011
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current owner first; then verify semantically in current code/tests/config/docs/runtime. Historical
+    report markers are insufficient.
+- item_id: IT-BP1708-0012
+  title: Finish bounded task before roadmap re-planning
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - roadmap
+  - coordination
+  verification_targets:
+  - docs
+  - operations
+  evidence_refs:
+  - EV-BP1708-0019
+  - EV-BP1708-0036
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current owner first; then verify semantically in current code/tests/config/docs/runtime. Historical
+    report markers are insufficient.
+- item_id: IT-BP1708-0013
+  title: Hierarchical roadmap tasks and subtasks
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - roadmap
+  - reporting
+  verification_targets:
+  - code
+  - config
+  - docs
+  evidence_refs:
+  - EV-BP1708-0020
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current owner first; then verify semantically in current code/tests/config/docs/runtime. Historical
+    report markers are insufficient.
+- item_id: IT-BP1708-0014
+  title: Roadmap compact and detailed views
+  importance: normal
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - roadmap_ui
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1708-0021
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current owner first; then verify semantically in current code/tests/config/docs/runtime. Historical
+    report markers are insufficient.
+- item_id: IT-BP1708-0015
+  title: Current architecture may supersede legacy workflow
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - governance
+  - tooling
+  verification_targets:
+  - docs
+  - code
+  - tests
+  evidence_refs:
+  - EV-BP1708-0022
+  - EV-BP1708-0023
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current owner first; then verify semantically in current code/tests/config/docs/runtime. Historical
+    report markers are insufficient.
+- item_id: IT-BP1708-0016
+  title: Optimize for predictability, stability and transparency
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - ecosystem
+  - coordination
+  verification_targets:
+  - docs
+  - tests
+  - operations
+  evidence_refs:
+  - EV-BP1708-0023
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current owner first; then verify semantically in current code/tests/config/docs/runtime. Historical
+    report markers are insufficient.
+- item_id: IT-BP1708-0017
+  title: Website remains paused
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - website
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP1708-0024
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current owner first; then verify semantically in current code/tests/config/docs/runtime. Historical
+    report markers are insufficient.
+- item_id: IT-BP1708-0018
+  title: Logistics is the sole pilot for the new model
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - logistics_service
+  - portfolio
+  verification_targets:
+  - docs
+  - operations
+  - config
+  evidence_refs:
+  - EV-BP1708-0025
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current owner first; then verify semantically in current code/tests/config/docs/runtime. Historical
+    report markers are insufficient.
+- item_id: IT-BP1708-0019
+  title: Propagate stable Logistics model to other modules
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - portfolio
+  - module_assistants
+  verification_targets:
+  - roadmap
+  - docs
+  - operations
+  evidence_refs:
+  - EV-BP1708-0026
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current owner first; then verify semantically in current code/tests/config/docs/runtime. Historical
+    report markers are insufficient.
+- item_id: IT-BP1708-0020
+  title: Owner business intent is translated into technical machine prompts
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - prompt_design
+  - module_assistants
+  verification_targets:
+  - docs
+  - operations
+  evidence_refs:
+  - EV-BP1708-0027
+  - EV-BP1708-0028
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current owner first; then verify semantically in current code/tests/config/docs/runtime. Historical
+    report markers are insufficient.
+- item_id: IT-BP1708-0021
+  title: Prefer reusable machine-like specifications
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - prompt_design
+  - architecture
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP1708-0028
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current owner first; then verify semantically in current code/tests/config/docs/runtime. Historical
+    report markers are insufficient.
+- item_id: IT-BP1708-0022
+  title: Legacy tests/tools should not block current platform
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - legacy
+  - testing
+  verification_targets:
+  - tests
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP1708-0029
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current owner first; then verify semantically in current code/tests/config/docs/runtime. Historical
+    report markers are insufficient.
+- item_id: IT-BP1708-0023
+  title: Archive legacy tooling for optional access
+  importance: normal
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - legacy
+  - repository_structure
+  verification_targets:
+  - docs
+  - config
+  - code
+  evidence_refs:
+  - EV-BP1708-0030
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current owner first; then verify semantically in current code/tests/config/docs/runtime. Historical
+    report markers are insufficient.
+- item_id: IT-BP1708-0024
+  title: STEP27 acceptance was sealed and published
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - step27
+  - logistics_service
+  verification_targets:
+  - code
+  - tests
+  - config
+  evidence_refs:
+  - EV-BP1708-0017
+  - EV-BP1708-0018
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current owner first; then verify semantically in current code/tests/config/docs/runtime. Historical
+    report markers are insufficient.
+- item_id: IT-BP1708-0025
+  title: B1 became active after H9 closure
+  importance: high
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - v0_4_1
+  - B1
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP1708-0031
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current owner first; then verify semantically in current code/tests/config/docs/runtime. Historical
+    report markers are insufficient.
+- item_id: IT-BP1708-0026
+  title: B1 exact integration review reached bounded-mutation-ready
+  importance: normal
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - v0_4_1
+  - B1
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1708-0032
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current owner first; then verify semantically in current code/tests/config/docs/runtime. Historical
+    report markers are insufficient.
+- item_id: IT-BP1708-0027
+  title: Shared filter/browser styling should be centrally reusable
+  importance: normal
+  dialogue_status: agreed
+  confidence: medium
+  owner_or_domain:
+  - ui
+  - design_system
+  verification_targets:
+  - ui
+  - code
+  - tests
+  evidence_refs:
+  - EV-BP1708-0033
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current owner first; then verify semantically in current code/tests/config/docs/runtime. Historical
+    report markers are insufficient.
+- item_id: IT-BP1708-0028
+  title: Tree hierarchy needs visible indentation
+  importance: normal
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - ui
+  - browser
+  verification_targets:
+  - ui
+  - code
+  evidence_refs:
+  - EV-BP1708-0034
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current owner first; then verify semantically in current code/tests/config/docs/runtime. Historical
+    report markers are insufficient.
+- item_id: IT-BP1708-0029
+  title: Breadcrumbs align to main-content origin
+  importance: low
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - ui
+  - browser
+  verification_targets:
+  - ui
+  - code
+  evidence_refs:
+  - EV-BP1708-0035
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current owner first; then verify semantically in current code/tests/config/docs/runtime. Historical
+    report markers are insufficient.
+- item_id: IT-BP1708-0030
+  title: Zero-context bootstrap must survive session loss
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - bootstrap
+  - continuity
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP1708-0037
+  - EV-BP1708-0038
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current owner first; then verify semantically in current code/tests/config/docs/runtime. Historical
+    report markers are insufficient.
+- item_id: IT-BP1708-0031
+  title: Bootstrap carries the full remaining release path
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - bootstrap
+  - roadmap
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP1708-0038
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current owner first; then verify semantically in current code/tests/config/docs/runtime. Historical
+    report markers are insufficient.
+- item_id: IT-BP1708-0032
+  title: End-to-end Logistics/Codex automatic chain is a release objective
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - logistics_service
+  - codex
+  - coordination_runtime
+  verification_targets:
+  - code
+  - tests
+  - operations
+  - docs
+  evidence_refs:
+  - EV-BP1708-0039
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current owner first; then verify semantically in current code/tests/config/docs/runtime. Historical
+    report markers are insufficient.
+- item_id: IT-BP1708-0033
+  title: Zero-context continuity package was published current
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - bootstrap
+  - continuity
+  - B1
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP1708-0040
+  - EV-BP1708-0041
+  - EV-BP1708-0042
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current owner first; then verify semantically in current code/tests/config/docs/runtime. Historical
+    report markers are insufficient.
+- item_id: IT-BP1708-0034
+  title: Resume bounded B1-P2 F01–F04 after continuity publication
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - B1
+  - v0_4_1
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1708-0043
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current owner first; then verify semantically in current code/tests/config/docs/runtime. Historical
+    report markers are insufficient.
+- item_id: IT-BP1708-0035
+  title: Global promotion remains a separate decision
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - release
+  - governance
+  verification_targets:
+  - docs
+  - config
+  - operations
+  evidence_refs:
+  - EV-BP1708-0006
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current owner first; then verify semantically in current code/tests/config/docs/runtime. Historical
+    report markers are insufficient.
+- item_id: IT-BP1708-0036
+  title: Read-only diagnostics before mutation
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - diagnostics
+  - governance
+  verification_targets:
+  - operations
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1708-0002
+  - EV-BP1708-0043
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current owner first; then verify semantically in current code/tests/config/docs/runtime. Historical
+    report markers are insufficient.

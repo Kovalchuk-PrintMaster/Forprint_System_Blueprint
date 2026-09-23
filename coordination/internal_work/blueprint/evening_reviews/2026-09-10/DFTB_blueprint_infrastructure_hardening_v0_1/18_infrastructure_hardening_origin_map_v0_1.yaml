@@ -1,0 +1,75 @@
+schema_version: forprint_dftb_blueprint_20260910_infrastructure_hardening_origin_map_v0_1
+source_bundle: DFTB-blueprint-2026-09-10
+source_root: coordination/internal_work/blueprint/evening_reviews/2026-09-10/DFTB_blueprint_infrastructure_hardening_v0_1
+purpose: Preserve the historical origins of generator derivation, Mutation Compiler, explicit execution dependencies,
+  progress visibility, knowledge determinism and the continuity stack, while mapping them to later/current Blueprint
+  mechanisms and avoiding duplicate subsystems.
+evolution_chain:
+- stage: startup_authority_normalization
+  items:
+  - IT-BP1009-0001
+  - IT-BP1009-0002
+  - IT-BP1009-0003
+  - IT-BP1009-0031
+  - IT-BP1009-0032
+  later_surfaces:
+  - canonical bootstrap
+  - Handoff v2
+  - history/current-authority separation
+- stage: autogeneration_and_derivation
+  items:
+  - IT-BP1009-0005
+  - IT-BP1009-0006
+  later_surfaces:
+  - generator derivation registry
+  - generator inventory/contract checks
+  - knowledge validation
+- stage: mutation_compiler
+  items:
+  - IT-BP1009-0007
+  - IT-BP1009-0008
+  - IT-BP1009-0009
+  later_surfaces:
+  - scripts.coordination.mutation_compiler
+  - candidate/apply/rollback evidence
+  - CF mutation apply scripts
+- stage: execution_dependency_closure
+  items:
+  - IT-BP1009-0010
+  - IT-BP1009-0011
+  - IT-BP1009-0012
+  - IT-BP1009-0013
+  - IT-BP1009-0014
+  - IT-BP1009-0015
+  later_surfaces:
+  - execution dependency registry/graph
+  - non-mutating checks
+  - clean-room/mirror validation
+- stage: operator_progress_and_knowledge_determinism
+  items:
+  - IT-BP1009-0017
+  - IT-BP1009-0018
+  - IT-BP1009-0019
+  - IT-BP1009-0020
+  later_surfaces:
+  - execution progress visibility contract/helper
+  - repository knowledge freshness/derivation checks
+- stage: continuity_stack
+  items:
+  - IT-BP1009-0021
+  - IT-BP1009-0022
+  - IT-BP1009-0023
+  - IT-BP1009-0024
+  - IT-BP1009-0025
+  - IT-BP1009-0026
+  - IT-BP1009-0028
+  later_surfaces:
+  - continuity checkpoints/events/projections
+  - assistant pack
+  - Handoff v2
+  - Lifecycle Enforcement
+  - roadmap reconciliation
+historical_execution_note:
+  unique_handoff_labels: 51
+  final_visible_historical_boundary: u179e5 rerun archive; final PASS narrative absent
+  later_materialized_capability: Continuity Lifecycle Enforcement

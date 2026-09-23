@@ -1,0 +1,160 @@
+schema_version: forprint_blueprint_20260805_continuation_primary_mhtml_second_pass_reconciliation_v0_1
+reconciled_on: '2026-09-22'
+
+source:
+  operator_supplied_filename: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_16.08.26.mhtml
+  sha256: ddc8e37bcd183ce3c85339b6a99d3b2e4240ae1ee6a330906b2f39ae410c71d1
+  relationship_to_existing_intake: BYTE_IDENTICAL_SOURCE_IDENTITY_ALREADY_NORMALIZED
+  existing_source_id: DFTB-blueprint-2026-08-05-continuation
+  existing_source_root: coordination/internal_work/blueprint/evening_reviews/2026-08-05/DFTB_blueprint_20260805_continuation_v0_1
+
+chronology:
+  filename_date_label: '2026-08-16'
+  canonical_historical_classification: 2026-08-05-continuation
+  rule: >
+    Do not create a separate 16.08 source root from the filename. Exact SHA identity
+    matches the already-normalized 05.08 continuation bundle. The conversation begins
+    from the earlier 05.08 transparency/mutation-builder boundary and later reaches
+    STEP26/STEP27 execution history before the separately processed 17.08 source.
+  relation:
+    continues: DFTB-blueprint-2026-08-05
+    precedes: DFTB-blueprint-2026-08-17
+
+source_quality:
+  classification: PRIMARY_MHTML_UTF8_RECOVERABLE_PARTIAL_CONTINUATION
+  retained_turn_containers_from_existing_intake: 87
+  text_bearing_turn_containers_from_existing_intake: 86
+  message_blocks_from_existing_intake:
+    user: 83
+    assistant: 3
+  lossy_cyrillic_replacement_character_detected_in_supplied_mhtml: false
+  limitation: >
+    The source is attachment-heavy and only a small number of assistant narrative
+    blocks survive, so hidden transitions must not be reconstructed from later
+    summaries. Historical PASS/READY/ACTIVE labels remain historical evidence and are
+    not current runtime authority.
+
+second_pass_coverage:
+  verdict: FIRST_PASS_SEMANTIC_EXTRACTION_SUBSTANTIALLY_COMPLETE
+  already_preserved_topics:
+    - repository self-audit and bounded external semantic assessment
+    - exact request/checksum identity for external audit roundtrips
+    - project-local temporary report workspace
+    - module-owned workflow scripts and Blueprint-owned inspection tooling
+    - read-only checks must not be disguised mutations
+    - worktree/copy identity must be unambiguous
+    - completion intake and acceptance-gate origin
+    - pilot migration and external rollout require separate authority
+    - stable and unambiguous governance workflow
+    - validator behavior as contract
+    - bounded mutation-builder and rollback semantics
+    - current-state transparency manifest and read-only governance status command
+    - transparency view of phase, blockers, boundaries, dependencies and next action
+    - forward-plan visibility
+    - session handoff exact-current-state plus reading-path requirement
+    - canonical validation gates distinct from authorization state
+    - STEP26 publication/seal and STEP27 bridge
+    - attributable branch/worktree/isolated-workspace parallel development
+  new_human_intent_required: false
+  new_roadmap_step_required: false
+  new_source_map_entry_required: false
+  execution_authority_mutation_required: false
+
+second_pass_delta:
+  - topic: session_handoff_to_current_bootstrap_origin
+    source_items:
+      - IT-BP0508-0033
+      - IT-BP0508-0034
+      - IT-BP0508-0035
+      - IT-BP0508-0036
+      - IT-BP0508-0038
+      - IT-BP0508-0040
+    source_intent: >
+      A replacement assistant should receive an exact current-state handoff with
+      current phase, blockers, authorization boundaries, dependency chain, next
+      required action, forward plan and an explicit reading path. Validation state
+      must remain distinct from authorization state.
+    first_pass_status: NORMALIZED
+    current_reconciliation:
+      status: MATERIALIZED_AND_EXTENDED
+      current_surfaces:
+        - coordination/instruction_intake/assistant_reading_order.md
+        - coordination/bootstrap/assistant_context_system_specs_v0_1.yaml
+        - coordination/bootstrap/index_v0_1.yaml
+        - coordination/bootstrap/START_HERE.md
+        - Makefile::assistant-context-pack
+        - scripts/coordination/build_project_context_archive.py
+        - tests/coordination/test_blueprint_context_pack_default_v0_1.py
+      validated_runtime_evidence:
+        - BLUEPRINT_CONTEXT_PACK_BLUEPRINT_DEFAULT_V0_7=PASS
+        - DEFAULT_CONTEXT_MODULE=forprint_system_blueprint
+        - EXPLICIT_MODULE_OVERRIDE_PRESERVED=true
+        - ASSISTANT_READING_ORDER_REMAINS_FIRST=true
+        - SYSTEM_SPECS_READING_ORDER_POSITION=2
+        - SCRIPT_DELIVERY_INTEGRITY=PASS
+      current_parallel_snapshot_note: >
+        A separate parallel-workstream snapshot integration contract has been prepared
+        for the active parallel assistant, but this second-pass artifact does not
+        assume that snapshot has already been applied to the repository.
+      authority_note: >
+        Assistant context/bootstrap surfaces are onboarding and navigation evidence.
+        They do not grant roadmap, lifecycle, dispatch, release, acceptance,
+        commit, push or merge authority.
+    action: RECORD_PROVENANCE_BRIDGE_ONLY
+
+  - topic: historical_tmp_evidence_not_current_authority
+    source_items:
+      - IT-BP0508-0010
+      - IT-BP0508-0011
+      - IT-BP0508-0018
+      - IT-BP0508-0038
+    source_rule: >
+      Inspection artifacts under temporary workspaces are evidence for analysis and
+      reconstruction, not authoritative tracked current state. Repository/worktree
+      identity must be explicit before acting.
+    first_pass_status: EXPLICITLY_CAPTURED
+    current_connection:
+      - current truth-layer separation in assistant context system specs
+      - live Git/lifecycle/runtime state outranks historical reports and chat
+      - package semantic identity must be validated, not inferred from filename alone
+    action: NO_DUPLICATE
+
+  - topic: transparency_control_layer_to_current_state_navigation
+    source_items:
+      - IT-BP0508-0033
+      - IT-BP0508-0034
+      - IT-BP0508-0035
+      - IT-BP0508-0036
+    source_rule: >
+      Operator-facing current-state surfaces should expose current phase, blockers,
+      authorization/gated boundaries, dependencies, next required action and enough
+      forward context to resume safely.
+    first_pass_status: EXPLICITLY_CAPTURED
+    current_reconciliation: >
+      The historical transparency idea has since expanded into current bootstrap,
+      continuity, work-front, roadmap-execution and context-package surfaces. Do not
+      create a duplicate transparency roadmap item from this second pass.
+    action: NO_DUPLICATE
+
+  - topic: parallel_git_workspace_origin
+    source_items:
+      - IT-BP0508C-0004
+      - IT-BP0508C-0034
+    promoted_human_intent: HI-FP-CLOSEDLOOP-20260805C-005
+    current_connection:
+      - CF-10 isolated workspaces/worktrees
+      - bounded dirty-tree compatibility
+      - exact write-set semantic collision rule
+    action: NO_DUPLICATE
+
+second_pass_verdict:
+  new_source_root: false
+  filename_date_does_not_create_new_chronology_node: true
+  new_human_intent_required: false
+  new_roadmap_step_required: false
+  source_map_entry_required: false
+  execution_authority_mutation_required: false
+  valuable_new_persistence:
+    - exact primary-MHTML identity confirmation
+    - explicit filename-date versus canonical-continuation chronology rule
+    - provenance bridge from early session-handoff/transparency requirements to current validated assistant bootstrap/context package

@@ -1,0 +1,252 @@
+schema_version: forprint_blueprint_20260909_primary_mhtml_second_pass_reconciliation_v0_1
+reconciled_on: '2026-09-22'
+
+source:
+  operator_supplied_filename: Asistans_Forprint_Blueprint - Forprint_Blueprint_09.09.26.mhtml
+  sha256: 31714097725698cf29018be3cda4abab429c0751937d4675f778bd6ee4c6ccdb
+  relationship_to_existing_intake: BYTE_IDENTICAL_SOURCE_IDENTITY_ALREADY_NORMALIZED
+  existing_source_id: DFTB-blueprint-2026-09-09
+  existing_source_root: coordination/internal_work/blueprint/evening_reviews/2026-09-09/DFTB_blueprint_runtime_automation_logistics_pilot_v0_1
+
+source_quality:
+  classification: PRIMARY_MHTML_UTF8_RECOVERABLE_PARTIAL_HIGH_TURN_COVERAGE_SPARSE_ASSISTANT_NARRATIVE
+  retained_turn_containers_from_existing_intake: 103
+  text_bearing_containers_from_existing_intake: 102
+  recoverable_message_blocks_from_existing_intake:
+    user: 101
+    assistant: 3
+  unique_handoff_context_zip_names_from_existing_intake: 94
+  lossy_cyrillic_after_correct_mime_decode: false
+  mime_note: >
+    The HTML MIME part is quoted-printable and lacks an explicit charset header.
+    Naive automatic decoding can display replacement symbols, but decoding the payload
+    bytes as UTF-8 yields clean Cyrillic. The source file itself is not Cyrillic-lossy.
+  limitation: >
+    The real limitation is sparse assistant-side narrative. Most intermediate reasoning
+    is absent from the saved DOM and must not be reconstructed by guesswork. Handoff ZIP
+    names and PASS/FAIL/read_only tokens are chronology evidence only, not current
+    implementation or runtime proof.
+
+second_pass_coverage:
+  verdict: FIRST_PASS_SEMANTIC_EXTRACTION_SUBSTANTIALLY_COMPLETE
+  already_preserved_topics:
+    - durable module self-knowledge survives worker replacement
+    - one fresh worker per substantial bounded prompt/work package
+    - generated fresh task context includes current authority, indexes, roadmap and previous completion evidence
+    - automation may progress inside an explicitly approved bounded work pool
+    - major pool/wave/phase transition remains explicit human/operator authority
+    - listener/dispatcher ownership question and later Blueprint Control Plane resolution
+    - durable project documentation and clean nested repository structure
+    - Blueprint avoids routine foreign-repository Git repair
+    - module-local bounded baseline preflight
+    - one canonical current startup authority path
+    - old continuity startup material becomes historical evidence
+    - stable project mission is separated from historical continuity
+    - historical broad-default context direction
+    - historical context excluded from current default authority
+    - Task Context Compiler
+    - Operator Approval Gateway
+    - Console Worker Adapter
+    - Central Listener / Dispatcher / Monitor
+    - Completion Intake + Inspector Conformance
+    - prompt-scoped Dependency Readiness
+    - Module Bootstrap Execution Policy
+    - Bootstrap Task Context Mode
+    - Worker Runtime Profile
+    - Project Inspector registry binding
+    - versioned Logistics bootstrap prompt
+    - self-knowledge / roadmap reconciliation
+    - Module Preparation Registry / Queue
+  new_human_intent_required: false
+  new_roadmap_step_required: false
+  new_source_map_entry_required: false
+  execution_authority_mutation_required: false
+
+second_pass_delta:
+  - topic: fresh_worker_runtime_to_current_handoff_and_cf10
+    source_items:
+      - IT-BP0909-0005
+      - IT-BP0909-0006
+      - IT-BP0909-0007
+      - IT-BP0909-0016
+      - IT-BP0909-0022
+      - IT-BP0909-0023
+      - IT-BP0909-0024
+      - IT-BP0909-0026
+      - IT-BP0909-0028
+      - IT-BP0909-0029
+      - IT-BP0909-0030
+      - IT-BP0909-0031
+      - IT-BP0909-0033
+      - IT-BP0909-0034
+      - IT-BP0909-0035
+    first_pass_status: MATERIALIZED_DIRECTION_REUSE_EXISTING_HUMAN_INTENT
+    historical_chain:
+      - durable module self-knowledge
+      - fresh worker per bounded work package
+      - Task Context Compiler
+      - Operator Approval Gateway
+      - Console Worker Adapter
+      - Completion Intake / Inspector Conformance
+      - prompt-scoped dependency readiness
+      - worker runtime profile
+    current_connection:
+      - Handoff v2 TASK_EXECUTION context
+      - Task Context / launch-request / fresh-context gates
+      - Operator Approval Gateway
+      - Execution Profiles / Work Front / Procedure authority
+      - Blueprint Dispatcher / Control Plane runtime
+      - Completion Control Plane
+      - CF-09 / CF-10 worker-runtime engineering
+      - bounded parallel-workstream current snapshot for replacement-assistant onboarding
+    action: RECORD_PROVENANCE_BRIDGE_ONLY
+
+  - topic: bounded_automation_and_human_major_boundary
+    source_items:
+      - IT-BP0909-0008
+      - IT-BP0909-0009
+      - IT-BP0909-0010
+      - IT-BP0909-0027
+    promoted_human_intent: HI-FP-RUNTIME-ORIGIN-20260909-001
+    source_rule: >
+      Inside an explicitly approved bounded work pool, prompt -> worker -> report ->
+      validation -> next prompt may become automatic. Completion of a major pool, wave
+      or phase does not silently widen authority and requires explicit human/operator
+      acceptance before the next major boundary.
+    current_connection:
+      - Operator Approval Gateway
+      - Work Front / Execution Profile / Procedure authority
+      - Dispatcher authority boundaries
+      - Strategic Transition / human wave-boundary acceptance
+      - staged autonomy
+    historical_pilot_note: >
+      The exact Logistics pilot state is historical provenance only. Current
+      workfront/lifecycle authority must be re-read from live repository state.
+    action: NO_DUPLICATE
+
+  - topic: listener_dispatcher_owner_resolution
+    source_items:
+      - IT-BP0909-0011
+      - IT-BP0909-0025
+    historical_question: >
+      Whether listener/dispatcher/monitor should be a standalone component/module or a
+      Blueprint-owned runtime capability.
+    current_reconciliation: >
+      Later Control Foundation resolves central dispatch/retry/resume/result-routing and
+      worker-launch integration inside Blueprint Dispatcher / Control Plane. Monitoring
+      remains observability rather than independent semantic authority.
+    classification: REUSE_EXISTING_OWNER_NO_NEW_TOP_LEVEL_MODULE
+    action: NO_DUPLICATE
+
+  - topic: startup_context_policy_evolution
+    source_items:
+      - IT-BP0909-0017
+      - IT-BP0909-0018
+      - IT-BP0909-0019
+      - IT-BP0909-0020
+      - IT-BP0909-0021
+      - IT-BP0909-0037
+      - IT-BP0909-0038
+      - IT-BP0909-0039
+    retained_rules:
+      - one canonical current startup authority path
+      - stable mission/policy remains separate from historical continuity
+      - historical context is evidence, not current authority
+      - launch/task context should be scope-aware
+    historical_broad_default_rule:
+      source_item: IT-BP0909-0020
+      historical_status: DISCUSSED_AND_LATER_REFRAMED
+      historical_meaning: >
+        Project Context default was envisioned as broad portfolio context, with focused
+        module context requiring an explicit selector.
+    later_evolution:
+      - Handoff v2 separates PROJECT_ONBOARD from TASK_EXECUTION
+      - task execution is bounded and authority-aware
+      - project onboarding and task execution are not one universal context mode
+    current_owner_supersession_20260922:
+      human_intent: HI-FP-CONTEXT-DEFAULT-20260922-001
+      rule: >
+        make assistant-context-pack from the Blueprint repository defaults to
+        forprint_system_blueprint when no explicit command-line MODULE is provided;
+        explicit MODULE=<canonical_module> remains an override.
+      validated_runtime_evidence:
+        - BLUEPRINT_CONTEXT_PACK_BLUEPRINT_DEFAULT_V0_7=PASS
+        - DEFAULT_CONTEXT_MODULE=forprint_system_blueprint
+        - EXPLICIT_MODULE_OVERRIDE_PRESERVED=true
+        - DEFAULT_LIBRARY_ROUTING_REMOVED=true
+        - ASSISTANT_READING_ORDER_REMAINS_FIRST=true
+        - SYSTEM_SPECS_READING_ORDER_POSITION=2
+    action: RECORD_POLICY_EVOLUTION_AND_CURRENT_SUPERSESSION
+
+  - topic: foreign_repository_boundary
+    source_items:
+      - IT-BP0909-0014
+      - IT-BP0909-0015
+    promoted_human_intent: HI-FP-RUNTIME-ORIGIN-20260909-002
+    retained_rule: >
+      Blueprint should not routinely repair another module repository's Git baseline.
+      Module-local workers may prepare the bounded local baseline required for their
+      task, but module locality does not itself grant commit/push/merge authority.
+    current_connection:
+      - module-local prompt intake and work execution
+      - explicit publication authority
+      - Work Front / Execution Profile / Procedure boundaries
+      - parallel dirty-tree semantic-collision rules
+    action: NO_DUPLICATE
+
+  - topic: makefile_functional_map_audit_seed
+    source_items:
+      - IT-BP0909-0022
+      - IT-BP0909-0023
+      - IT-BP0909-0024
+      - IT-BP0909-0025
+      - IT-BP0909-0026
+      - IT-BP0909-0028
+      - IT-BP0909-0031
+      - IT-BP0909-0035
+    historical_runtime_surfaces:
+      - Task Context Compiler
+      - Operator Approval Gateway
+      - Console Worker Adapter
+      - Central Listener / Dispatcher / Monitor
+      - Completion Intake / Inspector Conformance
+      - prompt-scoped Dependency Readiness
+      - Worker Runtime Profile
+      - Module Preparation Registry / Queue
+    later_current_make_check_examples_from_first_reconciliation:
+      - task-context-compiler
+      - launch-request-gate
+      - operator-approval-gateway
+      - console-worker-adapter
+      - control-plane-runtime
+      - completion-control-plane
+    current_operator_rule_20260922:
+      status: PENDING_CONSOLIDATED_PROJECT_RULE_UPDATE
+      rule: >
+        Makefile is an operator-facing functional map of the project. Supported
+        functionality with an operator workflow should be represented in the correct
+        Makefile section; newly implemented or newly discovered supported functionality
+        triggers Makefile coverage review; obsolete targets for functionality that no
+        longer exists should be removed.
+    required_later_audit: >
+      During the consolidated repository update, reconcile the live runtime capability
+      inventory against current Makefile operator surfaces. Reuse/rename/retire targets
+      based on live implementation; do not recreate historical 09.09 component names
+      merely because they appear in this source.
+    mutation_in_this_second_pass: none
+    action: RECORD_AUDIT_SEED_ONLY
+
+second_pass_verdict:
+  new_source_root: false
+  new_human_intent_required: false
+  new_roadmap_step_required: false
+  source_map_entry_required: false
+  execution_authority_mutation_required: false
+  makefile_functional_map_rule_pending_consolidated_apply: true
+  valuable_new_persistence:
+    - exact primary-MHTML identity confirmation
+    - corrected encoding interpretation: UTF-8 Cyrillic is intact after explicit MIME payload decoding
+    - provenance bridge from 09.09 fresh-worker/runtime stack to current Handoff / Dispatcher / CF-10 surfaces
+    - explicit bounded-automation / human-major-boundary lineage
+    - explicit startup/context policy evolution through Handoff v2 and 22.09 Blueprint-default context behavior
+    - Makefile functional-coverage audit seed for the live runtime stack

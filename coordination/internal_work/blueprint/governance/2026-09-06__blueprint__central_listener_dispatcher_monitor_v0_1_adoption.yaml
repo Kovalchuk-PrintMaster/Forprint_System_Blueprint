@@ -1,0 +1,30 @@
+schema_version: blueprint_central_listener_dispatcher_monitor_v0_1_adoption
+metadata:
+  module_id: forprint_system_blueprint
+  created_at: '2026-09-06'
+  status: IMPLEMENTED
+  implementation_id: blueprint_central_listener_dispatcher_monitor_v0_1
+architecture:
+  package: scripts/coordination/control_plane
+  central_runtime_count: 1
+  per_module_listener: false
+  separate_ai_assistant: false
+  daemon: false
+  systemd: false
+  telegram_required: false
+governance_reuse:
+  q5_event_envelope_consumed: true
+  q5_family_set_expanded: false
+  q6_operator_attention_semantics_reused: true
+structure_hygiene:
+  new_runtime_internals_nested: true
+  legacy_flat_entrypoints_preserved_as_compatibility_surfaces: true
+  consolidation_roadmap: coordination/roadmaps/details/forprint_system_blueprint/architecture_hygiene_and_repository_structure_consolidation_v0_1.md
+execution_boundaries:
+  worker_process_started: false
+  prompt_claim_performed: false
+  logistics_repository_write: false
+  blueprint_accept: false
+  next_prompt_release: false
+  commit_push: false
+next: blueprint_completion_intake_inspector_conformance_integration_v0_1

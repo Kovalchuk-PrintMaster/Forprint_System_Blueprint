@@ -1,0 +1,50 @@
+schema_version: forprint_dftb_cross_dialogue_relations_v0_1
+bundle_id: DFTB-blueprint-2026-09-17
+authority_class: blueprint_coordination_history
+relations:
+- type: continues
+  from_bundle: DFTB-blueprint-2026-09-17
+  to_bundle: DFTB_blueprint-2026-09-14-continuation
+  confidence: HIGH
+  note: Opening handoff begins at the u180e/CF-05 ACTIVE checkpoint established in the 14.09 continuation.
+- type: extends
+  from_bundle: DFTB-blueprint-2026-09-17
+  to_bundle: DFTB_blueprint-2026-09-12
+  confidence: HIGH
+  note: Extends Control Foundation lifecycle/reconciliation work through CF-05..CF-09 and Dispatcher closure gates.
+- type: supports
+  from_bundle: DFTB-blueprint-2026-09-17
+  to_bundle: DFTB_blueprint-2026-08-17
+  confidence: HIGH
+  note: Maintains review/acceptance separation and human gate before broader automation.
+item_relations:
+- type: continues
+  from_item: IT-BP1709-0001
+  to_item: IT-BP1409-0010
+  confidence: HIGH
+  note: Both bind u180e to CF-05 at the historical handoff boundary.
+- type: supports
+  from_item: IT-BP1709-0013
+  to_item: IT-BP1409-0007
+  confidence: HIGH
+  note: Both require state-aware recovery rather than blind rerun after partial advancement.
+- type: supports
+  from_item: IT-BP1709-0024
+  to_item: IT-BP1409-0015
+  confidence: MEDIUM
+  note: Both expose a difference between current/project truth and isolated/cross-surface validation materialization.
+- type: supports
+  from_item: IT-BP1709-0016
+  to_item: IT-BP0508-0004
+  confidence: HIGH
+  note: Owner's Makefile readability requirement strengthens Makefile as the discoverable operational surface.
+- type: supports
+  from_item: IT-BP1709-0022
+  to_item: IT-BP1708-0007
+  confidence: HIGH
+  note: Local readiness does not auto-promote to acceptance/closure.
+- type: supports
+  from_item: IT-BP1709-0028
+  to_item: IT-BP1708-0008
+  confidence: MEDIUM
+  note: Human boundary acceptance remains a gate before the next automation phase.

@@ -1,0 +1,137 @@
+schema_version: forprint_evening_architecture_20260919_portfolio_reconciliation_v0_1
+source_date: '2026-09-19'
+reconciled_on: '2026-09-21'
+source_archive_sha256: a99d4bb15292e5070d29d8d3b6a05a3fcf1df6795cea76343800fedf2bca88dd
+source_authority: DISCUSSION_HANDOFF_NOT_CANONICAL
+reconciliation_authority: roadmap_enrichment_evidence_not_execution_authority
+principle: REUSE_EXTEND_EXISTING_PORTFOLIO_SURFACES_BEFORE_NEW_ROADMAP_WORK
+summary: The 2026-09-19 architecture handoff is already substantially represented in current full-horizon target
+  states. This intake primarily restores provenance/Human Intent and records which source-era open questions were
+  later resolved or remain open.
+topic_reconciliation:
+- topic: telegram_communication_orchestration
+  disposition: REUSE_EXTEND
+  current_owner: telegram_bot
+  current_roadmap_evidence:
+  - portfolio_full_horizon_target_states_v0_1.yaml:telegram_bot:steps_11_17
+  notes: Current target state already separates presentation from facts, uses structured inbound/outbound communication
+    contracts, consumes customer context, produces structured Order Draft clarification, keeps AI replaceable, consumes
+    indexed historical assets, and excludes durable process truth.
+- topic: customer_specific_semantic_memory_and_dynamic_policy
+  disposition: REUSE_EXTEND
+  current_owner: forprint_crm
+  current_roadmap_evidence:
+  - portfolio_full_horizon_target_states_v0_1.yaml:forprint_crm:steps_11_20
+  notes: CRM target state already contains Seed Profile, Observed Customer Model, Effective Policy, baseline/shift
+    semantics, recency, hysteresis, customer health/trajectory, event-driven updates, periodic reconciliation and
+    transition history.
+- topic: historical_asset_indexing_and_retrieval
+  disposition: REUSE_EXTEND_DISTRIBUTED_OWNERSHIP
+  current_owners:
+  - forprint_library
+  - forprint_prepress_hub
+  - forprint_operations_control_registry
+  - telegram_bot
+  - forprint_system_blueprint
+  current_roadmap_evidence:
+  - forprint_system_blueprint:steps_11_13
+  - forprint_library:steps_11_12
+  - forprint_prepress_hub:steps_11_13
+  - forprint_operations_control_registry:steps_11_13
+  - telegram_bot:step_16
+  notes: Historical Asset Index is represented as a projection over domain-owned evidence, not as a competing source
+    of truth. Final retrieval host remains an architecture decision and must not be inferred merely from indexing
+    requirements.
+- topic: structured_order_draft_and_clarification_workspace
+  disposition: REUSE_EXTEND
+  current_owner: telegram_bot
+  supporting_owners:
+  - calculator_engine
+  - forprint_library
+  current_roadmap_evidence:
+  - telegram_bot:step_14
+  - calculator_engine:canonical calculation/request contracts
+  - forprint_library:canonical vocabulary/profile constraints
+  notes: Clarification UI should converge to a structured Order Draft while Calculator and Library retain their
+    domain truth.
+- topic: durable_business_process_manager
+  source_20260919_disposition: HOST_TO_BE_SELECTED
+  current_disposition: REUSE_EXTEND_HOSTED_CAPABILITY
+  current_working_host: forprint_operations_control_registry
+  standalone_module_now: false
+  current_roadmap_evidence:
+  - forprint_operations_control_registry:steps_14_19
+  - logistics_service:steps_11_12
+  - forprint_crm:steps_19_20
+  - telegram_bot:step_17
+  - forprint_system_blueprint:steps_14_15
+  notes: The later portfolio direction resolves the initial host question by selecting Operations Control Registry
+    as the working host. The capability remains explicitly hosted-but-extractable; this is a later reconciliation,
+    not a claim that the 2026-09-19 source had already selected the host.
+source_open_question_reconciliation:
+- id: 1
+  status: RESOLVED_AFTER_SOURCE_DIRECTIONALLY
+  resolution: 'Working host selected: forprint_operations_control_registry; no standalone module initially.'
+- id: 2
+  status: RESOLVED_DIRECTIONALLY_IMPLEMENTATION_EVIDENCE_PENDING
+  resolution: OCR target state now defines hosted durable process-instance truth.
+- id: 3
+  status: RESOLVED_DIRECTIONALLY
+  resolution: CRM target state owns layered customer intelligence/policy composition, not canonical identity or
+    foreign truth.
+- id: 4
+  status: PARTIALLY_OPEN
+  resolution: Telegram consumes communication context; exact canonical field-level owner still requires repository-level
+    contract reconciliation.
+- id: 5
+  status: PARTIALLY_RESOLVED
+  resolution: Historical asset index is distributed projection over Library/Prepress/OCR evidence; final retrieval
+    host remains open.
+- id: 6
+  status: OPEN_CURRENT_STATE_AUDIT_REQUIRED
+  resolution: Existing customer/order/asset DB model must be verified from real repositories.
+- id: 7
+  status: RESOLVED_AT_PLANNING_LEVEL
+  resolution: Telegram target state now contains explicit steps 11-17 covering these concepts.
+- id: 8
+  status: PARTIALLY_RESOLVED
+  resolution: Order Draft clarification belongs in Telegram composition; Calculator remains canonical constraint/calculation
+    provider. Exact Calculator roadmap extension should be added only if repository audit proves a gap.
+- id: 9
+  status: OPEN_REUSE_AUDIT_REQUIRED
+  resolution: Do not reuse engineering Q1-Q8 semantics for business workflow without explicit semantic compatibility
+    evidence.
+- id: 10
+  status: PARTIALLY_RESOLVED
+  resolution: Hosted Process Manager direction exists, but existing workflow/process implementation under other
+    names still requires repository audit.
+- id: 11
+  status: RESOLVED_DIRECTIONALLY
+  resolution: CRM owns customer-health projection/composition; underlying facts remain domain-owned and strategic
+    recommendation authority remains outside raw descriptive evidence.
+- id: 12
+  status: OPEN_OPERATOR_POLICY_DECISION
+  resolution: Automatic vs human-approved customer policy transitions require explicit risk/authority policy.
+- id: 13
+  status: OPEN
+  resolution: First safe Process Manager pilot scenario remains to be selected after implementation/current-state
+    audit.
+- id: 14
+  status: RESOLVED_DIRECTIONALLY_THRESHOLDS_OPEN
+  resolution: Extraction triggers include scale, topology, ownership pressure and cross-domain coupling; concrete
+    thresholds remain open.
+do_not_create_from_this_source:
+- a second Telegram domain-truth model
+- a second CRM customer identity registry
+- a standalone Process Manager module before evidence justifies extraction
+- a historical asset index that becomes canonical asset/order/production truth
+- a new Calculator truth inside clarification UI
+- a new roadmap step when an existing full-horizon step already carries the same intent
+remaining_material_questions:
+- field-level owner for customer communication profile
+- repository-grounded current customer/order/asset schema
+- historical retrieval host and split between candidate retrieval vs domain evidence
+- whether any existing workflow engine/process runtime should be reused for hosted Process Manager
+- automatic-vs-human customer policy transition authority
+- first bounded Process Manager pilot
+- quantitative extraction thresholds for future standalone Process Manager

@@ -1,0 +1,332 @@
+schema_version: forprint_dftb_verification_queue_v0_1
+bundle_id: DFTB-blueprint-2026-09-14-continuation
+queue:
+- item_id: IT-BP1409-0001
+  title: CF-02 active double-write gate hardening historically passes
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - control_foundation
+  - roadmap
+  verification_targets:
+  - code
+  - tests
+  - config
+  evidence_refs:
+  - EV-BP1409-0001
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current authority and exact repository baseline first; historical continuation outputs are not current proof.
+- item_id: IT-BP1409-0002
+  title: Active Control Foundation double-write is removed
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - control_foundation
+  - roadmap
+  verification_targets:
+  - code
+  - config
+  - docs
+  evidence_refs:
+  - EV-BP1409-0002
+  - EV-BP1409-0003
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current authority and exact repository baseline first; historical continuation outputs are not current proof.
+- item_id: IT-BP1409-0003
+  title: Retire legacy continuity terminal-state hints before CF-02 closure
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - control_foundation
+  - continuity
+  verification_targets:
+  - code
+  - tests
+  - config
+  evidence_refs:
+  - EV-BP1409-0003
+  - EV-BP1409-0006
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current authority and exact repository baseline first; historical continuation outputs are not current proof.
+- item_id: IT-BP1409-0004
+  title: Roadmap/lifecycle reconciliation gate is fail-closed
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - control_foundation
+  - lifecycle
+  verification_targets:
+  - code
+  - tests
+  - config
+  evidence_refs:
+  - EV-BP1409-0004
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current authority and exact repository baseline first; historical continuation outputs are not current proof.
+- item_id: IT-BP1409-0005
+  title: CF-02 does not gain dispatch/release/auto-next authority
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - control_foundation
+  - authority
+  verification_targets:
+  - config
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1409-0005
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current authority and exact repository baseline first; historical continuation outputs are not current proof.
+- item_id: IT-BP1409-0006
+  title: CF-02 closure can fail after canonical lifecycle advanced
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - control_foundation
+  - recovery
+  verification_targets:
+  - code
+  - tests
+  - config
+  evidence_refs:
+  - EV-BP1409-0007
+  - EV-BP1409-0008
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current authority and exact repository baseline first; historical continuation outputs are not current proof.
+- item_id: IT-BP1409-0007
+  title: State-aware recovery forbids blind rerun after partial advancement
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - mutation_safety
+  - control_foundation
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1409-0009
+  - EV-BP1409-0010
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current authority and exact repository baseline first; historical continuation outputs are not current proof.
+- item_id: IT-BP1409-0008
+  title: Artifact delivery truncation requires identity-safe regeneration
+  importance: normal
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - operator_workflow
+  - artifact_identity
+  verification_targets:
+  - docs
+  - tooling
+  evidence_refs:
+  - EV-BP1409-0011
+  - EV-BP1409-0012
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current authority and exact repository baseline first; historical continuation outputs are not current proof.
+- item_id: IT-BP1409-0009
+  title: Website/UI branch is explicitly out of Blueprint work scope here
+  importance: high
+  dialogue_status: rejected
+  confidence: high
+  owner_or_domain:
+  - scope_control
+  - website
+  verification_targets:
+  - roadmap
+  - docs
+  evidence_refs:
+  - EV-BP1409-0013
+  - EV-BP1409-0014
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current authority and exact repository baseline first; historical continuation outputs are not current proof.
+- item_id: IT-BP1409-0010
+  title: u180e reaches CF-05 with roadmap sync and broad focused checks green
+  importance: high
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - control_foundation
+  - continuity
+  verification_targets:
+  - code
+  - tests
+  - reports
+  evidence_refs:
+  - EV-BP1409-0015
+  - EV-BP1409-0019
+  - EV-BP1409-0020
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current authority and exact repository baseline first; historical continuation outputs are not current proof.
+- item_id: IT-BP1409-0011
+  title: One aggregate full-pytest blocker remains despite green focused checks
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - validation
+  - control_foundation
+  verification_targets:
+  - tests
+  - reports
+  evidence_refs:
+  - EV-BP1409-0016
+  - EV-BP1409-0023
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current authority and exact repository baseline first; historical continuation outputs are not current proof.
+- item_id: IT-BP1409-0012
+  title: Diagnose exact failing node before rerunning expensive aggregate checks
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - validation
+  - operator_workflow
+  verification_targets:
+  - scripts
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1409-0017
+  - EV-BP1409-0018
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current authority and exact repository baseline first; historical continuation outputs are not current proof.
+- item_id: IT-BP1409-0013
+  title: Controlled-failure source-hash contract is the reported failing node
+  importance: normal
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - validation
+  - mutation_safety
+  verification_targets:
+  - tests
+  - code
+  evidence_refs:
+  - EV-BP1409-0021
+  - EV-BP1409-0022
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current authority and exact repository baseline first; historical continuation outputs are not current proof.
+- item_id: IT-BP1409-0014
+  title: Diagnostic logs can be stale relative to current source/test pins
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - diagnostics
+  - reporting
+  verification_targets:
+  - reports
+  - tests
+  - scripts
+  evidence_refs:
+  - EV-BP1409-0027
+  - EV-BP1409-0028
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current authority and exact repository baseline first; historical continuation outputs are not current proof.
+- item_id: IT-BP1409-0015
+  title: Separate current-tree truth from isolated public-check materialization
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - validation
+  - isolation
+  verification_targets:
+  - scripts
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1409-0029
+  - EV-BP1409-0030
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current authority and exact repository baseline first; historical continuation outputs are not current proof.
+- item_id: IT-BP1409-0016
+  title: If current tree is green and public log stale repair isolation/report freshness, not source
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - validation
+  - isolation
+  - reporting
+  verification_targets:
+  - scripts
+  - tests
+  - reports
+  evidence_refs:
+  - EV-BP1409-0030
+  - EV-BP1409-0031
+  - EV-BP1409-0032
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current authority and exact repository baseline first; historical continuation outputs are not current proof.
+- item_id: IT-BP1409-0017
+  title: Historical release projection remains v0.4 sealed / v0.4.1 active
+  importance: normal
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - release
+  - authority
+  verification_targets:
+  - config
+  - reports
+  evidence_refs:
+  - EV-BP1409-0024
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current authority and exact repository baseline first; historical continuation outputs are not current proof.
+- item_id: IT-BP1409-0018
+  title: Historical planning health shows roadmap 5/8 and prompt buffer 2/3
+  importance: normal
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - roadmap
+  - prompt_lifecycle
+  verification_targets:
+  - config
+  - reports
+  evidence_refs:
+  - EV-BP1409-0025
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current authority and exact repository baseline first; historical continuation outputs are not current proof.
+- item_id: IT-BP1409-0019
+  title: Semantic structure is green at the u180e diagnostic checkpoint
+  importance: normal
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - semantic_validation
+  - control_foundation
+  verification_targets:
+  - tests
+  - reports
+  evidence_refs:
+  - EV-BP1409-0026
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current authority and exact repository baseline first; historical continuation outputs are not current proof.
+- item_id: IT-BP1409-0020
+  title: Final 0104 diagnosis result is not preserved
+  importance: critical
+  dialogue_status: unclear
+  confidence: high
+  owner_or_domain:
+  - validation
+  - continuity
+  verification_targets:
+  - reports
+  - tests
+  evidence_refs:
+  - EV-BP1409-0030
+  - EV-BP1409-0033
+  current_audit_status: not_audited
+  audit_instruction: Resolve live current authority and exact repository baseline first; historical continuation outputs are not current proof.

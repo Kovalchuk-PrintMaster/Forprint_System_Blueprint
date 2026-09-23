@@ -1,0 +1,65 @@
+{
+  "module_candidate_id": "verification_lab",
+  "display_name": "ForPrint Verification Lab",
+  "status": "PROPOSED_CANONICAL_MODULE_CANDIDATE_HIGH_CONFIDENCE",
+  "implementation_started": false,
+  "distribution_allowed": false,
+  "module_justification": [
+    "Has a unique permanent cross-module verification workload.",
+    "Must be organizationally independent from modules it tests.",
+    "Generates active adversarial/combinatorial/fault scenarios rather than only observing.",
+    "Owns test campaigns, synthetic corpus and regression discovery workflow.",
+    "Cannot be cleanly reduced to Project Inspector or Runtime Inspector."
+  ],
+  "role": "Independent verification/adversarial-testing service for ForPrint.",
+  "does_not_own": [
+    "business truth",
+    "production authorization",
+    "module roadmap authority",
+    "runtime semantic ownership",
+    "production data",
+    "release activation"
+  ],
+  "test_modes": [
+    "BLACK_BOX",
+    "GRAY_BOX",
+    "WHITE_BOX_READ_ONLY_ANALYSIS"
+  ],
+  "mature_capabilities": [
+    "isolated Test Plane",
+    "capability/contract discovery",
+    "deterministic regression harness",
+    "property/combinatorial testing",
+    "synthetic scenario generation",
+    "adversarial AI/input campaigns",
+    "multilingual testing",
+    "authorization/data-isolation testing",
+    "trace-aware oracles",
+    "fault/concurrency/recovery testing",
+    "cost/context regression testing",
+    "AI exploratory case to deterministic regression loop",
+    "change-triggered and scheduled campaigns",
+    "release-readiness evidence"
+  ],
+  "roadmap_10": [
+    "Verification Charter & Test Taxonomy",
+    "Isolated Test Plane and synthetic identities/data",
+    "Fake external providers and no-live-side-effect policy",
+    "Capability/Contract Discovery",
+    "Deterministic Regression Harness",
+    "Synthetic/Combinatorial Scenario Generator",
+    "Adversarial/Multilingual/Authorization Campaigns",
+    "Trace-aware Oracle and Failure Classification",
+    "Fault/Concurrency/Recovery/Cost Testing",
+    "Portfolio Verification Service and release-readiness evidence"
+  ],
+  "mature_target": "An isolated independent verification service that systematically generates valid, invalid, edge, adversarial, multilingual, resilience and authorization scenarios; executes them without production side effects; analyzes full traces; and converts confirmed findings into a deterministic regression corpus.",
+  "morning_actions": [
+    "Reconcile candidate name/id against current module identity naming conventions.",
+    "Formally add to canonical module registry only after all registry/index/roadmap validators are updated atomically.",
+    "Create module current-state profile with implementation evidence explicitly UNKNOWN/NOT_STARTED.",
+    "Create 10-step roadmap and module portfolio document.",
+    "Keep prompt/distribution state closed.",
+    "Add dependencies on IAM, Gateway, Runtime Inspector, Project Inspector, domain contracts and Test Plane."
+  ]
+}

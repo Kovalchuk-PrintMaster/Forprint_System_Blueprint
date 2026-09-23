@@ -1,0 +1,107 @@
+schema_version: forprint_dialogue_master_memory_v1_6
+generated_at: '2026-09-15T12:08:45+03:00'
+timezone: Europe/Kyiv
+purpose: Single duplicate-aware and chronology-aware handoff covering 13 unique conversation roots plus one delta-only continuation, including the recovered
+  CF-02 candidate-review bridge.
+source_dialogue_bundle_count: 14
+historical_counts:
+  items: 470
+  evidence: 567
+  relations: 167
+  anomalies: 128
+  source_open_loops: 104
+  artifact_events: 655
+source_bundles:
+- bundle: DFTB_blueprint-source-label-2026-06-14
+  zip_name: DFTB_blueprint-source-label-2026-06-14.zip
+  bytes: 66917
+  sha256: 7689daf82eab772fee24e1c6414dab6a14589af0bec15521503bacc95dc322b4
+- bundle: DFTB_blueprint-2026-07-14
+  zip_name: DFTB_blueprint-2026-07-14.zip
+  bytes: 93500
+  sha256: 034afe9c35274fe185baa5e78cbac435977aee55b0022845b36dfa1c0c236261
+- bundle: DFTB_blueprint-2026-08-05
+  zip_name: DFTB_blueprint-2026-08-05.zip
+  bytes: 57952
+  sha256: 008a5d89f6e7d0a8ff48340b7707fff5afb6a264a87a90a6c6915498d7d54e60
+- bundle: DFTB_blueprint-2026-08-05-continuation
+  zip_name: DFTB_blueprint-2026-08-05-continuation.zip
+  bytes: 69182
+  sha256: 0f1e3dd73be539948a5ba2d09058fdaa2697c793a712aea2046a962699dcc358
+- bundle: DFTB_blueprint-2026-08-17
+  zip_name: DFTB_blueprint-2026-08-17.zip
+  bytes: 72128
+  sha256: c4f25f0074b24c45e747e65e056a521df5ff3a3686a19020f806cbd722003f40
+- bundle: DFTB_blueprint-2026-08-27
+  zip_name: DFTB_blueprint-2026-08-27.zip
+  bytes: 60381
+  sha256: 53e59b8c3e68050b416b668560ef90d25f6b83a502e81220f9432098e18f1d19
+- bundle: DFTB_blueprint-preflight-2026-08-31
+  zip_name: DFTB_blueprint-preflight-2026-08-31.zip
+  bytes: 95113
+  sha256: 1e39ad5ea3195eff37779ec6917f300e4933cb85a1332c590bee5a6cd1daf7c2
+- bundle: DFTB_blueprint-2026-09-05
+  zip_name: DFTB_blueprint-2026-09-05.zip
+  bytes: 55068
+  sha256: a495fbc4845f668e353d34ea3b6936a9af5772f5acea8d40f2e047390e41923c
+- bundle: DFTB_blueprint-2026-09-09
+  zip_name: DFTB_blueprint-2026-09-09.zip
+  bytes: 58819
+  sha256: 4162473dcae86251f845866a7fbf9252e1ff2215714e0842f92466dbf3ee050b
+- bundle: DFTB_blueprint-2026-09-10
+  zip_name: DFTB_blueprint-2026-09-10.zip
+  bytes: 44917
+  sha256: 8db798d1d720d90ba6cbffae2b8412b26d8e99409312e03b6fbf5c59ea6c73db
+- bundle: DFTB_blueprint-2026-09-12
+  zip_name: DFTB_blueprint-2026-09-12.zip
+  bytes: 59806
+  sha256: 4c8d6c03fb547a2cfe6b6864e1a14b24ed7b701f34d88c071edb6e153e4a1a9d
+- bundle: DFTB_blueprint-2026-09-08
+  zip_name: DFTB_blueprint-2026-09-08.zip
+  bytes: 48771
+  sha256: 35b5b4cdc63ae12481f07af01207b983be99fdf3d29265d5b002f754d024509c
+- bundle: DFTB_blueprint-2026-09-14-continuation
+  zip_name: DFTB_blueprint-2026-09-14-continuation.zip
+  bytes: 38296
+  sha256: e7afbe89bb62d4ad84082ad3473462eada70fba4c32c10aa5d27ce8eece5b798
+  source_kind: overlapping_continuation_delta
+  shared_messages_excluded: 18
+  new_messages_indexed: 43
+- bundle: DFTB-blueprint-source-label-2026-09-07-control-foundation
+  zip_name: DFTB_blueprint-source-label-2026-09-07-control-foundation.zip
+  bytes: 38109
+  sha256: fb0182187ebcf8ef7f6b56e6613f3aa892d32b0284cd669fc81ec6b89e190249
+  source_kind: unique_dialogue_temporal_label_conflict
+  filename_date: '2026-09-07'
+  logical_position: after CF-01/u180a closure and before 14.09 CF-02 hardening
+  temporal_label_confidence: LOW
+  logical_order_confidence: HIGH
+truth_layers:
+  A_dialogue_evidence: Literal recoverable historical statements/evidence.
+  B_normalized_history: Historical requirement/decision/plan/risk interpretation supported by A.
+  C_current_implementation: Must be verified against the live repository; not supplied by historical dialogue alone.
+last_known_project_review:
+  source_commit: 51bd7f10f0e0289ed23599cbd080acfdeda6cf5a
+  review_batches:
+  - B01
+  - B02
+  - B06
+  warning: Last-known reviewed baseline only; not verified current as of package generation.
+primary_navigation:
+  chronology: chronology/DIALOGUE_CHRONOLOGY.yaml
+  global_items: indexes/GLOBAL_ITEM_INDEX.yaml
+  global_evidence: indexes/GLOBAL_EVIDENCE_INDEX.yaml
+  relations: indexes/GLOBAL_RELATION_GRAPH.yaml
+  concepts: concepts/CONCEPT_CHAINS.yaml
+  conflicts: concepts/CONFLICT_CLUSTERS.yaml
+  current_audit: current_audit/CURRENT_VERIFICATION_BACKLOG.yaml
+  global_anomalies: indexes/GLOBAL_ANOMALY_INDEX.yaml
+  global_open_loops: indexes/GLOBAL_OPEN_LOOP_INDEX.yaml
+duplicate_policy:
+  policy: exclude_full_and_near_duplicates_from_master_history
+  latest_duplicate_check: Forprint_System_Blueprint_26.mhtml matched the existing 17.08 dialogue except for a tiny assistant-only tail; excluded by owner
+    decision.
+  included_unique_dialogues: 13
+  included_supplements: 0
+unique_conversation_root_count: 13
+overlapping_continuation_layer_count: 1

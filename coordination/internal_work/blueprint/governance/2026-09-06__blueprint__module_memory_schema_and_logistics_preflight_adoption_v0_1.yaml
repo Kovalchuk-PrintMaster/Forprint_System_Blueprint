@@ -1,0 +1,31 @@
+schema_version: blueprint_module_memory_schema_and_logistics_preflight_adoption_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  created_at: '2026-09-06'
+  status: IMPLEMENTED_REFERENCE_V0_1
+  authority: BLUEPRINT_INTERNAL_CONTROL_PLANE_NOT_RELEASE_AUTHORITY
+module_memory:
+  schema: coordination/internal_work/blueprint/module_inventory/2026-09-06__module_memory_schema_v0_1.yaml
+  validator: scripts/validation/validate_module_memory_schema_v0_1.py
+  source_bindings:
+    - repository capability inventory
+    - module current-state evidence
+    - module cleanliness conformance
+    - implementation lineage
+  replaces_existing_inventory_framework: false
+  unknown_legacy_provenance_may_be_invented: false
+  portfolio_backfill_blocks_logistics_prompt_1: false
+logistics_preflight:
+  tool: scripts/coordination/preflight_logistics_h10_bootstrap_prompt_v0_1.py
+  make_target: logistics-h10-bootstrap-preflight
+  read_only: true
+  module_start_performed: false
+  prompt_pull_performed: false
+  release_transition_performed: false
+  result_is_ephemeral_current_state: true
+  rerun_required_immediately_before_manual_module_start: true
+boundaries:
+  automatic_accept: false
+  automatic_release_next_prompt: false
+  cross_repository_writes: false
+  commit_push: false

@@ -1,0 +1,590 @@
+schema_version: forprint_dftb_verification_queue_v0_1
+bundle_id: DFTB-blueprint-2026-08-05-continuation
+warning: Historical continuation evidence is not current authority.
+queue:
+- item_id: IT-BP0508C-0001
+  title: Continuation must re-verify observed repository state
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - continuity
+  - git_workflow
+  verification_targets:
+  - operations
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP0508C-0001
+  - EV-BP0508C-0002
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact current baseline first; then verify in current code/tests/config/docs/runtime.
+    Historical step reports are not current proof.
+- item_id: IT-BP0508C-0002
+  title: Transparency control layer continues after mutation-builder checkpoint
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - transparency
+  - governance
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0508C-0003
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact current baseline first; then verify in current code/tests/config/docs/runtime.
+    Historical step reports are not current proof.
+- item_id: IT-BP0508C-0003
+  title: Makefile remains a primary architecture/operations map
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - make
+  - forprint_system_blueprint
+  verification_targets:
+  - code
+  - docs
+  - tests
+  evidence_refs:
+  - EV-BP0508C-0004
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact current baseline first; then verify in current code/tests/config/docs/runtime.
+    Historical step reports are not current proof.
+- item_id: IT-BP0508C-0004
+  title: Avoid temporary cloned repositories as routine parallel-work mechanism
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - git_workflow
+  - repository_structure
+  verification_targets:
+  - docs
+  - operations
+  evidence_refs:
+  - EV-BP0508C-0005
+  - EV-BP0508C-0006
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact current baseline first; then verify in current code/tests/config/docs/runtime.
+    Historical step reports are not current proof.
+- item_id: IT-BP0508C-0005
+  title: Completion-intake blocker review classified managed modules
+  importance: normal
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - completion_intake
+  - portfolio
+  verification_targets:
+  - docs
+  - config
+  - operations
+  evidence_refs:
+  - EV-BP0508C-0007
+  - EV-BP0508C-0008
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact current baseline first; then verify in current code/tests/config/docs/runtime.
+    Historical step reports are not current proof.
+- item_id: IT-BP0508C-0006
+  title: Completion-intake semantics must be durably documented
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - completion_intake
+  - project_memory
+  verification_targets:
+  - docs
+  evidence_refs:
+  - EV-BP0508C-0009
+  - EV-BP0508C-0011
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact current baseline first; then verify in current code/tests/config/docs/runtime.
+    Historical step reports are not current proof.
+- item_id: IT-BP0508C-0007
+  title: Finish automatic completion-report intake before next automation step
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - completion_intake
+  - automation
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0508C-0010
+  - EV-BP0508C-0011
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact current baseline first; then verify in current code/tests/config/docs/runtime.
+    Historical step reports are not current proof.
+- item_id: IT-BP0508C-0008
+  title: Prompt issuance and completion reporting use a standardized exchange contract
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - prompt_lifecycle
+  - completion_reporting
+  verification_targets:
+  - docs
+  - config
+  - code
+  - tests
+  evidence_refs:
+  - EV-BP0508C-0012
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact current baseline first; then verify in current code/tests/config/docs/runtime.
+    Historical step reports are not current proof.
+- item_id: IT-BP0508C-0009
+  title: Completion evidence includes task-level and final test evidence
+  importance: high
+  dialogue_status: agreed
+  confidence: medium
+  owner_or_domain:
+  - completion_reporting
+  - tests
+  verification_targets:
+  - docs
+  - tests
+  evidence_refs:
+  - EV-BP0508C-0013
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact current baseline first; then verify in current code/tests/config/docs/runtime.
+    Historical step reports are not current proof.
+- item_id: IT-BP0508C-0010
+  title: v0.3 completion/publication chain was not yet working end to end
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - v0_3
+  - completion_intake
+  verification_targets:
+  - code
+  - tests
+  - operations
+  evidence_refs:
+  - EV-BP0508C-0014
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact current baseline first; then verify in current code/tests/config/docs/runtime.
+    Historical step reports are not current proof.
+- item_id: IT-BP0508C-0011
+  title: Roadmaps maintain a 5–8-step minimum forward horizon
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - roadmap
+  - portfolio
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP0508C-0015
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact current baseline first; then verify in current code/tests/config/docs/runtime.
+    Historical step reports are not current proof.
+- item_id: IT-BP0508C-0012
+  title: Maintain at least two draft prompts beyond active work
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - prompt_lifecycle
+  - portfolio
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP0508C-0016
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact current baseline first; then verify in current code/tests/config/docs/runtime.
+    Historical step reports are not current proof.
+- item_id: IT-BP0508C-0013
+  title: Low roadmap/prompt buffer is warning-level health, not automatic stop
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - health
+  - roadmap
+  - prompt_lifecycle
+  verification_targets:
+  - code
+  - docs
+  - tests
+  evidence_refs:
+  - EV-BP0508C-0017
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact current baseline first; then verify in current code/tests/config/docs/runtime.
+    Historical step reports are not current proof.
+- item_id: IT-BP0508C-0014
+  title: Module completion availability is machine-discoverable
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - completion_intake
+  - module_assistants
+  verification_targets:
+  - code
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP0508C-0018
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact current baseline first; then verify in current code/tests/config/docs/runtime.
+    Historical step reports are not current proof.
+- item_id: IT-BP0508C-0015
+  title: Completion intake is part of the normal coordination command chain
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - completion_intake
+  - coordination_runtime
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0508C-0018
+  - EV-BP0508C-0019
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact current baseline first; then verify in current code/tests/config/docs/runtime.
+    Historical step reports are not current proof.
+- item_id: IT-BP0508C-0016
+  title: Prompt queue has deterministic default order plus operator override
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - prompt_queue
+  - operator_approval
+  verification_targets:
+  - code
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP0508C-0020
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact current baseline first; then verify in current code/tests/config/docs/runtime.
+    Historical step reports are not current proof.
+- item_id: IT-BP0508C-0017
+  title: Prompts and reports bind to roadmap items
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - roadmap
+  - prompt_lifecycle
+  - completion_reporting
+  verification_targets:
+  - code
+  - tests
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP0508C-0021
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact current baseline first; then verify in current code/tests/config/docs/runtime.
+    Historical step reports are not current proof.
+- item_id: IT-BP0508C-0018
+  title: Accepted completion can activate the next prompt under explicit algorithm
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - automation
+  - prompt_lifecycle
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0508C-0022
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact current baseline first; then verify in current code/tests/config/docs/runtime.
+    Historical step reports are not current proof.
+- item_id: IT-BP0508C-0019
+  title: v0.4 targets a closed-loop coordination cycle
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - v0_4
+  - coordination_runtime
+  verification_targets:
+  - code
+  - tests
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP0508C-0023
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact current baseline first; then verify in current code/tests/config/docs/runtime.
+    Historical step reports are not current proof.
+- item_id: IT-BP0508C-0020
+  title: v0.4 master prompt doubles as continuity package
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - v0_4
+  - continuity
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP0508C-0024
+  - EV-BP0508C-0025
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact current baseline first; then verify in current code/tests/config/docs/runtime.
+    Historical step reports are not current proof.
+- item_id: IT-BP0508C-0021
+  title: Accepted/completed prompts leave approved/current surfaces
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - prompt_lifecycle
+  - repository_hygiene
+  verification_targets:
+  - code
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP0508C-0026
+  - EV-BP0508C-0027
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact current baseline first; then verify in current code/tests/config/docs/runtime.
+    Historical step reports are not current proof.
+- item_id: IT-BP0508C-0022
+  title: STEP20 publication verification historically passed
+  importance: normal
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - v0_4
+  - STEP20
+  verification_targets:
+  - config
+  - docs
+  - operations
+  evidence_refs:
+  - EV-BP0508C-0028
+  - EV-BP0508C-0029
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact current baseline first; then verify in current code/tests/config/docs/runtime.
+    Historical step reports are not current proof.
+- item_id: IT-BP0508C-0023
+  title: Website/UI side branch is not promoted into Blueprint governance requirements
+  importance: normal
+  dialogue_status: unclear
+  confidence: high
+  owner_or_domain:
+  - website
+  - scope_control
+  verification_targets:
+  - docs
+  evidence_refs:
+  - EV-BP0508C-0030
+  - EV-BP0508C-0031
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact current baseline first; then verify in current code/tests/config/docs/runtime.
+    Historical step reports are not current proof.
+- item_id: IT-BP0508C-0024
+  title: Latest current documentation outranks stale contradictory docs during active work
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - governance
+  - documentation
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP0508C-0032
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact current baseline first; then verify in current code/tests/config/docs/runtime.
+    Historical step reports are not current proof.
+- item_id: IT-BP0508C-0025
+  title: STEP26 acceptance subject was historically published
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - v0_4
+  - STEP26
+  verification_targets:
+  - docs
+  - config
+  - operations
+  evidence_refs:
+  - EV-BP0508C-0033
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact current baseline first; then verify in current code/tests/config/docs/runtime.
+    Historical step reports are not current proof.
+- item_id: IT-BP0508C-0026
+  title: STEP26 seal verification must not execute STEP27 work or global promotion
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - v0_4
+  - STEP26
+  - STEP27
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0508C-0034
+  - EV-BP0508C-0035
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact current baseline first; then verify in current code/tests/config/docs/runtime.
+    Historical step reports are not current proof.
+- item_id: IT-BP0508C-0027
+  title: First STEP26 seal attempt safe-failed on expected dirty seal paths
+  importance: normal
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - STEP26
+  - safe_mutation
+  verification_targets:
+  - code
+  - operations
+  evidence_refs:
+  - EV-BP0508C-0036
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact current baseline first; then verify in current code/tests/config/docs/runtime.
+    Historical step reports are not current proof.
+- item_id: IT-BP0508C-0028
+  title: End state has STEP27 approved and ready for module pull
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - STEP27
+  - prompt_lifecycle
+  verification_targets:
+  - docs
+  - config
+  - operations
+  evidence_refs:
+  - EV-BP0508C-0037
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact current baseline first; then verify in current code/tests/config/docs/runtime.
+    Historical step reports are not current proof.
+- item_id: IT-BP0508C-0029
+  title: STEP26 manual seal commit remained pending at source end
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - STEP26
+  - publication
+  verification_targets:
+  - docs
+  - config
+  - operations
+  evidence_refs:
+  - EV-BP0508C-0038
+  - EV-BP0508C-0039
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact current baseline first; then verify in current code/tests/config/docs/runtime.
+    Historical step reports are not current proof.
+- item_id: IT-BP0508C-0030
+  title: Global v0.4 promotion remains a separate decision
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - v0_4
+  - promotion
+  verification_targets:
+  - docs
+  - config
+  - operations
+  evidence_refs:
+  - EV-BP0508C-0040
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact current baseline first; then verify in current code/tests/config/docs/runtime.
+    Historical step reports are not current proof.
+- item_id: IT-BP0508C-0031
+  title: Automatic acceptance is not assumed from completion evidence
+  importance: critical
+  dialogue_status: discussed
+  confidence: medium
+  owner_or_domain:
+  - completion_intake
+  - operator_approval
+  verification_targets:
+  - code
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP0508C-0019
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact current baseline first; then verify in current code/tests/config/docs/runtime.
+    Historical step reports are not current proof.
+- item_id: IT-BP0508C-0032
+  title: Roadmap, prompt queue and real implementation state can drift apart
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - roadmap
+  - prompt_lifecycle
+  - coordination_runtime
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP0508C-0021
+  - EV-BP0508C-0023
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact current baseline first; then verify in current code/tests/config/docs/runtime.
+    Historical step reports are not current proof.
+- item_id: IT-BP0508C-0033
+  title: Completion discovery should not depend on chat notifications
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - completion_intake
+  - continuity
+  verification_targets:
+  - code
+  - docs
+  evidence_refs:
+  - EV-BP0508C-0018
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact current baseline first; then verify in current code/tests/config/docs/runtime.
+    Historical step reports are not current proof.
+- item_id: IT-BP0508C-0034
+  title: Current work should favor canonical Git state over temporary synchronized copies
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - git_workflow
+  - continuity
+  verification_targets:
+  - docs
+  - operations
+  evidence_refs:
+  - EV-BP0508C-0005
+  - EV-BP0508C-0006
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and exact current baseline first; then verify in current code/tests/config/docs/runtime.
+    Historical step reports are not current proof.

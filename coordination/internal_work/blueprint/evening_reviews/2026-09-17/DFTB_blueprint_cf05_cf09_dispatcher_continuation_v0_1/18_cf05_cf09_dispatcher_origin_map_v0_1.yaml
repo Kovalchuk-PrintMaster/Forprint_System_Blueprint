@@ -1,0 +1,34 @@
+schema_version: forprint_dftb_blueprint_20260917_cf05_cf09_dispatcher_origin_map_v0_1
+source_bundle: DFTB-blueprint-2026-09-17
+source_root: coordination/internal_work/blueprint/evening_reviews/2026-09-17/DFTB_blueprint_cf05_cf09_dispatcher_continuation_v0_1
+purpose: Preserve the historical CF-05→CF-09 continuation and the origin of operator-readable Makefile / project-boundary
+  Dispatcher closure semantics, while reconciling the source's red CF-09 endpoint against later successful closure
+  evidence.
+chain:
+- stage: 14_09_boundary
+  state: u180e / CF-05 ACTIVE, CF-06 next/ready
+- stage: morning_metadata_repair
+  state: narrow canonical metadata repair; generated surfaces refreshed via producers; exact final 0105 PASS absent
+- stage: cf06_cf07_progression
+  state: historical execution advances; CF-07 candidate slice demonstrates fail-closed pre-mutation behavior
+- stage: transition_strategy_partial_apply
+  state: possible canonical planning mutation forces state-aware recovery instead of blind rerun
+- stage: operator_environment_and_makefile
+  state: canonical developer-tool provisioning plus operator-readable Makefile command map requested
+- stage: cf09_dispatcher_local_readiness
+  state: ACK gate repaired; read-only requirement audit reports 9/9 satisfied and zero gaps
+- stage: cf09_project_boundary_fail
+  state: full project gate fails on stale Blueprint generator inventory; no lifecycle close, worker dispatch or
+    CF-10 start
+- stage: later_recovery_and_close
+  state: generator inventory repaired; final full project gate passes; u180i checkpoint/validation/close recorded;
+    no automatic CF-10 activation
+durable_rules:
+- do not re-activate already active work
+- context packages are not execution authority
+- candidate failures stop before lifecycle advancement
+- partial apply recovery is state-aware
+- Makefile is an operator command map
+- local readiness is not project closure acceptance
+- whole-project generated-state/cross-module freshness can block closure
+- next automation phase requires separate authority

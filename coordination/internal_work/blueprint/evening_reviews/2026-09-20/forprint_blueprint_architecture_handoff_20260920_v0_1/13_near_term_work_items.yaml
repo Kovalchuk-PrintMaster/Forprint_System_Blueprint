@@ -1,0 +1,67 @@
+schema_version: forprint_near_term_worker_program_v0_1
+prepared_date: '2026-09-20'
+authority: planning_input_not_execution_authority
+activation: manual_formal_blueprint_workflow_required
+
+sequence:
+  - order: 1
+    id: NT-01
+    title: Existing mechanism reconciliation audit
+    action: AUDIT_ONLY
+    required_dispositions: [REUSE, EXTEND, ADAPT, REPLACE, NEW]
+    scope:
+      - execution_profiles
+      - worker_runtime_and_handoff
+      - dispatcher_and_continuity
+      - git_commit_push_publication_policy
+      - project_inspector
+      - library_boundaries
+      - indexes_and_graphs
+      - architecture_views
+      - legacy_wave_semantics
+
+  - order: 2
+    id: NT-02
+    title: Worker execution sandbox and capability enforcement foundation
+    depends_on: [NT-01]
+    implementation_style: bounded_incremental
+
+  - order: 3
+    id: NT-03
+    title: Reuse-first capability discovery and novelty gate
+    depends_on: [NT-01]
+    implementation_style: bounded_incremental
+
+  - order: 4
+    id: NT-04
+    title: Implementation Knowledge and Traceability Graph foundation
+    depends_on: [NT-01]
+    implementation_style: bounded_incremental
+
+  - order: 5
+    id: NT-05
+    title: Publication Control Plane contracts and promotion model
+    depends_on: [NT-01]
+    host: forprint_system_blueprint
+    extraction_ready: true
+
+  - order: 6
+    id: NT-06
+    title: Capability lifecycle/catalog/publication-review architecture
+    depends_on: [NT-01, NT-04]
+    host_decision: AUDIT_REQUIRED
+    library_host_candidate: true
+
+  - order: 7
+    id: NT-07
+    title: Portfolio Planning Dependency Intelligence and Convergence Engine foundation
+    depends_on: [NT-01]
+    host: forprint_system_blueprint
+    extraction_ready: true
+
+constraints:
+  one_bounded_work_item_at_a_time: true
+  no_chat_only_activation: true
+  no_automatic_main_mutation: true
+  no_automatic_module_distribution: true
+  no_parallel_large_scale_implementation: true

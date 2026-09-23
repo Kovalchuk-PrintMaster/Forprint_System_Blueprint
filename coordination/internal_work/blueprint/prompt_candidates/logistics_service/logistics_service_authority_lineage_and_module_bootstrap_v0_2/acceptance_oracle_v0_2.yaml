@@ -1,0 +1,48 @@
+schema_version: forprint_logistics_bootstrap_acceptance_oracle_v0_2
+module_id: logistics_service
+prompt_id: logistics_service_authority_lineage_and_module_bootstrap_v0_2
+candidate_only_until_release_authorized: true
+requirements:
+- id: stage_0_hygiene
+  required: true
+- id: self_knowledge_reconciled
+  required: true
+- id: inventory_index_deterministic
+  required: true
+- id: lineage_and_document_authority_reconciled
+  required: true
+- id: freshness_self_reference_cycle_removed
+  required: true
+- id: current_state_untracked_gitignored_exists
+  required: true
+- id: fresh_context_manifest_untracked_gitignored_exists
+  required: true
+- id: inventory_index_remains_tracked
+  required: true
+- id: automatic_self_maintenance_validated
+  required: true
+- id: module_worker_runtime_profile_non_secret
+  required: true
+- id: fresh_context_matches_final_head
+  required: true
+- id: full_module_check_passes
+  required: true
+- id: worktree_clean
+  required: true
+- id: upstream_synchronized
+  required: true
+- id: completion_report_published
+  required: true
+- id: cross_repository_writes_absent
+  required: true
+reviewer:
+  reviewer_id: forprint_project_inspector
+  role: PROJECT_CONFORMANCE_REVIEWER
+  read_only: true
+  may_accept: false
+human_gate:
+  required: true
+  decisions:
+  - ACCEPT
+  - RETURN
+  - HOLD

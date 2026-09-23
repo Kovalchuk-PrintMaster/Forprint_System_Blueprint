@@ -1,0 +1,205 @@
+schema_version: forprint_blueprint_20260905_primary_mhtml_second_pass_reconciliation_v0_1
+reconciled_on: '2026-09-22'
+
+source:
+  operator_supplied_filename: Asistans_Forprint_Blueprint - Forprint_Blueprint_05.09.26.mhtml
+  sha256: d7caa4e5fc43321c58de5bde1b7184bc15624411e6e046df59d44127b183fb2f
+  relationship_to_existing_intake: BYTE_IDENTICAL_SOURCE_IDENTITY_ALREADY_NORMALIZED
+  existing_source_id: DFTB-blueprint-2026-09-05
+  existing_source_root: coordination/internal_work/blueprint/evening_reviews/2026-09-05/DFTB_blueprint_20260905_v0_1
+
+source_quality:
+  classification: PRIMARY_MHTML_UTF8_RECOVERABLE_PARTIAL_SPARSE_ASSISTANT_NARRATIVE
+  retained_turn_containers_from_existing_intake: 103
+  text_bearing_containers_from_existing_intake: 102
+  recoverable_message_blocks_from_existing_intake:
+    user: 99
+    assistant: 3
+  archive_handoff_timeline_entries_from_existing_intake: 14
+  lossy_cyrillic_replacement_character_detected_in_supplied_mhtml: false
+  limitation: >
+    Text encoding is recoverable, but only three assistant narrative messages survive.
+    Much of the execution history is represented by uploaded archives and pasted reports.
+    Missing assistant reasoning must not be reconstructed by guesswork, and historical
+    implementation/PASS/queue labels are not current runtime authority.
+
+second_pass_coverage:
+  verdict: FIRST_PASS_SEMANTIC_EXTRACTION_SUBSTANTIALLY_COMPLETE
+  already_preserved_topics:
+    - semantically reconcile overlapping Human Intent/memory packages instead of blind merge
+    - avoid duplicate Human Intent semantics across ID migrations
+    - normalize descriptive documents and roadmap vocabulary
+    - project self-cleaning is a formal governance obligation
+    - automated descriptive-document conformance checks
+    - self-cleaning capability remains indexed/discoverable
+    - stale-artifact/deprecation candidate handling
+    - closeout includes documentation propagation plus index/health verification
+    - bounded Logistics inventory as historical pilot activity
+    - Blueprint publishes prompts on Blueprint-owned surfaces
+    - module-side pull/listener consumes released prompts without foreign Blueprint writes
+    - fresh AI worker per prompt
+    - fresh-worker context includes prior completion evidence
+    - fresh-worker context exposes project navigation
+    - business/Blueprint acceptance remains separate from prompt execution
+    - one-shot release authorization returns fail-closed
+    - prepared prompt membership differs from durable Acceptance Oracle binding
+    - current governance/evidence documents require durable inbound semantic references
+    - repair semantic references rather than weaken validators
+    - read-only self-inventory/system-context snapshots
+    - portable portfolio/roadmap current-state snapshots
+  new_human_intent_required: false
+  new_roadmap_step_required: false
+  new_source_map_entry_required: false
+  execution_authority_mutation_required: false
+
+second_pass_delta:
+  - topic: semantic_human_intent_reconciliation_to_reuse_first_source_processing
+    source_items:
+      - IT-BP0509-0001
+      - IT-BP0509-0002
+    promoted_human_intent: HI-FP-DTFB-20260905-001
+    source_rule: >
+      When historical packages overlap under different identifiers, select the stronger
+      normalized representation, preserve residual evidence, and merge only semantic
+      deltas rather than duplicating equivalent intent.
+    current_connection:
+      - Roadmap Enrichment source-by-source processing
+      - Human Intent append-only provenance
+      - Reuse-first gate
+      - Master Memory navigation-not-authority rule
+      - source identity and duplicate-exclusion checks
+    action: RECORD_PROVENANCE_BRIDGE_ONLY
+
+  - topic: self_cleaning_to_current_cleanliness_freshness_governance
+    source_items:
+      - IT-BP0509-0004
+      - IT-BP0509-0005
+      - IT-BP0509-0006
+      - IT-BP0509-0008
+      - IT-BP0509-0009
+      - IT-BP0509-0010
+      - IT-BP0509-0011
+      - IT-BP0509-0012
+      - IT-BP0509-0013
+      - IT-BP0509-0014
+    promoted_human_intent: HI-FP-DTFB-20260905-002
+    source_rule: >
+      Repository/document normalization and cleanup are not one-time manual chores.
+      Shared module behavior should include discoverable self-cleaning/deprecation,
+      automated conformance where feasible, documentation propagation, indexing and
+      health verification as part of governed closeout.
+    current_connection:
+      - repository cleanliness/freshness controls
+      - semantic structure validation
+      - current-document inbound reference integrity
+      - document/roadmap normalization
+      - module policy/governance conformance
+      - Project Inspector semantic/conformance direction
+    implementation_note: >
+      This second pass records lineage only. It does not claim every historical
+      self-cleaning mechanism remains implemented exactly as discussed; current
+      validators/indexes remain separately auditable.
+    action: NO_DUPLICATE
+
+  - topic: prompt_pull_and_fresh_worker_to_current_runtime_context
+    source_items:
+      - IT-BP0509-0016
+      - IT-BP0509-0017
+      - IT-BP0509-0018
+      - IT-BP0509-0019
+      - IT-BP0509-0020
+      - IT-BP0509-0021
+      - IT-BP0509-0022
+    promoted_or_later_human_intent:
+      - HI-FP-DTFB-20260905-003
+      - HI-FP-U129B-20260905-006
+    source_rule: >
+      Blueprint publishes on Blueprint-owned surfaces; module-side intake pulls released
+      work without foreign writes back into Blueprint. Each prompt/work package should
+      be executed by a fresh worker whose context includes previous completion evidence,
+      project navigation, current prompt/contract/oracle and repository-owned current
+      state. Execution/completion does not silently become business acceptance.
+    current_connection:
+      - module received/active/archived prompt intake
+      - Blueprint pull/sync workflow
+      - Task Context / Handoff context compilation
+      - fresh-context gates
+      - CF-10 internal worker engineering
+      - explicit ACCEPT / RETURN / HOLD and lifecycle authority separation
+      - planned parallel-workstream current snapshot for replacement-assistant onboarding
+    historical_pilot_note: >
+      Logistics was the historical reference/pilot in this source. That pilot status is
+      provenance and does not define the current active Blueprint workstream. Current
+      lifecycle/workfront authority must be re-read from live repository state.
+    action: RECORD_PROVENANCE_BRIDGE_ONLY
+
+  - topic: snapshot_workflow_to_current_context_and_portfolio_knowledge
+    source_items:
+      - IT-BP0509-0029
+      - IT-BP0509-0030
+    promoted_human_intent: HI-FP-DTFB-20260905-007
+    source_rule: >
+      Blueprint should produce portable read-only self-inventory/system-context and
+      portfolio/roadmap current-state packages for later zero-context analysis and
+      planning, while keeping them separate from live authority.
+    current_reconciliation:
+      status: MATERIALIZED_AND_EXTENDED
+      current_surfaces:
+        - Portfolio Knowledge Baseline
+        - Roadmap Enrichment source packs/reconciliation artifacts
+        - coordination/instruction_intake/assistant_reading_order.md
+        - coordination/bootstrap/assistant_context_system_specs_v0_1.yaml
+        - coordination/bootstrap/index_v0_1.yaml
+        - Makefile::assistant-context-pack
+        - scripts/coordination/build_project_context_archive.py
+      validated_runtime_evidence:
+        - BLUEPRINT_CONTEXT_PACK_BLUEPRINT_DEFAULT_V0_7=PASS
+        - DEFAULT_CONTEXT_MODULE=forprint_system_blueprint
+        - EXPLICIT_MODULE_OVERRIDE_PRESERVED=true
+        - ASSISTANT_READING_ORDER_REMAINS_FIRST=true
+        - SYSTEM_SPECS_READING_ORDER_POSITION=2
+        - MANIFEST_SEMANTIC_DISCOVERY=true
+      authority_note: >
+        Snapshot/context packages are navigation/evidence projections. They do not
+        confer roadmap, lifecycle, dispatch, release, acceptance, commit, push or merge
+        authority, and live current state must be revalidated before action.
+    action: RECORD_PROVENANCE_BRIDGE_ONLY
+
+  - topic: release_acceptance_and_semantic_reference_invariants
+    source_items:
+      - IT-BP0509-0023
+      - IT-BP0509-0024
+      - IT-BP0509-0025
+      - IT-BP0509-0026
+      - IT-BP0509-0027
+      - IT-BP0509-0028
+    promoted_human_intents:
+      - HI-FP-DTFB-20260905-004
+      - HI-FP-DTFB-20260905-005
+      - HI-FP-DTFB-20260905-006
+    retained_rules:
+      - one-shot authorization does not silently become standing authority
+      - released prompt removal from prepared drafts does not erase Acceptance Oracle binding
+      - current governance evidence requires durable inbound semantic references
+      - fix canonical reference graph rather than weakening validators to hide orphan findings
+    current_connection:
+      - release/authority gates
+      - Acceptance Oracle lineage
+      - semantic reference integrity
+      - fail-closed validation
+    action: NO_DUPLICATE
+
+second_pass_verdict:
+  new_source_root: false
+  new_human_intent_required: false
+  new_roadmap_step_required: false
+  source_map_entry_required: false
+  execution_authority_mutation_required: false
+  valuable_new_persistence:
+    - exact primary-MHTML identity confirmation
+    - UTF-8 source-quality confirmation with sparse assistant-narrative limitation
+    - provenance bridge from semantic Human Intent deduplication to current reuse-first source processing
+    - provenance bridge from self-cleaning governance to current cleanliness/freshness/conformance controls
+    - provenance bridge from fresh-worker previous-evidence/navigation requirements to current Handoff/context runtime
+    - provenance bridge from 05.09 portable snapshots to current Portfolio Knowledge Baseline and assistant-context-pack
+    - explicit reminder that historical Logistics pilot state is not current execution authority

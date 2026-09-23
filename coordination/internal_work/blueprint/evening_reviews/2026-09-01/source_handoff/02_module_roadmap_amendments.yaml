@@ -1,0 +1,95 @@
+schema_version: forprint_evening_architecture_delta_v0_1
+date: '2026-09-01'
+status: PLANNING_HANDOFF_NOT_CANONICAL
+global_gates:
+- Hold normal module implementation until full-horizon roadmaps, mature target states, self-inventory baseline and
+  dependency/readiness dashboard exist.
+- Preserve curated exact operator quotes for important roadmap decisions.
+- If a useful mature target cannot be formulated for a module even synthetically, reassess whether the module should
+  exist.
+modules:
+  forprint_identity_access_service:
+    action: CREATE_MODULE_CANDIDATE_AND_FULL_SYNTHETIC_ROADMAP
+    target_state_split:
+    - AGREED_HUMAN_CONFIRMED
+    - SYNTHETIC_PROPOSED
+    mature_capabilities:
+    - registration
+    - authentication
+    - sessions
+    - password/passkey
+    - MFA
+    - recovery
+    - roles
+    - permission sets
+    - per-user permission overrides
+    - admin access-control UI
+    - session/device revocation
+    - security audit
+    - SSO
+    - policy-driven access control
+  forprint_crm:
+    action: EXPAND_FULL_SYNTHETIC_ROADMAP
+    mature_capability_families:
+    - aggregated operational intelligence
+    - configurable dashboards/wallboards
+    - composite cross-module human workflows
+    - customer/supplier 360
+    - universal search
+    - saved role workspaces
+    - cross-module activity timeline
+    - variance/exception analytics
+    - task/case workspace
+    - exception center
+    boundary: Unified operational entry/composition layer; not canonical owner of foreign domain truth.
+    dashboard_note: Keep dashboard/wallboard encapsulated in CRM for now, extract later only if justified.
+  calculator_engine:
+    action: EXPAND_FULL_SYNTHETIC_ROADMAP
+    near_term:
+    - early visual product/configuration interface
+    - reference calculator review after URLs are supplied
+    - canonical Job Specification
+    future:
+    - outsourcing decision support
+    - external partner adapters
+    - controlled browser automation fallback
+    open_input: Operator will provide 2-3 calculator URLs and mark one primary.
+  forprint_accounting_registry_service:
+    action: RECOVER_EXISTING_INTENT_AND_EXPAND_SYNTHETIC_MATURE_TARGET
+  forprint_operations_control_registry:
+    action: RECOVER_EXISTING_INTENT_AND_EXPAND_SYNTHETIC_MATURE_TARGET
+  forprint_library:
+    action: RECONCILE_SHARED_SYSTEM_ROLE
+    areas:
+    - domain aliases/tokens/profiles
+    - shared UI design system/component catalog
+    - shared reusable primitives where appropriate
+    - versioned publication/adoption metadata
+  forprint_system_administration:
+    action: ADD_DATA_PLATFORM_AND_SECRETS_INFRASTRUCTURE_ROLE
+  forprint_project_inspector:
+    action: EXPAND_CONFORMANCE_CHECKS
+    areas:
+    - UI conformance/accessibility/stale versions
+    - self-inventory consistency
+    - duplicate capability/semantic drift
+    - cross-module invariants
+  telegram_bot:
+    action: ADD_FUTURE_ROADMAP_CAPABILITIES
+    areas:
+    - voice transcription
+    - structured intent after transcription
+    - fuzzy/semantic contact lookup
+    - identity disambiguation
+    - auditable confirmations
+    - supplier/contact enrichment dialogues
+    - future text-to-speech
+    - future voice/telephone horizon
+cross_module:
+- central PostgreSQL operational platform with logical domain schemas
+- unified ForPrint Control Center
+- Library-published versioned shared UI system
+- module self-inventory/self-indexing
+- capability-index-first reuse discipline
+- assistant intervention ledger
+- bounded cross-module/AI execution envelope

@@ -1,0 +1,29 @@
+schema_version: forprint_dftb_cross_dialogue_relations_v0_1
+bundle_id: DFTB-blueprint-2026-09-14-continuation
+relations:
+- type: continues
+  from_bundle: DFTB-blueprint-2026-09-14-continuation
+  to_bundle: DFTB-blueprint-2026-09-12
+  confidence: HIGH
+  note: Same long conversation lineage. 18 message IDs overlap; this package indexes only 43 new messages after the 12.09 capture.
+item_relations:
+- type: continues
+  from_item: IT-BP1409-0001
+  to_item: IT-BP1209-0034
+  confidence: HIGH
+  note: 12.09 ended with corrected CF-02 foundation prepared/no PASS; 14.09 tail shows later CF-02 hardening PASS.
+- type: refines
+  from_item: IT-BP1409-0007
+  to_item: IT-BP1209-0023
+  confidence: HIGH
+  note: State-aware recovery rule recurs after CF-02 closure partially advances.
+- type: refines
+  from_item: IT-BP1409-0014
+  to_item: IT-BP0809-0028
+  confidence: HIGH
+  note: 08.09 corrected misleading PASS semantics; 14.09 further distinguishes stale diagnostic reports from current-tree truth.
+- type: refines
+  from_item: IT-BP1409-0015
+  to_item: IT-BP1009-0010
+  confidence: MEDIUM
+  note: Non-mutating checks now require explicit isolation/materialization truth, not merely read-only behavior.

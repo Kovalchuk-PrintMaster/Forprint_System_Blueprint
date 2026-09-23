@@ -1,0 +1,44 @@
+schema_version: blueprint_operator_approval_gateway_v0_1_adoption
+metadata:
+  module_id: forprint_system_blueprint
+  created_at: '2026-09-06'
+  status: IMPLEMENTED
+  implementation_id: blueprint_operator_approval_gateway_v0_1
+decision:
+  transport_neutral_artifact: true
+  initial_transports:
+  - FILESYSTEM
+  - CLI
+  telegram_required: false
+  blocked_request_force_approval_allowed: false
+  approval_is_blueprint_accept: false
+  approval_is_prompt_claim: false
+  approval_directly_dispatches_worker: false
+governance_reuse:
+  q4:
+    standard: immutable_prompt_adjustment_and_decision_v0_1
+    operator_decision_artifact_semantics: true
+  q5:
+    standard: common_coordination_event_envelope_v0_1
+    operator_decision_event_family: true
+    event_runtime_emission_deferred: true
+  q6:
+    standard: operator_attention_semantics_v0_1
+    operator_acceptance_required_attention: true
+    attention_is_approval: false
+validation:
+  approval_expiry: true
+  launch_request_hash_binding: true
+  request_fingerprint_binding: true
+  task_context_fingerprint_binding: true
+  blueprint_head_binding: true
+  module_head_binding: true
+  dependency_readiness_hash_binding: true
+  live_revalidation_before_decision: true
+  live_revalidation_before_future_dispatch: true
+live_logistics_reference:
+  state: BLOCKED
+  approve_allowed: false
+  expected_reason: DEPENDENCY_READINESS_NOT_PROVIDED
+  decision_artifact_created: false
+next: blueprint_console_worker_adapter_v0_1

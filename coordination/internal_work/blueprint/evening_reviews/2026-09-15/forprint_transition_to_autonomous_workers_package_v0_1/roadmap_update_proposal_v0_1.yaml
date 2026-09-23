@@ -1,0 +1,53 @@
+schema_version: forprint_roadmap_update_proposal_v0_1
+status: proposal_only_not_applied
+preserve_launch_path:
+- CF-08
+- CF-09
+- CF-10
+do_not_insert_new_blocker_before_cf10_unless_true_dependency: true
+amend_existing_steps:
+- step: CF-09
+  add:
+  - structured worker telemetry for tools, procedure nodes, failure fingerprints, retries, repair outcomes and restart reasons
+  - observation-first retry budgets with hard runaway ceilings
+  - worker restart using durable resume coordinates rather than full prior chat replay
+- step: CF-10
+  add:
+  - first internal worker pilot uses observation-first retry policy
+  - collect friction statistics before tightening retry limits
+  - after initial success prefer bounded self-hardening tasks
+- step: CF-13
+  add:
+  - machine-readable Capability Registry
+  - describe/help for registered capabilities
+  - 'Golden Path: established functionality should use registered capabilities rather than direct canonical writes'
+  - protected-surface metadata mapping paths to required capabilities
+- step: CF-14
+  add:
+  - 'Change Impact Resolver: changed paths -> affected artifacts -> generators -> validators/tests -> verification tier'
+  - 'safe auto-repair lane: parse/compile, Ruff safe fix, format, deterministic regeneration, dependency/import checks'
+  - bounded automatic repair passes with typed escalation
+  - distinguish immutable historical hash pins from live derived/reference hashes
+- step: CF-15
+  add:
+  - 'Reference Integrity view: artifact -> current revision/hash -> consumers -> freshness'
+  - health metrics for repeated worker failures and high-friction capabilities
+- step: CF-17
+  add:
+  - portfolio matrix for module priority/dependency/readiness
+  - balancing/catch-up waves before forward-development waves
+  - first coordinated module-worker wave as strategic-transition sunset milestone
+- step: CF-18
+  add:
+  - Project Tool Gateway / operator CLI
+  - direct-write denial returns required capability/tool and actionable schema guidance
+- step: CF-19
+  add:
+  - technical enforcement of protected canonical surfaces in worker isolation
+  - verify worker cannot widen its own authority or bypass required capabilities
+  - review telemetry-derived retry thresholds before broad autonomy
+non_goals_now:
+- do_not_replace_build_system
+- do_not_add_database_as_new_canonical_source_of_truth
+- do_not_build_all_gateway_capabilities_before_first_worker
+- do_not_start_broad_module_workers_before_inventory_and_wave_planning

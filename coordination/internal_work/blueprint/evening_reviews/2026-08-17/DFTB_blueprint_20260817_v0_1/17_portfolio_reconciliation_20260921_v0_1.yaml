@@ -1,0 +1,201 @@
+schema_version: forprint_dftb_blueprint_20260817_portfolio_reconciliation_v0_1
+source_date: '2026-08-17'
+reconciled_on: '2026-09-21'
+source_archive_sha256: c4f25f0074b24c45e747e65e056a521df5ff3a3686a19020f806cbd722003f40
+source_dialogue_hash_sha256: 9d693e7905ba827b9c6b9d3920357546a653437745f1531adac1bce11102f0c1
+source_authority: HISTORICAL_V04_V041_HARDENING_EVIDENCE_NOT_CURRENT_AUTHORITY
+source_completeness:
+  classification: PARTIAL_HIGH_TURN_COVERAGE_LOW_ASSISTANT_NARRATIVE
+  retained_turn_containers: 142
+  text_bearing_turn_containers: 142
+  preserved_assistant_narrative_messages: 4
+  artifact_labels: 70
+  implementation_verification_in_bundle: false
+  rule: Historical report names and pasted outputs reconstruct chronology but do not establish present repository
+    state. Current release/current authority must be resolved independently before using any old H/B/STEP state.
+cross_dialogue_position:
+  continues: DFTB-blueprint-2026-08-05-continuation
+  historical_bridge: Previous source ended with STEP26 seal commit pending and STEP27 ready_for_module_pull. This
+    source begins from newer historical evidence where STEP26 is already sealed and proceeds through STEP27.
+summary: The 2026-08-17 dialogue closes the historical STEP26->STEP27 bridge and is a major provenance source for
+  explicit review/acceptance/seal semantics, module-owned completion evidence, Make-based coordination, roadmap
+  hierarchy, legacy-mechanism retirement, Logistics-first rollout, reusable machine-like prompt design and zero-context
+  continuity. It then carries a long v0.4.1 H3-H9/B1 execution history that remains historical lineage only. Most
+  governance concepts are already materialized later; roadmap task/subtask hierarchy is preserved as a bounded design
+  candidate.
+topic_reconciliation:
+- topic: live_state_over_stale_handoff
+  item_refs:
+  - IT-BP1708-0001
+  disposition: MATERIALIZED_AND_ALREADY_PRESERVED_BY_LATER_CONTINUITY_GOVERNANCE
+  source_rule: Live repository/release evidence outranks stale handoff archives; handoff packages are navigation/evidence,
+    not authority.
+- topic: make_operational_surface_and_blueprint_module_boundary
+  item_refs:
+  - IT-BP1708-0002
+  - IT-BP1708-0003
+  - IT-BP1708-0004
+  disposition: MATERIALIZED_AND_MATURED
+  source_rules:
+  - Make or equivalent stable operator commands expose normal coordination procedures transparently
+  - Blueprint coordinates and reviews; module assistants implement module-owned work
+  - normal inter-module prompt/report coordination should use project-owned coordination mechanisms rather than
+    chat
+  current_connection:
+  - module prompt pull/intake
+  - module-owned execution/completion evidence
+  - Blueprint read-only review/finalization
+  - governed procedure/Dispatcher runtime
+- topic: step27_reference_chain_and_artifact_ownership
+  item_refs:
+  - IT-BP1708-0005
+  - IT-BP1708-0006
+  disposition: HISTORICAL_REFERENCE_PILOT_PROVENANCE
+  source_chain: source prompt -> immutable Prompt Contract -> module completion evidence -> Completion Packet ->
+    Completion Outbox -> Blueprint discovery/intake -> READY_FOR_BLUEPRINT_REVIEW
+  source_rule: Blueprint may create Blueprint-owned review/contract/findings evidence but must not rewrite module-owned
+    packet/report/outbox or module code.
+  current_connection:
+  - normalized completion semantic envelope
+  - module-owned completion packet/outbox
+  - Blueprint intake/review ownership
+  - Acceptance Oracle
+- topic: review_acceptance_seal_promotion_separation
+  item_refs:
+  - IT-BP1708-0007
+  - IT-BP1708-0008
+  - IT-BP1708-0009
+  - IT-BP1708-0010
+  - IT-BP1708-0035
+  disposition: MATERIALIZED_AND_MATURED
+  source_states:
+  - module completion
+  - READY_FOR_BLUEPRINT_REVIEW
+  - explicit operator decision
+  - sealed/published acceptance
+  - separate later release/global promotion
+  current_reconciliation: Later governance further separates machine conformance/progression from Blueprint ACCEPT/RETURN/HOLD.
+    No readiness or validation result silently grants acceptance or global promotion authority.
+- topic: tmp_report_workspace
+  item_refs:
+  - IT-BP1708-0011
+  disposition: MATERIALIZED_OPERATOR_WORKSPACE_RULE
+  source_rule: Use project-local tmp space for ephemeral reports/diagnostics rather than polluting durable canonical
+    surfaces.
+- topic: bounded_task_before_replanning
+  item_refs:
+  - IT-BP1708-0012
+  - IT-BP1708-0036
+  disposition: RETAIN_AS_DURABLE_COORDINATION_INVARIANT
+  source_rule: Do not repeatedly rewrite planning in the middle of an already bounded technical problem; finish
+    or explicitly stop/return the bounded task, then reconcile roadmap deliberately.
+- topic: hierarchical_roadmap_tasks_and_dual_views
+  item_refs:
+  - IT-BP1708-0013
+  - IT-BP1708-0014
+  disposition: PRESERVE_AS_DESIGN_CANDIDATE_RECONCILE_BEFORE_IMPLEMENTATION
+  source_target:
+  - main roadmap task
+  - meaningful task-local subtasks exposing implementation depth and partial completion
+  - compact default view showing main tasks
+  - detailed view showing task/subtask hierarchy
+  current_reconciliation: Current evidence proves full-horizon steps and human/machine portfolio views, but does
+    not prove canonical task/subtask hierarchy. Audit current schemas/renderers first; reuse or extend existing
+    mechanisms before adding new fields or tooling.
+- topic: forward_architecture_and_legacy_retirement
+  item_refs:
+  - IT-BP1708-0015
+  - IT-BP1708-0016
+  - IT-BP1708-0022
+  - IT-BP1708-0023
+  disposition: MATERIALIZED_AND_MATURED_BY_SELF_CLEANING_DEPRECATION_GOVERNANCE
+  source_rules:
+  - current architecture may supersede older workflow/commands/docs when newer standards require it
+  - optimize for predictability, stability and transparency rather than indefinite backward compatibility
+  - superseded tests/tools should not keep blocking the modern platform merely for legacy compatibility
+  - historical tools may remain archived/isolated for optional access
+  current_connection:
+  - project cleanliness/self-cleaning
+  - stale/deprecation/removal candidate governance
+  - forward-evolving governance
+- topic: website_pause_and_ui_side_branch
+  item_refs:
+  - IT-BP1708-0017
+  - IT-BP1708-0027
+  - IT-BP1708-0028
+  - IT-BP1708-0029
+  disposition: HISTORICAL_OR_FOREIGN_SCOPE_NOT_PROMOTED
+  current_reconciliation: Website pause was a historical portfolio state and is superseded by later active Website
+    work. Filter/browser UI requirements remain foreign-scope evidence unless a current owning module/source explicitly
+    claims them.
+- topic: logistics_first_rollout
+  item_refs:
+  - IT-BP1708-0018
+  - IT-BP1708-0019
+  disposition: PILOT_PHILOSOPHY_RETAINED_EXACT_ROLLOUT_STATE_SUPERSEDED
+  source_rule: Do not migrate unevenly prepared modules simultaneously; prove the coordination model on Logistics,
+    then propagate the behavioral pattern.
+  current_reconciliation: Later Human Intent explicitly preserves Logistics as the reference pilot, while later
+    Control Foundation strategy adds Blueprint internal-worker foundation and staged autonomy. Do not treat 17.08
+    Logistics-only state as current rollout authority.
+- topic: owner_intent_to_machine_specification
+  item_refs:
+  - IT-BP1708-0020
+  - IT-BP1708-0021
+  disposition: RETAIN_AS_DURABLE_PROMPT_DESIGN_INVARIANT
+  source_rule: The operator may describe practical/business intent in ordinary language; Blueprint/assistant should
+    translate that into technically correct, modular and reusable machine-oriented prompts/specifications rather
+    than copy examples literally.
+- topic: historical_step27_and_v041_execution_lineage
+  item_refs:
+  - IT-BP1708-0024
+  - IT-BP1708-0025
+  - IT-BP1708-0026
+  - IT-BP1708-0033
+  - IT-BP1708-0034
+  disposition: HISTORICAL_EXECUTION_LINEAGE_ONLY
+  source_note: STEP27 sealed/published, H3-H9/B1 states and bounded-mutation-ready reports are useful chronology,
+    but current repository/release state must not be inferred from these labels.
+- topic: zero_context_continuity_full_remaining_path
+  item_refs:
+  - IT-BP1708-0030
+  - IT-BP1708-0031
+  disposition: MATERIALIZED_AND_MATURED
+  source_rule: A zero-context bootstrap/handoff must carry current position, exact next work, the remaining sequence
+    and final objective, not merely the next command.
+  current_connection:
+  - bootstrap START_HERE
+  - assistant context pack
+  - Handoff v2/CF-08
+  - continuity projections
+- topic: historical_logistics_codex_release_objective
+  item_refs:
+  - IT-BP1708-0032
+  disposition: HISTORICAL_OBJECTIVE_LATER_REFRAMED
+  source_target: End-to-end automatic Logistics/Codex task issuance and report-return chain.
+  current_reconciliation: Preserve as origin of autonomous worker/runtime ambitions. Later strategy reframes rollout
+    through bounded Blueprint internal workers, staged autonomy and controlled external-module propagation.
+open_loop_reconciliation:
+- loop: LOOP-BP1708-0001
+  status: MATERIALIZED_DIRECTION_CURRENT_IMPLEMENTATION_SEPARATELY_AUDITABLE
+  note: Make/operator surfaces remain a discoverability principle; exact current completeness should be audited
+    only when relevant.
+- loop: LOOP-BP1708-0002
+  status: MATERIALIZED_DIRECTION
+  note: Module-owned completion evidence and Blueprint-owned review mutation boundaries are later explicit.
+- loop: LOOP-BP1708-0003
+  status: DESIGN_CANDIDATE_PRESERVED
+  note: Task/subtask hierarchy and compact/detailed roadmap views need a current schema/renderer reuse audit.
+- loop: LOOP-BP1708-0004
+  status: MATERIALIZED_DIRECTION_COMPLETENESS_NOT_ASSERTED
+  note: Later self-cleaning/deprecation governance addresses legacy drag; exact active legacy blockers remain implementation-audit
+    questions.
+- loop: LOOP-BP1708-0005
+  status: FOREIGN_SCOPE_NOT_PROMOTED
+  note: UI/browser owner is not established here; resolve through current owning module evidence if needed.
+- loop: LOOP-BP1708-0006
+  status: MATERIALIZED_DIRECTION_HISTORICAL_RELEASE_OBJECTIVE_SUPERSEDED
+  note: Zero-context continuity is now broader; historical B1 and Logistics/Codex release state is not current authority.
+roadmap_mutation_required: false
+execution_authority_mutation_required: false
+new_roadmap_step_required: false

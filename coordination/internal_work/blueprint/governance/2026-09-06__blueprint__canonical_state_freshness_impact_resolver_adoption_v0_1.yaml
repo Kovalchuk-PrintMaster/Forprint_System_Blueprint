@@ -1,0 +1,32 @@
+schema_version: blueprint_canonical_state_freshness_impact_resolver_adoption_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  created_at: '2026-09-06'
+  status: IMPLEMENTED_REFERENCE_V0_1
+  authority: BLUEPRINT_INTERNAL_CONTROL_PLANE_NOT_RELEASE_AUTHORITY
+decision:
+  implementation_id: blueprint_read_only_canonical_state_freshness_impact_resolver_v0_1
+  purpose: Resolve current canonical coordination state, verify the AGENTS current-state projection, reuse existing
+    governance and repository-knowledge freshness primitives, and identify working-tree impact on configured current-state
+    surfaces without mutation.
+  resolver: scripts/coordination/render_blueprint_canonical_state_freshness_impact.py
+  validator: scripts/validation/validate_blueprint_canonical_state_freshness_impact_v0_1.py
+  surface_contracts: coordination/internal_work/blueprint/governance/2026-09-06__blueprint__current_state_freshness_surface_contracts_v0_1.yaml
+  test: tests/test_render_blueprint_canonical_state_freshness_impact.py
+  make_targets:
+    - canonical-state-freshness-impact-check
+    - canonical-state-freshness-impact-status
+boundaries:
+  read_only: true
+  independent_authority: false
+  automatic_refresh: false
+  authority_rewrite: false
+  module_start: false
+  prompt_pull: false
+  release_transition: false
+  commit_push: false
+known_limits:
+  - Only the AGENTS current-state projection has a dedicated coherence evaluator in v0.1.
+  - Other affected surfaces are reported as AFFECTED_CHECK_REQUIRED rather than falsely declared stale.
+  - The context-bundle primitive is observed but is not yet upgraded into the task-aware compiler.
+  - The module-memory schema remains the next control-plane implementation.

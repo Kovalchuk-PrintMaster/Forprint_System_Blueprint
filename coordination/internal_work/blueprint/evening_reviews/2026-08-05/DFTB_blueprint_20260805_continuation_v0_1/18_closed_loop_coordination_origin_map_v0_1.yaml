@@ -1,0 +1,94 @@
+schema_version: forprint_dftb_blueprint_20260805_continuation_closed_loop_origin_map_v0_1
+source_bundle: DFTB-blueprint-2026-08-05-continuation
+source_root: coordination/internal_work/blueprint/evening_reviews/2026-08-05/DFTB_blueprint_20260805_continuation_v0_1
+purpose: Preserve the historical transition from early transparency/mutation governance into machine-discoverable
+  completion intake, roadmap-bound prompt/report exchange and closed-loop coordination without restoring obsolete
+  buffer or acceptance policy.
+evolution_chain:
+- stage: prior_05_08
+  state: mutation_builder_and_transparency_next
+  source: DFTB-blueprint-2026-08-05
+- stage: 05_08_continuation
+  state: transparency -> self-audit -> completion intake -> v0.4 closed loop -> STEP26/STEP27 boundary
+  source: DFTB-blueprint-2026-08-05-continuation
+- stage: later_17_08
+  state: historical continuation/resolution after STEP26/STEP27 boundary
+  source: DFTB-blueprint-2026-08-17
+  status: NOT_INGESTED_BY_THIS_SCRIPT
+groups:
+- group_id: completion_discovery_and_contract
+  item_refs:
+  - IT-BP0508C-0006
+  - IT-BP0508C-0007
+  - IT-BP0508C-0008
+  - IT-BP0508C-0009
+  - IT-BP0508C-0014
+  - IT-BP0508C-0015
+  - IT-BP0508C-0033
+  later_surfaces:
+  - module completion packet/outbox
+  - normalized completion semantic envelope
+  - Blueprint completion intake/review
+  - fresh-worker previous completion evidence
+  evolution: RETAINED_AND_MATURED
+- group_id: roadmap_prompt_execution_reconciliation
+  item_refs:
+  - IT-BP0508C-0016
+  - IT-BP0508C-0017
+  - IT-BP0508C-0032
+  later_surfaces:
+  - roadmap reconciliation
+  - continuity event store
+  - Dispatcher
+  - dependency/convergence planning
+  evolution: RETAINED_AND_MATURED
+- group_id: closed_loop_acceptance_progression
+  item_refs:
+  - IT-BP0508C-0018
+  - IT-BP0508C-0019
+  - IT-BP0508C-0031
+  later_surfaces:
+  - Acceptance Oracle
+  - ACCEPT/RETURN/HOLD separation
+  - procedure/profile progression authority
+  - Dispatcher activation
+  evolution: CLOSED_LOOP_RETAINED_ACCEPTANCE_AUTHORITY_NARROWED
+- group_id: planning_buffer_health
+  item_refs:
+  - IT-BP0508C-0011
+  - IT-BP0508C-0012
+  - IT-BP0508C-0013
+  later_surfaces:
+  - full-horizon roadmaps
+  - Project Health
+  - prompt/roadmap depletion visibility
+  evolution: HEALTH_SIGNAL_RETAINED_FIXED_THRESHOLDS_SUPERSEDED
+- group_id: parallel_git_workflow
+  item_refs:
+  - IT-BP0508C-0004
+  - IT-BP0508C-0034
+  later_surfaces:
+  - isolated workspaces/worktrees
+  - bounded dirty-tree compatibility
+  - parallel assistant collision control
+  evolution: RETAINED_AND_MATURED
+- group_id: prompt_archive_and_continuity
+  item_refs:
+  - IT-BP0508C-0020
+  - IT-BP0508C-0021
+  later_surfaces:
+  - bootstrap/context/Handoff surfaces
+  - received/active/archived prompt lifecycle
+  evolution: MASTER_PROMPT_SUPERSEDED_ARCHIVE_RULE_RETAINED
+- group_id: historical_step_lineage
+  item_refs:
+  - IT-BP0508C-0022
+  - IT-BP0508C-0025
+  - IT-BP0508C-0026
+  - IT-BP0508C-0027
+  - IT-BP0508C-0028
+  - IT-BP0508C-0029
+  - IT-BP0508C-0030
+  later_surfaces:
+  - 2026-08-17 historical source reconciliation
+  evolution: HISTORICAL_ONLY_DO_NOT_PROJECT_AS_CURRENT_STATE

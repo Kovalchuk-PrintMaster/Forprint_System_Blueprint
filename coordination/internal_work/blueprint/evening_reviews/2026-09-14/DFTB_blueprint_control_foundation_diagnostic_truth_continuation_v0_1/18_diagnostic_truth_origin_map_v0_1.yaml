@@ -1,0 +1,28 @@
+schema_version: forprint_dftb_blueprint_20260914_diagnostic_truth_origin_map_v0_1
+source_bundle: DFTB-blueprint-2026-09-14-continuation
+source_root: coordination/internal_work/blueprint/evening_reviews/2026-09-14/DFTB_blueprint_control_foundation_diagnostic_truth_continuation_v0_1
+purpose: Preserve the 14.09 continuation's CF-02 hardening/recovery lineage and the origin of diagnostic freshness/current-tree-vs-materialization
+  truth, without reopening already-closed CF-02 work or treating missing attachment bodies as facts.
+chain:
+- stage: 12_09_source_end
+  state: CF-01 closed; CF-02 foundation prepared with no final PASS preserved
+- stage: 14_09_cf02_hardening
+  state: active double-write removed; legacy terminal-state retirement still pending; authority remains bounded
+- stage: partial_advance_failure
+  state: closure reports failure after u180b already observed CLOSED; state-aware recovery required
+- stage: later_current_cf02
+  state: event-sourced derived cursor accepted; double-write removed; legacy terminal states retired
+- stage: u180e_cf05_diagnostic
+  state: focused/context/roadmap/knowledge/semantic checks green; one aggregate full-pytest blocker reported
+- stage: diagnostic_freshness_refinement
+  state: old report pin differs from current source/test pin; separate current-tree truth from public-check materialization/report
+    freshness
+- stage: source_end
+  state: 0104 prepared; final result absent due attachment-only tail and delivery timeout
+durable_rules:
+- state-aware recovery after partial canonical advancement
+- artifact delivery completeness before execution
+- scope contamination is rejected by owner/authority
+- diagnose the exact failing layer before broad repair
+- diagnostic reports require freshness/provenance binding
+- current-tree truth and isolated/materialized-check truth are distinct evidence surfaces

@@ -1,0 +1,218 @@
+schema_version: forprint_blueprint_20260921_primary_mhtml_second_pass_reconciliation_v0_1
+reconciled_on: '2026-09-22'
+
+source:
+  operator_supplied_filename: Forprint_Blueprint_21.09.26.mhtml
+  dialogue_sha256: accee4fd2e74b21676bd64e9ee8e1502cc69b7656af44dd261f01eb420ff17f6
+  existing_dftb_archive_sha256: 606b6166162ea983c76a61451728e7e1970ac6224e9c234a2e4b4e7764850152
+  relationship_to_existing_intake: EXACT_PRIMARY_DIALOGUE_ALREADY_EMBEDDED_AND_NORMALIZED
+  existing_source_id: DFTB-blueprint-2026-09-21
+  existing_source_root: coordination/internal_work/blueprint/evening_reviews/2026-09-21/DFTB_blueprint_cf10_preflight_package_semantics_v0_1
+  visible_date_range: 2026-09-18..2026-09-20
+  export_saved_label: '2026-09-21'
+
+source_quality:
+  classification: PRIMARY_MHTML_UTF8_RECOVERABLE_ATTACHMENT_HEAVY_SPARSE_ASSISTANT_NARRATIVE
+  lossy_cyrillic_after_correct_mime_decode: false
+  mime_note: >
+    The HTML MIME payload is quoted-printable and decodes cleanly as UTF-8. The source
+    file is not Cyrillic-lossy.
+  direct_dom_observation:
+    data_testid_turn_containers: 113
+    roles:
+      user: 108
+      assistant: 5
+  normalized_intake_observation:
+    visible_message_blocks: 114
+    short_attachment_or_archive_placeholders: 101
+  note_on_count_difference: >
+    Direct DOM container counting and the original DFTB visible-message extraction use
+    slightly different boundaries. This second pass does not rewrite the original
+    normalized count; both agree that the source is heavily attachment-placeholder
+    dominated and contains only a small amount of preserved assistant narrative.
+  limitation: >
+    Most intermediate action/result bodies are unavailable as embedded transcript text.
+    Missing attachment bodies and assistant reasoning must not be reconstructed by
+    guesswork. Historical PASS/READY/ACTIVE labels remain historical evidence only.
+
+second_pass_coverage:
+  verdict: FIRST_PASS_SEMANTIC_EXTRACTION_SUBSTANTIALLY_COMPLETE
+  already_preserved_topics:
+    - CF-09 ACK is an exact pre-execution receipt, distinct from post-execution Result
+    - ACK aliases/ambiguity must fail closed
+    - live lifecycle/current workfront authority outranks stale handoff/projections
+    - bounded package intake/integrity workflow
+    - roadmap/dependency scalability maps to NT-07 rather than a duplicate subsystem
+    - assistant/bootstrap packaging must not silently redesign roadmap
+    - validated reusable package logic belongs durably in the project
+    - package semantic identity requires type/target/purpose/scope validation
+    - mechanically valid package can still be semantically wrong
+    - CF-10 historical READY_UNBOUND state
+    - explicit bind -> WORK_PLANNED -> WORK_ACTIVATED choreography
+    - historical u180j identity uncertainty
+    - historical Handoff v2 u180h hardcode
+    - audit PASS does not imply launch readiness or authority
+    - unexpected forprint_library project-context package is a routing defect candidate, not a Library task
+  new_human_intent_required: false
+  new_roadmap_step_required: false
+  new_source_map_entry_required: false
+  execution_authority_mutation_required: false
+
+second_pass_delta:
+  - topic: assistant_context_package_routing_defect_now_resolved
+    source_items:
+      - IT-BP2109-0018
+      - IT-BP2109-0031
+      - IT-BP2109-0032
+    existing_candidate: coordination/internal_work/blueprint/evening_reviews/2026-09-21/DFTB_blueprint_cf10_preflight_package_semantics_v0_1/19_assistant_context_package_routing_audit_candidate_v0_1.yaml
+    historical_problem: >
+      Blueprint packaging unexpectedly emitted a forprint_library-scoped project-context
+      archive even though the operator had not selected Library work. A global/default
+      Makefile MODULE value was a plausible routing leak and required live audit.
+    current_resolution_20260922:
+      status: IMPLEMENTED_AND_VALIDATED_IN_DIRTY_WORKTREE_COMMIT_DEFERRED
+      owner_decision: HI-FP-CONTEXT-DEFAULT-20260922-001
+      current_rule: >
+        Plain make assistant-context-pack from the Blueprint repository defaults to
+        forprint_system_blueprint. Explicit MODULE=<canonical_module> remains an override.
+        Global/default Makefile MODULE state must not silently redirect the package.
+      validated_runtime_evidence:
+        - BLUEPRINT_CONTEXT_PACK_BLUEPRINT_DEFAULT_V0_7=PASS
+        - DEFAULT_CONTEXT_MODULE=forprint_system_blueprint
+        - EXPLICIT_MODULE_OVERRIDE_PRESERVED=true
+        - DEFAULT_LIBRARY_ROUTING_REMOVED=true
+        - ASSISTANT_READING_ORDER_REMAINS_FIRST=true
+        - SYSTEM_SPECS_READING_ORDER_POSITION=2
+        - ARCHIVE_PATH_PARSER_KEY_VALUE_SUPPORT=true
+        - MANIFEST_SEMANTIC_DISCOVERY=true
+        - SCRIPT_DELIVERY_INTEGRITY=PASS
+      current_surfaces:
+        - Makefile
+        - scripts/coordination/build_project_context_archive.py
+        - coordination/bootstrap/assistant_context_system_specs_v0_1.yaml
+        - coordination/bootstrap/index_v0_1.yaml
+        - coordination/instruction_intake/assistant_reading_order.md
+        - tests/coordination/test_blueprint_context_pack_default_v0_1.py
+      commit_state: COMMIT_PENDING_BOUNDARY_RECONCILIATION
+    roadmap_effect: none
+    lifecycle_effect: none
+    action: MARK_HISTORICAL_ROUTING_AUDIT_AS_RESOLVED_BY_CURRENT_VALIDATED_BEHAVIOR
+
+  - topic: package_scope_boundary_to_current_context_system_specs
+    source_items:
+      - IT-BP2109-0011
+      - IT-BP2109-0012
+      - IT-BP2109-0013
+      - IT-BP2109-0014
+    promoted_human_intents:
+      - HI-FP-PACKAGING-SCOPE-20260921-001
+      - HI-FP-DURABLE-PACKAGING-20260921-001
+    source_rule: >
+      Assistant/bootstrap/living-knowledge packaging stays inside explicit packaging and
+      knowledge scope. It must not silently redesign roadmap, alter lifecycle/dispatch
+      authority, or reinterpret planning merely to make the package self-contained.
+      Validated reusable packaging logic should live durably in the repository.
+    current_connection:
+      - coordination/bootstrap/assistant_context_system_specs_v0_1.yaml
+      - assistant-context-pack
+      - truth-layer separation
+      - package semantic identity rules
+      - bounded parallel-workstream current-snapshot design
+    action: RECORD_MATERIALIZATION_BRIDGE_ONLY
+
+  - topic: ack_contract_to_current_worker_runtime
+    source_items:
+      - IT-BP2109-0001
+      - IT-BP2109-0002
+      - IT-BP2109-0003
+    source_rule: >
+      ACK is a hash/package-bound pre-execution receipt confirming that the worker
+      recognized the exact execution package and its boundaries. ACK is not a Result,
+      does not prove successful execution and does not itself widen authority.
+    current_connection:
+      - Handoff v2
+      - Dispatcher attempt lifecycle
+      - worker runtime / attempt ledger
+      - CF-10 governed worker attempts
+      - current parallel-workstream onboarding snapshot semantics
+    action: RECORD_PROVENANCE_BRIDGE_ONLY
+
+  - topic: cf10_historical_preflight_blockers_now_reconciled
+    source_items:
+      - IT-BP2109-0019
+      - IT-BP2109-0020
+      - IT-BP2109-0021
+      - IT-BP2109-0022
+      - IT-BP2109-0023
+      - IT-BP2109-0024
+      - IT-BP2109-0025
+      - IT-BP2109-0026
+      - IT-BP2109-0027
+      - IT-BP2109-0028
+      - IT-BP2109-0029
+      - IT-BP2109-0030
+    historical_endpoint:
+      state: CF10_READY_UNBOUND
+      blockers:
+        - u180j identity could not be assumed safe because no allocator was found
+        - Handoff v2 runtime still exposed hardcoded u180h binding
+      audit_pass_authority: NONE
+    later_current_reconciliation:
+      - explicit CF-10 u180j binding exists
+      - WORK_PLANNED sequence 66 exists
+      - WORK_ACTIVATED sequence 67 exists
+      - Handoff v2 TASK_EXECUTION no-write validation passed with u180j active
+      - governed worker attempts a001/a002 executed
+    current_rule: >
+      Do not resume historical 0172 or treat its blockers as current. Read the live
+      lifecycle/workfront/runtime state first.
+    action: PRESERVE_HISTORY_CURRENT_BLOCKER_FALSE
+
+  - topic: makefile_functional_map_extension
+    historical_source_connection:
+      - package builders and runtime launch surfaces are operator-facing operational capabilities
+      - unexpected implicit module routing originated at the Make/package boundary
+    current_operator_rule_20260922:
+      status: PENDING_CONSOLIDATED_PROJECT_RULE_UPDATE
+      rule: >
+        Treat Makefile as an operator-facing functional map of the project. Supported
+        functionality with an operator workflow must be represented in the appropriate
+        Makefile section. Newly implemented or newly discovered supported functionality
+        triggers Makefile coverage review. Obsolete targets for removed functionality
+        are removed.
+    consolidated_audit_scope:
+      - assistant-context-pack and related bootstrap/context commands
+      - Handoff v2 / worker runtime operator commands
+      - launch / approval / dispatch / completion control surfaces
+      - dependency / derivation / validation operator surfaces
+      - stale or superseded Make targets
+    mutation_in_this_second_pass: none
+    action: RECORD_AUDIT_SEED_ONLY
+
+  - topic: master_memory_v37_status
+    current_preferred_navigation: Master Memory v3.7
+    archive_sha256: 08dae00a7c4881a2dab9f2177ecb5657fa5887d70cfaaf3a61f324ff632e6d46
+    authority: DERIVED_AGGREGATE_NAVIGATION_NOT_CURRENT_RUNTIME_AUTHORITY
+    rule: >
+      v3.7 remains preferred historical navigation, while source-by-source primary
+      reconciliation and live repository verification remain required. Do not bulk
+      promote embedded history into Human Intent or roadmap merely because it is in
+      Master Memory.
+    action: RETAIN
+
+second_pass_verdict:
+  new_source_root: false
+  new_human_intent_required: false
+  new_roadmap_step_required: false
+  source_map_entry_required: false
+  execution_authority_mutation_required: false
+  assistant_context_routing_candidate_current_status: RESOLVED_IMPLEMENTED_VALIDATED_COMMIT_PENDING
+  makefile_functional_map_rule_pending_consolidated_apply: true
+  valuable_new_persistence:
+    - exact raw-MHTML identity confirmation behind the existing 21.09 DFTB archive
+    - corrected source-quality interpretation: UTF-8 Cyrillic is intact
+    - current closure of the historical unexpected-Library assistant-context routing audit
+    - provenance bridge from package-scope rules to current assistant context system specs
+    - ACK semantics bridge into current CF-10 worker-runtime model
+    - explicit historical-versus-current reconciliation of u180j/u180h launch blockers
+    - Makefile functional-coverage audit seed covering bootstrap and runtime operator surfaces

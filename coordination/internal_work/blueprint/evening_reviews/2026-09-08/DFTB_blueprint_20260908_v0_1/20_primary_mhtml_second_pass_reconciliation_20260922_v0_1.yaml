@@ -1,0 +1,100 @@
+schema_version: forprint_blueprint_20260908_primary_mhtml_second_pass_reconciliation_v0_1
+reconciled_on: '2026-09-22'
+source:
+  operator_supplied_filename: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26.mhtml
+  sha256: a9440aa0451f60b0167f2f44bdc755d7aad4bbe0a2e87b4106ba396f1e930a47
+  relationship_to_existing_intake: BYTE_IDENTICAL_SOURCE_IDENTITY_ALREADY_NORMALIZED
+  existing_source_id: DFTB-blueprint-2026-09-08
+source_quality:
+  classification: PRIMARY_MHTML_WITH_LOSSY_CYRILLIC_DISPLAY_ENCODING
+  recoverable_message_blocks: 13
+  limitation: Some Cyrillic spans are already persisted as Unicode replacement characters in the MHTML. Exact wording
+    from those spans is not recoverable and must not be reconstructed as factual quotation.
+  safe_to_use_for:
+  - surviving filenames and attachment identities
+  - commands, paths, hashes, counts and ASCII technical tokens
+  - conversation structure and recoverable semantic evidence
+  - cross-checking normalized DFTB items against surviving primary evidence
+  unsafe_to_use_for:
+  - exact quotation of corrupted Cyrillic spans
+  - invented reconstruction of absent or corrupted wording
+second_pass_delta:
+- topic: replacement_assistant_self_sufficient_context
+  source_items:
+  - IT-BP0809-0012
+  - IT-BP0809-0013
+  source_intent: A replacement assistant should resume the forensic/project workflow from one self-sufficient loading/context
+    package, and temporary tooling should be reconstructible from durable project instructions rather than fragile
+    chat/session memory.
+  first_pass_status: NORMALIZED_IN_MASTER_MEMORY_BUT_NOT_PROMOTED_AS_SEPARATE_20260908_HUMAN_INTENT
+  current_reconciliation:
+    status: MATERIALIZED_IN_CURRENT_WORKTREE_AND_RUNTIME_VALIDATED
+    surfaces:
+    - coordination/instruction_intake/assistant_reading_order.md
+    - coordination/bootstrap/assistant_context_system_specs_v0_1.yaml
+    - coordination/bootstrap/index_v0_1.yaml
+    - coordination/bootstrap/START_HERE.md
+    - Makefile::assistant-context-pack
+    - tests/coordination/test_blueprint_context_pack_default_v0_1.py
+    runtime_evidence:
+    - BLUEPRINT_CONTEXT_PACK_BLUEPRINT_DEFAULT_V0_7=PASS
+    - DEFAULT_CONTEXT_MODULE=forprint_system_blueprint
+    - ASSISTANT_READING_ORDER_REMAINS_FIRST=true
+    - SYSTEM_SPECS_READING_ORDER_POSITION=2
+    - SCRIPT_DELIVERY_INTEGRITY=PASS
+    commit_state: UNCOMMITTED_DIRTY_WORKTREE_BY_DESIGN
+    authority_note: The context package is navigation/evidence, not execution, lifecycle, roadmap, release, commit,
+      push or merge authority.
+  human_intent_action: NO_NEW_INTENT_DUPLICATE_CURRENT_BOOTSTRAP_CONTEXT_DECISIONS_ALREADY_EXIST
+  roadmap_action: NO_NEW_ROADMAP_STEP
+- topic: portfolio_forensics_operating_loop
+  source_items:
+  - IT-BP0809-0014
+  - IT-BP0809-0015
+  - IT-BP0809-0016
+  - IT-BP0809-0017
+  - IT-BP0809-0032
+  source_intent: Use a repeatable collector -> evidence package -> analysis -> next collector loop, starting from
+    Blueprint Git/control state, with machine-visible coverage and unresolved gaps.
+  current_reconciliation:
+    status: MATURED_INTO_ROADMAP_ENRICHMENT_AND_KNOWLEDGE_SATURATION
+    current_equivalents:
+    - Portfolio Knowledge Baseline
+    - Roadmap Enrichment / Knowledge Saturation operating guide
+    - source_map and provenance/maturity tracking
+    - Gate A structural coverage / critical-gap closure
+    - Gate B capability retrieval / operator challenge test
+    - Master Memory v3.7 as derived navigation
+  human_intent_action: NO_DUPLICATE
+  roadmap_action: REUSE_EXISTING
+- topic: logistics_structural_vs_semantic_freshness_example
+  source_items:
+  - IT-BP0809-0023
+  - IT-BP0809-0024
+  - IT-BP0809-0025
+  - IT-BP0809-0028
+  source_evidence: Historical Logistics live validation reported 238 tests PASS while fresh-context-check returned
+    rc=2; the original collector incorrectly labeled command capture PASS despite the nonzero check result.
+  current_reconciliation:
+    status: HISTORICAL_EXAMPLE_ONLY
+    durable_rules_already_preserved:
+    - structural PASS does not imply semantic freshness PASS
+    - nonzero check rc must be represented as check failure
+    - do not rewrite healthy domain code merely because control-plane projections are stale
+  current_logistics_claim: NONE_WITHOUT_LIVE_AUDIT
+- topic: b10_missing_part02
+  source_items:
+  - IT-BP0809-0008
+  status: STILL_OPEN_IN_THIS_PRIMARY_SOURCE
+  note: The raw conversation still records that legacy_misc_catchall_part_02_of_05 was missing. Do not claim complete
+    B10 catch-all coverage unless a later primary source supplies it or proves retirement/merge.
+second_pass_verdict:
+  new_source_root: false
+  new_human_intent_required: false
+  new_roadmap_step_required: false
+  source_map_entry_required: false
+  execution_authority_mutation_required: false
+  valuable_new_persistence:
+  - raw-MHTML lossy-encoding provenance limitation
+  - explicit provenance bridge from 08.09 replacement-assistant requirement to current validated context-pack/bootstrap
+    surfaces

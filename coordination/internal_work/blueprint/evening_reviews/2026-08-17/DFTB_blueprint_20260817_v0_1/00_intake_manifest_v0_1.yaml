@@ -1,0 +1,86 @@
+schema_version: forprint_dftb_blueprint_20260817_intake_manifest_v0_1
+source_date: '2026-08-17'
+intake_date: '2026-09-21'
+authority: historical_v04_v041_hardening_evidence_not_current_authority
+package_archive_sha256: c4f25f0074b24c45e747e65e056a521df5ff3a3686a19020f806cbd722003f40
+source_dialogue_hash_sha256: 9d693e7905ba827b9c6b9d3920357546a653437745f1531adac1bce11102f0c1
+package_files:
+- path: package/ANOMALIES.md
+  sha256: 75c0d3748e25fb5b27e16848bda536bc4831e2115b11ae6176f2e8095a441b69
+  bytes: 3893
+- path: package/PACKAGE_MANIFEST.yaml
+  sha256: 1c2558983915740bb384e5da99e21bb61ecbe1625193369728b8fe3576d8bba6
+  bytes: 1608
+- path: package/README.md
+  sha256: a6c69392c1b7f35394ec563e94c4265eca795a30686d394fe4412e1d35dd7c9c
+  bytes: 577
+- path: package/SOURCE_COVERAGE.md
+  sha256: 4d96dfaea5a3e38d4fc2c948af1baaab3b2f0c12dc8262a603532326a87941fd
+  bytes: 673
+- path: package/dialogue_memory.yaml
+  sha256: 8622de74e73748a476da0b3306c21d15d57a6cdbadd6ea1ad621ef0305bfd158
+  bytes: 74160
+- path: package/evidence_portfolio.md
+  sha256: 60f38b996078126e802665a1e930dbcd06ec80e181d8b618c90c1fbad3ca78f9
+  bytes: 37836
+- path: package/execution_artifact_timeline.md
+  sha256: 73d73de3cc5cfa033d214fed4e6b26ad416e2078fb5a0064bbb136cedee3c014
+  bytes: 5887
+- path: package/execution_artifact_timeline.yaml
+  sha256: c16ba7f957b11ceeb92c94f4c64aadd680af7a8e8c6be1f36113de9fdc661956
+  bytes: 16338
+- path: package/implementation_audit.stub.yaml
+  sha256: 900b6e43a001bd53f939b756db68b504a2eb5f1cdff8945941c430fa08bc1792
+  bytes: 251
+- path: package/session_digest.md
+  sha256: 557a50639173a83fbb5c9e3ebfa3fc87ea4e2cceac482281eab43427023c83c9
+  bytes: 8342
+- path: package/source_manifest.yaml
+  sha256: 5d5573985896aeb3390f907605936f1653c934b2e06478d279d0ac963a058d4f
+  bytes: 628
+- path: package/traceability_matrix.md
+  sha256: eb6597c56a0497e73ff19a4615605495fcf54721d58704a55cf501095dd9ea22
+  bytes: 6311
+- path: package/verification_queue.yaml
+  sha256: ba9c7288ad59b9d9bfe58ac571cc6314ad7da02b342b9236c7b8d8a7bafe0e38
+  bytes: 18704
+- path: package/visible_transcript.md
+  sha256: a632aea3dad841e6dffc31b013f8f7698b86cf64176d3b93322203067f3c3aa1
+  bytes: 105202
+separately_uploaded_files:
+- attachment: verification_queue(7).yaml
+  package_member: verification_queue.yaml
+  byte_identical_to_package_member: true
+- attachment: execution_artifact_timeline(7).md
+  package_member: execution_artifact_timeline.md
+  byte_identical_to_package_member: true
+- attachment: execution_artifact_timeline(6).yaml
+  package_member: execution_artifact_timeline.yaml
+  byte_identical_to_package_member: true
+- attachment: ANOMALIES(7).md
+  package_member: ANOMALIES.md
+  byte_identical_to_package_member: true
+- attachment: traceability_matrix(7).md
+  package_member: traceability_matrix.md
+  byte_identical_to_package_member: true
+- attachment: dialogue_memory(8).yaml
+  package_member: dialogue_memory.yaml
+  byte_identical_to_package_member: true
+- attachment: session_digest(9).md
+  package_member: session_digest.md
+  byte_identical_to_package_member: true
+- attachment: evidence_portfolio(9).md
+  package_member: evidence_portfolio.md
+  byte_identical_to_package_member: true
+duplicate_storage_rule: The eight separately uploaded DFTB files were byte-identical to package members and are
+  not stored twice.
+source_boundary:
+  classification: PARTIAL_HIGH_TURN_COVERAGE_LOW_ASSISTANT_NARRATIVE
+  retained_turn_containers: 142
+  text_bearing_turn_containers: 142
+  preserved_assistant_narrative_messages: 4
+  artifact_labels: 70
+  implementation_verification_in_bundle: false
+cross_dialogue:
+  continues: DFTB-blueprint-2026-08-05-continuation
+  historical_bridge: STEP26 pending in prior source -> STEP26 sealed and STEP27 continuation here

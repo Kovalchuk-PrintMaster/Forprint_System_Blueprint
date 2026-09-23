@@ -1,0 +1,30 @@
+schema_version: blueprint_task_context_compiler_v0_1_adoption
+metadata:
+  module_id: forprint_system_blueprint
+  created_at: '2026-09-06'
+  status: IMPLEMENTED
+  implementation_id: blueprint_task_context_compiler_v0_1
+decision:
+  existing_primitive_extended: scripts/coordination/build_context_bundle.py
+  second_context_framework_created: false
+  reference_module: logistics_service
+  worker_dispatch_performed: false
+  prompt_claim_performed: false
+capabilities:
+- resolve active prompt from module prompt queue
+- bind approved prompt, Prompt Contract and Acceptance Oracle
+- verify fail-closed release policy
+- verify module fresh-context manifest and source hashes
+- bind module AGENTS and Module Memory surfaces
+- capture Blueprint and module repository baselines
+- include roadmap and prior completion when available
+- emit immutable source manifest with sha256
+- emit human bootstrap plus machine manifest
+- write semantic unique task-context archive
+compatibility:
+  legacy_context_bundle_cli_preserved: true
+  existing_make_targets_preserved:
+  - context-bundle
+  - context-bundle-write
+  - context-bundle-print
+next: blueprint_launch_request_fresh_context_gate_v0_1

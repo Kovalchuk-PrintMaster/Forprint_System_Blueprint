@@ -1,0 +1,225 @@
+schema_version: forprint_dftb_blueprint_20260912_continuation_portfolio_reconciliation_v0_1
+source_date_label: '2026-09-12'
+reconciled_on: '2026-09-22'
+source_archive_sha256: 4c8d6c03fb547a2cfe6b6864e1a14b24ed7b701f34d88c071edb6e153e4a1a9d
+source_dialogue_hash_sha256: 142323e4fa85817b7e46fe01b0b6f8f7a8d49305697743dbe5d52cad8e10ddc2
+source_authority: HISTORICAL_CONTINUITY_LIFECYCLE_CONTROL_FOUNDATION_EVIDENCE_NOT_CURRENT_AUTHORITY
+duplicate_boundary:
+  exact_sha_matches_against_prior_master_sources: 0
+  classification: NOT_DUPLICATE_CONTINUATION
+  nearest_predecessor: DFTB_blueprint-2026-09-10
+  bridge: 10.09 ended with u179e5 prepared and no preserved final PASS. This source records Step 9 accepted, continues
+    into Lifecycle Enforcement, Zero-context Acceptance, Step 12 closure, then Control Foundation CF-01/CF-02.
+source_completeness:
+  classification: PARTIAL_CONTINUATION_WITH_COMPLETE_RETAINED_CONTAINER_TEXT
+  retained_turn_containers: 23
+  text_bearing_turn_containers: 23
+  preserved_assistant_narrative_blocks: 4
+  recovered_artifact_labels: 38
+  implementation_verification_in_bundle: false
+  rule: Historical PASS/CLOSED labels remain historical evidence until reconciled with later/current repository
+    evidence.
+temporal_boundary:
+  conversation_ended_at: '2026-09-12T19:31:48+03:00'
+  execution_span: 2026-09-11_to_2026-09-12
+  rule: Use embedded archive/event timestamps and causal lineage for historical execution order.
+summary: This continuation closes the 10.09 Assistant Handoff Compiler open loop, records enforced continuity lifecycle
+  semantics, zero-context acceptance and module-transfer closure, captures durable current-state-over-candidate
+  authority, introduces compact indexed temp-work UX, demonstrates state-aware partial-mutation recovery, and then
+  creates the architectural bridge into Control Foundation CF-01/CF-02. The source ends before CF-02 foundation
+  completion, but later/current evidence proves CF-02 closure, event-store execution authority, derived execution
+  cursor, double-write removal and legacy terminal-state retirement.
+topic_reconciliation:
+- topic: step9_handoff_compiler_closure
+  item_refs:
+  - IT-BP1209-0001
+  - IT-BP1209-0004
+  disposition: CLOSES_10_09_HISTORICAL_OPEN_LOOP
+  source_result: Step 9 is historically reported ACCEPTED; u179e5 is the narrow canonical delta schema-path fix.
+  current_reconciliation: Preserve as historical closure provenance only. Current Handoff/Handoff-v2 surfaces remain
+    authoritative.
+- topic: sterile_test_gate_vs_production_invariant
+  item_refs:
+  - IT-BP1209-0002
+  disposition: RETAIN_AS_TEST_HARNESS_BOUNDARY
+  source_rule: A narrowly marked sterile validation fixture may emulate a candidate project gate, but must not weaken
+    the production requirement that real continuity source-state/runtime validation occurs in the actual Git worktree.
+  current_connection:
+  - CF-02 sterile-test isolation lineage
+  - mirror/clean-room validation
+  - Mutation Compiler candidate validation
+- topic: dependency_contract_matches_actual_reads
+  item_refs:
+  - IT-BP1209-0003
+  disposition: REFINES_09_10_EXPLICIT_DEPENDENCY_INVARIANT
+  source_rule: Dependency contracts describe what a command actually reads. A persistent artifact is not a dependency
+    merely because it exists when the command instead builds equivalent state in memory.
+  current_connection:
+  - execution dependency registry/graph
+  - dependency closure checks
+- topic: continuity_lifecycle_enforcement
+  item_refs:
+  - IT-BP1209-0005
+  - IT-BP1209-0006
+  - IT-BP1209-0007
+  - IT-BP1209-0008
+  - IT-BP1209-0014
+  disposition: MATERIALIZED_AND_MATURED
+  source_model:
+  - PLANNED -> ACTIVE -> CHECKPOINTED -> VALIDATED -> CLOSED
+  - direct ACTIVE -> CLOSED forbidden
+  - same CLOSED work_id cannot be reopened
+  - remediation to ACTIVE requires explicit reason
+  - validation/close bind to the checkpoint of the same work_id
+  - legacy pre-enforcement work migrates through append-only WORK_SUPERSEDED rather than history rewrite
+  current_connection:
+  - continuity lifecycle event store
+  - roadmap execution reconciliation
+  - current lifecycle validators
+- topic: durable_current_state_precedence
+  item_refs:
+  - IT-BP1209-0009
+  disposition: RETAIN_AS_DURABLE_AUTHORITY_INVARIANT
+  source_rule: A rolled-back or never-applied candidate and prior chat cannot advance current project/roadmap state.
+    Durable current Git/canonical state wins.
+  current_connection:
+  - current-state reconciliation
+  - Handoff freshness
+  - Mutation Compiler rollback semantics
+- topic: zero_context_acceptance_and_module_transfer
+  item_refs:
+  - IT-BP1209-0010
+  - IT-BP1209-0011
+  - IT-BP1209-0012
+  - IT-BP1209-0015
+  - IT-BP1209-0016
+  disposition: MATERIALIZED_AND_MATURED
+  source_target: A fresh assistant reconstructs mission, PAST/PRESENT/FUTURE, blockers/unknowns and bounded next
+    actions from one deterministic pack; the continuity/handoff pattern then becomes reusable for modules. Project-entry
+    context and task-specific Task Context remain distinct.
+  current_connection:
+  - bootstrap/current project entry
+  - Handoff v2 PROJECT_ONBOARD
+  - Handoff v2 TASK_EXECUTION
+  - module continuity transfer contract
+  - CF-08 portability/runtime hardening
+- topic: second_level_knowledge_continuity_hardening
+  item_refs:
+  - IT-BP1209-0013
+  disposition: LATER_MATERIALIZED_OR_ABSORBED_IN_REPOSITORY_KNOWLEDGE_AND_HANDOFF_WORK
+  historical_backlog:
+  - explicit knowledge source modes
+  - Git provenance knowledge records
+  - unresolved-pattern contract
+  - repository-knowledge freshness
+  - legacy assistant-context-pack determinism/provenance/safety
+  current_reconciliation: Do not create a second backlog from this source. These themes were subsequently addressed
+    through repository knowledge, freshness/provenance, Handoff and context hardening work.
+- topic: manual_strategy_boundary_after_successful_closure
+  item_refs:
+  - IT-BP1209-0017
+  disposition: RETAINED_AND_MATURED
+  source_rule: Successful technical closure may intentionally stop at WAIT_FOR_STRATEGY_RECONCILIATION instead of
+    auto-starting the next strategic work.
+  current_connection:
+  - human major-wave/phase acceptance
+  - Strategic Vector / portfolio planning
+  - Dispatcher authority boundaries
+- topic: temporary_workspace_operator_ux
+  item_refs:
+  - IT-BP1209-0018
+  - IT-BP1209-0019
+  - IT-BP1209-0020
+  disposition: MATERIALIZED_AS_CONTROL_FOUNDATION_OPERATOR_WORKSPACE_CONVENTION
+  source_rule: Use one compact tmp/assistant_work horizon workspace for related bounded work; prefix user-facing
+    artifacts with leading zero-padded monotonic indexes so newest artifacts are visible in truncated UI; put this
+    convention in a structured/bootstrap policy surface.
+  later_evidence: Later Control Foundation baseline material carries tmp/assistant_work/<horizon_id>, 0000__workspace_index_v0_1.yaml
+    and NNNN__<semantic_name> naming semantics.
+- topic: roadmap_lag_and_cf02_birth
+  item_refs:
+  - IT-BP1209-0021
+  - IT-BP1209-0022
+  - IT-BP1209-0028
+  - IT-BP1209-0029
+  - IT-BP1209-0030
+  - IT-BP1209-0031
+  - IT-BP1209-0032
+  - IT-BP1209-0033
+  - IT-BP1209-0034
+  disposition: HISTORICAL_CF02_ORIGIN_LATER_CLOSED
+  source_model:
+  - roadmap owns desired plan
+  - continuity event store owns actual execution truth
+  - previous/current/next/ready/blocked and ROADMAP_SYNC are generated projection
+  - reconciliation does not auto-activate next work
+  - migration first establishes controller/projections, then removes legacy double-write and hardens lifecycle gates
+  source_end: First CF-02 foundation attempt safe-failed before mutation; corrected script was prepared, but no
+    PASS was preserved in this source.
+  later_current_reconciliation:
+    ROADMAP_EXECUTION_RECONCILIATION_VALIDATION: PASS
+    CF02_CLOSURE_ACCEPTANCE: EVENT_SOURCED_DERIVED_CURSOR_PROVEN
+    ROADMAP_SYNC: IN_SYNC
+    ACTUAL_EXECUTION_AUTHORITY: continuity_event_store
+    GENERATED_STATUS_AUTHORITY: none
+    CONTROL_FOUNDATION_DOUBLE_WRITE_REMOVED: true
+    LEGACY_TERMINAL_STATE_RETIREMENT: COMPLETE
+    LIFECYCLE_RECONCILIATION_CHOKE_POINTS: HARD_GATED
+    AUTO_NEXT_ACTIVATION: false
+  new_gap: false
+- topic: state_aware_partial_mutation_recovery
+  item_refs:
+  - IT-BP1209-0023
+  - IT-BP1209-0025
+  disposition: RETAIN_AS_DURABLE_RECOVERY_INVARIANT
+  source_rule: If a mutator fails after canonical state may have advanced, never blindly rerun the whole operation.
+    Inspect current fingerprints/state, identify the exact completed boundary, and repair only the failed lifecycle/evidence/projection
+    layer without reapplying already-durable source mutation.
+  source_example: CF-01 recovery repaired checkpoint cardinality/validation/close only after confirming the program
+    transition had already applied.
+- topic: checkpoint_5_10_next_actions
+  item_refs:
+  - IT-BP1209-0024
+  disposition: HISTORICAL_CONTINUITY_CONTRACT_DETAIL_NOT_PORTFOLIO_PLANNING_AUTHORITY
+  source_rule: Historical continuity checkpoint contract required 5-10 next actions.
+  current_reconciliation: Preserve only as historical checkpoint-format provenance. It must not reintroduce a fixed
+    5-10 roadmap horizon over current full-horizon planning.
+- topic: cf01_historical_close
+  item_refs:
+  - IT-BP1209-0026
+  - IT-BP1209-0027
+  disposition: HISTORICAL_CONTROL_FOUNDATION_LINEAGE
+  source_result: CF-01 historically closes after checkpoint-cardinality-only recovery while manual operator mode
+    remains true and AI trial, dispatch, release and foreign writes remain false.
+  current_reconciliation: Later Control Foundation lifecycle/current state supersedes this historical boundary.
+open_loop_reconciliation:
+- loop: LOOP-BP1209-0001
+  status: MATERIALIZED_AND_SUPERSEDED_BY_CURRENT_HANDOFF_ARCHITECTURE
+  note: Step 9 historical closure is preserved; current Handoff/Handoff-v2 evidence is authoritative.
+- loop: LOOP-BP1209-0002
+  status: MATERIALIZED_AND_EXTENDED
+  note: Lifecycle Enforcement continued into current lifecycle/reconciliation controls.
+- loop: LOOP-BP1209-0003
+  status: MATERIALIZED_DIRECTION
+  note: Zero-context/module-transfer concepts later became bootstrap, Handoff v2 and module continuity transfer
+    surfaces.
+- loop: LOOP-BP1209-0004
+  status: MATERIALIZED_OPERATOR_WORKSPACE_CONVENTION
+  note: Later Control Foundation baseline includes one horizon workspace plus monotonic leading indexes.
+- loop: LOOP-BP1209-0005
+  status: HISTORICAL_CF01_BOUNDARY_SUPERSEDED_BY_LATER_CONTROL_FOUNDATION
+  note: Do not project CF-01 NEXT_MANUAL state into the present.
+- loop: LOOP-BP1209-0006
+  status: CLOSED_BY_LATER_CF02_ACCEPTANCE
+  note: Later/current evidence proves event-sourced derived cursor, ROADMAP_SYNC IN_SYNC, double-write removal,
+    legacy terminal-state retirement and hard-gated lifecycle reconciliation.
+- loop: LOOP-BP1209-0007
+  status: DURABLE_RECOVERY_INVARIANT_RETAINED
+  note: State-aware recovery remains a required safety property; current implementation can be audited when mutation/recovery
+    work changes.
+- loop: LOOP-BP1209-0008
+  status: ABSORBED_IN_LATER_REPOSITORY_KNOWLEDGE_HANDOFF_HARDENING
+  note: Do not create a duplicate second-level continuity backlog from this historical source.
+roadmap_mutation_required: false
+execution_authority_mutation_required: false
+new_roadmap_step_required: false

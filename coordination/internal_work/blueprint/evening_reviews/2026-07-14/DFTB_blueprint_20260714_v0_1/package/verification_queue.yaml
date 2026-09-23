@@ -1,0 +1,732 @@
+schema_version: forprint_dftb_verification_queue_v0_1
+bundle_id: DFTB-blueprint-2026-07-14
+warning: Historical dialogue intent is not current authority. Audit/reconcile before roadmap promotion.
+queue:
+- item_id: IT-BP1407-0001
+  title: Blueprint as architecture truth layer
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  verification_targets:
+  - docs
+  - config
+  - code
+  owner_or_domain:
+  - forprint_system_blueprint
+  evidence_refs:
+  - EV-BP1407-0001
+  - EV-BP1407-0010
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0002
+  title: Maximum practical automation
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  verification_targets:
+  - code
+  - operations
+  - docs
+  owner_or_domain:
+  - ecosystem
+  evidence_refs:
+  - EV-BP1407-0002
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0003
+  title: Project Inspector separated from Blueprint
+  importance: high
+  dialogue_status: agreed
+  confidence: medium
+  verification_targets:
+  - docs
+  - code
+  - tests
+  owner_or_domain:
+  - forprint_project_inspector
+  - forprint_system_blueprint
+  evidence_refs:
+  - EV-BP1407-0003
+  - EV-BP1407-0011
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0004
+  title: CRM as business orchestration layer
+  importance: high
+  dialogue_status: agreed
+  confidence: medium
+  verification_targets:
+  - docs
+  - code
+  - database
+  - api
+  owner_or_domain:
+  - forprint_crm
+  evidence_refs:
+  - EV-BP1407-0001
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0005
+  title: Library scope must remain canonical/reference-oriented
+  importance: high
+  dialogue_status: discussed
+  confidence: medium
+  verification_targets:
+  - docs
+  - database
+  - api
+  owner_or_domain:
+  - forprint_library
+  evidence_refs:
+  - EV-BP1407-0013
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0006
+  title: Calculator owns calculation logic
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  verification_targets:
+  - code
+  - tests
+  - api
+  - docs
+  owner_or_domain:
+  - calculator_engine
+  evidence_refs:
+  - EV-BP1407-0004
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0007
+  title: Prepress file intake and preparation
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  verification_targets:
+  - code
+  - tests
+  - api
+  - ui
+  - docs
+  owner_or_domain:
+  - forprint_prepress_hub
+  evidence_refs:
+  - EV-BP1407-0001
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0008
+  title: 1C synchronization boundary
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  verification_targets:
+  - api
+  - database
+  - docs
+  - external_service
+  owner_or_domain:
+  - forprint_accounting_registry_service
+  - 1C
+  evidence_refs:
+  - EV-BP1407-0005
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0009
+  title: Website should not hard-own customer truth
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  verification_targets:
+  - code
+  - database
+  - api
+  - docs
+  owner_or_domain:
+  - website
+  - business_data_owner
+  evidence_refs:
+  - EV-BP1407-0006
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0010
+  title: Telegram AI escalation
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  verification_targets:
+  - code
+  - api
+  - operations
+  - tests
+  owner_or_domain:
+  - telegram_bot
+  - AI
+  evidence_refs:
+  - EV-BP1407-0008
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0011
+  title: Telegram is an operational interface, not canonical truth
+  importance: critical
+  dialogue_status: discussed
+  confidence: medium
+  verification_targets:
+  - docs
+  - code
+  - api
+  owner_or_domain:
+  - telegram_bot
+  evidence_refs:
+  - EV-BP1407-0007
+  - EV-BP1407-0012
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0012
+  title: Separate Logistics service
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  verification_targets:
+  - code
+  - api
+  - docs
+  - external_service
+  owner_or_domain:
+  - logistics_service
+  - telegram_bot
+  evidence_refs:
+  - EV-BP1407-0009
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0013
+  title: Separate Warehouse capability
+  importance: high
+  dialogue_status: discussed
+  confidence: medium
+  verification_targets:
+  - docs
+  - database
+  - api
+  - code
+  owner_or_domain:
+  - warehouse_service
+  evidence_refs:
+  - EV-BP1407-0001
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0014
+  title: Backup Manager reuse
+  importance: normal
+  dialogue_status: agreed
+  confidence: medium
+  verification_targets:
+  - deployment
+  - operations
+  - config
+  - docs
+  owner_or_domain:
+  - cloud_backup_manager
+  evidence_refs:
+  - EV-BP1407-0001
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0015
+  title: Production runtime inspection
+  importance: normal
+  dialogue_status: agreed
+  confidence: medium
+  verification_targets:
+  - docs
+  - code
+  - operations
+  owner_or_domain:
+  - production_runtime_inspector
+  evidence_refs:
+  - EV-BP1407-0001
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0016
+  title: Per-module manifest
+  importance: high
+  dialogue_status: discussed
+  confidence: medium
+  verification_targets:
+  - config
+  - docs
+  - tests
+  owner_or_domain:
+  - ecosystem
+  - forprint_project_inspector
+  evidence_refs:
+  - EV-BP1407-0014
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0017
+  title: Blueprint changes trigger affected-module review
+  importance: high
+  dialogue_status: discussed
+  confidence: medium
+  verification_targets:
+  - code
+  - config
+  - docs
+  owner_or_domain:
+  - forprint_system_blueprint
+  - forprint_project_inspector
+  evidence_refs:
+  - EV-BP1407-0010
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0018
+  title: Version architecture decisions in Git/ADR
+  importance: high
+  dialogue_status: discussed
+  confidence: medium
+  verification_targets:
+  - docs
+  - config
+  owner_or_domain:
+  - forprint_system_blueprint
+  evidence_refs:
+  - EV-BP1407-0010
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0019
+  title: Start with text/machine architecture, not visual editor
+  importance: normal
+  dialogue_status: discussed
+  confidence: medium
+  verification_targets:
+  - docs
+  - config
+  - code
+  owner_or_domain:
+  - forprint_system_blueprint
+  evidence_refs:
+  - EV-BP1407-0010
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0020
+  title: Generate module guidance from architecture truth
+  importance: high
+  dialogue_status: discussed
+  confidence: medium
+  verification_targets:
+  - code
+  - docs
+  - config
+  owner_or_domain:
+  - forprint_system_blueprint
+  - module_assistants
+  evidence_refs:
+  - EV-BP1407-0010
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0021
+  title: Bootstrap Gateway if absent
+  importance: normal
+  dialogue_status: agreed
+  confidence: high
+  verification_targets:
+  - docs
+  - operations
+  owner_or_domain:
+  - forprint_integration_gateway
+  evidence_refs:
+  - EV-BP1407-0015
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0022
+  title: Accounting Registry vs Operational Registry boundary
+  importance: critical
+  dialogue_status: unclear
+  confidence: high
+  verification_targets:
+  - docs
+  - config
+  owner_or_domain:
+  - forprint_accounting_registry_service
+  - forprint_operational_registry
+  evidence_refs:
+  - EV-BP1407-0005
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0023
+  title: Calculator and Telegram remain priority development fronts
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  verification_targets:
+  - docs
+  - operations
+  - config
+  owner_or_domain:
+  - calculator_engine
+  - telegram_bot
+  evidence_refs:
+  - EV-BP1407-0016
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0024
+  title: Temporary Calculator catalog allowed
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  verification_targets:
+  - code
+  - tests
+  - config
+  owner_or_domain:
+  - calculator_engine
+  evidence_refs:
+  - EV-BP1407-0017
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0025
+  title: Use coherent work packages, not excessive micro-prompts
+  importance: normal
+  dialogue_status: agreed
+  confidence: high
+  verification_targets:
+  - docs
+  - operations
+  owner_or_domain:
+  - module_assistants
+  - coordination
+  evidence_refs:
+  - EV-BP1407-0018
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0026
+  title: Durable execution queue with priority
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  verification_targets:
+  - config
+  - docs
+  - operations
+  owner_or_domain:
+  - forprint_system_blueprint
+  - coordination
+  evidence_refs:
+  - EV-BP1407-0019
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0027
+  title: Assistants discover directive changes
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  verification_targets:
+  - code
+  - docs
+  - config
+  owner_or_domain:
+  - instruction_intake
+  - module_assistants
+  evidence_refs:
+  - EV-BP1407-0020
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0028
+  title: Makefile lint autofix pre-step
+  importance: normal
+  dialogue_status: agreed
+  confidence: high
+  verification_targets:
+  - code
+  - tests
+  - config
+  owner_or_domain:
+  - forprint_system_blueprint
+  - tooling
+  evidence_refs:
+  - EV-BP1407-0021
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0029
+  title: Strategic Control Plane planned separately
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  verification_targets:
+  - docs
+  - config
+  owner_or_domain:
+  - forprint_strategic_control_plane
+  evidence_refs:
+  - EV-BP1407-0022
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0030
+  title: Harvest proven Gateway prompt-reading scripts
+  importance: normal
+  dialogue_status: agreed
+  confidence: high
+  verification_targets:
+  - code
+  - tests
+  - docs
+  owner_or_domain:
+  - forprint_integration_gateway
+  - module_assistants
+  evidence_refs:
+  - EV-BP1407-0023
+  - EV-BP1407-0024
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0031
+  title: Continuous standards awareness
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  verification_targets:
+  - code
+  - docs
+  - config
+  - tests
+  owner_or_domain:
+  - module_assistants
+  - coordination/standards
+  evidence_refs:
+  - EV-BP1407-0025
+  - EV-BP1407-0026
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0032
+  title: Completion packet tooling
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  verification_targets:
+  - code
+  - tests
+  - docs
+  owner_or_domain:
+  - forprint_system_blueprint
+  - module_assistants
+  evidence_refs:
+  - EV-BP1407-0027
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0033
+  title: Standardize interfaces, not one universal script
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  verification_targets:
+  - docs
+  - code
+  owner_or_domain:
+  - module_assistants
+  - coordination
+  evidence_refs:
+  - EV-BP1407-0028
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0034
+  title: Prefer project-relative paths
+  importance: normal
+  dialogue_status: agreed
+  confidence: high
+  verification_targets:
+  - docs
+  owner_or_domain:
+  - documentation
+  - module_assistants
+  evidence_refs:
+  - EV-BP1407-0029
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0035
+  title: Do not duplicate established coordination paths
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  verification_targets:
+  - docs
+  - config
+  - code
+  owner_or_domain:
+  - coordination
+  evidence_refs:
+  - EV-BP1407-0030
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0036
+  title: Keep colored terminal output
+  importance: low
+  dialogue_status: agreed
+  confidence: high
+  verification_targets:
+  - code
+  - config
+  owner_or_domain:
+  - tooling
+  - operator_ui
+  evidence_refs:
+  - EV-BP1407-0031
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0037
+  title: Color entire status rows
+  importance: low
+  dialogue_status: agreed
+  confidence: high
+  verification_targets:
+  - code
+  - tests
+  owner_or_domain:
+  - operator_ui
+  - tooling
+  evidence_refs:
+  - EV-BP1407-0032
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0038
+  title: Automate reporting updates
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  verification_targets:
+  - code
+  - tests
+  - docs
+  owner_or_domain:
+  - reporting
+  - module_assistants
+  evidence_refs:
+  - EV-BP1407-0033
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0039
+  title: Common assistant rules are global, not module-specific
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  verification_targets:
+  - docs
+  - config
+  owner_or_domain:
+  - coordination/standards
+  - module_assistants
+  evidence_refs:
+  - EV-BP1407-0034
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0040
+  title: Close/archive executed prompt drafts
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  verification_targets:
+  - config
+  - docs
+  - code
+  owner_or_domain:
+  - coordination/outgoing_prompts
+  evidence_refs:
+  - EV-BP1407-0035
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0041
+  title: Roadmap must be explicitly maintained
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  verification_targets:
+  - docs
+  - config
+  owner_or_domain:
+  - roadmap
+  - coordination
+  evidence_refs:
+  - EV-BP1407-0036
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0042
+  title: Logistics as assistant-workflow pilot
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  verification_targets:
+  - operations
+  - docs
+  - tests
+  owner_or_domain:
+  - logistics_service
+  - module_assistants
+  evidence_refs:
+  - EV-BP1407-0037
+  - EV-BP1407-0039
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0043
+  title: Living assistant productivity standard
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  verification_targets:
+  - docs
+  - config
+  - operations
+  owner_or_domain:
+  - module_assistants
+  - forprint_system_blueprint
+  evidence_refs:
+  - EV-BP1407-0038
+  - EV-BP1407-0040
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0044
+  title: Reduce coordination overhead
+  importance: normal
+  dialogue_status: accepted
+  confidence: medium
+  verification_targets:
+  - operations
+  - docs
+  owner_or_domain:
+  - module_assistants
+  - coordination
+  evidence_refs:
+  - EV-BP1407-0038
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0046
+  title: Gradual assistant rollout
+  importance: high
+  dialogue_status: agreed
+  confidence: medium
+  verification_targets:
+  - operations
+  - docs
+  owner_or_domain:
+  - module_assistants
+  - coordination
+  evidence_refs:
+  - EV-BP1407-0027
+  - EV-BP1407-0038
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.
+- item_id: IT-BP1407-0047
+  title: Controlled AI tool permissions
+  importance: critical
+  dialogue_status: discussed
+  confidence: medium
+  verification_targets:
+  - code
+  - api
+  - tests
+  - operations
+  - docs
+  owner_or_domain:
+  - telegram_bot
+  - AI
+  - security
+  evidence_refs:
+  - EV-BP1407-0008
+  - EV-BP1407-0012
+  current_audit_status: not_audited
+  audit_instruction: Resolve current authority/ownership first; then search semantically and record exact implementation evidence.

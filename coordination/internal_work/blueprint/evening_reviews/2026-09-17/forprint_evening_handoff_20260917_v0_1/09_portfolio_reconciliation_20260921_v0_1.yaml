@@ -1,0 +1,77 @@
+schema_version: forprint_evening_handoff_20260917_portfolio_reconciliation_v0_1
+source_date: '2026-09-17'
+reconciled_on: '2026-09-21'
+source_archive_sha256: 400fda09909e4db6703414443474f48742c6c95229cda9660f97e4f9e0b3f6f5
+source_authority: NON_EXECUTABLE_COORDINATION_HANDOFF
+reconciliation_authority: ROADMAP_ENRICHMENT_EVIDENCE_NOT_EXECUTION_AUTHORITY
+summary: 'The 2026-09-17 handoff is the recovered provenance source for four distinct planning/control surfaces:
+  executable Roadmap, finite-epoch Strategic Vector, non-executable Architecture/Improvement Horizon, and trigger-driven
+  Review Obligations. Strategic Vector lifecycle and Horizon were later materialized in current global policy. Review
+  Obligations are already represented as planned CF-12 work but do not yet have a dedicated canonical registry in
+  the collected baseline.'
+source_separation_of_concerns:
+  roadmap: committed executable work
+  strategic_vector: directional focus for operator/global assistant; no execution authority
+  architecture_improvement_horizon: non-executable candidates for later reassessment
+  review_obligations: subjects that must be revisited when a defined trigger becomes due
+topic_reconciliation:
+- topic: strategic_vector_lifecycle
+  disposition: REUSE_CURRENT_GLOBAL_POLICY_AND_RESTORE_PROVENANCE
+  current_surfaces:
+  - coordination/global_policy/strategic_transition_vector_v0_1.md
+  - coordination/global_policy/strategic_transition_vector_v0_1.yaml
+  source_contribution: Persistent mechanism with finite strategic epochs; current epoch sequence and successor-vector
+    review.
+  current_gap: 'Current markdown/YAML sunset semantics are not perfectly aligned: one surface says the first coordinated
+    multi-module worker wave starts, while lifecycle_model in YAML says completed. Do not silently choose one; reconcile
+    when the strategic-vector lifecycle is next touched.'
+- topic: architecture_improvement_horizon
+  disposition: REUSE_CURRENT_GLOBAL_POLICY
+  current_surfaces:
+  - coordination/global_policy/architecture_improvement_horizon_v0_1.md
+  - coordination/global_policy/architecture_improvement_horizon_v0_1.yaml
+  source_contribution: Origin/provenance for HZN-001..HZN-005, candidate states and non-executable authority boundary.
+  current_gap: No new Horizon candidate is required from this source; current global policy already carries all
+    five seeds.
+- topic: review_obligations
+  disposition: EXTEND_EXISTING_CF12_PLANNED_CAPABILITY
+  current_roadmap: coordination/roadmaps/details/forprint_system_blueprint/control_foundation_near_horizon_program_v0_1.yaml#CF-12
+  current_status: PLANNED_CAPABILITY_DEDICATED_CANONICAL_REGISTRY_NOT_FOUND_IN_BASELINE
+  source_contribution: Field-level design seed, trigger families, result dispositions, initial use cases and authority
+    boundary.
+  implementation_rule: Do not create a second scheduler/control plane. Reconcile with CF-12, existing recurring-task/scheduler
+    planning, Project Health/dashboard projections and Dispatcher authority before implementation.
+- topic: human_readable_bootstrap_reporting
+  disposition: EXTEND_EXISTING_BOOTSTRAP_AND_REPORTING_SURFACES
+  source_contribution: Every significant machine ID/status must be paired with human stage name, purpose, current
+    state, next meaningful action and machine correlation IDs.
+  freshness_requirement: Fresh global-assistant packages must be generated from live state and expose roadmap cursor,
+    lifecycle state, resume coordinates, strategic direction, human-readable current stage and stale-context failure
+    behavior.
+review_obligation_source_use_cases:
+- re-check module stability one week after repair
+- reassess Horizon after a wave
+- review a changed dependency boundary
+- review repeated retry/failure telemetry
+- revisit Strategic Vector at epoch end
+- periodic architecture-risk review
+source_non_goals_preserved:
+- do_not_introduce_OPA_Rego_only_because_of_policy_as_code_literature
+- do_not_create_separate_PDD_framework
+- do_not_create_stochastic_availability_simulation
+- do_not_create_blockchain_or_ledger_tracing
+- do_not_create_ML_anomaly_detection
+- do_not_build_full_CRM_calendar_before_review_obligation_model_is_accepted
+remaining_material_questions:
+- id: STRATEGIC_VECTOR_SUNSET_SEMANTICS
+  severity: MEDIUM
+  question: Does the current strategic epoch end when the first coordinated multi-module worker wave starts or when
+    it completes/reaches a sufficiently mature coordinated operating point?
+- id: REVIEW_OBLIGATION_CANONICAL_HOME
+  severity: MEDIUM
+  question: Which existing Blueprint registry/scheduler surface should host Review Obligations after reuse audit,
+    without creating a parallel planning authority?
+- id: REVIEW_OBLIGATION_DUE_WORK_BOUNDARY
+  severity: HIGH
+  question: How far may due/overdue status automatically prepare work before explicit roadmap/work-front/operator
+    authority is required?

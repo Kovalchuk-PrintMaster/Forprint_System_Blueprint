@@ -1,0 +1,98 @@
+schema_version: forprint_dftb_blueprint_20260714_portfolio_reconciliation_v0_1
+source_date: '2026-07-14'
+reconciled_on: '2026-09-21'
+source_archive_sha256: e336c604ff7b87a6542bf60f28e64e7472f9ac432660c6bb07e8d0253e306c1b
+source_dialogue_hash_sha256: be4f9a7b332a1f078f96db0e4f9536a391ba6e08d1585df22598516760e12a25
+source_authority: HISTORICAL_ARCHITECTURE_GENESIS_EVIDENCE_NOT_CURRENT_AUTHORITY
+source_completeness:
+  classification: PARTIAL
+  total_turn_containers: 877
+  recoverable_turns: 133
+  empty_or_unrecoverable_containers: 744
+  recoverable_message_blocks:
+    user: 131
+    assistant: 4
+  rule: Missing assistant-side acceptance/resolution chains must not be reconstructed by guesswork. Current role/authority
+    is taken from later canonical planning surfaces, not inferred from missing 14.07 turns.
+summary: The 2026-07-14 dialogue is the architecture genesis of ForPrint System Blueprint. It establishes the need
+  for a top-level architecture/ideology control layer, a maximum-practical-automation north star, initial module
+  roles, durable coordination/roadmap/reporting concepts and a Logistics-derived assistant workflow pilot. Many
+  early role definitions were later narrowed or split as the portfolio matured. This intake preserves evolution/provenance
+  rather than restoring old ownership as current truth.
+foundational_theses:
+- thesis: blueprint_architecture_truth_layer
+  status_now: RETAINED_AND_MATURED
+  source_items:
+  - IT-BP1407-0001
+  - IT-BP1407-0003
+  current_interpretation: Blueprint remains architecture/coordination/control truth; Inspector independently checks
+    real modules against declared architecture and evidence rather than becoming the architecture source.
+- thesis: maximum_practical_automation
+  status_now: RETAINED_AND_MATURED
+  source_items:
+  - IT-BP1407-0002
+  - IT-BP1407-0046
+  - IT-BP1407-0047
+  current_interpretation: Automation remains a north star, but later governance adds bounded authority, blast-radius-aware
+    autonomy, AI safety/runtime gates, validation and human exception/strategy control.
+- thesis: durable_coordination_not_chat_memory
+  status_now: RETAINED_AND_MATURED
+  source_items:
+  - IT-BP1407-0026
+  - IT-BP1407-0027
+  - IT-BP1407-0031
+  - IT-BP1407-0032
+  - IT-BP1407-0038
+  - IT-BP1407-0041
+  current_interpretation: Work, standards, completion evidence, roadmap and reporting are repository-owned machine-readable
+    surfaces; assistants should reconstruct state from project artifacts rather than chat memory.
+- thesis: logistics_as_assistant_workflow_pilot
+  status_now: RETAINED_AND_MATURED
+  source_items:
+  - IT-BP1407-0042
+  - IT-BP1407-0043
+  - IT-BP1407-0046
+  current_interpretation: Logistics became the reference pilot for reusable module self-knowledge/fresh-worker/coordination/reporting
+    behavior; later Blueprint internal worker work separates control-plane self-hardening from external module rollout.
+open_loop_reconciliation:
+- loop: LOOP-BP1407-0001
+  topic: Accounting Registry vs Operational Registry
+  status: RESOLVED_DIRECTIONALLY_BY_LATER_PORTFOLIO
+  resolution: Operational Registry owns operational party/order/request/event/task/blocker truth and stable operational
+    IDs. Accounting Registry owns accounting references/documents/reconciliation and the 1C compatibility boundary;
+    it must not become operational order/catalog truth.
+- loop: LOOP-BP1407-0002
+  topic: Library narrowed canonical-reference boundary
+  status: RESOLVED_DIRECTIONALLY_BY_LATER_PORTFOLIO
+  resolution: Current target state makes Library canonical semantic/catalog/reference and shared UI publication
+    authority, excluding business workflows and other domain truth.
+- loop: LOOP-BP1407-0003
+  topic: Strategic Control Plane vs Blueprint
+  status: RESOLVED_DIRECTIONALLY_BY_LATER_GOVERNANCE
+  resolution: Founder/operator plus strategic-assistant layer sets strategic direction, portfolio priorities and
+    policy/authority boundaries. Blueprint/Dispatcher resolves and executes only explicitly authorized bounded portfolio
+    work and remains a coordination/control layer.
+- loop: LOOP-BP1407-0004
+  topic: Telegram + AI tool safety
+  status: RESOLVED_AT_PLANNING_GOVERNANCE_LEVEL_IMPLEMENTATION_EVIDENCE_SEPARATE
+  resolution: Later Blueprint Human Intent and Control Foundation introduce AI Execution Safety / Runtime Governance,
+    bounded retries, tool/capability authorization, logging, manual escalation and high-impact approval boundaries.
+- loop: LOOP-BP1407-0005
+  topic: prompt lifecycle cleanup/archive
+  status: MATERIALIZED_DIRECTION
+  resolution: Later module prompt intake distinguishes received/active/archived lifecycle and current prompt indexes/status.
+    Do not use the 14.07 draft directory semantics as current authority.
+- loop: LOOP-BP1407-0006
+  topic: dedicated Blueprint assistant
+  status: RESOLVED_BY_LATER_CONTROL_FOUNDATION_DIRECTION
+  resolution: Later CF-10 and CF-19/CF-20 explicitly introduce bounded Blueprint internal worker/AI progression
+    instead of a single unrestricted assistant.
+- loop: LOOP-BP1407-0007
+  topic: Logistics-derived assistant productivity standard
+  status: RESOLVED_DIRECTIONALLY
+  resolution: Later Human Intent explicitly records Logistics as the reference pilot and requires proven behavior
+    to be propagated to other modules as behavioral contracts rather than byte-for-byte code.
+roadmap_mutation_required: false
+new_roadmap_step_required: false
+reason_no_new_step: All high-value 14.07 themes are either current portfolio doctrine, later-refined ownership boundaries,
+  materialized governance/runtime direction or historical questions already resolved by later evidence.

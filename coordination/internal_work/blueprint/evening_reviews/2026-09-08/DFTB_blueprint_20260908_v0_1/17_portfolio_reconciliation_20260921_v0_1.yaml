@@ -1,0 +1,147 @@
+schema_version: forprint_dftb_blueprint_20260908_portfolio_reconciliation_v0_1
+source_date: '2026-09-08'
+reconciled_on: '2026-09-21'
+source_package_sha256: 35b5b4cdc63ae12481f07af01207b983be99fdf3d29265d5b002f754d024509c
+source_dialogue_id: DFTB-blueprint-2026-09-08
+source_dialogue_hash_sha256: a9440aa0451f60b0167f2f44bdc755d7aad4bbe0a2e87b4106ba396f1e930a47
+source_authority: HISTORICAL_EVIDENCE_NOT_CURRENT_IMPLEMENTATION_AUTHORITY
+source_completeness:
+  classification: PARTIAL_BUT_UNIQUE_DIALOGUE
+  recoverable_message_blocks: 13
+  turn_range: 1-20
+  missing_turns:
+  - 6
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+  - 14
+  rule: Do not infer or reconstruct absent turns as factual source content.
+duplicate_check:
+  decision: NEW_UNIQUE_DIALOGUE
+  compared_against_unique_master_sources: 11
+  shared_message_ids: 0
+  exact_normalized_sequence_matches: 0
+chronology:
+- relation: continues
+  other: DFTB-blueprint-2026-09-05
+  meaning: 05.09 self-cleaning/Human Intent/Logistics inventory foundations become an operational portfolio-forensics
+    workflow.
+- relation: refines
+  other: DFTB-blueprint-preflight-2026-08-31
+  meaning: 31.08 semantic/portfolio inventory becomes repeatable collector/scorecard forensics.
+- relation: precedes
+  other: DFTB-blueprint-2026-09-09
+  meaning: 08.09 freshness/authority gaps motivate stronger startup, self-knowledge and fresh-worker runtime.
+main_contribution:
+  name: Portfolio Forensics / Module X-Ray
+  alignment_axis:
+  - mission
+  - policy
+  - target_architecture
+  - module_roles
+  - dependencies
+  - actual_state
+  - alignment_gap
+  detect:
+  - contradictory_or_stale_documents
+  - obsolete_implementations
+  - duplicate_code_or_semantics
+  - independent_module_lead_or_stall
+  - strategic_misalignment_even_when_local_code_is_healthy
+topic_reconciliation:
+- topic: portfolio_forensic_program
+  disposition: REUSE_EXTEND_CURRENT_ROADMAP_ENRICHMENT_AND_CURRENT_STATE_EVIDENCE
+  current_equivalents:
+  - roadmap enrichment / knowledge saturation operating guide
+  - portfolio knowledge baseline
+  - module current-state evidence direction
+  - module inventory / preparation program
+  - portfolio full-horizon target-state surfaces
+  source_unique_value: Defines the forensic purpose, module disposition model, evidence sufficiency and coverage/unresolved
+    workflow.
+- topic: status_dimension_separation
+  disposition: REUSE_EXTEND_CURRENT_STATE_AND_CF02_SEMANTICS
+  source_rule: Do not collapse implementation state, roadmap/planning state, execution permission and dispatch eligibility
+    into one status label.
+  notes: This is compatible with later roadmap/execution reconciliation and should remain an explicit status-model
+    invariant.
+- topic: structural_vs_semantic_freshness
+  disposition: REUSE_EXISTING_FRESHNESS_AND_CURRENT_STATE_CONTROLS
+  historical_evidence: Logistics reportedly had 238 tests PASS and several structural checks PASS while fresh-context-check
+    returned RC=2.
+  source_rule: Structural validation PASS does not imply semantic freshness PASS.
+  current_claim_boundary: Historical example only; no claim about current Logistics state without a live audit.
+- topic: authority_reconciliation_before_projection_regeneration
+  disposition: REUSE_EXISTING_FRESHNESS_DERIVATION_AND_CLEANLINESS_CONTROLS
+  source_rule: Reconcile canonical authority/source lineage first; only then regenerate module guides, diagrams
+    or other derived projections.
+- topic: collector_correctness
+  disposition: EXTEND_CURRENT_FORENSIC_AND_INTAKE_TOOLING_RULES
+  source_rules:
+  - rc != 0 must be reported as FAIL, not PASS merely because output was captured
+  - collector must fail closed on repository identity mismatch
+  - do not repeat a collector run when it adds no new evidence class
+  - temporary collector logic must be reconstructible from durable instructions
+- topic: module_disposition
+  disposition: PRESERVE_AS_DESIGN_SEED_BOUND_TO_CURRENT_ENRICHMENT
+  source_dispositions:
+  - KEEP
+  - RECONCILE
+  - PAUSE
+  - DEPRECATE
+  - REMOVE
+  - ADVANCE
+  critical_rule: Final module disposition cannot be based on local code/tests alone; it must include project-course,
+    dependency, authority/current-state and when relevant cross-repository/runtime evidence.
+- topic: coverage_and_unresolved_registry
+  disposition: EXTEND_CURRENT_KNOWLEDGE_SATURATION_GATES
+  source_rules:
+  - coverage/progress must be visible
+  - unresolved/unnormalizable findings must remain explicit rather than guessed away
+  - historical heuristic percentages are not authoritative unless calculation method/denominator is preserved
+  current_connection: Directly supports current Gate A Structural Coverage / Critical Gap Closure and Gate B Capability
+    Retrieval challenge testing.
+- topic: logistics_historical_verdict
+  disposition: HISTORICAL_EVIDENCE_ONLY
+  historical_verdict: KEEP_MODULE_AND_RECONCILE_CONTROL_PLANE
+  principle: Do not rewrite healthy business/domain code solely because self-knowledge, prompt lifecycle or control-plane
+    projections are stale.
+- topic: blueprint_wave_1
+  disposition: SUPERSEDED_BY_CURRENT_PORTFOLIO_ENRICHMENT_BASELINE
+  historical_goal: Establish Blueprint authority/target/course before issuing final module dispositions.
+  current_state: Current roadmap-enrichment work has a broader portfolio knowledge baseline and full-horizon target-state
+    model; do not recreate the old Wave 1 collector as a new program unless a concrete evidence gap requires it.
+historical_open_loop_reconciliation:
+- loop: B10 catch-all part_02_of_05 missing
+  status: HISTORICAL_COVERAGE_GAP
+  current_action: Do not make it a current blocker by default. Reopen only if B10 history is required for a current
+    authority/provenance question.
+- loop: legacy self-roadmap/current-looking queues and stale PASS reports
+  status: CURRENT_REAUDIT_IF_RELEVANT
+  current_action: Current project has cleanliness/freshness/current-state mechanisms. Verify live surfaces if this
+    legacy lineage becomes material; do not trust the 08.09 state as current.
+- loop: forensic mega-prompt/schema/coverage/unresolved registry
+  status: LARGELY_ABSORBED_BUT_FORENSIC_DISPOSITION_MODEL_RETAINED
+  current_action: Reuse current Roadmap Enrichment / Knowledge Saturation workflow; retain the attached forensic
+    disposition/coverage design candidate.
+- loop: Logistics freshness/prompt lifecycle mismatch
+  status: HISTORICAL_INCIDENT_NOT_CURRENT_FACT
+  current_action: Live-audit Logistics only when current work requires it.
+- loop: collector result semantics
+  status: DURABLE_TOOLING_INVARIANT
+  current_action: All new collectors/reporters must map return code/check semantics correctly and fail closed on
+    identity.
+- loop: Blueprint Wave 1
+  status: SUPERSEDED_BY_CURRENT_PORTFOLIO_ENRICHMENT
+  current_action: Do not recreate a historical collector if current portfolio baseline already supplies the evidence
+    class.
+- loop: module disposition evidence sufficiency
+  status: ACTIVE_INVARIANT
+  current_action: Require local + project-course/dependency/current-state evidence before KEEP/PAUSE/DEPRECATE/etc.
+roadmap_mutation_required: false
+new_roadmap_step_required: false
+reason_no_new_step: The source primarily supplies origin/provenance and forensic design constraints for capabilities
+  now represented by Roadmap Enrichment, current-state evidence, freshness, module preparation and portfolio planning
+  surfaces.

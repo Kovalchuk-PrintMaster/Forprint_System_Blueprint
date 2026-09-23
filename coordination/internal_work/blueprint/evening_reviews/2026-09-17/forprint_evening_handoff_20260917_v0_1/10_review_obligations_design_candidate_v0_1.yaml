@@ -1,0 +1,106 @@
+schema_version: forprint_review_obligations_design_candidate_v0_1
+candidate_id: BP-CF12-REVIEW-OBLIGATIONS-DESIGN
+status: CANDIDATE_REQUIRES_CF12_RECONCILIATION
+authority:
+  roadmap_authority: false
+  execution_authority: false
+  automatic_work_activation_authority: false
+  automatic_acceptance_authority: false
+roadmap_binding:
+  program: control_foundation_near_horizon_program_v0_1
+  step: CF-12
+  stable_id: architecture_capability_horizon_and_review_obligations
+  relationship: DESIGN_SEED_FOR_EXISTING_PLANNED_CAPABILITY_NOT_NEW_ROADMAP_ITEM
+purpose: Represent subjects that must be deliberately reassessed when a defined condition becomes due, using required
+  evidence and explicit completion criteria.
+semantic_rule: A Review Obligation is stronger than a reminder and weaker than execution authority.
+trigger_types:
+- TIME_BASED
+- MILESTONE_OR_WAVE
+- EVENT_BASED
+- METRIC_OR_HEALTH
+- DEPENDENCY_CHANGE
+- STRATEGIC
+states:
+- UPCOMING
+- DUE
+- OVERDUE
+- BLOCKED
+- SATISFIED
+- SUPERSEDED
+result_dispositions:
+- NO_ACTION
+- WATCH
+- REVIEW_NEXT_WAVE
+- CREATE_WORK_FRONT
+- PROMOTE_TO_ROADMAP
+- SUPERSEDE
+- SATISFIED
+minimum_fields:
+- review_id
+- title
+- subject_ref
+- reason
+- trigger_type
+- trigger_spec
+- review_window
+- required_inputs
+- required_evidence
+- completion_criteria
+- owner
+- scope
+- severity
+- state
+- last_reviewed_at
+- next_due_at
+- result_disposition
+- provenance
+initial_use_cases:
+- id: RO-USE-001
+  subject: module stability after repair
+  trigger: one week after repair or equivalent evidence window
+- id: RO-USE-002
+  subject: Architecture / Improvement Horizon
+  trigger: major wave boundary and first mature coordinated multi-module operating point
+- id: RO-USE-003
+  subject: changed dependency boundary
+  trigger: dependency-change event
+- id: RO-USE-004
+  subject: repeated retry/failure telemetry
+  trigger: metric/health threshold
+- id: RO-USE-005
+  subject: Strategic Vector
+  trigger: strategic epoch end
+- id: RO-USE-006
+  subject: architecture risk
+  trigger: periodic or wave-boundary review
+preferred_flow:
+- canonical_obligation_registry
+- deterministic_due_status_projection
+- project_health_or_dashboard_projection
+- operator_attention_or_review
+- optional_governed_work_preparation
+- explicit_result_disposition
+- durable_review_evidence
+integration_boundaries:
+  dashboard_or_CRM: may render due/overdue/review state but is not source of truth
+  dispatcher: may prepare governed work only within explicit authority; must not self-authorize review decisions
+  roadmap: promotion requires deliberate canonical roadmap mutation
+  horizon: review may promote/reject/supersede candidates but Horizon itself grants no execution authority
+  strategic_vector: epoch-end review may close/supersede the current vector and prepare successor review
+mandatory_preimplementation_reconciliation:
+- CF-12 current roadmap semantics
+- existing recurring-task/scheduler planning
+- Project Health/dashboard concepts
+- Dispatcher/work-front authority
+- Strategic Vector lifecycle
+- Architecture/Improvement Horizon review model
+- current operator attention semantics
+- existing event/metric/dependency registries
+acceptance_direction:
+- due state can be derived deterministically from canonical obligation plus current evidence
+- overdue obligations remain visible until explicit disposition/completion
+- a reminder notification cannot silently satisfy an obligation
+- a due obligation cannot silently activate work or change roadmap priority
+- review result preserves evidence and disposition history
+- fresh assistants can query upcoming/due/overdue obligations without chat memory

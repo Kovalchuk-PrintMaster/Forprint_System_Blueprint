@@ -1,0 +1,71 @@
+{
+  "document_id": "forprint_development_permission_matrix_u92_v0_1",
+  "status": "PROPOSED",
+  "principle": "broad capability, narrow blast radius",
+  "profiles": {
+    "MODULE_DEV": {
+      "own_source_repo_rw": true,
+      "own_devstate_rw": true,
+      "own_venv_manage": true,
+      "install_dev_dependencies": true,
+      "run_module_tests": true,
+      "build_release_candidate": true,
+      "blueprint_authority_read": true,
+      "other_module_repo_write_default": false,
+      "production_db_write_default": false,
+      "production_secrets_read_default": false,
+      "production_deploy": false,
+      "arbitrary_shell": "ALLOWED_WITHIN_OS_PERMISSION_BOUNDARY"
+    },
+    "MODULE_RUNTIME": {
+      "deployed_artifact_write": false,
+      "source_repo_write": false,
+      "runtime_state_write": "MODULE_OWNED_ONLY",
+      "domain_api_access": "ALLOWLISTED",
+      "production_db_access": "DOMAIN_ROLE_ONLY",
+      "install_dependencies": false,
+      "git_pull_live": false,
+      "arbitrary_shell": false,
+      "capability_shaped_tools": true,
+      "high_impact_action": "POLICY_GATE"
+    },
+    "VERIFICATION_BLACK_BOX": {
+      "production_public_surface": "OPTIONAL_CONTROLLED",
+      "test_plane_full_scenario_generation": true,
+      "production_mutation": false,
+      "internal_source_visibility": false
+    },
+    "VERIFICATION_GRAY_BOX": {
+      "contract_capability_read": true,
+      "test_plane_rw": true,
+      "production_mutation": false,
+      "production_secrets": false
+    },
+    "VERIFICATION_WHITE_BOX": {
+      "source_contract_trace_read": true,
+      "test_plane_rw": true,
+      "production_mutation": false,
+      "production_secret_read": false
+    },
+    "RELEASE_CONTROLLER": {
+      "ai_authority": false,
+      "artifact_read": true,
+      "production_release_write": true,
+      "active_version_switch": true,
+      "approved_migration_execute": true,
+      "rollback": true,
+      "policy_bypass": false
+    },
+    "PROJECT_INSPECTOR": {
+      "cross_repo_read": "PLANNED_CONTROLLED",
+      "cross_repo_write_default": false,
+      "automatic_delete": false
+    }
+  },
+  "implementation_notes": [
+    "Initial enforcement can use Linux users/groups/ACLs and separate venv/devstate roots; containers are not a day-one prerequisite.",
+    "Production restrictions become mandatory before real high-value state and external side effects are exposed.",
+    "Verification Lab adversarial campaigns require Test Plane isolation before broad destructive/fuzz behavior.",
+    "Exact filesystem paths and OS account names are implementation details; permission boundaries are architectural requirements."
+  ]
+}

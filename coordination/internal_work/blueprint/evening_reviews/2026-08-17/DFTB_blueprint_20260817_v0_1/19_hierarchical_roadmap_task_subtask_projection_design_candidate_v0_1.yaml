@@ -1,0 +1,31 @@
+schema_version: forprint_hierarchical_roadmap_task_subtask_projection_design_candidate_v0_1
+candidate_id: BP-ROADMAP-HIERARCHY-DUAL-VIEW
+status: CANDIDATE_RECONCILE_BEFORE_IMPLEMENTATION
+authority:
+  roadmap_authority: false
+  execution_authority: false
+  canonical_schema_authority: false
+origin_source: coordination/internal_work/blueprint/evening_reviews/2026-08-17/DFTB_blueprint_20260817_v0_1/package/dialogue_memory.yaml
+purpose: Preserve the 17.08 requirement that a roadmap headline task may contain meaningful subtasks so partial
+  implementation depth is visible, with compact and detailed projections, without introducing a duplicate roadmap
+  model.
+desired_semantics:
+- main task remains the stable portfolio/module planning unit
+- task-local subtasks represent meaningful implementation components, not arbitrary checklist noise
+- subtask status can expose partial completion without falsely closing the parent task
+- compact projection shows main tasks and aggregate state
+- detailed projection shows task/subtask hierarchy and evidence
+- dependencies/acceptance/authority remain attached to the correct level and cannot be inferred ambiguously
+preimplementation_reconciliation:
+- audit current module roadmap schemas for parent/child/subtask capability
+- audit full-horizon portfolio target-state and roadmap renderers
+- audit roadmap execution reconciliation/event model for level assumptions
+- audit dependency/convergence graph node model for roadmap-step hierarchy support
+- audit human-readable portfolio views for partial-progress representation
+- classify REUSE / EXTEND / ADAPT / REPLACE / NEW before schema mutation
+non_goals:
+- do not create a second roadmap hierarchy beside canonical roadmaps
+- do not explode every roadmap step into mandatory microtasks
+- do not use subtask completion as implicit parent ACCEPT
+- do not mutate current execution authority
+roadmap_effect: none_until_live_gap_is_proven

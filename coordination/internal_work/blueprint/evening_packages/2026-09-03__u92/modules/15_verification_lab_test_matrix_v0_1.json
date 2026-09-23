@@ -1,0 +1,117 @@
+{
+  "document_id": "forprint_verification_lab_test_matrix_u92_v0_1",
+  "status": "PROPOSED",
+  "campaign_dimensions": {
+    "input_validity": [
+      "valid",
+      "invalid",
+      "boundary",
+      "malformed",
+      "ambiguous"
+    ],
+    "language": [
+      "uk",
+      "ru",
+      "en",
+      "unsupported_language",
+      "mixed_language",
+      "encoding_noise"
+    ],
+    "identity": [
+      "anonymous",
+      "customer",
+      "employee",
+      "admin",
+      "service_identity",
+      "wrong_tenant_context"
+    ],
+    "authorization": [
+      "allowed",
+      "denied",
+      "expired_session",
+      "role_change",
+      "cross_customer_access"
+    ],
+    "state": [
+      "fresh",
+      "stale",
+      "duplicate",
+      "retry",
+      "out_of_order",
+      "concurrent"
+    ],
+    "dependency": [
+      "healthy",
+      "slow",
+      "timeout",
+      "offline",
+      "partial_failure",
+      "recovery"
+    ],
+    "ai_routing": [
+      "deterministic_only",
+      "ai_expected",
+      "ai_unnecessary",
+      "ai_budget_exceeded"
+    ],
+    "side_effect": [
+      "none",
+      "test_only",
+      "fake_external",
+      "live_external_forbidden"
+    ]
+  },
+  "domain_examples": {
+    "calculator": [
+      "business card with incompatible banner/roll material",
+      "one-sided material requested as duplex",
+      "negative/zero/extreme quantity",
+      "stale material id",
+      "duplicate order/quote request",
+      "contradictory size/color/material parameters"
+    ],
+    "telegram": [
+      "out-of-domain message",
+      "same semantic request across languages",
+      "prompt/adversarial attempt to reach restricted data/action",
+      "request that deterministic handler should resolve without AI",
+      "ambiguous business context"
+    ],
+    "logistics": [
+      "cargo exceeds passenger taxi constraints",
+      "invalid recipient phone/address",
+      "duplicate provider callback",
+      "provider timeout/recovery",
+      "fake external dispatch only"
+    ],
+    "iam_customer_portal": [
+      "duplicate email/phone combinations",
+      "customer A attempts customer B data",
+      "expired/revoked session",
+      "role/context switch",
+      "malformed account data"
+    ],
+    "cloud_backup": [
+      "internet disappears mid-upload",
+      "retry after partial upload",
+      "checksum mismatch",
+      "quota exhausted",
+      "restore verification failure"
+    ]
+  },
+  "report_metrics": [
+    "total_cases",
+    "unexpected_accept",
+    "unexpected_reject",
+    "security_escape",
+    "data_isolation_failure",
+    "ai_escalation_rate",
+    "unnecessary_ai_calls",
+    "tool_calls_per_case",
+    "retry_count",
+    "p95_latency",
+    "token_cost",
+    "new_failure_classes",
+    "regression_candidates"
+  ]
+}

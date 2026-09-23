@@ -1,0 +1,568 @@
+schema_version: forprint_dftb_verification_queue_v0_1
+bundle_id: DFTB-blueprint-2026-09-10
+warning: Historical intent and handoff chronology are not current authority.
+queue:
+- item_id: IT-BP1009-0001
+  title: Canonical startup chain
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - bootstrap
+  - authority
+  verification_targets:
+  - docs
+  - config
+  - tests
+  evidence_refs:
+  - EV-BP1009-0002
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Handoff labels are insufficient.
+- item_id: IT-BP1009-0002
+  title: Historical continuity retired from current authority
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - continuity
+  - bootstrap
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP1009-0003
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Handoff labels are insufficient.
+- item_id: IT-BP1009-0003
+  title: Generated indexes are derived artifacts
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - knowledge
+  - indexes
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1009-0004
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Handoff labels are insufficient.
+- item_id: IT-BP1009-0004
+  title: Broad default context, explicit focused context
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - context_pack
+  - bootstrap
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1009-0005
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Handoff labels are insufficient.
+- item_id: IT-BP1009-0005
+  title: Deep independent audit of autogeneration
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - autogeneration
+  - knowledge
+  verification_targets:
+  - code
+  - tests
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP1009-0006
+  - EV-BP1009-0007
+  - EV-BP1009-0008
+  - EV-BP1009-0023
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Handoff labels are insufficient.
+- item_id: IT-BP1009-0006
+  title: Generator derivation registry
+  importance: critical
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - autogeneration
+  - knowledge
+  verification_targets:
+  - config
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1009-0024
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Handoff labels are insufficient.
+- item_id: IT-BP1009-0007
+  title: Ruff/syntax failures are a recurring mutation bottleneck
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - tooling
+  - mutation
+  verification_targets:
+  - tests
+  - operations
+  evidence_refs:
+  - EV-BP1009-0009
+  - EV-BP1009-0011
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Handoff labels are insufficient.
+- item_id: IT-BP1009-0008
+  title: Project-aware Mutation Compiler
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - mutation_compiler
+  - tooling
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1009-0010
+  - EV-BP1009-0025
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Handoff labels are insufficient.
+- item_id: IT-BP1009-0009
+  title: Mutation Compiler remains transactional and fail-closed
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - mutation_compiler
+  - safety
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1009-0018
+  - EV-BP1009-0019
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Handoff labels are insufficient.
+- item_id: IT-BP1009-0010
+  title: Non-mutating Make checks
+  importance: high
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - make
+  - tooling
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1009-0026
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Handoff labels are insufficient.
+- item_id: IT-BP1009-0011
+  title: No hidden or implicit execution dependencies
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - dependencies
+  - maintainability
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1009-0012
+  - EV-BP1009-0014
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Handoff labels are insufficient.
+- item_id: IT-BP1009-0012
+  title: Dependencies must be explicit or deliberately generated
+  importance: critical
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - dependencies
+  - execution_contract
+  verification_targets:
+  - code
+  - tests
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP1009-0013
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Handoff labels are insufficient.
+- item_id: IT-BP1009-0013
+  title: Clean-room dependency audit
+  importance: critical
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - dependencies
+  - clean_room
+  verification_targets:
+  - tests
+  - code
+  - docs
+  evidence_refs:
+  - EV-BP1009-0027
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Handoff labels are insufficient.
+- item_id: IT-BP1009-0014
+  title: Execution dependency contract and Make DAG
+  importance: critical
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - dependencies
+  - make
+  verification_targets:
+  - config
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1009-0028
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Handoff labels are insufficient.
+- item_id: IT-BP1009-0015
+  title: Project execution architecture must remain readable
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - maintainability
+  - architecture
+  verification_targets:
+  - docs
+  - code
+  evidence_refs:
+  - EV-BP1009-0014
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Handoff labels are insufficient.
+- item_id: IT-BP1009-0016
+  title: Continue agreed infrastructure plan stepwise
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - coordination
+  - roadmap
+  verification_targets:
+  - operations
+  - docs
+  evidence_refs:
+  - EV-BP1009-0015
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Handoff labels are insufficient.
+- item_id: IT-BP1009-0017
+  title: Long-running scripts must expose progress
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - tooling
+  - operator_ux
+  verification_targets:
+  - code
+  - docs
+  - tests
+  evidence_refs:
+  - EV-BP1009-0016
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Handoff labels are insufficient.
+- item_id: IT-BP1009-0018
+  title: Progress visibility is a durable assistant/script policy
+  importance: high
+  dialogue_status: agreed
+  confidence: high
+  owner_or_domain:
+  - governance
+  - tooling
+  verification_targets:
+  - docs
+  - config
+  - code
+  evidence_refs:
+  - EV-BP1009-0017
+  - EV-BP1009-0029
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Handoff labels are insufficient.
+- item_id: IT-BP1009-0019
+  title: Faithful knowledge mirror / drift detection
+  importance: critical
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - knowledge
+  - indexes
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1009-0030
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Handoff labels are insufficient.
+- item_id: IT-BP1009-0020
+  title: Deterministic knowledge/runtime caches
+  importance: high
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - knowledge
+  - cache
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1009-0031
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Handoff labels are insufficient.
+- item_id: IT-BP1009-0021
+  title: Persist assistant-handoff micro-roadmap
+  importance: critical
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - continuity
+  - roadmap
+  verification_targets:
+  - config
+  - docs
+  - code
+  evidence_refs:
+  - EV-BP1009-0032
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Handoff labels are insufficient.
+- item_id: IT-BP1009-0022
+  title: Continuity contract
+  importance: critical
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - continuity
+  - governance
+  verification_targets:
+  - config
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1009-0033
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Handoff labels are insufficient.
+- item_id: IT-BP1009-0023
+  title: Immutable checkpoint store
+  importance: critical
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - continuity
+  - checkpoint
+  verification_targets:
+  - code
+  - tests
+  - config
+  - docs
+  evidence_refs:
+  - EV-BP1009-0034
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Handoff labels are insufficient.
+- item_id: IT-BP1009-0024
+  title: Generated operational continuity projections
+  importance: critical
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - continuity
+  - projections
+  verification_targets:
+  - code
+  - tests
+  - config
+  - docs
+  evidence_refs:
+  - EV-BP1009-0035
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Handoff labels are insufficient.
+- item_id: IT-BP1009-0025
+  title: Assistant Handoff Compiler
+  importance: critical
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - continuity
+  - handoff_compiler
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1009-0036
+  - EV-BP1009-0037
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Handoff labels are insufficient.
+- item_id: IT-BP1009-0026
+  title: Assistant Handoff Compiler failures stay fail-closed
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - handoff_compiler
+  - safety
+  verification_targets:
+  - code
+  - tests
+  evidence_refs:
+  - EV-BP1009-0018
+  - EV-BP1009-0019
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Handoff labels are insufficient.
+- item_id: IT-BP1009-0027
+  title: Canonical current-delta projection uses `payload.material`
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - continuity_projection
+  - schema
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1009-0020
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Handoff labels are insufficient.
+- item_id: IT-BP1009-0028
+  title: Lifecycle Enforcement follows Assistant Handoff Compiler
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - continuity
+  - lifecycle
+  verification_targets:
+  - roadmap
+  - docs
+  - code
+  evidence_refs:
+  - EV-BP1009-0021
+  - EV-BP1009-0022
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Handoff labels are insufficient.
+- item_id: IT-BP1009-0029
+  title: Startup-authority retirement was actively hardened
+  importance: normal
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - bootstrap
+  - continuity
+  verification_targets:
+  - docs
+  - config
+  - tests
+  evidence_refs:
+  - EV-BP1009-0002
+  - EV-BP1009-0003
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Handoff labels are insufficient.
+- item_id: IT-BP1009-0030
+  title: Dependency/continuity infrastructure progressed through multiple bounded hardening stages
+  importance: high
+  dialogue_status: accepted
+  confidence: medium
+  owner_or_domain:
+  - forprint_system_blueprint
+  - infrastructure
+  verification_targets:
+  - code
+  - tests
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP1009-0024
+  - EV-BP1009-0025
+  - EV-BP1009-0028
+  - EV-BP1009-0033
+  - EV-BP1009-0036
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Handoff labels are insufficient.
+- item_id: IT-BP1009-0031
+  title: Historical immutable records are not mass-rewritten during startup cleanup
+  importance: high
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - governance
+  - history
+  verification_targets:
+  - docs
+  - config
+  evidence_refs:
+  - EV-BP1009-0003
+  - EV-BP1009-0004
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Handoff labels are insufficient.
+- item_id: IT-BP1009-0032
+  title: Onboarding generation must distinguish current authority from optional history
+  importance: critical
+  dialogue_status: accepted
+  confidence: high
+  owner_or_domain:
+  - onboarding
+  - context_pack
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-BP1009-0003
+  - EV-BP1009-0005
+  current_audit_status: not_audited
+  audit_instruction: Resolve current release/current authority and canonical owner first; then verify semantically in current code/tests/config/docs/runtime.
+    Handoff labels are insufficient.

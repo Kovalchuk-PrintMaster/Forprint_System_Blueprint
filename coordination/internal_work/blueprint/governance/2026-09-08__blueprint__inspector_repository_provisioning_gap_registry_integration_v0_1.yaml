@@ -1,0 +1,24 @@
+schema_version: blueprint_inspector_repository_provisioning_gap_registry_integration_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  created_at: '2026-09-08'
+  status: IMPLEMENTED
+inspector:
+  preparation_state: DISCOVERED
+  repository_provisioning_required: true
+  repository_local_path: /srv/software_development/forprint-project/forprint_project_inspector
+  repository_url: null
+  repository_status: planned_directory_created
+  repository_git_detected: false
+  pending_blueprint_obligation_count: 9
+  gap_record: coordination/internal_work/blueprint/module_preparation/forprint_project_inspector_repository_provisioning_gap_v0_1.yaml
+authority_boundaries:
+  git_init_performed: false
+  clone_performed: false
+  remote_repository_created: false
+  worker_started: false
+  automatic_accept: false
+  automatic_release: false
+next:
+  inspector: explicit_repository_provisioning_decision_required
+  portfolio: continue_forensic_preparation_with_existing_repository_module

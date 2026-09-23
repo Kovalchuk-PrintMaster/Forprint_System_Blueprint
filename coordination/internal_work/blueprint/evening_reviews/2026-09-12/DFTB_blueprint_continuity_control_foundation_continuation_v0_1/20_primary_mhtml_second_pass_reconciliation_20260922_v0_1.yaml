@@ -1,0 +1,139 @@
+schema_version: forprint_blueprint_20260912_primary_mhtml_second_pass_reconciliation_v0_1
+reconciled_on: '2026-09-22'
+
+source:
+  operator_supplied_filename: Asistans_Forprint_Blueprint - Forprint_Blueprint_12.09.26(1).mhtml
+  sha256: 142323e4fa85817b7e46fe01b0b6f8f7a8d49305697743dbe5d52cad8e10ddc2
+  relationship_to_existing_intake: BYTE_IDENTICAL_SOURCE_IDENTITY_ALREADY_NORMALIZED
+  existing_source_id: DFTB-blueprint-2026-09-12
+  existing_source_root: coordination/internal_work/blueprint/evening_reviews/2026-09-12/DFTB_blueprint_continuity_control_foundation_continuation_v0_1
+
+source_quality:
+  classification: PRIMARY_MHTML_PARTIAL_WITH_LOSSY_CYRILLIC_RENDERING
+  retained_turn_containers: 23
+  text_bearing_turn_containers: 23
+  preserved_assistant_narrative_blocks: 4
+  limitation: >
+    The MHTML preserves execution structure, filenames, paths, hashes, counts, ASCII
+    technical tokens and recoverable semantic content, but some Cyrillic spans render
+    as replacement characters. Corrupted wording must not be reconstructed as exact
+    factual quotation.
+  safe_to_use_for:
+    - archive and attachment identity
+    - commands, paths, hashes, counts and ASCII technical tokens
+    - causal execution order supported by embedded timestamps
+    - cross-checking normalized DFTB items against surviving primary evidence
+  unsafe_to_use_for:
+    - invented reconstruction of corrupted Cyrillic wording
+    - projecting historical PASS/CLOSED labels into current runtime state
+
+second_pass_coverage:
+  verdict: FIRST_PASS_SEMANTIC_EXTRACTION_SUBSTANTIALLY_COMPLETE
+  already_preserved_topics:
+    - Step 9 Assistant Handoff Compiler closure
+    - sterile test-gate exception must not weaken production Git-worktree invariant
+    - execution dependency contracts model actual reads
+    - append-only continuity lifecycle and same-work checkpoint binding
+    - durable current state outranks rolled-back candidate and chat
+    - zero-context acceptance and reusable module-transfer continuity pattern
+    - project-entry context and task-specific Task Context are distinct surfaces
+    - second-level repository-knowledge hardening
+    - manual strategy boundary after successful technical closure
+    - compact indexed temporary workspace operator UX
+    - CF-02 roadmap-plan versus event-store-actual reconciliation origin
+    - state-aware partial-mutation recovery
+  new_human_intent_required: false
+  new_roadmap_step_required: false
+  new_source_map_entry_required: false
+  execution_authority_mutation_required: false
+
+second_pass_delta:
+  - topic: zero_context_acceptance_to_current_bootstrap
+    source_items:
+      - IT-BP1209-0010
+      - IT-BP1209-0011
+      - IT-BP1209-0012
+      - IT-BP1209-0015
+      - IT-BP1209-0016
+    source_intent: >
+      A fresh assistant must reconstruct mission, PAST/PRESENT/FUTURE,
+      blockers/unknowns and bounded next actions from a deterministic project-entry
+      package; after proof, the continuity/handoff pattern becomes reusable across
+      modules. Project-entry context must remain distinct from task-specific context.
+    first_pass_status: NORMALIZED_AND_RECONCILED
+    current_reconciliation:
+      status: MATERIALIZED_AND_RUNTIME_VALIDATED_IN_CURRENT_CONTEXT_BOOTSTRAP
+      surfaces:
+        - coordination/instruction_intake/assistant_reading_order.md
+        - coordination/bootstrap/assistant_context_system_specs_v0_1.yaml
+        - coordination/bootstrap/index_v0_1.yaml
+        - coordination/bootstrap/START_HERE.md
+        - Makefile::assistant-context-pack
+        - scripts/coordination/build_project_context_archive.py
+        - tests/coordination/test_blueprint_context_pack_default_v0_1.py
+      current_runtime_evidence:
+        - BLUEPRINT_CONTEXT_PACK_BLUEPRINT_DEFAULT_V0_7=PASS
+        - DEFAULT_CONTEXT_MODULE=forprint_system_blueprint
+        - EXPLICIT_MODULE_OVERRIDE_PRESERVED=true
+        - ASSISTANT_READING_ORDER_REMAINS_FIRST=true
+        - SYSTEM_SPECS_READING_ORDER_POSITION=2
+        - MANIFEST_SEMANTIC_DISCOVERY=true
+        - SCRIPT_DELIVERY_INTEGRITY=PASS
+      authority_note: >
+        Current assistant-context-pack is navigation/context evidence only and grants
+        no execution, dispatch, roadmap-mutation, lifecycle, release, commit, push or
+        merge authority.
+      commit_state: UNCOMMITTED_DIRTY_WORKTREE_BY_DESIGN
+    action: RECORD_PROVENANCE_BRIDGE_ONLY
+
+  - topic: second_level_knowledge_hardening
+    source_items:
+      - IT-BP1209-0013
+    historical_backlog:
+      - explicit knowledge source modes: working_tree / git_tracked / commit_snapshot
+      - Git provenance knowledge records
+      - unresolved-pattern contract
+      - repository-knowledge freshness
+      - assistant-context-pack determinism / provenance / safety
+    first_pass_status: EXPLICITLY_CAPTURED
+    current_reconciliation: >
+      These themes were subsequently absorbed into repository-knowledge,
+      freshness/provenance, bootstrap/context and handoff hardening. Do not create a
+      duplicate roadmap backlog from this second pass.
+    action: NO_DUPLICATE
+
+  - topic: technical_closure_does_not_auto_advance_strategy
+    source_items:
+      - IT-BP1209-0017
+    source_rule: >
+      A successful technical closure may intentionally stop at
+      WAIT_FOR_STRATEGY_RECONCILIATION instead of auto-starting the next strategic
+      wave.
+    first_pass_status: EXPLICITLY_CAPTURED
+    current_connection:
+      - human major-wave / phase acceptance
+      - Strategic Vector / portfolio planning
+      - Dispatcher authority boundaries
+    action: NO_DUPLICATE
+
+  - topic: state_aware_partial_mutation_recovery
+    source_items:
+      - IT-BP1209-0023
+      - IT-BP1209-0025
+    source_rule: >
+      If canonical state may already have advanced before failure, inspect durable
+      state and fingerprints and repair only the failed downstream
+      lifecycle/evidence/projection boundary. Never blindly rerun the source mutation.
+    first_pass_status: PROMOTED_AS_HI_FP_RECOVERY_ORIGIN_20260912_001
+    action: NO_DUPLICATE
+
+second_pass_verdict:
+  new_source_root: false
+  new_human_intent_required: false
+  new_roadmap_step_required: false
+  source_map_entry_required: false
+  execution_authority_mutation_required: false
+  valuable_new_persistence:
+    - exact primary-MHTML identity confirmation
+    - lossy-rendering provenance limitation
+    - explicit provenance bridge from 12.09 Zero-context Acceptance / Module Transfer to current validated context bootstrap

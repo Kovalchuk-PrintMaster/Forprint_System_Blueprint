@@ -1,0 +1,773 @@
+schema_version: forprint_master_conflict_clusters_v1_0
+clusters:
+- cluster_id: CC-001
+  title: Current authority vs stale bootstrap/continuity
+  status: CURRENT_AUDIT_REQUIRED
+  summary: Historical START_HERE/bootstrap/handoffs repeatedly retained current-looking stale phase claims. The reviewed authority front door is releases/current.yaml,
+    but navigation surfaces need reconciliation.
+  item_refs:
+  - IT-BP1708-0001
+  - IT-BP2708-0001
+  - IT-BP0909-0017
+  - IT-BP0909-0018
+  - IT-BP1009-0001
+  - IT-BP1009-0002
+  - IT-BP0709CF-0002
+  - IT-BP0709CF-0004
+  - IT-BP0709CF-0005
+  - IT-BP0709CF-0006
+  review_refs:
+  - B01-F001
+  - B01-F002
+  - B02-F001
+  - B02-F002
+- cluster_id: CC-002
+  title: Completion evidence vs acceptance authority
+  status: REFINEMENT_CHAIN_WITH_REMAINING_AUDIT
+  summary: The project evolves from completion-report evidence to explicit acceptance transactions; later same-phase progression is automated, while major phase
+    boundaries remain operator-controlled. Automatic acceptance itself must not be inferred from evidence alone.
+  item_refs:
+  - IT-BP0508C-0031
+  - IT-BP1708-0007
+  - IT-BP1708-0008
+  - IT-BP1708-0009
+  - IT-BP2708-0014
+  - IT-BP2708-0015
+  - IT-BP0909-0009
+  - IT-BP0909-0010
+  - IT-LIB0507-0023
+  - IT-LIB0507-0026
+  review_refs:
+  - B06-F006
+- cluster_id: CC-003
+  title: Globally clean tree vs parallel bounded execution
+  status: HISTORICALLY_SUPERSEDED_DIRECTION_CURRENT_AUDIT_REQUIRED
+  summary: Early mutation/seal checks often assumed a clean worktree; later owner doctrine explicitly rejects global cleanliness as a prerequisite for safe parallel
+    work and uses bounded baselines/owned scopes.
+  item_refs:
+  - IT-BP0508-0018
+  - IT-BP0508C-0004
+  - IT-BP2708-0009
+  - IT-BP2708-0010
+  - IT-BP2708-0011
+  - IT-BP0909-0015
+  review_refs:
+  - B06-F010
+- cluster_id: CC-004
+  title: Fake canonical data vs bounded temporary fixtures
+  status: NEEDS_POLICY_RECONCILIATION
+  summary: Early doctrine rejects fabricated dependency truth. Later work permits bounded temporary catalogs/fixtures to exercise logic. Current policy should
+    explicitly distinguish non-authoritative fixtures from fake canonical truth.
+  item_refs:
+  - IT-BP1406-0003
+  review_refs: []
+- cluster_id: CC-005
+  title: Synthetic planning vs accepted architecture
+  status: KNOWN_RISK
+  summary: Synthetic future steps are useful but must remain visibly synthetic/non-executable. Vocabulary/schema fragmentation can make planning artifacts look
+    authoritative.
+  item_refs:
+  - IT-BP3108-0016
+  - IT-BP3108-0017
+  - IT-BP0509-0005
+  review_refs:
+  - B02-F010
+  - B02-F011
+  - B06-F013
+- cluster_id: CC-006
+  title: Logistics pilot authority and expansion gate
+  status: LAST_KNOWN_RULE_COHERENT_BUT_RUNTIME_VERIFY
+  summary: Logistics-only pilot converges on minimum two successful real automatic runs, positive stability review and a separate expansion decision; duplicate
+    historical pilot-gate surfaces still need effective-state reconciliation.
+  item_refs:
+  - IT-BP1708-0018
+  - IT-BP2708-0023
+  - IT-BP2708-0024
+  - IT-BP2708-0025
+  - IT-BP3108-0002
+  - IT-BP0909-0008
+  review_refs:
+  - B02-F005
+  - B06-F002
+- cluster_id: CC-007
+  title: Contract Registry vs Gateway vs domain authority
+  status: ARCHITECTURE_DIRECTION_ACCEPTED_CURRENT_IMPLEMENTATION_VERIFY
+  summary: Domain modules own meaning, Contract Registry owns versioned agreements, Gateway validates/routes runtime traffic. These responsibilities must not
+    collapse.
+  item_refs:
+  - IT-BP3108-0029
+  - IT-BP3108-0030
+  - IT-BP3108-0031
+  - IT-BP3108-0032
+  - IT-BP3108-0033
+  - IT-BP3108-0034
+  - IT-BP3108-0035
+  - IT-LIB1605-0023
+  - IT-LIB1605-0025
+  - IT-GW2605-0006
+  - IT-GW2605-0001
+  - IT-GW2605-0003
+  review_refs:
+  - B01-F012
+- cluster_id: CC-008
+  title: Module inventory and identity drift
+  status: CURRENT_AUDIT_REQUIRED
+  summary: Historical counts move across 19/21/22 and current reviews still find identity/double-count mismatches. Machine IDs must be canonical before automated
+    portfolio selection.
+  item_refs:
+  - IT-BP3108-0006
+  - IT-BP2708-0031
+  review_refs:
+  - B02-F009
+  - B06-F005
+  - B01-F010
+- cluster_id: CC-009
+  title: Artifact/script revision identity
+  status: CURRENT_AUDIT_REQUIRED
+  summary: Old script versions and revision collisions repeatedly caused safe failures. Unique descriptive archives and strong revision/hash checks became explicit
+    requirements.
+  item_refs:
+  - IT-BP2708-0008
+  - IT-BP2708-0034
+  - IT-BP0909-0004
+  review_refs:
+  - B06-F007
+  - B06-F008
+- cluster_id: CC-010
+  title: Human docs vs machine governance parity
+  status: CURRENT_AUDIT_REQUIRED
+  summary: Several owner/theory decisions were richer than their machine-readable governance projection. Both sides need effective-state links and parity checks.
+  item_refs:
+  - IT-BP3108-0008
+  - IT-BP0509-0009
+  - IT-BP1009-0019
+  review_refs:
+  - B06-F003
+  - B06-F004
+  - B06-F009
+  - B06-F012
+- cluster_id: CC-011
+  title: Roadmap plan vs actual execution authority
+  status: CURRENT_AUDIT_REQUIRED
+  summary: Owner identifies recurring roadmap lag. CF-02 resolves the model by making continuity event store authoritative for execution and roadmap execution
+    fields generated projections; source ends before migration is proven complete.
+  item_refs:
+  - IT-BP1209-0021
+  - IT-BP1209-0022
+  - IT-BP1209-0028
+  - IT-BP1209-0029
+  - IT-BP1209-0031
+  - IT-BP1209-0034
+  review_refs: []
+- cluster_id: CC-012
+  title: Whole-mutator rerun vs state-aware partial recovery
+  status: SAFETY_INVARIANT_CURRENT_AUDIT_REQUIRED
+  summary: Historical failures show canonical state may advance before checkpoint/closure fails. Blind rerun is explicitly forbidden; recovery must inspect source
+    fingerprint/state and repair only the remaining layer.
+  item_refs:
+  - IT-BP1209-0023
+  - IT-BP1209-0025
+  - IT-BP1209-0032
+  - IT-BP1409-0006
+  - IT-BP1409-0007
+  review_refs: []
+- cluster_id: CC-013
+  title: Structural PASS vs semantic freshness
+  status: CURRENT_AUDIT_REQUIRED
+  summary: 08.09 Logistics evidence shows tests/module-memory/document-authority can pass while fresh-context/current-state semantics are stale. Structural validation
+    must not be treated as semantic freshness proof.
+  item_refs:
+  - IT-BP0809-0023
+  - IT-BP0809-0028
+  review_refs: []
+- cluster_id: CC-014
+  title: Local module health vs portfolio strategic alignment
+  status: ARCHITECTURAL_INVARIANT
+  summary: A locally healthy module is not automatically strategically aligned. Final disposition requires current Blueprint mission/policy/target, dependencies,
+    cross-repository consumers and runtime truth.
+  item_refs:
+  - IT-BP0809-0025
+  - IT-BP0809-0027
+  - IT-BP0809-0034
+  review_refs: []
+- cluster_id: CC-015
+  title: Generated PASS/projection vs reconciled source truth
+  status: CURRENT_AUDIT_REQUIRED
+  summary: Historical B10 findings show stale lineage/current-step assumptions under PASSED reports and stale generated guides. Authoritative source reconciliation
+    must precede projection regeneration.
+  item_refs:
+  - IT-BP0809-0003
+  - IT-BP0809-0004
+  - IT-BP0809-0007
+  - IT-BP0809-0033
+  review_refs:
+  - B06-F003
+  - B06-F004
+  - B06-F009
+- cluster_id: CC-016
+  title: Stale diagnostic log vs current-tree / isolated-check truth
+  status: CURRENT_AUDIT_REQUIRED
+  summary: 14.09 shows a full-check log carrying an old source-hash pin while the current focused rerun passes. Validation must distinguish live working-tree
+    tests from isolated non-mutating materialization and stale report provenance before changing source.
+  item_refs:
+  - IT-BP1409-0011
+  - IT-BP1409-0013
+  - IT-BP1409-0014
+  - IT-BP1409-0015
+  - IT-BP1409-0016
+  - IT-BP1409-0020
+  review_refs: []
+- cluster_id: CC-017
+  title: Stale handoff plan vs durable current state
+  status: ARCHITECTURAL_INVARIANT
+  summary: A handoff can prescribe work that has already been closed by the time the next assistant starts. Exact current-state reconciliation must precede mutation;
+    already-closed work is skipped rather than replayed.
+  item_refs:
+  - IT-BP0709CF-0002
+  - IT-BP0709CF-0004
+  - IT-BP0709CF-0005
+  - IT-BP0709CF-0006
+  review_refs: []
+- cluster_id: CC-018
+  title: Focused tests green vs semantic/governance candidate correctness
+  status: CURRENT_AUDIT_REQUIRED
+  summary: CF-02 candidate compiled and focused tests passed, but adversarial semantic review still found seven blockers. Candidate acceptance therefore requires
+    semantic/governance review, not only local tests.
+  item_refs:
+  - IT-BP0709CF-0010
+  - IT-BP0709CF-0011
+  - IT-BP0709CF-0012
+  - IT-BP0709CF-0013
+  - IT-BP0709CF-0014
+  - IT-BP0709CF-0015
+  - IT-BP0709CF-0016
+  - IT-BP0709CF-0017
+  - IT-BP0709CF-0018
+  - IT-BP0709CF-0019
+  review_refs: []
+- cluster_id: CC-019
+  title: Module publication completeness vs external Blueprint freshness
+  status: ARCHITECTURAL_INVARIANT
+  summary: Historical Logistics H9 can be fully published/sealed while Blueprint freshness remains STALE. External freshness blocks live start but must not be
+    collapsed into module implementation/publication failure.
+  item_refs:
+  - IT-LOG1006-0013
+  - IT-LOG1006-0015
+  - IT-LOG1006-0019
+  review_refs: []
+- cluster_id: CC-020
+  title: Sealed historical candidate vs moving external HEAD
+  status: CURRENT_AUDIT_REQUIRED
+  summary: Blueprint HEAD advanced after H9 sealing. Rewriting Logistics status/report or adding recursive seal commits to chase external state would reopen
+    completed history. Historical observed authority and current freshness must remain separate facts.
+  item_refs:
+  - IT-LOG1006-0014
+  - IT-LOG1006-0017
+  - IT-LOG1006-0018
+  review_refs: []
+- cluster_id: CC-021
+  title: Broad Library catch-all vision vs canonical-definition boundary
+  status: RESOLVED_DIRECTION_CURRENT_AUDIT_REQUIRED
+  summary: The earliest Library vision includes broad operational data, but the later Blueprint alignment inside the same source narrows Library to canonical
+    definitions and explicitly excludes runtime orders/payments/stock/production/files. Current implementation should follow the narrowed boundary.
+  item_refs:
+  - IT-LIB1605-0010
+  - IT-LIB1605-0015
+  - IT-LIB1605-0016
+  - IT-LIB1605-0022
+  - IT-LIB1605-0024
+  review_refs: []
+- cluster_id: CC-022
+  title: Library mutating `make check` vs project read-only check invariant
+  status: CURRENT_AUDIT_REQUIRED
+  summary: The visible July Library Makefile runs `lint-fix` inside `check`. Later Blueprint authority explicitly separates check/read-only from mutation. Current
+    Library command surface must follow the later invariant.
+  item_refs:
+  - IT-LIB0507-0005
+  - IT-LIB0507-0006
+  review_refs: []
+- cluster_id: CC-023
+  title: Module-owned repo vs foreign Blueprint checkout operations
+  status: CURRENT_AUDIT_REQUIRED
+  summary: Library and Operational Registry histories both show module-local ownership while historical Make workflows may pull/update the local Blueprint checkout.
+    Current policy must define allowed read/fetch/pull behavior without granting modules write/commit authority over Blueprint.
+  item_refs:
+  - IT-LIB0507-0007
+  - IT-LIB0507-0017
+  - IT-LIB0507-0018
+  - IT-LIB0507-0019
+  - IT-OPREG2905-0013
+  - IT-OPREG2905-0023
+  review_refs: []
+- cluster_id: CC-024
+  title: Operational truth vs Accounting/1C truth
+  status: CURRENT_AUDIT_REQUIRED
+  summary: Early Operational Registry history explicitly assigns operational client/order/task/status/event truth to Operational Registry and accounting/1C truth
+    to Accounting. Later Blueprint history records Accounting-vs-Operational Registry ambiguity. Current architecture must resolve ownership and payment-status
+    semantics without dual authority.
+  item_refs:
+  - IT-OPREG2905-0001
+  - IT-OPREG2905-0002
+  - IT-OPREG2905-0006
+  - IT-OPREG2905-0024
+  - IT-OPREG2905-0025
+  - IT-ACC1705-0001
+  - IT-ACC1705-0020
+  - IT-ACC1705-0025
+  review_refs: []
+- cluster_id: CC-025
+  title: Gateway local completion vs Blueprint acceptance
+  status: ARCHITECTURAL_INVARIANT
+  summary: Historical v0.7 is locally complete/pushed but still asks Blueprint to mark the prompt completed/accepted and issue the next allowed prompt. Module
+    completion cannot self-promote into architecture acceptance.
+  item_refs:
+  - IT-GW2605-0017
+  - IT-GW2605-0018
+  - IT-GW2605-0020
+  - IT-GW2605-0021
+  review_refs: []
+- cluster_id: CC-026
+  title: Gateway standards visibility/sync vs Blueprint authority boundary
+  status: CURRENT_AUDIT_REQUIRED
+  summary: Historical v0.7 gives Gateway standards list/check/sync and a local snapshot. Current implementation must prove this only consumes/materializes Blueprint
+    standards locally and cannot rewrite Blueprint authority surfaces.
+  item_refs:
+  - IT-GW2605-0010
+  - IT-GW2605-0012
+  - IT-GW2605-0024
+  review_refs: []
+- cluster_id: CC-027
+  title: Accounting sandbox readiness vs live 1C/write/posting readiness
+  status: ARCHITECTURAL_INVARIANT_CURRENT_AUDIT_REQUIRED
+  summary: Historical v0.5 is accepted as `sandbox_1c_import_export_ready` while live 1C integration, production writes and automatic posting remain explicitly
+    forbidden. These readiness dimensions must never collapse into one status.
+  item_refs:
+  - IT-ACC1705-0015
+  - IT-ACC1705-0016
+  - IT-ACC1705-0017
+  - IT-ACC1705-0018
+  - IT-ACC1705-0023
+  review_refs: []
+- cluster_id: CC-028
+  title: Strategic Control Plane authority vs Blueprint architecture authority
+  status: CURRENT_AUDIT_REQUIRED
+  summary: The early proposal distinguishes strategic governance from Blueprint architecture but leaves open whether Control Plane is the highest machine-readable
+    governance layer above Blueprint. The direct owner prompt is missing, so current authority must resolve whether this component exists and how it relates
+    to Blueprint/Control Foundation.
+  item_refs:
+  - IT-CP0106-0002
+  - IT-CP0106-0019
+  - IT-CP0106-0020
+  - IT-CP0106-0021
+  - IT-CP0106-0025
+  - IT-BP1407-0029
+  review_refs: []
+- cluster_id: CC-029
+  title: Historical Control Plane priority map vs later roadmap authority
+  status: RESOLVED_BY_LATER_AUTHORITY
+  summary: Telegram/Calculator P0, Accounting P1 and Operational/Gateway hold is a bootstrap-era proposal only. Later Blueprint release/H10/Control Foundation
+    roadmaps supersede it and it must never drive current execution.
+  item_refs:
+  - IT-CP0106-0009
+  - IT-CP0106-0026
+  - IT-BP1708-0018
+  review_refs: []
+- cluster_id: CC-030
+  title: CRM dashboard prominence vs canonical domain ownership
+  status: ARCHITECTURAL_INVARIANT_CURRENT_AUDIT_REQUIRED
+  summary: CRM is the visible business orchestration/dashboard layer, but visibility must not make it physical owner of clients/orders/payments/catalogs/stock/routing.
+    Specialized registries and Gateway retain canonical/runtime ownership.
+  item_refs:
+  - IT-CRM1605-0014
+  - IT-CRM1605-0015
+  - IT-CRM1605-0016
+  - IT-CRM1605-0017
+  - IT-CRM1605-0018
+  - IT-CRM1605-0019
+  - IT-CRM1605-0020
+  - IT-CRM1605-0022
+  review_refs: []
+- cluster_id: CC-031
+  title: Early CRM client/order ownership example vs Operational Registry alignment
+  status: RESOLVED_BY_LATER_HISTORICAL_ALIGNMENT_CURRENT_AUDIT_REQUIRED
+  summary: An early Blueprint example assigns `client` and `order` to CRM, but the later direct CRM alignment prompt in the same source assigns canonical clients/orders/tasks/statuses
+    to Operational Registry. The later/current ownership model supersedes the illustrative example.
+  item_refs:
+  - IT-CRM1605-0013
+  - IT-CRM1605-0016
+  - IT-OPREG2905-0001
+  review_refs: []
+- cluster_id: CC-032
+  title: Broad Prepress Hub architecture vs capability-first product assistants
+  status: REFINED_DIRECTION_CURRENT_AUDIT_REQUIRED
+  summary: The early CRM source proposed a broad Prepress Hub stack. The 27.06 owner correction says immediate work should first map practical capabilities by
+    Photoshop/Illustrator/Corel/PDF, with shared factual tools, before cross-module integration architecture.
+  item_refs:
+  - IT-CRM1605-0002
+  - IT-PRE2706-0001
+  - IT-PRE2706-0002
+  - IT-PRE2706-0003
+  - IT-PRE2706-0006
+  review_refs: []
+- cluster_id: CC-033
+  title: Configurable raster thresholds vs accidental hard-coded production policy
+  status: CURRENT_AUDIT_REQUIRED
+  summary: Historical examples mention ~25 DPI and 3–5% nonproportional tolerance. They are configurable examples, not current constants. Current production
+    policy must come from authoritative configuration/Library/Prepress rules.
+  item_refs:
+  - IT-PRE2706-0019
+  - IT-PRE2706-0020
+  - IT-PRE2706-0021
+  review_refs: []
+- cluster_id: CC-034
+  title: Unix-first automation vs Photoshop quality fallback
+  status: ARCHITECTURAL_INVARIANT_CURRENT_AUDIT_REQUIRED
+  summary: Use Unix for deterministic/bounded work; use Windows Photoshop Station only where Photoshop-specific quality or document semantics are actually needed.
+    The station must remain an executor, not a competing orchestration authority.
+  item_refs:
+  - IT-PRE2706-0011
+  - IT-PRE2706-0015
+  - IT-PRE2706-0016
+  - IT-PRE2706-0028
+  - IT-PRE2706-0029
+  review_refs: []
+- cluster_id: CC-035
+  title: Prepress zero-platform scaffold-first vs later capability-first sequencing
+  status: REFINED_BY_LATER_OWNER_DIRECTION
+  summary: 20.05 proposes immediately building FastAPI/preset/job scaffolding. 27.06 owner direction narrows the immediate phase to capability discovery by product,
+    shared factual tools and Unix-vs-Windows policy before broader integration architecture. Treat May as historical scaffold proposal, not mandatory current
+    sequence.
+  item_refs:
+  - IT-PRE2005-0005
+  - IT-PRE2005-0018
+  - IT-PRE2005-0022
+  - IT-PRE2706-0001
+  - IT-PRE2706-0002
+  - IT-PRE2706-0006
+  review_refs: []
+- cluster_id: CC-036
+  title: Prepress historical local scaffold portability/security drift
+  status: CURRENT_AUDIT_REQUIRED
+  summary: The May scaffold hard-codes an absolute server path and binds a reload-enabled dev server to `0.0.0.0`. Current Prepress should use current path/bootstrap
+    and runtime-security policy rather than copying these historical defaults.
+  item_refs:
+  - IT-PRE2005-0011
+  - IT-PRE2005-0012
+  review_refs: []
+- cluster_id: CC-037
+  title: Website marketing activation vs Website technical release authority
+  status: BOUNDARY_CLARIFIED_CURRENT_AUDIT_REQUIRED
+  summary: The SMM source wants deliberate promotion of a young website. This business objective does not itself authorize Website module implementation, reactivation
+    or canonical customer ownership; current Blueprint release/scope remains controlling.
+  item_refs:
+  - IT-SMM2506-0001
+  - IT-SMM2506-0018
+  - IT-BP1407-0009
+  - IT-BP1708-0017
+  - IT-SMM2507-0015
+  - IT-SMM2507-0017
+  review_refs: []
+- cluster_id: CC-038
+  title: Historical marketing channel ranking vs evidence-driven current allocation
+  status: CURRENT_MEASUREMENT_REQUIRED
+  summary: Website/Google Business/local SEO→Instagram→TikTok is historical assistant advice. Current channel priority should be based on measured acquisition
+    cost, conversion quality and local reach, not preserved as fixed authority.
+  item_refs:
+  - IT-SMM2506-0003
+  - IT-SMM2506-0004
+  - IT-SMM2506-0013
+  - IT-SMM2506-0014
+  - IT-SMM2506-0017
+  review_refs: []
+- cluster_id: CC-039
+  title: One-primary-generator simplification vs historical provider lock-in
+  status: CURRENT_BUSINESS_TOOLING_AUDIT_REQUIRED
+  summary: The owner decision is to avoid operating many generators at once. The historical assistant recommendation of Google Veo is not a permanent vendor
+    mandate. Preserve workflow standardization while keeping the external provider replaceable and freshly evaluated.
+  item_refs:
+  - IT-SMM2507-0007
+  - IT-SMM2507-0008
+  - IT-SMM2507-0009
+  - IT-SMM2507-0012
+  - IT-SMM2507-0014
+  - IT-SMM2507-0016
+  review_refs: []
+- cluster_id: CC-040
+  title: Calculator local catalog/admin vs Library canonical definitions
+  status: CURRENT_AUDIT_REQUIRED
+  summary: Historical Calculator built rich product/material/admin structures and briefly envisioned project-wide administration. Later Blueprint allows only
+    temporary local Calculator catalog and Library owns canonical definitions/contracts. Current Calculator must calculate without becoming a competing catalog
+    authority.
+  item_refs:
+  - IT-CALC0910-0008
+  - IT-CALC0910-0011
+  - IT-CALC0910-0012
+  - IT-CALC0910-0037
+  - IT-BP1407-0024
+  - IT-LIB0507-0015
+  - IT-LIB1605-0020
+  review_refs: []
+- cluster_id: CC-041
+  title: Historical direct Website/Telegram quote intake vs Gateway/Contract Registry routing
+  status: CURRENT_AUDIT_REQUIRED
+  summary: Calculator was designed as reusable multi-channel backend and historically accepted direct external quote requests. Current runtime architecture may
+    require versioned contracts and Gateway/CRM routing; channel coupling inside Calculator should not be assumed valid.
+  item_refs:
+  - IT-CALC0910-0004
+  - IT-CALC0910-0022
+  - IT-CALC0910-0024
+  - IT-CALC0910-0038
+  - IT-GW2605-0001
+  - IT-CRM1605-0020
+  review_refs: []
+- cluster_id: CC-042
+  title: Blueprint directive sync false-success vs canonical schema and cwd-independent tooling
+  status: ARCHITECTURAL_DEFECT_PATTERN_CURRENT_AUDIT_REQUIRED
+  summary: Calculator importer once returned an apparently successful/no-new result while parsing the wrong index shape. Corrected logic uses `module_directives.active`,
+    but project-wide tooling should centrally validate schema and resolve paths independently of current working directory.
+  item_refs:
+  - IT-CALC0910-0033
+  - IT-CALC0910-0034
+  - IT-CALC0910-0035
+  - IT-CALC0910-0036
+  review_refs: []
+- cluster_id: CC-043
+  title: Telegram approved taxonomy vs generated dataset label drift
+  status: HISTORICAL_DATA_DEFECT_CURRENT_AUDIT_REQUIRED
+  summary: Owner-approved taxonomies allow warm/formal/casual/neutral and positive/neutral/negative. Assistant later describes friendly/playful and aggressive/urgent
+    in generated data. These are not authorized taxonomy extensions and current datasets must reject or explicitly migrate unknown values.
+  item_refs:
+  - IT-TG1210-0005
+  - IT-TG1210-0006
+  - IT-TG1210-0015
+  - IT-TG1210-0016
+  review_refs: []
+- cluster_id: CC-044
+  title: Telegram generated-row claims vs unavailable artifacts and import failure
+  status: CURRENT_AUDIT_REQUIRED
+  summary: Historical assistant claims 360, 500 and 1000-row datasets but files are unavailable, totals are internally inconsistent and one CSV fails header
+    compatibility. No claimed row count/uniqueness/importability should be treated as verified production state.
+  item_refs:
+  - IT-TG1210-0011
+  - IT-TG1210-0012
+  - IT-TG1210-0013
+  - IT-TG1210-0014
+  - IT-TG1210-0017
+  - IT-TG1210-0019
+  - IT-TG1210-0021
+  review_refs: []
+- cluster_id: CC-045
+  title: Telegram conversation data ownership vs canonical business truth
+  status: ARCHITECTURAL_INVARIANT_CURRENT_AUDIT_REQUIRED
+  summary: Telegram may own operational presentation/conversation state, but later Blueprint explicitly says it is an operational interface rather than canonical
+    business truth. Current owner of shared response taxonomies/templates still needs confirmation.
+  item_refs:
+  - IT-TG1210-0025
+  - IT-TG1210-0028
+  - IT-TG1210-0030
+  - IT-BP1407-0011
+  review_refs: []
+- cluster_id: CC-046
+  title: Telegram behavior specification/simulation vs production runtime
+  status: ARCHITECTURAL_INVARIANT_CURRENT_AUDIT_REQUIRED
+  summary: The owner explicitly separates behavior-model/Excel/wizard design artifacts from production Telegram app execution. Historical tooling drifted into
+    runtime/classifier engineering too early, then was corrected. Current repo must classify each artifact as spec, fixture, generator or runtime dependency.
+  item_refs:
+  - IT-TG1310-0001
+  - IT-TG1310-0016
+  - IT-TG1310-0017
+  - IT-TG1310-0019
+  - IT-TG1310-0020
+  - IT-TG1310-0022
+  - IT-TG1310-0023
+  - IT-TG1210B-0001
+  - IT-TG1210B-0016
+  - IT-TG1210B-0022
+  review_refs: []
+- cluster_id: CC-047
+  title: Telegram client/delivery orchestration vs CRM and Logistics canonical ownership
+  status: CURRENT_AUDIT_REQUIRED
+  summary: Historical Telegram behavior collects client profile and delivery preference and sometimes implies direct provider actions. Current architecture must
+    keep canonical client truth under CRM/Operational ownership and delivery execution under Logistics, with Telegram acting as conversational/operational interface.
+  item_refs:
+  - IT-TG1310-0005
+  - IT-TG1310-0006
+  - IT-TG1310-0007
+  - IT-BP1407-0011
+  - IT-BP1407-0012
+  review_refs: []
+- cluster_id: CC-048
+  title: Telegram module closeout READY_FOR_REVIEW vs Blueprint acceptance
+  status: RESOLVED_AS_SEPARATE_GATES_CURRENT_LINEAGE_AUDIT_REQUIRED
+  summary: Historical governance closeout is pushed/clean/idempotent but explicitly not accepted or merged. READY_FOR_BLUEPRINT_REVIEW is a module-side state;
+    Blueprint acceptance remains a separate authority gate.
+  item_refs:
+  - IT-TG1310-0033
+  - IT-TG1310-0034
+  - IT-TG1310-0035
+  - IT-TG1310-0036
+  - IT-BP1708-0005
+  - IT-BP1708-0006
+  review_refs: []
+- cluster_id: CC-049
+  title: Telegram ML path/label/revision contract drift
+  status: CURRENT_AUDIT_REQUIRED
+  summary: Historical ML refactoring exposed missing paths, generic constant collisions and downstream label-decoder/runtime mismatches. Current intent/style/sentiment
+    pipelines need one tested train→artifact→classify→evaluate contract with entity-specific paths and reproducible revisions.
+  item_refs:
+  - IT-TG1410-0004
+  - IT-TG1410-0011
+  - IT-TG1410-0016
+  - IT-TG1410-0017
+  - IT-TG1410-0018
+  - IT-TG1410-0022
+  - IT-TG1410-0023
+  - IT-TG1410-0029
+  review_refs: []
+- cluster_id: CC-050
+  title: Telegram script standard vs current Blueprint engineering standard
+  status: STANDARD_RECONCILIATION_REQUIRED
+  summary: 'The Telegram owner-defined script standard is strong and overlaps later Blueprint doctrine: self-description, config-first paths, validation, logging,
+    small focused scripts and artifact reporting. It should be reconciled/promoted selectively rather than becoming an independent competing standard.'
+  item_refs:
+  - IT-TG1410-0005
+  - IT-TG1410-0006
+  - IT-TG1410-0007
+  - IT-TG1410-0012
+  - IT-TG1410-0014
+  - IT-TG1410-0030
+  review_refs: []
+- cluster_id: CC-051
+  title: Telegram early free-form taxonomy vs later normalized lookup tables
+  status: SUPERSEDED_BY_LATER_OWNER_SCHEMA_CURRENT_MIGRATION_AUDIT_REQUIRED
+  summary: The early chat-import schema uses style labels formal/casual/friendly/professional/urgent and broader sentiments including urgent/curious/confused.
+    Later owner-defined tables normalize styles to warm/formal/casual/neutral and sentiments to positive/neutral/negative. Current datasets/importers must not
+    mix these shapes without explicit migration/aliases.
+  item_refs:
+  - IT-TG0710-0006
+  - IT-TG0710-0007
+  - IT-TG1210-0005
+  - IT-TG1210-0006
+  review_refs: []
+- cluster_id: CC-052
+  title: Telegram-local 1C/master-data mirror vs Accounting Operational Library and Gateway authorities
+  status: CURRENT_ARCHITECTURE_RECONCILIATION_REQUIRED
+  summary: Early Telegram discussion imagines synchronizing 1C/client/stock/nomenclature data into a bot-side database and storing heterogeneous business entities
+    locally. Later architecture separates accounting truth, operational truth, canonical definitions and integration routing. Telegram should consume governed
+    projections/contracts rather than become a competing master-data store.
+  item_refs:
+  - IT-TG0710-0013
+  - IT-TG0710-0014
+  - IT-TG0710-0015
+  - IT-TG0710-0016
+  - IT-TG0710-0017
+  - IT-ACC1705-0025
+  - IT-OPREG2905-0001
+  - IT-LIB1605-0015
+  - IT-GW2605-0003
+  - IT-BP1407-0011
+  - IT-TG1210B-0018
+  - IT-TG1210B-0019
+  review_refs: []
+- cluster_id: CC-053
+  title: Telegram Mentor/AI escalation and broad tool access vs privacy, approval and decision rights
+  status: CURRENT_SECURITY_AND_AUTHORITY_AUDIT_REQUIRED
+  summary: Owner wants ambiguous cases escalated with rich context and also explores email/file/cloud/computer automation through Telegram. The intent is valid,
+    but unrestricted database/tool access would violate least-privilege and module boundaries. Current architecture must define context scope, credentials, approval
+    levels, audit, fallback and which assistant role may act.
+  item_refs:
+  - IT-TG1210B-0010
+  - IT-TG1210B-0011
+  - IT-TG1210B-0012
+  - IT-TG1210B-0013
+  - IT-TG1210B-0014
+  - IT-TG1210B-0015
+  - IT-TG1210B-0017
+  review_refs: []
+- cluster_id: CC-054
+  title: Fresh generated ML tests vs independent evaluation truth
+  status: EVALUATION_ARCHITECTURE_REQUIRED
+  summary: Owner correctly rejects stale recurring test sets and prefers fresh unseen examples, but assistant-proposed LLM generation does not itself provide
+    correct labels. A valid recurring evaluation system needs an independent oracle/accepted-label path, lineage, leakage checks and promotion thresholds.
+  item_refs:
+  - IT-TG1210B-0027
+  - IT-TG1210B-0028
+  - IT-TG1210B-0029
+  - IT-TG1210B-0030
+  - IT-TG1210B-0031
+  - IT-TG1210B-0032
+  review_refs: []
+- cluster_id: CC-055
+  title: CF-09 Dispatcher 9/9 readiness vs full-project closure failure
+  status: CURRENT_AUDIT_REQUIRED
+  summary: Historical 0253 reports all nine Dispatcher requirements satisfied with zero gaps, but 0254 full project boundary gate fails. Local/subsystem readiness
+    is not equivalent to project acceptance or lifecycle closure.
+  item_refs:
+  - IT-BP1709-0018
+  - IT-BP1709-0019
+  - IT-BP1709-0020
+  - IT-BP1709-0021
+  - IT-BP1709-0022
+  - IT-BP1709-0025
+  - IT-BP1709-0026
+  review_refs: []
+- cluster_id: CC-056
+  title: Library-scoped non-mutating check vs stale Blueprint generator inventory
+  status: CURRENT_DIAGNOSTIC_AUDIT_REQUIRED
+  summary: The CF-09 full make check fails while invoking a non-mutating Library check because Blueprint `indexes/generator_inventory.yaml` is stale. The historical
+    log proves the symptom but not whether the root cause is expected dependency enforcement, isolated materialization, current-tree generator drift or stale
+    cross-repo projection.
+  item_refs:
+  - IT-BP1709-0023
+  - IT-BP1709-0024
+  - IT-BP1409-0015
+  - IT-BP1409-0016
+  review_refs: []
+- cluster_id: CC-057
+  title: 17.09 CF-09 red closure endpoint vs later CF-10 READY_UNBOUND
+  status: HISTORICAL_LINEAGE_GAP_CURRENT_AUDIT_REQUIRED
+  summary: The 17.09 source ends with CF-09 ACTIVE and project closure red. The 21.09 export later reports CF-07/08/09 complete and CF-10 READY_UNBOUND, but
+    exact CF-09 recovery/checkpoint/closure evidence is mostly hidden in attachment-only turns. Current event history must reconcile the transition.
+  item_refs:
+  - IT-BP1709-0021
+  - IT-BP1709-0023
+  - IT-BP1709-0026
+  - IT-BP1709-0027
+  - IT-BP2109-0019
+  - IT-BP2109-0033
+  review_refs: []
+- cluster_id: CC-058
+  title: CF-10 READY_UNBOUND vs launch-critical work-id and Handoff-v2 blockers
+  status: CURRENT_LAUNCH_PREFLIGHT_REQUIRED
+  summary: CF-10 dependencies are historically complete, but readiness is only READY_UNBOUND. u180j is already referenced, no allocator is found, and Handoff
+    v2 still hardcodes u180h. 0172 PASS is audit success, not launch authorization.
+  item_refs:
+  - IT-BP2109-0019
+  - IT-BP2109-0021
+  - IT-BP2109-0023
+  - IT-BP2109-0024
+  - IT-BP2109-0025
+  - IT-BP2109-0029
+  - IT-BP2109-0030
+  review_refs: []
+- cluster_id: CC-059
+  title: Assistant/living-knowledge packaging vs unauthorized roadmap redesign
+  status: SCOPE_BOUNDARY_CURRENT_AUDIT_REQUIRED
+  summary: Owner explicitly questions why an assistant instruction/package task is driving roadmap reconstruction. Knowledge/bootstrap publication and roadmap
+    mutation are separate authorities and must not be coupled implicitly.
+  item_refs:
+  - IT-BP2109-0010
+  - IT-BP2109-0011
+  - IT-BP2109-0012
+  - IT-BP2109-0013
+  - IT-BP2109-0018
+  review_refs: []
+- cluster_id: CC-060
+  title: Blueprint package generation vs unexpected Library module identity
+  status: PACKAGE_ROUTING_AUDIT_REQUIRED
+  summary: A Library-named project-context archive appears during Blueprint CF-10 work while owner says no Library task is planned. Package target identity must
+    be derived from explicit module/context authority, not accidental defaults or stale selection.
+  item_refs:
+  - IT-BP2109-0031
+  - IT-BP2109-0032
+  review_refs: []

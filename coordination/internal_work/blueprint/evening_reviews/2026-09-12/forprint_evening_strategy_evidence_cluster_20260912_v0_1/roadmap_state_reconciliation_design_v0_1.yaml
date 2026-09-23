@@ -1,0 +1,175 @@
+schema_version: forprint_roadmap_state_reconciliation_design_v0_1
+status: PLANNING_INPUT_NOT_CANONICAL_AUTHORITY
+date: '2026-09-12'
+origin:
+  reason: Repeated drift between canonical execution/lifecycle state and manually
+    maintained roadmap progress.
+  observed_incident: u179h assistant-reported progress diverged from canonical lifecycle/event/file
+    reality; independent check found PLANNED.
+  current_program_integration: Insert as P0 Control Foundation work immediately after
+    repository reconciliation, before wider authority/profile/handoff/dispatcher work.
+design_principle:
+  name: Roadmap Spec / Execution Status Reconciliation
+  rule: Never maintain the same mutable execution state independently in both roadmap
+    and lifecycle sources.
+  roadmap_spec: Canonical desired sequence, dependencies, gates, stable step IDs and
+    work bindings.
+  actual_execution: Canonical append-only lifecycle/event stream and accepted source
+    evidence.
+  roadmap_status: Generated disposable projection derived by deterministic reconciliation.
+  operator_decisions: Required for plan changes, breaking changes, reordering, removal,
+    narrowing and authority changes.
+industry_patterns:
+- Kubernetes spec/status separation and reconciliation loops.
+- Kubernetes observedGeneration to prove status corresponds to the current desired-spec
+  generation.
+- GitOps continuous reconciliation and explicit OutOfSync state.
+- Event Sourcing with append-only events as source of truth and rebuildable materialized
+  views.
+proposed_component:
+  id: roadmap_execution_reconciler_v0_1
+  working_name: Roadmap Reconciliation Controller
+  authority: READ_DERIVE_REPORT; no worker dispatch or roadmap-plan mutation by default
+  inputs:
+  - registered executable roadmap specs
+  - continuity/lifecycle event store
+  - operator decision/authority records when applicable
+  - current source-state/checkpoint evidence
+  outputs:
+  - ROADMAP_EXECUTION_STATUS projection
+  - ROADMAP_RECONCILIATION_STATUS projection
+  - current_step
+  - previous_closed_step
+  - next_ready_step_or_steps
+  - sync_state
+  - reason_codes
+  - observed_roadmap_sha256
+  - observed_latest_event_sequence
+canonical_step_model:
+  keep_in_roadmap_spec:
+  - step_id
+  - stable_id
+  - work_id_or_binding_rule
+  - order_or_dependency_edges
+  - depends_on
+  - priority
+  - activation_policy
+  - acceptance_policy
+  - operator_gates
+  do_not_manually_duplicate_as_execution_truth:
+  - complete
+  - active
+  - next
+  - closed
+  - current lifecycle state
+  derived_status_examples:
+  - PLANNED
+  - READY
+  - ACTIVE
+  - CHECKPOINTED
+  - VALIDATED
+  - COMPLETE
+  - BLOCKED
+reconciliation_algorithm:
+- Load and schema-validate roadmap spec.
+- Hash roadmap spec and identify its registered revision.
+- Load and validate immutable lifecycle/event stream.
+- Derive current work state per work_id from events.
+- Join roadmap steps to work states by stable binding.
+- Detect orphan execution work not represented by the expected roadmap unless explicitly
+  allowed.
+- Detect duplicate/missing work bindings and dependency/order violations.
+- Derive each step's execution status without editing roadmap spec.
+- Derive current cursor and next READY step(s) from dependency closure and activation
+  policy.
+- Record observed_roadmap_sha256 plus observed_latest_event_sequence.
+- Emit deterministic projections and sync reason codes.
+- Fail activation/dispatch gates when semantic drift is unresolved.
+sync_states:
+  IN_SYNC: Projection corresponds to current roadmap spec and latest accepted execution
+    events.
+  PROJECTION_STALE: Canonical sources are coherent but stored/generated status is
+    behind; safe to rebuild projection.
+  PLAN_CHANGE_REQUIRED: Actual work cannot be reconciled to roadmap semantics without
+    an operator-approved plan update.
+  EXECUTION_CONFLICT: Lifecycle ordering/binding/dependency invariants conflict with
+    roadmap.
+  UNKNOWN: Required canonical inputs are missing or invalid; fail closed.
+reason_codes:
+- ROADMAP_SPEC_CHANGED_AFTER_OBSERVATION
+- PROJECTION_EVENT_SEQUENCE_BEHIND
+- WORK_NOT_BOUND_TO_ROADMAP
+- ROADMAP_STEP_MISSING_WORK_BINDING
+- DUPLICATE_WORK_BINDING
+- DEPENDENCY_ORDER_VIOLATION
+- MULTIPLE_ACTIVE_WORK_VIOLATES_WIP_POLICY
+- CLOSED_STEP_WITH_OPEN_REQUIRED_PREDECESSOR
+- NEXT_CURSOR_MISMATCH
+- SOURCE_EVIDENCE_MISSING
+trigger_policy:
+  after_every_accepted_lifecycle_transition: refresh or mark reconciliation projection
+    stale immediately
+  before_plan_or_activate_next_work: roadmap reconciliation check MUST PASS
+  before_assistant_pack_build: reconciliation check MUST PASS or pack is fail-closed
+  before_dispatch: reconciliation check MUST PASS
+  before_checkpoint_or_close: work-to-roadmap binding and observed roadmap revision
+    MUST be valid
+  public_make_check: read-only reconciliation validator; must not silently mutate
+    canonical state
+  explicit_projection_refresh: allowed to rebuild generated status only
+manual_mode_behavior:
+  on_work_close:
+  - append/accept canonical lifecycle close
+  - reconcile generated roadmap status
+  - mark closed step COMPLETE
+  - calculate next READY step
+  - emit READY_FOR_OPERATOR_ACTIVATION
+  must_not_do:
+  - auto-activate next step
+  - auto-reorder roadmap
+  - silently add/delete roadmap steps
+  - widen authority
+  - dispatch worker
+operator_surface_candidates:
+  read_only_check: make roadmap-sync-check
+  refresh_generated_projection: make roadmap-sync
+  status: make status
+  example_output:
+  - ROADMAP_SYNC=IN_SYNC
+  - ROADMAP_SHA256=<sha>
+  - OBSERVED_ROADMAP_SHA256=<sha>
+  - LATEST_EVENT_SEQUENCE=<n>
+  - CURRENT_STEP=<id-or-none>
+  - NEXT_READY_STEP=<id>
+  - NEXT_ACTIVATION=REQUIRES_OPERATOR
+migration_plan:
+- Use current Continuity micro-roadmap as reference migration.
+- Stop treating manually written steps[].state=complete/next as independent execution
+  truth.
+- Introduce generated roadmap-execution status projection.
+- Update micro-roadmap validator to validate plan structure/bindings rather than hard-code
+  historical mutable statuses.
+- Bind lifecycle close/validation checks to roadmap step/work identity.
+- Add reconciliation check to assistant handoff and future dispatcher gates.
+- Roll out to Control Foundation roadmap next, then other registered executable roadmaps.
+control_foundation_change:
+  priority: P0
+  recommended_position: Immediately after CF-01 repository/control-plane reconciliation.
+  new_step_candidate:
+    id: CF-02
+    stable_id: roadmap_execution_state_reconciliation_controller
+    title: Eliminate roadmap/execution-state drift with deterministic reconciliation
+  renumber_note: Because the Control Foundation baseline mutation has not been accepted/applied,
+    later CF steps may be shifted once without historical rewrite.
+  readiness_gate_dependency: Blueprint AI trial readiness must require ROADMAP_SYNC=IN_SYNC
+    and no unresolved reconciliation conflicts.
+acceptance:
+- Closing a work item changes only canonical execution evidence; roadmap execution
+  status updates by deterministic projection.
+- A stale generated roadmap status is detected automatically.
+- A semantic plan/execution conflict blocks next activation.
+- Fresh assistant can determine previous/current/next work from canonical sources
+  without chat memory.
+- No manual double-write is required to close one roadmap step and expose the next.
+- make check remains non-mutating.
+- Next-step activation remains operator-controlled in current manual mode.

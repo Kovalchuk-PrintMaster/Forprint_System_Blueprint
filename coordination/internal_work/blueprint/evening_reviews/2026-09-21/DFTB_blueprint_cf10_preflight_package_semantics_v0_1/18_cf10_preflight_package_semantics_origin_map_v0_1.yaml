@@ -1,0 +1,35 @@
+schema_version: forprint_dftb_blueprint_20260921_cf10_preflight_package_semantics_origin_map_v0_1
+source_bundle: DFTB-blueprint-2026-09-21
+source_root: coordination/internal_work/blueprint/evening_reviews/2026-09-21/DFTB_blueprint_cf10_preflight_package_semantics_v0_1
+purpose: Preserve the historical transition from CF-09 ACK/closure into CF-10 READY_UNBOUND preflight and the origin
+  of assistant/bootstrap package semantic-identity/routing rules, while reconciling historical u180j/u180h blockers
+  against later current CF-10 execution.
+chain:
+- stage: cf09_ack_contract
+  state: exact pre-execution ACK receipt, separate Result envelope, fail-closed aliases/ambiguity
+- stage: living_knowledge_bootstrap_packaging
+  state: evidence-bounded promotion; packaging scope must not silently mutate roadmap
+- stage: package_semantic_identity_problem
+  state: mechanically valid package can still be wrong type/target/purpose
+- stage: cf10_ready_unbound
+  state: dependencies complete, no work_id, no lifecycle activation
+- stage: 0172_read_only_preflight
+  state: audit PASS with two blockers; no binding/planning/activation/launch
+- stage: blocker_u180j_identity
+  state: one pre-existing reference and no allocator prevents historical assumption of free identity
+- stage: blocker_handoff_u180h
+  state: Handoff v2 runtime still bound to old u180h in source endpoint
+- stage: later_cf10_binding_and_runtime
+  state: u180j explicitly bound/planned/activated; Handoff v2 TASK_EXECUTION passes with u180j active; governed
+    worker attempts execute
+- stage: remaining_current_audit_candidate
+  state: assistant-context-pack package routing/default MODULE semantics must be verified live
+durable_rules:
+- ACK success is not post-execution Result
+- audit PASS is not readiness or authority
+- packaging scope cannot silently redesign roadmap
+- validated reusable package logic belongs in durable project knowledge
+- package type/target/purpose must be semantically verified
+- unexpected implicit module routing is a defect candidate, not a module task
+- work identity is bound only through explicit current authority
+- reuse existing control-plane launch mechanisms before inventing new ones

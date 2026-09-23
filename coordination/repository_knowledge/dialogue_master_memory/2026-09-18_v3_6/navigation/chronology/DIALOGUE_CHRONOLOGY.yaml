@@ -1,0 +1,476 @@
+schema_version: forprint_master_dialogue_chronology_v1_0
+timezone: Europe/Kyiv
+principle: Do not invent precise timestamps. Date-only and ambiguous source labels remain date-only/ambiguous.
+ordering_model: causal/logical chronology with evidence strength; internal project timestamps outrank misleading filenames, and embedded prior-dialogue material
+  never gains fresh owner authority
+entries:
+- nominal_date: date-unknown-before-2026-09-15-export
+  date_kind: telegram_data_ingest_filename_date_untrusted
+  ordering_confidence: LOW_CAUSAL_FILENAME_PATTERN_ONLY
+  notes: 'Unique sparse Telegram data-ingest/integration source. Filename `07.10.26` is impossible relative to the 15.09.2026 export and there is no reliable
+    internal timestamp. Its content is foundational and may predate/overlap the internally anchored October-2025 ML phase, but exact order is not provable; retained
+    near the beginning with LOW confidence. Authority class: Telegram module history only.'
+  rank: 1
+  source_title: Telegram_Bot - Asistant_Telegram_Bot_2
+  source_sha256: 1964f07d75dc66862ddb04740956dda47f8948d599b0d089fc4f94396368cbe6
+  item_count: 20
+  evidence_count: 21
+  anomaly_count: 8
+  open_loop_count: 6
+  bundle: DFTB-telegram-bot-data-ingest-filename-label-2026-10-07
+  authority_class: module_history_non_blueprint_authority
+- nominal_date: '2025-10-12'
+  date_kind: telegram_behavior_model_internal_scaffold_timestamp
+  ordering_confidence: HIGH_INTERNAL_TIMESTAMP_WITH_EMBEDDED_PROVENANCE
+  notes: 'Unique Telegram behavior-model/AI-escalation source. Filename says 12.10.26 but export is 15.09.2026; embedded scaffold explicitly says `updated: 2025-10-12`.
+    Turn 1 embeds prior dialogue/scaffold and is secondary provenance. Direct later turns define human behavior, latest-voice-only reporting, Mentor/AI escalation,
+    tool-enabled assistant ambition, sales semantics and recurring fresh ML evaluation. Authority class: Telegram module history only.'
+  rank: 2
+  source_title: Telegram_Bot - Asistant_Telegram_Bot_4
+  source_sha256: 6335dcb444643b175483f69c87290967f01b84868161dcf192b4b43b52d4ad0d
+  item_count: 34
+  evidence_count: 32
+  anomaly_count: 9
+  open_loop_count: 8
+  bundle: DFTB-telegram-bot-behavior-model-internal-date-2025-10-12
+  authority_class: module_history_non_blueprint_authority
+- nominal_date: 2025-10-14..2025-10-25
+  date_kind: telegram_ml_engineering_internal_timestamp_anchor
+  ordering_confidence: HIGH_INTERNAL_TIMESTAMP
+  notes: 'Unique Telegram ML-engineering/refactor source. Filename `14.10.26` is impossible relative to the 15.09.2026 export. Internal artifact names show 2025-10-14
+    and WSL/systemd output shows 2025-10-25, so this is placed as the earliest known Telegram engineering root. Authority class: Telegram module history only.'
+  rank: 3
+  source_title: Telegram_Bot - Asistant_Telegram_Bot_1
+  source_sha256: 435ebfa6b80efe3f012e985c42edb375c3fcb9abbfa67f76f27563a87f685d2f
+  item_count: 32
+  evidence_count: 38
+  anomaly_count: 9
+  open_loop_count: 8
+  bundle: DFTB-telegram-bot-ml-engineering-filename-label-2026-10-14
+  authority_class: module_history_non_blueprint_authority
+- nominal_date: date-unknown-before-2026-09-15-export
+  date_kind: telegram_deberta_micro_dialogue_filename_date_untrusted
+  ordering_confidence: LOW_CONTEXTUAL_ONLY
+  notes: 'Unique two-turn Telegram micro-dialogue. Owner prompt is only `deberta`; substantive content is assistant educational context. Filename `16.10.26`
+    is impossible relative to the 15.09.2026 export and there is no internal dated checkpoint. Placed near early Telegram ML history only for navigation; no
+    exact chronology claim. Authority class: historical educational context, non-authoritative.'
+  rank: 4
+  source_title: Telegram_Bot - Asistant_Telegram_Bot_3
+  source_sha256: 6e0b95682899aeb20550709bd3e9cfa0cde1f3c690a6f8bcf4d0fad7a713f3df
+  item_count: 7
+  evidence_count: 7
+  anomaly_count: 4
+  open_loop_count: 3
+  bundle: DFTB-telegram-bot-deberta-context-filename-label-2026-10-16
+  authority_class: historical_educational_context_non_authoritative
+- nominal_date: 2026-05-16+
+  date_kind: early_module_dialogue_partial_span
+  ordering_confidence: MEDIUM_HIGH
+  notes: 'Early ForPrint Library greenfield/design source. Starts from broad Library concept and later receives a Blueprint alignment prompt in the same partial
+    chat. Missing turns 3–22 prevent exact end-date placement; logically precedes mature Blueprint architecture. Authority class: Library module history, not
+    current Blueprint authority.'
+  rank: 5
+  source_title: Forprint_Library_16.05.26
+  source_sha256: 1e015dc8792f8d2c0d862d00bcd50bcf4f7d157a141dbaccfc834412c8102542
+  item_count: 26
+  evidence_count: 30
+  anomaly_count: 6
+  open_loop_count: 6
+  bundle: DFTB-library-source-label-2026-05-16
+  authority_class: module_history_non_blueprint_authority_with_historical_blueprint_alignment
+- nominal_date: 2026-05-17..v0.5-date-unknown
+  date_kind: early_module_dialogue_with_unknown_terminal_date
+  ordering_confidence: HIGH_START_LOW_TERMINAL_DATE
+  notes: 'Accounting Registry/1C boundary source. Starts from 17.05 architecture that separates production operational truth from accounting/1C truth and later
+    reaches v0.5 `sandbox_1c_import_export_ready`; terminal date is not recoverable. Causally placed before the later explicit Operational Registry bootstrap.
+    Authority class: Accounting module history only.'
+  rank: 6
+  source_title: Forprint_Accounting_registry_Service_17.05.26
+  source_sha256: af8b9e8ee14965e8347011011211b77b562f69a960ac61ab481d7348326bc346
+  item_count: 26
+  evidence_count: 30
+  anomaly_count: 7
+  open_loop_count: 6
+  bundle: DFTB-accounting-registry-source-label-2026-05-17
+  authority_class: module_history_non_blueprint_authority
+- nominal_date: 2026-05-16..2026-05-22+
+  date_kind: partial_cross_module_architecture_genesis
+  ordering_confidence: HIGH_CAUSAL_PARTIAL_CAPTURE
+  notes: 'CRM-labelled source begins with Prepress automation, then contains direct owner Project Inspector/System Blueprint genesis and a CRM alignment prompt
+    whose path is dated 2026-05-22. Missing turns 3–25 prevent exact continuity reconstruction. Causally placed before dedicated Blueprint coordination history.
+    Authority class: CRM/cross-module history with historical owner alignment, not current Blueprint authority.'
+  rank: 7
+  source_title: Forprint_CRM_16.05.26
+  source_sha256: 31a758dd7a34c5c416272a4fada7e532642ea9a1af6a9b8f952a1da0ff2f4e61
+  item_count: 28
+  evidence_count: 37
+  anomaly_count: 7
+  open_loop_count: 6
+  bundle: DFTB-crm-source-label-2026-05-16
+  authority_class: module_history_with_blueprint_genesis_and_alignment_noncurrent
+- nominal_date: '2026-05-20'
+  date_kind: extremely_partial_prepress_bootstrap_proposal
+  ordering_confidence: HIGH_FILENAME_CAUSAL_INTERLEAVE
+  notes: 'Early Prepress Hub module-start source. It interleaves temporally with the CRM 16–22 May architecture-genesis conversation: the CRM source introduced
+    the broad Hub idea, while this 20.05 source proposes a concrete zero-platform scaffold. Only turns 1–2 survive; referenced `prepress_hub.docx` is absent
+    and no execution evidence exists. Authority class: Prepress module history only.'
+  rank: 8
+  source_title: ForPrint Prepress Hub_20.05.26
+  source_sha256: 7093b97b3b5e16aed5ebc71fcbaf8f878417f0c93a99e4fc9b5f3b6b26afe0ca
+  item_count: 22
+  evidence_count: 22
+  anomaly_count: 6
+  open_loop_count: 5
+  bundle: DFTB-prepress-hub-source-label-2026-05-20
+  authority_class: module_history_non_blueprint_authority
+- nominal_date: 2025-era..after-2026-06-03
+  date_kind: long_running_calculator_dialogue_filename_date_untrusted
+  ordering_confidence: HIGH_TERMINAL_CAUSAL_LOW_START_DATE
+  notes: 'Unique long-running Calculator Engine source. Filename label `09.10.26` is impossible as export chronology because MHTML was saved 2026-09-15. Internal
+    evidence spans 2025 artifacts, May 2026 server cleanup and a terminal controlled-pause checkpoint after a 2026-06-03 Blueprint directive. Causally placed
+    before the 14.06 Blueprint coordination source. Authority class: Calculator module history only.'
+  rank: 9
+  source_title: Asistant_Calculator_Engine - Calculator_Engine
+  source_sha256: 89ebb98618d86b0fa928d5c3f1748c68db81292f68b75698c19c2711689921fb
+  item_count: 40
+  evidence_count: 45
+  anomaly_count: 11
+  open_loop_count: 9
+  bundle: DFTB-calculator-engine-filename-label-2026-10-09
+  authority_class: module_history_non_blueprint_authority
+- nominal_date: date-unknown-before-export
+  date_kind: small_partial_telegram_dialogue_filename_date_untrusted
+  ordering_confidence: LOW_CAUSAL_ONLY
+  notes: 'Unique Telegram conversational-data source. Filename label `12.10.26` is impossible as chronology because the MHTML was saved 2026-09-15 and no internal
+    dated checkpoint resolves the true date. Causally treated as foundational Telegram data work near the early Telegram priority phase; exact position is uncertain.
+    Authority class: Telegram module history only.'
+  rank: 10
+  source_title: Генерація діалогів для бота
+  source_sha256: f53a57e1ec58417dcd16c5a3b900e1e616b1337e358f07497f400d5be984bb65
+  item_count: 30
+  evidence_count: 27
+  anomaly_count: 9
+  open_loop_count: 7
+  bundle: DFTB-telegram-bot-filename-label-2026-10-12
+  authority_class: module_history_non_blueprint_authority
+- nominal_date: '2026-06-14'
+  date_kind: filename_label_only
+  ordering_confidence: LOW
+  notes: Source label says 14.06.26, but internal artifacts explicitly extend into July 2026. Treat as an early provenance source with temporal overlap, not
+    a single-day snapshot.
+  rank: 11
+  source_title: Asistans_Forprint_Blueprint - Forprint_System_Blueprint (filename label 14.06.26)
+  source_sha256: c5acd0dfb9068b993e46aa69aecc3e49e79923130cf69a2f4381b21a8698ece1
+  item_count: 32
+  evidence_count: 40
+  anomaly_count: 9
+  open_loop_count: 8
+  bundle: DFTB_blueprint-source-label-2026-06-14
+- nominal_date: 2026-05-29..2026-06-19
+  date_kind: long_running_module_dialogue_span
+  ordering_confidence: HIGH_TERMINAL_CHECKPOINT
+  notes: 'Operational Registry module history starts from 29.05 greenfield bootstrap and visibly reaches June-19 make-first alignment. Placed after the ambiguous
+    14.06 Blueprint label and before 14.07 architecture. Authority class: module history with Blueprint governance input, not Blueprint authority.'
+  rank: 12
+  source_title: Forprint_Operational_Registry_29.05.26
+  source_sha256: 76cc1ad66510dfee633b2fc0bfa79bdf5734f31c23380babaef4ba6204720f07
+  item_count: 30
+  evidence_count: 32
+  anomaly_count: 8
+  open_loop_count: 7
+  bundle: DFTB-operational-registry-source-label-2026-05-29
+  authority_class: module_history_non_blueprint_authority_with_blueprint_governance_input
+- nominal_date: '2026-06-01'
+  date_kind: extremely_partial_bootstrap_proposal
+  ordering_confidence: HIGH_CAUSAL_LOW_DIRECT_EVIDENCE
+  notes: 'Unique Control Plane bootstrap proposal. Direct owner prompt is missing; only an assistant-side plan survives. Causally placed before the 14.07 Blueprint
+    item that explicitly records Strategic Control Plane as a separate planned component. No implementation evidence exists. Authority class: historical proposal
+    only.'
+  rank: 13
+  source_title: ForPrint Control Plane_01.06.26
+  source_sha256: cdd481e1607a395007f10995622396eab4db50c00fc9d311fdbf4d1ec8a20b08
+  item_count: 26
+  evidence_count: 26
+  anomaly_count: 6
+  open_loop_count: 6
+  bundle: DFTB-control-plane-source-label-2026-06-01
+  authority_class: historical_bootstrap_proposal_non_blueprint_authority
+- nominal_date: '2026-06-25'
+  date_kind: extremely_sparse_business_marketing_dialogue
+  ordering_confidence: HIGH_FILENAME_LOW_CONTINUITY
+  notes: Unique SMM/marketing source. Visible dialogue discusses initial traffic seeding for a young ForPrint website, targeted local acquisition, local search/Google
+    Business, small-budget learning and cross-channel content reuse. Only 16 turn sections survive across labels 1–108, with large gaps and screenshot-only context.
+    Business/marketing history only; it cannot reactivate Website technical work or override Blueprint authority.
+  rank: 14
+  source_title: SMM_Assistant - Розмова з асистентом
+  source_sha256: 51ce83905e242bce97d31effe69092b1b74af306f66cbe775c1bef0196958f34
+  item_count: 18
+  evidence_count: 21
+  anomaly_count: 6
+  open_loop_count: 5
+  bundle: DFTB-smm-assistant-source-label-2026-06-25
+  authority_class: business_marketing_history_non_blueprint_authority
+- nominal_date: '2026-06-27'
+  date_kind: partial_prepress_module_dialogue
+  ordering_confidence: HIGH_FILENAME_AND_CAUSAL
+  notes: 'Unique Prepress practical-capability source. Owner narrows broad Prepress Hub architecture into product-specific assistants, shared fact-only tools,
+    multi-candidate processing, Unix-first raster handling and bounded Windows Photoshop Station fallback. Missing turns 3–5. Authority class: Prepress module
+    history only.'
+  rank: 15
+  source_title: Prepress_Hub_27.06.26
+  source_sha256: 61e643d03bf0b721fb354ff21a0815dbe8e607a64318a65dc5fc14cd6047f46a
+  item_count: 30
+  evidence_count: 38
+  anomaly_count: 7
+  open_loop_count: 6
+  bundle: DFTB-prepress-hub-source-label-2026-06-27
+  authority_class: module_history_non_blueprint_authority
+- nominal_date: '2026-07-14'
+  date_kind: saved_source_date
+  ordering_confidence: MEDIUM
+  notes: Architecture/ideology/coordination-birth dialogue. May partially overlap the source-label-2026-06-14 export because that export contains later internal
+    artifact dates.
+  rank: 16
+  source_title: Forprint_Development - Forprint_System_Blueprint
+  source_sha256: be4f9a7b332a1f078f96db0e4f9536a391ba6e08d1585df22598516760e12a25
+  item_count: 47
+  evidence_count: 41
+  anomaly_count: 8
+  open_loop_count: 7
+  bundle: DFTB_blueprint-2026-07-14
+- nominal_date: 2026-05-26..v0.7-date-unknown
+  date_kind: long_running_module_dialogue_causal_placement
+  ordering_confidence: HIGH_CAUSAL_LOW_TERMINAL_DATE
+  notes: 'Integration Gateway module history. Filename says 26.05 but visible conversation runs from clean bootstrap to v0.7 Blueprint standards visibility without
+    an embedded terminal date. Causally placed after the 14.07 Blueprint ''bootstrap Gateway if absent'' architecture and before mature August coordination.
+    Authority class: Gateway module history only.'
+  rank: 17
+  source_title: Forprint Integration Gateway_26.05.26
+  source_sha256: f2bb2340e15c72c241922e431e906987f8a942ac0dd7f283399b92323134f151
+  item_count: 28
+  evidence_count: 30
+  anomaly_count: 7
+  open_loop_count: 6
+  bundle: DFTB-integration-gateway-source-label-2026-05-26
+  authority_class: module_history_non_blueprint_authority
+- nominal_date: '2026-07-25'
+  date_kind: partial_business_marketing_creative_tooling_dialogue
+  ordering_confidence: HIGH_FILENAME_PARTIAL_CAPTURE
+  notes: 'Second SMM history root. Distinct from the 25.06 acquisition dialogue: this source focuses on image/video generation workflow, one-primary-video-generator
+    simplification and reusable creative assets. Turns 10–16 are missing. Provider rankings are historical/time-sensitive. Authority class: business/marketing
+    history only.'
+  rank: 18
+  source_title: Трошки відійдемо
+  source_sha256: 5fba0820b78b9db0b453b797d257a49b791614d08e90d870f62582a838bb3975
+  item_count: 17
+  evidence_count: 18
+  anomaly_count: 5
+  open_loop_count: 5
+  bundle: DFTB-smm-assistant-source-label-2026-07-25
+  authority_class: business_marketing_history_only
+- nominal_date: 2026-07-05..2026-07-29
+  date_kind: long_running_module_dialogue_span
+  ordering_confidence: HIGH_TERMINAL_CHECKPOINT
+  notes: 'Second Library history layer. Starts from a 05.07 Blueprint-standardization prompt and visibly reaches Calculator Input Contract intake 27.07 plus
+    completion/governance-fix packet 29.07. Ranked after 14.07 architecture and before 05.08 Blueprint governance. Authority class: Library module history only.'
+  rank: 19
+  source_title: Forprint_Library_05.07.26
+  source_sha256: 6a24a969300645e5dfe1903013be86e2b062ae3650be212fe7760520e93b9dd6
+  item_count: 30
+  evidence_count: 38
+  anomaly_count: 9
+  open_loop_count: 7
+  bundle: DFTB-library-source-label-2026-07-05
+  authority_class: module_history_non_blueprint_authority
+- nominal_date: early-development..2026-07-29
+  date_kind: long_running_telegram_dialogue_filename_date_untrusted
+  ordering_confidence: HIGH_TERMINAL_CAUSAL_LOW_START_DATE
+  notes: 'Unique long-running Telegram history. Filename `13.10.26` is impossible relative to the 15.09.2026 export. The strongest terminal anchor is the 2026-07-29
+    governance completion packet at commit dcd2b01. The source spans early behavior modeling, wizard/runtime development and governance adoption. Causally placed
+    after the Library 07-29 closure-lineage and before 08-05 Blueprint release work. Authority class: Telegram module history only.'
+  rank: 20
+  source_title: Asistant_Telegram_Bot - Assistant_Telegram_Bot
+  source_sha256: 14c1e806fc913764c49658eaaca84262fbd4a189489863f45b0cc3baaec1a264
+  item_count: 38
+  evidence_count: 42
+  anomaly_count: 10
+  open_loop_count: 8
+  bundle: DFTB-telegram-bot-long-running-filename-label-2026-10-13
+  authority_class: module_history_non_blueprint_authority
+- nominal_date: '2026-08-05'
+  date_kind: source_label
+  ordering_confidence: HIGH
+  notes: Repository knowledge, Make/roadmap discipline, command/write/mutation architecture.
+  rank: 21
+  source_title: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_05.08.26
+  source_sha256: dba07b5cfb41381f4a651d0c5c43cd34647a5aaf2a56ffb10c01f7a3e26982ae
+  item_count: 40
+  evidence_count: 46
+  anomaly_count: 10
+  open_loop_count: 10
+  bundle: DFTB_blueprint-2026-08-05
+- nominal_date: '2026-08-05'
+  date_kind: continuation_source
+  ordering_confidence: HIGH
+  notes: 'Distinct continuation, not duplicate: transparency → completion intake → v0.4 closed-loop → STEP26/STEP27.'
+  rank: 22
+  source_title: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint (05.08 continuation export)
+  source_sha256: ddc8e37bcd183ce3c85339b6a99d3b2e4240ae1ee6a330906b2f39ae410c71d1
+  item_count: 34
+  evidence_count: 40
+  anomaly_count: 9
+  open_loop_count: 9
+  bundle: DFTB_blueprint-2026-08-05-continuation
+- nominal_date: '2026-08-17'
+  date_kind: source_label
+  ordering_confidence: HIGH
+  notes: STEP27 chain validation, separation of completion/review/acceptance, B/H hardening and continuity.
+  rank: 23
+  source_title: Asistans_Forprint_Blueprint - Forprint_System_Blueprint_17.08.26
+  source_sha256: 9d693e7905ba827b9c6b9d3920357546a653437745f1531adac1bce11102f0c1
+  item_count: 36
+  evidence_count: 43
+  anomaly_count: 8
+  open_loop_count: 6
+  bundle: DFTB_blueprint-2026-08-17
+- nominal_date: 2026-06-10..2026-08-22
+  date_kind: long_running_module_dialogue_span
+  ordering_confidence: HIGH_TERMINAL_CHECKPOINT_LOW_SINGLE_DATE
+  notes: 'Logistics module dialogue starts as a 10.06 greenfield bootstrap and carries dated artifacts through 22.08 H9 publication seal. Ranked by terminal
+    H9 checkpoint between 17.08 and 27.08 Blueprint governance. Authority class: module history only, not Blueprint authority.'
+  rank: 24
+  source_title: Logistics_service_10.06.26
+  source_sha256: 52ade5744d55fc71f2ca17d135bb340d4bc68c9c235abd83e395a9c553fd1ed6
+  item_count: 22
+  evidence_count: 34
+  anomaly_count: 7
+  open_loop_count: 6
+  bundle: DFTB-logistics-service-source-label-2026-06-10
+  authority_class: module_history_non_blueprint_authority
+- nominal_date: '2026-08-27'
+  date_kind: source_label
+  ordering_confidence: HIGH
+  notes: Governance evolution, parallel-work semantics, phase-boundary policy, Logistics-only H10 gate.
+  rank: 25
+  source_title: Asistans_Forprint_Blueprint - Asistant_Forprint_Blueprint_27.08.26
+  source_sha256: 025ed589ab91efa77a5c8b4023b1c34bead114e9dda0c7194900f2756d71eed4
+  item_count: 34
+  evidence_count: 42
+  anomaly_count: 8
+  open_loop_count: 7
+  bundle: DFTB_blueprint-2026-08-27
+- nominal_date: '2026-08-31'
+  date_kind: source_label
+  ordering_confidence: HIGH
+  notes: Blueprint self-inventory, semantic reconciliation, Human Intent/portfolio design, Inspector and Contract Registry.
+  rank: 26
+  source_title: Asistans_Forprint_Blueprint - Blueprint Preflight_31.08.26
+  source_sha256: 69c549548cd9171d4c6c05da379d7074e5b97992ca8f2ee14ddfda1ba61d1407
+  item_count: 37
+  evidence_count: 38
+  anomaly_count: 10
+  open_loop_count: 9
+  bundle: DFTB_blueprint-preflight-2026-08-31
+- nominal_date: '2026-09-05'
+  date_kind: source_label
+  ordering_confidence: HIGH
+  notes: Human Intent integration, document normalization/self-cleaning, Logistics prompt-pull runtime.
+  rank: 27
+  source_title: Asistans_Forprint_Blueprint - Forprint_Blueprint_05.09.26
+  source_sha256: d7caa4e5fc43321c58de5bde1b7184bc15624411e6e046df59d44127b183fb2f
+  item_count: 30
+  evidence_count: 37
+  anomaly_count: 8
+  open_loop_count: 7
+  bundle: DFTB_blueprint-2026-09-05
+- nominal_date: '2026-09-08'
+  date_kind: source_label
+  ordering_confidence: HIGH
+  notes: 'Unique portfolio-forensics dialogue: B10 semantic findings, owner-defined forensic program, Logistics L1/L2 live proof, and transition to Blueprint
+    Wave 1. Fits between 05.09 and 09.09.'
+  rank: 28
+  source_title: Asistans_Forprint_Blueprint - Forprint_Blueprint_08.09.26
+  source_sha256: a9440aa0451f60b0167f2f44bdc755d7aad4bbe0a2e87b4106ba396f1e930a47
+  item_count: 34
+  evidence_count: 44
+  anomaly_count: 11
+  open_loop_count: 7
+  bundle: DFTB_blueprint-2026-09-08
+- nominal_date: '2026-09-09'
+  date_kind: source_label
+  ordering_confidence: HIGH
+  notes: Fresh-worker ecosystem, context compiler/gateway/dispatcher/intake, startup normalization.
+  rank: 29
+  source_title: Asistans_Forprint_Blueprint - Forprint_Blueprint_09.09.26
+  source_sha256: 31714097725698cf29018be3cda4abab429c0751937d4675f778bd6ee4c6ccdb
+  item_count: 39
+  evidence_count: 60
+  anomaly_count: 8
+  open_loop_count: 6
+  bundle: DFTB_blueprint-2026-09-09
+- nominal_date: '2026-09-10'
+  date_kind: source_label
+  ordering_confidence: HIGH
+  notes: Autogeneration audit, Mutation Compiler, explicit dependencies, continuity stack and Handoff Compiler.
+  rank: 30
+  source_title: Asistans_Forprint_Blueprint - Forprint_Blueprint_10.09.26
+  source_sha256: 91b71537fa8abe73a5be3d09de5a8730f75edc2fc60a2f002cb526214f43d70b
+  item_count: 32
+  evidence_count: 37
+  anomaly_count: 9
+  open_loop_count: 8
+  bundle: DFTB_blueprint-2026-09-10
+- nominal_date: '2026-09-12'
+  date_kind: multi_day_continuation_export
+  ordering_confidence: HIGH
+  notes: Distinct continuation of 10.09. Embedded work/event timestamps span Sep 11–12. Closes Step 9 Handoff Compiler, continues Lifecycle Enforcement/zero-context/Step
+    12, then introduces Control Foundation CF-01/CF-02.
+  rank: 31
+  source_title: Asistans_Forprint_Blueprint - Forprint_Blueprint_12.09.26
+  source_sha256: 142323e4fa85817b7e46fe01b0b6f8f7a8d49305697743dbe5d52cad8e10ddc2
+  item_count: 35
+  evidence_count: 40
+  anomaly_count: 11
+  open_loop_count: 8
+  bundle: DFTB_blueprint-2026-09-12
+- nominal_date: '2026-09-07'
+  date_kind: filename_label_conflicts_with_internal_lineage
+  ordering_confidence: HIGH_LOGICAL_LOW_FILENAME
+  notes: Filename label is misleading. Internal evidence includes `forprint_evening_strategy_2026-09-12_v0_1.zip`, CF-01/u180a already CLOSED and CF-02 NEXT_MANUAL.
+    This source is placed by logical project lineage after the CF-01 checkpoint and before later 14.09 CF-02 hardening.
+  rank: 32
+  source_title: Asistans_Forprint_Blueprint - Forprint_Blueprint_07.09.26 (date label conflicts with internal lineage)
+  source_sha256: 0c32059f0cc0787ae681b49747a96627965958ea76793ce519afa32b007d568b
+  item_count: 20
+  evidence_count: 26
+  anomaly_count: 10
+  open_loop_count: 6
+  bundle: DFTB-blueprint-source-label-2026-09-07-control-foundation
+- nominal_date: '2026-09-14'
+  date_kind: overlapping_continuation_source
+  ordering_confidence: HIGH
+  notes: Real continuation of the 12.09 conversation. The export repeats 18 base messages but adds 43 new messages; master indexes only the new delta. Advances
+    CF-02, later reaches u180e/CF-05 diagnostics and ends before final 0104 result.
+  rank: 33
+  source_title: Asistans_Forprint_Blueprint - Forprint_Blueprint_14.09.26 (continuation delta)
+  source_sha256: 9911992845f537bfc18eaae65c2193c0e767c6ce0e4b927917312f9db133b707
+  item_count: 20
+  evidence_count: 33
+  anomaly_count: 9
+  open_loop_count: 6
+  bundle: DFTB_blueprint-2026-09-14-continuation
+- nominal_date: '2026-09-17'
+  date_kind: blueprint_continuation_with_internal_2026-09-16_17_execution_anchors
+  ordering_confidence: HIGH
+  notes: 'Unique Blueprint continuation. Opens at u180e/CF-05 ACTIVE from the prior 14.09 checkpoint and advances visible history through CF-06, CF-07 and CF-09
+    Dispatcher closure readiness. Endpoint is explicitly red: 0253 readiness 9/9 but 0254 full project closure fails on stale generator inventory; CF-09 remains
+    ACTIVE and worker/CF-10 remain off.'
+  rank: 34
+  source_title: Asistans_Forprint_Blueprint - Forprint_Blueprint_17.09.26
+  source_sha256: ef0a49a2803af7c768206a8fa8c202a22a11d0902ea4673f80e9726ed4c0a7ed
+  item_count: 28
+  evidence_count: 33
+  anomaly_count: 9
+  open_loop_count: 7
+  bundle: DFTB-blueprint-2026-09-17
+  authority_class: blueprint_coordination_history

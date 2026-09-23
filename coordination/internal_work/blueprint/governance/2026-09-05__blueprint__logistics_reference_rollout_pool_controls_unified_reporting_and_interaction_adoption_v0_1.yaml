@@ -1,0 +1,81 @@
+schema_version: blueprint_governance_operational_decision_v0_1
+metadata:
+  created_at: '2026-09-05'
+  module_id: forprint_system_blueprint
+  owner: forprint_system_blueprint
+  status: adopted
+record_id: blueprint_logistics_reference_rollout_pool_controls_unified_reporting_and_interaction_adoption_v0_1
+recorded_at: '2026-09-05'
+scope: h10_logistics_reference_rollout_and_future_module_inheritance
+status: adopted
+human_intent:
+  logistics_reference_role: Logistics is the pilot/reference module. Proven coordination, self-knowledge, context
+    handoff and reporting behavior is intended to become the default profile for other modules without requiring
+    domain code to be copied byte-for-byte.
+  first_pool_control: The first substantial Logistics pool is fully manually gated. The operator reviews every prompt
+    result and explicitly authorizes the next prompt.
+  later_pool_control: After each pool the operator may keep full manual control, use checkpointed automation or
+    allow automated child progression depending on observed quality.
+  mandatory_pool_gate: Every pool ends with human review regardless of intra-pool automation level.
+  unified_reporting: Completion reports use one common semantic structure across modules so Blueprint/Inspector
+    can validate them uniformly.
+  post_pool_audit: The first Logistics pool is followed by an independent repository inventory/audit that checks
+    repository reality rather than trusting the worker report.
+  resource_review: AI token/cost/runtime efficiency is reviewed when observable; unavailable telemetry is marked
+    not_observable and is never invented.
+  artifact_naming: Temporary user-facing reports/archives use semantic unique non-overwriting names, and cleanup
+    permission never forces deletion.
+  language_convention: In Ukrainian the AI assistant refers to herself with feminine grammatical forms and addresses
+    the human operator with masculine grammatical forms.
+decision:
+  reference_module: logistics_service
+  all_modules_inherit_proven_reference_behavior: true
+  byte_for_byte_domain_copy_required: false
+  first_pool_control_mode: L0_FULL_MANUAL_PROMPT_GATE
+  first_pool_every_prompt_requires_operator_gate: true
+  later_pool_control_modes:
+    - L0_FULL_MANUAL_PROMPT_GATE
+    - L1_CHECKPOINTED_POOL_AUTOMATION
+    - L2_AUTOMATED_CHILD_PROGRESSION_WITH_FINAL_HUMAN_POOL_GATE
+  automation_level_self_widening_allowed: false
+  every_pool_final_human_review_required: true
+  machine_pool_step_conformance_is_blueprint_accept: false
+  automatic_blueprint_accept_authorized: false
+  first_pool_automatic_next_prompt_release_authorized: false
+  independent_first_pool_inventory_audit_required: true
+  unified_module_completion_report_required: true
+  resource_metrics_may_be_not_observable: true
+  invented_resource_metrics_allowed: false
+  fresh_worker_per_prompt_target: true
+  conversation_memory_required_for_continuity: false
+authority_effect:
+  release_transition: false
+  prompt_activation: false
+  automatic_acceptance: false
+  automatic_first_pool_release_next_prompt: false
+  module_implementation_authority_widened: false
+  cross_repository_write_authority_widened: false
+  commit_push_authority_widened: false
+canonical_standard:
+  path: coordination/standards/governance/module_reference_rollout_execution_pool_policy_v0_1.md
+reporting_protocol:
+  path: coordination/standards/governance/module_prompt_execution_and_reporting_protocol.md
+operator_profile:
+  path: coordination/standards/governance/operator_interaction_profile_v0_1.yaml
+human_intent_delta:
+  path: coordination/human_intent/deltas/2026-09-05__logistics_reference_rollout_pool_controls_and_reporting__human_intent_delta_v0_1.yaml
+expanded_human_portfolio:
+  path: coordination/human_intent/expanded_portfolio_current.md
+  authority: projection_not_release_authority
+open_gaps:
+  - gap_id: GAP-H10-POOL-AUTOMATION-PROMOTION-THRESHOLDS-001
+    module_id: forprint_system_blueprint
+    summary: Exact quantitative promotion thresholds from full-manual to checkpointed or automated child progression
+      are not yet agreed.
+    rule: Determine them from first Logistics pool evidence; do not invent thresholds before calibration.
+    status: OPEN_NONBLOCKING_FIRST_POOL
+  - gap_id: GAP-H10-AI-RESOURCE-TELEMETRY-001
+    module_id: forprint_system_blueprint
+    summary: The exact trustworthy token/cost telemetry source for future fresh AI workers is not yet confirmed.
+    rule: Report not_observable until a trustworthy source exists; never fabricate token or cost values.
+    status: OPEN_NONBLOCKING_FIRST_POOL

@@ -1,0 +1,1442 @@
+schema_version: forprint_dftb_dialogue_memory_v0_1
+bundle_id: DFTB-blueprint-2026-09-17
+source:
+  source_id: SRC-blueprint-2026-09-17
+  title: Asistans_Forprint_Blueprint - Forprint_Blueprint_17.09.26
+  source_type: chatgpt_mhtml_blueprint_coordination_continuation
+  source_file: Forprint_Blueprint_17.09.26.mhtml
+  source_hash_sha256: ef0a49a2803af7c768206a8fa8c202a22a11d0902ea4673f80e9726ed4c0a7ed
+  conversation_started_at: null
+  conversation_ended_at: Fri, 18 Sep 2026 11:20:09 +0300
+  participants:
+  - user
+  - assistant
+  language:
+  - uk
+  - en
+  authority_scope: blueprint_coordination_history
+  completeness: large_sparse_attachment_heavy_continuation
+  completeness_notes: 110 visible turn sections / 110 message blocks across turn range 1–392. Most intermediate turns are attachment placeholders. Visible execution
+    anchors span 2026-09-16..2026-09-17; export saved 2026-09-18.
+extraction:
+  created_at: '2026-09-18T11:20:09+03:00'
+  extractor: GPT-5.6 Sol / Asistans_Forprint_Blueprint
+  extraction_mode: duplicate_check_then_strict_blueprint_continuation_reconstruction
+  implementation_verification_performed: false
+  notes: Historical dialogue evidence only. Attachment-only payloads are not reconstructed. Endpoint is red CF-09 project closure, not a successful close.
+evidence_index:
+- evidence_id: EV-BP1709-0001
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: 6ffd72f1-c137-4072-aee5-ecaee5a13fc2
+    message_id: 6ffd72f1-c137-4072-aee5-ecaee5a13fc2
+    source_file: Forprint_Blueprint_17.09.26.mhtml
+  quote: 'tate: CLOSED event_id: evt-u180d-closed-20260913t203017523355z event_type: WORK_CLOSED sequence: 40 u180e: state: ACTIVE event_id: evt-u180e-activate-20260913t204724993418z
+    event_type: WORK_ACTIVATED sequence: 42 $ /srv/software_development/forprint-project/forprint_system_blueprint/.venv_blueprint/bin/python scripts/coordination/roadmap_execution_reconciliation.py
+    --root . status ROADMAP_SYNC=IN_SYNC LATEST_EVENT_SEQUENCE=42 ROADMAP_STATUS=continuity_foundation:previous=module_transfer_reference_implementation:current=None:next=None:ready=None
+    ROADMAP_STATUS=control_foundation_near_horizon:previous=CF-04:current=CF-05:next=CF-06:ready=CF-06 MUTATION_PERFORMED=false $ /srv/software_development/forprint-project/forprint_system_blueprint/.venv_blu'
+  quote_whitespace_normalized: true
+  context_before: Opening handoff records current lifecycle with u180e ACTIVE at sequence 42.
+  context_after: null
+  evidence_role:
+  - user_supplied_handoff
+  - lifecycle_state
+- evidence_id: EV-BP1709-0002
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: 6ffd72f1-c137-4072-aee5-ecaee5a13fc2
+    message_id: 6ffd72f1-c137-4072-aee5-ecaee5a13fc2
+    source_file: Forprint_Blueprint_17.09.26.mhtml
+  quote: 'ion:current=None:next=None:ready=None ROADMAP_STATUS=control_foundation_near_horizon:previous=CF-04:current=CF-05:next=CF-06:ready=CF-06 MUTATION_PERFORMED=false
+    $ /srv/software_development/forprint-project/forprint_system_blueprint/.venv_blueprint/bin/python -m pytest -q tests/validation/test_blueprint_metadata_consistency.py::test_current_blueprint_metadata_is_consistent
+    --tb=short -p no:cacheprovider F [100%] =================================== FAILURES =================================== ________________ test_current_blueprint_metadata_is_consistent
+    _________________ tests/validation/test_blueprint_metadata_consistency.py:89: in test_current_blueprint_metadata_is_consistent assert result.ok, [ E AssertionError:
+    [''/srv/software_development/forprint-p'
+  quote_whitespace_normalized: true
+  context_before: Opening handoff records roadmap CF-05 current and CF-06 next/ready.
+  context_after: null
+  evidence_role:
+  - user_supplied_handoff
+  - roadmap_state
+- evidence_id: EV-BP1709-0003
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: 6ffd72f1-c137-4072-aee5-ecaee5a13fc2
+    message_id: 6ffd72f1-c137-4072-aee5-ecaee5a13fc2
+    source_file: Forprint_Blueprint_17.09.26.mhtml
+  quote: 'dination/internal_work/blueprint/governance..._morning_continuity_handoff_reconciliation_v0_1.yaml: metadata_missing: Governance record requires a
+    metadata mapping''] E assert False E + where False = ValidationResult(governance_files=137, prompt_indexes=9, prompt_records=23, issues=(ValidationIssue(path=PosixPath(''/s...andoff_reconciliation_v0_1.yaml''),
+    code=''metadata_missing'', message=''Governance record requires a metadata mapping''),)).ok =========================== short test summary info ============================
+    FAILED tests/validation/test_blueprint_metadata_consistency.py::test_current_blueprint_metadata_is_consistent 1 failed in 1.61s MORNING_RECONCILIATION_FINAL_ACCEPTANCE=FAIL
+    ERROR=Fail: focused metadata failure no longer matches the known sing'
+  quote_whitespace_normalized: true
+  context_before: Focused metadata consistency test fails on the morning continuity handoff reconciliation record.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - validation_failure
+- evidence_id: EV-BP1709-0004
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: 6ffd72f1-c137-4072-aee5-ecaee5a13fc2
+    message_id: 6ffd72f1-c137-4072-aee5-ecaee5a13fc2
+    source_file: Forprint_Blueprint_17.09.26.mhtml
+  quote: '_blueprint_metadata_consistency.py::test_current_blueprint_metadata_is_consistent 1 failed in 1.61s MORNING_RECONCILIATION_FINAL_ACCEPTANCE=FAIL ERROR=Fail:
+    focused metadata failure no longer matches the known single blocker CANONICAL_MUTATION_APPLIED=false CANONICAL_STATE_MAY_HAVE_ADVANCED=false DO_NOT_RERUN_BLINDLY=false
+    NEXT_ACTION=RETURN_FAILURE_FOR_PRE_MUTATION_METADATA_REPAIR_DIAGNOSIS 0104 нарешті знайшов справжній поточний blocker: це вже не hash pin і не public-check
+    isolation. Повний pytest на актуальному working tree падає рівно на одному тесті, бо наш ранковий governance record від 0094 не має стандартного metadata
+    mapping. Це наш дефект у 0094, тому його і виправляємо. Я підготувала 0105: він робить одну канонічну зміну — додає стандартний metadata-блок до вже існуючого'
+  quote_whitespace_normalized: true
+  context_before: Historical attempt stops before mutation when the focused acceptance condition is red.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - safe_fail
+- evidence_id: EV-BP1709-0005
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 585f7151-78e2-41ab-ae6a-0b10841b541f
+    message_id: 2a2f1bb6-15d2-41a8-bab9-927e2f89f5ee
+    source_file: Forprint_Blueprint_17.09.26.mhtml
+  quote: 'iation reports: control_foundation_near_horizon:previous=CF-04:current=CF-05:next=CF-06:ready=CF-06 Do NOT activate CF-05 again. Do NOT advance to
+    CF-06. Do NOT reset, stash, rebase, clean, or otherwise manufacture a clean working tree. Preserve all existing unrelated dirty state. The current morning-reconciliation
+    acceptance blocker is: coordination/internal_work/blueprint/governance/2026-09-14__blueprint__morning_continuity_handoff_reconciliation_v0_1.yaml Focused
+    validator currently reports exactly: metadata_missing: Governance record requires a metadata mapping Objective Repair only the missing standard governance
+    metadata mapping on the existing morning reconciliation record, preserving all of its existing semantic content. This is a defect repair to the already'
+  quote_whitespace_normalized: true
+  context_before: Assistant continuation explicitly forbids duplicate CF-05 activation or CF-06 advancement during metadata repair.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - lifecycle_guard
+- evidence_id: EV-BP1709-0006
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 585f7151-78e2-41ab-ae6a-0b10841b541f
+    message_id: 2a2f1bb6-15d2-41a8-bab9-927e2f89f5ee
+    source_file: Forprint_Blueprint_17.09.26.mhtml
+  quote: 'metadata vocabulary and value conventions from repository evidence. The expected mapping shape is: module_id evidence_id created_at source_head status
+    Do not invent alternate field names or status vocabulary. Use the target record''s existing provenance/semantics and sibling convention to derive values.
+    Preserve original creation semantics where available rather than silently redefining them. Apply exactly one hand-authored canonical repair: add the required
+    metadata mapping to coordination/internal_work/blueprint/governance/2026-09-14__blueprint__morning_continuity_handoff_reconciliation_v0_1.yaml Do not otherwise
+    rewrite, reformat, broaden, reinterpret, or normalize the record. Do not manually edit: continuity events; generated continuity projecti'
+  quote_whitespace_normalized: true
+  context_before: Assistant defines the expected standard metadata mapping keys for the narrow repair.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - metadata_contract
+- evidence_id: EV-BP1709-0007
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 585f7151-78e2-41ab-ae6a-0b10841b541f
+    message_id: 2a2f1bb6-15d2-41a8-bab9-927e2f89f5ee
+    source_file: Forprint_Blueprint_17.09.26.mhtml
+  quote: 'record repair. Use existing repository producers/Make targets; never hand-edit generated artifacts. Generated changes required by deterministic refresh
+    are allowed and must be reported separately from the single hand-authored canonical repair. Run the full pytest suite using the repository venv. Any new
+    failure is a real acceptance blocker. Do not explain it away and do not continue into CF-05 implementation while final acceptance is red. Run the existing
+    handoff/context/continuity/roadmap consistency checks required by repository governance, then run final: make check make check must remain validation-only
+    and must not be used to silently fix state. Re-check: scripts/coordination/continuity_lifecycle.py --root . status and scripts/coordination/roadmap_execution_reconciliation.py
+    --root . s'
+  quote_whitespace_normalized: true
+  context_before: Assistant requires derived refresh only through existing producers and separates it from the one hand-authored repair.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - generated_artifacts
+- evidence_id: EV-BP1709-0008
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 585f7151-78e2-41ab-ae6a-0b10841b541f
+    message_id: 2a2f1bb6-15d2-41a8-bab9-927e2f89f5ee
+    source_file: Forprint_Blueprint_17.09.26.mhtml
+  quote: 'continuity/roadmap consistency checks required by repository governance, then run final: make check make check must remain validation-only and must
+    not be used to silently fix state. Re-check: scripts/coordination/continuity_lifecycle.py --root . status and scripts/coordination/roadmap_execution_reconciliation.py
+    --root . status Expected control semantics after successful repair: u180e remains ACTIVE; CF-05 remains current; CF-06 remains next/ready; there is no second
+    CF-05 activation; no lifecycle/roadmap advancement is performed by this repair. Acceptance rule Set: MORNING_RECONCILIATION_FINAL_ACCEPTANCE=PASS only if
+    all of the following are true: the target metadata defect is repaired; focused metadata consistency passes; required derived artifacts are refreshed deterministi'
+  quote_whitespace_normalized: true
+  context_before: Assistant preserves the non-mutating make-check invariant for final acceptance.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - validation
+- evidence_id: EV-BP1709-0009
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 585f7151-78e2-41ab-ae6a-0b10841b541f
+    message_id: 2a2f1bb6-15d2-41a8-bab9-927e2f89f5ee
+    source_file: Forprint_Blueprint_17.09.26.mhtml
+  quote: 'CTED_CANONICAL_MUTATION ; CF05_STATE ; CF06_STATE ; exact next action. On PASS, the next action is: RESUME_ALREADY_ACTIVE_U180E_CF05_IMPLEMENTATION
+    not CF-05 activation and not CF-06 advancement. Мій горизонт після 0105 зараз такий: 0105 repair → final green → зафіксувати boundary ранкового reconciliation
+    → продовжити u180e → реалізувати CF-05 поверх CF-04 Work Front identity → додати/перевірити execution-attempt history semantics → integration/validators
+    → CF-05 checkpoint → independent validation → close u180e → roadmap reconcile до CF-06 без auto-activation . Ключовий контрольний принцип: зараз не розширюємо
+    scope 0105 . Якщо він green, наступний промпт уже має бути чистим CF-05 implementation slice; якщо red — розбираємо лише новий конкретний blocker.'
+  quote_whitespace_normalized: true
+  context_before: Assistant says successful repair resumes the already-active CF-05 rather than activating again.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - next_action
+- evidence_id: EV-BP1709-0010
+  speaker: user
+  locator:
+    conversation_turn: 69
+    turn_id: f7314d6e-15e5-442e-81d4-ba1c26f44c97
+    message_id: f7314d6e-15e5-442e-81d4-ba1c26f44c97
+    source_file: Forprint_Blueprint_17.09.26.mhtml
+  quote: 'SS Package is NOT a direct execution batch. Roadmap: ROADMAP_STATUS=control_foundation_near_horizon:previous=CF-05:current=CF-06:next=CF-07:ready=CF-07
+    CF06 implementation paths present: 0/5 Conflict candidates: 1 Immediate classification: - P0 Finish first local autonomous worker path: CURRENT_CRITICAL_FINISH_CF06_FIRST
+    - P1 Define and launch Blueprint internal AI worker: ROADMAP_RECONCILIATION_FOR_ZERO_STAGE_WORKER - P2 Bootstrap + evening package governance: BOOTSTRAP_POLICY_AUDIT_AND_BOUNDED_PATCH
+    - P3 Parallel module deep-audit preparation: FUTURE_MAJOR_WORKSTREAM_MAP_TO_ROADMAP - P4 Global roadmap/dependency matrix/waves: FUTURE_MAJOR_WORKSTREAM_MAP_TO_ROADMAP
+    - P5 Early Blueprint worker training workload: PREFER_FIRST_WORKER_TRAINING_BACKLOG No canonical mutation was performed. Show'
+  quote_whitespace_normalized: true
+  context_before: Later morning summary shows execution has progressed to CF-06 current with CF-07 next/ready.
+  context_after: null
+  evidence_role:
+  - user_supplied_report
+  - roadmap_state
+- evidence_id: EV-BP1709-0011
+  speaker: user
+  locator:
+    conversation_turn: 69
+    turn_id: f7314d6e-15e5-442e-81d4-ba1c26f44c97
+    message_id: f7314d6e-15e5-442e-81d4-ba1c26f44c97
+    source_file: Forprint_Blueprint_17.09.26.mhtml
+  quote: 'Pasted text.txt Document ForPrint morning intake — human summary Package integrity: PASS Package is NOT a direct execution batch. Roadmap: ROADMAP_STATUS=control_foundation_near_horizon:previous=CF-05:current=CF-06:next=CF-07:ready=CF-07
+    CF06 implementation paths present: 0/5 Conflict candidates: 1 Immediate classification: - P0 Finish first local autonomous worker path: CURRENT_CRITICAL_FINISH_CF06_FIRST
+    - P1 Define and launch Blueprint internal AI worker: ROADMAP_RECONCILIATION_FOR_ZERO_STAGE_WORKER - P2 Bootstrap + evening package governance: BOOTSTRAP_POLICY_AUDIT_AND_BOUNDED_PATCH
+    - P3 Parallel module deep-audit preparation: FUTURE_MAJOR_WORKSTREAM_MAP_TO_ROADMAP - P4 Global roadmap/dependency matrix/waves: FUTURE_MAJOR_WORKSTREAM_MAP_TO_ROADMAP
+    - P5 Early Bluepr'
+  quote_whitespace_normalized: true
+  context_before: Morning package is explicitly classified as intake/context rather than executable authority.
+  context_after: null
+  evidence_role:
+  - user_supplied_report
+  - authority_boundary
+- evidence_id: EV-BP1709-0012
+  speaker: user
+  locator:
+    conversation_turn: 69
+    turn_id: f7314d6e-15e5-442e-81d4-ba1c26f44c97
+    message_id: f7314d6e-15e5-442e-81d4-ba1c26f44c97
+    source_file: Forprint_Blueprint_17.09.26.mhtml
+  quote: '/5 Conflict candidates: 1 Immediate classification: - P0 Finish first local autonomous worker path: CURRENT_CRITICAL_FINISH_CF06_FIRST - P1 Define
+    and launch Blueprint internal AI worker: ROADMAP_RECONCILIATION_FOR_ZERO_STAGE_WORKER - P2 Bootstrap + evening package governance: BOOTSTRAP_POLICY_AUDIT_AND_BOUNDED_PATCH
+    - P3 Parallel module deep-audit preparation: FUTURE_MAJOR_WORKSTREAM_MAP_TO_ROADMAP - P4 Global roadmap/dependency matrix/waves: FUTURE_MAJOR_WORKSTREAM_MAP_TO_ROADMAP
+    - P5 Early Blueprint worker training workload: PREFER_FIRST_WORKER_TRAINING_BACKLOG No canonical mutation was performed. Show more Show less'
+  quote_whitespace_normalized: true
+  context_before: Morning priority says finish CF-06 before launching the Blueprint internal AI worker stream.
+  context_after: null
+  evidence_role:
+  - user_supplied_report
+  - priority
+- evidence_id: EV-BP1709-0013
+  speaker: user
+  locator:
+    conversation_turn: 175
+    turn_id: 0168a4a3-1133-4986-ba11-32619b9dafda
+    message_id: 0168a4a3-1133-4986-ba11-32619b9dafda
+    source_file: Forprint_Blueprint_17.09.26.mhtml
+  quote: stant_work/u180g_cf07/0091__0168_cf07_s2_runtime_conformance_and_evidence_binding_failure_v0_1.yaml CF07_S2_RUNTIME_CONFORMANCE=FAIL_STATE_AWARE CANONICAL_MUTATION_PERFORMED=false
+    CF07_CHECKPOINT_PERFORMED=false LIFECYCLE_MUTATION_PERFORMED=false CF08_IMPLEMENTATION_PERFORMED=false WORKER_DISPATCH_PERFORMED=false Show more Show less
+  quote_whitespace_normalized: true
+  context_before: CF-07 second-slice runtime conformance fails state-aware during mirror lint.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - cf07
+- evidence_id: EV-BP1709-0014
+  speaker: user
+  locator:
+    conversation_turn: 175
+    turn_id: 0168a4a3-1133-4986-ba11-32619b9dafda
+    message_id: 0168a4a3-1133-4986-ba11-32619b9dafda
+    source_file: Forprint_Blueprint_17.09.26.mhtml
+  quote: 'se [1/8] CF07 ACTIVE S2 BOUNDARY PASS [2/8] S2 CANDIDATE BUILD PASS ERROR=Fail: mirror ruff failed: F821 Undefined name ROOT --> tests/validation/test_governed_procedure_graph_v0_1.py:350:56
+    | 349 | def test_runtime_registry_resolves_hash_bound_real_procedure() -> None: 350 | registry = procedure_graph.load_procedure_registry(ROOT) | ^^^^ 351
+    | entry, resolved = procedure_graph.resolve_procedure( 352 | registry, | F821 Undefined name ROOT --> tests/validation/test_governed_procedure_graph_v0_1.py:355:14
+    | 353 | "governed_canonical_mutation", 354 | revision="0.1.0", 355 | root=ROOT, | ^^^^ 356 | ) 357 | assert entry["graph_sha256"] == canonical_sha256(resolved)
+    | F821 Undefined name Path --> tests/validation/test_governed_procedure_graph_v0_1.py:363:66 | 363 | def'
+  quote_whitespace_normalized: true
+  context_before: Visible failure is missing ROOT/Path names in candidate test material.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - lint_failure
+- evidence_id: EV-BP1709-0015
+  speaker: user
+  locator:
+    conversation_turn: 175
+    turn_id: 0168a4a3-1133-4986-ba11-32619b9dafda
+    message_id: 0168a4a3-1133-4986-ba11-32619b9dafda
+    source_file: Forprint_Blueprint_17.09.26.mhtml
+  quote: ime_conformance_and_evidence_binding_failure_v0_1.yaml CF07_S2_RUNTIME_CONFORMANCE=FAIL_STATE_AWARE CANONICAL_MUTATION_PERFORMED=false CF07_CHECKPOINT_PERFORMED=false
+    LIFECYCLE_MUTATION_PERFORMED=false CF08_IMPLEMENTATION_PERFORMED=false WORKER_DISPATCH_PERFORMED=false Show more Show less
+  quote_whitespace_normalized: true
+  context_before: CF-07 failure occurs before canonical/lifecycle/worker/CF08 mutation.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - safe_fail
+- evidence_id: EV-BP1709-0016
+  speaker: user
+  locator:
+    conversation_turn: 213
+    turn_id: 5170066a-301c-4d3d-9a45-e498b011541f
+    message_id: 5170066a-301c-4d3d-9a45-e498b011541f
+    source_file: Forprint_Blueprint_17.09.26.mhtml
+  quote: rk/strategic_transition_2026_09_16/0014__0184_transition_strategy_semantic_repair_failure_v0_1.yaml TRANSITION_STRATEGY_APPLY=FAIL_STATE_AWARE CANONICAL_MUTATION_PERFORMED=true
+    Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Transition-strategy semantic repair refuses to continue after detecting possible prior planning apply.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - state_aware_recovery
+- evidence_id: EV-BP1709-0017
+  speaker: user
+  locator:
+    conversation_turn: 213
+    turn_id: 5170066a-301c-4d3d-9a45-e498b011541f
+    message_id: 5170066a-301c-4d3d-9a45-e498b011541f
+    source_file: Forprint_Blueprint_17.09.26.mhtml
+  quote: 84_transition_strategy_semantic_repair_failure_v0_1.yaml TRANSITION_STRATEGY_APPLY=FAIL_STATE_AWARE CANONICAL_MUTATION_PERFORMED=true Show more Show
+    less
+  quote_whitespace_normalized: true
+  context_before: The failing transition-strategy action reports canonical mutation may already have occurred.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - partial_apply
+- evidence_id: EV-BP1709-0018
+  speaker: user
+  locator:
+    conversation_turn: 223
+    turn_id: 07126413-06ef-4b19-90fe-cce9640670e1
+    message_id: 07126413-06ef-4b19-90fe-cce9640670e1
+    source_file: Forprint_Blueprint_17.09.26.mhtml
+  quote: Pasted text.txt Document Ми останнім часом дуже часто на ній падаємо на ці утиліті rg може її просто взяти і поставити в середовище паралельно де їх
+    сильне більше не заморачуватись на неї ніколи
+  quote_whitespace_normalized: true
+  context_before: Owner asks to stop repeatedly failing on missing rg by installing/provisioning the utility in the environment.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - developer_environment
+- evidence_id: EV-BP1709-0019
+  speaker: user
+  locator:
+    conversation_turn: 295
+    turn_id: 10a0c351-0972-429c-96da-073dffe7e534
+    message_id: 10a0c351-0972-429c-96da-073dffe7e534
+    source_file: Forprint_Blueprint_17.09.26.mhtml
+  quote: Pasted code.yaml File lf. dxjhfiysq pdsn gj останному скрипуту і закинув архів давай все впровадувати покроково і уточни це той звіт я не переплутав
+    tmp ├── assistant_handoff ├── assistant_work ├── forprint_evening_handoff_2026-09-17_v0_1.zip ├── mutation_compiler ├── project_context_archives ├── report.txt
+    └── repository_knowledge_freshness_status.yaml Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Owner asks to apply the evening package step-by-step and verify report identity before proceeding.
+  context_after: null
+  evidence_role:
+  - owner_process_rule
+  - bounded_execution
+- evidence_id: EV-BP1709-0020
+  speaker: user
+  locator:
+    conversation_turn: 329
+    turn_id: 3edc144a-f956-4890-bff9-de696b233dc4
+    message_id: 3edc144a-f956-4890-bff9-de696b233dc4
+    source_file: Forprint_Blueprint_17.09.26.mhtml
+  quote: Pasted text.txt Document Треба буде додати в make файл повністю описи щоб були такі коментарі щоб легко було орієнтуватися яка команда show в якому
+    обсязі робить я тобі дам повністю make файл треба його переформатувати якщо треба в нас є вимоги як і шаблон мой файлу і вимоги як його ввести треба провести
+    його повністю до красивого читаємого вигляду щоб мені було з ним дуже легко працювати і все зрозуміло було я теж не вгадував яка команда в якому обсязі що
+    робить якщо будуть знайдені там інші якісь команди теж не дуже прозорі то їх теж треба описати теж провести до красивого вигляду щоб все було з пунктуацією
+    відокремлено по блокам блоки відсортовані ну щоб все було красиво і зрозуміло Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Owner requires Makefile commands to be fully described, grouped and formatted for easy operator navigation.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - makefile_ux
+- evidence_id: EV-BP1709-0021
+  speaker: user
+  locator:
+    conversation_turn: 329
+    turn_id: 3edc144a-f956-4890-bff9-de696b233dc4
+    message_id: 3edc144a-f956-4890-bff9-de696b233dc4
+    source_file: Forprint_Blueprint_17.09.26.mhtml
+  quote: вністю до красивого читаємого вигляду щоб мені було з ним дуже легко працювати і все зрозуміло було я теж не вгадував яка команда в якому обсязі що
+    робить якщо будуть знайдені там інші якісь команди теж не дуже прозорі то їх теж треба описати теж провести до красивого вигляду щоб все було з пунктуацією
+    відокремлено по блокам блоки відсортовані ну щоб все було красиво і зрозуміло Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Owner explicitly says operator should not have to guess command scope or meaning.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - discoverability
+- evidence_id: EV-BP1709-0022
+  speaker: user
+  locator:
+    conversation_turn: 343
+    turn_id: 138757c5-b238-4759-b198-0c9c284bd6e5
+    message_id: 138757c5-b238-4759-b198-0c9c284bd6e5
+    source_file: Forprint_Blueprint_17.09.26.mhtml
+  quote: 'Pasted code.yaml File .PHONY: assistant-handoff-check - може описати як застарілий чи він для іншої функції чи потреби використовується в проекті'
+  quote_whitespace_normalized: true
+  context_before: Owner asks that older/ambiguous targets be clearly described as legacy, alternate-purpose or current rather than left unexplained.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - legacy_command_semantics
+- evidence_id: EV-BP1709-0023
+  speaker: assistant
+  locator:
+    conversation_turn: 388
+    turn_id: 1fb89ddb-fa04-4cd9-81d0-1200f0fd1e79
+    message_id: e4e208c7-81e6-4a94-a4a7-ebc9a7175f43
+    source_file: Forprint_Blueprint_17.09.26.mhtml
+  quote: '0252 застосований коректно: ACK gate тепер канонічний, 24/24 control-plane tests PASS, Handoff v2 лишився незмінним, worker/CF-10 не запускалися. Підготувала
+    0253 — повторний read-only closure-readiness audit по всіх 9 вимогах Dispatcher . Завантажити 0253_cf09_post_ack_closure_readiness_audit_v0_1__76cd341b1ee5.py
+    SHA-256: 76cd341b1ee5eab177b7f67e59f005c8ac831a65460745694c391245ba2f1914 Запуск: Bash cd /srv/software_development/forprint-project/forprint_system_blueprint
+    .venv_blueprint/bin/python -u \ 0253_cf09_post_ack_closure_readiness_audit_v0_1__76cd341b1ee5.py \ 2 >&1 | tee tmp/report.txt Якщо все закрито, очікуємо:
+    CF09_CLOSURE_READINESS=READY CF09_REQUIREMENTS_SATISFIED=9/9 CF09_GAP_COUNT=0 WORKER_DISPATCH_PERFORMED=f'
+  quote_whitespace_normalized: true
+  context_before: Assistant reports ACK gate canonical and 24/24 control-plane tests passing after 0252.
+  context_after: null
+  evidence_role:
+  - assistant_historical_summary
+  - cf09
+- evidence_id: EV-BP1709-0024
+  speaker: assistant
+  locator:
+    conversation_turn: 388
+    turn_id: 1fb89ddb-fa04-4cd9-81d0-1200f0fd1e79
+    message_id: e4e208c7-81e6-4a94-a4a7-ebc9a7175f43
+    source_file: Forprint_Blueprint_17.09.26.mhtml
+  quote: '0252 застосований коректно: ACK gate тепер канонічний, 24/24 control-plane tests PASS, Handoff v2 лишився незмінним, worker/CF-10 не запускалися. Підготувала
+    0253 — повторний read-only closure-readiness audit по всіх 9 вимогах Dispatcher . Завантажити 0253_cf09_post_ack_closure_readiness_audit_v0_1__76cd341b1ee5.py
+    SHA-256: 76cd341b1ee5eab177b7f67e59f005c8ac831a65460745694c391245ba2f1914 Запуск: Bash cd /srv/software_development/forprint-project/forprint_system_blueprint
+    .venv_blueprint/bin/python -u \ 0253_cf09_post_ack_closure_readiness_audit_v0_1__76cd341b1ee5.py \ 2 >&1 | tee tmp/report.txt Якщо все закрито, очікуємо:
+    CF09_CLOSURE_READINESS=READY CF09_REQUIREMENTS_SATISFIED=9/9 CF09_GAP_COUNT=0 WORKER_DISPATCH_PERFORMED=false CF10_STARTED=false CANONI'
+  quote_whitespace_normalized: true
+  context_before: Assistant reports the ACK repair did not mutate Handoff v2 and did not launch worker/CF-10.
+  context_after: null
+  evidence_role:
+  - assistant_historical_summary
+  - boundary
+- evidence_id: EV-BP1709-0025
+  speaker: assistant
+  locator:
+    conversation_turn: 388
+    turn_id: 1fb89ddb-fa04-4cd9-81d0-1200f0fd1e79
+    message_id: e4e208c7-81e6-4a94-a4a7-ebc9a7175f43
+    source_file: Forprint_Blueprint_17.09.26.mhtml
+  quote: 'worker/CF-10 не запускалися. Підготувала 0253 — повторний read-only closure-readiness audit по всіх 9 вимогах Dispatcher . Завантажити 0253_cf09_post_ack_closure_readiness_audit_v0_1__76cd341b1ee5.py
+    SHA-256: 76cd341b1ee5eab177b7f67e59f005c8ac831a65460745694c391245ba2f1914 Запуск: Bash cd /srv/software_development/forprint-project/forprint_system_blueprint
+    .venv_blueprint/bin/python -u \ 0253_cf09_post_ack_closure_readiness_audit_v0_1__76cd341b1ee5.py \ 2 >&1 | tee tmp/report.txt Якщо все закрито, очікуємо:
+    CF09_CLOSURE_READINESS=READY CF09_REQUIREMENTS_SATISFIED=9/9 CF09_GAP_COUNT=0 WORKER_DISPATCH_PERFORMED=false CF10_STARTED=false CANONICAL_MUTATION_PERFORMED=false
+    LIFECYCLE_MUTATION_PERFORMED=false FULL_MAKE_CHECK_RERUN=false NEXT_ACTION=RUN_CF09_CLOSURE_B'
+  quote_whitespace_normalized: true
+  context_before: 0253 is prepared as read-only closure-readiness audit over all nine Dispatcher requirements.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - cf09
+- evidence_id: EV-BP1709-0026
+  speaker: user
+  locator:
+    conversation_turn: 391
+    turn_id: 3aeb7721-0c34-486d-8c94-0ba652b8a195
+    message_id: 3aeb7721-0c34-486d-8c94-0ba652b8a195
+    source_file: Forprint_Blueprint_17.09.26.mhtml
+  quote: 'bddd24b96e5827755417754bc47ee8dc24e40773f2e5613a status: PASS_CF09_POST_ACK_CLOSURE_READINESS_READY satisfied_count: 9 gap_count: 0 pre_gate_boundary:
+    head: 4739fdcd8b213814f8440dd6a6681f596d8da456 dispatcher_state: state: ACTIVE event_id: evt-u180i-activate-20260916t163546548205 event_type: WORK_ACTIVATED
+    sequence: 62 roadmap_sync_in_sync: true verified_live_sha256: scripts/coordination/control_plane/dispatch_intent.py: 8b14dc5b0ede9084b06561391187c6ec33938a572b14e0c242db57004288dac4
+    coordination/standards/automation/control_plane/central_listener_dispatcher_monitor_v0_1.yaml: ef38c994aae42f44e2d3153719613e2d48aaba2a4148f225914aa9f4fd2ff707
+    tests/coordination/control_plane/test_cf09_dispatcher_task_execution_preflight_v0_1.py: c0e403ece4b4d513eb47ca3f923aa0'
+  quote_whitespace_normalized: true
+  context_before: 0253 result is recorded as 9/9 satisfied with gap_count 0.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - cf09_readiness
+- evidence_id: EV-BP1709-0027
+  speaker: user
+  locator:
+    conversation_turn: 391
+    turn_id: 3aeb7721-0c34-486d-8c94-0ba652b8a195
+    message_id: 3aeb7721-0c34-486d-8c94-0ba652b8a195
+    source_file: Forprint_Blueprint_17.09.26.mhtml
+  quote: '9 gap_count: 0 pre_gate_boundary: head: 4739fdcd8b213814f8440dd6a6681f596d8da456 dispatcher_state: state: ACTIVE event_id: evt-u180i-activate-20260916t163546548205
+    event_type: WORK_ACTIVATED sequence: 62 roadmap_sync_in_sync: true verified_live_sha256: scripts/coordination/control_plane/dispatch_intent.py: 8b14dc5b0ede9084b06561391187c6ec33938a572b14e0c242db57004288dac4
+    coordination/standards/automation/control_plane/central_listener_dispatcher_monitor_v0_1.yaml: ef38c994aae42f44e2d3153719613e2d48aaba2a4148f225914aa9f4fd2ff707
+    tests/coordination/control_plane/test_cf09_dispatcher_task_execution_preflight_v0_1.py: c0e403ece4b4d513eb47ca3f923aa0fdca03c1e128a4d39d25ed20a39445fa36
+    tests/coordination/control_plane/test_cf09_dispatcher_assistant_ack_gate_v0_'
+  quote_whitespace_normalized: true
+  context_before: Pre-gate boundary shows u180i / CF-09 Dispatcher still ACTIVE at sequence 62.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - lifecycle_state
+- evidence_id: EV-BP1709-0028
+  speaker: user
+  locator:
+    conversation_turn: 391
+    turn_id: 3aeb7721-0c34-486d-8c94-0ba652b8a195
+    message_id: 3aeb7721-0c34-486d-8c94-0ba652b8a195
+    source_file: Forprint_Blueprint_17.09.26.mhtml
+  quote: ': ACTIVE event_id: evt-u180i-activate-20260916t163546548205 event_type: WORK_ACTIVATED sequence: 62 roadmap_sync_in_sync: true verified_live_sha256:
+    scripts/coordination/control_plane/dispatch_intent.py: 8b14dc5b0ede9084b06561391187c6ec33938a572b14e0c242db57004288dac4 coordination/standards/automation/control_plane/central_listener_dispatcher_monitor_v0_1.yaml:
+    ef38c994aae42f44e2d3153719613e2d48aaba2a4148f225914aa9f4fd2ff707 tests/coordination/control_plane/test_cf09_dispatcher_task_execution_preflight_v0_1.py:
+    c0e403ece4b4d513eb47ca3f923aa0fdca03c1e128a4d39d25ed20a39445fa36 tests/coordination/control_plane/test_cf09_dispatcher_assistant_ack_gate_v0_1.py: 98a8300f85890c0a678d3387958ec00a44cd75ab1414937e1ca161253cad6e00
+    coordination/standards/automation/assistant_han'
+  quote_whitespace_normalized: true
+  context_before: CF-09 pre-gate roadmap reconciliation is in sync.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - roadmap_state
+- evidence_id: EV-BP1709-0029
+  speaker: user
+  locator:
+    conversation_turn: 391
+    turn_id: 3aeb7721-0c34-486d-8c94-0ba652b8a195
+    message_id: 3aeb7721-0c34-486d-8c94-0ba652b8a195
+    source_file: Forprint_Blueprint_17.09.26.mhtml
+  quote: '1f7e56c9b26ddbe83a63cf52ca5d81ec2c8ff361c1ffa7a31aa816723b0 make_check_target_present: true status: FAIL_CF09_PROJECT_FULL_CLOSURE_BOUNDARY_GATE finished_at:
+    ''2026-09-17T16:57:20.112016Z'' failure: ''Fail: full project closure boundary gate make check failed: .venv_blueprint/bin/python scripts/validation/run_non_mutating_make_check.py
+    --target check-core --module-root "../forprint_library" NON_MUTATING_CHECK=FAIL inner_return_code=2 /srv/software_development/forprint-project/forprint_system_blueprint/.venv_blueprint/bin/python
+    scripts/indexing/build_generator_inventory.py --check DRIFT stale=indexes/generator_inventory.yaml make: *** [Makefile:2579: generator-inventory-check] Error
+    1 make: *** [Makefile:382: check] Error 2 '' traceback: "Traceback (most recent call last):\n File \"/srv/'
+  quote_whitespace_normalized: true
+  context_before: Full project closure boundary gate fails despite local readiness.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - closure_failure
+- evidence_id: EV-BP1709-0030
+  speaker: user
+  locator:
+    conversation_turn: 391
+    turn_id: 3aeb7721-0c34-486d-8c94-0ba652b8a195
+    message_id: 3aeb7721-0c34-486d-8c94-0ba652b8a195
+    source_file: Forprint_Blueprint_17.09.26.mhtml
+  quote: 't_system_blueprint/.venv_blueprint/bin/python scripts/indexing/build_generator_inventory.py --check DRIFT stale=indexes/generator_inventory.yaml make:
+    *** [Makefile:2579: generator-inventory-check] Error 1 make: *** [Makefile:382: check] Error 2 '' traceback: "Traceback (most recent call last):\n File \"/srv/software_development/forprint-project/forprint_system_blueprint/tmp/assistant_work/u180i_cf09/0146__0254_cf09_project_full_closure_boundary_gate_action_v0_1__7b48b08ae2b8.py\"\
+    , line 408, in main\n result[\"full_project_gate\"] = run_full_project_gate()\n ^^^^^^^^^^^^^^^^^^^^^^^\n File \"/srv/software_development/forprint-project/forprint_system_blueprint/tmp/assistant_work/u180i_cf09/0146__0254_cf09_project_full_closure_boundary_gate_action_v0_1__7b48b08ae2b8.py\"\
+    , line 281, i'
+  quote_whitespace_normalized: true
+  context_before: The full make check fails on stale generator inventory surfaced through a non-mutating Library check.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - generated_index_drift
+- evidence_id: EV-BP1709-0031
+  speaker: user
+  locator:
+    conversation_turn: 391
+    turn_id: 3aeb7721-0c34-486d-8c94-0ba652b8a195
+    message_id: 3aeb7721-0c34-486d-8c94-0ba652b8a195
+    source_file: Forprint_Blueprint_17.09.26.mhtml
+  quote: 'e: *** [Makefile:382: check] Error 2\n\n" full_make_check_rerun: true full_make_check_passed: false canonical_mutation_performed: false lifecycle_mutation_performed:
+    false worker_dispatch_performed: false cf10_started: false closure_gate_passed: false next_action: RETURN_0254_FAILURE_FOR_STATE_AWARE_CLOSURE_GATE_RECOVERY
+    Show more Show less Something went wrong. Please try again.'
+  quote_whitespace_normalized: true
+  context_before: 0254 failure performs no canonical/lifecycle/worker mutation and does not start CF-10.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - safe_fail
+- evidence_id: EV-BP1709-0032
+  speaker: user
+  locator:
+    conversation_turn: 391
+    turn_id: 3aeb7721-0c34-486d-8c94-0ba652b8a195
+    message_id: 3aeb7721-0c34-486d-8c94-0ba652b8a195
+    source_file: Forprint_Blueprint_17.09.26.mhtml
+  quote: 'false worker_dispatch_performed: false cf10_started: false closure_gate_passed: false next_action: RETURN_0254_FAILURE_FOR_STATE_AWARE_CLOSURE_GATE_RECOVERY
+    Show more Show less Something went wrong. Please try again.'
+  quote_whitespace_normalized: true
+  context_before: Next action is state-aware recovery of the closure gate, not feature expansion or worker start.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - next_action
+- evidence_id: EV-BP1709-0033
+  speaker: assistant
+  locator:
+    conversation_turn: 392
+    turn_id: 5d5e1e14-4073-4b49-ae3a-da3e9c1d74ac
+    message_id: 5d5e1e14-4073-4b49-ae3a-da3e9c1d74ac
+    source_file: Forprint_Blueprint_17.09.26.mhtml
+  quote: Message delivery timed out. Please try again. Retry
+  quote_whitespace_normalized: true
+  context_before: Source ends without the recovery result because the final assistant delivery timed out.
+  context_after: null
+  evidence_role:
+  - delivery_failure
+  - source_boundary
+items:
+- item_id: IT-BP1709-0001
+  kind: implementation_claim
+  title: Source opens with u180e / CF-05 already ACTIVE
+  statement: Historical handoff records sequence 42 with CF-05 current and CF-06 next/ready; this continues the prior 14.09 u180e checkpoint rather than restarting
+    Control Foundation.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - control_foundation
+  implementation_expectation: unverifiable
+  verification_targets:
+  - live_repo
+  - continuity
+  evidence_refs:
+  - EV-BP1709-0001
+  - EV-BP1709-0002
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical state only; live repo may have advanced.
+- item_id: IT-BP1709-0002
+  kind: risk
+  title: Do not re-activate an already ACTIVE lifecycle step
+  statement: The narrow morning reconciliation repair must not create a second CF-05 activation or advance CF-06.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - lifecycle
+  implementation_expectation: required
+  verification_targets:
+  - continuity
+  - tests
+  evidence_refs:
+  - EV-BP1709-0005
+  - EV-BP1709-0009
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1709-0003
+  kind: task
+  title: Morning reconciliation defect is a missing standard governance metadata mapping
+  statement: The visible acceptance blocker is the existing morning continuity handoff reconciliation YAML lacking required metadata.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - governance
+  implementation_expectation: unverifiable
+  verification_targets:
+  - governance
+  - tests
+  evidence_refs:
+  - EV-BP1709-0003
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1709-0004
+  kind: data_contract
+  title: Governance metadata mapping uses the standard five-field vocabulary
+  statement: The repair plan expects module_id, evidence_id, created_at, source_head and status, derived from existing sibling records rather than invented fields.
+  dialogue_status: accepted
+  importance: high
+  confidence: medium
+  owner_or_domain:
+  - blueprint
+  - governance
+  implementation_expectation: required
+  verification_targets:
+  - schema
+  - tests
+  evidence_refs:
+  - EV-BP1709-0006
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Assistant-side plan; current repository standard must confirm.
+- item_id: IT-BP1709-0005
+  kind: process_rule
+  title: Generated indexes/projections are refreshed by canonical producers, not hand-edited
+  statement: A one-file canonical repair may trigger deterministic derived refresh, but generated artifacts remain producer-owned and separately reported.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - generated_artifacts
+  implementation_expectation: required
+  verification_targets:
+  - generators
+  - tests
+  evidence_refs:
+  - EV-BP1709-0007
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1709-0006
+  kind: process_rule
+  title: Final make check is validation-only and every new failure remains an acceptance blocker
+  statement: The morning repair protocol preserves non-mutating make-check semantics and forbids explaining away new aggregate failures.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - validation
+  implementation_expectation: required
+  verification_targets:
+  - Makefile
+  - tests
+  evidence_refs:
+  - EV-BP1709-0008
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1709-0007
+  kind: implementation_claim
+  title: Historical execution advances from CF-05 to CF-06 before the later morning intake
+  statement: A later report shows CF-05 previous, CF-06 current and CF-07 next/ready, but the exact intermediate close/checkpoint evidence is mostly hidden in
+    attachments.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - control_foundation
+  implementation_expectation: unverifiable
+  verification_targets:
+  - continuity
+  - roadmap
+  evidence_refs:
+  - EV-BP1709-0010
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Do not infer missing closeout steps from the projection alone.
+- item_id: IT-BP1709-0008
+  kind: process_rule
+  title: Context/intake packages are not automatically executable authority
+  statement: The morning package explicitly says it is not a direct execution batch; current lifecycle/roadmap/release authority must still be resolved before
+    mutation.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - authority
+  implementation_expectation: required
+  verification_targets:
+  - bootstrap
+  - coordination
+  evidence_refs:
+  - EV-BP1709-0011
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1709-0009
+  kind: plan
+  title: Finish CF-06 before starting the Blueprint internal AI worker stream
+  statement: Historical priority classifies CF-06 completion as the immediate critical path ahead of zero-stage internal worker work.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - roadmap
+  - automation
+  implementation_expectation: unverifiable
+  verification_targets:
+  - roadmap
+  evidence_refs:
+  - EV-BP1709-0012
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1709-0010
+  kind: implementation_claim
+  title: CF-07 second-slice runtime conformance safe-fails before canonical mutation
+  statement: Historical action 0168 stops on mirror Ruff errors caused by missing ROOT/Path names in candidate tests; checkpoint/lifecycle/CF08/worker actions
+    remain unauthorized and unperformed.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - control_foundation
+  implementation_expectation: unverifiable
+  verification_targets:
+  - git
+  - tests
+  evidence_refs:
+  - EV-BP1709-0013
+  - EV-BP1709-0014
+  - EV-BP1709-0015
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1709-0011
+  kind: process_rule
+  title: Candidate/test construction failures fail closed before lifecycle advancement
+  statement: 'The CF-07 action demonstrates the intended guard: candidate lint errors stop before checkpoint, close, next-step implementation or worker dispatch.'
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - mutation_safety
+  implementation_expectation: required
+  verification_targets:
+  - mutation_compiler
+  - tests
+  evidence_refs:
+  - EV-BP1709-0015
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1709-0012
+  kind: risk
+  title: Transition-strategy apply can fail after canonical planning mutation
+  statement: Action 0184 reports FAIL_STATE_AWARE while also reporting canonical mutation true because a previous planning apply may already have created the
+    strategic transition vector.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - planning
+  - recovery
+  implementation_expectation: required
+  verification_targets:
+  - state_probe
+  - recovery
+  evidence_refs:
+  - EV-BP1709-0016
+  - EV-BP1709-0017
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1709-0013
+  kind: process_rule
+  title: Partial planning applies require state-aware recovery rather than blind rerun
+  statement: When a failure detects possible already-applied canonical state, recovery must inspect fingerprints/state and continue narrowly.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - recovery
+  implementation_expectation: required
+  verification_targets:
+  - recovery
+  - tests
+  evidence_refs:
+  - EV-BP1709-0016
+  - EV-BP1709-0017
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1709-0014
+  kind: process_rule
+  title: Frequently required developer utilities should be provisioned explicitly
+  statement: Owner wants recurrent `rg` availability failures eliminated by provisioning the utility in the development environment rather than repeatedly working
+    around it.
+  dialogue_status: proposed
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - developer_environment
+  implementation_expectation: optional
+  verification_targets:
+  - bootstrap
+  - dependencies
+  evidence_refs:
+  - EV-BP1709-0018
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1709-0015
+  kind: process_rule
+  title: Large evening/handoff packages are applied stepwise with identity confirmation
+  statement: Owner asks to verify the report/package identity and then implement changes incrementally rather than treating a large archive as a one-shot mutation.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - operator_process
+  implementation_expectation: required
+  verification_targets:
+  - handoff
+  - mutation
+  evidence_refs:
+  - EV-BP1709-0019
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1709-0016
+  kind: ux_requirement
+  title: Makefile must be an operator-readable command map
+  statement: Owner requires comprehensive command descriptions, grouping, punctuation and readable formatting so command scope is discoverable without guessing.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - Makefile
+  - operator_ux
+  implementation_expectation: required
+  verification_targets:
+  - Makefile
+  - docs
+  evidence_refs:
+  - EV-BP1709-0020
+  - EV-BP1709-0021
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1709-0017
+  kind: process_rule
+  title: Legacy or alternate-purpose Make targets must be explicitly classified
+  statement: Ambiguous targets such as assistant-handoff-check should state whether they are legacy, compatibility, alternate-purpose or current.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - Makefile
+  - legacy
+  implementation_expectation: required
+  verification_targets:
+  - Makefile
+  - docs
+  evidence_refs:
+  - EV-BP1709-0022
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1709-0018
+  kind: implementation_claim
+  title: CF-09 ACK gate repair historically reaches 24/24 control-plane tests passing
+  statement: Assistant reports 0252 made the ACK gate canonical while leaving Handoff v2 unchanged and not launching worker/CF-10.
+  dialogue_status: accepted
+  importance: high
+  confidence: medium
+  owner_or_domain:
+  - blueprint
+  - dispatcher
+  implementation_expectation: unverifiable
+  verification_targets:
+  - live_repo
+  - tests
+  evidence_refs:
+  - EV-BP1709-0023
+  - EV-BP1709-0024
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Assistant historical summary; verify from repository history.
+- item_id: IT-BP1709-0019
+  kind: process_rule
+  title: Dispatcher closure requires a read-only requirement audit before the project boundary gate
+  statement: 0253 is defined as a non-mutating audit over all nine CF-09 Dispatcher requirements before any closure boundary mutation.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - dispatcher
+  implementation_expectation: required
+  verification_targets:
+  - tests
+  - audit
+  evidence_refs:
+  - EV-BP1709-0025
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1709-0020
+  kind: implementation_claim
+  title: CF-09 local closure-readiness is historically 9/9 with zero gaps
+  statement: The 0253 result referenced by 0254 reports all nine Dispatcher requirements satisfied and gap_count 0.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - dispatcher
+  implementation_expectation: unverifiable
+  verification_targets:
+  - repo
+  - tests
+  evidence_refs:
+  - EV-BP1709-0026
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1709-0021
+  kind: implementation_claim
+  title: CF-09 remains ACTIVE at sequence 62 before project closure gate
+  statement: The visible 0254 result binds to HEAD 4739fdcd… and shows u180i Dispatcher ACTIVE, roadmap sync in sync.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - dispatcher
+  - lifecycle
+  implementation_expectation: unverifiable
+  verification_targets:
+  - git
+  - continuity
+  evidence_refs:
+  - EV-BP1709-0027
+  - EV-BP1709-0028
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical endpoint only.
+- item_id: IT-BP1709-0022
+  kind: risk
+  title: Local Dispatcher readiness does not imply full-project closure acceptance
+  statement: Despite 9/9 CF-09 readiness, the full project closure boundary gate fails; subsystem readiness and project acceptance are distinct gates.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - acceptance
+  implementation_expectation: required
+  verification_targets:
+  - project_gate
+  - tests
+  evidence_refs:
+  - EV-BP1709-0026
+  - EV-BP1709-0029
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1709-0023
+  kind: implementation_claim
+  title: CF-09 full project gate is blocked by stale generator inventory
+  statement: The visible full make check fails because generator_inventory.yaml is stale, surfaced while running a non-mutating check involving the Library module.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - generated_artifacts
+  - integration
+  implementation_expectation: unverifiable
+  verification_targets:
+  - live_repo
+  - generator_inventory
+  evidence_refs:
+  - EV-BP1709-0029
+  - EV-BP1709-0030
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1709-0024
+  kind: risk
+  title: Cross-module validation can expose Blueprint generated-state drift
+  statement: A Library-scoped non-mutating check surfaces stale Blueprint generator inventory; current audit must determine whether this is expected dependency
+    enforcement, isolation/materialization drift or a stale generated projection.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - library
+  - validation
+  implementation_expectation: required
+  verification_targets:
+  - integration
+  - dependency_graph
+  evidence_refs:
+  - EV-BP1709-0030
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical log shows symptom, not root cause.
+- item_id: IT-BP1709-0025
+  kind: process_rule
+  title: Failed CF-09 project closure must not start worker/CF-10 or mutate lifecycle
+  statement: 0254 records no canonical or lifecycle mutation, no worker dispatch and no CF-10 start on red project gate.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - dispatcher
+  - automation
+  implementation_expectation: required
+  verification_targets:
+  - gates
+  - tests
+  evidence_refs:
+  - EV-BP1709-0031
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1709-0026
+  kind: plan
+  title: CF-09 failure returns to state-aware closure-gate recovery
+  statement: The exact next action is recovery of the failed project boundary gate, not more Dispatcher features and not zero-stage worker activation.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - dispatcher
+  - recovery
+  implementation_expectation: required
+  verification_targets:
+  - recovery
+  - roadmap
+  evidence_refs:
+  - EV-BP1709-0032
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1709-0027
+  kind: risk
+  title: Source ends before CF-09 recovery/closure result
+  statement: The final assistant message times out; no later visible evidence closes u180i, fixes generator inventory drift or starts CF-10.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - provenance
+  - blueprint
+  implementation_expectation: not_required
+  verification_targets:
+  - history
+  evidence_refs:
+  - EV-BP1709-0033
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-BP1709-0028
+  kind: architecture_constraint
+  title: Human boundary acceptance remains between Dispatcher closure and first internal worker pilot
+  statement: The visible closure plan says after the justified full/project gate and Dispatcher lifecycle close, a human boundary acceptance is still required
+    before the first zero-stage AI worker pilot.
+  dialogue_status: accepted
+  importance: critical
+  confidence: medium
+  owner_or_domain:
+  - blueprint
+  - automation
+  - approval
+  implementation_expectation: required
+  verification_targets:
+  - roadmap
+  - approval_gate
+  evidence_refs:
+  - EV-BP1709-0025
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Assistant plan; verify against current canonical roadmap before execution.
+relations:
+- relation_id: REL-BP1709-0001
+  from_item: IT-BP1709-0001
+  type: precedes
+  to_item: IT-BP1709-0007
+  evidence_refs:
+  - EV-BP1709-0001
+  - EV-BP1709-0010
+  confidence: high
+- relation_id: REL-BP1709-0002
+  from_item: IT-BP1709-0002
+  type: constrains
+  to_item: IT-BP1709-0003
+  evidence_refs:
+  - EV-BP1709-0005
+  confidence: high
+- relation_id: REL-BP1709-0003
+  from_item: IT-BP1709-0010
+  type: supports
+  to_item: IT-BP1709-0011
+  evidence_refs:
+  - EV-BP1709-0013
+  - EV-BP1709-0015
+  confidence: high
+- relation_id: REL-BP1709-0004
+  from_item: IT-BP1709-0012
+  type: motivates
+  to_item: IT-BP1709-0013
+  evidence_refs:
+  - EV-BP1709-0016
+  - EV-BP1709-0017
+  confidence: high
+- relation_id: REL-BP1709-0005
+  from_item: IT-BP1709-0018
+  type: enables
+  to_item: IT-BP1709-0019
+  evidence_refs:
+  - EV-BP1709-0023
+  - EV-BP1709-0025
+  confidence: medium
+- relation_id: REL-BP1709-0006
+  from_item: IT-BP1709-0019
+  type: enables
+  to_item: IT-BP1709-0020
+  evidence_refs:
+  - EV-BP1709-0025
+  - EV-BP1709-0026
+  confidence: high
+- relation_id: REL-BP1709-0007
+  from_item: IT-BP1709-0020
+  type: does_not_imply
+  to_item: IT-BP1709-0022
+  evidence_refs:
+  - EV-BP1709-0026
+  - EV-BP1709-0029
+  confidence: high
+- relation_id: REL-BP1709-0008
+  from_item: IT-BP1709-0023
+  type: blocks
+  to_item: IT-BP1709-0026
+  evidence_refs:
+  - EV-BP1709-0030
+  - EV-BP1709-0032
+  confidence: high
+- relation_id: REL-BP1709-0009
+  from_item: IT-BP1709-0025
+  type: constrains
+  to_item: IT-BP1709-0028
+  evidence_refs:
+  - EV-BP1709-0031
+  - EV-BP1709-0025
+  confidence: medium
+anomalies:
+- anomaly_id: ANOM-BP1709-0001
+  type: new_unique_blueprint_continuation_root
+  description: No shared message IDs with clean master v3.5 and no substantive sequence duplicate. Opening state explicitly continues the prior u180e/CF-05 checkpoint.
+  item_refs:
+  - IT-BP1709-0001
+  evidence_refs:
+  - EV-BP1709-0001
+  severity: normal
+  confidence: high
+  requires_followup: false
+- anomaly_id: ANOM-BP1709-0002
+  type: attachment_heavy_sparse_export
+  description: 110 visible message blocks contain only 12 substantive text-bearing blocks; most intermediate prompts/results are attachment placeholders, so
+    exact CF-05→CF-09 step lineage is incomplete.
+  item_refs:
+  - IT-BP1709-0007
+  - IT-BP1709-0027
+  evidence_refs:
+  - EV-BP1709-0010
+  - EV-BP1709-0033
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP1709-0003
+  type: execution_advanced_beyond_visible_closeout_evidence
+  description: Roadmap later shows CF-05 previous / CF-06 current and eventually CF-09 ACTIVE, but many intermediate lifecycle events are only inside unavailable
+    attachments.
+  item_refs:
+  - IT-BP1709-0007
+  - IT-BP1709-0021
+  evidence_refs:
+  - EV-BP1709-0010
+  - EV-BP1709-0027
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP1709-0004
+  type: cf07_candidate_test_import_defect
+  description: CF-07 S2 mirror lint fails on missing ROOT/Path names in candidate test material before canonical mutation.
+  item_refs:
+  - IT-BP1709-0010
+  - IT-BP1709-0011
+  evidence_refs:
+  - EV-BP1709-0013
+  - EV-BP1709-0014
+  severity: high
+  confidence: high
+  requires_followup: false
+- anomaly_id: ANOM-BP1709-0005
+  type: partial_apply_detected_after_planning_failure
+  description: Transition-strategy semantic repair fails state-aware while reporting canonical mutation true because prior planning apply may already have created
+    the target file.
+  item_refs:
+  - IT-BP1709-0012
+  - IT-BP1709-0013
+  evidence_refs:
+  - EV-BP1709-0016
+  - EV-BP1709-0017
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP1709-0006
+  type: operator_makefile_discoverability_debt
+  description: Owner explicitly reports difficulty knowing command scope/meaning and requests a comprehensive readable Makefile command map.
+  item_refs:
+  - IT-BP1709-0016
+  - IT-BP1709-0017
+  evidence_refs:
+  - EV-BP1709-0020
+  - EV-BP1709-0021
+  - EV-BP1709-0022
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP1709-0007
+  type: cf09_readiness_green_project_gate_red
+  description: Dispatcher requirement readiness is 9/9 with zero gaps while the project full closure boundary gate still fails.
+  item_refs:
+  - IT-BP1709-0020
+  - IT-BP1709-0022
+  evidence_refs:
+  - EV-BP1709-0026
+  - EV-BP1709-0029
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP1709-0008
+  type: cross_module_check_surfaces_blueprint_generator_drift
+  description: A Library-scoped non-mutating check surfaces stale Blueprint generator_inventory.yaml during CF-09 closure, requiring dependency/isolation diagnosis.
+  item_refs:
+  - IT-BP1709-0023
+  - IT-BP1709-0024
+  evidence_refs:
+  - EV-BP1709-0030
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-BP1709-0009
+  type: source_ends_before_recovery
+  description: Final assistant delivery times out after the red 0254 result; the recovery/closure outcome is absent.
+  item_refs:
+  - IT-BP1709-0027
+  evidence_refs:
+  - EV-BP1709-0033
+  severity: critical
+  confidence: high
+  requires_followup: true
+open_loops:
+- loop_id: LOOP-BP1709-0001
+  description: Verify exact CF-05 and CF-06 checkpoint/validation/closure lineage.
+  item_refs:
+  - IT-BP1709-0001
+  - IT-BP1709-0007
+  - IT-BP1709-0009
+  last_known_state: Opening state is CF-05 ACTIVE; later morning summary shows CF-05 previous and CF-06 current.
+  recommended_verification: Inspect current continuity event store and immutable historical events; do not infer closure solely from roadmap projection.
+- loop_id: LOOP-BP1709-0002
+  description: Recover/verify CF-07 and CF-08 exact progression hidden in attachment-only turns.
+  item_refs:
+  - IT-BP1709-0010
+  - IT-BP1709-0012
+  - IT-BP1709-0013
+  last_known_state: Visible CF-07 S2 safe-fails; later planning repair around CF-08/transition strategy shows possible partial apply.
+  recommended_verification: Use repo event history, action/result artifacts and git lineage to reconstruct only the actual accepted/closed path.
+- loop_id: LOOP-BP1709-0003
+  description: Resolve CF-09 closure blocker and determine whether generator inventory drift is current-tree, isolation or cross-module dependency drift.
+  item_refs:
+  - IT-BP1709-0022
+  - IT-BP1709-0023
+  - IT-BP1709-0024
+  - IT-BP1709-0026
+  - IT-BP1709-0027
+  last_known_state: 0253 readiness 9/9, but 0254 full project gate fails on stale indexes/generator_inventory.yaml; CF-09 remains ACTIVE.
+  recommended_verification: Start from current repo/HEAD/lifecycle/roadmap, run focused generator inventory check and inspect dependency/provenance before mutation.
+- loop_id: LOOP-BP1709-0004
+  description: Verify whether CF-09 was later closed and whether CF-10/internal worker pilot ever started.
+  item_refs:
+  - IT-BP1709-0021
+  - IT-BP1709-0025
+  - IT-BP1709-0028
+  last_known_state: Visible endpoint has CF-09 ACTIVE, CF-10 not started and worker dispatch false.
+  recommended_verification: Resolve current continuity state and human boundary acceptance; never resume from 0254 blindly.
+- loop_id: LOOP-BP1709-0005
+  description: Make the Makefile command surface operator-readable and classify legacy targets.
+  item_refs:
+  - IT-BP1709-0016
+  - IT-BP1709-0017
+  last_known_state: Owner requests full descriptions/grouping and explicit semantics for ambiguous targets such as assistant-handoff-check.
+  recommended_verification: Audit current Makefile against existing style/template authority and update comments/grouping without changing command semantics
+    unless separately authorized.
+- loop_id: LOOP-BP1709-0006
+  description: Decide canonical provisioning for rg and other repeatedly required developer utilities.
+  item_refs:
+  - IT-BP1709-0014
+  last_known_state: Owner wants recurring missing-rg failures eliminated.
+  recommended_verification: Check bootstrap/environment dependency manifests and provision via the canonical environment setup rather than ad hoc per-action
+    installs.
+- loop_id: LOOP-BP1709-0007
+  description: Keep zero-stage internal worker launch behind Dispatcher/project closure and human boundary acceptance.
+  item_refs:
+  - IT-BP1709-0009
+  - IT-BP1709-0025
+  - IT-BP1709-0028
+  last_known_state: Historical plan explicitly keeps worker/CF-10 off while CF-09 closure is red.
+  recommended_verification: Use current roadmap/approval authority; do not infer worker authorization from local Dispatcher readiness.
+implementation_audit_ref: implementation_audit.stub.yaml

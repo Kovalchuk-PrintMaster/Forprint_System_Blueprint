@@ -1,0 +1,150 @@
+schema_version: forprint_dftb_blueprint_20260914_continuation_portfolio_reconciliation_v0_1
+source_date_label: 2026-09-14-continuation
+reconciled_on: '2026-09-22'
+source_archive_sha256: e7afbe89bb62d4ad84082ad3473462eada70fba4c32c10aa5d27ce8eece5b798
+source_dialogue_hash_sha256: 9911992845f537bfc18eaae65c2193c0e767c6ce0e4b927917312f9db133b707
+source_authority: HISTORICAL_CONTROL_FOUNDATION_DIAGNOSTIC_EVIDENCE_NOT_CURRENT_AUTHORITY
+overlap_boundary:
+  classification: OVERLAPPING_CONTINUATION_DELTA
+  full_export_message_blocks: 61
+  duplicate_message_ids_with_20260912: 18
+  new_messages_indexed: 43
+  messages_present_in_20260912_but_absent_here: 5
+  rule: Only the 43 genuinely new messages are treated as new historical evidence.
+source_completeness:
+  classification: PARTIAL_DELTA_ATTACHMENT_HEAVY
+  items: 20
+  evidence_records: 33
+  relations: 8
+  anomalies: 9
+  open_loops: 6
+  implementation_verification_in_bundle: false
+  limitations:
+  - most intermediate CF-03/CF-04 turns are attachment placeholders without embedded bodies
+  - final 0104 result is not visible because the tail ends in attachment-only content and assistant delivery timeout
+summary: 'This source is the genuine 14.09 continuation delta after the 12.09 Control Foundation origin. It records
+  CF-02 hardening beyond the earlier endpoint, reinforces state-aware recovery after partial canonical advancement,
+  explicitly rejects accidental Website/UI scope contamination, reaches a historical CF-05 diagnostic checkpoint,
+  and introduces a critical diagnostic-truth distinction: stale report/public-check materialization must not be
+  mistaken for current-tree failure. It also exposes generated-script delivery truncation as an artifact-integrity
+  concern. Later/current evidence proves CF-02 closure and legacy-state retirement, so no duplicate Control Foundation
+  work is created.'
+topic_reconciliation:
+- topic: cf02_hardening_and_legacy_state_retirement
+  item_refs:
+  - IT-BP1409-0001
+  - IT-BP1409-0002
+  - IT-BP1409-0003
+  - IT-BP1409-0004
+  - IT-BP1409-0005
+  disposition: HISTORICAL_HARDENING_LINEAGE_LATER_CLOSED
+  source_state:
+  - u180b ACTIVE at observed hardening checkpoint
+  - ROADMAP_SYNC IN_SYNC
+  - active Control Foundation double-write removed
+  - 12 legacy Continuity terminal-state hints still pending
+  - plan/activate/checkpoint/close reconciliation gate fail-closed
+  - auto-next/dispatch/release/foreign writes disabled
+  later_current_reconciliation:
+    ROADMAP_EXECUTION_RECONCILIATION_VALIDATION: PASS
+    CF02_CLOSURE_ACCEPTANCE: EVENT_SOURCED_DERIVED_CURSOR_PROVEN
+    ROADMAP_SYNC: IN_SYNC
+    CONTROL_FOUNDATION_DOUBLE_WRITE_REMOVED: true
+    LEGACY_TERMINAL_STATE_RETIREMENT: COMPLETE
+    LIFECYCLE_RECONCILIATION_CHOKE_POINTS: HARD_GATED
+    AUTO_NEXT_ACTIVATION: false
+  new_gap: false
+- topic: state_aware_recovery_reinforcement
+  item_refs:
+  - IT-BP1409-0006
+  - IT-BP1409-0007
+  disposition: REINFORCES_EXISTING_20260912_RECOVERY_HUMAN_INTENT
+  source_rule: A closure/check can report failure after the canonical lifecycle has already advanced. When actual
+    state may have advanced, inspect the durable boundary and continue from there; do not replay the whole mutator.
+  human_intent_action: NO_DUPLICATE_INTENT
+- topic: artifact_delivery_integrity
+  item_refs:
+  - IT-BP1409-0008
+  disposition: RETAIN_AS_DURABLE_OPERATOR_ARTIFACT_INTEGRITY_INVARIANT
+  source_rule: A generated script/file is not executable evidence until delivery completeness and identity are proven.
+    If delivery is truncated or ambiguous, regenerate under a distinct artifact identity and verify checksum/bytes/line
+    count or equivalent completeness markers.
+- topic: website_ui_scope_rejection
+  item_refs:
+  - IT-BP1409-0009
+  disposition: EXPLICIT_OWNER_SCOPE_EXCLUSION_PRESERVE_ONLY
+  source_rule: The accidental Website/UI branch is not Blueprint Control Foundation work. Website work remains with
+    its owning module unless later explicit authority changes ownership.
+  roadmap_effect: none
+- topic: cf03_cf04_attachment_only_lineage_gap
+  item_refs:
+  - IT-BP1409-0010
+  disposition: HISTORICAL_LINEAGE_GAP_NOT_CURRENT_CAPABILITY_GAP
+  source_state: By u180e diagnostics the source shows CF-04 previous / CF-05 current / CF-06 next-ready, but exact
+    intermediate CF-03/CF-04 attachment bodies are absent.
+  rule: If exact historical transition detail is ever required, recover it from repository events/history; never
+    infer it from placeholders.
+- topic: targeted_diagnosis_before_expensive_rerun
+  item_refs:
+  - IT-BP1409-0011
+  - IT-BP1409-0012
+  - IT-BP1409-0013
+  disposition: RETAIN_WITH_DIAGNOSTIC_TRUTH_INVARIANT
+  source_rule: When focused checks are green and only one aggregate blocker remains, isolate the exact failing node
+    and rerun the smallest truthful diagnostic before repeating expensive aggregate checks.
+- topic: diagnostic_freshness_current_tree_vs_materialized_check
+  item_refs:
+  - IT-BP1409-0014
+  - IT-BP1409-0015
+  - IT-BP1409-0016
+  - IT-BP1409-0020
+  disposition: RETAIN_AS_DURABLE_DIAGNOSTIC_TRUTH_INVARIANT_CURRENT_COVERAGE_SEPARATELY_AUDITABLE
+  source_problem: A historical full-check log still contained an old controlled-failure source hash while the current
+    fixture/source used the new hash and focused rerun passed.
+  source_rule: Diagnostic reports must be freshness/provenance-bound to the source/materialized snapshot they describe.
+    Before changing source or tests, distinguish current-working-tree truth from isolated/non-mutating public-check
+    materialization/report truth. If current-tree validation is green and the report/snapshot is stale, repair isolation/materialization/report
+    freshness instead.
+  historical_result_boundary: Read-only 0104 was prepared to perform this comparison, but its final result is not
+    preserved in this source.
+  new_roadmap_step_required: false
+- topic: historical_release_and_buffer_projection
+  item_refs:
+  - IT-BP1409-0017
+  - IT-BP1409-0018
+  - IT-BP1409-0019
+  disposition: HISTORICAL_PROJECTION_ONLY
+  source_projection:
+  - v0.4 sealed / v0.4.1 active-current
+  - roadmap health 5/8
+  - prompt buffer 2/3
+  - semantic structure PASS
+  current_reconciliation: Do not project these historical release/buffer states into the present. Fixed planning-buffer
+    heuristics were already reconciled against current full-horizon planning.
+open_loop_reconciliation:
+- loop: LOOP-BP1409-0001
+  status: CLOSED_BY_LATER_CF02_ACCEPTANCE
+  note: Later/current evidence proves legacy terminal-state retirement complete and CF-02 closure accepted.
+- loop: LOOP-BP1409-0002
+  status: HISTORICAL_LINEAGE_GAP_ONLY
+  note: CF-03/CF-04 exact attachment-only history is not needed for current architecture; use repository event history
+    if forensic reconstruction is required.
+- loop: LOOP-BP1409-0003
+  status: HISTORICAL_0104_RESULT_UNKNOWN_DURABLE_DIAGNOSTIC_RULE_RETAINED
+  note: Do not invent the missing 0104 result. Current implementation freshness/isolation can be audited from live
+    tooling when relevant.
+- loop: LOOP-BP1409-0004
+  status: ABSORBED_IN_DIAGNOSTIC_FRESHNESS_AND_DERIVATION_CONTROLS
+  note: Controlled-failure pins and report freshness belong to current validation/derivation truth, not a new top-level
+    capability.
+- loop: LOOP-BP1409-0005
+  status: EXPLICIT_SCOPE_EXCLUSION_PRESERVED
+  note: Website/UI remains outside this Blueprint Control Foundation workfront unless later authority explicitly
+    reassigns it.
+- loop: LOOP-BP1409-0006
+  status: DURABLE_ARTIFACT_DELIVERY_INTEGRITY_RULE_RETAINED
+  note: Use unique identity and completeness checks for generated downloadable scripts/files; no architecture workstream
+    is needed.
+roadmap_mutation_required: false
+execution_authority_mutation_required: false
+new_roadmap_step_required: false

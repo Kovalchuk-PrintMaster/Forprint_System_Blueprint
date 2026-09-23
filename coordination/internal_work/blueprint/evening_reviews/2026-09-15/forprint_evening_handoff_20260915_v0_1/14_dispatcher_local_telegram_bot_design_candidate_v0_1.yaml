@@ -1,0 +1,106 @@
+schema_version: forprint_dispatcher_local_telegram_bot_design_candidate_v0_1
+candidate_id: BP-DISPATCHER-LOCAL-TELEGRAM-CONTROL
+status: CANDIDATE_BOUND_TO_EXISTING_CF10_CF15_CF18_REQUIRES_REUSE_AUDIT
+authority:
+  roadmap_authority: false
+  execution_authority: false
+  automatic_privilege_escalation: false
+  customer_communication_authority: false
+roadmap_binding:
+- step: CF-10
+  relationship: EARLY_BOUNDED_SELF_HARDENING_OR_TRAINING_TASK_AFTER_FIRST_SUCCESSFUL_WORKER_ATTEMPT
+- step: CF-15
+  relationship: CONSUME_PROJECT_HEALTH_AND_ALERT_STATE
+- step: CF-18
+  relationship: OPERATOR_GATEWAY_AND_HUMAN_STATUS_PROJECTION
+critical_identity_boundary: Small local Dispatcher/operator-control bot. It is not the canonical customer-facing
+  telegram_bot module and must not absorb customer conversation, order or CRM semantics.
+purpose:
+- remote operator status
+- alerts
+- bounded diagnostic requests
+- bounded policy-authorized control actions
+status_views:
+- project_status
+- active_workers
+- idle_or_stopped_workers
+- failed_or_blocked_workers
+- current_task_per_worker
+- budget_profile_authority_summary
+- worker_completion_summary
+- roadmap_progress_by_module
+- activity_last_24h
+- recent_failures
+- dispatcher_health
+- nightly_or_full_check_status
+- index_and_knowledge_freshness
+- structured_diagnostic_export
+diagnostics:
+- who_is_active
+- why_worker_stopped_before_completion
+- budget_exhaustion_vs_dependency_vs_validation_failure
+- abnormal_resource_use_for_similar_tasks
+- possible_index_or_navigation_problem
+- module_progress_or_stall
+bounded_remote_commands_initial:
+- refresh_status
+- request_diagnostic_package
+- retry_failed_bounded_operation_when_policy_allows
+- pause_or_resume_when_policy_allows
+- request_dispatcher_task_reevaluation
+- submit_operator_approval_for_requested_escalation
+notifications:
+- worker_blocked
+- retry_budget_exhausted
+- authority_or_budget_escalation_required
+- dispatcher_health_degradation
+- serious_nightly_or_full_validation_failure
+- module_or_project_stall_beyond_threshold
+watchdog_direction:
+  requirement: Dispatcher should be supervised independently through existing service-manager/health mechanisms
+    where possible.
+  allowed:
+  - heartbeat_monitoring
+  - bounded_restart
+  - escalation
+  rule: REUSE existing supervision before NEW watchdog service.
+security_and_authority:
+- commands must map to registered capabilities or governed procedures
+- read-only status should be the default
+- state-changing commands require explicit authority checks
+- privileged operations require audited break-glass/elevated-operation gate
+- no permanent unrestricted Dispatcher authority
+- no direct canonical mutation from chat text
+- operator identity/authentication and secret handling must be reconciled before implementation
+- all control actions preserve audit evidence
+data_sources:
+- Project Health
+- Dispatcher/work-front state
+- execution attempt history
+- validation/full-check state
+- knowledge/index freshness projections
+non_goals:
+- replace_full_telegram_module
+- customer_chat
+- CRM_or_order_domain_truth
+- new_project_health_source_of_truth
+- new_dispatcher_authority_model
+- unbounded_remote_shell
+mandatory_preimplementation_reconciliation:
+- current Dispatcher architecture and process boundary
+- current CF-10 implementation/training backlog
+- Project Health source in CF-15
+- Project Tool Gateway/operator CLI in CF-18
+- existing Telegram libraries/adapters usable without importing customer-domain semantics
+- existing service manager/watchdog/heartbeat mechanism
+- operator authentication and secret storage
+- registered capability/tool contracts for every remote command
+acceptance_direction:
+- status view is reproducible from canonical machine state and contains no invented facts
+- bot outage cannot stop Dispatcher core operation
+- Dispatcher outage is independently detectable
+- read-only commands cannot mutate canonical state
+- state-changing command is rejected without explicit authority
+- break-glass action is explicit, audited and bounded
+- customer-facing telegram_bot can evolve independently of this local control adapter
+- structured diagnostic export can be used by a fresh assistant without chat memory

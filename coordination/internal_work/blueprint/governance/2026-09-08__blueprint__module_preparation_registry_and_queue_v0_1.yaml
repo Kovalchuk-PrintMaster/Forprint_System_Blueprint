@@ -1,0 +1,29 @@
+schema_version: blueprint_module_preparation_registry_and_queue_adoption_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  created_at: '2026-09-08'
+  status: IMPLEMENTED
+registry:
+  path: coordination/internal_work/blueprint/module_preparation/module_preparation_registry_v0_1.yaml
+  sha256: 51f67ed2dcf6a45e7536d2e0d9b1a5a5c7ed3125ed480e0b13449357ecf3ef63
+  module_count: 23
+  preparation_required_module_count: 22
+  all_required_modules_verified_work_ready: false
+queue:
+  path: coordination/internal_work/blueprint/module_preparation/module_preparation_queue_v0_1.yaml
+  sha256: c56038abe3877bc5cf84990c4de03b89f595c0f4f9133080cb489f54e8bf47ba
+  row_count: 22
+  development_priority_selection_performed: false
+  worker_launch_allowed: false
+current_module_states:
+  logistics_service: BOOTSTRAP_READY
+  forprint_project_inspector: DISCOVERED
+authority:
+  registry_is_execution_authority: false
+  queue_is_execution_authority: false
+  automatic_prompt_claim: false
+  automatic_accept: false
+  automatic_release: false
+next:
+  portfolio: operator_select_next_forensic_preparation_module
+  logistics: explicit_release_authorization_for_replacement_prompt_before_bootstrap_dispatch

@@ -1,0 +1,37 @@
+schema_version: forprint_dialogue_master_memory_v1_5_supersession_note_v0_1
+supplied_archive_sha256: 364aab12d52fb6973ea8afcca1f39d4bdb261b6ef6df04c21a1f952cfcb55404
+source_version: v1.5
+source_generated_at: '2026-09-15T13:28:00+03:00'
+source_counts:
+  unique_conversation_roots: 12
+  history_layers: 13
+  overlapping_continuation_layers: 1
+  historical_items: 450
+  evidence_records: 541
+  relations: 151
+  anomalies: 118
+  source_open_loops: 98
+  artifact_events: 627
+embedded_14_09_continuation:
+  sha256: e7afbe89bb62d4ad84082ad3473462eada70fba4c32c10aa5d27ce8eece5b798
+  byte_identical_to_supplied_primary_14_09_zip: true
+already_ingested_newer_master:
+  version: v1.6
+  archive_sha256: 368c40fb721c5ec629c6fce449d7e706b2230427c5a68bd3d5a68357f3f065bb
+  counts:
+    unique_conversation_roots: 13
+    history_layers: 14
+    delta_only_continuation_layers: 1
+    historical_items: 470
+    evidence_records: 567
+    relations: 167
+    historical_anomalies: 128
+    source_open_loops: 104
+    current_audit_programs: 26
+    artifact_handoff_events: 655
+disposition: SUPERSEDED_DERIVED_AGGREGATE_NOT_PERSISTED_AS_SECOND_MASTER_ARCHIVE
+reason: v1.5 is an older derived navigation aggregate. The already-ingested v1.6 is the retained master navigation
+  archive, and the only primary 14.09 continuation carried by v1.5 is byte-identical to the standalone source preserved
+  by this intake. Keeping another full master archive would add duplicate aggregate storage without new primary
+  dialogue evidence.
+authority: NAVIGATION_SUPERSESSION_NOTE_NOT_EXECUTION_AUTHORITY
