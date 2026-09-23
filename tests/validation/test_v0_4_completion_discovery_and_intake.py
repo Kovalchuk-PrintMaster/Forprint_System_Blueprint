@@ -22,7 +22,7 @@ HANDOFF = (
 )
 BOOTSTRAP = (
     ROOT
-    / "coordination/instruction_intake/bootstrap/assistant_bootstrap_v0_2.yaml"
+    / "coordination/instruction_intake/bootstrap/assistant_bootstrap_v0_1.yaml"
 )
 LEGACY_INTAKE = ROOT / "scripts/coordination/completion_intake_check.py"
 

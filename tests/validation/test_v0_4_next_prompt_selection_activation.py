@@ -18,7 +18,7 @@ HANDOFF = (
 )
 BOOTSTRAP = (
     ROOT
-    / "coordination/instruction_intake/bootstrap/assistant_bootstrap_v0_2.yaml"
+    / "coordination/instruction_intake/bootstrap/assistant_bootstrap_v0_1.yaml"
 )
 ROADMAP = ROOT / "coordination/self_coordination/roadmap.yaml"
 QUEUE = ROOT / "coordination/self_coordination/prompt_queue/index.yaml"

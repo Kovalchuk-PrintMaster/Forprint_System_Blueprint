@@ -25,6 +25,12 @@ PREPARED_IDS = {
     "logistics_service_uklon_delivery_read_only_foundation_v0_1",
 }
 
+RELEASED_ORACLE_BOUND_IDS = {
+    "logistics_service_authority_lineage_and_module_bootstrap_v0_1",
+}
+
+ORACLE_BOUND_IDS = PREPARED_IDS | RELEASED_ORACLE_BOUND_IDS
+
 PROVIDER_RESEARCH_IDS = {
     "logistics_service_nova_poshta_read_only_foundation_v0_1",
     "logistics_service_ukrposhta_read_only_foundation_v0_1",
@@ -72,7 +78,16 @@ def prepared_paths() -> dict[str, Path]:
     return result
 
 
-def test_exactly_eight_prepared_steps_are_oracle_bound() -> None:
+def queue_rows() -> list[dict]:
+    queue = load(
+        ROOT / "coordination/outgoing_prompts/logistics_service/index.yaml"
+    )
+    rows = queue.get("prompt_queue", [])
+    assert isinstance(rows, list)
+    return [item for item in rows if isinstance(item, dict)]
+
+
+def test_prepared_and_released_steps_are_oracle_bound() -> None:
     steps = roadmap_by_id()
     paths = prepared_paths()
     assert set(paths) == PREPARED_IDS
@@ -83,13 +98,13 @@ def test_exactly_eight_prepared_steps_are_oracle_bound() -> None:
         if isinstance(step.get("acceptance"), dict)
         and step["acceptance"].get("oracle_required") is True
     }
-    assert bound == PREPARED_IDS
+    assert bound == ORACLE_BOUND_IDS
 
     planning_only = {
         step_id
         for step_id, step in steps.items()
         if step.get("status") in {"planned", "ready"}
-        and step_id not in PREPARED_IDS
+        and step_id not in ORACLE_BOUND_IDS
     }
     assert planning_only
     assert all("acceptance" not in steps[step_id] for step_id in planning_only)
@@ -181,14 +196,42 @@ def test_prepared_prompt_contract_oracle_bindings_are_canonical() -> None:
             assert research["invent_capabilities_from_assumptions"] is False
 
 
-def test_oracle_binding_does_not_release_or_queue_prepared_prompts() -> None:
-    queue = load(
-        ROOT / "coordination/outgoing_prompts/logistics_service/index.yaml"
+def test_released_bootstrap_remains_oracle_bound_and_ready_for_pull() -> None:
+    prompt_id = next(iter(RELEASED_ORACLE_BOUND_IDS))
+    steps = roadmap_by_id()
+    rows = [
+        row
+        for row in queue_rows()
+        if row.get("prompt_id") == prompt_id
+    ]
+    assert len(rows) == 1
+
+    row = rows[0]
+    assert row["module_execution"]["status"] == "ready_for_module_pull"
+
+    file_value = row.get("file")
+    assert isinstance(file_value, str)
+    approved = (
+        ROOT
+        / "coordination/outgoing_prompts/logistics_service"
+        / file_value
     )
-    rows = queue.get("prompt_queue", [])
+    assert approved.is_file()
+    assert not (
+        DRAFTS
+        / "2026-09-05__logistics_service_authority_lineage_and_module_bootstrap_v0_1.md"
+    ).exists()
+
+    acceptance = steps[prompt_id]["acceptance"]
+    oracle_path = ROOT / acceptance["oracle_path"]
+    assert oracle_path.is_file()
+    assert sha(oracle_path) == acceptance["oracle_sha256"]
+
+
+def test_oracle_binding_does_not_release_or_queue_prepared_prompts() -> None:
     queued = {
         item.get("prompt_id")
-        for item in rows
-        if isinstance(item, dict)
+        for item in queue_rows()
     }
     assert PREPARED_IDS.isdisjoint(queued)
+    assert RELEASED_ORACLE_BOUND_IDS <= queued

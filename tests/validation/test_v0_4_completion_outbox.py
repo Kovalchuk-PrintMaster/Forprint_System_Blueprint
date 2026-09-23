@@ -13,7 +13,7 @@ REGISTRY = ROOT / "coordination/registry/coordination_source_registry_v0_1.yaml"
 ROADMAP = ROOT / "coordination/self_coordination/roadmap.yaml"
 QUEUE = ROOT / "coordination/self_coordination/prompt_queue/index.yaml"
 HANDOFF = ROOT / "coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml"
-BOOTSTRAP = ROOT / "coordination/instruction_intake/bootstrap/assistant_bootstrap_v0_2.yaml"
+BOOTSTRAP = ROOT / "coordination/instruction_intake/bootstrap/assistant_bootstrap_v0_1.yaml"
 
 STEP23 = "blueprint_v0_4_completion_outbox_v0_1"
 

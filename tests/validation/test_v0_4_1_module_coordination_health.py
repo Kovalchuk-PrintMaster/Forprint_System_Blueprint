@@ -50,7 +50,10 @@ def test_real_logistics_pilot_supports_deep_prepared_buffer_above_target() -> No
     assert report["roadmap"]["future_steps"] >= 8
     assert report["roadmap"]["state"] == "target_met"
     assert report["roadmap"]["dependency_eligible_future_steps"] == 1
-    assert report["prompt_buffer"]["valid_prepared_prompts"] == 8
+    prepared = report["prompt_buffer"]["valid_prepared_prompts"]
+    covered = report["queue_coverage"]["covered_future_steps"]
+    assert prepared >= 8
+    assert prepared + covered == 9
     assert report["prompt_buffer"]["state"] == "target_met"
     assert "PROMPT_BUFFER_BELOW_MINIMUM" not in report["codes"]["warnings"]
 
@@ -383,3 +386,178 @@ def test_non_pilot_shortage_is_observe_only_advisory(
     assert "PROMPT_BUFFER_BELOW_MINIMUM" in report["codes"]["advisories"]
     assert report["operator_refill"]["operator_action_required"] is False
     assert health._exit_code(report) == 0
+
+def test_queue_covered_future_step_is_not_refill_candidate(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    root = tmp_path
+    monkeypatch.setattr(
+        health,
+        "resolve_roadmap_path",
+        lambda *, root, module: root / "coordination/roadmaps/logistics_service.yaml",
+    )
+    monkeypatch.setattr(
+        health,
+        "load_yaml_file",
+        lambda path: yaml.safe_load(path.read_text(encoding="utf-8")),
+    )
+    monkeypatch.setattr(
+        health,
+        "validate_roadmap_document",
+        lambda document, path: type("V", (), {"errors": []})(),
+    )
+
+    dump(
+        root / health.PILOT_DECISION,
+        {
+            "result": "LOGISTICS_ONLY_PILOT_SCOPE_ACTIVE",
+            "pilot_scope": {"pilot_module": "logistics_service"},
+        },
+    )
+    dump(
+        root / health.HEALTH_POLICY,
+        {
+            "roadmap": {
+                "minimum_future_steps": 1,
+                "target_future_steps": 2,
+            },
+            "prompt_buffer": {
+                "minimum_dispatchable_drafts": 1,
+                "target_dispatchable_drafts": 2,
+            },
+        },
+    )
+    dump(
+        root / "coordination/roadmaps/logistics_service.yaml",
+        {
+            "module": "logistics_service",
+            "roadmap": [
+                {
+                    "step_id": "future_a_v0_1",
+                    "status": "planned",
+                    "priority": "high",
+                    "depends_on": [],
+                },
+                {
+                    "step_id": "future_b_v0_1",
+                    "status": "planned",
+                    "priority": "normal",
+                    "depends_on": [],
+                },
+            ],
+        },
+    )
+    prompt(
+        root / "coordination/outgoing_prompts/logistics_service/drafts/a.md",
+        prompt_id="prompt_a_v0_1",
+        step_id="future_a_v0_1",
+    )
+    dump(
+        root / "coordination/outgoing_prompts/logistics_service/index.yaml",
+        {
+            "schema_version": "prompt_queue_v0_2",
+            "module": "logistics_service",
+            "prompt_queue": [
+                {
+                    "prompt_id": "prompt_b_v0_1",
+                    "roadmap_step_id": "future_b_v0_1",
+                    "module_execution": {"status": "ready_for_module_pull"},
+                }
+            ],
+        },
+    )
+
+    report = health.evaluate_module_health(
+        root=root,
+        module="logistics_service",
+    )
+
+    assert report["prompt_buffer"]["valid_prepared_prompts"] == 1
+    assert report["queue_coverage"]["covered_step_ids"] == ["future_b_v0_1"]
+    assert report["operator_refill"]["shortage_to_target"] == 1
+    assert report["operator_refill"]["recommendations"] == []
+    assert report["operator_refill"]["unfilled_target_shortage"] == 1
+
+
+def test_superseded_queue_record_does_not_block_refill(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    root = tmp_path
+    monkeypatch.setattr(
+        health,
+        "resolve_roadmap_path",
+        lambda *, root, module: root / "coordination/roadmaps/logistics_service.yaml",
+    )
+    monkeypatch.setattr(
+        health,
+        "load_yaml_file",
+        lambda path: yaml.safe_load(path.read_text(encoding="utf-8")),
+    )
+    monkeypatch.setattr(
+        health,
+        "validate_roadmap_document",
+        lambda document, path: type("V", (), {"errors": []})(),
+    )
+
+    dump(
+        root / health.PILOT_DECISION,
+        {
+            "result": "LOGISTICS_ONLY_PILOT_SCOPE_ACTIVE",
+            "pilot_scope": {"pilot_module": "logistics_service"},
+        },
+    )
+    dump(
+        root / health.HEALTH_POLICY,
+        {
+            "roadmap": {
+                "minimum_future_steps": 1,
+                "target_future_steps": 1,
+            },
+            "prompt_buffer": {
+                "minimum_dispatchable_drafts": 1,
+                "target_dispatchable_drafts": 1,
+            },
+        },
+    )
+    dump(
+        root / "coordination/roadmaps/logistics_service.yaml",
+        {
+            "module": "logistics_service",
+            "roadmap": [
+                {
+                    "step_id": "future_a_v0_1",
+                    "status": "planned",
+                    "priority": "high",
+                    "depends_on": [],
+                }
+            ],
+        },
+    )
+    dump(
+        root / "coordination/outgoing_prompts/logistics_service/index.yaml",
+        {
+            "schema_version": "prompt_queue_v0_2",
+            "module": "logistics_service",
+            "prompt_queue": [
+                {
+                    "prompt_id": "old_prompt_a_v0_1",
+                    "roadmap_step_id": "future_a_v0_1",
+                    "module_execution": {"status": "superseded"},
+                }
+            ],
+        },
+    )
+
+    report = health.evaluate_module_health(
+        root=root,
+        module="logistics_service",
+    )
+
+    assert report["queue_coverage"]["covered_step_ids"] == []
+    assert [
+        item["step_id"]
+        for item in report["operator_refill"]["recommendations"]
+    ] == ["future_a_v0_1"]
+

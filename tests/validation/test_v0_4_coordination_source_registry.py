@@ -11,7 +11,7 @@ VALIDATOR = ROOT / "scripts/coordination/validate_coordination_source_registry.p
 ROADMAP = ROOT / "coordination/self_coordination/roadmap.yaml"
 QUEUE = ROOT / "coordination/self_coordination/prompt_queue/index.yaml"
 HANDOFF = ROOT / "coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml"
-BOOTSTRAP = ROOT / "coordination/instruction_intake/bootstrap/assistant_bootstrap_v0_2.yaml"
+BOOTSTRAP = ROOT / "coordination/instruction_intake/bootstrap/assistant_bootstrap_v0_1.yaml"
 IMPLEMENTATION = (
     ROOT
     / "coordination/internal_work/blueprint/governance/2026-08-14__blueprint__v0_4_coordination_source_registry_implementation_v0_1.yaml"
