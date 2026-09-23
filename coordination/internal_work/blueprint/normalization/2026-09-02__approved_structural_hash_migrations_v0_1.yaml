@@ -1,0 +1,68 @@
+schema_version: forprint_structural_hash_migration_registry_v0_1
+date: '2026-09-02'
+status: CURRENT_NORMALIZATION_MIGRATION_EVIDENCE
+authority: forprint_system_blueprint
+purpose: Preserve immutable historical acceptance evidence while allowing explicitly verified formatting-only normalization
+  of current controlled YAML.
+source_package: ForPrint_Final_Normalization_A_Current_Surfaces__2026-09-01__u72a
+semantic_policy: Only exact legacy_sha256 to current_sha256 mappings declared here may satisfy historical stable-hash validation
+  after structural normalization.
+stable_artifact_hash_migrations:
+  - path: coordination/repository_knowledge/artifact_authority_policy_v0_1.yaml
+    legacy_sha256: 49bf45d875fe7f118a751bcd7187a255e28e1d4065a02d712d36e3a6638f1f3c
+    current_sha256: 861cb276a0371d7b4e31d3e55baf5497c8858f6ac046fad4263441c7b544b73a
+    semantic_change: false
+    status: APPROVED_STRUCTURAL_NORMALIZATION
+  - path: coordination/repository_knowledge/registries/module_registry_resolution_v0_1.yaml
+    legacy_sha256: 66b72459a9d10c025c9d3ce6cc7c5b1127e0e9b8c4d3cf0b0b1f8bab4f5add23
+    current_sha256: 057bd605f8951ce7a9723de1d91f8b8a072c8c51b8a3fe057426a9302ce3f2bd
+    semantic_change: false
+    status: APPROVED_STRUCTURAL_NORMALIZATION
+  - path: coordination/repository_knowledge/inventory_maintenance_v0_1.yaml
+    legacy_sha256: 754f10b3625bb29b9eac9a3a54b417fde6c1f01f2b7f0f3194941e48d274e1cc
+    current_sha256: 113e3678b82e1b56f719ba1270748e04755019089fa306687477b297434b5c65
+    semantic_change: false
+    status: APPROVED_STRUCTURAL_NORMALIZATION
+contract_reference_rebinds:
+  - path: coordination/standards/governance/bounded_clarification_and_escalation_v0_1.yaml
+    before_sha256: 799d826024f6dcf009b439cc3317702102bfeb129a9ed5263d50dc6f7a2de0f7
+    after_sha256: 45c7721d5e82a800bdf60c3583a5980b79872cc6f9f40ae04dee8fd3c4870ca0
+    reference_fields_updated: 1
+  - path: coordination/standards/governance/execution_blocker_taxonomy_v0_1.yaml
+    before_sha256: 2e81b6ab7964465dff2257216ec65acd101c9160d8d592b7f0a4267c32285809
+    after_sha256: a378202ff92ddf2e27622bc05c4349d5c5f4e93d1fba93a51be77fb120e393ce
+    reference_fields_updated: 2
+  - path: coordination/standards/governance/immutable_prompt_adjustment_and_decision_v0_1.yaml
+    before_sha256: ee6da6e533b72584ad410617c257b2f78b5b4207a68847c0ffb7af63b4045447
+    after_sha256: f142990e826cde57687f6b8640315a7a8c4dfd29930bafea177c1b08e87028c5
+    reference_fields_updated: 3
+  - path: coordination/standards/governance/common_coordination_event_envelope_v0_1.yaml
+    before_sha256: 513089d482f777a24fc41a35338d8b2f0952a66f7b308a4ef1e3028bd30469d7
+    after_sha256: 543e6d1418916f7364d511b54762387b71bec78e6e63d047454b659b474695e6
+    reference_fields_updated: 4
+  - path: coordination/standards/governance/operator_attention_semantics_v0_1.yaml
+    before_sha256: d50660a15796faf932cd5201e84a4ab4509a2fbe09eefa548b02b7cc0b98a06c
+    after_sha256: cc9a663800cb05035c4537a8a3dbd21fae14c66b050fd118feb0ac66fb6c7539
+    reference_fields_updated: 5
+  - path: coordination/standards/governance/cross_module_question_routing_contract_v0_1.yaml
+    before_sha256: a7988a676f3753d0c7d91a6b1fbd526738d93cb8499af03528ad5997bcb5fe51
+    after_sha256: 36a7d15e5613dd6fbf3144cdf7c9c498d8d165462fcd8b910dc702ea2300cc56
+    reference_fields_updated: 6
+  - path: coordination/standards/governance/logistics_clarification_reference_validation_v0_1.yaml
+    before_sha256: 6a903f3cbc043e04b24dec41f31b56cdaec60d802c8f498d68d292260a1b6640
+    after_sha256: 7c2c21ac62027e6df2fcaf4509a919a8f67d694565d93d64cdbfcaabc34b8167
+    reference_fields_updated: 8
+reference_field_update_count: 29
+historical_acceptance_index_mutated: false
+release_authority_mutated: false
+source_pin_rebinds:
+  - test_path: tests/validation/test_blueprint_controlled_failure_write_flow_contract.py
+    source_path: scripts/coordination/validate_inventory_acceptance_evidence_index.py
+    legacy_sha256: 3b4310b0268955bb2956ea18c64520b94c8a10bb9b1269f9754f77f80bf35941
+    current_sha256: 69e96e2c6a7090458634fdc19e626482abf43d4a3da4ea179835b6826de44f6a
+    reason: u74 intentionally added exact approved structural-normalization hash-migration support to the acceptance evidence
+      validator.
+    semantic_change_scope: The controlled-failure source pin follows that reviewed source revision; failure-flow behavior
+      is not weakened.
+    status: APPROVED_SOURCE_PIN_REBIND
+controlled_failure_source_pin_rebind_count: 1

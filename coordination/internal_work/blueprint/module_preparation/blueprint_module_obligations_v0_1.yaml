@@ -1,0 +1,57 @@
+schema_version: forprint_blueprint_module_obligations_v0_1
+status: active_input
+authority: forprint_system_blueprint
+generated_from_reviewed_architecture: true
+modules:
+  forprint_project_inspector:
+    source_refs:
+      - coordination/internal_work/blueprint/governance/2026-09-06__blueprint__control_plane_module_memory_semantic_convergence_program_v0_1.yaml
+      - coordination/standards/automation/control_plane/inspector_reviewer_registry_v0_1.yaml
+      - coordination/standards/automation/control_plane/completion_intake_inspector_conformance_v0_1.yaml
+    obligations:
+      - obligation_id: inspector_completion_evidence_intake_v0_1
+        capability: completion_evidence_intake
+        state: PENDING_MODULE_REPOSITORY_EVIDENCE_REVIEW
+      - obligation_id: inspector_acceptance_oracle_evaluation_v0_1
+        capability: acceptance_oracle_evaluation
+        state: PENDING_MODULE_REPOSITORY_EVIDENCE_REVIEW
+      - obligation_id: inspector_structured_conformance_result_v0_1
+        capability: structured_conformance_result
+        state: PENDING_MODULE_REPOSITORY_EVIDENCE_REVIEW
+      - obligation_id: inspector_missing_contradictory_evidence_detection_v0_1
+        capability: missing_contradictory_evidence_detection
+        state: PENDING_MODULE_REPOSITORY_EVIDENCE_REVIEW
+      - obligation_id: inspector_conformance_evidence_manifest_v0_1
+        capability: conformance_evidence_manifest
+        state: PENDING_MODULE_REPOSITORY_EVIDENCE_REVIEW
+      - obligation_id: inspector_read_only_guarantees_v0_1
+        capability: read_only_guarantees
+        state: PENDING_MODULE_REPOSITORY_EVIDENCE_REVIEW
+      - obligation_id: inspector_no_human_accept_authority_v0_1
+        capability: no_human_accept_authority
+        state: PENDING_MODULE_REPOSITORY_EVIDENCE_REVIEW
+      - obligation_id: inspector_completion_intake_integration_v0_1
+        capability: completion_intake_integration
+        state: PENDING_MODULE_REPOSITORY_EVIDENCE_REVIEW
+      - obligation_id: inspector_q5_q6_review_event_semantics_v0_1
+        capability: q5_q6_review_event_semantics
+        state: PENDING_MODULE_REPOSITORY_EVIDENCE_REVIEW
+  logistics_service:
+    source_refs:
+      - coordination/internal_work/blueprint/module_inventory/logistics_service/2026-09-08__logistics_service__semantic_roadmap_reconciliation_apply_v0_1.yaml
+    obligations:
+      - obligation_id: logistics_service_meest_express_read_only_foundation_candidate_v0_1
+        capability: meest_express_read_only_foundation
+        state: CANDIDATE_PENDING_CANONICAL_STEP_DECISION
+      - obligation_id: logistics_service_degraded_survival_modes_candidate_v0_1
+        capability: degraded_survival_modes
+        state: CANDIDATE_PENDING_CANONICAL_STEP_DECISION
+      - obligation_id: logistics_service_first_wave_end_to_end_pilot_candidate_v0_1
+        capability: first_wave_end_to_end_pilot
+        state: CANDIDATE_PENDING_CANONICAL_STEP_DECISION
+      - obligation_id: logistics_service_bolt_uber_provider_specific_adapters_candidate_v0_1
+        capability: bolt_uber_provider_specific_adapters
+        state: REVIEW_CANDIDATE
+      - obligation_id: logistics_service_integration_gateway_handoff_candidate_v0_1
+        capability: integration_gateway_handoff
+        state: REVIEW_CANDIDATE

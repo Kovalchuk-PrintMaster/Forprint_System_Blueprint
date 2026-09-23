@@ -1,0 +1,247 @@
+schema_version: forprint_module_memory_schema_v0_1
+metadata:
+  module_id: forprint_system_blueprint
+  created_at: '2026-09-06'
+  status: IMPLEMENTED_REFERENCE_V0_1
+  authority: BLUEPRINT_SHARED_MODULE_MEMORY_CONTRACT_NOT_MODULE_RUNTIME_TRUTH
+  purpose: Unify existing repository capability inventory, current-state evidence, cleanliness and implementation-lineage
+    evidence into one long-lived module-memory contract for significant implementation surfaces.
+principles:
+  - Inventory is long-lived module memory, not a file list.
+  - Existing repository capability inventory, current-state evidence, cleanliness and lineage remain source evidence;
+    this contract binds them instead of replacing them.
+  - Indexes are derived navigation and evidence, not authority.
+  - Unknown legacy provenance remains explicit and must not be invented.
+  - Significant implementation surfaces receive durable identity and lineage; trivial helpers and generated support
+    surfaces do not require global registration by default.
+  - Semantic identity, implementation identity and contract version are separate concepts.
+  - Retirement requires evidence and impact review; absence from an index is not deletion authority.
+  - Freshness is tied to repository evidence and verification state, not document age alone.
+significance_policy:
+  in_scope_examples:
+    - service or domain class with durable business responsibility
+    - public module API or exported compatibility surface
+    - workflow or coordination implementation
+    - shared contract, event or data-structure implementation
+    - provider or external-system boundary
+    - critical persistence or migration implementation
+    - LLM prompt or policy implementation that changes runtime or coordination behavior
+  normally_exempt_examples:
+    - trivial private helper
+    - generated file
+    - fixture with no independent runtime responsibility
+    - small test-only support utility
+  escalation_rule: An otherwise local implementation enters durable Module Memory when reuse, external interaction,
+    criticality, compatibility, lineage or retirement impact makes it architecturally significant.
+enums:
+  interaction_scope:
+    S0: implementation-local
+    S1: module-internal
+    S2: module public or internal API
+    S3: cross-module
+    S4: external-system boundary
+  criticality:
+    C0: trivial or support
+    C1: normal
+    C2: important
+    C3: critical business or runtime
+    C4: protected or high-risk
+  standardization_maturity:
+    - LOCAL
+    - OBSERVED
+    - PROVISIONAL
+    - RECOMMENDED
+    - CANONICAL
+    - DEPRECATED
+    - RETIRED
+  migration_mode:
+    - KEEP
+    - MAP_ONLY
+    - MIGRATE_ON_TOUCH
+    - ROADMAP_REQUIRED
+    - MIGRATION_REQUIRED
+  lifecycle_state:
+    - CURRENT
+    - SUPPORTED_LEGACY
+    - SPECIALIZED_CURRENT_REFERENCE
+    - HISTORICAL_REFERENCE
+    - PROVISIONAL
+    - DEPRECATED
+    - RETIRED
+    - UNKNOWN_LEGACY
+  provenance_confidence:
+    - high
+    - medium
+    - low
+    - unknown
+  freshness_state:
+    - FRESH
+    - AFFECTED_CHECK_REQUIRED
+    - STALE
+    - UNKNOWN
+record_contract:
+  required_sections:
+    - identity
+    - purpose_and_provenance
+    - classification
+    - semantic_binding
+    - lifecycle
+    - lineage
+    - interfaces
+    - relationships
+    - evidence
+    - roadmap
+    - retirement
+    - freshness
+    - unknowns
+  sections:
+    identity:
+      required_fields:
+        - module_id
+        - capability_id
+        - implementation_id
+        - implementation_kind
+        - significant_surface
+        - source_paths
+      notes: implementation_id is durable for one concrete implementation lineage node; capability_id may group
+        multiple generations.
+    purpose_and_provenance:
+      required_fields:
+        - purpose
+        - origin_problem
+        - introduced_at
+        - introduced_by_prompt
+        - introduced_by_decision
+        - provenance_confidence
+      unknown_legacy_rule:
+        purpose: UNKNOWN_LEGACY
+        provenance_confidence: low
+        review_required: true
+    classification:
+      required_fields:
+        - interaction_scope
+        - criticality
+        - standardization_maturity
+    semantic_binding:
+      required_fields:
+        - semantic_id
+        - binding_state
+        - recommended_name
+        - aliases
+        - migration_mode
+        - registration_ticket_ref
+        - enrichment_ticket_ref
+      rule: A missing Library semantic may remain local or provisional; registration is not automatic canonicalization.
+    lifecycle:
+      required_fields:
+        - lifecycle_state
+        - current_role
+        - compatibility_role
+        - review_gate
+    lineage:
+      required_fields:
+        - supersedes
+        - superseded_by
+        - predecessors
+        - successors
+        - evolution_reason
+        - coexistence_role
+    interfaces:
+      required_fields:
+        - inputs
+        - outputs
+        - contracts
+        - events
+        - side_effects
+        - external_boundaries
+    relationships:
+      required_fields:
+        - dependencies
+        - consumers
+        - providers
+        - related_implementations
+        - business_flows
+    evidence:
+      required_fields:
+        - documentation_refs
+        - test_refs
+        - contract_refs
+        - runtime_evidence_refs
+        - inventory_refs
+        - lineage_refs
+    roadmap:
+      required_fields:
+        - current_roadmap_role
+        - target_state
+        - final_objective
+        - known_gaps
+    retirement:
+      required_fields:
+        - retirement_candidate
+        - retirement_conditions
+        - known_impact
+        - approval_required
+    freshness:
+      required_fields:
+        - last_verified_at
+        - last_verified_repository_commit
+        - freshness_state
+        - affected_by
+    unknowns:
+      required_fields:
+        - items
+        - review_required
+source_bindings:
+  - binding_id: repository_capability_inventory
+    path: coordination/repository_knowledge/templates/repository_capability_inventory_v0_2.template.yaml
+    role: repository structure, capability, interfaces, dependencies, consumers, tests, duplicate candidates and
+      unknowns
+    must_not_be_replaced: true
+  - binding_id: module_current_state_evidence
+    path: coordination/standards/governance/module_current_state_evidence_standard_v0_1.yaml
+    role: current versus target state, contracts, interfaces, dependencies, roadmap position, conflicts, provenance
+      and last verification
+    must_not_be_replaced: true
+  - binding_id: module_cleanliness_conformance
+    path: coordination/standards/governance/module_cleanliness_conformance_pack_v0_1.yaml
+    role: duplicate, orphan, lifecycle, retirement and maintainability conformance
+    must_not_be_replaced: true
+  - binding_id: implementation_lineage
+    path: coordination/internal_work/blueprint/module_inventory/logistics_service/2026-09-05__logistics_service__implementation_lineage_baseline_v0_1.yaml
+    role: first reference evidence for current, supported legacy and implementation-evolution chains
+    must_not_be_replaced: true
+  - binding_id: library_semantic_authority
+    path: coordination/module_policy/forprint_library/module_policy.md
+    role: shared semantic, naming, alias and contract authority direction
+    must_not_be_replaced: true
+compatibility_mapping:
+  logistics_lineage_future_fields:
+    capability_id: identity.capability_id
+    implementation_id: identity.implementation_id
+    semantic_role: semantic_binding.semantic_id
+    introduced_by_prompt: purpose_and_provenance.introduced_by_prompt
+    introduced_at: purpose_and_provenance.introduced_at
+    source_paths: identity.source_paths
+    documentation_refs: evidence.documentation_refs
+    test_refs: evidence.test_refs
+    contract_refs: evidence.contract_refs
+    lifecycle_status: lifecycle.lifecycle_state
+    supersedes: lineage.supersedes
+    superseded_by: lineage.superseded_by
+    known_consumers: relationships.consumers
+    review_gate: lifecycle.review_gate
+adoption_policy:
+  initial_reference_module: logistics_service
+  first_prompt_scope: Establish significant implementation self-knowledge and lineage; do not perform archaeology
+    of every trivial helper.
+  portfolio_rollout: Adopt only after Logistics reference behavior and independent first-pool audit demonstrate
+    the contract is useful and maintainable.
+  definition_of_done_direction: Future significant implementation changes should update Module Memory, lineage and
+    freshness evidence in the same work cycle.
+  full_portfolio_backfill_required_before_logistics_prompt_1: false
+future_extensions_not_implemented_here:
+  - source-level Implementation Surface Metadata contract
+  - Library semantic registration and enrichment ticket lifecycle
+  - semantic change feed
+  - fully queryable relationship and impact graph
+  - portfolio-wide Module Memory backfill

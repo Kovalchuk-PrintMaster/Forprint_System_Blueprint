@@ -1,0 +1,63 @@
+schema_version: "0.1"
+status: ACTIVE
+authority: BLUEPRINT_TEST_SKIP_INVENTORY
+title: Current Pytest Skip Inventory
+captured_on: "2026-09-02"
+scope: forprint_system_blueprint
+expected_total_skipped_tests: 32
+common_reason: "deprecated compatibility test; excluded from current release gate; retained for historical/manual migration use"
+groups:
+  - path: tests/coordination/test_completion_intake_check.py
+    expected_skipped_test_count: 9
+    reason: "deprecated compatibility test; excluded from current release gate; retained for historical/manual migration use"
+    classification: PRESERVED_DEPRECATED_COMPATIBILITY
+    owner: forprint_system_blueprint
+    current_release_gate: EXCLUDED_COMPATIBILITY_HISTORY
+    retention_or_reentry_condition: retained for historical/manual migration use
+    removal_condition: explicit owner/operator disposition after migration-history need is retired
+  - path: tests/test_completion_intake_check_protocol_v0_2.py
+    expected_skipped_test_count: 9
+    reason: "deprecated compatibility test; excluded from current release gate; retained for historical/manual migration use"
+    classification: PRESERVED_DEPRECATED_COMPATIBILITY
+    owner: forprint_system_blueprint
+    current_release_gate: EXCLUDED_COMPATIBILITY_HISTORY
+    retention_or_reentry_condition: retained for historical/manual migration use
+    removal_condition: explicit owner/operator disposition after migration-history need is retired
+  - path: tests/test_completion_intake_check_protocol_v0_3.py
+    expected_skipped_test_count: 7
+    reason: "deprecated compatibility test; excluded from current release gate; retained for historical/manual migration use"
+    classification: PRESERVED_DEPRECATED_COMPATIBILITY
+    owner: forprint_system_blueprint
+    current_release_gate: EXCLUDED_COMPATIBILITY_HISTORY
+    retention_or_reentry_condition: retained for historical/manual migration use
+    removal_condition: explicit owner/operator disposition after migration-history need is retired
+  - path: tests/validation/test_completion_revision_registry_v0_1.py
+    expected_skipped_test_count: 5
+    reason: "deprecated compatibility test; excluded from current release gate; retained for historical/manual migration use"
+    classification: PRESERVED_DEPRECATED_COMPATIBILITY
+    owner: forprint_system_blueprint
+    current_release_gate: EXCLUDED_COMPATIBILITY_HISTORY
+    retention_or_reentry_condition: retained for historical/manual migration use
+    removal_condition: explicit owner/operator disposition after migration-history need is retired
+  - path: tests/validation/test_v0_4_completion_discovery_and_intake.py
+    expected_skipped_test_count: 1
+    reason: "deprecated compatibility test; excluded from current release gate; retained for historical/manual migration use"
+    classification: PRESERVED_DEPRECATED_COMPATIBILITY
+    owner: forprint_system_blueprint
+    current_release_gate: EXCLUDED_COMPATIBILITY_HISTORY
+    retention_or_reentry_condition: retained for historical/manual migration use
+    removal_condition: explicit owner/operator disposition after migration-history need is retired
+  - path: tests/validation/test_v0_4_completion_packet.py
+    expected_skipped_test_count: 1
+    reason: "deprecated compatibility test; excluded from current release gate; retained for historical/manual migration use"
+    classification: PRESERVED_DEPRECATED_COMPATIBILITY
+    owner: forprint_system_blueprint
+    current_release_gate: EXCLUDED_COMPATIBILITY_HISTORY
+    retention_or_reentry_condition: retained for historical/manual migration use
+    removal_condition: explicit owner/operator disposition after migration-history need is retired
+summary:
+  registered_skip_group_count: 6
+  registered_skipped_test_count: 32
+  unexplained_skip_count: 0
+  deletion_recommended_now: false
+  disposition: KEEP_REGISTERED_AND_REVIEW_LATER

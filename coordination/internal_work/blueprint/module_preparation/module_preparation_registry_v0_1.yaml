@@ -1,0 +1,696 @@
+schema_version: forprint_module_preparation_registry_v0_1
+status: ACTIVE_CURRENT
+authority: BLUEPRINT_PORTFOLIO_PREPARATION_PROJECTION
+source_precedence_note: Current Control Plane and reviewed reconciliation evidence override stale historical pilot-selection
+  hints in older inventory-program projections.
+sources:
+  module_inventory_state:
+    path: coordination/internal_work/blueprint/module_inventory/2026-09-04__module_inventory_program_state_v0_1.yaml
+    sha256: cbd3aceecb2ddc04550a8ce8515167ae91a20676ce93e98a77ad2b73c71df516
+  blueprint_module_obligations:
+    path: coordination/internal_work/blueprint/module_preparation/blueprint_module_obligations_v0_1.yaml
+    sha256: fd0c3aae06390e13bd0bab4015f5b0bfc00d436f4d307a3f2b85a26cedb52536
+  control_plane_program:
+    path: coordination/internal_work/blueprint/governance/2026-09-06__blueprint__control_plane_module_memory_semantic_convergence_program_v0_1.yaml
+    sha256: bad4e17366b361541e211ff108d91c477d876ffa40dd6f23be95ab9b17fd12cd
+  module_git_sources:
+    path: coordination/module_sources/module_git_sources.yaml
+    sha256: a73c10b97568270d2d8d8ee5b80629140114f604baaecba482084104cb414be3
+  logistics_semantic_reconciliation:
+    path: coordination/internal_work/blueprint/module_inventory/logistics_service/2026-09-08__logistics_service__semantic_roadmap_reconciliation_apply_v0_1.yaml
+    sha256: edeec7fac48a28d0a4ac310d0dfd816546b1a9847790f4f7a4da3c2deb75e6d0
+state_machine:
+- DISCOVERED
+- INVENTORIED
+- BOOTSTRAP_READY
+- BOOTSTRAPPED
+- VERIFIED_WORK_READY
+module_count: 23
+preparation_required_module_count: 22
+state_counts:
+  BOOTSTRAPPED: 0
+  BOOTSTRAP_READY: 1
+  DISCOVERED: 21
+  INVENTORIED: 1
+  VERIFIED_WORK_READY: 0
+all_required_modules_verified_work_ready: false
+development_priority_selection_allowed: false
+worker_launch_allowed: false
+automatic_prompt_claim_allowed: false
+automatic_accept_allowed: false
+automatic_release_allowed: false
+modules:
+- module_id: calculator_engine
+  preparation_required: true
+  preparation_exemption_reason: null
+  preparation_state: DISCOVERED
+  inventory_state: NOT_STARTED
+  consolidation_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  roadmap_path: null
+  portfolio_seed_path: coordination/roadmaps/details/forprint_system_blueprint/portfolio_rebuild_seeds/calculator_engine.yaml
+  historical_legacy_risk: true
+  pending_blueprint_obligation_count: 0
+  pending_blueprint_obligations: []
+  bootstrap_prompt_state: NOT_PREPARED
+  repository_local_path: /srv/software_development/forprint-project/calculator_engine/app
+  repository_url: git@github.com:Kovalchuk-PrintMaster/Calculator_Engine.git
+  repository_branch: main
+  repository_status: confirmed
+  repository_path_exists: true
+  repository_git_detected: true
+  repository_provisioning_required: false
+  blockers:
+  - CANONICAL_MODULE_ROADMAP_MISSING
+  - FORENSIC_INVENTORY_NOT_STARTED
+  evidence_refs: []
+  next_action_from_inventory_program: REPOSITORY_SIZE_RISK_TRIAGE
+- module_id: cloud_backup_manager
+  preparation_required: true
+  preparation_exemption_reason: null
+  preparation_state: DISCOVERED
+  inventory_state: NOT_STARTED
+  consolidation_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  roadmap_path: null
+  portfolio_seed_path: coordination/roadmaps/details/forprint_system_blueprint/portfolio_rebuild_seeds/cloud_backup_manager.yaml
+  historical_legacy_risk: false
+  pending_blueprint_obligation_count: 0
+  pending_blueprint_obligations: []
+  bootstrap_prompt_state: NOT_PREPARED
+  repository_local_path: /opt/forprint-utils/cloud_backup_manager
+  repository_url: git@github.com:Kovalchuk-PrintMaster/Cloud_Backup_Manager.git
+  repository_branch: main
+  repository_status: confirmed
+  repository_path_exists: true
+  repository_git_detected: true
+  repository_provisioning_required: false
+  blockers:
+  - CANONICAL_MODULE_ROADMAP_MISSING
+  - FORENSIC_INVENTORY_NOT_STARTED
+  evidence_refs: []
+  next_action_from_inventory_program: REPOSITORY_SIZE_RISK_TRIAGE
+- module_id: forprint_accounting_registry_service
+  preparation_required: true
+  preparation_exemption_reason: null
+  preparation_state: DISCOVERED
+  inventory_state: NOT_STARTED
+  consolidation_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  roadmap_path: null
+  portfolio_seed_path: coordination/roadmaps/details/forprint_system_blueprint/portfolio_rebuild_seeds/forprint_accounting_registry_service.yaml
+  historical_legacy_risk: false
+  pending_blueprint_obligation_count: 0
+  pending_blueprint_obligations: []
+  bootstrap_prompt_state: NOT_PREPARED
+  repository_local_path: /srv/software_development/forprint-project/forprint_accounting_registry_service
+  repository_url: git@github.com:Kovalchuk-PrintMaster/Forprint_Accounting_Registry_Service.git
+  repository_branch: main
+  repository_status: confirmed
+  repository_path_exists: true
+  repository_git_detected: true
+  repository_provisioning_required: false
+  blockers:
+  - CANONICAL_MODULE_ROADMAP_MISSING
+  - FORENSIC_INVENTORY_NOT_STARTED
+  evidence_refs: []
+  next_action_from_inventory_program: REPOSITORY_SIZE_RISK_TRIAGE
+- module_id: forprint_contract_registry
+  preparation_required: true
+  preparation_exemption_reason: null
+  preparation_state: DISCOVERED
+  inventory_state: NOT_STARTED
+  consolidation_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  roadmap_path: null
+  portfolio_seed_path: coordination/roadmaps/details/forprint_system_blueprint/portfolio_rebuild_seeds/forprint_contract_registry.yaml
+  historical_legacy_risk: false
+  pending_blueprint_obligation_count: 0
+  pending_blueprint_obligations: []
+  bootstrap_prompt_state: NOT_PREPARED
+  repository_local_path: /srv/software_development/forprint-project/forprint_contract_registry
+  repository_url: null
+  repository_branch: main
+  repository_status: planned_directory_created
+  repository_path_exists: true
+  repository_git_detected: false
+  repository_provisioning_required: true
+  blockers:
+  - REPOSITORY_PROVISIONING_REQUIRED
+  - CANONICAL_MODULE_ROADMAP_MISSING
+  - FORENSIC_INVENTORY_NOT_STARTED
+  evidence_refs: []
+  next_action_from_inventory_program: REPOSITORY_SIZE_RISK_TRIAGE
+- module_id: forprint_crm
+  preparation_required: true
+  preparation_exemption_reason: null
+  preparation_state: DISCOVERED
+  inventory_state: NOT_STARTED
+  consolidation_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  roadmap_path: null
+  portfolio_seed_path: coordination/roadmaps/details/forprint_system_blueprint/portfolio_rebuild_seeds/forprint_crm.yaml
+  historical_legacy_risk: false
+  pending_blueprint_obligation_count: 0
+  pending_blueprint_obligations: []
+  bootstrap_prompt_state: NOT_PREPARED
+  repository_local_path: /srv/software_development/forprint-project/forprint_crm
+  repository_url: null
+  repository_branch: main
+  repository_status: confirm_required
+  repository_path_exists: true
+  repository_git_detected: false
+  repository_provisioning_required: true
+  blockers:
+  - REPOSITORY_PROVISIONING_REQUIRED
+  - CANONICAL_MODULE_ROADMAP_MISSING
+  - FORENSIC_INVENTORY_NOT_STARTED
+  evidence_refs: []
+  next_action_from_inventory_program: REPOSITORY_SIZE_RISK_TRIAGE
+- module_id: forprint_identity_access_service
+  preparation_required: true
+  preparation_exemption_reason: null
+  preparation_state: DISCOVERED
+  inventory_state: NOT_STARTED
+  consolidation_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  roadmap_path: null
+  portfolio_seed_path: coordination/roadmaps/details/forprint_system_blueprint/portfolio_rebuild_seeds/forprint_identity_access_service.yaml
+  historical_legacy_risk: false
+  pending_blueprint_obligation_count: 0
+  pending_blueprint_obligations: []
+  bootstrap_prompt_state: NOT_PREPARED
+  repository_local_path: null
+  repository_url: null
+  repository_branch: null
+  repository_status: UNREGISTERED
+  repository_path_exists: false
+  repository_git_detected: false
+  repository_provisioning_required: true
+  blockers:
+  - REPOSITORY_PROVISIONING_REQUIRED
+  - CANONICAL_MODULE_ROADMAP_MISSING
+  - FORENSIC_INVENTORY_NOT_STARTED
+  evidence_refs: []
+  next_action_from_inventory_program: REPOSITORY_SIZE_RISK_TRIAGE
+- module_id: forprint_integration_gateway
+  preparation_required: true
+  preparation_exemption_reason: null
+  preparation_state: DISCOVERED
+  inventory_state: NOT_STARTED
+  consolidation_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  roadmap_path: null
+  portfolio_seed_path: coordination/roadmaps/details/forprint_system_blueprint/portfolio_rebuild_seeds/forprint_integration_gateway.yaml
+  historical_legacy_risk: false
+  pending_blueprint_obligation_count: 0
+  pending_blueprint_obligations: []
+  bootstrap_prompt_state: NOT_PREPARED
+  repository_local_path: /srv/software_development/forprint-project/forprint_integration_gateway
+  repository_url: git@github.com:Kovalchuk-PrintMaster/Forprint_Integration_Gateway.git
+  repository_branch: main
+  repository_status: confirmed
+  repository_path_exists: true
+  repository_git_detected: true
+  repository_provisioning_required: false
+  blockers:
+  - CANONICAL_MODULE_ROADMAP_MISSING
+  - FORENSIC_INVENTORY_NOT_STARTED
+  evidence_refs: []
+  next_action_from_inventory_program: REPOSITORY_SIZE_RISK_TRIAGE
+- module_id: forprint_library
+  preparation_required: true
+  preparation_exemption_reason: null
+  preparation_state: DISCOVERED
+  inventory_state: NOT_STARTED
+  consolidation_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  roadmap_path: coordination/roadmaps/forprint_library.yaml
+  portfolio_seed_path: coordination/roadmaps/details/forprint_system_blueprint/portfolio_rebuild_seeds/forprint_library.yaml
+  historical_legacy_risk: false
+  pending_blueprint_obligation_count: 0
+  pending_blueprint_obligations: []
+  bootstrap_prompt_state: NOT_PREPARED
+  repository_local_path: /srv/software_development/forprint-project/forprint_library
+  repository_url: git@github.com:Kovalchuk-PrintMaster/Forprint_Library.git
+  repository_branch: main
+  repository_status: confirmed
+  repository_path_exists: true
+  repository_git_detected: true
+  repository_provisioning_required: false
+  blockers:
+  - FORENSIC_INVENTORY_NOT_STARTED
+  evidence_refs: []
+  next_action_from_inventory_program: REPOSITORY_SIZE_RISK_TRIAGE
+- module_id: forprint_marketing_orchestrator
+  preparation_required: true
+  preparation_exemption_reason: null
+  preparation_state: DISCOVERED
+  inventory_state: NOT_STARTED
+  consolidation_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  roadmap_path: coordination/roadmaps/forprint_marketing_orchestrator.yaml
+  portfolio_seed_path: null
+  historical_legacy_risk: false
+  pending_blueprint_obligation_count: 0
+  pending_blueprint_obligations: []
+  bootstrap_prompt_state: NOT_PREPARED
+  repository_local_path: /srv/software_development/forprint-project/forprint_marketing_orchestrator
+  repository_url: null
+  repository_branch: main
+  repository_status: planned_directory_created
+  repository_path_exists: true
+  repository_git_detected: false
+  repository_provisioning_required: true
+  blockers:
+  - REPOSITORY_PROVISIONING_REQUIRED
+  - FORENSIC_INVENTORY_NOT_STARTED
+  evidence_refs: []
+  next_action_from_inventory_program: REPOSITORY_SIZE_RISK_TRIAGE
+- module_id: forprint_operations_assistant
+  preparation_required: true
+  preparation_exemption_reason: null
+  preparation_state: DISCOVERED
+  inventory_state: NOT_STARTED
+  consolidation_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  roadmap_path: coordination/roadmaps/forprint_operations_assistant.yaml
+  portfolio_seed_path: null
+  historical_legacy_risk: false
+  pending_blueprint_obligation_count: 0
+  pending_blueprint_obligations: []
+  bootstrap_prompt_state: NOT_PREPARED
+  repository_local_path: /srv/software_development/forprint-project/forprint_operations_assistant
+  repository_url: null
+  repository_branch: main
+  repository_status: planned_directory_created
+  repository_path_exists: true
+  repository_git_detected: false
+  repository_provisioning_required: true
+  blockers:
+  - REPOSITORY_PROVISIONING_REQUIRED
+  - FORENSIC_INVENTORY_NOT_STARTED
+  evidence_refs: []
+  next_action_from_inventory_program: REPOSITORY_SIZE_RISK_TRIAGE
+- module_id: forprint_operations_control_registry
+  preparation_required: true
+  preparation_exemption_reason: null
+  preparation_state: DISCOVERED
+  inventory_state: NOT_STARTED
+  consolidation_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  roadmap_path: null
+  portfolio_seed_path: coordination/roadmaps/details/forprint_system_blueprint/portfolio_rebuild_seeds/forprint_operations_control_registry.yaml
+  historical_legacy_risk: false
+  pending_blueprint_obligation_count: 0
+  pending_blueprint_obligations: []
+  bootstrap_prompt_state: NOT_PREPARED
+  repository_local_path: /srv/software_development/forprint-project/forprint_operations_control_registry
+  repository_url: git@github.com:Kovalchuk-PrintMaster/Forprint_Operational_Registry.git
+  repository_branch: main
+  repository_status: confirmed
+  repository_path_exists: true
+  repository_git_detected: true
+  repository_provisioning_required: false
+  blockers:
+  - CANONICAL_MODULE_ROADMAP_MISSING
+  - FORENSIC_INVENTORY_NOT_STARTED
+  evidence_refs: []
+  next_action_from_inventory_program: REPOSITORY_SIZE_RISK_TRIAGE
+- module_id: forprint_prepress_hub
+  preparation_required: true
+  preparation_exemption_reason: null
+  preparation_state: DISCOVERED
+  inventory_state: NOT_STARTED
+  consolidation_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  roadmap_path: null
+  portfolio_seed_path: coordination/roadmaps/details/forprint_system_blueprint/portfolio_rebuild_seeds/forprint_prepress_hub.yaml
+  historical_legacy_risk: false
+  pending_blueprint_obligation_count: 0
+  pending_blueprint_obligations: []
+  bootstrap_prompt_state: NOT_PREPARED
+  repository_local_path: /srv/software_development/forprint-project/forprint_prepress_hub
+  repository_url: null
+  repository_branch: main
+  repository_status: confirm_required
+  repository_path_exists: true
+  repository_git_detected: false
+  repository_provisioning_required: true
+  blockers:
+  - REPOSITORY_PROVISIONING_REQUIRED
+  - CANONICAL_MODULE_ROADMAP_MISSING
+  - FORENSIC_INVENTORY_NOT_STARTED
+  evidence_refs: []
+  next_action_from_inventory_program: REPOSITORY_SIZE_RISK_TRIAGE
+- module_id: forprint_project_inspector
+  preparation_required: true
+  preparation_exemption_reason: null
+  preparation_state: DISCOVERED
+  inventory_state: NOT_STARTED
+  consolidation_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  roadmap_path: null
+  portfolio_seed_path: coordination/roadmaps/details/forprint_system_blueprint/portfolio_rebuild_seeds/forprint_project_inspector.yaml
+  historical_legacy_risk: false
+  pending_blueprint_obligation_count: 9
+  pending_blueprint_obligations:
+  - obligation_id: inspector_completion_evidence_intake_v0_1
+    capability: completion_evidence_intake
+    state: PENDING_MODULE_REPOSITORY_EVIDENCE_REVIEW
+  - obligation_id: inspector_acceptance_oracle_evaluation_v0_1
+    capability: acceptance_oracle_evaluation
+    state: PENDING_MODULE_REPOSITORY_EVIDENCE_REVIEW
+  - obligation_id: inspector_structured_conformance_result_v0_1
+    capability: structured_conformance_result
+    state: PENDING_MODULE_REPOSITORY_EVIDENCE_REVIEW
+  - obligation_id: inspector_missing_contradictory_evidence_detection_v0_1
+    capability: missing_contradictory_evidence_detection
+    state: PENDING_MODULE_REPOSITORY_EVIDENCE_REVIEW
+  - obligation_id: inspector_conformance_evidence_manifest_v0_1
+    capability: conformance_evidence_manifest
+    state: PENDING_MODULE_REPOSITORY_EVIDENCE_REVIEW
+  - obligation_id: inspector_read_only_guarantees_v0_1
+    capability: read_only_guarantees
+    state: PENDING_MODULE_REPOSITORY_EVIDENCE_REVIEW
+  - obligation_id: inspector_no_human_accept_authority_v0_1
+    capability: no_human_accept_authority
+    state: PENDING_MODULE_REPOSITORY_EVIDENCE_REVIEW
+  - obligation_id: inspector_completion_intake_integration_v0_1
+    capability: completion_intake_integration
+    state: PENDING_MODULE_REPOSITORY_EVIDENCE_REVIEW
+  - obligation_id: inspector_q5_q6_review_event_semantics_v0_1
+    capability: q5_q6_review_event_semantics
+    state: PENDING_MODULE_REPOSITORY_EVIDENCE_REVIEW
+  bootstrap_prompt_state: NOT_PREPARED
+  repository_local_path: /srv/software_development/forprint-project/forprint_project_inspector
+  repository_url: null
+  repository_branch: main
+  repository_status: planned_directory_created
+  repository_path_exists: true
+  repository_git_detected: false
+  repository_provisioning_required: true
+  blockers:
+  - REPOSITORY_PROVISIONING_REQUIRED
+  - CANONICAL_MODULE_ROADMAP_MISSING
+  - FORENSIC_INVENTORY_NOT_STARTED
+  - BLUEPRINT_OBLIGATIONS_REQUIRE_MODULE_REPOSITORY_EVIDENCE_REVIEW
+  evidence_refs:
+  - coordination/internal_work/blueprint/governance/2026-09-06__blueprint__control_plane_module_memory_semantic_convergence_program_v0_1.yaml
+  - coordination/standards/automation/control_plane/completion_intake_inspector_conformance_v0_1.yaml
+  - coordination/standards/automation/control_plane/inspector_reviewer_registry_v0_1.yaml
+  next_action_from_inventory_program: REPOSITORY_SIZE_RISK_TRIAGE
+- module_id: forprint_strategic_control_plane
+  preparation_required: true
+  preparation_exemption_reason: null
+  preparation_state: DISCOVERED
+  inventory_state: NOT_STARTED
+  consolidation_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  roadmap_path: null
+  portfolio_seed_path: coordination/roadmaps/details/forprint_system_blueprint/portfolio_rebuild_seeds/forprint_strategic_control_plane.yaml
+  historical_legacy_risk: false
+  pending_blueprint_obligation_count: 0
+  pending_blueprint_obligations: []
+  bootstrap_prompt_state: NOT_PREPARED
+  repository_local_path: /srv/software_development/forprint-project/forprint_strategic_control_plane
+  repository_url: null
+  repository_branch: main
+  repository_status: planned_directory_created
+  repository_path_exists: true
+  repository_git_detected: false
+  repository_provisioning_required: true
+  blockers:
+  - REPOSITORY_PROVISIONING_REQUIRED
+  - CANONICAL_MODULE_ROADMAP_MISSING
+  - FORENSIC_INVENTORY_NOT_STARTED
+  evidence_refs: []
+  next_action_from_inventory_program: REPOSITORY_SIZE_RISK_TRIAGE
+- module_id: forprint_system_administration
+  preparation_required: true
+  preparation_exemption_reason: null
+  preparation_state: DISCOVERED
+  inventory_state: NOT_STARTED
+  consolidation_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  roadmap_path: coordination/roadmaps/forprint_system_administration.yaml
+  portfolio_seed_path: null
+  historical_legacy_risk: false
+  pending_blueprint_obligation_count: 0
+  pending_blueprint_obligations: []
+  bootstrap_prompt_state: NOT_PREPARED
+  repository_local_path: /srv/software_development/forprint-project/forprint_system_administration
+  repository_url: null
+  repository_branch: main
+  repository_status: planned_directory_created
+  repository_path_exists: true
+  repository_git_detected: false
+  repository_provisioning_required: true
+  blockers:
+  - REPOSITORY_PROVISIONING_REQUIRED
+  - FORENSIC_INVENTORY_NOT_STARTED
+  evidence_refs: []
+  next_action_from_inventory_program: REPOSITORY_SIZE_RISK_TRIAGE
+- module_id: forprint_system_blueprint
+  preparation_required: false
+  preparation_exemption_reason: COORDINATOR_CONTROL_PLANE_EXEMPT
+  preparation_state: INVENTORIED
+  inventory_state: COORDINATOR_BASELINE_VERIFIED
+  consolidation_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  roadmap_path: null
+  portfolio_seed_path: coordination/roadmaps/details/forprint_system_blueprint/portfolio_rebuild_seeds/forprint_system_blueprint.yaml
+  historical_legacy_risk: false
+  pending_blueprint_obligation_count: 0
+  pending_blueprint_obligations: []
+  bootstrap_prompt_state: NOT_PREPARED
+  repository_local_path: /srv/software_development/forprint-project/forprint_system_blueprint
+  repository_url: git@github.com:Kovalchuk-PrintMaster/Forprint_System_Blueprint.git
+  repository_branch: main
+  repository_status: confirmed
+  repository_path_exists: true
+  repository_git_detected: true
+  repository_provisioning_required: false
+  blockers:
+  - CANONICAL_MODULE_ROADMAP_MISSING
+  evidence_refs: []
+  next_action_from_inventory_program: MAINTAIN_BLUEPRINT_COORDINATOR_BASELINE
+- module_id: logistics_service
+  preparation_required: true
+  preparation_exemption_reason: null
+  preparation_state: BOOTSTRAP_READY
+  inventory_state: COMPLETE_FIRST_PASS
+  consolidation_state: COMPLETE
+  roadmap_enrichment_state: SEMANTIC_RECONCILIATION_APPLIED_CURRENT_FRONT_GAP_CANDIDATES_REGISTERED
+  autonomous_readiness_state: NOT_READY_BOOTSTRAP_REQUIRED
+  roadmap_path: coordination/roadmaps/logistics_service.yaml
+  portfolio_seed_path: coordination/roadmaps/details/forprint_system_blueprint/portfolio_rebuild_seeds/logistics_service.yaml
+  historical_legacy_risk: false
+  pending_blueprint_obligation_count: 5
+  pending_blueprint_obligations:
+  - obligation_id: logistics_service_meest_express_read_only_foundation_candidate_v0_1
+    capability: meest_express_read_only_foundation
+    state: CANDIDATE_PENDING_CANONICAL_STEP_DECISION
+  - obligation_id: logistics_service_degraded_survival_modes_candidate_v0_1
+    capability: degraded_survival_modes
+    state: CANDIDATE_PENDING_CANONICAL_STEP_DECISION
+  - obligation_id: logistics_service_first_wave_end_to_end_pilot_candidate_v0_1
+    capability: first_wave_end_to_end_pilot
+    state: CANDIDATE_PENDING_CANONICAL_STEP_DECISION
+  - obligation_id: logistics_service_bolt_uber_provider_specific_adapters_candidate_v0_1
+    capability: bolt_uber_provider_specific_adapters
+    state: REVIEW_CANDIDATE
+  - obligation_id: logistics_service_integration_gateway_handoff_candidate_v0_1
+    capability: integration_gateway_handoff
+    state: REVIEW_CANDIDATE
+  bootstrap_prompt_state: REPLACEMENT_CANDIDATE_AWAITING_EXPLICIT_RELEASE_AUTHORIZATION
+  repository_local_path: /srv/software_development/forprint-project/forprint_logistics_service
+  repository_url: git@github.com:Kovalchuk-PrintMaster/Forprint_Logistics_Service.git
+  repository_branch: feature/logistics-tracking-events-contract-v01
+  repository_status: confirmed
+  repository_path_exists: true
+  repository_git_detected: true
+  repository_provisioning_required: false
+  blockers:
+  - BOOTSTRAP_REPLACEMENT_PROMPT_RELEASE_AUTHORIZATION_REQUIRED
+  evidence_refs:
+  - coordination/internal_work/blueprint/module_inventory/logistics_service/2026-09-05__logistics_service__first_wave_roadmap_reconciliation_input_v0_1.yaml
+  - coordination/internal_work/blueprint/module_inventory/logistics_service/2026-09-05__logistics_service__implementation_lineage_baseline_v0_1.yaml
+  - coordination/internal_work/blueprint/module_inventory/logistics_service/2026-09-05__logistics_service__inventory_completion_evidence_v0_1.yaml
+  - coordination/internal_work/blueprint/module_inventory/logistics_service/2026-09-08__logistics_service__semantic_roadmap_reconciliation_apply_v0_1.yaml
+  next_action_from_inventory_program: CONTINUE_BOOTSTRAP_FRONT_AND_CARRY_ROADMAP_CANDIDATES_IN_PREPARATION_REGISTRY
+- module_id: mobile_app
+  preparation_required: true
+  preparation_exemption_reason: null
+  preparation_state: DISCOVERED
+  inventory_state: NOT_STARTED
+  consolidation_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  roadmap_path: null
+  portfolio_seed_path: coordination/roadmaps/details/forprint_system_blueprint/portfolio_rebuild_seeds/mobile_app.yaml
+  historical_legacy_risk: false
+  pending_blueprint_obligation_count: 0
+  pending_blueprint_obligations: []
+  bootstrap_prompt_state: NOT_PREPARED
+  repository_local_path: null
+  repository_url: null
+  repository_branch: main
+  repository_status: planned_not_created
+  repository_path_exists: false
+  repository_git_detected: false
+  repository_provisioning_required: true
+  blockers:
+  - REPOSITORY_PROVISIONING_REQUIRED
+  - CANONICAL_MODULE_ROADMAP_MISSING
+  - FORENSIC_INVENTORY_NOT_STARTED
+  evidence_refs: []
+  next_action_from_inventory_program: REPOSITORY_SIZE_RISK_TRIAGE
+- module_id: production_runtime_inspector
+  preparation_required: true
+  preparation_exemption_reason: null
+  preparation_state: DISCOVERED
+  inventory_state: NOT_STARTED
+  consolidation_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  roadmap_path: null
+  portfolio_seed_path: coordination/roadmaps/details/forprint_system_blueprint/portfolio_rebuild_seeds/production_runtime_inspector.yaml
+  historical_legacy_risk: false
+  pending_blueprint_obligation_count: 0
+  pending_blueprint_obligations: []
+  bootstrap_prompt_state: NOT_PREPARED
+  repository_local_path: null
+  repository_url: null
+  repository_branch: null
+  repository_status: UNREGISTERED
+  repository_path_exists: false
+  repository_git_detected: false
+  repository_provisioning_required: true
+  blockers:
+  - REPOSITORY_PROVISIONING_REQUIRED
+  - CANONICAL_MODULE_ROADMAP_MISSING
+  - FORENSIC_INVENTORY_NOT_STARTED
+  evidence_refs: []
+  next_action_from_inventory_program: REPOSITORY_SIZE_RISK_TRIAGE
+- module_id: telegram_bot
+  preparation_required: true
+  preparation_exemption_reason: null
+  preparation_state: DISCOVERED
+  inventory_state: NOT_STARTED
+  consolidation_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  roadmap_path: coordination/roadmaps/telegram_bot.yaml
+  portfolio_seed_path: coordination/roadmaps/details/forprint_system_blueprint/portfolio_rebuild_seeds/telegram_bot.yaml
+  historical_legacy_risk: true
+  pending_blueprint_obligation_count: 0
+  pending_blueprint_obligations: []
+  bootstrap_prompt_state: NOT_PREPARED
+  repository_local_path: /srv/software_development/forprint-project/telegram_bot
+  repository_url: null
+  repository_branch: main
+  repository_status: confirm_required
+  repository_path_exists: true
+  repository_git_detected: true
+  repository_provisioning_required: false
+  blockers:
+  - FORENSIC_INVENTORY_NOT_STARTED
+  evidence_refs: []
+  next_action_from_inventory_program: REPOSITORY_SIZE_RISK_TRIAGE
+- module_id: verification_lab
+  preparation_required: true
+  preparation_exemption_reason: null
+  preparation_state: DISCOVERED
+  inventory_state: NOT_STARTED
+  consolidation_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  roadmap_path: null
+  portfolio_seed_path: null
+  historical_legacy_risk: false
+  pending_blueprint_obligation_count: 0
+  pending_blueprint_obligations: []
+  bootstrap_prompt_state: NOT_PREPARED
+  repository_local_path: null
+  repository_url: null
+  repository_branch: null
+  repository_status: UNREGISTERED
+  repository_path_exists: false
+  repository_git_detected: false
+  repository_provisioning_required: true
+  blockers:
+  - REPOSITORY_PROVISIONING_REQUIRED
+  - CANONICAL_MODULE_ROADMAP_MISSING
+  - FORENSIC_INVENTORY_NOT_STARTED
+  evidence_refs: []
+  next_action_from_inventory_program: REPOSITORY_SIZE_RISK_TRIAGE
+- module_id: warehouse_service
+  preparation_required: true
+  preparation_exemption_reason: null
+  preparation_state: DISCOVERED
+  inventory_state: NOT_STARTED
+  consolidation_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  roadmap_path: null
+  portfolio_seed_path: coordination/roadmaps/details/forprint_system_blueprint/portfolio_rebuild_seeds/warehouse_service.yaml
+  historical_legacy_risk: false
+  pending_blueprint_obligation_count: 0
+  pending_blueprint_obligations: []
+  bootstrap_prompt_state: NOT_PREPARED
+  repository_local_path: null
+  repository_url: null
+  repository_branch: null
+  repository_status: UNREGISTERED
+  repository_path_exists: false
+  repository_git_detected: false
+  repository_provisioning_required: true
+  blockers:
+  - REPOSITORY_PROVISIONING_REQUIRED
+  - CANONICAL_MODULE_ROADMAP_MISSING
+  - FORENSIC_INVENTORY_NOT_STARTED
+  evidence_refs: []
+  next_action_from_inventory_program: REPOSITORY_SIZE_RISK_TRIAGE
+- module_id: website
+  preparation_required: true
+  preparation_exemption_reason: null
+  preparation_state: DISCOVERED
+  inventory_state: NOT_STARTED
+  consolidation_state: NOT_STARTED
+  roadmap_enrichment_state: NOT_STARTED
+  autonomous_readiness_state: NOT_READY
+  roadmap_path: coordination/roadmaps/website.yaml
+  portfolio_seed_path: coordination/roadmaps/details/forprint_system_blueprint/portfolio_rebuild_seeds/website.yaml
+  historical_legacy_risk: false
+  pending_blueprint_obligation_count: 0
+  pending_blueprint_obligations: []
+  bootstrap_prompt_state: NOT_PREPARED
+  repository_local_path: null
+  repository_url: null
+  repository_branch: main
+  repository_status: confirm_required
+  repository_path_exists: false
+  repository_git_detected: false
+  repository_provisioning_required: true
+  blockers:
+  - REPOSITORY_PROVISIONING_REQUIRED
+  - FORENSIC_INVENTORY_NOT_STARTED
+  evidence_refs: []
+  next_action_from_inventory_program: REPOSITORY_SIZE_RISK_TRIAGE
