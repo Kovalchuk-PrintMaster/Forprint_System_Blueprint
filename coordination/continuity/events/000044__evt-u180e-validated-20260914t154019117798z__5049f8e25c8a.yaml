@@ -1,0 +1,33 @@
+schema_version: forprint_continuity_checkpoint_event_v0_1
+event_id: evt-u180e-validated-20260914t154019117798z
+event_type: VALIDATION_PASSED
+sequence: 44
+previous_event_id: evt-u180e-checkpoint-20260914t144822267695z
+previous_event_sha256: d42d17b6be3540a2357c1da6c8e5ff48a3558fedad47427e785736b010cc5734
+work_id: u180e
+occurred_at: '2026-09-14T15:40:31.701869Z'
+actor: assistant_generated_operator_executed
+summary: CF-05 durable Workfront History and Execution Attempt Ledger independently validated against existing checkpoint
+  seq43 after checkpoint-induced derived-state refresh
+source_state_ref: 58104002e1180c94415c2245af7cd1b27b50806e13c3a23802ea04c331bfbcc9
+bootstrap_historical_import: false
+lifecycle:
+  from_state: CHECKPOINTED
+  to_state: VALIDATED
+  checkpoint_event_id: evt-u180e-checkpoint-20260914t144822267695z
+  checkpoint_event_sha256: d42d17b6be3540a2357c1da6c8e5ff48a3558fedad47427e785736b010cc5734
+  evidence:
+    - existing checkpoint seq43 source fingerprint verified
+    - checkpoint-induced roadmap/projection/index state regenerated and cleared
+    - Workfront History validator PASS
+    - Execution Attempt Ledger validator PASS
+    - Work Front contract validator PASS
+    - roadmap reconciliation validator PASS after derived refresh
+    - focused CF-05 and roadmap tests PASS
+    - full pytest PASS after checkpoint
+    - public make check PASS after checkpoint
+    - dispatch release and foreign-write authority remain false
+  continuity_validation:
+    current_source_state_match: true
+    current_fingerprint: d6cffca9ba5bcdb517554b1b7e2c03f4d87478d3779acde536c9a6cc6f206b15
+    checkpoint_fingerprint: d6cffca9ba5bcdb517554b1b7e2c03f4d87478d3779acde536c9a6cc6f206b15

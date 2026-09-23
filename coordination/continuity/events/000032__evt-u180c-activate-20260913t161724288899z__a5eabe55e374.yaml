@@ -1,0 +1,19 @@
+schema_version: forprint_continuity_checkpoint_event_v0_1
+event_id: evt-u180c-activate-20260913t161724288899z
+event_type: WORK_ACTIVATED
+sequence: 32
+previous_event_id: evt-u180c-plan-20260913t161615777176z
+previous_event_sha256: c5aec2a31d2b89257856ee5a8a5752148477282fe49bb5f619f648f0017090b7
+work_id: u180c
+occurred_at: '2026-09-13T16:17:46.642590Z'
+actor: assistant_generated_operator_executed
+summary: CF-03 Project Constitution and authority hierarchy activated
+source_state_ref: 0d3cbc69ab65836e6bee902ab59b12b3db117e5d229e81475fc425aac7388998
+bootstrap_historical_import: false
+lifecycle:
+  from_state: PLANNED
+  to_state: ACTIVE
+  reason: Explicit operator activation after successful CF-03 PLAN
+  remediation: false
+  prior_event_id: evt-u180c-plan-20260913t161615777176z
+  evidence: []
