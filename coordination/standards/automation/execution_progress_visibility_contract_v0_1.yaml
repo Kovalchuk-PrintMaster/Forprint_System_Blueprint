@@ -1,0 +1,99 @@
+schema_version: forprint_execution_progress_visibility_contract_v0_1
+status: current_standard
+authority: blueprint_execution_ux_standard
+owner: forprint_system_blueprint
+purpose: >-
+  Ensure long-running ForPrint commands and assistant-supplied mutation/probe scripts
+  remain visibly alive, explain their current phase, preserve detailed evidence, and
+  never force the operator to guess whether execution is stalled.
+
+scope:
+  assistant_supplied_scripts: mandatory
+  long_running_project_commands: mandatory
+  recommended_threshold_seconds: 5
+
+defaults:
+  progress_mode: always
+  heartbeat_seconds: 15
+  child_output: failures
+  progress_stream: stderr
+  final_machine_summary_stream: stdout
+  evidence_log_required_for_long_runs: true
+
+environment:
+  progress_mode: FORPRINT_PROGRESS
+  heartbeat_seconds: FORPRINT_PROGRESS_HEARTBEAT_SECONDS
+  child_output: FORPRINT_PROGRESS_CHILD_OUTPUT
+
+allowed_progress_modes:
+  - always
+  - auto
+  - never
+
+allowed_child_output_modes:
+  - live
+  - failures
+  - quiet
+
+required_phase_events:
+  - START
+  - HEARTBEAT
+  - PASS
+  - FAIL
+
+rules:
+  terminal_silence:
+    maximum_default_silence_seconds: 15
+    requirement: >-
+      A long-running command must emit either child output or a heartbeat before
+      the maximum silence interval elapses.
+  phase_visibility:
+    requirement: >-
+      Multi-phase scripts must print a stable phase id/name on START and a terminal
+      PASS/FAIL event with elapsed time.
+  subprocess_execution:
+    requirement: >-
+      Do not use a long blocking capture-only subprocess call without live progress
+      or a heartbeat loop.
+  evidence:
+    requirement: >-
+      Terminal progress is operator UX, not durable evidence. Long commands must
+      still persist detailed command output in their scoped evidence directory.
+  machine_output:
+    requirement: >-
+      Progress belongs on stderr so stdout can remain suitable for final key-value,
+      JSON, YAML, path, or other machine-readable results.
+  opt_out:
+    requirement: >-
+      Progress is enabled by default. Suppression requires an explicit --no-progress
+      or FORPRINT_PROGRESS=never request.
+  child_output:
+    requirement: >-
+      Default compact mode may suppress successful child chatter, but failure output
+      must be surfaced and full output must remain available in evidence.
+  assistant_policy:
+    requirement: >-
+      New assistants must use the shared execution progress helper when available
+      for generated scripts expected to run longer than a few seconds.
+  interruption_safety:
+    requirement: >-
+      A visible heartbeat does not widen mutation authority, cleanup authority,
+      timeout policy, rollback boundaries, or commit/push authority.
+
+standard_cli_parameters:
+  - --progress-mode
+  - --heartbeat-seconds
+  - --progress-child-output
+  - --no-progress
+
+standard_make_environment:
+  FORPRINT_PROGRESS: always
+  FORPRINT_PROGRESS_HEARTBEAT_SECONDS: "15"
+  FORPRINT_PROGRESS_CHILD_OUTPUT: failures
+
+recommended_operator_launch:
+  python_unbuffered: true
+  shell_example: python -u tmp.py 2>&1 | tee tmp/report.txt
+  note: >-
+    Assistant handoff scripts should self-write authoritative evidence even when the
+    shell tee command is omitted.

@@ -29,15 +29,15 @@ current_blueprint_plan:
     sequence: 27
     title: Run Tracking Events as the first full v0.4 reference
   next_planned_steps:
-  - index: 27
-    id: blueprint_v0_4_tracking_events_reference_v0_1
-    status: active
-  - index: 28
-    id: blueprint_v0_4_manual_dark_zone_audit_v0_1
-    status: planned
-  - index: 29
-    id: blueprint_v0_4_promotion_decision_v0_1
-    status: planned
+    - index: 27
+      id: blueprint_v0_4_tracking_events_reference_v0_1
+      status: active
+    - index: 28
+      id: blueprint_v0_4_manual_dark_zone_audit_v0_1
+      status: planned
+    - index: 29
+      id: blueprint_v0_4_promotion_decision_v0_1
+      status: planned
   deferred_workstream:
     id: inventory_acceptance_merge_and_rollout_continuation
     resume_after: blueprint_v0_4_promotion_decision_v0_1
@@ -90,15 +90,15 @@ current_blueprint_plan:
     execution_status: ready_for_module_pull
     path: coordination/self_coordination/prompt_queue/approved/2026-08-16__forprint_system_blueprint__v0_4_tracking_events_reference_v0_1.md
 recent_completed_governance:
-- commit: 6d9a04b5f890cd874183d9f6349e1bbaaa5adbba
-  subject: 'governance(blueprint): add completion exchange v0.3 candidate'
-  represented_in_current_roadmap_context: true
-- commit: ee58c4f734920357ae1a95c233b70919168a58df
-  subject: 'governance(blueprint): harden mutation precommit validation'
-  represented_in_current_roadmap_context: true
-- commit: f80c8a6b8cf3cc0b348f3bf2504e6add11f2b1c8
-  subject: 'governance(blueprint): verify v0.3 publication from remote evidence'
-  represented_in_current_roadmap_context: true
+  - commit: 6d9a04b5f890cd874183d9f6349e1bbaaa5adbba
+    subject: 'governance(blueprint): add completion exchange v0.3 candidate'
+    represented_in_current_roadmap_context: true
+  - commit: ee58c4f734920357ae1a95c233b70919168a58df
+    subject: 'governance(blueprint): harden mutation precommit validation'
+    represented_in_current_roadmap_context: true
+  - commit: f80c8a6b8cf3cc0b348f3bf2504e6add11f2b1c8
+    subject: 'governance(blueprint): verify v0.3 publication from remote evidence'
+    represented_in_current_roadmap_context: true
 managed_module_state:
   forprint_library:
     current_work: library_configurable_product_workbench_business_card_skeleton_v0_1
@@ -124,57 +124,56 @@ other_portfolio_roadmaps:
     roadmap_status: active
     managed_module_plan_present: false
 pending_operator_decisions:
-- subject: logistics_service_tracking_events_v0_1
-  state: PENDING_OPERATOR_REVIEW
-  operator_decision: null
-  automatic_acceptance: false
-  automatic_return: false
-  reference_intake_status: REFERENCE_VALIDATION_READY
-  blocker_code: PROMPT_CONTRACT_FIDELITY_INCOMPLETE
-  implementation_failure_proven: false
-  next_governance_path: migrate the reference through v0.4 before any acceptance decision
+  - subject: logistics_service_tracking_events_v0_1
+    state: PENDING_OPERATOR_REVIEW
+    operator_decision: null
+    automatic_acceptance: false
+    automatic_return: false
+    reference_intake_status: REFERENCE_VALIDATION_READY
+    blocker_code: PROMPT_CONTRACT_FIDELITY_INCOMPLETE
+    implementation_failure_proven: false
+    next_governance_path: migrate the reference through v0.4 before any acceptance decision
 dependency_gates:
-- consumer: telegram_bot
-  dependency: logistics_service_tracking_events_v0_1
-  state: GATED
+  - consumer: telegram_bot
+    dependency: logistics_service_tracking_events_v0_1
+    state: GATED
 planned_directives:
-- path: coordination/directives/global/planned/2026-08-06__global__directive__completion-intake-and-acceptance-governance-v0-1.md
-  status: planned
-  activation_authorized: false
+  - path: coordination/directives/global/planned/2026-08-06__global__directive__completion-intake-and-acceptance-governance-v0-1.md
+    status: planned
+    activation_authorized: false
 known_governance_debt:
-- id: logistics_module_source_registry_local_path
-  state: RESOLVED
-  observed_repository: /srv/software_development/forprint-project/forprint_logistics_service
-  current_resolution: canonical_module_source_registry
-  required_fix: null
-  registry_path: coordination/module_sources/module_git_sources.yaml
-  resolved_against_head: 18b74bf4dec672d27e66e3cde64209d4cc46a222
-  resolution_evidence: coordination/internal_work/blueprint/governance/2026-08-07__blueprint__logistics_module_source_registry_reconciliation_v0_1.yaml
-- id: blueprint_roadmap_context_freshness
-  state: RESOLVED
-  verdict: CURRENT_CONTEXT_RECONCILED
-  required_fix: null
-  resolved_against_head: 0a3a21696ee517d54cc872c8ef9f16e61c4f3f4d
-  resolution_evidence: coordination/internal_work/blueprint/governance/2026-08-07__blueprint__roadmap_context_reconciliation_v0_1.yaml
-- id: completion_exchange_v0_3_prompt_contract_fidelity
-  state: OPEN
-  verdict: V0_3_REFERENCE_GREEN_BUT_PROMPT_TO_CONTRACT_FIDELITY_INCOMPLETE
-  required_fix: Completion Exchange v0.4 immutable contract and source-obligation
-    fidelity model
-  promotion_effect: blocks v0.3 promotion
+  - id: logistics_module_source_registry_local_path
+    state: RESOLVED
+    observed_repository: /srv/software_development/forprint-project/forprint_logistics_service
+    current_resolution: canonical_module_source_registry
+    required_fix: null
+    registry_path: coordination/module_sources/module_git_sources.yaml
+    resolved_against_head: 18b74bf4dec672d27e66e3cde64209d4cc46a222
+    resolution_evidence: coordination/internal_work/blueprint/governance/2026-08-07__blueprint__logistics_module_source_registry_reconciliation_v0_1.yaml
+  - id: blueprint_roadmap_context_freshness
+    state: RESOLVED
+    verdict: CURRENT_CONTEXT_RECONCILED
+    required_fix: null
+    resolved_against_head: 0a3a21696ee517d54cc872c8ef9f16e61c4f3f4d
+    resolution_evidence: coordination/internal_work/blueprint/governance/2026-08-07__blueprint__roadmap_context_reconciliation_v0_1.yaml
+  - id: completion_exchange_v0_3_prompt_contract_fidelity
+    state: OPEN
+    verdict: V0_3_REFERENCE_GREEN_BUT_PROMPT_TO_CONTRACT_FIDELITY_INCOMPLETE
+    required_fix: Completion Exchange v0.4 immutable contract and source-obligation fidelity model
+    promotion_effect: blocks v0.3 promotion
 next_10_steps:
-- order: 1
-  id: blueprint_v0_4_tracking_events_reference_v0_1
-  title: Run Tracking Events as the first full v0.4 reference
-  status: active
-- order: 2
-  id: blueprint_v0_4_manual_dark_zone_audit_v0_1
-  title: Run manual prompt-to-contract-to-evidence dark-zone audit
-  status: planned
-- order: 3
-  id: blueprint_v0_4_promotion_decision_v0_1
-  title: Review v0.4 promotion readiness under explicit operator control
-  status: planned
+  - order: 1
+    id: blueprint_v0_4_tracking_events_reference_v0_1
+    title: Run Tracking Events as the first full v0.4 reference
+    status: active
+  - order: 2
+    id: blueprint_v0_4_manual_dark_zone_audit_v0_1
+    title: Run manual prompt-to-contract-to-evidence dark-zone audit
+    status: planned
+  - order: 3
+    id: blueprint_v0_4_promotion_decision_v0_1
+    title: Review v0.4 promotion readiness under explicit operator control
+    status: planned
 hard_boundaries:
   external_rollout: gated
   pilot_authorized: false
@@ -187,17 +186,16 @@ portfolio_scope:
   coordination_scope: all_forprint_project_modules
   active_development_subset_is_exhaustive: false
   active_development_subset:
-  - forprint_library
-  - logistics_service
-  - telegram_bot
-  interpretation: The three modules above are only the modules currently highlighted
-    in active development/review coordination. They are not the complete ForPrint
-    module inventory.
+    - forprint_library
+    - logistics_service
+    - telegram_bot
+  interpretation: The three modules above are only the modules currently highlighted in active development/review coordination.
+    They are not the complete ForPrint module inventory.
   authoritative_inventory_sources:
-  - coordination/global_policy/ecosystem_module_map.md
-  - coordination/module_sources/module_git_sources.yaml
-  - coordination/roadmaps/*.yaml
-  - coordination/self_coordination/module_plans/*.yaml
+    - coordination/global_policy/ecosystem_module_map.md
+    - coordination/module_sources/module_git_sources.yaml
+    - coordination/roadmaps/*.yaml
+    - coordination/self_coordination/module_plans/*.yaml
 managed_module_state_semantics:
   scope: currently_highlighted_active_development_subset
   exhaustive: false
@@ -220,10 +218,10 @@ self_coordination_health:
   prompt_buffer_target: 3
   prompt_buffer_state: minimum_met_target_not_met
   advisories:
-  - PROMPT_BUFFER_BELOW_TARGET
+    - PROMPT_BUFFER_BELOW_TARGET
   blocking_errors: []
   warnings:
-  - ROADMAP_HORIZON_BELOW_MINIMUM
+    - ROADMAP_HORIZON_BELOW_MINIMUM
   overall_state: warning
 published_base:
   commit: 75425ad281500157b4ada8c5c2feb8e726f7702b
@@ -460,9 +458,9 @@ review_roadmap_queue_transaction_v0_4:
   operator_decision_created: true
   explicit_operator_input_required: true
   supported_operator_decisions:
-  - ACCEPT
-  - RETURN
-  - HOLD
+    - ACCEPT
+    - RETURN
+    - HOLD
   apply_requires_operator_confirmation_matching_decision_id: true
   validated_review_candidate_required: true
   accepted_intake_state: READY_FOR_BLUEPRINT_REVIEW
@@ -519,11 +517,11 @@ next_prompt_selection_activation_v0_4:
   activation_engine_implemented: true
   selection_activation_separate: true
   selection_order:
-  - explicit_validated_override
-  - dependency_eligibility
-  - queue_rank_sequence
-  - priority
-  - creation_time
+    - explicit_validated_override
+    - dependency_eligibility
+    - queue_rank_sequence
+    - priority
+    - creation_time
   dependency_eligibility_required: true
   explicit_override_supported: true
   explicit_override_must_be_eligible: true
@@ -541,7 +539,7 @@ next_prompt_selection_activation_v0_4:
   operator_decision_created: true
   live_result_state: ACTIVE_PROMPT_PRESENT
   live_active_prompt_ids:
-  - blueprint_v0_4_next_prompt_selection_and_activation_v0_1
+    - blueprint_v0_4_next_prompt_selection_and_activation_v0_1
   live_eligible_prompt_ids: []
   live_selection_performed: false
   live_activation_performed: false
@@ -557,8 +555,7 @@ next_prompt_selection_activation_v0_4:
   automatic_push: false
   rollout_or_production_write: false
   acceptance_correction_applied: true
-  acceptance_correction_reason: roadmap actionable_steps_after_current was stale after
-    activation
+  acceptance_correction_reason: roadmap actionable_steps_after_current was stale after activation
   actionable_horizon_recalculated_on_activation: true
   operator_decision: ACCEPT
   operator_decision_at: '2026-08-16T20:51:00+03:00'

@@ -1,0 +1,81 @@
+schema_version: forprint_governed_procedure_graph_contract_v0_1
+contract_id: governed_procedure_graph_contract
+revision: 0.1.0
+status: ACTIVE_CF07_FIRST_SLICE
+authority_semantics:
+  graph_grants_authority: false
+  graph_may_narrow_execution: true
+  authority_source_order:
+  - PROJECT_CONSTITUTION
+  - MODULE_POLICY
+  - EXECUTION_PROFILE
+  - WORK_FRONT
+  rule: Procedure Graph constrains legal execution flow and evidence. It never grants authority absent from higher
+    authority surfaces.
+node_kinds:
+- REQUIRED
+- CONDITIONAL
+- OPTIONAL
+- NOT_APPLICABLE
+- OPERATOR_GATE
+- RETRY
+- ABORT
+gate_types:
+- NONE
+- HARD_GATE
+- OBSERVED_GATE
+node_contract:
+  required_fields:
+  - node_id
+  - kind
+  - gate
+  - depends_on
+  - evidence_required
+  - waivable
+  conditional_requires:
+  - condition
+  retry_requires:
+  - retry_policy
+  operator_gate_requires:
+  - operator_decision_class
+  abort_requires:
+  - abort_reason_class
+  dependency_rule: depends_on references earlier registered node ids
+gate_semantics:
+  HARD_GATE:
+    failed_or_missing: BLOCK_DOWNSTREAM
+    waiver: ONLY_IF_NODE_WAIVABLE_AND_VALID_WAIVER_PRESENT
+  OBSERVED_GATE:
+    failed_or_missing: RECORD_NON_BLOCKING_OBSERVATION
+    authority_widening: false
+waiver_contract:
+  explicit: true
+  bounded: true
+  attributable: true
+  revision_bound: true
+  non_transitive: true
+  required_fields:
+  - waiver_id
+  - node_id
+  - procedure_revision
+  - approved_by
+  - reason
+  - scope
+  cannot_waive_unwaivable_node: true
+procedure_evolution:
+  revision_required_for_semantic_change: true
+  old_run_manifests_immutable: true
+  stale_revision_is_failure: true
+  graph_drift_is_failure: true
+capability_classification:
+  values:
+  - GRAPH_REQUIRED
+  - NOT_REQUIRED
+  reason_required: true
+  NOT_REQUIRED_is_not_authority_bypass: true
+canonical_mutation_rule:
+  affected_derived_refresh_required_before_downstream_gate: true
+  recovery_classes:
+    CANONICAL_CONFLICT: Stop mutation/replay. Reconcile competing canonical authority or state before continuing.
+    PROJECTION_STALE: Do not replay accepted canonical mutation. Rebuild affected derived projections/indexes and
+      resume from durable state.

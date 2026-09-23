@@ -1,0 +1,104 @@
+schema_version: forprint_execution_dependency_contract_v0_1
+status: current_standard
+authority: forprint_system_blueprint
+purpose: >-
+  Make execution dependencies explicit, inspectable and machine-verifiable so
+  validation and lifecycle targets do not rely on stale files, execution order,
+  ambient runtime state or undocumented operator knowledge.
+
+principles:
+  hidden_dependency_is_defect: true
+  consumer_declares_required_inputs: true
+  derived_required_input_has_one_producer: true
+  derived_producer_is_explicit_make_prerequisite: true
+  same_run_artifacts_do_not_rely_on_disk_history: true
+  canonical_inputs_are_never_silently_generated: true
+  optional_inputs_define_missing_behavior: true
+  historical_runtime_surfaces_are_not_canonical_prerequisites: true
+  check_surfaces_remain_non_mutating_for_durable_state: true
+  dependency_contract_is_language_agnostic: true
+
+dependency_classes:
+  canonical_required:
+    meaning: Durable source/authority required before execution.
+    missing_behavior: fail_with_explicit_resolution
+    auto_generate_allowed: false
+  derived_required:
+    meaning: Non-authoritative artifact required by the consumer and produced by a declared target.
+    missing_behavior: execute_declared_producer_before_consumer
+    auto_generate_allowed: true
+    producer_cardinality: exactly_one
+  derived_persistent:
+    meaning: Durable non-authoritative generated artifact refreshed explicitly and checked for exact source freshness.
+    missing_behavior: fail_with_explicit_refresh
+    auto_generate_allowed: false
+    producer_cardinality: exactly_one
+  optional:
+    meaning: Input may be absent and the consumer defines behavior for absence.
+    missing_behavior: declared_by_consumer
+    auto_generate_allowed: false
+  historical_or_runtime_nonrequired:
+    meaning: Historical/generated evidence that may exist but cannot gate current execution merely by presence.
+    missing_behavior: allowed_absent
+    auto_generate_allowed: false
+  external_tool:
+    meaning: Executable/toolchain prerequisite resolved from an explicit policy.
+    missing_behavior: fail_with_tool_resolution
+    auto_generate_allowed: false
+  runtime_environment:
+    meaning: Environment/configuration prerequisite required only for the declared execution surface.
+    missing_behavior: fail_with_environment_resolution
+    auto_generate_allowed: false
+
+artifact_requirements:
+  authority:
+    derived_required: none
+    derived_persistent: none
+    historical_or_runtime_nonrequired: none
+  freshness_modes:
+    - same_run
+    - exact_source_fingerprint
+    - durable_current
+    - not_applicable
+  lifecycle_modes:
+    - runtime_current_check
+    - durable_canonical
+    - durable_generated
+    - historical_evidence
+    - optional_runtime
+  required_fields:
+    - id
+    - path
+    - class
+    - authority
+    - lifecycle
+    - freshness
+    - missing_behavior
+
+target_requirements:
+  required_fields:
+    - target
+    - requires
+    - produces
+    - optional_observes
+    - requires_tools
+    - side_effect_scope
+  make_target_required: true
+  direct_prerequisite_rule: >-
+    For every artifact listed in target.requires with class derived_required,
+    the artifact producer must be a direct Make prerequisite of that consumer target.
+  produced_artifact_rule: >-
+    Every artifact listed in target.produces must declare the same target as its producer.
+  persistent_derived_rule: >-
+    A derived_persistent artifact declares exactly one explicit refresh producer, but a
+    validation consumer must not depend directly on that mutating producer; stale or
+    missing durable projections fail and require explicit refresh.
+  optional_observation_rule: >-
+    Artifacts with class historical_or_runtime_nonrequired may only appear in
+    optional_observes and must never be promoted to target.requires.
+
+operator_surfaces:
+  validate: make execution-dependency-check
+  graph: make execution-dependency-graph
+  graph_check: make execution-dependency-graph-check
+  explain: make execution-dependency-explain TARGET=<make-target>

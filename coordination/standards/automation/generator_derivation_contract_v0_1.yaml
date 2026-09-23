@@ -1,0 +1,42 @@
+schema_version: forprint_generator_derivation_contract_v0_1
+status: current_standard
+authority: forprint_system_blueprint
+purpose: >-
+  Define one explicit contract for Blueprint generators, renderers, derived indexes,
+  projections and runtime context compilers.
+
+principles:
+  generated_output_is_not_authority: Generated or derived output has authority none unless a separate canonical contract explicitly grants authority.
+  source_scope_is_explicit: Every registered generator declares working-tree, git-tracked, curated, runtime, mixed or unknown source scope.
+  tracked_output_requires_check_apply_split: Every generator that can write tracked derived output requires a non-mutating check path before it is allowed in make check.
+  check_must_not_mutate_tracked_state: Validation/check commands must not silently repair tracked generated output.
+  unknown_generator_is_visible: A discovered but unregistered generator is a visible coverage gap.
+  working_tree_state_is_first_class: Current untracked or modified generators are inventoried with Git state instead of being silently excluded.
+  provenance_is_bound: Derived output identity and freshness should bind source scope, source fingerprint and compiler/schema identity.
+  curated_projection_is_named: Curated semantic projection must not be mislabeled as pure deterministic derivation.
+
+derivation_classes:
+  - deterministic_derivation
+  - curated_projection
+  - mixed_curated_and_deterministic_projection
+  - runtime_context_compiler
+  - runtime_evidence_writer
+  - unknown
+
+output_states:
+  tracked_derived:
+    check_apply_split_required: true
+  untracked_runtime_artifact:
+    check_apply_split_required: false
+  mixed:
+    check_apply_split_required: review_required
+  unknown:
+    check_apply_split_required: review_required
+
+registry_requirements:
+  critical_generators_must_be_registered: true
+  critical_generator_may_be_untracked: true
+  untracked_critical_generator_state: visible_project_state
+  unregistered_noncritical_generators_are_blocking: false
+  unregistered_noncritical_generator_state: visible_coverage_gap
+  authority_value_for_generated_outputs: none

@@ -1,0 +1,400 @@
+schema_version: forprint_execution_dependency_registry_v0_1
+status: normalization_in_progress
+authority: blueprint_execution_dependency_registry
+contract: coordination/standards/automation/execution_dependency_contract_v0_1.yaml
+derived_graph: indexes/execution_dependency_graph.yaml
+purpose: Curated execution dependency registry for the current Blueprint validation
+  chain. This v0.1 closes the runtime-report dependency chain discovered by the sterile
+  u178a3 clean-room audit and establishes the reusable contract for future targets.
+tools:
+- id: python
+  class: external_tool
+  resolution: caller_or_blueprint_python
+- id: make
+  class: external_tool
+  resolution: PATH
+- id: git
+  class: external_tool
+  resolution: PATH
+artifacts:
+- id: repository_knowledge_freshness_report
+  path: reports/repository_knowledge_freshness_report.yaml
+  class: derived_required
+  authority: none
+  lifecycle: runtime_current_check
+  freshness: same_run
+  missing_behavior: execute_declared_producer_before_consumer
+  producer: check-repository-knowledge-freshness
+- id: rci_semantic_enrichment_validation_report
+  path: reports/rci_semantic_enrichment_validation_report.yaml
+  class: derived_required
+  authority: none
+  lifecycle: runtime_current_check
+  freshness: same_run
+  missing_behavior: execute_declared_producer_before_consumer
+  producer: check-rci-semantic-enrichment
+- id: redm_dependency_enrichment_validation_report
+  path: reports/redm_dependency_enrichment_validation_report.yaml
+  class: derived_required
+  authority: none
+  lifecycle: runtime_current_check
+  freshness: same_run
+  missing_behavior: execute_declared_producer_before_consumer
+  producer: check-redm-dependency-enrichment
+- id: semantic_coverage_closure_report
+  path: reports/semantic_coverage_closure_report.yaml
+  class: derived_required
+  authority: none
+  lifecycle: runtime_current_check
+  freshness: same_run
+  missing_behavior: execute_declared_producer_before_consumer
+  producer: check-semantic-coverage-closure
+- id: repository_knowledge_reconciliation_report
+  path: reports/repository_knowledge_reconciliation_report.yaml
+  class: derived_required
+  authority: none
+  lifecycle: runtime_current_check
+  freshness: same_run
+  missing_behavior: execute_declared_producer_before_consumer
+  producer: check-repository-knowledge-reconciliation
+- id: inventory_acceptance_evidence_index_validation_report
+  path: reports/inventory_acceptance_evidence_index_validation_report.yaml
+  class: derived_required
+  authority: none
+  lifecycle: runtime_current_check
+  freshness: same_run
+  missing_behavior: execute_declared_producer_before_consumer
+  producer: check-inventory-acceptance-evidence-index
+- id: inventory_acceptance_dry_run_report
+  path: reports/inventory_acceptance_dry_run_report.yaml
+  class: derived_required
+  authority: none
+  lifecycle: runtime_current_check
+  freshness: same_run
+  missing_behavior: execute_declared_producer_before_consumer
+  producer: check-inventory-acceptance-dry-run
+- id: artifact_retention_consistency_report
+  path: reports/artifact_retention_consistency_report.yaml
+  class: historical_or_runtime_nonrequired
+  authority: none
+  lifecycle: historical_evidence
+  freshness: not_applicable
+  missing_behavior: allowed_absent
+  producer: null
+  disposition_source: coordination/internal_work/blueprint/normalization/2026-09-01__remaining_surface_disposition_register_v0_1.yaml
+  preservation_class: GENERATED_OR_HISTORICAL_REPORT
+  mutation_policy: regenerate_from_source_when_needed
+- id: continuity_event_store
+  path: coordination/continuity/events
+  class: canonical_required
+  authority: continuity_evidence_non_release_authority
+  lifecycle: durable_canonical
+  freshness: durable_current
+  missing_behavior: fail_with_explicit_resolution
+  producer: null
+- id: continuity_projection_set
+  path: coordination/continuity/projections
+  class: derived_persistent
+  authority: none
+  lifecycle: durable_generated
+  freshness: exact_source_fingerprint
+  missing_behavior: fail_with_explicit_refresh
+  producer: continuity-projections-refresh
+- id: assistant_handoff_agents
+  path: AGENTS.md
+  class: canonical_required
+  authority: assistant_interaction_policy
+  lifecycle: durable_canonical
+  freshness: durable_current
+  missing_behavior: fail_with_explicit_resolution
+  producer: null
+- id: assistant_handoff_bootstrap_start
+  path: coordination/bootstrap/START_HERE.md
+  class: canonical_required
+  authority: bootstrap_navigation
+  lifecycle: durable_canonical
+  freshness: durable_current
+  missing_behavior: fail_with_explicit_resolution
+  producer: null
+- id: assistant_handoff_bootstrap_index
+  path: coordination/bootstrap/index_v0_1.yaml
+  class: canonical_required
+  authority: bootstrap_navigation
+  lifecycle: durable_canonical
+  freshness: durable_current
+  missing_behavior: fail_with_explicit_resolution
+  producer: null
+- id: assistant_handoff_project_mission
+  path: coordination/global_policy/forprint_project_doctrine.md
+  class: canonical_required
+  authority: project_mission_policy
+  lifecycle: durable_canonical
+  freshness: durable_current
+  missing_behavior: fail_with_explicit_resolution
+  producer: null
+- id: assistant_handoff_continuity_contract
+  path: coordination/standards/automation/continuity_contract_v0_1.yaml
+  class: canonical_required
+  authority: blueprint_continuity_semantics_standard
+  lifecycle: durable_canonical
+  freshness: durable_current
+  missing_behavior: fail_with_explicit_resolution
+  producer: null
+- id: assistant_handoff_execution_roadmap
+  path: coordination/roadmaps/details/forprint_system_blueprint/continuity/2026-09-10__continuity_assistant_handoff_micro_roadmap_v0_1.yaml
+  class: canonical_required
+  authority: blueprint_coordination_execution_plan
+  lifecycle: durable_canonical
+  freshness: durable_current
+  missing_behavior: fail_with_explicit_resolution
+  producer: null
+- id: control_foundation_near_horizon_program
+  path: coordination/roadmaps/details/forprint_system_blueprint/control_foundation_near_horizon_program_v0_1.yaml
+  class: canonical_required
+  authority: canonical_planning_not_execution_authority
+  lifecycle: durable_canonical
+  freshness: durable_current
+  missing_behavior: fail_with_explicit_resolution
+  producer: null
+- id: assistant_handoff_dependency_registry
+  path: coordination/registry/execution_dependency_registry_v0_1.yaml
+  class: canonical_required
+  authority: blueprint_execution_dependency_registry
+  lifecycle: durable_canonical
+  freshness: durable_current
+  missing_behavior: fail_with_explicit_resolution
+  producer: null
+- id: module_continuity_transfer_contract
+  path: coordination/standards/automation/module_continuity_transfer_contract_v0_1.yaml
+  class: canonical_required
+  authority: none
+  lifecycle: durable_canonical
+  freshness: durable_current
+  missing_behavior: fail_with_explicit_resolution
+  producer: null
+- id: roadmap_execution_reconciliation_contract
+  path: coordination/standards/automation/roadmap_execution_reconciliation_contract_v0_1.yaml
+  class: canonical_required
+  authority: none
+  lifecycle: durable_canonical
+  freshness: durable_current
+  missing_behavior: fail_with_explicit_resolution
+  producer: null
+- id: roadmap_execution_status_projection
+  path: coordination/roadmap_execution/projections/ROADMAP_EXECUTION_STATUS.yaml
+  class: derived_persistent
+  authority: none
+  lifecycle: durable_generated
+  freshness: exact_source_fingerprint
+  missing_behavior: fail_with_explicit_refresh
+  producer: roadmap-sync
+- id: roadmap_reconciliation_status_projection
+  path: coordination/roadmap_execution/projections/ROADMAP_RECONCILIATION_STATUS.yaml
+  class: derived_persistent
+  authority: none
+  lifecycle: durable_generated
+  freshness: exact_source_fingerprint
+  missing_behavior: fail_with_explicit_refresh
+  producer: roadmap-sync
+targets:
+- target: check-repository-knowledge-freshness
+  requires: []
+  produces:
+  - repository_knowledge_freshness_report
+  optional_observes: []
+  requires_tools:
+  - python
+  side_effect_scope:
+  - reports/repository_knowledge_freshness_report.yaml
+- target: check-rci-semantic-enrichment
+  requires: []
+  produces:
+  - rci_semantic_enrichment_validation_report
+  optional_observes: []
+  requires_tools:
+  - python
+  side_effect_scope:
+  - reports/rci_semantic_enrichment_validation_report.yaml
+- target: check-redm-dependency-enrichment
+  requires: []
+  produces:
+  - redm_dependency_enrichment_validation_report
+  optional_observes: []
+  requires_tools:
+  - python
+  side_effect_scope:
+  - reports/redm_dependency_enrichment_validation_report.yaml
+- target: check-semantic-coverage-closure
+  requires:
+  - rci_semantic_enrichment_validation_report
+  - redm_dependency_enrichment_validation_report
+  - repository_knowledge_freshness_report
+  produces:
+  - semantic_coverage_closure_report
+  optional_observes: []
+  requires_tools:
+  - python
+  side_effect_scope:
+  - reports/semantic_coverage_closure_report.yaml
+- target: check-repository-knowledge-reconciliation
+  requires:
+  - semantic_coverage_closure_report
+  - rci_semantic_enrichment_validation_report
+  - redm_dependency_enrichment_validation_report
+  produces:
+  - repository_knowledge_reconciliation_report
+  optional_observes: []
+  requires_tools:
+  - python
+  side_effect_scope:
+  - reports/repository_knowledge_reconciliation_report.yaml
+- target: check-inventory-acceptance-evidence-index
+  requires:
+  - rci_semantic_enrichment_validation_report
+  - redm_dependency_enrichment_validation_report
+  - semantic_coverage_closure_report
+  - repository_knowledge_reconciliation_report
+  produces:
+  - inventory_acceptance_evidence_index_validation_report
+  optional_observes: []
+  requires_tools:
+  - python
+  side_effect_scope:
+  - reports/inventory_acceptance_evidence_index_validation_report.yaml
+- target: check-inventory-acceptance-dry-run
+  requires:
+  - inventory_acceptance_evidence_index_validation_report
+  - semantic_coverage_closure_report
+  - repository_knowledge_reconciliation_report
+  produces:
+  - inventory_acceptance_dry_run_report
+  optional_observes: []
+  requires_tools:
+  - python
+  side_effect_scope:
+  - reports/inventory_acceptance_dry_run_report.yaml
+- target: surface-normalization-check
+  requires: []
+  produces: []
+  optional_observes:
+  - artifact_retention_consistency_report
+  requires_tools:
+  - python
+  side_effect_scope: []
+- target: continuity-projections-refresh
+  requires:
+  - continuity_event_store
+  produces:
+  - continuity_projection_set
+  optional_observes: []
+  requires_tools:
+  - python
+  side_effect_scope:
+  - coordination/continuity/projections/*.yaml
+- target: continuity-projections-check
+  requires:
+  - continuity_event_store
+  - continuity_projection_set
+  produces: []
+  optional_observes: []
+  requires_tools:
+  - python
+  side_effect_scope: []
+- target: assistant-handoff-check
+  requires:
+  - continuity_event_store
+  - assistant_handoff_agents
+  - assistant_handoff_bootstrap_start
+  - assistant_handoff_bootstrap_index
+  - assistant_handoff_project_mission
+  - assistant_handoff_continuity_contract
+  - assistant_handoff_execution_roadmap
+  - assistant_handoff_dependency_registry
+  - roadmap_reconciliation_status_projection
+  produces: []
+  optional_observes: []
+  requires_tools:
+  - python
+  side_effect_scope: []
+- target: assistant-pack
+  requires:
+  - continuity_event_store
+  - assistant_handoff_agents
+  - assistant_handoff_bootstrap_start
+  - assistant_handoff_bootstrap_index
+  - assistant_handoff_project_mission
+  - assistant_handoff_continuity_contract
+  - assistant_handoff_execution_roadmap
+  - assistant_handoff_dependency_registry
+  - roadmap_reconciliation_status_projection
+  produces: []
+  optional_observes: []
+  requires_tools:
+  - python
+  side_effect_scope:
+  - tmp/assistant_handoff/*.zip
+- target: continuity-lifecycle-check
+  requires:
+  - continuity_event_store
+  - assistant_handoff_continuity_contract
+  produces: []
+  optional_observes: []
+  requires_tools:
+  - python
+  side_effect_scope: []
+- target: continuity-transfer-check
+  requires:
+  - module_continuity_transfer_contract
+  - continuity_event_store
+  - assistant_handoff_continuity_contract
+  - assistant_handoff_dependency_registry
+  produces: []
+  optional_observes: []
+  requires_tools:
+  - python
+  side_effect_scope: []
+- target: roadmap-sync
+  requires:
+  - roadmap_execution_reconciliation_contract
+  - continuity_event_store
+  - assistant_handoff_execution_roadmap
+  - control_foundation_near_horizon_program
+  produces:
+  - roadmap_execution_status_projection
+  - roadmap_reconciliation_status_projection
+  optional_observes: []
+  requires_tools:
+  - python
+  side_effect_scope:
+  - coordination/roadmap_execution/projections/ROADMAP_EXECUTION_STATUS.yaml
+  - coordination/roadmap_execution/projections/ROADMAP_RECONCILIATION_STATUS.yaml
+- target: roadmap-sync-check
+  requires:
+  - roadmap_execution_reconciliation_contract
+  - continuity_event_store
+  - assistant_handoff_execution_roadmap
+  - roadmap_execution_status_projection
+  - roadmap_reconciliation_status_projection
+  - control_foundation_near_horizon_program
+  produces: []
+  optional_observes: []
+  requires_tools:
+  - python
+  side_effect_scope: []
+root_surfaces:
+- target: check-core
+  requires_targets:
+  - execution-dependency-check
+  - roadmap-sync-check
+  - continuity-projections-check
+  - continuity-lifecycle-check
+  - continuity-transfer-check
+  - check-repository-knowledge-freshness
+  - check-rci-semantic-enrichment
+  - check-redm-dependency-enrichment
+  - check-semantic-coverage-closure
+  - check-repository-knowledge-reconciliation
+  - check-inventory-acceptance-evidence-index
+  - check-inventory-acceptance-dry-run
+  - surface-normalization-check
+  execution_semantics: dependency_order_from_target_edges_not_list_position

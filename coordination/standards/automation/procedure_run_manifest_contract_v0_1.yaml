@@ -1,0 +1,47 @@
+schema_version: forprint_procedure_run_manifest_contract_v0_1
+contract_id: procedure_run_manifest_contract
+revision: 0.1.0
+status: ACTIVE_CF07_FIRST_SLICE
+immutability:
+  append_only_evidence: true
+  historical_manifest_rewrite_forbidden: true
+  execution_authority: false
+  lifecycle_authority: false
+required_fields:
+- run_id
+- procedure_id
+- procedure_revision
+- graph_sha256
+- capability_id
+- capability_classification
+- contract_revisions
+- node_results
+- waivers
+- canonical_mutation_performed
+- derived_refresh
+- recovery_class
+contract_revision_item:
+  required_fields:
+  - contract_id
+  - revision
+  - sha256
+node_result:
+  required_fields:
+  - node_id
+  - outcome
+  - evidence
+  allowed_outcomes:
+  - PASS
+  - FAIL
+  - SKIPPED
+  - NOT_APPLICABLE
+  - WAIVED
+  - ABORTED
+  - RETRY
+recovery_classes:
+  NONE: No canonical/projection recovery condition.
+  CANONICAL_CONFLICT: Stop and explicitly reconcile canonical conflict; do not continue or silently choose a side.
+  PROJECTION_STALE: Refresh affected derived artifacts and resume; do not replay the already accepted canonical mutation.
+derived_refresh_rule:
+  when_canonical_mutation_performed: PASS_REQUIRED
+  required_evidence: true

@@ -1,51 +1,53 @@
 schema_version: forprint_automation_open_questions_v0_1
 status: OPEN_FOR_NEXT_SESSIONS
+authority: forprint_system_blueprint
 topics:
-- id: AUTO-Q-001
-  question: What exact executor/provider integration mechanisms will be supported first?
-  status: TBD
-- id: AUTO-Q-002
-  question: What initial per-package budget ceilings and wall-clock ceilings should be used?
-  status: TBD_AFTER_CALIBRATION
-- id: AUTO-Q-003
-  question: What exact criteria raise or lower progressive trust?
-  status: TBD
-- id: AUTO-Q-004
-  question: Which module(s) are used for the first one/two executor pilots?
-  status: DECIDED_LOGISTICS_ONLY_PILOT
-  decision:
-    pilot_modules:
-    - logistics_service
-    minimum_successful_automatic_prompt_runs_before_expansion_review: 2
-    all_other_modules_connected: false
-    positive_stability_review_required: true
-    expansion_requires_separate_reviewed_decision: true
-    authority_decision: coordination/internal_work/blueprint/governance/2026-08-25__blueprint__logistics_only_automation_pilot_scope_decision_v0_1.yaml
-- id: AUTO-Q-005
-  question: What evidence report format is easiest for direct chat review while remaining durable in repo?
-  status: TBD
-- id: AUTO-Q-006
-  question: What deterministic checks can safely auto-close same-phase Blueprint progress without semantic operator review?
-  status: PARTIALLY_DEFINED_BY_PHASE_BOUNDARY_POLICY
-- id: AUTO-Q-007
-  question: How are model/provider cost and token/usage facts collected reliably?
-  status: TBD
-- id: AUTO-Q-008
-  question: Which automation documents remain Blueprint-only and which are copied/linked into module bootstrap context?
-  status: TBD
-- id: AUTO-Q-009
-  question: What exact risk-weighted Knowledge Foundation GREEN/YELLOW/RED thresholds are used after the first Blueprint inventory?
-  status: TBD_AFTER_BLUEPRINT_KNOWLEDGE_BASELINE
-- id: AUTO-Q-010
-  question: What exact strategic-context bundle is sent to module executors without encouraging future-scope overengineering?
-  status: TBD_AFTER_EXECUTOR_CALIBRATION
-- id: AUTO-Q-011
-  question: How are module advisory observations triaged, deduplicated and fed back without creating a second uncontrolled
-    roadmap?
-  status: TBD
-- id: AUTO-Q-012
-  question: How is an active Work Package handled when a central standard changes during execution?
-  status: TBD
-- id: AUTO-Q-013
-  question: What exact Inspector finding severities interrupt work versus enter scheduled local knowledge maintenance?
-  status: TBD_AFTER_KNOWLEDGE_GATE_CALIBRATION
+  - id: AUTO-Q-001
+    question: What exact executor/provider integration mechanisms will be supported first?
+    status: TBD
+  - id: AUTO-Q-002
+    question: What initial per-package budget ceilings and wall-clock ceilings should be used?
+    status: TBD_AFTER_CALIBRATION
+  - id: AUTO-Q-003
+    question: What exact criteria raise or lower progressive trust?
+    status: TBD
+  - id: AUTO-Q-004
+    question: Which module(s) are used for the first one/two executor pilots?
+    status: DECIDED_LOGISTICS_ONLY_PILOT
+    decision:
+      pilot_modules:
+        - logistics_service
+      minimum_successful_automatic_prompt_runs_before_expansion_review: 2
+      all_other_modules_connected: false
+      positive_stability_review_required: true
+      expansion_requires_separate_reviewed_decision: true
+      authority_decision: coordination/internal_work/blueprint/governance/2026-08-25__blueprint__logistics_only_automation_pilot_scope_decision_v0_1.yaml
+  - id: AUTO-Q-005
+    question: What evidence report format is easiest for direct chat review while remaining durable in repo?
+    status: TBD
+  - id: AUTO-Q-006
+    question: What deterministic checks can safely auto-close same-phase Blueprint progress without semantic operator review?
+    status: PARTIALLY_DEFINED_BY_PHASE_BOUNDARY_POLICY
+  - id: AUTO-Q-007
+    question: How are model/provider cost and token/usage facts collected reliably?
+    status: TBD
+  - id: AUTO-Q-008
+    question: Which automation documents remain Blueprint-only and which are copied/linked into module bootstrap context?
+    status: TBD
+  - id: AUTO-Q-009
+    question: What exact risk-weighted Knowledge Foundation GREEN/YELLOW/RED thresholds are used after the first Blueprint
+      inventory?
+    status: TBD_AFTER_BLUEPRINT_KNOWLEDGE_BASELINE
+  - id: AUTO-Q-010
+    question: What exact strategic-context bundle is sent to module executors without encouraging future-scope overengineering?
+    status: TBD_AFTER_EXECUTOR_CALIBRATION
+  - id: AUTO-Q-011
+    question: How are module advisory observations triaged, deduplicated and fed back without creating a second uncontrolled
+      roadmap?
+    status: TBD
+  - id: AUTO-Q-012
+    question: How is an active Work Package handled when a central standard changes during execution?
+    status: TBD
+  - id: AUTO-Q-013
+    question: What exact Inspector finding severities interrupt work versus enter scheduled local knowledge maintenance?
+    status: TBD_AFTER_KNOWLEDGE_GATE_CALIBRATION

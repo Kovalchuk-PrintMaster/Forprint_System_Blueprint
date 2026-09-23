@@ -1,0 +1,75 @@
+schema_version: forprint_mutation_compiler_toolchains_v0_1
+status: current_profile
+authority: forprint_system_blueprint
+module: forprint_mutation_compiler
+defaults:
+  max_repair_passes: 3
+  unknown_file_policy: warn
+  preserve_external_dirty_baseline: true
+  require_target_root_git_repository: true
+  unsafe_repairs_allowed: false
+  network_policy: caller_environment_inherited_v0_1
+  network_isolation_enforced: false
+  project_gate_workspace: isolated_project_copy_v0_1
+  project_gate_durable_cwd_allowed: false
+  protected_target_prefixes:
+  - .git
+  - tmp/mutation_compiler
+adapters:
+  python:
+    extensions:
+    - .py
+    syntax: builtin_compile
+    repair:
+      enabled: true
+      mechanism: ruff_safe_fix_then_format_with_project_relative_finalize
+      required_tool: ruff
+      unsafe_fixes: false
+    final_checks:
+    - staging_ruff_check
+    - staging_ruff_format_check
+    - project_context_ruff_check
+    - project_context_ruff_format_check
+    project_context:
+      required_before_apply: true
+      workspace: isolated_project_copy
+      path_semantics: canonical_repository_relative
+  json:
+    extensions:
+    - .json
+    syntax: json_parse
+    repair:
+      enabled: false
+  yaml:
+    extensions:
+    - .yaml
+    - .yml
+    syntax: yaml_safe_load
+    repair:
+      enabled: false
+  shell:
+    extensions:
+    - .sh
+    - .bash
+    syntax: bash_n
+    repair:
+      enabled: false
+  javascript:
+    extensions:
+    - .js
+    - .mjs
+    - .cjs
+    syntax: node_check_if_available
+    repair:
+      enabled: false
+  generic:
+    extensions: []
+    syntax: none
+    repair:
+      enabled: false
+external_profiles: []
+runtime_binding:
+  adapter_dispatch: static_builtin_adapter_table_v0_1
+  profile_consumption: declarative_contract_only_v0_1
+  dynamic_external_profile_loading: not_implemented_v0_1
+  next_hardening: bind registry defaults and external profile adapters to runtime

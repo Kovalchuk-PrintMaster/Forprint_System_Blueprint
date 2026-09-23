@@ -74,3 +74,15 @@ For a fresh assistant session or context handoff, read these machine-oriented bo
 The bootstrap file defines the stable operating model and routing. The current handoff file defines the latest observed coordination state and is a baseline snapshot, not a substitute for Git, roadmap, prompt, audit, release, or governance checks.
 
 For bulk roadmap enrichment, the operating guide defines the stable method while the living field guide and source map provide reusable navigation, fast paths, pitfalls, provenance, and source-role hints. Living knowledge is advisory navigation and does not grant implementation, binding, activation, release, or publication authority.
+
+<!-- fp-assistant-context-system-specs-route-v0-1:start -->
+## Blueprint assistant operating context
+
+After this canonical reading-order document, read:
+
+`coordination/bootstrap/assistant_context_system_specs_v0_1.yaml`
+
+This system-spec file is a navigation supplement for current Blueprint work.
+It does not replace this document, current lifecycle/workfront authority,
+canonical governance, or live repository verification.
+<!-- fp-assistant-context-system-specs-route-v0-1:end -->
