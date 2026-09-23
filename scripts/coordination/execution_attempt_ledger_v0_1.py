@@ -241,6 +241,39 @@ def latest_attempt_record(
     return records[-1] if records else None
 
 
+def latest_attempt_records(
+    store: Path,
+    *,
+    work_front_id: str | None = None,
+) -> list[dict[str, Any]]:
+    records = iter_records(store)
+    if work_front_id is not None:
+        records = [
+            row
+            for row in records
+            if row.get("work_front_id") == work_front_id
+        ]
+
+    latest_by_attempt: dict[str, dict[str, Any]] = {}
+    for record in records:
+        attempt_id = record.get("attempt_id")
+        if not isinstance(attempt_id, str):
+            raise ValueError("attempt_id must be a non-empty string")
+        current = latest_by_attempt.get(attempt_id)
+        if current is None or (
+            _recorded_at_value(record),
+            record_digest(record),
+        ) > (
+            _recorded_at_value(current),
+            record_digest(current),
+        ):
+            latest_by_attempt[attempt_id] = record
+    return [
+        latest_by_attempt[attempt_id]
+        for attempt_id in sorted(latest_by_attempt)
+    ]
+
+
 def _validate_same_attempt_append(
     record: dict[str, Any],
     latest: dict[str, Any],
@@ -348,6 +381,10 @@ def main() -> int:
     listing.add_argument("--work-front-id")
     listing.add_argument("--store-root")
 
+    status = sub.add_parser("status")
+    status.add_argument("--work-front-id")
+    status.add_argument("--store-root")
+
     args = parser.parse_args()
     root = Path(args.root).resolve()
     contract = load_contract(root)
@@ -376,9 +413,20 @@ def main() -> int:
         print("DISPATCH_AUTHORITY=false")
         return 0
 
-    records = iter_records(store_root(root, contract, override))
-    if args.work_front_id:
-        records = [row for row in records if row.get("work_front_id") == args.work_front_id]
+    store = store_root(root, contract, override)
+    if args.command == "status":
+        records = latest_attempt_records(
+            store,
+            work_front_id=args.work_front_id,
+        )
+    else:
+        records = iter_records(store)
+        if args.work_front_id:
+            records = [
+                row
+                for row in records
+                if row.get("work_front_id") == args.work_front_id
+            ]
     print(yaml.safe_dump(records, sort_keys=False, allow_unicode=True).rstrip())
     return 0
 

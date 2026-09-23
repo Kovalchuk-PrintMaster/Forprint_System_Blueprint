@@ -87,6 +87,33 @@ def test_retry_preserves_failed_attempt(tmp_path: Path) -> None:
     }
 
 
+def test_status_derives_latest_record_per_attempt_and_filters_work_front(
+    tmp_path: Path,
+) -> None:
+    started = _started_record("attempt-test-status-002")
+    terminal = _terminal_record("attempt-test-status-002")
+    first_front = record("attempt-test-status-001")
+    first_front["work_front_id"] = "wf-status-002"
+
+    attempt.append_record(ROOT, started, store_override=tmp_path)
+    attempt.append_record(ROOT, terminal, store_override=tmp_path)
+    attempt.append_record(ROOT, first_front, store_override=tmp_path)
+
+    status = attempt.latest_attempt_records(tmp_path)
+    assert [row["attempt_id"] for row in status] == [
+        "attempt-test-status-001",
+        "attempt-test-status-002",
+    ]
+    assert status[1]["result_state"] == "SUCCEEDED"
+    assert [
+        row["attempt_id"]
+        for row in attempt.latest_attempt_records(
+            tmp_path,
+            work_front_id="wf-status-002",
+        )
+    ] == ["attempt-test-status-001"]
+
+
 def test_retry_must_reference_prior_attempt(tmp_path: Path) -> None:
     retry = record("attempt-test-002")
     retry["retry_of_attempt_id"] = "attempt-test-missing"
