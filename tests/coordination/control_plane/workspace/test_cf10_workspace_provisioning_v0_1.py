@@ -10,6 +10,8 @@ from scripts.coordination.control_plane.workspace import (
     WorkspaceProvisionError,
     capture_worker_baseline,
     derive_worker_delta,
+    derive_worker_delta_from_manifest,
+    load_workspace_plan_from_manifest,
     plan_workspace,
     provision_workspace,
     verify_workspace_equivalence,
@@ -273,3 +275,86 @@ def test_worker_baseline_cannot_be_recaptured_after_mutation(
     assert evidence_path.read_bytes() == evidence_before
     delta = derive_worker_delta(plan)
     assert delta["changed_paths"] == ["target_a.py"]
+
+
+def test_workspace_plan_reloads_from_manifest_and_derives_delta(
+    tmp_path: Path,
+) -> None:
+    repo = init_repo(tmp_path)
+    (repo / "modified.txt").write_text(
+        "inherited-dirty\n",
+        encoding="utf-8",
+    )
+    plan = plan_workspace(
+        canonical_repo=repo,
+        runtime_root=tmp_path / "runtime",
+        module_id="forprint_system_blueprint",
+        worker_id="worker-01",
+        attempt_id="attempt-manifest-delta",
+        source_state=supplied_state(repo, ["modified.txt"]),
+    )
+    provision_workspace(plan)
+    capture_worker_baseline(plan)
+
+    workspace = plan.layout.workspace_repo
+    (workspace / "target_a.py").write_text(
+        "a = 42\n",
+        encoding="utf-8",
+    )
+
+    reloaded = load_workspace_plan_from_manifest(
+        plan.layout.manifest
+    )
+    assert reloaded.layout.workspace_repo == workspace
+    assert reloaded.source_head == plan.source_head
+    assert reloaded.durable_dirty_paths == ("modified.txt",)
+
+    delta = derive_worker_delta_from_manifest(
+        plan.layout.manifest
+    )
+    assert delta["attempt_id"] == "attempt-manifest-delta"
+    assert delta["workspace_repo"] == str(workspace)
+    assert delta["changed_paths"] == ["target_a.py"]
+    assert delta["worker_delta_exact"] is True
+    assert delta["workspace_manifest"] == str(
+        plan.layout.manifest.resolve()
+    )
+
+
+def test_workspace_manifest_loader_rejects_path_binding_tamper(
+    tmp_path: Path,
+) -> None:
+    repo = init_repo(tmp_path)
+    plan = plan_workspace(
+        canonical_repo=repo,
+        runtime_root=tmp_path / "runtime",
+        module_id="forprint_system_blueprint",
+        worker_id="worker-01",
+        attempt_id="attempt-manifest-tamper",
+        source_state=supplied_state(repo, []),
+    )
+    provision_workspace(plan)
+
+    yaml = __import__("yaml")
+    manifest = yaml.safe_load(
+        plan.layout.manifest.read_text(encoding="utf-8")
+    )
+    manifest["workspace_repo"] = str(
+        tmp_path / "other" / "workspace" / "repo"
+    )
+    plan.layout.manifest.write_text(
+        yaml.safe_dump(
+            manifest,
+            sort_keys=False,
+            allow_unicode=True,
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(
+        WorkspaceProvisionError,
+        match="path binding mismatch: workspace_repo",
+    ):
+        load_workspace_plan_from_manifest(
+            plan.layout.manifest
+        )

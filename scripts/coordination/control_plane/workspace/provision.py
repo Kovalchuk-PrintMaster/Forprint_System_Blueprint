@@ -160,6 +160,133 @@ def plan_workspace(
     )
 
 
+
+def load_workspace_plan_from_manifest(
+    manifest_path: Path | str,
+) -> WorkspacePlan:
+    # Reconstruct frozen workspace plan from runtime manifest, read-only.
+    path = Path(manifest_path).expanduser().resolve()
+    if not path.is_file():
+        raise WorkspaceProvisionError(
+            f"workspace manifest is missing: {path}"
+        )
+
+    value = __import__("yaml").safe_load(
+        path.read_text(encoding="utf-8")
+    )
+    if not isinstance(value, dict):
+        raise WorkspaceProvisionError(
+            "workspace manifest must be a mapping"
+        )
+    if value.get("schema_version") != (
+        "forprint_worker_workspace_manifest_v0_1"
+    ):
+        raise WorkspaceProvisionError(
+            "workspace manifest schema mismatch"
+        )
+    if value.get("canonical_write_allowed") is not False:
+        raise WorkspaceProvisionError(
+            "workspace manifest canonical_write_allowed must remain false"
+        )
+    if value.get("provisioning_performed") is not True:
+        raise WorkspaceProvisionError(
+            "workspace manifest was not provisioned"
+        )
+
+    required_strings = (
+        "module_id",
+        "worker_id",
+        "attempt_id",
+        "canonical_repo",
+        "source_head",
+        "runtime_root",
+        "attempt_root",
+        "workspace_repo",
+        "candidate_dir",
+    )
+    for key in required_strings:
+        observed = value.get(key)
+        if not isinstance(observed, str) or not observed.strip():
+            raise WorkspaceProvisionError(
+                f"workspace manifest field missing: {key}"
+            )
+
+    canonical_repo = Path(
+        str(value["canonical_repo"])
+    ).expanduser().resolve()
+    layout = build_workspace_layout(
+        runtime_root=str(value["runtime_root"]),
+        canonical_repo=canonical_repo,
+        module_id=str(value["module_id"]),
+        worker_id=str(value["worker_id"]),
+        attempt_id=str(value["attempt_id"]),
+    )
+
+    if path != layout.manifest.resolve():
+        raise WorkspaceProvisionError(
+            "workspace manifest path does not match derived attempt layout"
+        )
+
+    expected_paths = {
+        "attempt_root": layout.attempt_root,
+        "workspace_repo": layout.workspace_repo,
+        "candidate_dir": layout.candidate,
+    }
+    for key, expected in expected_paths.items():
+        observed = Path(str(value[key])).expanduser().resolve()
+        if observed != expected.resolve():
+            raise WorkspaceProvisionError(
+                f"workspace manifest path binding mismatch: {key}"
+            )
+
+    dirty_paths = value.get("durable_dirty_paths")
+    if not isinstance(dirty_paths, list) or not all(
+        isinstance(item, str) for item in dirty_paths
+    ):
+        raise WorkspaceProvisionError(
+            "workspace manifest durable_dirty_paths must be a string list"
+        )
+    safe_paths = tuple(
+        sorted(
+            {
+                _safe_relative_path(item).as_posix()
+                for item in dirty_paths
+            }
+        )
+    )
+
+    source_branch = value.get("source_branch")
+    if source_branch is not None and not isinstance(source_branch, str):
+        raise WorkspaceProvisionError(
+            "workspace manifest source_branch must be string or null"
+        )
+    fingerprint = value.get("source_state_fingerprint")
+    if fingerprint is not None and not isinstance(fingerprint, str):
+        raise WorkspaceProvisionError(
+            "workspace manifest source_state_fingerprint must be string or null"
+        )
+
+    return WorkspacePlan(
+        layout=layout,
+        canonical_repo=canonical_repo,
+        source_head=str(value["source_head"]).strip(),
+        source_branch=source_branch.strip() if source_branch else None,
+        durable_dirty_paths=safe_paths,
+        source_state_fingerprint=(
+            fingerprint.strip() if fingerprint else None
+        ),
+        base_mode=str(
+            value.get("base_mode", "DETACHED_LOCAL_CLONE")
+        ),
+        overlay_mode=str(
+            value.get(
+                "overlay_mode",
+                "CONTINUITY_DURABLE_DIRTY_PATHS",
+            )
+        ),
+    )
+
+
 def _remove_existing(path: Path) -> None:
     if path.is_symlink() or path.is_file():
         path.unlink()
@@ -581,6 +708,8 @@ def derive_worker_delta(
 
     return {
         "schema_version": WORKER_DELTA_SCHEMA,
+        "attempt_id": plan.layout.attempt_root.name,
+        "workspace_repo": str(workspace),
         "source_head": plan.source_head,
         "baseline_fingerprint_sha256": expected_fingerprint,
         "inherited_dirty_paths": list(
@@ -593,6 +722,19 @@ def derive_worker_delta(
         "candidate_promoted": False,
         "canonical_write_performed": False,
     }
+
+
+
+def derive_worker_delta_from_manifest(
+    manifest_path: Path | str,
+) -> dict[str, Any]:
+    # Derive worker delta from one frozen isolated-workspace manifest.
+    plan = load_workspace_plan_from_manifest(manifest_path)
+    report = derive_worker_delta(plan)
+    report["workspace_manifest"] = str(
+        plan.layout.manifest.resolve()
+    )
+    return report
 
 
 def seal_pre_dispatch_workspace(

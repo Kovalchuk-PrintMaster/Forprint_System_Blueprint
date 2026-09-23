@@ -7,6 +7,7 @@ import sys
 from pathlib import Path
 from types import SimpleNamespace
 
+import pytest
 import yaml
 
 CANDIDATE_ROOT = Path(__file__).resolve().parents[3]
@@ -93,11 +94,15 @@ def _attempt_record(
 def _worker_delta_report(
     changed_paths: list[str] | None = None,
     *,
+    attempt_id: str = "cf10-u180j-a004",
+    workspace_repo: str = "/tmp/cf10/workspace/repo",
     authority_granted: bool = False,
 ) -> dict:
     paths = ["a.txt"] if changed_paths is None else list(changed_paths)
     return {
         "schema_version": "forprint_worker_workspace_delta_v0_1",
+        "attempt_id": attempt_id,
+        "workspace_repo": workspace_repo,
         "source_head": "b" * 40,
         "baseline_fingerprint_sha256": "c" * 64,
         "inherited_dirty_paths": ["inherited.txt"],
@@ -107,6 +112,37 @@ def _worker_delta_report(
         "authority_granted": authority_granted,
         "candidate_promoted": False,
         "canonical_write_performed": False,
+    }
+
+
+
+def _dispatch_decision(
+    workspace_repo: Path,
+    *,
+    attempt_id: str = "cf10-u180j-a004",
+) -> dict:
+    return {
+        "schema_version": (
+            "forprint_cf10_internal_explicit_dispatch_decision_v0_1"
+        ),
+        "decision_id": "d" * 64,
+        "decision": "ALLOW_EXACT_FIRST_INTERNAL_WORKER_LAUNCH",
+        "binding": {
+            "attempt_id": attempt_id,
+            "worker_id": "worker-01",
+            "workspace_repo": str(workspace_repo),
+        },
+        "assistant_ack_validated": True,
+        "explicit_dispatch_decision_recorded": True,
+        "worker_process_launch_allowed": True,
+        "canonical_attempt_ledger_append_allowed": True,
+        "external_dispatch_allowed": False,
+        "release_allowed": False,
+        "push_allowed": False,
+        "merge_allowed": False,
+        "foreign_repository_write_allowed": False,
+        "automatic_accept_allowed": False,
+        "grants_broad_dispatch_authority": False,
     }
 
 
@@ -618,3 +654,154 @@ def test_cf10_result_rejects_worker_delta_authority_widening(
         final["worker_delta_verification"]["errors"]
     )
     assert ledger.rows == []
+
+
+def test_cf10_workspace_finalizer_auto_derives_delta_from_bound_workspace(
+    tmp_path: Path,
+) -> None:
+    attempt_id = "cf10-u180j-a004"
+    result = _result(attempt_id=attempt_id)
+    validation = {
+        "valid": True,
+        "result": result,
+        "errors": [],
+        "repair_attempt_count": 0,
+        "freshness_resume": {"valid": True, "errors": []},
+    }
+    ledger = _Ledger()
+
+    workspace_repo = (
+        tmp_path
+        / "forprint_system_blueprint"
+        / "worker-01"
+        / attempt_id
+        / "workspace"
+        / "repo"
+    )
+    workspace_repo.mkdir(parents=True)
+    manifest_path = (
+        workspace_repo.parent.parent / "manifest.yaml"
+    )
+    manifest_path.write_text("test: true\n", encoding="utf-8")
+
+    seen: list[Path] = []
+
+    def load_delta(path: Path) -> dict:
+        seen.append(Path(path))
+        return _worker_delta_report(
+            ["a.txt"],
+            attempt_id=attempt_id,
+            workspace_repo=str(workspace_repo),
+        )
+
+    final = dispatch_intent.finalize_cf10_workspace_task_execution(
+        root=LIVE_ROOT,
+        explicit_dispatch_decision=_dispatch_decision(
+            workspace_repo,
+            attempt_id=attempt_id,
+        ),
+        origin_manifest=_origin_manifest(),
+        result=result,
+        attempt_record=_attempt_record(
+            attempt_id,
+            work_front_id="wf-cf10-worker-delta-verification",
+        ),
+        attempt_number=1,
+        ledger_store_override=tmp_path / "ledger",
+        telemetry_root_override=tmp_path / "telemetry",
+        runtime_loader=lambda: _runtime(validation),
+        ledger_loader=lambda: ledger,
+        worker_delta_loader=load_delta,
+    )
+
+    assert seen == [manifest_path]
+    assert final["state"] == "ATTEMPT_RECORDED"
+    assert final["worker_delta_verification"]["valid"] is True
+    assert final["worker_delta_verification"]["match"] is True
+    assert len(ledger.rows) == 1
+
+
+def test_cf10_workspace_finalizer_rejects_dispatch_attempt_mismatch(
+    tmp_path: Path,
+) -> None:
+    attempt_id = "cf10-u180j-a004"
+    workspace_repo = (
+        tmp_path
+        / "forprint_system_blueprint"
+        / "worker-01"
+        / "cf10-u180j-a999"
+        / "workspace"
+        / "repo"
+    )
+    workspace_repo.mkdir(parents=True)
+
+    with pytest.raises(
+        ValueError,
+        match="decision attempt_id does not match result",
+    ):
+        dispatch_intent.finalize_cf10_workspace_task_execution(
+            root=LIVE_ROOT,
+            explicit_dispatch_decision=_dispatch_decision(
+                workspace_repo,
+                attempt_id="cf10-u180j-a999",
+            ),
+            origin_manifest=_origin_manifest(),
+            result=_result(attempt_id=attempt_id),
+            attempt_record=_attempt_record(
+                attempt_id,
+                work_front_id="wf-cf10-worker-delta-verification",
+            ),
+            attempt_number=1,
+            ledger_store_override=tmp_path / "ledger",
+            telemetry_root_override=tmp_path / "telemetry",
+            runtime_loader=lambda: _runtime({}),
+            ledger_loader=lambda: _Ledger(),
+            worker_delta_loader=lambda path: {},
+        )
+
+
+def test_cf10_workspace_finalizer_rejects_delta_workspace_mismatch(
+    tmp_path: Path,
+) -> None:
+    attempt_id = "cf10-u180j-a004"
+    workspace_repo = (
+        tmp_path
+        / "forprint_system_blueprint"
+        / "worker-01"
+        / attempt_id
+        / "workspace"
+        / "repo"
+    )
+    workspace_repo.mkdir(parents=True)
+    other_workspace = (
+        tmp_path / "other" / "workspace" / "repo"
+    )
+    other_workspace.mkdir(parents=True)
+
+    with pytest.raises(
+        ValueError,
+        match="derived worker delta workspace binding mismatch",
+    ):
+        dispatch_intent.finalize_cf10_workspace_task_execution(
+            root=LIVE_ROOT,
+            explicit_dispatch_decision=_dispatch_decision(
+                workspace_repo,
+                attempt_id=attempt_id,
+            ),
+            origin_manifest=_origin_manifest(),
+            result=_result(attempt_id=attempt_id),
+            attempt_record=_attempt_record(
+                attempt_id,
+                work_front_id="wf-cf10-worker-delta-verification",
+            ),
+            attempt_number=1,
+            ledger_store_override=tmp_path / "ledger",
+            telemetry_root_override=tmp_path / "telemetry",
+            runtime_loader=lambda: _runtime({}),
+            ledger_loader=lambda: _Ledger(),
+            worker_delta_loader=lambda path: _worker_delta_report(
+                ["a.txt"],
+                attempt_id=attempt_id,
+                workspace_repo=str(other_workspace),
+            ),
+        )

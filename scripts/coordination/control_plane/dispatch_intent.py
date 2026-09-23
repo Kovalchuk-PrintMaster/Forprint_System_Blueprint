@@ -625,6 +625,11 @@ def _cf09_verify_worker_delta_report(
 
     if delta.get("schema_version") != CF10_WORKER_DELTA_REPORT_SCHEMA:
         errors.append("WORKER_DELTA_SCHEMA_MISMATCH")
+    if delta.get("attempt_id") != attempt_id:
+        errors.append("WORKER_DELTA_ATTEMPT_BINDING_MISMATCH")
+    workspace_repo = delta.get("workspace_repo")
+    if not isinstance(workspace_repo, str) or not workspace_repo.strip():
+        errors.append("WORKER_DELTA_WORKSPACE_BINDING_MISSING")
     if delta.get("worker_delta_exact") is not True:
         errors.append("WORKER_DELTA_NOT_EXACT")
     if delta.get("authority_granted") is not False:
@@ -846,6 +851,138 @@ def finalize_cf09_task_execution(
             else "RESULT_ACCEPTANCE_OR_ESCALATION"
         ),
     }
+
+
+
+def finalize_cf10_workspace_task_execution(
+    *,
+    root,
+    explicit_dispatch_decision: dict,
+    origin_manifest: dict,
+    result: dict,
+    attempt_record: dict,
+    attempt_number: int,
+    requested_max_attempts: int | None = None,
+    next_attempt_id: str | None = None,
+    dispatcher_telemetry: dict | None = None,
+    ledger_store_override=None,
+    telemetry_root_override=None,
+    runtime_loader=None,
+    ledger_loader=None,
+    worker_delta_loader=None,
+) -> dict:
+    # Finalize CF-10 result using delta from its bound isolated workspace.
+    from pathlib import Path as _Path
+
+    if not isinstance(explicit_dispatch_decision, dict):
+        raise ValueError("explicit dispatch decision must be a mapping")
+
+    required_true = (
+        "explicit_dispatch_decision_recorded",
+        "worker_process_launch_allowed",
+        "canonical_attempt_ledger_append_allowed",
+    )
+    for key in required_true:
+        if explicit_dispatch_decision.get(key) is not True:
+            raise ValueError(
+                f"explicit dispatch decision missing required true marker: {key}"
+            )
+
+    forbidden_true = (
+        "external_dispatch_allowed",
+        "release_allowed",
+        "push_allowed",
+        "merge_allowed",
+        "foreign_repository_write_allowed",
+        "automatic_accept_allowed",
+    )
+    for key in forbidden_true:
+        if explicit_dispatch_decision.get(key) is not False:
+            raise ValueError(
+                f"explicit dispatch decision widened authority: {key}"
+            )
+
+    binding = explicit_dispatch_decision.get("binding")
+    if not isinstance(binding, dict):
+        raise ValueError("explicit dispatch decision binding missing")
+
+    result_attempt_id = _cf09_safe_value(
+        str(result.get("attempt_id", "")),
+        label="attempt_id",
+    )
+    if binding.get("attempt_id") != result_attempt_id:
+        raise ValueError(
+            "explicit dispatch decision attempt_id does not match result"
+        )
+    if attempt_record.get("attempt_id") != result_attempt_id:
+        raise ValueError(
+            "attempt record attempt_id does not match result"
+        )
+
+    workspace_value = binding.get("workspace_repo")
+    if not isinstance(workspace_value, str) or not workspace_value.strip():
+        raise ValueError(
+            "explicit dispatch decision workspace_repo missing"
+        )
+    workspace_repo = _Path(
+        workspace_value
+    ).expanduser().resolve()
+    if not workspace_repo.is_dir():
+        raise ValueError("bound isolated workspace repo is missing")
+
+    if (
+        workspace_repo.name != "repo"
+        or workspace_repo.parent.name != "workspace"
+    ):
+        raise ValueError(
+            "bound workspace_repo does not match workspace/repo layout"
+        )
+
+    manifest_path = workspace_repo.parent.parent / "manifest.yaml"
+
+    if worker_delta_loader is None:
+        from scripts.coordination.control_plane.workspace import (
+            derive_worker_delta_from_manifest,
+        )
+        load_delta = derive_worker_delta_from_manifest
+    else:
+        load_delta = worker_delta_loader
+
+    worker_delta_report = load_delta(manifest_path)
+    if not isinstance(worker_delta_report, dict):
+        raise RuntimeError(
+            "worker delta loader returned non-mapping"
+        )
+    if worker_delta_report.get("attempt_id") != result_attempt_id:
+        raise ValueError(
+            "derived worker delta attempt binding mismatch"
+        )
+
+    derived_workspace = worker_delta_report.get("workspace_repo")
+    if not isinstance(derived_workspace, str):
+        raise ValueError(
+            "derived worker delta workspace binding missing"
+        )
+    if _Path(derived_workspace).expanduser().resolve() != workspace_repo:
+        raise ValueError(
+            "derived worker delta workspace binding mismatch"
+        )
+
+    return finalize_cf09_task_execution(
+        root=root,
+        origin_manifest=origin_manifest,
+        result=result,
+        attempt_record=attempt_record,
+        attempt_number=attempt_number,
+        requested_max_attempts=requested_max_attempts,
+        next_attempt_id=next_attempt_id,
+        dispatcher_telemetry=dispatcher_telemetry,
+        worker_delta_report=worker_delta_report,
+        ledger_store_override=ledger_store_override,
+        telemetry_root_override=telemetry_root_override,
+        runtime_loader=runtime_loader,
+        ledger_loader=ledger_loader,
+    )
 
 
 CF09_ASSISTANT_ACK_GATE_V0_1 = "CF09_ASSISTANT_ACK_GATE_V0_1"
