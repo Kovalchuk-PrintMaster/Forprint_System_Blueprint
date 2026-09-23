@@ -347,7 +347,7 @@ def build_checks() -> list[CheckDefinition]:
             check_id="mermaid_generation",
             title="Mermaid generation",
             expected_result="Architecture diagrams generate",
-            command=(python, "scripts/generate_mermaid.py"),
+            command=(python, "scripts/generate_mermaid.py", "--check"),
             group="documentation",
         ),
         CheckDefinition(
@@ -361,7 +361,7 @@ def build_checks() -> list[CheckDefinition]:
             check_id="module_guides_generation",
             title="Module guides",
             expected_result="Module guides generate",
-            command=(python, "scripts/generate_module_guides.py"),
+            command=(python, "scripts/generate_module_guides.py", "--check"),
             group="documentation",
         ),
         CheckDefinition(
@@ -481,7 +481,9 @@ def build_checks() -> list[CheckDefinition]:
         CheckDefinition(
             check_id="q6_operator_attention_semantics_validation",
             title="Q6 operator attention semantics",
-            expected_result=("Operator-attention reasons, lifecycle and transport-independent semantics are valid"),
+            expected_result=(
+                "Operator-attention reasons, lifecycle and transport-independent semantics are valid"
+            ),
             command=(python, "scripts/validation/validate_q6_operator_attention_semantics.py"),
             group="documentation",
         ),
