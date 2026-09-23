@@ -1,0 +1,125 @@
+schema_version: forprint_telegram_bot_human_talk_templates_portfolio_reconciliation_v0_1
+source_label: filename-label-2026-10-12
+reconciled_on: '2026-09-22'
+source_identity:
+  primary_mhtml_sha256: f53a57e1ec58417dcd16c5a3b900e1e616b1337e358f07497f400d5be984bb65
+  dftb_archive_sha256: 52a044ceae258f8c74fafb7c2110849969017c3e9c160b7d7c4d59d8e14005f4
+  master_memory_v3_0_archive_sha256: a15f52a3a488fd180beddb92b99b1bbbc423ad8a4f013c550b1fb651bbc9a885
+  primary_exactly_matches_dftb_source_manifest: true
+  master_v3_0_expanded_bundle_members_byte_identical_to_uploaded_dftb: true
+  master_v3_0_nested_immutable_dftb_zip_byte_identical: true
+chronology:
+  filename_date_trusted: false
+  filename_label: '2026-10-12'
+  mhtml_export_saved: Tue, 15 Sep 2026 14:37:22 +0300
+  logical_date: null
+  rule: Use as historical Telegram source; do not order by filename date.
+source_quality:
+  classification: SMALL_PARTIAL_DIALOGUE_MISSING_MIDDLE_TURNS_AND_CSV_BODIES
+  primary_message_blocks: 9
+  primary_roles:
+    user: 4
+    assistant: 5
+  dftb_visible_turn_sections: 9
+  missing_turn_span: 5-7
+  csv_attachment_bodies_recoverable: false
+  cyrillic_loss: false
+  implementation_verification_performed: false
+reuse_first_findings:
+- topic: human_talk_response_layer
+  item_refs:
+  - IT-TG1210-0001
+  - IT-TG1210-0009
+  classification: EXTEND
+  current_surfaces:
+  - telegram_bot_personalized_communication_orchestration_v0_1
+  - telegram_bot_communication_intent_contract_v0_1
+  disposition: Capture detailed template-contract Human Intent but do not create a new canonical roadmap step. Prefer
+    extending current communication-rendering steps if live implementation audit proves a gap.
+- topic: historical_mistral_finetuning_plan
+  item_refs:
+  - IT-TG1210-0002
+  classification: ADAPT
+  disposition: Preserve as historical model/training intention only. Current roadmap is provider/model-neutral and
+    later ML sources must establish actual implementation.
+- topic: schema_normalization
+  item_refs:
+  - IT-TG1210-0003
+  classification: RETAIN
+  disposition: Later owner requirement uses normalized style_id and sentiment_id foreign-key references instead
+    of free textual labels. Current live schema still requires verification.
+- topic: intent_style_sentiment_taxonomies
+  item_refs:
+  - IT-TG1210-0004
+  - IT-TG1210-0005
+  - IT-TG1210-0006
+  - IT-TG1210-0015
+  - IT-TG1210-0016
+  classification: RETAIN_WITH_SUPERSESSION_BOUNDARY
+  disposition: Owner-supplied lookup vocabularies are historical requirements. Assistant-invented friendly/playful/aggressive/urgent
+    values are contract drift, not taxonomy expansion. Current taxonomy values require live schema audit before
+    implementation.
+- topic: multilingual_natural_template_quality
+  item_refs:
+  - IT-TG1210-0007
+  - IT-TG1210-0008
+  - IT-TG1210-0009
+  classification: EXTEND
+  disposition: NEW_HUMAN_INTENT_CAPTURED
+- topic: historical_generated_dataset_claims
+  item_refs:
+  - IT-TG1210-0010
+  - IT-TG1210-0011
+  - IT-TG1210-0012
+  - IT-TG1210-0013
+  - IT-TG1210-0014
+  - IT-TG1210-0017
+  classification: HISTORICAL_UNVERIFIED
+  disposition: Do not treat 360/500/1000-row claims, uniqueness/balance claims or the inconsistent 1800 total as
+    row-level dataset evidence because generated CSV bodies are absent.
+- topic: csv_import_contract
+  item_refs:
+  - IT-TG1210-0018
+  - IT-TG1210-0019
+  - IT-TG1210-0020
+  - IT-TG1210-0021
+  - IT-TG1210-0022
+  - IT-TG1210-0023
+  - IT-TG1210-0024
+  classification: REUSE
+  existing_human_intent: HI-TG-DATA-INGEST-20260922-003
+  disposition: Known-good schema/header first, then small smoke import, then bulk import. The exact historical import-failure
+    root cause remains unresolved and must not be rewritten as fact.
+- topic: conversation_data_boundary
+  item_refs:
+  - IT-TG1210-0025
+  - IT-TG1210-0030
+  classification: REUSE
+  disposition: Templates are presentation/conversation data. Telegram remains non-owner of canonical customer, order,
+    price, payment, logistics and other domain truth.
+- topic: current_taxonomy_and_runtime_ownership
+  item_refs:
+  - IT-TG1210-0028
+  - IT-TG1210-0029
+  classification: OPEN_REPOSITORY_AUDIT
+  disposition: Historical source does not prove current taxonomy owner, active template-selection runtime, current
+    DB schema or generative model/fine-tuning strategy.
+roadmap_reconciliation:
+  canonical_roadmap_mutation: false
+  new_step: null
+  reuse_targets:
+  - telegram_bot_personalized_communication_orchestration_v0_1
+  - telegram_bot_communication_intent_contract_v0_1
+  candidate: telegram_human_talk_template_contract
+  candidate_status: RECONCILE_BEFORE_IMPLEMENTATION
+  reason: Template contract details are stronger than current planning text, but the live Telegram schema/runtime
+    and remaining historical sources must be reconciled before deciding whether to extend existing roadmap steps,
+    create a substep, or close as already implemented.
+master_memory_relationship:
+  uploaded_master: v3.0
+  v3_0_role: historical_derived_navigation_archive
+  v3_0_contains_this_dftb: true
+  v3_0_reingested: false
+  preferred_current_navigation: v3.7
+  master_memory_authority: derived_navigation_not_current_runtime_authority
+execution_authority_mutation_required: false

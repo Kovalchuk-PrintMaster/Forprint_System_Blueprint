@@ -1,0 +1,2044 @@
+schema_version: forprint_dftb_dialogue_memory_v0_1
+bundle_id: DFTB-calculator-engine-filename-label-2026-10-09
+source:
+  source_id: SRC-calculator-engine-filename-label-2026-10-09
+  title: Asistant_Calculator_Engine - Calculator_Engine
+  source_type: chatgpt_mhtml_calculator_module_long_running_dialogue
+  source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  source_hash_sha256: 89ebb98618d86b0fa928d5c3f1748c68db81292f68b75698c19c2711689921fb
+  conversation_started_at: null
+  conversation_ended_at: Tue, 15 Sep 2026 15:33:42 +0300
+  participants:
+  - user
+  - assistant
+  language:
+  - uk
+  - en
+  - pl
+  authority_scope: calculator_module_history_only
+  completeness: large_but_sparse_partial_long_running_dialogue
+  completeness_notes: 206 visible turn sections / 213 message blocks across turn range 1–1151; user=167, assistant=46. Turn 3 embeds a large imported prior
+    conversation. Many later turns are missing or attachment-only.
+extraction:
+  created_at: '2026-09-15T15:45:00+03:00'
+  extractor: GPT-5.6 Sol / Asistans_Forprint_Blueprint
+  extraction_mode: duplicate_check_then_long_running_calculator_reconstruction_with_imported-dialogue_provenance
+  implementation_verification_performed: false
+  notes: Historical Calculator evidence only. Filename date is inconsistent with export date/internal chronology and is not used as logical terminal date.
+    Current repository state is not audited.
+evidence_index:
+- evidence_id: EV-CALC0910-0001
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: 7eb754a7-d4d5-4929-bd6d-d4ab2105f67b
+    message_id: 7eb754a7-d4d5-4929-bd6d-d4ab2105f67b
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: так я почав роботу вже в чаты по розробцы проэкту зараз я перекину всю ынформацыю тобы сюди ы ми продовжимо з тобою ок
+  quote_whitespace_normalized: true
+  context_before: Owner says this chat continues prior Calculator work by importing earlier information.
+  context_after: null
+  evidence_role:
+  - owner_context
+  - continuity
+  confidence: high
+- evidence_id: EV-CALC0910-0002
+  speaker: user
+  locator:
+    conversation_turn: 3
+    turn_id: f705c533-ce44-4cd8-8133-9f65d399fee8
+    message_id: f705c533-ce44-4cd8-8133-9f65d399fee8
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: 'Create Price-List як ти думаєш як мені краще зробити організацію прас листа щоб Telegram бот міг легко прораховувати вартість робіт а я міг зручно
+    редагувати ціни за потребі + бот має графічно виводити чи весь прайс чи частину для кліжнта по вимозі треба передбачити хороший цікавий дизайн а також
+    треба продумати різний формат виводу дизайну для різних груп клієнтів наприклад b2b / b2c ChatGPT said: Thought for 15s Products (Preview) Variants
+    (Preview) Tiers (Preview) Options (Preview) Audience Pricing (Preview) Класна ідея. Я підготувала для тебе «скелет» прайсу, який зр'
+  quote_whitespace_normalized: true
+  context_before: Imported prior dialogue begins with the owner asking for an editable price-list architecture that Calculator/Telegram can use.
+  context_after: null
+  evidence_role:
+  - imported_prior_dialogue
+  - owner_requirement
+  confidence: high
+- evidence_id: EV-CALC0910-0003
+  speaker: user
+  locator:
+    conversation_turn: 3
+    turn_id: f705c533-ce44-4cd8-8133-9f65d399fee8
+    message_id: f705c533-ce44-4cd8-8133-9f65d399fee8
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: 'ороший цікавий дизайн а також треба продумати різний формат виводу дизайну для різних груп клієнтів наприклад b2b / b2c ChatGPT said: Thought
+    for 15s Products (Preview) Variants (Preview) Tiers (Preview) Options (Preview) Audience Pricing (Preview) Класна ідея. Я підготувала для тебе «скелет»
+    прайсу, який зручно редагувати й одразу підключити до Telegram-бота: нормалізована структура таблиць + правила розрахунку + шаблони виводу для B2B/B2C.
+    Що ти вже маєш (файли) products.csv — продукти (візитки, флаєри, футболки…) variants.csv — варіанти (папір/покриття/розмір тощо) tiers.csv — цінові
+    діапазони за кількістю (qty_min → unit_price) options.csv — допи/націнки (терміново,'
+  quote_whitespace_normalized: true
+  context_before: Imported owner requirement includes different output/price presentation for B2B/B2C audiences.
+  context_after: null
+  evidence_role:
+  - imported_prior_dialogue
+  - owner_requirement
+  confidence: high
+- evidence_id: EV-CALC0910-0004
+  speaker: user
+  locator:
+    conversation_turn: 3
+    turn_id: f705c533-ce44-4cd8-8133-9f65d399fee8
+    message_id: f705c533-ce44-4cd8-8133-9f65d399fee8
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: 'ки позицій багато мають бути передбачені групові політики зміни ціни для одноманітних груп товарів наприклад <всі футболки окрім чорних збільшити
+    ціну на 7%, для чорних зменшити на 4% для чловічих і на 6% для жіночих> треба передбачити якийсь багатофункціональний інтерфейс ChatGPT said: Thought
+    for 10s Окей, дивлюсь на твої задачі як на прайс-платформу: сховище даних + рушій правил + адмін-панель + інтеграція з ботом (читання/кеш/прев’ю). Нижче
+    — три реальні варіанти зі зростаючою “серйозністю”, і як у кожному зробити масові зміни типу «всі футболки, крім чорних, +7%…». 1) Швидкий старт (1–3
+    дні) Google Sheets → бот читає через API/CSV. Ідеально, якщо треба “вчора” й без DevOps. Зберігання: окремі шити: pro'
+  quote_whitespace_normalized: true
+  context_before: Imported owner requirement asks for bulk/group pricing policies rather than manual per-SKU editing.
+  context_after: null
+  evidence_role:
+  - imported_prior_dialogue
+  - owner_requirement
+  confidence: high
+- evidence_id: EV-CALC0910-0005
+  speaker: user
+  locator:
+    conversation_turn: 3
+    turn_id: f705c533-ce44-4cd8-8133-9f65d399fee8
+    message_id: f705c533-ce44-4cd8-8133-9f65d399fee8
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: 'diagram)? You said: давай діаграму взаємодії і скажи на скільки просто або може ще щось треба передбачити щоб інтергрувати наприулад роботу цього
+    модуля на web-сайт трохи пізніше ChatGPT said: окей 💪 ось наочні діаграми (Mermaid). Якщо в тебе не рендериться діаграма, це звичайний текстовий код
+    — його легко відкрити в будь-якому редакторі, що вміє Mermaid. Діаграма 1. Калькуляція ціни в конструкторі (Next.js / Telegram WebApp) sequenceDiagram
+    autonumber actor U as Користувач participant FE as Frontend (Next.js/WebApp) participant API as FastAPI (API Gateway) participant PR as Pricing Engine
+    participant C as Redis Cache participant DB as Postgres U->>FE: Обирає атрибути (колір, розмір, опції, кількість) FE->>API: POS'
+  quote_whitespace_normalized: true
+  context_before: Imported owner requirement says Calculator architecture should support later Website integration.
+  context_after: null
+  evidence_role:
+  - imported_prior_dialogue
+  - owner_requirement
+  confidence: high
+- evidence_id: EV-CALC0910-0006
+  speaker: user
+  locator:
+    conversation_turn: 3
+    turn_id: f705c533-ce44-4cd8-8133-9f65d399fee8
+    message_id: f705c533-ce44-4cd8-8133-9f65d399fee8
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: 'аємо з Rules/Constraints editor (MVP) чи з БД-схеми + індексів. You said: ок давай приступати до роботи давай дуже повільно будемо рухатись по
+    останній схемі але не треба давати на перед 10 кроків порад і коду дуже поступово йдемо бо я так швидко не можуопрацьовувати контент перше який язик
+    програмування візьмемо ? ChatGPT said: Thought for 42s Беру Python 3.12 для бекенду. Чому саме він (дуже коротко): ідеально лягає на наш план: FastAPI
+    + SQLAlchemy + Pydantic; швидка розробка правил/політик ціноутворення (зручно тестувати); великий стек для БД/кешу/черг (Postgres, Redis, RQ/Celery)
+    без зайвого болю. Фронтенд визначимо пізніше (ймовірно TypeScript + Next.js), але зараз рухаємось з бекендо'
+  quote_whitespace_normalized: true
+  context_before: Imported owner instruction asks for gradual small implementation steps rather than large ahead-of-time code dumps.
+  context_after: null
+  evidence_role:
+  - imported_prior_dialogue
+  - owner_process_rule
+  confidence: high
+- evidence_id: EV-CALC0910-0007
+  speaker: user
+  locator:
+    conversation_turn: 3
+    turn_id: f705c533-ce44-4cd8-8133-9f65d399fee8
+    message_id: f705c533-ce44-4cd8-8133-9f65d399fee8
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: 'ий чек-лист без зайвого коду. You said: перший крок будемо використовувати цей репозиторій для нашого проекту git@github.com:Kovalchuk-PrintMaster/Calculator_Engine.git
+    ChatGPT said: Thought for 52s Чудово. Працюємо з git@github.com:Kovalchuk-PrintMaster/Calculator_Engine.git. Ідемо дуже повільно. Перший маленький крок:
+    базовий “bootstrap” репозиторію + мінімальний CI, без зайвого коду. Крок 1 — створюємо мінімальний каркас 1) Зклонуй і створи гілку git clone git@github.com:Kovalchuk-PrintMaster/Calculator_Engine.git
+    cd Calculator_Engine git switch -c chore/bootstrap 2) Додай три базові файли .gitignore (мінімум для Python) # Python __pycache__/ *.pyc *.pyo *.pyd
+    .venv/ .env .pytest_cache/ .mypy_cache/ .ruff_cache/ # B'
+  quote_whitespace_normalized: true
+  context_before: Imported owner message selects the Calculator Engine Git repository.
+  context_after: null
+  evidence_role:
+  - imported_prior_dialogue
+  - repo_identity
+  confidence: high
+- evidence_id: EV-CALC0910-0008
+  speaker: user
+  locator:
+    conversation_turn: 3
+    turn_id: f705c533-ce44-4cd8-8133-9f65d399fee8
+    message_id: f705c533-ce44-4cd8-8133-9f65d399fee8
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: 'конфіги читались централізовано й без правок коду. You said: README.md в мене ще нема і головний пріорітет це детальні коментарі до всіх функцій
+    розділів і чстин нашого проєкту щоб людині було легко включитись в логіку проєкту наприлад через 5 років роботи коли вже все майже забуто на це великий
+    акцент в подальшій розробці ChatGPT said: Thought for 25s чудово — тримаємо курс на “чистий корінь” і максимальну зрозумілість через коментарі/докстрінги.
+    Зараз додамо README.md з правилами й шаблонами — стисло, але так, щоб і через 5 років було легко ввійти в проєкт. Створюємо README.md Скопіюй в термінал
+    у ~/calculator_engine: cat > README.md <<''MD'' # Calculator Engine Движок калькуляції цін дл'
+  quote_whitespace_normalized: true
+  context_before: Imported owner requirement prioritizes durable documentation/comments so the project is understandable years later.
+  context_after: null
+  evidence_role:
+  - imported_prior_dialogue
+  - documentation
+  confidence: high
+- evidence_id: EV-CALC0910-0009
+  speaker: user
+  locator:
+    conversation_turn: 146
+    turn_id: 561c8269-2b51-4316-9c53-f57ffc5a22ae
+    message_id: 561c8269-2b51-4316-9c53-f57ffc5a22ae
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: озумів, де ми зараз стоїмо і які у нас там попередні кроки. Тому давай, можливо, так дуже коротенько розкажи, що ми вже встигли зробити. Пару слів
+    скажи про оцей middle way, який ми там налаштовували цього дня файли, і alembic. Я так розумію, що ми там зробили якісь, у нас вже є інструменти або
+    логіну залогінювання, або контролю залогінювання. Давай проговоримо це усно і потім вирішимо, як будемо рухатися далі.”
+  quote_whitespace_normalized: true
+  context_before: Owner asks for an explicit state recap before continuing, reflecting a need for understandable project checkpoints.
+  context_after: null
+  evidence_role:
+  - owner_process_rule
+  - state_awareness
+  confidence: high
+- evidence_id: EV-CALC0910-0010
+  speaker: assistant
+  locator:
+    conversation_turn: 147
+    turn_id: 0d90479b-89dd-41aa-854a-9e23525fa9c0
+    message_id: 0d90479b-89dd-41aa-854a-9e23525fa9c0
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: 'ак, звісно, підсумуємо. Ми з тобою зробили кілька важливих речей. По-перше, ми налаштували логування: у нас є RequestIdFilter , який додає request_id
+    в кожен лог, є два форматтери — для людини (PlainFormatter) і для машинного парсингу (CsvFormatter). Також ми переконалися, що caplog у тестах це все
+    ловить, і ми бачимо request_id в логах під час тестів. По-друге, ми розібралися з Alembic: тобто ми вже можемо запускати міграції, і щойно ми синхронізували
+    схему бази з кодом. У нас з''явилася таблиця materials , хоча вона поки без деяких полів, які ми очікували. Тобто фактично ми вже налаштували інфраструктуру
+    логування і зробили основні міграції, і тепер ми можемо далі або доробит'
+  quote_whitespace_normalized: true
+  context_before: Historical assistant summary says logging/request_id and Alembic infrastructure already exist.
+  context_after: null
+  evidence_role:
+  - assistant_historical_summary
+  - implementation_claim
+  confidence: high
+- evidence_id: EV-CALC0910-0011
+  speaker: user
+  locator:
+    conversation_turn: 154
+    turn_id: d6b56c8c-67b1-4f30-aa65-6e4b1e97715b
+    message_id: d6b56c8c-67b1-4f30-aa65-6e4b1e97715b
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: емо, наприклад, в коді дописувати якісь модулі або інші якісь нові продукти або нові поля, то оцей інструмент Alembic буде нашим основним синхронізатором
+    віддаленої бази даних і нашого коду. Я правильно розумію, чи не така задача?”
+  quote_whitespace_normalized: true
+  context_before: Owner confirms expected Alembic role for reproducible DB schema evolution.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - database_migrations
+  confidence: high
+- evidence_id: EV-CALC0910-0012
+  speaker: user
+  locator:
+    conversation_turn: 162
+    turn_id: 164ea02b-b7cb-4a96-ba70-6a45a4549865
+    message_id: 164ea02b-b7cb-4a96-ba70-6a45a4549865
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: гіка буде дуже складна. Щоби на цьому етапі не зав'язнути, я пропоную взяти три примітивні товари, наприклад, візитки, флайери і буклет якийсь,
+    і на базі їх опрацьовувати подальшу роботу нашого проєкту. І коли ми отримаємо якусь стабільну працюючу версію, вже з підключеними зовнішніми базами,
+    вже коли сам скелет і каркас буде з логікою, і ми будемо бачити, що все працює, ми вже потім будемо додавати інші якісь матеріали, інші продукти. Це
+    треба передбачити зразу, що їх буде багато додано, але коли ми відкитаємо хоча б на базових інструментах це все. Як ти думаєш?”
+  quote_whitespace_normalized: true
+  context_before: Owner deliberately limits initial domain modeling to three simple products before scaling.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - pilot_scope
+  confidence: high
+- evidence_id: EV-CALC0910-0013
+  speaker: user
+  locator:
+    conversation_turn: 168
+    turn_id: 203e9d38-e716-4a4e-8450-099976ed7925
+    message_id: 203e9d38-e716-4a4e-8450-099976ed7925
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: ю для створення таблиць першим даю файл в якаму прописані основні розміри виробів і назви думаю що ми зробимо 2 таблиці одна з назвами виробів
+    а інша з розмірами потім через foringer key будемо звязувати чіткі позиції де інших варіантів не може бути або може подумаємо інший спосіб як простіше
+    робити звязки продукту з його властивостями другу ьаблицю зробимо з розмірами базовими розбери зміст цього файлу там у випадаючому списку ти все знайдеш
+    після цього дам тобі інформацію по матеріалах для друку для наступної таблиці Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Owner proposes normalized product-kind/size tables with controlled relationships.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - catalog_model
+  confidence: high
+- evidence_id: EV-CALC0910-0014
+  speaker: user
+  locator:
+    conversation_turn: 176
+    turn_id: 5c251a67-1167-46d7-b678-f2f613d3fa37
+    message_id: 5c251a67-1167-46d7-b678-f2f613d3fa37
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: й щільністю 115гр всі інші поля можуть мати подібну форму запису якщо матеріал має різні товщину чи граматуру може відразу приводь назви до більш
+    дружньої форми для звичайного користувача щоб йому було простіше обирати варіанти бо у непідготовленого користувача можуть виникнути проблеми те що
+    не вдасться оптимізувати відразу потім тоточимо вже при обкатці нестрашно Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Owner requires material naming to be understandable to ordinary users.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - catalog_ux
+  confidence: high
+- evidence_id: EV-CALC0910-0015
+  speaker: user
+  locator:
+    conversation_turn: 190
+    turn_id: ef079581-0b99-4f61-9c12-25a7b79fb391
+    message_id: ef079581-0b99-4f61-9c12-25a7b79fb391
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: “Hello. We have come to a very interesting topic, that is, the linking of different properties of different products. We need to think about how
+    to do this correctly, because, first of all, the number of products will increase very, very quickly, and the number of contacts will also increase
+    significantly. Therefore, it is very bad to register so manually, that for a business card there may be a rounding, and for a flyer there may be a perforation
+    or a run. This is a lot of writing, and it will be necessary to describe each product separately. This is very bad. First, we need to think, maybe you
+    have some proposals on how to automate this more. Secondly, at this stage, of course, I would not like to, but if there is no other option, then maybe
+    we need to make some primitive web interface, at least locally, on a local host, so that you can
+  quote_whitespace_normalized: true
+  context_before: Owner rejects manually enumerating every product/property relationship and asks for scalable automation/interface support.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - catalog_rules
+  confidence: high
+- evidence_id: EV-CALC0910-0016
+  speaker: user
+  locator:
+    conversation_turn: 192
+    turn_id: 08bc75b4-f243-431b-8d26-9430c3b9321f
+    message_id: 08bc75b4-f243-431b-8d26-9430c3b9321f
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: аш процес наповнення таблиць і продумати структуру адмін-панелів. Я думаю, що для ефективного подальшого руху нам потрібна адмін-панель. Я даже
+    боюсь, что нет смысла нарисовать что-то очень примитивное, все равно на это придет время, а потом нам это будет не нужно, его придется выкинуть. Поэтому
+    я так понимаю, что нам нужно сразу на локальном хосте нарисовать нормальную админ-панель, прям такую продуманную, і хоча б на перших кроках з базовим
+    функціоналом, але передбачати відразу, що адмінка буде керувати всім нашим великим проектом. Просто задати каркас такий мощний, суттєвий, а потім уже
+    на цьому каркасі ми просто побудуємо керування базовими таблицями тими, що є, і почнемо робити які
+  quote_whitespace_normalized: true
+  context_before: Owner decides a serious admin interface is needed for efficient continued data/relationship management.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - admin_ui
+  confidence: high
+- evidence_id: EV-CALC0910-0017
+  speaker: user
+  locator:
+    conversation_turn: 194
+    turn_id: 99bf7a2a-5b6f-4ee7-bb80-d3986ab1c39e
+    message_id: 99bf7a2a-5b6f-4ee7-bb80-d3986ab1c39e
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: вне, що вона має бути дійсно така потужна. Вона має передбачати, що до неї будь-які адміни можуть звертатися, паралельна робота, перезапис даних.
+    Це все має підтримуватися, це має бути така адаптивна система на майбутнє.”
+  quote_whitespace_normalized: true
+  context_before: Owner requires a future-capable admin system that can support multiple admins and concurrent data work.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - admin_ui
+  confidence: high
+- evidence_id: EV-CALC0910-0018
+  speaker: user
+  locator:
+    conversation_turn: 204
+    turn_id: 15b2b2e1-1627-407a-ba82-679dace88251
+    message_id: 15b2b2e1-1627-407a-ba82-679dace88251
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: 'odels > > # Ці моделі лише відображають існуючі таблиці (керує Alembic). > # Django-міграцій для них НЕ буде: managed = False. > > class ProductKind(models.Model):
+    > id = models.BigAutoField(primary_key=True) > code = models.TextField(unique=True) > name_uk = models.TextField() > name_ru = models.TextField() >
+    name_en = models.TextField() > group_code = models.TextField(null=True, blank=True) > > class Meta: > managed = False > db_table = ''product_kinds''
+    > > def __str__(self): > return f"{self.code} — {self.name_uk}" > > > class ProductKindName(models.Model): > id = models.BigAutoField(primary_key=True)
+    ls.Fore> product_kind = models.ForeignKey(ProductKind, on_delete=models.DO'
+  quote_whitespace_normalized: true
+  context_before: Visible historical code uses Django models as unmanaged projections over DB tables controlled by Alembic.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - schema_ownership
+  confidence: high
+- evidence_id: EV-CALC0910-0019
+  speaker: user
+  locator:
+    conversation_turn: 238
+    turn_id: cc3c58e4-ab4a-474d-9359-c0e3461e094f
+    message_id: cc3c58e4-ab4a-474d-9359-c0e3461e094f
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: ways, but it immediately brings together a large number of materials. For example, we have such materials as painted paper. And if this painted
+    paper is suitable for a specific work, for a visit, then we do not have to choose, wait for 46 points of painted paper, but we just read such a point
+    as painted paper, and it is immediately emphasized that this group of materials works with visits. Do you understand what I'm talking about?”
+  quote_whitespace_normalized: true
+  context_before: Owner proposes grouping many concrete materials under reusable material classes/categories.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - catalog_grouping
+  confidence: high
+- evidence_id: EV-CALC0910-0020
+  speaker: user
+  locator:
+    conversation_turn: 240
+    turn_id: aba2a8e6-a46b-45e3-a437-bec0154400a9
+    message_id: aba2a8e6-a46b-45e3-a437-bec0154400a9
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: пери меловані не підходять, бо вони дуже м'які, візитка з них не може бути зроблена. Тобто, ця характеристика групування по плотності. У нас може
+    бути групування по типу матеріалу, наприклад, мелований папір, або самоклеюча плівка, або дизайнерський картон. І додаткове групування по плотності
+    в діапазоні від 80 до 150, умовно, від 150 до 250. Те, щоб такі блоки були, щоб ми могли потім групами все-таки більш деталізовано це все назначати
+    продуктам. А це дуже сильно спростить нам роботу в майбутньому.”
+  quote_whitespace_normalized: true
+  context_before: Owner adds grammage/density ranges as a second reusable dimension for assigning materials to products.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - catalog_grouping
+  confidence: high
+- evidence_id: EV-CALC0910-0021
+  speaker: user
+  locator:
+    conversation_turn: 444
+    turn_id: 02d1d733-7e69-45c9-a58f-ea6238def2d4
+    message_id: 02d1d733-7e69-45c9-a58f-ea6238def2d4
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: '--------------------------------------- Таблиць опрацьовано: 1, змінених: 1 Рядків: було=0, у dump≈3, стало=3 ✅ Restore done. printmaster@Designer:~/calculator_engine$
+    make db-restore python3 source/utils/db/db-restore.py /home/printmaster/calculator_engine/source/utils/db/db-restore.py:188: SyntaxWarning: invalid
+    escape sequence ''\.'' """ Доступні дампи: 1. /home/printmaster/calculator_engine/data/backups/db_SEL_materials_20251118_075622.dump (2025-11-18 07:56:23,
+    3KB) 2. /home/printmaster/calculator_engine/data/backups/db_SEL_product_kind_print_colors_20251118_075429.dump (2025-11-18 07:54:29, 4KB) 3. /home/printmaster/calculator_engine/data/backups/db_SEL_sizes_20251116_173'
+  quote_whitespace_normalized: true
+  context_before: User terminal output shows a successful historical full restore with before/dump/after row report.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - backup_restore
+  confidence: high
+- evidence_id: EV-CALC0910-0022
+  speaker: user
+  locator:
+    conversation_turn: 462
+    turn_id: 081cf65e-362b-4647-beb9-e9a33aa57086
+    message_id: 081cf65e-362b-4647-beb9-e9a33aa57086
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: документації проєкта тестування і діагностика теж важливо в більшості твої пропозиції мені подобаються я хочу максимально модульно відокремлену
+    систему де кожен великий модуль типу докер або django лежать в своїх каталогах зі своєю чіткою архітектурою і не плутаються один з одним назви каталогів
+    і скриптів теж давай не будемо писати дуже стисло хай вони будуть трохи інформативніші давай ще раз опрацюй запит Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Owner requires a clean modular repository layout with Docker/Django/etc. separated and informative names.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - repository_structure
+  confidence: high
+- evidence_id: EV-CALC0910-0023
+  speaker: user
+  locator:
+    conversation_turn: 464
+    turn_id: 590739d2-c1c0-49ce-a1d8-f02efc3f2e40
+    message_id: 590739d2-c1c0-49ce-a1d8-f02efc3f2e40
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: важливо зробити зараз і в майбутньму треба не відходити від цієї стратегії у нас є файл з шляхами я хочу щоб всі шляхи ми прописували в цьму файлі
+    у нас ще є .env за потреби можемо створити ще якийсь службовий файл але в скриптах я хочу щоб ми використовували тільки глобальні перемінні для вказування
+    шляхів бо в майбутньму якщо ми захочемо щось змінити в архітектурі то наші всі скрипти розваляться митьєво і піде багато часу на відновлення а так треба
+    поправити тільки одну чи дві глобальні перемінні давай почнемо з цього Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Owner requires centralized path definitions and forbids repeated hard-coded paths in scripts.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - path_policy
+  confidence: high
+- evidence_id: EV-CALC0910-0024
+  speaker: user
+  locator:
+    conversation_turn: 470
+    turn_id: cf2056ce-09e2-4eb6-bb00-46f6f1b5db37
+    message_id: cf2056ce-09e2-4eb6-bb00-46f6f1b5db37
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: 'опишемо відразу по максимуму всі шляхи щоб не бігіти туди по 100раз і донаповнювати важливо йти по схемі коли більш довгі шляхи не прописуються
+    повністю а використовють уже існуючі перемінні для скорочення запису даю тобі деякі шляхи для прикладу якы ми використовуэмо у make SHELL := /bin/bash
+    .SHELLFLAGS := -eu -o pipefail -c .ONESHELL: # --- Paths / tools ----------------------------------------------------------- VENV := .venv_calculator
+    PY := $(CURDIR)/$(VENV)/bin/python UVICORN := $(CURDIR)/$(VENV)/bin/uvicorn API_DIR := apps/api ALEMBIC := $(CURDIR)/$(VENV)/bin/alembic ADMIN_DIR :=
+    apps/admin/ MANAGE := $(CURDIR)/$(ADMIN_DIR)/manage.py DC := docker compose -f docker/docker-compose.yml --env-file .'
+  quote_whitespace_normalized: true
+  context_before: Owner requires longer paths to be derived from existing path variables instead of repeated absolute strings.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - path_policy
+  confidence: high
+- evidence_id: EV-CALC0910-0025
+  speaker: user
+  locator:
+    conversation_turn: 600
+    turn_id: c695d88a-a8d9-422b-be04-4875bf937319
+    message_id: c695d88a-a8d9-422b-be04-4875bf937319
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: 'и купу викликів і такі шляхи volumes: - ../../../state/postgres:/var/lib/postgresql/data теж якість підозрвлв не буде проблем потім при перенеосі
+    на інший диск як ми планували Show more Show less'
+  quote_whitespace_normalized: true
+  context_before: Owner explicitly raises portability risk from relative volume paths during future storage migration.
+  context_after: null
+  evidence_role:
+  - owner_risk
+  - portability
+  confidence: high
+- evidence_id: EV-CALC0910-0026
+  speaker: user
+  locator:
+    conversation_turn: 656
+    turn_id: d521b745-a5a3-446e-8415-208292dc1089
+    message_id: d521b745-a5a3-446e-8415-208292dc1089
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: /app# tree -L 2 /opt/forprint-project/calculator_engine/app tree -L 3 /opt/forprint-project/calculator_engine/_quarantine /opt/forprint-project/calculator_engine/app
+    ├── apps │ ├── admin │ └── api ├── config │ ├── base.toml │ ├── dev.toml │ ├── paths.py │ └── settings.py ├── data │ ├── data_base │ └── seeds ├── docs
+    │ ├── architecture │ ├── db │ ├── modules │ ├── ops │ ├── project_config │ ├── readme_arj │ ├── README.md │ ├── reference │ └── style ├── infra │ ├──
+    db │ └── docker ├── Makefile ├── pyproject.toml ├── README.md ├── requirements │ ├── admin.txt │ ├── app.txt │ └── dev.txt ├── source │ └── utils ├──
+    tests │ └── unit ├── tmp └── tools └── db 28 directories, 11 fi
+  quote_whitespace_normalized: true
+  context_before: Terminal tree shows legacy backups/logs/old Makefiles moved into a quarantine structure during repository cleanup/migration.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - legacy_cleanup
+  confidence: high
+- evidence_id: EV-CALC0910-0027
+  speaker: user
+  locator:
+    conversation_turn: 704
+    turn_id: 3a12aa32-33cf-4d7b-8b32-cf96fb5e2b4a
+    message_id: 3a12aa32-33cf-4d7b-8b32-cf96fb5e2b4a
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: 'комітимо) ├─ .env.example # приклад без секретів ├─ Makefile # робочі задачі └─ README.md 4) Конфіги та шляхи У коді не пишемо «жорстких» шляхів
+    — беремо їх із paths.py / settings.py. Якщо з’являється новий «імпліцитний» шлях — спершу додаємо його в paths.py (з коментарем), потім використовуємо
+    в скриптах. Змінні з .env зчитуємо в settings.py і не дублюємо в коді. 5) Docker make up # підняти make down # зупинити make ps # статус make logs #
+    стрім логів Файл docker/docker-compose.yml — єдина точка правди для локальних сервісів (Postgres, Redis і т.д.). 6) Домовленості щодо скриптів На початку
+    файлу — команда запуску в коментарі: # python -m package.module. Далі — велика шапка-докстринг: призначен'
+  quote_whitespace_normalized: true
+  context_before: Visible README snapshot records centralized paths/settings and Docker compose as local-service truth.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - documentation_snapshot
+  confidence: high
+- evidence_id: EV-CALC0910-0028
+  speaker: user
+  locator:
+    conversation_turn: 770
+    turn_id: f47235f9-4d79-466f-9f3d-0845c3c82a3e
+    message_id: f47235f9-4d79-466f-9f3d-0845c3c82a3e
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: ytest "/srv/software_development/forprint-project/calculator_engine/app/support/tests" -q ............ [100%] 12 passed in 0.58s (.venv_calculator)
+    root@s01:/srv/software_development/forprint-project/calculator_engine/app# Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Terminal output shows Django check clean and 12 support tests passing at one historical checkpoint.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - validation
+  confidence: high
+- evidence_id: EV-CALC0910-0029
+  speaker: user
+  locator:
+    conversation_turn: 894
+    turn_id: 3309c52b-f8b5-461f-85cc-0b9949d8b943
+    message_id: 3309c52b-f8b5-461f-85cc-0b9949d8b943
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: 'Pasted text.txt Document так супер але ще треба передбачити наприклад якщо данні з сайту пришли некоректні то ми маємо як мінімум не впасти а
+    профільтрувати їх і також дуже важливо я нехочу щоб конфлікти десь лягали в тихі логи які потім ніхто не буде дивитись а відразу формувалось сповіщення
+    на телеграм зі звітом коротким конфлікту ну а розширені логи тов же н сервері зрозуміло формуються для більш детального аналізу тести не пішли (.venv_calculator)
+    root@s01:/srv/software_development/forprint-project/calculator_engine/app# curl -X POST "http://127.0.0.1:8000/intake/orders/quote" \ -H "Content-Type:
+    application/json" \ -d ''{ "source": "external", "brand_cod'
+  quote_whitespace_normalized: true
+  context_before: Owner requires malformed external Website data to be filtered/handled without crashing the Calculator.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - external_intake
+  confidence: high
+- evidence_id: EV-CALC0910-0030
+  speaker: user
+  locator:
+    conversation_turn: 894
+    turn_id: 3309c52b-f8b5-461f-85cc-0b9949d8b943
+    message_id: 3309c52b-f8b5-461f-85cc-0b9949d8b943
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: 'важливо я нехочу щоб конфлікти десь лягали в тихі логи які потім ніхто не буде дивитись а відразу формувалось сповіщення на телеграм зі звітом
+    коротким конфлікту ну а розширені логи тов же н сервері зрозуміло формуються для більш детального аналізу тести не пішли (.venv_calculator) root@s01:/srv/software_development/forprint-project/calculator_engine/app#
+    curl -X POST "http://127.0.0.1:8000/intake/orders/quote" \ -H "Content-Type: application/json" \ -d ''{ "source": "external", "brand_code": "printmaster_pl",
+    "idempotency_key": "idem-manual-5001", "external_order_id": "SITE-ORDER-5001", "external_customer_id": "SITE-CUSTOMER-5001", "product_template_code":
+    "business_card_standard", "'
+  quote_whitespace_normalized: true
+  context_before: Owner requires significant intake/conflict failures to raise an immediate compact Telegram alert while detailed logs remain server-side.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - operational_alerting
+  confidence: high
+- evidence_id: EV-CALC0910-0031
+  speaker: user
+  locator:
+    conversation_turn: 898
+    turn_id: 2ee69963-eaeb-4869-aca3-a105ec0c6f17
+    message_id: 2ee69963-eaeb-4869-aca3-a105ec0c6f17
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: 'intake_quote_api.py::test_external_intake_quote_reuses_existing_job_by_idempotency_key - assert True is False 1 failed, 35 passed in 2.19s make:
+    *** [Makefile:197: test] Error 1 (.venv_calculator) root@s01:/srv/software_development/forprint-project/calculator_engine/app# .venv_calculator) root@s01:/srv/software_development/forprint-project/calculator_engine/app#
+    curl -X POST "http://127.0.0.1:8000/intake/orders/quote" -H "Content-Type: application/json" -d ''{ "source": "external", "brand_code": " printmaster_pl
+    ", "idempotency_key": " idem-manual-5001 ", "external_order_id": " SITE-ORDER-5001 ", "external_customer_id": " SITE-CUSTOMER-5001 ", "product_template_code":
+    " business_ca'
+  quote_whitespace_normalized: true
+  context_before: Historical test run shows one failing idempotency test amid 35 passing tests before further fixes.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - validation
+  confidence: high
+- evidence_id: EV-CALC0910-0032
+  speaker: user
+  locator:
+    conversation_turn: 898
+    turn_id: 2ee69963-eaeb-4869-aca3-a105ec0c6f17
+    message_id: 2ee69963-eaeb-4869-aca3-a105ec0c6f17
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: 'mplate_code": "business_card_standard", "material_code": "tintoretto_neve_300", "quantity": 200 }'' {"detail":"Idempotency key already exists
+    for different request payload."}(.venv_calculator) root@s01:/srv/software_development/forprint-project/calculator_engine/app# Show more Show less'
+  quote_whitespace_normalized: true
+  context_before: Visible API output demonstrates historical conflict detection for reused idempotency key with changed payload.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - idempotency
+  confidence: high
+- evidence_id: EV-CALC0910-0033
+  speaker: user
+  locator:
+    conversation_turn: 898
+    turn_id: 2ee69963-eaeb-4869-aca3-a105ec0c6f17
+    message_id: 2ee69963-eaeb-4869-aca3-a105ec0c6f17
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: ency":"EUR","source_locale":"brand-default","source_currency":"brand-default","brand_code":"printmaster_pl"},"human_report":{"report_type":"human_quote","calculation_id":"04c0cf5e-7ce5-4c69-becb-ccc2a075c2d3","source":"external","brand_code":"printmaster_pl","customer_ref":"","external_order_id":"SITE-ORDER-5001","product_template_code":"business_card_standard","material_code":"tintoretto_neve_300","quantity":100,"selected_operation_codes":["foil"],"locale":"pl","currency":"EUR","route":[{"operation_code":"guillotine_cut","operation_name":"Cięcie
+    gilotynowe","operation_group":"cutting","handler_code":"guillotine_cut","sequence_order":10,"source":"required"},{"operation_code
+  quote_whitespace_normalized: true
+  context_before: Visible quote response contains structured human/external reports, locale/currency and detailed material/operation line items.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - quote_contract
+  confidence: high
+- evidence_id: EV-CALC0910-0034
+  speaker: user
+  locator:
+    conversation_turn: 922
+    turn_id: ed3a7603-07ca-4dd9-9969-b5b503f0051f
+    message_id: ed3a7603-07ca-4dd9-9969-b5b503f0051f
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: 'еба передбачити незнаю чи торкає він бекенд чи тільки фронт треба передбачити що калькулятор буде працювати з мобільними пристороями і думаю що
+    точно буде мобільна версія щоб користувач мігна телефоні легко зробити прорахунок щось не пішло .venv_calculator) root@s01:/srv/software_development/forprint-project/calculator_engine/app#
+    curl -X POST "http://127.0.0.1:8000/intake/orders/quote" \ -H "Content-Type: application/json" \ -d ''{ "source": "external", "brand_code": "printmaster_pl",
+    "product_template_code": "business_card_standard", "material_code": "tintoretto_neve_300", "quantity": 100 }'' Internal Server Error(.venv_calculator)
+    root@s01:/srv/software_development/forprint-project/'
+  quote_whitespace_normalized: true
+  context_before: Owner requires Calculator to support future mobile clients, not only desktop/web usage.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - mobile
+  confidence: high
+- evidence_id: EV-CALC0910-0035
+  speaker: user
+  locator:
+    conversation_turn: 922
+    turn_id: ed3a7603-07ca-4dd9-9969-b5b503f0051f
+    message_id: ed3a7603-07ca-4dd9-9969-b5b503f0051f
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: 'ss_card_standard", "material_code": "missing_material", "quantity": 100 }'' {"status":"error","error":{"code":"material_not_found","message":"Material
+    not found.","detail":"Material not found: missing_material","request_id":"b239dd4a-fdf7-4064-8c66-8b873b8e5307","retryable":false},"meta":{"schema_version":"v1","request_id":"b239dd4a-fdf7-4064-8c66-8b873b8e5307"}}(.venv_calculator)
+    root@s01:/srv/software_development/forprint-project/calculator_engine/app# curl "http://127.0.0.1:8000/reports/jobs/<JOB_PUBLIC_ID>" Internal Server
+    Error(.venv_calculator) root@s01:/srv/software_development/forprint-project/calculator_engine/app# відносно data я зробив так payload = report_response.json'
+  quote_whitespace_normalized: true
+  context_before: Visible API output demonstrates structured `material_not_found` error with request_id/retryability metadata.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - api_errors
+  confidence: high
+- evidence_id: EV-CALC0910-0036
+  speaker: user
+  locator:
+    conversation_turn: 1022
+    turn_id: 031e87e4-bf42-4a9e-be41-3dabd1d21238
+    message_id: 031e87e4-bf42-4a9e-be41-3dabd1d21238
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: Pasted text.txt Document так у нас є уточнюючий промт від blueprint ознайомся і дай своє бачення чи все вірно blueprint оцінив чи треба щось уточнити
+    відкорегувати щоб ми рухались єфективно
+  quote_whitespace_normalized: true
+  context_before: Owner asks Calculator to reconcile its direction against a Blueprint clarification before proceeding.
+  context_after: null
+  evidence_role:
+  - owner_process_rule
+  - blueprint_coordination
+  confidence: high
+- evidence_id: EV-CALC0910-0037
+  speaker: user
+  locator:
+    conversation_turn: 1026
+    turn_id: 02b1403e-348b-41ac-9bc9-7d2dd9195966
+    message_id: 02b1403e-348b-41ac-9bc9-7d2dd9195966
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: так у нас є уточнення якщо тепер все ясно то будемо рухатись в перед коли зробимо весь обсяг поточної роботи дамо новий звіт на blueprint з намірами
+    на подальші дії скорегуємо план і знову рухнемося далі
+  quote_whitespace_normalized: true
+  context_before: 'Owner defines an iterative loop: finish bounded work, report intentions/results to Blueprint, adjust the plan, then continue.'
+  context_after: null
+  evidence_role:
+  - owner_process_rule
+  - blueprint_coordination
+  confidence: high
+- evidence_id: EV-CALC0910-0038
+  speaker: user
+  locator:
+    conversation_turn: 1094
+    turn_id: bac4490a-4dd4-45c4-902e-0b8307c59dbe
+    message_id: bac4490a-4dd4-45c4-902e-0b8307c59dbe
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: Pasted markdown.md File так давай організуємо координцію з blueprint через git і потім звіримо цілі і вже потім підемо далі
+  quote_whitespace_normalized: true
+  context_before: Owner explicitly wants Calculator↔Blueprint coordination through Git before continuing development.
+  context_after: null
+  evidence_role:
+  - owner_process_rule
+  - blueprint_coordination
+  confidence: high
+- evidence_id: EV-CALC0910-0039
+  speaker: user
+  locator:
+    conversation_turn: 1108
+    turn_id: a73d0d7f-5665-4f2f-ba7a-13786d72b1f1
+    message_id: a73d0d7f-5665-4f2f-ba7a-13786d72b1f1
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: Pasted text.txt Document так давай Git/coordination діяльність поки призупинимо трохи пізніше до неї повернемось зараз є наступний промт від blueprint
+  quote_whitespace_normalized: true
+  context_before: Owner deliberately pauses one coordination activity when a newer Blueprint prompt becomes the immediate next input.
+  context_after: null
+  evidence_role:
+  - owner_process_rule
+  - coordination_pause
+  confidence: high
+- evidence_id: EV-CALC0910-0040
+  speaker: user
+  locator:
+    conversation_turn: 1148
+    turn_id: 32d9c9bf-6480-43d3-899a-feee9be98cf0
+    message_id: 32d9c9bf-6480-43d3-899a-feee9be98cf0
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: v_calculator) root@s01:/srv/software_development/forprint-project/calculator_engine/app# git log -1 --oneline eba5384 (HEAD -> main, origin/main)
+    Add final coordination checkpoint and controlled pause (.venv_calculator) root@s01:/srv/software_development/forprint-project/calculator_engine/app#
+    Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Terminal output shows historical final commit `eba5384` on `main` with `origin/main` at the same commit.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - git_checkpoint
+  confidence: high
+- evidence_id: EV-CALC0910-0041
+  speaker: assistant
+  locator:
+    conversation_turn: 1149
+    turn_id: a86aad70-470b-4d9b-b1a1-f2b33ca81405
+    message_id: 1217ef80-15dc-4f85-9738-15fb4fa0d75b
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: 'альний coordination checkpoint закомічений commit: eba5384 main синхронний з origin/main модуль переведений у controlled pause за імпортованою
+    Blueprint directive Це означає, що зараз calculator_engine зупинений у чистій точці: стан репозиторію оформлений coordination metadata оновлені Blueprint
+    sync/import працює нову функціональність ми свідомо не додаємо до наступного сигналу На цій точці правильно просто чекати наступний активний напрямок
+    від Blueprint або твою команду на resume.'
+  quote_whitespace_normalized: true
+  context_before: Historical assistant states the module is in controlled pause after imported Blueprint directive and no new functionality should be added
+    until resume.
+  context_after: null
+  evidence_role:
+  - assistant_historical_summary
+  - pause_state
+  confidence: high
+- evidence_id: EV-CALC0910-0042
+  speaker: assistant
+  locator:
+    conversation_turn: 1151
+    turn_id: 038df1c3-c734-47cb-8261-d6aeade12627
+    message_id: 82ec4390-daed-4e01-90cf-cb9a9a486bbb
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: 'lator_engine/active/....md" archived: [] Тобто active directives лежать не в top-level directives , а в: YAML module_directives.active Через це
+    sync-script: не падав; але просто не бачив жодної active directive ; і тому показував: No new active directives imported. Додатковий практичний нюанс
+    Ми також вперлися в дрібну операційну проблему: якщо запускати перевірки з піддиректорії coordination/ , то відносні шляхи типу: scripts/sync_blueprint_directives.py
+    не знаходяться. Це не архітектурний баг, а просто нюанс: ці команди треба запускати з кореня модуля, або робити шляхи абсолютно незалежними від cwd
+    . Але головна проблема була саме не в цьому, а в структурі index.yaml . Як ми це випра'
+  quote_whitespace_normalized: true
+  context_before: Historical bug report identifies that the local sync parser expected top-level directives/prompts but Blueprint used `module_directives.active`.
+  context_after: null
+  evidence_role:
+  - assistant_bug_report
+  - blueprint_integration
+  confidence: high
+- evidence_id: EV-CALC0910-0043
+  speaker: assistant
+  locator:
+    conversation_turn: 1151
+    turn_id: 038df1c3-c734-47cb-8261-d6aeade12627
+    message_id: 82ec4390-daed-4e01-90cf-cb9a9a486bbb
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: 'mported. Додатковий практичний нюанс Ми також вперлися в дрібну операційну проблему: якщо запускати перевірки з піддиректорії coordination/ ,
+    то відносні шляхи типу: scripts/sync_blueprint_directives.py не знаходяться. Це не архітектурний баг, а просто нюанс: ці команди треба запускати з кореня
+    модуля, або робити шляхи абсолютно незалежними від cwd . Але головна проблема була саме не в цьому, а в структурі index.yaml . Як ми це виправили Ми
+    оновили sync-parser так, щоб він: читав реальний Blueprint module index; підтримував структуру: YAML module_directives.active для backward compatibility
+    залишав fallback-перевірку на старіші варіанти: directives prompts Після цього команда: make bluepri'
+  quote_whitespace_normalized: true
+  context_before: Historical bug report notes sync/check commands could fail when launched outside module root because paths were cwd-dependent.
+  context_after: null
+  evidence_role:
+  - assistant_bug_report
+  - path_policy
+  confidence: high
+- evidence_id: EV-CALC0910-0044
+  speaker: assistant
+  locator:
+    conversation_turn: 1151
+    turn_id: 038df1c3-c734-47cb-8261-d6aeade12627
+    message_id: 82ec4390-daed-4e01-90cf-cb9a9a486bbb
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: 'ueprint module index; підтримував структуру: YAML module_directives.active для backward compatibility залишав fallback-перевірку на старіші варіанти:
+    directives prompts Після цього команда: make blueprint-sync-directives почала працювати правильно і змогла імпортувати: 2026-06-03__calculator_engine__directive__final-coordination-checkpoint-and-pause-v1
+    у: coordination/prompts/received/ Що Blueprint варто врахувати Було б корисно зафіксувати системно одне з двох: Варіант A — стандартизувати schema index-файлів
+    Чітко визначити, що module directives index всюди має структуру: YAML module_directives: active: [] archived: [] і що саме ця структура є canonical.
+    Варіант B — дозволити кі'
+  quote_whitespace_normalized: true
+  context_before: Historical fix description says parser supports `module_directives.active` while retaining fallbacks for older `directives`/`prompts`
+    shapes.
+  context_after: null
+  evidence_role:
+  - assistant_bug_report
+  - compatibility
+  confidence: high
+- evidence_id: EV-CALC0910-0045
+  speaker: assistant
+  locator:
+    conversation_turn: 1151
+    turn_id: 038df1c3-c734-47cb-8261-d6aeade12627
+    message_id: 82ec4390-daed-4e01-90cf-cb9a9a486bbb
+    source_file: Asistant_Calculator_Engine_09.10.26.mhtml
+  quote: 'Так, ось готовий опис, який можна передати в Blueprint. Проблема, з якою ми зіткнулися при роботі з Blueprint directives У Calculator Engine ми
+    реалізували локальну команду імпорту active Blueprint directives: make blueprint-sync-directives Симптом проблеми Команда: проходила без явної помилки;
+    повертала Blueprint directive sync result: OK ; але не імпортувала нові active directives у локальну папку: coordination/prompts/received/ Зокрема,
+    директива: 2026-06-03__calculator_engine__directive__final-coordination-checkpoint-and-pause-v1 існувала в Blueprint repo, але локально в Calculator
+    спочатку не з’являлася. Корінь проблеми Проблема була не в доступі до репозиторію і не в копіюванні markdown-файлів. Проблема була в невідповідності
+    очікуваної та реальної структури Blueprint module directives index . Що очікував наш sync-script Скрипт споч'
+  quote_whitespace_normalized: true
+  context_before: Historical recommendation asks Blueprint to standardize/validate directive-index schema centrally so modules do not guess it.
+  context_after: null
+  evidence_role:
+  - assistant_recommendation
+  - standards
+  confidence: high
+items:
+- item_id: IT-CALC0910-0001
+  kind: architecture_constraint
+  title: Calculator is a data-driven pricing/calculation engine, not a hard-coded price list
+  statement: Historical intent is that prices, variants, tiers, options and audience modifiers can change without rewriting bot/application code.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - calculator_engine
+  - pricing
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - schemas
+  - admin
+  evidence_refs:
+  - EV-CALC0910-0002
+  - EV-CALC0910-0004
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CALC0910-0002
+  kind: requirement
+  title: Pricing supports audience-specific B2B/B2C presentation and modifiers
+  statement: Historical owner intent requires different pricing/display behavior by customer segment rather than one universal presentation.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - calculator_engine
+  - pricing
+  - channels
+  implementation_expectation: required
+  verification_targets:
+  - schemas
+  - code
+  - tests
+  evidence_refs:
+  - EV-CALC0910-0003
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CALC0910-0003
+  kind: requirement
+  title: Bulk pricing policies must support filtered group changes
+  statement: The management surface should support policy-like mass price adjustments over filtered product groups instead of manual row-by-row editing.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - calculator_engine
+  - pricing
+  - admin
+  implementation_expectation: required
+  verification_targets:
+  - admin
+  - policy
+  - tests
+  evidence_refs:
+  - EV-CALC0910-0004
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CALC0910-0004
+  kind: integration
+  title: Calculator pricing capability must be reusable by Telegram and future Website/mobile clients
+  statement: Historical owner intent consistently treats Calculator as a reusable backend capability consumed by multiple channels.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - calculator_engine
+  - telegram
+  - website
+  - mobile
+  implementation_expectation: required
+  verification_targets:
+  - contracts
+  - api
+  - tests
+  evidence_refs:
+  - EV-CALC0910-0002
+  - EV-CALC0910-0005
+  - EV-CALC0910-0034
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CALC0910-0005
+  kind: process_rule
+  title: Calculator implementation should move in bounded incremental steps
+  statement: Owner explicitly prefers small verified steps rather than receiving/implementing many future steps at once.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - calculator_engine
+  - development_process
+  implementation_expectation: required
+  verification_targets:
+  - roadmap
+  - docs
+  evidence_refs:
+  - EV-CALC0910-0006
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CALC0910-0006
+  kind: nonfunctional_requirement
+  title: Calculator code must remain understandable years later
+  statement: Detailed comments, docstrings, README/process documentation and explanatory structure are treated as first-class maintainability requirements.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - calculator_engine
+  - documentation
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - code_review
+  evidence_refs:
+  - EV-CALC0910-0008
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CALC0910-0007
+  kind: architecture_constraint
+  title: Initial domain rollout uses a few representative products before scaling
+  statement: Owner chooses business cards, flyers and a booklet-like product as pilot cases to stabilize schema/calculation flow before adding the full
+    catalog.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - calculator_engine
+  - roadmap
+  implementation_expectation: required
+  verification_targets:
+  - data
+  - tests
+  - roadmap
+  evidence_refs:
+  - EV-CALC0910-0012
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CALC0910-0008
+  kind: data_contract
+  title: Product/catalog relationships must scale without manual per-product enumeration
+  statement: Product capabilities/materials/options should be assigned through reusable categories/rules/ranges rather than hand-coding every allowed pair.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - calculator_engine
+  - catalog
+  implementation_expectation: required
+  verification_targets:
+  - schemas
+  - admin
+  - tests
+  evidence_refs:
+  - EV-CALC0910-0015
+  - EV-CALC0910-0019
+  - EV-CALC0910-0020
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CALC0910-0009
+  kind: requirement
+  title: Material/product labels must be user-friendly
+  statement: Technical material data should expose understandable display names for ordinary users even when internal attributes remain precise.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - calculator_engine
+  - catalog
+  - ux
+  implementation_expectation: required
+  verification_targets:
+  - schemas
+  - admin
+  - api
+  evidence_refs:
+  - EV-CALC0910-0014
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CALC0910-0010
+  kind: data_contract
+  title: Material eligibility supports class plus grammage/range constraints
+  statement: Historical model groups materials by reusable type/category and density/grammage ranges so product eligibility can be assigned efficiently.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - calculator_engine
+  - catalog
+  implementation_expectation: required
+  verification_targets:
+  - schemas
+  - tests
+  evidence_refs:
+  - EV-CALC0910-0019
+  - EV-CALC0910-0020
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CALC0910-0011
+  kind: requirement
+  title: Calculator needs a serious scalable admin/data-management surface
+  statement: Owner rejects throwaway primitive tooling and asks for an extensible admin surface that can manage data/relationships and support multiple
+    administrators.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - calculator_engine
+  - admin
+  implementation_expectation: required
+  verification_targets:
+  - admin
+  - auth
+  - tests
+  evidence_refs:
+  - EV-CALC0910-0016
+  - EV-CALC0910-0017
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CALC0910-0012
+  kind: risk
+  title: Historical idea of one admin controlling the whole project conflicts with later module boundaries
+  statement: The owner once envisioned a powerful admin framework for the wider project; later Blueprint architecture assigns canonical references, operations,
+    accounting and routing to separate modules, so Calculator admin must remain bounded.
+  dialogue_status: superseded
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - calculator_engine
+  - admin
+  - architecture
+  implementation_expectation: required
+  verification_targets:
+  - architecture
+  - manifest
+  evidence_refs:
+  - EV-CALC0910-0016
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Reconcile against current Blueprint ownership; do not make Calculator a god-admin.
+- item_id: IT-CALC0910-0013
+  kind: architecture_constraint
+  title: Database schema evolution is migration-controlled
+  statement: Historical intent is for Alembic to be the reproducible schema migration authority between Calculator code and PostgreSQL environments.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - calculator_engine
+  - database
+  implementation_expectation: required
+  verification_targets:
+  - alembic
+  - tests
+  - docs
+  evidence_refs:
+  - EV-CALC0910-0011
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CALC0910-0014
+  kind: implementation_claim
+  title: Historical Calculator had request-id logging and Alembic infrastructure
+  statement: A visible assistant state recap reports RequestIdFilter/middleware logging and working Alembic migrations at that checkpoint.
+  dialogue_status: accepted
+  importance: normal
+  confidence: medium
+  owner_or_domain:
+  - calculator_engine
+  - observability
+  - database
+  implementation_expectation: unverifiable
+  verification_targets:
+  - code
+  - tests
+  evidence_refs:
+  - EV-CALC0910-0010
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Assistant historical summary only; current repo not audited.
+- item_id: IT-CALC0910-0015
+  kind: architecture_constraint
+  title: Django admin models historically project existing tables while Alembic owns schema
+  statement: Visible historical code marks Django catalog models `managed=False`, separating admin UI mapping from schema migration authority.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - calculator_engine
+  - admin
+  - database
+  implementation_expectation: unverifiable
+  verification_targets:
+  - code
+  - alembic
+  evidence_refs:
+  - EV-CALC0910-0018
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical code evidence only.
+- item_id: IT-CALC0910-0016
+  kind: requirement
+  title: Backup/restore tooling must be explicit about scope and outcomes
+  statement: Historical database utilities report which tables/data are in a dump, what will be restored and before/dump/after counts so selective operations
+    do not silently alter unrelated data.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - calculator_engine
+  - database
+  - operations
+  implementation_expectation: required
+  verification_targets:
+  - scripts
+  - tests
+  - reports
+  evidence_refs:
+  - EV-CALC0910-0021
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CALC0910-0017
+  kind: architecture_constraint
+  title: Repository structure should be modular with informative boundaries
+  statement: Docker, Django/admin, API, DB utilities, docs/tests/diagnostics and other major concerns should live in clear separate directories instead
+    of a crowded root.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - calculator_engine
+  - repository_structure
+  implementation_expectation: required
+  verification_targets:
+  - repo
+  - docs
+  evidence_refs:
+  - EV-CALC0910-0022
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CALC0910-0018
+  kind: architecture_constraint
+  title: All filesystem paths must be centralized and composable
+  statement: Scripts should consume centralized path/settings definitions; long paths should be derived from shorter canonical roots rather than repeated
+    literals.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - calculator_engine
+  - configuration
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - scripts
+  - tests
+  evidence_refs:
+  - EV-CALC0910-0023
+  - EV-CALC0910-0024
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CALC0910-0019
+  kind: nonfunctional_requirement
+  title: Calculator path/storage configuration must remain portable
+  statement: Historical owner explicitly worries about future disk/server relocation; path/volume configuration should not bind the system to one machine
+    layout.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - calculator_engine
+  - portability
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - docker
+  - tests
+  evidence_refs:
+  - EV-CALC0910-0025
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CALC0910-0020
+  kind: process_rule
+  title: Legacy repository state may be quarantined during structural cleanup
+  statement: Historical tree shows old backups/logs/Makefiles and previous WSL state moved into `_quarantine` instead of remaining mixed into active application
+    layout.
+  dialogue_status: accepted
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - calculator_engine
+  - repository_hygiene
+  implementation_expectation: unverifiable
+  verification_targets:
+  - repo
+  - git
+  evidence_refs:
+  - EV-CALC0910-0026
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical filesystem evidence only.
+- item_id: IT-CALC0910-0021
+  kind: implementation_claim
+  title: A historical refactor checkpoint had clean Django check and 12 passing support tests
+  statement: Visible terminal output reports `System check identified no issues` and `12 passed in 0.58s`.
+  dialogue_status: accepted
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - calculator_engine
+  - validation
+  implementation_expectation: unverifiable
+  verification_targets:
+  - tests
+  evidence_refs:
+  - EV-CALC0910-0028
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical checkpoint only.
+- item_id: IT-CALC0910-0022
+  kind: architecture_constraint
+  title: External quote intake must fail safely on malformed channel data
+  statement: Website/external payload errors should be validated/normalized into explicit failures rather than crash Calculator or corrupt calculation state.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - calculator_engine
+  - external_intake
+  implementation_expectation: required
+  verification_targets:
+  - api
+  - schemas
+  - tests
+  evidence_refs:
+  - EV-CALC0910-0029
+  - EV-CALC0910-0035
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CALC0910-0023
+  kind: nonfunctional_requirement
+  title: Operational intake conflicts require visible alerting plus detailed logs
+  statement: Owner does not want important conflicts hidden in logs; compact Telegram alerts should surface incidents while detailed server logs preserve
+    forensic context.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - calculator_engine
+  - observability
+  - telegram
+  implementation_expectation: required
+  verification_targets:
+  - alerts
+  - logs
+  - tests
+  evidence_refs:
+  - EV-CALC0910-0030
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CALC0910-0024
+  kind: architecture_constraint
+  title: Quote intake uses explicit idempotency semantics
+  statement: The same idempotency key must safely identify repeat requests, while the same key with a different payload is a conflict rather than a second
+    calculation.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - calculator_engine
+  - external_intake
+  implementation_expectation: required
+  verification_targets:
+  - api
+  - storage
+  - tests
+  evidence_refs:
+  - EV-CALC0910-0032
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CALC0910-0025
+  kind: implementation_claim
+  title: Historical quote API returned structured human/external reports and line-item calculation output
+  statement: Visible terminal output includes job identity, source/reused state, locale/currency, material and operation lines, subtotal/total, human report
+    and external report.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - calculator_engine
+  - reporting
+  implementation_expectation: unverifiable
+  verification_targets:
+  - api
+  - tests
+  evidence_refs:
+  - EV-CALC0910-0033
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical runtime evidence only.
+- item_id: IT-CALC0910-0026
+  kind: architecture_constraint
+  title: API errors carry stable code and request correlation
+  statement: Historical `material_not_found` output includes a machine code, message/detail, request_id, retryable flag and schema-versioned metadata.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - calculator_engine
+  - api
+  - observability
+  implementation_expectation: unverifiable
+  verification_targets:
+  - api
+  - tests
+  evidence_refs:
+  - EV-CALC0910-0035
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical runtime evidence only.
+- item_id: IT-CALC0910-0027
+  kind: requirement
+  title: Calculator backend contracts must remain usable by mobile clients
+  statement: Owner explicitly expects a mobile calculator experience and asks that current backend design not preclude it.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - calculator_engine
+  - mobile
+  implementation_expectation: required
+  verification_targets:
+  - api
+  - contracts
+  - tests
+  evidence_refs:
+  - EV-CALC0910-0034
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CALC0910-0028
+  kind: risk
+  title: Historical idempotency tests exposed state-isolation risk
+  statement: One visible test run had `1 failed, 35 passed` because the first request unexpectedly appeared reused, indicating that persistent/shared test
+    state may contaminate idempotency expectations.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - calculator_engine
+  - testing
+  implementation_expectation: required
+  verification_targets:
+  - tests
+  - fixtures
+  - storage
+  evidence_refs:
+  - EV-CALC0910-0031
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Verify whether this was later fixed and how test storage is isolated.
+- item_id: IT-CALC0910-0029
+  kind: process_rule
+  title: Calculator work packages should reconcile with Blueprint before the next large front
+  statement: Owner repeatedly requires Blueprint review/clarification and a report→plan-adjustment loop before continuing major work.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - calculator_engine
+  - blueprint_coordination
+  implementation_expectation: required
+  verification_targets:
+  - coordination
+  - reports
+  evidence_refs:
+  - EV-CALC0910-0036
+  - EV-CALC0910-0037
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CALC0910-0030
+  kind: process_rule
+  title: Calculator↔Blueprint coordination should be Git-visible and can be intentionally paused
+  statement: Historical owner wants coordination through Git, but also deliberately pauses coordination activity when a newer Blueprint prompt becomes the
+    controlling input.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - calculator_engine
+  - blueprint_coordination
+  implementation_expectation: required
+  verification_targets:
+  - git
+  - coordination
+  evidence_refs:
+  - EV-CALC0910-0038
+  - EV-CALC0910-0039
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CALC0910-0031
+  kind: implementation_claim
+  title: Historical terminal Calculator checkpoint is commit eba5384 with local and origin main aligned
+  statement: Visible terminal output shows `eba5384 (HEAD -> main, origin/main) Add final coordination checkpoint and controlled pause`.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - calculator_engine
+  - git
+  implementation_expectation: unverifiable
+  verification_targets:
+  - git
+  evidence_refs:
+  - EV-CALC0910-0040
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical terminal evidence only; current repo must be audited.
+- item_id: IT-CALC0910-0032
+  kind: implementation_claim
+  title: Historical terminal state is a controlled pause after Blueprint directive intake
+  statement: The final assistant summary says coordination metadata/sync/import were prepared and new functionality was intentionally stopped pending Blueprint
+    resume.
+  dialogue_status: accepted
+  importance: high
+  confidence: medium
+  owner_or_domain:
+  - calculator_engine
+  - blueprint_coordination
+  implementation_expectation: unverifiable
+  verification_targets:
+  - coordination
+  - git
+  evidence_refs:
+  - EV-CALC0910-0041
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Assistant summary; direct directive body is not visible.
+- item_id: IT-CALC0910-0033
+  kind: risk
+  title: Blueprint directive sync originally failed silently on schema mismatch
+  statement: Local sync reported success/no-new-items while failing to discover active directives because it expected top-level `directives/prompts` instead
+    of actual `module_directives.active`.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - calculator_engine
+  - blueprint
+  - coordination
+  implementation_expectation: required
+  verification_targets:
+  - scripts
+  - schemas
+  - tests
+  evidence_refs:
+  - EV-CALC0910-0042
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CALC0910-0034
+  kind: architecture_constraint
+  title: Directive sync tooling must parse canonical module_directives.active and preserve compatibility deliberately
+  statement: Historical fix supports the real `module_directives.active` structure and explicit fallback for legacy shapes instead of implicit guessing.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - calculator_engine
+  - blueprint
+  - coordination
+  implementation_expectation: required
+  verification_targets:
+  - scripts
+  - tests
+  - docs
+  evidence_refs:
+  - EV-CALC0910-0042
+  - EV-CALC0910-0044
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CALC0910-0035
+  kind: nonfunctional_requirement
+  title: Coordination/check tooling should be independent of current working directory
+  statement: Module commands/scripts should resolve paths from repository identity/root rather than fail when invoked from a subdirectory.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - calculator_engine
+  - coordination
+  - portability
+  implementation_expectation: required
+  verification_targets:
+  - scripts
+  - tests
+  evidence_refs:
+  - EV-CALC0910-0043
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CALC0910-0036
+  kind: process_rule
+  title: Blueprint should centrally validate directive-index schema
+  statement: The historical Calculator feedback recommends one canonical module-directive index schema and central validation so every module does not hand-maintain
+    parsers.
+  dialogue_status: proposed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - standards
+  - calculator_engine
+  implementation_expectation: required
+  verification_targets:
+  - schemas
+  - validators
+  - docs
+  evidence_refs:
+  - EV-CALC0910-0045
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Recommendation from Calculator-side bug report; Blueprint must reconcile.
+- item_id: IT-CALC0910-0037
+  kind: risk
+  title: Early local Calculator catalog/admin is not current canonical reference authority
+  statement: Calculator historically built rich local product/material/admin tables, but later Blueprint permits only temporary local catalog use and assigns
+    canonical references/contracts to Library.
+  dialogue_status: superseded
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - calculator_engine
+  - library
+  - catalog
+  implementation_expectation: required
+  verification_targets:
+  - architecture
+  - contracts
+  evidence_refs:
+  - EV-CALC0910-0013
+  - EV-CALC0910-0016
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Reconcile with current Library Calculator Input Contract.
+- item_id: IT-CALC0910-0038
+  kind: risk
+  title: Direct Website/Telegram integration assumptions must be reconciled with later Gateway/Contract Registry architecture
+  statement: Historical Calculator requirements speak directly in terms of Website/Telegram consumers. Current integration may require routing/versioned
+    agreements through Gateway/Contract Registry/CRM boundaries.
+  dialogue_status: unclear
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - calculator_engine
+  - gateway
+  - contracts
+  implementation_expectation: required
+  verification_targets:
+  - architecture
+  - contracts
+  - api
+  evidence_refs:
+  - EV-CALC0910-0005
+  - EV-CALC0910-0029
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Current architecture, not historical coupling, should decide the runtime path.
+- item_id: IT-CALC0910-0039
+  kind: risk
+  title: Filename date is inconsistent with export and embedded chronology
+  statement: Filename label `09.10.26` is after the 15.09.2026 export date, while visible historical artifacts span 2025–2026 and the terminal Blueprint
+    directive is dated 2026-06-03. Filename must not determine chronology.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - provenance
+  - chronology
+  implementation_expectation: not_required
+  verification_targets:
+  - indexes
+  evidence_refs:
+  - EV-CALC0910-0040
+  - EV-CALC0910-0042
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Preserve filename label separately from logical placement.
+- item_id: IT-CALC0910-0040
+  kind: architecture_constraint
+  title: This Calculator source is module history and cannot supersede current Blueprint/Library/Gateway authority
+  statement: The dialogue is valuable implementation/domain history, but current release/architecture/contracts and live repository state remain superior
+    on conflicts.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - authority
+  - calculator_engine
+  implementation_expectation: required
+  verification_targets:
+  - indexes
+  - docs
+  evidence_refs:
+  - EV-CALC0910-0037
+  - EV-CALC0910-0041
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+relations:
+- relation_id: REL-CALC0910-0001
+  from_item: IT-CALC0910-0007
+  type: enables
+  to_item: IT-CALC0910-0008
+  evidence_refs:
+  - EV-CALC0910-0012
+  - EV-CALC0910-0015
+  confidence: high
+- relation_id: REL-CALC0910-0002
+  from_item: IT-CALC0910-0008
+  type: refines
+  to_item: IT-CALC0910-0010
+  evidence_refs:
+  - EV-CALC0910-0019
+  - EV-CALC0910-0020
+  confidence: high
+- relation_id: REL-CALC0910-0003
+  from_item: IT-CALC0910-0013
+  type: constrains
+  to_item: IT-CALC0910-0015
+  evidence_refs:
+  - EV-CALC0910-0011
+  - EV-CALC0910-0018
+  confidence: high
+- relation_id: REL-CALC0910-0004
+  from_item: IT-CALC0910-0018
+  type: enables
+  to_item: IT-CALC0910-0019
+  evidence_refs:
+  - EV-CALC0910-0023
+  - EV-CALC0910-0025
+  confidence: high
+- relation_id: REL-CALC0910-0005
+  from_item: IT-CALC0910-0022
+  type: constrains
+  to_item: IT-CALC0910-0024
+  evidence_refs:
+  - EV-CALC0910-0029
+  - EV-CALC0910-0032
+  confidence: high
+- relation_id: REL-CALC0910-0006
+  from_item: IT-CALC0910-0024
+  type: supports
+  to_item: IT-CALC0910-0025
+  evidence_refs:
+  - EV-CALC0910-0032
+  - EV-CALC0910-0033
+  confidence: high
+- relation_id: REL-CALC0910-0007
+  from_item: IT-CALC0910-0029
+  type: enables
+  to_item: IT-CALC0910-0030
+  evidence_refs:
+  - EV-CALC0910-0037
+  - EV-CALC0910-0038
+  confidence: high
+- relation_id: REL-CALC0910-0008
+  from_item: IT-CALC0910-0033
+  type: enables
+  to_item: IT-CALC0910-0034
+  evidence_refs:
+  - EV-CALC0910-0042
+  - EV-CALC0910-0044
+  confidence: high
+- relation_id: REL-CALC0910-0009
+  from_item: IT-CALC0910-0035
+  type: related_to
+  to_item: IT-CALC0910-0018
+  evidence_refs:
+  - EV-CALC0910-0043
+  - EV-CALC0910-0024
+  confidence: high
+- relation_id: REL-CALC0910-0010
+  from_item: IT-CALC0910-0037
+  type: constrains
+  to_item: IT-CALC0910-0011
+  evidence_refs:
+  - EV-CALC0910-0016
+  confidence: medium
+- relation_id: REL-CALC0910-0011
+  from_item: IT-CALC0910-0038
+  type: constrains
+  to_item: IT-CALC0910-0004
+  evidence_refs:
+  - EV-CALC0910-0005
+  - EV-CALC0910-0029
+  confidence: medium
+anomalies:
+- anomaly_id: ANOM-CALC0910-0001
+  type: new_unique_calculator_source
+  description: No shared message IDs, source hash or exact substantive message overlap with dialogue sources represented in clean master v2.8.
+  item_refs: []
+  evidence_refs: []
+  severity: normal
+  confidence: high
+  requires_followup: false
+- anomaly_id: ANOM-CALC0910-0002
+  type: filename_date_future_relative_to_export
+  description: Filename says `09.10.26`, but the MHTML was saved on 2026-09-15. Internal evidence also includes 2025 artifacts and a 2026-06-03 Blueprint
+    directive. Filename is not a trustworthy chronology endpoint.
+  item_refs:
+  - IT-CALC0910-0039
+  evidence_refs: []
+  severity: critical
+  confidence: high
+  requires_followup: false
+- anomaly_id: ANOM-CALC0910-0003
+  type: imported_prior_dialogue_embedded_in_single_user_turn
+  description: Turn 3 embeds a large prior ChatGPT conversation. Owner statements inside it are useful secondary historical evidence but have weaker provenance
+    than direct turns in this export.
+  item_refs:
+  - IT-CALC0910-0001
+  - IT-CALC0910-0002
+  - IT-CALC0910-0003
+  - IT-CALC0910-0004
+  - IT-CALC0910-0005
+  - IT-CALC0910-0006
+  evidence_refs:
+  - EV-CALC0910-0002
+  - EV-CALC0910-0006
+  severity: high
+  confidence: high
+  requires_followup: false
+- anomaly_id: ANOM-CALC0910-0004
+  type: sparse_partial_export
+  description: 206 visible turn sections span turn numbers 1–1151, with many missing turns and attachment-only placeholders. Several Blueprint prompts and
+    implementation steps are not recoverable.
+  item_refs:
+  - IT-CALC0910-0032
+  evidence_refs:
+  - EV-CALC0910-0036
+  - EV-CALC0910-0039
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-CALC0910-0005
+  type: calculator_admin_scope_overreach
+  description: Historical owner intent briefly treats the Calculator admin as a possible admin framework for the whole project, conflicting with later Blueprint
+    module boundaries.
+  item_refs:
+  - IT-CALC0910-0012
+  - IT-CALC0910-0037
+  evidence_refs:
+  - EV-CALC0910-0016
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-CALC0910-0006
+  type: local_catalog_vs_library_canonical_authority
+  description: Historical Calculator builds local catalog/reference tables before later Library/Calculator Input Contract authority. Healthy historical
+    implementation must not be mistaken for current canonical ownership.
+  item_refs:
+  - IT-CALC0910-0037
+  evidence_refs:
+  - EV-CALC0910-0013
+  - EV-CALC0910-0019
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-CALC0910-0007
+  type: direct_channel_coupling_vs_gateway_contract_architecture
+  description: Historical Website/Telegram intake assumptions may bypass later Gateway/Contract Registry/CRM boundaries if copied literally.
+  item_refs:
+  - IT-CALC0910-0004
+  - IT-CALC0910-0038
+  evidence_refs:
+  - EV-CALC0910-0005
+  - EV-CALC0910-0029
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-CALC0910-0008
+  type: idempotency_test_state_leak_candidate
+  description: A visible run reports 1 failed/35 passed because the first idempotent request was already marked reused, suggesting persistent state or test-isolation
+    drift at that point.
+  item_refs:
+  - IT-CALC0910-0028
+  evidence_refs:
+  - EV-CALC0910-0031
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-CALC0910-0009
+  type: blueprint_directive_sync_silent_schema_mismatch
+  description: Sync command could report OK/no-new-items while parsing the wrong index shape, a dangerous false-success pattern for coordination.
+  item_refs:
+  - IT-CALC0910-0033
+  - IT-CALC0910-0034
+  - IT-CALC0910-0036
+  evidence_refs:
+  - EV-CALC0910-0042
+  - EV-CALC0910-0045
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-CALC0910-0010
+  type: coordination_tool_cwd_dependency
+  description: Historical coordination checks/importers depended on being run from repository root instead of resolving repository identity independently.
+  item_refs:
+  - IT-CALC0910-0035
+  evidence_refs:
+  - EV-CALC0910-0043
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-CALC0910-0011
+  type: historical_terminal_pause_not_current_state
+  description: Commit `eba5384` and controlled pause are strong historical evidence but cannot be treated as current Calculator state without a live repository
+    audit.
+  item_refs:
+  - IT-CALC0910-0031
+  - IT-CALC0910-0032
+  - IT-CALC0910-0040
+  evidence_refs:
+  - EV-CALC0910-0040
+  - EV-CALC0910-0041
+  severity: critical
+  confidence: high
+  requires_followup: true
+open_loops:
+- loop_id: LOOP-CALC0910-0001
+  description: Audit current Calculator repository identity, branch/HEAD and whether historical `eba5384` remains in ancestry.
+  item_refs:
+  - IT-CALC0910-0031
+  - IT-CALC0910-0032
+  - IT-CALC0910-0040
+  last_known_state: Historical terminal output shows `eba5384` on local and origin main with controlled pause.
+  recommended_verification: Resolve current repo path, remote, branch, exact HEAD, worktree and current Blueprint release before any execution.
+- loop_id: LOOP-CALC0910-0002
+  description: Reconcile Calculator local catalog/admin tables with Library canonical references and Calculator Input Contract.
+  item_refs:
+  - IT-CALC0910-0008
+  - IT-CALC0910-0010
+  - IT-CALC0910-0011
+  - IT-CALC0910-0015
+  - IT-CALC0910-0037
+  last_known_state: Historical Calculator had rich local product/material/admin models; later Blueprint explicitly permits only temporary local catalog
+    and Library owns canonical definitions/contracts.
+  recommended_verification: Map current Library contract/catalog authority, Calculator local projections/cache and migration ownership; remove duplicate
+    canon.
+- loop_id: LOOP-CALC0910-0003
+  description: Verify current quote/external intake contracts, idempotency, errors and report schemas.
+  item_refs:
+  - IT-CALC0910-0022
+  - IT-CALC0910-0024
+  - IT-CALC0910-0025
+  - IT-CALC0910-0026
+  - IT-CALC0910-0028
+  last_known_state: Historical API produced structured quote/error/report responses but had at least one idempotency test-state failure.
+  recommended_verification: Run current contract/focused tests in isolated storage and compare with current Contract Registry/Gateway agreements.
+- loop_id: LOOP-CALC0910-0004
+  description: Resolve current Website/Telegram/mobile routing boundary into Calculator.
+  item_refs:
+  - IT-CALC0910-0004
+  - IT-CALC0910-0027
+  - IT-CALC0910-0038
+  last_known_state: Historical owner wants reusable multi-channel Calculator; later architecture adds Gateway/CRM/Contract Registry boundaries.
+  recommended_verification: Resolve current end-to-end route and versioned contracts; prevent direct channel-specific coupling inside Calculator.
+- loop_id: LOOP-CALC0910-0005
+  description: Verify current centralized path/configuration and cwd-independent command behavior.
+  item_refs:
+  - IT-CALC0910-0018
+  - IT-CALC0910-0019
+  - IT-CALC0910-0035
+  last_known_state: Historical repo adopted centralized paths but coordination tooling still exposed cwd-sensitive behavior.
+  recommended_verification: Run current path/config/clean-room checks from multiple working directories and verify project-relative portability.
+- loop_id: LOOP-CALC0910-0006
+  description: Verify current DB backup/restore and Alembic/Django schema ownership.
+  item_refs:
+  - IT-CALC0910-0013
+  - IT-CALC0910-0015
+  - IT-CALC0910-0016
+  last_known_state: Historical design uses Alembic for schema and unmanaged Django projections; restore tooling reports scope/outcome.
+  recommended_verification: Inspect current migrations/admin models/restore utilities and exercise non-destructive fixtures.
+- loop_id: LOOP-CALC0910-0007
+  description: Verify Telegram operational-alert design without coupling Calculator to Telegram as canonical transport.
+  item_refs:
+  - IT-CALC0910-0023
+  last_known_state: Owner wants immediate Telegram conflict summaries plus detailed server logs.
+  recommended_verification: Determine current alerting/Operations Assistant/Gateway ownership and emit events/alerts through approved observability path.
+- loop_id: LOOP-CALC0910-0008
+  description: Standardize Blueprint module-directive index schema and importer validation across modules.
+  item_refs:
+  - IT-CALC0910-0033
+  - IT-CALC0910-0034
+  - IT-CALC0910-0036
+  last_known_state: Calculator parser had to learn `module_directives.active` after false-success/no-import behavior.
+  recommended_verification: Audit current Blueprint schema/validators and all module importers; fail loudly on unsupported shape instead of silently reporting
+    success.
+- loop_id: LOOP-CALC0910-0009
+  description: Locate or supersede missing Blueprint prompt bodies in sparse turns 1022–1147.
+  item_refs:
+  - IT-CALC0910-0029
+  - IT-CALC0910-0032
+  last_known_state: Owner references clarification/new prompts, but visible attachment bodies are absent.
+  recommended_verification: Use current Blueprint release/history rather than reconstructing missing prompts from guesses.
+implementation_audit_ref: implementation_audit.stub.yaml

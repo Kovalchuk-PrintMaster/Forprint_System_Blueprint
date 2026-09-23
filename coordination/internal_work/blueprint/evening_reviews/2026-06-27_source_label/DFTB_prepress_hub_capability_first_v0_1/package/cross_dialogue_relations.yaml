@@ -1,0 +1,41 @@
+schema_version: forprint_dftb_cross_dialogue_relations_v0_1
+bundle_id: DFTB-prepress-hub-source-label-2026-06-27
+authority_class: prepress_module_history_non_blueprint_authority
+relations:
+- type: continues_and_refines
+  from_bundle: DFTB-prepress-hub-source-label-2026-06-27
+  to_bundle: DFTB-crm-source-label-2026-05-16
+  confidence: HIGH
+  note: CRM source introduced a broad Prepress Hub; 27.06 source narrows immediate work to capability discovery, product-specific assistants, shared common
+    tools and practical execution policies.
+- type: aligned_with
+  from_bundle: DFTB-prepress-hub-source-label-2026-06-27
+  to_bundle: DFTB_blueprint-source-label-2026-06-14
+  confidence: MEDIUM
+  note: Prepress source explicitly leaves global cross-module coordination to the broader project coordinator while focusing on module-local function.
+- type: precedes_current_audit_of
+  from_bundle: DFTB-prepress-hub-source-label-2026-06-27
+  to_bundle: DFTB-blueprint-preflight-2026-08-31
+  confidence: MEDIUM
+  note: Later Blueprint semantic/portfolio audits should verify how the practical Prepress boundaries were implemented.
+item_relations:
+- type: refines
+  from_item: IT-PRE2706-0001
+  to_item: IT-CRM1605-0002
+  confidence: HIGH
+  note: Broad Prepress Hub architecture is narrowed to practical capability discovery before integration design.
+- type: refines
+  from_item: IT-PRE2706-0002
+  to_item: IT-CRM1605-0002
+  confidence: MEDIUM
+  note: Owner prefers product-specific assistants rather than one abstract raster/general assistant.
+- type: supports
+  from_item: IT-PRE2706-0025
+  to_item: IT-BP1407-0001
+  confidence: HIGH
+  note: Prepress keeps local function separate from global architecture/coordination authority.
+- type: supports
+  from_item: IT-PRE2706-0003
+  to_item: IT-BP1407-0006
+  confidence: MEDIUM
+  note: Shared technical references/tools should remain bounded and not absorb operational decision ownership.

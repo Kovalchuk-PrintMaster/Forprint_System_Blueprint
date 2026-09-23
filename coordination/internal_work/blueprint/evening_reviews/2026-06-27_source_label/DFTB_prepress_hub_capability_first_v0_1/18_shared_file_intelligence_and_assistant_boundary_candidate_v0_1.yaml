@@ -1,0 +1,41 @@
+schema_version: forprint_prepress_shared_file_intelligence_assistant_boundary_candidate_v0_1
+candidate_id: prepress_shared_file_intelligence_and_assistant_boundary
+status: RECONCILE_BEFORE_IMPLEMENTATION
+canonical_roadmap_step: false
+candidate_owner: forprint_prepress_hub
+purpose: Define how product-specific Prepress assistants reuse shared deterministic file facts without creating
+  duplicated inspection code or a new shared layer that silently owns domain decisions.
+candidate_contract:
+  product_specific_assistants:
+  - photoshop_or_raster_domain_assistant
+  - illustrator_vector_domain_assistant
+  - coreldraw_domain_assistant
+  - pdf_acrobat_domain_assistant
+  shared_file_facts_examples:
+  - file_type
+  - page_count
+  - dimensions
+  - effective_dpi
+  - color_mode
+  - icc_profile
+  - alpha_or_transparency
+  - preview_reference
+  - metadata
+  - physical_size
+  shared_layer_rules:
+  - returns_stable_structured_report
+  - returns_facts_not_business_or_production_decisions
+  - product_assistants_interpret_facts
+  - avoid_duplicate_low_level_inspection_code
+  - avoid_initial_assistant_to_assistant_dependency_cycles
+reuse_first_checks_before_promotion:
+- live Prepress repository inspection/probe utilities
+- current assistant/module decomposition
+- current Asset Fact Packet and deterministic probe work
+- Calculator file-fact consumption contract
+- Library profile/requirement contracts
+non_goals:
+- create a new canonical business-truth owner
+- replace product-specific assistant/domain logic with one general assistant
+- duplicate the existing deterministic document probe
+- mutate Prepress runtime from this planning intake

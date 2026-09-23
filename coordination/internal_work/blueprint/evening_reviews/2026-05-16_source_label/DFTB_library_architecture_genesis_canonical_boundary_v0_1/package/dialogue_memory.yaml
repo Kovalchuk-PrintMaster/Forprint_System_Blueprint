@@ -1,0 +1,1325 @@
+schema_version: forprint_dftb_dialogue_memory_v0_1
+bundle_id: DFTB-library-source-label-2026-05-16
+source:
+  source_id: SRC-library-source-label-2026-05-16
+  title: Forprint_Library_16.05.26
+  source_type: chatgpt_mhtml_module_dialogue
+  source_file: Forprint_Library_16.05.26.mhtml
+  source_hash_sha256: 1e015dc8792f8d2c0d862d00bcd50bcf4f7d157a141dbaccfc834412c8102542
+  conversation_started_at: null
+  conversation_ended_at: Tue, 15 Sep 2026 13:46:47 +0300
+  participants:
+  - user
+  - assistant
+  language:
+  - uk
+  - en
+  authority_scope: library_module_history_with_embedded_blueprint_alignment_prompt
+  completeness: partial
+  completeness_notes: 11 message blocks across retained turns [1, 2, 23, 24, 25, 26, 27, 28]. Turns 3–22 are absent, so implementation history between design
+    and Stage 2 cannot be reconstructed literally.
+extraction:
+  created_at: '2026-09-15T13:46:47+03:00'
+  extractor: GPT-5.6 Sol / Asistans_Forprint_Blueprint
+  extraction_mode: duplicate_check_then_cross_module_library_reconstruction
+  implementation_verification_performed: false
+  notes: Library module history informs architecture but cannot supersede current Blueprint authority. The embedded Blueprint alignment prompt is preserved
+    as historical cross-module directive.
+evidence_index:
+- evidence_id: EV-LIB1605-0001
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: bbb21e13-0a05-49da-850b-bb859c9d45e9
+    message_id: bbb21e13-0a05-49da-850b-bb859c9d45e9
+    source_file: Forprint_Library_16.05.26.mhtml
+  quote: етапі і скажімо так як я бачу це там ближчим часом але саме головне що ми не маємо зациклитись на тих позиціях які я обмальовую зараз щоб архітектурно
+    не впертися потім через деякий час коли ми захочемо щось там добавити чи розвинути чи модернізувати і ми впираємось тим те що архітектурно ми цього
+    зробити не можемо це буде колапс ну там переписувати повністю прийдеться весь проект це дуже погано тому дивись у нас є друкарня вже ведеться деяка
+    робота значить у нас загальна ідеологія така що є мета збудувати си
+  quote_whitespace_normalized: true
+  context_before: Owner requires an extensible architecture that will not need full rewrite when the print ecosystem grows.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - architecture
+- evidence_id: EV-LIB1605-0002
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: bbb21e13-0a05-49da-850b-bb859c9d45e9
+    message_id: bbb21e13-0a05-49da-850b-bb859c9d45e9
+    source_file: Forprint_Library_16.05.26.mhtml
+  quote: чить у нас загальна ідеологія така що є мета збудувати систему скажімо так автоматизованого управління скажімо ну добре ну грубо скажемо всіма
+    технічними і супровідними там бухгалтерськими складськими інструментами значить у нас вже ведеться робота по калькулятору то есть йде розробка калькулятора
+    який буде рахувати там вартість роботи і буде опрацьовувати там первинний запит від клієнта формувати там звіт ведеться робота над ну починається робота
+    над репрес-модулем то есть буде модуль який формує вже деякі там алгор
+  quote_whitespace_normalized: true
+  context_before: Owner describes the broader automated print-shop ecosystem around Calculator, Prepress, Website and a central Orchestrator.
+  context_after: null
+  evidence_role:
+  - owner_context
+  - ecosystem
+- evidence_id: EV-LIB1605-0003
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: bbb21e13-0a05-49da-850b-bb859c9d45e9
+    message_id: bbb21e13-0a05-49da-850b-bb859c9d45e9
+    source_file: Forprint_Library_16.05.26.mhtml
+  quote: модуль ми підійшли до того етапу коли нам треба створити модуль який буде агрегатором всієї технічної і там юридичної і бухгалтерської ну взагалі
+    всієї документації тобто нам треба модуль на який наш агрегатор да наш дирижер там наш оркестра буде опиратись і будуть опиратися вже і всі інші він
+    буде там скажімо так на базі цих документів він буде вимагати від всіх інших модулів щоб вони подавали свої заявки свої скажімо запити чітко конкретних
+    формах і оці форми ревізії цих фонд зрозуміло що буде відбуватися прогрес
+  quote_whitespace_normalized: true
+  context_before: Initial owner vision asks for a module aggregating technical, legal, accounting and other normative information.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - library
+- evidence_id: EV-LIB1605-0004
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: bbb21e13-0a05-49da-850b-bb859c9d45e9
+    message_id: bbb21e13-0a05-49da-850b-bb859c9d45e9
+    source_file: Forprint_Library_16.05.26.mhtml
+  quote: они подавали свої заявки свої скажімо запити чітко конкретних формах і оці форми ревізії цих фонд зрозуміло що буде відбуватися прогрес буде там
+    розвиватися динамічно цей проект і будуть там спочатку одні форми потім вони будуть змінюватися на інші треба їх якось версіювати підтримувати там нові
+    старі підтримувати обмеженого там дуже старі скажімо так дуже-дуже сильно видавати якусь інформацію вже там модулі мають там там чи інтегратор видавати
+    там якісь попередження що дуже застарілі форми використовує
+  quote_whitespace_normalized: true
+  context_before: Owner requires versioned forms/contracts with supported, deprecated and blocked versions.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - versioning
+- evidence_id: EV-LIB1605-0005
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: bbb21e13-0a05-49da-850b-bb859c9d45e9
+    message_id: bbb21e13-0a05-49da-850b-bb859c9d45e9
+    source_file: Forprint_Library_16.05.26.mhtml
+  quote: тримає всю інформацію відносно всіх всіх бізнес-процесів типової друкарні курси валют доступні валюти доступні регіони де ми працюємо доступні
+    матеріали з якими ми працюємо доступні технології з якими ми працюємо доступне обладнання з яким ми працюємо доступні режими цього обладнання з якими
+    ми працюємо доступні швидкості цього обладнання да там або якісь продуктивні показники для того щоб можна було там на майбутнє вираховувати якусь там
+    швидкість виконання тих чи інших ітерацій все що пов'язано собівартістю то ест
+  quote_whitespace_normalized: true
+  context_before: Initial scope includes reference knowledge such as currencies, regions, materials, technologies, equipment and capabilities.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - catalogs
+- evidence_id: EV-LIB1605-0006
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: bbb21e13-0a05-49da-850b-bb859c9d45e9
+    message_id: bbb21e13-0a05-49da-850b-bb859c9d45e9
+    source_file: Forprint_Library_16.05.26.mhtml
+  quote: ди ми рухаємось тобто у нас є друкарня і наприклад у нас з'являється якісь партнер в Польщі в іншій країні ми в Україні а він в Польщі він каже
+    я хочу з вами працювати я хочу працювати з вами щоб ви просто там надсилали кур'єрську службу там Нова пошта наприклад просто товари моїм замовникам
+    і все я вам буду скидувати просто замовлення і далі це вже ваш клопіт і все далі оркестра наш дирижер бере і кидає цьому підряднику форму ну дві форми
+    першу форму в людиноподібні людину зрозумілі чи табельній формі інш
+  quote_whitespace_normalized: true
+  context_before: Owner gives partner-order JSON/form integration as a motivating use case.
+  context_after: null
+  evidence_role:
+  - owner_example
+  - contracts
+- evidence_id: EV-LIB1605-0007
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: bbb21e13-0a05-49da-850b-bb859c9d45e9
+    message_id: bbb21e13-0a05-49da-850b-bb859c9d45e9
+    source_file: Forprint_Library_16.05.26.mhtml
+  quote: займає досить великий час але наша задача перша головна - це закласти такі надійний фундамент це побудувати такий змістовний грунтовний потужний
+    алгоритм опрацювання зберігання надавання доступу контролю ревізій версіювання різноманітних як технічних так і бухгалтерських так і юридичних так і
+    інших можливо які наразі невідомі нам типів документації то есть от має бути така бібліотека але не просто як полиця зі стопкою документів де все підряд
+    а от як дуже чіткі продуманий інструмент де дуже легко можна отрим
+  quote_whitespace_normalized: true
+  context_before: Owner prioritizes the processing/storage/access/revision/versioning foundation over trying to fill the whole catalog at once.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - foundation
+- evidence_id: EV-LIB1605-0008
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: bbb21e13-0a05-49da-850b-bb859c9d45e9
+    message_id: bbb21e13-0a05-49da-850b-bb859c9d45e9
+    source_file: Forprint_Library_16.05.26.mhtml
+  quote: ів про наявність обладнання про швидкість там роботи про оперативність про доступність співробітників про лікарняні все має бути в нашому модулі
+    і мають бути стандартні форми розроблені які ми будемо які наш держар да наш оркестра буде брати і буде надавати всім іншим модулям або підрядникам
+    або спільним компаніям щоб вони підганяли свої продукти під цей формат щоб ми розуміли щоб формат роботи щоб формат обігу даних був зрозумілий всім
+    тобто якщо заходить від якогось нашого партнера наприклад там з Австралії в нас є там партнер
+  quote_whitespace_normalized: true
+  context_before: Initial owner vision also reaches into operational employee/runtime data, creating a later boundary question.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - overreach_risk
+- evidence_id: EV-LIB1605-0009
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: bbb21e13-0a05-49da-850b-bb859c9d45e9
+    message_id: bbb21e13-0a05-49da-850b-bb859c9d45e9
+    source_file: Forprint_Library_16.05.26.mhtml
+  quote: іфікувати так документи і саме головне - це треба передбачити це дуже-дуже кожен крок має бути покритий тестами це дуже важливо це мегаважливо
+    кожен крок тести тести на тести тести на тести на скільки збігаються дані один з одним то есть якщо ми отримуємо там товар від постачальника такі-то
+    дані заходять наскільки їх достатньо або недостатньо для того щоб приходувати товар по складу на скільки їх достатньо чи недостатньо щоб далі передати
+    на виробництво на скільки їх достатньо достатньо щоб враховувати списання товарів під ча
+  quote_whitespace_normalized: true
+  context_before: Owner requires strong tests and cross-checks to prevent data mismatches across modules.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - testing
+- evidence_id: EV-LIB1605-0010
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: bbb21e13-0a05-49da-850b-bb859c9d45e9
+    message_id: bbb21e13-0a05-49da-850b-bb859c9d45e9
+    source_file: Forprint_Library_16.05.26.mhtml
+  quote: мір вологість ну ну мільйон всяких факторів тому ми маємо передбачити дуже потужну і дуже зручну і дуже таку класну адмінку тобто ми маємо це ну
+    це не має бути так що нам треба завести якісь там новий матеріал або завести нову валюту і ми там ліземо на сервер в код і в коді щось там право ні
+    то есть нам має бути потужна така адмінка через яку ми будемо коригувати там ті чи інші правила вносити зміни тобто щоб людино зручний інтерфейс в нас
+    був дуже сильно потужно продуманий і добре реалізований це мега важливо
+  quote_whitespace_normalized: true
+  context_before: Owner says a strong human-friendly admin UI is essential and routine changes must not require editing server code.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - admin_ui
+- evidence_id: EV-LIB1605-0011
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: fa051844-1d7f-4679-913c-f806a295dd4b
+    message_id: d288b459-366b-4a86-aab0-15e3222fd8eb
+    source_file: Forprint_Library_16.05.26.mhtml
+  quote: 'истеми. 1. Головна ідея модуля Я бачу цей модуль так: Registry-модуль — це не виконавець бізнес-процесів, а центральна база стандартів, форм,
+    довідників, технічних карт, схем даних, правил сумісності, версій і перевірок. Тобто він сам не повинен рахувати замовлення, не повинен робити препрес,
+    не повинен вести склад і бухгалтерію як основну функцію. Але він має відповідати на питання: які матеріали існують; які валюти дозволені; які регіони
+    підтримуються; які технології доступні; які формати замовлень приймаються; які J'
+  quote_whitespace_normalized: true
+  context_before: Assistant proposes Registry as standards/definitions layer, not a business-process executor.
+  context_after: null
+  evidence_role:
+  - assistant_design
+  - module_boundary
+- evidence_id: EV-LIB1605-0012
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: fa051844-1d7f-4679-913c-f806a295dd4b
+    message_id: d288b459-366b-4a86-aab0-15e3222fd8eb
+    source_file: Forprint_Library_16.05.26.mhtml
+  quote: 'інформації . 2. Дуже важливе розмежування Я б одразу розділила систему на 3 рівні. 1. Orchestrator / Дирижер Він керує процесами: прийняв замовлення;
+    перевірив формат; віддав у калькулятор; отримав ціну; передав у препрес; передав у виробництво; передав у бухгалтерію; передав у склад; проконтролював
+    статус. 2. Registry / Бібліотека стандартів Він каже всім: які формати правильні; які довідники актуальні; які правила діють; які форми дозволені; які
+    версії підтримуються; які поля обов’язкові; які д'
+  quote_whitespace_normalized: true
+  context_before: Assistant separates Orchestrator, Registry and Operational Modules.
+  context_after: null
+  evidence_role:
+  - assistant_design
+  - architecture
+- evidence_id: EV-LIB1605-0013
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: fa051844-1d7f-4679-913c-f806a295dd4b
+    message_id: d288b459-366b-4a86-aab0-15e3222fd8eb
+    source_file: Forprint_Library_16.05.26.mhtml
+  quote: 'нерських замовлень; модуль виробничого планування. І тут важливо: Registry не має перетворитися на монстра, який робить усе. Він має бути фундаментом,
+    а не всім будинком. Наприклад, лікарняні працівників — це не зовсім дані Registry. Але Registry може зберігати формат документа “employee_availability”
+    , а самі реальні лікарняні вже має вести HR/Staff-модуль або Production Planning-модуль. Тобто Registry зберігає стандарти й довідники , а не всі живі
+    операційні події. 3. Які головні блоки я б заклала в Registry Я б будува'
+  quote_whitespace_normalized: true
+  context_before: Assistant explicitly warns against Library becoming the whole system.
+  context_after: null
+  evidence_role:
+  - assistant_boundary
+  - overreach
+- evidence_id: EV-LIB1605-0014
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: fa051844-1d7f-4679-913c-f806a295dd4b
+    message_id: d288b459-366b-4a86-aab0-15e3222fd8eb
+    source_file: Forprint_Library_16.05.26.mhtml
+  quote: 'версії Це дає дуже сильну основу для інтеграції з будь-яким партнером. 6. Адмінка — це не додаткова опція, а центральна частина Ти абсолютно правий:
+    не можна кожен раз лізти на сервер і правити код. Адмінка має дозволяти: додавати матеріали; додавати валюти; додавати регіони; додавати технології;
+    додавати обладнання; створювати нові схеми; редагувати документи; бачити версії; порівнювати версії; запускати перевірку перед публікацією; бачити,
+    які модулі залежать від конкретної форми; бачити, що зламається при зміні; імпо'
+  quote_whitespace_normalized: true
+  context_before: Assistant treats admin tooling as a central capability, including validation-before-publish and dependency/impact visibility.
+  context_after: null
+  evidence_role:
+  - assistant_design
+  - admin_ui
+- evidence_id: EV-LIB1605-0015
+  speaker: user
+  locator:
+    conversation_turn: 23
+    turn_id: 48f67399-0482-48ca-b674-9fa4c5f51c7b
+    message_id: 48f67399-0482-48ca-b674-9fa4c5f51c7b
+    source_file: Forprint_Library_16.05.26.mhtml
+  quote: e_development/forprint-project/forprint_library# curl http://127.0.0.1:8010/health {"status":"ok","service":"forprint_library"}(.venv_forprint_library)
+    root@s01:/srv/software_development/forprint-project/forprint_library# Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Historical user output shows a running Library service health endpoint.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - bootstrap
+- evidence_id: EV-LIB1605-0016
+  speaker: assistant
+  locator:
+    conversation_turn: 24
+    turn_id: cbfaff76-92d6-4c6d-aa0f-7829b0f302fe
+    message_id: 12ac76d0-5643-4eda-921e-9fd7841152ee
+    source_file: Forprint_Library_16.05.26.mhtml
+  quote: 'ись, тести пройшли, API відповідає на /health . Наступний крок я б зробила не “наповнення продуктами”, а посилення фундаменту: додати імпорт seed-даних,
+    розширити API і зробити службовий smoke-check для швидкої самодіагностики. Супер, значить базовий каркас живий: make test пройшов, API піднявся, /health
+    відповідає. Я підготувала наступний невеликий overlay для Stage 2 : forprint_library_stage2_overlay.zip Що він додає: - YAML seed loader - data/seed/base_library_seed.yaml
+    - API для contracts / semantic registry / a'
+  quote_whitespace_normalized: true
+  context_before: Assistant prioritizes foundation hardening before filling real products.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - foundation
+- evidence_id: EV-LIB1605-0017
+  speaker: assistant
+  locator:
+    conversation_turn: 24
+    turn_id: cbfaff76-92d6-4c6d-aa0f-7829b0f302fe
+    message_id: 12ac76d0-5643-4eda-921e-9fd7841152ee
+    source_file: Forprint_Library_16.05.26.mhtml
+  quote: 'адні, а робимо наступний фундаментальний шар: завантаження базових правил, semantic IDs, alias mappings і migration path із seed-файлу . Застосуй
+    так: Bash cd /srv/software_development/forprint-project/forprint_library cp -a app app.backup_before_stage2 cp -a tests tests.backup_before_stage2 cp
+    pyproject.toml pyproject.toml.backup_before_stage2 unzip /path/to/forprint_library_stage2_overlay.zip -d /srv/software_development/forprint-project/forprint_library
+    source .venv_forprint_library/bin/activate pyt'
+  quote_whitespace_normalized: true
+  context_before: Stage 2 adds seed loading, semantic IDs, aliases, migration paths and contract APIs.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - semantic_registry
+- evidence_id: EV-LIB1605-0018
+  speaker: user
+  locator:
+    conversation_turn: 25
+    turn_id: 5e0cf23b-168c-4851-9f0a-56d58a2f250c
+    message_id: 5e0cf23b-168c-4851-9f0a-56d58a2f250c
+    source_file: Forprint_Library_16.05.26.mhtml
+  quote: ністью якийсь промужний крок навіть і не значущий але повністью робочий то відразу комітимо його і пушимо git@github.com:Kovalchuk-PrintMaster/Forprint_Library.git
+    так наче все ок можемо йти далі (.venv_forprint_library) root@s01:/srv/software_development/forprint-project/forprint_library# make test PYTHONPATH=app
+    pytest ....... [100%] 7 passed in 0.16s (.venv_forprint_library) root@s01:/srv/software_development/forprint-project/forprint_library# tree -L 3 . ├──
+    app │ ├── forprint_library │ │ ├── api │ │ ├── changes │ │
+  quote_whitespace_normalized: true
+  context_before: Owner defines commit/push discipline for every fully working intermediate state.
+  context_after: null
+  evidence_role:
+  - owner_process_rule
+  - git_workflow
+- evidence_id: EV-LIB1605-0019
+  speaker: user
+  locator:
+    conversation_turn: 25
+    turn_id: 5e0cf23b-168c-4851-9f0a-56d58a2f250c
+    message_id: 5e0cf23b-168c-4851-9f0a-56d58a2f250c
+    source_file: Forprint_Library_16.05.26.mhtml
+  quote: t-project/forprint_library# make test PYTHONPATH=app pytest ....... [100%] 7 passed in 0.16s (.venv_forprint_library) root@s01:/srv/software_development/forprint-project/forprint_library#
+    tree -L 3 . ├── app │ ├── forprint_library │ │ ├── api │ │ ├── changes │ │ ├── contracts │ │ ├── core │ │ ├── __init__.py │ │ ├── migration │ │ ├──
+    __pycache__ │ │ ├── registry │ │ ├── semantic │ │ ├── services │ │ └── validation │ └── forprint_library.egg-info │ ├── dependency_links.txt │ ├── PKG-INFO
+    │ ├── requi
+  quote_whitespace_normalized: true
+  context_before: Historical user output reports seven tests passing after Stage 2.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - tests
+- evidence_id: EV-LIB1605-0020
+  speaker: assistant
+  locator:
+    conversation_turn: 26
+    turn_id: a9516b1b-a226-4ccd-8e42-4c8349c14e90
+    message_id: 035c9ddf-9721-4dc6-b3dd-300c2285f208
+    source_file: Forprint_Library_16.05.26.mhtml
+  quote: 'уємо, комітимо і пушимо. Перед першим комітом я б зараз прибрала тимчасові backup-папки й __pycache__ , бо в дереві вони вже змішались із робочим
+    кодом, а в Git їх тягнути не треба. Так, домовились: кожен повністю робочий проміжний етап → make test → commit → push . По твоєму логу бачу, що базовий
+    етап живий: 7 passed , API відповідає на /health , структура проєкту на місці Pasted text Зараз краще зробити перший чистий commit базового фундаменту
+    , але перед цим прибрати службове сміття. 1. Почистити ba'
+  quote_whitespace_normalized: true
+  context_before: Assistant says local backup/cache/generated artifacts should be cleaned before the first clean Git commit.
+  context_after: null
+  evidence_role:
+  - assistant_rule
+  - repository_hygiene
+- evidence_id: EV-LIB1605-0021
+  speaker: user
+  locator:
+    conversation_turn: 27
+    turn_id: aaf4bae9-f1e2-427a-9e5a-ff5b1c28869f
+    message_id: aaf4bae9-f1e2-427a-9e5a-ff5b1c28869f
+    source_file: Forprint_Library_16.05.26.mhtml
+  quote: 'так дивись у нас зявивсяновий муль який буде корегувати рух розвитку нашого проєкту вціломі і нашого з тобою модулю ідея синхронізувати роботу
+    всіх модулів і визначити єдину мету / архітектуру / іменування процсів модулів єтапів ябуду на першій стадії давати тобі промт а ти будеш повертати
+    мені відповідь для нашого керуючого модуля Forprint_System_Blueprint # Prompt: Align ForPrint Library with ForPrint System Blueprint ## Target module
+    forprint_library ## Purpose This promp'
+  quote_whitespace_normalized: true
+  context_before: Owner introduces Forprint_System_Blueprint as the new coordinating module for common goals, architecture, naming and stages.
+  context_after: null
+  evidence_role:
+  - owner_context
+  - blueprint
+- evidence_id: EV-LIB1605-0022
+  speaker: user
+  locator:
+    conversation_turn: 27
+    turn_id: aaf4bae9-f1e2-427a-9e5a-ff5b1c28869f
+    message_id: aaf4bae9-f1e2-427a-9e5a-ff5b1c28869f
+    source_file: Forprint_Library_16.05.26.mhtml
+  quote: 'ibrary with the current ForPrint System Blueprint. ForPrint Library is the canonical knowledge, catalog, template, semantic registry, and contract-definition
+    layer. It must not become an operational database for orders, clients, payments, or production runtime. ## Current architectural role ForPrint Library
+    should own: - material catalog; - product catalog; - machine capabilities; - print modes; - templates; - technical cards; - semantic registry; - aliases;
+    - contract definitions; - versioning; - migration graph; - reusable ca'
+  quote_whitespace_normalized: true
+  context_before: Blueprint alignment prompt defines Library as canonical knowledge/catalog/template/semantic-registry/contract-definition layer.
+  context_after: null
+  evidence_role:
+  - blueprint_directive
+  - library_role
+- evidence_id: EV-LIB1605-0023
+  speaker: user
+  locator:
+    conversation_turn: 27
+    turn_id: aaf4bae9-f1e2-427a-9e5a-ff5b1c28869f
+    message_id: aaf4bae9-f1e2-427a-9e5a-ff5b1c28869f
+    source_file: Forprint_Library_16.05.26.mhtml
+  quote: 'p / website / bot through approved layers. ## Library must not own Library must not become canonical owner of: - client orders; - customer interaction
+    history; - payments; - invoices; - production queue; - actual warehouse stock; - runtime delivery status; - real client uploaded file lifecycle. ##
+    Key architectural risks 1. Library becomes “storage for everything.” 2. Library starts owning operational data. 3. Library duplicates Operational Registry.
+    4. Library duplicates Accounting Registry. 5. Library becomes hard to u'
+  quote_whitespace_normalized: true
+  context_before: Blueprint prompt forbids Library from owning client orders, interaction history, payments, invoices, production queue, actual stock, delivery
+    status and real uploaded-file lifecycle.
+  context_after: null
+  evidence_role:
+  - blueprint_directive
+  - module_boundary
+- evidence_id: EV-LIB1605-0024
+  speaker: user
+  locator:
+    conversation_turn: 27
+    turn_id: aaf4bae9-f1e2-427a-9e5a-ff5b1c28869f
+    message_id: aaf4bae9-f1e2-427a-9e5a-ff5b1c28869f
+    source_file: Forprint_Library_16.05.26.mhtml
+  quote: 'tock; - runtime delivery status; - real client uploaded file lifecycle. ## Key architectural risks 1. Library becomes “storage for everything.”
+    2. Library starts owning operational data. 3. Library duplicates Operational Registry. 4. Library duplicates Accounting Registry. 5. Library becomes
+    hard to use because it mixes catalogs, files, orders, payments, and logs. 6. Library changes canonical names without impact rules. ## Required alignment
+    actions Please review the current ForPrint Library direction and answer:'
+  quote_whitespace_normalized: true
+  context_before: Blueprint prompt explicitly calls out storage-for-everything, contract duplication, runtime-state creep and direct client consumption
+    as architectural risks.
+  context_after: null
+  evidence_role:
+  - blueprint_directive
+  - risk
+- evidence_id: EV-LIB1605-0025
+  speaker: assistant
+  locator:
+    conversation_turn: 28
+    turn_id: 8aba2c57-a4bb-4884-ad05-fc83341d984a
+    message_id: 49b2d37c-8a99-4dc8-851c-6e421f79fe98
+    source_file: Forprint_Library_16.05.26.mhtml
+  quote: 'and contract-definition layer. The module is currently being shaped as: - canonical catalog layer; - semantic registry; - alias registry; - contract
+    registry; - contract versioning layer; - migration graph foundation; - technical documentation/template registry; - Change Manifest source for future
+    sync/change management; - validation and schema-definition source. The current implementation foundation is intentionally not tied to concrete operational
+    entities such as real orders, invoices, payments, warehouse bal'
+  quote_whitespace_normalized: true
+  context_before: Library alignment response describes catalog, semantic/alias registry, contract versioning, migration graph, templates and Change Manifest
+    as the correct direction.
+  context_after: null
+  evidence_role:
+  - assistant_alignment
+  - library_role
+- evidence_id: EV-LIB1605-0026
+  speaker: assistant
+  locator:
+    conversation_turn: 28
+    turn_id: 8aba2c57-a4bb-4884-ad05-fc83341d984a
+    message_id: 49b2d37c-8a99-4dc8-851c-6e421f79fe98
+    source_file: Forprint_Library_16.05.26.mhtml
+  quote: 'efine that paper.sra3.300gsm exists and what its canonical properties are. Library must not own the actual stock quantity of that paper. Templates
+    and technical cards Library should own canonical templates and technical cards such as: product technical cards; print preparation templates; prepress
+    requirements; print sheet templates; product parameter templates; validation templates; partner integration documentation templates; human-readable
+    and machine-readable specification packages. Library may say: Business card requires width, hei'
+  quote_whitespace_normalized: true
+  context_before: Alignment makes canonical definition vs runtime instance distinction concrete.
+  context_after: null
+  evidence_role:
+  - assistant_alignment
+  - module_boundary
+- evidence_id: EV-LIB1605-0027
+  speaker: assistant
+  locator:
+    conversation_turn: 28
+    turn_id: 8aba2c57-a4bb-4884-ad05-fc83341d984a
+    message_id: 49b2d37c-8a99-4dc8-851c-6e421f79fe98
+    source_file: Forprint_Library_16.05.26.mhtml
+  quote: 'antic value is archived; semantic ID relationship changes. Important rule: Semantic IDs should be stable and never reused for a different meaning.
+    Catalog changes Trigger impact rules when: product type changes; material definition changes; material compatibility changes; print technology changes;
+    machine capability changes; print mode changes; unit/currency policy changes; required product attributes change. Technical card/template changes Trigger
+    impact rules when: technical card version changes; process steps change; required prepre'
+  quote_whitespace_normalized: true
+  context_before: Stable semantic identifiers and aliases are treated as compatibility invariants.
+  context_after: null
+  evidence_role:
+  - assistant_alignment
+  - semantic_registry
+- evidence_id: EV-LIB1605-0028
+  speaker: assistant
+  locator:
+    conversation_turn: 28
+    turn_id: 8aba2c57-a4bb-4884-ad05-fc83341d984a
+    message_id: 49b2d37c-8a99-4dc8-851c-6e421f79fe98
+    source_file: Forprint_Library_16.05.26.mhtml
+  quote: 'cal modules should not become active automatically. Recommended lifecycle: draft → approved → staged → syncing → active The future forprint_sync_manager
+    should consume Library Change Manifest and coordinate internal module updates. 7. Open questions for Blueprint Should forprint_library expose data directly
+    to internal modules, or only through Integration Gateway / Orchestrator-approved interfaces? Which module owns runtime product availability for production
+    planning? Library owns capability definitions, but runtime availability sho'
+  quote_whitespace_normalized: true
+  context_before: Critical Library changes should follow an activation lifecycle rather than become active automatically.
+  context_after: null
+  evidence_role:
+  - assistant_alignment
+  - change_lifecycle
+- evidence_id: EV-LIB1605-0029
+  speaker: assistant
+  locator:
+    conversation_turn: 28
+    turn_id: 8aba2c57-a4bb-4884-ad05-fc83341d984a
+    message_id: 49b2d37c-8a99-4dc8-851c-6e421f79fe98
+    source_file: Forprint_Library_16.05.26.mhtml
+  quote: 'y. Recommended lifecycle: draft → approved → staged → syncing → active The future forprint_sync_manager should consume Library Change Manifest
+    and coordinate internal module updates. 7. Open questions for Blueprint Should forprint_library expose data directly to internal modules, or only through
+    Integration Gateway / Orchestrator-approved interfaces? Which module owns runtime product availability for production planning? Library owns capability
+    definitions, but runtime availability should likely belong to Production R'
+  quote_whitespace_normalized: true
+  context_before: Alignment proposes a separate Sync Manager that consumes Library Change Manifest and coordinates module updates.
+  context_after: null
+  evidence_role:
+  - assistant_alignment
+  - sync_manager
+- evidence_id: EV-LIB1605-0030
+  speaker: assistant
+  locator:
+    conversation_turn: 28
+    turn_id: 8aba2c57-a4bb-4884-ad05-fc83341d984a
+    message_id: 49b2d37c-8a99-4dc8-851c-6e421f79fe98
+    source_file: Forprint_Library_16.05.26.mhtml
+  quote: 'ply versioned, but not operational. The most important architectural rule: Library defines what is valid and canonical. It does not execute business
+    operations and does not own runtime business state.'
+  quote_whitespace_normalized: true
+  context_before: Final alignment states Library defines validity/canonical definitions but does not execute business operations or own runtime state.
+  context_after: null
+  evidence_role:
+  - assistant_alignment
+  - final_boundary
+items:
+- item_id: IT-LIB1605-0001
+  kind: architecture_constraint
+  title: Library foundation must remain extensible
+  statement: The module and wider print-shop architecture must support future products, processes and modules without forcing a full rewrite.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - library
+  - architecture
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - code
+  - schemas
+  evidence_refs:
+  - EV-LIB1605-0001
+  - EV-LIB1605-0002
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB1605-0002
+  kind: requirement
+  title: Library is the canonical normative-definition layer
+  statement: Library should provide canonical catalogs, templates, technical cards, semantic identifiers, aliases, contract definitions, versioning, migration
+    graph and validation/schema definitions.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - library
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - schemas
+  - docs
+  - tests
+  evidence_refs:
+  - EV-LIB1605-0003
+  - EV-LIB1605-0022
+  - EV-LIB1605-0025
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB1605-0003
+  kind: requirement
+  title: Contracts/forms support explicit lifecycle and compatibility
+  statement: Forms/contracts need versioning, supported/deprecated/blocked states, migration paths and compatibility warnings rather than silent acceptance
+    of obsolete formats.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - library
+  - contracts
+  implementation_expectation: required
+  verification_targets:
+  - schemas
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-LIB1605-0004
+  - EV-LIB1605-0028
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB1605-0004
+  kind: requirement
+  title: Library owns canonical reference catalogs and capability definitions
+  statement: Canonical materials, product types, currencies, units, regions, technologies, equipment/machine capabilities and print modes belong in Library
+    as definitions/reference data.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - library
+  - catalogs
+  implementation_expectation: required
+  verification_targets:
+  - schemas
+  - code
+  - docs
+  evidence_refs:
+  - EV-LIB1605-0005
+  - EV-LIB1605-0025
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB1605-0005
+  kind: integration
+  title: Partner integrations consume approved versioned contracts
+  statement: External partners should submit orders/financial or other data through well-defined human- and machine-readable versioned forms that can be
+    validated before orchestration.
+  dialogue_status: agreed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - library
+  - integration_gateway
+  implementation_expectation: required
+  verification_targets:
+  - schemas
+  - docs
+  - tests
+  evidence_refs:
+  - EV-LIB1605-0006
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB1605-0006
+  kind: process_rule
+  title: Build the versioning/validation foundation before catalog completeness
+  statement: Do not try to model every product immediately; first establish robust storage, access, revision, versioning, semantic compatibility and validation
+    mechanisms.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - library
+  - roadmap
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-LIB1605-0007
+  - EV-LIB1605-0016
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB1605-0007
+  kind: nonfunctional_requirement
+  title: Cross-module data consistency is strongly tested
+  statement: Every meaningful change must be covered by tests and cross-checks so required data stays sufficient/compatible through order, calculation,
+    warehouse, production and accounting flows.
+  dialogue_status: agreed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - library
+  - quality
+  implementation_expectation: required
+  verification_targets:
+  - tests
+  - schemas
+  - contracts
+  evidence_refs:
+  - EV-LIB1605-0009
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB1605-0008
+  kind: requirement
+  title: Library requires human-friendly governed administration
+  statement: Canonical definitions must be manageable through an admin interface with validation-before-publish, version comparison, dependency/impact visibility,
+    import/export and change audit rather than code edits for routine data.
+  dialogue_status: agreed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - library
+  - admin_ui
+  implementation_expectation: required
+  verification_targets:
+  - ui
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-LIB1605-0010
+  - EV-LIB1605-0014
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB1605-0009
+  kind: architecture_constraint
+  title: Orchestrator Registry and operational modules are separate layers
+  statement: The Orchestrator coordinates processes, Library/Registry defines canonical normative information, and operational modules execute domain workflows.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - library
+  - architecture
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - contracts
+  evidence_refs:
+  - EV-LIB1605-0011
+  - EV-LIB1605-0012
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB1605-0010
+  kind: risk
+  title: Initial broad Library vision risks becoming storage for everything
+  statement: Early owner wording includes operational availability/employee/sick-leave and broad business information; later architecture must prevent Library
+    from absorbing runtime operational state.
+  dialogue_status: superseded
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - library
+  - scope_control
+  implementation_expectation: not_required
+  verification_targets:
+  - docs
+  - schemas
+  evidence_refs:
+  - EV-LIB1605-0008
+  - EV-LIB1605-0013
+  - EV-LIB1605-0023
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB1605-0011
+  kind: implementation_claim
+  title: Historical Library bootstrap exposes a healthy service endpoint
+  statement: User-provided output shows `forprint_library` running and `/health` returning status ok.
+  dialogue_status: accepted
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - library
+  implementation_expectation: unverifiable
+  verification_targets:
+  - runtime
+  - tests
+  evidence_refs:
+  - EV-LIB1605-0015
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical terminal output only.
+- item_id: IT-LIB1605-0012
+  kind: implementation_claim
+  title: Historical Stage 2 foundation reports seven passing tests
+  statement: User-provided Stage 2 output reports `7 passed` and a project tree containing contracts, migration, registry, semantic, services and validation
+    packages.
+  dialogue_status: accepted
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - library
+  implementation_expectation: unverifiable
+  verification_targets:
+  - tests
+  - code
+  evidence_refs:
+  - EV-LIB1605-0017
+  - EV-LIB1605-0019
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical implementation evidence only.
+- item_id: IT-LIB1605-0013
+  kind: process_rule
+  title: Commit and push each complete working intermediate state
+  statement: Once a bounded intermediate step is complete and working, test it, commit it and push it to the Library Git repository.
+  dialogue_status: agreed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - library
+  - git_workflow
+  implementation_expectation: required
+  verification_targets:
+  - operations
+  - git
+  evidence_refs:
+  - EV-LIB1605-0018
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB1605-0014
+  kind: process_rule
+  title: Keep generated/cache/local-backup artifacts out of canonical Git history
+  statement: Before committing, remove local backup directories/caches/generated Python metadata and maintain ignore rules for such artifacts.
+  dialogue_status: agreed
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - library
+  - repository_hygiene
+  implementation_expectation: required
+  verification_targets:
+  - git
+  - docs
+  evidence_refs:
+  - EV-LIB1605-0020
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB1605-0015
+  kind: architecture_constraint
+  title: Blueprint alignment narrows Library to canonical definitions not runtime state
+  statement: Library must not canonically own client orders, customer interactions, payments/invoices, production queue, actual warehouse stock, runtime
+    delivery status or real uploaded-file lifecycle.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - library
+  - blueprint_alignment
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - schemas
+  - code
+  evidence_refs:
+  - EV-LIB1605-0021
+  - EV-LIB1605-0022
+  - EV-LIB1605-0023
+  - EV-LIB1605-0030
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB1605-0016
+  kind: process_rule
+  title: Canonical definitions and runtime instances have different owners
+  statement: Library may define a material, invoice schema, warehouse contract or production template, while the corresponding runtime quantity/payment/order/job/file
+    instance belongs to its operational owner.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - library
+  - domain_ownership
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - schemas
+  - contracts
+  evidence_refs:
+  - EV-LIB1605-0026
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB1605-0017
+  kind: architecture_constraint
+  title: Semantic IDs are stable and never reused for new meanings
+  statement: Stable semantic identifiers plus alias/legacy mappings are core historical-compatibility mechanisms and should not be recycled for different
+    semantics.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - library
+  - semantic_registry
+  implementation_expectation: required
+  verification_targets:
+  - schemas
+  - tests
+  - docs
+  evidence_refs:
+  - EV-LIB1605-0027
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB1605-0018
+  kind: requirement
+  title: Library changes need impact-aware activation lifecycle
+  statement: Changes to contracts, semantics, catalogs, technical cards and migration graph should trigger impact analysis and move through draft → approved
+    → staged → syncing → active rather than auto-activate.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - library
+  - change_management
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - schemas
+  - tests
+  - docs
+  evidence_refs:
+  - EV-LIB1605-0028
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB1605-0019
+  kind: plan
+  title: Change Manifest can feed a separate Sync Manager
+  statement: Library should define desired/canonical state and emit change metadata; a separate synchronization component can coordinate adoption across
+    dependent modules.
+  dialogue_status: discussed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - library
+  - sync_manager
+  implementation_expectation: required
+  verification_targets:
+  - contracts
+  - docs
+  - roadmap
+  evidence_refs:
+  - EV-LIB1605-0025
+  - EV-LIB1605-0029
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Later Blueprint architecture may rename/redistribute Sync Manager responsibilities.
+- item_id: IT-LIB1605-0020
+  kind: architecture_constraint
+  title: Library does not execute Calculator Prepress Warehouse or CRM business logic
+  statement: Library provides canonical definitions/contracts to downstream modules, while Calculator calculates, Prepress processes files, Warehouse owns
+    stock movements and CRM owns customer workflow.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - library
+  - domain_ownership
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - contracts
+  evidence_refs:
+  - EV-LIB1605-0025
+  - EV-LIB1605-0026
+  - EV-LIB1605-0030
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB1605-0021
+  kind: architecture_constraint
+  title: Uncontrolled client channels should not directly own or bypass Library contracts
+  statement: Website, bot and mobile clients should preferably consume Library-derived definitions through approved Gateway/CRM/Orchestrator layers rather
+    than becoming direct uncontrolled canonical clients.
+  dialogue_status: discussed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - library
+  - integration_gateway
+  implementation_expectation: required
+  verification_targets:
+  - architecture
+  - contracts
+  evidence_refs:
+  - EV-LIB1605-0024
+  - EV-LIB1605-0030
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Exact current access topology must be reconciled with later Gateway/Contract Registry architecture.
+- item_id: IT-LIB1605-0022
+  kind: decision
+  title: Library final historical role is strict deeply-versioned and non-operational
+  statement: 'The aligned role is: Library defines what is valid/canonical and how definitions evolve; it does not own runtime business state or execute
+    business operations.'
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - library
+  - blueprint_alignment
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - schemas
+  - code
+  evidence_refs:
+  - EV-LIB1605-0030
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB1605-0023
+  kind: risk
+  title: Canonical contract ownership may overlap later Contract Registry architecture
+  statement: The early Library alignment includes contract registry/definitions, while later Blueprint history introduces a separate Contract Registry/Gateway/domain-owner
+    split; current authority must reconcile this evolution rather than assume early Library ownership remains final.
+  dialogue_status: unclear
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - library
+  - contract_registry
+  implementation_expectation: required
+  verification_targets:
+  - architecture
+  - docs
+  - config
+  evidence_refs:
+  - EV-LIB1605-0025
+  - EV-LIB1605-0030
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical architecture evolved substantially after this source.
+- item_id: IT-LIB1605-0024
+  kind: risk
+  title: Admin UI priority must not expand Library into operational control plane
+  statement: A powerful Library admin is required for canonical data, but it must not become a UI for operational orders, payments, production or stock
+    state.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - library
+  - admin_ui
+  - scope_control
+  implementation_expectation: required
+  verification_targets:
+  - ui
+  - docs
+  - tests
+  evidence_refs:
+  - EV-LIB1605-0010
+  - EV-LIB1605-0023
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB1605-0025
+  kind: integration
+  title: Project Inspector can validate implementations against Library definitions
+  statement: Library may expose canonical contract/schema/semantic/version information that Project Inspector can use to detect drift.
+  dialogue_status: discussed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - library
+  - project_inspector
+  implementation_expectation: required
+  verification_targets:
+  - contracts
+  - reports
+  evidence_refs:
+  - EV-LIB1605-0025
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Current Inspector/Contract Registry boundaries need live verification.
+- item_id: IT-LIB1605-0026
+  kind: requirement
+  title: Change impact includes contract semantic catalog technical-card and migration changes
+  statement: Impact rules should cover field/version/type/enum/validation changes, semantic alias/ID changes, material/capability changes, technical-card
+    changes and migration-path/lossiness changes.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - library
+  - change_management
+  implementation_expectation: required
+  verification_targets:
+  - schemas
+  - code
+  - tests
+  evidence_refs:
+  - EV-LIB1605-0028
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+relations:
+- relation_id: REL-LIB1605-0001
+  from_item: IT-LIB1605-0015
+  type: supersedes
+  to_item: IT-LIB1605-0010
+  evidence_refs:
+  - EV-LIB1605-0023
+  - EV-LIB1605-0030
+  confidence: high
+- relation_id: REL-LIB1605-0002
+  from_item: IT-LIB1605-0009
+  type: constrains
+  to_item: IT-LIB1605-0002
+  evidence_refs:
+  - EV-LIB1605-0011
+  - EV-LIB1605-0012
+  confidence: high
+- relation_id: REL-LIB1605-0003
+  from_item: IT-LIB1605-0003
+  type: enables
+  to_item: IT-LIB1605-0005
+  evidence_refs:
+  - EV-LIB1605-0004
+  - EV-LIB1605-0006
+  confidence: high
+- relation_id: REL-LIB1605-0004
+  from_item: IT-LIB1605-0017
+  type: enables
+  to_item: IT-LIB1605-0018
+  evidence_refs:
+  - EV-LIB1605-0027
+  - EV-LIB1605-0028
+  confidence: high
+- relation_id: REL-LIB1605-0005
+  from_item: IT-LIB1605-0018
+  type: enables
+  to_item: IT-LIB1605-0019
+  evidence_refs:
+  - EV-LIB1605-0028
+  - EV-LIB1605-0029
+  confidence: medium
+- relation_id: REL-LIB1605-0006
+  from_item: IT-LIB1605-0016
+  type: refines
+  to_item: IT-LIB1605-0015
+  evidence_refs:
+  - EV-LIB1605-0026
+  confidence: high
+- relation_id: REL-LIB1605-0007
+  from_item: IT-LIB1605-0022
+  type: refines
+  to_item: IT-LIB1605-0002
+  evidence_refs:
+  - EV-LIB1605-0030
+  confidence: high
+- relation_id: REL-LIB1605-0008
+  from_item: IT-LIB1605-0024
+  type: constrains
+  to_item: IT-LIB1605-0008
+  evidence_refs:
+  - EV-LIB1605-0010
+  - EV-LIB1605-0023
+  confidence: high
+anomalies:
+- anomaly_id: ANOM-LIB1605-0001
+  type: new_unique_cross_module_source
+  description: No SHA/message-ID/meaningful sequence match exists against prior loaded Blueprint/Logistics sources. This is a distinct Library module history.
+  item_refs: []
+  evidence_refs: []
+  severity: normal
+  confidence: high
+  requires_followup: false
+- anomaly_id: ANOM-LIB1605-0002
+  type: partial_conversation_capture
+  description: Only turns 1–2 and 23–28 survive. The implementation steps between initial design and Stage 2 are missing from the export.
+  item_refs:
+  - IT-LIB1605-0011
+  - IT-LIB1605-0012
+  evidence_refs: []
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-LIB1605-0003
+  type: early_scope_overreach_corrected
+  description: Initial owner vision includes operational employee/availability and broad 'everything' data, while later Blueprint alignment explicitly narrows
+    Library to canonical definitions. Treat later boundary as refinement/supersession, not parallel authority.
+  item_refs:
+  - IT-LIB1605-0010
+  - IT-LIB1605-0015
+  - IT-LIB1605-0022
+  evidence_refs:
+  - EV-LIB1605-0008
+  - EV-LIB1605-0023
+  - EV-LIB1605-0030
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-LIB1605-0004
+  type: contract_registry_role_evolution
+  description: Early alignment makes Library a contract registry/definition layer, but later Blueprint architecture creates a separate Contract Registry/Gateway/domain-owner
+    model. Current architecture must reconcile which contract responsibilities remain in Library.
+  item_refs:
+  - IT-LIB1605-0023
+  evidence_refs:
+  - EV-LIB1605-0025
+  - EV-LIB1605-0030
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-LIB1605-0005
+  type: sync_manager_future_role_uncertain
+  description: Early alignment proposes `forprint_sync_manager` as a separate first-class module; later architecture may have redistributed this responsibility
+    across Blueprint, Gateway, runtime or standards-adoption mechanisms.
+  item_refs:
+  - IT-LIB1605-0019
+  evidence_refs:
+  - EV-LIB1605-0029
+  severity: normal
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-LIB1605-0006
+  type: historical_implementation_not_current_proof
+  description: Health endpoint and seven passing tests establish historical bootstrap evidence only; they do not prove current Library implementation/state.
+  item_refs:
+  - IT-LIB1605-0011
+  - IT-LIB1605-0012
+  evidence_refs:
+  - EV-LIB1605-0015
+  - EV-LIB1605-0019
+  severity: normal
+  confidence: high
+  requires_followup: true
+open_loops:
+- loop_id: LOOP-LIB1605-0001
+  description: Verify current Library canonical ownership boundary against later Blueprint/Contract Registry architecture.
+  item_refs:
+  - IT-LIB1605-0002
+  - IT-LIB1605-0015
+  - IT-LIB1605-0016
+  - IT-LIB1605-0020
+  - IT-LIB1605-0023
+  last_known_state: Early alignment says Library owns canonical catalogs/semantics/contracts but no runtime state; later Blueprint introduces separate Contract
+    Registry/Gateway/domain-owner semantics.
+  recommended_verification: Resolve current release/ADRs and assign each contract/catalog/semantic responsibility to exactly one current authority.
+- loop_id: LOOP-LIB1605-0002
+  description: Verify semantic ID stability aliases and migration graph in current Library.
+  item_refs:
+  - IT-LIB1605-0003
+  - IT-LIB1605-0017
+  last_known_state: Historical Stage 2 and alignment make semantic IDs/aliases/migration graph foundational.
+  recommended_verification: Audit current schemas/registry/tests for stable IDs, alias history, blocked/deprecated versions and migration-path validation.
+- loop_id: LOOP-LIB1605-0003
+  description: Verify Library change-impact and activation lifecycle.
+  item_refs:
+  - IT-LIB1605-0018
+  - IT-LIB1605-0026
+  last_known_state: Historical alignment recommends draft→approved→staged→syncing→active and impact triggers across contracts/semantics/catalogs/templates/migrations.
+  recommended_verification: Inspect current change manifest, adoption/impact analysis and activation gates; determine whether later standards/Contract Registry
+    superseded this mechanism.
+- loop_id: LOOP-LIB1605-0004
+  description: Verify admin tooling is present without operational scope creep.
+  item_refs:
+  - IT-LIB1605-0008
+  - IT-LIB1605-0024
+  last_known_state: Owner required strong human-facing administration for canonical definitions.
+  recommended_verification: Audit current admin surfaces, permissions, publish validation and ensure runtime orders/payments/stock are not administered
+    as Library-owned data.
+- loop_id: LOOP-LIB1605-0005
+  description: Verify current Library Git/repository hygiene and test gates.
+  item_refs:
+  - IT-LIB1605-0012
+  - IT-LIB1605-0013
+  - IT-LIB1605-0014
+  last_known_state: Historical process required test→commit→push and cleaning backup/cache artifacts.
+  recommended_verification: Inspect live repo branch/HEAD, CI/make gates, gitignore and generated/local artifact policy.
+- loop_id: LOOP-LIB1605-0006
+  description: Determine whether proposed Sync Manager still exists as a current architecture concept.
+  item_refs:
+  - IT-LIB1605-0019
+  last_known_state: Early alignment recommends a first-class `forprint_sync_manager`.
+  recommended_verification: Search current Blueprint/module inventory and ADRs for Sync Manager or successor responsibilities; classify implemented/superseded/deferred.
+implementation_audit_ref: implementation_audit.stub.yaml

@@ -1,0 +1,1847 @@
+schema_version: forprint_dftb_dialogue_memory_v0_1
+bundle_id: DFTB-telegram-bot-long-running-filename-label-2026-10-13
+source:
+  source_id: SRC-telegram-bot-long-running-filename-label-2026-10-13
+  title: Asistant_Telegram_Bot - Assistant_Telegram_Bot
+  source_type: chatgpt_mhtml_telegram_module_long_running_dialogue
+  source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  source_hash_sha256: 14c1e806fc913764c49658eaaca84262fbd4a189489863f45b0cc3baaec1a264
+  conversation_started_at: null
+  conversation_ended_at: Tue, 15 Sep 2026 14:27:07 +0300
+  participants:
+  - user
+  - assistant
+  language:
+  - uk
+  - en
+  - ru
+  authority_scope: telegram_module_history_only
+  completeness: large_sparse_long_running_dialogue
+  completeness_notes: 144 retained turn sections / 157 message blocks across turn range 1–920. Many missing turns and attachment placeholders. Strong terminal
+    checkpoint is the 2026-07-29 governance completion packet at dcd2b01.
+extraction:
+  created_at: '2026-09-15T16:34:00+03:00'
+  extractor: GPT-5.6 Sol / Asistans_Forprint_Blueprint
+  extraction_mode: duplicate_check_then_long_running_telegram_reconstruction
+  implementation_verification_performed: false
+  notes: Historical module evidence only. Filename date is impossible relative to export and is not chronology authority. Historical terminal outputs are
+    not current repository proof.
+evidence_index:
+- evidence_id: EV-TG1310-0001
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: 14578eb1-c9fa-471e-b247-2c6d4113df55
+    message_id: 14578eb1-c9fa-471e-b247-2c6d4113df55
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: 'ми починаємо створювати telegram бота з тобою у нас вже є напрацювання я зараз дам тобі часстину інформації що вже є ти її детально проаналізуй
+    дуже коротко дай свії аналіз і пропозицію по нступним крокам я ознайомлюсь за потреби дам коррективи і ми почнемо дам тобі зараз каркас для організації
+    моделі поведінки telegram бота ознайомся з нею і потім дай соє коротке резюме а потім я дам тобі основні критерії поведінки бота щоб ти підготувала
+    якісне наповнення скриптів які будуть моделювати роботу бота відразу передбачила основні можливі додаткові моделі поведінки які я не вкажу але вони
+    цілком ймовірні їх треба буде теж внестив політику роботи бота головний прворітет це грамотна і продумана структура поведінки яка максимально охоплює
+    ті задачі що я тобі надам і всі суміжні аспекти що ти зможеш сама додати даю каркас для початку для аналізу '
+  quote_whitespace_normalized: true
+  context_before: Owner starts from a behavior-model framework and asks to include likely additional behavior modes, not only explicitly named ones.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - behavior_model
+- evidence_id: EV-TG1310-0002
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 2d00bf0f-d4d6-4064-bae3-e0a8cb131ec7
+    message_id: 0949600c-8acc-4639-8f28-852bda14af4c
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: 'Окей, короткий звіт по блоку “підключення AI” 👇 Бот має виявляти неоднозначність/низьку впевненість у рішенні. Далі два шляхи: а) звернення до
+    Ментора; б) ескалація в AI-асистент (ChatGPT). При ескалації бот передає AI весь контекст: діалог, дані замовлення, доступ до БД. AI допомагає сформувати
+    відповідь/кроки, бот повертає це користувачу. Користувача прозоро інформуємо: “залучаю асистента, щоб не помилитись”. Усі ескалації логуються (причина,
+    контекст, результат). Політики/обмеження: AI не виходить за рамки правил і приватності. Якщо Ментор/AI недоступні → безпечний fallback + повідомлення
+    користувачу. Таймаут/повтор: 1–2 спроби ескалації, далі — пе'
+  quote_whitespace_normalized: true
+  context_before: Assistant summarizes low-confidence/ambiguity escalation to Mentor or AI with full context and logging.
+  context_after: null
+  evidence_role:
+  - assistant_summary
+  - escalation
+- evidence_id: EV-TG1310-0003
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 2d00bf0f-d4d6-4064-bae3-e0a8cb131ec7
+    message_id: 0949600c-8acc-4639-8f28-852bda14af4c
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: 'ані замовлення, доступ до БД. AI допомагає сформувати відповідь/кроки, бот повертає це користувачу. Користувача прозоро інформуємо: “залучаю асистента,
+    щоб не помилитись”. Усі ескалації логуються (причина, контекст, результат). Політики/обмеження: AI не виходить за рамки правил і приватності. Якщо Ментор/AI
+    недоступні → безпечний fallback + повідомлення користувачу. Таймаут/повтор: 1–2 спроби ескалації, далі — передача людині. Мета: точність рішень без
+    втрати “живого” тону діалогу.'
+  quote_whitespace_normalized: true
+  context_before: Assistant says the user should be transparently informed when an assistant is involved.
+  context_after: null
+  evidence_role:
+  - assistant_summary
+  - transparency
+- evidence_id: EV-TG1310-0004
+  speaker: user
+  locator:
+    conversation_turn: 3
+    turn_id: bf8952db-64e3-40b9-b15a-b58f9b53e5ff
+    message_id: bf8952db-64e3-40b9-b15a-b58f9b53e5ff
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: задачам чи може треба перформативати які зовнішні ресурси нам ще потрібно залучити зараз залучено /supabase.com як database, deberta, mistral що
+    нам може знадобитись ще дай короткий аналіз на скільки % мизможемо реалізувати ті задачі що вже проговорені, що реалізівати буде неможливо або дуже
+    складно який початок дій сплануємо на початок скільки прогнозуєш часу піде на запуск першого прототипа і скільки піде на повнісю на реалізацію задуму
+    Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Owner states historical external stack includes Supabase, DeBERTa and Mistral and asks what else is needed.
+  context_after: null
+  evidence_role:
+  - owner_context
+  - runtime_stack
+- evidence_id: EV-TG1310-0005
+  speaker: assistant
+  locator:
+    conversation_turn: 4
+    turn_id: 7fd61c16-c5b1-402e-94ce-818f0a51f66f
+    message_id: dbb104a9-f167-4d6d-9d76-17598aa12e00
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: 'Стислий теханаліз + план. Короткий аналіз усього проєкту Сильні сторони: чітка поведінкова модель (intents→templates→generation→feedback), наявні
+    каркаси скриптів, Supabase як центр даних, підключення DeBERTa/Mistral, фокус на “живому” стилі. Ризики: класифікація в реальних діалогах (шум, код-міш),
+    покриття шаблонами, узгодженість тон/політики між генерацією і брендовим стилем, контроль ескалацій до AI/ментора, приватність/PII (телефон). Вузькі
+    місця: довизначення інтенцій/required_fields; сценарії збору даних “крок-за-кроком”; антифлуд/робочі години; багато-мовність; якісний feedback loop
+    (розмітка “хороша/погана відповідь”). Аудит наданого каркасу Відповідність задачам: 80–85% (ядро по'
+  quote_whitespace_normalized: true
+  context_before: Assistant summarizes the intended behavior pipeline and notes privacy/PII, multilingual and feedback-loop risks.
+  context_after: null
+  evidence_role:
+  - assistant_analysis
+  - behavior_architecture
+- evidence_id: EV-TG1310-0006
+  speaker: user
+  locator:
+    conversation_turn: 20
+    turn_id: 0bb200f5-5e5d-4c45-95fe-8240a94b25ce
+    message_id: 0bb200f5-5e5d-4c45-95fe-8240a94b25ce
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: “Я додаю обов'язково, що якщо клієнт ще не кваліфікований, то при кваліфікації блок доставки теж має бути в карточку клієнта записаний. Тобто це
+    треба так легенько, щоб бот, коли знайомиться з новим клієнтом, він бере в нього телефон, там запитує якісь легенькі його моменти, які можуть нас цікавити
+    на майбутнє, яку продукцію його цікавить, що йому взагалі, який в нього вид діяльності, і разом з цим записується, береться, приоритетний вибирається
+    спосіб доставки, і це сразу має бути в карточці клієнта. Якщо бот перевіряє, і клієнт кваліфікований, але в карточці клієнта цієї інформації нема, то
+    він теж легенько питає, запитує про цю інформацію, отримує і записує в карточку. Тобто бот постійно моніторить карточку клієнта, якщо знаходить там
+    слабкі, пусті місця, то він намагається отримати цю інформацію у клієнта при актуальній розмові і доза
+  quote_whitespace_normalized: true
+  context_before: Owner requires client qualification to capture preferred delivery method together with basic client profile data.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - qualification
+- evidence_id: EV-TG1310-0007
+  speaker: assistant
+  locator:
+    conversation_turn: 25
+    turn_id: 82eaa98d-fcc8-4a81-a3c9-789e3bc7d2ff
+    message_id: 8ed03e79-b151-4729-a596-1434ce5ca965
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: та не треба чекати — ось оновлена таблиця з блоком “Доставка” і автодозбіром даних у картці клієнта 👇 № Дія / Задача Тригери / Сигнали Алгоритм
+    (коротко) Дані / Поля Ескалації / Фолбеки Аналітика / KPI Статус 1 Оформлення замовлення (start) “хочу замовити”, “оформити” intent → поетапний збір
+    полів → підсумок → підтвердження ім’я, телефон , продукт, кількість, пачка/упаковка , термін low-conf → уточнення; брак полів → доопит order_completion_rate
+    в роботі 2 Розрізнення “пачка vs упаковка” згадка кількості/типу rule-based дисамбiг + приклади qty, pack_type(enum) неясно → показати приклади перерахункові
+    помилки в роботі 3 Отримання телефону відсутній ном
+  quote_whitespace_normalized: true
+  context_before: Historical registry combines order intake, qualification, delivery and card enrichment scenarios.
+  context_after: null
+  evidence_role:
+  - assistant_artifact_summary
+  - behavior_registry
+- evidence_id: EV-TG1310-0008
+  speaker: user
+  locator:
+    conversation_turn: 26
+    turn_id: 6b520ce0-94ff-4d93-be39-2b3071060ca4
+    message_id: 6b520ce0-94ff-4d93-be39-2b3071060ca4
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: таблицю я отримав, все вроді наче непогано, але виконується одна умова. Я хочу, щоб таблиця відразу групувалася по тематичним блокам доставка,
+    кваліфікація клієнта, прийом замовлення, чтобы все эти поля групповались между собой рядом, и каждый тематичный блок был пофарбованным бэкграундом другой
+    кольор, то есть там блакитный, какие-то светлые кольоры, не сильно насыщенные, чтобы они не резали око, легенькие. І щоб було чітко видно, що це один
+    блок, і там такі-то поля, а це інший кольор, це інший блок, там свої тематичні поля. Дороби мені візуальну картинку, щоб мені було зручніше з цією таблицею
+    працювати, поверни її ще раз, і продовжимо далі. Зрозуміла задача?”
+  quote_whitespace_normalized: true
+  context_before: Owner requires behavior-registry rows grouped visibly by thematic blocks with light color coding.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - operator_ux
+- evidence_id: EV-TG1310-0009
+  speaker: user
+  locator:
+    conversation_turn: 34
+    turn_id: 67cbdf64-8915-4115-81ee-4754f70cc06a
+    message_id: 67cbdf64-8915-4115-81ee-4754f70cc06a
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: лений в HTML-форматі. А ми домовилися, що ми перейдемо тимчасово, давай так, ти мені пропонуй зразу два формати, один Excel, щоб мені було зручно
+    завантажити з комп'ютера і, наприклад, там працювати з конкретним файлом, а другий, хай буде HTML, я буду його переглядати з телефона. Зразу, за замовчуванням,
+    приймаємо правило, виводимо два інтерфейси. Тобі зрозуміла задача?”
+  quote_whitespace_normalized: true
+  context_before: 'Owner makes Excel + HTML dual delivery the default: Excel for desktop editing and HTML for phone viewing.'
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - operator_ux
+- evidence_id: EV-TG1310-0010
+  speaker: assistant
+  locator:
+    conversation_turn: 68
+    turn_id: 7d1b7db1-8a84-4c5c-9340-bff3ccb7d931
+    message_id: e46c683a-1bd4-48ca-8f21-de8e06364fdc
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: 'сі сценарії з твого фрагмента (нічого не видаляв) + повернув наші попередні блоки й окремо включив “Підрядники” (match → brief → контроль → fallback).
+    Тепер у листі “Реєстр” все згруповано тематично й пофарбовано м’якими фонами за блоками, щоб швидко скролити та читати. Excel v8: Завантажити (bot_registry_v8.xlsx)
+    Що всередині: Реєстр — повний список сценаріїв (з твоєї таблиці + наші “Підрядники”), з кольорами по блоках. ENUM_ *: DELIVERY_METHOD , PACK_TYPE ,
+    PAYMENT_METHOD , DEFECT_TYPE . SCRIPTS_SUPPLIERS і SCRIPTS_CONTRACTORS — міні-набори діалогових фраз. Якщо треба — можу: винести RAG/FAQ/pricebook у
+    окремий лист зі схемою, додати KPI-дешборд (плейсхолдери'
+  quote_whitespace_normalized: true
+  context_before: Historical behavior registry expands with contractor matching/brief/control/fallback and reusable enum/script sheets.
+  context_after: null
+  evidence_role:
+  - assistant_artifact_summary
+  - behavior_registry
+- evidence_id: EV-TG1310-0011
+  speaker: assistant
+  locator:
+    conversation_turn: 71
+    turn_id: 8b3bdf4c-1d26-49c1-92a3-64f16b594113
+    message_id: b36375ff-4e50-4c04-99ec-6daf8d774d4f
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: 'ARD_status_by_block (зведення сценаріїв і станів); KPI_SCHEMA (реєстр KPI, витягнутий з “Реєстру”); INTEGRITY + DUPLICATES (md5-хеш, лічильники,
+    та контроль дублікатів); TECH_NOTES (фіксація, що фічі інтегровані); CHANGELOG (v0.9). Excel v9: Завантажити (bot_registry_v9.xlsx) як далі? якщо ок
+    — беру наступний блок на опрацювання (ти казав про “перевірку файлів” у Telegram, можемо закласти сценарії intake → валідація → помилки → фіксація у
+    картці/замовленні). або скажи, що ще поправити по візуалу (наприклад, підкреслення заголовків, іконки-емодзі в колонці “Блок”, додаткові статуси). Hey
+    there! How’s it going?'
+  quote_whitespace_normalized: true
+  context_before: Historical registry workbook adds dashboards, KPI schema, integrity/duplicate checks, notes and changelog.
+  context_after: null
+  evidence_role:
+  - assistant_artifact_summary
+  - registry_quality
+- evidence_id: EV-TG1310-0012
+  speaker: user
+  locator:
+    conversation_turn: 186
+    turn_id: 243c5590-de5e-4c8d-a3a8-cc2bd9b6b83e
+    message_id: 243c5590-de5e-4c8d-a3a8-cc2bd9b6b83e
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: 'evaluate_intent.py Python file_structure.md File не валідні шляхи venv) printmaster@Designer:~/telegram_bot_project$ cd /home/printmaster/telegram_bot_project
+    hon test(venv) printmaster@Designer:~/telegram_bot_project$ ing/tool(venv) printmaster@Designer:~/telegram_bot_project$ python testing/tools/table_integrity_check.py
+    \ > --file registry/bot_behavior_registry_v14_adapted_v3.xlsx \ > --schema registry/registry_schema.yaml \ > --out testing/reports/integrity_report.csv
+    python: can''t open file ''/home/printmaster/telegram_bot_project/testing/tools/table_integrity_check.py'': [Errno 2] No such file or directory даю
+    шля'
+  quote_whitespace_normalized: true
+  context_before: Owner reports invalid/nonexistent testing paths and gives the actual project package path/convention.
+  context_after: null
+  evidence_role:
+  - owner_execution_evidence
+  - path_drift
+- evidence_id: EV-TG1310-0013
+  speaker: user
+  locator:
+    conversation_turn: 206
+    turn_id: 08718c63-dec6-40f1-aa42-c978d398edf2
+    message_id: 08718c63-dec6-40f1-aa42-c978d398edf2
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: config.py Python template_lookup.py Python давай ми помалу з тобою підемо далі а то ми вже наробили кучу файлів і шляхів написали до неіснуючих
+    директорій далі рухаємся невелткими кроками що навести лад поперше даю форму вірного запису шляху до скриптві в директорії <bot_brain> вона не є корневою
+    вона один з підкаталогів проєкту в скрипті /home/printmaster/telegram_bot_project/source/education/bot_brain/router/dialog_router.py мало бути from
+    source.education.bot_brain.lookup.template_lookup import lookup_template from source.education.mistral.generate.mistral_generate import mistral_generate
+    from source.education.bot_brain.generate.generate_human_talk import generate_response далі в /home/printmaster/tele
+  quote_whitespace_normalized: true
+  context_before: Owner explicitly slows down after path/file sprawl and corrects imports/config paths.
+  context_after: null
+  evidence_role:
+  - owner_correction
+  - path_drift
+- evidence_id: EV-TG1310-0014
+  speaker: user
+  locator:
+    conversation_turn: 208
+    turn_id: ba744595-9dd9-4c9d-9193-16bfecc7dd8c
+    message_id: ba744595-9dd9-4c9d-9193-16bfecc7dd8c
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: evaluate_intent.py Python не треба вводити прямо тимчасовий шлях <from pathlib import Path as _Path> запропонована структура вже чітка і читабельна
+    можемо обмежитись <from pathlib import Path> якщо ми будемо використовувати унікальні константи то я думаю що нічого поганого не станеться давай переробимо
+    якщо я помиляюсь і це не доречно то поправ мене і скажи чому для скрипту template_lookup.py не правильна структура зверху нема задукоментованого поля
+    виклику шляху нем описання що він робить і залежностей і інше з вимог до скриптів даю додатково скрипт який правильно організований нашя подвльші скрипти
+    мають чітко відповідати такійже структурі Show more Show less
+  quote_whitespace_normalized: true
+  context_before: 'Owner requires consistent script headers/documentation: purpose, invocation/path, dependencies and structural metadata.'
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - code_standard
+- evidence_id: EV-TG1310-0015
+  speaker: user
+  locator:
+    conversation_turn: 314
+    turn_id: f8a06979-95b2-4f12-935e-9521b780bdfa
+    message_id: f8a06979-95b2-4f12-935e-9521b780bdfa
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: '_from_registry.py Python check_templates_coverage.py Python так даю файли на перевірку і корекцію і чому одан і таж функція видає 2 різні результати
+    printmaster@Designer:~/telegram_bot_project$ python -m source.education.bot_brain.testing.cases.run_cases \ e/educat> --cases source/education/bot_brain/testing/cases/cases.xlsx
+    \ > --out source/education/bot_brain/testing/reports/cases_report.csv \ > --verbose \ > --accept-parent # ← вмикай/вимикай за потреби [template_lookup]
+    fieldnames: [''intent'', ''style'', ''locale'', ''template''] → [''intent'', ''style'', ''locale'', ''template''] [template_lookup] loaded 15 rows from
+    source/education/bot_brain/testing/fixtures/forprint_human_talk_templates.csv [template_looku'
+  quote_whitespace_normalized: true
+  context_before: Owner reports nondeterministic/inconsistent classification test behavior and asks for correction.
+  context_after: null
+  evidence_role:
+  - owner_execution_evidence
+  - testing
+- evidence_id: EV-TG1310-0016
+  speaker: user
+  locator:
+    conversation_turn: 334
+    turn_id: 29023d3f-6611-42e1-b88b-dd1b738b891c
+    message_id: 29023d3f-6611-42e1-b88b-dd1b738b891c
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: 'ducation/bot_brain/router/dialog_router.py HAS _norm_text: True HAS classify_intent_explained: True SAMPLE: (''reengage'', ''reengage#ping'')
+    printmaster@Designer:~/telegram_bot_project$ find source -type d -name "__pycache__" -print -exec rm -rf {} + source/services/__pycache__ source/services/database_control/__pycache__
+    source/utils/__pycache__ source/education/deberta/__pycache__ source/education/deberta/deberta_style_classifier/teaching/__pycache__ source/education/deberta/deberta_style_classifier/evaluate/__pycache__
+    source/education/deberta/deberta_intent_classifier/utils/__pycache__ source/education/deberta/deberta_intent_classifier/utils/rev_manager/__pycache__
+    source/education/deber'
+  quote_whitespace_normalized: true
+  context_before: Terminal output confirms a historical classifier function and sample route at that checkpoint.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - classifier
+- evidence_id: EV-TG1310-0017
+  speaker: user
+  locator:
+    conversation_turn: 340
+    turn_id: 64e07ffc-5433-4c95-93d4-a556cea3f617
+    message_id: 64e07ffc-5433-4c95-93d4-a556cea3f617
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: '[template_lookup] intents(sample)=[''101'', ''102'', ''103'', ''18'', ''30'', ''4'', ''50'', ''60'', ''7''] (total 9) Traceback (most recent call
+    last): File "<frozen runpy>", line 198, in _run_module_as_main File "<frozen runpy>", line 88, in _run_code File "/home/printmaster/telegram_bot_project/source/education/bot_brain/testing/smoke/smoke_router.py",
+    line 27, in <module> main() File "/home/printmaster/telegram_bot_project/source/education/bot_brain/testing/smoke/smoke_router.py", line 22, in main
+    _probe("Хочу замовити 10 пачок А4") # очікуємо HIT для order.start ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ File "/home/printmaster/telegram_bot_project/source/education/bot_brain/testi'
+  quote_whitespace_normalized: true
+  context_before: Historical smoke run fails while loading/routing templates, preserving a real test/debug checkpoint.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - testing
+- evidence_id: EV-TG1310-0018
+  speaker: user
+  locator:
+    conversation_turn: 362
+    turn_id: c8f37478-3eb3-4c15-90f9-2cef7fa1b75e
+    message_id: c8f37478-3eb3-4c15-90f9-2cef7fa1b75e
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: ~$bot_behavior_registry_v14_adapted_v3.xlsx Spreadsheet ок як нам тепер підвязати логіку бота яку ми описали в bot_behavior_registry_v14_adapted_v3
+    сторінка <Реєстр> в роботу тестової моделі треба згенерувати наповнення csv по нашому алгоритму правильно чи ні чияк виглядає подальший рух щоб ми могли
+    тестувати модель поступовими питаннями по ланцюжку дивлячись чи правильним шляхом вона йде Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Owner asks how to connect behavior registry logic into staged model testing by chained questions.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - behavior_spec
+- evidence_id: EV-TG1310-0019
+  speaker: user
+  locator:
+    conversation_turn: 372
+    turn_id: 39f17e40-11f5-40f7-8654-e7ba5182ce46
+    message_id: 39f17e40-11f5-40f7-8654-e7ba5182ce46
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: “Look, we have already done a lot with you to test the models, but I just realized that we have left the main course. We went in the direction
+    of forming a really working model that recognizes requests, partially decodes phrases, corrects errors, and all the rest. But this is more needed to
+    build the logic of the working bot, and ours is the second stage for me. For me, the first stage is to build a table, exclusively a table of behavior
+    models. At this stage, we made a big mistake. We took, let's say, some non-standardized phrases and began to adjust the logic of the bot's work to them.
+    I think we can do it another way at this stage. We can fill, for example, synthetically, I will give some direct recommendations, because in a few stages
+    we can synthetically fill our CSV file with some standard requests. My main logic is that the bot sho
+  quote_whitespace_normalized: true
+  context_before: 'Owner makes a major course correction: working classifier/runtime logic is stage two; stage one is the behavior-model table itself.'
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - phase_boundary
+- evidence_id: EV-TG1310-0020
+  speaker: user
+  locator:
+    conversation_turn: 372
+    turn_id: 39f17e40-11f5-40f7-8654-e7ba5182ce46
+    message_id: 39f17e40-11f5-40f7-8654-e7ba5182ce46
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: “Look, we have already done a lot with you to test the models, but I just realized that we have left the main course. We went in the direction
+    of forming a really working model that recognizes requests, partially decodes phrases, corrects errors, and all the rest. But this is more needed to
+    build the logic of the working bot, and ours is the second stage for me. For me, the first stage is to build a table, exclusively a table of behavior
+    models. At this stage, we made a big mistake. We took, let's say, some non-standardized phrases and began to adjust the logic of the bot's work to them.
+    I think we can do it another way at this stage. We can fill, for example, synthetically, I will give some direct recommendations, because in a few stages
+    we can synthetically fill our CSV file with some standard requests. My main logic is that the bot sho
+  quote_whitespace_normalized: true
+  context_before: Owner proposes synthetic standard requests only to exercise the defined behavior schemes, not to let arbitrary phrases define the architecture.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - testing_strategy
+- evidence_id: EV-TG1310-0021
+  speaker: user
+  locator:
+    conversation_turn: 419
+    turn_id: da165d45-e818-4058-bab2-3b6c3db0cc28
+    message_id: da165d45-e818-4058-bab2-3b6c3db0cc28
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: '/bot_behavior_registry_v14_adapted_v3.xlsx \ > --out-dir source/education/bot_brain/testing/reports Traceback (most recent call last): File "<frozen
+    runpy>", line 198, in _run_module_as_main File "<frozen runpy>", line 88, in _run_code File "/home/printmaster/telegram_bot_project/source/education/bot_brain/testing/tools/export_flow_mermaid.py",
+    line 237, in <module> raise SystemExit(main()) ^^^^^^ File "/home/printmaster/telegram_bot_project/source/education/bot_brain/testing/tools/export_flow_mermaid.py",
+    line 218, in main data = load_registry_tree(xlsx) ^^^^^^^^^^^^^^^^^^^^^^^^ File "/home/printmaster/telegram_bot_project/source/education/bot_brain/engine/reg'
+  quote_whitespace_normalized: true
+  context_before: Historical Mermaid/export tool run fails on registry-tree loading.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - tooling
+- evidence_id: EV-TG1310-0022
+  speaker: user
+  locator:
+    conversation_turn: 431
+    turn_id: dd8f9453-2e2d-42a6-b1be-46ac32112e63
+    message_id: dd8f9453-2e2d-42a6-b1be-46ac32112e63
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: 'behavior_wizard_seed.xlsx [IO] PATCH: source/education/bot_brain/registry/patches/ident_step.json ✅ Seed оновлено успішно. але в файлі ніяких
+    змін не бачу файл додаю додатково для аналізу може я небачу чогось Show more Show less'
+  quote_whitespace_normalized: true
+  context_before: Historical seed patcher reports success while owner sees no visible workbook change, indicating false-success/observability risk.
+  context_after: null
+  evidence_role:
+  - owner_execution_evidence
+  - tooling
+- evidence_id: EV-TG1310-0023
+  speaker: user
+  locator:
+    conversation_turn: 471
+    turn_id: bbecdcc8-7724-4127-8c1d-5a0327e6d71f
+    message_id: bbecdcc8-7724-4127-8c1d-5a0327e6d71f
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: и проблеми з відладкою і ми знову втратимо купу часу на діагностику давай всетаки продумаємо якийсь head_wizard.py чищось подібне який буде виступати
+    як точка входу і буде перекидувати виконання в залежності від того яккий запит ми обробляємо order або VENDORS або інші додаткові в майбутньому таблиця
+    exel дійсно може бути одна вона поки не так сильно росте як wizard, як скажеш краще піти далі думаю один загальний wizard ми розгонемо до тисяч рядків
+    і він буде погано кирований а наша ціль відмалювати схему роботи бота тому дійсно тримати якусь інформацію в тілі візарда і не морочитись на перенесення
+    по максимуму в exel то нормально на даному єтапі чи як ти порадиш зр
+  quote_whitespace_normalized: true
+  context_before: Owner rejects one ever-growing wizard and proposes a dispatcher/head wizard with scenario-specific runners such as ORDER/VENDORS.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - wizard_architecture
+- evidence_id: EV-TG1310-0024
+  speaker: user
+  locator:
+    conversation_turn: 475
+    turn_id: a923b666-b323-4626-957f-a6c8696990ed
+    message_id: a923b666-b323-4626-957f-a6c8696990ed
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: 'source/education/bot_brain/registry/bot_behavior_wizard_seed_order.xlsx \ > --start ID_SOURCE [IO] Flow loaded: 113 nodes ✅ Працюю за Excel-схемою:
+    source/education/bot_brain/registry/bot_behavior_wizard_seed_order.xlsx [1] [ID_SOURCE | order=0.2] Звідки прийшов запит? (тиха перевірка) 1) Telegram
+    2) Email > 1 [2] [ID_TG_FIND | order=0.21] Шукаю номер у профілі Telegram/імені… (тиха перевірка) 1) Телефон знайдено 2) Телефон не знайдено — попросити
+    номер > 2 [3] [ID_ASK_PHONE | order=0.23] Будь ласка, вкажіть телефон у форматі +380XXXXXXXXX 1) Надати номер > 1 [4] [ID_IN_DB_CHECK | order=0.13]
+    Перевіряю номер у таблиці «Клієнти»… (тиха перевірка) 1) Є у БД — відомий клієнт'
+  quote_whitespace_normalized: true
+  context_before: Historical ORDER wizard successfully loads a 113-node Excel flow and begins interactive traversal.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - wizard
+- evidence_id: EV-TG1310-0025
+  speaker: user
+  locator:
+    conversation_turn: 481
+    turn_id: 58a60658-ef62-4707-b149-403599045e9b
+    message_id: 58a60658-ef62-4707-b149-403599045e9b
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: 'sting/tools/make_wizard_seed_vendors.py", line 28 --- Константа вихідного шляху з м''яким дефолтом ^ SyntaxError: unterminated string literal
+    (detected at line 28) printmaster@Designer:~/telegram_bot_project$ python -m source.education.bot_brain.testing.wizard.head_wizard --scenario vendors
+    Traceback (most recent call last): File "<frozen runpy>", line 189, in _run_module_as_main File "<frozen runpy>", line 159, in _get_module_details File
+    "<frozen importlib._bootstrap_external>", line 1074, in get_code File "<frozen importlib._bootstrap_external>", line 1004, in source_to_code File "<frozen
+    importlib._bootstrap>", line 241, in _call_with_frames_removed File "/hom'
+  quote_whitespace_normalized: true
+  context_before: Historical VENDORS seed generator fails with an unterminated-string SyntaxError.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - wizard
+- evidence_id: EV-TG1310-0026
+  speaker: user
+  locator:
+    conversation_turn: 493
+    turn_id: f1304b73-7883-4a54-838b-a9c675cac31c
+    message_id: f1304b73-7883-4a54-838b-a9c675cac31c
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: '_SOURCE usage: run_wizard_order.py [-h] --flow-from-xlsx FLOW [--debug] run_wizard_order.py: error: unrecognized arguments: --start V_SOURCE printmaster@Designer:~/telegram_bot_project$
+    Show more Show less'
+  quote_whitespace_normalized: true
+  context_before: Historical scenario dispatcher fails because a runner did not accept the expected start argument.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - wizard
+- evidence_id: EV-TG1310-0027
+  speaker: user
+  locator:
+    conversation_turn: 517
+    turn_id: 47194337-7dd5-4fcc-80af-b89994f94664
+    message_id: 47194337-7dd5-4fcc-80af-b89994f94664
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: tree.txt Document .env File config.py Python так в цілому все підходить єдине що я хочу покласти delivery в підпапку models source/education/bot_brain/app/madels/delivery/
+    і далі буде source/education/bot_brain/app/models/vendors/ і так далі по всіх моделях також хочу тобі нагадати основні наші правили по кодуванню 1.
+    Назва скрипту 2. Дктальний опис за що цей файл відповідає яка в еього логіка роботи і який основновний результат роботи 3. Які скрипти напряму залежать
+    від роботи данного скрипта 4. Від роботи яких скриптів залежить коректна робота данного скрипта 5. Перелік шляхів що використовує скрипт які є в коді
+    і явно не прописвні в перемінних на початку файлу 6. Після за
+  quote_whitespace_normalized: true
+  context_before: Owner requires scenario/domain model folders and reiterates detailed code metadata/logging/config rules.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - runtime_architecture
+- evidence_id: EV-TG1310-0028
+  speaker: user
+  locator:
+    conversation_turn: 517
+    turn_id: 47194337-7dd5-4fcc-80af-b89994f94664
+    message_id: 47194337-7dd5-4fcc-80af-b89994f94664
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: env які є в корені проєкту щоб ти орієнтувалася при рефакторингу коду далі дотримуємось політики що ніяких констант або жорстких шляхів в коді
+    все приводимо до роботи через config.py і .env якщо буде потрібно по архітектурі то додамо ще якісь конфіг файли додатково але все має працювати через
+    чіткі конфігурації щоб можна було швидко змінювати налаштування проєкту без правки коду використай всю цю інформацію і давай підгонемо нову структуру
+    файлів моделей для реалізації роботи нашаго бота Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Owner requires config.py/.env-driven settings instead of hard-coded constants/paths.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - configuration
+- evidence_id: EV-TG1310-0029
+  speaker: user
+  locator:
+    conversation_turn: 525
+    turn_id: 8003035e-4704-4bd3-8cc9-4f6e71ed4113
+    message_id: 8003035e-4704-4bd3-8cc9-4f6e71ed4113
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: вись для реализації /home/printmaster/telegram_bot_project/source/education/bot_brain/app логіки ми вже не опираємось на xls файли чи ще щось візарди
+    і ранери які ми описали в /home/printmaster/telegram_bot_project/source/education/bot_brain/develop/testing/wizard ми беремо для опису реальної поведінки
+    бота бо вони описують вже всю базову його логіку тепер ми вже пишемо реальних код який опирається на базу supabase і наш проєкт я думаю навіть можна
+    пепісля ствреня базового коду перейти до тестування бота в реальних умовах щоб відразу бачити що і як він робить у нас вже є базовий код в /home/printmaster/telegram_bot_project/bot.py
+    я дам тобі файл на ознайомлення також дам тобі дерев
+  quote_whitespace_normalized: true
+  context_before: 'Owner draws a critical boundary: production app logic should no longer depend on XLS/wizard artifacts; those remain behavioral-development
+    references.'
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - runtime_boundary
+- evidence_id: EV-TG1310-0030
+  speaker: user
+  locator:
+    conversation_turn: 525
+    turn_id: 8003035e-4704-4bd3-8cc9-4f6e71ed4113
+    message_id: 8003035e-4704-4bd3-8cc9-4f6e71ed4113
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: о для опису реальної поведінки бота бо вони описують вже всю базову його логіку тепер ми вже пишемо реальних код який опирається на базу supabase
+    і наш проєкт я думаю навіть можна пепісля ствреня базового коду перейти до тестування бота в реальних умовах щоб відразу бачити що і як він робить у
+    нас вже є базовий код в /home/printmaster/telegram_bot_project/bot.py я дам тобі файл на ознайомлення також дам тобі дерево проєкту щоб ти розуміла
+    де що лежить будьласка вивчи дуже детально те що вже є щоб ти чітко розуміла які вже є напрацювання і як ти можеш їх використати для подальшої розробки
+    якщо треба буде ознайомитись тобі з якимись файлами додатково то скажи мені я дам тобі їх на ознайомлення ти з
+  quote_whitespace_normalized: true
+  context_before: Owner says real application code should use Supabase/project runtime and can then move toward live bot testing.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - runtime_architecture
+- evidence_id: EV-TG1310-0031
+  speaker: user
+  locator:
+    conversation_turn: 581
+    turn_id: a064be94-c338-4279-b1ee-7624ad5d74aa
+    message_id: a064be94-c338-4279-b1ee-7624ad5d74aa
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: Pasted text.txt Document якщо все ок давай підключати github по в одному місці тримати код нехочеться
+  quote_whitespace_normalized: true
+  context_before: Owner decides to connect GitHub rather than keep code in only one local place.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - git
+- evidence_id: EV-TG1310-0032
+  speaker: user
+  locator:
+    conversation_turn: 735
+    turn_id: 15661bf7-73b5-4cf2-a1bb-47f747d09d74
+    message_id: 15661bf7-73b5-4cf2-a1bb-47f747d09d74
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: 'еформатуваи з загальними правилами я дам тобі наш файл ти мені поверни повністю готовий до роботи # ForPrint Module Make Target Contract Status:
+    draft v0.1 Created: 2026-06-12T14:33:44.165569+00:00 ## Purpose This standard defines canonical Make targets that active ForPrint modules should expose.
+    The goal is to make module assistants predictable. A module assistant should not invent unique command names for the same governance actions. ## Required
+    baseline targets text make blueprint-pull make blueprint-check make blueprint-sync-directives make blueprint-prompts-list make blueprint-prompt make
+    blueprint-prompt-check make coordination-check make coordination-fix make coordination-records-'
+  quote_whitespace_normalized: true
+  context_before: Owner supplies project-wide canonical Make target contract for Telegram adoption.
+  context_after: null
+  evidence_role:
+  - owner_directive
+  - governance
+- evidence_id: EV-TG1310-0033
+  speaker: user
+  locator:
+    conversation_turn: 757
+    turn_id: fa253c93-8538-40d7-a430-90621d6dc135
+    message_id: fa253c93-8538-40d7-a430-90621d6dc135
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: 't/forprint_system_blueprint/scripts/coordination/render_prompt_dashboard.py The important model is: module reads Blueprint prompts; module writes
+    completion report/status only inside its own repo; Blueprint acceptance is separate and happens from Blueprint repo; module must not write directly
+    into Blueprint; current status is rolling; previous checkpoints remain available as historical structured sections. Then inspect Library-side current
+    implementation Read these Library files: coordination/status/current_status.yaml coordination/status/current_status.md coordination/status/next_questions_for_blueprint.md
+    coordination/reports/index.yaml coordination/reports/completion/ scripts/co'
+  quote_whitespace_normalized: true
+  context_before: 'Owner supplies the newer Blueprint reporting/closure doctrine: module reads Blueprint, writes only own repo, rolling status, separate
+    Blueprint acceptance.'
+  context_after: null
+  evidence_role:
+  - owner_directive
+  - coordination
+- evidence_id: EV-TG1310-0034
+  speaker: user
+  locator:
+    conversation_turn: 827
+    turn_id: 7b55dce6-03cf-4a92-8aef-24a535e96da0
+    message_id: 7b55dce6-03cf-4a92-8aef-24a535e96da0
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: Pasted text.txt Document Оновити reports index metadata - не зроблено помилка коду Formatting validation - не зроблено помилка коду
+  quote_whitespace_normalized: true
+  context_before: 'Owner notes two concrete incomplete/error items: reports-index metadata and formatting validation.'
+  context_after: null
+  evidence_role:
+  - owner_execution_evidence
+  - closure_gap
+- evidence_id: EV-TG1310-0035
+  speaker: user
+  locator:
+    conversation_turn: 853
+    turn_id: ded8ab11-77f1-42da-9e79-c79eaa5ca4be
+    message_id: ded8ab11-77f1-42da-9e79-c79eaa5ca4be
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: option-v01 python source/scripts/coordination/read_blueprint_outgoing_prompt.py \ --read \ --prompt telegram_bot_governance_baseline_adoption_v0_1
+    \ --module telegram_bot \ --blueprint-root \ /srv/software_development/forprint-project/forprint_system_blueprint Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Owner initiates the Telegram governance-baseline adoption prompt on a dedicated feature branch with Blueprint read steps.
+  context_after: null
+  evidence_role:
+  - owner_directive
+  - governance
+- evidence_id: EV-TG1310-0036
+  speaker: user
+  locator:
+    conversation_turn: 891
+    turn_id: d4d7c2d3-0cb5-4fc6-85b4-a6bb344e0b99
+    message_id: d4d7c2d3-0cb5-4fc6-85b4-a6bb344e0b99
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: Pasted text.txt Document NO_COLOR=1 - не використовуємо більше
+  quote_whitespace_normalized: true
+  context_before: Owner explicitly retires `NO_COLOR=1` usage.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - tooling_policy
+- evidence_id: EV-TG1310-0037
+  speaker: assistant
+  locator:
+    conversation_turn: 916
+    turn_id: 6293c6a2-dab9-465e-b9e8-a7f353b13f6e
+    message_id: d17c9867-6e38-45b8-b9eb-af47f75daff8
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: 'Ок. Працюємо тільки у Telegram repo . Blueprint repo не чіпаємо. Якщо треба буде змінювати/підтягувати Blueprint — зупинимось і прямо погодимо
+    окремо. Поточна причина blocker: Blueprint branch не має upstream, тому blueprint-pull падає, але це не дефект Telegram runtime і не причина писати
+    в Blueprint repo. Патч нижче робить module-side поведінку чесною: blueprint_pull буде DEFERRED , governance-check проходитиме з warning, без false green
+    і без cross-repository write. Файл patch для скачування: Завантажити patch_blueprint_pull_deferred_completion_closeout.py 1. Застосувати patch через
+    tm'
+  quote_whitespace_normalized: true
+  context_before: 'Assistant states the corrective boundary: work only in Telegram repo; no Blueprint repo mutation to resolve missing-upstream blocker.'
+  context_after: null
+  evidence_role:
+  - assistant_remediation
+  - repository_boundary
+- evidence_id: EV-TG1310-0038
+  speaker: assistant
+  locator:
+    conversation_turn: 916
+    turn_id: 6293c6a2-dab9-465e-b9e8-a7f353b13f6e
+    message_id: d17c9867-6e38-45b8-b9eb-af47f75daff8
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: 'egram runtime і не причина писати в Blueprint repo. Патч нижче робить module-side поведінку чесною: blueprint_pull буде DEFERRED , governance-check
+    проходитиме з warning, без false green і без cross-repository write. Файл patch для скачування: Завантажити patch_blueprint_pull_deferred_completion_closeout.py
+    1. Застосувати patch через tmp.py Bash cd /srv/software_development/forprint-project/telegram_bot # встав код із файлу в tmp.py python tmp.py git status
+    --short git diff --check echo "git diff --check exit_code= $? " 2. Повторити apply, щоб completion report перегенерував секцію з новими totals Bash
+    PACKET = coordination/completion_packets/records/2026-07-29__telegram_bot__gov'
+  quote_whitespace_normalized: true
+  context_before: Assistant introduces honest DEFERRED handling instead of false green/cross-repository mutation when Blueprint pull cannot run.
+  context_after: null
+  evidence_role:
+  - assistant_remediation
+  - validation
+- evidence_id: EV-TG1310-0039
+  speaker: user
+  locator:
+    conversation_turn: 919
+    turn_id: 9d67dd91-bb73-4407-ac07-58d2f167689d
+    message_id: 9d67dd91-bb73-4407-ac07-58d2f167689d
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: 'tion packet" git status -sb git log -7 --oneline [feature/telegram-governance-baseline-adoption-v01 dcd2b01] docs: add governance baseline completion
+    packet 11 files changed, 1052 insertions(+), 20 deletions(-) create mode 100644 coordination/completion_packets/records/2026-07-29__telegram_bot__governance_baseline_adoption_v0_1_completion.yaml
+    create mode 100644 source/scripts/coordination/apply_completion_packet.py create mode 100644 source/tools/project_inspection/completion_packet_workflow_check.py
+    ## feature/telegram-governance-baseline-adoption-v01...origin/feature/telegram-governance-baseline-adoption-v01 [ahead 1] dcd2b01 (HEAD -> feature/telegram-gove'
+  quote_whitespace_normalized: true
+  context_before: Terminal output shows commit `dcd2b01` created with the governance completion packet and supporting tooling.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - git_checkpoint
+- evidence_id: EV-TG1310-0040
+  speaker: user
+  locator:
+    conversation_turn: 919
+    turn_id: 9d67dd91-bb73-4407-ac07-58d2f167689d
+    message_id: 9d67dd91-bb73-4407-ac07-58d2f167689d
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: 'elegram-governance-baseline-adoption-v01...origin/feature/telegram-governance-baseline-adoption-v01 0 0 dcd2b01 (HEAD -> feature/telegram-governance-baseline-adoption-v01,
+    origin/feature/telegram-governance-baseline-adoption-v01) docs: add governance baseline completion packet 426f90e docs: finalize governance baseline
+    review metadata 34b3fe2 docs: document governance baseline adoption 6ec8ff6 feat: compact governance validation sequences 4dc5830 feat: add compact
+    governance reporting runner 976f8cd docs: record governance baseline intake root@s01:/srv/software_development/forprint-project/telegram_bot# Show more
+    Show less'
+  quote_whitespace_normalized: true
+  context_before: Terminal output shows the feature branch pushed with upstream divergence `0 0`.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - git_checkpoint
+- evidence_id: EV-TG1310-0041
+  speaker: assistant
+  locator:
+    conversation_turn: 920
+    turn_id: dd4417b5-b7b7-4266-857e-efb518082409
+    message_id: f328a3dc-43ef-4580-99d4-69021065c3b8
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: 'overnance_contract_check.py M source/tools/project_inspection/telegram_governance_report.py Apply / idempotency evidence YAML first_apply: exit_code:
+    0 result: coordination records updated second_apply: exit_code: 0 result: no duplicate records idempotency: diff_hash_equal: true report_index_matches:
+    1 duplicate_completion_report_sections: 0 duplicate_status_sections: 0 timestamp_only_churn: false Validation summary YAML make_lint: exit_code: 0 warnings:
+    - "No ruff/flake8 available; lint deferred." make_format_check: exit_code: 0 warnings: - "black unavailable" - "isort unavailable" make_compile: exit_code:
+    0 make_check: exit_code: 0 totals: passed: 4 warnings: 5'
+  quote_whitespace_normalized: true
+  context_before: 'Final report says completion apply is idempotent: second apply creates no duplicate records and diff hash is stable.'
+  context_after: null
+  evidence_role:
+  - assistant_historical_summary
+  - closure
+- evidence_id: EV-TG1310-0042
+  speaker: assistant
+  locator:
+    conversation_turn: 920
+    turn_id: dd4417b5-b7b7-4266-857e-efb518082409
+    message_id: f328a3dc-43ef-4580-99d4-69021065c3b8
+    source_file: Asistant_Telegram_Bot_13.10.26.mhtml
+  quote: 'tus: not_merged Do not mark accepted_by_blueprint . Acceptance remains Blueprint-side only. RESULT: READY_FOR_BLUEPRINT_REVIEW'
+  quote_whitespace_normalized: true
+  context_before: Final report states governance validation is green/deferred-only as documented, no business behavior changed, and result is ready for
+    Blueprint review—not accepted.
+  context_after: null
+  evidence_role:
+  - assistant_historical_summary
+  - closure
+items:
+- item_id: IT-TG1310-0001
+  kind: architecture_constraint
+  title: Telegram behavior is modeled explicitly before production execution
+  statement: Owner begins with a behavior-model framework and later reasserts that the behavior table/scheme is stage one while production recognition/runtime
+    is stage two.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - behavior
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - schemas
+  - tests
+  evidence_refs:
+  - EV-TG1310-0001
+  - EV-TG1310-0019
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1310-0002
+  kind: workflow
+  title: Low-confidence Telegram decisions escalate to Mentor or AI with context and audit trail
+  statement: Historical design routes ambiguity/low confidence to a mentor or AI assistant, passes conversation/order context, informs the user and logs
+    the escalation.
+  dialogue_status: discussed
+  importance: high
+  confidence: medium
+  owner_or_domain:
+  - telegram_bot
+  - ai
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - logs
+  - tests
+  evidence_refs:
+  - EV-TG1310-0002
+  - EV-TG1310-0003
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Initial behavior summary is assistant-side; current policy must confirm exact escalation authority.
+- item_id: IT-TG1310-0003
+  kind: external_dependency
+  title: Historical Telegram stack includes Supabase DeBERTa and Mistral
+  statement: Owner names Supabase as database plus DeBERTa/Mistral in the working design.
+  dialogue_status: accepted
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - ml
+  - database
+  implementation_expectation: optional
+  verification_targets:
+  - architecture
+  - dependencies
+  evidence_refs:
+  - EV-TG1310-0004
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical dependencies are not current vendor/runtime authority.
+- item_id: IT-TG1310-0004
+  kind: architecture_constraint
+  title: Historical conversation pipeline is intents→templates→generation→feedback
+  statement: The early architecture combines intent classification, template lookup/generation and feedback, with multilingual/PII/escalation concerns.
+  dialogue_status: discussed
+  importance: high
+  confidence: medium
+  owner_or_domain:
+  - telegram_bot
+  - conversation
+  implementation_expectation: required
+  verification_targets:
+  - architecture
+  - tests
+  evidence_refs:
+  - EV-TG1310-0005
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1310-0005
+  kind: requirement
+  title: Client qualification conversationally enriches missing profile data
+  statement: During qualification the bot should gather useful client data such as phone, activity/product interests and preferred delivery method when
+    missing.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - crm
+  - qualification
+  implementation_expectation: required
+  verification_targets:
+  - contracts
+  - conversation
+  - tests
+  evidence_refs:
+  - EV-TG1310-0006
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1310-0006
+  kind: risk
+  title: Telegram client-card enrichment must not become canonical CRM ownership
+  statement: The behavior model collects/profile-enriches customer data, but later architecture keeps canonical client truth outside Telegram.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - crm
+  - architecture
+  implementation_expectation: required
+  verification_targets:
+  - contracts
+  - manifest
+  evidence_refs:
+  - EV-TG1310-0006
+  - EV-TG1310-0007
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Current CRM/Operational ownership must govern writes.
+- item_id: IT-TG1310-0007
+  kind: risk
+  title: Telegram delivery behavior must not absorb Logistics provider execution ownership
+  statement: Historical behavior registry includes delivery preference and even provider actions, but later system architecture assigns shipment/provider
+    execution to Logistics.
+  dialogue_status: superseded
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - logistics
+  implementation_expectation: required
+  verification_targets:
+  - contracts
+  - architecture
+  evidence_refs:
+  - EV-TG1310-0006
+  - EV-TG1310-0007
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Telegram should collect/communicate/route, not own logistics execution.
+- item_id: IT-TG1310-0008
+  kind: requirement
+  title: Behavior registry is grouped by thematic blocks for operator comprehension
+  statement: Owner requires delivery/qualification/order/etc. blocks to be visually adjacent and lightly color-coded.
+  dialogue_status: accepted
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - operator_ux
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - artifacts
+  evidence_refs:
+  - EV-TG1310-0008
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1310-0009
+  kind: process_rule
+  title: Operator behavior artifacts are delivered in Excel and HTML by default
+  statement: Excel is for desktop editing, HTML for mobile review.
+  dialogue_status: accepted
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - operator_ux
+  implementation_expectation: optional
+  verification_targets:
+  - artifacts
+  evidence_refs:
+  - EV-TG1310-0009
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1310-0010
+  kind: requirement
+  title: Behavior registry carries integrity/KPI/duplicate metadata
+  statement: Historical workbook evolves beyond scenarios into dashboard counts, KPI schema, integrity hashes, duplicate checks, notes and changelog.
+  dialogue_status: accepted
+  importance: normal
+  confidence: medium
+  owner_or_domain:
+  - telegram_bot
+  - behavior_registry
+  implementation_expectation: unverifiable
+  verification_targets:
+  - xlsx
+  - checks
+  evidence_refs:
+  - EV-TG1310-0010
+  - EV-TG1310-0011
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Artifact bodies are not embedded here.
+- item_id: IT-TG1310-0011
+  kind: process_rule
+  title: Path/file sprawl should be corrected before adding more Telegram logic
+  statement: Owner explicitly stops after nonexistent-directory/path drift and requires small steps grounded in actual project structure.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - development_process
+  implementation_expectation: required
+  verification_targets:
+  - repo
+  - tests
+  evidence_refs:
+  - EV-TG1310-0012
+  - EV-TG1310-0013
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1310-0012
+  kind: nonfunctional_requirement
+  title: Telegram scripts require durable metadata and explanatory structure
+  statement: Files should document identity/purpose, dependencies, used paths, variables/constants, functions, expected results and important logging.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - documentation
+  implementation_expectation: required
+  verification_targets:
+  - code_review
+  - docs
+  evidence_refs:
+  - EV-TG1310-0014
+  - EV-TG1310-0027
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1310-0013
+  kind: nonfunctional_requirement
+  title: Telegram code/config must avoid hard-coded paths and constants
+  statement: Owner requires runtime settings through `config.py`, `.env` or additional explicit config surfaces.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - configuration
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - tests
+  evidence_refs:
+  - EV-TG1310-0028
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1310-0014
+  kind: risk
+  title: Historical classifier/template testing exposed inconsistent behavior
+  statement: Owner reports the same function producing different results; later smoke tests also show failures, so classifier/template behavior was not
+    uniformly stable during this phase.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - testing
+  implementation_expectation: required
+  verification_targets:
+  - tests
+  - fixtures
+  evidence_refs:
+  - EV-TG1310-0015
+  - EV-TG1310-0017
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1310-0015
+  kind: implementation_claim
+  title: A historical classifier checkpoint could route a reengagement sample
+  statement: Visible terminal output returns `('reengage', 'reengage#ping')`.
+  dialogue_status: accepted
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - classifier
+  implementation_expectation: unverifiable
+  verification_targets:
+  - code
+  - tests
+  evidence_refs:
+  - EV-TG1310-0016
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical runtime evidence only.
+- item_id: IT-TG1310-0016
+  kind: decision
+  title: Owner resets priority from classifier engineering back to behavior-model design
+  statement: The owner explicitly says production classifier/decoding logic is second-stage work and the first-stage deliverable is the behavior-model table/scheme.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - roadmap
+  implementation_expectation: required
+  verification_targets:
+  - roadmap
+  - docs
+  evidence_refs:
+  - EV-TG1310-0019
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1310-0017
+  kind: process_rule
+  title: Synthetic phrases are test fixtures for behavior schemes, not architecture drivers
+  statement: Owner wants controlled synthetic CSV requests to exercise defined schemes rather than bending bot logic around arbitrary unstandardized phrases.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - testing
+  implementation_expectation: required
+  verification_targets:
+  - fixtures
+  - tests
+  evidence_refs:
+  - EV-TG1310-0020
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1310-0018
+  kind: risk
+  title: Behavior tooling must detect false-success artifact updates
+  statement: A seed patcher reports success while the owner sees no visible workbook change; success output alone is insufficient without artifact diff/verification.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - tooling
+  implementation_expectation: required
+  verification_targets:
+  - tests
+  - artifact_checks
+  evidence_refs:
+  - EV-TG1310-0022
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1310-0019
+  kind: architecture_constraint
+  title: Wizard simulation should be scenario-modular behind a small dispatcher
+  statement: Owner prefers `head_wizard` dispatching to ORDER/VENDORS/etc. runners over one thousands-line all-purpose wizard.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - wizard
+  implementation_expectation: required
+  verification_targets:
+  - architecture
+  - tests
+  evidence_refs:
+  - EV-TG1310-0023
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1310-0020
+  kind: implementation_claim
+  title: Historical ORDER wizard loaded a 113-node Excel flow successfully
+  statement: Terminal evidence shows the ORDER simulation loading a flow and traversing client-identification steps.
+  dialogue_status: accepted
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - wizard
+  implementation_expectation: unverifiable
+  verification_targets:
+  - tests
+  - xlsx
+  evidence_refs:
+  - EV-TG1310-0024
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical simulation evidence only.
+- item_id: IT-TG1310-0021
+  kind: risk
+  title: Historical VENDORS wizard path had syntax/interface defects
+  statement: Visible failures include an unterminated-string SyntaxError and runner argument mismatch.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - wizard
+  implementation_expectation: required
+  verification_targets:
+  - tests
+  evidence_refs:
+  - EV-TG1310-0025
+  - EV-TG1310-0026
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1310-0022
+  kind: architecture_constraint
+  title: Production bot logic is separated from XLS/wizard development artifacts
+  statement: Owner says XLS files and develop/testing wizards describe/test behavior, but `app` runtime should use real project code/database rather than
+    depend on them.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - runtime
+  implementation_expectation: required
+  verification_targets:
+  - architecture
+  - code
+  - tests
+  evidence_refs:
+  - EV-TG1310-0029
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1310-0023
+  kind: architecture_constraint
+  title: Real Telegram runtime historically targets Supabase-backed project services
+  statement: After behavior simulation, owner intends actual code to use Supabase/project runtime and move toward live testing.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - runtime
+  - database
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - integration_tests
+  evidence_refs:
+  - EV-TG1310-0030
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Current database/runtime authority must be rechecked.
+- item_id: IT-TG1310-0024
+  kind: architecture_constraint
+  title: Runtime model code should be organized by bounded scenarios/domains
+  statement: Owner wants delivery/vendors/etc. under distinct model subfolders, supporting future model expansion without one monolithic module.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - runtime
+  implementation_expectation: required
+  verification_targets:
+  - repo
+  - architecture
+  evidence_refs:
+  - EV-TG1310-0027
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1310-0025
+  kind: process_rule
+  title: Telegram source should be Git-backed rather than only locally stored
+  statement: Owner explicitly decides to connect GitHub to avoid one-location code storage.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - git
+  implementation_expectation: required
+  verification_targets:
+  - git
+  evidence_refs:
+  - EV-TG1310-0031
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1310-0026
+  kind: process_rule
+  title: Telegram adopts the canonical ForPrint Make target contract
+  statement: Owner supplies standard governance/coordination/check/report targets so Telegram uses predictable cross-module command names and meanings.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - governance
+  implementation_expectation: required
+  verification_targets:
+  - Makefile
+  - tests
+  evidence_refs:
+  - EV-TG1310-0032
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1310-0027
+  kind: process_rule
+  title: Module reads Blueprint but writes completion/status only in its own repository
+  statement: Owner-supplied closure doctrine says Blueprint acceptance is separate, status is rolling, and module must not write directly into Blueprint.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - blueprint_coordination
+  implementation_expectation: required
+  verification_targets:
+  - coordination
+  - tests
+  evidence_refs:
+  - EV-TG1310-0033
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1310-0028
+  kind: risk
+  title: Telegram closure workflow had metadata/formatting gaps
+  statement: Owner explicitly records reports-index metadata and formatting validation as not completed due to code errors.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - closure
+  implementation_expectation: required
+  verification_targets:
+  - tests
+  - reports
+  evidence_refs:
+  - EV-TG1310-0034
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1310-0029
+  kind: plan
+  title: Telegram governance-baseline adoption runs on a dedicated feature branch
+  statement: Historical prompt intake uses `feature/telegram-governance-baseline-adoption-v01` after reading current Blueprint prompt/policies.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - governance
+  implementation_expectation: unverifiable
+  verification_targets:
+  - git
+  - coordination
+  evidence_refs:
+  - EV-TG1310-0035
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical branch/workflow evidence.
+- item_id: IT-TG1310-0030
+  kind: decision
+  title: Historical `NO_COLOR=1` convention is retired
+  statement: Owner explicitly says it should no longer be used.
+  dialogue_status: accepted
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - tooling
+  implementation_expectation: required
+  verification_targets:
+  - Makefile
+  - scripts
+  evidence_refs:
+  - EV-TG1310-0036
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1310-0031
+  kind: architecture_constraint
+  title: Telegram governance remediation must stay inside Telegram repository
+  statement: When Blueprint branch has no upstream, Telegram must not mutate/pull/repair the Blueprint repository without explicit approval.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - blueprint
+  implementation_expectation: required
+  verification_targets:
+  - scripts
+  - tests
+  evidence_refs:
+  - EV-TG1310-0037
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1310-0032
+  kind: process_rule
+  title: Unavailable external Blueprint pull is DEFERRED not false green or Telegram failure
+  statement: Historical remediation distinguishes a Blueprint upstream blocker from Telegram runtime defects and records it as a warning/deferred condition
+    while read-only checks continue.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - validation
+  implementation_expectation: required
+  verification_targets:
+  - checks
+  - reports
+  evidence_refs:
+  - EV-TG1310-0038
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1310-0033
+  kind: implementation_claim
+  title: Historical governance closeout commit is dcd2b01 on feature branch
+  statement: Terminal output records commit `dcd2b01` adding completion packet/workflow tooling.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - git
+  implementation_expectation: unverifiable
+  verification_targets:
+  - git
+  evidence_refs:
+  - EV-TG1310-0039
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical checkpoint only.
+- item_id: IT-TG1310-0034
+  kind: implementation_claim
+  title: Historical feature branch was pushed cleanly with zero divergence
+  statement: Terminal output shows `HEAD` and remote feature branch at `dcd2b01` with `0 0` divergence.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - git
+  implementation_expectation: unverifiable
+  verification_targets:
+  - git
+  evidence_refs:
+  - EV-TG1310-0040
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical checkpoint only.
+- item_id: IT-TG1310-0035
+  kind: implementation_claim
+  title: Historical completion-packet apply was idempotent
+  statement: Final report states first apply updated records, second apply created no duplicates, diff hashes matched and no timestamp-only churn occurred.
+  dialogue_status: accepted
+  importance: high
+  confidence: medium
+  owner_or_domain:
+  - telegram_bot
+  - closure
+  implementation_expectation: unverifiable
+  verification_targets:
+  - tests
+  - reports
+  evidence_refs:
+  - EV-TG1310-0041
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Assistant closeout summary; current repo not audited.
+- item_id: IT-TG1310-0036
+  kind: architecture_constraint
+  title: READY_FOR_BLUEPRINT_REVIEW is not Blueprint acceptance
+  statement: Final historical result is ready for review; assistant explicitly says not to mark `accepted_by_blueprint`.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - blueprint_coordination
+  implementation_expectation: required
+  verification_targets:
+  - coordination
+  - docs
+  evidence_refs:
+  - EV-TG1310-0042
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1310-0037
+  kind: implementation_claim
+  title: Governance closeout intentionally made no dialogue/business/runtime changes
+  statement: Final boundary summary reports no dialogue behavior/public messages/keyboards/memory API/business schema/orders/external integrations/provider
+    calls/production deployment changes.
+  dialogue_status: accepted
+  importance: high
+  confidence: medium
+  owner_or_domain:
+  - telegram_bot
+  - governance
+  implementation_expectation: unverifiable
+  verification_targets:
+  - git
+  - tests
+  evidence_refs:
+  - EV-TG1310-0042
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical closeout summary only.
+- item_id: IT-TG1310-0038
+  kind: risk
+  title: Filename 13.10.26 is not trustworthy chronology
+  statement: Filename date is after the 15.09.2026 export; the reliable terminal anchor is the 2026-07-29 governance completion packet.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - provenance
+  - chronology
+  implementation_expectation: not_required
+  verification_targets:
+  - indexes
+  evidence_refs:
+  - EV-TG1310-0035
+  - EV-TG1310-0042
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Use terminal causal checkpoint, not filename date.
+relations:
+- relation_id: REL-TG1310-0001
+  from_item: IT-TG1310-0016
+  type: supersedes
+  to_item: IT-TG1310-0014
+  evidence_refs:
+  - EV-TG1310-0019
+  - EV-TG1310-0015
+  confidence: high
+- relation_id: REL-TG1310-0002
+  from_item: IT-TG1310-0017
+  type: refines
+  to_item: IT-TG1310-0016
+  evidence_refs:
+  - EV-TG1310-0020
+  confidence: high
+- relation_id: REL-TG1310-0003
+  from_item: IT-TG1310-0019
+  type: refines
+  to_item: IT-TG1310-0021
+  evidence_refs:
+  - EV-TG1310-0023
+  - EV-TG1310-0025
+  confidence: high
+- relation_id: REL-TG1310-0004
+  from_item: IT-TG1310-0022
+  type: supersedes
+  to_item: IT-TG1310-0020
+  evidence_refs:
+  - EV-TG1310-0029
+  - EV-TG1310-0024
+  confidence: high
+- relation_id: REL-TG1310-0005
+  from_item: IT-TG1310-0013
+  type: supports
+  to_item: IT-TG1310-0031
+  evidence_refs:
+  - EV-TG1310-0028
+  - EV-TG1310-0037
+  confidence: medium
+- relation_id: REL-TG1310-0006
+  from_item: IT-TG1310-0026
+  type: enables
+  to_item: IT-TG1310-0029
+  evidence_refs:
+  - EV-TG1310-0032
+  - EV-TG1310-0035
+  confidence: high
+- relation_id: REL-TG1310-0007
+  from_item: IT-TG1310-0027
+  type: constrains
+  to_item: IT-TG1310-0031
+  evidence_refs:
+  - EV-TG1310-0033
+  - EV-TG1310-0037
+  confidence: high
+- relation_id: REL-TG1310-0008
+  from_item: IT-TG1310-0032
+  type: enables
+  to_item: IT-TG1310-0035
+  evidence_refs:
+  - EV-TG1310-0038
+  - EV-TG1310-0041
+  confidence: high
+- relation_id: REL-TG1310-0009
+  from_item: IT-TG1310-0035
+  type: enables
+  to_item: IT-TG1310-0036
+  evidence_refs:
+  - EV-TG1310-0041
+  - EV-TG1310-0042
+  confidence: high
+- relation_id: REL-TG1310-0010
+  from_item: IT-TG1310-0007
+  type: constrains
+  to_item: IT-TG1310-0005
+  evidence_refs:
+  - EV-TG1310-0006
+  - EV-TG1310-0007
+  confidence: medium
+anomalies:
+- anomaly_id: ANOM-TG1310-0001
+  type: new_unique_telegram_source
+  description: No shared message IDs or exact role+normalized-text overlap with the prior Telegram 12.10 source; distinct long-running Telegram root.
+  item_refs: []
+  evidence_refs: []
+  severity: normal
+  confidence: high
+  requires_followup: false
+- anomaly_id: ANOM-TG1310-0002
+  type: filename_date_future_relative_to_export
+  description: Filename `13.10.26` is later than the MHTML export date 15.09.2026. Terminal governance packet is dated 2026-07-29; filename is not chronology
+    authority.
+  item_refs:
+  - IT-TG1310-0038
+  evidence_refs:
+  - EV-TG1310-0035
+  - EV-TG1310-0042
+  severity: critical
+  confidence: high
+  requires_followup: false
+- anomaly_id: ANOM-TG1310-0003
+  type: sparse_long_running_export
+  description: 144 retained turn sections span 1–920 with many missing turns and attachment-only messages. Missing file/prompt bodies are not reconstructed.
+  item_refs: []
+  evidence_refs: []
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-TG1310-0004
+  type: behavior_phase_drift
+  description: Development drifted into classifier/runtime tuning before owner reset stage one to behavior-model design. Current roadmap should preserve
+    the phase boundary rather than repeat the detour.
+  item_refs:
+  - IT-TG1310-0014
+  - IT-TG1310-0016
+  - IT-TG1310-0017
+  evidence_refs:
+  - EV-TG1310-0015
+  - EV-TG1310-0019
+  severity: high
+  confidence: high
+  requires_followup: false
+- anomaly_id: ANOM-TG1310-0005
+  type: path_and_nonexistent_file_drift
+  description: Historical testing work created references to nonexistent directories/scripts before owner correction to actual package structure/config
+    paths.
+  item_refs:
+  - IT-TG1310-0011
+  - IT-TG1310-0013
+  evidence_refs:
+  - EV-TG1310-0012
+  - EV-TG1310-0013
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-TG1310-0006
+  type: tool_false_success_candidate
+  description: Seed patcher claimed success although owner observed no workbook changes, showing need for artifact-level postcondition checks.
+  item_refs:
+  - IT-TG1310-0018
+  evidence_refs:
+  - EV-TG1310-0022
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-TG1310-0007
+  type: telegram_logistics_scope_overreach
+  description: Early behavior registry includes delivery/provider execution concepts that later belong to Logistics service. Telegram may collect preference
+    and communicate status but should not own provider execution.
+  item_refs:
+  - IT-TG1310-0007
+  evidence_refs:
+  - EV-TG1310-0006
+  - EV-TG1310-0007
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-TG1310-0008
+  type: telegram_client_card_canonical_ownership_risk
+  description: Client qualification/card enrichment in Telegram can be mistaken for CRM/Operational Registry canonical ownership.
+  item_refs:
+  - IT-TG1310-0005
+  - IT-TG1310-0006
+  evidence_refs:
+  - EV-TG1310-0006
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-TG1310-0009
+  type: blueprint_pull_external_blocker
+  description: Blueprint branch lacked upstream during Telegram governance closeout. Correct handling was DEFERRED in Telegram, not cross-repo repair or
+    false failure.
+  item_refs:
+  - IT-TG1310-0031
+  - IT-TG1310-0032
+  evidence_refs:
+  - EV-TG1310-0037
+  - EV-TG1310-0038
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-TG1310-0010
+  type: governance_ready_not_accepted
+  description: Historical closeout is `READY_FOR_BLUEPRINT_REVIEW`, explicitly not accepted/merged. Current authority must determine later acceptance/merge
+    fate.
+  item_refs:
+  - IT-TG1310-0033
+  - IT-TG1310-0034
+  - IT-TG1310-0036
+  evidence_refs:
+  - EV-TG1310-0039
+  - EV-TG1310-0042
+  severity: critical
+  confidence: high
+  requires_followup: true
+open_loops:
+- loop_id: LOOP-TG1310-0001
+  description: Verify current Telegram repository identity and historical governance branch lineage.
+  item_refs:
+  - IT-TG1310-0029
+  - IT-TG1310-0033
+  - IT-TG1310-0034
+  - IT-TG1310-0036
+  last_known_state: Historical feature branch ended at pushed `dcd2b01`, clean and ready for Blueprint review, not merged/accepted.
+  recommended_verification: Resolve current repo/remote/branch/HEAD/worktree and whether dcd2b01 was merged/superseded before doing new work.
+- loop_id: LOOP-TG1310-0002
+  description: Reconcile Telegram behavior/client qualification with CRM/Operational Registry ownership.
+  item_refs:
+  - IT-TG1310-0005
+  - IT-TG1310-0006
+  last_known_state: Historical bot conversationally gathers/updates client profile fields.
+  recommended_verification: Define current read/write contracts and ensure Telegram does not maintain competing canonical client records.
+- loop_id: LOOP-TG1310-0003
+  description: Reconcile Telegram delivery behavior with Logistics service.
+  item_refs:
+  - IT-TG1310-0007
+  last_known_state: Early registry includes delivery preference/provider-action ideas; later Logistics is separate service.
+  recommended_verification: Telegram should collect intent/preference and surface status via contracts; verify no provider booking/routing logic remains
+    embedded.
+- loop_id: LOOP-TG1310-0004
+  description: Verify current behavior-spec/runtime boundary.
+  item_refs:
+  - IT-TG1310-0001
+  - IT-TG1310-0016
+  - IT-TG1310-0017
+  - IT-TG1310-0022
+  - IT-TG1310-0023
+  last_known_state: Owner ultimately separates behavior-table/wizard development artifacts from production app/Supabase runtime.
+  recommended_verification: Inventory current Excel/registry/wizard artifacts and runtime code; mark each as spec, test fixture, generator or production
+    dependency.
+- loop_id: LOOP-TG1310-0005
+  description: Verify current configuration/path/documentation standards across Telegram scripts.
+  item_refs:
+  - IT-TG1310-0011
+  - IT-TG1310-0012
+  - IT-TG1310-0013
+  - IT-TG1310-0024
+  last_known_state: Owner corrected nonexistent paths and requires config-driven paths plus detailed script metadata/logging.
+  recommended_verification: Run repository-relative/cwd-independent checks and semantic script-header audit.
+- loop_id: LOOP-TG1310-0006
+  description: Verify current classifier/template/generative runtime and historical model dependencies.
+  item_refs:
+  - IT-TG1310-0002
+  - IT-TG1310-0003
+  - IT-TG1310-0004
+  - IT-TG1310-0014
+  - IT-TG1310-0015
+  last_known_state: Historical stack uses DeBERTa/Mistral/Supabase with Mentor/AI escalation; testing was unstable during development.
+  recommended_verification: Inspect current model/runtime policy, privacy rules, confidence thresholds, fallback authority and observability.
+- loop_id: LOOP-TG1310-0007
+  description: Verify current governance closeout automation and DEFERRED external-dependency semantics.
+  item_refs:
+  - IT-TG1310-0026
+  - IT-TG1310-0027
+  - IT-TG1310-0028
+  - IT-TG1310-0031
+  - IT-TG1310-0032
+  - IT-TG1310-0035
+  last_known_state: Historical closeout adds idempotent packet apply and truthful DEFERRED blueprint_pull handling.
+  recommended_verification: Run current canonical Make/coordination gates and confirm external Blueprint unavailability is represented without false green
+    or cross-repo write.
+- loop_id: LOOP-TG1310-0008
+  description: Determine whether historical behavior registry/dashboard artifacts remain authoritative, archival or generated projections.
+  item_refs:
+  - IT-TG1310-0008
+  - IT-TG1310-0009
+  - IT-TG1310-0010
+  last_known_state: Historical Excel/HTML artifacts were operator-facing design/control surfaces with integrity/KPI sheets.
+  recommended_verification: Classify current owner/source-of-truth and avoid manual double-write against machine-readable runtime/roadmap state.
+implementation_audit_ref: implementation_audit.stub.yaml

@@ -1,0 +1,1538 @@
+schema_version: forprint_dftb_dialogue_memory_v0_1
+bundle_id: DFTB-crm-source-label-2026-05-16
+source:
+  source_id: SRC-crm-source-label-2026-05-16
+  title: Forprint_CRM_16.05.26
+  source_type: chatgpt_mhtml_cross_module_crm_architecture_dialogue
+  source_file: Forprint_CRM_16.05.26.mhtml
+  source_hash_sha256: 31a758dd7a34c5c416272a4fada7e532642ea9a1af6a9b8f952a1da0ff2f4e61
+  conversation_started_at: null
+  conversation_ended_at: Tue, 15 Sep 2026 13:47:02 +0300
+  participants:
+  - user
+  - assistant
+  language:
+  - uk
+  - en
+  authority_scope: crm_module_history_with_owner_blueprint_genesis_and_alignment_directive
+  completeness: partial
+  completeness_notes: 11 visible message blocks across turns 1–30; turns 3–25 are missing. Source starts with Prepress automation discussion and later contains
+    Project Inspector/System Blueprint genesis plus a CRM alignment prompt dated in-path `2026-05-22`.
+extraction:
+  created_at: '2026-09-15T14:42:00+03:00'
+  extractor: GPT-5.6 Sol / Asistans_Forprint_Blueprint
+  extraction_mode: duplicate_check_then_cross_module_crm_architecture_reconstruction
+  implementation_verification_performed: false
+  notes: Direct owner statements about Inspector/System Blueprint and the CRM alignment prompt are high-value historical evidence. Current Blueprint authority
+    still supersedes conflicts.
+evidence_index:
+- evidence_id: EV-CRM1605-0001
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: bbb215c6-c13e-4134-a00e-d4e990f327ad
+    message_id: bbb215c6-c13e-4134-a00e-d4e990f327ad
+    source_file: Forprint_CRM_16.05.26.mhtml
+  quote: втоматизація деяких процесів на невеличкий оперативній друкарні і такі в мене такий задум щоби не робити наприклад можливо індивідуальні плагіни
+    під кожний продукт да там піде акробат або під фотошоп можливо зробити якийсь такий свій унікальний не дуже складний веб-інтерфейс я думаю що це ну
+    простіше всього зробити на HTML якусь тіпа адмінку ну або якимось іншим варіантом ти проаналізуй запит і запропонуй можливо кілька альтернатив і ми
+    робимо значить задача плагіни то есть ми використовуємо звичайний стандартний функціонал цих програм але об'єднуємо ну в якусь послідовність комбінацій
+    і наприклад я ну або закидую там файл на якийсь пре
+  quote_whitespace_normalized: true
+  context_before: Owner asks for a unified, easy automation interface rather than separate heavy plugins for each Adobe product.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - prepress_automation
+- evidence_id: EV-CRM1605-0002
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: bbb215c6-c13e-4134-a00e-d4e990f327ad
+    message_id: bbb215c6-c13e-4134-a00e-d4e990f327ad
+    source_file: Forprint_CRM_16.05.26.mhtml
+  quote: подумати якби це було ну максимально максимально легко я думаю що має бути така панель наче як панель прев'ю туди закидуєш файл або просто підтягуєш
+    шлях де файл лежить і робиш активним цей файл і далі в тебе є там набір пресетів від різних програм або комбінацій різних програм то есть спочатку там
+    одна програма зробить своє потім інше підключиться і для цього файлу починають застосовуватись певні процеси після чого він зберігається в певну директорію
+    там це або вона може бути за замовчуванням або може бути там скажімо так клієнтський запит куди саме зберегти і дуже мені цікавий отакий модуль давай
+    по
+  quote_whitespace_normalized: true
+  context_before: Owner wants drag/drop or file-selection with reusable presets/chains and configurable output location.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - operator_ux
+- evidence_id: EV-CRM1605-0003
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: e29741e8-1dea-474c-82b5-a5bf4845a558
+    message_id: 53b7e131-97bf-443b-8df3-ddae4cb06f2b
+    source_file: Forprint_CRM_16.05.26.mhtml
+  quote: 'же видно: HTML як “обличчя” можна залишити, але сама автоматизація має жити не в браузері, а в локальному бекенді/агенті. Браузерна сторінка з
+    drag-and-drop — це зручна панель, але запускати Photoshop/Illustrator/Acrobat і контролювати файли має окремий локальний процес. Так, ідея правильна:
+    не робити окремий “важкий” плагін під кожну Adobe-програму , а зробити єдиний локальний модуль керування процесами — умовно ForPrint Prepress Hub .
+    Я б дивилась на це не як на “плагін”, а як на локальну панель автоматизації препресу , яка керує Photoshop / Illustrator / Acrobat через їхній штатний
+    функціонал: actions, scripts'
+  quote_whitespace_normalized: true
+  context_before: Assistant proposes HTML only as UI while local backend/agent controls Adobe apps and files.
+  context_after: null
+  evidence_role:
+  - assistant_design
+  - prepress_architecture
+- evidence_id: EV-CRM1605-0004
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: e29741e8-1dea-474c-82b5-a5bf4845a558
+    message_id: 53b7e131-97bf-443b-8df3-ddae4cb06f2b
+    source_file: Forprint_CRM_16.05.26.mhtml
+  quote: 'агін під кожну Adobe-програму , а зробити єдиний локальний модуль керування процесами — умовно ForPrint Prepress Hub . Я б дивилась на це не як
+    на “плагін”, а як на локальну панель автоматизації препресу , яка керує Photoshop / Illustrator / Acrobat через їхній штатний функціонал: actions, scripts,
+    droplets, Action Wizard, JavaScript, hot folders. Мій головний висновок Найкращий варіант для твоєї друкарні: локальна міні-система на Python + веб-інтерфейс
+    HTML Тобто: ForPrint Prepress Hub │ ├── Web-панель: drag & drop, вибір пресета, статус, лог ├── Python backend: керує файлами, чергою, пресетами ├──
+    Worker: з'
+  quote_whitespace_normalized: true
+  context_before: Assistant proposes a unified local Prepress Hub instead of one universal Adobe plugin.
+  context_after: null
+  evidence_role:
+  - assistant_design
+  - prepress_architecture
+- evidence_id: EV-CRM1605-0005
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: e29741e8-1dea-474c-82b5-a5bf4845a558
+    message_id: 53b7e131-97bf-443b-8df3-ddae4cb06f2b
+    source_file: Forprint_CRM_16.05.26.mhtml
+  quote: 'TML Тобто: ForPrint Prepress Hub │ ├── Web-панель: drag & drop, вибір пресета, статус, лог ├── Python backend: керує файлами, чергою, пресетами
+    ├── Worker: запускає потрібні Adobe-операції ├── Presets: YAML / JSON правила обробки ├── Output folders: готові файли, помилки, звіти └── Logs: хто,
+    що, коли, яким пресетом обробив HTML тут використовується тільки як зручна панель , а реальна логіка живе в Python. Це важливо, бо чистий HTML у браузері
+    сам по собі не зможе нормально керувати локальними програмами, файлами, директоріями, Acrobat, Photoshop і Illustrator. Чому не варто одразу робити
+    “плагіни під'
+  quote_whitespace_normalized: true
+  context_before: Proposed architecture uses Python backend, web UI, worker queue, presets, Adobe adapters, hot folders and logs.
+  context_after: null
+  evidence_role:
+  - assistant_design
+  - prepress_architecture
+- evidence_id: EV-CRM1605-0006
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: e29741e8-1dea-474c-82b5-a5bf4845a558
+    message_id: 53b7e131-97bf-443b-8df3-ddae4cb06f2b
+    source_file: Forprint_CRM_16.05.26.mhtml
+  quote: 'ься найправильнішою Я б робила так: 1. Локальний Python backend 2. Web-панель для оператора 3. Preset engine 4. Worker queue 5. Adobe adapters
+    6. Hot folder watcher 7. Логи і звіти Схема: Файл ↓ Web UI / Hot Folder ↓ Job Queue ↓ Preset Engine ↓ Adapter 1: Acrobat ↓ Adapter 2: Photoshop ↓ Adapter
+    3: Illustrator ↓ Output folder ↓ Log / Report Найважливіший модуль — Preset Engine Це серце системи. Пресет має відповідати на питання: 1. Який тип
+    файлу приймаємо? 2. Які програми запускаємо? 3. Які дії виконуємо? 4. У якій послідовності? 5. Куди кладемо результат? 6. Що робимо при помилці? 7.
+    Чи треба створи'
+  quote_whitespace_normalized: true
+  context_before: Preset Engine is proposed as the core declarative workflow layer.
+  context_after: null
+  evidence_role:
+  - assistant_design
+  - prepress_presets
+- evidence_id: EV-CRM1605-0007
+  speaker: assistant
+  locator:
+    conversation_turn: 26
+    turn_id: b3b67834-d9c5-40a1-837a-907866a32a67
+    message_id: fe7608e2-d9c6-4deb-bd06-ab01c997bfde
+    source_file: Forprint_CRM_16.05.26.mhtml
+  quote: 'Тут я б розділила дві площини: контроль розробки модулів і контроль роботи модулів у продакшні . Ідея правильна, але якщо це змішати в один хаотичний
+    механізм, CRM швидко перетвориться на надто важкий “бог-модуль”. Так, ідея дуже правильна. Але я б її сформулювала трохи точніше: CRM має бути головним
+    управлінським центром для бізнесу, а поруч із ним треба закласти Project Control Plane — єдину точку контролю архітектури, модулів, звітів, контрактів,
+    стану інтеграцій і самодіагностики. Тобто я б не зашивала все це прямо в бі'
+  quote_whitespace_normalized: true
+  context_before: Assistant distinguishes development-control from production-control so CRM does not become a god-module.
+  context_after: null
+  evidence_role:
+  - assistant_design
+  - governance
+- evidence_id: EV-CRM1605-0008
+  speaker: assistant
+  locator:
+    conversation_turn: 26
+    turn_id: b3b67834-d9c5-40a1-837a-907866a32a67
+    message_id: fe7608e2-d9c6-4deb-bd06-ab01c997bfde
+    source_file: Forprint_CRM_16.05.26.mhtml
+  quote: 'на надто важкий “бог-модуль”. Так, ідея дуже правильна. Але я б її сформулювала трохи точніше: CRM має бути головним управлінським центром для
+    бізнесу, а поруч із ним треба закласти Project Control Plane — єдину точку контролю архітектури, модулів, звітів, контрактів, стану інтеграцій і самодіагностики.
+    Тобто я б не зашивала все це прямо в бізнес-логіку CRM. Краще зробити в межах CRM-проєкту або поряд із ним окремий шар: ForPrint Project Control Plane
+    Його задача: - знати всі модулі; - знати, хто за що відповідає; - зберігати глобальну архітектурну ідеологію; - зберігати глобальний промпт / технічні
+    правила; - приймати звіти від модулів; - пе'
+  quote_whitespace_normalized: true
+  context_before: CRM is proposed as business-management center while project-wide control stays separate.
+  context_after: null
+  evidence_role:
+  - assistant_design
+  - crm_role
+- evidence_id: EV-CRM1605-0009
+  speaker: assistant
+  locator:
+    conversation_turn: 26
+    turn_id: b3b67834-d9c5-40a1-837a-907866a32a67
+    message_id: fe7608e2-d9c6-4deb-bd06-ab01c997bfde
+    source_file: Forprint_CRM_16.05.26.mhtml
+  quote: 'це прямо в бізнес-логіку CRM. Краще зробити в межах CRM-проєкту або поряд із ним окремий шар: ForPrint Project Control Plane Його задача: - знати
+    всі модулі; - знати, хто за що відповідає; - зберігати глобальну архітектурну ідеологію; - зберігати глобальний промпт / технічні правила; - приймати
+    звіти від модулів; - перевіряти, чи модулі не розходяться з архітектурою; - контролювати інтеграційні контракти; - показувати, що змінилось після комітів;
+    - формувати журнал проблем; - готувати основу для майбутньої продакшн-діагностики. 1. Дуже важливе розділення: dev-control і production-control Те,
+    що ти описав, має дві різ'
+  quote_whitespace_normalized: true
+  context_before: Assistant proposes a neutral project-control layer for module registry, architecture, reports, contracts and self-diagnostics.
+  context_after: null
+  evidence_role:
+  - assistant_proposal
+  - project_control
+- evidence_id: EV-CRM1605-0010
+  speaker: assistant
+  locator:
+    conversation_turn: 26
+    turn_id: b3b67834-d9c5-40a1-837a-907866a32a67
+    message_id: fe7608e2-d9c6-4deb-bd06-ab01c997bfde
+    source_file: Forprint_CRM_16.05.26.mhtml
+  quote: '. 4. Кожен модуль має мати свій службовий файл У кожному модулі треба закласти однаковий файл: forprint_module_manifest.yaml Наприклад у калькуляторі:
+    calculator_engine/forprint_module_manifest.yaml Приклад змісту: YAML module_id: calculator_engine module_name: ForPrint Calculator Engine module_type:
+    calculator repository: git@github.com:Kovalchuk-PrintMaster/Calculator_Engine.git working_directory: /srv/software_development/forprint-project/calculator_engine
+    status: active_development owned_domains: - price_calculation - material_consumption_calculation - product_configuration does_not_own: - client_management
+    - acc'
+  quote_whitespace_normalized: true
+  context_before: Standard per-module manifest is proposed for ownership, contracts, tests, report file and boundaries.
+  context_after: null
+  evidence_role:
+  - assistant_proposal
+  - module_manifest
+- evidence_id: EV-CRM1605-0011
+  speaker: assistant
+  locator:
+    conversation_turn: 26
+    turn_id: b3b67834-d9c5-40a1-837a-907866a32a67
+    message_id: fe7608e2-d9c6-4deb-bd06-ab01c997bfde
+    source_file: Forprint_CRM_16.05.26.mhtml
+  quote: 'alculator_to_crm.v1 - library_to_calculator.v1 test_commands: - make test report_file: reports/forprint_module_status.json Оце дуже важливо. Тоді
+    CRM / Project Control може автоматично знати, що це за модуль і як його перевіряти. 5. Кожен модуль має формувати статусний звіт Наприклад: calculator_engine/reports/forprint_module_status.json
+    Приклад: JSON { "module_id": "calculator_engine" , "module_version": "0.3.2" , "last_commit": "abc123" , "branch": "main" , "updated_at": "2026-05-20T20:30:00+03:00"
+    , "status": "ok" , "tests": { "command": "make test" , "status": "passed" , "passed": 61 , "failed": 0 }, "changed_d'
+  quote_whitespace_normalized: true
+  context_before: Per-module status reports are proposed for commit/test/contracts/questions/risks/next steps.
+  context_after: null
+  evidence_role:
+  - assistant_proposal
+  - module_status
+- evidence_id: EV-CRM1605-0012
+  speaker: user
+  locator:
+    conversation_turn: 27
+    turn_id: bbb212f7-9229-4b6b-ad4e-8fb846265e74
+    message_id: bbb212f7-9229-4b6b-ad4e-8fb846265e74
+    source_file: Forprint_CRM_16.05.26.mhtml
+  quote: о модулю print project control в принципі логічно і все адекватно єдине щоб я його мені чогось більше подобається назва forprint project inspector
+    ну це косметика і ні до чого глобально не міняє мені дійсно зрозуміла роль цього модуля і його побудова в принципі організація сповіщення інших модулів
+    ну і якась організація перехресних перевірок в принципі тут дуже-дуже дуже дуже мені в загальних рисах зрозуміла наша подальша робота але мені досі
+    не зрозуміла і дуже так дуже-дуже цікаво як би це можна було реалізувати тому що велика проблема що я не можу детально описати задачу я спробую дуже
+    примітивно дати інформацію ти може підкоригуєш і д
+  quote_whitespace_normalized: true
+  context_before: Owner renames/reframes the project-control idea as ForPrint Project Inspector.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - project_inspector
+- evidence_id: EV-CRM1605-0013
+  speaker: user
+  locator:
+    conversation_turn: 27
+    turn_id: bbb212f7-9229-4b6b-ad4e-8fb846265e74
+    message_id: bbb212f7-9229-4b6b-ad4e-8fb846265e74
+    source_file: Forprint_CRM_16.05.26.mhtml
+  quote: якогось уже існуючого модуля ну точно не нашого інспектора не project control тому що в нього задача тільки перевіряти правильність виконання модулями
+    своїх завдань хай це буде його чіткою задачею і далі він там хай нікуди не лізе а нам треба якось окреслити архітектуру нашого проекту і вимальовувати
+    взагалі зв'язки яким чином буде організовуватись взаємодія між різними модулями які скажімо так пакети даних хто кому має передавати хто від кого в
+    якій послідовності очікує дані по яким принципам і алгоритмом буде проходити синхронізація даних між модулями тобто отака загальна схема плансхема нашого
+    проекту з виходячими з неї
+  quote_whitespace_normalized: true
+  context_before: Owner sharply limits Inspector to verifying that modules execute their tasks correctly.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - inspector_boundary
+- evidence_id: EV-CRM1605-0014
+  speaker: user
+  locator:
+    conversation_turn: 27
+    turn_id: bbb212f7-9229-4b6b-ad4e-8fb846265e74
+    message_id: bbb212f7-9229-4b6b-ad4e-8fb846265e74
+    source_file: Forprint_CRM_16.05.26.mhtml
+  quote: ипі як він там буде називатись але це модуль або частина якогось уже існуючого модуля ну точно не нашого інспектора не project control тому що
+    в нього задача тільки перевіряти правильність виконання модулями своїх завдань хай це буде його чіткою задачею і далі він там хай нікуди не лізе а нам
+    треба якось окреслити архітектуру нашого проекту і вимальовувати взагалі зв'язки яким чином буде організовуватись взаємодія між різними модулями які
+    скажімо так пакети даних хто кому має передавати хто від кого в якій послідовності очікує дані по яким принципам і алгоритмом буде проходити синхронізація
+    даних між модулям
+  quote_whitespace_normalized: true
+  context_before: Owner says the architecture/ideological-control function must be a separate layer, not Inspector.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - blueprint_genesis
+- evidence_id: EV-CRM1605-0015
+  speaker: user
+  locator:
+    conversation_turn: 27
+    turn_id: bbb212f7-9229-4b6b-ad4e-8fb846265e74
+    message_id: bbb212f7-9229-4b6b-ad4e-8fb846265e74
+    source_file: Forprint_CRM_16.05.26.mhtml
+  quote: жу сформувати як це має бути тобто нам треба якась діаграма ну вона має бути в двух виконаннях машиноподібна і людського подібна людиноподібна
+    ну машиноподібна зрозуміло щоб ну легко було віддавати її різним учасникам проекту різним модулям і вони легко бачили і розуміли задачі і от ця схема
+    цей графічний модуль він на етапі розробки ну і навіть потім на етапі підтримки все рівно там щось буде дописуватись з часом він має задавати прям правильні
+    архітектурні інструкції всім модулям щоб ми не носили воду в ситі щоб ми не робили якусь роботу і з часом зрозуміли що ми побудували там кілька реально
+    працюючих модулів реально
+  quote_whitespace_normalized: true
+  context_before: Owner requires architecture in machine-readable and human-readable forms.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - blueprint_representation
+- evidence_id: EV-CRM1605-0016
+  speaker: user
+  locator:
+    conversation_turn: 27
+    turn_id: bbb212f7-9229-4b6b-ad4e-8fb846265e74
+    message_id: bbb212f7-9229-4b6b-ad4e-8fb846265e74
+    source_file: Forprint_CRM_16.05.26.mhtml
+  quote: я них треба будуть виникати нові модулі які прямо зараз наразі ідеально описати неможливо тому схема буде розвиватися таким чином події будуть
+    динамічні тобто ми зараз вималюємо одну структуру і в принципі можемо її проаналізувати і роздати промти кожному з модулів і модулі там собі далі вже
+    розвиваються з урахуванням поставлених задач паралельно постійно йде робота над оптимізацією або вдосконаленням з загальної структури проекту і задач
+    які він може виконувати і зрозуміло що через деякий час ми розуміємо що треба там ще такий-то облік або додати ще таку послугу або додати таку звітність
+    або якось змінити скл
+  quote_whitespace_normalized: true
+  context_before: Owner requires a dynamic evolving architecture that can absorb new services/modules and propagate instructions.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - living_architecture
+- evidence_id: EV-CRM1605-0017
+  speaker: user
+  locator:
+    conversation_turn: 27
+    turn_id: bbb212f7-9229-4b6b-ad4e-8fb846265e74
+    message_id: bbb212f7-9229-4b6b-ad4e-8fb846265e74
+    source_file: Forprint_CRM_16.05.26.mhtml
+  quote: уло загально єдину архітектуру от для мене оце є головним поки що питанням як реалізувати оцей надвисокий рівень контролю ідеологічний тобто не
+    сам там код уже там функції форму там робота вже кипить а от хочеться виділити такий модуль він такий ідеологічний повністю абстрактний від самого коду
+    тобто він там може приймати якісь звіти там від модулів там для аналізу ми можемо через цей модуль наприклад запросити якісь якусь на якій стадії там
+    знаходиться розвиток того чи іншого модулю і це навіть можна робити не через формування прям в коді да там скільки функцій побудовано а загально скільки
+    я тобі казав що кожен модуль я розр
+  quote_whitespace_normalized: true
+  context_before: Owner describes the need for a high-level ideological/architectural control layer abstracted from code.
+  context_after: null
+  evidence_role:
+  - owner_intent
+  - blueprint_genesis
+- evidence_id: EV-CRM1605-0018
+  speaker: assistant
+  locator:
+    conversation_turn: 28
+    turn_id: f5282b5b-9f29-4cbf-9dec-da17bb660c3d
+    message_id: 66daee2f-41ca-4ec3-93ee-1188b7cd88bc
+    source_file: Forprint_CRM_16.05.26.mhtml
+  quote: 'ctor , не Orchestrator , і не конкретний прикладний модуль. Тобі потрібен окремий верхній шар: ForPrint System Blueprint або ForPrint Architecture
+    Graph Я б обрала робочу назву: ForPrint System Blueprint Бо це не просто “граф”, а жива архітектурна карта всього проєкту . 1. Роль цього шару ForPrint
+    System Blueprint має відповідати на питання: 1. Які модулі існують? 2. Які модулі плануються? 3. Хто чим володіє? 4. Які дані хто створює? 5. Які дані
+    хто споживає? 6. Хто кому передає запити? 7. Які контракти між модулями? 8. Які потоки даних уже активні? 9. Які потоки тільки плануються? 10. Які модулі
+    мають переглянут'
+  quote_whitespace_normalized: true
+  context_before: Assistant names the separate upper architecture layer ForPrint System Blueprint.
+  context_after: null
+  evidence_role:
+  - assistant_design
+  - blueprint_genesis
+- evidence_id: EV-CRM1605-0019
+  speaker: assistant
+  locator:
+    conversation_turn: 28
+    turn_id: f5282b5b-9f29-4cbf-9dec-da17bb660c3d
+    message_id: 66daee2f-41ca-4ec3-93ee-1188b7cd88bc
+    source_file: Forprint_CRM_16.05.26.mhtml
+  quote: 'stem Blueprint має відповідати на питання: 1. Які модулі існують? 2. Які модулі плануються? 3. Хто чим володіє? 4. Які дані хто створює? 5. Які
+    дані хто споживає? 6. Хто кому передає запити? 7. Які контракти між модулями? 8. Які потоки даних уже активні? 9. Які потоки тільки плануються? 10.
+    Які модулі мають переглянути свою логіку після зміни архітектури? Тобто це надвисокий рівень ідеологічного контролю . 2. Як це розвести з іншими частинами
+    Я б зафіксувала так: ForPrint System Blueprint = описує, як система МАЄ бути побудована. ForPrint Project Inspector = перевіряє, наскільки реальні модулі
+    відповіда'
+  quote_whitespace_normalized: true
+  context_before: Blueprint is proposed to track modules, ownership, data producers/consumers, contracts, flows and impact.
+  context_after: null
+  evidence_role:
+  - assistant_design
+  - blueprint_scope
+- evidence_id: EV-CRM1605-0020
+  speaker: assistant
+  locator:
+    conversation_turn: 28
+    turn_id: f5282b5b-9f29-4cbf-9dec-da17bb660c3d
+    message_id: 66daee2f-41ca-4ec3-93ee-1188b7cd88bc
+    source_file: Forprint_CRM_16.05.26.mhtml
+  quote: 'impacted_modules.py 4. Машинна і людська форма Ти абсолютно правильно сказав: треба дві форми. Машинна форма Це YAML / JSON, який можуть читати
+    скрипти, Inspector, CRM, майбутні модулі. Наприклад: YAML module_id: calculator_engine title: ForPrint Calculator Engine type: calculation owns: - price_calculation
+    - material_consumption_estimation provides: - quote_draft - material_consumption_estimate consumes: - product_catalog - material_catalog - machine_capabilities
+    must_not_own: - client_registry - payment_status - prepress_file_processing integrates_with: - module_id: forprint_crm contract: calculator'
+  quote_whitespace_normalized: true
+  context_before: Blueprint is proposed as YAML/JSON machine truth plus Markdown/Mermaid human views.
+  context_after: null
+  evidence_role:
+  - assistant_design
+  - blueprint_representation
+- evidence_id: EV-CRM1605-0021
+  speaker: assistant
+  locator:
+    conversation_turn: 28
+    turn_id: f5282b5b-9f29-4cbf-9dec-da17bb660c3d
+    message_id: 66daee2f-41ca-4ec3-93ee-1188b7cd88bc
+    source_file: Forprint_CRM_16.05.26.mhtml
+  quote: 'о YAML генерувати human-readable Markdown і Mermaid-діаграми. 4. Для кожного модуля генерувати module guide / prompt. 5. Кожен модуль веде manifest
+    і status report. 6. Project Inspector порівнює manifest/report з Blueprint. 7. CRM показує підсумок у dashboard. 8. Усі зміни Blueprint версіонуються
+    через git і ADR. 9. Якщо Blueprint змінився — affected modules отримують статус needs_review. 10. Якщо модуль не відповідає Blueprint — Inspector показує
+    architecture drift. Це дуже здорова модель. 17. Найближчий практичний крок Я б далі робила не CRM і не Inspector першим, а саме маленький каркас: Bash
+    /srv/software'
+  quote_whitespace_normalized: true
+  context_before: Blueprint should generate module-specific guides/prompts from architecture truth.
+  context_after: null
+  evidence_role:
+  - assistant_design
+  - prompt_generation
+- evidence_id: EV-CRM1605-0022
+  speaker: assistant
+  locator:
+    conversation_turn: 28
+    turn_id: f5282b5b-9f29-4cbf-9dec-da17bb660c3d
+    message_id: 66daee2f-41ca-4ec3-93ee-1188b7cd88bc
+    source_file: Forprint_CRM_16.05.26.mhtml
+  quote: '_drift CRM: - має бути owner client/order/payment - manifest відповідає - результат: ok Тобто: Blueprint = план. Inspector = ревізор. 9. Як врахувати
+    “синтетичні звіти” від ChatGPT Твоя ідея нормальна, але я б зробила її контрольовано. Наприклад, у кожному модулі має бути файл: reports/module_progress_snapshot.md
+    Його може сформувати помічник у чаті: Що зроблено: - створено бібліотеку матеріалів; - додано базові формули; - додано 5 тестів; - ще не реалізовано
+    export to CRM. Оцінка прогресу: - core domain: 40% - integration readiness: 15% - tests: 30% Але машинно краще мати короткий JSON: JSON { "module_id":
+    "calculator_engin'
+  quote_whitespace_normalized: true
+  context_before: Assistant sharply distinguishes architecture plan from conformance checking.
+  context_after: null
+  evidence_role:
+  - assistant_design
+  - blueprint_inspector_boundary
+- evidence_id: EV-CRM1605-0023
+  speaker: assistant
+  locator:
+    conversation_turn: 28
+    turn_id: f5282b5b-9f29-4cbf-9dec-da17bb660c3d
+    message_id: 66daee2f-41ca-4ec3-93ee-1188b7cd88bc
+    source_file: Forprint_CRM_16.05.26.mhtml
+  quote: integration_map.md │ └── roadmap.md │ ├── machine/ │ ├── modules.yaml │ ├── domains.yaml │ ├── data_objects.yaml │ ├── data_flows.yaml │ ├── contracts.yaml
+    │ ├── ownership.yaml │ ├── roadmap.yaml │ └── impact_rules.yaml │ ├── diagrams/ │ ├── system_context.mmd │ ├── module_graph.mmd │ ├── data_flow.mmd
+    │ └── ownership_map.mmd │ ├── module_guides/ │ ├── forprint_crm.md │ ├── calculator_engine.md │ ├── forprint_library.md │ ├── forprint_prepress_hub.md
+    │ └── accounting_registry.md │ ├── adr/ │ ├── 0001-system-blueprint-layer.md │ ├── 0002-crm-business-control-role.md │ └── 0003-project-inspector-role.md
+    │ └
+  quote_whitespace_normalized: true
+  context_before: Assistant proposes canonical data-object ownership as a core anti-drift mechanism.
+  context_after: null
+  evidence_role:
+  - assistant_design
+  - ownership
+- evidence_id: EV-CRM1605-0024
+  speaker: assistant
+  locator:
+    conversation_turn: 28
+    turn_id: f5282b5b-9f29-4cbf-9dec-da17bb660c3d
+    message_id: 66daee2f-41ca-4ec3-93ee-1188b7cd88bc
+    source_file: Forprint_CRM_16.05.26.mhtml
+  quote: 'ata_objects.yaml Бо саме він не дасть модулям роз’їхатися. Наприклад: YAML data_objects: - id: client owner: forprint_crm description: "Клієнт
+    або організація, яка замовляє продукт." canonical_fields: - client_id - name - contact_channels - status - id: material owner: forprint_library description:
+    "Матеріал, який може використовуватись у виробництві." canonical_fields: - material_id - name - category - thickness - density - compatible_machines
+    - id: quote_draft owner: calculator_engine description: "Попередній розрахунок вартості." canonical_fields: - quote_id - product_configuration - price
+    - material_consumptio'
+  quote_whitespace_normalized: true
+  context_before: Early example assigns client/order ownership to CRM.
+  context_after: null
+  evidence_role:
+  - assistant_proposal
+  - ownership_snapshot
+- evidence_id: EV-CRM1605-0025
+  speaker: user
+  locator:
+    conversation_turn: 29
+    turn_id: d8893420-abd1-446d-878d-fc00baba6224
+    message_id: d8893420-abd1-446d-878d-fc00baba6224
+    source_file: Forprint_CRM_16.05.26.mhtml
+  quote: 'int_crm ## Purpose This prompt aligns ForPrint CRM with the current ForPrint System Blueprint. CRM is the business orchestration layer and human-facing
+    dashboard. It coordinates business workflows and helps people manage the system, but it must not become the physical owner of all data. ## Current architectural
+    role ForPrint CRM should act as: text business director / workflow coordinator / human UI / analytics dashboard --- # 2. Файл: `coordination/outgoing_prompts/forprint_crm/drafts/2026-05-22-align-crm-with-blueprint.md`
+    markdown # Prompt: Align ForPrint CRM with ForPrint System Blueprint ## Target module forprint_crm ## P'
+  quote_whitespace_normalized: true
+  context_before: Owner-provided Blueprint alignment prompt defines CRM as business orchestration + human-facing dashboard.
+  context_after: null
+  evidence_role:
+  - blueprint_directive
+  - crm_role
+- evidence_id: EV-CRM1605-0026
+  speaker: user
+  locator:
+    conversation_turn: 29
+    turn_id: d8893420-abd1-446d-878d-fc00baba6224
+    message_id: d8893420-abd1-446d-878d-fc00baba6224
+    source_file: Forprint_CRM_16.05.26.mhtml
+  quote: 'facing dashboard. It coordinates business workflows and helps people manage the system, but it must not become the physical owner of all data.
+    ## Current architectural role ForPrint CRM should act as: text business director / workflow coordinator / human UI / analytics dashboard --- # 2. Файл:
+    `coordination/outgoing_prompts/forprint_crm/drafts/2026-05-22-align-crm-with-blueprint.md` markdown # Prompt: Align ForPrint CRM with ForPrint System
+    Blueprint ## Target module forprint_crm ## Purpose This prompt aligns ForPrint CRM with the current ForPrint System Blueprint. CRM is the business orchestration
+    layer and human-facing dashboard. I'
+  quote_whitespace_normalized: true
+  context_before: Owner-provided alignment prompt explicitly forbids CRM becoming universal physical/canonical owner.
+  context_after: null
+  evidence_role:
+  - blueprint_directive
+  - crm_boundary
+- evidence_id: EV-CRM1605-0027
+  speaker: user
+  locator:
+    conversation_turn: 29
+    turn_id: d8893420-abd1-446d-878d-fc00baba6224
+    message_id: d8893420-abd1-446d-878d-fc00baba6224
+    source_file: Forprint_CRM_16.05.26.mhtml
+  quote: 'health view from Inspector reports. CRM should consume CRM should consume canonical data from: forprint_operational_registry for clients, orders,
+    tasks, operational statuses; accounting_registry_service for invoices, payments, 1C-related accounting truth; forprint_library for catalogs, templates,
+    product/material names; forprint_project_inspector for architecture drift reports; forprint_integration_gateway for routed execution results. CRM must
+    not own everything CRM must not become canonical owner of: all clients; all orders; all payments; all invoices; all material catalogs; all product catalogs;
+    all prepress files; all warehouse stock; all'
+  quote_whitespace_normalized: true
+  context_before: Alignment prompt moves operational clients/orders/tasks/statuses to Operational Registry.
+  context_after: null
+  evidence_role:
+  - blueprint_directive
+  - ownership
+- evidence_id: EV-CRM1605-0028
+  speaker: user
+  locator:
+    conversation_turn: 29
+    turn_id: d8893420-abd1-446d-878d-fc00baba6224
+    message_id: d8893420-abd1-446d-878d-fc00baba6224
+    source_file: Forprint_CRM_16.05.26.mhtml
+  quote: 'cal data from: forprint_operational_registry for clients, orders, tasks, operational statuses; accounting_registry_service for invoices, payments,
+    1C-related accounting truth; forprint_library for catalogs, templates, product/material names; forprint_project_inspector for architecture drift reports;
+    forprint_integration_gateway for routed execution results. CRM must not own everything CRM must not become canonical owner of: all clients; all orders;
+    all payments; all invoices; all material catalogs; all product catalogs; all prepress files; all warehouse stock; all integration routing. It may store
+    UI/cache/reporting projections, but cano'
+  quote_whitespace_normalized: true
+  context_before: Alignment prompt assigns accounting/1C truth to Accounting Registry.
+  context_after: null
+  evidence_role:
+  - blueprint_directive
+  - ownership
+- evidence_id: EV-CRM1605-0029
+  speaker: user
+  locator:
+    conversation_turn: 29
+    turn_id: d8893420-abd1-446d-878d-fc00baba6224
+    message_id: d8893420-abd1-446d-878d-fc00baba6224
+    source_file: Forprint_CRM_16.05.26.mhtml
+  quote: 'nal statuses; accounting_registry_service for invoices, payments, 1C-related accounting truth; forprint_library for catalogs, templates, product/material
+    names; forprint_project_inspector for architecture drift reports; forprint_integration_gateway for routed execution results. CRM must not own everything
+    CRM must not become canonical owner of: all clients; all orders; all payments; all invoices; all material catalogs; all product catalogs; all prepress
+    files; all warehouse stock; all integration routing. It may store UI/cache/reporting projections, but canonical ownership should stay in the correct
+    module. Key archi'
+  quote_whitespace_normalized: true
+  context_before: Alignment prompt assigns catalogs/templates/product-material naming to Library.
+  context_after: null
+  evidence_role:
+  - blueprint_directive
+  - ownership
+- evidence_id: EV-CRM1605-0030
+  speaker: user
+  locator:
+    conversation_turn: 29
+    turn_id: d8893420-abd1-446d-878d-fc00baba6224
+    message_id: d8893420-abd1-446d-878d-fc00baba6224
+    source_file: Forprint_CRM_16.05.26.mhtml
+  quote: '1C-related accounting truth; forprint_library for catalogs, templates, product/material names; forprint_project_inspector for architecture drift
+    reports; forprint_integration_gateway for routed execution results. CRM must not own everything CRM must not become canonical owner of: all clients;
+    all orders; all payments; all invoices; all material catalogs; all product catalogs; all prepress files; all warehouse stock; all integration routing.
+    It may store UI/cache/reporting projections, but canonical ownership should stay in the correct module. Key architectural risks CRM becomes a monolith.
+    CRM duplicates Operational Registry. CRM duplicates Acc'
+  quote_whitespace_normalized: true
+  context_before: Alignment prompt assigns architecture-drift checking to Inspector.
+  context_after: null
+  evidence_role:
+  - blueprint_directive
+  - ownership
+- evidence_id: EV-CRM1605-0031
+  speaker: user
+  locator:
+    conversation_turn: 29
+    turn_id: d8893420-abd1-446d-878d-fc00baba6224
+    message_id: d8893420-abd1-446d-878d-fc00baba6224
+    source_file: Forprint_CRM_16.05.26.mhtml
+  quote: 'templates, product/material names; forprint_project_inspector for architecture drift reports; forprint_integration_gateway for routed execution
+    results. CRM must not own everything CRM must not become canonical owner of: all clients; all orders; all payments; all invoices; all material catalogs;
+    all product catalogs; all prepress files; all warehouse stock; all integration routing. It may store UI/cache/reporting projections, but canonical ownership
+    should stay in the correct module. Key architectural risks CRM becomes a monolith. CRM duplicates Operational Registry. CRM duplicates Accounting Registry.
+    CRM bypasses Integration Gateway. CRM bec'
+  quote_whitespace_normalized: true
+  context_before: Alignment prompt assigns execution routing/results to Integration Gateway.
+  context_after: null
+  evidence_role:
+  - blueprint_directive
+  - ownership
+- evidence_id: EV-CRM1605-0032
+  speaker: user
+  locator:
+    conversation_turn: 29
+    turn_id: d8893420-abd1-446d-878d-fc00baba6224
+    message_id: d8893420-abd1-446d-878d-fc00baba6224
+    source_file: Forprint_CRM_16.05.26.mhtml
+  quote: 'rojections, but canonical ownership should stay in the correct module. Key architectural risks CRM becomes a monolith. CRM duplicates Operational
+    Registry. CRM duplicates Accounting Registry. CRM bypasses Integration Gateway. CRM becomes physical owner of all data because it has the main dashboard.
+    CRM absorbs Project Inspector functions instead of displaying Inspector results. Required alignment actions Please review the current ForPrint CRM concept
+    and answer: Which parts are dashboard/UI? Which parts are business workflow coordination? Which data does CRM truly need to own? Which data should CRM
+    only read f'
+  quote_whitespace_normalized: true
+  context_before: Owner-provided alignment prompt lists monolith/registry duplication/Gateway bypass/Inspector absorption as risks.
+  context_after: null
+  evidence_role:
+  - blueprint_directive
+  - risk
+- evidence_id: EV-CRM1605-0033
+  speaker: assistant
+  locator:
+    conversation_turn: 30
+    turn_id: 71511f78-5f9d-4dc4-8efb-ee17ea1629e9
+    message_id: d9b2d585-00cc-48c7-8ed2-f347ecd5d47f
+    source_file: Forprint_CRM_16.05.26.mhtml
+  quote: 'specialized modules or become the physical owner of every business object. Correct principle: CRM coordinates and displays. Specialized registries
+    own canonical truth. Integration Gateway routes execution. Project Inspector checks architectural health. 2. Possible overreach zones The main architectural
+    risk is that CRM may become an all-in-one backend because it has the most visible interface. Potential overreach zones: 1. CRM duplicates Operational
+    Registry Risk: CRM starts physically owning clients, orders, tasks, statuses. 2. CRM duplicates Accounting Registry Risk: CRM starts owning invoices,
+    payments, accounti'
+  quote_whitespace_normalized: true
+  context_before: CRM alignment response states specialized registries own canonical truth, Gateway routes, Inspector checks.
+  context_after: null
+  evidence_role:
+  - assistant_alignment
+  - crm_boundary
+- evidence_id: EV-CRM1605-0034
+  speaker: assistant
+  locator:
+    conversation_turn: 30
+    turn_id: 71511f78-5f9d-4dc4-8efb-ee17ea1629e9
+    message_id: d9b2d585-00cc-48c7-8ed2-f347ecd5d47f
+    source_file: Forprint_CRM_16.05.26.mhtml
+  quote: 's specifically to its human-facing and business-management role. Recommended CRM-owned data: - dashboard layout settings; - user-specific views
+    and filters; - saved report presets; - CRM UI preferences; - dashboard widgets configuration; - management comments / notes attached to displayed entities;
+    - manual review board configuration; - business decision drafts; - user-facing workflow command history; - CRM-side notification preferences; - cached
+    dashboard projections, if clearly marked as non-canonical; - analytics snapshots generated for fast UI/report display. CRM may also own business coordination
+    records if'
+  quote_whitespace_normalized: true
+  context_before: CRM-owned data is narrowed to UI/workspace preferences, notes, review queues, command history and noncanonical projections.
+  context_after: null
+  evidence_role:
+  - assistant_alignment
+  - crm_owned_data
+- evidence_id: EV-CRM1605-0035
+  speaker: assistant
+  locator:
+    conversation_turn: 30
+    turn_id: 71511f78-5f9d-4dc4-8efb-ee17ea1629e9
+    message_id: d9b2d585-00cc-48c7-8ed2-f347ecd5d47f
+    source_file: Forprint_CRM_16.05.26.mhtml
+  quote: 'Target: forprint_crm Purpose: provide module health, architecture drift, integration gaps. 5. crm_to_integration_gateway_command.v1 Source: forprint_crm
+    Target: forprint_integration_gateway Purpose: send business commands without bypassing gateway. 6. integration_gateway_to_crm_command_result.v1 Source:
+    forprint_integration_gateway Target: forprint_crm Purpose: return command execution results. 7. crm_dashboard_projection.v1 Internal CRM contract Purpose:
+    define non-canonical cached dashboard/reporting projections. Important command rule: CRM should send workflow/execution commands through Integration
+    Gateway, not directly'
+  quote_whitespace_normalized: true
+  context_before: Assistant proposes CRM→Gateway command contract and Gateway→CRM result contract.
+  context_after: null
+  evidence_role:
+  - assistant_alignment
+  - contracts
+- evidence_id: EV-CRM1605-0036
+  speaker: assistant
+  locator:
+    conversation_turn: 30
+    turn_id: 71511f78-5f9d-4dc4-8efb-ee17ea1629e9
+    message_id: d9b2d585-00cc-48c7-8ed2-f347ecd5d47f
+    source_file: Forprint_CRM_16.05.26.mhtml
+  quote: 'Так, приймаю. Нижче даю відповідь від імені модуля forprint_crm для ForPrint System Blueprint . Її можна передавати в керуючий модуль як alignment
+    report. Alignment Report: forprint_crm with ForPrint System Blueprint 1. Current CRM role forprint_crm should remain the business orchestration and
+    human-facing management layer . Its correct role: business director / workflow coordinator / human UI / analytics dashboard CRM should help people see
+    and manage business processes: - customer/order overview; - task and workflow visibility; - dashboard; - management analytics; - operator interface;
+    - business decision interface; - manual review interface; - architecture health view based on Project Inspector reports. CRM may initiate business commands,
+    but it should not directly r'
+  quote_whitespace_normalized: true
+  context_before: Assistant recommends CRM first build dashboard/reporting/workflow-command interfaces rather than canonical registries.
+  context_after: null
+  evidence_role:
+  - assistant_alignment
+  - implementation_direction
+- evidence_id: EV-CRM1605-0037
+  speaker: assistant
+  locator:
+    conversation_turn: 30
+    turn_id: 71511f78-5f9d-4dc4-8efb-ee17ea1629e9
+    message_id: d9b2d585-00cc-48c7-8ed2-f347ecd5d47f
+    source_file: Forprint_CRM_16.05.26.mhtml
+  quote: 'ion/cache models. 7. Open questions for Blueprint Questions for ForPrint System Blueprint : 1. Is `forprint_operational_registry` officially the
+    canonical owner of clients, orders, tasks, and operational statuses? 2. Should CRM create new orders directly, or should it send an order creation command
+    to Operational Registry through Integration Gateway? 3. Should CRM store any canonical manual decision records, or should those belong to Operational
+    Registry? 4. What is the exact boundary between CRM “business workflow coordination” and Integration Gateway “execution routing”? 5. Should dashboard
+    projections be stored in CRM database, o'
+  quote_whitespace_normalized: true
+  context_before: Alignment leaves canonical order/client ownership and other boundaries as explicit Blueprint questions.
+  context_after: null
+  evidence_role:
+  - assistant_open_question
+  - ownership
+items:
+- item_id: IT-CRM1605-0001
+  kind: requirement
+  title: Prepress automation should use one operator surface for multi-app workflows
+  statement: Owner wants drag/drop/file selection, reusable presets/chains and output handling across Adobe tools rather than separate heavyweight UX per
+    app.
+  dialogue_status: agreed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - prepress
+  - operator_ui
+  implementation_expectation: required
+  verification_targets:
+  - ui
+  - docs
+  - tests
+  evidence_refs:
+  - EV-CRM1605-0001
+  - EV-CRM1605-0002
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CRM1605-0002
+  kind: architecture_constraint
+  title: Prepress UI and automation engine should be separated
+  statement: Historical proposal uses HTML/web UI as the face while local Python/backend/agent controls files and native Adobe actions/scripts.
+  dialogue_status: discussed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - prepress
+  implementation_expectation: required
+  verification_targets:
+  - architecture
+  - code
+  - docs
+  evidence_refs:
+  - EV-CRM1605-0003
+  - EV-CRM1605-0004
+  - EV-CRM1605-0005
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CRM1605-0003
+  kind: requirement
+  title: Prepress workflows are declarative presets
+  statement: Preset Engine should describe input types, ordered steps, apps/actions, output and failure behavior so new scenarios do not require new application
+    code.
+  dialogue_status: discussed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - prepress
+  - workflow
+  implementation_expectation: required
+  verification_targets:
+  - schemas
+  - code
+  - tests
+  evidence_refs:
+  - EV-CRM1605-0006
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CRM1605-0004
+  kind: architecture_constraint
+  title: Development governance and production operations are separate control planes
+  statement: Project-development alignment/architecture checks should not be collapsed into CRM production/business monitoring.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - crm
+  - governance
+  implementation_expectation: required
+  verification_targets:
+  - architecture
+  - docs
+  evidence_refs:
+  - EV-CRM1605-0007
+  - EV-CRM1605-0008
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CRM1605-0005
+  kind: decision
+  title: ForPrint Project Inspector replaces the early Project Control naming for conformance verification
+  statement: Owner accepts the verification concept but prefers `ForPrint Project Inspector` and restricts it to checking module correctness/alignment.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - project_inspector
+  implementation_expectation: required
+  verification_targets:
+  - architecture
+  - docs
+  evidence_refs:
+  - EV-CRM1605-0012
+  - EV-CRM1605-0013
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CRM1605-0006
+  kind: architecture_constraint
+  title: Inspector must not own system architecture design
+  statement: Owner explicitly says architecture/ideological mapping is not Inspector's task; Inspector should stay a verifier.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - project_inspector
+  - blueprint
+  implementation_expectation: required
+  verification_targets:
+  - architecture
+  - docs
+  evidence_refs:
+  - EV-CRM1605-0013
+  - EV-CRM1605-0014
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CRM1605-0007
+  kind: requirement
+  title: System architecture needs machine-readable and human-readable representations
+  statement: The owner requires a machine-oriented form for modules/automation and a human-oriented form for understanding/management.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - docs
+  - diagrams
+  evidence_refs:
+  - EV-CRM1605-0015
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CRM1605-0008
+  kind: architecture_constraint
+  title: System architecture must be living and impact-aware
+  statement: The architecture should evolve as services/modules/business needs change and propagate updated instructions to affected modules.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - change_management
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - scripts
+  - docs
+  evidence_refs:
+  - EV-CRM1605-0016
+  - EV-CRM1605-0017
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CRM1605-0009
+  kind: architecture_constraint
+  title: ForPrint System Blueprint is the separate architecture/ideological-control layer
+  statement: The historical design creates System Blueprint above individual code modules to define module map, ownership, flows, contracts and integration
+    direction.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  implementation_expectation: required
+  verification_targets:
+  - architecture
+  - config
+  - docs
+  evidence_refs:
+  - EV-CRM1605-0018
+  - EV-CRM1605-0019
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CRM1605-0010
+  kind: architecture_constraint
+  title: 'Blueprint and Inspector are distinct: plan vs conformance review'
+  statement: Blueprint defines desired architecture/ownership/flows while Inspector checks module manifests/status against that truth.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - project_inspector
+  implementation_expectation: required
+  verification_targets:
+  - architecture
+  - contracts
+  - docs
+  evidence_refs:
+  - EV-CRM1605-0022
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CRM1605-0011
+  kind: requirement
+  title: Blueprint can generate module guides/prompts from architecture truth
+  statement: Per-module guidance should be derivable from the shared architecture rather than recreated manually in every chat.
+  dialogue_status: discussed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - prompt_generation
+  implementation_expectation: required
+  verification_targets:
+  - scripts
+  - docs
+  evidence_refs:
+  - EV-CRM1605-0021
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CRM1605-0012
+  kind: requirement
+  title: Canonical data-object ownership and data flows are explicit architecture surfaces
+  statement: Blueprint should represent who owns each data object and who produces/consumes each flow to prevent independently successful modules from becoming
+    incompatible.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - blueprint
+  - ownership
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - schemas
+  - docs
+  evidence_refs:
+  - EV-CRM1605-0019
+  - EV-CRM1605-0023
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CRM1605-0013
+  kind: risk
+  title: Early Blueprint example temporarily assigns client/order ownership to CRM
+  statement: A historical example in the architecture proposal makes CRM owner of `client` and `order`, but the later direct alignment prompt moves these
+    canonical operational entities to Operational Registry.
+  dialogue_status: superseded
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - crm
+  - operational_registry
+  - ownership
+  implementation_expectation: not_required
+  verification_targets:
+  - history
+  evidence_refs:
+  - EV-CRM1605-0024
+  - EV-CRM1605-0027
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Use later alignment/current architecture, not the early illustrative example.
+- item_id: IT-CRM1605-0014
+  kind: architecture_constraint
+  title: CRM is business orchestration and human-facing management layer
+  statement: The owner-provided alignment prompt defines CRM as business director/workflow coordinator/human UI/analytics dashboard.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - crm
+  implementation_expectation: required
+  verification_targets:
+  - architecture
+  - docs
+  - code
+  evidence_refs:
+  - EV-CRM1605-0025
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CRM1605-0015
+  kind: architecture_constraint
+  title: CRM must not become universal canonical/physical data owner
+  statement: CRM may display/cache/report but should not physically own all clients, orders, payments, invoices, catalogs, files, stock or routing.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - crm
+  - module_ownership
+  implementation_expectation: required
+  verification_targets:
+  - manifest
+  - models
+  - tests
+  - docs
+  evidence_refs:
+  - EV-CRM1605-0026
+  - EV-CRM1605-0032
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CRM1605-0016
+  kind: architecture_constraint
+  title: Operational Registry owns canonical clients/orders/tasks/operational statuses
+  statement: The direct alignment prompt assigns CRM consumption/display of these entities from Operational Registry rather than canonical CRM ownership.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - crm
+  - operational_registry
+  implementation_expectation: required
+  verification_targets:
+  - contracts
+  - docs
+  - models
+  evidence_refs:
+  - EV-CRM1605-0027
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CRM1605-0017
+  kind: architecture_constraint
+  title: Accounting Registry owns invoices/payments/1C accounting truth
+  statement: CRM should consume financial/accounting summaries while accounting truth remains in Accounting Registry.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - crm
+  - accounting_registry
+  implementation_expectation: required
+  verification_targets:
+  - contracts
+  - docs
+  evidence_refs:
+  - EV-CRM1605-0028
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CRM1605-0018
+  kind: architecture_constraint
+  title: Library owns canonical catalogs/templates/naming references
+  statement: CRM should consume product/material/template references from Library rather than maintain an independent canonical catalog.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - crm
+  - library
+  implementation_expectation: required
+  verification_targets:
+  - contracts
+  - docs
+  evidence_refs:
+  - EV-CRM1605-0029
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CRM1605-0019
+  kind: architecture_constraint
+  title: Project Inspector owns architecture-health checking
+  statement: CRM displays module health/drift/integration-gap results but should not absorb Inspector verification logic.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - crm
+  - project_inspector
+  implementation_expectation: required
+  verification_targets:
+  - contracts
+  - docs
+  evidence_refs:
+  - EV-CRM1605-0030
+  - EV-CRM1605-0033
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CRM1605-0020
+  kind: architecture_constraint
+  title: Integration Gateway owns command routing/execution delivery
+  statement: CRM may initiate business commands but should route them through Gateway instead of directly calling specialized modules.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - crm
+  - integration_gateway
+  implementation_expectation: required
+  verification_targets:
+  - contracts
+  - code
+  - tests
+  evidence_refs:
+  - EV-CRM1605-0031
+  - EV-CRM1605-0035
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CRM1605-0021
+  kind: requirement
+  title: CRM-owned state is limited to human/UI coordination and noncanonical projections
+  statement: Appropriate CRM-owned data includes layouts, filters, saved reports, UI preferences, management notes, review-board configuration, command
+    history, notification preferences and clearly marked cached/analytics projections.
+  dialogue_status: discussed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - crm
+  implementation_expectation: required
+  verification_targets:
+  - models
+  - docs
+  - tests
+  evidence_refs:
+  - EV-CRM1605-0034
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CRM1605-0022
+  kind: risk
+  title: CRM monolith overreach must be actively prevented
+  statement: Explicit risks include duplicating Operational/Accounting/Library, bypassing Gateway, absorbing Inspector, or becoming the central database
+    because it has the main dashboard.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - crm
+  - architecture
+  implementation_expectation: required
+  verification_targets:
+  - tests
+  - docs
+  - architecture
+  evidence_refs:
+  - EV-CRM1605-0032
+  - EV-CRM1605-0033
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CRM1605-0023
+  kind: integration
+  title: Initial CRM contracts should separate snapshots commands and results
+  statement: Historical alignment proposes registry→CRM dashboard/finance/catalog/health feeds plus CRM→Gateway command and Gateway→CRM result contracts.
+  dialogue_status: discussed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - crm
+  - contracts
+  implementation_expectation: required
+  verification_targets:
+  - contracts
+  - schemas
+  - tests
+  evidence_refs:
+  - EV-CRM1605-0035
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CRM1605-0024
+  kind: plan
+  title: CRM implementation should start as dashboard/reporting/workflow-command interface
+  statement: The recommended next step is conservative CRM models and adapters/projections rather than canonical Client/Order/Invoice/Material models.
+  dialogue_status: discussed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - crm
+  - roadmap
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-CRM1605-0036
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CRM1605-0025
+  kind: open_question
+  title: Exact CRM/Operational Registry order-creation boundary remains open
+  statement: The alignment asks whether CRM creates orders itself or sends an order-creation command through Gateway to Operational Registry, and where
+    canonical manual decisions live.
+  dialogue_status: unclear
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - crm
+  - operational_registry
+  - integration_gateway
+  implementation_expectation: required
+  verification_targets:
+  - architecture
+  - contracts
+  evidence_refs:
+  - EV-CRM1605-0037
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Current authority must resolve.
+- item_id: IT-CRM1605-0026
+  kind: process_rule
+  title: CRM is a consumer of architecture-health evidence, not a source of architecture truth
+  statement: CRM may present Blueprint/Inspector information to humans but architecture truth stays outside CRM.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - crm
+  - blueprint
+  - project_inspector
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - models
+  evidence_refs:
+  - EV-CRM1605-0014
+  - EV-CRM1605-0030
+  - EV-CRM1605-0033
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CRM1605-0027
+  kind: risk
+  title: Early Project Control Plane naming should not be conflated with later Strategic Control Plane
+  statement: The early `Project Control Plane` concept is renamed by the owner to Project Inspector; the later separate Strategic Control Plane is a different
+    lineage.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - project_inspector
+  - control_plane
+  implementation_expectation: not_required
+  verification_targets:
+  - history
+  - architecture
+  evidence_refs:
+  - EV-CRM1605-0009
+  - EV-CRM1605-0012
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Avoid name-based merging of distinct components.
+- item_id: IT-CRM1605-0028
+  kind: architecture_constraint
+  title: This CRM source is cross-module history with embedded Blueprint alignment, not current Blueprint authority
+  statement: The source contains owner-provided alignment directives and architecture genesis, but later/current Blueprint release authority supersedes
+    any conflict.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - authority
+  - crm
+  - blueprint
+  implementation_expectation: required
+  verification_targets:
+  - indexes
+  - docs
+  evidence_refs:
+  - EV-CRM1605-0025
+  - EV-CRM1605-0037
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+relations:
+- relation_id: REL-CRM1605-0001
+  from_item: IT-CRM1605-0005
+  type: supersedes
+  to_item: IT-CRM1605-0004
+  evidence_refs:
+  - EV-CRM1605-0012
+  - EV-CRM1605-0009
+  confidence: medium
+- relation_id: REL-CRM1605-0002
+  from_item: IT-CRM1605-0006
+  type: enables
+  to_item: IT-CRM1605-0009
+  evidence_refs:
+  - EV-CRM1605-0014
+  - EV-CRM1605-0018
+  confidence: high
+- relation_id: REL-CRM1605-0003
+  from_item: IT-CRM1605-0007
+  type: refines
+  to_item: IT-CRM1605-0009
+  evidence_refs:
+  - EV-CRM1605-0015
+  - EV-CRM1605-0020
+  confidence: high
+- relation_id: REL-CRM1605-0004
+  from_item: IT-CRM1605-0013
+  type: supersedes
+  to_item: IT-CRM1605-0014
+  evidence_refs:
+  - EV-CRM1605-0024
+  - EV-CRM1605-0027
+  confidence: high
+- relation_id: REL-CRM1605-0005
+  from_item: IT-CRM1605-0016
+  type: constrains
+  to_item: IT-CRM1605-0015
+  evidence_refs:
+  - EV-CRM1605-0027
+  - EV-CRM1605-0026
+  confidence: high
+- relation_id: REL-CRM1605-0006
+  from_item: IT-CRM1605-0017
+  type: constrains
+  to_item: IT-CRM1605-0015
+  evidence_refs:
+  - EV-CRM1605-0028
+  - EV-CRM1605-0026
+  confidence: high
+- relation_id: REL-CRM1605-0007
+  from_item: IT-CRM1605-0018
+  type: constrains
+  to_item: IT-CRM1605-0015
+  evidence_refs:
+  - EV-CRM1605-0029
+  - EV-CRM1605-0026
+  confidence: high
+- relation_id: REL-CRM1605-0008
+  from_item: IT-CRM1605-0019
+  type: constrains
+  to_item: IT-CRM1605-0026
+  evidence_refs:
+  - EV-CRM1605-0030
+  - EV-CRM1605-0033
+  confidence: high
+- relation_id: REL-CRM1605-0009
+  from_item: IT-CRM1605-0020
+  type: enables
+  to_item: IT-CRM1605-0023
+  evidence_refs:
+  - EV-CRM1605-0031
+  - EV-CRM1605-0035
+  confidence: high
+- relation_id: REL-CRM1605-0010
+  from_item: IT-CRM1605-0022
+  type: constrains
+  to_item: IT-CRM1605-0024
+  evidence_refs:
+  - EV-CRM1605-0032
+  - EV-CRM1605-0036
+  confidence: high
+anomalies:
+- anomaly_id: ANOM-CRM1605-0001
+  type: new_unique_cross_module_source
+  description: No shared message IDs or exact normalized message text with previously loaded MHTML sources. This is a distinct CRM/architecture-genesis
+    dialogue.
+  item_refs: []
+  evidence_refs: []
+  severity: normal
+  confidence: high
+  requires_followup: false
+- anomaly_id: ANOM-CRM1605-0002
+  type: partial_conversation_capture
+  description: Only 11 message blocks survive across turns 1–30; intermediate turns 3–25 are absent, so the transition from Prepress discussion to CRM governance
+    cannot be fully reconstructed.
+  item_refs: []
+  evidence_refs: []
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-CRM1605-0003
+  type: crm_ownership_corrected_inside_source
+  description: An early Blueprint example assigns `client` and `order` ownership to CRM, while the later direct CRM alignment prompt moves clients/orders/tasks/statuses
+    to Operational Registry. The later alignment must win.
+  item_refs:
+  - IT-CRM1605-0013
+  - IT-CRM1605-0016
+  evidence_refs:
+  - EV-CRM1605-0024
+  - EV-CRM1605-0027
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-CRM1605-0004
+  type: project_control_name_collision
+  description: Early `ForPrint Project Control Plane` is explicitly renamed/reframed by owner as Project Inspector. It must not be merged by name with the
+    later Strategic Control Plane proposal.
+  item_refs:
+  - IT-CRM1605-0005
+  - IT-CRM1605-0027
+  evidence_refs:
+  - EV-CRM1605-0009
+  - EV-CRM1605-0012
+  severity: high
+  confidence: high
+  requires_followup: false
+- anomaly_id: ANOM-CRM1605-0005
+  type: crm_business_orchestration_vs_canonical_truth
+  description: CRM is a visible business-management surface, creating persistent risk that UI prominence is mistaken for canonical data ownership.
+  item_refs:
+  - IT-CRM1605-0014
+  - IT-CRM1605-0015
+  - IT-CRM1605-0022
+  evidence_refs:
+  - EV-CRM1605-0025
+  - EV-CRM1605-0026
+  - EV-CRM1605-0032
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-CRM1605-0006
+  type: order_creation_command_boundary_unresolved
+  description: The source aligns canonical orders to Operational Registry but leaves open whether CRM creates orders directly or commands Operational Registry
+    through Gateway.
+  item_refs:
+  - IT-CRM1605-0025
+  evidence_refs:
+  - EV-CRM1605-0037
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-CRM1605-0007
+  type: historical_prepress_architecture_not_current_implementation_proof
+  description: The Prepress Hub/Python/web/preset design is a historical proposal in a CRM-labelled conversation and does not prove current Prepress implementation
+    or ownership.
+  item_refs:
+  - IT-CRM1605-0001
+  - IT-CRM1605-0002
+  - IT-CRM1605-0003
+  evidence_refs:
+  - EV-CRM1605-0001
+  - EV-CRM1605-0004
+  severity: normal
+  confidence: high
+  requires_followup: true
+open_loops:
+- loop_id: LOOP-CRM1605-0001
+  description: Verify current CRM canonical ownership boundary.
+  item_refs:
+  - IT-CRM1605-0014
+  - IT-CRM1605-0015
+  - IT-CRM1605-0016
+  - IT-CRM1605-0017
+  - IT-CRM1605-0018
+  - IT-CRM1605-0021
+  last_known_state: Historical alignment says CRM coordinates/displays while specialized registries own canonical truth.
+  recommended_verification: Audit current CRM manifest/models/contracts and current Blueprint ownership map; flag canonical Client/Order/Invoice/Material
+    duplication.
+- loop_id: LOOP-CRM1605-0002
+  description: Resolve current order-creation/manual-decision command path.
+  item_refs:
+  - IT-CRM1605-0020
+  - IT-CRM1605-0025
+  last_known_state: Historical source leaves CRM direct-create vs Gateway→Operational Registry command path open.
+  recommended_verification: Use current Contract Registry/Gateway/Operational Registry authority to define the command and event contracts.
+- loop_id: LOOP-CRM1605-0003
+  description: Verify Blueprint/Inspector/CRM separation remains explicit.
+  item_refs:
+  - IT-CRM1605-0005
+  - IT-CRM1605-0006
+  - IT-CRM1605-0009
+  - IT-CRM1605-0019
+  - IT-CRM1605-0026
+  last_known_state: Blueprint plans architecture, Inspector checks, CRM presents business/health views.
+  recommended_verification: Audit current module manifests/ADRs for duplicated architecture checking or architecture truth inside CRM.
+- loop_id: LOOP-CRM1605-0004
+  description: Verify early Project Control Plane lineage is archived as Inspector, not conflated with Strategic Control Plane.
+  item_refs:
+  - IT-CRM1605-0027
+  last_known_state: Owner renamed early project-control verification concept to Project Inspector; later Control Plane source is strategic/governance concept.
+  recommended_verification: Keep identity/history indexes explicit and prevent name-based merging.
+- loop_id: LOOP-CRM1605-0005
+  description: Verify current Prepress automation architecture and ownership.
+  item_refs:
+  - IT-CRM1605-0001
+  - IT-CRM1605-0002
+  - IT-CRM1605-0003
+  last_known_state: Historical proposal recommends local backend + UI + declarative presets/adapters/hot folders.
+  recommended_verification: Audit current Prepress module before promoting any of these early design choices.
+- loop_id: LOOP-CRM1605-0006
+  description: Reconcile historical proposed CRM contracts with current Contract Registry.
+  item_refs:
+  - IT-CRM1605-0023
+  last_known_state: Source proposes six/seven direct contract names before later dedicated Contract Registry governance.
+  recommended_verification: Map proposed contracts to current versioned agreements; classify retained/renamed/superseded.
+implementation_audit_ref: implementation_audit.stub.yaml

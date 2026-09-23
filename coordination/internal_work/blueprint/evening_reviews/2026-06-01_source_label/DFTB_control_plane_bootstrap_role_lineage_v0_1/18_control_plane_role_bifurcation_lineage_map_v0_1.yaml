@@ -1,0 +1,58 @@
+schema_version: forprint_control_plane_role_bifurcation_lineage_map_v0_1
+purpose: preserve historical role evolution without restoring stale assistant proposals
+origin:
+  historical_name: forprint_control_plane
+  source_label: '2026-06-01'
+  authority: assistant_bootstrap_proposal_only
+  direct_owner_prompt_missing: true
+  proposed_concerns:
+    - strategy_and_goals
+    - priorities
+    - autonomy_and_decision_rights
+    - checkpoints
+    - impact_reports_and_action_plans
+    - strategy_to_blueprint_requests
+current_bifurcation:
+  strategic_branch:
+    module_id: forprint_strategic_control_plane
+    canonical: true
+    concern:
+      - strategic_question_and_evidence
+      - feasibility_review
+      - alternative_strategy_generation
+      - scenario_and_investment_analysis
+      - strategic_memory_and_learning
+    authority_boundary:
+      - advisory_not_oracle
+      - human_decision_remains_required
+      - does_not_override_blueprint_or_operator
+      - autonomous_operational_execution_forbidden
+    lineage_confidence: medium
+    note: historical source helps explain naming/origin but cannot prove owner acceptance of its detailed proposal
+  blueprint_control_branch:
+    module_id: forprint_system_blueprint
+    surface_name: forprint_system_blueprint_control_plane
+    canonical_module_split: false
+    concern:
+      - governance_and_execution_coordination
+      - operator_approval
+      - bounded_worker_dispatch
+      - readiness_and_completion_gates
+      - inspector_conformance_integration
+    authority_boundary:
+      - Blueprint_owned_internal_control_surface
+      - human_acceptance_authority_preserved
+      - Inspector_read_only
+      - no independent strategic authority
+    lineage_confidence: medium
+historical_surfaces_not_carried_forward_as_current_contract:
+  - standalone forprint_control_plane repository skeleton
+  - historical Telegram/Calculator/Accounting priority map
+  - numeric autonomy Level 0-5 model
+  - automatic meaning for blueprint_update_request.yaml
+  - universal phase_id/macro_pack_id requirement
+  - Control Plane as authority above Blueprint
+navigation_rule:
+  do_not_collapse_names: true
+  use_current_authority_for_current_behavior: true
+  use_this_map_for_provenance_only: true

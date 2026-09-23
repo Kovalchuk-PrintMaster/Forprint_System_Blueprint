@@ -1,0 +1,36 @@
+schema_version: forprint_telegram_dialogue_corpus_ingest_governance_candidate_v0_1
+candidate_id: telegram_dialogue_corpus_ingest_governance
+status: RECONCILE_BEFORE_IMPLEMENTATION
+canonical_roadmap_step: false
+candidate_owner: telegram_bot
+supporting_or_adjacent_owners:
+- forprint_crm
+- verification_lab
+- forprint_system_blueprint
+purpose: Define a governed path from historical/production dialogue exports to training, evaluation or fixture corpora
+  without making Telegram a canonical customer/business DB.
+reuse_first_checks_before_promotion:
+- later Telegram filename-label sources 2026-10-12/13/14/16
+- current telegram_bot repository and database schemas
+- current Telegram Human Intent and full-horizon roadmap
+- CRM identity mapping contracts
+- privacy/retention/sanitization standards
+- Verification Lab evaluation-corpus capabilities
+candidate_capabilities:
+- source export identity and provenance
+- deterministic message extraction
+- semantic request/response pairing
+- current schema contract selection from known-good examples
+- current taxonomy lookup binding
+- synthetic versus observed metadata classification
+- PII sanitization/retention gate
+- reproducible dataset manifest and row lineage
+- evaluation/train/test split provenance where applicable
+non_goals:
+- restore historical early style/sentiment taxonomies
+- create Telegram-owned canonical clients/products/suppliers/services
+- create Telegram-owned 1C mirror
+- enable automatic model training from raw production chats
+- mutate current Telegram repository from this planning intake
+promotion_gate: Promote/merge/retire only after the remaining Telegram historical sources and live implementation
+  are reconciled.

@@ -1,0 +1,45 @@
+schema_version: forprint_dftb_cross_dialogue_relations_v0_1
+bundle_id: DFTB-library-source-label-2026-07-05
+authority_class: module_history_non_blueprint_authority
+relations:
+- type: continues_module_history
+  from_bundle: DFTB-library-source-label-2026-07-05
+  to_bundle: DFTB-library-source-label-2026-05-16
+  confidence: HIGH
+  note: 05.07 source advances the earlier canonical-definition Library into Blueprint-standard coordination, Make/check/report and completion-packet workflows.
+- type: overlaps_architecture_period_with
+  from_bundle: DFTB-library-source-label-2026-07-05
+  to_bundle: DFTB-blueprint-2026-07-14
+  confidence: MEDIUM
+  note: The Library dialogue spans July and consumes evolving Blueprint standards; source is module history, not architecture authority.
+- type: precedes
+  from_bundle: DFTB-library-source-label-2026-07-05
+  to_bundle: DFTB-blueprint-2026-08-05
+  confidence: HIGH
+  note: Library already has make-first coordination/completion surfaces before mature August Blueprint prompt/completion governance is formalized.
+item_relations:
+- type: refines
+  from_item: IT-LIB0507-0001
+  to_item: IT-LIB1605-0022
+  confidence: HIGH
+  note: Canonical/non-runtime Library boundary continues from 16.05 alignment.
+- type: conflicts_with
+  from_item: IT-LIB0507-0005
+  to_item: IT-BP0508-0012
+  confidence: HIGH
+  note: Intermediate Library mutating check conflicts with later Blueprint owner rule that check/read-only and mutation commands are separate.
+- type: supports
+  from_item: IT-LIB0507-0018
+  to_item: IT-BP1708-0003
+  confidence: HIGH
+  note: Library module must not rewrite Blueprint/foreign artifacts; later Blueprint formalizes module-vs-Blueprint mutation boundary.
+- type: supports
+  from_item: IT-LIB0507-0026
+  to_item: IT-BP1708-0006
+  confidence: HIGH
+  note: READY_FOR_BLUEPRINT_REVIEW is distinct from accept/promote.
+- type: supports
+  from_item: IT-LIB0507-0021
+  to_item: IT-BP0508C-0010
+  confidence: MEDIUM
+  note: Completion packet provenance roles support later standardized completion/publication lifecycle.

@@ -1,0 +1,250 @@
+schema_version: forprint_dftb_verification_queue_v0_1
+bundle_id: DFTB-telegram-bot-ml-engineering-filename-label-2026-10-14
+authority_class: telegram_module_history_non_blueprint_authority
+queue:
+- item_id: IT-TG1410-0001
+  title: Historical style classifier quality was insufficient at accuracy 0.6394
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1410-0001
+  current_audit_status: not_audited
+- item_id: IT-TG1410-0002
+  title: ML datasets should be audited balanced and split before retraining
+  importance: high
+  dialogue_status: discussed
+  evidence_refs:
+  - EV-TG1410-0002
+  current_audit_status: not_audited
+- item_id: IT-TG1410-0003
+  title: Evaluation outputs must be human-readable as well as machine-readable
+  importance: normal
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1410-0003
+  - EV-TG1410-0004
+  current_audit_status: not_audited
+- item_id: IT-TG1410-0004
+  title: Style sentiment and intent training pipelines should share one structural standard
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1410-0019
+  - EV-TG1410-0021
+  - EV-TG1410-0034
+  current_audit_status: not_audited
+- item_id: IT-TG1410-0005
+  title: Every important script should be self-describing and runnable from its header
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1410-0007
+  - EV-TG1410-0027
+  current_audit_status: not_audited
+- item_id: IT-TG1410-0006
+  title: Generated artifact names should be stable and predictable
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1410-0008
+  current_audit_status: not_audited
+- item_id: IT-TG1410-0007
+  title: Paths and operational constants belong in centralized configuration
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1410-0009
+  - EV-TG1410-0016
+  - EV-TG1410-0022
+  current_audit_status: not_audited
+- item_id: IT-TG1410-0008
+  title: Derived paths should compose from canonical root/path constants
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1410-0018
+  current_audit_status: not_audited
+- item_id: IT-TG1410-0009
+  title: Config refactoring must preserve existing consumers
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1410-0017
+  current_audit_status: not_audited
+- item_id: IT-TG1410-0010
+  title: Repository structure and filenames require owner approval before changes
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1410-0010
+  - EV-TG1410-0025
+  current_audit_status: not_audited
+- item_id: IT-TG1410-0011
+  title: Existing label-map files must not be silently overwritten
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1410-0011
+  current_audit_status: not_audited
+- item_id: IT-TG1410-0012
+  title: Scripts should stay bounded and understandable
+  importance: normal
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1410-0012
+  current_audit_status: not_audited
+- item_id: IT-TG1410-0013
+  title: Text/CSV encoding is UTF-8 with optional BOM copies for Excel
+  importance: normal
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1410-0013
+  current_audit_status: not_audited
+- item_id: IT-TG1410-0014
+  title: Scripts must expose important progress and created/changed artifact paths
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1410-0014
+  - EV-TG1410-0027
+  current_audit_status: not_audited
+- item_id: IT-TG1410-0015
+  title: Sentiment dataset/label map should be audited against successful style training patterns
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1410-0020
+  current_audit_status: not_audited
+- item_id: IT-TG1410-0016
+  title: Intent model training must preserve downstream label-decoder compatibility
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1410-0028
+  - EV-TG1410-0030
+  current_audit_status: not_audited
+- item_id: IT-TG1410-0017
+  title: Historical classify_intent path resolution was broken
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1410-0026
+  current_audit_status: not_audited
+- item_id: IT-TG1410-0018
+  title: Historical classify_intent runtime still failed after decoder repair
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1410-0028
+  - EV-TG1410-0029
+  current_audit_status: not_audited
+- item_id: IT-TG1410-0019
+  title: Reuse and audit existing scripts before creating new utilities
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1410-0023
+  - EV-TG1410-0024
+  current_audit_status: not_audited
+- item_id: IT-TG1410-0020
+  title: Prefer extending the owning training pipeline over unnecessary one-off scripts
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1410-0031
+  current_audit_status: not_audited
+- item_id: IT-TG1410-0021
+  title: ML ingest settings are configuration-driven
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1410-0022
+  current_audit_status: not_audited
+- item_id: IT-TG1410-0022
+  title: Model revision management should be explicit and local-first when remote versioning is unreliable
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1410-0032
+  - EV-TG1410-0033
+  current_audit_status: not_audited
+- item_id: IT-TG1410-0023
+  title: ML artifact paths must be entity-specific to avoid constant collisions
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1410-0034
+  - EV-TG1410-0035
+  current_audit_status: not_audited
+- item_id: IT-TG1410-0024
+  title: Windows Zone.Identifier sidecars pollute project working trees
+  importance: normal
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1410-0015
+  - EV-TG1410-0036
+  current_audit_status: not_audited
+- item_id: IT-TG1410-0025
+  title: Internal evidence anchors this source to October 2025 engineering work
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1410-0004
+  - EV-TG1410-0037
+  current_audit_status: not_audited
+- item_id: IT-TG1410-0026
+  title: Historical WSL user-session issue was resolved to a clean user journal
+  importance: normal
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1410-0037
+  - EV-TG1410-0038
+  current_audit_status: not_audited
+- item_id: IT-TG1410-0027
+  title: Historical ML engineering artifacts do not define Telegram business/runtime authority
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1410-0007
+  - EV-TG1410-0023
+  current_audit_status: not_audited
+- item_id: IT-TG1410-0028
+  title: Historical source is attachment-heavy and implementation bodies are not recoverable
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1410-0005
+  - EV-TG1410-0024
+  current_audit_status: not_audited
+- item_id: IT-TG1410-0029
+  title: Current ML refactors should preserve semantic compatibility across train/classify/evaluate
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1410-0021
+  - EV-TG1410-0030
+  - EV-TG1410-0035
+  current_audit_status: not_audited
+- item_id: IT-TG1410-0030
+  title: Historic script standard is module-history input, not automatically a current Blueprint standard
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1410-0007
+  - EV-TG1410-0027
+  current_audit_status: not_audited
+- item_id: IT-TG1410-0031
+  title: Evaluation/report pipelines should avoid duplicate overlapping utilities
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1410-0024
+  current_audit_status: not_audited
+- item_id: IT-TG1410-0032
+  title: This source precedes later Telegram behavior/governance history
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG1410-0004
+  - EV-TG1410-0037
+  current_audit_status: not_audited

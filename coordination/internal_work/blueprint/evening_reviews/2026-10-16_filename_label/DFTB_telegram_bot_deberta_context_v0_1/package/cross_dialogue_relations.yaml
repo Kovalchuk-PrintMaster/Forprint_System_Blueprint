@@ -1,0 +1,30 @@
+schema_version: forprint_dftb_cross_dialogue_relations_v0_1
+bundle_id: DFTB-telegram-bot-deberta-context-filename-label-2026-10-16
+authority_class: historical_educational_context_non_authoritative
+relations:
+- type: contextualizes
+  from_bundle: DFTB-telegram-bot-deberta-context-filename-label-2026-10-16
+  to_bundle: DFTB-telegram-bot-ml-engineering-filename-label-2026-10-14
+  confidence: MEDIUM
+  note: This micro-dialogue provides generic DeBERTa background; the separate October-2025 Telegram source contains real ML engineering history.
+- type: contextualizes
+  from_bundle: DFTB-telegram-bot-deberta-context-filename-label-2026-10-16
+  to_bundle: DFTB-telegram-bot-long-running-filename-label-2026-10-13
+  confidence: LOW
+  note: Later Telegram history explicitly lists DeBERTa in the working stack and provides richer project context.
+item_relations:
+- type: contextualizes
+  from_item: IT-TG1610-0005
+  to_item: IT-TG1410-0004
+  confidence: MEDIUM
+  note: Generic style/sentiment classification suggestion precedes richer train/classify/evaluate engineering history.
+- type: contextualizes
+  from_item: IT-TG1610-0002
+  to_item: IT-TG1310-0003
+  confidence: LOW
+  note: General DeBERTa explanation is consistent with later historical stack mention but does not prove adoption.
+- type: constrained_by
+  from_item: IT-TG1610-0007
+  to_item: IT-TG1410-0027
+  confidence: HIGH
+  note: Later Telegram ML evidence itself remains non-authoritative for business/runtime boundaries; current live authority is stronger.

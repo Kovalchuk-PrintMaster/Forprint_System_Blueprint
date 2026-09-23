@@ -1,0 +1,1025 @@
+schema_version: forprint_dftb_dialogue_memory_v0_1
+bundle_id: DFTB-telegram-bot-data-ingest-filename-label-2026-10-07
+source:
+  source_id: SRC-telegram-bot-data-ingest-filename-label-2026-10-07
+  title: Telegram_Bot - Asistant_Telegram_Bot_2
+  source_type: chatgpt_mhtml_telegram_data_ingest_and_integration_dialogue
+  source_file: Asistant_Telegram_Bot_07.10.26.mhtml
+  source_hash_sha256: 1964f07d75dc66862ddb04740956dda47f8948d599b0d089fc4f94396368cbe6
+  conversation_started_at: null
+  conversation_ended_at: Tue, 15 Sep 2026 22:31:58 +0300
+  participants:
+  - user
+  - assistant
+  language:
+  - uk
+  - en
+  authority_scope: telegram_module_history_only
+  completeness: very_sparse_partial_dialogue_with_large_middle_gap
+  completeness_notes: 15 retained turn sections / 16 message blocks across turns 1–61. Large gap 5–50. Known-good CSV attachments are referenced but not
+    embedded.
+extraction:
+  created_at: '2026-09-15T22:31:58+03:00'
+  extractor: GPT-5.6 Sol / Asistans_Forprint_Blueprint
+  extraction_mode: duplicate_check_then_strict_telegram_data_ingest_integration_reconstruction
+  implementation_verification_performed: false
+  notes: Historical Telegram data-ingest/integration evidence only. Filename date is not trusted. Early taxonomy and 1C-sync ideas are explicitly reconciled
+    against later authority.
+evidence_index:
+- evidence_id: EV-TG0710-0001
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: 29db6d35-dcdc-4fd3-97b2-1a57cddbe858
+    message_id: 29db6d35-dcdc-4fd3-97b2-1a57cddbe858
+    source_file: Asistant_Telegram_Bot_07.10.26.mhtml
+  quote: 'наповнення бази діалогами опрацюй цей алгоритм для початку роботи Алгоритм створення CSV-файлів із HTML-файлів для імпорту в Supabase 1. Отримання
+    HTML-файлу: * Отримай HTML-файл із листуванням (наприклад, (1)_Клієнт_Номер.html). * Переконайся, що ім’я файлу містить ім’я клієнта та номер телефону
+    (наприклад, (1)_Anya_ Salon_365_+380952286725.html). 2. Парсинг імені файлу: * Витягни з імені файлу: * client_name: сирий формат із імені файлу (наприклад,
+    Anya_ Salon_365_+380952286725). * phone: нормалізуй номер телефону до формату +380 XXX XX XX XX (наприклад, +380 952 28 67 25). * alternative_phone:
+    якщо в імені файлу є другий номер, нормалізуй його;'
+  quote_whitespace_normalized: true
+  context_before: Owner defines an HTML→CSV preparation algorithm for Telegram conversation data import into Supabase.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - data_ingest
+- evidence_id: EV-TG0710-0002
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: 29db6d35-dcdc-4fd3-97b2-1a57cddbe858
+    message_id: 29db6d35-dcdc-4fd3-97b2-1a57cddbe858
+    source_file: Asistant_Telegram_Bot_07.10.26.mhtml
+  quote: '67 25). * alternative_phone: якщо в імені файлу є другий номер, нормалізуй його; інакше залиш "". * client_id: визнач із таблиці clients (наприклад,
+    для Anya_ Salon_365_+380952286725 це client_id: 15). 3. Аналіз HTML: * Відкрий HTML-файл і витягни всі текстові повідомлення, ігноруючи фото, відео,
+    PDF без тексту (наприклад, позначки типу Not included, change data exporting settings to download). * Об’єднай пов’язані повідомлення в логічні пари
+    input_text/response_text: * Повідомлення від клієнта (наприклад, "Добрий день, потрібні візитки") — це input_text. * Відповідь від друкарні (наприклад,
+    "Ок, 100 візиток - 250 грн") — це response_text. * Короткі повідомлення типу "Ок", "Дякую" об’єдн'
+  quote_whitespace_normalized: true
+  context_before: Owner expects client identity to be resolved against an existing clients table.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - identity_mapping
+- evidence_id: EV-TG0710-0003
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: 29db6d35-dcdc-4fd3-97b2-1a57cddbe858
+    message_id: 29db6d35-dcdc-4fd3-97b2-1a57cddbe858
+    source_file: Asistant_Telegram_Bot_07.10.26.mhtml
+  quote: '2286725 це client_id: 15). 3. Аналіз HTML: * Відкрий HTML-файл і витягни всі текстові повідомлення, ігноруючи фото, відео, PDF без тексту (наприклад,
+    позначки типу Not included, change data exporting settings to download). * Об’єднай пов’язані повідомлення в логічні пари input_text/response_text:
+    * Повідомлення від клієнта (наприклад, "Добрий день, потрібні візитки") — це input_text. * Відповідь від друкарні (наприклад, "Ок, 100 візиток - 250
+    грн") — це response_text. * Короткі повідомлення типу "Ок", "Дякую" об’єднай із попередніми, якщо вони стосуються одного контексту. * Збери ~10–30 пар
+    залежно від обсягу листування. 4. Формування CSV: * Створи CSV із 20 колонками (без id, яке автоген'
+  quote_whitespace_normalized: true
+  context_before: Owner says non-text media placeholders should be ignored during dialogue extraction.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - parser
+- evidence_id: EV-TG0710-0004
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: 29db6d35-dcdc-4fd3-97b2-1a57cddbe858
+    message_id: 29db6d35-dcdc-4fd3-97b2-1a57cddbe858
+    source_file: Asistant_Telegram_Bot_07.10.26.mhtml
+  quote: 'типу Not included, change data exporting settings to download). * Об’єднай пов’язані повідомлення в логічні пари input_text/response_text: * Повідомлення
+    від клієнта (наприклад, "Добрий день, потрібні візитки") — це input_text. * Відповідь від друкарні (наприклад, "Ок, 100 візиток - 250 грн") — це response_text.
+    * Короткі повідомлення типу "Ок", "Дякую" об’єднай із попередніми, якщо вони стосуються одного контексту. * Збери ~10–30 пар залежно від обсягу листування.
+    4. Формування CSV: * Створи CSV із 20 колонками (без id, яке автогенерується в Supabase): text client_id,client_name,phone,alternative_phone,input_text,response_text,intent,communication_style,language,is_command,response_time,'
+  quote_whitespace_normalized: true
+  context_before: Owner requires adjacent messages to be normalized into conversational request/response pairs.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - dialogue_pairing
+- evidence_id: EV-TG0710-0005
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: 29db6d35-dcdc-4fd3-97b2-1a57cddbe858
+    message_id: 29db6d35-dcdc-4fd3-97b2-1a57cddbe858
+    source_file: Asistant_Telegram_Bot_07.10.26.mhtml
+  quote: 'ого контексту. * Збери ~10–30 пар залежно від обсягу листування. 4. Формування CSV: * Створи CSV із 20 колонками (без id, яке автогенерується
+    в Supabase): text client_id,client_name,phone,alternative_phone,input_text,response_text,intent,communication_style,language,is_command,response_time,feedback,context,sent_at,created_at,updated_at,intent_confidence,is_auto_tagged,style_confidence,sentiment
+    * Правила заповнення: * client_id: із таблиці clients (наприклад, 15 для Anya_ Salon_365). * client_name: сирий із імені файлу (наприклад, Anya_ Salon_365_+380952286725).
+    * phone: нормалізований номер (наприклад, +380 952 28 67 25). * alternative_phone: другий номер або ""'
+  quote_whitespace_normalized: true
+  context_before: Owner supplies a 20-field import contract for manager chat logs.
+  context_after: null
+  evidence_role:
+  - owner_schema
+  - schema
+- evidence_id: EV-TG0710-0006
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: 29db6d35-dcdc-4fd3-97b2-1a57cddbe858
+    message_id: 29db6d35-dcdc-4fd3-97b2-1a57cddbe858
+    source_file: Asistant_Telegram_Bot_07.10.26.mhtml
+  quote: 'ься в Supabase): text client_id,client_name,phone,alternative_phone,input_text,response_text,intent,communication_style,language,is_command,response_time,feedback,context,sent_at,created_at,updated_at,intent_confidence,is_auto_tagged,style_confidence,sentiment
+    * Правила заповнення: * client_id: із таблиці clients (наприклад, 15 для Anya_ Salon_365). * client_name: сирий із імені файлу (наприклад, Anya_ Salon_365_+380952286725).
+    * phone: нормалізований номер (наприклад, +380 952 28 67 25). * alternative_phone: другий номер або "". * input_text: текст повідомлення клієнта, екранований
+    лапками ("..."). * response_text: текст відповіді, екранований лапками ("..."). * intent:'
+  quote_whitespace_normalized: true
+  context_before: Owner supplies an early free-form style taxonomy including formal/casual/friendly/professional/urgent.
+  context_after: null
+  evidence_role:
+  - owner_schema
+  - taxonomy_v1
+- evidence_id: EV-TG0710-0007
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: 29db6d35-dcdc-4fd3-97b2-1a57cddbe858
+    message_id: 29db6d35-dcdc-4fd3-97b2-1a57cddbe858
+    source_file: Asistant_Telegram_Bot_07.10.26.mhtml
+  quote: 'me,feedback,context,sent_at,created_at,updated_at,intent_confidence,is_auto_tagged,style_confidence,sentiment * Правила заповнення: * client_id:
+    із таблиці clients (наприклад, 15 для Anya_ Salon_365). * client_name: сирий із імені файлу (наприклад, Anya_ Salon_365_+380952286725). * phone: нормалізований
+    номер (наприклад, +380 952 28 67 25). * alternative_phone: другий номер або "". * input_text: текст повідомлення клієнта, екранований лапками ("...").
+    * response_text: текст відповіді, екранований лапками ("..."). * intent: класифікуй за змістом: * order_request: запит на друк (наприклад, "Потрібно
+    100 візиток"). * price_inquiry: питання про ціну (наприклад, "Ск'
+  quote_whitespace_normalized: true
+  context_before: Owner supplies an early sentiment taxonomy including neutral/positive/negative/urgent/curious/confused.
+  context_after: null
+  evidence_role:
+  - owner_schema
+  - taxonomy_v1
+- evidence_id: EV-TG0710-0008
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: 29db6d35-dcdc-4fd3-97b2-1a57cddbe858
+    message_id: 29db6d35-dcdc-4fd3-97b2-1a57cddbe858
+    source_file: Asistant_Telegram_Bot_07.10.26.mhtml
+  quote: 'ommunication_style,language,is_command,response_time,feedback,context,sent_at,created_at,updated_at,intent_confidence,is_auto_tagged,style_confidence,sentiment
+    * Правила заповнення: * client_id: із таблиці clients (наприклад, 15 для Anya_ Salon_365). * client_name: сирий із імені файлу (наприклад, Anya_ Salon_365_+380952286725).
+    * phone: нормалізований номер (наприклад, +380 952 28 67 25). * alternative_phone: другий номер або "". * input_text: текст повідомлення клієнта, екранований
+    лапками ("..."). * response_text: текст відповіді, екранований лапками ("..."). * intent: класифікуй за змістом: * order_request: запит на друк (наприклад,
+    "Потрібно 100 візиток"). * price'
+  quote_whitespace_normalized: true
+  context_before: Owner assigns fixed confidence conventions and auto-tagging flags for imported examples.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - training_data
+- evidence_id: EV-TG0710-0009
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: 29db6d35-dcdc-4fd3-97b2-1a57cddbe858
+    message_id: 29db6d35-dcdc-4fd3-97b2-1a57cddbe858
+    source_file: Asistant_Telegram_Bot_07.10.26.mhtml
+  quote: 'uage: uk для української, ru для російської. * is_command: "false" (команди не використовуються). * response_time: 1.5 (фіксоване значення). *
+    feedback: 0 (фіксоване значення). * context: попереднє повідомлення, якщо є, екрановане ("..."), інакше "". * sent_at, created_at, updated_at: дата
+    й час повідомлення в ISO-форматі (YYYY-MM-DD HH:MM:SS), бери з HTML. * intent_confidence: 0.9 для чітких інтентів, 0.8 для неоднозначних. * is_auto_tagged:
+    "true". * style_confidence: 0.9 для чітких стилів, 0.8 для неоднозначних. * sentiment: класифікуй настрій: * neutral: стандартні запити/відповіді. *
+    positive: подяки, схвалення (наприклад, "Виглядає круто!"). * negative: скарги, пр'
+  quote_whitespace_normalized: true
+  context_before: Owner uses fixed synthetic/default metadata for response_time and feedback in the import contract.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - synthetic_metadata
+- evidence_id: EV-TG0710-0010
+  speaker: user
+  locator:
+    conversation_turn: 3
+    turn_id: b8590af9-9c76-4a11-b1b6-ae8f3a280824
+    message_id: b8590af9-9c76-4a11-b1b6-ae8f3a280824
+    source_file: Asistant_Telegram_Bot_07.10.26.mhtml
+  quote: 'ew unavailable так двай для початку зробимо трохи інакше я дам тобі для аналізу кілька діалогів вже в тому форматі що працює з моєю базою а тимені
+    згенеруєш 100 діалогів синтетичних по тематиці order_modification — зміна вже існуючого замовлення 🔑 Ключові ознаки: згадка про попереднє замовлення
+    і інші на твоє рішення слова: “змінити”, “додати”, “замість”, “як минулого разу”, “переробити” 🧠 Модель очікує: порівняння з минулим (“як минулого разу,
+    але…”) уточнення деталей (“замість 100 штук — 150” і інші на твоє рішення поверни мені готовий файл Show more Show less'
+  quote_whitespace_normalized: true
+  context_before: Owner prefers generating from known-good database-compatible CSV examples rather than an abstract schema.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - data_import
+- evidence_id: EV-TG0710-0011
+  speaker: user
+  locator:
+    conversation_turn: 3
+    turn_id: b8590af9-9c76-4a11-b1b6-ae8f3a280824
+    message_id: b8590af9-9c76-4a11-b1b6-ae8f3a280824
+    source_file: Asistant_Telegram_Bot_07.10.26.mhtml
+  quote: 'я дам тобі для аналізу кілька діалогів вже в тому форматі що працює з моєю базою а тимені згенеруєш 100 діалогів синтетичних по тематиці order_modification
+    — зміна вже існуючого замовлення 🔑 Ключові ознаки: згадка про попереднє замовлення і інші на твоє рішення слова: “змінити”, “додати”, “замість”, “як
+    минулого разу”, “переробити” 🧠 Модель очікує: порівняння з минулим (“як минулого разу, але…”) уточнення деталей (“замість 100 штук — 150” і інші на
+    твоє рішення поверни мені готовий файл Show more Show less'
+  quote_whitespace_normalized: true
+  context_before: Owner requests 100 synthetic examples for `order_modification` based on working samples.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - synthetic_data
+- evidence_id: EV-TG0710-0012
+  speaker: user
+  locator:
+    conversation_turn: 3
+    turn_id: b8590af9-9c76-4a11-b1b6-ae8f3a280824
+    message_id: b8590af9-9c76-4a11-b1b6-ae8f3a280824
+    source_file: Asistant_Telegram_Bot_07.10.26.mhtml
+  quote: 'в вже в тому форматі що працює з моєю базою а тимені згенеруєш 100 діалогів синтетичних по тематиці order_modification — зміна вже існуючого замовлення
+    🔑 Ключові ознаки: згадка про попереднє замовлення і інші на твоє рішення слова: “змінити”, “додати”, “замість”, “як минулого разу”, “переробити” 🧠 Модель
+    очікує: порівняння з минулим (“як минулого разу, але…”) уточнення деталей (“замість 100 штук — 150” і інші на твоє рішення поверни мені готовий файл
+    Show more Show less'
+  quote_whitespace_normalized: true
+  context_before: Owner defines semantic cues for modifying an existing order, including comparison with previous order and changed quantity/details.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - intent_taxonomy
+- evidence_id: EV-TG0710-0013
+  speaker: assistant
+  locator:
+    conversation_turn: 4
+    turn_id: 15628d79-31f0-4928-b51d-02b0eca5ab18
+    message_id: 15628d79-31f0-4928-b51d-02b0eca5ab18
+    source_file: Asistant_Telegram_Bot_07.10.26.mhtml
+  quote: 'ті (20 колонок, як у твоїх прикладах). 🔧 План та нюанси: Візьму структуру з твоїх CSV, щоб зберегти точну сумісність. Згенерую 100 пар input_text
+    / response_text , які відповідають тематиці: згадка про попереднє замовлення, зміни деталей (кількість, формат, матеріали), слова-маркери: змінити,
+    додати, замість, як минулого разу, переробити . Проставлю intent = order_modification , підберу стилі ( communication_style ) та настрої ( sentiment
+    ). Створю файл dialogs_for_import_order_modification_v1.csv у форматі <xaiArtifact> , готовий для імпорту в Supabase. Хочеш, щоб я робила різноманітність
+    у language (uk / ru вперемішку) та communication_style (formal, casual, profess'
+  quote_whitespace_normalized: true
+  context_before: Assistant says generation should preserve the exact structure of the supplied known-good CSV examples.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - data_import
+- evidence_id: EV-TG0710-0014
+  speaker: user
+  locator:
+    conversation_turn: 52
+    turn_id: 773c75ea-143e-4005-8c47-2e8fd9205380
+    message_id: 773c75ea-143e-4005-8c47-2e8fd9205380
+    source_file: Asistant_Telegram_Bot_07.10.26.mhtml
+  quote: “Hello, I have a couple of questions for you. I have an incomprehensible situation. We continue to write Telegram bots, and now there will be one
+    of the stages. This is the stage of creating tables with contractors, with suppliers, with goods, with services. I have a very large assortment, and
+    I really do not want to throw everything into one general table. Then it will be relatively difficult to work with it, to sort, and there will be a
+    lot of fields. For example, 10 different contractors may have specific functions that need to be described in columns, and then the same suppliers.
+    This will greatly inflate the client's card, the contractor's card or the supplier's card. I would like to stick to this format, small tables for suppliers,
+    tables for contractors, tables for services, tables for specific goods, because there are a lot of goo
+  quote_whitespace_normalized: true
+  context_before: Owner rejects one giant database table for heterogeneous suppliers/contractors/products/services and asks for professional organization
+    patterns.
+  context_after: null
+  evidence_role:
+  - owner_question
+  - data_model
+- evidence_id: EV-TG0710-0015
+  speaker: assistant
+  locator:
+    conversation_turn: 53
+    turn_id: 0572efbc-9943-4758-86cb-c67e7be2a442
+    message_id: 0572efbc-9943-4758-86cb-c67e7be2a442
+    source_file: Asistant_Telegram_Bot_07.10.26.mhtml
+  quote: 'ь добре продуману структуру з чіткими зв’язками між таблицями. На професійному рівні це називається нормалізація. Тобто ти розбиваєш всі дані
+    на логічні таблиці, а потім пов’язуєш їх між собою через ключі (ID). Наприклад, у тебе є таблиця «Постачальники», таблиця «Товари» і таблиця «Підрядники».
+    У таблиці «Товари» ти зберігаєш лише ID постачальника, а всі деталі про нього лежать у таблиці «Постачальники». Так ти уникнеш дублювання й «роздуття»
+    однієї таблиці. Тому найкраща порада — це робити «модульну» структуру: окремі таблиці для різних сутностей (постачальників, товарів, замовлень) і зв’язки
+    між ними. Це міжнародна стандартна практика, і вона допомагає зберегти'
+  quote_whitespace_normalized: true
+  context_before: Assistant recommends normalized entity tables linked by IDs rather than one overloaded table.
+  context_after: null
+  evidence_role:
+  - assistant_recommendation
+  - data_model
+- evidence_id: EV-TG0710-0016
+  speaker: user
+  locator:
+    conversation_turn: 56
+    turn_id: da695f8a-d02d-46dd-9471-fb932e3e4cc6
+    message_id: da695f8a-d02d-46dd-9471-fb932e3e4cc6
+    source_file: Asistant_Telegram_Bot_07.10.26.mhtml
+  quote: ться алгоритм, мені розкажи, структура дій, послідовність, коли є така задача. У мене є, наприклад, база даних 1С, я використовую для введення,
+    скажімо так, товарів на наявності, виписки замовлені і все інше, і я хочу, щоб у мене телеграм-бот мав доступ до цієї інформації, але я так розумію,
+    що для того, щоб він міг, скажімо так, більш широко опрацьовувати, ця інформація має потрапити до нього в базу даних. Тобто бота є своєю базою даних,
+    і він має якось, наскільки я розумію, засинхронізувати всі дані, які є в 1С, ті, які йому треба для роботи, і про наявність товарів, про номенклатуру,
+    наприклад. І ця вся номенклатура, вона має якось постійно оновлюватись, ну, з я
+  quote_whitespace_normalized: true
+  context_before: Owner asks whether Telegram should have synchronized access to 1C nomenclature, stock, orders, payments and client information.
+  context_after: null
+  evidence_role:
+  - owner_question
+  - 1c_integration
+- evidence_id: EV-TG0710-0017
+  speaker: user
+  locator:
+    conversation_turn: 56
+    turn_id: da695f8a-d02d-46dd-9471-fb932e3e4cc6
+    message_id: da695f8a-d02d-46dd-9471-fb932e3e4cc6
+    source_file: Asistant_Telegram_Bot_07.10.26.mhtml
+  quote: иклад. І ця вся номенклатура, вона має якось постійно оновлюватись, ну, з якоюсь там періодичністю, раз на годину, або раз на 10 хвилин, або по
+    першій події, якщо в 1С виписувався якийсь рахунок, то він там оновлюється в базі даних бота, щоб бот завжди міг, мав актуальну інформацію про, наприклад,
+    роботу з тим чи іншим клієнтом, що він там замовив, розрахувався, не розрахувався, або там з постачальником бачив остатки матеріалів і все таки інше.
+    Чи є логіка в тому, що я сказав, і як взагалі процедурно це робиться?”
+  quote_whitespace_normalized: true
+  context_before: Owner considers periodic versus event-driven freshness for 1C-derived information.
+  context_after: null
+  evidence_role:
+  - owner_question
+  - sync_frequency
+- evidence_id: EV-TG0710-0018
+  speaker: assistant
+  locator:
+    conversation_turn: 57
+    turn_id: 23d268a1-941c-4a04-8edd-dba27f9f6ff6
+    message_id: 23d268a1-941c-4a04-8edd-dba27f9f6ff6
+    source_file: Asistant_Telegram_Bot_07.10.26.mhtml
+  quote: 'стовувати, потрібно ці дані синхронізувати. Як це зазвичай робиться на практиці? Є кілька підходів: Проміжна база даних або API : Ти створюєш
+    проміжну базу (наприклад, Supabase, як у тебе вже є) або використовуєш API. Дані з 1С періодично (наприклад, раз на годину) або за подіями (виписали
+    рахунок — відразу оновили) експортуються з 1С у цю проміжну базу. А вже телеграм-бот підтягує актуальні дані звідти. Прямий конектор до 1С (якщо можливо)
+    : Іноді роблять так, що бот напряму звертається до 1С через API або через спеціальний конектор, який надає 1С. Але це не завжди зручно і може бути складніше
+    в налаштуванні. Синхронізація за подіями : Можна налаштувати тригери або веб-хуки в 1'
+  quote_whitespace_normalized: true
+  context_before: Assistant recommends an intermediate DB/API or direct connector, with periodic/event sync and caching options.
+  context_after: null
+  evidence_role:
+  - assistant_recommendation
+  - 1c_integration
+- evidence_id: EV-TG0710-0019
+  speaker: user
+  locator:
+    conversation_turn: 58
+    turn_id: c703cfea-dcc1-4170-83a8-0f77868e3124
+    message_id: c703cfea-dcc1-4170-83a8-0f77868e3124
+    source_file: Asistant_Telegram_Bot_07.10.26.mhtml
+  quote: е зовсім технічно поки що розумію, як саме DNS буде передавати в SuperBase дані. Тобто, це має бути якийсь скрипт, я так розумію, на комп'ютері,
+    який буде запускати… Ну, що, де, які мають викликатися, які функції, які кнопки натискати, щоб процес синхронізації відбувся. Як це технічно робиться?”
+  quote_whitespace_normalized: true
+  context_before: Owner asks for the concrete technical sequence/functions needed to move 1C data into Supabase.
+  context_after: null
+  evidence_role:
+  - owner_question
+  - integration_implementation
+- evidence_id: EV-TG0710-0020
+  speaker: assistant
+  locator:
+    conversation_turn: 59
+    turn_id: 66c0b683-d9a3-4439-be31-2f743dbc8f96
+    message_id: 66c0b683-d9a3-4439-be31-2f743dbc8f96
+    source_file: Asistant_Telegram_Bot_07.10.26.mhtml
+  quote: 'ання даних з 1С : У 1С є кілька способів. Наприклад, можна налаштувати вивантаження даних у форматі JSON або CSV-файлу за розкладом. Це можна
+    зробити або через стандартні механізми 1С (наприклад, обробку, яка періодично формує файл з даними), або через написання невеликого скрипта на стороні
+    1С (якщо ти або твій технічний спеціаліст маєте досвід із нею). Скрипт для синхронізації : На комп’ютері, де працює 1С або на сервері, можна налаштувати
+    скрипт (наприклад, на Python), який буде брати цей експортований файл і завантажувати його в Supabase через API. Тобто цей скрипт буде запускатися за
+    розкладом або після певної події. Він зчитує файл із даними і через запит до'
+  quote_whitespace_normalized: true
+  context_before: Assistant proposes 1C export to JSON/CSV, a Python uploader to Supabase API, and scheduled/event execution.
+  context_after: null
+  evidence_role:
+  - assistant_recommendation
+  - integration_implementation
+- evidence_id: EV-TG0710-0021
+  speaker: user
+  locator:
+    conversation_turn: 60
+    turn_id: 969177e4-f308-4bb4-bebf-63a1cbd28199
+    message_id: 969177e4-f308-4bb4-bebf-63a1cbd28199
+    source_file: Asistant_Telegram_Bot_07.10.26.mhtml
+  quote: “Поки що мені зрозуміло. Повернуся до тебе пізніше, коли ще буде питання.”
+  quote_whitespace_normalized: true
+  context_before: Owner closes the 1C discussion without authorizing a concrete implementation approach.
+  context_after: null
+  evidence_role:
+  - owner_closure
+  - decision_status
+items:
+- item_id: IT-TG0710-0001
+  kind: workflow
+  title: Historical Telegram dialogue ingest starts from exported HTML and emits DB-compatible CSV
+  statement: Owner defines a deterministic extraction/import workflow for turning customer chat HTML into structured request/response training/history rows.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - data_ingest
+  implementation_expectation: required
+  verification_targets:
+  - parser
+  - csv
+  - tests
+  evidence_refs:
+  - EV-TG0710-0001
+  - EV-TG0710-0003
+  - EV-TG0710-0004
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG0710-0002
+  kind: data_contract
+  title: Historical manager-chat import contract contains 20 explicit fields
+  statement: The source defines client identity, input/response text, intent/style/language, timing/context, timestamps, confidence/auto-tag fields and
+    sentiment.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - database
+  implementation_expectation: required
+  verification_targets:
+  - schema
+  - csv
+  - tests
+  evidence_refs:
+  - EV-TG0710-0005
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG0710-0003
+  kind: requirement
+  title: Client mapping should resolve against an existing clients table
+  statement: Historical ingestion assumes client_id comes from a clients table rather than being invented from chat data.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - crm
+  - identity
+  implementation_expectation: required
+  verification_targets:
+  - contracts
+  - import
+  evidence_refs:
+  - EV-TG0710-0002
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG0710-0004
+  kind: process_rule
+  title: Non-text media placeholders are excluded from text training rows
+  statement: Photo/video/PDF placeholders without text should not become dialogue examples.
+  dialogue_status: accepted
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - data_ingest
+  implementation_expectation: required
+  verification_targets:
+  - parser
+  - tests
+  evidence_refs:
+  - EV-TG0710-0003
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG0710-0005
+  kind: workflow
+  title: Chat extraction pairs client inputs with print-shop responses and can merge short context messages
+  statement: Historical import logic creates semantic input_text/response_text pairs rather than one row per raw message.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - training_data
+  implementation_expectation: required
+  verification_targets:
+  - parser
+  - tests
+  evidence_refs:
+  - EV-TG0710-0004
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG0710-0006
+  kind: risk
+  title: Early Telegram style taxonomy differs from later normalized style lookup
+  statement: This source uses formal/casual/friendly/professional/urgent, while later Telegram history defines warm/formal/casual/neutral. The early list
+    is pre-normalization history, not current taxonomy.
+  dialogue_status: superseded
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - taxonomy
+  implementation_expectation: required
+  verification_targets:
+  - schema
+  - migration
+  evidence_refs:
+  - EV-TG0710-0006
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG0710-0007
+  kind: risk
+  title: Early Telegram sentiment taxonomy differs from later normalized sentiment lookup
+  statement: This source allows urgent/curious/confused in addition to positive/neutral/negative; later owner-defined lookup narrows sentiment to positive/neutral/negative.
+  dialogue_status: superseded
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - taxonomy
+  implementation_expectation: required
+  verification_targets:
+  - schema
+  - migration
+  evidence_refs:
+  - EV-TG0710-0007
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG0710-0008
+  kind: risk
+  title: Fixed confidence response-time and feedback values are synthetic labels not observed facts
+  statement: Historical ingest instructions assign 0.8/0.9 confidence, response_time=1.5 and feedback=0 by rule; these should not be mistaken for measured
+    production metadata.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - training_data
+  implementation_expectation: required
+  verification_targets:
+  - dataset_checks
+  evidence_refs:
+  - EV-TG0710-0008
+  - EV-TG0710-0009
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG0710-0009
+  kind: process_rule
+  title: Known-good import samples should define compatibility before synthetic expansion
+  statement: Owner changes approach to first use CSVs that already work with the database and then generate compatible synthetic data.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - data_import
+  implementation_expectation: required
+  verification_targets:
+  - fixtures
+  - tests
+  evidence_refs:
+  - EV-TG0710-0010
+  - EV-TG0710-0013
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG0710-0010
+  kind: requirement
+  title: Historical synthetic intent expansion includes order_modification
+  statement: Owner explicitly adds synthetic examples for modifying an existing order with references to prior orders and changed quantities/details.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - intent_taxonomy
+  implementation_expectation: required
+  verification_targets:
+  - dataset
+  - taxonomy
+  evidence_refs:
+  - EV-TG0710-0011
+  - EV-TG0710-0012
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG0710-0011
+  kind: risk
+  title: Synthetic chat rows contain personal-data fields and require privacy/sanitization controls
+  statement: The historical import shape includes names, phone numbers and real conversation text. Reuse for training/testing should not assume raw production
+    PII is acceptable.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - privacy
+  - training_data
+  implementation_expectation: required
+  verification_targets:
+  - privacy
+  - dataset_checks
+  evidence_refs:
+  - EV-TG0710-0002
+  - EV-TG0710-0005
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Current privacy/data-retention policy must govern.
+- item_id: IT-TG0710-0012
+  kind: architecture_constraint
+  title: Heterogeneous business entities should not be flattened into one giant sparse table
+  statement: Owner questions the one-table approach; historical recommendation is normalized entity tables and relationships.
+  dialogue_status: discussed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - data_architecture
+  - telegram_bot
+  implementation_expectation: optional
+  verification_targets:
+  - architecture
+  evidence_refs:
+  - EV-TG0710-0014
+  - EV-TG0710-0015
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG0710-0013
+  kind: risk
+  title: Telegram-local supplier/product/service tables would conflict with later canonical ownership if treated as master data
+  statement: The normalization discussion is generic and early; later Library/Operational/Warehouse/Accounting architecture decides canonical ownership
+    by domain.
+  dialogue_status: superseded
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - library
+  - operational_registry
+  implementation_expectation: required
+  verification_targets:
+  - architecture
+  - contracts
+  evidence_refs:
+  - EV-TG0710-0014
+  - EV-TG0710-0015
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Do not use Telegram DB as global master catalog.
+- item_id: IT-TG0710-0014
+  kind: open_question
+  title: Owner explores whether Telegram should mirror selected 1C data for broader operation
+  statement: The owner asks about keeping nomenclature, stock, order/payment and client-related data fresh for bot use but does not finalize an architecture.
+  dialogue_status: discussed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - accounting
+  - 1c
+  implementation_expectation: not_required
+  verification_targets:
+  - history
+  evidence_refs:
+  - EV-TG0710-0016
+  - EV-TG0710-0017
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG0710-0015
+  kind: plan
+  title: Historical assistant suggests intermediate DB/API periodic/event synchronization from 1C
+  statement: Possible approaches include exported JSON/CSV plus Python/API upload, scheduled runs, event triggers or selective fresh queries.
+  dialogue_status: proposed
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - accounting
+  - gateway
+  implementation_expectation: optional
+  verification_targets:
+  - integration
+  evidence_refs:
+  - EV-TG0710-0018
+  - EV-TG0710-0020
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Assistant recommendation only and later architecture refines it.
+- item_id: IT-TG0710-0016
+  kind: risk
+  title: A Telegram-owned synchronized mirror of 1C would create competing truth if copied literally
+  statement: Later architecture separates Accounting/1C truth from operational truth and gives Gateway runtime transport responsibilities. Telegram should
+    consume approved projections/contracts rather than own another canon.
+  dialogue_status: superseded
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - accounting
+  - gateway
+  implementation_expectation: required
+  verification_targets:
+  - architecture
+  - contracts
+  evidence_refs:
+  - EV-TG0710-0016
+  - EV-TG0710-0018
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG0710-0017
+  kind: architecture_constraint
+  title: Current 1C integration should be adapter/contract-driven rather than ad hoc file-copy semantics
+  statement: Historical JSON/CSV+Python is a useful bootstrap concept, but current architecture should route 1C/accounting data through the Accounting boundary
+    and approved Gateway/contracts.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - accounting
+  - gateway
+  - telegram_bot
+  implementation_expectation: required
+  verification_targets:
+  - contracts
+  - adapters
+  evidence_refs:
+  - EV-TG0710-0020
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG0710-0018
+  kind: risk
+  title: The historical 1C synchronization approach was not owner-approved for implementation
+  statement: The owner ends the discussion after understanding the concept and does not authorize a specific connector, schedule, schema or live write path.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - accounting
+  - provenance
+  implementation_expectation: not_required
+  verification_targets:
+  - history
+  evidence_refs:
+  - EV-TG0710-0021
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG0710-0019
+  kind: risk
+  title: Filename 07.10.26 is not trustworthy chronology
+  statement: The filename is after the 15.09.2026 export. Unlike the 14.10 source, this dialogue has no strong internal dated checkpoint.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - provenance
+  - chronology
+  implementation_expectation: not_required
+  verification_targets:
+  - indexes
+  evidence_refs:
+  - EV-TG0710-0001
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Keep chronology low-confidence.
+- item_id: IT-TG0710-0020
+  kind: architecture_constraint
+  title: This source is Telegram module history and cannot supersede later Blueprint/Accounting/Gateway/CRM authority
+  statement: Its data-ingest and sync discussions are historical inputs; current release architecture governs canonical ownership and runtime integration.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - authority
+  - telegram_bot
+  implementation_expectation: required
+  verification_targets:
+  - indexes
+  - docs
+  evidence_refs:
+  - EV-TG0710-0016
+  - EV-TG0710-0021
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+relations:
+- relation_id: REL-TG0710-0001
+  from_item: IT-TG0710-0009
+  type: refines
+  to_item: IT-TG0710-0001
+  evidence_refs:
+  - EV-TG0710-0010
+  confidence: high
+- relation_id: REL-TG0710-0002
+  from_item: IT-TG0710-0006
+  type: superseded_by
+  to_item: IT-TG0710-0020
+  evidence_refs:
+  - EV-TG0710-0006
+  confidence: medium
+- relation_id: REL-TG0710-0003
+  from_item: IT-TG0710-0007
+  type: superseded_by
+  to_item: IT-TG0710-0020
+  evidence_refs:
+  - EV-TG0710-0007
+  confidence: medium
+- relation_id: REL-TG0710-0004
+  from_item: IT-TG0710-0014
+  type: motivates
+  to_item: IT-TG0710-0015
+  evidence_refs:
+  - EV-TG0710-0016
+  - EV-TG0710-0018
+  confidence: high
+- relation_id: REL-TG0710-0005
+  from_item: IT-TG0710-0016
+  type: constrains
+  to_item: IT-TG0710-0015
+  evidence_refs:
+  - EV-TG0710-0016
+  - EV-TG0710-0018
+  confidence: high
+- relation_id: REL-TG0710-0006
+  from_item: IT-TG0710-0017
+  type: refines
+  to_item: IT-TG0710-0015
+  evidence_refs:
+  - EV-TG0710-0020
+  confidence: medium
+anomalies:
+- anomaly_id: ANOM-TG0710-0001
+  type: new_unique_telegram_source
+  description: No shared message IDs with clean master v3.2 and only trivial thematic overlap with the long-running Telegram source; not a near-duplicate.
+  item_refs: []
+  evidence_refs: []
+  severity: normal
+  confidence: high
+  requires_followup: false
+- anomaly_id: ANOM-TG0710-0002
+  type: filename_date_future_relative_to_export
+  description: Filename `07.10.26` is later than the 15.09.2026 export. No internal timestamp proves the exact historical date.
+  item_refs:
+  - IT-TG0710-0019
+  evidence_refs: []
+  severity: critical
+  confidence: high
+  requires_followup: false
+- anomaly_id: ANOM-TG0710-0003
+  type: large_missing_turn_span
+  description: Visible dialogue jumps from turn 4 to 51. The missing middle exchange and attached example CSV bodies are not recoverable.
+  item_refs:
+  - IT-TG0710-0009
+  - IT-TG0710-0010
+  evidence_refs:
+  - EV-TG0710-0010
+  - EV-TG0710-0013
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-TG0710-0004
+  type: early_taxonomy_conflicts_with_later_normalized_taxonomy
+  description: Early style/sentiment labels do not match the later owner-defined normalized lookup tables.
+  item_refs:
+  - IT-TG0710-0006
+  - IT-TG0710-0007
+  evidence_refs:
+  - EV-TG0710-0006
+  - EV-TG0710-0007
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-TG0710-0005
+  type: synthetic_metadata_presented_as_fixed_values
+  description: Response time, feedback and confidence fields are filled by convention rather than observation, risking contamination if treated as measured
+    data.
+  item_refs:
+  - IT-TG0710-0008
+  evidence_refs:
+  - EV-TG0710-0008
+  - EV-TG0710-0009
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-TG0710-0006
+  type: pii_in_training_ingest
+  description: Historical chat import contract includes client name, phone numbers and real conversation content; privacy/sanitization governance is absent
+    from the source.
+  item_refs:
+  - IT-TG0710-0011
+  evidence_refs:
+  - EV-TG0710-0002
+  - EV-TG0710-0005
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-TG0710-0007
+  type: telegram_local_master_data_risk
+  description: Generic advice about storing suppliers/products/services in Telegram-side normalized tables predates later domain ownership and could create
+    competing master data.
+  item_refs:
+  - IT-TG0710-0013
+  evidence_refs:
+  - EV-TG0710-0014
+  - EV-TG0710-0015
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-TG0710-0008
+  type: direct_1c_to_telegram_mirror_risk
+  description: Early 1C→Supabase/Telegram synchronization discussion predates Accounting/Gateway/Operational separation and must not be copied as current
+    architecture.
+  item_refs:
+  - IT-TG0710-0014
+  - IT-TG0710-0015
+  - IT-TG0710-0016
+  - IT-TG0710-0017
+  evidence_refs:
+  - EV-TG0710-0016
+  - EV-TG0710-0018
+  - EV-TG0710-0020
+  severity: critical
+  confidence: high
+  requires_followup: true
+open_loops:
+- loop_id: LOOP-TG0710-0001
+  description: Verify current chat-log schema and migrations against this early 20-field import contract.
+  item_refs:
+  - IT-TG0710-0001
+  - IT-TG0710-0002
+  - IT-TG0710-0009
+  last_known_state: Historical CSV contract worked through example files but those bodies are not embedded.
+  recommended_verification: Inspect current Telegram DB migrations and known-good fixtures before reusing any early CSV generator.
+- loop_id: LOOP-TG0710-0002
+  description: Reconcile early style/sentiment taxonomy with later normalized Telegram lookup tables.
+  item_refs:
+  - IT-TG0710-0006
+  - IT-TG0710-0007
+  - IT-TG0710-0010
+  last_known_state: Early schema uses labels later removed/renamed.
+  recommended_verification: Define migrations/aliases or regenerate training data against the current canonical taxonomy.
+- loop_id: LOOP-TG0710-0003
+  description: Audit privacy/sanitization policy for imported real customer chats and synthetic-training derivation.
+  item_refs:
+  - IT-TG0710-0011
+  last_known_state: Historical ingest includes names/phones/conversation text without explicit privacy controls.
+  recommended_verification: Use current privacy/retention policy, de-identify training corpora where required and keep production PII out of portable fixtures.
+- loop_id: LOOP-TG0710-0004
+  description: Resolve current owner of supplier/product/service master data.
+  item_refs:
+  - IT-TG0710-0012
+  - IT-TG0710-0013
+  last_known_state: Historical Telegram discussion considers normalized local tables; later architecture separates canonical definitions and operational/accounting
+    ownership.
+  recommended_verification: Use current Blueprint/Library/Operational/Warehouse manifests and contracts; do not create Telegram-local canon.
+- loop_id: LOOP-TG0710-0005
+  description: Resolve current 1C→ForPrint→Telegram information flow.
+  item_refs:
+  - IT-TG0710-0014
+  - IT-TG0710-0015
+  - IT-TG0710-0016
+  - IT-TG0710-0017
+  - IT-TG0710-0018
+  last_known_state: Only conceptual assistant recommendations exist; no owner-approved implementation.
+  recommended_verification: Start from current Accounting Registry/Operational Registry/Gateway contracts and identify which projections Telegram may read.
+- loop_id: LOOP-TG0710-0006
+  description: Recover or supersede missing known-good CSV examples if exact historical compatibility is needed.
+  item_refs:
+  - IT-TG0710-0009
+  last_known_state: Two working sample CSVs are referenced but their bodies are unavailable in MHTML.
+  recommended_verification: Prefer current schema exports/fixtures; recover old samples only for provenance comparison.
+implementation_audit_ref: implementation_audit.stub.yaml

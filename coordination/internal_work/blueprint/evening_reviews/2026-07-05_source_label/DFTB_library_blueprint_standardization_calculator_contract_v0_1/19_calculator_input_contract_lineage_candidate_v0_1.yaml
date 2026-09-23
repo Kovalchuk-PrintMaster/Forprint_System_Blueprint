@@ -1,0 +1,29 @@
+schema_version: forprint_reconcile_before_implementation_candidate_v0_1
+candidate_id: library_calculator_input_contract_lineage_20260727
+status: OPEN_RECONCILE_BEFORE_IMPLEMENTATION
+owner_module: forprint_library
+adjacent_module: calculator_engine
+disposition: RECONCILE_WITH_EXISTING_LIBRARY_REFERENCE_CONSUMPTION_LINE
+authority: candidate_not_acceptance_or_execution_authority
+historical_evidence:
+  intake_artifact_label: calculator_input_contract_intake_20260727_192115.zip
+  implementation_commit: 0b8cbce
+  completion_commit: 89c4ec6
+  governance_fix_commit: bba52bf
+  additional_observed_completion_record_commit: d094851
+  historical_branch: feature/library-calculator-input-contract-v01
+  historical_push_observed: true
+  historical_upstream_divergence: '0 0'
+  historical_full_pytest_claim: '176 passed'
+  historical_check_report_claim: '33/33'
+  historical_final_state: READY_FOR_BLUEPRINT_REVIEW
+  accepted_by_blueprint_proven: false
+  merge_to_canonical_branch_proven: false
+current_reconciliation_required:
+  - inspect current Library git history and branches for the historical commit lineage
+  - inspect Blueprint prompt/completion/acceptance records for Calculator Input Contract
+  - determine accepted superseded abandoned or still-unmerged status
+  - reconcile semantics with current Library reference-consumption and versioning roadmap
+  - do not create a duplicate roadmap capability if current consumer-contract work already covers it
+roadmap_mutation: none
+implementation_authority: none

@@ -1,0 +1,49 @@
+schema_version: forprint_gateway_current_implementation_state_reconciliation_candidate_v0_1
+candidate_id: gateway_current_implementation_state_and_v07_acceptance
+status: OPEN_RECONCILE_BEFORE_IMPLEMENTATION
+authority: planning_candidate_not_execution_authority
+
+observed_conflict:
+  current_blueprint_module_source_registry:
+    development_status: paused_after_v0_2
+    note: runtime_validation_routing_idempotency_correlation_foundation_exists
+  historical_gateway_source:
+    visible_terminal_phase: v0_7_blueprint_standards_visibility
+    implementation_commit: 9f792a3
+    completion_report_commit: 2f36256
+    reported_tests: 59_passed
+    pushed_to_main: true
+    clean_worktree_reported: true
+  historical_final_handoff:
+    blueprint_acceptance_requested: true
+    blueprint_acceptance_proven: false
+
+must_reconcile_before_any_new_gateway_implementation:
+  - verify current Gateway repository HEAD and ancestry read-only
+  - verify whether 9f792a3 and 2f36256 remain in current main ancestry
+  - inspect current coordination/status/current_status.yaml
+  - inspect current coordination/prompts/index.yaml
+  - inspect current coordination/reports/index.yaml
+  - resolve whether v0.7 was ever accepted by Blueprint
+  - update Blueprint module-source inventory only from verified current evidence
+  - keep PAUSED_UNTIL_RUNTIME_NEED unless current portfolio authority explicitly changes it
+  - preserve no-business-truth and Contract Registry boundaries
+  - verify standards sync only materializes module-local projections and never mutates Blueprint authority
+  - verify no live API/database/queue/runtime adapter/1C/posting/final-price flags are enabled
+  - resolve canonical report tracking vs ignore policy if still present
+
+explicit_non_authorizations:
+  - no_gateway_reactivation
+  - no_live_runtime_enablement
+  - no_current_status_guess_from_historical_commits
+  - no_blueprint_acceptance_inference_from_push
+  - no_canonical_roadmap_mutation
+  - no_execution_authority_mutation
+  - no_foreign_repository_mutation
+
+closure_evidence_needed:
+  - current_read_only_gateway_repo_audit
+  - current_blueprint_acceptance_or_explicit_non_acceptance_evidence
+  - reconciled_module_git_sources_entry
+  - current_gateway_status_and_prompt_report_indexes
+  - current_no_live_flags_and_standards_sync_boundary_checks

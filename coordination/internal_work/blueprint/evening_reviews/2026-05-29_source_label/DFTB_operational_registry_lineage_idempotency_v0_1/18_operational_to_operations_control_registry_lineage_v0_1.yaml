@@ -1,0 +1,38 @@
+schema_version: forprint_operational_to_operations_control_registry_lineage_v0_1
+purpose: preserve module identity and ownership evolution without restoring stale names or paths
+
+historical_identity:
+  module_id: forprint_operational_registry
+  repository_slug: Forprint_Operational_Registry
+  source_label: '2026-05-29'
+  visible_history_through: '2026-06-19'
+  role:
+    - operational_truth
+    - operational_client_identity
+    - orders
+    - tasks
+    - statuses
+    - events_and_history
+
+current_identity:
+  module_id: forprint_operations_control_registry
+  module_name: ForPrint Operations Control Registry
+  local_path: /srv/software_development/forprint-project/forprint_operations_control_registry
+  repository_slug_retained_for_transport: Forprint_Operational_Registry
+  current_role: canonical_operational_party_order_task_control_registry_and_write_boundary
+  development_status: reference_ready_storage_ready
+
+evolution_rules:
+  old_module_name_is_current_identity: false
+  github_slug_defines_module_identity: false
+  historical_prompt_ids_paths_may_remain_unchanged: true
+  historical_domain_evidence_may_be_reused: true
+  current_blueprint_boundaries_override_early_wording: true
+  current_forensic_inventory_required_before_new_implementation: true
+
+current_adjacent_boundaries:
+  crm: relationship_profile_workflow_views_and_manager_coordination
+  accounting_registry: documentary_accounting_and_financial_truth
+  warehouse: physical_stock_truth
+  library: semantic_reference_truth
+  integration_gateway: transport_validation_mapping_and_routing

@@ -1,0 +1,26 @@
+schema_version: forprint_reconcile_before_implementation_candidate_v0_1
+candidate_id: library_governed_admin_publication_surface_20260516
+status: OPEN_RECONCILE_BEFORE_IMPLEMENTATION
+owner_module: forprint_library
+adjacent_surfaces:
+  - forprint_system_administration
+  - forprint_control_center
+  - shared_library_ui_design_system
+authority: candidate_not_roadmap_or_execution_authority
+owner_intent:
+  routine_canonical_reference_changes_without_server_code_editing: true
+  human_friendly_admin_required: true
+  validation_before_publish_expected: true
+  history_version_comparison_expected: true
+current_reconciliation:
+  library_is_admin_facing: CURRENT_FULL_HORIZON_TRUE
+  explicit_business_reference_admin_workbench: CURRENT_IMPLEMENTATION_UNKNOWN
+  operational_state_ownership: MUST_REMAIN_OUTSIDE_LIBRARY
+verification_required_before_promotion:
+  - inspect live Library APIs/admin surfaces and current Makefile operator map
+  - distinguish Library-owned canonical editing from System Administration shell/navigation concerns
+  - verify role/approval/audit/publish gates for canonical mutations
+  - verify no orders payments stock production runtime or customer interaction truth is pulled into Library
+  - reuse the shared Library design-system primitives rather than creating a competing UI system
+roadmap_mutation: none
+implementation_authority: none

@@ -1,0 +1,46 @@
+schema_version: forprint_calculator_pricing_policy_and_admin_surface_candidate_v0_1
+candidate_id: calculator_pricing_policy_and_admin_surface
+status: RECONCILE_BEFORE_IMPLEMENTATION
+canonical_roadmap_step: false
+candidate_owner: calculator_engine
+supporting_or_adjacent_owners:
+- forprint_library
+- forprint_crm
+- forprint_contract_registry
+purpose: Preserve the owner's original editable price-list/business-rule intent while aligning it with current canonical
+  Library semantics and bounded Calculator ownership.
+candidate_contract:
+  pricing_policy:
+  - data_driven_prices_tiers_options_and_modifiers
+  - approved_segment_reference_can_drive_b2b_b2c_pricing_effects
+  - customer_identity_or_segment_truth_not_owned_by_calculator
+  - channel_visual_design_not_owned_by_calculator
+  bulk_policy_updates:
+  - filtered_scope_selection
+  - percentage_or_rule_change
+  - explicit_exclusions
+  - preview_or_diff_before_apply
+  - auditable_result_scope
+  applicability:
+  - consume_library_canonical_product_material_ids
+  - consume_library_attributes_or_profile_contracts
+  - support_reusable_class_and_range_based_rules
+  - avoid_manual_every_product_material_pair_enumeration
+  - no_local_shadow_canonical_catalog
+  bounded_admin:
+  - calculator_pricing_policy
+  - tiers_modifiers_and_rule_assignments
+  - calculation_settings_and_preview
+  - no_crm_accounting_order_or_global_catalog_admin_ownership
+reuse_first_checks_before_promotion:
+- live Calculator pricing/rule storage and admin surfaces
+- current Library Calculator Input Contract and semantic attributes
+- current CRM customer/segment/commercial-policy references
+- current Contract Registry quote/calculation contract definitions
+- current early visual configuration/workbench roadmap implementation state
+non_goals:
+- restore historical Calculator-local canonical product/material catalog
+- make Calculator admin the whole-project admin
+- make B2B/B2C customer classification canonical inside Calculator
+- freeze historical Django admin/Alembic mechanics without live audit
+- mutate Calculator runtime from this planning intake

@@ -1,0 +1,133 @@
+schema_version: forprint_smm_assistant_creative_tooling_portfolio_reconciliation_v0_1
+source_label: '2026-07-25'
+reconciled_on: '2026-09-22'
+canonical_owner: forprint_marketing_orchestrator
+source_identity:
+  uploaded_filename: smm_asistant_25.07.26.mhtml
+  primary_mhtml_sha256: 5fba0820b78b9db0b453b797d257a49b791614d08e90d870f62582a838bb3975
+  dftb_archive_sha256: e95482c7236bcf3c84760ca840e3ba99dd9be0f6586656868800064c2fd32daf
+  master_memory_v2_8_archive_sha256: b7c33b9de581991ba4d74480479a942b5476ab0c8d6b6e76a590fe05a5f2d22
+  primary_exactly_matches_dftb_source_manifest: true
+  master_v2_8_expanded_bundle_members_byte_identical_to_uploaded_dftb: true
+  master_v2_8_nested_immutable_dftb_zip_byte_identical: true
+chronology:
+  filename_source_label: '2026-07-25'
+  exact_conversation_date_independently_verified: false
+  mhtml_export_saved: Tue, 15 Sep 2026 14:44:17 +0300
+  relative_position: after SMM June acquisition/traffic layer
+  rule: Retain 2026-07-25 as source label and relative July SMM layer; do not derive stronger chronology than the
+    source supports.
+source_quality:
+  classification: UNIQUE_PARTIAL_SMM_CREATIVE_TOOLING_HISTORY
+  visible_turn_sections: 14
+  visible_message_blocks: 14
+  roles:
+    user: 6
+    assistant: 8
+  retained_turns:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 17
+  - 18
+  - 19
+  - 20
+  - 21
+  missing_turn_span: 10-16
+  cyrillic_loss: false
+  current_provider_verification_performed: false
+current_owner_boundary:
+  marketing_orchestrator_role: marketing/content/AI-media orchestration and analytics
+  reused_current_steps:
+  - forprint_marketing_orchestrator_brand_voice_content_policy_and_content_calendar_v0_1
+  - forprint_marketing_orchestrator_campaign_content_object_model_and_approval_lifecycle_v0_1
+  - forprint_marketing_orchestrator_text_image_video_creative_brief_and_prompt_model_v0_1
+  - forprint_marketing_orchestrator_external_ai_media_provider_adapter_boundary_v0_1
+  - forprint_marketing_orchestrator_asset_review_versioning_and_publication_readiness_v0_1
+  - forprint_marketing_orchestrator_instagram_youtube_publishing_foundations_v0_1
+  - forprint_marketing_orchestrator_cost_model_provider_experiments_and_optimization_dashboard_v0_1
+  must_not_gain_from_this_source:
+  - website_implementation_authority
+  - crm_customer_truth
+  - operational_order_truth
+  - blueprint_priority_or_release_authority
+reuse_first_findings:
+- topic: workflow_fit_over_tool_novelty
+  item_refs:
+  - IT-SMM2507-0001
+  classification: REUSE
+  disposition: Current Marketing Orchestrator already has provider/model experiment and creative-provider boundaries.
+    Use this source as owner/business rationale, not a new roadmap capability.
+- topic: one_primary_video_generator
+  item_refs:
+  - IT-SMM2507-0007
+  - IT-SMM2507-0009
+  classification: EXTEND
+  disposition: NEW_HUMAN_INTENT_CAPTURED_AS_OPERATOR_PROFILE
+  architecture_refinement: One active primary generator is an operator simplification/profile, not permanent provider
+    lock-in.
+- topic: historical_provider_ranking
+  item_refs:
+  - IT-SMM2507-0002
+  - IT-SMM2507-0003
+  - IT-SMM2507-0004
+  - IT-SMM2507-0008
+  classification: HISTORICAL_RECOMMENDATION_ONLY
+  disposition: ChatGPT/Midjourney/Flux/Ideogram/Veo/Runway/Kling/Pika recommendations are time-sensitive assistant
+    advice. No provider is promoted to current policy from this source.
+- topic: provider_non_acceptance_and_current_selection_gate
+  item_refs:
+  - IT-SMM2507-0012
+  - IT-SMM2507-0014
+  - IT-SMM2507-0016
+  classification: REUSE_AND_CONSTRAIN
+  disposition: Current provider activation must use the existing provider experiment/adapter roadmap surfaces and
+    explicit operator choice. Historical Veo recommendation is not an accepted decision.
+- topic: short_video_content_pipeline
+  item_refs:
+  - IT-SMM2507-0005
+  - IT-SMM2507-0006
+  - IT-SMM2507-0010
+  - IT-SMM2507-0011
+  classification: ADAPT
+  disposition: Preserve image -> short clip -> optional montage -> cross-channel reuse as a historical proposed
+    workflow. Do not promote it to Human Intent without stronger owner acceptance; reconcile it against current
+    asset review/versioning/publication steps.
+- topic: smm_authority_boundary
+  item_refs:
+  - IT-SMM2507-0015
+  - IT-SMM2507-0017
+  classification: REUSE
+  disposition: Route historical SMM content-production intent into Marketing Orchestrator only; no Website, CRM,
+    Operational Registry or Blueprint authority is created.
+- topic: missing_turns_10_16
+  item_refs:
+  - IT-SMM2507-0013
+  classification: PROVENANCE_LIMIT
+  disposition: Do not reconstruct missing owner statements or infer a provider decision from the gap.
+roadmap_reconciliation:
+  canonical_roadmap_mutation: false
+  new_step: null
+  reuse_targets:
+  - forprint_marketing_orchestrator_text_image_video_creative_brief_and_prompt_model_v0_1
+  - forprint_marketing_orchestrator_external_ai_media_provider_adapter_boundary_v0_1
+  - forprint_marketing_orchestrator_asset_review_versioning_and_publication_readiness_v0_1
+  - forprint_marketing_orchestrator_cost_model_provider_experiments_and_optimization_dashboard_v0_1
+  candidate: marketing_creative_toolchain_operating_profile
+  candidate_status: RECONCILE_BEFORE_IMPLEMENTATION
+  reason: Current roadmap already owns the capabilities. This source mainly enriches operator preference and historical
+    workflow rationale; candidate should extend existing steps rather than create a duplicate top-level step.
+master_memory_relationship:
+  uploaded_master: v2.8
+  v2_8_role: historical_derived_navigation_archive
+  v2_8_contains_this_dftb: true
+  v2_8_reingested: false
+  preferred_current_navigation: v3.7
+  master_memory_authority: derived_navigation_not_current_runtime_authority
+execution_authority_mutation_required: false

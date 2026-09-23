@@ -1,0 +1,156 @@
+schema_version: forprint_dftb_verification_queue_v0_1
+bundle_id: DFTB-telegram-bot-data-ingest-filename-label-2026-10-07
+authority_class: telegram_module_history_non_blueprint_authority
+queue:
+- item_id: IT-TG0710-0001
+  title: Historical Telegram dialogue ingest starts from exported HTML and emits DB-compatible CSV
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG0710-0001
+  - EV-TG0710-0003
+  - EV-TG0710-0004
+  current_audit_status: not_audited
+- item_id: IT-TG0710-0002
+  title: Historical manager-chat import contract contains 20 explicit fields
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG0710-0005
+  current_audit_status: not_audited
+- item_id: IT-TG0710-0003
+  title: Client mapping should resolve against an existing clients table
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG0710-0002
+  current_audit_status: not_audited
+- item_id: IT-TG0710-0004
+  title: Non-text media placeholders are excluded from text training rows
+  importance: normal
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG0710-0003
+  current_audit_status: not_audited
+- item_id: IT-TG0710-0005
+  title: Chat extraction pairs client inputs with print-shop responses and can merge short context messages
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG0710-0004
+  current_audit_status: not_audited
+- item_id: IT-TG0710-0006
+  title: Early Telegram style taxonomy differs from later normalized style lookup
+  importance: critical
+  dialogue_status: superseded
+  evidence_refs:
+  - EV-TG0710-0006
+  current_audit_status: not_audited
+- item_id: IT-TG0710-0007
+  title: Early Telegram sentiment taxonomy differs from later normalized sentiment lookup
+  importance: critical
+  dialogue_status: superseded
+  evidence_refs:
+  - EV-TG0710-0007
+  current_audit_status: not_audited
+- item_id: IT-TG0710-0008
+  title: Fixed confidence response-time and feedback values are synthetic labels not observed facts
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG0710-0008
+  - EV-TG0710-0009
+  current_audit_status: not_audited
+- item_id: IT-TG0710-0009
+  title: Known-good import samples should define compatibility before synthetic expansion
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG0710-0010
+  - EV-TG0710-0013
+  current_audit_status: not_audited
+- item_id: IT-TG0710-0010
+  title: Historical synthetic intent expansion includes order_modification
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG0710-0011
+  - EV-TG0710-0012
+  current_audit_status: not_audited
+- item_id: IT-TG0710-0011
+  title: Synthetic chat rows contain personal-data fields and require privacy/sanitization controls
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG0710-0002
+  - EV-TG0710-0005
+  current_audit_status: not_audited
+- item_id: IT-TG0710-0012
+  title: Heterogeneous business entities should not be flattened into one giant sparse table
+  importance: high
+  dialogue_status: discussed
+  evidence_refs:
+  - EV-TG0710-0014
+  - EV-TG0710-0015
+  current_audit_status: not_audited
+- item_id: IT-TG0710-0013
+  title: Telegram-local supplier/product/service tables would conflict with later canonical ownership if treated as master data
+  importance: critical
+  dialogue_status: superseded
+  evidence_refs:
+  - EV-TG0710-0014
+  - EV-TG0710-0015
+  current_audit_status: not_audited
+- item_id: IT-TG0710-0014
+  title: Owner explores whether Telegram should mirror selected 1C data for broader operation
+  importance: high
+  dialogue_status: discussed
+  evidence_refs:
+  - EV-TG0710-0016
+  - EV-TG0710-0017
+  current_audit_status: not_audited
+- item_id: IT-TG0710-0015
+  title: Historical assistant suggests intermediate DB/API periodic/event synchronization from 1C
+  importance: normal
+  dialogue_status: proposed
+  evidence_refs:
+  - EV-TG0710-0018
+  - EV-TG0710-0020
+  current_audit_status: not_audited
+- item_id: IT-TG0710-0016
+  title: A Telegram-owned synchronized mirror of 1C would create competing truth if copied literally
+  importance: critical
+  dialogue_status: superseded
+  evidence_refs:
+  - EV-TG0710-0016
+  - EV-TG0710-0018
+  current_audit_status: not_audited
+- item_id: IT-TG0710-0017
+  title: Current 1C integration should be adapter/contract-driven rather than ad hoc file-copy semantics
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG0710-0020
+  current_audit_status: not_audited
+- item_id: IT-TG0710-0018
+  title: The historical 1C synchronization approach was not owner-approved for implementation
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG0710-0021
+  current_audit_status: not_audited
+- item_id: IT-TG0710-0019
+  title: Filename 07.10.26 is not trustworthy chronology
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG0710-0001
+  current_audit_status: not_audited
+- item_id: IT-TG0710-0020
+  title: This source is Telegram module history and cannot supersede later Blueprint/Accounting/Gateway/CRM authority
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-TG0710-0016
+  - EV-TG0710-0021
+  current_audit_status: not_audited

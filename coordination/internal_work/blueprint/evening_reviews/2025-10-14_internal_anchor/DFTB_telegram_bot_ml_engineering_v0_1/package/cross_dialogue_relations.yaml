@@ -1,0 +1,40 @@
+schema_version: forprint_dftb_cross_dialogue_relations_v0_1
+bundle_id: DFTB-telegram-bot-ml-engineering-filename-label-2026-10-14
+authority_class: telegram_module_history_non_blueprint_authority
+relations:
+- type: precedes
+  from_bundle: DFTB-telegram-bot-ml-engineering-filename-label-2026-10-14
+  to_bundle: DFTB-telegram-bot-long-running-filename-label-2026-10-13
+  confidence: HIGH
+  note: Internal October-2025 anchors place this ML refactor phase before the later 2026 Telegram behavior/runtime/governance history.
+- type: complements
+  from_bundle: DFTB-telegram-bot-ml-engineering-filename-label-2026-10-14
+  to_bundle: DFTB-telegram-bot-filename-label-2026-10-12
+  confidence: MEDIUM
+  note: This source covers DeBERTa engineering; the other short Telegram source covers human-talk taxonomy/synthetic template data.
+- type: supports
+  from_bundle: DFTB-telegram-bot-ml-engineering-filename-label-2026-10-14
+  to_bundle: DFTB_blueprint-source-label-2026-06-14
+  confidence: MEDIUM
+  note: Owner's script metadata/config/reuse discipline anticipates later Blueprint self-knowledge/path/validation standards without superseding them.
+item_relations:
+- type: precedes
+  from_item: IT-TG1410-0027
+  to_item: IT-TG1310-0016
+  confidence: HIGH
+  note: ML engineering/refactor work predates the later owner reset to behavior-model-first sequencing.
+- type: supports
+  from_item: IT-TG1410-0005
+  to_item: IT-TG1310-0012
+  confidence: HIGH
+  note: Both Telegram roots require durable file-level metadata and explanatory script structure.
+- type: supports
+  from_item: IT-TG1410-0007
+  to_item: IT-TG1310-0013
+  confidence: HIGH
+  note: Both sources reject hard-coded paths/constants in favor of config-driven settings.
+- type: supports
+  from_item: IT-TG1410-0019
+  to_item: IT-BP1406-0014
+  confidence: MEDIUM
+  note: Reuse/inventory-before-duplication aligns with later Blueprint self-knowledge/magnifying-glass discipline.

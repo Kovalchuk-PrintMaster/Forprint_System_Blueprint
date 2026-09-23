@@ -1,0 +1,91 @@
+schema_version: forprint_telegram_bot_deberta_context_portfolio_reconciliation_v0_1
+source_label: filename-label-2026-10-16
+reconciled_on: '2026-09-22'
+source_identity:
+  primary_mhtml_sha256: 6e0b95682899aeb20550709bd3e9cfa0cde1f3c690a6f8bcf4d0fad7a713f3df
+  dftb_archive_sha256: 5a6ade80bfa7e85733647cec025cd39f2ade4ed2f5a3aaeb8b5f508d67a52e80
+  master_memory_v3_4_archive_sha256: 27d163d0d97be0d8078fb55e7f06b84b8485635a8f760780eb6a979c8e97300
+  primary_exactly_matches_dftb_source_manifest: true
+  master_v3_4_expanded_bundle_members_byte_identical_to_uploaded_dftb: true
+  master_v3_4_nested_immutable_dftb_zip_byte_identical: true
+chronology:
+  filename_date_trusted: false
+  filename_label: '2026-10-16'
+  mhtml_export_saved: Tue, 15 Sep 2026 22:31:09 +0300
+  logical_date: null
+  rule: Do not infer exact chronology from filename; retain as low-authority contextual source.
+source_quality:
+  classification: COMPLETE_EXTREMELY_THIN_TWO_TURN_EDUCATIONAL_DIALOGUE
+  visible_turn_sections: 2
+  message_blocks: 2
+  roles:
+    user: 1
+    assistant: 1
+  owner_semantic_content: single_word_topic_prompt_deberta
+  cyrillic_loss: false
+  implementation_verification_performed: false
+authority_interpretation:
+  owner_approved_model_choice: false
+  owner_approved_deberta_v3_base: false
+  owner_approved_label_count: false
+  owner_approved_training_parameters: false
+  owner_approved_training_plan: false
+  owner_approved_architecture_change: false
+  educational_assistant_content_is_project_authority: false
+topic_reconciliation:
+- topic: owner_deberta_interest
+  item_refs:
+  - IT-TG1610-0001
+  classification: RETAIN_AS_TOPIC_PROVENANCE_ONLY
+  disposition: Owner establishes interest in the DeBERTa topic but gives no project decision, task, model selection,
+    schema or implementation instruction.
+- topic: generic_deberta_background
+  item_refs:
+  - IT-TG1610-0002
+  classification: CONTEXT_ONLY
+  disposition: Assistant-generated educational explanation may contextualize later Telegram ML history but does
+    not create Human Intent or implementation authority.
+- topic: microsoft_deberta_v3_base_example
+  item_refs:
+  - IT-TG1610-0003
+  classification: EXAMPLE_NOT_SELECTION
+  disposition: Do not treat microsoft/deberta-v3-base as the selected project model. Later ML engineering source/live
+    repo must establish any actual model choice.
+- topic: three_label_example
+  item_refs:
+  - IT-TG1610-0004
+  classification: EXAMPLE_NOT_SCHEMA
+  disposition: Do not infer num_labels=3 or map the three illustrative labels to current intent/style/sentiment
+    taxonomies.
+- topic: style_sentiment_application
+  item_refs:
+  - IT-TG1610-0005
+  classification: REUSE_EXISTING_ML_LINEAGE
+  disposition: Conceptually consistent with later Telegram classifier work and the existing behavior/ML quality
+    governance candidate; creates no new roadmap capability.
+- topic: educational_example_vs_implementation_evidence
+  item_refs:
+  - IT-TG1610-0006
+  - IT-TG1610-0007
+  classification: RETAIN_AS_PROVENANCE_INVARIANT
+  disposition: No repository path, dataset, run output, commit or model artifact is present. Current Telegram ML
+    authority must come from stronger later sources and live repository evidence.
+roadmap_reconciliation:
+  canonical_roadmap_mutation: false
+  new_step: null
+  existing_candidate_reused: coordination/internal_work/blueprint/evening_reviews/2025-10-12_internal_anchor/DFTB_telegram_bot_behavior_model_v0_1/18_behavior_and_ml_quality_governance_candidate_v0_1.yaml
+  candidate_mutation: false
+  reason: This source adds provenance only. It contains no owner-approved capability beyond the stronger Telegram
+    ML/behavior history already under reconciliation.
+next_stronger_sources:
+- DFTB-telegram-bot-ml-engineering-filename-label-2026-10-14
+- DFTB-telegram-bot-long-running-filename-label-2026-10-13
+master_memory_relationship:
+  uploaded_master: v3.4
+  v3_4_role: historical_derived_navigation_archive
+  v3_4_contains_this_dftb: true
+  v3_4_reingested: false
+  preferred_current_navigation: v3.7
+  master_memory_authority: derived_navigation_not_current_runtime_authority
+human_intent_append_required: false
+execution_authority_mutation_required: false

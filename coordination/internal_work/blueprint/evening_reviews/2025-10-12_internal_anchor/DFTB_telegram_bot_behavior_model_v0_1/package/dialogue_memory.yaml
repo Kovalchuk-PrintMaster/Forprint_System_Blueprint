@@ -1,0 +1,1652 @@
+schema_version: forprint_dftb_dialogue_memory_v0_1
+bundle_id: DFTB-telegram-bot-behavior-model-internal-date-2025-10-12
+source:
+  source_id: SRC-telegram-bot-behavior-model-internal-date-2025-10-12
+  title: Telegram_Bot - Asistant_Telegram_Bot_4
+  source_type: chatgpt_mhtml_telegram_behavior_model_dialogue_with_embedded_prior_scaffold
+  source_file: Asistant_Telegram_Bot_12.10.26.mhtml
+  source_hash_sha256: 6335dcb444643b175483f69c87290967f01b84868161dcf192b4b43b52d4ad0d
+  conversation_started_at: null
+  conversation_ended_at: Tue, 15 Sep 2026 22:30:30 +0300
+  participants:
+  - user
+  - assistant
+  language:
+  - uk
+  - en
+  - ru
+  authority_scope: telegram_module_history_only
+  completeness: large_partial_voice_heavy_dialogue_with_embedded_prior_scaffold
+  completeness_notes: '83 visible turns / 83 message blocks over turn range 1–112. Turn 1 embeds a large prior behavior/scaffold transcript. Several voice
+    turns are unavailable/corrupted. Internal scaffold anchor: 2025-10-12.'
+extraction:
+  created_at: '2026-09-15T22:40:00+03:00'
+  extractor: GPT-5.6 Sol / Asistans_Forprint_Blueprint
+  extraction_mode: duplicate_check_then_behavior_model_voice_ai_ml_reconstruction_with_embedded-transcript-provenance
+  implementation_verification_performed: false
+  notes: Direct owner turns after the embedded scaffold are weighted more strongly than pasted prior dialogue and assistant summaries. Current implementation
+    remains unaudited.
+evidence_index:
+- evidence_id: EV-TG1210B-0001
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: ac317a70-dee5-4e28-9aee-1cd1bad8577b
+    message_id: ac317a70-dee5-4e28-9aee-1cd1bad8577b
+    source_file: Asistant_Telegram_Bot_12.10.26.mhtml
+  quote: дам тобі зараз каркас для організації моделі поведінки telegram бота ознайомся з нею і потім дай соє коротке резюме а потім я дам тобі основні
+    критерії поведінки бота щоб ти підготувала якісне наповнення скриптів які будуть моделювати роботу бота відразу передбачила основні можливі додаткові
+    моделі поведінки які я не вкажу але вони цілком ймовірні їх треба буде теж внестив політику роботи бота головний прворітет це грамотна і продумана структура
+    поведінки яка максимально охоплює ті задачі що я тобі надам і всі суміжні аспекти що ти зможеш сама додати даю каркас для початку для аналізу Це якраз
+    той рівень, де бот перестає бути просто “відповідачем” і починає діяти як агент з повед
+  quote_whitespace_normalized: true
+  context_before: Owner opens with a request to review a behavior-model scaffold and prepare for later behavior criteria.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - behavior_model
+  confidence: high
+- evidence_id: EV-TG1210B-0002
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: ac317a70-dee5-4e28-9aee-1cd1bad8577b
+    message_id: ac317a70-dee5-4e28-9aee-1cd1bad8577b
+    source_file: Asistant_Telegram_Bot_12.10.26.mhtml
+  quote: 'idence: | I want to make sure I respond correctly. Could you rephrase or add more details? meta: version: 0.1 updated: "2025-10-12" author: "Igor
+    Kovalchuk" ✅ Що далі Хочеш, щоб я: Згенерував generate_human_talk.py, який читає цей YAML і формує відповідь? Додав bot_state.yaml, який зберігає фазу
+    розвитку (наприклад: шаблон → генерація → адаптація)? Додав feedback_flow.py, який зберігає реакцію користувача і запускає retrain? Твій бот уже на
+    шляху до справжньої поведінкової системи. Готовий рухатись далі? давай всі 3 фали генеруй я ознайомлюсь з каркасом і подумау як краще рухатисб далі
+    Окей, Ігор — ось три каркасні файли, які задають основу для керування поведінкою, розвитку і фідбеку Telegram-бота. Вони повністю узгоджені між собою
+    і готові'
+  quote_whitespace_normalized: true
+  context_before: Embedded scaffold contains an internal 2025-10-12 update timestamp.
+  context_after: null
+  evidence_role:
+  - embedded_prior_dialogue
+  - chronology_anchor
+  confidence: high
+- evidence_id: EV-TG1210B-0003
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: ac317a70-dee5-4e28-9aee-1cd1bad8577b
+    message_id: ac317a70-dee5-4e28-9aee-1cd1bad8577b
+    source_file: Asistant_Telegram_Bot_12.10.26.mhtml
+  quote: '+ intent classifier 7 Адаптується до користувача персоналізовані шаблони, стиль, мова 🧩 2. Як це моделювати: bot_behavior_config.yaml Це буде
+    централізований файл, який задає: 🔹 Поведінкові правила yaml intents: 18: # Оплата fallback_style: 12 always_ask: ["номер замовлення", "метод оплати"]
+    confirm: "Підтверджую статус після уточнення" 🔹 Стилі для кожної інтенції yaml styles: polite: emoji: true tone: "мʼякий, ввічливий" aggressive: emoji:
+    false tone: "прямий, вимогливий" 🔹 Fallback-логіка yaml fallback: if_no_template: mistral_generate mistral_prompt: | Respond clearly and warmly to the
+    user intent: {intent_name} Style: {style_name} Sentiment: {sentiment_name} 🧠 3. Мінімальний розвиток: що вже можна зробити ✅ A. Поведінкові фази phase_1:
+    від'
+  quote_whitespace_normalized: true
+  context_before: Embedded prior dialogue proposes behavior config, bot state and feedback flow scaffolding.
+  context_after: null
+  evidence_role:
+  - embedded_prior_dialogue
+  - architecture_context
+  confidence: high
+- evidence_id: EV-TG1210B-0004
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: ac317a70-dee5-4e28-9aee-1cd1bad8577b
+    message_id: ac317a70-dee5-4e28-9aee-1cd1bad8577b
+    source_file: Asistant_Telegram_Bot_12.10.26.mhtml
+  quote: 'його режим, адаптацію до користувача, і статуси. yaml # bot_state.yaml — поточний стан розвитку Telegram-бота phase: 2 # 1=template, 2=generate,
+    3=adaptive mode: "production" # або "debug" user_adaptation: enabled: true strategy: "style_personalization" last_style_id: 12 preferred_language: "uk"
+    feedback_tracking: enabled: true last_negative_feedback: "2025-10-10" retrain_triggered: false intent_history: recent_intents: [18, 4, 7] unresolved_intents:
+    [7] meta: updated: "2025-10-12" author: "Igor Kovalchuk" 📥 3. feedback_flow.py Скрипт, який зберігає фідбек користувача, аналізує його, і при потребі
+    запускає retrain або зміну стилю. python # feedback_flow.py — обробка фідбеку користувача для розвитку поведінки бота import json fro'
+  quote_whitespace_normalized: true
+  context_before: Embedded bot-state scaffold represents behavior phases and user-adaptation/feedback state.
+  context_after: null
+  evidence_role:
+  - embedded_prior_dialogue
+  - state_model
+  confidence: high
+- evidence_id: EV-TG1210B-0005
+  speaker: user
+  locator:
+    conversation_turn: 5
+    turn_id: d5814113-a90c-4154-9c14-abb2961599f4
+    message_id: 39a5a142-1bc1-4864-860f-fb9b58a417fe
+    source_file: Asistant_Telegram_Bot_12.10.26.mhtml
+  quote: “Такий сухий діалог не підходить, це має бути більш розвинута система, це має бути дуже потужний бот, у людини, яка спілкується, має бути прямо
+    враження, що вона спілкується з живою людиною. Це основна стратегічна мета, до якої ми будемо йти. Зрозуміло, що вона буде поступово реалізовуватися,
+    спочатку вона буде у нас вчитися, буде примітивні якісь робити перші кроки, але головна мета – це вийти на рівень, який буде доволі потужний. Зараз
+    пишеться БКН для цього бота, і ми вже наповнюємо деберту, базу даних, щоб бот знав, які взагалі приходять запити, стиль комунікації налаштовують, буде
+    підключено, щоб він розумів агресивні, не агресивні стилі, дам йому інформацію за декілька, можливо, півроку роботи друкарні, які запити приходили,
+    і як живі люди, живі менеджери відповідали на ці запити для аналізу. І підключаємо зараз ще паралельно Містраль, щоб трошки додавати, оживити дискусію
+    або діал
+  quote_whitespace_normalized: true
+  context_before: Owner says the bot should feel like a powerful live human interlocutor, not a dry scripted responder.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - conversation_quality
+  confidence: high
+- evidence_id: EV-TG1210B-0006
+  speaker: user
+  locator:
+    conversation_turn: 9
+    turn_id: 74634cef-7f02-40e9-812d-ca12d1c1e701
+    message_id: 74634cef-7f02-40e9-812d-ca12d1c1e701
+    source_file: Asistant_Telegram_Bot_12.10.26.mhtml
+  quote: “Так, продовжуємо, але поки що тільки коротко підтверджуй мені, що ти прийняла інформацію, і я буду переходити до наступних блоків. Поки що ніякий
+    там аналіз чи ще чогось, рекомендації давати не треба. Тільки якщо дійсно щось тобі дуже сильно не зрозуміло з того, що я скажу, то тоді можеш перепитати.
+    А так, максимальний режим тиші, тільки короткі підтвердження, що інформацію зрозуміла і там готова далі до наступного блоку.”
+  quote_whitespace_normalized: true
+  context_before: Owner temporarily asks the assistant only to confirm receipt while he provides behavior information.
+  context_after: null
+  evidence_role:
+  - owner_process_rule
+  - information_capture
+  confidence: high
+- evidence_id: EV-TG1210B-0007
+  speaker: user
+  locator:
+    conversation_turn: 13
+    turn_id: 47742460-b09d-4bfa-826b-a1b0149cd40a
+    message_id: 197d0ee4-fb83-4d9b-a60e-ae6065554e39
+    source_file: Asistant_Telegram_Bot_12.10.26.mhtml
+  quote: ні щось там в чаті, я не можу зрозуміти, чи пропало з повіщення, чи запам'ятала ти інформацію про директорію, номер телефону клієнта, навіщо це
+    треба? Чи є в тебе це в твоїй базі?”
+  quote_whitespace_normalized: true
+  context_before: Owner checks that the phone-number/client-directory rationale was retained.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - client_identity
+  confidence: high
+- evidence_id: EV-TG1210B-0008
+  speaker: user
+  locator:
+    conversation_turn: 19
+    turn_id: 72d40238-6b56-4b59-9835-b60b8a729092
+    message_id: 72d40238-6b56-4b59-9835-b60b8a729092
+    source_file: Asistant_Telegram_Bot_12.10.26.mhtml
+  quote: “Так, дивись, я все-таки в чаті поки що не бачу тієї інформації, що я тобі передаю. І хочу переконатися, що ти дійсно всю інформацію прийняла.
+    Зроби зараз прямо в чат тезис, тільки щоб для тебе було зрозуміло. Мені не важливо, як там буде написано. Для себе такий чек-лист, задачу тих, які ми
+    можемо вирішувати, виходячи з тієї ситуації, це інформація, яку я тобі вже передав. Я побачу, що з'явився такий чек-лист, з'явилась інформація з тезисами,
+    що треба зробити, коротко їх дуже швиденько оціню, чи там є все, про що я балакав, і далі почнемо рухатися далі. Я хочу, щоб ми чітко розуміли, що нічого
+    не втрачається з нашою живою розмовою.”
+  quote_whitespace_normalized: true
+  context_before: Owner asks for a compact in-chat checklist of what was just communicated so he can verify synchronization.
+  context_after: null
+  evidence_role:
+  - owner_process_rule
+  - voice_text_sync
+  confidence: high
+- evidence_id: EV-TG1210B-0009
+  speaker: user
+  locator:
+    conversation_turn: 39
+    turn_id: 074b7f20-3c2b-4123-ae3a-41662e95b1c7
+    message_id: bd4e20d4-a2ea-4800-8221-b008fa0af091
+    source_file: Asistant_Telegram_Bot_12.10.26.mhtml
+  quote: м'ятаєш, голосовий помічник, про те, як має поводити себе бот при оформленні замовлення. Що розрізняти, чи це одна пачка, чи ціла упаковка з декількох
+    пачок. Ти ж пам'ятаєш цю інформацію? Підтвердь мені. Дякую.”
+  quote_whitespace_normalized: true
+  context_before: 'Owner references a concrete order-handling rule: distinguish one pack/item from a larger package containing multiple packs.'
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - order_dialogue
+  confidence: high
+- evidence_id: EV-TG1210B-0010
+  speaker: user
+  locator:
+    conversation_turn: 41
+    turn_id: 609d79fc-6b39-41b5-a223-da2d8270d029
+    message_id: 609d79fc-6b39-41b5-a223-da2d8270d029
+    source_file: Asistant_Telegram_Bot_12.10.26.mhtml
+  quote: “Супер, дивись. Але я не можу від тебе добитися, щоби оцю останню розмову ти вивела в чат тезисно, щоб я бачив наглядно, про що ми говорили. Бо
+    ти пам'ятаєш це собі в пам'яті, а я собі, мені має бути шпрегалка, я хочу, щоб після того, як у нас відбулася голосова розмова, я виходжу з голосового
+    чату, закриваю хрестиком, заходжу в чат, кажу тобі, дай мені короткий звіт, і ти мені даєш звіт по тому, що ми проговорили. І я сам собі розумію, яку
+    інформацію я тобі вже надав, наприклад, завтра згадати, про що ми балакали. А добитися від тебе оцього звіту мені дуже важко. Як нам організувати роботу,
+    щоб інформацію, яку я тобі передаю голосом, щоб ти мені її правильно адаптувала і перекидувала на устний чат звітом? Що мені зробити до цього?”
+  quote_whitespace_normalized: true
+  context_before: Owner explains that post-voice text summaries are needed as a personal visible memory/checklist.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - voice_text_sync
+  confidence: high
+- evidence_id: EV-TG1210B-0011
+  speaker: user
+  locator:
+    conversation_turn: 43
+    turn_id: f70f9085-12f4-4c15-b21d-32ffb04e8a7b
+    message_id: f70f9085-12f4-4c15-b21d-32ffb04e8a7b
+    source_file: Asistant_Telegram_Bot_12.10.26.mhtml
+  quote: но за оцю розмову. Не треба робити звід за всі усні діалоги, за останніх дві години, що у нас були. Не треба. Тільки останній в списку. У тебе
+    є останній в списку діалог усний, і ти його в останній в списку акуратно підсумувала. Окей?”
+  quote_whitespace_normalized: true
+  context_before: Owner requires summaries to cover only the exact latest voice dialogue, not a broad time window.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - voice_text_sync
+  confidence: high
+- evidence_id: EV-TG1210B-0012
+  speaker: user
+  locator:
+    conversation_turn: 48
+    turn_id: b4262a98-08c7-4ac7-8e2c-e4e8ccccb842
+    message_id: 1081a5ae-fd98-42cc-921d-17f051dbced8
+    source_file: Asistant_Telegram_Bot_12.10.26.mhtml
+  quote: ry important to note that when the bot sees that it cannot make the right, unambiguous decision, it must have two options for further steps. The
+    first step is to turn to the mentor, if the mentor responds in general, or to call artificial intelligence. We must assume that the bot must be integrated
+    with artificial intelligence, for example, with the chatGPT assistant. And when there is a question that cannot be solved, the bot responds to you and
+    you get all the information from it, by order, access to the database, and you try to solve the problem together. Did you understand the task I gave
+    you?”
+  quote_whitespace_normalized: true
+  context_before: 'Owner requires two escalation paths when the bot cannot make a clear decision: Mentor or AI.'
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - ai_escalation
+  confidence: high
+- evidence_id: EV-TG1210B-0013
+  speaker: user
+  locator:
+    conversation_turn: 48
+    turn_id: b4262a98-08c7-4ac7-8e2c-e4e8ccccb842
+    message_id: 1081a5ae-fd98-42cc-921d-17f051dbced8
+    source_file: Asistant_Telegram_Bot_12.10.26.mhtml
+  quote: a question that cannot be solved, the bot responds to you and you get all the information from it, by order, access to the database, and you try
+    to solve the problem together. Did you understand the task I gave you?”
+  quote_whitespace_normalized: true
+  context_before: Owner expects escalation context to include relevant dialogue/order/database information.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - ai_escalation
+  confidence: high
+- evidence_id: EV-TG1210B-0014
+  speaker: user
+  locator:
+    conversation_turn: 59
+    turn_id: f8f6da7f-acc0-41b1-81f5-220bb8bc3b1e
+    message_id: f8f6da7f-acc0-41b1-81f5-220bb8bc3b1e
+    source_file: Asistant_Telegram_Bot_12.10.26.mhtml
+  quote: ргу цікавить, як, ну, по-перше, яка задача. АІ, ну, ти або інші АІ, ви не можете на тему мати доступ до, там, Google Дисків взагалі, якихось файлової
+    системи комп'ютера, ну, або взагалі до чого-небудь такого, що виходить за рамки чатки. Але, наскільки я знаю, то через інструмент TelegramBot, ви можете,
+    якщо вас підключити, законектити, напряму під'єднати, то ви можете виконувати його руками практично всі маніпуляції, мінімум, з хмарними середовищами
+    і з тими ресурсами, які є на комп'ютері. Я правильно розумію цю реалізацію?”
+  quote_whitespace_normalized: true
+  context_before: Owner asks whether a Telegram bot can serve as the execution bridge giving AI controlled access to external/cloud/computer resources.
+  context_after: null
+  evidence_role:
+  - owner_question
+  - tool_execution
+  confidence: high
+- evidence_id: EV-TG1210B-0015
+  speaker: user
+  locator:
+    conversation_turn: 61
+    turn_id: 355d0620-62cf-4f9b-918d-40028344827a
+    message_id: 355d0620-62cf-4f9b-918d-40028344827a
+    source_file: Asistant_Telegram_Bot_12.10.26.mhtml
+  quote: у добре, одного їх, там певно, щоб декілька були цих телеграм-ботів, і як мінімум ціль одного з них – це бути особистим асистентом. Я, наприклад,
+    даю там якісь задачі, ну конкретні, перевір пошту, і скажи мені, від кого є які листи. Перевіряється пошта, дається мені інформація, які листи, який
+    контекст тих листів, я кажу, що треба відповісти по кожному, бо у нас є проговорений алгоритм роботи по відповіді на ці листи. І ботам, або власними
+    силами, якщо може розібратися, відповідає, або підключає AI, і те саме робот відповідає, або там копіює якісь файли на комп'ютер, далі їх якось обробляє,
+    можливо це прайси, чи що, редагує, потім загружає знову через пошту, відправляє там клієнтам. От такий асистент мені треба, і я так розумію, що Telegram
+  quote_whitespace_normalized: true
+  context_before: Owner defines a personal-assistant use case involving email review/replies and file manipulation with AI assistance when needed.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - personal_assistant
+  confidence: high
+- evidence_id: EV-TG1210B-0016
+  speaker: user
+  locator:
+    conversation_turn: 63
+    turn_id: 3bc1e55e-0c0a-411c-bff1-e21e4f2074fb
+    message_id: 3bc1e55e-0c0a-411c-bff1-e21e4f2074fb
+    source_file: Asistant_Telegram_Bot_12.10.26.mhtml
+  quote: ння, я взагалі не розумію, ну якщо там, наприклад, з AI мені ще зрозуміло, то мені не зрозуміло, чи є взагалі якісь інструменти передбачені розвитку,
+    чи є якийсь взагалі модель мислення у бота, просто відрождення, тому що, ну добре, я зараз розробляю цього бота, ми зробимо для нього купу-купу всього
+    корисного, моделі поведінки, наповнимо діалогами базу знань, щоб він розумів демоконтекст, там всю-всю-всю інформацію, щоб він міг виконувати такі рутинні
+    прості задачі, ми це все йому дамо. Але мене цікавить, чи є в нього взагалі якісь коробки або передбачені, можливо, інтеграційно, окрім як AI, якісь
+    інструменти, які йому додають трохи логіки більше, коли він бачить запит, наприклад, приходить, якийсь на нього там запит від клієнта, він обучений
+    по всьому, по п
+  quote_whitespace_normalized: true
+  context_before: Owner asks how a deterministic bot can reason beyond pre-scripted scenarios and what logic layers exist besides AI.
+  context_after: null
+  evidence_role:
+  - owner_question
+  - runtime_reasoning
+  confidence: high
+- evidence_id: EV-TG1210B-0017
+  speaker: user
+  locator:
+    conversation_turn: 65
+    turn_id: ba0ac573-ff51-4235-9794-189da7ec3e27
+    message_id: ba0ac573-ff51-4235-9794-189da7ec3e27
+    source_file: Asistant_Telegram_Bot_12.10.26.mhtml
+  quote: “Я зрозумів. Сам по собі бот без AI – це такий собі дуже потужний телькулятор. Тобто ти вводиш якісь комбінації чисел, і він просто віддає тобі
+    правильний результат. Я так розумію, що це і є бот. Якщо я хочу трошки глибше, якщо я хочу якоїсь аналітики питання, то я маю активувати, як ти кажеш,
+    цей прошарок з AI. І далі AI мені дає корисну і правильну інформацію по аналізу.”
+  quote_whitespace_normalized: true
+  context_before: 'Owner summarizes his model: deterministic bot logic handles defined procedures, AI is the deeper analytic/reasoning layer.'
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - runtime_reasoning
+  confidence: high
+- evidence_id: EV-TG1210B-0018
+  speaker: user
+  locator:
+    conversation_turn: 67
+    turn_id: 6058ee0f-9a22-4b68-b885-21ffb22690ec
+    message_id: 6058ee0f-9a22-4b68-b885-21ffb22690ec
+    source_file: Asistant_Telegram_Bot_12.10.26.mhtml
+  quote: м забезпеченням, і я думаю, що якщо з міжнародними пакетами простіше, то мене цікавий такий пакет, як 1С, ну, 1С-бухгалтерія. Чи є взагалі якийсь,
+    наприклад, напрацювання в інтернеті, можливо, якісь бібліотеки, можливо, якісь, або вже прописані інструменти. Я хочу, щоб бот створював замовлення
+    паралельно, приймав замовлення від клієнта, відкривав 1С, ну, або не відкривав її, туди підключався до 1С, і робив там, створював замовлення, списував
+    матеріал, щоб він виконував таку дрібну механічну роботу. Наскільки це взагалі реалізуємо, і наскільки це взагалі описано в інтернеті, наскільки це
+    легко, які є проблеми чи багисти? Скажи мені, будь ласка.”
+  quote_whitespace_normalized: true
+  context_before: Owner wants the bot to eventually perform routine 1C/accounting-system procedures such as creating orders or material actions.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - 1c_automation
+  confidence: high
+- evidence_id: EV-TG1210B-0019
+  speaker: assistant
+  locator:
+    conversation_turn: 68
+    turn_id: 6659596c-c484-4da7-bfeb-6407f390fd82
+    message_id: 6659596c-c484-4da7-bfeb-6407f390fd82
+    source_file: Asistant_Telegram_Bot_12.10.26.mhtml
+  quote: 'ької системи — це реально можливо, але треба врахувати кілька нюансів. Перше, що тобі потрібно знати: існують API і бібліотеки, які дозволяють
+    взаємодіяти з 1С віддалено. Є певні готові рішення, і в інтернеті можна знайти деякі напрацювання. Але одразу скажу, що це може бути трохи специфічно,
+    бо 1С — це така система, яка має свої версії, свої нюанси, і доведеться трохи покопатися. Якщо коротко, то так: ти можеш знайти бібліотеки або API-інтеграції,
+    які дозволять боту виконувати стандартні дії в 1С (наприклад, створювати замовлення, додавати матеріали, оновлювати записи). Це не щось надзвичайне,
+    але вимагатиме трохи часу на налаштування. Зазвичай це працює так: бот отримує запит, через API звертається до 1С, передає необхідн'
+  quote_whitespace_normalized: true
+  context_before: Assistant says 1C integration is possible via APIs/libraries but depends on version/security/access details.
+  context_after: null
+  evidence_role:
+  - assistant_recommendation
+  - 1c_automation
+  confidence: high
+- evidence_id: EV-TG1210B-0020
+  speaker: user
+  locator:
+    conversation_turn: 73
+    turn_id: 3bb37cb6-3eba-4708-ab14-69650bd0290c
+    message_id: 3bb37cb6-3eba-4708-ab14-69650bd0290c
+    source_file: Asistant_Telegram_Bot_12.10.26.mhtml
+  quote: “Так, слухай, давай пройдемося коротко по тій файловій структурі, яку я тобі передав як приказ. Розкажи мені, що ти думаєш і за що, який файл відповідає,
+    і яке наповнення очікує. Дай мені такий короткий анализ.”
+  quote_whitespace_normalized: true
+  context_before: Owner asks to inspect the bot skeleton/file structure already supplied in chat.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - repository_knowledge
+  confidence: high
+- evidence_id: EV-TG1210B-0021
+  speaker: assistant
+  locator:
+    conversation_turn: 98
+    turn_id: b263c2e1-849d-49be-a272-f254ae1f1a39
+    message_id: be1718b3-a754-4dc4-aed9-cda160530f50
+    source_file: Asistant_Telegram_Bot_12.10.26.mhtml
+  quote: Зрозуміло, на жаль, я не можу безпосередньо переглядати історію чату або шукати файли. Якщо є якась конкретна назва або деталі, які ви пам’ятаєте,
+    просто повідомте мені, і ми зможемо далі розібратися. Я завжди готова допомогти!
+  quote_whitespace_normalized: true
+  context_before: Assistant eventually admits it cannot reliably retrieve the requested historic file name from chat context.
+  context_after: null
+  evidence_role:
+  - assistant_limit
+  - continuity_failure
+  confidence: high
+- evidence_id: EV-TG1210B-0022
+  speaker: user
+  locator:
+    conversation_turn: 101
+    turn_id: c0bc4d87-dbb2-4820-97a5-a29165892acf
+    message_id: c0bc4d87-dbb2-4820-97a5-a29165892acf
+    source_file: Asistant_Telegram_Bot_12.10.26.mhtml
+  quote: t. I'm interested in another question. We are creating a chatbot, a Telegram chatbot. The chatbot is based on three things globally. The first
+    thing is that it has a de-berth connected to it. Now we are teaching it intent, style, and sentiment. And Mistral Sync will be connected to it. For
+    better dialogue, which we will soon start teaching. And the third tool is AI, maybe GPT, which will be connected in difficult conditions, when the bot
+    will not understand what to do and what decisions to make on their own. I want to ask you such questions. We are teaching de-berth, classify the input
+    stream, as by intent, by style. I understand that these tools will be used in the future. We have a table for this. But I want the bot to have sales
+    skills. B
+  quote_whitespace_normalized: true
+  context_before: Owner summarizes the intended stack as DeBERTa classification + Mistral dialogue generation + AI escalation for difficult decisions.
+  context_after: null
+  evidence_role:
+  - owner_architecture
+  - runtime_stack
+  confidence: high
+- evidence_id: EV-TG1210B-0023
+  speaker: user
+  locator:
+    conversation_turn: 101
+    turn_id: c0bc4d87-dbb2-4820-97a5-a29165892acf
+    message_id: c0bc4d87-dbb2-4820-97a5-a29165892acf
+    source_file: Asistant_Telegram_Bot_12.10.26.mhtml
+  quote: understand that these tools will be used in the future. We have a table for this. But I want the bot to have sales skills. Because it will be a
+    bot-manager for processing customers. And I want it not only to be able to take requests, but also to generate sales dialogues. Or to push the product,
+    to push the service. How can this be realized? Can it be connected? I understand that giving sales examples, to fill this table with dialogues, does
+    not make sense. Because it will be very difficult to filter. I don't think it can be practically realized. Can you connect a few more tables? For example,
+    the sales table, or the processing of customer objections. And fill these tables with real examples, so that the bot can refer to these examp
+  quote_whitespace_normalized: true
+  context_before: Owner wants the bot-manager to actively support sales and objection handling, not only accept requests.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - sales_dialogue
+  confidence: high
+- evidence_id: EV-TG1210B-0024
+  speaker: user
+  locator:
+    conversation_turn: 103
+    turn_id: a97d4358-acec-493f-82fb-865b92ed06db
+    message_id: a97d4358-acec-493f-82fb-865b92ed06db
+    source_file: Asistant_Telegram_Bot_12.10.26.mhtml
+  quote: то це відноситься, в першу чергу, до бази даних інтенту в деберті. Тобто в інтенті має мати такі чинники, як продаж, відмова або можливість запротонування
+    продажу. Тобто мають бути такі поля в інтент, і потім, коли знаходиться щось подібне, то вже потім логіка спрацьовує на ці інтент-поля і звідти йде
+    вибірка. Я правильно зрозумію? Мені треба, щоб це було в інтент.”
+  quote_whitespace_normalized: true
+  context_before: Owner expects sales/refusal/objection concepts to be represented in intent classification or downstream routing logic.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - intent_taxonomy
+  confidence: high
+- evidence_id: EV-TG1210B-0025
+  speaker: user
+  locator:
+    conversation_turn: 105
+    turn_id: 86167ef3-91ef-4539-abe1-bd4e543dc31f
+    message_id: 86167ef3-91ef-4539-abe1-bd4e543dc31f
+    source_file: Asistant_Telegram_Bot_12.10.26.mhtml
+  quote: ts are written there. DeBerti classifies them. We create additional intents that we need. We are now creating several tables in parallel. For example,
+    a table of sales, a table of processing of orders, a table of orders received, a table of orders put into operation. When we see that our DeBerti does
+    not work, for example, it does not work in the processing of orders, it is confused, it cannot classify different goods. And we do not fill the entire
+    table, because we renew everything, but only work with a table that corresponds to the processing of goods. We fill it with real dialogues, real stylistic
+    phrases, so that the bot learns. And then we either teach the bot or re-train it. But at the same time, when it is trained, it must process several
+  quote_whitespace_normalized: true
+  context_before: Owner prefers multiple specialized datasets/tables rather than one giant training table.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - training_data_architecture
+  confidence: high
+- evidence_id: EV-TG1210B-0026
+  speaker: user
+  locator:
+    conversation_turn: 105
+    turn_id: 86167ef3-91ef-4539-abe1-bd4e543dc31f
+    message_id: 86167ef3-91ef-4539-abe1-bd4e543dc31f
+    source_file: Asistant_Telegram_Bot_12.10.26.mhtml
+  quote: difficult. It will be necessary to filter and make selections. For example, we have a table of dialogues. All real dialogues with clients are written
+    there. DeBerti classifies them. We create additional intents that we need. We are now creating several tables in parallel. For example, a table of sales,
+    a table of processing of orders, a table of orders received, a table of orders put into operation. When we see that our DeBerti does not work, for example,
+    it does not work in the processing of orders, it is confused, it cannot classify different goods. And we do not fill the entire table, because we renew
+    everything, but only work with a table that corresponds to the processing of goods. We fill it with real dialogues, real stylistic p
+  quote_whitespace_normalized: true
+  context_before: Owner wants weak domains improved by adding real examples specifically to the relevant specialized dataset.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - continuous_learning
+  confidence: high
+- evidence_id: EV-TG1210B-0027
+  speaker: user
+  locator:
+    conversation_turn: 107
+    turn_id: dbf81284-259f-4177-8504-e2b2ca82f131
+    message_id: dbf81284-259f-4177-8504-e2b2ca82f131
+    source_file: Asistant_Telegram_Bot_12.10.26.mhtml
+  quote: е питання. Значить, у нас є, наприклад, навчена модель. Мені просто не дуже зрозумілий алгоритм, як ми можемо автоматизувати тестування, наприклад,
+    моделі, де берти умовно раз на місяць, раз на портал, щоб розуміти, де вона помиляється, де вона не точно розпізнає контекст, не точно його класифікує,
+    щоб її донавчити. І, по-перше, як взагалі автоматично можна цей процес на навченій моделі запускати, чи не буде він, скажімо так, поміжувати її загальний
+    рівень знань. І хто може реально так прокласифікувати, яким інструментом можна, наприклад, оцінити автоматично, що дійсно де берта класифікує або правильно,
+    або дуже сильно помиляється, як ми назначаємо відсоток помилок, 20 відсотків, це вже треба її донавчати. Як це реалізується професійно?”
+  quote_whitespace_normalized: true
+  context_before: Owner asks for periodic automated classifier evaluation, error thresholds and targeted retraining.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - ml_quality
+  confidence: high
+- evidence_id: EV-TG1210B-0028
+  speaker: user
+  locator:
+    conversation_turn: 109
+    turn_id: 22928919-f4f1-4d07-b68e-a25c4a55964d
+    message_id: 22928919-f4f1-4d07-b68e-a25c4a55964d
+    source_file: Asistant_Telegram_Bot_12.10.26.mhtml
+  quote: облю такий тестувальний датасет і буду його запускати автоматично, то через деякий час Deberta точно до нього адаптується і точно буде проходити
+    саме цей конкретний датасет на успішну. І все, і все тестування далі немає ніякого сенсу, наприклад, через півроку. А я собі сижу і думаю, що у мене
+    там модель проходить тестування, донавчається, все-все добре. А вона просто вже цей датасет вивчила і не рухається далі. От в цьому саме велика і питання,
+    чи є якісь інструменти, можливо якісь зовнішні ресурси, можливо якісь спеціальні сервіси, які генерують, наприклад, по деякій тематиці нові спеціалізовані
+    запити, підкидуючи їх, наприклад, в мою якусь там… Ну я там до когось звертаюся по АПІ, чи я там загружаю якийсь там рандомний знову набі
+  quote_whitespace_normalized: true
+  context_before: Owner identifies test-set memorization as a failure mode and rejects a static evaluation dataset as long-term evidence.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - ml_quality
+  confidence: high
+- evidence_id: EV-TG1210B-0029
+  speaker: user
+  locator:
+    conversation_turn: 109
+    turn_id: 22928919-f4f1-4d07-b68e-a25c4a55964d
+    message_id: 22928919-f4f1-4d07-b68e-a25c4a55964d
+    source_file: Asistant_Telegram_Bot_12.10.26.mhtml
+  quote: ей, і воно автоматично підгружається у цю таблицю тест, таблиця тестування. І Деберта кожен раз тестується на новому датасеті. Я от про це кажу,
+    тому що просто з стандартним набором даних, ну то взагалі не годиться.”
+  quote_whitespace_normalized: true
+  context_before: Owner asks for dynamic/external generation of fresh unseen test requests for recurring evaluation.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - dynamic_evaluation
+  confidence: high
+- evidence_id: EV-TG1210B-0030
+  speaker: user
+  locator:
+    conversation_turn: 111
+    turn_id: e38060ba-7ebf-4c26-b004-63866d416cdd
+    message_id: e38060ba-7ebf-4c26-b004-63866d416cdd
+    source_file: Asistant_Telegram_Bot_12.10.26.mhtml
+  quote: “Добре, давай розглянемо на практиці. Третій варіант точно мені не підходить. Перші два варіанти, які ти вважаєш більш-ліпші для автоматичної роботи
+    без участі людини. І давай його розберемо прямо покроково, на пальцях. Тобто, який сервіс ти пропонуєш, як ми до нього підключаємося, що нам для цього
+    треба, скільки це коштує, чи є безкоштовні сервіси, чи є trial версії якісь. І які таблиці ми створюємо в базі. Розкажи мені в загальних, але відносно
+    чітких кроках суть роботи, як це відбувається.”
+  quote_whitespace_normalized: true
+  context_before: Owner rejects simple rotation-only test sets and prefers the more automated fresh-generation options.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - dynamic_evaluation
+  confidence: high
+- evidence_id: EV-TG1210B-0031
+  speaker: assistant
+  locator:
+    conversation_turn: 112
+    turn_id: bf84554a-42f4-44c2-99ee-9de12094c234
+    message_id: bf84554a-42f4-44c2-99ee-9de12094c234
+    source_file: Asistant_Telegram_Bot_12.10.26.mhtml
+  quote: 'можливість генерувати нові запити на основі твоїх тем. Наприклад, деякі API від постачальників LLM (на кшталт OpenAI або інших подібних сервісів)
+    дозволяють генерувати випадкові запити з певної тематики. Ти можеш подивитися на їхні API-документації, там є безкоштовні рівні використання або пробні
+    версії, які дають змогу спробувати це без зайвих витрат. Другий крок: підключення до API. Тобі потрібно зареєструватися на такому сервісі, отримати
+    API-ключ і налаштувати свій скрипт або програму, щоб вона періодично зверталася до цього API. Наприклад, раз на місяць твій скрипт робить запит: "Згенеруй
+    мені 100 нових тестових запитів на тему поліграфії чи продажів". API повертає тобі ці запити. Третій крок: збереження нових тестових да'
+  quote_whitespace_normalized: true
+  context_before: Assistant suggests an LLM/API service as one possible generator of fresh evaluation examples.
+  context_after: null
+  evidence_role:
+  - assistant_recommendation
+  - external_dependency
+  confidence: high
+- evidence_id: EV-TG1210B-0032
+  speaker: assistant
+  locator:
+    conversation_turn: 112
+    turn_id: bf84554a-42f4-44c2-99ee-9de12094c234
+    message_id: bf84554a-42f4-44c2-99ee-9de12094c234
+    source_file: Asistant_Telegram_Bot_12.10.26.mhtml
+  quote: 'мати API-ключ і налаштувати свій скрипт або програму, щоб вона періодично зверталася до цього API. Наприклад, раз на місяць твій скрипт робить
+    запит: "Згенеруй мені 100 нових тестових запитів на тему поліграфії чи продажів". API повертає тобі ці запити. Третій крок: збереження нових тестових
+    даних. Ти просто додаєш ці нові приклади в окрему тестову таблицю в базі даних. Наприклад, кожен новий набір додається в окремий "пул", і коли ти запускаєш
+    тестування, воно просто бере свіжий набір з цієї таблиці. Четвертий крок: автоматизація цього процесу. Ти налаштовуєш це як регулярне завдання — наприклад,
+    за допомогою крону чи іншого планувальника завдань. І кожен місяць або квартал у тебе автоматично оновлюється тестовий набір. Що до витрат'
+  quote_whitespace_normalized: true
+  context_before: Assistant outlines scheduled API generation of fresh test pools and recurring model evaluation.
+  context_after: null
+  evidence_role:
+  - assistant_recommendation
+  - dynamic_evaluation
+  confidence: high
+items:
+- item_id: IT-TG1210B-0001
+  kind: architecture_constraint
+  title: Telegram behavior must be intentionally modeled rather than left to ad hoc responses
+  statement: Owner starts from an explicit behavior-model scaffold and wants likely missing behavior modes anticipated before scripts are filled in.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - behavior
+  implementation_expectation: required
+  verification_targets:
+  - architecture
+  - schemas
+  - tests
+  evidence_refs:
+  - EV-TG1210B-0001
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1210B-0002
+  kind: implementation_claim
+  title: Embedded behavior scaffold is internally dated 2025-10-12
+  statement: 'The pasted prior scaffold contains `updated: 2025-10-12`, providing a strong internal chronology anchor for this behavior-model phase.'
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - provenance
+  - chronology
+  implementation_expectation: not_required
+  verification_targets:
+  - history
+  evidence_refs:
+  - EV-TG1210B-0002
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Timestamp is inside embedded prior dialogue/scaffold rather than MHTML export metadata.
+- item_id: IT-TG1210B-0003
+  kind: architecture_constraint
+  title: Historical behavior scaffold separates policy/config state and feedback handling
+  statement: Embedded context proposes `bot_behavior_config.yaml`, `bot_state.yaml` and `feedback_flow.py` as distinct concerns.
+  dialogue_status: discussed
+  importance: normal
+  confidence: medium
+  owner_or_domain:
+  - telegram_bot
+  - behavior
+  implementation_expectation: unverifiable
+  verification_targets:
+  - repo
+  - docs
+  evidence_refs:
+  - EV-TG1210B-0003
+  - EV-TG1210B-0004
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Embedded prior dialogue, not current repo evidence.
+- item_id: IT-TG1210B-0004
+  kind: requirement
+  title: Telegram conversation should feel human rather than dry or form-like
+  statement: Owner wants a powerful, natural conversational experience that feels like interacting with a real attentive manager.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - conversation
+  implementation_expectation: required
+  verification_targets:
+  - behavior_spec
+  - tests
+  evidence_refs:
+  - EV-TG1210B-0005
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1210B-0005
+  kind: process_rule
+  title: During requirements capture the assistant should not over-analyze before the owner finishes a block
+  statement: Owner explicitly asks for short receipt confirmations while providing information, postponing recommendations/analysis until requested.
+  dialogue_status: accepted
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - coordination
+  - telegram_bot
+  implementation_expectation: required
+  verification_targets:
+  - assistant_process
+  evidence_refs:
+  - EV-TG1210B-0006
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1210B-0006
+  kind: requirement
+  title: Phone number is a key client-identity/contact field in Telegram dialogue
+  statement: Owner repeatedly treats phone capture as important for linking the client and downstream work.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - crm
+  implementation_expectation: required
+  verification_targets:
+  - contracts
+  - conversation
+  evidence_refs:
+  - EV-TG1210B-0007
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1210B-0007
+  kind: process_rule
+  title: Voice-to-text synchronization requires compact visible summaries
+  statement: After voice discussions, owner wants a short textual checklist so he can verify what information was actually retained.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - coordination
+  - operator_ux
+  implementation_expectation: required
+  verification_targets:
+  - assistant_process
+  - reports
+  evidence_refs:
+  - EV-TG1210B-0008
+  - EV-TG1210B-0010
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1210B-0008
+  kind: process_rule
+  title: Voice summary should cover only the latest exact voice dialogue
+  statement: Owner explicitly rejects broad summaries over previous hours and requires the most recent voice block only.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - coordination
+  - operator_ux
+  implementation_expectation: required
+  verification_targets:
+  - assistant_process
+  evidence_refs:
+  - EV-TG1210B-0011
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1210B-0009
+  kind: requirement
+  title: Order dialogue must disambiguate packaging/quantity semantics
+  statement: Historical owner example requires distinguishing a single pack/unit from a larger package containing multiple packs instead of assuming quantity
+    semantics.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - orders
+  implementation_expectation: required
+  verification_targets:
+  - conversation
+  - contracts
+  - tests
+  evidence_refs:
+  - EV-TG1210B-0009
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1210B-0010
+  kind: architecture_constraint
+  title: Ambiguous Telegram decisions require escalation rather than confident guessing
+  statement: If the bot cannot identify a request or make an unambiguous decision, it must not silently choose a likely answer.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - ai
+  implementation_expectation: required
+  verification_targets:
+  - runtime
+  - tests
+  evidence_refs:
+  - EV-TG1210B-0012
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1210B-0011
+  kind: workflow
+  title: Historical escalation path is Mentor first or AI assistant when needed
+  statement: 'Owner defines two possible next-step paths for uncertain cases: ask a mentor or call an AI assistant.'
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - ai
+  - operations
+  implementation_expectation: required
+  verification_targets:
+  - runtime
+  - contracts
+  evidence_refs:
+  - EV-TG1210B-0012
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1210B-0012
+  kind: data_contract
+  title: Escalation should carry sufficient conversation/order/data context
+  statement: The helper layer needs the relevant dialogue, order and approved data context to solve the uncertain case rather than receiving only a raw
+    text fragment.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - ai
+  - contracts
+  implementation_expectation: required
+  verification_targets:
+  - context_contract
+  - privacy
+  - tests
+  evidence_refs:
+  - EV-TG1210B-0013
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1210B-0013
+  kind: risk
+  title: AI escalation context must obey current privacy and least-privilege boundaries
+  statement: Historical owner intent asks for rich context/database access, but current implementation must scope what the AI may read or act on.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - ai
+  - privacy
+  implementation_expectation: required
+  verification_targets:
+  - security
+  - contracts
+  evidence_refs:
+  - EV-TG1210B-0013
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Current privacy/security architecture must define approved context.
+- item_id: IT-TG1210B-0014
+  kind: plan
+  title: Telegram can act as an operator interface for tool-enabled AI workflows
+  statement: Owner explores using Telegram as the human-facing bridge through which an AI can invoke controlled external/cloud/computer actions.
+  dialogue_status: discussed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - automation
+  implementation_expectation: optional
+  verification_targets:
+  - architecture
+  - tooling
+  evidence_refs:
+  - EV-TG1210B-0014
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1210B-0015
+  kind: requirement
+  title: One Telegram assistant role should support routine personal-assistant operations
+  statement: Historical use cases include checking mail, summarizing context, drafting/sending replies under defined rules and manipulating files with AI
+    assistance.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - automation
+  - operator
+  implementation_expectation: required
+  verification_targets:
+  - tool_contracts
+  - permissions
+  - audit
+  evidence_refs:
+  - EV-TG1210B-0015
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1210B-0016
+  kind: architecture_constraint
+  title: Deterministic bot procedures and AI reasoning are separate layers
+  statement: Owner conceptualizes bot logic as strong deterministic execution over known rules, while AI is invoked for deeper analysis/ambiguity rather
+    than replacing all rules.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - ai
+  implementation_expectation: required
+  verification_targets:
+  - architecture
+  - runtime
+  evidence_refs:
+  - EV-TG1210B-0016
+  - EV-TG1210B-0017
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1210B-0017
+  kind: risk
+  title: Tool-enabled Telegram assistant must not become unrestricted computer/cloud authority
+  statement: Historical personal-assistant ambition is broad; current design requires explicit permissions, audit, approval boundaries and tool-specific
+    contracts.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - automation
+  - security
+  implementation_expectation: required
+  verification_targets:
+  - security
+  - contracts
+  - audit
+  evidence_refs:
+  - EV-TG1210B-0014
+  - EV-TG1210B-0015
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Needs current architecture/security reconciliation.
+- item_id: IT-TG1210B-0018
+  kind: requirement
+  title: Telegram should eventually trigger routine 1C/accounting operations through approved integration
+  statement: Owner wants routine tasks such as order creation and material actions automated, but not necessarily by GUI-driving 1C.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - accounting
+  - 1c
+  implementation_expectation: required
+  verification_targets:
+  - contracts
+  - adapters
+  evidence_refs:
+  - EV-TG1210B-0018
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1210B-0019
+  kind: risk
+  title: Direct Telegram ownership of 1C writes is superseded by later Accounting/Gateway boundaries
+  statement: The owner goal is automation, but current architecture should route accounting actions through approved Accounting/1C adapters and decision
+    rights rather than embed 1C authority inside Telegram.
+  dialogue_status: superseded
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - accounting
+  - gateway
+  implementation_expectation: required
+  verification_targets:
+  - architecture
+  - contracts
+  evidence_refs:
+  - EV-TG1210B-0018
+  - EV-TG1210B-0019
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1210B-0020
+  kind: process_rule
+  title: Repository/file-structure claims must be grounded in accessible project artifacts
+  statement: A late source segment shows repeated failed attempts to name/analyze a previously supplied file structure from chat memory, ending in an admission
+    that history/files could not be reliably retrieved.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - repository_knowledge
+  implementation_expectation: required
+  verification_targets:
+  - startup
+  - artifact_index
+  evidence_refs:
+  - EV-TG1210B-0020
+  - EV-TG1210B-0021
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1210B-0021
+  kind: risk
+  title: Chat/voice continuity is not a reliable substitute for durable project memory
+  statement: This source repeatedly exposes synchronization/context retrieval failures, supporting durable machine-readable history and artifact-based startup.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - coordination
+  - continuity
+  implementation_expectation: required
+  verification_targets:
+  - project_memory
+  - startup
+  evidence_refs:
+  - EV-TG1210B-0008
+  - EV-TG1210B-0021
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1210B-0022
+  kind: architecture_constraint
+  title: Historical Telegram stack is DeBERTa classification + Mistral generation + AI escalation
+  statement: 'Owner explicitly summarizes three layers: classifier for intent/style/sentiment, generative dialogue model, and AI for difficult/ambiguous
+    decisions.'
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - ml
+  - ai
+  implementation_expectation: required
+  verification_targets:
+  - architecture
+  - runtime
+  evidence_refs:
+  - EV-TG1210B-0022
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1210B-0023
+  kind: requirement
+  title: Telegram bot-manager needs sales and objection-handling capability
+  statement: The bot should not merely accept requests; it should support sales dialogue, relevant offers and objection handling.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - sales
+  implementation_expectation: required
+  verification_targets:
+  - behavior_spec
+  - training_data
+  - tests
+  evidence_refs:
+  - EV-TG1210B-0023
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1210B-0024
+  kind: requirement
+  title: Sales/refusal/objection states must be represented in classification/routing semantics
+  statement: Owner wants the classifier/routing layer to recognize sales opportunities, refusals and objection handling so downstream logic can select the
+    correct behavior.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - ml
+  - sales
+  implementation_expectation: required
+  verification_targets:
+  - taxonomy
+  - contracts
+  - tests
+  evidence_refs:
+  - EV-TG1210B-0024
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1210B-0025
+  kind: architecture_constraint
+  title: Training data should be modular by domain rather than one giant table
+  statement: Owner prefers several specialized datasets/tables that can be maintained independently but combined into training/evaluation pipelines.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - ml
+  - training_data
+  implementation_expectation: required
+  verification_targets:
+  - data_pipeline
+  - tests
+  evidence_refs:
+  - EV-TG1210B-0025
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1210B-0026
+  kind: workflow
+  title: Weak behavior domains should be improved with targeted real examples
+  statement: When a specific domain performs poorly, owner wants to enrich that domain's dataset with real stylistic/dialogue examples and retrain rather
+    than modify unrelated data.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - ml
+  implementation_expectation: required
+  verification_targets:
+  - dataset_pipeline
+  - evaluation
+  evidence_refs:
+  - EV-TG1210B-0026
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1210B-0027
+  kind: requirement
+  title: Classifier quality should be evaluated automatically on a recurring schedule
+  statement: Owner asks for periodic automated tests that identify where classification is wrong and when retraining is warranted.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - ml
+  - quality
+  implementation_expectation: required
+  verification_targets:
+  - evaluation
+  - scheduler
+  - reports
+  evidence_refs:
+  - EV-TG1210B-0027
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1210B-0028
+  kind: risk
+  title: A static recurring test set can become invalid evidence through memorization/leakage
+  statement: Owner correctly identifies that repeatedly training against or adapting to the same evaluation examples can produce misleading green results.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - ml
+  - quality
+  implementation_expectation: required
+  verification_targets:
+  - evaluation_governance
+  - dataset_lineage
+  evidence_refs:
+  - EV-TG1210B-0028
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1210B-0029
+  kind: requirement
+  title: Recurring evaluation should include fresh unseen test cases
+  statement: Owner wants new, specialized evaluation requests generated or sourced so each cycle can test generalization rather than memorized examples.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - ml
+  - quality
+  implementation_expectation: required
+  verification_targets:
+  - evaluation_pipeline
+  - provenance
+  evidence_refs:
+  - EV-TG1210B-0029
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1210B-0030
+  kind: decision
+  title: Owner rejects simple fixed rotation as the preferred autonomous evaluation strategy
+  statement: Of the suggested approaches, the owner rejects the third simple rotation option and asks to explore fresh-generation approaches for automation
+    without human participation.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - ml
+  - quality
+  implementation_expectation: required
+  verification_targets:
+  - roadmap
+  - evaluation
+  evidence_refs:
+  - EV-TG1210B-0030
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1210B-0031
+  kind: plan
+  title: External LLM-generated evaluation cases are a historical candidate, not a verified solution
+  statement: Assistant proposes an LLM/API service such as OpenAI to generate fresh test requests on a schedule.
+  dialogue_status: proposed
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - ml
+  - external_dependency
+  implementation_expectation: optional
+  verification_targets:
+  - evaluation_pipeline
+  evidence_refs:
+  - EV-TG1210B-0031
+  - EV-TG1210B-0032
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Provider/cost/free-tier claims are time-sensitive and require current review.
+- item_id: IT-TG1210B-0032
+  kind: risk
+  title: Generated evaluation data needs independent labels/oracles, not only generator output
+  statement: Fresh prompts alone do not prove classifier correctness; current design needs expected labels, provenance, leakage controls and an evaluation
+    oracle.
+  dialogue_status: proposed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - ml
+  - quality
+  implementation_expectation: required
+  verification_targets:
+  - evaluation_contract
+  - oracle
+  evidence_refs:
+  - EV-TG1210B-0029
+  - EV-TG1210B-0032
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Derived architecture requirement from the historical evaluation concern; current acceptance needed.
+- item_id: IT-TG1210B-0033
+  kind: architecture_constraint
+  title: This source is Telegram history and cannot supersede later Blueprint/CRM/Accounting/Gateway authority
+  statement: Behavior and automation intent is preserved, but canonical business ownership, tool permissions and runtime integration remain governed by
+    current architecture.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - authority
+  - telegram_bot
+  implementation_expectation: required
+  verification_targets:
+  - indexes
+  - architecture
+  evidence_refs:
+  - EV-TG1210B-0018
+  - EV-TG1210B-0022
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1210B-0034
+  kind: risk
+  title: Turn 1 embeds prior dialogue/scaffold and must not be double-counted as new direct owner evidence
+  statement: The first user message contains a large historical conversation/scaffold that overlaps textually with another Telegram history root. It is
+    context/provenance, not a duplicate root and not fresh owner acceptance.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - provenance
+  - history
+  implementation_expectation: not_required
+  verification_targets:
+  - indexes
+  evidence_refs:
+  - EV-TG1210B-0002
+  - EV-TG1210B-0003
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Prevents authority inflation from embedded transcript content.
+relations:
+- relation_id: REL-TG1210B-0001
+  from_item: IT-TG1210B-0001
+  type: enables
+  to_item: IT-TG1210B-0004
+  evidence_refs:
+  - EV-TG1210B-0001
+  - EV-TG1210B-0005
+  confidence: high
+- relation_id: REL-TG1210B-0002
+  from_item: IT-TG1210B-0007
+  type: refines
+  to_item: IT-TG1210B-0008
+  evidence_refs:
+  - EV-TG1210B-0010
+  - EV-TG1210B-0011
+  confidence: high
+- relation_id: REL-TG1210B-0003
+  from_item: IT-TG1210B-0010
+  type: enables
+  to_item: IT-TG1210B-0011
+  evidence_refs:
+  - EV-TG1210B-0012
+  confidence: high
+- relation_id: REL-TG1210B-0004
+  from_item: IT-TG1210B-0012
+  type: constrains
+  to_item: IT-TG1210B-0011
+  evidence_refs:
+  - EV-TG1210B-0013
+  confidence: high
+- relation_id: REL-TG1210B-0005
+  from_item: IT-TG1210B-0016
+  type: refines
+  to_item: IT-TG1210B-0011
+  evidence_refs:
+  - EV-TG1210B-0016
+  - EV-TG1210B-0017
+  confidence: high
+- relation_id: REL-TG1210B-0006
+  from_item: IT-TG1210B-0019
+  type: constrains
+  to_item: IT-TG1210B-0018
+  evidence_refs:
+  - EV-TG1210B-0018
+  confidence: high
+- relation_id: REL-TG1210B-0007
+  from_item: IT-TG1210B-0020
+  type: supports
+  to_item: IT-TG1210B-0021
+  evidence_refs:
+  - EV-TG1210B-0020
+  - EV-TG1210B-0021
+  confidence: high
+- relation_id: REL-TG1210B-0008
+  from_item: IT-TG1210B-0022
+  type: enables
+  to_item: IT-TG1210B-0023
+  evidence_refs:
+  - EV-TG1210B-0022
+  - EV-TG1210B-0023
+  confidence: medium
+- relation_id: REL-TG1210B-0009
+  from_item: IT-TG1210B-0025
+  type: enables
+  to_item: IT-TG1210B-0026
+  evidence_refs:
+  - EV-TG1210B-0025
+  - EV-TG1210B-0026
+  confidence: high
+- relation_id: REL-TG1210B-0010
+  from_item: IT-TG1210B-0027
+  type: motivates
+  to_item: IT-TG1210B-0029
+  evidence_refs:
+  - EV-TG1210B-0027
+  - EV-TG1210B-0029
+  confidence: high
+- relation_id: REL-TG1210B-0011
+  from_item: IT-TG1210B-0028
+  type: motivates
+  to_item: IT-TG1210B-0029
+  evidence_refs:
+  - EV-TG1210B-0028
+  - EV-TG1210B-0029
+  confidence: high
+- relation_id: REL-TG1210B-0012
+  from_item: IT-TG1210B-0030
+  type: constrains
+  to_item: IT-TG1210B-0031
+  evidence_refs:
+  - EV-TG1210B-0030
+  - EV-TG1210B-0031
+  confidence: medium
+anomalies:
+- anomaly_id: ANOM-TG1210B-0001
+  type: new_unique_source_with_embedded_overlap
+  description: No shared message IDs with master v3.4. Nineteen exact text fragments overlap the long-running Telegram root because turn 1 embeds prior
+    dialogue/scaffold; sequence similarity is ~0.8%, so this is not a re-export/near-duplicate.
+  item_refs:
+  - IT-TG1210B-0034
+  evidence_refs:
+  - EV-TG1210B-0002
+  - EV-TG1210B-0003
+  severity: high
+  confidence: high
+  requires_followup: false
+- anomaly_id: ANOM-TG1210B-0002
+  type: filename_year_wrong
+  description: Filename says `12.10.26`, but MHTML was exported 15.09.2026 and embedded scaffold is explicitly dated 2025-10-12. Logical chronology uses
+    the internal 2025 anchor.
+  item_refs:
+  - IT-TG1210B-0002
+  evidence_refs:
+  - EV-TG1210B-0002
+  severity: critical
+  confidence: high
+  requires_followup: false
+- anomaly_id: ANOM-TG1210B-0003
+  type: voice_transcript_gaps
+  description: Several turns are `Transcript Unavailable`, `No transcription available` or corrupted automatic-transcription fragments. Missing voice content
+    is not reconstructed.
+  item_refs: []
+  evidence_refs: []
+  severity: high
+  confidence: high
+  requires_followup: false
+- anomaly_id: ANOM-TG1210B-0004
+  type: voice_text_sync_failure
+  description: The dialogue repeatedly shows failed or over-broad summaries of recent voice instructions, causing the owner to define exact latest-dialogue-only
+    reporting.
+  item_refs:
+  - IT-TG1210B-0007
+  - IT-TG1210B-0008
+  - IT-TG1210B-0021
+  evidence_refs:
+  - EV-TG1210B-0008
+  - EV-TG1210B-0010
+  - EV-TG1210B-0011
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-TG1210B-0005
+  type: chat_history_memory_overclaim
+  description: Assistant repeatedly claims to remember/review prior file structure, then later states it cannot directly retrieve the needed history/file
+    name.
+  item_refs:
+  - IT-TG1210B-0020
+  - IT-TG1210B-0021
+  evidence_refs:
+  - EV-TG1210B-0020
+  - EV-TG1210B-0021
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-TG1210B-0006
+  type: broad_ai_tool_authority_risk
+  description: Historical personal-assistant vision implies broad email/file/cloud/computer actions. Without explicit permission and audit boundaries this
+    would exceed safe module authority.
+  item_refs:
+  - IT-TG1210B-0014
+  - IT-TG1210B-0015
+  - IT-TG1210B-0017
+  evidence_refs:
+  - EV-TG1210B-0014
+  - EV-TG1210B-0015
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-TG1210B-0007
+  type: direct_1c_write_scope_drift
+  description: Early owner goal speaks of Telegram directly performing 1C order/material operations, which later architecture routes through Accounting/1C
+    adapters and governance.
+  item_refs:
+  - IT-TG1210B-0018
+  - IT-TG1210B-0019
+  evidence_refs:
+  - EV-TG1210B-0018
+  - EV-TG1210B-0019
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-TG1210B-0008
+  type: dynamic_test_generation_without_oracle
+  description: Fresh LLM-generated test inputs solve staleness only partially; without independent expected labels and leakage controls the automated score
+    can be misleading.
+  item_refs:
+  - IT-TG1210B-0028
+  - IT-TG1210B-0029
+  - IT-TG1210B-0031
+  - IT-TG1210B-0032
+  evidence_refs:
+  - EV-TG1210B-0028
+  - EV-TG1210B-0029
+  - EV-TG1210B-0032
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-TG1210B-0009
+  type: time_sensitive_provider_claims
+  description: Assistant statements about external LLM providers/free tiers/costs are historical and time-sensitive, not durable architecture facts.
+  item_refs:
+  - IT-TG1210B-0031
+  evidence_refs:
+  - EV-TG1210B-0031
+  - EV-TG1210B-0032
+  severity: normal
+  confidence: high
+  requires_followup: false
+open_loops:
+- loop_id: LOOP-TG1210B-0001
+  description: Verify current behavior-model source of truth and whether embedded YAML/state/feedback scaffolds still exist.
+  item_refs:
+  - IT-TG1210B-0001
+  - IT-TG1210B-0003
+  - IT-TG1210B-0034
+  last_known_state: Behavior scaffold is embedded in historical chat with internal 2025-10-12 date; not current repo evidence.
+  recommended_verification: Inventory current Telegram behavior specifications/generators/runtime and classify old YAML scaffolds as active, generated,
+    archival or superseded.
+- loop_id: LOOP-TG1210B-0002
+  description: Verify current voice→text reporting/continuity workflow if still needed for operator coordination.
+  item_refs:
+  - IT-TG1210B-0007
+  - IT-TG1210B-0008
+  - IT-TG1210B-0021
+  last_known_state: Owner required latest-voice-only compact reports because chat/voice synchronization was unreliable.
+  recommended_verification: Use durable project memory/assistant handoff surfaces rather than relying on implicit voice-chat memory.
+- loop_id: LOOP-TG1210B-0003
+  description: Define current Mentor/AI escalation contract, permissions, context scope and fallback.
+  item_refs:
+  - IT-TG1210B-0010
+  - IT-TG1210B-0011
+  - IT-TG1210B-0012
+  - IT-TG1210B-0013
+  last_known_state: Owner wants ambiguous cases escalated with sufficient context instead of guessed answers.
+  recommended_verification: Resolve current AI/Operations architecture, least-privilege context contract, logging, timeout/fallback and human approval boundaries.
+- loop_id: LOOP-TG1210B-0004
+  description: Resolve current tool-enabled personal-assistant architecture for email/files/cloud/computer actions.
+  item_refs:
+  - IT-TG1210B-0014
+  - IT-TG1210B-0015
+  - IT-TG1210B-0017
+  last_known_state: Historical ambition is broad Telegram-mediated routine automation.
+  recommended_verification: Map allowed tools/connectors, credentials, approval levels, audit log and separation between personal-assistant capability and
+    customer-facing Telegram runtime.
+- loop_id: LOOP-TG1210B-0005
+  description: Resolve Telegram→Accounting/1C action boundary.
+  item_refs:
+  - IT-TG1210B-0018
+  - IT-TG1210B-0019
+  last_known_state: Owner wants routine accounting actions automated; later project architecture separates Accounting/1C authority.
+  recommended_verification: Use current Accounting Registry/Gateway/decision-right contracts and prohibit direct Telegram ownership of accounting truth.
+- loop_id: LOOP-TG1210B-0006
+  description: Verify current sales/objection taxonomy and behavior ownership.
+  item_refs:
+  - IT-TG1210B-0023
+  - IT-TG1210B-0024
+  last_known_state: Owner wants sales/refusal/objection behavior represented in classifier/routing semantics.
+  recommended_verification: Reconcile with current Telegram/CRM/marketing/customer-journey architecture and current taxonomy tables.
+- loop_id: LOOP-TG1210B-0007
+  description: Verify modular multi-dataset training architecture.
+  item_refs:
+  - IT-TG1210B-0025
+  - IT-TG1210B-0026
+  last_known_state: Owner prefers specialized domain datasets combined into training rather than one monolithic table.
+  recommended_verification: Inspect current dataset registry, lineage, train/val/test split and domain weighting/merging pipeline.
+- loop_id: LOOP-TG1210B-0008
+  description: Design current recurring ML evaluation with fresh cases and an independent oracle.
+  item_refs:
+  - IT-TG1210B-0027
+  - IT-TG1210B-0028
+  - IT-TG1210B-0029
+  - IT-TG1210B-0030
+  - IT-TG1210B-0031
+  - IT-TG1210B-0032
+  last_known_state: Owner rejects static/rotation-only testing and wants fresh unseen automated evaluation cases.
+  recommended_verification: Create versioned evaluation pools with provenance, hidden holdouts, expected-label oracle/reviewer path, leakage checks and
+    promotion thresholds before retraining.
+implementation_audit_ref: implementation_audit.stub.yaml

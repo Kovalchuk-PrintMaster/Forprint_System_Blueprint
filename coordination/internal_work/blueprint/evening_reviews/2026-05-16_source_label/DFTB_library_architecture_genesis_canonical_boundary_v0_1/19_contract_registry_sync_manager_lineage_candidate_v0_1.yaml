@@ -1,0 +1,32 @@
+schema_version: forprint_reconcile_before_implementation_candidate_v0_1
+candidate_id: library_contract_registry_sync_manager_lineage_20260516
+status: OPEN_RECONCILE_BEFORE_IMPLEMENTATION
+source_module: forprint_library
+adjacent_modules:
+  - forprint_contract_registry
+  - forprint_integration_gateway
+  - forprint_system_blueprint
+  - consumer_domain_modules
+authority: candidate_not_new_module_or_execution_authority
+historical_lineage:
+  library_owned_contract_definitions: HISTORICAL_ALIGNMENT_POSITION
+  partner_human_readable_form: OWNER_INTENT
+  partner_machine_readable_contract_payload: OWNER_INTENT
+  version_deprecation_compatibility: OWNER_INTENT_PLUS_HISTORICAL_ALIGNMENT
+  change_manifest_to_sync_manager: HISTORICAL_ASSISTANT_PROPOSAL
+  separate_forprint_sync_manager: NOT_CURRENTLY_PROVEN
+current_reconciliation:
+  separate_contract_registry_surface: PRESENT_IN_CURRENT_PORTFOLIO
+  library_vs_contract_registry: CURRENT_OWNER_REVIEW_OPEN_QUESTION
+  library_change_propagation_consumer_awareness: CURRENT_SYNTHETIC_DIRECTION
+  gateway_runtime_validation_routing: CURRENT_ADJACENT_DIRECTION
+  historical_sync_manager_should_be_created_now: false
+verification_required_before_promotion:
+  - assign canonical contract definition/version ownership between Library and Contract Registry exactly once
+  - map runtime validation/routing responsibilities to Integration Gateway without duplicating canonical ownership
+  - map change propagation/adoption responsibilities to current Blueprint/Library/consumer freshness mechanisms
+  - preserve the owner human-readable plus machine-readable partner contract requirement in the chosen owner
+  - preserve semantic data-sufficiency tests across intended downstream consumers
+  - classify historical Sync Manager responsibilities as REUSE EXTEND ADAPT REPLACE DEFER or RETIRE before proposing any module
+roadmap_mutation: none
+implementation_authority: none

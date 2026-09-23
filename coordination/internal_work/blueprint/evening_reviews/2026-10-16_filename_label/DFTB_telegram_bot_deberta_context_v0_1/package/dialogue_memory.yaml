@@ -1,0 +1,385 @@
+schema_version: forprint_dftb_dialogue_memory_v0_1
+bundle_id: DFTB-telegram-bot-deberta-context-filename-label-2026-10-16
+source:
+  source_id: SRC-telegram-bot-deberta-context-filename-label-2026-10-16
+  title: Telegram_Bot - Asistant_Telegram_Bot_3
+  source_type: chatgpt_mhtml_telegram_micro_educational_dialogue
+  source_file: Asistant_Telegram_Bot_16.10.26.mhtml
+  source_hash_sha256: 6e0b95682899aeb20550709bd3e9cfa0cde1f3c690a6f8bcf4d0fad7a713f3df
+  conversation_started_at: null
+  conversation_ended_at: Tue, 15 Sep 2026 22:31:09 +0300
+  participants:
+  - user
+  - assistant
+  language:
+  - uk
+  - en
+  authority_scope: historical_educational_context_non_authoritative
+  completeness: complete_but_extremely_thin_two_turn_dialogue
+  completeness_notes: 2 visible turn sections / 2 message blocks. Owner prompt is only `deberta`; all substantive technical content is assistant-generated.
+extraction:
+  created_at: '2026-09-15T22:31:09+03:00'
+  extractor: GPT-5.6 Sol / Asistans_Forprint_Blueprint
+  extraction_mode: duplicate_check_then_minimal_low_authority_context_reconstruction
+  implementation_verification_performed: false
+  notes: No project implementation or owner-approved model choice is inferred from the educational response.
+evidence_index:
+- evidence_id: EV-TG1610-0001
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: bbb21fd0-9c4c-40e3-adbf-b98d43f59fe1
+    message_id: bbb21fd0-9c4c-40e3-adbf-b98d43f59fe1
+    source_file: Asistant_Telegram_Bot_16.10.26.mhtml
+  quote: deberta
+  quote_whitespace_normalized: true
+  context_before: Owner opens a DeBERTa topic with no explicit requirement, architecture decision or implementation request.
+  context_after: null
+  evidence_role:
+  - owner_topic_only
+  - low_context
+- evidence_id: EV-TG1610-0002
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 878bddcb-83d3-4c89-bb6d-5a5313059500
+    message_id: 3cce5d9c-d61e-4eb7-b253-90d09cea2984
+    source_file: Asistant_Telegram_Bot_16.10.26.mhtml
+  quote: '🧠 DeBERTa (Decoding-enhanced BERT with disentangled attention) — це модель від Microsoft , вдосконалена версія BERT, оптимізована для розуміння
+    природної мови (NLP). Ось коротко по суті 👇 ⚙️ Основна ідея DeBERTa відрізняється тим, що: Розділяє (disentangles) представлення позиції та значення
+    слова. → Це допомагає точніше розуміти контекст фраз і синтаксис. Використовує “enhanced mask decoder” → Краще враховує порядок слів під час передбачення
+    токенів. Навчена на величезних корпусах текстів (зокрема English Wikipedia + BookCorpus) , тому добре розуміє граматику, семантику і логіку тексту.
+    🧩 Варіанти De'
+  quote_whitespace_normalized: true
+  context_before: Assistant gives general background on DeBERTa as an NLP model from Microsoft.
+  context_after: null
+  evidence_role:
+  - assistant_educational_context
+  - model_background
+- evidence_id: EV-TG1610-0003
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 878bddcb-83d3-4c89-bb6d-5a5313059500
+    message_id: 3cce5d9c-d61e-4eb7-b253-90d09cea2984
+    source_file: Asistant_Telegram_Bot_16.10.26.mhtml
+  quote: 'rta-v3-large найпотужніша ~435M топова якість, більше RAM/GPU 💡 Типові сфери застосування Класифікація тексту (емоції, тон, інтенція, токсичність)
+    Витяг сутностей (NER) Узагальнення текстів Відповіді на запитання Діалогові системи (як твій Telegram-бот) 🧪 Приклад використання (Python + 🤗 Transformers)
+    Python Run from transformers import AutoTokenizer , AutoModelForSequenceClassification import torch # Завантажуємо модель model_name = "microsoft/deberta-v3-base"
+    tokenizer = AutoTokenizer . from_pretrained( model_name ) model = AutoModelForSequenceClassification . from_pretrained( model_name , num_labels = 3
+    ) # Тестовий пр'
+  quote_whitespace_normalized: true
+  context_before: Assistant lists text classification, sentiment/tone/intent and dialogue systems as typical uses.
+  context_after: null
+  evidence_role:
+  - assistant_educational_context
+  - use_cases
+- evidence_id: EV-TG1610-0004
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 878bddcb-83d3-4c89-bb6d-5a5313059500
+    message_id: 3cce5d9c-d61e-4eb7-b253-90d09cea2984
+    source_file: Asistant_Telegram_Bot_16.10.26.mhtml
+  quote: 'zer , AutoModelForSequenceClassification import torch # Завантажуємо модель model_name = "microsoft/deberta-v3-base" tokenizer = AutoTokenizer
+    . from_pretrained( model_name ) model = AutoModelForSequenceClassification . from_pretrained( model_name , num_labels = 3 ) # Тестовий приклад text
+    = "This product is amazing!" inputs = tokenizer ( text , return_tensors = "pt" ) outputs = model ( ** inputs ) # Результат pred = torch . softmax( outputs
+    . logits, dim = 1 ) print ( pred ) ⚡️ Переваги перед BERT / RoBERTa Краще працює на малих і середніх наборах даних. Має глибше контекстне розуміння
+    (завдяки disentangled attention). Висока'
+  quote_whitespace_normalized: true
+  context_before: Assistant provides an illustrative Hugging Face example using DeBERTa v3 base.
+  context_after: null
+  evidence_role:
+  - assistant_example
+  - model_example
+- evidence_id: EV-TG1610-0005
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 878bddcb-83d3-4c89-bb6d-5a5313059500
+    message_id: 3cce5d9c-d61e-4eb7-b253-90d09cea2984
+    source_file: Asistant_Telegram_Bot_16.10.26.mhtml
+  quote: '( model_name ) model = AutoModelForSequenceClassification . from_pretrained( model_name , num_labels = 3 ) # Тестовий приклад text = "This product
+    is amazing!" inputs = tokenizer ( text , return_tensors = "pt" ) outputs = model ( ** inputs ) # Результат pred = torch . softmax( outputs . logits,
+    dim = 1 ) print ( pred ) ⚡️ Переваги перед BERT / RoBERTa Краще працює на малих і середніх наборах даних. Має глибше контекстне розуміння (завдяки disentangled
+    attention). Висока якість при менших витратах ресурсів (особливо v3). Якщо скажеш, для якої саме задачі ти її зараз використовуєш (наприклад, класифікація
+    стилів діалог'
+  quote_whitespace_normalized: true
+  context_before: Assistant example uses a three-label sequence classifier, but without a project-specific schema binding.
+  context_after: null
+  evidence_role:
+  - assistant_example
+  - code_example
+- evidence_id: EV-TG1610-0006
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 878bddcb-83d3-4c89-bb6d-5a5313059500
+    message_id: 3cce5d9c-d61e-4eb7-b253-90d09cea2984
+    source_file: Asistant_Telegram_Bot_16.10.26.mhtml
+  quote: ', batch_size тощо). Хочеш, щоб я показала приклад налаштування тренування під твою задачу класифікації стилю/сентименту ?'
+  quote_whitespace_normalized: true
+  context_before: Assistant explicitly relates possible follow-up training to Telegram style/sentiment classification.
+  context_after: null
+  evidence_role:
+  - assistant_contextualization
+  - telegram_ml
+- evidence_id: EV-TG1610-0007
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 878bddcb-83d3-4c89-bb6d-5a5313059500
+    message_id: 3cce5d9c-d61e-4eb7-b253-90d09cea2984
+    source_file: Asistant_Telegram_Bot_16.10.26.mhtml
+  quote: можу показати структуру навчання, токенізацію, збереження моделей і найкращі параметри ( learning_rate , epochs , batch_size тощо). Хочеш, щоб
+    я показала приклад налаштування тренування під твою задачу класифікації стилю/сентименту ?
+  quote_whitespace_normalized: true
+  context_before: Assistant offers to discuss training parameters such as learning rate, epochs and batch size.
+  context_after: null
+  evidence_role:
+  - assistant_offer
+  - training_parameters
+items:
+- item_id: IT-TG1610-0001
+  kind: open_question
+  title: Owner opens the DeBERTa topic without specifying a project decision
+  statement: The only owner-side message is `deberta`; it establishes topic interest but does not authorize a model choice, training plan, schema or implementation.
+  dialogue_status: discussed
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - ml
+  implementation_expectation: not_required
+  verification_targets:
+  - history
+  evidence_refs:
+  - EV-TG1610-0001
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Do not infer project intent beyond the one-word prompt.
+- item_id: IT-TG1610-0002
+  kind: assumption
+  title: Assistant presents DeBERTa as relevant NLP background
+  statement: The assistant explains DeBERTa generically and describes it as suitable for NLP classification tasks.
+  dialogue_status: discussed
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - ml
+  implementation_expectation: not_required
+  verification_targets:
+  - history
+  evidence_refs:
+  - EV-TG1610-0002
+  - EV-TG1610-0003
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Educational assistant content, not owner-approved architecture.
+- item_id: IT-TG1610-0003
+  kind: external_dependency
+  title: '`microsoft/deberta-v3-base` is an illustrative assistant example, not a selected project model'
+  statement: The response uses DeBERTa v3 base in sample code, but the owner never selects that checkpoint/model.
+  dialogue_status: proposed
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - ml
+  implementation_expectation: optional
+  verification_targets:
+  - current_model_policy
+  evidence_refs:
+  - EV-TG1610-0004
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Example only; current model/runtime must be audited.
+- item_id: IT-TG1610-0004
+  kind: assumption
+  title: Three-label classifier sample is educational rather than a Telegram schema contract
+  statement: The example uses `num_labels=3` without binding those labels to the project's intent/style/sentiment taxonomies.
+  dialogue_status: discussed
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - ml
+  implementation_expectation: not_required
+  verification_targets:
+  - history
+  evidence_refs:
+  - EV-TG1610-0005
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Do not map the three labels to current taxonomies.
+- item_id: IT-TG1610-0005
+  kind: plan
+  title: Assistant suggests style/sentiment classification as a possible Telegram application
+  statement: The assistant connects DeBERTa to the project's Telegram classifier context and offers a follow-up training example.
+  dialogue_status: proposed
+  importance: normal
+  confidence: medium
+  owner_or_domain:
+  - telegram_bot
+  - ml
+  implementation_expectation: optional
+  verification_targets:
+  - architecture
+  - ml_pipeline
+  evidence_refs:
+  - EV-TG1610-0006
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1610-0006
+  kind: risk
+  title: Educational model explanation can be mistaken for implementation evidence
+  statement: This source contains no repository path, dataset, run output, commit, model artifact or owner acceptance; it must not be used to claim DeBERTa
+    was implemented here.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - provenance
+  - telegram_bot
+  implementation_expectation: not_required
+  verification_targets:
+  - history
+  evidence_refs:
+  - EV-TG1610-0001
+  - EV-TG1610-0004
+  - EV-TG1610-0007
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1610-0007
+  kind: architecture_constraint
+  title: Current Telegram ML authority must come from live repo/current Blueprint, not this micro-dialogue
+  statement: Later Telegram ML history provides real training/runtime evidence; this two-turn educational source is context only and cannot supersede current
+    architecture or implementation state.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - authority
+  - telegram_bot
+  implementation_expectation: required
+  verification_targets:
+  - indexes
+  - docs
+  evidence_refs:
+  - EV-TG1610-0001
+  - EV-TG1610-0006
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+relations:
+- relation_id: REL-TG1610-0001
+  from_item: IT-TG1610-0001
+  type: related_to
+  to_item: IT-TG1610-0002
+  evidence_refs:
+  - EV-TG1610-0001
+  - EV-TG1610-0002
+  confidence: high
+- relation_id: REL-TG1610-0002
+  from_item: IT-TG1610-0003
+  type: related_to
+  to_item: IT-TG1610-0005
+  evidence_refs:
+  - EV-TG1610-0004
+  - EV-TG1610-0006
+  confidence: medium
+- relation_id: REL-TG1610-0003
+  from_item: IT-TG1610-0006
+  type: constrains
+  to_item: IT-TG1610-0003
+  evidence_refs:
+  - EV-TG1610-0004
+  - EV-TG1610-0007
+  confidence: high
+anomalies:
+- anomaly_id: ANOM-TG1610-0001
+  type: new_unique_micro_dialogue
+  description: No shared message IDs with master v3.3. The generic user text `deberta` appears elsewhere, but the assistant response is distinct and there
+    is no sequence-level duplicate.
+  item_refs: []
+  evidence_refs: []
+  severity: normal
+  confidence: high
+  requires_followup: false
+- anomaly_id: ANOM-TG1610-0002
+  type: filename_date_future_relative_to_export
+  description: Filename `16.10.26` is later than the 15.09.2026 MHTML export date and no internal timestamp resolves the true dialogue date.
+  item_refs: []
+  evidence_refs: []
+  severity: critical
+  confidence: high
+  requires_followup: false
+- anomaly_id: ANOM-TG1610-0003
+  type: extremely_thin_owner_context
+  description: The owner contributes only one word. All substantive technical content is assistant-generated educational context, so evidence strength is
+    low for project decisions.
+  item_refs:
+  - IT-TG1610-0001
+  - IT-TG1610-0002
+  - IT-TG1610-0005
+  evidence_refs:
+  - EV-TG1610-0001
+  - EV-TG1610-0002
+  severity: high
+  confidence: high
+  requires_followup: false
+- anomaly_id: ANOM-TG1610-0004
+  type: educational_example_not_implementation
+  description: The Hugging Face code example and `microsoft/deberta-v3-base` model name are illustrative only and do not prove a project dependency, code
+    path or deployed model.
+  item_refs:
+  - IT-TG1610-0003
+  - IT-TG1610-0004
+  - IT-TG1610-0006
+  evidence_refs:
+  - EV-TG1610-0004
+  - EV-TG1610-0005
+  severity: high
+  confidence: high
+  requires_followup: false
+open_loops:
+- loop_id: LOOP-TG1610-0001
+  description: Determine current Telegram classifier/model stack from live implementation, not this educational source.
+  item_refs:
+  - IT-TG1610-0003
+  - IT-TG1610-0005
+  - IT-TG1610-0007
+  last_known_state: This source only discusses DeBERTa conceptually; later histories contain actual DeBERTa engineering evidence.
+  recommended_verification: Use existing Telegram ML audit backlog to inspect current repo/config/model artifacts and current Blueprint policy.
+- loop_id: LOOP-TG1610-0002
+  description: Do not infer a three-label current schema from the assistant sample.
+  item_refs:
+  - IT-TG1610-0004
+  last_known_state: '`num_labels=3` appears only in generic example code.'
+  recommended_verification: Bind label counts only to current intent/style/sentiment contracts in live code/data.
+- loop_id: LOOP-TG1610-0003
+  description: Keep the micro-dialogue as contextual provenance without creating a parallel ML standard.
+  item_refs:
+  - IT-TG1610-0002
+  - IT-TG1610-0006
+  - IT-TG1610-0007
+  last_known_state: Educational explanation overlaps conceptually with later Telegram ML work but adds no accepted project rule.
+  recommended_verification: No standalone action; reference only when reconstructing why DeBERTa appears in later Telegram history.
+implementation_audit_ref: implementation_audit.stub.yaml

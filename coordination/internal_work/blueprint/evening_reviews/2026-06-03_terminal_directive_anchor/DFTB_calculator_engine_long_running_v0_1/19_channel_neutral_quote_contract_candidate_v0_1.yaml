@@ -1,0 +1,51 @@
+schema_version: forprint_calculator_channel_neutral_quote_contract_candidate_v0_1
+candidate_id: calculator_channel_neutral_quote_contract
+status: RECONCILE_BEFORE_IMPLEMENTATION
+canonical_roadmap_step: false
+candidate_owner: calculator_engine
+supporting_or_adjacent_owners:
+- forprint_contract_registry
+- forprint_integration_gateway
+- forprint_crm
+- verification_lab
+purpose: Recover the historical robust quote/API semantics without recreating direct Calculator-to-channel coupling.
+candidate_contract:
+  calculator_domain_request:
+  - versioned_quote_request
+  - payload_validation_before_calculation
+  - request_correlation_id
+  - domain_idempotency_key_or_equivalent_request_identity
+  - same_identity_same_payload_may_reuse_result
+  - same_identity_different_payload_is_explicit_conflict
+  calculator_domain_result:
+  - structured_quote_or_job_identity
+  - line_item_material_and_operation_calculation_evidence
+  - subtotal_total_and_assumptions
+  - provenance_and_reference_versions
+  - stable_machine_error_code
+  - retryable_or_nonretryable_classification_when_defined
+  - human_rendering_projection_optional
+  ownership_split:
+  - contract_registry_owns_schema_version_agreement
+  - gateway_owns_runtime_transport_validation_routing_and_delivery_mechanics
+  - calculator_owns_calculation_and_domain_result_semantics
+  - channels_consume_results_without_direct_calculator_specific_business_ownership
+  verification:
+  - isolated_storage_for_idempotency_tests
+  - same_key_same_payload_fixture
+  - same_key_different_payload_conflict_fixture
+  - malformed_payload_fail_safe_fixture
+  - stable_error_and_correlation_fixture
+  - channel_neutral_contract_fixture
+reuse_first_checks_before_promotion:
+- live Calculator quote/API implementation
+- current Contract Registry calculator request/result contracts
+- current Integration Gateway request envelope/idempotency/correlation semantics
+- current CRM/channel quote consumption contracts
+- Verification Lab regression capability
+non_goals:
+- direct Telegram-specific transport inside Calculator
+- direct Website-specific transport inside Calculator
+- duplicate Gateway transport idempotency ownership
+- treat historical 1-failed/35-passed test state as current implementation
+- mutate Calculator runtime from this planning intake

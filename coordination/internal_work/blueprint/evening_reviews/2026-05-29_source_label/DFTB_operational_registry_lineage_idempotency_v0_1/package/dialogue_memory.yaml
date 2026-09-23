@@ -1,0 +1,1463 @@
+schema_version: forprint_dftb_dialogue_memory_v0_1
+bundle_id: DFTB-operational-registry-source-label-2026-05-29
+source:
+  source_id: SRC-operational-registry-source-label-2026-05-29
+  title: Forprint_Operational_Registry_29.05.26
+  source_type: chatgpt_mhtml_module_dialogue
+  source_file: Forprint_Operational_Registry_29.05.26.mhtml
+  source_hash_sha256: 76cc1ad66510dfee633b2fc0bfa79bdf5734f31c23380babaef4ba6204720f07
+  conversation_started_at: null
+  conversation_ended_at: Tue, 15 Sep 2026 13:45:30 +0300
+  participants:
+  - user
+  - assistant
+  language:
+  - uk
+  - en
+  authority_scope: operational_registry_module_history_with_blueprint_governance_input
+  completeness: partial_attachment_heavy_long_running_dialogue
+  completeness_notes: 44 visible message blocks across retained turns 1–162; user=40, assistant=4. Most intermediate turns are attachment placeholders.
+    Visible internal dates reach at least 2026-06-19.
+extraction:
+  created_at: '2026-09-15T13:50:00+03:00'
+  extractor: GPT-5.6 Sol / Asistans_Forprint_Blueprint
+  extraction_mode: duplicate_check_then_cross_module_operational_registry_reconstruction
+  implementation_verification_performed: false
+  notes: Operational Registry module history informs Blueprint coordination but cannot supersede current Blueprint architecture/release/acceptance authority.
+evidence_index:
+- evidence_id: EV-OPREG2905-0001
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 3b758be5-444d-44ae-b789-104be0308240
+    message_id: f0fb0bf9-c54b-448c-8d06-95166a22a82c
+    source_file: Forprint_Operational_Registry_29.05.26.mhtml
+  quote: 'tional_registry , не ревізія існуючого. Орієнтир із вкладення: модуль має стати канонічним джерелом операційної правди по клієнтах, замовленнях,
+    задачах, статусах і операційній історії , але не забирати на себе CRM, бухгалтерію, Library, Gateway, Calculator, Prepress, Warehouse чи Logistics.
+    Pasted text Bootstrap Implementation Plan для v0.1 1. Рекомендований перший крок Почати з малого bootstrap-скелета в директорії: /srv/software_development/forprint-project/forprint_operational_registry
+    Перший коміт має лише довести: Operational Registry exists. It owns operational tru'
+  quote_whitespace_normalized: true
+  context_before: Operational Registry is framed as canonical operational truth for clients/orders/tasks/status/history.
+  context_after: null
+  evidence_role:
+  - assistant_design
+  - module_role
+- evidence_id: EV-OPREG2905-0002
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 3b758be5-444d-44ae-b789-104be0308240
+    message_id: f0fb0bf9-c54b-448c-8d06-95166a22a82c
+    source_file: Forprint_Operational_Registry_29.05.26.mhtml
+  quote: 'правди по клієнтах, замовленнях, задачах, статусах і операційній історії , але не забирати на себе CRM, бухгалтерію, Library, Gateway, Calculator,
+    Prepress, Warehouse чи Logistics. Pasted text Bootstrap Implementation Plan для v0.1 1. Рекомендований перший крок Почати з малого bootstrap-скелета
+    в директорії: /srv/software_development/forprint-project/forprint_operational_registry Перший коміт має лише довести: Operational Registry exists. It
+    owns operational truth. It does not absorb other modules. Коміт: Bootstrap Operational Registry skeleton 2. Що саме'
+  quote_whitespace_normalized: true
+  context_before: Bootstrap explicitly excludes CRM, Accounting, Library, Gateway, Calculator, Prepress, Warehouse and Logistics ownership.
+  context_after: null
+  evidence_role:
+  - assistant_boundary
+  - module_scope
+- evidence_id: EV-OPREG2905-0003
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 3b758be5-444d-44ae-b789-104be0308240
+    message_id: f0fb0bf9-c54b-448c-8d06-95166a22a82c
+    source_file: Forprint_Operational_Registry_29.05.26.mhtml
+  quote: 'ecord OperationalTask OperationalStatus OperationalEvent Я б зробила їх поки на pydantic , не SQLModel. Причина: v0.1 має перевірити межі, життєвий
+    цикл і структуру, а не будувати базу даних. 4. Storage choice Рекомендую для першого кроку: in-memory repository + clear storage interface Тобто: storage/memory.py
+    storage/schema.py Цього достатньо, щоб перевірити створення клієнта, замовлення, задачі, події і простий lifecycle. SQLModel/SQLite можна додати пізніше,
+    коли Blueprint підтвердить, що модель стабільна. 5. Lifecycle v0.1 Додати дуже про'
+  quote_whitespace_normalized: true
+  context_before: v0.1 should validate models/boundaries/lifecycle before production database architecture.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - bootstrap
+- evidence_id: EV-OPREG2905-0004
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 3b758be5-444d-44ae-b789-104be0308240
+    message_id: f0fb0bf9-c54b-448c-8d06-95166a22a82c
+    source_file: Forprint_Operational_Registry_29.05.26.mhtml
+  quote: 'туру, а не будувати базу даних. 4. Storage choice Рекомендую для першого кроку: in-memory repository + clear storage interface Тобто: storage/memory.py
+    storage/schema.py Цього достатньо, щоб перевірити створення клієнта, замовлення, задачі, події і простий lifecycle. SQLModel/SQLite можна додати пізніше,
+    коли Blueprint підтвердить, що модель стабільна. 5. Lifecycle v0.1 Додати дуже простий allowed transition map, наприклад: new -> needs_review needs_review
+    -> quote_pending quote_pending -> quote_accepted quote_accepted -> waiting_payment waiting_payment'
+  quote_whitespace_normalized: true
+  context_before: First storage step is in-memory behind a clear storage interface.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - storage
+- evidence_id: EV-OPREG2905-0005
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 3b758be5-444d-44ae-b789-104be0308240
+    message_id: f0fb0bf9-c54b-448c-8d06-95166a22a82c
+    source_file: Forprint_Operational_Registry_29.05.26.mhtml
+  quote: 'ільна. 5. Lifecycle v0.1 Додати дуже простий allowed transition map, наприклад: new -> needs_review needs_review -> quote_pending quote_pending
+    -> quote_accepted quote_accepted -> waiting_payment waiting_payment -> paid paid -> in_prepress in_prepress -> ready_for_production ready_for_production
+    -> in_production in_production -> ready_for_pickup ready_for_pickup -> completed І окремо дозволити: any active status -> blocked blocked -> needs_review
+    any active status -> cancelled Тести мають перевірити: valid transition passes invalid transition raises err'
+  quote_whitespace_normalized: true
+  context_before: Bootstrap defines an initial order-lifecycle transition map plus blocked/cancelled paths.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - lifecycle
+- evidence_id: EV-OPREG2905-0006
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 3b758be5-444d-44ae-b789-104be0308240
+    message_id: f0fb0bf9-c54b-448c-8d06-95166a22a82c
+    source_file: Forprint_Operational_Registry_29.05.26.mhtml
+  quote: 'ати: Operational Registry owns operational truth. CRM coordinates and displays. Accounting owns accounting/1C truth. Library owns catalogs/contracts.
+    Gateway routes runtime commands later. Calculator calculates. Prepress processes files. 7. Тести з першого коміту Мінімальний набір: test_manifest.py
+    test_boundaries.py test_client_model.py test_order_model.py test_task_model.py test_status_model.py test_order_lifecycle.py test_check_report.py Тести
+    мають ловити головну небезпеку: щоб модуль не почав випадково володіти invoice/payment/catalog/prepress/file/warehouse/gatew'
+  quote_whitespace_normalized: true
+  context_before: Boundary documents explicitly separate operational truth, CRM coordination, accounting/1C truth, Library contracts, Gateway routing, Calculator
+    and Prepress.
+  context_after: null
+  evidence_role:
+  - assistant_design
+  - domain_ownership
+- evidence_id: EV-OPREG2905-0007
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 3b758be5-444d-44ae-b789-104be0308240
+    message_id: f0fb0bf9-c54b-448c-8d06-95166a22a82c
+    source_file: Forprint_Operational_Registry_29.05.26.mhtml
+  quote: 't_order_lifecycle.py test_check_report.py Тести мають ловити головну небезпеку: щоб модуль не почав випадково володіти invoice/payment/catalog/prepress/file/warehouse/gateway-логікою.
+    8. Check-report Додаємо: scripts/run_operational_registry_checks.py Він має запускати: ruff check pytest manifest boundary validation required docs
+    validation status config validation І створювати: reports/operational_registry_check_report.json reports/operational_registry_check_report.md reports/
+    треба додати в .gitignore . 9. Makefile targets Мінімально: install test lint check check-report format'
+  quote_whitespace_normalized: true
+  context_before: Tests must catch accidental ownership creep into invoice/payment/catalog/prepress/file/warehouse/gateway logic.
+  context_after: null
+  evidence_role:
+  - assistant_rule
+  - boundary_tests
+- evidence_id: EV-OPREG2905-0008
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 3b758be5-444d-44ae-b789-104be0308240
+    message_id: f0fb0bf9-c54b-448c-8d06-95166a22a82c
+    source_file: Forprint_Operational_Registry_29.05.26.mhtml
+  quote: 'print_operational_registry/* scripts/run_operational_registry_checks.py tests/* Без API, без БД-продакшн-рівня, без інтеграцій. 3. Моделі, які
+    можна додати першими Мінімально: ClientRecord OrderRecord OperationalTask OperationalStatus OperationalEvent Я б зробила їх поки на pydantic , не SQLModel.
+    Причина: v0.1 має перевірити межі, життєвий цикл і структуру, а не будувати базу даних. 4. Storage choice Рекомендую для першого кроку: in-memory repository
+    + clear storage interface Тобто: storage/memory.py storage/schema.py Цього достатньо, щоб п'
+  quote_whitespace_normalized: true
+  context_before: v0.1 explicitly avoids API, production DB migrations, real integrations and other premature runtime complexity.
+  context_after: null
+  evidence_role:
+  - assistant_boundary
+  - bootstrap_scope
+- evidence_id: EV-OPREG2905-0009
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 3b758be5-444d-44ae-b789-104be0308240
+    message_id: f0fb0bf9-c54b-448c-8d06-95166a22a82c
+    source_file: Forprint_Operational_Registry_29.05.26.mhtml
+  quote: '_pending -> quote_accepted quote_accepted -> waiting_payment waiting_payment -> paid paid -> in_prepress in_prepress -> ready_for_production ready_for_production
+    -> in_production in_production -> ready_for_pickup ready_for_pickup -> completed І окремо дозволити: any active status -> blocked blocked -> needs_review
+    any active status -> cancelled Тести мають перевірити: valid transition passes invalid transition raises error 6. Обовʼязкові boundary-документи Створити:
+    docs/architecture/operational_registry_boundaries.md docs/architecture/op'
+  quote_whitespace_normalized: true
+  context_before: 'Open question: operational payment status should not be confused with accounting truth.'
+  context_after: null
+  evidence_role:
+  - assistant_open_question
+  - accounting_boundary
+- evidence_id: EV-OPREG2905-0010
+  speaker: user
+  locator:
+    conversation_turn: 67
+    turn_id: dcc74bf2-fe2b-451d-ab6e-d21685319abb
+    message_id: dcc74bf2-fe2b-451d-ab6e-d21685319abb
+    source_file: Forprint_Operational_Registry_29.05.26.mhtml
+  quote: '|data_history|one_c_adapter|entity_card" -rw-r--r-- 1 root root 678 Jun 8 21:08 data_foundation_strategy.md -rw-r--r-- 1 root root 327 Jun 8 21:10
+    data_history_versioning_policy.md -rw-r--r-- 1 root root 380 Jun 8 21:11 entity_card_design_policy.md -rw-r--r-- 1 root root 400 Jun 8 21:09 event_log_policy.md
+    -rw-r--r-- 1 root root 449 Jun 8 21:09 external_reference_policy.md -rw-r--r-- 1 root root 432 Jun 8 21:08 master_data_policy.md -rw-r--r-- 1 root root
+    484 Jun 8 21:10 one_c_adapter_boundary_policy.md -rw-r--r-- 1 root root 439 Jun 8 21:08 operational_fact_po'
+  quote_whitespace_normalized: true
+  context_before: Historical repository contains a named set of data-foundation and policy docs.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - data_foundation
+- evidence_id: EV-OPREG2905-0011
+  speaker: user
+  locator:
+    conversation_turn: 67
+    turn_id: dcc74bf2-fe2b-451d-ab6e-d21685319abb
+    message_id: dcc74bf2-fe2b-451d-ab6e-d21685319abb
+    source_file: Forprint_Operational_Registry_29.05.26.mhtml
+  quote: Jun 8 21:09 external_reference_policy.md -rw-r--r-- 1 root root 432 Jun 8 21:08 master_data_policy.md -rw-r--r-- 1 root root 484 Jun 8 21:10 one_c_adapter_boundary_policy.md
+    -rw-r--r-- 1 root root 439 Jun 8 21:08 operational_fact_policy.md -rw-r--r-- 1 root root 286 Jun 8 21:10 raw_normalized_value_policy.md -rw-r--r-- 1
+    root root 564 Jun 8 21:09 reporting_projection_policy.md root@s01:/srv/software_development/forprint-project/forprint_operational_registry# Show more
+    Show less
+  quote_whitespace_normalized: true
+  context_before: Historical policy surface includes master data, operational facts, event log and reporting projection docs.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - data_foundation
+- evidence_id: EV-OPREG2905-0012
+  speaker: user
+  locator:
+    conversation_turn: 67
+    turn_id: dcc74bf2-fe2b-451d-ab6e-d21685319abb
+    message_id: dcc74bf2-fe2b-451d-ab6e-d21685319abb
+    source_file: Forprint_Operational_Registry_29.05.26.mhtml
+  quote: ot 432 Jun 8 21:08 master_data_policy.md -rw-r--r-- 1 root root 484 Jun 8 21:10 one_c_adapter_boundary_policy.md -rw-r--r-- 1 root root 439 Jun
+    8 21:08 operational_fact_policy.md -rw-r--r-- 1 root root 286 Jun 8 21:10 raw_normalized_value_policy.md -rw-r--r-- 1 root root 564 Jun 8 21:09 reporting_projection_policy.md
+    root@s01:/srv/software_development/forprint-project/forprint_operational_registry# Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Historical docs include explicit 1C adapter boundary policy.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - accounting_boundary
+- evidence_id: EV-OPREG2905-0013
+  speaker: user
+  locator:
+    conversation_turn: 103
+    turn_id: 756063ae-1185-4197-81b9-0003f231eebf
+    message_id: 756063ae-1185-4197-81b9-0003f231eebf
+    source_file: Forprint_Operational_Registry_29.05.26.mhtml
+  quote: інструкції /srv/software_development/forprint-project/forprint_system_blueprint/coordination/checkup /srv/software_development/forprint-project/forprint_system_blueprint/coordination/directives
+    /srv/software_development/forprint-project/forprint_system_blueprint/coordination/global_policy /srv/software_development/forprint-project/forprint_system_blueprint/coordination/module_policy/forprint_operational_registry
+    Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Owner asks to inspect additional Blueprint governance directories for useful instructions.
+  context_after: null
+  evidence_role:
+  - owner_instruction
+  - blueprint_governance
+- evidence_id: EV-OPREG2905-0014
+  speaker: user
+  locator:
+    conversation_turn: 103
+    turn_id: 756063ae-1185-4197-81b9-0003f231eebf
+    message_id: 756063ae-1185-4197-81b9-0003f231eebf
+    source_file: Forprint_Operational_Registry_29.05.26.mhtml
+  quote: bal_policy /srv/software_development/forprint-project/forprint_system_blueprint/coordination/module_policy/forprint_operational_registry Show more
+    Show less
+  quote_whitespace_normalized: true
+  context_before: Owner points specifically to Operational Registry module policy in Blueprint.
+  context_after: null
+  evidence_role:
+  - owner_instruction
+  - blueprint_governance
+- evidence_id: EV-OPREG2905-0015
+  speaker: user
+  locator:
+    conversation_turn: 119
+    turn_id: cc34d102-9322-4cc4-8e04-010540e6f13b
+    message_id: cc34d102-9322-4cc4-8e04-010540e6f13b
+    source_file: Forprint_Operational_Registry_29.05.26.mhtml
+  quote: від blueprint ще раз уточнення невелике додати в наступний промт вимогу зробити sync snapshots і completion automation ідемпотентними, щоб повторна
+    перевірка не створювала зайвий git diff тільки через timestamp. прибрати timestamp-only churn
+  quote_whitespace_normalized: true
+  context_before: Blueprint clarification requires snapshot/completion automation to avoid timestamp-only churn.
+  context_after: null
+  evidence_role:
+  - owner_relay
+  - idempotency
+- evidence_id: EV-OPREG2905-0016
+  speaker: user
+  locator:
+    conversation_turn: 149
+    turn_id: a98ddd56-32c5-42fa-b59a-af22bf303785
+    message_id: a98ddd56-32c5-42fa-b59a-af22bf303785
+    source_file: Forprint_Operational_Registry_29.05.26.mhtml
+  quote: oordination/prompts/active поставив BLUEPRINT_PROMPTS_ROOT ?= $(BLUEPRINT_ROOT)/coordination/outgoing_prompts ACTIVE_PROMPT_LOCAL_DIR ?= coordination/outgoing_prompts/approved
+    даю про всяк випадок структуру blueprint щоб ти точно знала де лежить потрібна нам інформація coordination/ ├── checkup │ ├── ecosystem_checkup_policy.yaml
+    │ ├── module_activity_thresholds.yaml │ └── README.md ├── directives │ ├── global │ │ ├── active │ │ │ └── 2026-06-02__global__directive__module-coordination-standard-v1.md
+    │ │ └── index.yaml │ ├── modules │ │ └── calculator_engine │ │ ├
+  quote_whitespace_normalized: true
+  context_before: Owner corrects the Blueprint outgoing prompt path based on actual structure.
+  context_after: null
+  evidence_role:
+  - owner_correction
+  - prompt_path
+- evidence_id: EV-OPREG2905-0017
+  speaker: user
+  locator:
+    conversation_turn: 149
+    turn_id: a98ddd56-32c5-42fa-b59a-af22bf303785
+    message_id: a98ddd56-32c5-42fa-b59a-af22bf303785
+    source_file: Forprint_Operational_Registry_29.05.26.mhtml
+  quote: Pasted text.txt Document замість цьго BLUEPRINT_PROMPTS_ROOT ?= $(BLUEPRINT_ROOT)/coordination/prompts ACTIVE_PROMPT_LOCAL_DIR ?= coordination/prompts/active
+    поставив BLUEPRINT_PROMPTS_ROOT ?= $(BLUEPRINT_ROOT)/coordination/outgoing_prompts ACTIVE_PROMPT_LOCAL_DIR ?= coordination/outgoing_prompts/approved
+    даю про всяк випадок структуру blueprint щоб ти точно знала де лежить потрібна нам інформація coordination/ ├── checkup │ ├── ecosystem_checkup_policy.yaml
+    │ ├── module_activity_thresholds.yaml │ └── README.md ├── directives │ ├── global │ │ ├── active │ │ │ └── 2026-06-02__global__directive__module-coordination-standard-v1.md
+    │ │ └── index.yaml │ ├── modules │ │ └── calculator_engine │ │ ├
+  quote_whitespace_normalized: true
+  context_before: Approved prompt source is module-specific under Blueprint outgoing_prompts.
+  context_after: null
+  evidence_role:
+  - owner_correction
+  - prompt_path
+- evidence_id: EV-OPREG2905-0018
+  speaker: assistant
+  locator:
+    conversation_turn: 158
+    turn_id: 3de5e1be-d47b-4d7d-953f-e8d88868fd88
+    message_id: f9a94741-9215-4bb5-9c6c-ebe5bad0ac33
+    source_file: Forprint_Operational_Registry_29.05.26.mhtml
+  quote: 'сновний локальний validation gate. # Очікуваний результат: lint OK і pytest OK. check: lint test # Команда: make check-report # Що робить: запускає
+    структурований Operational Registry check-report. # Очікуваний результат: усі module policy, boundary, preview і coordination checks мають статус OK.
+    check-report: $(PYTHON) scripts/run_operational_registry_checks.py # Команда: make status-report # Що робить: експортує поточний module status JSON
+    report. # Очікуваний результат: локально створено reports/operational_registry_module_status.json. status-repo'
+  quote_whitespace_normalized: true
+  context_before: Regenerated Makefile has a read-only check target separating lint-fix from check.
+  context_after: null
+  evidence_role:
+  - assistant_artifact
+  - make_surface
+- evidence_id: EV-OPREG2905-0019
+  speaker: assistant
+  locator:
+    conversation_turn: 158
+    turn_id: 3de5e1be-d47b-4d7d-953f-e8d88868fd88
+    message_id: f9a94741-9215-4bb5-9c6c-ebe5bad0ac33
+    source_file: Forprint_Operational_Registry_29.05.26.mhtml
+  quote: 'k-report status-report .PHONY: clean report-clean .PHONY: blueprint-paths-check blueprint-pull blueprint-check blueprint-sync-directives blueprint-sync
+    .PHONY: blueprint-instruction-list blueprint-instruction-check blueprint-instruction-sync .PHONY: blueprint-standards-list blueprint-standards-check
+    blueprint-standards-sync .PHONY: blueprint-prompts-list blueprint-prompts-sync blueprint-prompts-check blueprint-prompts prompt-read .PHONY: module-start
+    module-sync module-validate module-finish .PHONY: coordination-check coordination-fix module-policy'
+  quote_whitespace_normalized: true
+  context_before: Regenerated Makefile includes Blueprint pull as part of module-start workflow.
+  context_after: null
+  evidence_role:
+  - assistant_artifact
+  - cross_repo
+- evidence_id: EV-OPREG2905-0020
+  speaker: assistant
+  locator:
+    conversation_turn: 158
+    turn_id: 3de5e1be-d47b-4d7d-953f-e8d88868fd88
+    message_id: f9a94741-9215-4bb5-9c6c-ebe5bad0ac33
+    source_file: Forprint_Operational_Registry_29.05.26.mhtml
+  quote: '.. \) , prompt sync бере тільки forprint_operational_registry/approved/*.md , а report-clean не падає, якщо report-файли не tracked. Pasted text
+    Замінюй весь Makefile : Makefile PYTHON ?= .venv_operational_registry/bin/python PIP ?= .venv_operational_registry/bin/pip BLUEPRINT_ROOT ?= /srv/software_development/forprint-project/forprint_system_blueprint
+    ACTIVE_PROMPT_MODULE ?= forprint_operational_registry BLUEPRINT_PROMPTS_ROOT ?= $(BLUEPRINT_ROOT)/coordination/outgoing_prompts BLUEPRINT_ACTIVE_PROMPT_SOURCE_DIR
+    ?= $(BLUEPRINT_PROMPTS_ROOT)/$(ACT'
+  quote_whitespace_normalized: true
+  context_before: Report cleanup is hardened not to fail on absent/untracked report files.
+  context_after: null
+  evidence_role:
+  - assistant_artifact
+  - reporting
+- evidence_id: EV-OPREG2905-0021
+  speaker: assistant
+  locator:
+    conversation_turn: 160
+    turn_id: 576a28b3-dcae-4c3e-9dd8-f5afd0a94e06
+    message_id: 3afb2bda-2339-4bfc-9747-9466ef92e7ab
+    source_file: Forprint_Operational_Registry_29.05.26.mhtml
+  quote: 'rrent_status.yaml module-validate теж зелений: check-report OK, Ruff OK, pytest 232 passed , governance-check OK. Pasted text Git status нормальний
+    M Makefile M coordination/instruction_intake/blueprint_instruction_packet.yaml M coordination/standards/blueprint_standards_snapshot.yaml ?? coordination/outgoing_prompts/
+    Це очікувано: Makefile — наше вирівнювання під Make Command Standard v0.2. blueprint_instruction_packet.yaml і blueprint_standards_snapshot.yaml — очікуване
+    оновлення під Blueprint commit 88db68d . coordination/outgoing_prompts/ —'
+  quote_whitespace_normalized: true
+  context_before: Makefile alignment validation reports 232 tests passing and governance checks green.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - validation
+- evidence_id: EV-OPREG2905-0022
+  speaker: assistant
+  locator:
+    conversation_turn: 160
+    turn_id: 576a28b3-dcae-4c3e-9dd8-f5afd0a94e06
+    message_id: 3afb2bda-2339-4bfc-9747-9466ef92e7ab
+    source_file: Forprint_Operational_Registry_29.05.26.mhtml
+  quote: 'mmand_query_readiness_v0_1 . Важливе уточнення: module-validate зараз перевіряє старий packet local_launch_readiness_v0_1.yaml , бо нового packet-а
+    ще немає. Це нормально для Makefile alignment checkpoint. Для фіналу основної задачі треба буде запускати: Bash make module-finish PACKET = coordination/completion_packets/examples/local_operator_command_query_readiness_v0_1.yaml'
+  quote_whitespace_normalized: true
+  context_before: Alignment checkpoint still validates the prior local_launch_readiness packet until the new task packet exists.
+  context_after: null
+  evidence_role:
+  - assistant_boundary
+  - completion_packet
+- evidence_id: EV-OPREG2905-0023
+  speaker: user
+  locator:
+    conversation_turn: 161
+    turn_id: 275505b8-d207-479e-953d-1c209817041a
+    message_id: 275505b8-d207-479e-953d-1c209817041a
+    source_file: Forprint_Operational_Registry_29.05.26.mhtml
+  quote: '_snapshot.yaml | 4 +- 4 files changed, 661 insertions(+), 39 deletions(-) [main a6ca69f] Align Makefile with make-first workflow 4 files changed,
+    661 insertions(+), 39 deletions(-) create mode 100644 coordination/outgoing_prompts/approved/2026-06-19__operational_registry__local_operator_command_query_readiness_v0_1.md
+    Enumerating objects: 18, done. Counting objects: 100% (18/18), done. Delta compression using up to 4 threads Compressing objects: 100% (10/10), done.
+    Writing objects: 100% (11/11), 8.96 KiB | 4.48 MiB/s, done. Total 11 (delta 3'
+  quote_whitespace_normalized: true
+  context_before: User terminal output proves alignment commit on Operational Registry main branch and push to origin/main.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - git
+- evidence_id: EV-OPREG2905-0024
+  speaker: assistant
+  locator:
+    conversation_turn: 162
+    turn_id: 35a8659b-4323-4c0f-aba5-59b2f8673ec2
+    message_id: 3bc28301-a327-410c-a22d-34dac788bb21
+    source_file: Forprint_Operational_Registry_29.05.26.mhtml
+  quote: 're and command-level documentation. 3. Problems discovered during alignment 3.1 Wrong initial outgoing prompt path The first implementation assumed
+    Blueprint outgoing prompts were stored under: coordination/prompts/outgoing/forprint_operational_registry But the actual Blueprint structure is: coordination/outgoing_prompts/forprint_operational_registry/approved/
+    This caused: No outgoing prompt directory found Resolution: The Makefile was updated to use: BLUEPRINT_PROMPTS_ROOT ?= $(BLUEPRINT_ROOT)/coordination/outgoing_prompts
+    BLUEPRINT_ACTIVE_PROMPT_SOURCE_DIR ?= $(BLUE'
+  quote_whitespace_normalized: true
+  context_before: Final alignment report identifies and resolves the wrong outgoing-prompt path.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - alignment
+- evidence_id: EV-OPREG2905-0025
+  speaker: assistant
+  locator:
+    conversation_turn: 162
+    turn_id: 35a8659b-4323-4c0f-aba5-59b2f8673ec2
+    message_id: 3bc28301-a327-410c-a22d-34dac788bb21
+    source_file: Forprint_Operational_Registry_29.05.26.mhtml
+  quote: 'ng_prompts/approved This now matches the actual Blueprint directory layout. 3.2 Prompt search was too broad An intermediate version searched the
+    entire Blueprint coordination/outgoing_prompts tree using module-name patterns. This caused the command to list unrelated .gitkeep , draft, sent, and
+    other-module files. Resolution: The prompt workflow was narrowed to the approved prompt directory for this module only: $(BLUEPRINT_ROOT)/coordination/outgoing_prompts/forprint_operational_registry/approved
+    Now blueprint-prompts-list only lists approved markdown prompts f'
+  quote_whitespace_normalized: true
+  context_before: Final report says broad prompt discovery was narrowed to approved module prompts only.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - alignment
+- evidence_id: EV-OPREG2905-0026
+  speaker: assistant
+  locator:
+    conversation_turn: 162
+    turn_id: 35a8659b-4323-4c0f-aba5-59b2f8673ec2
+    message_id: 3bc28301-a327-410c-a22d-34dac788bb21
+    source_file: Forprint_Operational_Registry_29.05.26.mhtml
+  quote: 'is simpler, safer, and matches the Blueprint prompt protocol more directly. 3.4 Unsafe prompt sync cleanup One intermediate version removed local
+    prompt files before validating that source prompt files existed. When the command later failed, it left the local prompt directory empty, which caused
+    governance validation to fail on: No active prompt files found in coordination/outgoing_prompts/approved Resolution: The final sync logic first verifies
+    that approved Blueprint prompt markdown files exist. Only after that it deletes old local markdown prompt copies and'
+  quote_whitespace_normalized: true
+  context_before: Final report says prompt sync now verifies source files before deleting local copies.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - alignment
+- evidence_id: EV-OPREG2905-0027
+  speaker: assistant
+  locator:
+    conversation_turn: 162
+    turn_id: 35a8659b-4323-4c0f-aba5-59b2f8673ec2
+    message_id: 3bc28301-a327-410c-a22d-34dac788bb21
+    source_file: Forprint_Operational_Registry_29.05.26.mhtml
+  quote: 'ompt-read blueprint-sync module-start module-sync module-validate module-finish report-clean completion-packet-check The Makefile also needed
+    clearer thematic structure and command-level documentation. 3. Problems discovered during alignment 3.1 Wrong initial outgoing prompt path The first
+    implementation assumed Blueprint outgoing prompts were stored under: coordination/prompts/outgoing/forprint_operational_registry But the actual Blueprint
+    structure is: coordination/outgoing_prompts/forprint_operational_registry/approved/ This caused: No outgoin'
+  quote_whitespace_normalized: true
+  context_before: Final report says report-clean safely tolerates missing/untracked reports.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - alignment
+- evidence_id: EV-OPREG2905-0028
+  speaker: assistant
+  locator:
+    conversation_turn: 162
+    turn_id: 35a8659b-4323-4c0f-aba5-59b2f8673ec2
+    message_id: 3bc28301-a327-410c-a22d-34dac788bb21
+    source_file: Forprint_Operational_Registry_29.05.26.mhtml
+  quote: 'ю реалізацією local_operator_command_query_readiness_v0_1 . Підтверджені факти: make module-start пройшов, make module-validate пройшов, pytest
+    — 232 passed , git diff --check чистий, commit a6ca69f запушений. Pasted text Готовий звіт для Blueprint: Operational Registry → Blueprint Make-First
+    Workflow Alignment Report Operational Registry → Blueprint Make-First Workflow Alignment Report Module forprint_operational_registry Checkpoint make_first_workflow_alignment_before_local_operator_command_query_readiness_v0_1
+    Related Blueprint prompt 2026-06-19__o'
+  quote_whitespace_normalized: true
+  context_before: Final alignment gate requires module-start and module-validate before main prompt implementation.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - make_first
+- evidence_id: EV-OPREG2905-0029
+  speaker: assistant
+  locator:
+    conversation_turn: 162
+    turn_id: 35a8659b-4323-4c0f-aba5-59b2f8673ec2
+    message_id: 3bc28301-a327-410c-a22d-34dac788bb21
+    source_file: Forprint_Operational_Registry_29.05.26.mhtml
+  quote: '026-06-19__operational_registry__local_operator_command_query_readiness_v0_1.md Blueprint commit used 88db68d Update Operational Registry readiness
+    prompt for make-first workflow Operational Registry commit a6ca69f Align Makefile with make-first workflow Pushed to: origin/main 1. Why this checkpoint
+    was needed Before starting the main implementation scope: local_operator_command_query_readiness_v0_1 Blueprint required the module to first align with
+    Make Command Standard v0.2 and use a make-first workflow . The explicit rule was: Do not proceed to the main'
+  quote_whitespace_normalized: true
+  context_before: Alignment report binds local snapshots/prompt workflow to Blueprint commit `88db68d`.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - provenance
+- evidence_id: EV-OPREG2905-0030
+  speaker: assistant
+  locator:
+    conversation_turn: 162
+    turn_id: 35a8659b-4323-4c0f-aba5-59b2f8673ec2
+    message_id: 3bc28301-a327-410c-a22d-34dac788bb21
+    source_file: Forprint_Operational_Registry_29.05.26.mhtml
+  quote: 'e with make-first workflow Remote updated: origin/main 8. Boundary confirmation This checkpoint did not implement the main business scope yet.
+    It did not add: production API FastAPI app live CRM integration live Telegram integration live Website integration real 1C sync/write production write
+    automatic posting Accounting payment truth CRM dashboard Telegram runtime UI Calculator final price ownership Library catalog ownership Warehouse stock
+    truth Prepress lifecycle ownership This checkpoint only aligned Makefile workflow, Blueprint prompt visibility, Blueprint snapshot sync, and validation
+    com'
+  quote_whitespace_normalized: true
+  context_before: Make-first alignment is explicitly separated from main operational-command/query implementation scope.
+  context_after: null
+  evidence_role:
+  - assistant_boundary
+  - scope
+- evidence_id: EV-OPREG2905-0031
+  speaker: assistant
+  locator:
+    conversation_turn: 162
+    turn_id: 35a8659b-4323-4c0f-aba5-59b2f8673ec2
+    message_id: 3bc28301-a327-410c-a22d-34dac788bb21
+    source_file: Forprint_Operational_Registry_29.05.26.mhtml
+  quote: 'ts for local/offline validation Finalization for the main prompt must use: make module-finish PACKET=coordination/completion_packets/examples/local_operator_command_query_readiness_v0_1.yaml
+    and the local completion packet automation must generate/update the final completion report. Короткий службовий вступ для Blueprint перед цим звітом:
+    Operational Registry reports completion of the required Make Command Standard v0.2 / make-first workflow alignment gate before starting local_operator_command_query_readiness_v0_1.
+    The module-start and module-validate w'
+  quote_whitespace_normalized: true
+  context_before: Main prompt finalization must use explicit completion-packet identity.
+  context_after: null
+  evidence_role:
+  - assistant_rule
+  - completion_packet
+- evidence_id: EV-OPREG2905-0032
+  speaker: assistant
+  locator:
+    conversation_turn: 162
+    turn_id: 35a8659b-4323-4c0f-aba5-59b2f8673ec2
+    message_id: 3bc28301-a327-410c-a22d-34dac788bb21
+    source_file: Forprint_Operational_Registry_29.05.26.mhtml
+  quote: 'onal Registry commit a6ca69f Align Makefile with make-first workflow Pushed to: origin/main 1. Why this checkpoint was needed Before starting
+    the main implementation scope: local_operator_command_query_readiness_v0_1 Blueprint required the module to first align with Make Command Standard v0.2
+    and use a make-first workflow . The explicit rule was: Do not proceed to the main local operator command/query readiness task until: make module-start
+    make module-validate both work successfully. Therefore, this checkpoint was handled as a separate pre-impl'
+  quote_whitespace_normalized: true
+  context_before: Alignment checkpoint is reported committed/pushed separately before main prompt implementation.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - git
+items:
+- item_id: IT-OPREG2905-0001
+  kind: architecture_constraint
+  title: Operational Registry owns operational truth
+  statement: The module is the canonical source for operational client/order/task/status/event history, not a general-purpose system database.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - operational_registry
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - schemas
+  - code
+  - tests
+  evidence_refs:
+  - EV-OPREG2905-0001
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-OPREG2905-0002
+  kind: architecture_constraint
+  title: Operational Registry must not absorb neighboring domain ownership
+  statement: CRM, Accounting/1C, Library, Gateway, Calculator, Prepress, Warehouse and Logistics retain their own domain responsibilities.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - operational_registry
+  - domain_ownership
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - tests
+  - contracts
+  evidence_refs:
+  - EV-OPREG2905-0002
+  - EV-OPREG2905-0006
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-OPREG2905-0003
+  kind: plan
+  title: Bootstrap validates model/lifecycle/boundaries before production storage
+  statement: v0.1 should use Pydantic-style models and avoid premature production DB/API/integration complexity until Blueprint confirms the domain model.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - operational_registry
+  - bootstrap
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-OPREG2905-0003
+  - EV-OPREG2905-0008
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-OPREG2905-0004
+  kind: architecture_constraint
+  title: Initial storage is abstracted behind a simple repository interface
+  statement: An in-memory repository is sufficient for early validation as long as storage has an explicit interface that can later be replaced.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - operational_registry
+  - storage
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - tests
+  evidence_refs:
+  - EV-OPREG2905-0004
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-OPREG2905-0005
+  kind: workflow
+  title: Order lifecycle uses explicit allowed transitions
+  statement: Operational order state should be governed by tested allowed transitions, including blocked/cancelled handling.
+  dialogue_status: agreed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - operational_registry
+  - workflow
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - tests
+  - docs
+  evidence_refs:
+  - EV-OPREG2905-0005
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-OPREG2905-0006
+  kind: architecture_constraint
+  title: Accounting/1C truth is distinct from operational truth
+  statement: Operational Registry may reference operational payment progress, but Accounting owns accounting/1C truth; status naming must not imply accounting
+    authority.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - operational_registry
+  - accounting_registry
+  implementation_expectation: required
+  verification_targets:
+  - schemas
+  - docs
+  - tests
+  evidence_refs:
+  - EV-OPREG2905-0006
+  - EV-OPREG2905-0009
+  - EV-OPREG2905-0012
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-OPREG2905-0007
+  kind: process_rule
+  title: Boundary tests must fail on domain ownership creep
+  statement: Tests should explicitly detect accidental addition of invoice/payment/catalog/prepress/file/warehouse/gateway ownership.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - operational_registry
+  - quality
+  implementation_expectation: required
+  verification_targets:
+  - tests
+  - docs
+  evidence_refs:
+  - EV-OPREG2905-0007
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-OPREG2905-0008
+  kind: architecture_constraint
+  title: Operational data foundation distinguishes master data facts events projections and external references
+  statement: Historical repository evidence shows a policy surface for master data, operational facts, event log, reporting projections, external references,
+    raw/normalized values, entity cards and 1C adapter boundaries.
+  dialogue_status: accepted
+  importance: high
+  confidence: medium
+  owner_or_domain:
+  - operational_registry
+  - data_foundation
+  implementation_expectation: unverifiable
+  verification_targets:
+  - docs
+  - schemas
+  - code
+  evidence_refs:
+  - EV-OPREG2905-0010
+  - EV-OPREG2905-0011
+  - EV-OPREG2905-0012
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Visible filenames prove the policy surface existed, but attachment bodies/current semantics are not preserved.
+- item_id: IT-OPREG2905-0009
+  kind: workflow
+  title: Operational Registry consumes Blueprint governance/module policy
+  statement: Owner directs the module to inspect Blueprint checkup, directives, global policy and its module policy before proceeding.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - operational_registry
+  - blueprint_coordination
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - scripts
+  - config
+  evidence_refs:
+  - EV-OPREG2905-0013
+  - EV-OPREG2905-0014
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-OPREG2905-0010
+  kind: process_rule
+  title: Snapshot and completion automation must be idempotent
+  statement: Repeated sync/completion checks should not create Git diffs solely due to timestamps.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - operational_registry
+  - automation
+  implementation_expectation: required
+  verification_targets:
+  - scripts
+  - tests
+  - reports
+  evidence_refs:
+  - EV-OPREG2905-0015
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-OPREG2905-0011
+  kind: process_rule
+  title: Approved prompts come from Blueprint module-specific outgoing_prompts directory
+  statement: Operational Registry prompt sync must use the actual Blueprint path `coordination/outgoing_prompts/forprint_operational_registry/approved`.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - operational_registry
+  - prompt_lifecycle
+  implementation_expectation: required
+  verification_targets:
+  - Makefile
+  - scripts
+  - tests
+  evidence_refs:
+  - EV-OPREG2905-0016
+  - EV-OPREG2905-0017
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-OPREG2905-0012
+  kind: process_rule
+  title: Make `check` is read-only while lint-fix is separate
+  statement: The corrected Make surface runs lint and tests under `check`; mutation is exposed separately as `lint-fix`.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - operational_registry
+  - make_command_surface
+  implementation_expectation: required
+  verification_targets:
+  - Makefile
+  - tests
+  evidence_refs:
+  - EV-OPREG2905-0018
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-OPREG2905-0013
+  kind: risk
+  title: Module-start historically performs a Blueprint pull
+  statement: The visible aligned Makefile invokes `blueprint-pull` as part of startup, creating a foreign-checkout mutation/read-freshness question that
+    later project governance should resolve.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - operational_registry
+  - cross_repo
+  implementation_expectation: required
+  verification_targets:
+  - Makefile
+  - docs
+  - tests
+  evidence_refs:
+  - EV-OPREG2905-0019
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Current Blueprint foreign-repository policy may supersede this historical behavior.
+- item_id: IT-OPREG2905-0014
+  kind: process_rule
+  title: Generated report cleanup is non-failing and bounded
+  statement: Report cleanup should restore tracked generated report files if present and safely do nothing when absent/untracked.
+  dialogue_status: accepted
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - operational_registry
+  - reporting
+  implementation_expectation: required
+  verification_targets:
+  - Makefile
+  - tests
+  evidence_refs:
+  - EV-OPREG2905-0020
+  - EV-OPREG2905-0027
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-OPREG2905-0015
+  kind: implementation_claim
+  title: Historical make-first alignment gate reports 232 passing tests
+  statement: After Makefile alignment, module-start/module-validate/report-clean/diff-check are reported green and pytest reports 232 passing tests.
+  dialogue_status: accepted
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - operational_registry
+  - validation
+  implementation_expectation: unverifiable
+  verification_targets:
+  - tests
+  - reports
+  - git
+  evidence_refs:
+  - EV-OPREG2905-0021
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical assistant report only.
+- item_id: IT-OPREG2905-0016
+  kind: process_rule
+  title: Alignment checkpoint is separate from main business prompt implementation
+  statement: Make-first governance alignment is committed as its own checkpoint before implementing `local_operator_command_query_readiness_v0_1`.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - operational_registry
+  - roadmap
+  implementation_expectation: required
+  verification_targets:
+  - git
+  - reports
+  - docs
+  evidence_refs:
+  - EV-OPREG2905-0028
+  - EV-OPREG2905-0030
+  - EV-OPREG2905-0032
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-OPREG2905-0017
+  kind: process_rule
+  title: Prompt discovery is narrow and approved-only
+  statement: Prompt search must not scan broad trees/drafts/sent/other-module files; it should discover only approved markdown prompts for Operational Registry.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - operational_registry
+  - prompt_lifecycle
+  implementation_expectation: required
+  verification_targets:
+  - Makefile
+  - scripts
+  - tests
+  evidence_refs:
+  - EV-OPREG2905-0025
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-OPREG2905-0018
+  kind: process_rule
+  title: Prompt sync validates source before replacing local state
+  statement: Local active prompt copies must not be deleted until approved source prompts are verified to exist.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - operational_registry
+  - prompt_lifecycle
+  implementation_expectation: required
+  verification_targets:
+  - Makefile
+  - tests
+  evidence_refs:
+  - EV-OPREG2905-0026
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-OPREG2905-0019
+  kind: implementation_claim
+  title: Historical alignment commit `a6ca69f` is pushed to Operational Registry origin/main
+  statement: User terminal output shows the Makefile/snapshot/approved-prompt alignment commit pushed with HEAD and origin/main at `a6ca69f`.
+  dialogue_status: accepted
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - operational_registry
+  - git_workflow
+  implementation_expectation: unverifiable
+  verification_targets:
+  - git
+  evidence_refs:
+  - EV-OPREG2905-0023
+  - EV-OPREG2905-0032
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical terminal output only.
+- item_id: IT-OPREG2905-0020
+  kind: process_rule
+  title: Blueprint snapshots and prompts are provenance-bound to an observed Blueprint commit
+  statement: The alignment report records Blueprint commit `88db68d` as the source for updated instruction/standards snapshots and active prompt visibility.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - operational_registry
+  - provenance
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - reports
+  - tests
+  evidence_refs:
+  - EV-OPREG2905-0029
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-OPREG2905-0021
+  kind: process_rule
+  title: Completion finalization requires explicit packet identity
+  statement: Main task finalization must call module-finish with the specific completion packet path for the task, rather than relying on an implicit/old
+    packet.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - operational_registry
+  - completion_packet
+  implementation_expectation: required
+  verification_targets:
+  - Makefile
+  - scripts
+  - tests
+  evidence_refs:
+  - EV-OPREG2905-0022
+  - EV-OPREG2905-0031
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-OPREG2905-0022
+  kind: risk
+  title: Filename 29.05 is only a source/start label
+  statement: The dialogue visibly contains June 8 data-foundation files and a June 19 Blueprint prompt/alignment checkpoint, so the filename is not the
+    session end date.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - provenance
+  - chronology
+  implementation_expectation: not_required
+  verification_targets:
+  - indexes
+  evidence_refs:
+  - EV-OPREG2905-0010
+  - EV-OPREG2905-0016
+  - EV-OPREG2905-0029
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-OPREG2905-0023
+  kind: architecture_constraint
+  title: Operational Registry source is module history not Blueprint authority
+  statement: This dialogue provides module-side requirements and implementation evidence; current Blueprint release/architecture/acceptance authority remains
+    superior on conflicts.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - authority
+  - operational_registry
+  implementation_expectation: required
+  verification_targets:
+  - indexes
+  - docs
+  evidence_refs:
+  - EV-OPREG2905-0014
+  - EV-OPREG2905-0029
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-OPREG2905-0024
+  kind: open_question
+  title: Operational payment state naming must avoid accounting-authority ambiguity
+  statement: The bootstrap explicitly questions whether `paid` should instead be a reference-style status such as `payment_reference_confirmed`.
+  dialogue_status: discussed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - operational_registry
+  - accounting_registry
+  implementation_expectation: required
+  verification_targets:
+  - schemas
+  - docs
+  evidence_refs:
+  - EV-OPREG2905-0009
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-OPREG2905-0025
+  kind: architecture_constraint
+  title: CRM coordinates/displays but Operational Registry owns operational records
+  statement: CRM can coordinate and present client/order operations, but canonical operational records/history belong to Operational Registry.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - operational_registry
+  - crm
+  implementation_expectation: required
+  verification_targets:
+  - contracts
+  - docs
+  evidence_refs:
+  - EV-OPREG2905-0006
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-OPREG2905-0026
+  kind: architecture_constraint
+  title: Library catalogs/contracts remain outside Operational Registry
+  statement: Library owns catalogs/contracts/canonical definitions, preventing Operational Registry from becoming a second reference-data authority.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - operational_registry
+  - library
+  implementation_expectation: required
+  verification_targets:
+  - contracts
+  - docs
+  evidence_refs:
+  - EV-OPREG2905-0006
+  - EV-OPREG2905-0007
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-OPREG2905-0027
+  kind: architecture_constraint
+  title: Gateway routes runtime commands rather than owning operational truth
+  statement: The Gateway is a runtime routing/validation boundary; the Operational Registry remains the operational truth owner.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - operational_registry
+  - gateway
+  implementation_expectation: required
+  verification_targets:
+  - contracts
+  - docs
+  evidence_refs:
+  - EV-OPREG2905-0006
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-OPREG2905-0028
+  kind: process_rule
+  title: Make-first startup must succeed before main task execution
+  statement: The alignment gate explicitly requires `make module-start` and `make module-validate` to pass before the main readiness prompt proceeds.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - operational_registry
+  - make_command_surface
+  implementation_expectation: required
+  verification_targets:
+  - Makefile
+  - tests
+  - operations
+  evidence_refs:
+  - EV-OPREG2905-0028
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-OPREG2905-0029
+  kind: risk
+  title: Current Blueprint prompt-directory topology may differ from this historical checkpoint
+  statement: The prompt-path correction is authoritative for the observed June checkpoint only; later Blueprint prompt lifecycle may have evolved.
+  dialogue_status: accepted
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - operational_registry
+  - prompt_lifecycle
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - docs
+  evidence_refs:
+  - EV-OPREG2905-0016
+  - EV-OPREG2905-0024
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Verify current release/prompt resolver before using historical paths.
+- item_id: IT-OPREG2905-0030
+  kind: workflow
+  title: Alignment findings are reported back to Blueprint as a separate checkpoint
+  statement: Owner requests a detailed problem/fix report for Blueprint, and the assistant produces a dedicated Make-First Workflow Alignment Report.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - operational_registry
+  - blueprint_coordination
+  implementation_expectation: required
+  verification_targets:
+  - reports
+  - coordination
+  evidence_refs:
+  - EV-OPREG2905-0032
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+relations:
+- relation_id: REL-OPREG2905-0001
+  from_item: IT-OPREG2905-0002
+  type: constrains
+  to_item: IT-OPREG2905-0001
+  evidence_refs:
+  - EV-OPREG2905-0002
+  - EV-OPREG2905-0006
+  confidence: high
+- relation_id: REL-OPREG2905-0002
+  from_item: IT-OPREG2905-0006
+  type: refines
+  to_item: IT-OPREG2905-0024
+  evidence_refs:
+  - EV-OPREG2905-0009
+  confidence: high
+- relation_id: REL-OPREG2905-0003
+  from_item: IT-OPREG2905-0009
+  type: enables
+  to_item: IT-OPREG2905-0011
+  evidence_refs:
+  - EV-OPREG2905-0013
+  - EV-OPREG2905-0016
+  confidence: medium
+- relation_id: REL-OPREG2905-0004
+  from_item: IT-OPREG2905-0011
+  type: refines
+  to_item: IT-OPREG2905-0017
+  evidence_refs:
+  - EV-OPREG2905-0024
+  - EV-OPREG2905-0025
+  confidence: high
+- relation_id: REL-OPREG2905-0005
+  from_item: IT-OPREG2905-0017
+  type: enables
+  to_item: IT-OPREG2905-0018
+  evidence_refs:
+  - EV-OPREG2905-0025
+  - EV-OPREG2905-0026
+  confidence: high
+- relation_id: REL-OPREG2905-0006
+  from_item: IT-OPREG2905-0015
+  type: enables
+  to_item: IT-OPREG2905-0016
+  evidence_refs:
+  - EV-OPREG2905-0021
+  - EV-OPREG2905-0028
+  confidence: high
+- relation_id: REL-OPREG2905-0007
+  from_item: IT-OPREG2905-0016
+  type: enables
+  to_item: IT-OPREG2905-0019
+  evidence_refs:
+  - EV-OPREG2905-0023
+  - EV-OPREG2905-0032
+  confidence: high
+- relation_id: REL-OPREG2905-0008
+  from_item: IT-OPREG2905-0020
+  type: refines
+  to_item: IT-OPREG2905-0010
+  evidence_refs:
+  - EV-OPREG2905-0015
+  - EV-OPREG2905-0029
+  confidence: medium
+- relation_id: REL-OPREG2905-0009
+  from_item: IT-OPREG2905-0021
+  type: constrains
+  to_item: IT-OPREG2905-0016
+  evidence_refs:
+  - EV-OPREG2905-0022
+  - EV-OPREG2905-0031
+  confidence: high
+- relation_id: REL-OPREG2905-0010
+  from_item: IT-OPREG2905-0025
+  type: refines
+  to_item: IT-OPREG2905-0001
+  evidence_refs:
+  - EV-OPREG2905-0006
+  confidence: high
+anomalies:
+- anomaly_id: ANOM-OPREG2905-0001
+  type: new_unique_cross_module_source
+  description: No message IDs overlap any prior loaded source; generic placeholder text is the only superficial textual overlap.
+  item_refs: []
+  evidence_refs: []
+  severity: normal
+  confidence: high
+  requires_followup: false
+- anomaly_id: ANOM-OPREG2905-0002
+  type: attachment_heavy_partial_capture
+  description: 44 visible message blocks survive, but only four assistant messages contain substantial synthesized state; most intermediate work is represented
+    by pasted attachment placeholders.
+  item_refs:
+  - IT-OPREG2905-0008
+  - IT-OPREG2905-0022
+  evidence_refs: []
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-OPREG2905-0003
+  type: long_span_filename_label
+  description: Filename says 29.05.26, while visible repository files are dated June 8 and active Blueprint prompt/alignment is dated June 19.
+  item_refs:
+  - IT-OPREG2905-0022
+  evidence_refs:
+  - EV-OPREG2905-0010
+  - EV-OPREG2905-0016
+  severity: high
+  confidence: high
+  requires_followup: false
+- anomaly_id: ANOM-OPREG2905-0004
+  type: accounting_vs_operational_truth_boundary
+  description: Bootstrap intentionally separates Operational Registry truth from Accounting/1C truth, but later Blueprint history records ambiguity around
+    Accounting vs Operational Registry naming/ownership. Current authority must reconcile the boundary explicitly.
+  item_refs:
+  - IT-OPREG2905-0006
+  - IT-OPREG2905-0024
+  evidence_refs:
+  - EV-OPREG2905-0006
+  - EV-OPREG2905-0009
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-OPREG2905-0005
+  type: foreign_blueprint_pull_policy
+  description: Historical module-start performs `git pull --ff-only` in Blueprint. Later project policy increasingly separates module writes from Blueprint/foreign
+    repos; current allowed freshness mechanism must be verified.
+  item_refs:
+  - IT-OPREG2905-0013
+  evidence_refs:
+  - EV-OPREG2905-0019
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-OPREG2905-0006
+  type: stale_packet_during_alignment_checkpoint
+  description: Historical module-validate temporarily checks the old local_launch_readiness packet because the new task-specific packet does not yet exist;
+    this is acceptable only for the isolated alignment checkpoint.
+  item_refs:
+  - IT-OPREG2905-0016
+  - IT-OPREG2905-0021
+  evidence_refs:
+  - EV-OPREG2905-0022
+  - EV-OPREG2905-0031
+  severity: normal
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-OPREG2905-0007
+  type: prompt_path_drift
+  description: Initial outgoing prompt path was wrong and discovery too broad; actual observed June structure used module-specific approved outgoing prompts.
+  item_refs:
+  - IT-OPREG2905-0011
+  - IT-OPREG2905-0017
+  - IT-OPREG2905-0029
+  evidence_refs:
+  - EV-OPREG2905-0016
+  - EV-OPREG2905-0024
+  - EV-OPREG2905-0025
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-OPREG2905-0008
+  type: timestamp_only_churn_risk
+  description: Blueprint explicitly requests idempotent snapshot/completion automation so repeated checks do not dirty Git solely from timestamps.
+  item_refs:
+  - IT-OPREG2905-0010
+  evidence_refs:
+  - EV-OPREG2905-0015
+  severity: high
+  confidence: high
+  requires_followup: true
+open_loops:
+- loop_id: LOOP-OPREG2905-0001
+  description: Verify current Operational Registry vs Accounting Registry/1C ownership boundary.
+  item_refs:
+  - IT-OPREG2905-0001
+  - IT-OPREG2905-0002
+  - IT-OPREG2905-0006
+  - IT-OPREG2905-0024
+  last_known_state: Historical bootstrap says Operational Registry owns operational truth while Accounting owns accounting/1C truth; later Blueprint history
+    records naming/ownership ambiguity.
+  recommended_verification: Resolve current release/ADRs/module inventory and assign payment/accounting/client/order facts to one authoritative owner each.
+- loop_id: LOOP-OPREG2905-0002
+  description: Verify current data-foundation policy implementation and whether policy docs remain authoritative.
+  item_refs:
+  - IT-OPREG2905-0008
+  last_known_state: Historical files include master data, operational fact, event log, projections, external refs, raw/normalized values, 1C boundary and
+    entity cards.
+  recommended_verification: Audit live schemas/code/docs and classify each historical policy as current, superseded, or archival.
+- loop_id: LOOP-OPREG2905-0003
+  description: Verify current make-first prompt discovery/sync topology and foreign Blueprint freshness mechanism.
+  item_refs:
+  - IT-OPREG2905-0011
+  - IT-OPREG2905-0013
+  - IT-OPREG2905-0017
+  - IT-OPREG2905-0018
+  - IT-OPREG2905-0029
+  last_known_state: Historical June alignment uses outgoing_prompts/<module>/approved and Blueprint pull.
+  recommended_verification: Resolve current prompt resolver/module-start policy before using historical paths or pull behavior.
+- loop_id: LOOP-OPREG2905-0004
+  description: Verify snapshot and completion automation is idempotent with no timestamp-only churn.
+  item_refs:
+  - IT-OPREG2905-0010
+  last_known_state: Explicit Blueprint clarification requires this behavior.
+  recommended_verification: Run repeated current sync/completion generation and compare hashes/git diff.
+- loop_id: LOOP-OPREG2905-0005
+  description: Verify `make check` remains non-mutating and alignment gate still composes correct validators.
+  item_refs:
+  - IT-OPREG2905-0012
+  - IT-OPREG2905-0015
+  - IT-OPREG2905-0028
+  last_known_state: 'Historical corrected Makefile uses `check: lint test`; alignment reports 232 passed.'
+  recommended_verification: Inspect current Makefile and controlled mutation tests.
+- loop_id: LOOP-OPREG2905-0006
+  description: Verify task-specific completion packet replaced the temporary old packet and main readiness task reached proper completion/review state.
+  item_refs:
+  - IT-OPREG2905-0016
+  - IT-OPREG2905-0021
+  last_known_state: Alignment checkpoint intentionally used old packet; main task packet was only a future target.
+  recommended_verification: Trace current/history for local_operator_command_query_readiness_v0_1 completion packet and Blueprint review/acceptance.
+- loop_id: LOOP-OPREG2905-0007
+  description: Verify historical alignment checkpoint `a6ca69f` and its Blueprint report were ingested without conflating alignment with business implementation.
+  item_refs:
+  - IT-OPREG2905-0019
+  - IT-OPREG2905-0030
+  last_known_state: Commit pushed; detailed alignment report prepared for Blueprint.
+  recommended_verification: Check Git ancestry and Blueprint incoming/review records if historical provenance matters.
+implementation_audit_ref: implementation_audit.stub.yaml

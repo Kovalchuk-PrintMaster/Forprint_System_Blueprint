@@ -1,0 +1,218 @@
+schema_version: forprint_dftb_verification_queue_v0_1
+bundle_id: DFTB-crm-source-label-2026-05-16
+authority_class: module_history_with_blueprint_genesis_and_alignment_noncurrent
+queue:
+- item_id: IT-CRM1605-0001
+  title: Prepress automation should use one operator surface for multi-app workflows
+  importance: high
+  dialogue_status: agreed
+  evidence_refs:
+  - EV-CRM1605-0001
+  - EV-CRM1605-0002
+  current_audit_status: not_audited
+- item_id: IT-CRM1605-0002
+  title: Prepress UI and automation engine should be separated
+  importance: high
+  dialogue_status: discussed
+  evidence_refs:
+  - EV-CRM1605-0003
+  - EV-CRM1605-0004
+  - EV-CRM1605-0005
+  current_audit_status: not_audited
+- item_id: IT-CRM1605-0003
+  title: Prepress workflows are declarative presets
+  importance: high
+  dialogue_status: discussed
+  evidence_refs:
+  - EV-CRM1605-0006
+  current_audit_status: not_audited
+- item_id: IT-CRM1605-0004
+  title: Development governance and production operations are separate control planes
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-CRM1605-0007
+  - EV-CRM1605-0008
+  current_audit_status: not_audited
+- item_id: IT-CRM1605-0005
+  title: ForPrint Project Inspector replaces the early Project Control naming for conformance verification
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-CRM1605-0012
+  - EV-CRM1605-0013
+  current_audit_status: not_audited
+- item_id: IT-CRM1605-0006
+  title: Inspector must not own system architecture design
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-CRM1605-0013
+  - EV-CRM1605-0014
+  current_audit_status: not_audited
+- item_id: IT-CRM1605-0007
+  title: System architecture needs machine-readable and human-readable representations
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-CRM1605-0015
+  current_audit_status: not_audited
+- item_id: IT-CRM1605-0008
+  title: System architecture must be living and impact-aware
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-CRM1605-0016
+  - EV-CRM1605-0017
+  current_audit_status: not_audited
+- item_id: IT-CRM1605-0009
+  title: ForPrint System Blueprint is the separate architecture/ideological-control layer
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-CRM1605-0018
+  - EV-CRM1605-0019
+  current_audit_status: not_audited
+- item_id: IT-CRM1605-0010
+  title: 'Blueprint and Inspector are distinct: plan vs conformance review'
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-CRM1605-0022
+  current_audit_status: not_audited
+- item_id: IT-CRM1605-0011
+  title: Blueprint can generate module guides/prompts from architecture truth
+  importance: high
+  dialogue_status: discussed
+  evidence_refs:
+  - EV-CRM1605-0021
+  current_audit_status: not_audited
+- item_id: IT-CRM1605-0012
+  title: Canonical data-object ownership and data flows are explicit architecture surfaces
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-CRM1605-0019
+  - EV-CRM1605-0023
+  current_audit_status: not_audited
+- item_id: IT-CRM1605-0013
+  title: Early Blueprint example temporarily assigns client/order ownership to CRM
+  importance: critical
+  dialogue_status: superseded
+  evidence_refs:
+  - EV-CRM1605-0024
+  - EV-CRM1605-0027
+  current_audit_status: not_audited
+- item_id: IT-CRM1605-0014
+  title: CRM is business orchestration and human-facing management layer
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-CRM1605-0025
+  current_audit_status: not_audited
+- item_id: IT-CRM1605-0015
+  title: CRM must not become universal canonical/physical data owner
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-CRM1605-0026
+  - EV-CRM1605-0032
+  current_audit_status: not_audited
+- item_id: IT-CRM1605-0016
+  title: Operational Registry owns canonical clients/orders/tasks/operational statuses
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-CRM1605-0027
+  current_audit_status: not_audited
+- item_id: IT-CRM1605-0017
+  title: Accounting Registry owns invoices/payments/1C accounting truth
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-CRM1605-0028
+  current_audit_status: not_audited
+- item_id: IT-CRM1605-0018
+  title: Library owns canonical catalogs/templates/naming references
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-CRM1605-0029
+  current_audit_status: not_audited
+- item_id: IT-CRM1605-0019
+  title: Project Inspector owns architecture-health checking
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-CRM1605-0030
+  - EV-CRM1605-0033
+  current_audit_status: not_audited
+- item_id: IT-CRM1605-0020
+  title: Integration Gateway owns command routing/execution delivery
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-CRM1605-0031
+  - EV-CRM1605-0035
+  current_audit_status: not_audited
+- item_id: IT-CRM1605-0021
+  title: CRM-owned state is limited to human/UI coordination and noncanonical projections
+  importance: high
+  dialogue_status: discussed
+  evidence_refs:
+  - EV-CRM1605-0034
+  current_audit_status: not_audited
+- item_id: IT-CRM1605-0022
+  title: CRM monolith overreach must be actively prevented
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-CRM1605-0032
+  - EV-CRM1605-0033
+  current_audit_status: not_audited
+- item_id: IT-CRM1605-0023
+  title: Initial CRM contracts should separate snapshots commands and results
+  importance: high
+  dialogue_status: discussed
+  evidence_refs:
+  - EV-CRM1605-0035
+  current_audit_status: not_audited
+- item_id: IT-CRM1605-0024
+  title: CRM implementation should start as dashboard/reporting/workflow-command interface
+  importance: high
+  dialogue_status: discussed
+  evidence_refs:
+  - EV-CRM1605-0036
+  current_audit_status: not_audited
+- item_id: IT-CRM1605-0025
+  title: Exact CRM/Operational Registry order-creation boundary remains open
+  importance: critical
+  dialogue_status: unclear
+  evidence_refs:
+  - EV-CRM1605-0037
+  current_audit_status: not_audited
+- item_id: IT-CRM1605-0026
+  title: CRM is a consumer of architecture-health evidence, not a source of architecture truth
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-CRM1605-0014
+  - EV-CRM1605-0030
+  - EV-CRM1605-0033
+  current_audit_status: not_audited
+- item_id: IT-CRM1605-0027
+  title: Early Project Control Plane naming should not be conflated with later Strategic Control Plane
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-CRM1605-0009
+  - EV-CRM1605-0012
+  current_audit_status: not_audited
+- item_id: IT-CRM1605-0028
+  title: This CRM source is cross-module history with embedded Blueprint alignment, not current Blueprint authority
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-CRM1605-0025
+  - EV-CRM1605-0037
+  current_audit_status: not_audited

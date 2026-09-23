@@ -1,0 +1,49 @@
+schema_version: forprint_telegram_human_talk_template_contract_candidate_v0_1
+candidate_id: telegram_human_talk_template_contract
+status: RECONCILE_BEFORE_IMPLEMENTATION
+canonical_roadmap_step: false
+candidate_owner: telegram_bot
+reuse_targets:
+- telegram_bot_personalized_communication_orchestration_v0_1
+- telegram_bot_communication_intent_contract_v0_1
+related_existing_candidates:
+- coordination/internal_work/blueprint/evening_reviews/2026-10-07_filename_label/DFTB_telegram_bot_data_ingest_v0_1/18_dialogue_corpus_ingest_governance_candidate_v0_1.yaml
+- coordination/internal_work/blueprint/evening_reviews/2025-10-12_internal_anchor/DFTB_telegram_bot_behavior_model_v0_1/18_behavior_and_ml_quality_governance_candidate_v0_1.yaml
+candidate_contract:
+  template_keys:
+  - intent_id
+  - style_id
+  - sentiment_id
+  - template_text
+  - priority
+  - language
+  historical_languages:
+  - uk
+  - ru
+  - en
+  historical_priority_range: 0..10
+  template_quality:
+  - short_1_to_2_sentences
+  - natural_human_rendering
+  - style_and_sentiment_consistency
+  - emoji_only_when_appropriate
+  - avoid_verbatim_repetition
+  taxonomy_rule: Generated rows may reference only current canonical active lookup IDs/labels. Generator output
+    cannot silently expand taxonomy.
+  import_rule: Resolve current live schema from authoritative DB/repo source, compare against known-good import
+    shape, validate encoding/header/row shape and run a small smoke import before bulk import.
+reuse_first_checks_before_promotion:
+- current telegram_bot DB/schema migrations and Supabase contract
+- current intent/style/sentiment lookup ownership
+- current template-selection/rendering implementation
+- remaining Telegram historical sources
+- current personalized communication orchestration roadmap implementation state
+non_goals:
+- restore historical Mistral-7B-Instruct as mandatory model
+- freeze historical 10-intent/4-style/3-sentiment values without live schema audit
+- accept assistant-invented taxonomy labels
+- treat absent historical CSV bodies as verified datasets
+- create a duplicate personalized-communication roadmap capability
+- mutate Telegram runtime from this planning intake
+promotion_gate: After remaining Telegram sources and live implementation audit, EXTEND an existing communication
+  roadmap step, add a substep, or close as already implemented; do not create a duplicate top-level capability.

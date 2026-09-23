@@ -1,0 +1,27 @@
+schema_version: forprint_reconcile_before_implementation_candidate_v0_1
+candidate_id: library_repository_governance_reconciliation_20260705
+status: OPEN_RECONCILE_BEFORE_IMPLEMENTATION
+owner_module: forprint_library
+disposition: ADAPT_EXISTING_PROJECT_GOVERNANCE_NOT_NEW_SUBSYSTEM
+authority: candidate_not_roadmap_or_execution_authority
+source_open_loops:
+  - verify_live_make_check_is_read_only
+  - verify_blueprint_reference_access_does_not_cross_foreign_write_boundary
+  - verify_repo_scanners_prune_dot_git_and_virtualenvs
+  - verify_completion_packet_validator_uses_explicit_packet_identity_and_idempotency
+  - verify_thematic_one_level_structure_rule_is_durably_represented
+  - verify_check_report_semantic_deduplication_without_evidence_loss
+current_reconciliation:
+  read_only_check_policy: REUSE_CURRENT
+  large_script_file_delivery_policy: REUSE_CURRENT
+  foreign_repository_mutation_policy: REUSE_CURRENT
+  uncertainty_escalation_policy: REUSE_CURRENT
+  repository_structure_rule: OWNER_INTENT_CAPTURED_REQUIRES_CURRENT_LIBRARY_REPO_AUDIT
+  report_dedup_rule: OWNER_INTENT_CAPTURED_REQUIRES_CURRENT_LIBRARY_REPORT_AUDIT
+verification_required_before_promotion:
+  - inspect current Library Makefile and supported operator command map
+  - inspect current scanners/check-report generation against actual repository layout
+  - inspect current completion packet validator and idempotency tests
+  - classify any remaining delta as REUSE EXTEND ADAPT REPLACE or NEW
+roadmap_mutation: none
+implementation_authority: none

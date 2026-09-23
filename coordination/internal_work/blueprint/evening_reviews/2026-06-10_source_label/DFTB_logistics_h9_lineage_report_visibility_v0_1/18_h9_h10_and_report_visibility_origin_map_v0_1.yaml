@@ -1,0 +1,41 @@
+schema_version: forprint_logistics_h9_h10_and_report_visibility_origin_map_v0_1
+purpose: preserve module-history provenance while current Blueprint authority remains canonical
+
+report_visibility_origin:
+  source_role: direct_owner_intent
+  owner_requirement:
+    - full_visual_table
+    - each_named_check_has_immediate_result
+    - green_for_pass
+    - yellow_for_warning_or_non_global_problem
+    - red_for_failure
+  normalized_intent_id: HI-FP-LOGISTICS-REPORT-VISIBILITY-20260610-001
+  current_mapping:
+    roadmap: BP-H10-UNIFIED-REPORTING
+    existing_machine_reporting_intent: HI-FP-U129B-20260905-005
+    relationship: human_projection_refinement_not_machine_envelope_replacement
+
+h9_lineage:
+  historical_module_evidence:
+    implementation_commit: 4a3a8cf3d2809c3a7f49268fa62334ed24b5fa90
+    publication_seal: 96284d829bb5cd564f44c51bdbe681f9d26cae
+  current_blueprint_evidence:
+    acceptance_commit: 5bcf99cfb29f83a6ee999c239dd33e999988e9cf
+    state: ACCEPTED_PUBLISHED_CLOSED
+  current_phase:
+    id: H10
+    logistics_role: sole_external_module_automation_pilot
+    expansion_requires_separate_reviewed_decision: true
+
+historical_module_guidance_not_promoted_by_this_intake:
+  - recursive_seal_sha_rule_as_project_wide_policy
+  - old_blueprint_checkout_freshness_values
+  - old_prompt_paths_as_current_topology
+  - assistant_reported_h9_status_as_authority_over_current_blueprint
+  - live_provider_write
+  - h10_widening
+
+authority_rule:
+  historical_module_source: provenance_and_owner_intent
+  current_logistics_roadmap: current_module_planning_authority
+  current_blueprint_release_and_continuity: h9_h10_execution_authority

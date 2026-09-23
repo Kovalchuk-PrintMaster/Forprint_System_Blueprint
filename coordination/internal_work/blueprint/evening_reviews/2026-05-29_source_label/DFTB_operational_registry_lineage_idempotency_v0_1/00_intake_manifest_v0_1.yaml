@@ -1,0 +1,45 @@
+schema_version: forprint_operational_registry_lineage_idempotency_intake_manifest_v0_1
+source_identity:
+  source_label: '2026-05-29'
+  visible_internal_date_max: '2026-06-19'
+  filename_is_exact_conversation_date: false
+  primary_file: Forprint_Operational_Registry_29.05.26.mhtml
+  primary_sha256: 76cc1ad66510dfee633b2fc0bfa79bdf5734f31c23380babaef4ba6204720f07
+  dftb_file: DFTB_operational-registry-source-label-2026-05-29.zip
+  dftb_sha256: 3f16f51a88bcafd1b08c72a64a17d2b4e0456405cbcb3493f7a37598a17c2e9a
+  master_memory_v2_0_sha256: 0aa951e3d845a20faa2424ccbd79677204a649110d2e01925bd992bb9cd4689d
+  master_memory_preferred: v3.7
+source_quality:
+  classification: UNIQUE_CROSS_MODULE_OPERATIONAL_REGISTRY_HISTORY_ATTACHMENT_HEAVY
+  primary_message_blocks: 44
+  message_roles: user_40_assistant_4
+  visible_transcript_sections: 44
+  attachment_only_gaps: 35
+  authority_class: operational_registry_module_history_with_blueprint_governance_input
+master_memory_verification:
+  expanded_bundle_byte_identical: true
+  expanded_bundle_files_verified: 16
+  nested_dftb_zip_byte_identical: true
+  master_memory_reingested: false
+current_reconciliation:
+  historical_module_id: forprint_operational_registry
+  current_module_id: forprint_operations_control_registry
+  identity_migration: current_blueprint_already_canonical
+  operational_truth_boundary: REUSE_CURRENT_STRONGER
+  current_forensic_inventory_gate: REUSE_EXISTING
+  current_canonical_roadmap_missing_gate: REUSE_EXISTING
+  make_check_read_only: REUSE_EXISTING_HI_FP_SYSTEM_BLUEPRINT_006
+  historical_blueprint_pull: not_current_authority
+  historical_prompt_path: not_current_authority
+intake_delta:
+  human_intents_appended: 1
+  cross_project_human_intent: generated_coordination_artifact_semantic_idempotency
+  open_reconcile_before_implementation_candidates: 1
+  canonical_roadmap_mutation: none
+  execution_authority_mutation: none
+  lifecycle_mutation: none
+  commit_push_merge_performed: false
+artifacts:
+  reconciliation: 17_portfolio_reconciliation_20260923_v0_1.yaml
+  identity_lineage: 18_operational_to_operations_control_registry_lineage_v0_1.yaml
+  idempotency_candidate: 19_generated_coordination_artifact_idempotency_candidate_v0_1.yaml

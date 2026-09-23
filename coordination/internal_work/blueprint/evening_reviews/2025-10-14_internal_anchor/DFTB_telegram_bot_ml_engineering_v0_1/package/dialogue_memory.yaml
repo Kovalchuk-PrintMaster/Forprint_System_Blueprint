@@ -1,0 +1,1589 @@
+schema_version: forprint_dftb_dialogue_memory_v0_1
+bundle_id: DFTB-telegram-bot-ml-engineering-filename-label-2026-10-14
+source:
+  source_id: SRC-telegram-bot-ml-engineering-filename-label-2026-10-14
+  title: Telegram_Bot - Asistant_Telegram_Bot_1
+  source_type: chatgpt_mhtml_telegram_ml_engineering_dialogue
+  source_file: Telegram_Bot_14.10.26.mhtml
+  source_hash_sha256: 435ebfa6b80efe3f012e985c42edb375c3fcb9abbfa67f76f27563a87f685d2f
+  conversation_started_at: null
+  conversation_ended_at: Tue, 15 Sep 2026 22:25:02 +0300
+  participants:
+  - user
+  - assistant
+  language:
+  - uk
+  - en
+  authority_scope: telegram_module_history_only
+  completeness: sparse_attachment_heavy_dialogue
+  completeness_notes: 56 retained turn sections / 56 message blocks across turn range 1–278. Most referenced Python/JSON/CSV attachments are not embedded.
+    Internal artifact timestamps anchor active work to 2025-10-14..2025-10-25.
+extraction:
+  created_at: '2026-09-15T22:25:00+03:00'
+  extractor: GPT-5.6 Sol / Asistans_Forprint_Blueprint
+  extraction_mode: duplicate_check_then_telegram_ml_engineering_reconstruction
+  implementation_verification_performed: false
+  notes: Historical Telegram ML/refactor evidence only. Internal 2025 timestamps override misleading filename label for chronology. Attachment bodies are
+    not inferred.
+evidence_index:
+- evidence_id: EV-TG1410-0001
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: e1d4ced8-b467-485f-8f84-9cf3f8770816
+    message_id: e1d4ced8-b467-485f-8f84-9cf3f8770816
+    source_file: Telegram_Bot_14.10.26.mhtml
+  quote: ивись я провів навчання deberta на вєму наборі прикладів але отримав не найращий для мене результат accuracy 0.6394 ось звіт 📦 Train size 2965
+    прикладів 📦 Test size 330 прикладів 🔁 Epochs 10 🎯 Final accuracy 0.6394 📉 Loss (остання) ~0.6759 я хочу дати тобі на доопрацювання данні які бере деберта
+    для навчання щоб ти мені їх доопрацювала можливо відкорегвала дещо можливо додала нових прикладів для баланчу також детально переірили чи не наплутано
+    чогось в існуючому дата сеті можливо треба щось підкорегувати для кращого машинного навчання і повернула мені файли якщо файл з прикладами виявиться
+    сильно великим для тебе скажитоді на скільки частин цого розділити щоб тобі бу
+  quote_whitespace_normalized: true
+  context_before: Owner reports a disappointing style-classifier result and asks for dataset/model improvement.
+  context_after: null
+  evidence_role:
+  - owner_execution_evidence
+  - ml_quality
+- evidence_id: EV-TG1410-0002
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 4adb205c-dc8a-4765-aaf5-411c07bfa266
+    message_id: 37cc7374-dd6d-421b-aea4-8c215d2f1bc9
+    source_file: Telegram_Bot_14.10.26.mhtml
+  quote: 'ровела первинне рев’ю, почистила явні проблеми, зібрала конфлікти/дублі, підготувала стратифіковані train/val/test та склала план балансування.
+    Що я зробила прямо зараз Зчитала style_label_map.json і звірила валідність міток (0–12 → назви стилів). style_label_map Нормалізувала тексти (trim,
+    колапс пробілів, прибрала zero-width). Виявила й винесла: конфлікти міток : однаковий текст із різними лейблами → у файл на рев’ю; некоректні мітки
+    (поза мапою) → у файл на рев’ю; дублі (ідентичні тексти) → у окремий список. Зібрала очищений датасет : по кожному унікальному тексту залишено мажоритарну
+    мітку. Порахувала розподіл класів та порахувала, скільки зразків бракує кожному'
+  quote_whitespace_normalized: true
+  context_before: Assistant says it reviewed/cleaned/balanced the style dataset and prepared split/audit recommendations.
+  context_after: null
+  evidence_role:
+  - assistant_historical_summary
+  - dataset_quality
+- evidence_id: EV-TG1410-0003
+  speaker: user
+  locator:
+    conversation_turn: 5
+    turn_id: 137bb672-ad67-431e-a647-47254bcf6593
+    message_id: 137bb672-ad67-431e-a647-47254bcf6593
+    source_file: Telegram_Bot_14.10.26.mhtml
+  quote: що мені перенастроїти в exel щоб я бачив нормальний чиаємий тест
+  quote_whitespace_normalized: true
+  context_before: Owner wants evaluation output readable in Excel, not only machine-oriented files.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - evaluation_ux
+- evidence_id: EV-TG1410-0004
+  speaker: user
+  locator:
+    conversation_turn: 9
+    turn_id: c065e375-c424-4315-ab8a-84e10fc11163
+    message_id: c065e375-c424-4315-ab8a-84e10fc11163
+    source_file: Telegram_Bot_14.10.26.mhtml
+  quote: confusion_matrix_2025-10-14_07-51.json File такий формат підходить чи щось треба доробити confusion_matrix це для прикладу який у мене генерується
+    зараз
+  quote_whitespace_normalized: true
+  context_before: Owner supplies an example confusion-matrix JSON and asks whether the format is sufficient.
+  context_after: null
+  evidence_role:
+  - owner_artifact_reference
+  - evaluation
+- evidence_id: EV-TG1410-0005
+  speaker: user
+  locator:
+    conversation_turn: 17
+    turn_id: c84b1c1b-327b-4605-8f28-7dfd38d27d23
+    message_id: c84b1c1b-327b-4605-8f28-7dfd38d27d23
+    source_file: Telegram_Bot_14.10.26.mhtml
+  quote: 614d6bfa-794a-4778-b3f5-044b44eb5553.json File style_training_data_balanced.csv це навчання може бути з цим style_label_map.json чи його треба
+    донаповнити?
+  quote_whitespace_normalized: true
+  context_before: Owner compares balanced style training data and sentiment label map before training.
+  context_after: null
+  evidence_role:
+  - owner_artifact_reference
+  - dataset
+- evidence_id: EV-TG1410-0006
+  speaker: user
+  locator:
+    conversation_turn: 31
+    turn_id: 10125074-f665-45c0-a388-3c006243a781
+    message_id: 10125074-f665-45c0-a388-3c006243a781
+    source_file: Telegram_Bot_14.10.26.mhtml
+  quote: train_style_classifier.py Python у мене такий скрипт навчання перевір чи він враховує всі ці моменти що ти пиала вище
+  quote_whitespace_normalized: true
+  context_before: Owner asks whether the style training script accounts for all previously discussed training/evaluation points.
+  context_after: null
+  evidence_role:
+  - owner_review_request
+  - training_pipeline
+- evidence_id: EV-TG1410-0007
+  speaker: user
+  locator:
+    conversation_turn: 49
+    turn_id: 6067b6c8-2946-498c-b305-d91b0e74a298
+    message_id: 6067b6c8-2946-498c-b305-d91b0e74a298
+    source_file: Telegram_Bot_14.10.26.mhtml
+  quote: 'train_style_classifier.py Python даю тобі базові вимоги до структури побудови скрипта Структура формування скрипта і його опис: 1. Імена файлів
+    — передбачувані й сталі (metrics.json, train_log.txt, …). 1. Назва скрипту 2. Детальний опис за що цей файл відповідає яка в всього логіка роботи і
+    який основновний результат роботи -Які скрипти напряму залежать від роботи данного скрипта - Від роботи яких скриптів залежить коректна робота данного
+    скрипта - Перелік шляхів що використовує скрипт які є в коді і явно не прописвні в перемінних на початку файлу - теж додавай до опису файлу на початку
+    після основного опису як рекомендаційний лист це дуже сильно допоможе в майбутнь'
+  quote_whitespace_normalized: true
+  context_before: Owner defines a detailed standard for script structure, documentation, config, validation, logging and artifact reporting.
+  context_after: null
+  evidence_role:
+  - owner_standard
+  - code_structure
+- evidence_id: EV-TG1410-0008
+  speaker: user
+  locator:
+    conversation_turn: 49
+    turn_id: 6067b6c8-2946-498c-b305-d91b0e74a298
+    message_id: 6067b6c8-2946-498c-b305-d91b0e74a298
+    source_file: Telegram_Bot_14.10.26.mhtml
+  quote: 'n даю тобі базові вимоги до структури побудови скрипта Структура формування скрипта і його опис: 1. Імена файлів — передбачувані й сталі (metrics.json,
+    train_log.txt, …). 1. Назва скрипту 2. Детальний опис за що цей файл відповідає яка в всього логіка роботи і який основновний результат роботи -Які
+    скрипти напряму залежать від роботи данного скрипта - Від роботи яких скриптів залежить коректна робота данного скрипта - Перелік шляхів що використовує
+    скрипт які є в коді і явно не прописвні в перемінних на початку файлу - теж додавай до опису файлу на початку після основного опису як рекомендаційний
+    лист це дуже сильно допоможе в майбутньому щоб не забувалось ми завжди зможемо згадати про ц'
+  quote_whitespace_normalized: true
+  context_before: Owner requires stable predictable artifact filenames.
+  context_after: null
+  evidence_role:
+  - owner_standard
+  - artifact_identity
+- evidence_id: EV-TG1410-0009
+  speaker: user
+  locator:
+    conversation_turn: 49
+    turn_id: 6067b6c8-2946-498c-b305-d91b0e74a298
+    message_id: 6067b6c8-2946-498c-b305-d91b0e74a298
+    source_file: Telegram_Bot_14.10.26.mhtml
+  quote: 'ди зможемо згадати про ці доопрацювання - 🔍 Аудит і рекомендації - ✅ Актуальність - 📦 Пропозиція 5. Використовуємо вже наявні константи шляхів
+    з ./config.py (або заводимо їх на початку скрипта в одному місці) принеобхідності допонюємо ./config.py новими константами і шляхами, основна задача
+    уникати в коді жорстких шляхів переводити все в ./config.py або при доцільності заводити допоміжні конфігураційні файли для більш легкого керування
+    проєктом 6. Після заповнення всієї інформації вище іде тіло самого скрипта - Усі важливі параметри оголошуємо зверху скрипта, з українськими коментарями
+    7. В тілі скрипта кожен важливий блок має стислий коментар українською: «що робимо і навіщо». - функції і пер'
+  quote_whitespace_normalized: true
+  context_before: Owner requires existing config path constants to be reused and hard-coded paths avoided.
+  context_after: null
+  evidence_role:
+  - owner_standard
+  - configuration
+- evidence_id: EV-TG1410-0010
+  speaker: user
+  locator:
+    conversation_turn: 49
+    turn_id: 6067b6c8-2946-498c-b305-d91b0e74a298
+    message_id: 6067b6c8-2946-498c-b305-d91b0e74a298
+    source_file: Telegram_Bot_14.10.26.mhtml
+  quote: азони значень. - У разі проблем — зрозуміле повідомлення українською і без «тихого» продовження. 9. Не міняємо структуру проєкту папок/імен файлів
+    без погодження. - Нові файли кладемо лише в існуючі каталоги. Будь-яке створення/перенесення/перейменування — лише після узгодження. 10. Обережність
+    з мапами/словниками і іншими файлами - Якщо файл-мапа (наприклад, style_label_map.json) уже існує — читаємо, а не перезаписуємо. - Підтримуємо суміжні
+    формати (наприклад, name→id і id→name), документуємо, що саме використовуємо в коді. 9. Основні етапи роботи скрипта або важливі фунції логуються виводом
+    в терміналі статусом чи процесом їх роботи для наглядності після завершення роботи виво
+  quote_whitespace_normalized: true
+  context_before: Owner forbids file/folder restructuring without prior agreement.
+  context_after: null
+  evidence_role:
+  - owner_standard
+  - repository_structure
+- evidence_id: EV-TG1410-0011
+  speaker: user
+  locator:
+    conversation_turn: 49
+    turn_id: 6067b6c8-2946-498c-b305-d91b0e74a298
+    message_id: 6067b6c8-2946-498c-b305-d91b0e74a298
+    source_file: Telegram_Bot_14.10.26.mhtml
+  quote: ення/перейменування — лише після узгодження. 10. Обережність з мапами/словниками і іншими файлами - Якщо файл-мапа (наприклад, style_label_map.json)
+    уже існує — читаємо, а не перезаписуємо. - Підтримуємо суміжні формати (наприклад, name→id і id→name), документуємо, що саме використовуємо в коді.
+    9. Основні етапи роботи скрипта або важливі фунції логуються виводом в терміналі статусом чи процесом їх роботи для наглядності після завершення роботи
+    виводиться короткий звіт в термінали про результати роботи скрипта 10. Не робимо по можливості дуже великі скритти на 500-1000 рядків, по можливості
+    робимо короткі і зрозумілі скрипти на 100-300строк при потребі просто розділ
+  quote_whitespace_normalized: true
+  context_before: Owner requires existing map/dictionary files to be read/preserved and compatible formats documented.
+  context_after: null
+  evidence_role:
+  - owner_standard
+  - data_contract
+- evidence_id: EV-TG1410-0012
+  speaker: user
+  locator:
+    conversation_turn: 49
+    turn_id: 6067b6c8-2946-498c-b305-d91b0e74a298
+    message_id: 6067b6c8-2946-498c-b305-d91b0e74a298
+    source_file: Telegram_Bot_14.10.26.mhtml
+  quote: ливості дуже великі скритти на 500-1000 рядків, по можливості робимо короткі і зрозумілі скрипти на 100-300строк при потребі просто розділяємо
+    код на окремі скрипти по тематиці 11. Якщо робота скрипта є важливою для всього проєкту чи результат роботи скрипта може знадобитись для аналізу роботи
+    проекто в майбутньому чи відладки стабільності роботи і debuging то результат записується додатково в файл логу - всф логи мають розміщуватись в директоріях
+    поблизу скриптів що їх викоикають і розділені по тематиці звітів - якщо для якогось скрипту не зрозуміле місце зберігання його логів питай у мене і
+    ми будемо вирішувати де краще їх зберігати 13. Весь текст/CSV читаємо/пи
+  quote_whitespace_normalized: true
+  context_before: Owner prefers small understandable scripts and thematic separation over 500–1000 line files.
+  context_after: null
+  evidence_role:
+  - owner_standard
+  - maintainability
+- evidence_id: EV-TG1410-0013
+  speaker: user
+  locator:
+    conversation_turn: 49
+    turn_id: 6067b6c8-2946-498c-b305-d91b0e74a298
+    message_id: 6067b6c8-2946-498c-b305-d91b0e74a298
+    source_file: Telegram_Bot_14.10.26.mhtml
+  quote: зрозуміле місце зберігання його логів питай у мене і ми будемо вирішувати де краще їх зберігати 13. Весь текст/CSV читаємо/пишемо як UTF-8. - Для
+    «людських» CSV (відкривати в Excel) — додатковий файл *_utf8_bom.csv, основний лишається чистим UTF-8. 14. Сповіщення про зміни - Якщо скрипт породжує
+    нові файли — виводимо повні шляхи створених артефактів у консоль/лог. - Якщо пропонуємо зміну структури — додаємо короткий план міграції і чекаємо схвалення.
+    11. Якщо робота скрипта є важливою для всього проєкту чи результат роботи скрипта може знадобитись для аналізу роботи проекто в майбутньому чи відладки
+    стабільності роботи і debuging то результат записується додатково в файл логу поки є такі д
+  quote_whitespace_normalized: true
+  context_before: Owner standardizes UTF-8 and optional BOM copies for human Excel CSV use.
+  context_after: null
+  evidence_role:
+  - owner_standard
+  - encoding
+- evidence_id: EV-TG1410-0014
+  speaker: user
+  locator:
+    conversation_turn: 49
+    turn_id: 6067b6c8-2946-498c-b305-d91b0e74a298
+    message_id: 6067b6c8-2946-498c-b305-d91b0e74a298
+    source_file: Telegram_Bot_14.10.26.mhtml
+  quote: овний лишається чистим UTF-8. 14. Сповіщення про зміни - Якщо скрипт породжує нові файли — виводимо повні шляхи створених артефактів у консоль/лог.
+    - Якщо пропонуємо зміну структури — додаємо короткий план міграції і чекаємо схвалення. 11. Якщо робота скрипта є важливою для всього проєкту чи результат
+    роботи скрипта може знадобитись для аналізу роботи проекто в майбутньому чи відладки стабільності роботи і debuging то результат записується додатково
+    в файл логу поки є такі директорії для логування всі логи які не привязані до якогось конкретногоо модуля чи великого розділу роботи- /home/printmaster/telegram_bot_project/logs
+    всі логи що стосуються роботи deberta - /home/printmaster/te
+  quote_whitespace_normalized: true
+  context_before: Owner requires scripts to report created/changed artifact paths and important outputs.
+  context_after: null
+  evidence_role:
+  - owner_standard
+  - observability
+- evidence_id: EV-TG1410-0015
+  speaker: user
+  locator:
+    conversation_turn: 61
+    turn_id: a03023cc-6bee-4556-a4a2-451c7e9a64d2
+    message_id: a03023cc-6bee-4556-a4a2-451c7e9a64d2
+    source_file: Telegram_Bot_14.10.26.mhtml
+  quote: train_style_classifier_4.pyZone.Identifier File а чтому дадається цей файл у vs коли беру твої файли в обробіток можна якось вимкнути це генерування
+    до воно взагалі реалізується так остання версфя поки підходить можеш перегенерувати мені дерево вимог з цим доповненням
+  quote_whitespace_normalized: true
+  context_before: Owner asks why Windows zone-identifier sidecar files appear when copied through VS/WSL and wants that behavior disabled.
+  context_after: null
+  evidence_role:
+  - owner_environment_issue
+  - filesystem
+- evidence_id: EV-TG1410-0016
+  speaker: user
+  locator:
+    conversation_turn: 63
+    turn_id: 51d56a3a-4a24-4d43-b502-c2592b041d05
+    message_id: 51d56a3a-4a24-4d43-b502-c2592b041d05
+    source_file: Telegram_Bot_14.10.26.mhtml
+  quote: нстантах в train_style_classifier.py якщо так може бути то ок якщо ні то скажи що требе поправити я шляхи беру з config.py даю тобі 2 файли на
+    аналіз чи нормально ідуть імпорти чи все ок
+  quote_whitespace_normalized: true
+  context_before: Owner validates moving training-script paths/constants into shared config.py.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - configuration
+- evidence_id: EV-TG1410-0017
+  speaker: user
+  locator:
+    conversation_turn: 71
+    turn_id: ad73c6d9-7ad5-414b-944f-0230931b2d7d
+    message_id: ad73c6d9-7ad5-414b-944f-0230931b2d7d
+    source_file: Telegram_Bot_14.10.26.mhtml
+  quote: 'config.py Python даю оригінальний config.py не треба нічого вилучати у мене всі інші константи задіяни в інших скриптах ми потроху будемо робити
+    реорганизацю і корректировку роботи тому зроби правильну структуру нічого не викудуй це важливо все детально закоментуй що можна і поверни мені знову
+    файл це можна не додавати ШВИДКИЙ САМОТЕСТ (лише при прямому запуску: python .../config.py) воно в цоиц файлі не треба не треба Show more Show less'
+  quote_whitespace_normalized: true
+  context_before: Owner explicitly says config refactoring must preserve existing constants because other scripts depend on them.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - configuration
+- evidence_id: EV-TG1410-0018
+  speaker: user
+  locator:
+    conversation_turn: 73
+    turn_id: 5cc77a67-e2f8-4458-be3f-22befb7798c6
+    message_id: 5cc77a67-e2f8-4458-be3f-22befb7798c6
+    source_file: Telegram_Bot_14.10.26.mhtml
+  quote: config_3.py Python так це вже набагато краще ы майже те що мены треба давай ще зробимо одну оптимызацыю в шляхах якщо вже частина шляху задана
+    як перемынна то в ынщому шляху не писати жостко текстом а пыдствляти попередню перемынну як частину шляху можеш так оптимызувати мены цей файл
+  quote_whitespace_normalized: true
+  context_before: Owner requires derived paths to compose from previously defined path variables instead of repeating path text.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - configuration
+- evidence_id: EV-TG1410-0019
+  speaker: user
+  locator:
+    conversation_turn: 79
+    turn_id: ce64b978-789a-4887-8ffa-8211ef225d55
+    message_id: ce64b978-789a-4887-8ffa-8211ef225d55
+    source_file: Telegram_Bot_14.10.26.mhtml
+  quote: train_style_classifier.py Python train_sentiment_classifier.py Python так даю тобі приклад нашого доробленого файлу train_style_classifier.py і
+    додатково даю файл на доробку train_sentiment_classifier.py треба привести його в такий самій вигляд по структурі і нунціональності тільки від буде
+    навчати модель sentiment всф шляхи які треба в тебе є в останній ревізії cofig якщо чогось не буде вистачати м дозапишемо в конфіг по нашій ідеології
+    робоити або розберемось додатково якщо щось не буле грати Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Owner wants sentiment training brought to the same structure/functionality standard as style training.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - pipeline_standardization
+- evidence_id: EV-TG1410-0020
+  speaker: user
+  locator:
+    conversation_turn: 81
+    turn_id: f0bed4ec-a6f2-47ac-b743-9ab7f29d5d3e
+    message_id: f0bed4ec-a6f2-47ac-b743-9ab7f29d5d3e
+    source_file: Telegram_Bot_14.10.26.mhtml
+  quote: sentiment_label_map.json File sentiment training data Preview unavailable style training data Preview unavailable даю тобі на порівняння аналіз
+    і доробку файли спочатку style_training_data.csv на цьому файлі ми отримали дуже непоганий результат по навчанню а також даю sentiment_training_data.csv
+    і sentiment_label_map.json ті що у мене зараз є перевір їх можливо там є лабкі місця прогалини чи відсутність якихось необхідних ємоцій перевір все
+    доопрацюй файли sentiment_training_data.csv і sentiment_label_map.json і поверни мені я хочу запустити начання Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Owner asks to compare successful style data against sentiment training data/label map and fill gaps before training.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - dataset_quality
+- evidence_id: EV-TG1410-0021
+  speaker: user
+  locator:
+    conversation_turn: 91
+    turn_id: 333c9b0f-55c7-424c-98b8-09ed3a36a591
+    message_id: 333c9b0f-55c7-424c-98b8-09ed3a36a591
+    source_file: Telegram_Bot_14.10.26.mhtml
+  quote: berta_train.py всю архітетуру з sentimenttrain_style_classifier.py але врахуй що deberta_train.py є збереження версій і збереження найкращоїмоделі
+    тому не порушуй логіку роботи скрипта просто оптимізуй примеди до вигляду sentimenttrain_style_classifier.py візьми в роботу всі можливі шляхи з cofig.py
+    і поверни мені повністю дороблений файл deberta_train.py Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Owner requires intent DeBERTa training modernization without breaking version retention/best-model behavior.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - model_versioning
+- evidence_id: EV-TG1410-0022
+  speaker: user
+  locator:
+    conversation_turn: 119
+    turn_id: 64060c68-f9a3-4853-9179-ac3aa7fb69f9
+    message_id: 64060c68-f9a3-4853-9179-ac3aa7fb69f9
+    source_file: Telegram_Bot_14.10.26.mhtml
+  quote: env File це додав в конфіг INGEST_BATCH_SIZE = 200 INGEST_SLEEP_SEC = 0.0 INGEST_MAX_BATCHES = None INGEST_SOURCE_TABLE = "public.forprint_client_messages"
+    INGEST_TARGET_TABLE = "public.forprint_manager_chat_logs" я використовую ще такий файл .env давай його може теж інтергуємо в скрипт а також дороби його
+    по нашій структурі файлів додай що трбе або навіть резервно зроби поки поля або константи які нам можуть бути корисні в майбутньому будемо їх донаповнювати
+    потроху Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Owner centralizes ingest batch/source/target settings and asks to integrate .env/config into the script.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - ingest_configuration
+- evidence_id: EV-TG1410-0023
+  speaker: user
+  locator:
+    conversation_turn: 127
+    turn_id: 9761cc7b-f912-4d8f-b324-51862c7b61ce
+    message_id: 9761cc7b-f912-4d8f-b324-51862c7b61ce
+    source_file: Telegram_Bot_14.10.26.mhtml
+  quote: tree.txt Document даю тобі структуру детально вивчи і будемо використовувати ті напрацювання що вже є якщо будеш бачити що є якійсь вже скрипт
+    який може бути корисний а має взємодяти з тим що ми будемо робити далі то відразу кажи ми бедемо перевіряти що там всередині опимізувати і пускати в
+    роботу
+  quote_whitespace_normalized: true
+  context_before: Owner requires reuse of existing useful scripts and wants duplicates/overlaps surfaced before creating more code.
+  context_after: null
+  evidence_role:
+  - owner_standard
+  - reuse
+- evidence_id: EV-TG1410-0024
+  speaker: user
+  locator:
+    conversation_turn: 141
+    turn_id: 5743bab4-4ba6-4a4f-8f7a-c84e9bd63741
+    message_id: 5743bab4-4ba6-4a4f-8f7a-c84e9bd63741
+    source_file: Telegram_Bot_14.10.26.mhtml
+  quote: мося з цими файлами що в цій директорії source/education/deberta/deberta_intent_classifier/evaluate видалимо дублюючий код якщо такий буде і приведемо
+    структуру файлів до нашого стандарту дай відразу всі файли для детального аналізу оптимізації і приведення до нашої структури даавай виявимо чи всі
+    фали треба чи нічого не дуюлюється і дай додатково характиристику кожного файлу що він робить в проєкті Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Owner asks to audit evaluation scripts, remove duplicate code and describe each file's project role.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - deduplication
+- evidence_id: EV-TG1410-0025
+  speaker: user
+  locator:
+    conversation_turn: 147
+    turn_id: b392798c-08c1-44cc-8196-a05da75e2223
+    message_id: b392798c-08c1-44cc-8196-a05da75e2223
+    source_file: Telegram_Bot_14.10.26.mhtml
+  quote: audit_imported_data.py Python deberta_train_audit.py Python intent_audit_runner.py Python rule_audit_runner.py Python rule_audit_runner.py цей
+    скрипт поклав сюди /home/printmaster/telegram_bot_project/source/education/deberta/deberta_intent_classifier/audit цей keyword_extractor.py сюди /home/printmaster/telegram_bot_project/source/education/deberta/deberta_intent_classifier/extract
+    так мені логічніше давай тепер перевіримо цю директорію теж по тому самому принципу що і попередню і детально її пропрацюємо /home/printmaster/telegram_bot_project/source/educatio
+  quote_whitespace_normalized: true
+  context_before: Owner similarly audits the intent-classifier audit directory and relocates utilities to clearer thematic locations.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - repository_structure
+- evidence_id: EV-TG1410-0026
+  speaker: user
+  locator:
+    conversation_turn: 155
+    turn_id: 56b9d6a7-e6c8-40ba-9e25-67d17a13c2f7
+    message_id: 56b9d6a7-e6c8-40ba-9e25-67d17a13c2f7
+    source_file: Telegram_Bot_14.10.26.mhtml
+  quote: 'ith open(INTENT_KEYWORDS_PATH, encoding="utf-8") as f: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ FileNotFoundError: [Errno 2] No such file
+    or directory: ''/home/printmaster/telegram_bot_project/source/education/deberta/deberta_intent_classifier/resources/library/keywords_library/intent_keywords.json''
+    ось мій шлях до файлу source/education/deberta/deberta_intent_classifier/library/keywords_library/intent_keywords.json я не розумію звідки береться
+    в шляху до файла проміжна директорія resources/ вона наче в мене ніде не задана Show more Show less'
+  quote_whitespace_normalized: true
+  context_before: Historical intent classification fails due to missing INTENT_KEYWORDS_PATH target/path resolution.
+  context_after: null
+  evidence_role:
+  - owner_execution_evidence
+  - path_failure
+- evidence_id: EV-TG1410-0027
+  speaker: user
+  locator:
+    conversation_turn: 157
+    turn_id: 79b8dbdd-8b8d-477c-9766-1c412d23a64f
+    message_id: 79b8dbdd-8b8d-477c-9766-1c412d23a64f
+    source_file: Telegram_Bot_14.10.26.mhtml
+  quote: 'Структура формування скрипта і його опис: 1. На початку файлу виводемо окремою строкою як коментар команду для його запуску якщо відомий шлях
+    до файлу - python -m source.education.deberta.deberta_intent_classifier.classify.classify_intent - якщо шлях не відомий то ставимо # python .../train_style_classifier.py
+    2. Імена файлів — передбачувані й сталі (metrics.json, train_log.txt, …). 3. Назва скрипту 4. Детальний опис за що цей файл відповідає яка в всього
+    логіка роботи і який основновний результат роботи -Які скрипти напряму залежать від роботи данного скрипта - Від роботи яких скриптів залежить коректна
+    робота данного скрипта - Перелік шляхів що використовує скрипт які є в'
+  quote_whitespace_normalized: true
+  context_before: 'Owner refines the script standard further: explicit launch command at file top, detailed dependencies/paths/result, input validation
+    and logs.'
+  context_after: null
+  evidence_role:
+  - owner_standard
+  - code_structure
+- evidence_id: EV-TG1410-0028
+  speaker: user
+  locator:
+    conversation_turn: 180
+    turn_id: 2e0e88f7-9fac-4a48-b594-cd12e9afaabb
+    message_id: 2e0e88f7-9fac-4a48-b594-cd12e9afaabb
+    source_file: Telegram_Bot_14.10.26.mhtml
+  quote: 'sorted, "name2id": name2id_sorted}, ensure_ascii=False, indent=2), > encoding="utf-8" > ) > print(f"Written canonical decoder → {dec_path} (num_labels={len(id2name_sorted)})")
+    > PY Backup → source/education/huggingface/deberta_intent_classifier/label_decoder.json.bak Written canonical decoder → source/education/huggingface/deberta_intent_classifier/label_decoder.json
+    (num_labels=12) (venv) printmaster@Designer:~/telegram_bot_project$ python - <<''PY'' pathlib> from pathlib import Path, json > cfg = json.loads(Path("source/education/huggingface/deberta_intent_classifier/config.json").read_text(encoding="utf-8"))
+    > dec = json.loads(Path("source/education/huggingface/deberta_intent'
+  quote_whitespace_normalized: true
+  context_before: Historical terminal output creates a canonical label decoder with both id2name/name2id, then exposes separate script errors.
+  context_after: null
+  evidence_role:
+  - owner_execution_evidence
+  - label_mapping
+- evidence_id: EV-TG1410-0029
+  speaker: user
+  locator:
+    conversation_turn: 180
+    turn_id: 2e0e88f7-9fac-4a48-b594-cd12e9afaabb
+    message_id: 2e0e88f7-9fac-4a48-b594-cd12e9afaabb
+    source_file: Telegram_Bot_14.10.26.mhtml
+  quote: '/classify_intent.py", line 119, in <module> num_labels_model = int(_MODEL.config.num_labels) ^^^^^^ NameError: name ''_MODEL'' is not defined
+    (venv) printmaster@Designer:~/telegram_bot_project$ даю файл на доопрацювання поверни мені виправлений Show more Show less'
+  quote_whitespace_normalized: true
+  context_before: Historical classify_intent run fails after decoder repair, preserving a real runtime defect.
+  context_after: null
+  evidence_role:
+  - owner_execution_evidence
+  - runtime_failure
+- evidence_id: EV-TG1410-0030
+  speaker: user
+  locator:
+    conversation_turn: 186
+    turn_id: 556230ba-c9f1-4f72-aefa-24d247d65c15
+    message_id: 556230ba-c9f1-4f72-aefa-24d247d65c15
+    source_file: Telegram_Bot_14.10.26.mhtml
+  quote: t.py Python так даю скрипт навчання що привести його в відповідність нашим вимогам і предбачити щоб не було проблеми з виводом імен при роботі
+    classify_intent.py чи інших скриптів які можуть брати в обробку результат його роботи
+  quote_whitespace_normalized: true
+  context_before: Owner requires training output to preserve label naming/decoder compatibility for downstream classifier scripts.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - label_contract
+- evidence_id: EV-TG1410-0031
+  speaker: user
+  locator:
+    conversation_turn: 199
+    turn_id: 008bec0a-7eac-42a9-ac9a-f503108b4f7d
+    message_id: 008bec0a-7eac-42a9-ac9a-f503108b4f7d
+    source_file: Telegram_Bot_14.10.26.mhtml
+  quote: deberta_train_intent.py Python ні не хочу ще один скрипт то зайве давай відразу інтрегруємо цю функцію в deberta_train_intent.py даю тобі файл
+    інтегруй всеі поверни робочий файл данні будемо класти в source/education/deberta/deberta_intent_classifier/data_evaluate/taining_evaluate_data_set
+    файл evaluate_data_set + <timestamp> . tsv якщо треба буде додати щось в кофіг то пиши я додам чи ще що зробити то зроблю Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Owner rejects another standalone script and prefers integrating evaluation-dataset generation into the existing training script.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - code_reuse
+- evidence_id: EV-TG1410-0032
+  speaker: user
+  locator:
+    conversation_turn: 205
+    turn_id: 4d4c7e39-998d-4387-9846-f7d2fb442351
+    message_id: 4d4c7e39-998d-4387-9846-f7d2fb442351
+    source_file: Telegram_Bot_14.10.26.mhtml
+  quote: ager треба перевірити чи підключений він до наших основних вкриптів які зберігають робочі модели бо версіювання пуш на huggingface проблематичний
+    почнемо з intent а потім продовжимо з style і sentiment треба організувати ревізії версій Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Owner wants a robust local revision-management layer because Hugging Face push/versioning is problematic.
+  context_after: null
+  evidence_role:
+  - owner_requirement
+  - model_versioning
+- evidence_id: EV-TG1410-0033
+  speaker: user
+  locator:
+    conversation_turn: 207
+    turn_id: 911bb0cc-4a3c-439d-9056-64ca9847353a
+    message_id: 911bb0cc-4a3c-439d-9056-64ca9847353a
+    source_file: Telegram_Bot_14.10.26.mhtml
+  quote: ий і стабільний config_dynamic.py щоб передбачав всі можливі проблеми і був готовий назву поставимо config_dynamic_intent.py щоб було інтуітивно
+    зрозуміло ще є такий файл rev_manager.py подивись на функціонал подумай що можна доробити назву теж поставимо rev_manager_intent.py далі після підгонки
+    цих файлів і оптимізації під наш формат скриптів підемо підлаштовувати роботу залежних від них скриптів Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Owner requires entity-specific revision config/manager names for intent before extending the pattern to style/sentiment.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - model_versioning
+- evidence_id: EV-TG1410-0034
+  speaker: user
+  locator:
+    conversation_turn: 213
+    turn_id: 346c9881-7e91-4fe9-8288-14095e6a246f
+    message_id: 346c9881-7e91-4fe9-8288-14095e6a246f
+    source_file: Telegram_Bot_14.10.26.mhtml
+  quote: Архів ревізій (версій) кладемо у models всередині source/education/deberta/deberta_style_classifier/models/style/<rev>/... source/education/deberta/deberta_style_classifier/models/sentiment/<rev>/...
+    все що далі пішло переробити треба бо збилося все логи source/education/deberta/deberta_style_classifier/logs/sentiment source/education/deberta/deberta_style_classifier/logs/style
+    CHECKPOINT source/education/deberta/deberta_style_classifier/tmp/checkpoints/style source/education/deberta/deberta_style_classifier/tmp/checkpoints/sentiment
+    REPORT_DIR source/education/deberta/deberta_style_classifier/report/style source/education/deberta/deberta_style_classifier/report/sentime
+  quote_whitespace_normalized: true
+  context_before: Owner corrects the archive/log/checkpoint/report/confusion directory layout for style and sentiment.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - artifact_layout
+- evidence_id: EV-TG1410-0035
+  speaker: user
+  locator:
+    conversation_turn: 215
+    turn_id: 0ea4fc30-9f52-4159-a55b-973ee5add0a2
+    message_id: 0ea4fc30-9f52-4159-a55b-973ee5add0a2
+    source_file: Telegram_Bot_14.10.26.mhtml
+  quote: 'y Python classify_sentiment.py Python classify_style.py Python так є конфлікти в скриптах наприклаж DEBERTA_ARCHIVE_BASE_DIR вже використовується
+    як DEBERTA_ARCHIVE_BASE_DIR: Final[Path] = Path(f"{DEBERTA_INTENT_CLASSIFIER_BASE_DIR}/models" пропоную в іменах шляхів чітко вказувати сутність за
+    яку вони відповідають щоб не було конфліктів даю файли на аналіз доробку нашій структурі і виправленю всіх помилок назад поверни готові файли Show more
+    Show less'
+  quote_whitespace_normalized: true
+  context_before: Owner identifies constant-name collision and requires entity-specific path constant names.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - configuration
+- evidence_id: EV-TG1410-0036
+  speaker: user
+  locator:
+    conversation_turn: 263
+    turn_id: 190777bc-9ad0-47e5-9041-dc266e1d0c2f
+    message_id: 190777bc-9ad0-47e5-9041-dc266e1d0c2f
+    source_file: Telegram_Bot_14.10.26.mhtml
+  quote: run_cases.py Python run_cases.pyZone.Identifier File давай вирішимо ще таку проблему при копіювання файлів в директорію проєкту такі файли сворюються
+    давай відключимо цю генерацію
+  quote_whitespace_normalized: true
+  context_before: Owner again asks to eliminate Zone.Identifier sidecars appearing when copied into the project.
+  context_after: null
+  evidence_role:
+  - owner_environment_issue
+  - filesystem
+- evidence_id: EV-TG1410-0037
+  speaker: user
+  locator:
+    conversation_turn: 275
+    turn_id: 29dc9f23-9ac5-4bc2-ab07-fb4acc4d5fd7
+    message_id: 29dc9f23-9ac5-4bc2-ab07-fb4acc4d5fd7
+    source_file: Telegram_Bot_14.10.26.mhtml
+  quote: 'State: degraded Units: 367 loaded (incl. loaded aliases) Jobs: 0 queued Failed: 1 units Since: Sat 2025-10-25 14:12:26 UTC; 2h 17min ago systemd:
+    255.4-1ubuntu8.11 CGroup: / ├─init.scope │ ├─ 1 /usr/lib/systemd/systemd --system --deserialize=24 │ ├─ 2 /init │ ├─ 8 plan9 --control-socket 7 --log-level
+    4 --server-fd 8 --pipe-fd 10 --log-truncate │ ├─ 336 /init │ ├─ 337 /init │ ├─ 342 bash -i │ ├─2857 /init │ ├─2858 /init │ ├─2859 sh -c "\"\$VSCODE_WSL_EXT_LOCATION/scripts/wslServer.sh\"
+    7d842fb85a0275a4a8e4d7e040d2625abbf7f084 > │ ├─2860 sh /mnt/c/Users/Print/.vscode/extensions/ms-vscode-remote.remote-wsl-0.104.3/scripts/wslServer.sh
+    7> │ ├─2866 sh /home/printmas'
+  quote_whitespace_normalized: true
+  context_before: Terminal/systemd output provides an internal 2025-10-25 chronology anchor and shows a degraded WSL user-session state.
+  context_after: null
+  evidence_role:
+  - owner_execution_evidence
+  - chronology
+- evidence_id: EV-TG1410-0038
+  speaker: user
+  locator:
+    conversation_turn: 277
+    turn_id: c4264619-a4a2-4688-b0a1-67dd7c6d726c
+    message_id: c4264619-a4a2-4688-b0a1-67dd7c6d726c
+    source_file: Telegram_Bot_14.10.26.mhtml
+  quote: 'є тепер ACT: printmaster@Designer:~/telegram_bot_project$ journalctl --user -b -p err --no-pager -- No entries -- printmaster@Designer:~/telegram_bot_project$'
+  quote_whitespace_normalized: true
+  context_before: Owner reports user journal now has no errors after the WSL/systemd remediation sequence.
+  context_after: null
+  evidence_role:
+  - owner_execution_evidence
+  - environment
+items:
+- item_id: IT-TG1410-0001
+  kind: risk
+  title: Historical style classifier quality was insufficient at accuracy 0.6394
+  statement: Owner reports a 0.6394 style-classification result and asks to improve data/model quality rather than accept the checkpoint.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - ml
+  implementation_expectation: unverifiable
+  verification_targets:
+  - metrics
+  - dataset
+  evidence_refs:
+  - EV-TG1410-0001
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical metric only; current model not audited.
+- item_id: IT-TG1410-0002
+  kind: process_rule
+  title: ML datasets should be audited balanced and split before retraining
+  statement: Historical work emphasizes duplicate/conflict cleanup, class balance and explicit train/validation/test preparation.
+  dialogue_status: discussed
+  importance: high
+  confidence: medium
+  owner_or_domain:
+  - telegram_bot
+  - ml
+  implementation_expectation: required
+  verification_targets:
+  - dataset_checks
+  evidence_refs:
+  - EV-TG1410-0002
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1410-0003
+  kind: requirement
+  title: Evaluation outputs must be human-readable as well as machine-readable
+  statement: Owner wants confusion/evaluation results that can be read comfortably in Excel in addition to JSON/TSV machine artifacts.
+  dialogue_status: accepted
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - ml
+  - operator_ux
+  implementation_expectation: required
+  verification_targets:
+  - reports
+  evidence_refs:
+  - EV-TG1410-0003
+  - EV-TG1410-0004
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1410-0004
+  kind: architecture_constraint
+  title: Style sentiment and intent training pipelines should share one structural standard
+  statement: Owner repeatedly asks to align train/classify/evaluate behavior across the three DeBERTa classification dimensions while keeping entity-specific
+    outputs.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - ml
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - tests
+  evidence_refs:
+  - EV-TG1410-0019
+  - EV-TG1410-0021
+  - EV-TG1410-0034
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1410-0005
+  kind: process_rule
+  title: Every important script should be self-describing and runnable from its header
+  statement: Historical script standard requires launch command, file identity, purpose/result, direct dependencies, reverse dependencies, used paths, audit
+    notes and expected side effects.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - development_process
+  implementation_expectation: required
+  verification_targets:
+  - code_review
+  - docs
+  evidence_refs:
+  - EV-TG1410-0007
+  - EV-TG1410-0027
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1410-0006
+  kind: process_rule
+  title: Generated artifact names should be stable and predictable
+  statement: Metrics/log/report names should be deterministic enough that downstream tools and operators can find them reliably.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - artifact_identity
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - tests
+  evidence_refs:
+  - EV-TG1410-0008
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1410-0007
+  kind: architecture_constraint
+  title: Paths and operational constants belong in centralized configuration
+  statement: Scripts should consume config.py/.env constants instead of embedding long absolute paths or repeated configuration literals.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - configuration
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - tests
+  evidence_refs:
+  - EV-TG1410-0009
+  - EV-TG1410-0016
+  - EV-TG1410-0022
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1410-0008
+  kind: architecture_constraint
+  title: Derived paths should compose from canonical root/path constants
+  statement: If a path prefix is already a constant, longer paths should derive from it instead of repeating raw path text.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - configuration
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - tests
+  evidence_refs:
+  - EV-TG1410-0018
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1410-0009
+  kind: process_rule
+  title: Config refactoring must preserve existing consumers
+  statement: Owner explicitly forbids deleting existing config constants during incremental reorganization because other scripts may depend on them.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - configuration
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - dependency_tests
+  evidence_refs:
+  - EV-TG1410-0017
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1410-0010
+  kind: process_rule
+  title: Repository structure and filenames require owner approval before changes
+  statement: New files should use existing directories and structural moves/renames require an explicit migration plan and approval.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - repository_structure
+  implementation_expectation: required
+  verification_targets:
+  - repo
+  - docs
+  evidence_refs:
+  - EV-TG1410-0010
+  - EV-TG1410-0025
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1410-0011
+  kind: data_contract
+  title: Existing label-map files must not be silently overwritten
+  statement: Scripts should read existing maps, support documented compatible shapes such as name→id/id→name and preserve contract identity.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - ml
+  - contracts
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - tests
+  evidence_refs:
+  - EV-TG1410-0011
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1410-0012
+  kind: nonfunctional_requirement
+  title: Scripts should stay bounded and understandable
+  statement: Owner prefers roughly 100–300 line focused utilities and thematic decomposition when code grows toward monolithic 500–1000 line scripts.
+  dialogue_status: accepted
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - maintainability
+  implementation_expectation: required
+  verification_targets:
+  - code_review
+  evidence_refs:
+  - EV-TG1410-0012
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1410-0013
+  kind: process_rule
+  title: Text/CSV encoding is UTF-8 with optional BOM copies for Excel
+  statement: Machine files remain clean UTF-8; human Excel CSV may additionally have `_utf8_bom.csv`.
+  dialogue_status: accepted
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - data_quality
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - tests
+  evidence_refs:
+  - EV-TG1410-0013
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1410-0014
+  kind: nonfunctional_requirement
+  title: Scripts must expose important progress and created/changed artifact paths
+  statement: Important stages should be visible in terminal/logs and final output should summarize generated files, paths, constants or model artifacts.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - observability
+  implementation_expectation: required
+  verification_targets:
+  - logs
+  - tests
+  evidence_refs:
+  - EV-TG1410-0014
+  - EV-TG1410-0027
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1410-0015
+  kind: requirement
+  title: Sentiment dataset/label map should be audited against successful style training patterns
+  statement: Before training sentiment, owner wants missing classes/gaps/weaknesses checked rather than simply copying the style pipeline.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - ml
+  implementation_expectation: required
+  verification_targets:
+  - dataset_checks
+  evidence_refs:
+  - EV-TG1410-0020
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1410-0016
+  kind: architecture_constraint
+  title: Intent model training must preserve downstream label-decoder compatibility
+  statement: Training output must make label names/IDs available consistently to classify/evaluate scripts and avoid opaque LABEL_0-style mismatches.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - ml
+  - contracts
+  implementation_expectation: required
+  verification_targets:
+  - training
+  - classify
+  - tests
+  evidence_refs:
+  - EV-TG1410-0028
+  - EV-TG1410-0030
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1410-0017
+  kind: risk
+  title: Historical classify_intent path resolution was broken
+  statement: A real FileNotFoundError shows that intent_fallback depended on a missing/incorrect INTENT_KEYWORDS_PATH.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - ml
+  - configuration
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - tests
+  evidence_refs:
+  - EV-TG1410-0026
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1410-0018
+  kind: risk
+  title: Historical classify_intent runtime still failed after decoder repair
+  statement: 'After writing a canonical decoder, the classifier raised `NameError: _MODEL is not defined`; successful data repair did not mean runtime was
+    healthy.'
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - ml
+  - testing
+  implementation_expectation: required
+  verification_targets:
+  - tests
+  evidence_refs:
+  - EV-TG1410-0028
+  - EV-TG1410-0029
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1410-0019
+  kind: process_rule
+  title: Reuse and audit existing scripts before creating new utilities
+  statement: Owner wants project-tree inspection, identification of useful existing scripts and removal/consolidation of duplicate evaluation/audit code.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - repository_knowledge
+  implementation_expectation: required
+  verification_targets:
+  - inventory
+  - code_review
+  evidence_refs:
+  - EV-TG1410-0023
+  - EV-TG1410-0024
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1410-0020
+  kind: process_rule
+  title: Prefer extending the owning training pipeline over unnecessary one-off scripts
+  statement: Owner rejects creating an extra evaluator-data generator when the function can fit safely into `deberta_train_intent.py`.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - ml
+  implementation_expectation: required
+  verification_targets:
+  - code_review
+  evidence_refs:
+  - EV-TG1410-0031
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1410-0021
+  kind: architecture_constraint
+  title: ML ingest settings are configuration-driven
+  statement: Batch size, pacing, limits and source/target tables should live in config/.env rather than be hidden inside the ingest script.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - ml
+  - database
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - tests
+  evidence_refs:
+  - EV-TG1410-0022
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1410-0022
+  kind: architecture_constraint
+  title: Model revision management should be explicit and local-first when remote versioning is unreliable
+  statement: Historical design introduces intent-specific dynamic config/revision manager and local model revision archives before extending to style/sentiment.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - ml
+  - model_registry
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - tests
+  evidence_refs:
+  - EV-TG1410-0032
+  - EV-TG1410-0033
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1410-0023
+  kind: architecture_constraint
+  title: ML artifact paths must be entity-specific to avoid constant collisions
+  statement: Intent/style/sentiment archives, logs, checkpoints, reports and confusion outputs need unambiguous entity-specific names/roots.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - ml
+  - configuration
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - tests
+  evidence_refs:
+  - EV-TG1410-0034
+  - EV-TG1410-0035
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1410-0024
+  kind: risk
+  title: Windows Zone.Identifier sidecars pollute project working trees
+  statement: Files copied from Windows/VS into WSL may bring `:Zone.Identifier` sidecars; historical owner wants them prevented/cleaned so repository scans
+    are not polluted.
+  dialogue_status: accepted
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - environment
+  implementation_expectation: required
+  verification_targets:
+  - repo_hygiene
+  evidence_refs:
+  - EV-TG1410-0015
+  - EV-TG1410-0036
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1410-0025
+  kind: implementation_claim
+  title: Internal evidence anchors this source to October 2025 engineering work
+  statement: Artifact filenames show 2025-10-14 and systemd output shows 2025-10-25, contradicting the filename label 14.10.26 as chronology.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - provenance
+  - chronology
+  implementation_expectation: not_required
+  verification_targets:
+  - indexes
+  evidence_refs:
+  - EV-TG1410-0004
+  - EV-TG1410-0037
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Use internal timestamps for chronology, not filename label.
+- item_id: IT-TG1410-0026
+  kind: implementation_claim
+  title: Historical WSL user-session issue was resolved to a clean user journal
+  statement: After systemd-user troubleshooting, owner reports `journalctl --user ...` with no entries.
+  dialogue_status: accepted
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - environment
+  implementation_expectation: unverifiable
+  verification_targets:
+  - environment
+  evidence_refs:
+  - EV-TG1410-0037
+  - EV-TG1410-0038
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical workstation state only.
+- item_id: IT-TG1410-0027
+  kind: architecture_constraint
+  title: Historical ML engineering artifacts do not define Telegram business/runtime authority
+  statement: This source mainly standardizes training/classification/evaluation infrastructure and cannot override later behavior-model, CRM/Logistics or
+    Blueprint governance boundaries.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - authority
+  - telegram_bot
+  implementation_expectation: required
+  verification_targets:
+  - indexes
+  - docs
+  evidence_refs:
+  - EV-TG1410-0007
+  - EV-TG1410-0023
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1410-0028
+  kind: risk
+  title: Historical source is attachment-heavy and implementation bodies are not recoverable
+  statement: Most turns reference Python/JSON/CSV/tree attachments whose actual bodies are absent from the MHTML, so code-quality claims cannot be independently
+    revalidated.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - provenance
+  - telegram_bot
+  implementation_expectation: not_required
+  verification_targets:
+  - history
+  evidence_refs:
+  - EV-TG1410-0005
+  - EV-TG1410-0024
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Current repository audit required.
+- item_id: IT-TG1410-0029
+  kind: process_rule
+  title: Current ML refactors should preserve semantic compatibility across train/classify/evaluate
+  statement: Structural normalization must not break existing model directories, label maps, revision behavior or downstream scripts.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - ml
+  implementation_expectation: required
+  verification_targets:
+  - tests
+  - contracts
+  evidence_refs:
+  - EV-TG1410-0021
+  - EV-TG1410-0030
+  - EV-TG1410-0035
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1410-0030
+  kind: risk
+  title: Historic script standard is module-history input, not automatically a current Blueprint standard
+  statement: The detailed Telegram coding standard is valuable and overlaps later Blueprint principles, but project-wide adoption requires current authority
+    reconciliation rather than automatic promotion.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - authority
+  - standards
+  implementation_expectation: required
+  verification_targets:
+  - blueprint_review
+  evidence_refs:
+  - EV-TG1410-0007
+  - EV-TG1410-0027
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Potential cross-project standard candidate.
+- item_id: IT-TG1410-0031
+  kind: process_rule
+  title: Evaluation/report pipelines should avoid duplicate overlapping utilities
+  statement: Historical owner requests consolidating several evaluation scripts and clearly documenting the distinct purpose of retained files.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - telegram_bot
+  - ml
+  - repository_knowledge
+  implementation_expectation: required
+  verification_targets:
+  - inventory
+  - tests
+  evidence_refs:
+  - EV-TG1410-0024
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-TG1410-0032
+  kind: architecture_constraint
+  title: This source precedes later Telegram behavior/governance history
+  statement: Internal October-2025 anchors place this ML engineering/refactor source before the 2026 Telegram behavior/governance phases preserved in other
+    roots.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - provenance
+  - telegram_bot
+  implementation_expectation: not_required
+  verification_targets:
+  - chronology
+  evidence_refs:
+  - EV-TG1410-0004
+  - EV-TG1410-0037
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+relations:
+- relation_id: REL-TG1410-0001
+  from_item: IT-TG1410-0005
+  type: refines
+  to_item: IT-TG1410-0014
+  evidence_refs:
+  - EV-TG1410-0007
+  - EV-TG1410-0014
+  confidence: high
+- relation_id: REL-TG1410-0002
+  from_item: IT-TG1410-0007
+  type: enables
+  to_item: IT-TG1410-0008
+  evidence_refs:
+  - EV-TG1410-0009
+  - EV-TG1410-0018
+  confidence: high
+- relation_id: REL-TG1410-0003
+  from_item: IT-TG1410-0009
+  type: constrains
+  to_item: IT-TG1410-0007
+  evidence_refs:
+  - EV-TG1410-0017
+  confidence: high
+- relation_id: REL-TG1410-0004
+  from_item: IT-TG1410-0016
+  type: constrains
+  to_item: IT-TG1410-0022
+  evidence_refs:
+  - EV-TG1410-0030
+  - EV-TG1410-0032
+  confidence: medium
+- relation_id: REL-TG1410-0005
+  from_item: IT-TG1410-0017
+  type: motivates
+  to_item: IT-TG1410-0007
+  evidence_refs:
+  - EV-TG1410-0026
+  confidence: high
+- relation_id: REL-TG1410-0006
+  from_item: IT-TG1410-0019
+  type: enables
+  to_item: IT-TG1410-0031
+  evidence_refs:
+  - EV-TG1410-0023
+  - EV-TG1410-0024
+  confidence: high
+- relation_id: REL-TG1410-0007
+  from_item: IT-TG1410-0023
+  type: prevents
+  to_item: IT-TG1410-0017
+  evidence_refs:
+  - EV-TG1410-0034
+  - EV-TG1410-0035
+  confidence: medium
+- relation_id: REL-TG1410-0008
+  from_item: IT-TG1410-0025
+  type: constrains
+  to_item: IT-TG1410-0032
+  evidence_refs:
+  - EV-TG1410-0004
+  - EV-TG1410-0037
+  confidence: high
+- relation_id: REL-TG1410-0009
+  from_item: IT-TG1410-0030
+  type: constrains
+  to_item: IT-TG1410-0005
+  evidence_refs:
+  - EV-TG1410-0007
+  confidence: high
+anomalies:
+- anomaly_id: ANOM-TG1410-0001
+  type: new_unique_telegram_source
+  description: No shared message IDs, exact substantive blocks or sequence overlap with Telegram 12.10/13.10 sources. Distinct Telegram ML-engineering history
+    root.
+  item_refs: []
+  evidence_refs: []
+  severity: normal
+  confidence: high
+  requires_followup: false
+- anomaly_id: ANOM-TG1410-0002
+  type: filename_date_future_relative_to_export
+  description: Filename `14.10.26` is later than the 15.09.2026 export. Internal artifacts instead show October 2025 timestamps.
+  item_refs:
+  - IT-TG1410-0025
+  - IT-TG1410-0032
+  evidence_refs:
+  - EV-TG1410-0004
+  - EV-TG1410-0037
+  severity: critical
+  confidence: high
+  requires_followup: false
+- anomaly_id: ANOM-TG1410-0003
+  type: attachment_heavy_partial_source
+  description: Most turns name attached scripts/JSON/CSV/tree files but their bodies are not embedded in the visible MHTML; only user descriptions and terminal
+    snippets survive.
+  item_refs:
+  - IT-TG1410-0028
+  evidence_refs:
+  - EV-TG1410-0005
+  - EV-TG1410-0024
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-TG1410-0004
+  type: classifier_path_failure
+  description: Historical intent classification fails because INTENT_KEYWORDS_PATH points to a missing file/path.
+  item_refs:
+  - IT-TG1410-0017
+  evidence_refs:
+  - EV-TG1410-0026
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-TG1410-0005
+  type: classifier_runtime_failure_after_decoder_repair
+  description: Canonical label decoder was written successfully, but classify_intent then failed with `_MODEL` undefined; one repaired layer did not imply
+    end-to-end health.
+  item_refs:
+  - IT-TG1410-0018
+  evidence_refs:
+  - EV-TG1410-0028
+  - EV-TG1410-0029
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-TG1410-0006
+  type: config_constant_collision
+  description: Generic DEBERTA_ARCHIVE_BASE_DIR was reused across intent/style/sentiment concerns, motivating entity-specific constant naming.
+  item_refs:
+  - IT-TG1410-0023
+  evidence_refs:
+  - EV-TG1410-0035
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-TG1410-0007
+  type: evaluation_script_sprawl
+  description: Multiple overlapping evaluate/audit scripts accumulated and required role clarification/deduplication.
+  item_refs:
+  - IT-TG1410-0019
+  - IT-TG1410-0031
+  evidence_refs:
+  - EV-TG1410-0024
+  severity: normal
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-TG1410-0008
+  type: zone_identifier_worktree_pollution
+  description: Windows/VS file transfers create Zone.Identifier sidecars in the WSL/project filesystem.
+  item_refs:
+  - IT-TG1410-0024
+  evidence_refs:
+  - EV-TG1410-0015
+  - EV-TG1410-0036
+  severity: normal
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-TG1410-0009
+  type: module_standard_vs_project_standard_scope
+  description: Telegram defines a strong script/documentation standard that resembles later Blueprint doctrine, but it is not automatically project-wide
+    authority.
+  item_refs:
+  - IT-TG1410-0030
+  evidence_refs:
+  - EV-TG1410-0007
+  - EV-TG1410-0027
+  severity: high
+  confidence: high
+  requires_followup: true
+open_loops:
+- loop_id: LOOP-TG1410-0001
+  description: Audit current Telegram ML directory structure and actual train/classify/evaluate ownership.
+  item_refs:
+  - IT-TG1410-0004
+  - IT-TG1410-0019
+  - IT-TG1410-0031
+  last_known_state: Historical code was actively being normalized and deduplicated across style/sentiment/intent.
+  recommended_verification: Inventory current scripts and dependency graph before changing or recreating utilities.
+- loop_id: LOOP-TG1410-0002
+  description: Verify current label-map/decoder contract across train/classify/evaluate.
+  item_refs:
+  - IT-TG1410-0011
+  - IT-TG1410-0016
+  - IT-TG1410-0018
+  - IT-TG1410-0029
+  last_known_state: Historical canonical decoder repair exposed downstream runtime failure.
+  recommended_verification: Run current end-to-end fixture from training artifact through classifier/evaluator and assert label identity.
+- loop_id: LOOP-TG1410-0003
+  description: Verify centralized configuration and entity-specific path constants.
+  item_refs:
+  - IT-TG1410-0007
+  - IT-TG1410-0008
+  - IT-TG1410-0009
+  - IT-TG1410-0023
+  last_known_state: Historical config was repeatedly refactored to remove hard-coded paths and collisions.
+  recommended_verification: Inspect current config/.env, resolve duplicate constants and test from alternate cwd/worktree.
+- loop_id: LOOP-TG1410-0004
+  description: Verify current model revision/archive/promotion workflow.
+  item_refs:
+  - IT-TG1410-0022
+  - IT-TG1410-0023
+  last_known_state: Historical local revision manager was introduced because remote/Hugging Face versioning was problematic.
+  recommended_verification: Determine current model registry/promotion authority and ensure revisions are immutable/reproducible.
+- loop_id: LOOP-TG1410-0005
+  description: Verify current datasets and model quality for intent/style/sentiment.
+  item_refs:
+  - IT-TG1410-0001
+  - IT-TG1410-0002
+  - IT-TG1410-0015
+  last_known_state: Historical style accuracy 0.6394 was considered insufficient; sentiment data was being reviewed against style results.
+  recommended_verification: Use current labeled datasets, leakage/duplicate audits, stratified splits and current acceptance metrics.
+- loop_id: LOOP-TG1410-0006
+  description: Reconcile historical Telegram script standard with current Blueprint engineering standards.
+  item_refs:
+  - IT-TG1410-0005
+  - IT-TG1410-0006
+  - IT-TG1410-0014
+  - IT-TG1410-0030
+  last_known_state: Telegram owner standard requires self-describing scripts, config-first paths, validation, logs and artifact reporting.
+  recommended_verification: Compare against current Blueprint coding/Make/knowledge standards; promote only non-conflicting shared rules.
+- loop_id: LOOP-TG1410-0007
+  description: Clean or prevent Zone.Identifier sidecars in current repository workflows.
+  item_refs:
+  - IT-TG1410-0024
+  last_known_state: Historical Windows→WSL copying produced sidecar files.
+  recommended_verification: Check Git ignore/transfer tooling and current working tree; remove only noncanonical sidecars safely.
+- loop_id: LOOP-TG1410-0008
+  description: Confirm current workstation/WSL environment is irrelevant to production runtime authority.
+  item_refs:
+  - IT-TG1410-0026
+  last_known_state: Historical user-session systemd issue was resolved locally.
+  recommended_verification: Treat workstation environment fixes as local developer support, not production module requirements unless current deployment
+    depends on them.
+implementation_audit_ref: implementation_audit.stub.yaml

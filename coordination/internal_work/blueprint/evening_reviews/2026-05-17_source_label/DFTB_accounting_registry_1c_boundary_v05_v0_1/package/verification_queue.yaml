@@ -1,0 +1,194 @@
+schema_version: forprint_dftb_verification_queue_v0_1
+bundle_id: DFTB-accounting-registry-source-label-2026-05-17
+authority_class: module_history_non_blueprint_authority
+queue:
+- item_id: IT-ACC1705-0001
+  title: Production operational truth should be separated from 1C accounting truth
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-ACC1705-0001
+  - EV-ACC1705-0003
+  - EV-ACC1705-0004
+  - EV-ACC1705-0007
+  current_audit_status: not_audited
+- item_id: IT-ACC1705-0002
+  title: Material stock should be derived from movement events rather than a manually edited balance
+  importance: high
+  dialogue_status: discussed
+  evidence_refs:
+  - EV-ACC1705-0005
+  - EV-ACC1705-0006
+  current_audit_status: not_audited
+- item_id: IT-ACC1705-0003
+  title: 1C synchronization should use outbox/queue and an adapter
+  importance: critical
+  dialogue_status: discussed
+  evidence_refs:
+  - EV-ACC1705-0008
+  current_audit_status: not_audited
+- item_id: IT-ACC1705-0004
+  title: 1C transfer packages need structured provenance
+  importance: high
+  dialogue_status: discussed
+  evidence_refs:
+  - EV-ACC1705-0010
+  current_audit_status: not_audited
+- item_id: IT-ACC1705-0005
+  title: 1C synchronization supports configurable batch and recovery modes
+  importance: normal
+  dialogue_status: discussed
+  evidence_refs:
+  - EV-ACC1705-0009
+  current_audit_status: not_audited
+- item_id: IT-ACC1705-0006
+  title: Accounting work is reported back to Blueprint before the next prompt
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-ACC1705-0011
+  - EV-ACC1705-0013
+  current_audit_status: not_audited
+- item_id: IT-ACC1705-0007
+  title: Accounting Registry tests must contain real assertions rather than empty placeholders
+  importance: high
+  dialogue_status: agreed
+  evidence_refs:
+  - EV-ACC1705-0012
+  current_audit_status: not_audited
+- item_id: IT-ACC1705-0008
+  title: Historical v0.5 validation reports 117 passing tests
+  importance: normal
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-ACC1705-0014
+  current_audit_status: not_audited
+- item_id: IT-ACC1705-0009
+  title: Local/production 1C artifacts must stay out of Git
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-ACC1705-0015
+  current_audit_status: not_audited
+- item_id: IT-ACC1705-0010
+  title: Historical v0.5 implementation commit is 95d4a55 and was pushed cleanly
+  importance: normal
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-ACC1705-0016
+  current_audit_status: not_audited
+- item_id: IT-ACC1705-0011
+  title: Accounting Registry v0.5 handles sanitized/offline 1C intake and parsing
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-ACC1705-0017
+  current_audit_status: not_audited
+- item_id: IT-ACC1705-0012
+  title: Unsanitized and production 1C sources are rejected in the sandbox pipeline
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-ACC1705-0018
+  current_audit_status: not_audited
+- item_id: IT-ACC1705-0013
+  title: Sanitized 1C exports support multiple common file formats
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-ACC1705-0019
+  current_audit_status: not_audited
+- item_id: IT-ACC1705-0014
+  title: 1C discovery/import outputs are staging evidence, not canonical business truth
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-ACC1705-0020
+  current_audit_status: not_audited
+- item_id: IT-ACC1705-0015
+  title: Historical Blueprint status accepts Accounting Registry v0.5 as sandbox_1c_import_export_ready
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-ACC1705-0021
+  current_audit_status: not_audited
+- item_id: IT-ACC1705-0016
+  title: v0.5 acceptance does not authorize live 1C integration
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-ACC1705-0022
+  current_audit_status: not_audited
+- item_id: IT-ACC1705-0017
+  title: v0.5 acceptance forbids production writes
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-ACC1705-0023
+  current_audit_status: not_audited
+- item_id: IT-ACC1705-0018
+  title: v0.5 acceptance forbids automatic posting
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-ACC1705-0024
+  current_audit_status: not_audited
+- item_id: IT-ACC1705-0019
+  title: v0.6 stronger parser profiles are conditional on real sanitized exports
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-ACC1705-0025
+  current_audit_status: not_audited
+- item_id: IT-ACC1705-0020
+  title: Accounting Registry must not become canonical client order product or material owner
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-ACC1705-0026
+  current_audit_status: not_audited
+- item_id: IT-ACC1705-0021
+  title: Accounting Registry has no live runtime integrations with neighboring modules at v0.5
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-ACC1705-0027
+  current_audit_status: not_audited
+- item_id: IT-ACC1705-0022
+  title: v0.6 depends on sanitized counterparties nomenclature invoices payments and balances samples
+  importance: high
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-ACC1705-0028
+  current_audit_status: not_audited
+- item_id: IT-ACC1705-0023
+  title: Until v0.6 inputs arrive Accounting Registry stays in maintenance mode
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-ACC1705-0029
+  current_audit_status: not_audited
+- item_id: IT-ACC1705-0024
+  title: Sanitized fixtures must exclude real private or banking data
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-ACC1705-0030
+  current_audit_status: not_audited
+- item_id: IT-ACC1705-0025
+  title: Accounting Registry owns accounting/1C boundary, not operational truth
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-ACC1705-0004
+  - EV-ACC1705-0026
+  - EV-ACC1705-0027
+  current_audit_status: not_audited
+- item_id: IT-ACC1705-0026
+  title: This Accounting source is module history, not Blueprint authority
+  importance: critical
+  dialogue_status: accepted
+  evidence_refs:
+  - EV-ACC1705-0011
+  - EV-ACC1705-0021
+  current_audit_status: not_audited

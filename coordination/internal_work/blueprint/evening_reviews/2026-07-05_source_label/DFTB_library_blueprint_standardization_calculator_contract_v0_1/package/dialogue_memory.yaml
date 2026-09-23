@@ -1,0 +1,1536 @@
+schema_version: forprint_dftb_dialogue_memory_v0_1
+bundle_id: DFTB-library-source-label-2026-07-05
+source:
+  source_id: SRC-library-source-label-2026-07-05
+  title: Forprint_Library_05.07.26
+  source_type: chatgpt_mhtml_module_dialogue
+  source_file: Forprint_Library_05.07.26.mhtml
+  source_hash_sha256: 6a24a969300645e5dfe1903013be86e2b062ae3650be212fe7760520e93b9dd6
+  conversation_started_at: null
+  conversation_ended_at: Tue, 15 Sep 2026 13:45:12 +0300
+  participants:
+  - user
+  - assistant
+  language:
+  - uk
+  - en
+  authority_scope: library_module_history_only
+  completeness: partial_attachment_heavy_long_running_dialogue
+  completeness_notes: 72 visible message blocks; user=66, assistant=6. Many intermediate turns are attachment placeholders. Visible dated artifacts reach
+    2026-07-29 despite the 05.07 filename.
+extraction:
+  created_at: '2026-09-15T13:45:12+03:00'
+  extractor: GPT-5.6 Sol / Asistans_Forprint_Blueprint
+  extraction_mode: duplicate_check_then_cross_module_library_reconstruction
+  implementation_verification_performed: false
+  notes: Library module history may inform Blueprint coordination but cannot supersede current Blueprint release/architecture/acceptance authority.
+evidence_index:
+- evidence_id: EV-LIB0507-0001
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 16f56333-11a5-42f9-8945-cd10282dfa0e
+    message_id: b4485c95-99d7-4055-9068-a90d1fe6ac93
+    source_file: Forprint_Library_05.07.26.mhtml
+  quote: 'йл. Це вже повний загрузочний промт для ForPrint Library : він фіксує роль модуля як canonical catalog / semantic authority, додає seed v0.1,
+    координаційну структуру, Makefile-стандарт, тести, check-report, blueprint-sync і фінальний completion report. Pasted text Я б запускала його в чаті
+    Forprint_Library саме як робочий промт без скорочення. Він достатньо сильний і структурований, щоб асистент там міг одразу почати з: інспекції дерева
+    проєкту; безпечного внесення структури coordination; додавання catalog seed v0.1; тестів; make check / make check-report ; commit +'
+  quote_whitespace_normalized: true
+  context_before: Loading prompt frames Library as canonical catalog/semantic authority with coordination/Make/check/completion surfaces.
+  context_after: null
+  evidence_role:
+  - assistant_summary
+  - module_role
+- evidence_id: EV-LIB0507-0002
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 16f56333-11a5-42f9-8945-cd10282dfa0e
+    message_id: b4485c95-99d7-4055-9068-a90d1fe6ac93
+    source_file: Forprint_Library_05.07.26.mhtml
+  quote: 'апуску: асистент Library не має робити великий destructive rewrite дерева, а має йти checkpoint-ами, як прописано в самому промті.'
+  quote_whitespace_normalized: true
+  context_before: Assistant says Library should evolve in checkpoints rather than destructive rewrite.
+  context_after: null
+  evidence_role:
+  - assistant_rule
+  - mutation_safety
+- evidence_id: EV-LIB0507-0003
+  speaker: user
+  locator:
+    conversation_turn: 3
+    turn_id: 518f1a64-e807-40e6-b3e2-04e050acc7be
+    message_id: 518f1a64-e807-40e6-b3e2-04e050acc7be
+    source_file: Forprint_Library_05.07.26.mhtml
+  quote: йдемо checkpoint-ами, як прописано в самому промті полетіли піднімати проект мала
+  quote_whitespace_normalized: true
+  context_before: Owner explicitly approves checkpoint execution.
+  context_after: null
+  evidence_role:
+  - owner_instruction
+  - workflow
+- evidence_id: EV-LIB0507-0004
+  speaker: assistant
+  locator:
+    conversation_turn: 4
+    turn_id: e69234f6-674f-4088-81c6-62dc1a8773c5
+    message_id: 65c2d2c1-e537-430f-8ed4-c7807c8a57ad
+    source_file: Forprint_Library_05.07.26.mhtml
+  quote: 'имо до зеленого make check . Так, мала в роботі. Йдемо checkpoint-ами , як у промті: A → B → C → D . База — ForPrint Library як canonical catalog
+    / semantic authority, без client/order/payment/runtime логіки. Pasted text Checkpoint A — старт Ціль: підняти coordination-структуру, Makefile-стандарт
+    і check-report skeleton, але перед цим обовʼязково подивитися реальне дерево проєкту. Зараз у терміналі запускай: Bash cd /srv/software_development/forprint-project/forprint_library
+    pwd git status --short find . -maxdepth 3 -type d | sort find . -max'
+  quote_whitespace_normalized: true
+  context_before: Assistant defines checkpoint sequence and repeats no client/order/payment/runtime logic.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - workflow
+- evidence_id: EV-LIB0507-0005
+  speaker: assistant
+  locator:
+    conversation_turn: 4
+    turn_id: e69234f6-674f-4088-81c6-62dc1a8773c5
+    message_id: 65c2d2c1-e537-430f-8ed4-c7807c8a57ad
+    source_file: Forprint_Library_05.07.26.mhtml
+  quote: щоб вийти на перший зелений checkpoint. Поки нічого не видаляємо і не перебудовуємо. Спочатку дивимося фактичну структуру.
+  quote_whitespace_normalized: true
+  context_before: Checkpoint A begins with repository inspection before mutation.
+  context_after: null
+  evidence_role:
+  - assistant_rule
+  - preflight
+- evidence_id: EV-LIB0507-0006
+  speaker: user
+  locator:
+    conversation_turn: 5
+    turn_id: a020b85d-f819-4eb0-b655-2638b3790122
+    message_id: a020b85d-f819-4eb0-b655-2638b3790122
+    source_file: Forprint_Library_05.07.26.mhtml
+  quote: елет поки нічого критичного і важливого якщо щось не відповідає вимогам Blueprint то можемо зайве легко видаляти і додавати нові файли приводимо
+    все до стандарту blueprint
+  quote_whitespace_normalized: true
+  context_before: Owner allows aggressive cleanup because the skeleton is still noncritical, provided it is brought to Blueprint standard.
+  context_after: null
+  evidence_role:
+  - owner_instruction
+  - cleanup
+- evidence_id: EV-LIB0507-0007
+  speaker: user
+  locator:
+    conversation_turn: 13
+    turn_id: 48619290-5dbc-473d-9b14-51959df7d762
+    message_id: 48619290-5dbc-473d-9b14-51959df7d762
+    source_file: Forprint_Library_05.07.26.mhtml
+  quote: Pasted text.txt Document так не всі команди прошли і помилки є краще великі блоки не писати через термінал бо часто помилки даж краще через VS
+    руками так надійніше
+  quote_whitespace_normalized: true
+  context_before: Owner says large terminal blocks are error-prone and prefers reliable file editing/manual VS workflow.
+  context_after: null
+  evidence_role:
+  - owner_process_rule
+  - operator_workflow
+- evidence_id: EV-LIB0507-0008
+  speaker: user
+  locator:
+    conversation_turn: 73
+    turn_id: 5ef4577b-74f7-4ca4-8dfd-f7369b81ff21
+    message_id: 5ef4577b-74f7-4ca4-8dfd-f7369b81ff21
+    source_file: Forprint_Library_05.07.26.mhtml
+  quote: '$(PYTHON) -m ruff format app scripts tests test: PYTHONPATH=app $(PYTHON) -m pytest check: $(MAKE) lint-fix $(MAKE) lint $(MAKE) test $(MAKE)
+    check-report check-report: PYTHONPATH=app $(PYTHON) scripts/run_library_checks.py blueprint-pull: git -C $(BLUEPRINT_ROOT) pull --ff-only blueprint-check:
+    PYTHONPATH=app $(PYTHON) scripts/check_blueprint_instructions.py blueprint-sync-directives: PYTHONPATH=app $(PYTHON) scripts/sync_blueprint_directives.py
+    coordination-check: @if [ -x "$(BLUEPRINT_ROOT)/.venv_blueprint/bin/python" ] && [ -f "$(BLUEPRINT_ROOT)/s'
+  quote_whitespace_normalized: true
+  context_before: Intermediate Makefile has a mutating `check` via lint-fix.
+  context_after: null
+  evidence_role:
+  - artifact_evidence
+  - makefile
+- evidence_id: EV-LIB0507-0009
+  speaker: user
+  locator:
+    conversation_turn: 73
+    turn_id: 5ef4577b-74f7-4ca4-8dfd-f7369b81ff21
+    message_id: 5ef4577b-74f7-4ca4-8dfd-f7369b81ff21
+    source_file: Forprint_Library_05.07.26.mhtml
+  quote: 'port # --------------------------------------------------------------------------- # Blueprint Make Command Standard v0.2 aliases / make-first
+    workflow # --------------------------------------------------------------------------- .PHONY: \ blueprint-instruction-list \ blueprint-instruction-check
+    \ blueprint-instruction-sync \ blueprint-instruction \ blueprint-standards-list \ blueprint-standards-check \ blueprint-standards-sync \ blueprint-standards
+    \ blueprint-prompts-list \ blueprint-prompts-check \ blueprint-prompts-sync \ blueprint-prompts \ prompt-read \ bluep'
+  quote_whitespace_normalized: true
+  context_before: Intermediate Makefile is being normalized to Blueprint make-first command standard.
+  context_after: null
+  evidence_role:
+  - artifact_evidence
+  - makefile
+- evidence_id: EV-LIB0507-0010
+  speaker: user
+  locator:
+    conversation_turn: 73
+    turn_id: 5ef4577b-74f7-4ca4-8dfd-f7369b81ff21
+    message_id: 5ef4577b-74f7-4ca4-8dfd-f7369b81ff21
+    source_file: Forprint_Library_05.07.26.mhtml
+  quote: '/forprint_system_blueprint .PHONY: install run lint lint-fix test check check-report blueprint-pull blueprint-check blueprint-sync-directives
+    coordination-check coordination-fix module-policy-check format clean dictionary-preview status-report governance-check install: $(PIP) install -e ".[dev]"
+    run: PYTHONPATH=app $(PYTHON) -m uvicorn forprint_library.api.main:app --host 127.0.0.1 --port 8010 --reload lint: PYTHONPATH=app $(PYTHON) -m ruff
+    check app scripts tests lint-fix: PYTHONPATH=app $(PYTHON) -m ruff check app scripts tests --fix format:'
+  quote_whitespace_normalized: true
+  context_before: Makefile includes direct pull of the Blueprint checkout as part of governance workflow.
+  context_after: null
+  evidence_role:
+  - artifact_evidence
+  - cross_repo
+- evidence_id: EV-LIB0507-0011
+  speaker: user
+  locator:
+    conversation_turn: 75
+    turn_id: 47041f57-19cd-4993-8ec3-30807bb6f29a
+    message_id: 47041f57-19cd-4993-8ec3-30807bb6f29a
+    source_file: Forprint_Library_05.07.26.mhtml
+  quote: Pasted text.txt Document у нас у лог полетів весь .venv і .git і make тест постійно висить деі що треба поправити
+  quote_whitespace_normalized: true
+  context_before: Owner reports logging accidentally traverses `.venv`/`.git` and `make test` hangs.
+  context_after: null
+  evidence_role:
+  - owner_observation
+  - tooling
+- evidence_id: EV-LIB0507-0012
+  speaker: user
+  locator:
+    conversation_turn: 81
+    turn_id: b0012e00-8cee-4682-a8a0-8a4749df9f15
+    message_id: b0012e00-8cee-4682-a8a0-8a4749df9f15
+    source_file: Forprint_Library_05.07.26.mhtml
+  quote: t Document я поклав сюди /srv/software_development/forprint-project/forprint_library/docs/architecture/semantic_reference_readiness.md /srv/software_development/forprint-project/forprint_library/docs/architecture/downstream_reference_contract_notes.md
+    бо в корні у нас не лежать файли чи в іншу директорію краще покласти Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Architecture/reference docs are kept under docs/architecture rather than repository root.
+  context_after: null
+  evidence_role:
+  - owner_decision
+  - repository_structure
+- evidence_id: EV-LIB0507-0013
+  speaker: user
+  locator:
+    conversation_turn: 89
+    turn_id: c36b6f8c-c4fb-4cc3-aa8f-c88124764aa3
+    message_id: c36b6f8c-c4fb-4cc3-aa8f-c88124764aa3
+    source_file: Forprint_Library_05.07.26.mhtml
+  quote: таке правили що всі директорії де збирається багато скриптів чи файлів ми створюємо підиректорії щоб групувати файли по тематиці наприклад в тестах
+    у нас вже це частково реалізовано а от в скриптах старі вже чипати не будемо поки а от нові вже треба розкидувати по підиректоріям щоб не було як купа
+    на купі також інші директорії які ми будемо створювати треба відразу по можливості закладати підиректорії якщо передбачається що там буде велике наповнення
+    Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Owner introduces thematic subdirectories for areas expected to accumulate many scripts/files.
+  context_after: null
+  evidence_role:
+  - owner_process_rule
+  - repository_structure
+- evidence_id: EV-LIB0507-0014
+  speaker: user
+  locator:
+    conversation_turn: 89
+    turn_id: c36b6f8c-c4fb-4cc3-aa8f-c88124764aa3
+    message_id: c36b6f8c-c4fb-4cc3-aa8f-c88124764aa3
+    source_file: Forprint_Library_05.07.26.mhtml
+  quote: йли по тематиці наприклад в тестах у нас вже це частково реалізовано а от в скриптах старі вже чипати не будемо поки а от нові вже треба розкидувати
+    по підиректоріям щоб не було як купа на купі також інші директорії які ми будемо створювати треба відразу по можливості закладати підиректорії якщо
+    передбачається що там буде велике наповнення Show more Show less
+  quote_whitespace_normalized: true
+  context_before: Existing old script layout is not mass-migrated immediately; new files follow the new structure.
+  context_after: null
+  evidence_role:
+  - owner_process_rule
+  - migration
+- evidence_id: EV-LIB0507-0015
+  speaker: user
+  locator:
+    conversation_turn: 93
+    turn_id: 88fe6f5e-5d71-4671-afcb-ba15c80d403d
+    message_id: 88fe6f5e-5d71-4671-afcb-ba15c80d403d
+    source_file: Forprint_Library_05.07.26.mhtml
+  quote: ще не уточнив один момент ми в структуруванні директорій притримуємось по можливості 1 рівня вкладеності якщо нема високої доцільності робити більше
+    тому питання чи coordination має лежати в contract принципово чи можемо підняти її на крок вверх
+  quote_whitespace_normalized: true
+  context_before: Owner prefers roughly one level of nesting unless deeper hierarchy has strong justification.
+  context_after: null
+  evidence_role:
+  - owner_process_rule
+  - repository_structure
+- evidence_id: EV-LIB0507-0016
+  speaker: user
+  locator:
+    conversation_turn: 151
+    turn_id: 8deb98d7-d5f1-4563-90bf-3d8219d4d6af
+    message_id: 8deb98d7-d5f1-4563-90bf-3d8219d4d6af
+    source_file: Forprint_Library_05.07.26.mhtml
+  quote: Pasted markdown.md File так даю тобі правили по роботі з blueprint
+  quote_whitespace_normalized: true
+  context_before: Owner supplies explicit Blueprint-working rules, but attachment body is not embedded.
+  context_after: null
+  evidence_role:
+  - owner_input
+  - blueprint_governance
+- evidence_id: EV-LIB0507-0017
+  speaker: user
+  locator:
+    conversation_turn: 169
+    turn_id: 513669e3-51af-4875-bb02-6a48567e9c3a
+    message_id: 513669e3-51af-4875-bb02-6a48567e9c3a
+    source_file: Forprint_Library_05.07.26.mhtml
+  quote: Pasted text.txt Document може бути таке що чіткого референсу ще нема тоді ти мені скажи я прорпрацюю це питання
+  quote_whitespace_normalized: true
+  context_before: Owner says if no clear reference exists, assistant should say so and owner will work the issue out rather than invent one.
+  context_after: null
+  evidence_role:
+  - owner_rule
+  - uncertainty
+- evidence_id: EV-LIB0507-0018
+  speaker: user
+  locator:
+    conversation_turn: 177
+    turn_id: 19b20159-ecb9-4cf8-a488-0bb7438a86bf
+    message_id: 19b20159-ecb9-4cf8-a488-0bb7438a86bf
+    source_file: Forprint_Library_05.07.26.mhtml
+  quote: я невірно щось трактую чи у нас в звіті по кілька разів ідуть ті самі перевірки може дублі не треба робити чи це щось інше?
+  quote_whitespace_normalized: true
+  context_before: Owner challenges repeated checks in reports and asks to avoid duplicates unless semantically distinct.
+  context_after: null
+  evidence_role:
+  - owner_rule
+  - reporting
+- evidence_id: EV-LIB0507-0019
+  speaker: user
+  locator:
+    conversation_turn: 236
+    turn_id: 43268463-26db-427d-a9ba-3b70975d391d
+    message_id: 43268463-26db-427d-a9ba-3b70975d391d
+    source_file: Forprint_Library_05.07.26.mhtml
+  quote: Pasted text(85).txt Document все ок можна перевіряти blueprint
+  quote_whitespace_normalized: true
+  context_before: Owner authorizes moving from Library-local work to Blueprint verification at that checkpoint.
+  context_after: null
+  evidence_role:
+  - owner_instruction
+  - blueprint_review
+- evidence_id: EV-LIB0507-0020
+  speaker: user
+  locator:
+    conversation_turn: 268
+    turn_id: af2a746c-e2f0-4149-b7f8-4289a60b10d9
+    message_id: af2a746c-e2f0-4149-b7f8-4289a60b10d9
+    source_file: Forprint_Library_05.07.26.mhtml
+  quote: calculator_input_contract_intake_20260727_192115.zip Zip Archive
+  quote_whitespace_normalized: true
+  context_before: Calculator Input Contract intake package appears on July 27.
+  context_after: null
+  evidence_role:
+  - artifact_input
+  - calculator_contract
+- evidence_id: EV-LIB0507-0021
+  speaker: user
+  locator:
+    conversation_turn: 302
+    turn_id: 81f08a6d-a939-4b84-aff2-de1f51db0bff
+    message_id: 81f08a6d-a939-4b84-aff2-de1f51db0bff
+    source_file: Forprint_Library_05.07.26.mhtml
+  quote: Pasted text(162).txt Document коміт поки не робив
+  quote_whitespace_normalized: true
+  context_before: Owner explicitly says commit has not yet been made at this intermediate checkpoint.
+  context_after: null
+  evidence_role:
+  - owner_state
+  - git
+- evidence_id: EV-LIB0507-0022
+  speaker: assistant
+  locator:
+    conversation_turn: 327
+    turn_id: 615e8940-d6c2-4833-aa4f-6a6b99d3cc82
+    message_id: 0c4a88a2-105e-4f07-ba24-d6940c2e8bc2
+    source_file: Forprint_Library_05.07.26.mhtml
+  quote: 'ак, можемо продовжувати. Library gate зелений , комітити можна. Підтверджено в логу: MODULE_VALIDATE_EXIT: 0 DIFF_CHECK_EXIT: 0 pytest: 176 passed
+    upstream divergence: 0 0 Поточні зміни очікувані: Makefile , packet, validator script, validator tests. Pasted text Комітимо: Bash cd /srv/software_development/forprint-project/forprint_library
+    git add \ Makefile \ coordination/completion_packets/records/2026-07-29__forprint_library__calculator_input_contract_v0_1_completion.yaml \ scripts/coordination/validate_completion_packet.py
+    \ tests/coordination/test_'
+  quote_whitespace_normalized: true
+  context_before: Final visible pre-commit gate reports module validation and diff check green.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - validation
+- evidence_id: EV-LIB0507-0023
+  speaker: assistant
+  locator:
+    conversation_turn: 327
+    turn_id: 615e8940-d6c2-4833-aa4f-6a6b99d3cc82
+    message_id: 0c4a88a2-105e-4f07-ba24-d6940c2e8bc2
+    source_file: Forprint_Library_05.07.26.mhtml
+  quote: 'ітити можна. Підтверджено в логу: MODULE_VALIDATE_EXIT: 0 DIFF_CHECK_EXIT: 0 pytest: 176 passed upstream divergence: 0 0 Поточні зміни очікувані:
+    Makefile , packet, validator script, validator tests. Pasted text Комітимо: Bash cd /srv/software_development/forprint-project/forprint_library git
+    add \ Makefile \ coordination/completion_packets/records/2026-07-29__forprint_library__calculator_input_contract_v0_1_completion.yaml \ scripts/coordination/validate_completion_packet.py
+    \ tests/coordination/test_completion_packet_validator.py git dif'
+  quote_whitespace_normalized: true
+  context_before: Full Library pytest is reported at 176 passing tests.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - validation
+- evidence_id: EV-LIB0507-0024
+  speaker: assistant
+  locator:
+    conversation_turn: 327
+    turn_id: 615e8940-d6c2-4833-aa4f-6a6b99d3cc82
+    message_id: 0c4a88a2-105e-4f07-ba24-d6940c2e8bc2
+    source_file: Forprint_Library_05.07.26.mhtml
+  quote: tatus -sb git log -10 --oneline git rev-list --left-right --count HEAD...@{upstream} Не додавай tmp.py , tmp/ , reports/ або Blueprint файли.
+  quote_whitespace_normalized: true
+  context_before: Assistant explicitly excludes temporary/reports/Blueprint files from the Library commit.
+  context_after: null
+  evidence_role:
+  - assistant_rule
+  - scope
+- evidence_id: EV-LIB0507-0025
+  speaker: user
+  locator:
+    conversation_turn: 328
+    turn_id: 01e2cf43-36d0-4ee3-b5e0-932282c5a609
+    message_id: 01e2cf43-36d0-4ee3-b5e0-932282c5a609
+    source_file: Forprint_Library_05.07.26.mhtml
+  quote: так я не зрозумів ми що коиітимо в репозиторій blueprint це не вірно ми мажмо працювати з власним репозиторіем з blueprint ми можемо тільки читати
+    наш репозиторій тут git@github.com:Kovalchuk-PrintMaster/Forprint_Library.git
+  quote_whitespace_normalized: true
+  context_before: Owner catches a possible repository-boundary misunderstanding.
+  context_after: null
+  evidence_role:
+  - owner_correction
+  - repo_boundary
+- evidence_id: EV-LIB0507-0026
+  speaker: user
+  locator:
+    conversation_turn: 328
+    turn_id: 01e2cf43-36d0-4ee3-b5e0-932282c5a609
+    message_id: 01e2cf43-36d0-4ee3-b5e0-932282c5a609
+    source_file: Forprint_Library_05.07.26.mhtml
+  quote: иітимо в репозиторій blueprint це не вірно ми мажмо працювати з власним репозиторіем з blueprint ми можемо тільки читати наш репозиторій тут git@github.com:Kovalchuk-PrintMaster/Forprint_Library.git
+  quote_whitespace_normalized: true
+  context_before: Owner states Blueprint is reference/read source; work/commit belongs in Library's own repository.
+  context_after: null
+  evidence_role:
+  - owner_rule
+  - repo_boundary
+- evidence_id: EV-LIB0507-0027
+  speaker: assistant
+  locator:
+    conversation_turn: 329
+    turn_id: 9c76f233-ba67-4dc6-a353-add5646ba62c
+    message_id: a12cfa17-a301-438f-8c7d-3295ecd7ae7f
+    source_file: Forprint_Library_05.07.26.mhtml
+  quote: 'Ти абсолютно правий: у Blueprint repository нічого не комітимо . Ми Blueprint використали тільки як read-only governance source , щоб make module-validate
+    зміг виконати blueprint-pull . Це не означає, що треба щось комітити в Blueprint. Навпаки: Blueprint repo зараз не чіпаємо, не додаємо, не пушимо. Коміт
+    має бути тільки в нашому репозиторії: git@github.com:Kovalchuk-PrintMaster/Forprint_Library.git У твоєму логу видно, що після перевірки ми вже повернулися
+    в Library і статус показує саме Library-зміни: M'
+  quote_whitespace_normalized: true
+  context_before: 'Assistant accepts the correction: no add/commit/push/restore/clean in Blueprint.'
+  context_after: null
+  evidence_role:
+  - assistant_correction
+  - repo_boundary
+- evidence_id: EV-LIB0507-0028
+  speaker: assistant
+  locator:
+    conversation_turn: 329
+    turn_id: 9c76f233-ba67-4dc6-a353-add5646ba62c
+    message_id: a12cfa17-a301-438f-8c7d-3295ecd7ae7f
+    source_file: Forprint_Library_05.07.26.mhtml
+  quote: 'зараз не чіпаємо, не додаємо, не пушимо. Коміт має бути тільки в нашому репозиторії: git@github.com:Kovalchuk-PrintMaster/Forprint_Library.git
+    У твоєму логу видно, що після перевірки ми вже повернулися в Library і статус показує саме Library-зміни: M Makefile , M coordination/completion_packets/...
+    , ?? scripts/coordination/... , ?? tests/coordination/... ; MODULE_VALIDATE_EXIT: 0 , DIFF_CHECK_EXIT: 0 , divergence 0 0 . Pasted text Перед комітом
+    просто перевір repo: Bash cd /srv/software_development/forprint-project/forprint_library pwd git remote get-url origin git branch --show-curre'
+  quote_whitespace_normalized: true
+  context_before: Assistant identifies the intended Library remote.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - repo_identity
+- evidence_id: EV-LIB0507-0029
+  speaker: user
+  locator:
+    conversation_turn: 330
+    turn_id: ea2aff1a-3dbc-4118-987e-11cf4bcda17c
+    message_id: ea2aff1a-3dbc-4118-987e-11cf4bcda17c
+    source_file: Forprint_Library_05.07.26.mhtml
+  quote: 'd, 380 insertions(+), 52 deletions(-) [feature/library-calculator-input-contract-v01 bba52bf] fix: validate Library completion packet schema 4
+    files changed, 380 insertions(+), 52 deletions(-) create mode 100644 scripts/coordination/validate_completion_packet.py create mode 100644 tests/coordination/test_completion_packet_validator.py
+    Enumerating objects: 22, done. Counting objects: 100% (22/22), done. Delta compression using up to 4 threads Compressing objects: 100% (12/12), done.
+    Writing objects: 100% (13/13), 4.41 KiB | 2.21 MiB/s, d'
+  quote_whitespace_normalized: true
+  context_before: User terminal output proves governance-fix commit and push on Library feature branch.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - git
+- evidence_id: EV-LIB0507-0030
+  speaker: user
+  locator:
+    conversation_turn: 330
+    turn_id: ea2aff1a-3dbc-4118-987e-11cf4bcda17c
+    message_id: ea2aff1a-3dbc-4118-987e-11cf4bcda17c
+    source_file: Forprint_Library_05.07.26.mhtml
+  quote: print acceptance metadata 1694215 Finalize Library business card completion metadata 0 0 root@s01:/srv/software_development/forprint-project/forprint_library#
+    Show more Show less
+  quote_whitespace_normalized: true
+  context_before: User output shows zero upstream divergence after push.
+  context_after: null
+  evidence_role:
+  - execution_evidence
+  - git
+- evidence_id: EV-LIB0507-0031
+  speaker: assistant
+  locator:
+    conversation_turn: 331
+    turn_id: ef052bc9-ce33-47ed-9b0d-cf4008b5f418
+    message_id: acf150bb-967b-48a1-8b38-4749c3a20d92
+    source_file: Forprint_Library_05.07.26.mhtml
+  quote: 'льно: commit зроблено саме в Forprint_Library , не в Blueprint. Final status RESULT: READY_FOR_BLUEPRINT_REVIEW Repository repo: git@github.com:Kovalchuk-PrintMaster/Forprint_Library.git
+    branch: feature/library-calculator-input-contract-v01 new final HEAD: bba52bf upstream divergence: 0 0 working tree: clean against origin feature branch
+    New commit bba52bf fix: validate Library completion packet schema Commit pushed: 89c4ec6..bba52bf feature/library-calculator-input-contract-v01 -> feature/library-calculator-input-contract-v01
+    Packet packet path: coordina'
+  quote_whitespace_normalized: true
+  context_before: Assistant final status is ready for Blueprint review, not accepted/merged.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - completion
+- evidence_id: EV-LIB0507-0032
+  speaker: assistant
+  locator:
+    conversation_turn: 331
+    turn_id: ef052bc9-ce33-47ed-9b0d-cf4008b5f418
+    message_id: acf150bb-967b-48a1-8b38-4749c3a20d92
+    source_file: Forprint_Library_05.07.26.mhtml
+  quote: 'rint_library__calculator_input_contract_v0_1_completion.yaml Verified commit fields: implementation_commit: 0b8cbce completion_commit: 89c4ec6
+    governance_fix_commit: bba52bf 0b8cbce лишається правильним implementation commit, бо це commit, який додав сам Calculator input contract implementation.
+    89c4ec6 — completion packet closeout commit. bba52bf — окремий governance-fix commit для schema validator. Validator validator implementation: scripts/coordination/validate_completion_packet.py
+    Make targets тепер не просто перевіряють директорію, а реально використову'
+  quote_whitespace_normalized: true
+  context_before: Completion packet distinguishes implementation, completion, and governance-fix commit identities.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - provenance
+- evidence_id: EV-LIB0507-0033
+  speaker: assistant
+  locator:
+    conversation_turn: 331
+    turn_id: ef052bc9-ce33-47ed-9b0d-cf4008b5f418
+    message_id: acf150bb-967b-48a1-8b38-4749c3a20d92
+    source_file: Forprint_Library_05.07.26.mhtml
+  quote: 'argets тепер не просто перевіряють директорію, а реально використовують PACKET=... : make completion-packet-validate PACKET=... make completion-packet-apply
+    PACKET=... Changed files in governance-fix commit Makefile coordination/completion_packets/records/2026-07-29__forprint_library__calculator_input_contract_v0_1_completion.yaml
+    scripts/coordination/validate_completion_packet.py tests/coordination/test_completion_packet_validator.py Diff summary: 4 files changed, 380 insertions(+),
+    52 deletions(-) Validation evidence Full validation from latest run: make module-val'
+  quote_whitespace_normalized: true
+  context_before: Completion packet targets use an explicit PACKET parameter and validator script.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - completion_packet
+- evidence_id: EV-LIB0507-0034
+  speaker: assistant
+  locator:
+    conversation_turn: 331
+    turn_id: ef052bc9-ce33-47ed-9b0d-cf4008b5f418
+    message_id: acf150bb-967b-48a1-8b38-4749c3a20d92
+    source_file: Forprint_Library_05.07.26.mhtml
+  quote: 'nance-check: OK upstream divergence: 0 0 Check-report totals remained: total_checks: 33 ok: 33 failed: 0 other: 0 Focused validator tests were
+    added in: tests/coordination/test_completion_packet_validator.py I do not see the separate focused pytest output in the final pasted commit log, so
+    for the final Blueprint packet note we should phrase it as: focused validator regression tests: added and covered by full suite full suite: 176 passed
+    If Blueprint wants the exact focused total line, run this once: Bash cd /srv/software_development/forprint-proje'
+  quote_whitespace_normalized: true
+  context_before: Check-report is reported as 33/33 green.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - validation
+- evidence_id: EV-LIB0507-0035
+  speaker: assistant
+  locator:
+    conversation_turn: 331
+    turn_id: ef052bc9-ce33-47ed-9b0d-cf4008b5f418
+    message_id: acf150bb-967b-48a1-8b38-4749c3a20d92
+    source_file: Forprint_Library_05.07.26.mhtml
+  quote: 'etion.py Apply / idempotency Already verified before final gate: first apply result: deferred_no_files_changed second apply result: deferred_no_files_changed
+    idempotency: no new changes, no duplicates, no timestamp-only churn Scope confirmation No changes were made to: Calculator Input Contract implementation
+    Calculator internals price formulas quote totals order creation Telegram Logistics production integrations Blueprint repository Merge status feature_branch_merged:
+    false branch_deleted: false branch_renamed: false accepted_by_blueprint: not set Next'
+  quote_whitespace_normalized: true
+  context_before: Completion packet apply is reported idempotent with no duplicate/timestamp-only churn.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - idempotency
+- evidence_id: EV-LIB0507-0036
+  speaker: assistant
+  locator:
+    conversation_turn: 331
+    turn_id: ef052bc9-ce33-47ed-9b0d-cf4008b5f418
+    message_id: acf150bb-967b-48a1-8b38-4749c3a20d92
+    source_file: Forprint_Library_05.07.26.mhtml
+  quote: 'empotency: no new changes, no duplicates, no timestamp-only churn Scope confirmation No changes were made to: Calculator Input Contract implementation
+    Calculator internals price formulas quote totals order creation Telegram Logistics production integrations Blueprint repository Merge status feature_branch_merged:
+    false branch_deleted: false branch_renamed: false accepted_by_blueprint: not set Next step: run Blueprint acceptance-preview again for forprint_library_calculator_input_contract_v0_1
+    .'
+  quote_whitespace_normalized: true
+  context_before: Assistant confirms governance fix did not alter Calculator implementation/internals or other operational integrations.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - scope
+- evidence_id: EV-LIB0507-0037
+  speaker: assistant
+  locator:
+    conversation_turn: 331
+    turn_id: ef052bc9-ce33-47ed-9b0d-cf4008b5f418
+    message_id: acf150bb-967b-48a1-8b38-4749c3a20d92
+    source_file: Forprint_Library_05.07.26.mhtml
+  quote: 'reation Telegram Logistics production integrations Blueprint repository Merge status feature_branch_merged: false branch_deleted: false branch_renamed:
+    false accepted_by_blueprint: not set Next step: run Blueprint acceptance-preview again for forprint_library_calculator_input_contract_v0_1 .'
+  quote_whitespace_normalized: true
+  context_before: Feature branch remains unmerged and Blueprint acceptance is not yet set.
+  context_after: null
+  evidence_role:
+  - assistant_report
+  - acceptance_boundary
+- evidence_id: EV-LIB0507-0038
+  speaker: assistant
+  locator:
+    conversation_turn: 331
+    turn_id: ef052bc9-ce33-47ed-9b0d-cf4008b5f418
+    message_id: acf150bb-967b-48a1-8b38-4749c3a20d92
+    source_file: Forprint_Library_05.07.26.mhtml
+  quote: 'al pasted commit log, so for the final Blueprint packet note we should phrase it as: focused validator regression tests: added and covered by
+    full suite full suite: 176 passed If Blueprint wants the exact focused total line, run this once: Bash cd /srv/software_development/forprint-project/forprint_library
+    PYTHONPATH = app .venv_forprint_library/bin/python -m pytest \ tests/coordination/test_completion_packet_validator.py \ tests/coordination/test_calculator_input_contract_completion.py
+    Apply / idempotency Already verified before final gate: first apply result: d'
+  quote_whitespace_normalized: true
+  context_before: Assistant explicitly avoids claiming an exact focused-test total not present in the final pasted log.
+  context_after: null
+  evidence_role:
+  - assistant_boundary
+  - evidence_quality
+items:
+- item_id: IT-LIB0507-0001
+  kind: architecture_constraint
+  title: Library remains canonical catalog/semantic authority without runtime business logic
+  statement: The loading prompt and checkpoint plan preserve Library as canonical catalog/semantic authority and exclude client/order/payment/runtime ownership.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - library
+  - module_boundary
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - code
+  - schemas
+  evidence_refs:
+  - EV-LIB0507-0001
+  - EV-LIB0507-0004
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB0507-0002
+  kind: workflow
+  title: Library modernization proceeds through bounded checkpoints
+  statement: Repository inspection and bounded checkpoints A→B→C→D are preferred over a large destructive rewrite.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - library
+  - workflow
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - operations
+  evidence_refs:
+  - EV-LIB0507-0002
+  - EV-LIB0507-0003
+  - EV-LIB0507-0005
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB0507-0003
+  kind: process_rule
+  title: Early noncritical skeleton may be cleaned aggressively to meet Blueprint standard
+  statement: Because the project is still a basic skeleton, obsolete/nonconforming files may be removed or replaced when necessary to bring it to Blueprint
+    standards.
+  dialogue_status: agreed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - library
+  - repository_hygiene
+  implementation_expectation: required
+  verification_targets:
+  - code
+  - docs
+  - config
+  evidence_refs:
+  - EV-LIB0507-0006
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB0507-0004
+  kind: process_rule
+  title: Large changes should use reliable file-based editing rather than huge terminal paste blocks
+  statement: Owner explicitly prefers VS/file editing for large blocks because terminal pastes frequently fail.
+  dialogue_status: agreed
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - operator_workflow
+  - tooling
+  implementation_expectation: required
+  verification_targets:
+  - operations
+  - docs
+  evidence_refs:
+  - EV-LIB0507-0007
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB0507-0005
+  kind: risk
+  title: Intermediate Library `make check` is mutating
+  statement: The visible Makefile defines `check` through `lint-fix`, so validation can mutate source; this conflicts with the later Blueprint invariant
+    that check is read-only.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - library
+  - make_command_surface
+  - mutation_safety
+  implementation_expectation: required
+  verification_targets:
+  - Makefile
+  - tests
+  - docs
+  evidence_refs:
+  - EV-LIB0507-0008
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Later attachment-only turns may have changed this Makefile; current implementation must be audited.
+- item_id: IT-LIB0507-0006
+  kind: process_rule
+  title: Library adopts Blueprint make-first command surface
+  statement: The module is being aligned to Blueprint Make Command Standard with instruction/standards/prompts/module-start/sync/validate/finish and completion-packet
+    targets.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - library
+  - make_command_surface
+  implementation_expectation: required
+  verification_targets:
+  - Makefile
+  - scripts
+  - tests
+  evidence_refs:
+  - EV-LIB0507-0009
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB0507-0007
+  kind: risk
+  title: Blueprint pull inside Library governance workflow can mutate a foreign checkout
+  statement: The visible Makefile includes `git -C $(BLUEPRINT_ROOT) pull --ff-only`; this must be reconciled with the owner rule that Blueprint is a reference
+    source and Library must not operate on Blueprint as its own repo.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - library
+  - cross_repo
+  - git_workflow
+  implementation_expectation: required
+  verification_targets:
+  - Makefile
+  - docs
+  - tests
+  evidence_refs:
+  - EV-LIB0507-0010
+  - EV-LIB0507-0026
+  - EV-LIB0507-0027
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Owner's final correction clearly forbids commit/push/write in Blueprint; whether local pull is allowed must be resolved from current governance.
+- item_id: IT-LIB0507-0008
+  kind: risk
+  title: Repository scanners/loggers must exclude .git and virtual environments
+  statement: Owner reports `.venv` and `.git` flooding logs and a hanging test path; tooling should use bounded/pruned scans and deterministic test execution.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - library
+  - tooling
+  implementation_expectation: required
+  verification_targets:
+  - scripts
+  - tests
+  evidence_refs:
+  - EV-LIB0507-0011
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB0507-0009
+  kind: process_rule
+  title: Architecture/reference docs belong under structured docs directories
+  statement: Files such as semantic-reference readiness and downstream-reference contract notes belong under `docs/architecture` rather than repository
+    root.
+  dialogue_status: agreed
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - library
+  - repository_structure
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  evidence_refs:
+  - EV-LIB0507-0012
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB0507-0010
+  kind: process_rule
+  title: New high-volume directories use thematic one-level subdirectories
+  statement: New scripts/tests/other high-volume areas should group files by theme, generally using one level of nesting unless deeper hierarchy has strong
+    justification.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - library
+  - repository_structure
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - scripts
+  - tests
+  evidence_refs:
+  - EV-LIB0507-0013
+  - EV-LIB0507-0015
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB0507-0011
+  kind: process_rule
+  title: Do not mass-migrate legacy layout merely for cosmetic structure
+  statement: Old script layout may remain temporarily; new files should follow the improved structure without unnecessary churn.
+  dialogue_status: accepted
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - library
+  - repository_structure
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - operations
+  evidence_refs:
+  - EV-LIB0507-0014
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB0507-0012
+  kind: process_rule
+  title: Unknown reference gaps are escalated instead of invented
+  statement: If no clear project reference exists, the assistant should explicitly say so and let the owner resolve the issue rather than fabricate a canonical
+    answer.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - library
+  - governance
+  - uncertainty
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - operations
+  evidence_refs:
+  - EV-LIB0507-0017
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB0507-0013
+  kind: process_rule
+  title: Reports should not repeat semantically identical checks
+  statement: Duplicate validation lines should be consolidated unless they test distinct semantics/evidence classes.
+  dialogue_status: agreed
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - library
+  - reporting
+  implementation_expectation: required
+  verification_targets:
+  - reports
+  - scripts
+  evidence_refs:
+  - EV-LIB0507-0018
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB0507-0014
+  kind: workflow
+  title: Library work can proceed from local validation to Blueprint verification
+  statement: After Library-local preparation, the owner explicitly authorizes Blueprint verification as the next governance step.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - library
+  - blueprint_coordination
+  implementation_expectation: required
+  verification_targets:
+  - reports
+  - operations
+  evidence_refs:
+  - EV-LIB0507-0019
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB0507-0015
+  kind: integration
+  title: Calculator Input Contract is consumed as a bounded Library work package
+  statement: A dated Calculator Input Contract intake package arrives on 2026-07-27 and leads to Library implementation/completion/governance-fix lineage.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - library
+  - calculator
+  - contracts
+  implementation_expectation: unverifiable
+  verification_targets:
+  - contracts
+  - code
+  - tests
+  - git
+  evidence_refs:
+  - EV-LIB0507-0020
+  - EV-LIB0507-0032
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Most implementation steps are attachment-only in this export.
+- item_id: IT-LIB0507-0016
+  kind: process_rule
+  title: Commit is delayed until the module gate is green
+  statement: Owner keeps the change uncommitted until final validation; commit occurs only after module validation/diff/full tests are green.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - library
+  - git_workflow
+  implementation_expectation: required
+  verification_targets:
+  - tests
+  - git
+  evidence_refs:
+  - EV-LIB0507-0021
+  - EV-LIB0507-0022
+  - EV-LIB0507-0023
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB0507-0017
+  kind: process_rule
+  title: Library commits only Library-owned files
+  statement: Temporary files, reports and Blueprint files are excluded from the final Library commit.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - library
+  - repo_boundary
+  implementation_expectation: required
+  verification_targets:
+  - git
+  - tests
+  - docs
+  evidence_refs:
+  - EV-LIB0507-0024
+  - EV-LIB0507-0027
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB0507-0018
+  kind: architecture_constraint
+  title: Blueprint is governance/reference input, not Library's write target
+  statement: Library must work in its own repository. Blueprint can be consulted for governance/standards, but Library must not add/commit/push/restore/clean
+    Blueprint as part of module implementation.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - library
+  - blueprint_coordination
+  - repo_boundary
+  implementation_expectation: required
+  verification_targets:
+  - Makefile
+  - scripts
+  - docs
+  - tests
+  evidence_refs:
+  - EV-LIB0507-0025
+  - EV-LIB0507-0026
+  - EV-LIB0507-0027
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB0507-0019
+  kind: decision
+  title: Canonical Library Git remote is its own repository
+  statement: The intended repository is `git@github.com:Kovalchuk-PrintMaster/Forprint_Library.git`, verified before final commit.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - library
+  - repo_identity
+  implementation_expectation: required
+  verification_targets:
+  - git
+  - docs
+  evidence_refs:
+  - EV-LIB0507-0028
+  - EV-LIB0507-0029
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB0507-0020
+  kind: implementation_claim
+  title: Historical governance-fix commit was pushed cleanly
+  statement: User terminal output shows commit `bba52bf`, push to `feature/library-calculator-input-contract-v01` and upstream divergence `0 0`.
+  dialogue_status: accepted
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - library
+  - git_workflow
+  implementation_expectation: unverifiable
+  verification_targets:
+  - git
+  evidence_refs:
+  - EV-LIB0507-0029
+  - EV-LIB0507-0030
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical terminal evidence only.
+- item_id: IT-LIB0507-0021
+  kind: workflow
+  title: Completion packet separates implementation completion and governance-fix identities
+  statement: The final packet records implementation commit `0b8cbce`, completion commit `89c4ec6`, and governance-fix commit `bba52bf` as distinct provenance
+    roles.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - library
+  - completion_packet
+  - provenance
+  implementation_expectation: required
+  verification_targets:
+  - schemas
+  - scripts
+  - tests
+  evidence_refs:
+  - EV-LIB0507-0032
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB0507-0022
+  kind: requirement
+  title: Completion packet validation/apply uses explicit packet identity
+  statement: Make targets must validate/apply the specified completion packet via `PACKET=...` rather than merely checking that a directory exists.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - library
+  - completion_packet
+  implementation_expectation: required
+  verification_targets:
+  - Makefile
+  - scripts
+  - tests
+  evidence_refs:
+  - EV-LIB0507-0033
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB0507-0023
+  kind: implementation_claim
+  title: Historical final Library validation is fully green
+  statement: Final report claims `module-validate` 0, diff-check 0, full pytest 176 passed, check-report 33/33, coordination/governance checks OK and zero
+    upstream divergence.
+  dialogue_status: accepted
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - library
+  - validation
+  implementation_expectation: unverifiable
+  verification_targets:
+  - tests
+  - reports
+  - git
+  evidence_refs:
+  - EV-LIB0507-0022
+  - EV-LIB0507-0023
+  - EV-LIB0507-0034
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical assistant/user outputs only.
+- item_id: IT-LIB0507-0024
+  kind: process_rule
+  title: Completion packet apply must be idempotent
+  statement: Repeated apply should not create changes, duplicates or timestamp-only churn; historical result is `deferred_no_files_changed` twice.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - library
+  - completion_packet
+  - idempotency
+  implementation_expectation: required
+  verification_targets:
+  - scripts
+  - tests
+  evidence_refs:
+  - EV-LIB0507-0035
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB0507-0025
+  kind: process_rule
+  title: Governance fixes must not silently change domain implementation scope
+  statement: The final validator/packet fix is explicitly separated from Calculator input-contract implementation and does not alter price formulas, totals,
+    order creation or other integrations.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - library
+  - scope_control
+  implementation_expectation: required
+  verification_targets:
+  - git
+  - tests
+  - reports
+  evidence_refs:
+  - EV-LIB0507-0036
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB0507-0026
+  kind: process_rule
+  title: READY_FOR_BLUEPRINT_REVIEW is not acceptance or merge
+  statement: Final Library state is ready for Blueprint review while feature branch remains unmerged and `accepted_by_blueprint` is unset.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - library
+  - acceptance
+  - blueprint_coordination
+  implementation_expectation: required
+  verification_targets:
+  - reports
+  - config
+  - git
+  evidence_refs:
+  - EV-LIB0507-0031
+  - EV-LIB0507-0037
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB0507-0027
+  kind: process_rule
+  title: Do not overclaim focused test evidence not present in the log
+  statement: If the exact focused-test output is absent, report only that focused tests were added/covered by full suite, not an invented focused pass count.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - library
+  - evidence_quality
+  implementation_expectation: required
+  verification_targets:
+  - reports
+  - docs
+  evidence_refs:
+  - EV-LIB0507-0038
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB0507-0028
+  kind: risk
+  title: Blueprint working rules attachment is not recoverable from this export
+  statement: The owner supplies explicit Blueprint work rules at turn 151, but the attachment body is missing; downstream reconstruction must not invent
+    those rules from the placeholder.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - library
+  - provenance
+  implementation_expectation: unverifiable
+  verification_targets:
+  - docs
+  evidence_refs:
+  - EV-LIB0507-0016
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-LIB0507-0029
+  kind: risk
+  title: Most mid-dialogue implementation history is attachment-only
+  statement: The source contains many pasted-text placeholders from turns 43–326, so exact intermediate migrations/checks cannot be reconstructed solely
+    from MHTML visible text.
+  dialogue_status: accepted
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - library
+  - provenance
+  implementation_expectation: unverifiable
+  verification_targets:
+  - reports
+  - git
+  evidence_refs:
+  - EV-LIB0507-0019
+  - EV-LIB0507-0020
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Use repo history/current artifacts for missing intermediate details.
+- item_id: IT-LIB0507-0030
+  kind: architecture_constraint
+  title: This Library dialogue is module evidence and cannot supersede Blueprint authority
+  statement: Library decisions and results may support coordination, but current Blueprint release/architecture/acceptance authority remains superior on
+    conflicts.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - authority
+  - cross_module
+  - library
+  implementation_expectation: required
+  verification_targets:
+  - indexes
+  - docs
+  evidence_refs:
+  - EV-LIB0507-0019
+  - EV-LIB0507-0031
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+relations:
+- relation_id: REL-LIB0507-0001
+  from_item: IT-LIB0507-0002
+  type: enables
+  to_item: IT-LIB0507-0003
+  evidence_refs:
+  - EV-LIB0507-0003
+  - EV-LIB0507-0006
+  confidence: medium
+- relation_id: REL-LIB0507-0002
+  from_item: IT-LIB0507-0006
+  type: refines
+  to_item: IT-LIB0507-0005
+  evidence_refs:
+  - EV-LIB0507-0008
+  - EV-LIB0507-0009
+  confidence: high
+- relation_id: REL-LIB0507-0003
+  from_item: IT-LIB0507-0010
+  type: refines
+  to_item: IT-LIB0507-0009
+  evidence_refs:
+  - EV-LIB0507-0012
+  - EV-LIB0507-0013
+  - EV-LIB0507-0015
+  confidence: high
+- relation_id: REL-LIB0507-0004
+  from_item: IT-LIB0507-0018
+  type: constrains
+  to_item: IT-LIB0507-0007
+  evidence_refs:
+  - EV-LIB0507-0026
+  - EV-LIB0507-0027
+  confidence: high
+- relation_id: REL-LIB0507-0005
+  from_item: IT-LIB0507-0015
+  type: enables
+  to_item: IT-LIB0507-0021
+  evidence_refs:
+  - EV-LIB0507-0020
+  - EV-LIB0507-0032
+  confidence: high
+- relation_id: REL-LIB0507-0006
+  from_item: IT-LIB0507-0021
+  type: enables
+  to_item: IT-LIB0507-0022
+  evidence_refs:
+  - EV-LIB0507-0032
+  - EV-LIB0507-0033
+  confidence: high
+- relation_id: REL-LIB0507-0007
+  from_item: IT-LIB0507-0022
+  type: enables
+  to_item: IT-LIB0507-0024
+  evidence_refs:
+  - EV-LIB0507-0033
+  - EV-LIB0507-0035
+  confidence: high
+- relation_id: REL-LIB0507-0008
+  from_item: IT-LIB0507-0023
+  type: enables
+  to_item: IT-LIB0507-0026
+  evidence_refs:
+  - EV-LIB0507-0034
+  - EV-LIB0507-0031
+  confidence: high
+- relation_id: REL-LIB0507-0009
+  from_item: IT-LIB0507-0027
+  type: constrains
+  to_item: IT-LIB0507-0023
+  evidence_refs:
+  - EV-LIB0507-0038
+  confidence: high
+anomalies:
+- anomaly_id: ANOM-LIB0507-0001
+  type: new_unique_cross_module_source
+  description: No message IDs overlap prior loaded sources, including the earlier Library 16.05 dialogue. This is a distinct Library history layer.
+  item_refs: []
+  evidence_refs: []
+  severity: normal
+  confidence: high
+  requires_followup: false
+- anomaly_id: ANOM-LIB0507-0002
+  type: partial_attachment_heavy_capture
+  description: 72 visible message blocks survive, but 66 are user turns and many are attachment placeholders. Most implementation detail between checkpoints
+    is unavailable in visible text.
+  item_refs:
+  - IT-LIB0507-0029
+  evidence_refs: []
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-LIB0507-0003
+  type: long_span_filename_label
+  description: Filename says 05.07.26, but visible artifacts extend through Calculator intake 2026-07-27 and completion packet 2026-07-29. Treat filename
+    as source/start label, not endpoint.
+  item_refs:
+  - IT-LIB0507-0015
+  - IT-LIB0507-0021
+  evidence_refs:
+  - EV-LIB0507-0020
+  - EV-LIB0507-0032
+  severity: high
+  confidence: high
+  requires_followup: false
+- anomaly_id: ANOM-LIB0507-0004
+  type: mutating_check_surface
+  description: Intermediate Makefile makes `check` depend on `lint-fix`, conflicting with the later Blueprint read-only check invariant.
+  item_refs:
+  - IT-LIB0507-0005
+  evidence_refs:
+  - EV-LIB0507-0008
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-LIB0507-0005
+  type: foreign_checkout_mutation_ambiguity
+  description: Intermediate `blueprint-pull` mutates the local Blueprint checkout, while the owner later says Blueprint is read/reference-only and explicitly
+    forbids repository operations such as commit/push/restore/clean there. Current policy on local pull must be resolved.
+  item_refs:
+  - IT-LIB0507-0007
+  - IT-LIB0507-0018
+  evidence_refs:
+  - EV-LIB0507-0010
+  - EV-LIB0507-0026
+  - EV-LIB0507-0027
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-LIB0507-0006
+  type: repo_boundary_correction
+  description: Owner catches ambiguity about whether the final commit could target Blueprint and explicitly reasserts Library-only commit/push ownership.
+  item_refs:
+  - IT-LIB0507-0018
+  - IT-LIB0507-0019
+  evidence_refs:
+  - EV-LIB0507-0025
+  - EV-LIB0507-0026
+  - EV-LIB0507-0027
+  severity: critical
+  confidence: high
+  requires_followup: false
+- anomaly_id: ANOM-LIB0507-0007
+  type: ready_for_review_not_accepted
+  description: Final module state is READY_FOR_BLUEPRINT_REVIEW while branch is unmerged and Blueprint acceptance is unset. Green local validation must
+    not be read as acceptance.
+  item_refs:
+  - IT-LIB0507-0026
+  evidence_refs:
+  - EV-LIB0507-0031
+  - EV-LIB0507-0037
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-LIB0507-0008
+  type: focused_test_count_not_preserved
+  description: Focused validator tests exist, but the final visible log lacks the exact focused-test result line; only the full suite 176-pass evidence
+    is preserved.
+  item_refs:
+  - IT-LIB0507-0027
+  evidence_refs:
+  - EV-LIB0507-0038
+  severity: normal
+  confidence: high
+  requires_followup: false
+- anomaly_id: ANOM-LIB0507-0009
+  type: report_check_duplication_concern
+  description: Owner notices repeated checks in reports and questions duplicate evidence, motivating semantic deduplication of reporting surfaces.
+  item_refs:
+  - IT-LIB0507-0013
+  evidence_refs:
+  - EV-LIB0507-0018
+  severity: normal
+  confidence: high
+  requires_followup: true
+open_loops:
+- loop_id: LOOP-LIB0507-0001
+  description: Verify current Library Makefile keeps `check` read-only and separates lint-fix/mutation.
+  item_refs:
+  - IT-LIB0507-0005
+  - IT-LIB0507-0006
+  last_known_state: Visible intermediate Makefile has `check -> lint-fix -> lint -> test -> check-report`.
+  recommended_verification: Inspect live Makefile and tests; confirm read-only checks cannot mutate source.
+- loop_id: LOOP-LIB0507-0002
+  description: Resolve current Blueprint-read policy for Library, especially local `blueprint-pull`.
+  item_refs:
+  - IT-LIB0507-0007
+  - IT-LIB0507-0018
+  last_known_state: Intermediate workflow pulls Blueprint locally; owner later states Blueprint is read/reference-only and forbids write/commit/push operations.
+  recommended_verification: Use current Blueprint/module policy to decide whether pull/fetch is allowed and make foreign-repo mutation boundaries explicit.
+- loop_id: LOOP-LIB0507-0003
+  description: Verify Calculator Input Contract implementation/completion/governance-fix lineage and Blueprint acceptance.
+  item_refs:
+  - IT-LIB0507-0015
+  - IT-LIB0507-0020
+  - IT-LIB0507-0021
+  - IT-LIB0507-0026
+  last_known_state: Historical final state READY_FOR_BLUEPRINT_REVIEW; branch unmerged; accepted_by_blueprint unset.
+  recommended_verification: Resolve current Library git history plus Blueprint intake/acceptance records; do not infer acceptance from local green state.
+- loop_id: LOOP-LIB0507-0004
+  description: Verify completion packet validator uses explicit packet identity and remains idempotent.
+  item_refs:
+  - IT-LIB0507-0022
+  - IT-LIB0507-0024
+  last_known_state: Historical governance fix adds validator/Make PACKET target and reports two no-op idempotent applies.
+  recommended_verification: Run current focused validator/idempotency tests against current completion packet schema.
+- loop_id: LOOP-LIB0507-0005
+  description: Verify repository structure rules are captured in durable current policy.
+  item_refs:
+  - IT-LIB0507-0009
+  - IT-LIB0507-0010
+  - IT-LIB0507-0011
+  last_known_state: Owner establishes thematic grouping and generally one-level nesting for new high-volume areas.
+  recommended_verification: Inspect current Library/Blueprint structure standards and confirm this historical module-local rule is still applicable.
+- loop_id: LOOP-LIB0507-0006
+  description: Recover or supersede missing Blueprint working-rules attachment from turn 151.
+  item_refs:
+  - IT-LIB0507-0028
+  last_known_state: Attachment body is absent from MHTML.
+  recommended_verification: Prefer current module policy/AGENTS/release authority; only recover old attachment if historical provenance is specifically
+    needed.
+- loop_id: LOOP-LIB0507-0007
+  description: Verify reporting pipeline deduplicates semantically identical checks without hiding distinct evidence classes.
+  item_refs:
+  - IT-LIB0507-0013
+  last_known_state: Owner flags repeated checks as potentially redundant.
+  recommended_verification: Audit current check-report generation and classify each repeated check by unique evidence purpose.
+implementation_audit_ref: implementation_audit.stub.yaml

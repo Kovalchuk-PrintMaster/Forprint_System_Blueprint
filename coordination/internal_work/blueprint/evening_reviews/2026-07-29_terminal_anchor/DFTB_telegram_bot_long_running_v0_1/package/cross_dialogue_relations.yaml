@@ -1,0 +1,51 @@
+schema_version: forprint_dftb_cross_dialogue_relations_v0_1
+bundle_id: DFTB-telegram-bot-long-running-filename-label-2026-10-13
+authority_class: telegram_module_history_non_blueprint_authority
+relations:
+- type: complements
+  from_bundle: DFTB-telegram-bot-long-running-filename-label-2026-10-13
+  to_bundle: DFTB-telegram-bot-filename-label-2026-10-12
+  confidence: HIGH
+  note: 12.10 source focuses on conversational template taxonomies/datasets; this long-running root covers behavior modeling, runtime development and governance
+    closeout.
+- type: refined_by
+  from_bundle: DFTB-telegram-bot-long-running-filename-label-2026-10-13
+  to_bundle: DFTB_blueprint-2026-07-14
+  confidence: HIGH
+  note: Later Blueprint clarifies Telegram as operational interface rather than canonical truth and separates Logistics/CRM/Calculator authorities.
+- type: requires_reconciliation_with
+  from_bundle: DFTB-telegram-bot-long-running-filename-label-2026-10-13
+  to_bundle: DFTB-logistics-service-source-label-2026-06-10
+  confidence: HIGH
+  note: Early Telegram delivery/provider ideas must be reconciled with separate Logistics service ownership.
+- type: supports
+  from_bundle: DFTB-telegram-bot-long-running-filename-label-2026-10-13
+  to_bundle: DFTB_blueprint-2026-08-05-continuation
+  confidence: HIGH
+  note: Telegram governance adopts canonical Make/completion/rolling-status patterns that later Blueprint hardens across modules.
+item_relations:
+- type: constrained_by
+  from_item: IT-TG1310-0006
+  to_item: IT-BP1407-0011
+  confidence: HIGH
+  note: Telegram operational interface must not become canonical client truth.
+- type: constrained_by
+  from_item: IT-TG1310-0007
+  to_item: IT-BP1407-0012
+  confidence: HIGH
+  note: Delivery/provider execution belongs to Logistics rather than Telegram.
+- type: supports
+  from_item: IT-TG1310-0026
+  to_item: IT-BP0508C-0010
+  confidence: MEDIUM
+  note: Canonical Make command surface is adopted at module side.
+- type: supports
+  from_item: IT-TG1310-0027
+  to_item: IT-BP1708-0005
+  confidence: HIGH
+  note: Module writes its own evidence; Blueprint review/acceptance is separate.
+- type: supports
+  from_item: IT-TG1310-0036
+  to_item: IT-BP1708-0006
+  confidence: HIGH
+  note: READY_FOR_BLUEPRINT_REVIEW remains distinct from accept/promote.

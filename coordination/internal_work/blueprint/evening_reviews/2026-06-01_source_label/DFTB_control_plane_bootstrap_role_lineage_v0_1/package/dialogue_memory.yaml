@@ -1,0 +1,1247 @@
+schema_version: forprint_dftb_dialogue_memory_v0_1
+bundle_id: DFTB-control-plane-source-label-2026-06-01
+source:
+  source_id: SRC-control-plane-source-label-2026-06-01
+  title: ForPrint Control Plane_01.06.26
+  source_type: chatgpt_mhtml_module_dialogue
+  source_file: ForPrint Control Plane_01.06.26.mhtml
+  source_hash_sha256: cdd481e1607a395007f10995622396eab4db50c00fc9d311fdbf4d1ec8a20b08
+  conversation_started_at: null
+  conversation_ended_at: Tue, 15 Sep 2026 13:46:29 +0300
+  participants:
+  - user
+  - assistant
+  language:
+  - uk
+  - en
+  authority_scope: historical_control_plane_bootstrap_proposal_only
+  completeness: extremely_partial
+  completeness_notes: Only 2 visible turns survive. User turn is only `Pasted text.txt Document`; the direct owner prompt body is missing. The assistant
+    turn contains a detailed bootstrap implementation plan/proposal. No owner acceptance, implementation, tests or commits are preserved.
+extraction:
+  created_at: '2026-09-15T14:42:00+03:00'
+  extractor: GPT-5.6 Sol / Asistans_Forprint_Blueprint
+  extraction_mode: duplicate_check_then_strict_partial_control_plane_reconstruction
+  implementation_verification_performed: false
+  notes: All substantive items are derived from assistant-side historical summary/proposal because the user attachment is missing. They must not be promoted
+    to accepted/current authority without independent evidence.
+evidence_index:
+- evidence_id: EV-CP0106-0001
+  speaker: user
+  locator:
+    conversation_turn: 1
+    turn_id: c946dfca-2718-48f1-a4d1-a6e127cb5335
+    message_id: c946dfca-2718-48f1-a4d1-a6e127cb5335
+    source_file: ForPrint Control Plane_01.06.26.mhtml
+  quote: Pasted text.txt Document
+  quote_whitespace_normalized: true
+  context_before: The direct owner bootstrap prompt is absent from the MHTML; only an attachment placeholder survives.
+  context_after: null
+  evidence_role:
+  - source_gap
+  - owner_prompt_missing
+- evidence_id: EV-CP0106-0002
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 839db522-ece4-459b-9347-a724012303bc
+    message_id: 9f908847-b599-48c0-9599-69d88d2cff57
+    source_file: ForPrint Control Plane_01.06.26.mhtml
+  quote: 'Прийняла промт для нового модуля ForPrint Control Plane . Роль модуля зрозуміла: це окремий верхній шар стратегічного управління, який не замінює
+    Blueprint, CRM, Inspector або доменні сервіси, а визначає цілі, пріоритети, автономію, decision rights, checkpoint-протокол і impact/action reports
+    . Pasted text Bootstrap Implementation Plan — forprint_control_plane 1. Підтверджене розуміння ролі forprint_control_plane має відповідати на питання:
+    чому система рухається саме в цьому напрямку; які стратегічні цілі активні; які модулі зараз P0 / P1 / hold / selective; що модулі можуть робити самостійно;
+    що потребує owner checkpoint; які модулі зачіп'
+  quote_whitespace_normalized: true
+  context_before: Assistant summarizes the intended Control Plane as a separate strategic-governance layer.
+  context_after: null
+  evidence_role:
+  - assistant_summary_of_missing_prompt
+  - module_role
+- evidence_id: EV-CP0106-0003
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 839db522-ece4-459b-9347-a724012303bc
+    message_id: 9f908847-b599-48c0-9599-69d88d2cff57
+    source_file: ForPrint Control Plane_01.06.26.mhtml
+  quote: 'іпає зміна стратегії; які impact reports і module action plans треба сформувати. Важлива межа: Control Plane = стратегія / governance / autonomy
+    / priorities System Blueprint = архітектура / ownership / contracts / boundaries Project Inspector = перевірка фактичного стану модулів CRM = human-facing
+    coordination/dashboard Domain modules = реальна робота 2. Пропонована v0.1 структура Робоча директорія: /srv/software_development/forprint-project/forprint_control_plane
+    Репозиторій: git@github.com:Kovalchuk-PrintMaster/Forprint_Control_Plane.git Структура v0.1: forprint_control_plane/ ├── README.md ├── Makefile ├──
+    pyproject.toml ├── .gitignore ├── forprint_module_manifest.'
+  quote_whitespace_normalized: true
+  context_before: Assistant distinguishes Control Plane from Blueprint, Inspector, CRM and domain modules.
+  context_after: null
+  evidence_role:
+  - assistant_design
+  - authority_boundary
+- evidence_id: EV-CP0106-0004
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 839db522-ece4-459b-9347-a724012303bc
+    message_id: 9f908847-b599-48c0-9599-69d88d2cff57
+    source_file: ForPrint Control Plane_01.06.26.mhtml
+  quote: 'треба сформувати. Важлива межа: Control Plane = стратегія / governance / autonomy / priorities System Blueprint = архітектура / ownership / contracts
+    / boundaries Project Inspector = перевірка фактичного стану модулів CRM = human-facing coordination/dashboard Domain modules = реальна робота 2. Пропонована
+    v0.1 структура Робоча директорія: /srv/software_development/forprint-project/forprint_control_plane Репозиторій: git@github.com:Kovalchuk-PrintMaster/Forprint_Control_Plane.git
+    Структура v0.1: forprint_control_plane/ ├── README.md ├── Makefile ├── pyproject.toml ├── .gitignore ├── forprint_module_manifest.yaml │ ├── machine/
+    ├── human/ ├── examples/ ├── scripts/ ├── report'
+  quote_whitespace_normalized: true
+  context_before: Blueprint is described as architecture/ownership/contracts/boundaries rather than strategic governance.
+  context_after: null
+  evidence_role:
+  - assistant_design
+  - blueprint_boundary
+- evidence_id: EV-CP0106-0005
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 839db522-ece4-459b-9347-a724012303bc
+    message_id: 9f908847-b599-48c0-9599-69d88d2cff57
+    source_file: ForPrint Control Plane_01.06.26.mhtml
+  quote: 'ce / autonomy / priorities System Blueprint = архітектура / ownership / contracts / boundaries Project Inspector = перевірка фактичного стану
+    модулів CRM = human-facing coordination/dashboard Domain modules = реальна робота 2. Пропонована v0.1 структура Робоча директорія: /srv/software_development/forprint-project/forprint_control_plane
+    Репозиторій: git@github.com:Kovalchuk-PrintMaster/Forprint_Control_Plane.git Структура v0.1: forprint_control_plane/ ├── README.md ├── Makefile ├──
+    pyproject.toml ├── .gitignore ├── forprint_module_manifest.yaml │ ├── machine/ ├── human/ ├── examples/ ├── scripts/ ├── reports/ └── tests/ Це буде
+    малий file-based skeleton'
+  quote_whitespace_normalized: true
+  context_before: Inspector is described as factual-state verification rather than strategy ownership.
+  context_after: null
+  evidence_role:
+  - assistant_design
+  - inspector_boundary
+- evidence_id: EV-CP0106-0006
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 839db522-ece4-459b-9347-a724012303bc
+    message_id: 9f908847-b599-48c0-9599-69d88d2cff57
+    source_file: ForPrint Control Plane_01.06.26.mhtml
+  quote: 'ра / ownership / contracts / boundaries Project Inspector = перевірка фактичного стану модулів CRM = human-facing coordination/dashboard Domain
+    modules = реальна робота 2. Пропонована v0.1 структура Робоча директорія: /srv/software_development/forprint-project/forprint_control_plane Репозиторій:
+    git@github.com:Kovalchuk-PrintMaster/Forprint_Control_Plane.git Структура v0.1: forprint_control_plane/ ├── README.md ├── Makefile ├── pyproject.toml
+    ├── .gitignore ├── forprint_module_manifest.yaml │ ├── machine/ ├── human/ ├── examples/ ├── scripts/ ├── reports/ └── tests/ Це буде малий file-based
+    skeleton , без API, БД, UI, Telegram notification, agent a'
+  quote_whitespace_normalized: true
+  context_before: CRM is described as human-facing coordination/dashboard rather than strategic authority.
+  context_after: null
+  evidence_role:
+  - assistant_design
+  - crm_boundary
+- evidence_id: EV-CP0106-0007
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 839db522-ece4-459b-9347-a724012303bc
+    message_id: 9f908847-b599-48c0-9599-69d88d2cff57
+    source_file: ForPrint Control Plane_01.06.26.mhtml
+  quote: 'oject Inspector = перевірка фактичного стану модулів CRM = human-facing coordination/dashboard Domain modules = реальна робота 2. Пропонована
+    v0.1 структура Робоча директорія: /srv/software_development/forprint-project/forprint_control_plane Репозиторій: git@github.com:Kovalchuk-PrintMaster/Forprint_Control_Plane.git
+    Структура v0.1: forprint_control_plane/ ├── README.md ├── Makefile ├── pyproject.toml ├── .gitignore ├── forprint_module_manifest.yaml │ ├── machine/
+    ├── human/ ├── examples/ ├── scripts/ ├── reports/ └── tests/ Це буде малий file-based skeleton , без API, БД, UI, Telegram notification, agent automation
+    або інтеграцій з іншим'
+  quote_whitespace_normalized: true
+  context_before: Domain modules are the execution layer.
+  context_after: null
+  evidence_role:
+  - assistant_design
+  - domain_boundary
+- evidence_id: EV-CP0106-0008
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 839db522-ece4-459b-9347-a724012303bc
+    message_id: 9f908847-b599-48c0-9599-69d88d2cff57
+    source_file: ForPrint Control Plane_01.06.26.mhtml
+  quote: 'fest.yaml │ ├── machine/ ├── human/ ├── examples/ ├── scripts/ ├── reports/ └── tests/ Це буде малий file-based skeleton , без API, БД, UI, Telegram
+    notification, agent automation або інтеграцій з іншими репозиторіями. 3. Пропоновані machine files У machine/ створюємо: strategic_goals.yaml business_principles.yaml
+    module_priority_map.yaml autonomy_levels.yaml decision_rights.yaml impact_rules.yaml checkpoint_protocol.yaml change_requests.yaml notification_rules.yaml
+    module_report_schema.yaml Ключова логіка: strategic_goals.yaml — початкові цілі: manual order reduction, channel-agnostic intake, calculator logic-first,
+    1C sandbox-firs'
+  quote_whitespace_normalized: true
+  context_before: v0.1 is proposed as a small file-based skeleton with no integrations.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - bootstrap
+- evidence_id: EV-CP0106-0009
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 839db522-ece4-459b-9347-a724012303bc
+    message_id: 9f908847-b599-48c0-9599-69d88d2cff57
+    source_file: ForPrint Control Plane_01.06.26.mhtml
+  quote: 'tion або інтеграцій з іншими репозиторіями. 3. Пропоновані machine files У machine/ створюємо: strategic_goals.yaml business_principles.yaml module_priority_map.yaml
+    autonomy_levels.yaml decision_rights.yaml impact_rules.yaml checkpoint_protocol.yaml change_requests.yaml notification_rules.yaml module_report_schema.yaml
+    Ключова логіка: strategic_goals.yaml — початкові цілі: manual order reduction, channel-agnostic intake, calculator logic-first, 1C sandbox-first, owner
+    micro-management reduction. module_priority_map.yaml — P0: Telegram Bot ORDER Core + Calculator Engine; P1: Accounting Registry 1C sandbox; Hold: Operational
+    Reg'
+  quote_whitespace_normalized: true
+  context_before: Proposed machine surfaces include goals, principles, priority map, autonomy, decision rights, impact rules, checkpoints, change requests,
+    notifications and report schema.
+  context_after: null
+  evidence_role:
+  - assistant_plan
+  - machine_surfaces
+- evidence_id: EV-CP0106-0010
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 839db522-ece4-459b-9347-a724012303bc
+    message_id: 9f908847-b599-48c0-9599-69d88d2cff57
+    source_file: ForPrint Control Plane_01.06.26.mhtml
+  quote: 'on_rules.yaml module_report_schema.yaml Ключова логіка: strategic_goals.yaml — початкові цілі: manual order reduction, channel-agnostic intake,
+    calculator logic-first, 1C sandbox-first, owner micro-management reduction. module_priority_map.yaml — P0: Telegram Bot ORDER Core + Calculator Engine;
+    P1: Accounting Registry 1C sandbox; Hold: Operational Registry/Gateway. autonomy_levels.yaml — Level 0–5, де Level 5 заборонений. decision_rights.yaml
+    — що кожен модуль може робити без owner approval і що тільки через checkpoint. impact_rules.yaml — правила впливу для channel strategy, pricing strategy,
+    1C integration, order ownership. mod'
+  quote_whitespace_normalized: true
+  context_before: Initial strategic goals include manual-order reduction, channel-agnostic intake, calculator logic-first, 1C sandbox-first and less owner
+    micromanagement.
+  context_after: null
+  evidence_role:
+  - assistant_proposal
+  - strategic_goals
+- evidence_id: EV-CP0106-0011
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 839db522-ece4-459b-9347-a724012303bc
+    message_id: 9f908847-b599-48c0-9599-69d88d2cff57
+    source_file: ForPrint Control Plane_01.06.26.mhtml
+  quote: 'or logic-first, 1C sandbox-first, owner micro-management reduction. module_priority_map.yaml — P0: Telegram Bot ORDER Core + Calculator Engine;
+    P1: Accounting Registry 1C sandbox; Hold: Operational Registry/Gateway. autonomy_levels.yaml — Level 0–5, де Level 5 заборонений. decision_rights.yaml
+    — що кожен модуль може робити без owner approval і що тільки через checkpoint. impact_rules.yaml — правила впливу для channel strategy, pricing strategy,
+    1C integration, order ownership. module_report_schema.yaml — універсальна форма звіту від модулів. 4. Пропоновані human docs У human/ створюємо: strategic_control_plane_overview.md
+    business_doctrine.md autonomy_po'
+  quote_whitespace_normalized: true
+  context_before: Historical proposed priority snapshot puts Telegram/Calculator P0, Accounting sandbox P1 and Operational Registry/Gateway on hold.
+  context_after: null
+  evidence_role:
+  - assistant_proposal
+  - priority_snapshot
+- evidence_id: EV-CP0106-0012
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 839db522-ece4-459b-9347-a724012303bc
+    message_id: 9f908847-b599-48c0-9599-69d88d2cff57
+    source_file: ForPrint Control Plane_01.06.26.mhtml
+  quote: 'P1: Accounting Registry 1C sandbox; Hold: Operational Registry/Gateway. autonomy_levels.yaml — Level 0–5, де Level 5 заборонений. decision_rights.yaml
+    — що кожен модуль може робити без owner approval і що тільки через checkpoint. impact_rules.yaml — правила впливу для channel strategy, pricing strategy,
+    1C integration, order ownership. module_report_schema.yaml — універсальна форма звіту від модулів. 4. Пропоновані human docs У human/ створюємо: strategic_control_plane_overview.md
+    business_doctrine.md autonomy_policy.md strategy_to_blueprint_flow.md owner_checkpoint_model.md module_governance_model.md Ці документи потрібні, щоб
+    людина могла'
+  quote_whitespace_normalized: true
+  context_before: Proposed autonomy model has levels 0–5 with Level 5 explicitly disallowed.
+  context_after: null
+  evidence_role:
+  - assistant_proposal
+  - autonomy
+- evidence_id: EV-CP0106-0013
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 839db522-ece4-459b-9347-a724012303bc
+    message_id: 9f908847-b599-48c0-9599-69d88d2cff57
+    source_file: ForPrint Control Plane_01.06.26.mhtml
+  quote: 'о: strategic_goals.yaml business_principles.yaml module_priority_map.yaml autonomy_levels.yaml decision_rights.yaml impact_rules.yaml checkpoint_protocol.yaml
+    change_requests.yaml notification_rules.yaml module_report_schema.yaml Ключова логіка: strategic_goals.yaml — початкові цілі: manual order reduction,
+    channel-agnostic intake, calculator logic-first, 1C sandbox-first, owner micro-management reduction. module_priority_map.yaml — P0: Telegram Bot ORDER
+    Core + Calculator Engine; P1: Accounting Registry 1C sandbox; Hold: Operational Registry/Gateway. autonomy_levels.yaml — Level 0–5, де Level 5 заборонений.
+    decision_rights.yam'
+  quote_whitespace_normalized: true
+  context_before: Decision-rights surface distinguishes autonomous module actions from owner-checkpoint actions.
+  context_after: null
+  evidence_role:
+  - assistant_proposal
+  - decision_rights
+- evidence_id: EV-CP0106-0014
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 839db522-ece4-459b-9347-a724012303bc
+    message_id: 9f908847-b599-48c0-9599-69d88d2cff57
+    source_file: ForPrint Control Plane_01.06.26.mhtml
+  quote: 'ml business_principles.yaml module_priority_map.yaml autonomy_levels.yaml decision_rights.yaml impact_rules.yaml checkpoint_protocol.yaml change_requests.yaml
+    notification_rules.yaml module_report_schema.yaml Ключова логіка: strategic_goals.yaml — початкові цілі: manual order reduction, channel-agnostic intake,
+    calculator logic-first, 1C sandbox-first, owner micro-management reduction. module_priority_map.yaml — P0: Telegram Bot ORDER Core + Calculator Engine;
+    P1: Accounting Registry 1C sandbox; Hold: Operational Registry/Gateway. autonomy_levels.yaml — Level 0–5, де Level 5 заборонений. decision_rights.yaml
+    — що кожен модул'
+  quote_whitespace_normalized: true
+  context_before: Impact rules are proposed for channel, pricing, 1C and order-ownership strategy changes.
+  context_after: null
+  evidence_role:
+  - assistant_proposal
+  - impact_analysis
+- evidence_id: EV-CP0106-0015
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 839db522-ece4-459b-9347-a724012303bc
+    message_id: 9f908847-b599-48c0-9599-69d88d2cff57
+    source_file: ForPrint Control Plane_01.06.26.mhtml
+  quote: 's.yaml impact_rules.yaml checkpoint_protocol.yaml change_requests.yaml notification_rules.yaml module_report_schema.yaml Ключова логіка: strategic_goals.yaml
+    — початкові цілі: manual order reduction, channel-agnostic intake, calculator logic-first, 1C sandbox-first, owner micro-management reduction. module_priority_map.yaml
+    — P0: Telegram Bot ORDER Core + Calculator Engine; P1: Accounting Registry 1C sandbox; Hold: Operational Registry/Gateway. autonomy_levels.yaml — Level
+    0–5, де Level 5 заборонений. decision_rights.yaml — що кожен модуль може робити без owner approval і що тільки через checkpoint. impact_rules.yaml —
+    правила вплив'
+  quote_whitespace_normalized: true
+  context_before: A universal module-report schema is proposed.
+  context_after: null
+  evidence_role:
+  - assistant_proposal
+  - reporting
+- evidence_id: EV-CP0106-0016
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 839db522-ece4-459b-9347-a724012303bc
+    message_id: 9f908847-b599-48c0-9599-69d88d2cff57
+    source_file: ForPrint Control Plane_01.06.26.mhtml
+  quote: 'human/ створюємо: strategic_control_plane_overview.md business_doctrine.md autonomy_policy.md strategy_to_blueprint_flow.md owner_checkpoint_model.md
+    module_governance_model.md Ці документи потрібні, щоб людина могла швидко зрозуміти: навіщо існує Control Plane; чому він не є Blueprint; як стратегічна
+    зміна перетворюється у Blueprint update request; як працюють macro packs; коли потрібен owner checkpoint; як зменшити ручне мікрокерування. 5. Пропоновані
+    examples У examples/ : strategic_change_request.example.yaml impact_report.example.yaml module_action_plan.example.yaml module_report.example.yaml Перший
+    приклад можна зробити на темі:'
+  quote_whitespace_normalized: true
+  context_before: Human docs are proposed to explain how strategy becomes Blueprint update requests and when owner checkpoints apply.
+  context_after: null
+  evidence_role:
+  - assistant_proposal
+  - human_docs
+- evidence_id: EV-CP0106-0017
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 839db522-ece4-459b-9347-a724012303bc
+    message_id: 9f908847-b599-48c0-9599-69d88d2cff57
+    source_file: ForPrint Control Plane_01.06.26.mhtml
+  quote: 'ional_registry calculator_engine 6. Пропоновані scripts У scripts/ : validate_control_plane.py generate_impact_report.py generate_module_action_plan.py
+    run_control_plane_checks.py Функції: validate_control_plane.py перевіряє YAML-файли, обов’язкові поля, відомі модулі, рівні автономії, decision rights,
+    impact rules, checkpoint modes. generate_impact_report.py бере change request і генерує .md + .json impact report. generate_module_action_plan.py бере
+    change request і генерує rough module action plan. run_control_plane_checks.py запускає Ruff, Pytest, validation, impact generation, action plan generation
+    і пише reports/control_plane_'
+  quote_whitespace_normalized: true
+  context_before: Scripts are proposed for validation, impact reports, module action plans and aggregate checks.
+  context_after: null
+  evidence_role:
+  - assistant_proposal
+  - automation
+- evidence_id: EV-CP0106-0018
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 839db522-ece4-459b-9347-a724012303bc
+    message_id: 9f908847-b599-48c0-9599-69d88d2cff57
+    source_file: ForPrint Control Plane_01.06.26.mhtml
+  quote: '_checks.py запускає Ruff, Pytest, validation, impact generation, action plan generation і пише reports/control_plane_check_report.* . Generated
+    reports краще додати в .gitignore , залишити тільки: reports/.gitkeep 7. Пропоновані tests У tests/ : test_strategic_goals.py test_business_principles.py
+    test_autonomy_levels.py test_decision_rights.py test_impact_rules.py test_checkpoint_protocol.py test_module_priority_map.py test_control_plane_checks.py
+    Перевірки v0.1: strategic goals мають required fields; business principles включають channel-agnostic intake, calculator logic-first, 1C sandbox-first;
+    autonomy levels ordered; Level 5 існує, але п'
+  quote_whitespace_normalized: true
+  context_before: Generated check reports are proposed as derived outputs rather than canonical tracked content.
+  context_after: null
+  evidence_role:
+  - assistant_proposal
+  - generated_reports
+- evidence_id: EV-CP0106-0019
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 839db522-ece4-459b-9347-a724012303bc
+    message_id: 9f908847-b599-48c0-9599-69d88d2cff57
+    source_file: ForPrint Control Plane_01.06.26.mhtml
+  quote: 'ть channel-agnostic intake, calculator logic-first, 1C sandbox-first; autonomy levels ordered; Level 5 існує, але позначений як not allowed; decision
+    rights є для Calculator, Accounting, Telegram, Operational Registry, Gateway; impact rules є для customer channel, pricing, 1C, operational order ownership;
+    checkpoint protocol має macro_pack , risk_gate , hold_review ; priority map має telegram_bot і calculator_engine у P0; operational_registry і integration_gateway
+    у hold; impact report генерується; module action plan генерується; check-report runner проходить. 8. Boundary confirmation У v0.1 Control Plane не буде
+    : - змінювати System Blueprint автомат'
+  quote_whitespace_normalized: true
+  context_before: Tests should enforce autonomy ordering and disallow Level 5.
+  context_after: null
+  evidence_role:
+  - assistant_proposal
+  - tests
+- evidence_id: EV-CP0106-0020
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 839db522-ece4-459b-9347-a724012303bc
+    message_id: 9f908847-b599-48c0-9599-69d88d2cff57
+    source_file: ForPrint Control Plane_01.06.26.mhtml
+  quote: 'plan генерується; check-report runner проходить. 8. Boundary confirmation У v0.1 Control Plane не буде : - змінювати System Blueprint автоматично;
+    - запускати Project Inspector; - писати в інші репозиторії; - створювати API; - створювати web UI; - запускати Telegram notification; - управляти реальними
+    замовленнями; - зберігати клієнтів / рахунки / платежі; - володіти каталогом товарів; - володіти pricing formulas; - підключатися до 1C; - запускати
+    production actions. Він лише створює стратегічну governance-базу: goals → impact rules → action plans → checkpoint reports → Blueprint update requests
+    9. Open questions д'
+  quote_whitespace_normalized: true
+  context_before: v0.1 explicitly excludes automatic Blueprint mutation, Inspector execution, foreign-repo writes, API/UI/Telegram, real orders, clients/payments/catalog/pricing/1C/production
+    actions.
+  context_after: null
+  evidence_role:
+  - assistant_boundary
+  - scope
+- evidence_id: EV-CP0106-0021
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 839db522-ece4-459b-9347-a724012303bc
+    message_id: 9f908847-b599-48c0-9599-69d88d2cff57
+    source_file: ForPrint Control Plane_01.06.26.mhtml
+  quote: 'ключатися до 1C; - запускати production actions. Він лише створює стратегічну governance-базу: goals → impact rules → action plans → checkpoint
+    reports → Blueprint update requests 9. Open questions для Owner / Blueprint Ці питання не блокують v0.1 , але їх варто потім передати в Blueprint: Чи
+    буде forprint_control_plane вважатися найвищим машинозчитуваним governance-шаром над Blueprint, чи поки тільки стратегічним документальним модулем?
+    Чи потрібно в майбутньому мати окремий формат blueprint_update_request.yaml , який Control Plane генерує, а Blueprint приймає вручну? Чи треба одразу
+    закласти phase_id / macro_pack_id як універсальні ідентифікатори для всіх модулів? Чи має Control Plane у v'
+  quote_whitespace_normalized: true
+  context_before: Assistant proposes the strategic-governance pipeline.
+  context_after: null
+  evidence_role:
+  - assistant_design
+  - workflow
+- evidence_id: EV-CP0106-0022
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 839db522-ece4-459b-9347-a724012303bc
+    message_id: 9f908847-b599-48c0-9599-69d88d2cff57
+    source_file: ForPrint Control Plane_01.06.26.mhtml
+  quote: 'кують v0.1 , але їх варто потім передати в Blueprint: Чи буде forprint_control_plane вважатися найвищим машинозчитуваним governance-шаром над
+    Blueprint, чи поки тільки стратегічним документальним модулем? Чи потрібно в майбутньому мати окремий формат blueprint_update_request.yaml , який Control
+    Plane генерує, а Blueprint приймає вручну? Чи треба одразу закласти phase_id / macro_pack_id як універсальні ідентифікатори для всіх модулів? Чи має
+    Control Plane у v0.2 читати status reports від модулів, чи це спочатку має робити Project Inspector? Чи залишаємо назви модулів у machine YAML саме
+    в такому вигляді: telegram_bot calculator_engine forprint_operational_registry'
+  quote_whitespace_normalized: true
+  context_before: Whether Control Plane is the highest machine-readable governance layer above Blueprint is left as an open question.
+  context_after: null
+  evidence_role:
+  - assistant_open_question
+  - authority_overlap
+- evidence_id: EV-CP0106-0023
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 839db522-ece4-459b-9347-a724012303bc
+    message_id: 9f908847-b599-48c0-9599-69d88d2cff57
+    source_file: ForPrint Control Plane_01.06.26.mhtml
+  quote: 'поки тільки стратегічним документальним модулем? Чи потрібно в майбутньому мати окремий формат blueprint_update_request.yaml , який Control Plane
+    генерує, а Blueprint приймає вручну? Чи треба одразу закласти phase_id / macro_pack_id як універсальні ідентифікатори для всіх модулів? Чи має Control
+    Plane у v0.2 читати status reports від модулів, чи це спочатку має робити Project Inspector? Чи залишаємо назви модулів у machine YAML саме в такому
+    вигляді: telegram_bot calculator_engine forprint_operational_registry forprint_integration_gateway forprint_accounting_registry_service forprint_library
+    forprint_system_blueprint forprint_crm Моя ре'
+  quote_whitespace_normalized: true
+  context_before: A formal Blueprint update request format is proposed as a possible future interface.
+  context_after: null
+  evidence_role:
+  - assistant_open_question
+  - blueprint_interface
+- evidence_id: EV-CP0106-0024
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 839db522-ece4-459b-9347-a724012303bc
+    message_id: 9f908847-b599-48c0-9599-69d88d2cff57
+    source_file: ForPrint Control Plane_01.06.26.mhtml
+  quote: 'equest.yaml , який Control Plane генерує, а Blueprint приймає вручну? Чи треба одразу закласти phase_id / macro_pack_id як універсальні ідентифікатори
+    для всіх модулів? Чи має Control Plane у v0.2 читати status reports від модулів, чи це спочатку має робити Project Inspector? Чи залишаємо назви модулів
+    у machine YAML саме в такому вигляді: telegram_bot calculator_engine forprint_operational_registry forprint_integration_gateway forprint_accounting_registry_service
+    forprint_library forprint_system_blueprint forprint_crm Моя рекомендація: v0.1 робити без уточнень , з поточними назвами і без інтеграцій. Це повністю
+    від'
+  quote_whitespace_normalized: true
+  context_before: Universal phase_id/macro_pack_id identifiers are raised as an open question.
+  context_after: null
+  evidence_role:
+  - assistant_open_question
+  - identity
+- evidence_id: EV-CP0106-0025
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 839db522-ece4-459b-9347-a724012303bc
+    message_id: 9f908847-b599-48c0-9599-69d88d2cff57
+    source_file: ForPrint Control Plane_01.06.26.mhtml
+  quote: 'd / macro_pack_id як універсальні ідентифікатори для всіх модулів? Чи має Control Plane у v0.2 читати status reports від модулів, чи це спочатку
+    має робити Project Inspector? Чи залишаємо назви модулів у machine YAML саме в такому вигляді: telegram_bot calculator_engine forprint_operational_registry
+    forprint_integration_gateway forprint_accounting_registry_service forprint_library forprint_system_blueprint forprint_crm Моя рекомендація: v0.1 робити
+    без уточнень , з поточними назвами і без інтеграцій. Це повністю відповідає задачі: малий, безпечний, file-based strategic governance skeleton.'
+  quote_whitespace_normalized: true
+  context_before: Whether Control Plane directly reads module status reports or Inspector should do so first is left unresolved.
+  context_after: null
+  evidence_role:
+  - assistant_open_question
+  - inspector_boundary
+- evidence_id: EV-CP0106-0026
+  speaker: assistant
+  locator:
+    conversation_turn: 2
+    turn_id: 839db522-ece4-459b-9347-a724012303bc
+    message_id: 9f908847-b599-48c0-9599-69d88d2cff57
+    source_file: ForPrint Control Plane_01.06.26.mhtml
+  quote: 'ing_registry_service forprint_library forprint_system_blueprint forprint_crm Моя рекомендація: v0.1 робити без уточнень , з поточними назвами
+    і без інтеграцій. Це повністю відповідає задачі: малий, безпечний, file-based strategic governance skeleton.'
+  quote_whitespace_normalized: true
+  context_before: Assistant recommends proceeding with v0.1 despite open questions, using current module names and no integrations.
+  context_after: null
+  evidence_role:
+  - assistant_recommendation
+  - bootstrap
+items:
+- item_id: IT-CP0106-0001
+  kind: risk
+  title: Direct owner prompt is missing
+  statement: The source preserves only a user attachment placeholder, so the Control Plane requirements visible here are assistant-side summary/proposal
+    rather than direct owner evidence.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - provenance
+  implementation_expectation: not_required
+  verification_targets:
+  - indexes
+  - docs
+  evidence_refs:
+  - EV-CP0106-0001
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: No owner prompt body is recoverable.
+- item_id: IT-CP0106-0002
+  kind: architecture_constraint
+  title: Control Plane is proposed as strategic governance separate from Blueprint
+  statement: Historical assistant summary positions Control Plane around strategy, goals, priorities, autonomy, decision rights, checkpoints and impact/action
+    reporting, while Blueprint remains architecture/ownership/contracts/boundaries.
+  dialogue_status: proposed
+  importance: critical
+  confidence: medium
+  owner_or_domain:
+  - control_plane
+  - blueprint
+  implementation_expectation: required
+  verification_targets:
+  - architecture
+  - docs
+  - config
+  evidence_refs:
+  - EV-CP0106-0002
+  - EV-CP0106-0003
+  - EV-CP0106-0004
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Second-hand summary of missing owner prompt.
+- item_id: IT-CP0106-0003
+  kind: architecture_constraint
+  title: Project Inspector remains factual verification rather than strategy owner
+  statement: Control Plane strategy and Inspector factual-state verification are proposed as separate responsibilities.
+  dialogue_status: proposed
+  importance: high
+  confidence: medium
+  owner_or_domain:
+  - control_plane
+  - project_inspector
+  implementation_expectation: required
+  verification_targets:
+  - architecture
+  - docs
+  evidence_refs:
+  - EV-CP0106-0005
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Direct prompt unavailable.
+- item_id: IT-CP0106-0004
+  kind: architecture_constraint
+  title: CRM remains human coordination/dashboard rather than strategic authority
+  statement: CRM is proposed as human-facing coordination/dashboard, separate from strategic governance.
+  dialogue_status: proposed
+  importance: high
+  confidence: medium
+  owner_or_domain:
+  - control_plane
+  - crm
+  implementation_expectation: required
+  verification_targets:
+  - architecture
+  - docs
+  evidence_refs:
+  - EV-CP0106-0006
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Direct prompt unavailable.
+- item_id: IT-CP0106-0005
+  kind: architecture_constraint
+  title: Domain modules remain execution owners
+  statement: Control Plane does not execute domain work; domain modules remain the real-work layer.
+  dialogue_status: proposed
+  importance: critical
+  confidence: medium
+  owner_or_domain:
+  - control_plane
+  - domain_modules
+  implementation_expectation: required
+  verification_targets:
+  - architecture
+  - docs
+  evidence_refs:
+  - EV-CP0106-0007
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Direct prompt unavailable.
+- item_id: IT-CP0106-0006
+  kind: plan
+  title: Control Plane v0.1 is a small file-based non-integrated skeleton
+  statement: The proposed first version is intentionally file-based and excludes API, DB, UI, notifications, agent automation and repository integrations.
+  dialogue_status: proposed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - control_plane
+  implementation_expectation: required
+  verification_targets:
+  - repo
+  - docs
+  - tests
+  evidence_refs:
+  - EV-CP0106-0008
+  - EV-CP0106-0020
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CP0106-0007
+  kind: requirement
+  title: Control Plane machine surfaces represent strategy/governance explicitly
+  statement: Proposed machine files cover goals, business principles, module priorities, autonomy, decision rights, impact rules, checkpoint protocol, change
+    requests, notifications and module-report schema.
+  dialogue_status: proposed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - control_plane
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - schemas
+  - tests
+  evidence_refs:
+  - EV-CP0106-0009
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CP0106-0008
+  kind: plan
+  title: Historical strategic goals target reduced manual work and safer automation
+  statement: The proposed initial goals are manual-order reduction, channel-agnostic intake, calculator logic-first, 1C sandbox-first and reduced owner
+    micromanagement.
+  dialogue_status: proposed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - control_plane
+  - strategy
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - docs
+  evidence_refs:
+  - EV-CP0106-0010
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CP0106-0009
+  kind: plan
+  title: Historical priority snapshot puts Telegram and Calculator at P0
+  statement: The proposed priority map is Telegram ORDER Core + Calculator Engine P0, Accounting sandbox P1, Operational Registry/Gateway on hold.
+  dialogue_status: proposed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - control_plane
+  - roadmap
+  implementation_expectation: not_required
+  verification_targets:
+  - config
+  - history
+  evidence_refs:
+  - EV-CP0106-0011
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Historical snapshot is later superseded by newer Blueprint priorities and must not be treated as current.
+- item_id: IT-CP0106-0010
+  kind: architecture_constraint
+  title: Autonomy model explicitly disallows Level 5
+  statement: The proposed autonomy scale is 0–5 with Level 5 present for schema completeness but marked not allowed.
+  dialogue_status: proposed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - control_plane
+  - autonomy
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - tests
+  - docs
+  evidence_refs:
+  - EV-CP0106-0012
+  - EV-CP0106-0019
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CP0106-0011
+  kind: requirement
+  title: Decision rights distinguish autonomous work from owner checkpoints
+  statement: The proposed decision-rights model defines what modules may do without owner approval and what requires a checkpoint.
+  dialogue_status: proposed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - control_plane
+  - authority
+  implementation_expectation: required
+  verification_targets:
+  - config
+  - docs
+  - tests
+  evidence_refs:
+  - EV-CP0106-0013
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CP0106-0012
+  kind: requirement
+  title: Strategic changes produce impact analysis across affected modules
+  statement: Impact rules are proposed for customer channels, pricing, 1C integration and order ownership, producing affected-module reports and action
+    plans.
+  dialogue_status: proposed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - control_plane
+  - impact
+  implementation_expectation: required
+  verification_targets:
+  - scripts
+  - config
+  - tests
+  evidence_refs:
+  - EV-CP0106-0014
+  - EV-CP0106-0021
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CP0106-0013
+  kind: requirement
+  title: Control Plane standardizes module reporting
+  statement: A universal module report schema is proposed as a strategic governance input/output surface.
+  dialogue_status: proposed
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - control_plane
+  - reporting
+  implementation_expectation: required
+  verification_targets:
+  - schemas
+  - reports
+  evidence_refs:
+  - EV-CP0106-0015
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CP0106-0014
+  kind: requirement
+  title: Human documentation explains strategy-to-Blueprint and checkpoint semantics
+  statement: The proposed human docs cover doctrine, autonomy, strategy-to-Blueprint flow, owner checkpoints and module governance.
+  dialogue_status: proposed
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - control_plane
+  - documentation
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  evidence_refs:
+  - EV-CP0106-0016
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CP0106-0015
+  kind: plan
+  title: Control Plane automation generates impact reports and module action plans
+  statement: Proposed scripts validate governance data and generate impact/action-plan outputs plus aggregate checks.
+  dialogue_status: proposed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - control_plane
+  - automation
+  implementation_expectation: required
+  verification_targets:
+  - scripts
+  - tests
+  evidence_refs:
+  - EV-CP0106-0017
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CP0106-0016
+  kind: process_rule
+  title: Generated Control Plane reports should be treated as derived output
+  statement: Generated check reports are proposed for ignore/derived treatment while only report directory scaffolding is tracked.
+  dialogue_status: proposed
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - control_plane
+  - repository_hygiene
+  implementation_expectation: required
+  verification_targets:
+  - gitignore
+  - docs
+  evidence_refs:
+  - EV-CP0106-0018
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CP0106-0017
+  kind: architecture_constraint
+  title: Control Plane v0.1 must not mutate Blueprint or foreign repositories
+  statement: The proposal explicitly forbids automatic Blueprint changes and writes to other repositories.
+  dialogue_status: proposed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - control_plane
+  - repo_boundary
+  implementation_expectation: required
+  verification_targets:
+  - scripts
+  - tests
+  - docs
+  evidence_refs:
+  - EV-CP0106-0020
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CP0106-0018
+  kind: architecture_constraint
+  title: Control Plane v0.1 must not own runtime business operations
+  statement: The proposal excludes real orders, clients, invoices/payments, catalog ownership, pricing formulas, 1C connections and production actions.
+  dialogue_status: proposed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - control_plane
+  - scope_control
+  implementation_expectation: required
+  verification_targets:
+  - manifest
+  - tests
+  - docs
+  evidence_refs:
+  - EV-CP0106-0020
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CP0106-0019
+  kind: workflow
+  title: Strategic governance pipeline is goals→impact→action plans→checkpoints→Blueprint requests
+  statement: The proposed operating flow turns strategic goals/changes into impact rules, module action plans, checkpoint reports and Blueprint update requests.
+  dialogue_status: proposed
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - control_plane
+  - blueprint_coordination
+  implementation_expectation: required
+  verification_targets:
+  - docs
+  - scripts
+  - schemas
+  evidence_refs:
+  - EV-CP0106-0021
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CP0106-0020
+  kind: open_question
+  title: Control Plane authority above Blueprint is unresolved
+  statement: The proposal explicitly asks whether Control Plane should be the highest machine-readable governance layer above Blueprint or remain only a
+    strategic/documentary module.
+  dialogue_status: unclear
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - control_plane
+  - blueprint
+  - authority
+  implementation_expectation: required
+  verification_targets:
+  - architecture
+  - adr
+  - docs
+  evidence_refs:
+  - EV-CP0106-0022
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Must be reconciled with later Blueprint and Control Foundation authority.
+- item_id: IT-CP0106-0021
+  kind: open_question
+  title: Blueprint update request interface is unresolved
+  statement: A dedicated `blueprint_update_request.yaml` produced by Control Plane and manually accepted by Blueprint is proposed but not decided.
+  dialogue_status: unclear
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - control_plane
+  - blueprint
+  implementation_expectation: required
+  verification_targets:
+  - contracts
+  - docs
+  evidence_refs:
+  - EV-CP0106-0023
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: No direct owner decision preserved.
+- item_id: IT-CP0106-0022
+  kind: open_question
+  title: Universal phase/macro-pack identifiers are unresolved
+  statement: The proposal asks whether phase_id/macro_pack_id should be universal cross-module identifiers.
+  dialogue_status: unclear
+  importance: normal
+  confidence: high
+  owner_or_domain:
+  - control_plane
+  - identity
+  implementation_expectation: required
+  verification_targets:
+  - schemas
+  - docs
+  evidence_refs:
+  - EV-CP0106-0024
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: No direct owner decision preserved.
+- item_id: IT-CP0106-0023
+  kind: open_question
+  title: Status-report consumption boundary with Inspector is unresolved
+  statement: It is unclear whether Control Plane should read module status reports directly or only consume Inspector-derived factual state.
+  dialogue_status: unclear
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - control_plane
+  - project_inspector
+  implementation_expectation: required
+  verification_targets:
+  - architecture
+  - contracts
+  evidence_refs:
+  - EV-CP0106-0025
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Later Inspector/control architecture must resolve this.
+- item_id: IT-CP0106-0024
+  kind: risk
+  title: Proceed-with-v0.1 recommendation lacks direct owner confirmation
+  statement: Assistant recommends building v0.1 without resolving the open questions, but no subsequent owner acceptance or implementation evidence exists
+    in this source.
+  dialogue_status: proposed
+  importance: high
+  confidence: high
+  owner_or_domain:
+  - control_plane
+  - provenance
+  implementation_expectation: not_required
+  verification_targets:
+  - history
+  evidence_refs:
+  - EV-CP0106-0026
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Do not promote this recommendation into accepted roadmap authority.
+- item_id: IT-CP0106-0025
+  kind: architecture_constraint
+  title: This Control Plane source is proposal/history, not current Blueprint authority
+  statement: Because only assistant-side bootstrap proposal survives, this source may explain architecture evolution but cannot supersede later Blueprint
+    releases or accepted control-plane decisions.
+  dialogue_status: accepted
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - authority
+  - control_plane
+  implementation_expectation: required
+  verification_targets:
+  - indexes
+  - docs
+  evidence_refs:
+  - EV-CP0106-0001
+  - EV-CP0106-0022
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: false
+  review_reason: null
+- item_id: IT-CP0106-0026
+  kind: risk
+  title: Historical priority map is stale relative to later project priorities
+  statement: The proposed Telegram/Calculator P0 and Operational/Gateway hold snapshot is useful chronology but must not be executed after later H10/Control
+    Foundation/roadmap authority.
+  dialogue_status: superseded
+  importance: critical
+  confidence: high
+  owner_or_domain:
+  - control_plane
+  - roadmap
+  implementation_expectation: not_required
+  verification_targets:
+  - history
+  - roadmap
+  evidence_refs:
+  - EV-CP0106-0011
+  rationale: null
+  acceptance_hints: []
+  tags: []
+  needs_human_review: true
+  review_reason: Later authority supersedes this snapshot.
+relations:
+- relation_id: REL-CP0106-0001
+  from_item: IT-CP0106-0002
+  type: constrains
+  to_item: IT-CP0106-0017
+  evidence_refs:
+  - EV-CP0106-0003
+  - EV-CP0106-0020
+  confidence: high
+- relation_id: REL-CP0106-0002
+  from_item: IT-CP0106-0002
+  type: constrains
+  to_item: IT-CP0106-0018
+  evidence_refs:
+  - EV-CP0106-0003
+  - EV-CP0106-0020
+  confidence: high
+- relation_id: REL-CP0106-0003
+  from_item: IT-CP0106-0011
+  type: enables
+  to_item: IT-CP0106-0019
+  evidence_refs:
+  - EV-CP0106-0013
+  - EV-CP0106-0021
+  confidence: high
+- relation_id: REL-CP0106-0004
+  from_item: IT-CP0106-0012
+  type: enables
+  to_item: IT-CP0106-0019
+  evidence_refs:
+  - EV-CP0106-0014
+  - EV-CP0106-0021
+  confidence: high
+- relation_id: REL-CP0106-0005
+  from_item: IT-CP0106-0020
+  type: conflicts_with
+  to_item: IT-CP0106-0002
+  evidence_refs:
+  - EV-CP0106-0022
+  - EV-CP0106-0003
+  confidence: medium
+- relation_id: REL-CP0106-0006
+  from_item: IT-CP0106-0023
+  type: related_to
+  to_item: IT-CP0106-0003
+  evidence_refs:
+  - EV-CP0106-0025
+  - EV-CP0106-0005
+  confidence: high
+- relation_id: REL-CP0106-0007
+  from_item: IT-CP0106-0024
+  type: constrains
+  to_item: IT-CP0106-0006
+  evidence_refs:
+  - EV-CP0106-0026
+  - EV-CP0106-0008
+  confidence: high
+- relation_id: REL-CP0106-0008
+  from_item: IT-CP0106-0026
+  type: supersedes
+  to_item: IT-CP0106-0009
+  evidence_refs:
+  - EV-CP0106-0011
+  confidence: high
+anomalies:
+- anomaly_id: ANOM-CP0106-0001
+  type: direct_owner_prompt_missing
+  description: The user turn contains only `Pasted text.txt Document`; all visible substantive requirements come from the assistant's summary/proposal.
+    Direct owner evidence is unavailable.
+  item_refs:
+  - IT-CP0106-0001
+  - IT-CP0106-0024
+  - IT-CP0106-0025
+  evidence_refs:
+  - EV-CP0106-0001
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-CP0106-0002
+  type: extremely_partial_capture
+  description: Only two turns survive, with no implementation follow-up, tests, commits, owner acceptance or closure evidence.
+  item_refs:
+  - IT-CP0106-0024
+  evidence_refs:
+  - EV-CP0106-0001
+  - EV-CP0106-0026
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-CP0106-0003
+  type: control_plane_vs_blueprint_authority_overlap
+  description: The proposal distinguishes strategy from architecture but simultaneously asks whether Control Plane should be the highest machine-readable
+    governance layer above Blueprint, leaving authority ordering unresolved.
+  item_refs:
+  - IT-CP0106-0002
+  - IT-CP0106-0020
+  evidence_refs:
+  - EV-CP0106-0003
+  - EV-CP0106-0022
+  severity: critical
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-CP0106-0004
+  type: historical_priority_snapshot_stale
+  description: Telegram/Calculator P0, Accounting P1, Operational/Gateway hold is an early proposed snapshot and conflicts with later project authority
+    such as Logistics-only H10 and Control Foundation sequencing.
+  item_refs:
+  - IT-CP0106-0009
+  - IT-CP0106-0026
+  evidence_refs:
+  - EV-CP0106-0011
+  severity: critical
+  confidence: high
+  requires_followup: false
+- anomaly_id: ANOM-CP0106-0005
+  type: inspector_status_consumption_boundary_unresolved
+  description: The proposal does not decide whether Control Plane reads module status directly or receives Inspector-derived factual state, risking duplicate
+    truth/monitoring responsibilities.
+  item_refs:
+  - IT-CP0106-0003
+  - IT-CP0106-0023
+  evidence_refs:
+  - EV-CP0106-0005
+  - EV-CP0106-0025
+  severity: high
+  confidence: high
+  requires_followup: true
+- anomaly_id: ANOM-CP0106-0006
+  type: proposed_machine_authority_without_acceptance
+  description: Machine governance files and decision rights are detailed, but the source lacks owner approval or implementation evidence, so they remain
+    historical proposals.
+  item_refs:
+  - IT-CP0106-0007
+  - IT-CP0106-0011
+  - IT-CP0106-0012
+  evidence_refs:
+  - EV-CP0106-0009
+  - EV-CP0106-0013
+  - EV-CP0106-0014
+  severity: high
+  confidence: high
+  requires_followup: true
+open_loops:
+- loop_id: LOOP-CP0106-0001
+  description: Determine whether ForPrint Control Plane/Strategic Control Plane exists in current architecture and what authority it has relative to Blueprint.
+  item_refs:
+  - IT-CP0106-0002
+  - IT-CP0106-0020
+  - IT-CP0106-0025
+  last_known_state: Only a bootstrap proposal survives; later Blueprint says Strategic Control Plane should be planned separately.
+  recommended_verification: Resolve current release/module inventory/ADRs and classify Control Plane as implemented, renamed, superseded, deferred or absorbed.
+- loop_id: LOOP-CP0106-0002
+  description: Reconcile Control Plane vs Project Inspector factual-state responsibilities.
+  item_refs:
+  - IT-CP0106-0003
+  - IT-CP0106-0023
+  last_known_state: Direct module-status consumption vs Inspector-mediated state is unresolved.
+  recommended_verification: Check current Inspector, Blueprint and any Control Plane contracts so factual truth has one clear source.
+- loop_id: LOOP-CP0106-0003
+  description: Reconcile historical strategic priority map with current roadmap authority.
+  item_refs:
+  - IT-CP0106-0009
+  - IT-CP0106-0026
+  last_known_state: Early proposal prioritized Telegram/Calculator and held Operational/Gateway; later roadmap authority changed materially.
+  recommended_verification: Treat historical priority map as non-executable; use current release/roadmap only.
+- loop_id: LOOP-CP0106-0004
+  description: Determine whether strategic change→Blueprint update request interface exists or was superseded.
+  item_refs:
+  - IT-CP0106-0019
+  - IT-CP0106-0021
+  last_known_state: '`blueprint_update_request.yaml` is only proposed.'
+  recommended_verification: Search current contracts/roadmaps/ADRs for a successor strategy-to-architecture change-request interface.
+- loop_id: LOOP-CP0106-0005
+  description: Determine whether autonomy levels/decision-rights/checkpoint protocol became current governance concepts.
+  item_refs:
+  - IT-CP0106-0010
+  - IT-CP0106-0011
+  last_known_state: Detailed v0.1 proposal exists but no direct owner acceptance survives.
+  recommended_verification: Compare against later owner-checkpoint/manual-phase-boundary/Control Foundation authority rules; preserve only non-conflicting
+    retained semantics.
+- loop_id: LOOP-CP0106-0006
+  description: Locate or supersede the missing bootstrap prompt attachment.
+  item_refs:
+  - IT-CP0106-0001
+  last_known_state: MHTML contains only the attachment placeholder.
+  recommended_verification: Do not reconstruct from assistant summary unless a historical prompt artifact is later recovered; current architecture should
+    be derived from live authority instead.
+implementation_audit_ref: implementation_audit.stub.yaml
