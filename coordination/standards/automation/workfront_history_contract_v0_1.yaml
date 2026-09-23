@@ -1,0 +1,59 @@
+schema_version: forprint_workfront_history_contract_v0_1
+status: active_standard
+authority: none
+owner: forprint_system_blueprint
+record_role: durable_fact_history
+purpose: >-
+  Preserve immutable Work Front history without creating a second mutable
+  execution-state authority.
+authority_model:
+  work_front_contract_is_execution_authority: true
+  lifecycle_event_store_is_roadmap_execution_authority: true
+  history_is_fact_authority_only: true
+  generated_projections_are_authority: false
+  raw_chat_is_execution_authority: false
+  grants_worker_dispatch_authority: false
+  grants_release_authority: false
+  grants_foreign_repository_write_authority: false
+storage:
+  model: append_only_immutable_files
+  default_root: coordination/continuity/workfront_history
+  overwrite_existing_record: forbidden
+  duplicate_history_record_id: forbidden
+  content_hash_bound_filename: true
+record_schema:
+  schema_version: forprint_workfront_history_record_v0_1
+  required_fields:
+    - schema_version
+    - history_record_id
+    - work_front_id
+    - recorded_at
+    - actor
+    - reason
+    - source_fingerprint
+    - work_front_snapshot_or_hash
+    - provenance_refs
+  optional_fields:
+    - parent_history_record_id
+    - supersedes_history_record_id
+  provenance_refs_type: non_empty_string_list
+  forbidden_authority_fields:
+    - authority
+    - permissions
+    - dispatch_authority
+    - release_authority
+    - foreign_repository_write_authority
+immutability:
+  append_only: true
+  prior_records_must_remain_addressable: true
+  retry_or_revision_must_create_new_record: true
+separation:
+  workfront_history_and_execution_attempts_are_distinct_record_families: true
+  history_does_not_redefine_work_front_permissions: true
+  history_does_not_mutate_lifecycle_state: true
+scope_exclusions:
+  execution_profile_registry: CF-06
+  procedure_graphs: CF-07
+  handoff_compiler_v2: CF-08
+  dispatcher_launch_integration: CF-09
+  actual_worker_launch: false

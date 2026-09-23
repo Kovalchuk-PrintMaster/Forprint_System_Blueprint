@@ -1,0 +1,14 @@
+schema_version: forprint_module_repository_provisioning_gate_v0_1
+status: active_standard
+authority: forprint_system_blueprint
+source_authority: coordination/module_sources/module_git_sources.yaml
+rules:
+  repository_identity_must_not_be_invented: true
+  repo_url_null_must_not_be_guessed: true
+  git_init_requires_explicit_authority: true
+  clone_requires_explicit_authority: true
+  remote_creation_requires_explicit_authority: true
+  forensic_inventory_requires_existing_readable_repository: true
+  provisioning_gap_blocks_bootstrap: true
+  provisioning_gap_does_not_block_other_modules_preparation: true
+queue_action_when_blocked: AWAIT_EXPLICIT_REPOSITORY_PROVISIONING_AUTHORITY

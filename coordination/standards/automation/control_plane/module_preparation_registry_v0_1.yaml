@@ -1,0 +1,44 @@
+schema_version: forprint_module_preparation_registry_standard_v0_1
+status: active_standard
+authority: forprint_system_blueprint
+purpose: >-
+  Define the non-executing portfolio preparation registry and queue projection used
+  while modules are brought from discovery to verified work readiness.
+state_machine:
+  - DISCOVERED
+  - INVENTORIED
+  - BOOTSTRAP_READY
+  - BOOTSTRAPPED
+  - VERIFIED_WORK_READY
+projection_rules:
+  registry_is_execution_authority: false
+  queue_is_execution_authority: false
+  queue_order_is_development_priority: false
+  worker_launch_allowed: false
+  prompt_claim_allowed: false
+  automatic_accept_allowed: false
+  automatic_release_allowed: false
+  development_priority_selection_before_all_required_modules_verified: false
+required_module_fields:
+  - module_id
+  - preparation_required
+  - preparation_state
+  - inventory_state
+  - consolidation_state
+  - roadmap_enrichment_state
+  - roadmap_path
+  - portfolio_seed_path
+  - pending_blueprint_obligation_count
+  - bootstrap_prompt_state
+  - blockers
+  - evidence_refs
+blueprint_obligations:
+  requirement: >-
+    A responsibility assigned by Blueprint must be linked to module implementation
+    evidence, a module roadmap obligation/candidate, or an explicit unresolved gap.
+  unknown_legacy_invention_forbidden: true
+queue:
+  purpose: preparation work only
+  development_priority_authority: false
+  dispatch_authority: false
+  operator_selection_required: true

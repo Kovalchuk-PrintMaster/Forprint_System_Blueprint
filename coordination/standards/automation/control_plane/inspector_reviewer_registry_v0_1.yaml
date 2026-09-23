@@ -1,0 +1,57 @@
+schema_version: forprint_inspector_reviewer_registry_v0_1
+status: active_standard
+authority: forprint_system_blueprint
+metadata:
+  standard_id: inspector_reviewer_registry_v0_1
+  title: ForPrint Inspector Reviewer Registry and Binding v0.1
+  owner: forprint_system_blueprint
+  adoption_mode: prompt_or_directive_required
+purpose: >-
+  Bind completion/conformance review to the project Inspector by semantic role,
+  while keeping production runtime observation and human acceptance authority separate.
+reviewers:
+  - reviewer_id: forprint_project_inspector
+    role: PROJECT_CONFORMANCE_REVIEWER
+    completion_conformance_reviewer: true
+    read_only: true
+    may_accept: false
+    may_mutate_module: false
+    may_release_next_prompt: false
+    discovery:
+      mode: blueprint_registry_identity
+      identity: forprint_project_inspector
+      repository_path_required_for_identity_binding: false
+      runtime_resolution_deferred_until_review_dispatch: true
+    responsibilities:
+      - inspect completion evidence
+      - evaluate conformance against acceptance oracle
+      - report PASS FAIL HOLD findings
+      - identify missing or contradictory evidence
+  - reviewer_id: production_runtime_inspector
+    role: PRODUCTION_RUNTIME_OBSERVER
+    completion_conformance_reviewer: false
+    read_only: true
+    may_accept: false
+    may_mutate_module: false
+    may_release_next_prompt: false
+    discovery:
+      mode: blueprint_registry_identity
+      identity: production_runtime_inspector
+      repository_path_required_for_identity_binding: false
+      runtime_resolution_deferred_until_observation_dispatch: true
+    responsibilities:
+      - observe production/runtime telemetry when separately activated
+      - report runtime anomalies
+completion_reviewer_binding:
+  binding_state: READY
+  required_reviewer_id: forprint_project_inspector
+  required_role: PROJECT_CONFORMANCE_REVIEWER
+  prohibited_substitute_reviewer_ids:
+    - production_runtime_inspector
+  review_execution_is_separate_from_human_acceptance: true
+authority_semantics:
+  inspector_review_is_human_acceptance: false
+  inspector_review_is_blueprint_accept: false
+  reviewer_registry_is_execution_authority: false
+  automatic_accept: false
+  automatic_next_prompt_release: false

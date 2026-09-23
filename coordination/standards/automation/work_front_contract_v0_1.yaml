@@ -1,0 +1,120 @@
+schema_version: forprint_work_front_contract_v0_1
+status: active_standard
+authority: WORK_FRONT_CONTRACT
+owner: forprint_system_blueprint
+purpose: >-
+  Define the canonical machine-readable execution authority for one bounded unit of
+  work while preserving Project Constitution precedence and capability reuse before NEW.
+authority_model:
+  precedence_layer: WORK_FRONT
+  chat_is_authority: false
+  human_intent_is_execution_authority: false
+  work_front_is_execution_authority: true
+  lower_than:
+    - PROJECT_CONSTITUTION
+    - MODULE_POLICY
+    - EXECUTION_PROFILE
+  may_narrow_higher_authority: true
+  may_widen_without_explicit_gate: false
+  widening_requires_external_gate_evidence: true
+  does_not_grant:
+    - worker_dispatch_authority
+    - release_authority
+    - foreign_repository_write_authority
+    - automatic_next_step_activation
+required_fields:
+  - work_front_id
+  - objective
+  - scope
+  - exclusions
+  - provenance
+  - dependencies
+  - outputs
+  - acceptance
+  - stop_conditions
+  - authority
+  - capability_reuse
+field_semantics:
+  work_front_id:
+    type: non_empty_string
+    immutable_identity: true
+  objective:
+    type: non_empty_string
+  scope:
+    type: non_empty_string_list
+  exclusions:
+    type: string_list
+  provenance:
+    type: mapping
+    required:
+      - source_refs
+      - chat_is_authority
+    source_refs_type: non_empty_string_list
+    chat_is_authority_required_value: false
+  dependencies:
+    type: string_list
+  outputs:
+    type: non_empty_string_list
+  acceptance:
+    type: non_empty_string_list
+  stop_conditions:
+    type: non_empty_string_list
+  authority:
+    type: mapping
+    required:
+      - layer
+      - permissions
+      - widening_requested
+    layer_required_value: WORK_FRONT
+    permissions_type: string_list
+    widening_requested_type: boolean
+    widening_gate_evidence_required_when_true: true
+capability_reuse:
+  search_before_new_required: true
+  search_evidence_fields:
+    - search_performed
+    - searched_surfaces
+    - disposition
+    - target_refs
+  dispositions:
+    - REUSE
+    - EXTEND
+    - ADAPT
+    - REPLACE
+    - NEW
+  existing_target_required_for:
+    - REUSE
+    - EXTEND
+    - ADAPT
+    - REPLACE
+  new_requires_rationale: true
+  new_without_search_forbidden: true
+gates:
+  assistant_pack:
+    work_front_validation_required_for_task_execution: true
+    project_onboard_compatibility_without_front: true
+    compatibility_retirement_target: CF-08
+  dispatch:
+    work_front_required: true
+    work_front_validation_required: true
+    dispatch_authority_conferred: false
+scope_exclusions:
+  workfront_history: CF-05
+  execution_attempt_history: CF-05
+  execution_profiles: CF-06
+  procedure_graphs: CF-07
+  handoff_v2: CF-08
+  dispatcher_launch_integration: CF-09
+  worker_dispatch_authority: false
+  release_authority: false
+  foreign_repository_write_authority: false
+  blueprint_ai_trial_readiness: false
+reuse_basis:
+  relationship_to_existing: EXTEND_IMMUTABLE_PROMPT_AND_WORK_PACKAGE_CONTRACTS
+  existing_surfaces_remain_valid:
+    - coordination/standards/governance/module_prompt_contract_v0_4.yaml
+    - coordination/standards/governance/module_prompt_execution_and_reporting_protocol.md
+    - coordination/standards/automation/continuity_contract_v0_1.yaml
+    - scripts/coordination/build_context_bundle.py
+    - scripts/coordination/build_launch_request.py
+    - scripts/coordination/build_worker_invocation.py

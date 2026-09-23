@@ -1,0 +1,91 @@
+schema_version: forprint_module_continuity_transfer_contract_v0_1
+status: active_reference_contract
+authority: none
+contract_id: module_continuity_transfer_reference_v0_1
+purpose: 'Define the authority-neutral module profile and portability requirements
+  for reusing the accepted continuity event store, lifecycle enforcement, generated
+  projections, and deterministic zero-context handoff across ForPrint module repositories.
+
+  '
+mutation_authority_conferred: false
+release_authority_conferred: false
+worker_dispatch_authority_conferred: false
+foreign_repository_write_authority_conferred: false
+required_profile_fields:
+- module_id
+- module_root
+- event_root
+- projection_root
+- bootstrap_index
+- mission_source
+- source_state_mode
+- authority_scope
+source_state_modes:
+- working_tree
+- git_tracked
+authority_scope_rules:
+  default: read_and_local_bounded_continuity_only
+  foreign_repository_write: forbidden_without_explicit_external_authority
+  worker_dispatch: false
+  release: false
+portable_surfaces:
+- id: immutable_event_store
+  root_configurable: true
+  append_only: true
+  accepted_event_history_immutable: true
+- id: lifecycle_enforcement
+  root_configurable: true
+  states:
+  - PLANNED
+  - ACTIVE
+  - CHECKPOINTED
+  - VALIDATED
+  - CLOSED
+  forbidden_transition:
+  - ACTIVE->CLOSED
+- id: generated_projections
+  root_configurable: true
+  authority: none
+  generated_only: true
+- id: deterministic_zero_context_handoff
+  root_configurable: true
+  authority: none
+  deterministic_archive_required: true
+reference_fixture_classes:
+- id: catalog_topology
+  purpose: flat_catalog_semantic_module
+- id: warehouse_topology
+  purpose: nested_operational_module
+reference_acceptance:
+  sterile_fixture_runtime: pytest_tmp_path_or_ephemeral_tempdir_only
+  accepted_core_source_modification_required: false
+  invalid_transition_event_appended: false
+  invalid_transition_source_mutation_performed: false
+  deterministic_handoff_byte_identity_required: true
+  blueprint_specific_paths_in_this_contract: 0
+post_reference_acceptance_evolution:
+  semantics: The u179h core hashes are immutable reference-acceptance evidence, not
+    a permanent byte lock on later explicitly owned core evolution.
+  historical_accepted_core_sha256:
+    scripts/coordination/continuity.py: 7971e3e3e8249a9b4cb023ae31ae48bceb7374d82257dbc092ff315231e7f246
+    scripts/coordination/continuity_lifecycle.py: 54f5bf0b3eb8da8a9e95592e7f479aa31133289c6907a8f9438ef4664077165d
+    scripts/coordination/build_continuity_projections.py: f3dae14ffd53a56b5dbe686af1b3ee17a4202fa2c4df8b40c88f993ba88ffdb7
+    scripts/coordination/build_assistant_handoff_archive.py: 9b61279e1ca6c05fae40f54f7295d5483c5c7fd3843a7a618421b029df6b95e7
+  current_validated_core_sha256:
+    scripts/coordination/continuity.py: 800a22d8a5bdd2a6c96ff62c4318fa61f812a2ea30fbdfc4536522e695051e32
+    scripts/coordination/continuity_lifecycle.py: 5a852247b5ce64e5de77605f36dc6d2fbc1f21e346730e56759477f36caf526e
+    scripts/coordination/build_continuity_projections.py: 2ac0ea7112cdf9df400355e8a96dc1ffc4fabdc78a05ee4f7b7b91c0ee944108
+    scripts/coordination/build_assistant_handoff_archive.py: a0d6443934c977e49fcaad478ea991ce4e3eac14c82b44ae0a53d90ba5c93755
+  current_validated_under_work_id: u180i
+  current_change_scope: CF-09 continuity portability-boundary repair with explicit
+    Blueprint roadmap-cursor and PROJECT_ONBOARD enrichment injection into portable core
+  current_change_paths:
+  - scripts/coordination/build_continuity_projections.py
+  - scripts/coordination/build_assistant_handoff_archive.py
+  current_core_byte_identity_to_reference_required: false
+  historical_reference_acceptance_rewritten: false
+  future_core_change_requirements:
+  - explicit owning work item
+  - updated current validated core hash binding
+  - focused portability validation
+  - full project validation

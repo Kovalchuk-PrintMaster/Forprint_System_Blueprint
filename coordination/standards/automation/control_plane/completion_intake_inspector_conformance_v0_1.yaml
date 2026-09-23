@@ -1,0 +1,74 @@
+schema_version: completion_intake_inspector_conformance_contract_v0_1
+status: active_standard
+authority: forprint_system_blueprint
+metadata:
+  standard_id: completion_intake_inspector_conformance_contract_v0_1
+  title: ForPrint Completion Intake and Inspector Conformance Contract v0.1
+  owner: forprint_system_blueprint
+  adoption_mode: prompt_or_directive_required
+architecture:
+  owner: BLUEPRINT_CONTROL_PLANE
+  implementation_package: scripts/coordination/control_plane/completion
+  inspector_read_only: true
+  inspector_repository_binding: UNBOUND_EXTERNAL_REVIEWER
+  human_acceptance_authority: true
+  automatic_accept: false
+  automatic_next_prompt_release: false
+structure:
+  new_internals_nested: true
+  legacy_completion_entrypoints_mass_move_now: false
+  structural_consolidation_before_broad_multi_module_rollout: true
+schemas:
+  worker_completion_capture: forprint_worker_completion_capture_v0_1
+  worker_completion_report: forprint_worker_completion_report_v0_1
+  normalized_completion_intake: forprint_normalized_completion_intake_v0_1
+  inspector_request: forprint_inspector_conformance_request_v0_1
+  inspector_result: forprint_inspector_conformance_result_v0_1
+  human_gate_projection: forprint_human_acceptance_gate_projection_v0_1
+legacy_compatibility:
+  completion_discovery_and_intake_v0_4_replaced: false
+  module_completion_intake_replaced: false
+  acceptance_oracle_v0_1_replaced: false
+  accept_and_advance_v0_1_replaced: false
+q5:
+  family: completion_publication
+  family_set_expanded: false
+  new_family_requires_versioned_q5_review: true
+inspector:
+  result_states:
+  - CONFORMANT
+  - NON_CONFORMANT
+  - INSUFFICIENT_EVIDENCE
+  conformant_is_blueprint_accept: false
+  result_may_mutate_module: false
+human_gate:
+  projection_states:
+  - AWAITING_HUMAN_ACCEPTANCE
+  - RETURN_RECOMMENDED
+  - INSUFFICIENT_EVIDENCE
+  allowed_human_decisions:
+  - ACCEPT
+  - RETURN
+  - HOLD
+  projection_is_decision: false
+live_logistics:
+  worker_execution: NOT_STARTED
+  completion_intake: NOT_AVAILABLE
+  inspector_request: NOT_CREATED
+  human_gate: NOT_REACHED
+execution_boundaries:
+  worker_process_start_allowed: false
+  prompt_claim_allowed: false
+  module_repository_write_allowed: false
+  inspector_repository_write_allowed: false
+  blueprint_accept_allowed: false
+  next_prompt_release_allowed: false
+reviewer_registry_binding:
+  registry_standard: inspector_reviewer_registry_v0_1
+  required_reviewer_id: forprint_project_inspector
+  required_role: PROJECT_CONFORMANCE_REVIEWER
+  binding_state: READY
+  prohibited_substitute_reviewer_ids:
+  - production_runtime_inspector
+  reviewer_read_only_required: true
+  human_acceptance_authority_preserved: true
