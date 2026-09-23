@@ -6,6 +6,11 @@ from pathlib import Path
 
 import yaml
 
+
+class _IndentedSafeDumper(yaml.SafeDumper):
+    def increase_indent(self, flow=False, indentless=False):
+        return super().increase_indent(flow, False)
+
 ROOT = Path(__file__).resolve().parents[2]
 INDEX_ROOT = ROOT / "indexes"
 
@@ -27,8 +32,9 @@ def _load(path: Path) -> dict:
 
 
 def _dump(data: dict) -> str:
-    return yaml.safe_dump(
+    return yaml.dump(
         data,
+        Dumper=_IndentedSafeDumper,
         allow_unicode=True,
         sort_keys=False,
         width=120,

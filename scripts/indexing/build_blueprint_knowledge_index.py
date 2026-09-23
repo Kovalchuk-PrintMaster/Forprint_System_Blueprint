@@ -8,6 +8,12 @@ from pathlib import Path
 
 import yaml
 
+
+class _IndentedSafeDumper(yaml.SafeDumper):
+    def increase_indent(self, flow=False, indentless=False):
+        return super().increase_indent(flow, False)
+
+
 ROOT = Path(__file__).resolve().parents[2]
 INDEX_ROOT = ROOT / "indexes"
 
@@ -23,6 +29,44 @@ SKIP_ROOTS = {
 }
 SKIP_PARTS = {"__pycache__"}
 SKIP_FILENAMES = {"tmp.py"}
+SKIP_PATH_PREFIXES = {"coordination/continuity/events", "coordination/continuity/projections"}
+
+
+def _is_skipped_source_path(rel: Path) -> bool:
+    rel_text = rel.as_posix()
+    return any(
+        rel_text == prefix or rel_text.startswith(prefix + "/") for prefix in SKIP_PATH_PREFIXES
+    )
+
+
+RECURSIVE_RUNTIME_CACHE_PARTS = {
+    "__pycache__",
+    ".pytest_cache",
+    ".ruff_cache",
+    ".mypy_cache",
+    ".tox",
+    ".nox",
+    "node_modules",
+}
+
+
+def _include_reference_pattern_match(path: Path) -> bool:
+    """Return whether a glob match may affect deterministic reference resolution.
+
+    Runtime/cache directories are never repository knowledge. They must not affect
+    resolved_pattern content, ordering, truncation, hashes, or freshness.
+    """
+    rel = path.relative_to(ROOT)
+    if not rel.parts:
+        return False
+    if rel.parts[0] in SKIP_ROOTS:
+        return False
+    if path.name in SKIP_FILENAMES:
+        return False
+    if _is_skipped_source_path(rel):
+        return False
+    return not any(part in RECURSIVE_RUNTIME_CACHE_PARTS for part in rel.parts)
+
 
 TEXT_SUFFIXES = {
     ".bash",
@@ -74,6 +118,7 @@ SEMANTIC_NONPATH_TOKENS = {
     "coordination/framework",
     "coordination/governance",
     "coordination/navigation",
+    "coordination/policy",
     "coordination/release",
     "coordination/self-check",
     "coordination/self-validation",
@@ -128,8 +173,9 @@ def _yaml(path: Path) -> dict:
 
 
 def _yaml_text(data: dict) -> str:
-    return yaml.safe_dump(
+    return yaml.dump(
         data,
+        Dumper=_IndentedSafeDumper,
         allow_unicode=True,
         sort_keys=False,
         width=120,
@@ -137,12 +183,15 @@ def _yaml_text(data: dict) -> str:
 
 
 def _json_text(data: dict | list) -> str:
-    return json.dumps(
-        data,
-        ensure_ascii=False,
-        indent=2,
-        sort_keys=False,
-    ) + "\n"
+    return (
+        json.dumps(
+            data,
+            ensure_ascii=False,
+            indent=2,
+            sort_keys=False,
+        )
+        + "\n"
+    )
 
 
 def _iter_source_files() -> list[Path]:
@@ -154,6 +203,8 @@ def _iter_source_files() -> list[Path]:
         if not rel.parts:
             continue
         if rel.parts[0] in SKIP_ROOTS:
+            continue
+        if _is_skipped_source_path(rel):
             continue
         if any(part in SKIP_PARTS for part in rel.parts):
             continue
@@ -314,12 +365,7 @@ def _is_external_reference(raw: str) -> bool:
 
 def _retired_paths() -> set[str]:
     archive = (
-        ROOT
-        / "coordination"
-        / "internal_work"
-        / "blueprint"
-        / "legacy_alignment"
-        / "index.yaml"
+        ROOT / "coordination" / "internal_work" / "blueprint" / "legacy_alignment" / "index.yaml"
     )
     if not archive.is_file():
         return set()
@@ -452,9 +498,7 @@ def _pytest_nodeid(value: str) -> tuple[str, str] | None:
 
 
 def _is_historical_alias_prompt_source(source_rel: str) -> bool:
-    return source_rel.startswith(
-        "coordination/outgoing_prompts/forprint_operational_registry/"
-    )
+    return source_rel.startswith("coordination/outgoing_prompts/forprint_operational_registry/")
 
 
 def _is_incoming_request_evidence_source(source_rel: str) -> bool:
@@ -466,9 +510,7 @@ def _is_module_snapshot_source(source_rel: str) -> bool:
 
 
 def _is_blueprint_detail_roadmap_source(source_rel: str) -> bool:
-    return source_rel.startswith(
-        "coordination/roadmaps/details/forprint_system_blueprint/"
-    )
+    return source_rel.startswith("coordination/roadmaps/details/forprint_system_blueprint/")
 
 
 def _is_target_module_completion_evidence(
@@ -487,10 +529,7 @@ def _is_target_module_completion_evidence(
 
 
 def _is_declared_registry_reference(source_rel: str) -> bool:
-    return (
-        source_rel
-        == "coordination/registry/coordination_source_registry_v0_1.yaml"
-    )
+    return source_rel == "coordination/registry/coordination_source_registry_v0_1.yaml"
 
 
 def _is_target_module_standard_reference(
@@ -512,9 +551,8 @@ def _is_target_module_template_validator_reference(
     source_rel: str,
     value: str,
 ) -> bool:
-    return (
-        source_rel == "scripts/validate_module_standards_template.py"
-        and value.startswith("scripts/")
+    return source_rel == "scripts/validate_module_standards_template.py" and value.startswith(
+        "scripts/"
     )
 
 
@@ -522,18 +560,15 @@ def _is_module_completion_packet_reference(
     source_rel: str,
     value: str,
 ) -> bool:
-    return (
-        source_rel == "scripts/coordination/completion_intake_check.py"
-        and value.startswith("coordination/completion_packets/")
+    return source_rel == "scripts/coordination/completion_intake_check.py" and value.startswith(
+        "coordination/completion_packets/"
     )
 
 
 def _is_recovery_absence_reference(source_rel: str, value: str) -> bool:
     return (
-        source_rel
-        == "docs/operations/blueprint_repository_knowledge_snapshot_recovery.md"
-        and value
-        == "coordination/repository_knowledge/direction/module_self_view/.gitkeep"
+        source_rel == "docs/operations/blueprint_repository_knowledge_snapshot_recovery.md"
+        and value == "coordination/repository_knowledge/direction/module_self_view/.gitkeep"
     )
 
 
@@ -545,6 +580,10 @@ def _is_indexer_rule_literal_reference(source_rel: str, value: str) -> bool:
 
 
 def _discoverability_class(rel: str) -> str | None:
+    if rel.startswith("coordination/human_intent/modules/"):
+        return "human_intent_module_index"
+    if rel.startswith("coordination/human_intent/deltas/"):
+        return "human_intent_delta_history"
     if rel.startswith("coordination/standards/"):
         return "standards_governance_index"
     if rel.startswith("coordination/roadmaps/details/forprint_system_blueprint/"):
@@ -588,6 +627,7 @@ def _resolve_reference(
             matches = sorted(
                 item.relative_to(ROOT).as_posix()
                 for item in base.glob(value)
+                if _include_reference_pattern_match(item)
                 if item.exists()
             )
         except (NotImplementedError, ValueError):
@@ -685,8 +725,7 @@ def _resolve_reference(
         return "planned_or_module_runtime_surface_reference", None, None
 
     if source_rel.startswith("coordination/module_sources/") and (
-        _is_module_coordination_reference(value)
-        or value == "coordination/reports/index.yaml"
+        _is_module_coordination_reference(value) or value == "coordination/reports/index.yaml"
     ):
         return "external_module_coordination_reference", None, None
 
@@ -704,6 +743,7 @@ def _resolve_reference(
         return "policy_example_reference", None, None
 
     return "unresolved_candidate", None, None
+
 
 def _reference_candidates(text: str) -> set[str]:
     candidates: set[str] = set()
@@ -725,10 +765,7 @@ def _declared_derivation_pairs() -> set[tuple[str, str]]:
     if not manifest.is_file():
         return set()
     data = _yaml(manifest)
-    return {
-        (item["source"], item["derived"])
-        for item in data.get("derivations", [])
-    }
+    return {(item["source"], item["derived"]) for item in data.get("derivations", [])}
 
 
 def _duplicate_classification(
@@ -756,17 +793,13 @@ def _duplicate_classification(
         prompt_paths = [
             path
             for path in paths
-            if path.startswith("coordination/outgoing_prompts/")
-            and path.endswith(".md")
+            if path.startswith("coordination/outgoing_prompts/") and path.endswith(".md")
         ]
         if len(snapshot_paths) == 1 and len(prompt_paths) == 1:
             return "immutable_prompt_source_snapshot"
 
     if all(
-        path.startswith(
-            "coordination/internal_work/blueprint/legacy_alignment/"
-        )
-        for path in paths
+        path.startswith("coordination/internal_work/blueprint/legacy_alignment/") for path in paths
     ):
         return "historical_duplicate"
 
@@ -774,24 +807,19 @@ def _duplicate_classification(
         return "structural_placeholder"
 
     portfolio_history_roots = (
-        "coordination/internal_work/blueprint/"
-        "portfolio_reviews/history/",
-        "coordination/internal_work/blueprint/"
-        "portfolio_strategy_history/",
+        "coordination/internal_work/blueprint/portfolio_reviews/history/",
+        "coordination/internal_work/blueprint/portfolio_strategy_history/",
     )
     portfolio_history_hits = {
-        root
-        for path in paths
-        for root in portfolio_history_roots
-        if path.startswith(root)
+        root for path in paths for root in portfolio_history_roots if path.startswith(root)
     }
-    if (
-        len(portfolio_history_hits) == len(portfolio_history_roots)
-        and all(path.startswith(portfolio_history_roots) for path in paths)
+    if len(portfolio_history_hits) == len(portfolio_history_roots) and all(
+        path.startswith(portfolio_history_roots) for path in paths
     ):
         return "historical_duplicate"
 
     return "review_exact_duplicate"
+
 
 def _machine_module_dependencies() -> tuple[list[dict], list[str]]:
     identity = _yaml(ROOT / "machine/module_identity_registry.yaml")
@@ -888,11 +916,7 @@ def collect() -> dict[str, str]:
             "size_bytes": size,
             "sha256": digest,
             "text": is_text,
-            "line_count": (
-                text.count("\n") + (1 if text else 0)
-                if is_text
-                else None
-            ),
+            "line_count": (text.count("\n") + (1 if text else 0) if is_text else None),
         }
         records.append(record)
         hash_groups.setdefault(digest, []).append(rel)
@@ -921,10 +945,14 @@ def collect() -> dict[str, str]:
                 record["detail"] = detail
             references.append(record)
 
-            if classification in {
-                "resolved_file",
-                "resolved_relative_file",
-            } and target is not None:
+            if (
+                classification
+                in {
+                    "resolved_file",
+                    "resolved_relative_file",
+                }
+                and target is not None
+            ):
                 file_edges.add((source_rel, target))
                 inbound.setdefault(target, set()).add(source_rel)
             elif classification == "unresolved_candidate":
@@ -1018,9 +1046,7 @@ def collect() -> dict[str, str]:
         duplicate_counts[key] = duplicate_counts.get(key, 0) + 1
 
     harmful_duplicate_candidates = [
-        item
-        for item in duplicate_groups
-        if item["classification"] == "review_exact_duplicate"
+        item for item in duplicate_groups if item["classification"] == "review_exact_duplicate"
     ]
 
     nonblocking_reference_counts = {
@@ -1098,8 +1124,7 @@ def collect() -> dict[str, str]:
         "schema_version": "forprint_blueprint_dependency_index_v0_1",
         "status": "derived_non_authoritative",
         "file_dependencies": [
-            {"source": source, "target": target}
-            for source, target in sorted(file_edges)
+            {"source": source, "target": target} for source, target in sorted(file_edges)
         ],
         "module_dependencies": module_edges,
         "unknown_module_endpoints": unknown_module_endpoints,
@@ -1121,9 +1146,7 @@ def collect() -> dict[str, str]:
         "exact_duplicate_groups": duplicate_groups,
         "harmful_duplicate_candidates": harmful_duplicate_candidates,
         "no_inbound_current_documents": no_inbound,
-        "structurally_discoverable_no_inbound_documents": (
-            structurally_discoverable_no_inbound
-        ),
+        "structurally_discoverable_no_inbound_documents": (structurally_discoverable_no_inbound),
     }
 
     summary_payload = {
@@ -1138,9 +1161,7 @@ def collect() -> dict[str, str]:
             "module_dependency_edges": len(module_edges),
             "unresolved_reference_candidates": len(unresolved),
             "retired_path_mentions": len(retired_mentions),
-            "classified_nonblocking_reference_count": sum(
-                nonblocking_reference_counts.values()
-            ),
+            "classified_nonblocking_reference_count": sum(nonblocking_reference_counts.values()),
             "exact_duplicate_groups": len(duplicate_groups),
             "harmful_duplicate_candidates": len(harmful_duplicate_candidates),
             "no_inbound_current_documents": len(no_inbound),

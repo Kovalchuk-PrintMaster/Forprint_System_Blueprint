@@ -4,6 +4,8 @@ from pathlib import Path
 
 import yaml
 
+from scripts.indexing import build_blueprint_knowledge_index as knowledge_index
+
 ROOT = Path(__file__).resolve().parents[2]
 
 
@@ -19,6 +21,17 @@ def test_knowledge_index_validator_passes() -> None:
     )
     assert result.returncode == 0, result.stdout + result.stderr
     assert "BLUEPRINT_KNOWLEDGE_INDEX_VALIDATION=PASS" in result.stdout
+
+
+def test_coordination_policy_makefile_phrase_is_conceptual_nonpath_reference() -> None:
+    classification, target, detail = knowledge_index._resolve_reference(
+        "Makefile",
+        "coordination/policy",
+        set(),
+    )
+    assert classification == "conceptual_nonpath_reference"
+    assert target is None
+    assert detail is None
 
 
 def test_file_index_excludes_derived_and_volatile_roots() -> None:
