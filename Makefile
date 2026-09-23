@@ -114,6 +114,7 @@ help:
 	@echo "  make validate"
 	@echo "  make markdown-fences"
 	@echo "  make check"
+	@echo "  make validation-suite SUITE=cf10-worker-pipeline"
 	@echo "  make check-report"
 	@echo "  make test-make-command-surface"
 	@echo "  make test-v0-4-coordination"
@@ -398,6 +399,18 @@ markdown-fences:
 .PHONY: check
 check:
 	$(PYTHON) scripts/validation/run_non_mutating_make_check.py --target check-core --module-root "$(MODULE_ROOT)"
+
+# Target: validation-suite
+# Purpose: Run one registered focused validation suite through the reusable isolated suite runner.
+# Safety: READ-ONLY — validation executes in disposable isolation; no apply/commit/push/module writes.
+# Inputs: SUITE (required registered validation suite id).
+# Scope: LOCAL/FOCUSED — selected registered validation suite only.
+# Result: Validation exits 0 on success and non-zero on failure; durable source state remains unchanged.
+.PHONY: validation-suite
+validation-suite:
+	@test -n "$(SUITE)$$FORPRINT_VALIDATION_SUITE_ID" || { echo "ERROR: SUITE=<registered-suite-id> is required"; exit 2; }
+	@SUITE_ID="$${FORPRINT_VALIDATION_SUITE_ID:-$(SUITE)}"; \
+		$(PYTHON) scripts/validation/run_validation_suite_v0_1.py --suite "$$SUITE_ID"
 
 # Target: check-core
 # Purpose: Run the broad core Blueprint validation suite used by the main check wrapper.

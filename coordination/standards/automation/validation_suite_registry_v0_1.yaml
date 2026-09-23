@@ -1,0 +1,23 @@
+schema_version: forprint_validation_suite_registry_v0_1
+status: current_standard
+authority: forprint_system_blueprint
+suites:
+  cf10-worker-pipeline:
+    description: >-
+      Focused read-only regression suite for the published CF-10 isolated
+      worker-delta and bound worker-result pipeline.
+    safety: read_only_synthetic_validation
+    steps:
+      - id: cf10-worker-delta-governance
+        kind: python_script
+        path: scripts/validation/validate_cf10_worker_delta_governance_reconciliation_v0_1.py
+      - id: cf10-post-worker-result-collection
+        kind: python_script
+        path: scripts/validation/validate_cf10_post_worker_result_collection_v0_1.py
+      - id: cf10-worker-pipeline-focused-tests
+        kind: pytest
+        paths:
+          - tests/validation/test_cf10_worker_delta_governance_reconciliation_v0_1.py
+          - tests/coordination/control_plane/test_cf10_post_worker_result_collection_v0_1.py
+          - tests/coordination/control_plane/workspace/test_cf10_workspace_provisioning_v0_1.py
+          - tests/coordination/control_plane/test_cf09_dispatcher_attempt_result_integration_v0_1.py
