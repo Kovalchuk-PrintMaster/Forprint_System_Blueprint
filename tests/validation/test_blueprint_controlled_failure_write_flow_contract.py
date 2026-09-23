@@ -29,7 +29,7 @@ RELEASE_POLICY = (
 
 EXPECTED_HASHES = {
     "scripts/coordination/build_context_bundle.py": (
-        "099b83127d8fb310179efff7f0a4745017cda5c6f7baffc09ff754bece63fe89"
+        "73769b9117e5facfc2b338397c343ab90b545d2e3886e79004d0739f94214786"
     ),
     "scripts/coordination/build_document_manifest.py": (
         "bb56666df0cba827c84c4709af357e3878f5e3df1eeea7827dde90072b58e09f"
@@ -38,7 +38,7 @@ EXPECTED_HASHES = {
         "cdc49ad13abaeebeae0ab335e3d04b3e987700c9ca19dd89878f4435606af550"
     ),
     "scripts/coordination/validate_inventory_acceptance_evidence_index.py": (
-        "3b4310b0268955bb2956ea18c64520b94c8a10bb9b1269f9754f77f80bf35941"
+        "69e96e2c6a7090458634fdc19e626482abf43d4a3da4ea179835b6826de44f6a"
     ),
 }
 
