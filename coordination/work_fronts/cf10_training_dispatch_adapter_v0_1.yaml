@@ -1,0 +1,96 @@
+work_front_id: wf-cf10-training-dispatch-adapter-v0-1
+objective: >-
+  Replace per-attempt CF-10 training dispatch hardcodes with one bounded reusable
+  Blueprint-internal training-task dispatch adapter that delegates to the existing
+  generic TASK_EXECUTION preparation and Assistant ACK gate, while resolving each
+  concrete training task from the canonical CF-10 training queue, Worker Task index
+  and validated Work Front.
+scope:
+- coordination/work_fronts/cf10_training_dispatch_adapter_v0_1.yaml
+- scripts/coordination/control_plane/cf10_training_dispatch.py
+- tests/coordination/control_plane/test_cf10_training_dispatch_v0_1.py
+exclusions:
+- Do not rewrite existing a001/a002/a003 dispatch bindings or terminal attempt history.
+- Do not modify scripts/coordination/control_plane/dispatch_intent.py.
+- Do not modify worker runtime, launcher, runtime registry or provider configuration.
+- Do not modify Handoff v2 schema, Work Front runtime, lifecycle or roadmap state.
+- Do not create automatic dispatch, retry, promotion, commit, push, merge, release or ACCEPT authority.
+- Do not authorize external-module workers or cross-repository writes.
+- Do not infer authority from the training queue, Worker Task artifact or chat alone; validated Work Front remains execution authority.
+- Do not launch a worker as part of this Work Front implementation.
+provenance:
+  source_refs:
+  - roadmap:control_foundation_near_horizon/CF-10
+  - lifecycle:u180j/WORK_ACTIVATED/sequence-67
+  - training_queue:coordination/internal_work/blueprint/worker_training/cf10_worker_training_queue_v0_1.yaml
+  - coordination/internal_work/blueprint/worker_tasks/index.yaml
+  - scripts/coordination/control_plane/dispatch_intent.py
+  - coordination/work_fronts/cf10_verification_tier_self_hardening_v0_1.yaml
+  chat_is_authority: false
+dependencies:
+- CF-10/u180j remains the Blueprint-internal worker pilot.
+- a001/a002/a003 attempt history remains immutable.
+- Generic prepare_cf09_task_execution() exists and stops at AWAITING_ASSISTANT_ACK.
+- Generic validate_cf09_assistant_ack() exists and grants no execution authority.
+- Worker runtime binding and provider-neutral launcher are already published.
+- Task #3 verification_tier_self_hardening is materialized and its Work Front validates.
+outputs:
+- One new reusable module scripts/coordination/control_plane/cf10_training_dispatch.py.
+- Resolve one exact materialized Worker Task from the existing worker_tasks/index.yaml.
+- Verify the Worker Task belongs to u180j and its referenced Work Front validates.
+- Verify the Work Front provenance binds the task to one entry in the canonical CF-10 training queue.
+- Delegate preparation to existing prepare_cf09_task_execution().
+- Build the trusted canonical Handoff v2 ACK for the exact resolved training task without widening authority.
+- Authorize explicit dispatch only after validate_cf09_assistant_ack() has produced READY_FOR_EXPLICIT_DISPATCH.
+- Bind explicit dispatch to exact worker_id, attempt_id, workspace, source fingerprint, runtime provider/model, Work Front, profile and procedure.
+- Refuse reuse of an attempt_id already present in canonical Execution Attempt Ledger history.
+- Preserve candidate-only, Blueprint-only, no-push/no-merge/no-release/no-auto-ACCEPT boundaries.
+- Deterministic focused regression tests for task resolution, ACK boundary, attempt reuse refusal and exact explicit-dispatch binding.
+acceptance:
+- Only this Work Front, cf10_training_dispatch.py and its focused test file are changed by this infrastructure slice.
+- Existing dispatch_intent.py is unchanged.
+- Existing a001/a002/a003 code and ledger history are unchanged.
+- Adapter resolves only tasks present in worker_tasks/index.yaml and canonical CF-10 training queue.
+- Task artifact itself grants no authority; Work Front dispatch validation is still required.
+- Preparation stops at AWAITING_ASSISTANT_ACK with all authority flags false.
+- Canonical ACK uses the existing Handoff v2 ACK schema and exact task bindings.
+- ACK validation is delegated to validate_cf09_assistant_ack().
+- Explicit dispatch is impossible before validated ACK.
+- Attempt IDs already present in canonical ledger history are rejected.
+- Workspace must match forprint_system_blueprint/worker-01/<attempt_id>/workspace/repo.
+- Runtime provider remains github_copilot_cli and model selection remains auto for the current CF-10 training runtime.
+- No external dispatch, foreign write, commit, push, merge, release or automatic ACCEPT is authorized.
+- Focused pytest passes and git diff --check passes.
+- No worker process is launched by implementation or validation.
+stop_conditions:
+- Existing generic TASK_EXECUTION preparation or ACK validation would need semantic weakening.
+- Existing Handoff v2 schema modification becomes necessary.
+- dispatch_intent.py modification becomes necessary.
+- Worker runtime/provider modification becomes necessary.
+- Lifecycle or roadmap mutation becomes necessary.
+- A second task index, training queue or execution-state authority would be required.
+- Automatic dispatch/retry/promotion or cross-module authority is requested.
+- A path outside this Work Front becomes necessary.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false
+capability_reuse:
+  search_performed: true
+  searched_surfaces:
+  - scripts/coordination/control_plane/dispatch_intent.py
+  - coordination/internal_work/blueprint/worker_training/cf10_worker_training_queue_v0_1.yaml
+  - coordination/internal_work/blueprint/worker_tasks/index.yaml
+  - coordination/work_fronts/cf10_verification_tier_self_hardening_v0_1.yaml
+  - scripts/coordination/control_plane/worker_runtime/
+  - coordination/continuity/execution_attempts/
+  disposition: EXTEND
+  target_refs:
+  - scripts/coordination/control_plane/dispatch_intent.py
+  - coordination/internal_work/blueprint/worker_training/cf10_worker_training_queue_v0_1.yaml
+  - coordination/internal_work/blueprint/worker_tasks/index.yaml
+  read_only_refs:
+  - coordination/work_fronts/cf10_verification_tier_self_hardening_v0_1.yaml
+  - coordination/continuity/execution_attempts/
