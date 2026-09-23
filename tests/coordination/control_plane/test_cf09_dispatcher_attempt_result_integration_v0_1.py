@@ -61,11 +61,12 @@ def _attempt_record(
     attempt_id: str = "attempt-cf09-s2-001",
     *,
     result_state: str = "SUCCEEDED",
+    work_front_id: str = "wf-cf09-s2",
 ) -> dict:
     return {
         "schema_version": "forprint_execution_attempt_record_v0_1",
         "attempt_id": attempt_id,
-        "work_front_id": "wf-cf09-s2",
+        "work_front_id": work_front_id,
         "recorded_at": "2026-09-17T13:45:00Z",
         "actor_or_worker_ref": "cf09-dispatcher-test",
         "where": "blueprint",
@@ -85,6 +86,27 @@ def _attempt_record(
             "resume_coordinates": ["return-result"],
             "replay_forbidden_refs": [],
         },
+    }
+
+
+
+def _worker_delta_report(
+    changed_paths: list[str] | None = None,
+    *,
+    authority_granted: bool = False,
+) -> dict:
+    paths = ["a.txt"] if changed_paths is None else list(changed_paths)
+    return {
+        "schema_version": "forprint_worker_workspace_delta_v0_1",
+        "source_head": "b" * 40,
+        "baseline_fingerprint_sha256": "c" * 64,
+        "inherited_dirty_paths": ["inherited.txt"],
+        "post_worker_dirty_paths": list(paths),
+        "changed_paths": list(paths),
+        "worker_delta_exact": True,
+        "authority_granted": authority_granted,
+        "candidate_promoted": False,
+        "canonical_write_performed": False,
     }
 
 
@@ -429,3 +451,170 @@ def test_valid_pass_terminalizes_existing_started_attempt_without_new_attempt_id
     assert ledger.rows[1]["attempt_stage"] == "FINISHED"
     assert final["retry_decision"]["decision"] == "NO_RETRY_RESULT_PASS"
     assert final["worker_dispatch_performed"] is False
+
+
+def test_cf10_result_requires_worker_delta_report_before_ledger(
+    tmp_path: Path,
+) -> None:
+    attempt_id = "cf10-u180j-a004"
+    result = _result(attempt_id=attempt_id)
+    validation = {
+        "valid": True,
+        "result": result,
+        "errors": [],
+        "repair_attempt_count": 0,
+        "freshness_resume": {"valid": True, "errors": []},
+    }
+    ledger = _Ledger()
+
+    final = dispatch_intent.finalize_cf09_task_execution(
+        root=LIVE_ROOT,
+        origin_manifest=_origin_manifest(),
+        result=result,
+        attempt_record=_attempt_record(
+            attempt_id,
+            work_front_id="wf-cf10-worker-delta-verification",
+        ),
+        attempt_number=1,
+        ledger_store_override=tmp_path / "ledger",
+        telemetry_root_override=tmp_path / "telemetry",
+        runtime_loader=lambda: _runtime(validation),
+        ledger_loader=lambda: ledger,
+    )
+
+    assert final["state"] == "RESULT_REJECTED"
+    assert final["canonical_attempt_record_written"] is False
+    assert final["telemetry_projection_written"] is False
+    assert final["worker_delta_verification"]["required"] is True
+    assert final["worker_delta_verification"]["provided"] is False
+    assert final["worker_delta_verification"]["errors"] == [
+        "WORKER_DELTA_REPORT_REQUIRED"
+    ]
+    assert ledger.rows == []
+
+
+def test_cf10_result_rejects_worker_delta_changed_path_mismatch(
+    tmp_path: Path,
+) -> None:
+    attempt_id = "cf10-u180j-a004"
+    result = _result(attempt_id=attempt_id)
+    validation = {
+        "valid": True,
+        "result": result,
+        "errors": [],
+        "repair_attempt_count": 0,
+        "freshness_resume": {"valid": True, "errors": []},
+    }
+    ledger = _Ledger()
+
+    final = dispatch_intent.finalize_cf09_task_execution(
+        root=LIVE_ROOT,
+        origin_manifest=_origin_manifest(),
+        result=result,
+        attempt_record=_attempt_record(
+            attempt_id,
+            work_front_id="wf-cf10-worker-delta-verification",
+        ),
+        attempt_number=1,
+        worker_delta_report=_worker_delta_report(["different.txt"]),
+        ledger_store_override=tmp_path / "ledger",
+        telemetry_root_override=tmp_path / "telemetry",
+        runtime_loader=lambda: _runtime(validation),
+        ledger_loader=lambda: ledger,
+    )
+
+    assert final["state"] == "RESULT_REJECTED"
+    verification = final["worker_delta_verification"]
+    assert verification["required"] is True
+    assert verification["provided"] is True
+    assert verification["valid"] is False
+    assert verification["match"] is False
+    assert "WORKER_DELTA_CHANGED_PATHS_MISMATCH" in verification["errors"]
+    assert ledger.rows == []
+
+
+def test_cf10_result_accepts_exact_worker_delta_before_ledger(
+    tmp_path: Path,
+) -> None:
+    attempt_id = "cf10-u180j-a004"
+    result = _result(attempt_id=attempt_id)
+    validation = {
+        "valid": True,
+        "result": result,
+        "errors": [],
+        "repair_attempt_count": 0,
+        "freshness_resume": {"valid": True, "errors": []},
+    }
+    ledger = _Ledger()
+
+    final = dispatch_intent.finalize_cf09_task_execution(
+        root=LIVE_ROOT,
+        origin_manifest=_origin_manifest(),
+        result=result,
+        attempt_record=_attempt_record(
+            attempt_id,
+            work_front_id="wf-cf10-worker-delta-verification",
+        ),
+        attempt_number=1,
+        worker_delta_report=_worker_delta_report(["a.txt"]),
+        ledger_store_override=tmp_path / "ledger",
+        telemetry_root_override=tmp_path / "telemetry",
+        runtime_loader=lambda: _runtime(validation),
+        ledger_loader=lambda: ledger,
+    )
+
+    assert final["state"] == "ATTEMPT_RECORDED"
+    verification = final["worker_delta_verification"]
+    assert verification["required"] is True
+    assert verification["provided"] is True
+    assert verification["valid"] is True
+    assert verification["match"] is True
+    assert verification["reported_changed_paths"] == ["a.txt"]
+    assert verification["derived_changed_paths"] == ["a.txt"]
+    assert len(ledger.rows) == 1
+
+    telemetry = json.loads(
+        Path(final["telemetry_projection_path"]).read_text(encoding="utf-8")
+    )
+    assert telemetry["worker_delta_verification"]["valid"] is True
+    assert telemetry["worker_delta_verification"]["source_of_truth"] is False
+
+
+def test_cf10_result_rejects_worker_delta_authority_widening(
+    tmp_path: Path,
+) -> None:
+    attempt_id = "cf10-u180j-a004"
+    result = _result(attempt_id=attempt_id)
+    validation = {
+        "valid": True,
+        "result": result,
+        "errors": [],
+        "repair_attempt_count": 0,
+        "freshness_resume": {"valid": True, "errors": []},
+    }
+    ledger = _Ledger()
+
+    final = dispatch_intent.finalize_cf09_task_execution(
+        root=LIVE_ROOT,
+        origin_manifest=_origin_manifest(),
+        result=result,
+        attempt_record=_attempt_record(
+            attempt_id,
+            work_front_id="wf-cf10-worker-delta-verification",
+        ),
+        attempt_number=1,
+        worker_delta_report=_worker_delta_report(
+            ["a.txt"],
+            authority_granted=True,
+        ),
+        ledger_store_override=tmp_path / "ledger",
+        telemetry_root_override=tmp_path / "telemetry",
+        runtime_loader=lambda: _runtime(validation),
+        ledger_loader=lambda: ledger,
+    )
+
+    assert final["state"] == "RESULT_REJECTED"
+    assert "WORKER_DELTA_AUTHORITY_WIDENED" in (
+        final["worker_delta_verification"]["errors"]
+    )
+    assert ledger.rows == []

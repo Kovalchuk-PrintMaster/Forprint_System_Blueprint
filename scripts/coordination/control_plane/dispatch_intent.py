@@ -567,6 +567,112 @@ def _cf09_write_telemetry_projection(
     return output
 
 
+
+CF10_WORKER_DELTA_REPORT_SCHEMA = "forprint_worker_workspace_delta_v0_1"
+
+
+def _cf09_worker_delta_required(
+    *,
+    attempt_id: str,
+    attempt_record: dict,
+) -> bool:
+    work_front_id = attempt_record.get("work_front_id")
+    return attempt_id.startswith("cf10-") or (
+        isinstance(work_front_id, str)
+        and work_front_id.startswith("wf-cf10-")
+    )
+
+
+def _cf09_verify_worker_delta_report(
+    *,
+    validated_result: dict,
+    attempt_record: dict,
+    worker_delta_report: dict | None,
+) -> dict:
+    attempt_id = str(validated_result.get("attempt_id", ""))
+    required = _cf09_worker_delta_required(
+        attempt_id=attempt_id,
+        attempt_record=attempt_record,
+    )
+    reported = validated_result.get("changed_paths")
+
+    if worker_delta_report is None:
+        return {
+            "schema_version": "forprint_cf09_worker_delta_verification_v0_1",
+            "required": required,
+            "provided": False,
+            "valid": not required,
+            "match": None,
+            "reported_changed_paths": (
+                list(reported) if isinstance(reported, list) else []
+            ),
+            "derived_changed_paths": [],
+            "errors": (
+                ["WORKER_DELTA_REPORT_REQUIRED"]
+                if required
+                else []
+            ),
+            "source_of_truth": False,
+            "grants_authority": False,
+        }
+
+    errors: list[str] = []
+    if not isinstance(worker_delta_report, dict):
+        errors.append("WORKER_DELTA_REPORT_NOT_MAPPING")
+        delta = {}
+    else:
+        delta = worker_delta_report
+
+    if delta.get("schema_version") != CF10_WORKER_DELTA_REPORT_SCHEMA:
+        errors.append("WORKER_DELTA_SCHEMA_MISMATCH")
+    if delta.get("worker_delta_exact") is not True:
+        errors.append("WORKER_DELTA_NOT_EXACT")
+    if delta.get("authority_granted") is not False:
+        errors.append("WORKER_DELTA_AUTHORITY_WIDENED")
+    if delta.get("candidate_promoted") is not False:
+        errors.append("WORKER_DELTA_PROMOTION_ALREADY_PERFORMED")
+    if delta.get("canonical_write_performed") is not False:
+        errors.append("WORKER_DELTA_CANONICAL_WRITE_ALREADY_PERFORMED")
+
+    derived = delta.get("changed_paths")
+    if (
+        not isinstance(derived, list)
+        or not all(isinstance(item, str) and item for item in derived)
+        or len(derived) != len(set(derived))
+    ):
+        errors.append("WORKER_DELTA_CHANGED_PATHS_INVALID")
+        derived_paths: list[str] = []
+    else:
+        derived_paths = sorted(derived)
+
+    if not isinstance(reported, list):
+        errors.append("RESULT_CHANGED_PATHS_NOT_LIST")
+        reported_paths: list[str] = []
+    else:
+        reported_paths = sorted(reported)
+
+    match = reported_paths == derived_paths
+    if not match:
+        errors.append("WORKER_DELTA_CHANGED_PATHS_MISMATCH")
+
+    return {
+        "schema_version": "forprint_cf09_worker_delta_verification_v0_1",
+        "required": required,
+        "provided": True,
+        "valid": not errors,
+        "match": match,
+        "reported_changed_paths": reported_paths,
+        "derived_changed_paths": derived_paths,
+        "baseline_fingerprint_sha256": delta.get(
+            "baseline_fingerprint_sha256"
+        ),
+        "source_head": delta.get("source_head"),
+        "errors": errors,
+        "source_of_truth": False,
+        "grants_authority": False,
+    }
+
+
 def finalize_cf09_task_execution(
     *,
     root,
@@ -577,6 +683,7 @@ def finalize_cf09_task_execution(
     requested_max_attempts: int | None = None,
     next_attempt_id: str | None = None,
     dispatcher_telemetry: dict | None = None,
+    worker_delta_report: dict | None = None,
     ledger_store_override=None,
     telemetry_root_override=None,
     runtime_loader=None,
@@ -647,6 +754,25 @@ def finalize_cf09_task_execution(
     if origin_manifest.get("handoff_manifest_sha256") != manifest_hash:
         raise ValueError("validated result manifest hash must remain bound to origin manifest")
 
+    worker_delta_verification = _cf09_verify_worker_delta_report(
+        validated_result=validated_result,
+        attempt_record=record,
+        worker_delta_report=worker_delta_report,
+    )
+    if worker_delta_verification.get("valid") is not True:
+        return {
+            "schema_version": "forprint_cf09_dispatcher_attempt_finalize_v0_1",
+            "state": "RESULT_REJECTED",
+            "result_validation": validation,
+            "worker_delta_verification": worker_delta_verification,
+            "canonical_attempt_record_written": False,
+            "telemetry_projection_written": False,
+            "worker_dispatch_performed": False,
+            "next_required_boundary": (
+                "RETURN_FOR_WORKER_DELTA_RECONCILIATION_OR_ESCALATION"
+            ),
+        }
+
     contract = ledger_runtime.load_contract(root_path)
     errors = ledger_runtime.validate_record_data(record, contract)
     if errors:
@@ -684,6 +810,7 @@ def finalize_cf09_task_execution(
         "resume_coordinates": validated_result.get("resume_coordinates", {}),
         "unresolved_findings": validated_result.get("unresolved_findings", []),
         "freshness_resume": validation.get("freshness_resume"),
+        "worker_delta_verification": worker_delta_verification,
         "operator_supplied_telemetry": (dict(dispatcher_telemetry) if dispatcher_telemetry else {}),
     }
     telemetry_path = _cf09_write_telemetry_projection(
@@ -704,6 +831,7 @@ def finalize_cf09_task_execution(
         "telemetry_projection_path": str(telemetry_path),
         "telemetry_is_source_of_truth": False,
         "result_validation": validation,
+        "worker_delta_verification": worker_delta_verification,
         "retry_budget": retry_budget,
         "retry_decision": retry,
         "resume_from_full_conversation_replay": False,
