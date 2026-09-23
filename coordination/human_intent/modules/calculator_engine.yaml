@@ -142,3 +142,74 @@ intents:
   context: The exact contract remains to be detailed when Calculator target architecture
     is sufficiently mature.
   roadmap: CALC-CONTRACT-01
+- intent_id: HI-CALC-PRICING-20260922-001
+  status: RECOVERED
+  text: 'Calculator pricing must be data-driven rather than hard-coded in Telegram, Website or application code:
+    prices, tiers, options and modifiers should be editable as governed calculation policy, including segment-specific
+    B2B/B2C calculation/presentation inputs without making Calculator the owner of customer identity.'
+  context: 'Recovered from the long-running Calculator history. Current refinement: CRM/commercial context supplies
+    approved customer/segment references; channels own visual rendering; Calculator owns deterministic pricing effects.'
+  roadmap: ''
+  source_refs:
+  - coordination/internal_work/blueprint/evening_reviews/2026-06-03_terminal_directive_anchor/DFTB_calculator_engine_long_running_v0_1/00_intake_manifest_v0_1.yaml
+  - coordination/internal_work/blueprint/evening_reviews/2026-06-03_terminal_directive_anchor/DFTB_calculator_engine_long_running_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+  - coordination/internal_work/blueprint/evening_reviews/2026-06-03_terminal_directive_anchor/DFTB_calculator_engine_long_running_v0_1/package/dialogue_memory.yaml
+- intent_id: HI-CALC-PRICING-20260922-002
+  status: RECOVERED
+  text: Calculator pricing administration should support filtered bulk policy changes over selected product/rule
+    groups with previewable scope rather than requiring manual row-by-row edits for every product variant.
+  context: Recovered from the owner's explicit examples of group-wide percentage adjustments with exclusions and
+    distinct male/female/black-product handling.
+  roadmap: ''
+  source_refs:
+  - coordination/internal_work/blueprint/evening_reviews/2026-06-03_terminal_directive_anchor/DFTB_calculator_engine_long_running_v0_1/00_intake_manifest_v0_1.yaml
+  - coordination/internal_work/blueprint/evening_reviews/2026-06-03_terminal_directive_anchor/DFTB_calculator_engine_long_running_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+  - coordination/internal_work/blueprint/evening_reviews/2026-06-03_terminal_directive_anchor/DFTB_calculator_engine_long_running_v0_1/package/dialogue_memory.yaml
+- intent_id: HI-CALC-APPLICABILITY-20260922-001
+  status: RECOVERED
+  text: Calculator applicability rules should scale by consuming Library-owned canonical product/material references
+    and attributes such as material class and grammage/ranges, then applying calculation eligibility/rule logic
+    without creating a second canonical product/material catalog inside Calculator.
+  context: Historical Calculator used reusable type/category and density-range relationships. Current architecture
+    keeps semantic definitions and user-facing labels in Library while Calculator owns calculation applicability.
+  roadmap: ''
+  source_refs:
+  - coordination/internal_work/blueprint/evening_reviews/2026-06-03_terminal_directive_anchor/DFTB_calculator_engine_long_running_v0_1/00_intake_manifest_v0_1.yaml
+  - coordination/internal_work/blueprint/evening_reviews/2026-06-03_terminal_directive_anchor/DFTB_calculator_engine_long_running_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+  - coordination/internal_work/blueprint/evening_reviews/2026-06-03_terminal_directive_anchor/DFTB_calculator_engine_long_running_v0_1/package/dialogue_memory.yaml
+- intent_id: HI-CALC-ADMIN-20260922-001
+  status: RECOVERED
+  text: Calculator needs a serious operator/admin surface for Calculator-owned pricing and calculation policy—tiers,
+    modifiers, applicability rules, calculation settings and previews—but that surface must remain bounded and must
+    not become the canonical admin for Library catalogs, CRM, Accounting, orders or the whole ForPrint ecosystem.
+  context: Recovered from the historical request for a scalable admin while explicitly reconciling the later Blueprint
+    ownership split that supersedes the earlier whole-project-admin idea.
+  roadmap: ''
+  source_refs:
+  - coordination/internal_work/blueprint/evening_reviews/2026-06-03_terminal_directive_anchor/DFTB_calculator_engine_long_running_v0_1/00_intake_manifest_v0_1.yaml
+  - coordination/internal_work/blueprint/evening_reviews/2026-06-03_terminal_directive_anchor/DFTB_calculator_engine_long_running_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+  - coordination/internal_work/blueprint/evening_reviews/2026-06-03_terminal_directive_anchor/DFTB_calculator_engine_long_running_v0_1/package/dialogue_memory.yaml
+- intent_id: HI-CALC-QUOTE-CONTRACT-20260922-001
+  status: RECOVERED
+  text: Calculator quote intake must fail safely and deterministically on malformed or conflicting requests, preserve
+    request correlation, and define domain-level idempotency so the same key plus equivalent payload can reuse a
+    result while the same key plus a different payload becomes an explicit conflict rather than a second calculation.
+  context: Historical quote/API work exposed both the intended idempotency semantics and a test-state isolation
+    failure. Current runtime transport/retry idempotency must still be reconciled with Integration Gateway ownership.
+  roadmap: ''
+  source_refs:
+  - coordination/internal_work/blueprint/evening_reviews/2026-06-03_terminal_directive_anchor/DFTB_calculator_engine_long_running_v0_1/00_intake_manifest_v0_1.yaml
+  - coordination/internal_work/blueprint/evening_reviews/2026-06-03_terminal_directive_anchor/DFTB_calculator_engine_long_running_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+  - coordination/internal_work/blueprint/evening_reviews/2026-06-03_terminal_directive_anchor/DFTB_calculator_engine_long_running_v0_1/package/dialogue_memory.yaml
+- intent_id: HI-CALC-QUOTE-CONTRACT-20260922-002
+  status: RECOVERED
+  text: Calculator quote results and failures should use stable versioned machine contracts with structured line-item
+    calculation evidence, assumptions/provenance, stable error codes and request correlation, while also supporting
+    human-readable rendering without making any channel-specific presentation the source of calculation truth.
+  context: Recovered from historical human/external quote reports, line-item outputs and schema-versioned error
+    responses; current Contract Registry/Gateway/channel boundaries govern transport and presentation.
+  roadmap: ''
+  source_refs:
+  - coordination/internal_work/blueprint/evening_reviews/2026-06-03_terminal_directive_anchor/DFTB_calculator_engine_long_running_v0_1/00_intake_manifest_v0_1.yaml
+  - coordination/internal_work/blueprint/evening_reviews/2026-06-03_terminal_directive_anchor/DFTB_calculator_engine_long_running_v0_1/17_portfolio_reconciliation_20260922_v0_1.yaml
+  - coordination/internal_work/blueprint/evening_reviews/2026-06-03_terminal_directive_anchor/DFTB_calculator_engine_long_running_v0_1/package/dialogue_memory.yaml
