@@ -134,9 +134,15 @@ def _load_yaml_mapping(path: Path) -> dict[str, Any]:
     return data
 
 
+class _IndentedSafeDumper(yaml.SafeDumper):
+    def increase_indent(self, flow=False, indentless=False):
+        return super().increase_indent(flow, False)
+
+
 def _safe_dump(data: dict[str, Any]) -> str:
-    return yaml.safe_dump(
+    return yaml.dump(
         data,
+        Dumper=_IndentedSafeDumper,
         sort_keys=False,
         allow_unicode=True,
         width=100,

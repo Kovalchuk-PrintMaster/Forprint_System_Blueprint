@@ -117,6 +117,24 @@ def _approved_path(root: Path) -> Path:
     )
 
 
+
+def test_safe_dump_indents_block_sequences() -> None:
+    text = workflow._safe_dump(
+        {
+            "schema_version": "prompt_queue_v0_2",
+            "module": "example_module",
+            "prompt_queue": [
+                {
+                    "prompt_id": "example_module_contract_v0_1",
+                    "module_execution": {"status": "ready_for_module_pull"},
+                }
+            ],
+        }
+    )
+
+    assert "prompt_queue:\n  - prompt_id:" in text
+    assert "prompt_queue:\n- prompt_id:" not in text
+
 def test_prepare_preview_is_read_only(tmp_path: Path) -> None:
     source = _write_fixture(tmp_path)
 

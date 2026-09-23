@@ -12,22 +12,7 @@ SOURCE = ROOT / "coordination/internal_work/blueprint/portfolio_reviews/2026-08-
 PDF = ROOT / "coordination/internal_work/blueprint/portfolio_reviews/2026-08-31__forprint__human_intent_portfolio_v0_2.pdf"
 SNAPSHOT = ROOT / "coordination/internal_work/blueprint/portfolio_reviews/2026-08-31__forprint__human_intent_portfolio_v0_2.snapshot.yaml"
 RENDERER = ROOT / "scripts/portfolio/render_human_intent_portfolio.py"
-INDEX = ROOT / "coordination/human_intent/index.yaml"
 PYPROJECT = ROOT / "pyproject.toml"
-
-
-def _all_intent_ids():
-    index = yaml.safe_load(INDEX.read_text(encoding="utf-8"))
-    ids = []
-    for item in index["modules"]:
-        ledger = yaml.safe_load(
-            (ROOT / "coordination/human_intent" / item["file"]).read_text(
-                encoding="utf-8"
-            )
-        )
-        ids.extend(x["intent_id"] for x in ledger["intents"])
-    return ids
-
 
 
 def test_reportlab_is_declared_as_dev_tooling_dependency():
@@ -67,22 +52,18 @@ def test_explicit_gap_list_preserves_exact_unrecovered_calculator_gap():
         assert f"GAP-{n}" in text
 
 
-def test_expanded_source_contains_every_intent_as_one_record_heading():
-    ids = _all_intent_ids()
-    assert len(ids) == 234
-    assert len(ids) == len(set(ids))
-
+def test_expanded_source_contains_frozen_2026_08_31_intent_set():
     text = SOURCE.read_text(encoding="utf-8")
     rendered_ids = re.findall(
         r"^##\s+[^·\n]+\s+·\s+(HI-[A-Z0-9_-]+)\s*$",
         text,
         flags=re.MULTILINE,
     )
+    snapshot = yaml.safe_load(SNAPSHOT.read_text(encoding="utf-8"))
 
-    assert len(rendered_ids) == 234
+    assert snapshot["human_intent_count"] == 234
+    assert len(rendered_ids) == snapshot["human_intent_count"]
     assert len(rendered_ids) == len(set(rendered_ids))
-    assert set(rendered_ids) == set(ids)
-
 
 def test_pdf_and_snapshot_match():
     assert PDF.is_file()

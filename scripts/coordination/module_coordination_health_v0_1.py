@@ -34,6 +34,14 @@ PILOT_DECISION = Path(
 OUTGOING_ROOT = Path("coordination/outgoing_prompts")
 
 FUTURE_STATUSES = {"planned", "ready"}
+QUEUE_COVERING_EXECUTION_STATES = {
+    "ready_for_module_pull",
+    "in_progress",
+    "completed_by_module",
+    "returned_for_fix",
+    "paused",
+    "blocked",
+}
 
 ROADMAP_BELOW_MINIMUM = "ROADMAP_HORIZON_BELOW_MINIMUM"
 ROADMAP_BELOW_TARGET = "ROADMAP_HORIZON_BELOW_TARGET"
@@ -221,6 +229,73 @@ def _prepared_inventory(
     return final, sorted(issues)
 
 
+def _queue_coverage(
+    *,
+    root: Path,
+    module: str,
+    future_steps: list[dict[str, Any]],
+) -> list[dict[str, str]]:
+    index_path = root / OUTGOING_ROOT / module / "index.yaml"
+    if not index_path.is_file():
+        return []
+
+    data = _load_mapping(index_path)
+    if data.get("schema_version") != "prompt_queue_v0_2":
+        raise ModuleHealthError(
+            f"unsupported prompt queue schema: {index_path}"
+        )
+    if data.get("module") != module:
+        raise ModuleHealthError(
+            f"prompt queue module mismatch in {index_path}"
+        )
+
+    rows = data.get("prompt_queue")
+    if not isinstance(rows, list):
+        raise ModuleHealthError(
+            f"prompt_queue must be a list: {index_path}"
+        )
+
+    future_ids = {
+        step.get("step_id")
+        for step in future_steps
+        if isinstance(step.get("step_id"), str)
+    }
+    coverage: list[dict[str, str]] = []
+
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        step_id = row.get("roadmap_step_id")
+        execution = row.get("module_execution")
+        status = (
+            execution.get("status")
+            if isinstance(execution, dict)
+            else None
+        )
+        prompt_id = row.get("prompt_id")
+        if (
+            isinstance(step_id, str)
+            and step_id in future_ids
+            and isinstance(prompt_id, str)
+            and isinstance(status, str)
+            and status in QUEUE_COVERING_EXECUTION_STATES
+        ):
+            coverage.append(
+                {
+                    "prompt_id": prompt_id,
+                    "roadmap_step_id": step_id,
+                    "execution_status": status,
+                }
+            )
+
+    coverage.sort(
+        key=lambda item: (
+            item["roadmap_step_id"],
+            item["prompt_id"],
+        )
+    )
+    return coverage
+
 
 def _refill_projection(
     *,
@@ -228,6 +303,7 @@ def _refill_projection(
     steps: list[dict[str, Any]],
     future_steps: list[dict[str, Any]],
     valid_prepared: list[PreparedPromptObservation],
+    queue_covered_step_ids: set[str],
     minimum: int,
     target: int,
     integrity_issues: list[str],
@@ -244,7 +320,11 @@ def _refill_projection(
 
     for step in future_steps:
         step_id = step.get("step_id")
-        if not isinstance(step_id, str) or step_id in prepared_step_ids:
+        if (
+            not isinstance(step_id, str)
+            or step_id in prepared_step_ids
+            or step_id in queue_covered_step_ids
+        ):
             continue
 
         reasons = roadmap_dependency_reasons(
@@ -379,6 +459,15 @@ def evaluate_module_health(
         all_steps=steps,
     )
     valid_prepared = [item for item in prepared if item.valid_stock]
+    queue_coverage = _queue_coverage(
+        root=root,
+        module=module,
+        future_steps=future,
+    )
+    queue_covered_step_ids = {
+        item["roadmap_step_id"]
+        for item in queue_coverage
+    }
 
     policy = _load_mapping(root / HEALTH_POLICY)
     road_policy = policy.get("roadmap")
@@ -419,6 +508,7 @@ def evaluate_module_health(
         steps=steps,
         future_steps=future,
         valid_prepared=valid_prepared,
+        queue_covered_step_ids=queue_covered_step_ids,
         minimum=prompt_min,
         target=prompt_target,
         integrity_issues=buffer_issues,
@@ -467,6 +557,12 @@ def evaluate_module_health(
             "buffer_is_non_executable": True,
             "release_is_not_health_evaluation": True,
         },
+        "queue_coverage": {
+            "covered_future_steps": len(queue_covered_step_ids),
+            "covered_step_ids": sorted(queue_covered_step_ids),
+            "records": queue_coverage,
+            "coverage_prevents_duplicate_refill": True,
+        },
         "operator_refill": refill,
         "codes": {
             "errors": sorted(set(errors)),
@@ -496,6 +592,7 @@ def render_text(report: dict[str, Any]) -> str:
     road = report["roadmap"]
     buffer = report["prompt_buffer"]
     refill = report["operator_refill"]
+    coverage = report["queue_coverage"]
     codes = report["codes"]
 
     lines = [
@@ -527,6 +624,14 @@ def render_text(report: dict[str, Any]) -> str:
         ),
         f"state: {buffer['state']}",
         "buffer_is_non_executable: true",
+        "",
+        "QUEUE COVERAGE",
+        f"covered_future_steps: {coverage['covered_future_steps']}",
+        (
+            "covered_step_ids: "
+            f"{','.join(coverage['covered_step_ids']) or '-'}"
+        ),
+        "coverage_prevents_duplicate_refill: true",
         "",
         "CODES",
         f"errors: {','.join(codes['errors']) or '-'}",

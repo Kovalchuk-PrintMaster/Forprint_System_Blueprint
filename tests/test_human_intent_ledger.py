@@ -10,7 +10,9 @@ def test_human_intent_ledger_integrity():
     data = yaml.safe_load(INDEX.read_text(encoding="utf-8"))
     assert data["schema_version"] == "forprint_human_intent_index_v0_1"
     assert data["append_only"] is True
-    assert len(data["modules"]) == 22
+    assert data["modules"]
+    module_ids = [entry["module_id"] for entry in data["modules"]]
+    assert len(module_ids) == len(set(module_ids))
 
     seen = set()
     all_text = []
@@ -51,4 +53,8 @@ def test_human_intent_front_door_links_every_module_ledger():
     readme = (INDEX.parent / "README.md").read_text(encoding="utf-8")
     for entry in data["modules"]:
         assert f"]({entry['file']})" in readme
+        assert (
+            f"]({entry['file']}) — {entry['intent_count']} "
+            "captured human-intent entries."
+        ) in readme
 

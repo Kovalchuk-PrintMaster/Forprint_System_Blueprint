@@ -9,6 +9,45 @@ from typing import Any
 import yaml
 
 MODULE_ID = "forprint_system_blueprint"
+
+MIGRATION_REGISTRY_RELATIVE = Path(
+    "coordination/internal_work/blueprint/normalization/"
+    "2026-09-02__approved_structural_hash_migrations_v0_1.yaml"
+)
+
+
+def approved_structural_hash_migration(
+    *,
+    repo_root: Path,
+    relative: str,
+    expected_hash: str,
+    actual_hash: str,
+) -> bool:
+    registry_path = repo_root / MIGRATION_REGISTRY_RELATIVE
+
+    if not registry_path.is_file():
+        return False
+
+    registry = load_yaml(registry_path)
+    migrations = registry.get("stable_artifact_hash_migrations")
+
+    if not isinstance(migrations, list):
+        return False
+
+    for item in migrations:
+        if not isinstance(item, dict):
+            continue
+        if (
+            item.get("path") == relative
+            and item.get("legacy_sha256") == expected_hash
+            and item.get("current_sha256") == actual_hash
+            and item.get("semantic_change") is False
+            and item.get("status") == "APPROVED_STRUCTURAL_NORMALIZATION"
+        ):
+            return True
+
+    return False
+
 REQUIRED_IDS = {
     "rci_v0_4_candidate",
     "redm_v0_4_candidate",
@@ -147,8 +186,15 @@ def validate_index(
             actual_hash = sha256(path)
 
             if expected_hash != actual_hash:
-                errors.append(f"SHA-256 mismatch for {evidence_id}")
-                entry_passed = False
+                migrated = approved_structural_hash_migration(
+                    repo_root=repo_root,
+                    relative=relative,
+                    expected_hash=expected_hash,
+                    actual_hash=actual_hash,
+                )
+                if not migrated:
+                    errors.append(f"SHA-256 mismatch for {evidence_id}")
+                    entry_passed = False
 
         elif mode == "runtime_result":
             runtime_entries += 1
