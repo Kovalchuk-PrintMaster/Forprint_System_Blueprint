@@ -1,0 +1,74 @@
+schema_version: forprint_blueprint_internal_worker_task_v0_1
+task_id: cf10-verification-tier-self-hardening-v0-1
+revision: 0.1.0
+status: READY_FOR_CONTEXT
+module_id: forprint_system_blueprint
+source:
+  type: MANUAL_INTERNAL
+  generation_mode: MANUAL
+  created_by: operator_assistant
+  raw_chat_is_authority: false
+  automatic_generation: false
+work:
+  work_id: u180j
+  work_front_id: wf-cf10-verification-tier-self-hardening-v0-1
+objective: >-
+  Extend the existing generic validation-suite runner with explicit verification-tier
+  semantics and a fail-closed exact tier requirement without weakening or changing
+  the registered validation commands.
+instructions:
+- Modify only scripts/validation/run_validation_suite_v0_1.py, coordination/standards/automation/validation_suite_registry_v0_1.yaml and tests/validation/test_validation_suite_runner_v0_1.py.
+- Reuse the existing generic validation-suite runner and registry; do not create a second runner or registry.
+- Reuse the Makefile scope vocabulary conceptually but do not modify Makefile.
+- Add a required verification_tier field for each registered suite using only LOCAL_FOCUSED, RELATED, CORE or FULL.
+- Mark the existing cf10-worker-pipeline suite as LOCAL_FOCUSED.
+- Validate verification_tier during normal registry validation.
+- Report the resolved tier deterministically when a suite executes.
+- Add an optional --require-tier exact gate; a mismatch must fail before isolated suite execution.
+- Keep build_suite_commands() semantics and the existing cf10-worker-pipeline command sequence unchanged.
+- Preserve read_only_synthetic_validation safety and argv-only execution.
+- Add focused deterministic tests for valid tier, missing/invalid tier, matching required tier and mismatch refusal.
+- Do not weaken, skip, remove or reorder any existing validator or pytest step.
+- Do not modify control-plane, dispatcher, runtime, lifecycle, roadmap, ledger or Makefile surfaces.
+- If these requirements cannot be satisfied inside the three-file scope, stop and escalate instead of widening scope.
+acceptance:
+- Only the three declared mutation targets are changed.
+- cf10-worker-pipeline keeps the same validator scripts and pytest paths in the same order.
+- Registry validation fails closed on missing or unsupported verification_tier.
+- Existing suite resolves to LOCAL_FOCUSED.
+- Matching --require-tier succeeds through the existing execution path.
+- Mismatched --require-tier is refused before isolated execution.
+- Existing focused runner tests continue to pass.
+- New tier-focused regression tests pass.
+- Existing cf10-worker-pipeline suite still passes with identical proof steps.
+- git diff --check passes in the isolated worker workspace.
+- No prohibited execution or repository action is performed.
+stop_conditions:
+- Makefile modification is required.
+- Existing registered validation commands must change.
+- A validation step must be weakened or skipped.
+- A path outside the three declared mutation targets must be modified.
+- Control-plane, worker-runtime, lifecycle, roadmap or ledger mutation is required.
+- Authority widening is requested or inferred.
+- Any cross-module write, commit, push, merge, release or automatic ACCEPT is required.
+- Governed context is stale or internally inconsistent.
+execution_profile:
+  profile_id: light-maintenance
+  revision: r1
+procedure:
+  procedure_id: governed_canonical_mutation
+  revision: 0.1.0
+workspace:
+  isolated_workspace_required: true
+  candidate_only: true
+  canonical_write_allowed: false
+authority:
+  execution_authority_source: WORK_FRONT
+  task_artifact_grants_authority: false
+  dispatch_authority: false
+  release_authority: false
+  push_authority: false
+  merge_authority: false
+  foreign_write_authority: false
+  automatic_accept: false
+  widening_requested: false
