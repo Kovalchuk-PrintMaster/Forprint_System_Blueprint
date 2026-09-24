@@ -24,11 +24,30 @@ def test_live_registry_is_valid_and_contains_cf10_suite() -> None:
     suite = suite_runner.resolve_suite(registry, "cf10-worker-pipeline")
 
     assert suite["safety"] == "read_only_synthetic_validation"
+    assert suite["verification_tier"] == "LOCAL_FOCUSED"
     assert [step["kind"] for step in suite["steps"]] == [
         "python_script",
         "python_script",
         "pytest",
     ]
+
+
+@pytest.mark.parametrize("tier", [None, "UNSUPPORTED"])
+def test_registry_rejects_missing_or_invalid_verification_tier(
+    tier: str | None,
+) -> None:
+    data = copy.deepcopy(_registry_data())
+    if tier is None:
+        del data["suites"]["cf10-worker-pipeline"]["verification_tier"]
+    else:
+        data["suites"]["cf10-worker-pipeline"]["verification_tier"] = tier
+
+    with pytest.raises(suite_runner.SuiteError, match="verification_tier"):
+        suite_runner.validate_registry_data(
+            data,
+            root=ROOT,
+            require_paths=False,
+        )
 
 
 def test_registry_rejects_arbitrary_command_key() -> None:
@@ -122,6 +141,61 @@ def test_outer_run_reuses_existing_isolation_runner(
     assert observed["target"] == "validation-suite"
     assert observed["binding"] == "cf10-worker-pipeline"
     assert suite_runner.SUITE_BINDING_ENV not in os.environ
+
+
+def test_matching_required_tier_reuses_existing_isolation_runner(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.delenv(suite_runner.ISOLATION_ENV, raising=False)
+    observed: dict[str, object] = {}
+
+    def fake_isolated_check(
+        *,
+        root: Path,
+        target: str,
+        module_root: Path | None,
+        keep_workspace: bool,
+    ) -> int:
+        observed["target"] = target
+        return 0
+
+    monkeypatch.setattr(suite_runner, "run_isolated_check", fake_isolated_check)
+
+    rc = suite_runner.run_suite(
+        root=ROOT,
+        suite_id="cf10-worker-pipeline",
+        module_root=None,
+        keep_workspace=False,
+        require_tier="LOCAL_FOCUSED",
+    )
+
+    assert rc == 0
+    assert observed["target"] == "validation-suite"
+
+
+def test_mismatched_required_tier_refuses_before_isolation(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.delenv(suite_runner.ISOLATION_ENV, raising=False)
+    isolated = False
+
+    def fake_isolated_check(**_: object) -> int:
+        nonlocal isolated
+        isolated = True
+        return 0
+
+    monkeypatch.setattr(suite_runner, "run_isolated_check", fake_isolated_check)
+
+    with pytest.raises(suite_runner.SuiteError, match="does not match required tier"):
+        suite_runner.run_suite(
+            root=ROOT,
+            suite_id="cf10-worker-pipeline",
+            module_root=None,
+            keep_workspace=False,
+            require_tier="CORE",
+        )
+
+    assert isolated is False
 
 
 def test_direct_execution_requires_isolated_binding(

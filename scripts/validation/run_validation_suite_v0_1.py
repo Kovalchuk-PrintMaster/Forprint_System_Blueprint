@@ -27,6 +27,7 @@ REGISTRY = Path(
     "coordination/standards/automation/validation_suite_registry_v0_1.yaml"
 )
 ALLOWED_STEP_KINDS = {"python_script", "pytest"}
+ALLOWED_VERIFICATION_TIERS = {"LOCAL_FOCUSED", "RELATED", "CORE", "FULL"}
 SUITE_ID_RE = re.compile(r"^[a-z0-9][a-z0-9-]*$")
 STEP_ID_RE = re.compile(r"^[a-z0-9][a-z0-9-]*$")
 ISOLATION_ENV = "FORPRINT_NON_MUTATING_CHECK_ISOLATED"
@@ -79,6 +80,14 @@ def _validate_existing_path(root: Path, path: Path, *, label: str) -> None:
         raise SuiteError(f"{label} must not be a symlink: {path}")
 
 
+def _validate_verification_tier(value: Any, *, label: str) -> str:
+    if value not in ALLOWED_VERIFICATION_TIERS:
+        raise SuiteError(
+            f"{label} must be one of {sorted(ALLOWED_VERIFICATION_TIERS)}"
+        )
+    return value
+
+
 def validate_registry_data(
     data: Any,
     *,
@@ -111,7 +120,7 @@ def validate_registry_data(
         suite = _require_mapping(raw_suite, f"suite {suite_id}")
         _reject_unknown_keys(
             suite,
-            allowed={"description", "safety", "steps"},
+            allowed={"description", "safety", "verification_tier", "steps"},
             label=f"suite {suite_id}",
         )
         if not isinstance(suite.get("description"), str) or not suite["description"].strip():
@@ -120,6 +129,10 @@ def validate_registry_data(
             raise SuiteError(
                 f"suite {suite_id} safety must be read_only_synthetic_validation"
             )
+        _validate_verification_tier(
+            suite.get("verification_tier"),
+            label=f"suite {suite_id} verification_tier",
+        )
         steps = suite.get("steps")
         if not isinstance(steps, list) or not steps:
             raise SuiteError(f"suite {suite_id} requires non-empty steps")
@@ -221,7 +234,12 @@ def build_suite_commands(
     return commands
 
 
-def execute_registered_suite(*, root: Path, suite_id: str) -> int:
+def execute_registered_suite(
+    *,
+    root: Path,
+    suite_id: str,
+    require_tier: str | None = None,
+) -> int:
     """Execute a registered suite only inside the bound isolated mirror."""
 
     if os.environ.get(ISOLATION_ENV) != "1":
@@ -231,9 +249,24 @@ def execute_registered_suite(*, root: Path, suite_id: str) -> int:
 
     registry = load_registry(root)
     suite = resolve_suite(registry, suite_id)
+    resolved_tier = _validate_verification_tier(
+        suite["verification_tier"],
+        label=f"suite {suite_id} verification_tier",
+    )
+    if require_tier is not None:
+        required_tier = _validate_verification_tier(
+            require_tier,
+            label="required verification tier",
+        )
+        if resolved_tier != required_tier:
+            raise SuiteError(
+                f"suite {suite_id} verification tier {resolved_tier} "
+                f"does not match required tier {required_tier}"
+            )
     commands = build_suite_commands(suite=suite, python_executable=sys.executable)
 
     print(f"VALIDATION_SUITE_ID={suite_id}")
+    print(f"VALIDATION_SUITE_VERIFICATION_TIER={resolved_tier}")
     print(f"VALIDATION_SUITE_STEP_COUNT={len(commands)}")
     for index, command in enumerate(commands, start=1):
         print(f"VALIDATION_SUITE_STEP={index}/{len(commands)}")
@@ -274,15 +307,34 @@ def run_suite(
     suite_id: str,
     module_root: Path | None,
     keep_workspace: bool,
+    require_tier: str | None = None,
 ) -> int:
     """Validate binding then run the suite through existing isolation."""
 
     root = root.resolve()
     registry = load_registry(root)
-    resolve_suite(registry, suite_id)
+    suite = resolve_suite(registry, suite_id)
+    resolved_tier = _validate_verification_tier(
+        suite["verification_tier"],
+        label=f"suite {suite_id} verification_tier",
+    )
+    if require_tier is not None:
+        required_tier = _validate_verification_tier(
+            require_tier,
+            label="required verification tier",
+        )
+        if resolved_tier != required_tier:
+            raise SuiteError(
+                f"suite {suite_id} verification tier {resolved_tier} "
+                f"does not match required tier {required_tier}"
+            )
 
     if os.environ.get(ISOLATION_ENV) == "1":
-        return execute_registered_suite(root=root, suite_id=suite_id)
+        return execute_registered_suite(
+            root=root,
+            suite_id=suite_id,
+            require_tier=require_tier,
+        )
 
     previous_binding = os.environ.get(SUITE_BINDING_ENV)
     os.environ[SUITE_BINDING_ENV] = suite_id
@@ -306,6 +358,7 @@ def main() -> int:
     parser.add_argument("--suite", required=True)
     parser.add_argument("--module-root", default=None)
     parser.add_argument("--keep-workspace", action="store_true")
+    parser.add_argument("--require-tier", choices=sorted(ALLOWED_VERIFICATION_TIERS))
     args = parser.parse_args()
 
     root = Path(args.root).resolve() if args.root else Path(__file__).resolve().parents[2]
@@ -317,6 +370,7 @@ def main() -> int:
             suite_id=args.suite,
             module_root=module_root,
             keep_workspace=args.keep_workspace,
+            require_tier=args.require_tier,
         )
     except (SuiteError, IsolationError) as exc:
         print(f"VALIDATION_SUITE=FAIL {exc}", file=sys.stderr)

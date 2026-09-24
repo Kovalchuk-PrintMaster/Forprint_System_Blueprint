@@ -7,6 +7,7 @@ suites:
       Focused read-only regression suite for the published CF-10 isolated
       worker-delta and bound worker-result pipeline.
     safety: read_only_synthetic_validation
+    verification_tier: LOCAL_FOCUSED
     steps:
       - id: cf10-worker-delta-governance
         kind: python_script
