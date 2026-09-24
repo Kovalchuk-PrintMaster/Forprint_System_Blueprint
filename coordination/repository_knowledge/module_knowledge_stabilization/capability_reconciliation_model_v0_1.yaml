@@ -1,0 +1,61 @@
+schema_version: forprint_capability_reconciliation_model_v0_1
+
+duplicate_group:
+  fields:
+    - duplicate_group_id
+    - semantic_capability
+    - implementations
+    - current_owner_candidates
+    - recommended_owner_candidate
+    - decision_status
+    - evidence
+
+  decision_status_allowed:
+    - IDENTIFIED
+    - RECONCILE_BEFORE_IMPLEMENTATION
+    - OWNER_REVIEW_REQUIRED
+    - CONSOLIDATION_PLANNED
+    - RESOLVED
+
+cross_module_candidate:
+  types:
+    - REUSE_CANDIDATE
+    - ADAPT_CANDIDATE
+    - MIGRATION_CANDIDATE
+    - SHARED_SERVICE_CANDIDATE
+
+  required_fields:
+    - candidate_id
+    - source_module
+    - source_capability_id
+    - target_module
+    - candidate_type
+    - rationale
+    - architecture_fit
+    - evidence
+    - roadmap_status
+    - decision_status
+
+roadmap_implementation_relation:
+  implementation_state_allowed:
+    - VERIFIED_CURRENT
+    - CURRENT_UNVERIFIED
+    - PARTIAL
+    - NONE
+    - LEGACY_ONLY
+    - UNKNOWN
+
+  roadmap_relation_allowed:
+    - EXPLICIT
+    - IMPLIED
+    - ABSENT
+    - CONFLICTING
+    - UNKNOWN
+
+  important_cases:
+    IMPLEMENTED_NOT_IN_ROADMAP:
+      action: Add evidence-backed roadmap visibility before inventing duplicate work.
+    PLANNED_NOT_IMPLEMENTED:
+      action: Keep as future work after checking reuse/adapt candidates.
+    ROADMAP_DESCRIBES_LEGACY_ARCHITECTURE:
+      action: Reconcile roadmap before implementation.

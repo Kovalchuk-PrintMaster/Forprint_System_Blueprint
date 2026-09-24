@@ -1,0 +1,51 @@
+schema_version: forprint_document_authority_model_v0_1
+
+authority_status:
+  CURRENT_AUTHORITY:
+    meaning: Safe current instruction or architecture authority.
+    assistant_default_use: true
+
+  CURRENT_SUPPORTING:
+    meaning: Current useful supporting material, but not top-level authority.
+    assistant_default_use: true
+
+  SUPERSEDED:
+    meaning: Historically valid but replaced by newer authority.
+    assistant_default_use: false
+
+  HISTORICAL_PROVENANCE:
+    meaning: Evidence explaining history or decisions; not current instruction authority.
+    assistant_default_use: false
+
+  ARCHITECTURE_INCOMPATIBLE:
+    meaning: Describes an older architecture that conflicts with current Blueprint architecture.
+    assistant_default_use: false
+
+  CONFLICT_REQUIRES_DECISION:
+    meaning: Conflicts with another apparently current surface and needs explicit reconciliation.
+    assistant_default_use: false
+
+  UNKNOWN:
+    meaning: Authority has not yet been established.
+    assistant_default_use: false
+
+assistant_visibility:
+  DEFAULT:
+    meaning: May be supplied to a normal new assistant.
+  HISTORICAL_ONLY:
+    meaning: Supply only when historical reasoning/provenance is needed.
+  BLOCKED_UNTIL_REVIEW:
+    meaning: Do not use as instruction input until reconciled.
+
+required_registry_fields:
+  - document_id
+  - path
+  - module
+  - title
+  - authority_status
+  - assistant_visibility
+  - architecture_generation
+  - superseded_by
+  - conflicts_with
+  - evidence
+  - notes

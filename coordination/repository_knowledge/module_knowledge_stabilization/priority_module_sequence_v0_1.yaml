@@ -1,0 +1,50 @@
+schema_version: forprint_module_knowledge_stabilization_priority_v0_1
+
+normal_wave:
+  rationale: Prove and refine the method on modules with comparatively clearer current architecture.
+
+  sequence:
+    - order: 1
+      module: forprint_library
+      role: PILOT
+      reason: Younger, relatively compact module suitable for proving the complete manual workflow.
+
+    - order: 2
+      module: forprint_operations_control_registry
+      role: NORMAL
+      reason: Important operational-truth module with prior current-state reconciliation evidence.
+
+    - order: 3
+      module: forprint_accounting_registry_service
+      role: NORMAL
+      reason: Clear sandbox boundary and strong need to protect write-authority constraints.
+
+    - order: 4
+      module: forprint_integration_gateway
+      role: NORMAL
+      reason: Cross-module transport boundary where ownership mistakes must be prevented.
+
+    - order: 5
+      module: forprint_logistics_service
+      role: NORMAL
+      reason: Already enriched with roadmap/inventory/lineage evidence and suitable for deeper capability mapping.
+
+high_risk_legacy_wave:
+  start_condition: Normal-wave methodology proven and adjusted after the Library pilot.
+  modules:
+    - calculator_engine
+    - telegram_bot
+
+  special_requirements:
+    - classify architecture generation/era for documents and implementations
+    - expect contradictory instructions
+    - expect multiple paused/restarted implementation lines
+    - detect autonomous-module assumptions that conflict with the current ecosystem
+    - detect duplicate dictionaries/adapters/services/scripts
+    - search for capabilities that should now belong to other modules
+    - produce migration/reuse candidates before destructive cleanup
+
+next_candidates_after_method_stabilization:
+  - forprint_prepress_hub
+  - forprint_crm
+  - other portfolio modules according to Blueprint priority
