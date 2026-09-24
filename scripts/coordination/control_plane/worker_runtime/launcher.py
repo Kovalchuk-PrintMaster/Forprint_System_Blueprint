@@ -30,6 +30,7 @@ def launch_process(
     on_started: Callable[[dict], None] | None = None,
     on_heartbeat: Callable[[dict], None] | None = None,
     heartbeat_seconds: int = 15,
+    stall_threshold_seconds: float | None = None,
 ) -> dict:
     if not isinstance(argv, list) or not argv:
         raise WorkerProcessLaunchError("argv must be a non-empty list")
@@ -39,6 +40,17 @@ def launch_process(
         raise WorkerProcessLaunchError("timeout_seconds must be positive")
     if not isinstance(heartbeat_seconds, int) or heartbeat_seconds <= 0:
         raise WorkerProcessLaunchError("heartbeat_seconds must be positive")
+    if (
+        stall_threshold_seconds is not None
+        and (
+            not isinstance(stall_threshold_seconds, (int, float))
+            or isinstance(stall_threshold_seconds, bool)
+            or stall_threshold_seconds <= 0
+        )
+    ):
+        raise WorkerProcessLaunchError(
+            "stall_threshold_seconds must be positive when set"
+        )
 
     working = Path(cwd).expanduser().resolve()
     if not working.is_dir():
@@ -88,6 +100,12 @@ def launch_process(
 
         deadline = started_monotonic + timeout_seconds
         next_heartbeat = started_monotonic + heartbeat_seconds
+        last_progress_at = started_monotonic
+        last_stdout_bytes = out.stat().st_size
+        last_stderr_bytes = err.stat().st_size
+        stall_evidence: list[dict] = []
+        heartbeat_observations: list[dict] = []
+        stall_reported = False
         timed_out = False
 
         while process.poll() is None:
@@ -103,16 +121,56 @@ def launch_process(
                 break
 
             if current >= next_heartbeat:
+                stdout_bytes = out.stat().st_size
+                stderr_bytes = err.stat().st_size
+                stdout_growth = stdout_bytes - last_stdout_bytes
+                stderr_growth = stderr_bytes - last_stderr_bytes
+                progress_observed = stdout_growth > 0 or stderr_growth > 0
+                if progress_observed:
+                    last_progress_at = current
+                    stall_reported = False
+
+                heartbeat = {
+                    "pid": process.pid,
+                    "elapsed_seconds": round(
+                        current - started_monotonic,
+                        3,
+                    ),
+                    "stdout_bytes": stdout_bytes,
+                    "stderr_bytes": stderr_bytes,
+                    "stdout_growth_bytes": max(stdout_growth, 0),
+                    "stderr_growth_bytes": max(stderr_growth, 0),
+                    "progress_observed": progress_observed,
+                }
+                if stall_threshold_seconds is not None:
+                    progress_gap = current - last_progress_at
+                    if progress_gap >= stall_threshold_seconds:
+                        if not stall_reported:
+                            evidence = {
+                                **heartbeat,
+                                "stall_detected": True,
+                                "no_progress_seconds": round(
+                                    progress_gap,
+                                    3,
+                                ),
+                                "stall_threshold_seconds": (
+                                    stall_threshold_seconds
+                                ),
+                            }
+                            stall_evidence.append(evidence)
+                            stall_reported = True
+                        heartbeat["stall_detected"] = True
+                        heartbeat["no_progress_seconds"] = round(
+                            progress_gap,
+                            3,
+                        )
+                    else:
+                        heartbeat["stall_detected"] = False
+                heartbeat_observations.append(dict(heartbeat))
                 if on_heartbeat is not None:
-                    on_heartbeat(
-                        {
-                            "pid": process.pid,
-                            "elapsed_seconds": round(
-                                current - started_monotonic,
-                                3,
-                            ),
-                        }
-                    )
+                    on_heartbeat(dict(heartbeat))
+                last_stdout_bytes = stdout_bytes
+                last_stderr_bytes = stderr_bytes
                 next_heartbeat = current + heartbeat_seconds
 
             time.sleep(0.25)
@@ -121,6 +179,11 @@ def launch_process(
         if return_code is None:
             return_code = process.wait()
 
+    outcome = "timeout" if timed_out else (
+        "completed_with_stall_evidence"
+        if stall_evidence
+        else "completed"
+    )
     return {
         **started,
         "finished_at": _now(),
@@ -130,6 +193,10 @@ def launch_process(
         ),
         "return_code": int(return_code),
         "timed_out": timed_out,
+        "outcome": outcome,
+        "heartbeat_observations": heartbeat_observations,
+        "stall_detected": bool(stall_evidence),
+        "stall_evidence": stall_evidence,
         "stdout_path": str(out),
         "stderr_path": str(err),
         "process_started": True,
