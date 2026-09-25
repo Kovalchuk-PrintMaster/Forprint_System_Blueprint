@@ -86,3 +86,19 @@ This system-spec file is a navigation supplement for current Blueprint work.
 It does not replace this document, current lifecycle/workfront authority,
 canonical governance, or live repository verification.
 <!-- fp-assistant-context-system-specs-route-v0-1:end -->
+
+<!-- module-snapshot-roadmap-rebuild-analysis-mode-v0-1:start -->
+## Portfolio module snapshot mode
+
+When the task is deep module analysis, current-state reconstruction, roadmap enrichment,
+knowledge saturation, or preparation for roadmap rebuild, read:
+
+`coordination/bootstrap/module_snapshot_and_roadmap_rebuild_analysis_mode_v0_1.md`
+
+before interpreting repository divergence.
+
+In this mode the assistant must not assume that an old, inconsistent or strategically
+misaligned module surface should be fixed during the audit. The assistant records actual
+implementation, historical design, roadmap coverage, strategic divergence and future
+alignment needs. Implementation remains a separate explicitly authorized task.
+<!-- module-snapshot-roadmap-rebuild-analysis-mode-v0-1:end -->
