@@ -1,0 +1,35 @@
+schema_version: forprint_deterministic_worker_promotion_policy_v0_1
+status: CANONICAL_PLANNING_POLICY
+owner: forprint_system_blueprint
+execution_authority: false
+applies_when:
+  - module_or_capability_invokes_ai_worker
+  - module_or_capability_materially_depends_on_llm_or_generative_worker
+execution_preference:
+  - deterministic_business_logic
+  - deterministic_reusable_tool_template_or_service
+  - ai_worker
+  - human_escalation_when_required
+loop:
+  - OBSERVE
+  - PATTERN
+  - CANDIDATE
+  - ROI_RISK
+  - OWNER_CONTRACT_CHECK
+  - IMPLEMENT_IN_DEV
+  - VERIFY
+  - ADOPT_OR_ROLLBACK
+  - OBSERVE_AGAIN
+terminal_done_state: false
+roles:
+  production_runtime_inspector_or_canonical_runtime_telemetry: factual_runtime_evidence
+  forprint_project_inspector: architecture_and_conformance_evidence
+  verification_lab: adversarial_and_regression_verification
+  forprint_system_blueprint_and_human_governance: candidate_decision_owner_selection_and_gates
+  each_module_owner: approved_domain_local_implementation
+guardrails:
+  - frequency_does_not_authorize_implementation
+  - ai_does_not_invent_canonical_business_truth
+  - preserve_module_ownership_boundaries
+  - reuse_existing_deterministic_capability_before_new_implementation
+  - telemetry_is_not_business_truth
