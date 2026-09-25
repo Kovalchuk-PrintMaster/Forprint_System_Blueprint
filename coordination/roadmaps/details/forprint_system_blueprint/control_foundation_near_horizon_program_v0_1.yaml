@@ -1,0 +1,617 @@
+schema_version: forprint_control_foundation_near_horizon_program_v0_1
+status: PLANNED_MANUAL_CONTROL_FOUNDATION
+authority: CANONICAL_PLANNING_NOT_RELEASE_OR_EXECUTION_AUTHORITY
+owner: forprint_system_blueprint
+program_id: control_plane_foundation_before_blueprint_ai_trial
+date: '2026-09-12'
+purpose: 'Reconcile and implement the control-plane capabilities required before ForPrint attempts a broad Blueprint AI coordinator
+  or dispatcher-driven local AI worker. Manual operator control remains mandatory until the explicit readiness gate passes.
+
+  '
+execution_mode:
+  current: MANUAL_OPERATOR_DRIVEN
+  autonomous_blueprint_ai_allowed: false
+  automatic_worker_dispatch_allowed: false
+  automatic_accept_allowed: false
+  foreign_repository_write_allowed: false
+  old_next_horizon_auto_activation_allowed: false
+  manual_mode_until:
+    gate_id: CF-19
+    required_signal: BLUEPRINT_AI_TRIAL_READY=true
+source_reconciliation:
+  status: PARTIAL_BASELINE_ACCEPTED_FOR_PLANNING
+  rule: 'Existing mechanisms are extended or reused where possible; do not create competing implementations merely because
+    a new name was discussed.
+
+    '
+  existing_surfaces_to_reconcile:
+  - coordination/roadmaps/details/forprint_system_blueprint/portfolio_operator_governance_and_project_standardization_program_v0_1.md
+  - coordination/roadmaps/details/forprint_system_blueprint/ai_execution_safety_runtime_governance_gate_v0_1.md
+  - coordination/roadmaps/details/forprint_system_blueprint/autonomous_multi_module_coordination_program_v0_1.md
+  - coordination/roadmaps/details/forprint_system_blueprint/v0_4_1_remaining_coordination_hardening_plan_v0_1.md
+  - coordination/roadmaps/details/forprint_system_blueprint/module_bootstrap_plan_v0_1.yaml
+  - coordination/standards/automation/index.yaml
+  - coordination/standards/automation/module_continuity_transfer_contract_v0_1.yaml
+  classification_vocabulary:
+  - EXISTS
+  - PARTIAL
+  - MISSING
+  - OBSOLETE
+  - SUPERSEDED
+  - CONFLICT
+  semantic_change_vocabulary:
+  - ADDED
+  - ENRICHED
+  - DUPLICATE_NO_CHANGE
+  - DEPENDENCY_CHANGED
+  - NARROWED
+  - REMOVED
+  - BREAKING
+  - OWNER_CHANGED
+  operator_gate_required_for:
+  - NARROWED
+  - REMOVED
+  - BREAKING
+  - material_OWNER_CHANGED
+  legacy_continuity_terminal_reconciliation:
+    required_in_CF_01: true
+    reason: u179h is canonically CLOSED while the legacy Continuity micro-roadmap still encodes Step 12 as next.
+    bridge_rule: Reconcile legacy Step 12 to complete and point next action to the Control Foundation program; CF-02 then
+      removes the duplicate-state pattern structurally.
+manual_operator_working_conventions:
+  temporary_workspace:
+    root: tmp/assistant_work/control_foundation_near_horizon/
+    scope: current_manual_control_foundation_horizon
+    workspace_index: 0000__workspace_index_v0_1.yaml
+    artifact_filename_pattern: NNNN__<semantic_name>__v<major>_<minor>.<ext>
+    numbering:
+      width: 4
+      monotonic_within_horizon: true
+      highest_index_is_newest: true
+      silent_overwrite_forbidden: true
+    directory_policy:
+      one_primary_horizon_directory: true
+      per_microtask_subdirectory_default: forbidden
+      allowed_nested_subdirectories:
+      - tool_internal_candidate
+      - tool_internal_staging
+      - extracted_archive
+      - debug_bundle
+      - explicitly_isolated_parallel_execution
+      historical_layout_migration_required: false
+    retention:
+      generated_bootstrap_archives_are_disposable: true
+      durable_history_must_not_exist_only_in_tmp: true
+      whole_horizon_workspace_may_be_cleaned_after_durable_evidence_is_recorded: true
+operator_interfaces_target:
+  status: TARGET_NOT_IMPLEMENTED
+  project_onboard:
+    mode: PROJECT_ONBOARD
+    candidate_command: make assistant-onboard
+    arguments_required: false
+  task_pack:
+    mode: TASK_EXECUTION
+    candidate_command: make assistant-pack MODULE=<module> FRONT=<workfront>
+  dispatcher:
+    candidate_command: make dispatch MODULE=<module> FRONT=<workfront> [PROFILE=<profile>]
+    profile_override_optional: true
+  compatibility_rule: 'Command names remain candidates until implemented and validated; PROJECT_ONBOARD and TASK_EXECUTION
+    are the durable semantic intents.
+
+    '
+execution_profile_model:
+  principle: 'Reasoning/model strength and execution authority are independent axes.
+
+    '
+  dimensions:
+  - reasoning_profile
+  - authority_profile
+  - budget_profile
+  - context_policy
+  initial_profile_candidates:
+  - deep-readonly-analysis
+  - deep-dev
+  - standard-dev
+  - light-maintenance
+  extensible_registry_required: true
+  hardcoded_three_profile_limit: false
+steps:
+- order: 1
+  id: CF-01
+  stable_id: control_plane_repository_reconciliation_and_baseline
+  title: Reconcile current control-plane mechanisms and establish the near-horizon baseline
+  work_id: u180a
+  priority: P0
+  depends_on:
+  - u179h:CLOSED
+  substeps:
+  - Read exact existing automation/work-package/executor/budget/dispatcher/v0.4.1 standards before implementation.
+  - Reconcile Library, Registry, Gateway and Inspector actual roles before assigning new ownership.
+  - Classify every 2026-09-11/12 proposal as EXISTS/PARTIAL/MISSING/OBSOLETE/SUPERSEDED/CONFLICT.
+  - Produce a semantic roadmap diff and preserve accepted work rather than appending duplicates.
+  - Promote the tmp horizon naming convention into a reusable standard only after exact policy reconciliation.
+  acceptance:
+  - canonical near-horizon roadmap exists
+  - no release or worker-dispatch authority is widened
+  - old next-horizon work is not silently activated
+  - reuse-vs-new implementation findings are explicit
+- order: 2
+  id: CF-02
+  stable_id: roadmap_execution_state_reconciliation_controller
+  title: Eliminate roadmap/execution-state drift with deterministic reconciliation
+  work_id: u180b
+  execution_state_authority: lifecycle_event_store
+  priority: P0
+  depends_on:
+  - CF-01
+  relationship_to_existing: EXTEND_CONTINUITY_EVENT_STORE_AND_EXISTING_ROADMAP_RECONCILIATION
+  substeps:
+  - Separate roadmap desired-state/spec from actual execution state; do not maintain the same mutable progress fact independently
+    in both.
+  - Use append-only lifecycle/event evidence as actual execution truth and registered roadmap specifications as desired sequence/dependency
+    truth.
+  - Build generated ROADMAP_EXECUTION_STATUS and ROADMAP_RECONCILIATION_STATUS projections with roadmap hash and observed
+    latest event sequence.
+  - Derive previous/current/next/ready/blocked state deterministically from stable step-to-work bindings and dependency closure.
+  - Emit IN_SYNC, PROJECTION_STALE, PLAN_CHANGE_REQUIRED, EXECUTION_CONFLICT or UNKNOWN with explicit reason codes.
+  - Gate future plan/activate, assistant-pack and dispatcher entry on successful reconciliation; current manual mode never
+    auto-activates the next step.
+  - Migrate the completed Continuity micro-roadmap away from manual duplicate execution truth before broader rollout.
+  acceptance:
+  - closing accepted work no longer requires a second manual roadmap progress write
+  - stale generated roadmap status is detected automatically
+  - semantic plan/execution conflict blocks next activation
+  - fresh assistant can determine previous/current/next work without chat memory
+  - ROADMAP_SYNC=IN_SYNC is available as a machine-readable readiness condition
+  - public make check remains non-mutating
+  - next-step activation remains operator-controlled in manual mode
+- order: 3
+  id: CF-03
+  stable_id: project_constitution_and_authority_hierarchy
+  work_id: u180c
+  title: Define Project Constitution and machine-enforceable authority precedence
+  priority: P0
+  depends_on:
+  - CF-02
+  relationship_to_existing: ENRICH_AI_EXECUTION_SAFETY_AND_PORTFOLIO_GOVERNANCE
+  substeps:
+  - Define concise global Project Laws and module-specific invariant extension rules.
+  - Define precedence Project Constitution -> Module Policy -> Execution Profile -> Work Front.
+  - Permit lower layers to narrow authority; widening requires a separate explicit authority gate.
+  - Preserve canonical-source-over-projection, immutable-history, no-foreign-write and independent-validation laws.
+  - Prevent Blueprint AI from modifying and self-certifying its own guardrails.
+- order: 4
+  id: CF-04
+  stable_id: canonical_work_front_contract_and_reuse_gate
+  work_id: u180d
+  title: Define machine-readable Work Front contract, validator and capability reuse gate
+  priority: P0
+  depends_on:
+  - CF-03
+  relationship_to_existing: EXTEND_IMMUTABLE_PROMPT_AND_WORK_PACKAGE_CONTRACTS
+  substeps:
+  - Separate human intent from executable work-front authority.
+  - Require objective, scope, exclusions, provenance, dependencies, outputs, acceptance and stop conditions.
+  - Validate work fronts before any assistant pack or dispatcher launch.
+  - Search existing capabilities/scripts/libraries/APIs before NEW implementation.
+  - Record REUSE/EXTEND/ADAPT/REPLACE/NEW disposition; NEW requires rationale.
+- order: 5
+  id: CF-05
+  stable_id: workfront_and_execution_attempt_history_ledger
+  work_id: u180e
+  title: Preserve durable work-front and execution-attempt history
+  priority: P0
+  depends_on:
+  - CF-04
+  relationship_to_existing: ENRICH_EXISTING_EXECUTION_LEDGER_AND_PORTFOLIO_HISTORY
+  substeps:
+  - Keep work-front business intent/history separate from individual execution attempts.
+  - Record who/when/where/why, source fingerprint, profile revisions, pack hash, result and validator outcome.
+  - Preserve retries and failed attempts instead of overwriting history.
+  - Allow disposable assistant ZIPs to be deleted after durable provenance is captured.
+  - Link decision/rationale/conversation evidence without making raw chat execution authority.
+  - Persist durable attempt stage and resume coordinates so partial execution continues from the latest accepted mutation/event
+    instead of replaying already-applied work.
+- order: 6
+  id: CF-06
+  stable_id: execution_profiles_registry
+  work_id: u180f
+  title: Implement extensible Execution Profiles registry
+  priority: P0
+  depends_on:
+  - CF-03
+  - CF-04
+  relationship_to_existing: ENRICH_EXISTING_PER_WORK_BUDGET_AND_PERMISSION_POLICY
+  substeps:
+  - Compose profiles from reasoning, authority, budget and context policies.
+  - Provide initial deep-readonly-analysis, deep-dev, standard-dev and light-maintenance candidates.
+  - Keep model backend replaceable; profiles use abstract reasoning/model tiers.
+  - Support dispatcher recommendation with optional operator override.
+  - Require explicit escalation for higher budget or wider authority.
+- order: 7
+  id: CF-07
+  stable_id: governed_procedure_graph_model
+  work_id: u180g
+  title: Implement governed Procedure Graphs, Run Manifests and conformance validation
+  priority: P0
+  depends_on:
+  - CF-03
+  - CF-04
+  substeps:
+  - Model required/conditional/optional/not-applicable/operator-gate/retry/abort nodes.
+  - Distinguish HARD_GATE from OBSERVED_GATE.
+  - Emit Procedure Run Manifest with exact procedure and contract revisions plus evidence.
+  - Detect skipped nodes, stale revisions, unregistered sources and graph drift.
+  - Define legal WAIVER and governed procedure-evolution flow.
+  - Classify capabilities as GRAPH_REQUIRED or NOT_REQUIRED with reason.
+  - After every canonical mutation, derive and refresh all affected generated projections/indexes before downstream validation
+    or gates consume them.
+  - Classify CANONICAL_CONFLICT separately from PROJECTION_STALE and make the required recovery path explicit in the Procedure
+    Run Manifest.
+- order: 8
+  id: CF-08
+  stable_id: assistant_handoff_compiler_v2
+  work_id: u180h
+  title: Build Handoff Compiler v2 around implemented control mechanisms
+  priority: P0
+  depends_on:
+  - CF-04
+  - CF-05
+  - CF-06
+  - CF-07
+  relationship_to_existing: EXTEND_ACCEPTED_HANDOFF_V1_AND_U179H_PORTABILITY
+  substeps:
+  - Implement PROJECT_ONBOARD and TASK_EXECUTION launch modes.
+  - Resolve Project Laws, procedures, capability/dependency/health slices and authority automatically.
+  - Fail closed when work-front, authority, expected-result schema or required context is incomplete.
+  - Supply exact ACK/result schemas; alternative field names are invalid.
+  - Require worker-side local result validation and bounded self-repair before returning a result.
+  - Keep generated packs derived/disposable and hash-bind their manifests.
+  - Expose the reconciled lifecycle/roadmap cursor and state-aware resume coordinates in fresh-assistant packs, and fail closed
+    when required generated context is stale.
+- order: 9
+  id: CF-09
+  stable_id: dispatcher_launch_contract_and_integration
+  work_id: u180i
+  title: Integrate Work Fronts, profiles and Handoff v2 into Dispatcher
+  priority: P0
+  depends_on:
+  - CF-06
+  - CF-08
+  relationship_to_existing: ENRICH_EXISTING_AUTONOMOUS_COORDINATION_AND_CONTROL_PLANE
+  substeps:
+  - Resolve MODULE + FRONT + optional PROFILE into one bounded execution.
+  - Validate pack and assistant ACK before execution begins.
+  - Apply tool/path/repository/budget restrictions through choke points rather than prompt promises.
+  - Validate returned result before it reaches the operator; bounded repair attempts precede escalation.
+  - Write execution-attempt history centrally.
+  - Keep general/external worker dispatch blocked; after CF-09 only one explicitly operator-authorized manual/shadow Blueprint-internal
+    zero-stage worker may run under CF-10. That exception grants no external-module rollout, autonomous release, merge, push
+    or wider authority.
+  - Capture structured worker telemetry for capability/tool calls, procedure nodes, failure fingerprints, retry/repair outcomes,
+    restart reasons and durable resume coordinates.
+  - Use observation-first pilot retry budgets with hard runaway ceilings; derive tighter production thresholds from measured
+    failure statistics rather than guessing them up front.
+  - Support worker restart/resume from Work Front, completed procedure nodes, evidence, changed files and durable resume coordinates
+    instead of replaying the full prior conversation.
+- order: 10
+  id: CF-10
+  stable_id: blueprint_internal_worker_zero_stage_pilot
+  title: Run the first bounded internal Blueprint AI worker zero-stage pilot
+  work_id: u180j
+  priority: P0
+  depends_on:
+  - CF-07
+  - CF-08
+  - CF-09
+  relationship_to_existing: EARLY_INTERNAL_PILOT_BEFORE_BROAD_READINESS_AND_EXTERNAL_MODULE_PILOT
+  substeps:
+  - Launch exactly one bounded local worker inside the Blueprint/management module in manual/shadow mode.
+  - Use an isolated workspace and bind the attempt to Work Front, Execution Profile, governed procedure, Handoff v2 and Dispatcher
+    evidence.
+  - Give the worker only bounded Blueprint implementation/maintenance work; no global program planning and no planning of
+    other module workers.
+  - Keep cross-module writes, autonomous release, push, merge, automatic ACCEPT and authority widening forbidden.
+  - Exercise profile/budget/context selection, attempt history, retries, recovery, validation, result handling and operator
+    escalation on real internal work.
+  - 'Prefer non-blocking Blueprint conveniences as early worker training tasks after the first successful attempt: operator
+    CLI/status, verification tiers, watchdog, local Dispatcher Telegram bot and human dashboards.'
+  - Stop and reconcile before any external module pilot if the internal worker reveals authority, recovery, context, validation
+    or isolation defects.
+  - Run the first internal worker with a deliberately wider but bounded discovery retry budget and collect friction statistics
+    before production tightening.
+  - After the first successful attempts, assign simple observable Blueprint self-hardening tasks so the worker progressively
+    improves the environment used by later workers.
+  - 'Use validation_check_pipeline_profile_and_optimization as a preferred bounded post-first-attempt training task: measure full-suite and targeted-suite wall-clock time, critical path, repeated Git/repository scans, subprocess counts and pytest collection/startup before changing execution; then optimize only proven duplicate or independent read-only work without weakening validation semantics. This is CF-14-aligned self-hardening and is not the first-ever worker task.'
+  - 'Use planning_projection_cursor_sync_audit as another preferred bounded post-first-attempt training task: reconcile continuity NEXT_HORIZON generation/refresh triggers with event-sourced roadmap reconciliation, detect stale projections automatically, preserve generated-only/manual-edit-forbidden semantics, and add deterministic transition/freshness tests before claiming closure.'
+  acceptance_signal:
+    key: BLUEPRINT_INTERNAL_ZERO_STAGE_PILOT_STABLE
+    pass_value: true
+    next_action: CONTINUE_CONTROL_FOUNDATION_AND_PREPARE_LOGISTICS_AS_FIRST_EXTERNAL_MODULE_PILOT
+- order: 11
+  id: CF-11
+  stable_id: decision_rationale_and_raw_conversation_evidence
+  title: Externalize decision rationale and project-significant raw conversation evidence
+  priority: P1
+  depends_on:
+  - CF-01
+  substeps:
+  - Keep canonical state, rationale ledger and raw conversation evidence as separate memory levels.
+  - Capture exact project-significant dialogue before promoting derived knowledge when capture infrastructure exists.
+  - Attach stable conversation/message IDs, hashes and durable archive references.
+  - Add privacy/secret scan, local pending-archive spool and retry health.
+  - Require historical rationale answers to cite/open original evidence spans.
+- order: 12
+  id: CF-12
+  stable_id: architecture_capability_horizon_and_review_obligations
+  title: Implement Architecture/Capability Horizon and semantic review obligations
+  priority: P1
+  depends_on:
+  - CF-01
+  substeps:
+  - "Separate committed roadmap work from consciously deferred options."
+  - "Track WATCH/ASSESS/TRIAL/READY_FOR_DECISION/ADOPTED/REJECTED/SUPERSEDED."
+  - "Store measurable reconsideration triggers rather than premature technology commitments."
+  - "Make horizon review a required roadmap-reconciliation node."
+  - "Track semantic review last-completed, due, severity and overdue state."
+  - "Maintain a persistent non-executable Architecture/Improvement Horizon for deferred candidates with stable IDs, WATCH/ASSESS/TRIAL/READY_FOR_DECISION/ADOPTED/REJECTED/SUPERSEDED states, rationale, evidence references, revisit triggers and explicit roadmap_authority=false until deliberate promotion."
+  - "Define machine-readable Review Obligations with time, milestone/wave, event, metric/health, dependency-change and strategic triggers plus required evidence, completion criteria and UPCOMING/DUE/OVERDUE/BLOCKED/SATISFIED/SUPERSEDED state."
+- order: 13
+  id: CF-13
+  stable_id: deterministic_machine_discoverability_and_module_golden_path
+  title: Make modules deterministically discoverable to fresh AI agents
+  priority: P1
+  depends_on:
+  - CF-01
+  - CF-03
+  relationship_to_existing: ENRICH_MODULE_BOOTSTRAP_AND_COMMON_PROJECT_SKELETON
+  substeps:
+  - Define a machine entrypoint/manifest for purpose, owner, capabilities, commands, tests, contracts, procedures and dependencies.
+  - Measure AI-legibility defects before mass refactoring.
+  - Apply strict Golden Path to new modules and touch-it-improve-it migration to existing modules.
+  - Preserve one canonical capability with multiple adapters instead of duplicate business semantics.
+  - Avoid uncontrolled proliferation of hidden local instruction files.
+  - Introduce a machine-readable Capability Registry for established project operations with describe/help, input/output schema,
+    authority requirements, read/write surfaces, governing procedure and examples.
+  - Define the Golden Path so established functionality is changed through registered capabilities/tools instead of requiring
+    workers to edit canonical internals directly.
+  - Map protected canonical surfaces to their required capabilities so future direct-write denial can return actionable guidance.
+- order: 14
+  id: CF-14
+  stable_id: test_tiers_and_full_check_debt
+  title: Add deterministic local/affected/core/full validation tiers
+  priority: P1
+  depends_on:
+  - CF-01
+  substeps:
+  - Preserve public make check as full validation.
+  - Define check-local, check-affected and check-core semantics.
+  - Map changed files/surfaces to validation domains through machine-readable dependencies.
+  - Track Full Check Debt by risk/fan-out/critical-surface and lifecycle context.
+  - Keep machine-safe commands non-interactive; optional operator menu is separate.
+  - Implement a Change Impact Resolver mapping changed paths to affected artifacts, generators, validators/tests and the required
+    verification tier.
+  - 'Add a safe auto-repair lane before escalation: parse/compile, Ruff safe fixes, formatting, deterministic regeneration
+    and bounded dependency/import repair where semantics are unambiguous.'
+  - Classify immutable/historical hash pins separately from live derived/reference hashes and centralize live reference integrity.
+  - Before performance optimization, capture a reproducible validation baseline: full/affected/local wall-clock time, critical path, subprocess count, Git command count, repository full-scan count and pytest collection/startup count.
+  - Classify validation work as required-serial, independent-parallelizable, freshness-bound reusable/cacheable or genuine duplicate; preserve producer/consumer dependencies and mutating/order-sensitive boundaries.
+  - Optimize from measured evidence only: batch or reuse expensive repository/Git facts where freshness is provable, remove genuine duplicate proof, reduce semantically equivalent repeated pytest startup/collection, and parallelize only independent read-only groups with bounded concurrency.
+  - Require before/after evidence showing same-or-stronger validation coverage, deterministic failure diagnostics and a passing full regression gate; speed alone is not acceptance.
+  - For eligible established content/data surfaces, reconcile declared adapter/tool/capability mutation evidence with the
+    observed resulting diff; unexplained mutations block acceptance.
+- order: 15
+  id: CF-15
+  stable_id: project_health_machine_model
+  title: Establish one machine-readable Project Health source for all projections
+  priority: P1
+  depends_on:
+  - CF-07
+  - CF-14
+  relationship_to_existing: ENRICH_COORDINATION_HEALTH_AND_PORTFOLIO_DASHBOARD
+  substeps:
+  - "Cover module health, procedure conformance, contract compatibility, knowledge freshness and review obligations."
+  - "Include dependency debt, wave balance, tests, publication, worker/context health and Full Check Debt."
+  - "Use reason codes and GREEN/YELLOW/RED semantics without simplistic percentage authority."
+  - "Feed assistant packs, status commands, dashboard and later Telegram alerts from the same model."
+  - "Expose Reference Integrity and Mutation Provenance health: artifact revision/hash, consumers, freshness, declared mutation evidence, observed diff and unresolved provenance gaps."
+  - "Report repeated worker failures and high-friction capabilities/procedure nodes so self-hardening priorities come from evidence."
+  - "Expose Review Obligation health in Project Health, including upcoming, due, overdue, blocked, satisfied and superseded states without making dashboard/UI state canonical."
+- order: 16
+  id: CF-16
+  stable_id: cross_module_query_proposal_and_dependency_debt
+  title: Govern cross-module observation, proposals and temporary dependency debt
+  priority: P1
+  depends_on:
+  - CF-04
+  - CF-07
+  substeps:
+  - Enforce OBSERVE -> QUERY -> PROPOSE; no FOREIGN MUTATE without explicit authority.
+  - Prefer published manifests/capabilities/contracts before bounded source inspection.
+  - Collect worker improvement proposals centrally rather than concurrent shared-file writes.
+  - Record temporary compatibility stubs with provider, target milestone, severity and replacement trigger.
+  - Surface stub-replacement work when provider capability becomes validated.
+- order: 17
+  id: CF-17
+  stable_id: wave_planner_and_portfolio_balancer
+  title: Add portfolio-level wave planning and dependency-balanced dispatch preparation
+  priority: P1
+  depends_on:
+  - CF-15
+  - CF-16
+  relationship_to_existing: ENRICH_AUT_PROGRAM_AND_PORTFOLIO_STEERING
+  substeps:
+  - "Plan whole portfolio waves from priority, dependency, readiness, worker budget and freshness."
+  - "Use initial leveling waves before broad forward acceleration."
+  - "Preserve strategic weighting for Calculator, Telegram and Logistics while honoring dependencies."
+  - "Keep rule/state selection deterministic and use LLM reasoning for ambiguity/exceptions."
+  - "Do not enable autonomous worker dispatch at this step."
+  - "Build the portfolio matrix for module priority, dependency, readiness and balancing/catch-up waves before forward-development waves."
+  - "Treat the first coordinated multi-module worker wave as the explicit sunset milestone for the current Strategic Vector epoch; the persistent Strategic Vector mechanism then requires a reviewed successor epoch rather than disappearing."
+  - "At each major wave boundary, surface due Architecture/Improvement Horizon and Review Obligation items before the next wave is authorized; the first mature coordinated multi-module worker-wave boundary requires a full Horizon reassessment."
+- order: 18
+  id: CF-18
+  stable_id: portfolio_renderer_operator_dashboard_and_publication_controls
+  title: Build operator views over canonical machine state and bounded publication controls
+  priority: P1
+  depends_on:
+  - CF-15
+  - CF-17
+  substeps:
+  - "Render Current-to-Target, Full Historical and Decision/Change Review portfolio modes."
+  - "Show planned/internal future capabilities with owner, target step and blockers."
+  - "Make dashboard/TUI a projection over Project Health and portfolio state."
+  - "Preserve rationale snippets and links to source evidence for historical decisions."
+  - "Define Git publication authority ladder G0 status -> G1 commit candidate -> G2 bounded commit -> G3 push -> G4 PR/merge queue -> G5 auto-merge."
+  - "Keep exact-path staging; never normalize with broad git add -A."
+  - "Expose a Project Tool Gateway/operator CLI over registered capabilities, including describe/run/status/resume/check/roadmap/project-health style surfaces where appropriate."
+  - "Show mutation provenance mismatches, retry friction and acceptance evidence in the operator dashboard."
+  - "When a protected direct write is denied, return the required capability/tool and actionable input-schema guidance."
+  - "Render Review Obligations and their upcoming/due/overdue timeline or calendar from canonical machine state; CRM/dashboard is a projection and never the obligation source of truth."
+- order: 19
+  id: CF-19
+  stable_id: blueprint_ai_trial_readiness_audit
+  title: Audit readiness for broad Blueprint AI operation and autonomy-promotion review
+  priority: P0
+  depends_on:
+  - CF-03
+  - CF-04
+  - CF-05
+  - CF-06
+  - CF-07
+  - CF-08
+  - CF-09
+  - CF-13
+  - CF-14
+  - CF-15
+  - CF-16
+  - CF-17
+  - CF-18
+  - CF-10
+  substeps:
+  - Review evidence from the earlier CF-10 internal zero-stage worker and require its unresolved authority/recovery/context
+    defects to be closed or explicitly gated.
+  - Require ROADMAP_SYNC=IN_SYNC and no unresolved roadmap reconciliation conflicts before emitting readiness.
+  - Prove PROJECT_ONBOARD can prepare a fresh assistant without undocumented human knowledge.
+  - Prove TASK_EXECUTION is strict, bounded and locally self-validating.
+  - Prove Dispatcher can prepare work without silently widening authority.
+  - Verify execution history, guardrails, health and procedure evidence are queryable.
+  - Verify critical safety/authority violations fail closed.
+  - Emit readiness only after explicit operator acceptance.
+  - Audit and progressively enforce protected canonical surfaces inside worker isolation so established data/content operations
+    cannot bypass their registered capability without evidence.
+  - 'Define development, stabilization and production mutation-authority modes: broader attributable development writes, progressively
+    protected mature surfaces, and deny-by-default production functionality changes.'
+  - Require broad-trial readiness evidence that declared adapter/tool mutations reconcile with observed diffs for protected/eligible
+    surfaces.
+  acceptance_signal:
+    key: BLUEPRINT_AI_TRIAL_READY
+    pass_value: true
+    next_action: RUN_BLUEPRINT_AI_MANUAL_TRIAL
+  acceptance:
+  - ROADMAP_SYNC=IN_SYNC
+  - BLUEPRINT_AI_TRIAL_READY=true is emitted only after explicit operator acceptance
+- order: 20
+  id: CF-20
+  stable_id: manual_blueprint_ai_trial_and_autonomy_promotion_review
+  title: Run broad Blueprint assistant trial and follow-up local worker trial, then review autonomy promotion
+  priority: P0
+  depends_on:
+  - CF-19
+  entry_condition: BLUEPRINT_AI_TRIAL_READY=true
+  substeps:
+  - Treat CF-10 as the first internal worker pilot; this later step is a broader repeat under the full health/wave/dashboard
+    control foundation, not the first-ever worker launch.
+  - Manually start one broad Blueprint coordinator from PROJECT_ONBOARD.
+  - Measure architecture/roadmap/capability zero-context reconstruction quality.
+  - Manually launch one bounded local task worker through Dispatcher TASK_EXECUTION.
+  - Measure invalid results, corrections, ownership mistakes, dependency misses, rework, authority violations and operator
+    overrides.
+  - Decide autonomy per capability/blast radius: MANUAL, SHADOW, COPILOT, BOUNDED_OPERATOR or higher only with evidence.
+  - Promote Blueprint autonomy more slowly than ordinary module autonomy.
+  - 'Define production change-proposal flow: a worker detecting an optimization or defect submits a structured proposal rather
+    than freely editing established production functionality.'
+  - Allow only explicit temporary scoped authority elevation for an approved production change package, bounded by time and/or
+    attempts and automatically expiring.
+  - Preserve human acceptance at wave/phase boundaries even if routine validated steps inside a wave later become automatically
+    accepted.
+  - Keep governed-change, provenance reconciliation and reporting obligations active after the temporary strategic transition
+    vector is retired.
+blueprint_ai_trial_readiness_gate:
+  gate_id: CF-19
+  current_state: NOT_READY_MANUAL
+  signal_key: BLUEPRINT_AI_TRIAL_READY
+  signal_value_now: false
+  pass_value: true
+  emission_authority: explicit_operator_acceptance_of_CF_17
+  when_false:
+    required_mode: MANUAL_OPERATOR_DRIVEN
+    autonomous_blueprint_ai_launch: forbidden
+  when_true:
+    next_action: RUN_BLUEPRINT_AI_MANUAL_TRIAL
+    trial_scope:
+    - one PROJECT_ONBOARD broad Blueprint assistant
+    - one TASK_EXECUTION local worker through Dispatcher
+    automatic_autonomy_promotion: false
+  prerequisites:
+  - ROADMAP_SYNC=IN_SYNC
+  - no unresolved roadmap reconciliation conflicts
+  - critical Control Foundation mechanisms accepted
+invariants:
+- Handoff describes only implemented/validated mechanisms; roadmap describes future work.
+- Chat is not source of truth.
+- Canonical sources outrank generated projections.
+- Accepted continuity history is immutable.
+- Dirty Git working tree is a valid baseline; do not reset/stash/rebase merely for cleanliness.
+- No foreign repository writes without explicit authority.
+- No worker dispatch or release merely because a planning step exists.
+- Critical procedures produce evidence and cannot be silently bypassed.
+- New implementation searches for reusable capability before NEW.
+- A worker may observe/query/propose across module boundaries but may not foreign-mutate without authority.
+- Blueprint AI may not mutate and self-certify its own guardrails.
+- Generated assistant packs are disposable; durable work intent and execution history are not.
+- Reasoning strength, mutation authority and financial/tool budget are independent controls.
+- Roadmap desired state and actual execution state must not be manually double-written; execution status becomes a generated
+  reconciliation projection.
+roadmap_execution_reconciliation:
+  actual_execution_authority: continuity_event_store
+  generated_projection_authority: none
+  legacy_manual_step_state_fields: RETIRED_TO_EXPLICIT_HISTORICAL_COMPLETION_EVIDENCE
+  control_foundation_manual_step_state_fields: REMOVED
+  lifecycle_choke_points: HARD_GATED_PLAN_ACTIVATE_CHECKPOINT_CLOSE
+  cf02_closure_acceptance: EVENT_SOURCED_DERIVED_CURSOR_PROVEN
+  design_principle: ROADMAP_SPEC_PLUS_EVENT_SOURCED_ACTUAL_STATE_PLUS_GENERATED_RECONCILIATION_STATUS
+  roadmap_spec_owns:
+  - stable step identity
+  - desired sequence/dependency graph
+  - priority
+  - activation policy
+  - acceptance policy
+  - operator gates
+  actual_execution_owns:
+  - append-only lifecycle events
+  - accepted checkpoint/validation/close evidence
+  generated_status_owns:
+  - previous/current/next/ready/blocked
+  - sync state
+  - reason codes
+  - observed roadmap sha256
+  - observed latest event sequence
+  sync_states:
+  - IN_SYNC
+  - PROJECTION_STALE
+  - PLAN_CHANGE_REQUIRED
+  - EXECUTION_CONFLICT
+  - UNKNOWN
+  manual_mode:
+    auto_projection_refresh_allowed: true
+    auto_next_step_activation_allowed: false
+    auto_plan_rewrite_allowed: false
+    operator_gate_for_semantic_plan_change: true
+  future_gate_points:
+  - after accepted lifecycle transition
+  - before plan or activation
+  - before assistant pack build
+  - before dispatcher launch
+  - before checkpoint or close
+  - Blueprint AI trial readiness
