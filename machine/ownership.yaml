@@ -1,123 +1,126 @@
+schema_version: forprint_machine_ownership_v0_1
+status: CURRENT_MACHINE_AUTHORITY
+authority: forprint_system_blueprint
 ownership:
   architecture_decision:
     owner: forprint_system_blueprint
     consumers:
-    - forprint_project_inspector
+      - forprint_project_inspector
   module_definition:
     owner: forprint_system_blueprint
     consumers:
-    - forprint_project_inspector
-    - forprint_crm
+      - forprint_project_inspector
+      - forprint_crm
   data_flow_definition:
     owner: forprint_system_blueprint
     consumers:
-    - forprint_project_inspector
-    - forprint_crm
+      - forprint_project_inspector
+      - forprint_crm
   contract_definition:
     owner: forprint_system_blueprint
     consumers:
-    - forprint_project_inspector
+      - forprint_project_inspector
   client:
     owner: forprint_operations_control_registry
     consumers:
-    - forprint_crm
-    - forprint_accounting_registry_service
-    - telegram_bot
-    - website
-    - logistics_service
+      - forprint_crm
+      - forprint_accounting_registry_service
+      - telegram_bot
+      - website
+      - logistics_service
   order:
     owner: forprint_operations_control_registry
     consumers:
-    - forprint_crm
-    - forprint_accounting_registry_service
-    - forprint_prepress_hub
-    - warehouse_service
-    - logistics_service
-    - telegram_bot
+      - forprint_crm
+      - forprint_accounting_registry_service
+      - forprint_prepress_hub
+      - warehouse_service
+      - logistics_service
+      - telegram_bot
   client_interaction:
     owner: forprint_operations_control_registry
     consumers:
-    - forprint_crm
-    - telegram_bot
+      - forprint_crm
+      - telegram_bot
   material_catalog:
     owner: forprint_library
     consumers:
-    - calculator_engine
-    - forprint_prepress_hub
-    - warehouse_service
-    - forprint_crm
+      - calculator_engine
+      - forprint_prepress_hub
+      - warehouse_service
+      - forprint_crm
   product_catalog:
     owner: forprint_library
     consumers:
-    - calculator_engine
-    - website
-    - forprint_crm
-    - telegram_bot
+      - calculator_engine
+      - website
+      - forprint_crm
+      - telegram_bot
   machine_capability:
     owner: forprint_library
     consumers:
-    - calculator_engine
-    - forprint_prepress_hub
+      - calculator_engine
+      - forprint_prepress_hub
   quote_draft:
     owner: calculator_engine
     consumers:
-    - forprint_crm
-    - forprint_operations_control_registry
-    - forprint_accounting_registry_service
-    - telegram_bot
-    - website
+      - forprint_crm
+      - forprint_operations_control_registry
+      - forprint_accounting_registry_service
+      - telegram_bot
+      - website
   material_consumption_estimate:
     owner: calculator_engine
     consumers:
-    - warehouse_service
-    - forprint_crm
+      - warehouse_service
+      - forprint_crm
   prepress_report:
     owner: forprint_prepress_hub
     consumers:
-    - forprint_crm
-    - forprint_operations_control_registry
-    - telegram_bot
+      - forprint_crm
+      - forprint_operations_control_registry
+      - telegram_bot
   print_ready_file:
     owner: forprint_prepress_hub
     consumers:
-    - forprint_crm
-    - telegram_bot
+      - forprint_crm
+      - telegram_bot
   invoice:
     owner: forprint_accounting_registry_service
     consumers:
-    - forprint_crm
-    - telegram_bot
-    - website
-    - forprint_operations_control_registry
+      - forprint_crm
+      - telegram_bot
+      - website
+      - forprint_operations_control_registry
   payment_status:
     owner: forprint_accounting_registry_service
     consumers:
-    - forprint_crm
-    - telegram_bot
-    - website
-    - forprint_operations_control_registry
+      - forprint_crm
+      - telegram_bot
+      - website
+      - forprint_operations_control_registry
   material_stock:
     owner: warehouse_service
     consumers:
-    - forprint_crm
-    - calculator_engine
+      - forprint_crm
+      - calculator_engine
   material_reservation:
     owner: warehouse_service
     consumers:
-    - forprint_crm
-    - forprint_operations_control_registry
+      - forprint_crm
+      - forprint_operations_control_registry
   delivery_status:
     owner: logistics_service
     consumers:
-    - forprint_crm
-    - telegram_bot
-    - website
-    - forprint_operations_control_registry
+      - forprint_crm
+      - telegram_bot
+      - website
+      - forprint_operations_control_registry
   backup_status_report:
     owner: cloud_backup_manager
     consumers:
-    - forprint_crm
-    - forprint_project_inspector
+      - forprint_crm
+      - forprint_project_inspector
   impact_rule:
     owner: forprint_system_blueprint
     consumers: []
@@ -274,51 +277,51 @@ ownership:
   integration_request:
     owner: forprint_integration_gateway
     consumers:
-    - forprint_integration_gateway
-    - forprint_crm
-    - forprint_project_inspector
+      - forprint_integration_gateway
+      - forprint_crm
+      - forprint_project_inspector
   routed_module_request:
     owner: forprint_integration_gateway
     consumers:
-    - calculator_engine
-    - forprint_operations_control_registry
-    - warehouse_service
-    - forprint_accounting_registry_service
+      - calculator_engine
+      - forprint_operations_control_registry
+      - warehouse_service
+      - forprint_accounting_registry_service
   integration_response:
     owner: forprint_integration_gateway
     consumers:
-    - forprint_crm
-    - telegram_bot
-    - website
-    - forprint_project_inspector
+      - forprint_crm
+      - telegram_bot
+      - website
+      - forprint_project_inspector
   validation_error:
     owner: forprint_integration_gateway
     consumers:
-    - forprint_crm
-    - telegram_bot
-    - website
-    - forprint_project_inspector
+      - forprint_crm
+      - telegram_bot
+      - website
+      - forprint_project_inspector
   routing_rule:
     owner: forprint_integration_gateway
     consumers:
-    - forprint_system_blueprint
-    - forprint_project_inspector
+      - forprint_system_blueprint
+      - forprint_project_inspector
   correlation_context:
     owner: forprint_integration_gateway
     consumers:
-    - forprint_crm
-    - forprint_project_inspector
+      - forprint_crm
+      - forprint_project_inspector
   idempotency_record:
     owner: forprint_integration_gateway
     consumers:
-    - forprint_project_inspector
+      - forprint_project_inspector
   integration_audit_event:
     owner: forprint_integration_gateway
     consumers:
-    - forprint_crm
-    - forprint_project_inspector
+      - forprint_crm
+      - forprint_project_inspector
   security_filter_event:
     owner: forprint_integration_gateway
     consumers:
-    - forprint_project_inspector
-    - forprint_crm
+      - forprint_project_inspector
+      - forprint_crm

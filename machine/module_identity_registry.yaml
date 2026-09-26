@@ -1,11 +1,9 @@
 schema_version: forprint_module_identity_registry_v0_1
 status: active
+authority: forprint_system_blueprint
 authority_state: canonical
 authority_scope: stable_module_identifier_only
-purpose: >-
-  Canonical source for stable ForPrint module identifiers. Business role, runtime
-  status, architecture participation, repository location, policy coverage and prompt
-  lifecycle remain owned by their specialized registries.
+purpose: Canonical source for stable ForPrint module identifiers. Business role, runtime status, architecture participation, repository location, policy coverage and prompt lifecycle remain owned by their specialized registries.
 rules:
   canonical_ids_are_unique: true
   aliases_are_not_current_ids: true
@@ -19,6 +17,7 @@ canonical_module_ids:
   - forprint_contract_registry
   - forprint_crm
   - forprint_integration_gateway
+  - forprint_identity_access_service
   - forprint_library
   - forprint_marketing_orchestrator
   - forprint_operations_assistant
@@ -34,6 +33,7 @@ canonical_module_ids:
   - telegram_bot
   - warehouse_service
   - website
+  - verification_lab
 aliases:
   - alias: accounting_registry_service
     canonical_id: forprint_accounting_registry_service

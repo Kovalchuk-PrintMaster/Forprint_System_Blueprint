@@ -1,7 +1,8 @@
+schema_version: forprint_module_status_report.v1
 schema_id: forprint_module_status_report.v1
 status: active_development
-purpose: >-
-  Мінімальний формат оперативного JSON-звіту модуля для Inspector і Blueprint.
+authority: forprint_system_blueprint
+purpose: Мінімальний формат оперативного JSON-звіту модуля для Inspector і Blueprint.
 required_top_level_fields:
   - module_id
   - generated_at
@@ -22,6 +23,5 @@ integration_contracts_fields:
   - provided
   - consumed
 notes:
-  - >-
-    Це не аудит і не гарантія якості. Це короткий self-report, який допомагає
-    Project Inspector і людині швидко зрозуміти поточний стан модуля.
+  - Це не аудит і не гарантія якості. Це короткий self-report, який допомагає Project Inspector і людині швидко зрозуміти
+    поточний стан модуля.
