@@ -40,3 +40,23 @@ Completion of the review requires a Human Intent Delta, append-only module inten
 
 - Portfolio review rendering/content standard: `coordination/standards/governance/portfolio_rendering_and_content_specification_v0_1.md`
 - Latest integrated evening-review architecture index: `coordination/internal_work/blueprint/evening_reviews/2026-08-31/README.md`
+
+<!-- FORPRINT_CF05_HISTORY_LEDGER_START -->
+## Workfront and execution-attempt durable history
+
+Read:
+`coordination/standards/automation/workfront_history_contract_v0_1.yaml`
+and
+`coordination/standards/automation/execution_attempt_ledger_contract_v0_1.yaml`.
+
+Operational rule:
+- Work Front remains the bounded execution-contract authority;
+- the Continuity Event Store remains actual roadmap lifecycle execution authority;
+- Workfront History and Execution Attempt Ledger are separate append-only fact histories;
+- a retry creates a new attempt and never overwrites the prior attempt;
+- failed and partial attempts remain durable;
+- partial/interrupted attempts preserve resume coordinates from the latest accepted mutation/event and must not replay already accepted work;
+- raw chat may be provenance evidence only and is never execution authority;
+- history records do not grant worker-dispatch, release or foreign-repository-write authority;
+- CF-06 Execution Profiles are not implemented by CF-05.
+<!-- FORPRINT_CF05_HISTORY_LEDGER_END -->
