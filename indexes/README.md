@@ -109,3 +109,19 @@ The full file index intentionally excludes:
 
 The semantic-structure gate validates both the full Knowledge Index and the specialized
 query layer, so `make check` covers the complete derived index system.
+
+<!-- human-intent-structural-discoverability-2026-09-01:start -->
+### Human Intent structural discoverability
+
+Human Intent ledgers and append-only deltas are deliberately discoverable through their
+canonical Human Intent navigation/index surfaces even when an individual file has zero
+literal inbound references.
+
+The knowledge indexer therefore classifies:
+
+- `coordination/human_intent/modules/` as `human_intent_module_index`;
+- `coordination/human_intent/deltas/` as `human_intent_delta_history`.
+
+This only changes orphan/discoverability classification. It does not elevate Human Intent
+files above release authority or make derived indexes authoritative.
+<!-- human-intent-structural-discoverability-2026-09-01:end -->
