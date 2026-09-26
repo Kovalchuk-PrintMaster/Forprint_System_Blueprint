@@ -243,6 +243,8 @@ modules:
       - forprint_library
       - warehouse_service
       - calculator_engine
+      - forprint_contract_registry
+      - forprint_integration_gateway
     owns:
       - accounting_references
       - one_c_raw_snapshot
@@ -268,28 +270,28 @@ modules:
     steps:
       - sequence: 1
         step_id: FORPRINT_ACCOUNTING_REGISTRY_SERVICE-H01
-        title: Reconcile current accounting registry, 1C staging, document and supplier-automation evidence.
+        title: "Reconcile the current Accounting Registry implementation as the v0.5 offline/sandbox sanitized structured-export parsing → raw snapshot/staging → mapping/default/manual-review diagnostics foundation with local persistence and governance overlay, without treating it as production accounting, live 1C, accounts-receivable or cross-module runtime capability."
         approval_state: AGREED_PLANNING_DIRECTION
         source_basis: current_evidence_reconciliation
         execution_authority: false
         dependency_gate: []
       - sequence: 2
         step_id: FORPRINT_ACCOUNTING_REGISTRY_SERVICE-H02
-        title: Confirm accounting ownership of accounting references/documents/reconciliation while excluding operational order and catalog truth.
+        title: "Confirm Accounting ownership of accounting/financial facts, references, documents and reconciliation while treating generic Counterparty/Product fields as historical projection residue until Business Partner, Operations, CRM, Logistics, Library and Calculator boundaries are reconciled."
         approval_state: AGREED_PLANNING_DIRECTION
         source_basis: ownership_and_role_boundary
         execution_authority: false
         dependency_gate: []
       - sequence: 3
         step_id: FORPRINT_ACCOUNTING_REGISTRY_SERVICE-H03
-        title: Complete self-inventory for 1C snapshots, mappings, import/export/reconciliation jobs and accounting documents.
+        title: "Complete self-inventory for raw 1C snapshots, staging, mapping/default/manual-review records, mapping diagnostics, import/export/reconciliation job foundations, AccountingDocument and invoice/payment/order references, with explicit implemented, shell, placeholder and unwired classifications."
         approval_state: AGREED_PLANNING_DIRECTION
         source_basis: self_inventory_requirement
         execution_authority: false
         dependency_gate: []
       - sequence: 4
         step_id: FORPRINT_ACCOUNTING_REGISTRY_SERVICE-H04
-        title: Define billing/customer/responsibility contexts and prevent proof/sample classifications from implying payment semantics.
+        title: "Define billing/customer/responsibility contexts on stable external Business Partner and operational references; keep contact channels, delivery profile, manager/tags, catalog/pricing and production semantics outside canonical Accounting ownership and preserve proof/sample as an independent financial classification."
         approval_state: AGREED_PLANNING_DIRECTION
         source_basis: dependency_and_contract_planning
         execution_authority: false
@@ -303,14 +305,14 @@ modules:
         dependency_gate: []
       - sequence: 6
         step_id: FORPRINT_ACCOUNTING_REGISTRY_SERVICE-H06
-        title: Plan supplier-document parsing into reviewable staging rather than direct authoritative posting.
+        title: "Plan supplier-document intake from structured files, PDF, Word-like documents and scan/photo OCR into reviewable staging with source/provenance, confidence and human confirmation; resolve supplier aliases/SKUs to canonical Library material identity and never silently post uncertain financial facts."
         approval_state: AGREED_OR_RECOVERED_TARGET
         source_basis: agreed_or_recovered_target_state
         execution_authority: false
         dependency_gate: []
       - sequence: 7
         step_id: FORPRINT_ACCOUNTING_REGISTRY_SERVICE-H07
-        title: Define payment/reconciliation views and safe conditional mandates with explicit approval and audit boundaries.
+        title: "Define future receivable/payment reconciliation views around explicit due, overdue, promise, dispute, partial-payment and human-attention states; treat current invoice/payment objects as storage/reference foundations and keep any conditional payment mandate later, preauthorized, limited, idempotent and auditable."
         approval_state: AGREED_OR_RECOVERED_TARGET
         source_basis: agreed_or_recovered_target_state
         execution_authority: false
@@ -324,14 +326,14 @@ modules:
         dependency_gate: []
       - sequence: 9
         step_id: FORPRINT_ACCOUNTING_REGISTRY_SERVICE-H09
-        title: Plan mature 1C exchange, failure recovery and evidence without allowing 1C compatibility to dominate internal architecture.
+        title: "Define current 1C maturity precisely as sanitized structured-file parsing, fixture-driven discovery/schema abstractions, dry-run export packaging and disposable working-copy safety simulation; require provenance binding, untrusted-input controls, idempotency/correlation, retry/replay/conflict handling, migrations, rollback/recovery and backup/restore before live 1C connector, direct database, synchronization or write activation."
         approval_state: PROPOSED_TARGET_REFINEMENT
         source_basis: proposed_mature_target
         execution_authority: false
         dependency_gate: []
       - sequence: 10
         step_id: FORPRINT_ACCOUNTING_REGISTRY_SERVICE-H10
-        title: Hold automation expansion until operational, warehouse, calculator and identity dependencies are contractually ready.
+        title: "Hold automation expansion until Operations, Library, Warehouse and Calculator boundaries plus Contract Registry contract readiness, Integration Gateway routing/runtime readiness and stable Business Partner/customer/billing identity references are resolved; do not treat machine active-development flow state as proof of a live Accounting financial-status runtime."
         approval_state: HOLD_FOR_FINAL_PORTFOLIO_APPROVAL
         source_basis: operator_distribution_gate
         execution_authority: false

@@ -42,16 +42,16 @@ Role: Infrastructure backup utility/reference UI shell
 
 Role: Operational/commercial accounting registry and 1C compatibility boundary
 
-1. **AGREED_PLANNING_DIRECTION** — Reconcile current accounting registry, 1C staging, document and supplier-automation evidence.
-2. **AGREED_PLANNING_DIRECTION** — Confirm accounting ownership of accounting references/documents/reconciliation while excluding operational order and catalog truth.
-3. **AGREED_PLANNING_DIRECTION** — Complete self-inventory for 1C snapshots, mappings, import/export/reconciliation jobs and accounting documents.
-4. **AGREED_PLANNING_DIRECTION** — Define billing/customer/responsibility contexts and prevent proof/sample classifications from implying payment semantics.
+1. **AGREED_PLANNING_DIRECTION** — Reconcile the current Accounting Registry implementation as the v0.5 offline/sandbox sanitized structured-export parsing → raw snapshot/staging → mapping/default/manual-review diagnostics foundation with local persistence and governance overlay, without treating it as production accounting, live 1C, accounts-receivable or cross-module runtime capability.
+2. **AGREED_PLANNING_DIRECTION** — Confirm Accounting ownership of accounting/financial facts, references, documents and reconciliation while treating generic Counterparty/Product fields as historical projection residue until Business Partner, Operations, CRM, Logistics, Library and Calculator boundaries are reconciled.
+3. **AGREED_PLANNING_DIRECTION** — Complete self-inventory for raw 1C snapshots, staging, mapping/default/manual-review records, mapping diagnostics, import/export/reconciliation job foundations, AccountingDocument and invoice/payment/order references, with explicit implemented, shell, placeholder and unwired classifications.
+4. **AGREED_PLANNING_DIRECTION** — Define billing/customer/responsibility contexts on stable external Business Partner and operational references; keep contact channels, delivery profile, manager/tags, catalog/pricing and production semantics outside canonical Accounting ownership and preserve proof/sample as an independent financial classification.
 5. **AGREED_OR_RECOVERED_TARGET** — Define rounding, totals, taxes/fees and reconciliation boundaries so accounting never silently changes Calculator semantics.
-6. **AGREED_OR_RECOVERED_TARGET** — Plan supplier-document parsing into reviewable staging rather than direct authoritative posting.
-7. **AGREED_OR_RECOVERED_TARGET** — Define payment/reconciliation views and safe conditional mandates with explicit approval and audit boundaries.
+6. **AGREED_OR_RECOVERED_TARGET** — Plan supplier-document intake from structured files, PDF, Word-like documents and scan/photo OCR into reviewable staging with source/provenance, confidence and human confirmation; resolve supplier aliases/SKUs to canonical Library material identity and never silently post uncertain financial facts.
+7. **AGREED_OR_RECOVERED_TARGET** — Define future receivable/payment reconciliation views around explicit due, overdue, promise, dispute, partial-payment and human-attention states; treat current invoice/payment objects as storage/reference foundations and keep any conditional payment mandate later, preauthorized, limited, idempotent and auditable.
 8. **PROPOSED_TARGET_REFINEMENT** — Define management-accounting and settlement projections while preserving operational/accounting truth separation.
-9. **PROPOSED_TARGET_REFINEMENT** — Plan mature 1C exchange, failure recovery and evidence without allowing 1C compatibility to dominate internal architecture.
-10. **HOLD_FOR_FINAL_PORTFOLIO_APPROVAL** — Hold automation expansion until operational, warehouse, calculator and identity dependencies are contractually ready.
+9. **PROPOSED_TARGET_REFINEMENT** — Define current 1C maturity precisely as sanitized structured-file parsing, fixture-driven discovery/schema abstractions, dry-run export packaging and disposable working-copy safety simulation; require provenance binding, untrusted-input controls, idempotency/correlation, retry/replay/conflict handling, migrations, rollback/recovery and backup/restore before live 1C connector, direct database, synchronization or write activation.
+10. **HOLD_FOR_FINAL_PORTFOLIO_APPROVAL** — Hold automation expansion until Operations, Library, Warehouse and Calculator boundaries plus Contract Registry contract readiness, Integration Gateway routing/runtime readiness and stable Business Partner/customer/billing identity references are resolved; do not treat machine active-development flow state as proof of a live Accounting financial-status runtime.
 
 ### `forprint_contract_registry`
 

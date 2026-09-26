@@ -301,6 +301,11 @@ modules:
     target_state:
       agreed_or_recovered:
         - Invoices/payments/accounting documents/reconciliation/1C staging; supplier-document automation.
+        - "Treat the current Accounting Registry Service worktree as a v0.5 offline/sandbox 1C import-staging foundation: sanitized structured export parsing, raw snapshot/staging conversion, explicit mapping/default/manual-review diagnostics and local persistence are implemented; production accounting runtime, live 1C integration and cross-module runtime integration are not."
+        - "Preserve generic Counterparty/Product models as tested historical projection evidence until Business Partner, CRM, Operations, Logistics, Library and Calculator ownership/reference boundaries are reconciled; do not promote their contact, delivery, catalog, pricing or production fields to canonical Accounting truth."
+        - "Treat current invoice/payment/accounting-document and typed mapping-diagnostic surfaces according to actual maturity: some are implemented local foundations, while invoice/payment lifecycle, accounts receivable, supplier OCR/goods receipt and several diagnostic records remain shell, placeholder, unwired or future target."
+        - "Reconcile historical module-local contract-authority and Operations aliases before implementation: current portfolio direction uses Contract Registry for versioned inter-module contracts and the canonical operations module identity is forprint_operations_control_registry."
+        - "Keep machine ownership/status changes deferred during this L0 closeout; roadmap currentness may be refined without treating machine target ownership or active-development flow status as proof of implemented runtime capability."
       synthetic_or_proposed:
         - Management accounting, settlements, safe conditional mandates and mature 1C exchange.
     full_horizon_steps:
@@ -319,6 +324,8 @@ modules:
       - forprint_library
       - warehouse_service
       - calculator_engine
+      - forprint_contract_registry
+      - forprint_integration_gateway
     human_control_surfaces:
       - OPERATOR_FACING
       - ADMIN_FACING
