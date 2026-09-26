@@ -248,3 +248,24 @@ Canonical CF-10 Worker Training Queue:
 The queue is planning/training metadata only. It does not grant dispatch,
 release, foreign-write, commit, push, merge or automatic-accept authority.
 <!-- cf10-temporary-parallel-assistant-coordination-2026-09-21:end -->
+
+<!-- fp-assistant-context-system-specs-v0-1:start -->
+## Assistant context operating map
+
+Read `coordination/bootstrap/assistant_context_system_specs_v0_1.yaml` before broad planning or source reconciliation.
+
+From the Blueprint repository root:
+
+- `make assistant-context-pack` builds a context package focused on
+  `forprint_system_blueprint`;
+- `make assistant-context-pack MODULE=<canonical_module>` explicitly selects another
+  module;
+- `make assistant-context-pack TOPICS=<...>` may select additional/narrow topics.
+
+The package is navigation/evidence only. It does not grant roadmap mutation, lifecycle,
+dispatch, release, commit, push, merge or foreign-write authority.
+
+The preferred duplicate-aware dialogue navigator is currently Master Memory v3.7, but
+embedded histories are processed source-by-source and are never bulk-promoted into
+current truth.
+<!-- fp-assistant-context-system-specs-v0-1:end -->
