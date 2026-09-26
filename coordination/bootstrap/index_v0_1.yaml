@@ -1,0 +1,254 @@
+schema_version: forprint_project_context_bootstrap_index_v0_1
+status: active_navigation_index
+authority: forprint_system_blueprint
+purpose: Machine-readable topic index for the bounded Blueprint zero-context project-entry archive. It points to existing
+  authority and does not duplicate policy prose.
+builder: scripts/coordination/build_project_context_archive.py
+task_context:
+  canonical_primitive: scripts/coordination/build_context_bundle.py
+  task_aware_mode: --task-context
+  project_entry_archive_replaces_task_context: false
+default_topics:
+- purpose
+- release
+- current_workfront
+- portfolio
+- lifecycle
+- self_knowledge
+- assistant_bootstrap_living
+- assistant_operating_context
+reading_order:
+- coordination/instruction_intake/assistant_reading_order.md
+- coordination/bootstrap/assistant_context_system_specs_v0_1.yaml
+- coordination/releases/current.yaml
+- coordination/roadmaps/details/forprint_system_blueprint/continuity/START_HERE.md
+- coordination/roadmaps/details/forprint_system_blueprint/README.md
+- coordination/global_policy/current_execution_focus.md
+- coordination/roadmaps/details/forprint_system_blueprint/autonomous_multi_module_coordination_program_v0_1.md
+- coordination/roadmaps/details/forprint_system_blueprint/module_preparation_and_portfolio_readiness_program_v0_1.md
+topics:
+  purpose:
+    sources:
+    - path: AGENTS.md
+      mode: file
+      required: true
+    - path: coordination/bootstrap/START_HERE.md
+      mode: file
+      required: true
+    - path: coordination/roadmaps/details/forprint_system_blueprint/continuity/START_HERE.md
+      mode: file
+      required: true
+    - path: coordination/repository_knowledge/README.md
+      mode: file
+      required: true
+  release:
+    sources:
+    - path: coordination/releases/current.yaml
+      mode: file
+      required: true
+    - path: coordination/revisions/current.yaml
+      mode: file
+      required: true
+    - path: coordination/global_policy/current_execution_focus.md
+      mode: file
+      required: true
+  current_workfront:
+    sources:
+    - path: coordination/self_coordination/roadmap.yaml
+      mode: file
+      required: true
+    - path: coordination/self_coordination/prompt_queue/index.yaml
+      mode: file
+      required: false
+    - path: coordination/internal_work/blueprint/governance/2026-09-06__blueprint__control_plane_module_memory_semantic_convergence_program_v0_1.yaml
+      mode: file
+      required: true
+    - path: coordination/roadmaps/details/forprint_system_blueprint/module_preparation_and_portfolio_readiness_program_v0_1.md
+      mode: file
+      required: true
+  portfolio:
+    sources:
+    - path: coordination/roadmaps
+      mode: directory_files
+      recursive: false
+      extensions:
+      - .yaml
+      required: true
+    - path: coordination/roadmaps/details/forprint_system_blueprint/portfolio_rebuild_seeds
+      mode: directory_files
+      recursive: false
+      extensions:
+      - .yaml
+      required: true
+    - path: coordination/roadmaps/details/forprint_system_blueprint/evening_architecture_module_amendments_v0_2
+      mode: directory_files
+      recursive: false
+      extensions:
+      - .md
+      required: true
+    - path: coordination/roadmaps/details/forprint_system_blueprint/portfolio_full_horizon_target_states_v0_1.yaml
+      mode: file
+      required: true
+    - path: coordination/roadmaps/details/forprint_system_blueprint/portfolio_module_roadmap_approval_matrix_v0_1.yaml
+      mode: file
+      required: true
+    - path: coordination/roadmaps/details/forprint_system_blueprint/portfolio_module_inventory_seed_v0_1.yaml
+      mode: file
+      required: true
+    - path: coordination/roadmaps/details/forprint_system_blueprint/dependency_matrix_seed_v0_1.yaml
+      mode: file
+      required: true
+    - path: coordination/internal_work/blueprint/module_inventory/module_current_state_evidence_portfolio_v0_1.yaml
+      mode: file
+      required: true
+    - path: coordination/internal_work/blueprint/module_preparation/module_preparation_registry_v0_1.yaml
+      mode: file
+      required: true
+    - path: coordination/internal_work/blueprint/module_preparation/module_preparation_queue_v0_1.yaml
+      mode: file
+      required: true
+    - path: coordination/module_sources/module_git_sources.yaml
+      mode: file
+      required: true
+    - path: coordination/internal_work/blueprint/module_preparation/forprint_project_inspector_repository_provisioning_gap_v0_1.yaml
+      mode: file
+      required: true
+  lifecycle:
+    sources:
+    - path: coordination/instruction_intake/bootstrap/2026-08-23__forprint_system_blueprint__v0_4_1_current_release_zero_context_execution_handoff_v0_1.md
+      mode: file
+      required: true
+    - path: coordination/standards/governance/module_prompt_contract_v0_4.yaml
+      mode: file
+      required: true
+    - path: coordination/standards/governance/module_completion_packet_v0_4.yaml
+      mode: file
+      required: true
+    - path: coordination/standards/governance/module_completion_outbox_v0_4.yaml
+      mode: file
+      required: true
+    - path: coordination/standards/governance/outgoing_prompt_release_policy_v0_1.yaml
+      mode: file
+      required: true
+    - path: coordination/standards/governance/operator_interaction_profile_v0_1.yaml
+      mode: file
+      required: true
+  self_knowledge:
+    sources:
+    - path: coordination/internal_work/blueprint/module_inventory/2026-09-04__module_inventory_program_master_v0_1.md
+      mode: file
+      required: true
+    - path: coordination/internal_work/blueprint/module_inventory/2026-09-04__module_inventory_program_state_v0_1.yaml
+      mode: file
+      required: true
+    - path: coordination/internal_work/blueprint/module_inventory/2026-09-06__module_inventory_program_vnext_gap_assessment_v0_1.yaml
+      mode: file
+      required: true
+    - path: coordination/internal_work/blueprint/module_inventory/2026-09-06__module_memory_schema_v0_1.yaml
+      mode: file
+      required: true
+    - path: coordination/internal_work/blueprint/module_inventory_program/2026-09-03__u108/02_process_sequence.md
+      mode: file
+      required: true
+    - path: coordination/internal_work/blueprint/module_inventory_program/2026-09-03__u108/10_module_autonomous_readiness_gate.md
+      mode: file
+      required: true
+    - path: coordination/standards/governance/module_development_roadmap_policy.md
+      mode: file
+      required: true
+    - path: coordination/standards/governance/module_concept_and_roadmap_traceability_standard_v0_1.md
+      mode: file
+      required: true
+    - path: coordination/standards/governance/portfolio_roadmap_dependency_and_prioritization_standard_v0_1.md
+      mode: file
+      required: true
+    - path: coordination/standards/automation/control_plane/module_bootstrap_prompt_requirements_v0_1.yaml
+      mode: file
+      required: true
+    - path: coordination/internal_work/blueprint/module_inventory/logistics_service/2026-09-08__logistics_service__roadmap_reconciliation_report_v0_1.yaml
+      mode: file
+      required: true
+    - path: coordination/internal_work/blueprint/module_inventory/logistics_service/2026-09-08__logistics_service__semantic_roadmap_reconciliation_apply_v0_1.yaml
+      mode: file
+      required: true
+  assistant_bootstrap_living:
+    purpose: Stable zero-context bootstrap routing and durable roadmap-enrichment knowledge.
+    sources:
+    - path: coordination/bootstrap/index_v0_1.yaml
+      mode: file
+      required: true
+    - path: coordination/instruction_intake/assistant_reading_order.md
+      mode: file
+      required: true
+    - path: coordination/instruction_intake/bootstrap/assistant_bootstrap_v0_2.yaml
+      mode: file
+      required: true
+    - path: coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml
+      mode: file
+      required: true
+    - path: coordination/standards/governance/roadmap_enrichment_and_knowledge_saturation_operating_guide_v0_1.md
+      mode: file
+      required: true
+    - path: coordination/repository_knowledge/roadmap_enrichment/README.md
+      mode: file
+      required: true
+    - path: coordination/repository_knowledge/roadmap_enrichment/source_map.yaml
+      mode: file
+      required: true
+  assistant_operating_context:
+    sources:
+    - path: coordination/bootstrap/assistant_context_system_specs_v0_1.yaml
+      mode: file
+      required: true
+    - path: coordination/instruction_intake/assistant_reading_order.md
+      mode: file
+      required: true
+    - path: coordination/instruction_intake/bootstrap/assistant_bootstrap_v0_2.yaml
+      mode: file
+      required: true
+    - path: coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml
+      mode: file
+      required: true
+    - path: coordination/standards/governance/roadmap_enrichment_and_knowledge_saturation_operating_guide_v0_1.md
+      mode: file
+      required: true
+    - path: coordination/repository_knowledge/roadmap_enrichment/README.md
+      mode: file
+      required: true
+    - path: coordination/repository_knowledge/roadmap_enrichment/source_map.yaml
+      mode: file
+      required: true
+    - path: coordination/human_intent/modules/forprint_system_blueprint.yaml
+      mode: file
+      required: true
+    - path: coordination/repository_knowledge/dialogue_master_memory/2026-09-21_v3_7/00_intake_manifest_v0_1.yaml
+      mode: file
+      required: true
+    - path: coordination/repository_knowledge/dialogue_master_memory/2026-09-21_v3_7/navigation/START_HERE.md
+      mode: file
+      required: true
+    - path: coordination/bootstrap/parallel_workstream_current_snapshot_v0_1.yaml
+      mode: file
+      required: false
+      role: optional_local_refreshable_navigation
+module_detail:
+  directory_root: coordination/roadmaps/details
+  extensions:
+  - .md
+  - .yaml
+  recursive: true
+safety:
+  allowed_top_level:
+  - AGENTS.md
+  - README.md
+  - coordination
+  - machine
+  - indexes
+  - scripts
+  forbidden_name_fragments:
+  - .env
+  - credential
+  - credentials
+  - private_key
+  - secret
+  archive_prefix: PROJECT_CONTEXT

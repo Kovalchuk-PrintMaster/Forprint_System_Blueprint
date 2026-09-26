@@ -1,0 +1,39 @@
+schema_version: forprint_bootstrap_active_reconciliation_questions_v0_1
+status: CURRENT_BOOTSTRAP_PROJECTION
+generated_from_evening_package_sha256: 60c48a1ad38fb9b8129858273f7ea687c0c32b3495ac3767e23f0413a6a94556
+authority: none_navigation_projection_only
+clarification_lifecycle_authority: coordination/standards/governance/clarification_question_lifecycle_v0_1.yaml
+parallel_question_lifecycle_created: false
+startup_loading_rule: load active items only; resolved items are removed from this projection and remain historically indexed
+resolution_rule: resolution must cite canonical decision/evidence; this file never ACCEPTs/RETURNs/HOLDs execution
+active_items:
+- id: Q-002
+  question: How are global onboarding and task-execution packages implemented, including 041 reporting/intake?
+  action: AUDIT_041_REMAINDER
+  evidence_status:
+    global_project_onboarding_pack: IMPLEMENTED
+    task_execution_context_pack: IMPLEMENTED
+    assistant_handoff_v2: IMPLEMENTED
+    completion_intake: IMPLEMENTED
+    exact_041_reporting_intake_lineage: UNRESOLVED_IN_CURRENT_AUDIT
+  remaining_question: Identify the exact historical/current meaning and owner of `041 reporting/intake`; do not duplicate
+    already-implemented onboarding, task-context, Handoff v2, or completion-intake capabilities.
+active_item_count: 1
+resolved_or_mapped_items_are_not_loaded_at_startup: true
+disposition_evidence: coordination/internal_work/blueprint/governance/2026-09-15__blueprint__post_cf06_evening_handoff_reconciliation_v0_1.yaml
+reconciled_at: '2026-09-26'
+refresh_mode: manual_reconciliation_from_canonical_evidence
+latest_reconciliation_evidence: coordination/work_fronts/bootstrap_navigation_publication_reconciliation_v0_2.yaml
+resolved_since_source_projection:
+  Q-009:
+    disposition: RESOLVED_BY_DURABLE_EXECUTION_AND_RESUME_IMPLEMENTATION
+    removed_from_active_items: true
+    evidence_refs:
+    - coordination/standards/automation/execution_attempt_ledger_contract_v0_1.yaml
+    - coordination/standards/automation/continuity_contract_v0_1.yaml
+    - coordination/standards/automation/assistant_handoff_v2_freshness_resume_contract_v0_1.yaml
+    - scripts/coordination/execution_attempt_ledger_v0_1.py
+    - scripts/coordination/continuity.py
+    - scripts/coordination/assistant_handoff_v2_freshness_resume_v0_1.py
+    - scripts/validation/validate_execution_attempt_ledger_v0_1.py
+    - scripts/validation/validate_assistant_handoff_v2_freshness_resume_v0_1.py

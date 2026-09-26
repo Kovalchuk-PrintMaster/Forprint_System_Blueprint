@@ -60,3 +60,29 @@ Operational rule:
 - history records do not grant worker-dispatch, release or foreign-repository-write authority;
 - CF-06 Execution Profiles are not implemented by CF-05.
 <!-- FORPRINT_CF05_HISTORY_LEDGER_END -->
+
+<!-- FORPRINT_ASSISTANT_HANDOFF_COMPILER_START -->
+## Deterministic assistant handoff pack
+
+The continuity handoff operator surface is:
+
+`make assistant-pack`
+
+It builds a deterministic runtime ZIP under `tmp/assistant_handoff/` from immutable
+continuity events plus the current working-tree source state. The pack includes
+`00_READ_FIRST.md`, mission/bootstrap inputs, latest checkpoint, current in-memory
+continuity projections, blockers/unknowns, next horizon, roadmap/dependency slices,
+knowledge-health evidence, compiler source and a hash-bound manifest.
+
+Binding boundaries:
+- the pack is non-authoritative and cannot grant release, queue, worker-dispatch,
+  foreign-module mutation or operator-approval authority;
+- chat transcripts are excluded;
+- current unreconciled durable delta is preserved visibly rather than silently
+  folded into the latest checkpoint;
+- archive bytes are deterministic for the same compiler and repository state;
+- `make assistant-handoff-check` validates buildability without writing an archive;
+- the legacy `make assistant-context-pack` Project Context surface remains separate
+  compatibility tooling until its later determinism/provenance/safety hardening and
+  zero-context startup migration are explicitly accepted.
+<!-- FORPRINT_ASSISTANT_HANDOFF_COMPILER_END -->

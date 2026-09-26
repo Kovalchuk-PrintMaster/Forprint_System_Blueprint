@@ -1,0 +1,140 @@
+schema_version: forprint_assistant_context_system_specs_v0_1
+status: CURRENT_BOOTSTRAP_NAVIGATION
+owner: forprint_system_blueprint
+authority: none_navigation_only
+updated_at: '2026-09-26'
+purpose: Compact zero-context operating map for a new Blueprint assistant. This file routes to canonical sources and does
+  not replace them.
+context_pack_contract:
+  command: make assistant-context-pack
+  default_module_without_explicit_MODULE: forprint_system_blueprint
+  explicit_module_override: make assistant-context-pack MODULE=<canonical_module>
+  topics_override: make assistant-context-pack TOPICS=<topic[,topic...]>
+  package_semantic_identity_required:
+  - package_type
+  - target_module_or_portfolio_scope
+  - purpose
+  - intended_use
+  archive_or_hash_validity_alone_is_insufficient: true
+  grants_execution_authority: false
+  grants_dispatch_authority: false
+  grants_roadmap_mutation_authority: false
+  grants_release_authority: false
+truth_layers:
+- order: 1
+  name: live_current_state
+  rule: Current Git/lifecycle/runtime evidence wins for actual present state.
+- order: 2
+  name: canonical_governance_and_planning
+  rule: Constitution, policies, roadmaps, Human Intent and current control surfaces define governed intent and allowed behavior.
+- order: 3
+  name: historical_dialogue_evidence
+  rule: Historical dialogue/handoffs explain origin and rationale but are not automatically current implementation truth.
+- order: 4
+  name: derived_navigation
+  rule: Indexes, Master Memory, projections and context packages accelerate retrieval but do not create authority.
+current_workstreams:
+  portfolio_knowledge_saturation:
+    owns:
+    - Human Intent recovery
+    - source-by-source historical reconciliation
+    - capability/target/roadmap enrichment
+    - cross-module dependency discovery
+    - provenance/maturity/open-question coverage
+    does_not_own:
+    - worker runtime mutation
+    - CF-10 dispatch mechanics
+    - release/push/merge authority
+    exit_gates:
+    - 'Gate A: structural coverage and critical-gap closure'
+    - 'Gate B: capability retrieval/operator challenge test'
+  cf10_internal_worker_engineering:
+    parallel: true
+    rule: Treat parallel dirty state as context. Stop only on semantic collision in the exact target/write-set; do not reset/stash/clean
+      legitimate work.
+source_processing:
+  preferred_master_navigation: coordination/repository_knowledge/dialogue_master_memory/2026-09-21_v3_7/00_intake_manifest_v0_1.yaml
+  master_memory_is_navigation_not_authority: true
+  bulk_promotion_from_master_memory_forbidden: true
+  process_primary_sources_source_by_source: true
+  portfolio_wide_extraction_once_per_source: true
+  reuse_first_classification:
+  - REUSE
+  - EXTEND
+  - ADAPT
+  - REPLACE
+  - NEW
+  new_capability_requires_absence_or_inadequacy_of_existing_owner: true
+operator_interaction:
+  language: Ukrainian
+  explain_intent_before_commands: true
+  inline_terminal_blocks: normally <= 10-30 lines
+  large_script_delivery: deliver as downloadable .py; operator copies to tmp.py and runs python tmp.py
+  operator_returns_report_or_stdout: true
+  background_work_promises_forbidden: true
+important_current_navigation:
+- coordination/bootstrap/START_HERE.md
+- coordination/instruction_intake/assistant_reading_order.md
+- coordination/instruction_intake/bootstrap/assistant_bootstrap_v0_2.yaml
+- coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml
+- coordination/standards/governance/roadmap_enrichment_and_knowledge_saturation_operating_guide_v0_1.md
+- coordination/repository_knowledge/roadmap_enrichment/README.md
+- coordination/repository_knowledge/roadmap_enrichment/source_map.yaml
+- coordination/human_intent/modules/forprint_system_blueprint.yaml
+- coordination/repository_knowledge/dialogue_master_memory/2026-09-21_v3_7/navigation/START_HERE.md
+freshness_note: This is a routing/specification layer. Current lifecycle/workfront/runtime facts must still be re-read from
+  live canonical sources before action.
+parallel_workstream_snapshot:
+  path: coordination/bootstrap/parallel_workstream_current_snapshot_v0_1.yaml
+  status: OPTIONAL_LOCAL_REFRESHABLE_NAVIGATION
+  authority: none_navigation_only
+  role: bounded_refreshable_current_workstream_navigation
+  freshness_rule: if present, treat as a point-in-time navigation aid only; live Git/lifecycle/roadmap/attempt evidence wins
+  required_in_clean_checkout: false
+  publication_policy: do_not_track_head_bound_current_snapshot; rebuild locally when useful from live canonical sources
+module_snapshot_and_roadmap_rebuild_mode:
+  protocol: coordination/bootstrap/module_snapshot_and_roadmap_rebuild_analysis_mode_v0_1.md
+  applies_to:
+  - deep module audits
+  - current-state reconstruction
+  - roadmap enrichment
+  - portfolio knowledge saturation
+  - preparation for roadmap rebuild
+  primary_goal: Capture current implementation reality, historical/documentary layers, roadmap coverage and strategic divergence
+    before future roadmap reconstruction.
+  divergence_rule: Divergence from modern strategy is evidence to classify, not authorization to repair the module.
+  default_action_now: none
+  preserve_during_analysis:
+  - historical architecture
+  - stale or superseded documents
+  - conflicting current surfaces
+  - implemented-but-untracked capabilities
+  - roadmap-only intentions
+  - cross-module ownership/dependency evidence
+  prohibited_without_separate_authorization:
+  - implementation
+  - refactoring
+  - migration
+  - cleanup
+  - generated-output normalization
+  - roadmap mutation
+  - executing old roadmap items merely because they remain open
+  required_outputs:
+  - implemented capability map
+  - repository/current-state snapshot
+  - roadmap realization mapping
+  - strategic divergence register
+  - historical/superseded document register
+  - cross-module dependency and ownership questions
+  - future roadmap rebuild inputs
+  reconciliation_semantics:
+    authority_reconciliation: classify what each surface can be trusted for
+    capability_reconciliation: describe relationships among overlapping/conflicting current surfaces
+    roadmap_realization: compare actual implementation with roadmap representation and strategic direction
+    implementation_authority_created: false
+  portfolio_sequence:
+  - snapshot modules
+  - compare modules and strategic direction
+  - rebuild/update portfolio roadmaps
+  - define alignment and migration contours
+  - authorize bounded implementation separately
