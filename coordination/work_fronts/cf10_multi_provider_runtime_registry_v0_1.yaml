@@ -1,0 +1,116 @@
+work_front_id: wf-cf10-multi-provider-runtime-registry-v0-1
+objective: Extend the existing provider-neutral worker runtime contract with one reusable multi-provider runtime registry
+  and a module-owned Blueprint runtime profile. Register GitHub Copilot CLI as the first configured READY runtime candidate,
+  reserve normalized provider identities for native OpenAI Codex CLI, Anthropic Claude Code and xAI Grok CLI without inventing
+  their commands or credentials, and define common benchmark metadata so future attempts can compare runtime, model, quality,
+  validation, latency and cost evidence under the same worker/workspace/Handoff/Dispatcher architecture.
+scope:
+- config/worker_runtime.yaml
+- coordination/registry/worker_runtime_adapters_v0_1.yaml
+- coordination/standards/automation/worker_runtime_adapter_registry_contract_v0_1.yaml
+- coordination/standards/automation/worker_runtime_benchmark_contract_v0_1.yaml
+- coordination/standards/automation/index.yaml
+- scripts/coordination/control_plane/worker_runtime/
+- scripts/validation/validate_cf10_multi_provider_runtime_registry_v0_1.py
+- tests/coordination/control_plane/worker_runtime/
+- tests/validation/test_cf10_multi_provider_runtime_registry_contract_v0_1.py
+exclusions:
+- Do not replace Work Front, Task Envelope, Handoff v2, Dispatcher, workspace or Attempt Ledger with provider-specific frameworks.
+- Do not make worker-01 permanently synonymous with any provider.
+- Do not make GitHub Copilot an architectural authority.
+- Do not invent native Codex, Claude or Grok executable paths or CLI arguments.
+- Do not mark Codex, Claude or Grok READY until separately installed/authenticated/validated.
+- Do not store GitHub, OpenAI, Anthropic, xAI or any other secret/token value in Git.
+- Do not serialize runtime token values into config, registry, manifests or logs.
+- Do not consume Assistant ACK.
+- Do not create an explicit dispatch decision.
+- Do not append a launch attempt to the canonical Execution Attempt Ledger.
+- Do not launch a worker process.
+- Do not refresh/reseal the real a001 workspace in this slice; that occurs after the registry/config implementation is complete
+  so one final canonical source snapshot is used before ACK.
+- Do not set BLUEPRINT_AI_TRIAL_READY=true.
+- Do not allow external/module dispatch.
+- Do not commit, push, merge, release or auto-ACCEPT.
+- Do not write a foreign repository.
+- Do not mutate lifecycle or roadmap state.
+provenance:
+  source_refs:
+  - roadmap:control_foundation_near_horizon/CF-10
+  - lifecycle:u180j/WORK_ACTIVATED/sequence-67
+  - coordination/work_fronts/cf10_first_worker_launch_v0_1.yaml
+  - coordination/internal_work/blueprint/governance/2026-09-06__blueprint__worker_runtime_and_invocation_contract_v0_1.yaml
+  - coordination/standards/automation/control_plane/bootstrap_worker_runtime_profile_v0_1.yaml
+  - scripts/coordination/control_plane/worker_runtime/
+  - scripts/coordination/build_worker_invocation.py
+  - host-evidence:/usr/local/bin/copilot
+  - host-evidence:GitHub Copilot CLI 1.0.86
+  - operator-evidence:copilot-device-auth-success
+  - operator-evidence:FORPRINT_RUNTIME_OK
+  chat_is_authority: false
+dependencies:
+- CF-10/u180j ACTIVE sequence 67
+- Slice 4 real workspace PROVISIONED_NOT_DISPATCHED
+- Slice 5 first-worker-launch Work Front PASS
+- existing worker runtime/invocation contract
+- existing CONSOLE_COMMAND / ARGV_NO_SHELL provider adapter interface
+- GitHub Copilot CLI installed at /usr/local/bin/copilot
+- GitHub Copilot CLI authenticated outside Git
+- Copilot connectivity response FORPRINT_RUNTIME_OK
+outputs:
+- A canonical worker runtime adapter registry with provider/runtime identities separate from worker identity.
+- A module-owned config/worker_runtime.yaml for forprint_system_blueprint.
+- Configured provider id github_copilot_cli with state READY.
+- Copilot executable bound to /usr/local/bin/copilot.
+- Copilot auth recorded only as external_runtime_auth with no token value.
+- Copilot default model selection remains runtime-selectable; model=auto may be the initial default but is not architectural
+  authority.
+- Reserved registry identities openai_codex_cli, anthropic_claude_code and xai_grok_cli with state NOT_CONFIGURED.
+- Reserved providers have no fabricated command, model, credential or readiness.
+- 'A common runtime capability model: provider adapter, command representation, model selection, auth mode, network policy,
+  timeout, budget, working directory, tool policy and completion capture.'
+- A common benchmark contract recording provider_id, runtime_id, model_id, task_id, attempt_id, result state, tests, governance
+  checks, scope violations, changed paths, retries, duration, exit code, observable usage/cost and human review.
+- Registry validation proving provider selection does not grant execution/dispatch/release authority.
+acceptance:
+- worker-01 remains provider-neutral.
+- Provider selection occurs per attempt/runtime binding.
+- 'Exactly one configured READY provider exists after Slice 5A: github_copilot_cli.'
+- github_copilot_cli command is an argv/no-shell binding to /usr/local/bin/copilot.
+- Copilot runtime config contains no token, password, secret or credential value.
+- Codex/Claude/Grok registry rows exist only as NOT_CONFIGURED future adapters.
+- NOT_CONFIGURED rows contain no guessed executable/argv/model/secret.
+- All providers reuse the same Work Front/Task Envelope/Handoff/Dispatcher/workspace/result boundaries.
+- Benchmark metadata is provider-neutral and comparable across adapters.
+- Runtime registry does not grant Assistant ACK, dispatch, release, push, merge, foreign-write or automatic acceptance authority.
+- Current a001 workspace remains untouched and stale until the next controlled refresh/reseal boundary.
+- Focused pytest, Ruff, validation and git diff --check pass.
+- u180j remains ACTIVE sequence 67 and roadmap remains IN_SYNC.
+stop_conditions:
+- Implementation would bind worker-01 permanently to Copilot.
+- Implementation requires provider-specific changes to Work Front, Handoff, Dispatcher or workspace contracts.
+- A provider token/secret would need to be committed or printed.
+- Copilot executable /usr/local/bin/copilot is no longer present or executable.
+- Copilot connectivity/auth can no longer be confirmed without starting the real worker attempt.
+- Codex/Claude/Grok would need guessed commands or readiness values.
+- Any ACK, explicit dispatch, attempt append or worker process launch would occur.
+- Any broad trial gate, release authority, foreign write or lifecycle mutation would be required.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false
+capability_reuse:
+  search_performed: true
+  searched_surfaces:
+  - coordination/internal_work/blueprint/governance/2026-09-06__blueprint__worker_runtime_and_invocation_contract_v0_1.yaml
+  - coordination/standards/automation/control_plane/bootstrap_worker_runtime_profile_v0_1.yaml
+  - scripts/coordination/control_plane/worker_runtime/
+  - scripts/coordination/build_worker_invocation.py
+  - coordination/registry/
+  - config/worker_runtime.yaml
+  disposition: EXTEND
+  target_refs:
+  - existing worker_runtime contract
+  - existing CONSOLE_COMMAND provider adapter
+  - scripts/coordination/control_plane/worker_runtime/

@@ -1,0 +1,99 @@
+work_front_id: wf-bootstrap-historical-publication-reconciliation-v0-2
+objective: Reconcile the incomplete historical publication of the already adopted
+  and implemented Blueprint module-bootstrap control-plane bundle, including the canonical
+  bootstrap context runtime explicitly required by the existing bootstrap task-context
+  validator. Preserve later CF-10 context-adapter work outside this publication boundary.
+scope:
+- coordination/work_fronts/bootstrap_historical_publication_reconciliation_v0_2.yaml
+- coordination/standards/automation/control_plane/module_bootstrap_execution_policy_v0_1.yaml
+- coordination/standards/automation/control_plane/bootstrap_task_context_mode_v0_1.yaml
+- coordination/standards/automation/control_plane/bootstrap_worker_runtime_profile_v0_1.yaml
+- coordination/standards/automation/control_plane/module_bootstrap_prompt_requirements_v0_1.yaml
+- scripts/coordination/control_plane/context/__init__.py
+- scripts/coordination/control_plane/context/bootstrap_task_context.py
+- scripts/coordination/control_plane/context/runtime.py
+- scripts/validation/control_plane/context/validate_bootstrap_task_context_mode_v0_1.py
+- scripts/validation/control_plane/context/validate_module_bootstrap_prompt_requirements_v0_1.py
+- scripts/validation/control_plane/worker_runtime/validate_bootstrap_worker_runtime_profile_v0_1.py
+- tests/coordination/control_plane/context/test_bootstrap_task_context_mode_v0_1.py
+- tests/coordination/control_plane/context/test_module_bootstrap_prompt_requirements_v0_1.py
+exclusions:
+- Do not publish or modify coordination/work_fronts/bootstrap_historical_publication_reconciliation_v0_1.yaml.
+- Do not modify coordination/standards/index.yaml.
+- Do not modify coordination/standards/automation/index.yaml unless a validator proves
+  it is required; stop instead.
+- Do not modify scripts/coordination/control_plane/context/task_context_adapter.py.
+- Do not modify CF-10 worker tasking, provider registry, dispatcher, watchdog or Telegram
+  surfaces.
+- Do not modify existing adoption/governance artifacts.
+- Do not weaken or bypass validators or tests.
+- Do not create dispatch authority or launch a worker.
+- Do not consume Assistant ACK or append execution-attempt ledger state.
+- Do not modify roadmap or lifecycle state.
+- Do not stage, commit, push, merge, release or automatically ACCEPT.
+provenance:
+  source_refs:
+  - coordination/work_fronts/bootstrap_historical_publication_reconciliation_v0_1.yaml
+  - coordination/internal_work/blueprint/governance/2026-09-07__blueprint__module_bootstrap_execution_policy_v0_1_adoption.yaml
+  - coordination/internal_work/blueprint/governance/2026-09-07__blueprint__bootstrap_task_context_mode_v0_1_adoption.yaml
+  - coordination/internal_work/blueprint/governance/2026-09-07__blueprint__bootstrap_worker_runtime_profile_v0_1_adoption.yaml
+  - coordination/standards/index.yaml
+  - scripts/validation/control_plane/context/validate_bootstrap_task_context_mode_v0_1.py
+  chat_is_authority: false
+dependencies:
+- Bootstrap adoption/governance authority is already canonical and tracked.
+- The four bootstrap standards are already registered in the canonical root standards
+  index.
+- scripts/coordination/control_plane/worker_runtime/bootstrap_profile.py is already
+  tracked.
+- tests/coordination/control_plane/worker_runtime/test_bootstrap_worker_runtime_profile_v0_1.py
+  is already tracked.
+- The existing bootstrap task-context validator explicitly requires context/runtime.py.
+- context/runtime.py imports bootstrap_task_context but not task_context_adapter.
+- The bounded unpublished packet exists in the current worktree.
+outputs:
+- Canonical publication of exactly the bounded historical bootstrap packet.
+- Publication of context/runtime.py as an existing validator-required bootstrap surface.
+- A clean-checkout repository in which bootstrap acceptance does not depend on untracked
+  bootstrap files.
+- Preservation of task_context_adapter.py outside this publication boundary.
+acceptance:
+- All twelve bounded packet files are present and tracked in the publication candidate.
+- task_context_adapter.py is not included.
+- scripts/validate_standards_index.py returns zero in the combined isolated publication
+  candidate.
+- validate_bootstrap_task_context_mode_v0_1.py returns zero.
+- validate_module_bootstrap_prompt_requirements_v0_1.py returns zero.
+- validate_bootstrap_worker_runtime_profile_v0_1.py returns zero.
+- The three focused bootstrap tests pass.
+- Ruff passes for the newly published Python surfaces including context/runtime.py.
+- git diff --check passes for the bounded packet.
+- Roadmap reconciliation remains IN_SYNC.
+- No lifecycle, roadmap, ACK, dispatch, ledger or worker-launch mutation occurs.
+stop_conditions:
+- Any packet file is missing or no longer matches the historical bootstrap evidence.
+- A further required dependency is found outside the bounded packet and already tracked
+  bootstrap_profile surface.
+- Root standards validation requires modifying an unrelated index or standard.
+- Any focused bootstrap validator or test fails.
+- Publication would require including context/task_context_adapter.py.
+- Publication would require lifecycle, roadmap, ACK, dispatch, ledger or worker mutation.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false
+capability_reuse:
+  search_performed: true
+  searched_surfaces:
+  - bootstrap historical publication v0.1 work front
+  - bootstrap task-context validator
+  - bootstrap adoption governance
+  - control-plane context implementation
+  - bootstrap validators and tests
+  disposition: EXTEND
+  target_refs:
+  - existing bootstrap adoption authority
+  - existing root standards registrations
+  - existing bootstrap task-context acceptance validator
