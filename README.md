@@ -129,3 +129,17 @@ git diff --check
 ```
 
 Commit/push remains an explicit operator decision.
+
+<!-- FORPRINT_ZERO_CONTEXT_PROJECT_ENTRY_V0_1:START -->
+## AI / automation project entry
+
+A new Blueprint AI assistant should begin with
+`coordination/bootstrap/START_HERE.md` and build the bounded current portfolio context:
+
+```bash
+make assistant-context-pack
+```
+
+This project-entry archive is navigation/context evidence. It does not replace the strict
+task-specific context or grant execution authority.
+<!-- FORPRINT_ZERO_CONTEXT_PROJECT_ENTRY_V0_1:END -->
