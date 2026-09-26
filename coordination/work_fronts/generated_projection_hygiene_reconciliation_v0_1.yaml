@@ -1,0 +1,86 @@
+work_front_id: wf-generated-projection-hygiene-reconciliation-v0-1
+objective: Make generated non-authoritative continuity and roadmap-execution projection
+  YAML files regenerable without appearing as Git worktree noise, and remove the explicitly
+  superseded unpublished bootstrap historical publication Work Front v0.1 from the
+  local tree.
+scope:
+- coordination/work_fronts/generated_projection_hygiene_reconciliation_v0_1.yaml
+- .gitignore
+- coordination/work_fronts/bootstrap_historical_publication_reconciliation_v0_1.yaml
+- coordination/continuity/projections/BLOCKERS.yaml
+- coordination/continuity/projections/CURRENT_WORKFRONT.yaml
+- coordination/continuity/projections/DECISIONS.yaml
+- coordination/continuity/projections/NEXT_HORIZON.yaml
+- coordination/continuity/projections/RECENT_ACTIVITY.yaml
+- coordination/continuity/projections/SOURCE_STATE.yaml
+- coordination/continuity/projections/UNRECONCILED_CURRENT_DELTA.yaml
+- coordination/continuity/projections/WORKER_PORTFOLIO.yaml
+- coordination/roadmap_execution/projections/ROADMAP_EXECUTION_STATUS.yaml
+- coordination/roadmap_execution/projections/ROADMAP_RECONCILIATION_STATUS.yaml
+exclusions:
+- Do not modify tracked projection authority or generator semantics.
+- Do not delete coordination/continuity/projections/.gitkeep.
+- Do not stage or commit generated projection YAML files.
+- Do not modify continuity events or execution attempts.
+- Do not modify CF-10 active/prepared Work Fronts or worker tasks.
+- Do not modify indexes/* or machine/* surfaces.
+- Do not use git add -A, git add ., git clean, stash, rebase or hard reset.
+- Do not commit or push in this helper.
+provenance:
+  source_refs:
+  - scripts/coordination/build_continuity_projections.py
+  - scripts/coordination/roadmap_execution_reconciliation.py
+  - coordination/standards/automation/continuity_contract_v0_1.yaml
+  - coordination/standards/automation/roadmap_execution_reconciliation_contract_v0_1.yaml
+  - coordination/standards/governance/document_type_registry_v0_1.yaml
+  - coordination/work_fronts/bootstrap_historical_publication_reconciliation_v0_2.yaml
+  - coordination/work_fronts/bootstrap_cf10_atomic_publication_reconciliation_v0_1.yaml
+  chat_is_authority: false
+dependencies:
+- Commit cbde92e is published and upstream is in sync.
+- Projection YAML files are generated non-authoritative outputs.
+- Continuity projections retain their tracked .gitkeep directory marker.
+- Bootstrap historical publication Work Front v0.1 is superseded by v0.2 and explicitly
+  excluded from publication.
+- Main staging is empty.
+outputs:
+- Tracked .gitignore rules for generated continuity projection YAML files.
+- Tracked .gitignore rules for generated roadmap-execution projection YAML files.
+- Generated projections remain locally regenerable but disappear from normal git status.
+- Superseded unpublished bootstrap historical publication Work Front v0.1 is absent
+  locally.
+- Only .gitignore and this Work Front are staged for review.
+acceptance:
+- This Work Front validates.
+- The two projection ignore patterns are present exactly once.
+- make continuity-projections-refresh succeeds.
+- roadmap_execution_reconciliation.py sync succeeds at latest_event_sequence=67.
+- All ten generated projection files are ignored by Git after regeneration.
+- The superseded bootstrap v0.1 Work Front is absent.
+- git status does not show any of the ten generated projection files or the superseded
+  Work Front.
+- Staging contains exactly .gitignore and this Work Front.
+- git diff --cached --check passes.
+stop_conditions:
+- HEAD differs from cbde92e before mutation.
+- Main staging is non-empty.
+- An existing Work Front already owns this exact hygiene change.
+- Any generator or validation command fails.
+- Any generated projection remains visible in git status after ignore rules are applied.
+- Any unrelated path becomes staged.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false
+capability_reuse:
+  search_performed: true
+  searched_surfaces:
+  - coordination/work_fronts/*.yaml
+  - continuity projection generator and contract
+  - roadmap execution reconciliation generator and contract
+  disposition: EXTEND
+  target_refs:
+  - coordination/standards/automation/continuity_contract_v0_1.yaml
+  - coordination/standards/automation/roadmap_execution_reconciliation_contract_v0_1.yaml
