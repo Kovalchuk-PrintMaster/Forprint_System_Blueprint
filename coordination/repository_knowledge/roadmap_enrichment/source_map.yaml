@@ -1582,6 +1582,33 @@ sources:
     - visual_pass_warn_fail_report_intent
     - current_authority_vs_historical_module_evidence
 
+- id: evening_strategic_review_20260926_source_bundle
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-26/forprint_evening_strategic_review_2026-09-26_v0_1/package/00_READ_ME_FIRST.md
+  role: approved_evening_strategic_review_source_bundle
+  authority: strategic_planning_evidence_not_execution_or_roadmap_authority
+  freshness: source_2026_09_26_revalidate_before_future_implementation
+  use_for:
+  - strategic_horizon_provenance
+  - human_intent_reasoning_origin
+  - agent_governance_security_contract_evidence_strategy
+  - graph_knowledge_and_ci_cd_future_reassessment
+- id: evening_strategic_review_20260926_reconciliation
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-26/forprint_evening_strategic_review_2026-09-26_v0_1/17_portfolio_reconciliation_20260926_v0_1.yaml
+  role: strategic_horizon_and_human_intent_reconciliation
+  authority: planning_evidence_not_execution_authority
+  freshness: current_horizon_and_human_intent_surfaces_remain_authoritative
+  use_for:
+  - source_to_horizon_mapping
+  - strategic_non_execution_boundary
+  - future_reassessment
+- id: evening_strategic_review_20260926_deferred_design_gaps
+  path: coordination/internal_work/blueprint/evening_reviews/2026-09-26/forprint_evening_strategic_review_2026-09-26_v0_1/18_open_gaps_and_deferred_design_v0_1.yaml
+  role: explicit_deferred_design_gap_register
+  authority: planning_context_not_execution_backlog
+  freshness: reassess_at_recorded_triggers
+  use_for:
+  - avoid_premature_design_freeze
+  - future_architecture_review
 source_role_rules:
 - rule: canonical_source_beats_generated_projection
 - rule: git_and_current_authority_beat_stale_handoff_or_chat
