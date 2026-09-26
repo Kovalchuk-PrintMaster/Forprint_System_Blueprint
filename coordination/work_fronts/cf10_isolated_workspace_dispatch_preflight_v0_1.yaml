@@ -1,0 +1,108 @@
+work_front_id: wf-cf10-isolated-workspace-dispatch-preflight-v0-1
+objective: Implement and validate the reusable isolated worker-workspace materialization layer required by CF-10, preserving
+  the current dirty Blueprint source state without copying excluded runtime debris, and prove that the existing CF-09 TASK_EXECUTION
+  Dispatcher preflight accepts the first Blueprint-internal task up to AWAITING_ASSISTANT_ACK while granting no dispatch/release/push/merge/foreign-write
+  authority.
+scope:
+- coordination/standards/automation/worker_workspace_contract_v0_1.yaml
+- scripts/coordination/control_plane/workspace/
+- scripts/validation/validate_cf10_isolated_workspace_dispatch_preflight_v0_1.py
+- tests/coordination/control_plane/workspace/
+exclusions:
+- Do not modify scripts/coordination/control_plane/dispatch_intent.py.
+- Do not modify coordination/standards/automation/control_plane/central_listener_dispatcher_monitor_v0_1.yaml.
+- Do not modify Handoff v2 runtime or contracts.
+- Do not modify Task Context adapter or Worker Task Envelope contracts.
+- Do not modify scripts/coordination/control_plane/worker_runtime/.
+- Do not modify scripts/coordination/build_worker_invocation.py.
+- Do not implement the CF-10 internal dispatch exception in this slice.
+- Do not validate or emit an Assistant ACK in this slice.
+- Do not transition Dispatcher preparation beyond AWAITING_ASSISTANT_ACK.
+- Do not create a canonical Execution Attempt Ledger row.
+- Do not create the real first-attempt workspace under /srv/software_development/forprint-worker-runtime in this slice.
+- Do not launch a worker.
+- Do not commit, push, merge, release or automatically ACCEPT.
+- Do not write any repository other than forprint_system_blueprint.
+- Do not mutate lifecycle or roadmap state.
+- Do not copy tmp/, runtime logs or other continuity-excluded debris into a worker workspace.
+provenance:
+  source_refs:
+  - roadmap:control_foundation_near_horizon/CF-10
+  - lifecycle:u180j/WORK_ACTIVATED/sequence-67
+  - coordination/work_fronts/cf10_worker_runtime_foundation_v0_1.yaml
+  - coordination/work_fronts/cf10_internal_task_context_adapter_v0_1.yaml
+  - coordination/work_fronts/cf10_zero_stage_dispatch_boundary_regression_v0_1.yaml
+  - coordination/standards/automation/worker_workspace_contract_v0_1.yaml
+  - scripts/coordination/continuity.py::build_source_state
+  - scripts/coordination/control_plane/dispatch_intent.py::prepare_cf09_task_execution
+  - coordination/standards/automation/control_plane/central_listener_dispatcher_monitor_v0_1.yaml
+  chat_is_authority: false
+dependencies:
+- CF-10/u180j ACTIVE sequence 67
+- Worker Runtime Foundation Slice 1 PASS
+- Internal Task Context Adapter Slice 2 PASS
+- reserved first-worker Work Front
+- canonical continuity build_source_state()
+- existing CF-09 Dispatcher TASK_EXECUTION preflight
+- light-maintenance@r1
+- governed_canonical_mutation@0.1.0
+outputs:
+- Worker Workspace contract extended with a canonical dirty-source materialization policy.
+- A reusable workspace provisioner that starts from pinned Git HEAD and overlays only canonical continuity durable_dirty_paths.
+- Support for modified, untracked, deleted and symlink durable paths without copying continuity-excluded runtime debris.
+- A workspace equivalence validator comparing canonical and isolated source-state components while explicitly allowing detached-workspace
+  branch identity.
+- A plan/no-write mode for the live Blueprint repository that reports the exact runtime root, source HEAD and durable overlay
+  count without creating a workspace.
+- Sterile integration tests proving actual isolated materialization in a temporary Git repository.
+- A CF-10 dispatch preflight validator reusing prepare_cf09_task_execution and proving the first internal task stops at AWAITING_ASSISTANT_ACK.
+acceptance:
+- Workspace provisioning starts from the canonical Git HEAD.
+- Dirty-state transfer is driven only by scripts.coordination.continuity.build_source_state().durable_dirty_paths.
+- Continuity-excluded runtime paths are not copied by the overlay algorithm.
+- The provisioned workspace is outside the canonical repository.
+- The provisioned workspace never writes into the canonical working tree.
+- Source-state equivalence validates HEAD, durable dirty paths, path statuses, content/symlink fingerprints and rename/copy
+  origins; workspace branch identity may differ because the isolated checkout is detached.
+- Sterile tests cover at least modified, untracked and deleted durable paths.
+- Live Blueprint workspace planning performs no filesystem provisioning.
+- Existing CF-09 prepare_cf09_task_execution is reused without modification.
+- CF-10 preflight reaches AWAITING_ASSISTANT_ACK and not READY_FOR_EXPLICIT_DISPATCH.
+- Preflight authority remains execution=false, dispatch=false, external=false, release=false, push=false and merge=false.
+- No Assistant ACK is emitted or validated.
+- No worker dispatch occurs.
+- No canonical attempt-ledger row is written.
+- Focused pytest, Ruff and git diff --check pass.
+stop_conditions:
+- Correct workspace materialization would require copying the entire canonical working tree rather than canonical durable
+  source-state.
+- Provisioning cannot preserve a dirty durable source state safely.
+- Implementation needs to modify Dispatcher, Handoff v2, worker runtime or Task Context in this slice.
+- Existing CF-09 preflight cannot represent the internal Blueprint task up to AWAITING_ASSISTANT_ACK.
+- Preflight grants any dispatch/release/push/merge/foreign-write authority.
+- A live first-attempt workspace would need to be created before the explicit pre-dispatch boundary.
+- A canonical attempt-ledger mutation is required.
+- Any worker launch, cross-module write, release, push, merge, automatic ACCEPT or lifecycle mutation is requested.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false
+capability_reuse:
+  search_performed: true
+  searched_surfaces:
+  - scripts/coordination/control_plane/workspace
+  - scripts/coordination/continuity.py
+  - scripts/coordination/control_plane/dispatch_intent.py
+  - coordination/standards/automation/worker_workspace_contract_v0_1.yaml
+  - coordination/standards/automation/control_plane/central_listener_dispatcher_monitor_v0_1.yaml
+  - tests/coordination/control_plane/workspace
+  - tests/coordination/control_plane/test_cf09_dispatcher_task_execution_preflight_v0_1.py
+  - tests/coordination/control_plane/test_cf09_dispatcher_assistant_ack_gate_v0_1.py
+  disposition: EXTEND
+  target_refs:
+  - scripts/coordination/control_plane/workspace/
+  - scripts/coordination/continuity.py::build_source_state
+  - scripts/coordination/control_plane/dispatch_intent.py::prepare_cf09_task_execution
+  - coordination/standards/automation/worker_workspace_contract_v0_1.yaml

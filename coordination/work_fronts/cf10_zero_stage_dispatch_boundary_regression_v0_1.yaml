@@ -1,0 +1,66 @@
+work_front_id: wf-cf10-zero-stage-dispatch-boundary-regression-v0-1
+objective: Extend the existing CF-09 Dispatcher TASK_EXECUTION preflight regression coverage with one CF-10 zero-stage invariant
+  proving that the first Blueprint-internal manual/shadow pilot does not widen release, push, merge, external-dispatch or
+  foreign-repository-write authority.
+scope:
+- tests/coordination/control_plane/test_cf09_dispatcher_task_execution_preflight_v0_1.py
+- scripts/coordination/control_plane/dispatch_intent.py
+- coordination/standards/automation/control_plane/central_listener_dispatcher_monitor_v0_1.yaml
+exclusions:
+- Do not modify scripts/coordination/control_plane/dispatch_intent.py.
+- Do not modify the Dispatcher control contract.
+- Do not write any repository other than forprint_system_blueprint.
+- Do not create or plan workers for other modules.
+- Do not commit, push, merge, release or automatically ACCEPT results.
+- Do not change lifecycle events or roadmap bindings.
+- Do not optimize validation pipelines or continuity projections in this attempt.
+provenance:
+  source_refs:
+  - roadmap:control_foundation_near_horizon/CF-10
+  - lifecycle:u180j/WORK_ACTIVATED/sequence-67
+  - tests/coordination/control_plane/test_cf09_dispatcher_task_execution_preflight_v0_1.py
+  - scripts/coordination/control_plane/dispatch_intent.py
+  chat_is_authority: false
+dependencies:
+- CF-07 CLOSED
+- CF-08 CLOSED
+- CF-09/u180i CLOSED sequence 65
+- CF-10/u180j ACTIVE sequence 67
+- existing CF-09 bounded TASK_EXECUTION preparation tests
+- existing Work Front, Execution Profile, Procedure, Handoff v2 and Execution Attempt Ledger mechanisms
+outputs:
+- One focused CF-10-specific regression added to the existing CF-09 Dispatcher TASK_EXECUTION preflight test file.
+- Focused pytest evidence for the modified test file.
+- Evidence that the task required no runtime/control-contract change.
+- Structured worker result for operator review; no automatic acceptance.
+acceptance:
+- Only the existing dispatcher preflight test file is changed by the worker.
+- The added regression proves manual/shadow Blueprint-internal pilot scope does not grant external dispatch, release, push,
+  merge or foreign-write authority.
+- The focused dispatcher preflight test file passes.
+- git diff --check passes for the isolated worker workspace.
+- No commit, push, merge, release, foreign repository write or lifecycle mutation occurs.
+stop_conditions:
+- Any runtime source or control-contract modification appears necessary.
+- The task requires a path outside the declared Work Front scope.
+- The worker cannot prove the invariant using existing Dispatcher interfaces.
+- Any requested action would widen authority.
+- Any cross-module write, commit, push, merge, release or automatic ACCEPT is requested.
+- Required governed context is stale or inconsistent.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false
+capability_reuse:
+  search_performed: true
+  searched_surfaces:
+  - scripts/coordination/control_plane
+  - tests/coordination/control_plane
+  - coordination/standards/automation/control_plane
+  disposition: EXTEND
+  target_refs:
+  - tests/coordination/control_plane/test_cf09_dispatcher_task_execution_preflight_v0_1.py
+  - scripts/coordination/control_plane/dispatch_intent.py
+  - coordination/standards/automation/control_plane/central_listener_dispatcher_monitor_v0_1.yaml

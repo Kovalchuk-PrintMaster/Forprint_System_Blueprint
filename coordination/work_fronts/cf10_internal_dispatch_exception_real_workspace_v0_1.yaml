@@ -1,0 +1,128 @@
+work_front_id: wf-cf10-internal-dispatch-exception-real-workspace-v0-1
+objective: Implement the explicitly bounded CF-10 Blueprint-internal zero-stage dispatch exception and provision the first
+  real isolated worker workspace without launching a worker. The exception must coexist with BLUEPRINT_AI_TRIAL_READY=false,
+  apply only to the exact u180j/first-worker bindings, preserve all CF-09 ACK and explicit-dispatch boundaries, and grant
+  no external dispatch, release, push, merge or foreign-repository-write authority.
+scope:
+- scripts/coordination/control_plane/dispatch_intent.py
+- coordination/standards/automation/control_plane/central_listener_dispatcher_monitor_v0_1.yaml
+- scripts/coordination/control_plane/workspace/
+- scripts/validation/validate_cf10_internal_dispatch_exception_real_workspace_v0_1.py
+- tests/coordination/control_plane/test_cf10_internal_zero_stage_dispatch_exception_v0_1.py
+- tests/coordination/control_plane/workspace/
+- /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a001/
+exclusions:
+- Do not set or emit BLUEPRINT_AI_TRIAL_READY=true.
+- Do not modify the CF-19/CF-20 broad trial readiness gate.
+- Do not generalize the exception to other Blueprint tasks, workers, work IDs, profiles, procedures, modules or repositories.
+- Do not allow Logistics or any external module to use the CF-10 exception.
+- Do not bypass Work Front, Execution Profile, Governed Procedure, Handoff v2, Assistant ACK or explicit dispatch-decision
+  boundaries.
+- Do not launch a worker process in this slice.
+- Do not invoke provider/model worker runtime in this slice.
+- Do not append a canonical Execution Attempt Ledger row in this slice.
+- Do not finalize Dispatcher execution or ingest a worker result.
+- Do not implement candidate promotion in this slice.
+- Do not commit, push, merge, release or automatically ACCEPT.
+- Do not write any foreign repository.
+- Do not mutate lifecycle or roadmap state.
+- Do not copy continuity-excluded tmp/runtime debris into the real workspace.
+- Do not reuse an existing runtime directory if the exact first workspace path already exists; fail closed instead.
+provenance:
+  source_refs:
+  - roadmap:control_foundation_near_horizon/CF-10
+  - lifecycle:u180j/WORK_ACTIVATED/sequence-67
+  - coordination/work_fronts/cf10_zero_stage_dispatch_boundary_regression_v0_1.yaml
+  - coordination/work_fronts/cf10_worker_runtime_foundation_v0_1.yaml
+  - coordination/work_fronts/cf10_internal_task_context_adapter_v0_1.yaml
+  - coordination/work_fronts/cf10_isolated_workspace_dispatch_preflight_v0_1.yaml
+  - scripts/coordination/control_plane/dispatch_intent.py
+  - coordination/standards/automation/control_plane/central_listener_dispatcher_monitor_v0_1.yaml
+  - scripts/coordination/control_plane/workspace/provision.py
+  - scripts/coordination/continuity.py::build_source_state
+  - coordination/standards/automation/execution_attempt_ledger_contract_v0_1.yaml
+  chat_is_authority: false
+dependencies:
+- CF-10/u180j ACTIVE sequence 67
+- Worker Runtime Foundation Slice 1 PASS
+- Internal Task Context Adapter Slice 2 PASS
+- Isolated Workspace + Dispatch Preflight Slice 3 PASS
+- reserved first-worker Work Front
+- existing CF-09 TASK_EXECUTION preparation and Assistant ACK gate
+- existing explicit dispatch-decision boundary
+- canonical continuity source-state fingerprint
+- light-maintenance@r1
+- governed_canonical_mutation@0.1.0
+outputs:
+- One explicit CF-10 internal zero-stage exception encoded in the existing Dispatcher/control contract, not a parallel Dispatcher.
+- The exception binds exactly work_id=u180j.
+- The exception binds exactly module=forprint_system_blueprint.
+- The exception binds exactly wf-cf10-zero-stage-dispatch-boundary-regression-v0-1.
+- The exception binds exactly task_id=cf10-zero-stage-dispatch-boundary-regression-v0-1.
+- The exception binds exactly light-maintenance@r1.
+- The exception binds exactly governed_canonical_mutation@0.1.0.
+- The exception binds exactly worker_id=worker-01 and attempt_id=cf10-u180j-a001.
+- The exception is MANUAL/SHADOW and candidate-only.
+- A source-state freeze manifest is captured immediately before real workspace provisioning.
+- The first real isolated workspace is provisioned at /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a001/.
+- The provisioned workspace is revalidated against the frozen canonical durable source state before it may be considered dispatch-eligible.
+- Workspace state is PROVISIONED_NOT_DISPATCHED.
+- A structured pre-dispatch evidence packet proves broad trial readiness remains false/not-used and external authority remains
+  blocked.
+acceptance:
+- The existing Dispatcher is extended; no parallel dispatcher or bypass path exists.
+- The exception is exact-binding and fail-closed for any mismatched work/module/front/task/profile/procedure/worker/attempt
+  value.
+- The exception explicitly does not depend on BLUEPRINT_AI_TRIAL_READY=true.
+- BLUEPRINT_AI_TRIAL_READY remains false/not emitted by this slice.
+- The exception cannot authorize external/module dispatch.
+- The exception cannot authorize release, push, merge, auto-ACCEPT or foreign write.
+- Existing CF-09 preparation and Assistant ACK semantics remain unchanged.
+- A valid ACK remains required before READY_FOR_EXPLICIT_DISPATCH.
+- An explicit dispatch decision remains required after ACK.
+- No worker process is launched.
+- No provider/model runtime is called.
+- Canonical attempt ledger remains unchanged.
+- Real workspace source HEAD equals the immediately frozen canonical source HEAD.
+- Real workspace durable dirty overlay exactly matches the frozen durable source state used for provisioning.
+- Real workspace is an independent detached Git checkout outside canonical repo.
+- Real workspace manifest records PROVISIONED_NOT_DISPATCHED.
+- If canonical durable source state changes between freeze and final eligibility check, Slice 4 fails closed and the workspace
+  is not dispatch-eligible.
+- Focused Dispatcher/workspace tests, Ruff and git diff --check pass.
+- u180j remains ACTIVE and roadmap remains IN_SYNC.
+stop_conditions:
+- The broad BLUEPRINT_AI_TRIAL_READY gate would need to be set true.
+- The exception cannot be expressed as an exact CF-10-only extension of the existing Dispatcher.
+- The implementation would create a generic internal-dispatch bypass.
+- Any external/module dispatch could pass the exception.
+- Assistant ACK or explicit dispatch-decision boundaries would be weakened.
+- Canonical source state changes during the freeze/provision/eligibility boundary.
+- The exact real workspace path already exists before provisioning.
+- Workspace equivalence validation fails.
+- Provisioning writes into the canonical working tree or canonical Git metadata.
+- A canonical attempt-ledger append becomes necessary before worker launch.
+- Worker/provider launch is requested.
+- Any release, push, merge, automatic ACCEPT, foreign-repository write, lifecycle or roadmap mutation is requested.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false
+capability_reuse:
+  search_performed: true
+  searched_surfaces:
+  - scripts/coordination/control_plane/dispatch_intent.py
+  - coordination/standards/automation/control_plane/central_listener_dispatcher_monitor_v0_1.yaml
+  - scripts/coordination/control_plane/workspace/
+  - scripts/coordination/continuity.py
+  - coordination/standards/automation/execution_attempt_ledger_contract_v0_1.yaml
+  - tests/coordination/control_plane/test_cf09_dispatcher_task_execution_preflight_v0_1.py
+  - tests/coordination/control_plane/test_cf09_dispatcher_assistant_ack_gate_v0_1.py
+  disposition: EXTEND
+  target_refs:
+  - scripts/coordination/control_plane/dispatch_intent.py
+  - coordination/standards/automation/control_plane/central_listener_dispatcher_monitor_v0_1.yaml
+  - scripts/coordination/control_plane/workspace/provision.py
+  - scripts/coordination/continuity.py::build_source_state
