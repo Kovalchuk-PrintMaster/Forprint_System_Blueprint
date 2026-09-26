@@ -1,0 +1,119 @@
+work_front_id: wf-cf10-source-dependency-publication-reconciliation-v0-4
+objective: Publish historical Blueprint source dependencies that are already referenced by canonical Makefile, Assistant Handoff
+  v2 runtime and CF-10 control-plane surfaces, without advancing CF-10 execution, dispatching a worker, publishing the prepared
+  Task5 surface, or regenerating derived indexes before the source tree is complete.
+scope:
+- coordination/internal_work/blueprint/worker_tasks/cf10_zero_stage_dispatch_boundary_regression_v0_1.yaml
+- coordination/work_fronts/cf10_internal_task_context_adapter_v0_1.yaml
+- coordination/work_fronts/cf10_source_dependency_publication_reconciliation_v0_4.yaml
+- scripts/coordination/build_worker_invocation.py
+- scripts/coordination/control_plane/context/task_context_adapter.py
+- scripts/validation/validate_cf10_internal_task_context_adapter_v0_1.py
+- scripts/validation/validate_console_worker_adapter_v0_1.py
+- tests/coordination/control_plane/context/test_cf10_internal_task_context_adapter_v0_1.py
+- tests/coordination/test_console_worker_adapter_v0_1.py
+read_only_refs:
+- coordination/internal_work/blueprint/worker_tasks/index.yaml
+- coordination/internal_work/blueprint/governance/2026-09-06__blueprint__console_worker_adapter_v0_1_adoption.yaml
+- Makefile
+- scripts/coordination/assistant_handoff_v2_runtime_v0_1.py
+- coordination/standards/automation/assistant_handoff_v2_runtime_contract_v0_1.yaml
+- scripts/coordination/build_context_bundle.py
+- coordination/internal_work/blueprint/worker_tasks/cf10_local_dispatcher_telegram_operator_surface_v0_1.yaml
+exclusions:
+- Do not modify or stage coordination/internal_work/blueprint/worker_tasks/index.yaml; HEAD already contains the zero-stage
+  registration and the local diff is Task5-only.
+- Do not publish or stage the prepared Task5 task artifact or its index registration.
+- Do not publish internal-dispatch-exception real-workspace surfaces in this packet.
+- Do not publish CF-09 dispatcher ACK regression surfaces in this packet.
+- Do not publish logistics bootstrap prompt candidate validation in this packet.
+- Do not publish roadmap dependency registration tests in this packet.
+- Do not regenerate or publish indexes/generator_inventory.yaml or indexes/execution_dependency_graph.yaml in this packet.
+- Do not modify Assistant Handoff v2 runtime or its contract; they are read-only consumers here.
+- Do not modify build_context_bundle.py.
+- Do not dispatch or launch any worker.
+- Do not consume cf10-u180j-a010.
+- Do not resume CF-10 Phase B.
+- Do not mutate lifecycle, roadmap, release, acceptance or execution-attempt history.
+- Do not commit, push, merge, release or auto-ACCEPT in this helper.
+- Do not use broad reset, clean, stash, rebase, git add -A or git add .
+provenance:
+  source_refs:
+  - 'Makefile: console-worker-adapter-check / worker-invocation-evaluate / worker-invocation-build'
+  - coordination/internal_work/blueprint/governance/2026-09-06__blueprint__console_worker_adapter_v0_1_adoption.yaml
+  - scripts/coordination/assistant_handoff_v2_runtime_v0_1.py
+  - coordination/work_fronts/cf10_internal_task_context_adapter_v0_1.yaml
+  - coordination/internal_work/blueprint/worker_tasks/index.yaml
+  - coordination/continuity/events/
+  chat_is_authority: false
+dependencies:
+- HEAD is expected at 240ded9be94aad90f523576e0dd0bc5120297934 and upstream must be fresh.
+- Console worker adoption is already tracked and status IMPLEMENTED.
+- Makefile already invokes scripts/coordination/build_worker_invocation.py.
+- Assistant Handoff v2 runtime already delegates TASK_EXECUTION context to task_context_adapter.py.
+- Published worker_tasks/index.yaml already registers cf10-zero-stage-dispatch-boundary-regression-v0-1 exactly once.
+- Local worker_tasks/index.yaml delta contains only the prepared Task5 registration and must remain unstaged.
+- The zero-stage task artifact itself is historical publication debt and must be present for clean-checkout MANUAL_INTERNAL
+  resolution.
+- Task-context and console-worker focused validators/tests pass in the current working tree.
+outputs:
+- Published console worker invocation builder with its validator and focused tests.
+- Published CF-10 internal task-context adapter Work Front, adapter, validator and focused tests.
+- Published zero-stage durable MANUAL_INTERNAL task artifact matching the already-published task index registration.
+- Clean checkout can validate the console-worker adapter and CF-10 internal task-context adapter without local untracked dependencies.
+acceptance:
+- Publication Work Front validates.
+- Existing CF-10 internal task-context Work Front validates.
+- HEAD worker task index contains exactly one zero-stage registration and no Task5 registration.
+- Detached candidate does not modify worker_tasks/index.yaml.
+- Console worker adapter validator passes.
+- Console worker focused pytest passes.
+- CF-10 internal task-context validator passes.
+- CF-10 internal task-context focused pytest passes.
+- Assistant Handoff v2 runtime validator passes.
+- git diff --check passes.
+- Candidate changed path set equals exactly the eight historical source paths plus this publication Work Front.
+- Main staging contains the same exact nine-path set and excludes worker_tasks/index.yaml.
+stop_conditions:
+- HEAD differs from the expected publication base.
+- Upstream is not fresh.
+- Main staging is non-empty.
+- Any historical source path is already tracked or missing.
+- HEAD task index lacks the zero-stage registration.
+- HEAD task index already contains the prepared Task5 registration.
+- Local task index modifies anything other than the Task5 append.
+- A focused validator or test fails in the detached candidate.
+- A path outside the declared publication set becomes necessary.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false
+capability_reuse:
+  search_performed: true
+  searched_surfaces:
+  - scripts/coordination/build_worker_invocation.py
+  - scripts/validation/validate_console_worker_adapter_v0_1.py
+  - tests/coordination/test_console_worker_adapter_v0_1.py
+  - scripts/coordination/control_plane/context/
+  - coordination/internal_work/blueprint/worker_tasks/
+  - scripts/coordination/assistant_handoff_v2_runtime_v0_1.py
+  - scripts/coordination/build_context_bundle.py
+  - coordination/standards/automation/
+  - tests/coordination/control_plane/context/
+  disposition: EXTEND
+  target_refs:
+  - scripts/coordination/build_worker_invocation.py
+  - scripts/coordination/control_plane/context/task_context_adapter.py
+  - coordination/internal_work/blueprint/worker_tasks/index.yaml
+  - scripts/coordination/assistant_handoff_v2_runtime_v0_1.py
+publication_classification:
+  build_worker_invocation: HISTORICAL_SOURCE_DEPENDENCY
+  console_worker_validator_test: HISTORICAL_VALIDATION_DEPENDENCY
+  task_context_adapter: HISTORICAL_SOURCE_DEPENDENCY
+  task_context_validator_test: HISTORICAL_VALIDATION_DEPENDENCY
+  zero_stage_task_artifact: HISTORICAL_DURABLE_TASK_DEPENDENCY
+  worker_tasks_index: ALREADY_PUBLISHED_ZERO_STAGE_REGISTRATION_LOCAL_TASK5_ONLY_DELTA
+  generator_inventory: DEFER_DERIVED_REGENERATION
+  execution_dependency_graph: DEFER_DERIVED_REGENERATION

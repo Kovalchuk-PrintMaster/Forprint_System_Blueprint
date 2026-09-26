@@ -1,0 +1,114 @@
+work_front_id: wf-cf10-internal-task-context-adapter-v0-1
+objective: Connect the accepted CF-10 Worker Task Envelope foundation to the existing Task Context and Handoff v2 stack without
+  duplicating context, handoff, authority, dispatch or freshness frameworks. Add one durable Blueprint-internal manual task
+  source for the first zero-stage worker task while preserving the existing external prompt-queue task-context path unchanged.
+scope:
+- coordination/internal_work/blueprint/worker_tasks/
+- scripts/coordination/control_plane/context/
+- scripts/coordination/assistant_handoff_v2_runtime_v0_1.py
+- coordination/standards/automation/assistant_handoff_v2_runtime_contract_v0_1.yaml
+- scripts/validation/validate_cf10_internal_task_context_adapter_v0_1.py
+- tests/coordination/control_plane/context/
+- tests/validation/test_assistant_handoff_v2_runtime_v0_1.py
+exclusions:
+- Do not modify scripts/coordination/build_context_bundle.py.
+- Do not modify the existing external outgoing prompt queue contract or files.
+- Do not create coordination/outgoing_prompts/forprint_system_blueprint/.
+- Do not create a second Task Context framework.
+- Do not create a second Handoff framework.
+- Do not duplicate Work Front, Execution Profile, Governed Procedure, Execution Attempt Ledger, Dispatcher, Completion or
+  Inspector.
+- Do not modify scripts/coordination/control_plane/dispatch_intent.py in this slice.
+- Do not modify scripts/coordination/control_plane/worker_runtime/ in this slice.
+- Do not provision a live isolated workspace in this slice.
+- Do not implement candidate promotion runtime in this slice.
+- Do not launch a worker.
+- Do not commit, push, merge, release or automatically ACCEPT.
+- Do not write any repository other than forprint_system_blueprint.
+- Do not mutate lifecycle or roadmap state.
+- Do not implement automatic roadmap-to-task generation yet.
+provenance:
+  source_refs:
+  - roadmap:control_foundation_near_horizon/CF-10
+  - lifecycle:u180j/WORK_ACTIVATED/sequence-67
+  - coordination/work_fronts/cf10_worker_runtime_foundation_v0_1.yaml
+  - coordination/work_fronts/cf10_zero_stage_dispatch_boundary_regression_v0_1.yaml
+  - coordination/standards/automation/worker_task_envelope_contract_v0_1.yaml
+  - coordination/standards/automation/worker_workspace_contract_v0_1.yaml
+  - scripts/coordination/control_plane/tasking/
+  - scripts/coordination/build_context_bundle.py
+  - scripts/coordination/assistant_handoff_v2_runtime_v0_1.py
+  - scripts/coordination/continuity.py
+  chat_is_authority: false
+dependencies:
+- CF-10/u180j ACTIVE sequence 67
+- CF-10 Worker Runtime Foundation Slice 1 validation PASS
+- Worker Task Envelope contract
+- existing Task Context compiler
+- existing Handoff v2 runtime
+- canonical continuity source-state fingerprint
+- reserved first-worker Work Front
+- light-maintenance@r1 Execution Profile
+- governed_canonical_mutation@0.1.0
+outputs:
+- A durable Blueprint-internal manual task artifact for cf10_zero_stage_dispatch_boundary_regression_v0_1.
+- A small worker-task index/resolver that identifies the durable internal task without granting dispatch or execution authority.
+- A Control Plane task-context facade that normalizes MANUAL_INTERNAL and EXTERNAL_PROMPT_QUEUE context compilation.
+- EXTERNAL_PROMPT_QUEUE continues delegating to scripts/coordination/build_context_bundle.py --task-context.
+- MANUAL_INTERNAL compiles Blueprint-native task context from the accepted Worker Task Envelope and canonical continuity/source-state
+  evidence.
+- Handoff v2 TASK_EXECUTION delegates task-context compilation to the Control Plane context facade instead of calling build_context_bundle.py
+  directly.
+- Handoff v2 public launch modes and authority semantics remain unchanged.
+- Focused tests prove external task-context compatibility and internal Blueprint manual-task support.
+- A no-write Handoff v2 TASK_EXECUTION dry-run reaches PASS for the CF-10 internal task.
+acceptance:
+- No fake self outgoing prompt queue exists.
+- build_context_bundle.py remains unchanged.
+- Existing external prompt-queue task context behavior remains available through the new facade and its existing tests remain
+  green.
+- The internal task is resolved from a durable repository artifact, not raw chat.
+- The normalized internal task envelope binds wf-cf10-zero-stage-dispatch-boundary-regression-v0-1.
+- The internal task binds light-maintenance@r1 and governed_canonical_mutation@0.1.0 without redefining their contracts.
+- Internal freshness/source-state reuses canonical continuity semantics rather than creating a parallel working-tree fingerprint.
+- Handoff v2 still grants no execution, dispatch, release, push/merge or cross-repository authority.
+- Existing Handoff v2 validation tests pass.
+- New internal context focused tests pass.
+- git diff --check passes on all Slice 2 paths.
+- The exact CF-10 no-write TASK_EXECUTION dry-run passes.
+- No worker dispatch occurs.
+stop_conditions:
+- Implementation requires changing build_context_bundle.py.
+- External prompt queue behavior must be rewritten instead of delegated.
+- Internal context requires a fake forprint_system_blueprint outgoing prompt queue.
+- A new context or freshness authority would duplicate an existing canonical one.
+- The internal task artifact begins granting execution or dispatch authority.
+- The adapter requires changing Dispatcher or worker runtime in this slice.
+- Handoff v2 public authority semantics would widen.
+- A path outside this Work Front becomes necessary.
+- Any cross-module write, release, push, merge, automatic ACCEPT or lifecycle mutation is requested.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false
+capability_reuse:
+  search_performed: true
+  searched_surfaces:
+  - scripts/coordination/control_plane/context
+  - scripts/coordination/control_plane/tasking
+  - scripts/coordination/build_context_bundle.py
+  - scripts/coordination/assistant_handoff_v2_runtime_v0_1.py
+  - scripts/coordination/continuity.py
+  - coordination/standards/automation
+  - tests/coordination/control_plane/context
+  - tests/validation
+  disposition: EXTEND
+  target_refs:
+  - scripts/coordination/control_plane/context/
+  - scripts/coordination/control_plane/tasking/
+  - scripts/coordination/build_context_bundle.py
+  - scripts/coordination/assistant_handoff_v2_runtime_v0_1.py
+  - coordination/standards/automation/assistant_handoff_v2_runtime_contract_v0_1.yaml
+  - scripts/coordination/continuity.py
