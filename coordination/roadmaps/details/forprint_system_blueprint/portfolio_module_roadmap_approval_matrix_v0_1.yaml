@@ -1217,49 +1217,49 @@ modules:
     steps:
       - sequence: 1
         step_id: FORPRINT_OPERATIONS_CONTROL_REGISTRY-H01
-        title: Reconcile operational order/request/task/event/party concepts and historical aliases.
+        title: "Reconcile operational order/request/task/event/party concepts, historical aliases, and the historical Operational Registry → canonical Operations Control Registry repository/layout mapping while preserving immutable historical provenance."
         approval_state: AGREED_PLANNING_DIRECTION
         source_basis: current_evidence_reconciliation
         execution_authority: false
         dependency_gate: []
       - sequence: 2
         step_id: FORPRINT_OPERATIONS_CONTROL_REGISTRY-H02
-        title: Confirm stable operational identities and authorized write boundary without absorbing foreign domain semantics.
+        title: "Confirm stable operational identities and the authorized operational-truth/write boundary for clients/orders/jobs/tasks/status/events, with explicit Accounting/CRM/Library/Warehouse/Logistics/Prepress exclusions and no foreign-domain semantic absorption."
         approval_state: AGREED_PLANNING_DIRECTION
         source_basis: ownership_and_role_boundary
         execution_authority: false
         dependency_gate: []
       - sequence: 3
         step_id: FORPRINT_OPERATIONS_CONTROL_REGISTRY-H03
-        title: Complete self-inventory for business partner references, order IDs, requests, tasks, blockers, incidents and deadlines.
+        title: "Complete current-worktree self-inventory for business-partner references, order IDs, requests, tasks, blockers, incidents, deadlines and current documentation/status; classify the persistent core separately from next-generation foundations."
         approval_state: AGREED_PLANNING_DIRECTION
         source_basis: self_inventory_requirement
         execution_authority: false
         dependency_gate: []
       - sequence: 4
         step_id: FORPRINT_OPERATIONS_CONTROL_REGISTRY-H04
-        title: Define operational order/Job Ticket lifecycle and explicit HOLD, priority, proof, reprint and exception states.
+        title: "Define the canonical operational order/Job Ticket lifecycle, including explicit HOLD, priority, proof, reprint and exception states; reconcile OrderRecord versus OperationalOrder generation while separating order, workflow/process, production, payment-fact/projection and dictionary/reference status axes."
         approval_state: AGREED_PLANNING_DIRECTION
         source_basis: dependency_and_contract_planning
         execution_authority: false
         dependency_gate: *id005
       - sequence: 5
         step_id: FORPRINT_OPERATIONS_CONTROL_REGISTRY-H05
-        title: Define obligations, reservations, shortages and execution context contracts with Warehouse, Accounting and Logistics.
+        title: "Define obligations, requirements, reservations, shortages and execution-context contracts with Warehouse, Accounting, Logistics and Prepress, preserving each domain's truth and making inbound fact/reference directions explicit."
         approval_state: AGREED_OR_RECOVERED_TARGET
         source_basis: agreed_or_recovered_target_state
         execution_authority: false
         dependency_gate: []
       - sequence: 6
         step_id: FORPRINT_OPERATIONS_CONTROL_REGISTRY-H06
-        title: Define command/query boundaries plus outbox/inbox/idempotency/correlation rules for resilient cross-module interactions.
+        title: "Define command/query and event-contract boundaries plus outbox/inbox/idempotency/correlation rules for resilient cross-module interactions; once the project interaction-role taxonomy is canonical, distinguish semantic/domain ownership from message direction and transport/runtime state."
         approval_state: AGREED_OR_RECOVERED_TARGET
         source_basis: agreed_or_recovered_target_state
         execution_authority: false
         dependency_gate: []
       - sequence: 7
         step_id: FORPRINT_OPERATIONS_CONTROL_REGISTRY-H07
-        title: Separate communicator, customer, billing and organization context while preserving historical relationships.
+        title: "Define stable business-partner/person/organization/customer/billing/delivery identity and reference boundaries across Operations, CRM, IAM, Accounting and Logistics while preserving historical relationships, before promoting the rich ClientAccount foundation to canonical truth."
         approval_state: AGREED_OR_RECOVERED_TARGET
         source_basis: agreed_or_recovered_target_state
         execution_authority: false

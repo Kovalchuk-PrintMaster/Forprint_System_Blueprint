@@ -176,13 +176,13 @@ Role: Low-friction shop-floor assistant, guided forms and operational knowledge
 
 Role: Canonical operational party/order/task/control registry and write boundary
 
-1. **AGREED_PLANNING_DIRECTION** — Reconcile operational order/request/task/event/party concepts and historical aliases.
-2. **AGREED_PLANNING_DIRECTION** — Confirm stable operational identities and authorized write boundary without absorbing foreign domain semantics.
-3. **AGREED_PLANNING_DIRECTION** — Complete self-inventory for business partner references, order IDs, requests, tasks, blockers, incidents and deadlines.
-4. **AGREED_PLANNING_DIRECTION** — Define operational order/Job Ticket lifecycle and explicit HOLD, priority, proof, reprint and exception states.
-5. **AGREED_OR_RECOVERED_TARGET** — Define obligations, reservations, shortages and execution context contracts with Warehouse, Accounting and Logistics.
-6. **AGREED_OR_RECOVERED_TARGET** — Define command/query boundaries plus outbox/inbox/idempotency/correlation rules for resilient cross-module interactions.
-7. **AGREED_OR_RECOVERED_TARGET** — Separate communicator, customer, billing and organization context while preserving historical relationships.
+1. **AGREED_PLANNING_DIRECTION** — Reconcile operational order/request/task/event/party concepts, historical aliases, and the historical Operational Registry → canonical Operations Control Registry repository/layout mapping while preserving immutable historical provenance.
+2. **AGREED_PLANNING_DIRECTION** — Confirm stable operational identities and the authorized operational-truth/write boundary for clients/orders/jobs/tasks/status/events, with explicit Accounting/CRM/Library/Warehouse/Logistics/Prepress exclusions and no foreign-domain semantic absorption.
+3. **AGREED_PLANNING_DIRECTION** — Complete current-worktree self-inventory for business-partner references, order IDs, requests, tasks, blockers, incidents, deadlines and current documentation/status; classify the persistent core separately from next-generation foundations.
+4. **AGREED_PLANNING_DIRECTION** — Define the canonical operational order/Job Ticket lifecycle, including explicit HOLD, priority, proof, reprint and exception states; reconcile OrderRecord versus OperationalOrder generation while separating order, workflow/process, production, payment-fact/projection and dictionary/reference status axes.
+5. **AGREED_OR_RECOVERED_TARGET** — Define obligations, requirements, reservations, shortages and execution-context contracts with Warehouse, Accounting, Logistics and Prepress, preserving each domain's truth and making inbound fact/reference directions explicit.
+6. **AGREED_OR_RECOVERED_TARGET** — Define command/query and event-contract boundaries plus outbox/inbox/idempotency/correlation rules for resilient cross-module interactions; once the project interaction-role taxonomy is canonical, distinguish semantic/domain ownership from message direction and transport/runtime state.
+7. **AGREED_OR_RECOVERED_TARGET** — Define stable business-partner/person/organization/customer/billing/delivery identity and reference boundaries across Operations, CRM, IAM, Accounting and Logistics while preserving historical relationships, before promoting the rich ClientAccount foundation to canonical truth.
 8. **PROPOSED_TARGET_REFINEMENT** — Define read/write interfaces used by CRM and channels without transferring ownership of operational truth.
 9. **PROPOSED_TARGET_REFINEMENT** — Plan reporting projections and exception/event evidence for dashboards without making read models authoritative.
 10. **HOLD_FOR_FINAL_PORTFOLIO_APPROVAL** — Hold expanded execution until Calculator/Library/Contract Registry producer dependencies and portfolio gates are ready.
