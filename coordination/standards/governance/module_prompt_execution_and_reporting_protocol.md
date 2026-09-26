@@ -672,6 +672,35 @@ it does not relax read-only boundaries for any external module.
 <!-- forprint-execution-workspace-compatibility-v0-1 -->
 ## Execution workspace compatibility, cleanliness, and isolation
 
+<!-- clean-tree-first-working-policy-v0-1:start -->
+### Current working default supersession — 2026-09-26
+
+The compatibility distinctions in this section remain historical/current-contract
+evidence, but broad dirty-tree tolerance is no longer the preferred normal working style.
+
+Current forward default:
+
+`CLEAN_TREE_FIRST`
+
+See:
+`coordination/global_policy/clean_tree_first_working_policy_v0_1.md`.
+
+Interpretation:
+
+- when no parallel work is active, begin and close bounded assistant/operator work from a clean tree;
+- when parallel assistants are active, foreign dirty paths are read-only context and each assistant
+  must keep its own write set attributable, stage only exact owned files, and commit/push owned work promptly;
+- exact target collision remains a stop condition;
+- existing active CF-10 work is grandfathered to its safe commit boundaries and must not be reset,
+  stashed, cleaned, rewritten or silently absorbed;
+- the earlier execution-compatibility semantics remain valid for immutable task compatibility and
+  controlled exceptions, but they are not a recommendation to accumulate unrelated uncommitted work;
+- true parallel mutation should move toward isolated workspaces/worktrees.
+
+This supersession changes working-discipline default only. It does not rewrite an active CF-10
+execution epoch, acceptance state, release authority or dispatch authority.
+<!-- clean-tree-first-working-policy-v0-1:end -->
+
 ### Normative distinction
 
 Global worktree cleanliness is not the same thing as execution compatibility.

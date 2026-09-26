@@ -269,3 +269,26 @@ The preferred duplicate-aware dialogue navigator is currently Master Memory v3.7
 embedded histories are processed source-by-source and are never bulk-promoted into
 current truth.
 <!-- fp-assistant-context-system-specs-v0-1:end -->
+
+<!-- module-analysis-lifecycle-methodology-v0-2:start -->
+## Module analysis lifecycle methodology
+
+For module audits, knowledge saturation, current-state reconstruction or recurring
+architecture review, first resolve the current methodology through:
+
+`coordination/bootstrap/module_analysis_methodology_current.yaml`
+
+Current working revision:
+
+`coordination/bootstrap/module_analysis_lifecycle_methodology_v0_2.md`
+
+Status: **EVOLVING IMPLEMENTATION PILOT / NOT FINAL CANON**.
+
+The methodology is a working baseline, not a rigid copy-by-template procedure.
+Assistants should follow its durable evidence/authority/closeout invariants while
+recording improvement proposals that can improve quality or speed.
+
+Layer 0 is defined and piloted. Deeper layers are intentionally provisional.
+
+Temporary analysis under `tmp/` is not durable closeout.
+<!-- module-analysis-lifecycle-methodology-v0-2:end -->

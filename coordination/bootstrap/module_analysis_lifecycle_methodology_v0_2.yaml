@@ -1,0 +1,98 @@
+schema_version: forprint_module_analysis_lifecycle_methodology_v0_2
+status: EVOLVING_IMPLEMENTATION_PILOT
+maturity: WORKING_BASELINE_NOT_FINAL_CANON
+owner: forprint_system_blueprint
+current_revision: v0.2
+improvement_proposals_welcome: true
+silent_methodology_weakening_allowed: false
+implementation_authority_created: false
+default_action_now: none
+pilots:
+- forprint_library
+- forprint_operations_control_registry
+layers:
+- id: L0
+  name: Baseline Reconstruction & Knowledge Stabilization
+  status: DEFINED_AND_PILOTED
+- id: L1
+  name: Authority & Architecture Conformance
+  status: PROVISIONAL_SKELETON
+- id: L2
+  name: Domain / Contract / Data Deep Reconciliation
+  status: PROVISIONAL_SKELETON
+- id: L3
+  name: Operational Fitness / Security / Recovery Evaluation
+  status: PROVISIONAL_SKELETON
+- id: L4
+  name: Periodic Drift Reassessment
+  status: PROVISIONAL_SKELETON
+layer_0:
+  prefer_few_large_packets: true
+  packet_count_is_adaptive: true
+  default_packets:
+  - A_identity_history_documentation_roadmap
+  - B_domain_runtime_capabilities_persistence
+  - C_ownership_contracts_integrations
+  - D_governance_validation_operator_security_recovery
+  required_stages:
+  - entry_clean_state_preflight
+  - coarse_inventory
+  - large_thematic_segmentation
+  - packet_semantic_reviews
+  - comprehensive_module_audit
+  - cross_project_blueprint_reconciliation
+  - bounded_canonical_enrichment_if_required
+  - durable_module_snapshot_promotion
+  - blueprint_snapshot_registration
+  - commit_push_closeout
+  classifications:
+  - CURRENT_CANONICAL
+  - CURRENT_USEFUL
+  - HISTORICAL_CONTEXT
+  - SUPERSEDED
+  - CONTRADICTS_CURRENT_ARCHITECTURE
+  - DUPLICATE
+  - UNCERTAIN_NEEDS_RECONCILIATION
+  - CANDIDATE_RETIREMENT
+durable_closeout:
+  tmp_is_not_durable: true
+  module_local_required: true
+  tmp_safe_to_remove_requires_remote_containment: true
+  paths:
+    human_snapshot: coordination/reports/analysis/YYYY-MM-DD__<module_id>__module_snapshot_v0_1.md
+    roadmap_rebuild_input: coordination/reports/analysis/YYYY-MM-DD__<module_id>__roadmap_rebuild_input_v0_1.yaml
+    snapshot_root: coordination/repository_knowledge/module_snapshots/<module_id>/YYYY-MM-DD/
+    manifest: coordination/repository_knowledge/module_snapshots/<module_id>/YYYY-MM-DD/snapshot_manifest.yaml
+    evidence_root: coordination/repository_knowledge/module_snapshots/<module_id>/YYYY-MM-DD/analysis_evidence/
+    blueprint_registration: coordination/repository_knowledge/module_knowledge_stabilization/snapshots/YYYY-MM-DD__<module_id>__snapshot_registration_v0_1.yaml
+legacy_heavy:
+  known_future_candidates:
+  - calculator_engine
+  - telegram_bot
+  analyze_after_more_methodology_pilots: true
+  extra_registers:
+  - document_generation_register
+  - code_generation_register
+  - validator_semantic_register
+  physical_cleanup_during_analysis: false
+git_policy:
+  default: CLEAN_TREE_FIRST
+  parallel_exception: foreign_dirty_paths_may_exist_but_owned_write_set_must_be_attributable_and_promptly_committed
+  active_cf10_grandfathered: true
+  prefer_isolated_workspaces: true
+  forbidden:
+  - git_add_dot
+  - git_add_A
+  - broad_reset_hard
+  - broad_git_clean
+  - automatic_stash_pop_of_foreign_work
+methodology_improvement:
+  required_at_closeout: true
+  assistant_may_propose_improvements: true
+  operator_review_required_for:
+  - authority_semantics
+  - snapshot_retention
+  - required_output_removal
+  - git_policy_change
+  - automatic_canonical_mutation
+  - cleanup_or_retirement

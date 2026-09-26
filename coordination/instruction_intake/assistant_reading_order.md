@@ -87,18 +87,20 @@ It does not replace this document, current lifecycle/workfront authority,
 canonical governance, or live repository verification.
 <!-- fp-assistant-context-system-specs-route-v0-1:end -->
 
-<!-- module-snapshot-roadmap-rebuild-analysis-mode-v0-1:start -->
-## Portfolio module snapshot mode
+<!-- module-analysis-lifecycle-methodology-v0-2:start -->
+## Portfolio module analysis lifecycle
 
-When the task is deep module analysis, current-state reconstruction, roadmap enrichment,
-knowledge saturation, or preparation for roadmap rebuild, read:
+When the task is module analysis, current-state reconstruction, module snapshot,
+roadmap enrichment, architecture conformance review, knowledge saturation or
+preparation for roadmap rebuild:
 
-`coordination/bootstrap/module_snapshot_and_roadmap_rebuild_analysis_mode_v0_1.md`
+1. read `coordination/bootstrap/module_analysis_methodology_current.yaml`;
+2. read the current methodology revision named there;
+3. locate the module's latest durable snapshot before creating new temporary evidence.
 
-before interpreting repository divergence.
+Current revision v0.2 is explicitly evolving and invites recorded methodology
+improvement proposals. It does not authorize implementation by itself.
 
-In this mode the assistant must not assume that an old, inconsistent or strategically
-misaligned module surface should be fixed during the audit. The assistant records actual
-implementation, historical design, roadmap coverage, strategic divergence and future
-alignment needs. Implementation remains a separate explicitly authorized task.
-<!-- module-snapshot-roadmap-rebuild-analysis-mode-v0-1:end -->
+Historical predecessor:
+`coordination/bootstrap/module_snapshot_and_roadmap_rebuild_analysis_mode_v0_1.md`.
+<!-- module-analysis-lifecycle-methodology-v0-2:end -->

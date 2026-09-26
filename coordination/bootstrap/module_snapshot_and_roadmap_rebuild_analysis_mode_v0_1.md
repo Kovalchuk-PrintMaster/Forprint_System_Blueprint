@@ -1,3 +1,17 @@
+<!-- module-analysis-v0-2-historical-revision-notice:start -->
+> **Historical methodology revision notice — 2026-09-26**
+>
+> This v0.1 protocol remains preserved as methodology provenance.
+> The current evolving working revision is resolved through:
+> `coordination/bootstrap/module_analysis_methodology_current.yaml`.
+>
+> v0.2 retains the evidence-first/reconstruction principles from this document
+> and extends them with repeatable layers, durable module-snapshot closeout,
+> legacy-heavy analysis, clean-tree-first discipline and methodology self-improvement.
+>
+> Do not delete or rewrite this historical revision merely to match v0.2.
+<!-- module-analysis-v0-2-historical-revision-notice:end -->
+
 # Module Snapshot and Roadmap Rebuild Analysis Mode v0.1
 
 ## Status
