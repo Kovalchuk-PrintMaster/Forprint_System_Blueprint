@@ -1,0 +1,81 @@
+work_front_id: wf-cf10-a003-a004-attempt-history-publication-reconciliation-v0-1
+objective: Publish the four previously untracked immutable Execution Attempt Ledger
+  records that preserve the controlled STARTED-to-terminal transitions for CF-10 attempts
+  a003 and a004, without rewriting their content or changing execution, lifecycle,
+  dispatch, acceptance, retry or release authority.
+scope:
+- coordination/work_fronts/cf10_a003_a004_attempt_history_publication_reconciliation_v0_1.yaml
+- coordination/continuity/execution_attempts/cf10-u180j-a003__571944de6a4e.yaml
+- coordination/continuity/execution_attempts/cf10-u180j-a003__1c8b6804277a.yaml
+- coordination/continuity/execution_attempts/cf10-u180j-a004__be56313f5c2f.yaml
+- coordination/continuity/execution_attempts/cf10-u180j-a004__bc64bdd79056.yaml
+exclusions:
+- Do not rewrite any a003 or a004 attempt record.
+- Do not collapse STARTED and terminal records into one file.
+- Do not delete failed or blocked attempt history.
+- Do not modify a007 or any later retry attempt record.
+- Do not create a new execution attempt.
+- Do not consume Assistant ACK.
+- Do not dispatch, retry, restart, approve, accept, promote, commit, push, merge or
+  release a worker.
+- Do not modify continuity lifecycle events or roadmap execution state.
+- Do not modify generated projections, indexes/*, machine/* or unrelated dirty worktree
+  paths.
+- Do not use git add -A, git add ., git clean, stash, rebase or hard reset.
+provenance:
+  source_refs:
+  - coordination/standards/automation/execution_attempt_ledger_contract_v0_1.yaml
+  - coordination/continuity/execution_attempts/cf10-u180j-a003__571944de6a4e.yaml
+  - coordination/continuity/execution_attempts/cf10-u180j-a003__1c8b6804277a.yaml
+  - coordination/continuity/execution_attempts/cf10-u180j-a004__be56313f5c2f.yaml
+  - coordination/continuity/execution_attempts/cf10-u180j-a004__bc64bdd79056.yaml
+  - coordination/continuity/execution_attempts/cf10-u180j-a007__171f511a595a.yaml
+  - coordination/continuity/execution_attempts/cf10-u180j-a007__a3a2951af1d9.yaml
+  - coordination/work_fronts/cf10_worker_delta_pipeline_completion_v0_1.yaml
+  - coordination/work_fronts/cf10_verification_tier_self_hardening_v0_1.yaml
+  chat_is_authority: false
+dependencies:
+- Execution Attempt Ledger storage is append-only immutable files.
+- Duplicate attempt_id is permitted only for a controlled terminal transition.
+- a003 STARTED/PENDING precedes its FINISHED/FAILED terminal record.
+- a004 STARTED/PENDING precedes its BLOCKED/BLOCKED terminal record.
+- a007 exists as a later retry with retry_of_attempt_id=cf10-u180j-a004.
+- Main staging is empty before publication preparation.
+outputs:
+- Four immutable historical attempt records become tracked canonical fact history.
+- a003 FAILED history remains intact and unmodified.
+- a004 BLOCKED history remains intact and unmodified.
+- The existing a007 retry chain remains resolvable from clean checkout.
+- No lifecycle or execution authority is changed.
+acceptance:
+- This Work Front validates.
+- Canonical Execution Attempt Ledger validator passes.
+- The four attempt records are byte-preserved and staged without edits.
+- a003 pair validates as STARTED/PENDING then FINISHED/FAILED.
+- a004 pair validates as STARTED/PENDING then BLOCKED/BLOCKED.
+- a007 retry_of_attempt_id resolves to a004.
+- Staging contains exactly this Work Front plus the four attempt records.
+- git diff --cached --check passes.
+stop_conditions:
+- HEAD no longer starts at c83ff1f before staging.
+- Main staging is non-empty.
+- Any attempt record is already tracked under unexpected history.
+- Any a003/a004 immutable record would need content mutation.
+- a007 retry linkage to a004 cannot be proven.
+- Ledger semantics differ from append-only immutable controlled terminal transitions.
+- Any unrelated path would be staged.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false
+capability_reuse:
+  search_performed: true
+  searched_surfaces:
+  - coordination/work_fronts/*.yaml
+  - coordination/standards/automation/execution_attempt_ledger_contract_v0_1.yaml
+  - coordination/continuity/execution_attempts
+  disposition: EXTEND
+  target_refs:
+  - coordination/standards/automation/execution_attempt_ledger_contract_v0_1.yaml
