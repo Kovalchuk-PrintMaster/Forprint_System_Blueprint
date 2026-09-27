@@ -482,6 +482,96 @@ def _load_freshness_resume_runtime(root: Path) -> Any:
     return module
 
 
+def _task_execution_recompile_bindings(
+    manifest: dict[str, Any],
+) -> dict[str, Any]:
+    if manifest.get("launch_mode") != "TASK_EXECUTION":
+        return {}
+
+    resume = manifest.get("resume_coordinates")
+    if not isinstance(resume, dict):
+        raise RuntimeErrorV2(
+            "TASK_EXECUTION origin manifest resume_coordinates missing"
+        )
+
+    front_binding = manifest.get(
+        "work_front_or_project_onboard_not_applicable_reason"
+    )
+    profile_binding = manifest.get(
+        "execution_profile_revision_for_task_execution"
+    )
+    procedure_binding = manifest.get(
+        "governed_procedure_revision_or_not_required_reason"
+    )
+    base_context = manifest.get("base_context")
+    task_context = (
+        base_context.get("task_execution_context")
+        if isinstance(base_context, dict)
+        else None
+    )
+
+    if not isinstance(front_binding, dict):
+        raise RuntimeErrorV2("TASK_EXECUTION origin Work Front binding missing")
+    if not isinstance(profile_binding, dict):
+        raise RuntimeErrorV2("TASK_EXECUTION origin Execution Profile binding missing")
+    if not isinstance(procedure_binding, dict):
+        raise RuntimeErrorV2("TASK_EXECUTION origin procedure binding missing")
+    if not isinstance(task_context, dict):
+        raise RuntimeErrorV2("TASK_EXECUTION origin task-context binding missing")
+
+    front = resume.get("front") or front_binding.get("front")
+    profile_id = resume.get("profile_id") or profile_binding.get("profile_id")
+    prompt_id = resume.get("prompt_id") or task_context.get("prompt_id")
+    module_root = resume.get("module_root") or task_context.get("module_root")
+    module = task_context.get("module")
+
+    required = {
+        "front": front,
+        "profile_id": profile_id,
+        "prompt_id": prompt_id,
+        "module_root": module_root,
+    }
+    for name, value in required.items():
+        if not isinstance(value, str) or not value.strip():
+            raise RuntimeErrorV2(
+                f"TASK_EXECUTION origin binding missing: {name}"
+            )
+
+    kwargs: dict[str, Any] = {
+        "front": front,
+        "profile_id": profile_id,
+        "prompt_id": prompt_id,
+        "module_root": module_root,
+        "module": module if isinstance(module, str) and module.strip() else None,
+        "procedure_id": None,
+        "procedure_not_required_reason": None,
+    }
+
+    classification = procedure_binding.get("classification")
+    if classification == "GRAPH_REQUIRED":
+        procedure_id = (
+            resume.get("procedure_id")
+            or procedure_binding.get("procedure_id")
+        )
+        if not isinstance(procedure_id, str) or not procedure_id.strip():
+            raise RuntimeErrorV2(
+                "TASK_EXECUTION GRAPH_REQUIRED procedure_id missing"
+            )
+        kwargs["procedure_id"] = procedure_id
+    elif classification == "NOT_REQUIRED":
+        reason = procedure_binding.get("reason")
+        if not isinstance(reason, str) or not reason.strip():
+            raise RuntimeErrorV2(
+                "TASK_EXECUTION NOT_REQUIRED procedure reason missing"
+            )
+        kwargs["procedure_not_required_reason"] = reason
+    else:
+        raise RuntimeErrorV2(
+            "TASK_EXECUTION origin procedure classification unsupported"
+        )
+
+    return kwargs
+
 def validate_result_for_return(
     root: Path,
     manifest: dict[str, Any],
@@ -513,9 +603,15 @@ def validate_result_for_return(
         ]
         return report
 
+    recompile_bindings = (
+        _task_execution_recompile_bindings(manifest)
+        if launch_mode == "TASK_EXECUTION"
+        else {}
+    )
     live_manifest = compile_runtime_manifest(
         root,
         launch_mode=launch_mode,
+        **recompile_bindings,
     )
     freshness = freshness_runtime.validate_freshness_and_resume(
         manifest,
@@ -531,6 +627,7 @@ def validate_result_for_return(
             *freshness["errors"],
         ]
     return report
+
 
 
 def write_manifest(root: Path, manifest: dict[str, Any], output_dir: Path | None) -> Path:
