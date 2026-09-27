@@ -1,0 +1,254 @@
+schema_version: forprint_roadmap_operating_contract_v0_1
+document_type: MACHINE_READABLE_PROJECT_ROADMAP_OPERATING_CONTRACT
+status: CURRENT_WORKING_CONTRACT_FOR_ASSISTANT_HANDOFF
+language: uk
+scope: ForPrint project-wide strategic, portfolio and module roadmap management
+purpose: Передати новій помічниці правила, за якими ForPrint створює, збагачує, узгоджує і використовує roadmap без змішування planning, architecture,
+  execution та фактичного implementation state.
+authority_model:
+  strategic_direction:
+    owners:
+    - HUMAN_OWNER
+    - STRATEGIC_ASSISTANT_AS_PLANNING_AID
+    meaning: Людина задає стратегічний напрям, цілі, пріоритети і приймає суттєві portfolio/ownership рішення. Стратегічна помічниця допомагає
+      формалізувати та збагачувати напрям, але не є автономним джерелом влади.
+  architecture_and_ownership:
+    owner: FORPRINT_SYSTEM_BLUEPRINT
+    responsibilities:
+    - module boundaries
+    - canonical ownership
+    - inter-module contracts
+    - dependencies
+    - architecture compatibility
+    - global standards and policy
+  execution:
+    rule: Roadmap не є execution authority. Реальне виконання відбувається через окремо авторизовані execution contours / Work Front / task or
+      prompt contracts та фактичні module-local workflows.
+    continuity_authority: CONTINUITY_EVENT_STORE where applicable
+    important:
+    - planned != activated
+    - activated != launched
+    - launched != accepted
+    - accepted != automatically next-step activated
+core_principles:
+- id: RM-P01
+  rule: ROADMAP_IS_PLANNING_NOT_EXECUTION
+  meaning: Roadmap описує стратегічний намір, цільовий стан, залежності, пріоритети і горизонти; сам по собі не запускає код, не дає release/acceptance
+    authority.
+- id: RM-P02
+  rule: DUAL_HUMAN_AND_MACHINE_REPRESENTATION
+  meaning: Кожна суттєва стратегічна roadmap-сутність повинна мати machine-readable представлення і зрозумілий human-readable view.
+- id: RM-P03
+  rule: EVIDENCE_BEFORE_ROADMAP_CHANGE
+  meaning: Перед створенням або зміною roadmap перевіряється фактичний стан implementation, існуючі roadmap surfaces, Human Intent, ownership/contracts/dependencies
+    і релевантна історія.
+- id: RM-P04
+  rule: REUSE_FIRST_NOVELTY_GATE
+  meaning: Нове не створюється автоматично. Спочатку обов'язково класифікувати REUSE / EXTEND / ADAPT / REPLACE / NEW.
+- id: RM-P05
+  rule: NEW_REQUIRES_ABSENCE_EVIDENCE
+  meaning: NEW дозволяється лише після evidence-backed пошуку, який показує, що відповідний обов'язок/механізм/roadmap item/implementation не
+    існує або принципово непридатний.
+- id: RM-P06
+  rule: REPLACE_REQUIRES_SUPERSESSION
+  meaning: REPLACE має містити supersession/migration/retirement semantics; старе не зникає мовчки.
+- id: RM-P07
+  rule: CURRENT_STATE_AND_TARGET_STATE_MUST_BE_SEPARATE
+  meaning: Фактично реалізоване, current useful/historical, planned target, blocked/deferred і experimental не змішуються в одну декларацію.
+- id: RM-P08
+  rule: NO_ARCHITECTURE_FROM_ROADMAP_GUESSING
+  meaning: Roadmap assistant не вигадує ownership, contract authority або module boundaries. Матеріальні конфлікти ескалюються до Human Owner
+    + System Blueprint.
+- id: RM-P09
+  rule: EXECUTION_CONTOURS_NOT_WAVES
+  meaning: Для нової planning/execution моделі використовувати execution contours, bounded work fronts/dispatch boundaries. 'Wave' зберігається
+    лише як historical terminology.
+- id: RM-P10
+  rule: APPEND_AND_RECONCILE_DO_NOT_ERASE_HISTORY
+  meaning: 'Roadmap evolution повинна зберігати provenance: що було заплановано, що уточнено, що superseded, що виконано, що заблоковано або відкладено.'
+roadmap_layers:
+  human_intent:
+    role: 'Фіксує реальний намір власника: чого хочемо досягти, чому це важливо, які обмеження/пріоритети/небажані напрями існують.'
+    authority: HUMAN_INTENT_EVIDENCE
+  strategic_portfolio_roadmap:
+    role: Міжмодульні стратегічні горизонти, пріоритети, залежності, capability targets, major sequencing and portfolio implications.
+  module_roadmap:
+    role: Цільовий розвиток конкретного модуля в межах його ownership; не повинен поглинати чужі domain responsibilities.
+  machine_views:
+    role: Нормалізовані machine-readable записи для graph/dependency/status/reconciliation tooling.
+  human_views:
+    role: Зрозумілий людям roadmap/portfolio view з rationale, short evidence excerpts, current state, target state, risks and unresolved questions.
+  execution_state:
+    role: Окрема поверхня. Execution events/status/progress не перетворюються автоматично на стратегічну зміну roadmap.
+required_dual_representation:
+  machine_readable_should_capture:
+  - stable item/module/capability id
+  - owner/module boundary
+  - strategic thesis or target
+  - current state classification
+  - target state
+  - priority if explicitly authorized
+  - dependencies
+  - blocking dependencies
+  - related Human Intent refs
+  - related architecture/contract refs
+  - implementation evidence refs
+  - roadmap provenance
+  - REUSE/EXTEND/ADAPT/REPLACE/NEW disposition where applicable
+  - status such as planned/implemented/partial/deferred/blocked/experimental using repository canonical vocabulary
+  - supersession/migration links when applicable
+  human_readable_should_capture:
+  - 'коротко: що і навіщо'
+  - поточний фактичний стан
+  - цільовий стан
+  - що вже реалізовано
+  - що ще не реалізовано
+  - головні залежності
+  - ризики/блокери
+  - чому прийнято саме такий напрям
+  - короткі стислі excerpts із реальних planning conversations як rationale/evidence
+  - посилання на canonical machine-readable sources
+pre_change_reconciliation_gate:
+  name: P0_RECONCILE_AUDIT_BEFORE_CREATION
+  mandatory: true
+  inspect:
+  - live implementation in target module
+  - module and portfolio roadmap surfaces
+  - Human Intent
+  - target/capability surfaces
+  - owners
+  - contracts
+  - dependencies
+  - relevant Blueprint architecture/policies
+  - durable module snapshots and L0 analysis if available
+  - historical evidence only where it materially changes interpretation
+  required_disposition_exactly_one:
+  - REUSE
+  - EXTEND
+  - ADAPT
+  - REPLACE
+  - NEW
+  rules:
+    REUSE: Use existing capability/item without duplicating it.
+    EXTEND: Add bounded scope to an existing roadmap item/capability.
+    ADAPT: Reuse existing mechanism but change it for the new context.
+    REPLACE: Supersede with explicit migration/retirement semantics.
+    NEW: Create only when no adequate existing obligation/capability/item exists; evidence required.
+module_analysis_to_roadmap_enrichment:
+  input: L0 module analysis / durable module snapshot / verified repository evidence
+  process:
+  - reconstruct actual current implementation
+  - separate current canonical/useful/historical/superseded/contradictory evidence
+  - identify functionality that exists but is missing from roadmap
+  - identify roadmap claims that exceed implementation
+  - identify ownership/contract/dependency drift
+  - map findings onto existing roadmap items first
+  - EXTEND/ADAPT existing items where possible
+  - create NEW roadmap item only when existing item cannot carry the obligation cleanly
+  - record unresolved questions instead of guessing
+  preferred_output:
+  - current-state evidence bullets
+  - refinements to existing horizon items
+  - dependency additions
+  - blocked/deferred notes
+  - new roadmap item candidates only when justified
+  must_not_do:
+  - change strategic priority without Human Owner authority
+  - activate execution
+  - mark acceptance/release
+  - silently rewrite ownership
+  - erase historical contradiction
+  - treat green local tests as proof of current portfolio conformance
+status_and_evidence_rules:
+  implemented_requires:
+  - verified repository implementation evidence
+  - relevant tests/checks where applicable
+  - governance/contract checks where applicable
+  - durable commit/checkpoint evidence
+  do_not_equate:
+  - planned with implemented
+  - historical implementation with current canonical
+  - local test green with current Blueprint identity/ownership conformance
+  - generated report with architecture authority
+  - roadmap item with execution authority
+  unfinished_work:
+    rule: Keep unfinished/blocked/deferred work explicit and separate from completed work.
+dependency_model:
+  rule: Dependencies are first-class roadmap data. A roadmap item should name what it needs, what it blocks, and which module/contract/owner is
+    responsible for the dependency.
+  types:
+  - architecture/ownership dependency
+  - contract dependency
+  - data/semantic dependency
+  - runtime/integration dependency
+  - governance/approval dependency
+  - implementation dependency
+  cross_module_change: When one roadmap change affects other modules, record affected modules and reconciliation need; do not silently mutate
+    their priorities or implementation.
+priority_and_activation_rules:
+  priority: Priority is a strategic decision. Analysis/convergence may reveal impact/readiness/blockers but must not autonomously raise/lower
+    strategic priority.
+  activation: Roadmap presence or readiness does not activate work. Activation occurs only through the governed execution layer.
+  convergence_engine_or_derived_views: May recompute affected graph, dependencies, blockers, readiness, chains/frontier, desired-vs-actual and
+    derived plan views, but may not autonomously ACCEPT, release, launch or change strategic priority.
+execution_model:
+  canonical_term: EXECUTION_CONTOUR
+  supporting_terms:
+  - Work Front
+  - dispatch boundary
+  - task/prompt authority
+  historical_term_not_for_new_architecture: wave
+  rule: Roadmap defines what/why/target relationships. Execution contour defines a bounded authorized unit of actual work. The two are connected
+    but not interchangeable.
+human_assistant_workflow:
+  normal_sequence:
+  - Human Owner / strategic discussion defines or refines intent.
+  - Strategic assistant extracts thesis, rationale, constraints, dependencies and candidate roadmap effects.
+  - Reconcile against current implementation + Human Intent + existing roadmap + Blueprint ownership/contracts.
+  - Classify REUSE/EXTEND/ADAPT/REPLACE/NEW.
+  - Update machine-readable roadmap data and corresponding human-readable view together.
+  - Preserve concise real-conversation excerpts/rationale where valuable.
+  - Validate roadmap structure/dependencies.
+  - Do not activate execution merely because roadmap changed.
+  - Execution proceeds only through an authorized execution contour.
+  - Later module evidence feeds back into roadmap reconciliation/enrichment.
+assistant_behavior_contract:
+  when_receiving_new_idea:
+  - Do not immediately create a new roadmap item.
+  - Search existing roadmap/Human Intent/capabilities first.
+  - Check whether implementation already exists.
+  - Return the REUSE/EXTEND/ADAPT/REPLACE/NEW disposition.
+  - If architecture/ownership is ambiguous, escalate instead of guessing.
+  when_receiving_completed_module_work:
+  - Verify actual implementation and tests/checkpoints.
+  - Update current-state evidence.
+  - Only mark roadmap completion when the roadmap obligation is actually satisfied.
+  - Keep partial/blocked residual obligations visible.
+  when_receiving_historical_documents:
+  - Treat as evidence/provenance, not automatically current canonical policy.
+  - Reconcile against live Blueprint and repository state.
+anti_patterns:
+- roadmap as a flat TODO list
+- creating new roadmap items before searching existing obligations
+- changing module ownership from a roadmap note
+- using roadmap as runtime dispatcher
+- marking planned functionality as implemented
+- deleting old roadmap history to make the current view cleaner
+- copying historical 'wave' terminology into new canonical execution architecture
+- creating machine-only roadmap without a human-readable rationale view
+- creating human-only roadmap that cannot feed graph/dependency tooling
+- using assistant opinion as strategic priority authority
+minimum_handoff_for_another_assistant:
+  assistant_should_be_able_to_answer:
+  - What is the strategic target?
+  - What is already implemented?
+  - What is only planned?
+  - Who owns the capability/domain?
+  - What are the dependencies and blockers?
+  - Which existing roadmap item already covers this?
+  - Is the correct action REUSE/EXTEND/ADAPT/REPLACE/NEW?
+  - What evidence supports current-state claims?
+  - Does this change roadmap only, or is separate execution authorization required?
+  if_any_answer_is_unknown: Record UNKNOWN_NEEDS_RECONCILIATION / open question using the repository's canonical vocabulary; do not invent.
+compact_formula: HUMAN_INTENT + STRATEGIC_DIRECTION -> RECONCILE_WITH_LIVE_IMPLEMENTATION_AND_BLUEPRINT -> REUSE/EXTEND/ADAPT/REPLACE/NEW -> UPDATE_MACHINE_AND_HUMAN_ROADMAP_TOGETHER
+  -> VALIDATE_OWNERSHIP_DEPENDENCIES_EVIDENCE -> KEEP_PLANNING_SEPARATE_FROM_EXECUTION -> EXECUTE_VIA_BOUNDED_EXECUTION_CONTOUR -> FEED_VERIFIED_RESULTS_BACK_INTO_ROADMAP_RECONCILIATION

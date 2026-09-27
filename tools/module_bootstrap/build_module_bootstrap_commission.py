@@ -34,6 +34,7 @@ BLUEPRINT_REFERENCE_PATHS = [
     "coordination/standards/governance/clean_repository_root_policy_v0_1.yaml",
     "coordination/standards/governance/new_module_bootstrap_protocol_v0_1.md",
     "coordination/standards/governance/module_bootstrap_commission_contract_v0_1.yaml",
+    "coordination/instruction_intake/bootstrap/forprint_roadmap_operating_contract_v0_1.yaml",
     "coordination/standards/module_assistant_start_protocol.md",
     "coordination/standards/project_structure_standard.md",
     "coordination/standards/repository_structure_baseline.md",

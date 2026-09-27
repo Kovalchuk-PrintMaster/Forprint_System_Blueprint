@@ -146,6 +146,19 @@ Context packages grant no execution/acceptance/release authority.
 Root `AGENTS.md` should remain a thin navigation contract.
 `coordination/bootstrap/START_HERE.md` should be the stable module recovery entrypoint.
 
+## ROADMAP OPERATING CONTRACT
+
+Before creating, enriching, reconciling, or interpreting module roadmap work,
+read the committed Blueprint source:
+
+`coordination/instruction_intake/bootstrap/forprint_roadmap_operating_contract_v0_1.yaml`
+
+Treat it as roadmap planning/governance guidance, not execution, acceptance,
+release, production, Blueprint-write, or cross-repository-write authority.
+Preserve its evidence-first `REUSE / EXTEND / ADAPT / REPLACE / NEW` sequence,
+current-state/target-state separation, dependency tracking, and the boundary
+between roadmap planning and separately authorized execution.
+
 ## EXECUTION MODE
 
 ### Stage A — discovery / reconciliation

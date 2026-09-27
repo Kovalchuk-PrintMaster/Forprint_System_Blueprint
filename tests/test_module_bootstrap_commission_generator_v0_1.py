@@ -83,6 +83,7 @@ def test_bootstrap_commission_generator_builds_expected_archive(tmp_path):
             f"{prefix}/acceptance/cold_start_acceptance.yaml",
             f"{prefix}/BLUEPRINT_COMMITTED_REFERENCE/coordination/standards/governance/clean_repository_root_policy_v0_1.yaml",
             f"{prefix}/BLUEPRINT_COMMITTED_REFERENCE/coordination/standards/governance/module_bootstrap_commission_contract_v0_1.yaml",
+            f"{prefix}/BLUEPRINT_COMMITTED_REFERENCE/coordination/instruction_intake/bootstrap/forprint_roadmap_operating_contract_v0_1.yaml",
             f"{prefix}/TEMPLATES/module_bootstrap_manifest.template.yaml",
             f"{prefix}/TOOLS_REFERENCE/module_assistant_context.py",
         }
