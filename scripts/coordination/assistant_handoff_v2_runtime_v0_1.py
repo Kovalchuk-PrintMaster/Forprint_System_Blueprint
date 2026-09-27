@@ -572,6 +572,270 @@ def _task_execution_recompile_bindings(
 
     return kwargs
 
+def _normalize_task_execution_live_manifest_for_started_attempt(
+    root: Path,
+    origin_manifest: dict[str, Any],
+    live_manifest: dict[str, Any],
+    result: dict[str, Any],
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    # Normalize only a mathematically proven current-attempt STARTED/PENDING
+    # ledger side effect. Every mismatch returns the original live manifest,
+    # so ordinary S4 freshness remains fail-closed.
+    import copy as _copy
+
+    from scripts.coordination import execution_attempt_ledger_v0_1 as _ledger
+    from scripts.coordination.continuity import (
+        build_source_state as _build_source_state,
+    )
+    from scripts.coordination.control_plane.context import (
+        task_context_adapter as _task_adapter,
+    )
+
+    def rejected(reason: str) -> tuple[dict[str, Any], dict[str, Any]]:
+        return live_manifest, {
+            "applied": False,
+            "reason": reason,
+            "authority_widened": False,
+            "source_drift_ignored": False,
+        }
+
+    if origin_manifest.get("launch_mode") != "TASK_EXECUTION":
+        return rejected("NOT_TASK_EXECUTION")
+
+    origin_fp = origin_manifest.get("source_state_fingerprint")
+    live_fp = live_manifest.get("source_state_fingerprint")
+    if origin_fp == live_fp:
+        return rejected("ALREADY_FRESH")
+    if not (
+        isinstance(origin_fp, str)
+        and len(origin_fp) == 64
+        and isinstance(live_fp, str)
+        and len(live_fp) == 64
+    ):
+        return rejected("HANDOFF_FINGERPRINT_INVALID")
+
+    attempt_id = result.get("attempt_id")
+    if not isinstance(attempt_id, str) or not attempt_id.strip():
+        return rejected("RESULT_ATTEMPT_ID_MISSING")
+
+    origin_hash = origin_manifest.get("handoff_manifest_sha256")
+    if not isinstance(origin_hash, str) or len(origin_hash) != 64:
+        return rejected("ORIGIN_HANDOFF_HASH_INVALID")
+
+    contract = _ledger.load_contract(root)
+    store = _ledger.store_root(root, contract, None)
+    records = _ledger.records_for_attempt(store, attempt_id)
+    if len(records) != 1:
+        return rejected("ATTEMPT_LEDGER_RECORD_COUNT_NOT_ONE")
+
+    started = records[0]
+    if (
+        started.get("attempt_id") != attempt_id
+        or started.get("attempt_stage") != "STARTED"
+        or started.get("result_state") != "PENDING"
+        or started.get("validator_outcome") != "NOT_RUN"
+    ):
+        return rejected("ATTEMPT_LEDGER_NOT_STARTED_PENDING")
+
+    if started.get("pack_hash_or_context_hash") != origin_hash:
+        return rejected("ATTEMPT_LEDGER_ORIGIN_HASH_MISMATCH")
+
+    front_binding = origin_manifest.get(
+        "work_front_or_project_onboard_not_applicable_reason"
+    )
+    if not isinstance(front_binding, dict):
+        return rejected("ORIGIN_WORK_FRONT_BINDING_MISSING")
+    if started.get("work_front_id") != front_binding.get("work_front_id"):
+        return rejected("ATTEMPT_LEDGER_WORK_FRONT_MISMATCH")
+
+    frozen_source_fp = started.get("source_fingerprint")
+    if not isinstance(frozen_source_fp, str) or len(frozen_source_fp) != 64:
+        return rejected("ATTEMPT_LEDGER_SOURCE_FINGERPRINT_INVALID")
+
+    record_digest = _ledger.record_digest(started)
+    expected_record = store / f"{attempt_id}__{record_digest[:12]}.yaml"
+    if not expected_record.is_file():
+        return rejected("STARTED_LEDGER_RECORD_FILE_MISSING")
+    try:
+        record_rel = expected_record.resolve().relative_to(root).as_posix()
+    except ValueError:
+        return rejected("STARTED_LEDGER_RECORD_OUTSIDE_ROOT")
+
+    live_source = _build_source_state(root)
+    live_source_fp = live_source.get("fingerprint_sha256")
+    if not isinstance(live_source_fp, str) or len(live_source_fp) != 64:
+        return rejected("LIVE_CANONICAL_SOURCE_FINGERPRINT_INVALID")
+
+    origin_resume = origin_manifest.get("resume_coordinates")
+    if not isinstance(origin_resume, dict):
+        return rejected("ORIGIN_RESUME_COORDINATES_MISSING")
+    if live_source.get("git_head") != origin_resume.get("git_head"):
+        return rejected("CANONICAL_HEAD_DRIFT")
+
+    dirty_paths = live_source.get("durable_dirty_paths")
+    dirty_status = live_source.get("dirty_path_status")
+    dirty_content = live_source.get(
+        "dirty_path_content_or_symlink_fingerprint"
+    )
+    rename_origins = live_source.get("rename_or_copy_origins")
+    if not (
+        isinstance(dirty_paths, list)
+        and isinstance(dirty_status, dict)
+        and isinstance(dirty_content, dict)
+        and isinstance(rename_origins, dict)
+    ):
+        return rejected("LIVE_CANONICAL_SOURCE_STATE_MALFORMED")
+
+    if dirty_paths.count(record_rel) != 1:
+        return rejected("STARTED_LEDGER_NOT_EXACTLY_ONE_DIRTY_PATH")
+    if record_rel not in dirty_status or record_rel not in dirty_content:
+        return rejected("STARTED_LEDGER_SOURCE_STATE_EVIDENCE_MISSING")
+
+    normalized_source = _copy.deepcopy(live_source)
+    normalized_source["durable_dirty_paths"] = [
+        path for path in dirty_paths if path != record_rel
+    ]
+    normalized_source["dirty_path_status"].pop(record_rel, None)
+    normalized_source[
+        "dirty_path_content_or_symlink_fingerprint"
+    ].pop(record_rel, None)
+    normalized_source["rename_or_copy_origins"].pop(record_rel, None)
+    normalized_source.pop("fingerprint_sha256", None)
+
+    normalized_source_fp = _sha_bytes(
+        _canonical_json(normalized_source)
+    )
+    normalized_source["fingerprint_sha256"] = normalized_source_fp
+
+    if normalized_source_fp != frozen_source_fp:
+        return rejected("NON_LEDGER_CANONICAL_SOURCE_DRIFT_PRESENT")
+
+    origin_base = origin_manifest.get("base_context")
+    live_base = live_manifest.get("base_context")
+    if not isinstance(origin_base, dict) or not isinstance(live_base, dict):
+        return rejected("HANDOFF_BASE_CONTEXT_MISSING")
+
+    origin_task = origin_base.get("task_execution_context")
+    live_task = live_base.get("task_execution_context")
+    if not isinstance(origin_task, dict) or not isinstance(live_task, dict):
+        return rejected("HANDOFF_TASK_CONTEXT_EVIDENCE_MISSING")
+
+    origin_task_id = origin_task.get("task_context_id")
+    live_task_id = live_task.get("task_context_id")
+    if not (
+        isinstance(origin_task_id, str)
+        and len(origin_task_id) == 64
+        and isinstance(live_task_id, str)
+        and len(live_task_id) == 64
+    ):
+        return rejected("TASK_CONTEXT_ID_INVALID")
+
+    origin_task_without_id = dict(origin_task)
+    live_task_without_id = dict(live_task)
+    origin_task_without_id.pop("task_context_id", None)
+    live_task_without_id.pop("task_context_id", None)
+    if (
+        _canonical_json(origin_task_without_id)
+        != _canonical_json(live_task_without_id)
+    ):
+        return rejected("TASK_CONTEXT_EVIDENCE_DRIFT_BEYOND_ID")
+
+    bindings = _task_execution_recompile_bindings(origin_manifest)
+    prompt_id = bindings.get("prompt_id")
+    module_root = bindings.get("module_root")
+    if not (
+        isinstance(prompt_id, str)
+        and prompt_id.strip()
+        and isinstance(module_root, str)
+        and module_root.strip()
+    ):
+        return rejected("TASK_CONTEXT_RECOMPILE_BINDINGS_INVALID")
+
+    live_full_context = _task_adapter.build_internal_task_context(
+        root,
+        task_id=prompt_id,
+        module_root=module_root,
+    )
+    if live_full_context.get("task_context_id") != live_task_id:
+        return rejected("LIVE_TASK_CONTEXT_ID_EVIDENCE_MISMATCH")
+
+    full_source = live_full_context.get("source_state")
+    if not isinstance(full_source, dict):
+        return rejected("LIVE_TASK_CONTEXT_SOURCE_STATE_MISSING")
+    if full_source.get("fingerprint_sha256") != live_source_fp:
+        return rejected("LIVE_TASK_CONTEXT_SOURCE_STATE_MISMATCH")
+
+    reconstructed_context = _copy.deepcopy(live_full_context)
+    reconstructed_context.pop("task_context_id", None)
+    reconstructed_source = reconstructed_context.get("source_state")
+    if not isinstance(reconstructed_source, dict):
+        return rejected("RECONSTRUCTED_TASK_CONTEXT_SOURCE_STATE_MISSING")
+
+    reconstructed_source["fingerprint_sha256"] = normalized_source_fp
+    reconstructed_source["durable_dirty_path_count"] = len(
+        normalized_source["durable_dirty_paths"]
+    )
+
+    reconstructed_task_id = _task_adapter._sha256_bytes(
+        _task_adapter._canonical_json(reconstructed_context)
+    )
+    if reconstructed_task_id != origin_task_id:
+        return rejected("ORIGIN_TASK_CONTEXT_ID_NOT_REPRODUCED")
+
+    normalized_live = _copy.deepcopy(live_manifest)
+    normalized_base = normalized_live.get("base_context")
+    if not isinstance(normalized_base, dict):
+        return rejected("NORMALIZED_BASE_CONTEXT_MISSING")
+    normalized_task = normalized_base.get("task_execution_context")
+    if not isinstance(normalized_task, dict):
+        return rejected("NORMALIZED_TASK_CONTEXT_MISSING")
+    normalized_task["task_context_id"] = reconstructed_task_id
+
+    normalized_resume = normalized_live.get("resume_coordinates")
+    if not isinstance(normalized_resume, dict):
+        return rejected("NORMALIZED_RESUME_COORDINATES_MISSING")
+
+    composite_input = {
+        "head": normalized_resume.get("git_head"),
+        "launch_mode": normalized_live.get("launch_mode"),
+        "front": normalized_live.get(
+            "work_front_or_project_onboard_not_applicable_reason"
+        ),
+        "profile": normalized_live.get(
+            "execution_profile_revision_for_task_execution"
+        ),
+        "procedure": normalized_live.get(
+            "governed_procedure_revision_or_not_required_reason"
+        ),
+        "task_context": normalized_task,
+        "cursor": normalized_live.get("lifecycle_roadmap_cursor"),
+    }
+    reconstructed_handoff_fp = _sha_bytes(
+        _canonical_json(composite_input)
+    )
+    if reconstructed_handoff_fp != origin_fp:
+        return rejected("ORIGIN_HANDOFF_COMPOSITE_NOT_REPRODUCED")
+
+    normalized_live["source_state_fingerprint"] = (
+        reconstructed_handoff_fp
+    )
+
+    return normalized_live, {
+        "applied": True,
+        "reason": "CURRENT_ATTEMPT_STARTED_LEDGER_ONLY",
+        "attempt_id": attempt_id,
+        "ledger_record": record_rel,
+        "frozen_source_fingerprint": frozen_source_fp,
+        "live_source_fingerprint": live_source_fp,
+        "reconstructed_task_context_id": reconstructed_task_id,
+        "reconstructed_handoff_source_fingerprint": (
+            reconstructed_handoff_fp
+        ),
+        "authority_widened": False,
+        "source_drift_ignored": False,
+        "unrelated_source_drift_allowed": False,
+    }
+
 def validate_result_for_return(
     root: Path,
     manifest: dict[str, Any],
@@ -613,6 +877,29 @@ def validate_result_for_return(
         launch_mode=launch_mode,
         **recompile_bindings,
     )
+
+    normalization = {
+        "applied": False,
+        "reason": "NOT_REQUIRED",
+        "authority_widened": False,
+        "source_drift_ignored": False,
+    }
+    if (
+        launch_mode == "TASK_EXECUTION"
+        and manifest.get("source_state_fingerprint")
+        != live_manifest.get("source_state_fingerprint")
+    ):
+        live_manifest, normalization = (
+            _normalize_task_execution_live_manifest_for_started_attempt(
+                root,
+                manifest,
+                live_manifest,
+                report["result"],
+            )
+        )
+
+    report["freshness_normalization"] = normalization
+
     freshness = freshness_runtime.validate_freshness_and_resume(
         manifest,
         live_manifest,
@@ -627,6 +914,7 @@ def validate_result_for_return(
             *freshness["errors"],
         ]
     return report
+
 
 
 
