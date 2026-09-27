@@ -2,7 +2,7 @@ schema_version: forprint_assistant_context_system_specs_v0_1
 status: CURRENT_BOOTSTRAP_NAVIGATION
 owner: forprint_system_blueprint
 authority: none_navigation_only
-updated_at: '2026-09-26'
+updated_at: '2026-09-27'
 purpose: Compact zero-context operating map for a new Blueprint assistant. This file routes to canonical sources and does
   not replace them.
 context_pack_contract:
@@ -138,3 +138,39 @@ module_snapshot_and_roadmap_rebuild_mode:
   - rebuild/update portfolio roadmaps
   - define alignment and migration contours
   - authorize bounded implementation separately
+module_analysis_resume:
+  purpose: Resume portfolio module-knowledge analysis without guessing the current target.
+  required_before_target_selection: true
+  status_reconstruction_sources:
+  - coordination/repository_knowledge/module_knowledge_stabilization/snapshots/index_v0_1.yaml
+  - coordination/repository_knowledge/module_knowledge_stabilization/priority_module_sequence_v0_1.yaml
+  - coordination/bootstrap/module_analysis_methodology_current.yaml
+  - live target-module Git state and module-local durable snapshot surfaces
+  status_vocabulary:
+  - COMPLETE_REGISTERED
+  - COMPLETE_MODULE_ONLY_NEEDS_BLUEPRINT_REGISTRATION
+  - PARTIAL_ANALYSIS
+  - NOT_STARTED
+  - UNKNOWN_NEEDS_RECONCILIATION
+  selection_rule: The priority sequence is ordering guidance, not current-state truth. Reconstruct every earlier module status
+    from durable/live evidence first; select the first module not complete for the current pass only after that.
+  hardcoded_current_module_forbidden: true
+  module_completion_requires:
+  - durable module snapshot exists
+  - snapshot commit is remote-contained
+  - Blueprint snapshot registration exists
+  analysis_entry_shape:
+    first_pass: L0 coarse thematic baseline reconstruction
+    coarse_inventory_first: true
+    large_thematic_packets_first: true
+    micro_file_by_file_chat_analysis_forbidden_as_default: true
+    operator_packet_flow:
+    - assistant segments repository into a few large semantic packets
+    - operator transfers one packet/evidence bundle at a time when needed
+    - assistant returns packet analysis report
+    - temporary reports accumulate under tmp/module_knowledge_analysis/<module>/
+    - after all packets, synthesize comprehensive audit
+    - promote durable evidence into module-local snapshot surfaces
+    - commit/push module snapshot
+    - register snapshot in Blueprint
+    - only then advance to next module

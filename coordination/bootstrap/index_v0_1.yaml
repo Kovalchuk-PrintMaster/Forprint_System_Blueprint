@@ -17,6 +17,7 @@ default_topics:
 - self_knowledge
 - assistant_bootstrap_living
 - assistant_operating_context
+- module_analysis_resume
 reading_order:
 - coordination/instruction_intake/assistant_reading_order.md
 - coordination/bootstrap/assistant_context_system_specs_v0_1.yaml
@@ -26,6 +27,8 @@ reading_order:
 - coordination/global_policy/current_execution_focus.md
 - coordination/roadmaps/details/forprint_system_blueprint/autonomous_multi_module_coordination_program_v0_1.md
 - coordination/roadmaps/details/forprint_system_blueprint/module_preparation_and_portfolio_readiness_program_v0_1.md
+- coordination/bootstrap/module_analysis_methodology_current.yaml
+- coordination/repository_knowledge/module_knowledge_stabilization/snapshots/index_v0_1.yaml
 topics:
   purpose:
     sources:
@@ -231,6 +234,31 @@ topics:
       mode: file
       required: false
       role: optional_local_refreshable_navigation
+  module_analysis_resume:
+    purpose: Resolve completed/partial/not-started module-analysis status before selecting the next module in the knowledge-stabilization
+      sequence.
+    sources:
+    - path: coordination/bootstrap/module_analysis_methodology_current.yaml
+      mode: file
+      required: true
+    - path: coordination/bootstrap/module_analysis_lifecycle_methodology_v0_2.md
+      mode: file
+      required: true
+    - path: coordination/bootstrap/module_analysis_lifecycle_methodology_v0_2.yaml
+      mode: file
+      required: true
+    - path: coordination/repository_knowledge/module_knowledge_stabilization/priority_module_sequence_v0_1.yaml
+      mode: file
+      required: true
+    - path: coordination/repository_knowledge/module_knowledge_stabilization/snapshots/index_v0_1.yaml
+      mode: file
+      required: true
+    - path: coordination/repository_knowledge/module_knowledge_stabilization/stage_2_module_knowledge_stabilization_charter_v0_1.md
+      mode: file
+      required: true
+    - path: coordination/repository_knowledge/module_knowledge_stabilization/module_analysis_playbook_v0_1.md
+      mode: file
+      required: true
 module_detail:
   directory_root: coordination/roadmaps/details
   extensions:

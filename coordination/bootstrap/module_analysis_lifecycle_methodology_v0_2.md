@@ -181,6 +181,61 @@ L4  Periodic Drift Reassessment
 
 A module need not run every layer every time.
 
+## 5.1 Portfolio resume and next-module selection
+
+A fresh assistant must **not** infer the current module from chat memory, an old handoff,
+a previously named module, or the static priority sequence.
+
+Before choosing a target, reconstruct a small module-analysis status ledger from durable
+and live evidence.
+
+Use these statuses:
+
+- `COMPLETE_REGISTERED`
+- `COMPLETE_MODULE_ONLY_NEEDS_BLUEPRINT_REGISTRATION`
+- `PARTIAL_ANALYSIS`
+- `NOT_STARTED`
+- `UNKNOWN_NEEDS_RECONCILIATION`
+
+Minimum evidence order:
+
+1. Blueprint module-snapshot registry;
+2. module-local durable snapshot/report/index surfaces;
+3. module Git HEAD/upstream containment;
+4. temporary analysis evidence only as supporting evidence;
+5. static priority sequence only after completion status is known.
+
+The priority sequence answers **which incomplete module comes first**.
+It does not answer **which module is currently incomplete**.
+
+A module is complete for the current L0 pass only when its durable snapshot is
+remote-contained and the corresponding Blueprint historical snapshot registration exists.
+
+If the module is durable/remote-contained but Blueprint registration is missing, classify it
+`COMPLETE_MODULE_ONLY_NEEDS_BLUEPRINT_REGISTRATION`; register it before advancing.
+
+For the first analysis pass, preserve the coarse workflow:
+
+```text
+coarse inventory
+-> a few large thematic packets
+-> sequential packet analysis reports
+-> comprehensive synthesis
+-> durable module snapshot
+-> module commit/push
+-> Blueprint snapshot registration
+-> next-module resolution
+```
+
+Do not default to script-by-script or file-by-file chat analysis.
+
+The operator may transfer one thematic packet at a time. The assistant analyzes that packet
+and returns a report. Temporary packet reports/evidence accumulate under
+`tmp/module_knowledge_analysis/<module>/` until synthesis.
+
+Only after the full module is understood should useful evidence be promoted into the
+module-local durable snapshot.
+
 ## 6. Layer 0 — Baseline Reconstruction & Knowledge Stabilization
 
 Status: `DEFINED_AND_PILOTED`

@@ -96,3 +96,38 @@ methodology_improvement:
   - git_policy_change
   - automatic_canonical_mutation
   - cleanup_or_retirement
+portfolio_resume:
+  required_before_target_selection: true
+  hardcoded_current_module_forbidden: true
+  status_vocabulary:
+  - COMPLETE_REGISTERED
+  - COMPLETE_MODULE_ONLY_NEEDS_BLUEPRINT_REGISTRATION
+  - PARTIAL_ANALYSIS
+  - NOT_STARTED
+  - UNKNOWN_NEEDS_RECONCILIATION
+  evidence_order:
+  - blueprint_snapshot_registry
+  - module_local_durable_snapshot
+  - module_git_remote_containment
+  - temporary_analysis_supporting_evidence
+  - priority_sequence_after_status_reconstruction
+  completion_for_current_l0_pass:
+  - durable_snapshot_present
+  - module_snapshot_commit_remote_contained
+  - blueprint_snapshot_registration_present
+  priority_sequence_is_ordering_not_current_state_truth: true
+  first_pass_shape:
+  - coarse_inventory
+  - few_large_thematic_packets
+  - sequential_packet_analysis_reports
+  - comprehensive_synthesis
+  - durable_module_snapshot
+  - module_commit_push
+  - blueprint_snapshot_registration
+  - next_module_resolution
+  operator_packet_exchange:
+    one_large_thematic_packet_at_a_time_supported: true
+    assistant_returns_packet_report: true
+    temporary_analysis_root: tmp/module_knowledge_analysis/<module>/
+    promote_only_after_full_synthesis: true
+  micro_file_by_file_analysis_default: false
