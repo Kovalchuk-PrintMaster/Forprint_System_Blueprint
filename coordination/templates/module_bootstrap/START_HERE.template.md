@@ -64,7 +64,7 @@ A new module should maintain at least:
 ```text
 AGENTS.md
 README.md
-forprint_module_manifest.yaml
+coordination/module/manifest.yaml
 Makefile
 pyproject.toml
 
@@ -115,7 +115,7 @@ tests/
 Makefile
 README.md
 pyproject.toml
-forprint_module_manifest.yaml
+coordination/module/manifest.yaml
 ```
 
 Keep the tree shallow and thematic. `scripts/` is not a dumping ground. As it grows,
@@ -193,3 +193,16 @@ A replacement assistant must be able to answer from repository evidence:
 - Which artifacts/reports are current?
 - What is blocked or undecided?
 - What is the next safe action?
+
+<!-- module-bootstrap-commission-v0-1:start -->
+## Clean-root acceptance
+
+The root is a scarce operator/tooling surface. Typical root entries are limited to genuine
+tooling or first-level human/operator entrypoints such as `.gitignore`, `README.md`,
+`AGENTS.md`, `Makefile` and `pyproject.toml`.
+
+The canonical module manifest is `coordination/module/manifest.yaml` by default.
+Do not create a duplicate root manifest for compatibility with older helpers.
+
+Before bootstrap closeout, every additional canonical root entry must be justified.
+<!-- module-bootstrap-commission-v0-1:end -->

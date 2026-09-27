@@ -6,6 +6,14 @@ status: __BOOTSTRAP_OR_ACTIVE_STATUS__
 purpose: >-
   Stable module-local bootstrap navigation metadata. Current task state belongs
   in coordination/status and work/prompt records.
+module_manifest:
+  canonical_path: coordination/module/manifest.yaml
+  root_compatibility_copy_forbidden: true
+  single_source_of_truth_required: true
+clean_root:
+  maximally_clean: true
+  additional_canonical_root_entry_requires_justification: true
+  temporary_operator_artifacts_are_noncanonical: true
 blueprint:
   root_variable: BLUEPRINT_ROOT
   write_from_module_forbidden: true

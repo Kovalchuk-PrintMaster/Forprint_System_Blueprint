@@ -144,3 +144,24 @@ Do not run module-side `blueprint-pull`.
 `module-start` freshness-checks Blueprint, synchronizes module-local snapshots,
 renders status and prompt notification, and reads the next ready prompt.
 Local validation remains network-independent.
+
+<!-- module-bootstrap-commission-v0-1:start -->
+## Zero-state / pre-module commissioning entry
+
+When the target module does not yet have its own usable assistant continuity surface, start
+from a Blueprint-generated `MODULE_BOOTSTRAP_COMMISSION` package.
+
+That package is pre-module evidence/navigation. It is not `MODULE_ONBOARD`.
+
+After the repository reaches `FOUNDATION_REMOTE_CONTAINED`, the module must commission its own
+current continuity surface and prove:
+
+```text
+make assistant-handoff-check
+make assistant-pack
+make assistant-context-pack TOPICS=<bounded-topic>
+```
+
+Only after `MODULE_ONBOARD`, `MODULE_CONTEXT` and cold-start recovery are verified should the
+module be considered `SELF_ONBOARD_VERIFIED`.
+<!-- module-bootstrap-commission-v0-1:end -->

@@ -180,6 +180,8 @@ help:
 	@echo "  make assistant-pack FRONT=<work-front-id>"
 	@echo "  make assistant-context-pack MODULE=forprint_system_blueprint TOPICS=<comma-separated-topics>"
 	@echo "  make assistant-handoff-check"
+	@echo "  make module-bootstrap-commission-check COMMISSION_REQUEST=<request.yaml>"
+	@echo "  make module-bootstrap-commission COMMISSION_REQUEST=<request.yaml>"
 	@echo "  make roadmap-sync-check"
 	@echo "  make continuity-lifecycle-status"
 	@echo "  make continuity-projections-check"
@@ -2737,6 +2739,32 @@ assistant-handoff-check:
 	$(PYTHON) scripts/coordination/blueprint_continuity_adapter_v0_1.py --root . --handoff-validate
 	$(PYTHON) scripts/validation/validate_assistant_handoff_compiler_v0_1.py
 	$(PYTHON) -m pytest -q tests/validation/test_assistant_handoff_compiler_v0_1.py
+
+# Target: module-bootstrap-commission-check
+# Purpose: Validate one zero-state module commissioning request against committed Blueprint authority.
+# Safety: READ-ONLY — reads request and committed Blueprint HEAD; performs no canonical mutation.
+# Inputs: COMMISSION_REQUEST=<request.yaml>.
+# Scope: LOCAL/FOCUSED — one requested module bootstrap commission.
+# Result: Request/source/freshness checks pass or fail closed.
+BOOTSTRAP_COMMISSION_BUILDER ?= tools/module_bootstrap/build_module_bootstrap_commission.py
+COMMISSION_REQUEST ?=
+BOOTSTRAP_COMMISSION_OUTPUT_DIR ?=
+
+.PHONY: module-bootstrap-commission-check
+module-bootstrap-commission-check:
+	@test -n "$(COMMISSION_REQUEST)" || { echo "FAILED: provide COMMISSION_REQUEST=<request.yaml>"; exit 2; }
+	$(PYTHON) $(BOOTSTRAP_COMMISSION_BUILDER) --root . --request "$(COMMISSION_REQUEST)" check
+
+# Target: module-bootstrap-commission
+# Purpose: Build a MODULE_BOOTSTRAP_COMMISSION archive for a zero-state/new-module worker.
+# Safety: GENERATED-ARTIFACT WRITE — writes under tmp/ by default; never mutates canonical Blueprint/module source or Git refs.
+# Inputs: COMMISSION_REQUEST=<request.yaml>; optional BOOTSTRAP_COMMISSION_OUTPUT_DIR=<tmp/output>.
+# Scope: LOCAL/FOCUSED — one requested module bootstrap commission.
+# Result: Archive contains committed Blueprint evidence, clean-root/continuity policy, templates and cold-start acceptance.
+.PHONY: module-bootstrap-commission
+module-bootstrap-commission:
+	@test -n "$(COMMISSION_REQUEST)" || { echo "FAILED: provide COMMISSION_REQUEST=<request.yaml>"; exit 2; }
+	@if [ -n "$(BOOTSTRAP_COMMISSION_OUTPUT_DIR)" ]; then 		$(PYTHON) $(BOOTSTRAP_COMMISSION_BUILDER) --root . --request "$(COMMISSION_REQUEST)" --output-dir "$(BOOTSTRAP_COMMISSION_OUTPUT_DIR)" build; 	else 		$(PYTHON) $(BOOTSTRAP_COMMISSION_BUILDER) --root . --request "$(COMMISSION_REQUEST)" build; 	fi
 
 # Target: assistant-pack
 # Purpose: Build the authoritative project-onboarding assistant handoff archive after governance gates.

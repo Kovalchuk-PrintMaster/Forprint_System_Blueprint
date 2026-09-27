@@ -69,7 +69,7 @@ AGENTS.md
 coordination/bootstrap/START_HERE.md
 README.md
 Makefile
-forprint_module_manifest.yaml
+coordination/module/manifest.yaml
 pyproject.toml
 coordination/
 docs/
@@ -233,3 +233,26 @@ If you generate long evidence, write it to module-local files and return stable 
 than dumping raw logs into chat.
 
 Do not commit/push unless the operator explicitly requests that closeout step.
+
+<!-- module-bootstrap-commission-v0-1:start -->
+## PRE-MODULE COMMISSION PACKAGE
+
+When this prompt is delivered through a `MODULE_BOOTSTRAP_COMMISSION` archive, treat the
+archive as bounded commissioning evidence only. Reconcile its pinned Blueprint HEAD/hashes
+against live committed Blueprint before canonical module mutation.
+
+The archive grants no execution, acceptance, release, production, Blueprint-write or
+cross-repository-write authority.
+
+For new repositories preserve:
+
+```text
+canonical module manifest:
+coordination/module/manifest.yaml
+
+root compatibility manifest:
+FORBIDDEN by default
+```
+
+Do not recreate root metadata just because an older helper/template expected it.
+<!-- module-bootstrap-commission-v0-1:end -->

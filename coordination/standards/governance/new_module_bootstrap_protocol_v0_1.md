@@ -1,8 +1,8 @@
 # ForPrint New Module / Experimental Capability Bootstrap Protocol v0.1
 
-Status: **candidate for Blueprint reconciliation**
+Status: **active standard**
 Date: 2026-09-27
-Owner candidate: ForPrint System Blueprint
+Owner: ForPrint System Blueprint
 Authority: navigation / initialization policy candidate; **does not authorize implementation by itself**
 
 ## 1. Why this protocol exists
@@ -523,3 +523,68 @@ If adopted, update/reconcile together:
 9. add template tests for required targets and zero-authority package metadata.
 
 Do not make only a Makefile change and leave the standards behind.
+
+<!-- module-bootstrap-commission-v0-1:start -->
+## Owner directive addendum — maximally clean repository root
+
+For new ForPrint repositories/modules, the repository root is a scarce operator/tooling
+surface. The default canonical root should remain as small as practical.
+
+Typical justified canonical root entries:
+
+```text
+.gitignore
+README.md
+AGENTS.md
+Makefile
+pyproject.toml
+```
+
+This is not an immutable whitelist. Every additional canonical root entry needs a real
+technical or first-level operator/developer justification.
+
+Metadata, status, governance, schemas, reports and internal coordination belong in structured
+subdirectories by default.
+
+The default canonical module manifest for new modules is:
+
+```text
+coordination/module/manifest.yaml
+```
+
+Do not create a duplicate root `forprint_module_manifest.yaml` merely to satisfy an older
+helper/template. Generic tooling must resolve or parameterize the canonical manifest path.
+A hard root-path exception must identify the unavoidable technical dependency.
+
+## Pre-module cold-start commissioning package
+
+A zero-state target may not yet have Git, Makefile, a Python environment or module-owned
+assistant continuity. Therefore pre-module commissioning is a distinct package class:
+
+```text
+MODULE_BOOTSTRAP_COMMISSION
+```
+
+It is generated from committed System Blueprint source and is distinct from:
+
+```text
+MODULE_ONBOARD
+MODULE_CONTEXT
+```
+
+Lifecycle:
+
+```text
+MODULE_BOOTSTRAP_COMMISSION
+-> repository/foundation bootstrap
+-> FOUNDATION_REMOTE_CONTAINED
+-> module-owned continuity commissioning
+-> MODULE_ONBOARD + MODULE_CONTEXT
+-> cold-start/no-chat-history acceptance
+-> SELF_ONBOARD_VERIFIED
+-> separately authorized governed module work
+```
+
+The archive records evidence and external bootstrap scope. It creates no execution,
+acceptance, release, production, Blueprint-write or cross-repository-write authority.
+<!-- module-bootstrap-commission-v0-1:end -->

@@ -198,3 +198,26 @@ scripts/coordination/module_assistant_context.py
 When continuity target semantics change, the Make command standard, target
 contract, template, implementation reference, tests and recovery documentation
 must be reviewed together.
+
+<!-- module-bootstrap-commission-v0-1:start -->
+## Pre-module bootstrap commission — Blueprint-owned operator contract
+
+`MODULE_BOOTSTRAP_COMMISSION` exists before module-owned continuity is available.
+
+It is produced by System Blueprint, not by a child module Makefile. The package:
+
+- uses committed Blueprint source evidence;
+- records module classification/purpose/non-ownership and external bootstrap scope;
+- includes current bootstrap/clean-root/continuity standards, templates and helper reference;
+- grants no execution/acceptance/release/Blueprint-write/cross-repository-write authority;
+- defaults the canonical module manifest to `coordination/module/manifest.yaml`;
+- requires live reconciliation before the first target-module canonical mutation.
+
+After initialization, normal continuity remains:
+
+```text
+assistant-handoff-check
+assistant-pack          -> MODULE_ONBOARD
+assistant-context-pack  -> MODULE_CONTEXT
+```
+<!-- module-bootstrap-commission-v0-1:end -->

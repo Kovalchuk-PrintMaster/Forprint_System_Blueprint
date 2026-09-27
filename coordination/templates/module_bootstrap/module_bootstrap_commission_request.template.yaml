@@ -1,0 +1,24 @@
+schema_version: forprint_module_bootstrap_commission_request_v0_1
+package_class: MODULE_BOOTSTRAP_COMMISSION
+target:
+  classification: NEW_TOP_LEVEL_MODULE_CANDIDATE
+  module_id: __MODULE_ID__
+  module_name: __MODULE_NAME__
+  purpose: __BOUNDED_PURPOSE__
+  must_not_own:
+  - __FOREIGN_DOMAIN_OR_AUTHORITY__
+  filesystem_path: __TARGET_PATH_OR_NULL__
+  remote_url: __REMOTE_URL_OR_NULL__
+  default_branch: main
+  registration_state: bootstrap_unregistered
+authority:
+  operator_task_ref: __HUMAN_OR_GOVERNED_TASK_REFERENCE__
+  allowed_scope: bootstrap_only
+  may_enter_module_specific_implementation: false
+bootstrap:
+  canonical_manifest_path: coordination/module/manifest.yaml
+  python_policy: __RESOLVE_FROM_CURRENT_POLICY_OR_PRECEDENT__
+  hard_root_path_exceptions: []
+optional_committed_blueprint_sources:
+  authority_source_path: null
+  additional_source_paths: []

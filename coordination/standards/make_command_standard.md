@@ -1917,3 +1917,31 @@ recovery/runbook documentation.
 ```
 
 Do not change one surface and leave the others semantically behind.
+
+<!-- module-bootstrap-commission-v0-1:start -->
+## Pre-module bootstrap commission contract
+
+Before a new module has a usable Makefile/continuity helper, System Blueprint may generate a
+bounded `MODULE_BOOTSTRAP_COMMISSION`.
+
+This is not a replacement for:
+
+```text
+assistant-pack         -> MODULE_ONBOARD
+assistant-context-pack -> MODULE_CONTEXT
+```
+
+System Blueprint exposes:
+
+```text
+make module-bootstrap-commission-check COMMISSION_REQUEST=<request.yaml>
+make module-bootstrap-commission COMMISSION_REQUEST=<request.yaml>
+```
+
+The generator reads committed Blueprint `HEAD` blobs, requires Blueprint HEAD/upstream
+synchronization, records source hashes and creates artifacts only under `tmp/` by default.
+It does not mutate the target module, Git refs, Blueprint source or production state.
+
+For new modules, canonical metadata defaults to `coordination/module/manifest.yaml`.
+Do not create a root compatibility manifest merely for generic helper compatibility.
+<!-- module-bootstrap-commission-v0-1:end -->

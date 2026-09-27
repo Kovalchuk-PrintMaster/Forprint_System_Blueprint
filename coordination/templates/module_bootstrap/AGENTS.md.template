@@ -44,3 +44,15 @@ Do not ask the human to reconstruct the project from memory. Re-read:
 - the active prompt/work item, when one exists.
 
 If any of these conflict, stop only the conflicting scope and surface the conflict.
+
+<!-- module-bootstrap-commission-v0-1:start -->
+## Clean-root bootstrap invariant
+
+For newly initialized ForPrint modules, keep repository root maximally small.
+Canonical module metadata belongs under `coordination/`; the default module manifest is:
+
+`coordination/module/manifest.yaml`
+
+Do not create a duplicate root `forprint_module_manifest.yaml` merely for compatibility.
+Adapt/resolve the canonical path instead.
+<!-- module-bootstrap-commission-v0-1:end -->

@@ -33,11 +33,12 @@ from typing import Iterable
 SCRIPT_ID = "forprint_module_assistant_context_v0_1"
 DEFAULT_MAX_FILE_BYTES = 256 * 1024
 DEFAULT_MAX_TOTAL_BYTES = 4 * 1024 * 1024
+DEFAULT_MODULE_MANIFEST = "coordination/module/manifest.yaml"
+LEGACY_MODULE_MANIFEST = "forprint_module_manifest.yaml"
 
 ALWAYS_LOCAL = [
     "AGENTS.md",
     "README.md",
-    "forprint_module_manifest.yaml",
     "Makefile",
     "pyproject.toml",
     "coordination/bootstrap/START_HERE.md",
@@ -164,8 +165,20 @@ def blueprint_state(root: Path) -> dict:
     }
 
 
+def resolve_module_manifest_rel(module_root: Path) -> str:
+    canonical = module_root / DEFAULT_MODULE_MANIFEST
+    legacy = module_root / LEGACY_MODULE_MANIFEST
+    if canonical.is_file():
+        return DEFAULT_MODULE_MANIFEST
+    if legacy.is_file():
+        return LEGACY_MODULE_MANIFEST
+    return DEFAULT_MODULE_MANIFEST
+
+
 def required_local_paths(module_root: Path) -> list[Path]:
-    return [module_root / item for item in ALWAYS_LOCAL]
+    items = list(ALWAYS_LOCAL)
+    items.append(resolve_module_manifest_rel(module_root))
+    return [module_root / item for item in items]
 
 
 def verify(
@@ -177,6 +190,7 @@ def verify(
     module_state = git_state(module_root)
     bp_state = blueprint_state(blueprint_root)
 
+    module_manifest_rel = resolve_module_manifest_rel(module_root)
     required = required_local_paths(module_root)
     missing_local = [
         p.relative_to(module_root).as_posix() for p in required if not p.exists()
@@ -214,6 +228,10 @@ def verify(
         "module_id": module_id,
         "registration_state": registration_state,
         "module": module_state,
+        "module_manifest": {
+            "path": module_manifest_rel,
+            "legacy_fallback": module_manifest_rel == LEGACY_MODULE_MANIFEST,
+        },
         "blueprint": bp_state,
         "module_policy": {
             "path": (
@@ -271,6 +289,10 @@ def local_candidates(
         path = module_root / raw
         if safe_candidate(path, module_root):
             selected[path.relative_to(module_root).as_posix()] = path
+
+    manifest_path = module_root / resolve_module_manifest_rel(module_root)
+    if safe_candidate(manifest_path, module_root):
+        selected[manifest_path.relative_to(module_root).as_posix()] = manifest_path
 
     for pattern in OPTIONAL_LOCAL_GLOBS:
         for path in module_root.glob(pattern):
@@ -424,6 +446,7 @@ def build_pack(
             "blueprint_head": check["blueprint"]["head"],
             "blueprint_branch": check["blueprint"]["branch"],
             "registration_state": registration_state,
+            "module_manifest_path": check["module_manifest"]["path"],
         },
         "authority": {
             "execution": False,
@@ -540,6 +563,9 @@ def main() -> int:
             print(f"MODULE_ID={args.module}")
             print(
                 f"REGISTRATION_STATE={args.registration_state}"
+            )
+            print(
+                "MODULE_MANIFEST=" + result["module_manifest"]["path"]
             )
             print(
                 "MODULE_POLICY_PRESENT="

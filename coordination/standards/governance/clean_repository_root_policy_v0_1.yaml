@@ -1,0 +1,56 @@
+schema_version: forprint_clean_repository_root_policy_v0_1
+policy_id: clean_repository_root_policy_v0_1
+status: active_standard
+authority:
+  source: HUMAN_OWNER
+  source_directive_id: clean_repository_root_policy_20260927_v0_1
+  canonicalized_by: forprint_system_blueprint
+principle: ROOT_IS_A_SCARCE_OPERATOR_AND_TOOLING_SURFACE
+scope:
+  new_forprint_repositories: mandatory
+  newly_initialized_modules: mandatory
+  existing_repositories: bounded_reconciliation_only
+default_root_surface:
+  goal: as_small_as_practical
+  typical_allowed_entries:
+  - .gitignore
+  - README.md
+  - AGENTS.md
+  - Makefile
+  - pyproject.toml
+  additional_root_entry_requires_justification: true
+deeper_placement:
+  module_metadata: coordination/module/
+  module_status: coordination/status/
+  governance_and_coordination: coordination/
+  architecture_docs: docs/architecture/
+  validation_scripts: scripts/validation/
+  tests: tests/
+  contracts: contracts/
+  runtime_configuration: config/
+  application_code: app/
+  temporary_evidence: tmp/
+module_manifest:
+  canonical_default: coordination/module/manifest.yaml
+  root_compatibility_copy: forbidden
+  single_source_of_truth_required: true
+  generic_tooling_rule: resolve_or_parameterize_canonical_manifest_path
+  hard_root_exception:
+    allowed: true
+    requires_documented_unavoidable_technical_dependency: true
+temporary_and_generated:
+  canonical: false
+  must_be_git_ignored: true
+  examples:
+  - tmp.py
+  - tmp/
+  - .venv*
+  - .pytest_cache/
+  - '*.egg-info/'
+  - logs/
+  - preview outputs
+  - local reports
+bootstrap_acceptance:
+  root_entry_justification_required: true
+  duplicate_canonical_metadata_forbidden: true
+  closeout_question: Is the repository root still the smallest practical operator/tooling surface?
