@@ -1,0 +1,45 @@
+schema_version: forprint_module_bootstrap_manifest_v0_1
+module_id: __MODULE_ID__
+module_name: __MODULE_NAME__
+registration_state: __REGISTERED_OR_BOOTSTRAP_UNREGISTERED__
+status: __BOOTSTRAP_OR_ACTIVE_STATUS__
+purpose: >-
+  Stable module-local bootstrap navigation metadata. Current task state belongs
+  in coordination/status and work/prompt records.
+blueprint:
+  root_variable: BLUEPRINT_ROOT
+  write_from_module_forbidden: true
+  required_live_routes:
+    - coordination/instruction_intake/assistant_reading_order.md
+    - coordination/global_policy/forprint_project_doctrine.md
+    - coordination/global_policy/clean_tree_first_working_policy_v0_1.md
+    - coordination/standards/index.yaml
+    - coordination/standards/module_assistant_start_protocol.md
+    - coordination/standards/project_structure_standard.md
+    - coordination/standards/make_command_standard.md
+assistant_continuity:
+  agents_entry: AGENTS.md
+  start_here: coordination/bootstrap/START_HERE.md
+  handoff_check: make assistant-handoff-check
+  onboard_pack:
+    command: make assistant-pack
+    package_type: MODULE_ONBOARD
+  context_pack:
+    command: make assistant-context-pack
+    package_type: MODULE_CONTEXT
+  packages_grant_execution_authority: false
+coordination:
+  current_status_yaml: coordination/status/current_status.yaml
+  current_status_md: coordination/status/current_status.md
+  next_questions: coordination/status/next_questions_for_blueprint.md
+  prompts_index: coordination/prompts/index.yaml
+  reports_index: coordination/reports/index.yaml
+git:
+  clean_tree_first: true
+  exact_owned_staging_only: true
+  destructive_foreign_cleanup_forbidden: true
+authority:
+  architecture_authority: false
+  execution_authority: false
+  acceptance_authority: false
+  release_authority: false

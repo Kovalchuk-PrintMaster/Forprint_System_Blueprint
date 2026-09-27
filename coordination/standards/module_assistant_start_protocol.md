@@ -62,14 +62,27 @@ The following packages are especially important for modules that touch runtime i
 
 coordination/standards/modular_topology_and_resilience/
 coordination/standards/third_party_reuse/
-Preferred command
+Primary current startup command
+
+```text
+make module-start
+```
+
+`module-start` is the canonical prompt-driven entrypoint. It performs the
+freshness-gated startup workflow and must not mutate the Blueprint repository.
+
+Compatibility/read-only component checks may still include:
+
+```text
 make governance-check
-Fallback command sequence
 make blueprint-check
-make blueprint-sync-directives
 make module-policy-check
 make coordination-check
 make status-report
+```
+
+Older startup sequences are compatibility guidance only. They must not be
+interpreted as requiring module-side Blueprint mutation.
 
 If the module has make-first standards support, it should also support or gradually add:
 
@@ -122,7 +135,7 @@ silently redesign global architecture;
 introduce third-party core dependencies without Blueprint approval.
 
 
-## v0.4.1 startup command supersession
+## Current startup command
 
 For prompt-driven work, use `make module-start`.
 

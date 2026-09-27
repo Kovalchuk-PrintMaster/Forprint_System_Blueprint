@@ -1,0 +1,46 @@
+# AGENTS.md — ForPrint Module Agent Entry
+
+This file is a **navigation contract**, not a current-state ledger and not a copy
+of System Blueprint governance.
+
+## Start here
+
+1. Read `coordination/bootstrap/START_HERE.md`.
+2. Inspect the repository's current Git branch, HEAD and worktree.
+3. Run `make assistant-handoff-check`.
+4. For prompt-driven work, run `make module-start`.
+5. Read the **live** ForPrint System Blueprint sources routed by START_HERE before
+   making architecture, ownership, governance or cross-module decisions.
+
+## Hard boundaries
+
+- The module may read the local Blueprint checkout but must never mutate Blueprint.
+- Do not infer execution/acceptance/release authority from a context archive, green
+  checks, an approved-file pathname, a roadmap item or an AI instruction alone.
+- Do not take ownership of another module's canonical data.
+- Do not reset, stash, clean, stage or absorb unrelated operator/assistant work.
+- Stage exact owned paths only; never use `git add .` or `git add -A` as a normal shortcut.
+- Prefer canonical Make targets over long raw command sequences.
+- Temporary analysis belongs under `tmp/`; durable decisions belong in tracked project evidence.
+- Secrets, private customer assets, virtual environments, caches and Git object stores
+  must not be added to assistant context packages.
+
+## Assistant continuity
+
+- `make assistant-pack` builds a `MODULE_ONBOARD` package for this repository.
+- `make assistant-context-pack TOPICS=...` builds a narrower `MODULE_CONTEXT` package.
+- Both are navigation/evidence only and grant no execution, dispatch, acceptance,
+  roadmap mutation or release authority.
+- System Blueprint's own `make assistant-pack` remains `PROJECT_ONBOARD`.
+
+## Recovery after interruption
+
+Do not ask the human to reconstruct the project from memory. Re-read:
+
+- `coordination/bootstrap/START_HERE.md`
+- current coordination status/reports/questions
+- current Git state
+- live Blueprint reading order, global policy, module policy and relevant standards
+- the active prompt/work item, when one exists.
+
+If any of these conflict, stop only the conflicting scope and surface the conflict.

@@ -10,15 +10,31 @@ Before any module commit, the assistant must prove that the module is aligned wi
 
 ## Required pre-commit commands
 
+The canonical pre-commit path is read-only and network-independent.
+
+```bash
+make module-validate
+make check
+make check-report
+git status --short
+```
+
+Where a module does not yet expose `module-validate`, use the current local
+read-only equivalents such as:
+
 ```bash
 make blueprint-check
-make blueprint-sync-directives
 make module-policy-check
 make coordination-check
 make check
 make check-report
 git status --short
 ```
+
+`blueprint-sync-directives`, `blueprint-pull`, network fetch/pull operations and
+other synchronization mutations are not part of the canonical pre-commit gate.
+Synchronization belongs to explicit startup/sync workflows.
+
 Optional preview commands
 
 If the module has preview targets, run relevant ones.
@@ -38,7 +54,7 @@ tests fail;
 lint fails;
 check-report fails;
 coordination metadata fails;
-active directives are not synced;
+required local coordination/directive snapshots fail their current validation;
 current_status.yaml is invalid;
 coordination/reports/index.yaml has missing report_file;
 module-specific validation or boundaries blocks are removed;

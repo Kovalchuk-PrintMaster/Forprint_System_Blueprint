@@ -1,4 +1,9 @@
-# ForPrint Module Makefile Standard Template
+# ForPrint Module Makefile Standard Template — candidate vNext (2026-09-27)
+#
+# Continuity extension: every newly initialized module exposes
+# assistant-handoff-check, assistant-pack, and assistant-context-pack.
+# assistant-pack is repository-scope onboarding: MODULE_ONBOARD in a module
+# repository; PROJECT_ONBOARD only in System Blueprint.
 #
 # This file is an executable governance contract for module repositories.
 # Copy it to a module repository and adapt only the variables and explicitly
@@ -77,6 +82,8 @@ ROADMAP ?=
 BEFORE_CURRENT ?= 5
 AFTER_CURRENT ?= 10
 ROADMAP_SUMMARY_MODULES ?= $(MODULE_ID)
+TOPICS ?=
+MODULE_REGISTRATION_STATE ?= registered
 
 # Local module paths
 REPORTS_DIR ?= reports
@@ -109,6 +116,7 @@ MODULE_STATUS_SCRIPT ?= scripts/coordination/module_status.py
 MODULE_COORDINATION_VALIDATOR ?= scripts/coordination/validate_module_coordination.py
 MODULE_PROMPT_CLI ?= scripts/coordination/module_prompt_cli.py
 MODULE_DOCUMENT_CLI ?= scripts/coordination/module_document_cli.py
+MODULE_ASSISTANT_CONTEXT_CLI ?= scripts/coordination/module_assistant_context.py
 MODULE_ROADMAP_CLI ?= scripts/coordination/module_roadmap_cli.py
 MODULE_CHECK_REPORT_SCRIPT ?= scripts/reporting/build_module_check_report.py
 MODULE_PUBLISH_SCRIPT ?= scripts/coordination/module_publish.py
@@ -191,6 +199,12 @@ help:
 	@echo "Blueprint source access:"
 	@echo "  make coordination-sync-check   # explicit network read-only freshness gate"
 	@echo "  make blueprint-check           # local filesystem/readability only"
+	@echo ""
+	@echo "Assistant continuity / handoff:"
+	@echo "  make assistant-handoff-check"
+	@echo "  make assistant-pack                         # MODULE_ONBOARD package for this module"
+	@echo "  make assistant-context-pack [TOPICS=a,b]   # bounded MODULE_CONTEXT package"
+	@echo "  Packages are navigation/evidence only and never grant execution authority."
 	@echo ""
 	@echo "Blueprint prompt consumption (read-only):"
 	@echo "  make blueprint-prompts-list"
@@ -623,6 +637,34 @@ context-bundle-write:
 context-bundle-print:
 	$(call require_module_script,$(MODULE_DOCUMENT_CLI))
 	"$(PYTHON)" "$(MODULE_DOCUMENT_CLI)" --module-root "$(MODULE_ROOT)" --module "$(MODULE_ID)" context-bundle --scope "$(SCOPE)" --limit "$(LIMIT)" --print
+
+# Purpose: Validate fresh-assistant continuity prerequisites before building a handoff package.
+# Safety: Read-only; reads current module and Blueprint source, never writes Blueprint or Git.
+# Inputs: MODULE_ASSISTANT_CONTEXT_CLI, BLUEPRINT_ROOT, MODULE_REGISTRATION_STATE.
+# Result: Required module bootstrap surfaces and live Blueprint source routes are verified.
+.PHONY: assistant-handoff-check
+assistant-handoff-check:
+	$(call require_module_script,$(MODULE_ASSISTANT_CONTEXT_CLI))
+	$(call require_dir,$(BLUEPRINT_ROOT))
+	"$(PYTHON)" "$(MODULE_ASSISTANT_CONTEXT_CLI)" --module-root "$(MODULE_ROOT)" --module "$(MODULE_ID)" --blueprint-root "$(BLUEPRINT_ROOT)" --registration-state "$(MODULE_REGISTRATION_STATE)" check
+
+# Purpose: Build a bounded onboarding package for a fresh assistant working in THIS module repository.
+# Safety: Generated-artifact write under tmp/ only; never mutates Blueprint, Git, runtime or production state.
+# Inputs: MODULE_ASSISTANT_CONTEXT_CLI and a passing assistant-handoff-check.
+# Result: MODULE_ONBOARD archive with explicit semantic identity, provenance, limits and zero execution authority.
+.PHONY: assistant-pack
+assistant-pack:
+	$(MAKE) assistant-handoff-check
+	"$(PYTHON)" "$(MODULE_ASSISTANT_CONTEXT_CLI)" --module-root "$(MODULE_ROOT)" --module "$(MODULE_ID)" --blueprint-root "$(BLUEPRINT_ROOT)" --registration-state "$(MODULE_REGISTRATION_STATE)" pack --package-type MODULE_ONBOARD --scope bootstrap
+
+# Purpose: Build a narrower bounded context archive for the current module and optional topics.
+# Safety: Generated-artifact write under tmp/ only; does not copy secrets/large runtime assets and never writes Blueprint or Git.
+# Inputs: MODULE_ASSISTANT_CONTEXT_CLI; optional SCOPE and TOPICS.
+# Result: MODULE_CONTEXT archive suitable for uploading to a replacement/focused assistant.
+.PHONY: assistant-context-pack
+assistant-context-pack:
+	$(MAKE) assistant-handoff-check
+	"$(PYTHON)" "$(MODULE_ASSISTANT_CONTEXT_CLI)" --module-root "$(MODULE_ROOT)" --module "$(MODULE_ID)" --blueprint-root "$(BLUEPRINT_ROOT)" --registration-state "$(MODULE_REGISTRATION_STATE)" pack --package-type MODULE_CONTEXT --scope "$(SCOPE)" --topics "$(TOPICS)"
 
 # Purpose: Preview document ledger changes.
 # Safety: Read-only; module-owned executable only.

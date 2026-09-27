@@ -140,5 +140,5 @@ def test_roadmap_freshness_review_is_non_mutating_governance_evidence() -> None:
 def test_reading_order_surfaces_bootstrap_entrypoint() -> None:
     text = READING_ORDER.read_text(encoding="utf-8")
     assert "## Blueprint assistant bootstrap handoff entrypoint" in text
-    assert "coordination/instruction_intake/bootstrap/assistant_bootstrap_v0_1.yaml" in text
+    assert "coordination/instruction_intake/bootstrap/assistant_bootstrap_v0_2.yaml" in text
     assert "coordination/instruction_intake/bootstrap/current_handoff_v0_1.yaml" in text

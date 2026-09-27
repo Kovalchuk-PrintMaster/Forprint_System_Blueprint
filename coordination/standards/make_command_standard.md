@@ -2,7 +2,7 @@
 
 ## Status
 
-Target standard / gradual adoption v0.2
+Candidate reconciliation v0.3 / gradual adoption (derived from v0.2, 2026-09-27)
 
 ## Purpose
 
@@ -11,6 +11,51 @@ This document defines common Makefile command names and Makefile structure for F
 The goal is to make module work predictable.
 
 A developer or assistant should be able to run similar commands across modules without learning a completely different command surface every time.
+
+
+## Current precedence — 2026-09-27 reconciliation
+
+For newly initialized modules, the current coordination startup is:
+
+```text
+make module-start
+```
+
+with the v0.4.1 semantics defined later in this document:
+
+```text
+coordination-sync-check
+-> module-sync
+-> module-status
+-> prompt-notify
+-> prompt-read-next
+```
+
+`blueprint-pull` is not a normal module workflow and must remain fail-closed.
+
+Fresh-assistant continuity is now part of the operator surface for **new modules**:
+
+```text
+make assistant-handoff-check
+make assistant-pack
+make assistant-context-pack [TOPICS=<comma-separated>]
+```
+
+Repository-scope semantic identity is mandatory:
+
+```text
+System Blueprint / assistant-pack -> PROJECT_ONBOARD
+ordinary module / assistant-pack  -> MODULE_ONBOARD
+assistant-context-pack            -> MODULE_CONTEXT
+```
+
+Every generated assistant package must state its `package_type`, target scope/module,
+purpose, intended use, source Git state and authority boundary. A valid archive/hash
+does not itself grant execution, dispatch, acceptance, roadmap mutation or release
+authority.
+
+Existing modules adopt these continuity targets gradually. Newly initialized modules
+should provide them from their first usable bootstrap.
 
 ## Core rule
 
@@ -234,6 +279,17 @@ make prompt-read-next
 - make document-ledger-preview
 - make document-ledger-update
 
+Assistant continuity targets belong in this same navigation/context zone:
+
+- make assistant-handoff-check
+- make assistant-pack
+- make assistant-context-pack
+
+`assistant-pack` is repository-scope onboarding; in a module repository it must
+identify itself as `MODULE_ONBOARD`, while System Blueprint keeps its current
+`PROJECT_ONBOARD` meaning. `assistant-context-pack` is narrower and may accept
+`TOPICS` or another explicitly documented bounded selector.
+
 ### 08 Module coordination metadata
 
 - make coordination-check
@@ -442,6 +498,11 @@ make document-awareness
 make context-bundle
 make context-bundle-write
 make context-bundle-print
+
+make assistant-handoff-check
+make assistant-pack
+make assistant-context-pack
+
 make document-ledger-preview
 make document-ledger-update
 
@@ -1721,3 +1782,138 @@ prompt-read-next.
 
 `make check`, `make governance-check`, and `make module-validate` remain
 network-independent. `blueprint-pull` is not a normal workflow command.
+
+
+---
+
+## Assistant continuity / repository onboarding contract — candidate v0.1
+
+### assistant-handoff-check
+
+Purpose:
+
+```text
+Verify that a fresh assistant can recover current module context without relying on chat history.
+```
+
+Required behavior for newly initialized modules:
+
+```text
+read current Git branch/HEAD/status;
+verify root AGENTS.md;
+verify coordination/bootstrap/START_HERE.md;
+verify module manifest, Makefile and current coordination status;
+verify the local Blueprint checkout is readable;
+verify the live Blueprint reading-order, global policy, standards index and relevant module policy;
+never mutate Blueprint or Git.
+```
+
+A registered module should fail closed when its canonical module policy is missing.
+A genuinely new, not-yet-registered module may operate only in an explicit
+`bootstrap_unregistered` state and must not invent cross-module ownership or production
+authority while waiting for Blueprint registration.
+
+### assistant-pack
+
+Purpose:
+
+```text
+Build the bounded onboarding package for a fresh assistant entering the current repository.
+```
+
+Semantic identity is repository-relative:
+
+```text
+System Blueprint: PROJECT_ONBOARD
+ordinary module: MODULE_ONBOARD
+```
+
+The package is generated evidence/navigation, normally under `tmp/`, and must contain:
+
+```text
+package_type;
+target module/scope;
+purpose;
+intended use;
+module branch + HEAD + worktree observation;
+Blueprint branch + HEAD observation;
+selected module bootstrap/status/architecture/config/contract metadata;
+live Blueprint source references + hashes;
+known limits/skipped files;
+explicit zero-authority declaration.
+```
+
+Do not copy secret files, virtual environments, Git object stores, caches, large customer
+assets or large production outputs into the package by default.
+
+### assistant-context-pack
+
+Purpose:
+
+```text
+Build a smaller, bounded MODULE_CONTEXT package for a focused handoff.
+```
+
+It may accept:
+
+```text
+SCOPE=<bootstrap|required|...>
+TOPICS=<topic[,topic...]>
+```
+
+A module-specific workflow may add safe selectors such as `CASE` or `REVISION`, but the
+generic target name remains stable and the resulting archive must still declare its semantic
+identity and scope.
+
+### AGENTS.md and START_HERE.md
+
+New modules should expose a small root `AGENTS.md` as a cross-agent navigation entrypoint.
+It must not become a second copy of changing Blueprint governance.
+
+The root agent file should route to:
+
+```text
+coordination/bootstrap/START_HERE.md
+```
+
+`START_HERE.md` is the module-local recovery/navigation document. It should state:
+
+```text
+module purpose and non-ownership;
+current registration/maturity state;
+live Blueprint reading routes;
+canonical operator commands;
+where current status/questions/reports live;
+assistant-pack/context-pack commands;
+recovery rule after context loss;
+no-cross-repository-write boundary.
+```
+
+Changing current task/status must remain in current coordination records, not be continuously
+rewritten into AGENTS.md.
+
+### GitHub-hosted agent compatibility
+
+A repository may additionally expose `.github/copilot-instructions.md` and path-specific
+`.github/instructions/*.instructions.md` when useful for GitHub Copilot.
+
+These files should point to the same canonical module bootstrap surfaces rather than duplicate
+large policy bodies. `AGENTS.md` remains the preferred cross-agent repository entrypoint for
+the ForPrint module template.
+
+### Synchronization rule
+
+When this continuity contract changes, review together:
+
+```text
+make_command_standard.md;
+module_make_target_contract.md;
+module_makefile_standard.template.mk;
+module assistant-context reference implementation;
+module_assistant_start_protocol.md;
+documentation_and_recovery_gate.md;
+tests validating the template/targets;
+recovery/runbook documentation.
+```
+
+Do not change one surface and leave the others semantically behind.

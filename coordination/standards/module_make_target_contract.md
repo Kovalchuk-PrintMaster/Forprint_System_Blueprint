@@ -1,6 +1,6 @@
 # ForPrint Module Make Target Contract
 
-Status: draft v0.1
+Status: candidate v0.2 / new-module continuity reconciliation (2026-09-27)
 Created: `2026-06-12T14:33:44.165569+00:00`
 
 ## Purpose
@@ -30,6 +30,10 @@ make governance-check
 make check
 make check-report
 make status-report
+
+make assistant-handoff-check
+make assistant-pack
+make assistant-context-pack
 
 make module-start
 make module-sync
@@ -89,3 +93,108 @@ module repository.
 schema before consuming external analysis.
 
 <!-- module-workflow-target-contract-v0-1:end -->
+
+
+## New-module assistant continuity extension — v0.2 candidate
+
+For newly initialized ForPrint modules, the following targets are required from
+the first usable bootstrap:
+
+```text
+make assistant-handoff-check
+make assistant-pack
+make assistant-context-pack
+```
+
+Existing modules may adopt them gradually.
+
+### assistant-handoff-check
+
+Read-only recovery gate. It verifies enough repository and live Blueprint
+navigation state for a replacement assistant to establish:
+
+```text
+module identity;
+Git branch / HEAD / worktree state;
+module bootstrap navigation;
+current status / reports / questions;
+live Blueprint reading order and relevant policy;
+module-policy availability when the module is registered.
+```
+
+It must not mutate Blueprint, Git state, runtime services or production data.
+
+### assistant-pack
+
+Builds an onboarding archive for the repository in which the command is run.
+
+Semantic identity is mandatory:
+
+```text
+System Blueprint -> package_type: PROJECT_ONBOARD
+module repository -> package_type: MODULE_ONBOARD
+```
+
+A module `MODULE_ONBOARD` package is authoritative only as a bounded snapshot of
+module-local onboarding evidence. It does not become project-wide governance
+authority.
+
+The package must declare:
+
+```text
+package_type;
+target module/scope;
+purpose;
+intended_use;
+source Git state;
+live Blueprint source references;
+selection limits;
+explicit zero execution/acceptance/release authority.
+```
+
+### assistant-context-pack
+
+Builds a narrower `MODULE_CONTEXT` package. `TOPICS` or equivalent bounded
+selectors may be supported. Large customer/production assets, secrets, caches,
+virtualenvs and Git object data are excluded by default.
+
+### Required repository navigation files
+
+New modules should provide:
+
+```text
+AGENTS.md
+coordination/bootstrap/START_HERE.md
+coordination/bootstrap/module_bootstrap_manifest.yaml
+```
+
+`AGENTS.md` is a thin cross-agent entrypoint. It must route to the module
+bootstrap document and live Blueprint sources instead of duplicating changing
+governance text.
+
+### Authority boundary
+
+Assistant handoff/context packages are navigation/evidence. They never grant:
+
+```text
+execution authority;
+dispatch authority;
+Blueprint mutation authority;
+roadmap mutation authority;
+acceptance authority;
+release authority;
+cross-repository write authority.
+```
+
+### Makefile template requirement
+
+`coordination/templates/module_makefile_standard.template.mk` must expose the
+three continuity targets and a module-owned implementation entrypoint such as:
+
+```text
+scripts/coordination/module_assistant_context.py
+```
+
+When continuity target semantics change, the Make command standard, target
+contract, template, implementation reference, tests and recovery documentation
+must be reviewed together.
