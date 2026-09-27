@@ -1,0 +1,110 @@
+schema_version: forprint_worker_operator_visibility_and_evolving_orchestration_policy_v0_1
+metadata:
+  created_at: '2026-09-27'
+  module_id: forprint_system_blueprint
+  work_id: u180j
+  step_id: CF-10
+  status: OPERATOR_AUTHORIZED_DRAFT_FOR_CONTROLLED_ADOPTION
+  execution_authority: false
+  roadmap_authority: false
+  chat_is_authority: false
+purpose: Preserve human-observable Worker operation and prevent the current Worker orchestration implementation from
+  becoming an accidental immutable architecture constraint while CF-10 is still evolving.
+human_observable_worker_operation:
+  principle: A Worker must not complete meaningful work silently from the operator's perspective.
+  minimum_operator_receipt_required: true
+  receipt_is_projection_not_source_of_truth: true
+  receipt_fields:
+  - worker_and_runtime_provider
+  - task_id_and_human_title
+  - attempt_id
+  - started_at
+  - finished_at_or_current_state
+  - elapsed_time
+  - process_outcome
+  - validation_outcome
+  - changed_paths_or_outputs
+  - acceptance_state
+  - promotion_state
+  - next_required_boundary
+  initial_surface: console_or_local_report
+  future_surfaces_allowed:
+  - operator_cli
+  - human_dashboard
+  - telegram_notifications
+  - telegram_status_queries
+  automatic_progression_rule: Even where future policy permits automatic progression or acceptance inside an approved
+    contour, an operator-visible receipt must remain available.
+  human_demonstration:
+    required_when_meaningful_and_feasible: true
+    principle: When a result has a human-observable behavior, acceptance should include or offer a bounded demonstration
+      rather than relying only on machine tests.
+    examples:
+    - open or render a generated operator report
+    - exercise a newly created read-only CLI surface
+    - perform a bounded API smoke request
+    - send a test Telegram notification only after a real Telegram transport task explicitly authorizes network use
+    tests_do_not_replace_human_observable_proof_when_available: true
+evolving_worker_orchestration:
+  principle: Governed execution invariants are architectural; the current runner/launcher/adapter implementation is
+    replaceable tooling.
+  implementation_maturity: EVOLVING
+  canonical_final_implementation: false
+  replacement_allowed: true
+  refactoring_expected: true
+  project_must_not_be_distorted_to_preserve_obsolete_tooling: true
+  canonical_invariants:
+  - bounded task and Work Front authority
+  - fresh governed context
+  - isolated workspace
+  - source-state freeze and freshness check
+  - Assistant ACK where required
+  - explicit dispatch decision
+  - bounded runtime/provider invocation
+  - immutable attempt evidence
+  - worker delta verification
+  - validation before acceptance
+  - separate acceptance/promotion boundary
+  - no hidden push/merge/release/authority widening
+  implementation_surfaces_may_change:
+  - runner entrypoint
+  - launcher adapter
+  - provider adapter
+  - operator receipt renderer
+  - result collection plumbing
+  - retry orchestration plumbing
+  required_header_metadata_for_current_orchestration_entrypoints:
+    maturity: EVOLVING
+    canonical_architecture: false
+    execution_authority_source: EXTERNAL_GOVERNED_BINDINGS
+    replacement_allowed: true
+    refactoring_expected: true
+    warning: Do not redesign project semantics merely to preserve this implementation. Improve or replace it when
+      governed invariants are preserved.
+assistant_onboarding:
+  goal: A fresh assistant should understand current Worker operation after reading a small bounded set of current
+    documents.
+  target_document_count: 2_to_5
+  recommended_reading_order:
+  - coordination/bootstrap/START_HERE.md
+  - coordination/internal_work/blueprint/governance/2026-09-27__blueprint__worker_operator_visibility_and_evolving_orchestration_policy_v0_1.yaml
+  - coordination/internal_work/blueprint/governance/2026-09-27__blueprint__worker_operator_workflow_guide_v0_1.md
+  - coordination/internal_work/blueprint/governance/2026-09-06__blueprint__worker_runtime_and_invocation_contract_v0_1.yaml
+  - coordination/internal_work/blueprint/worker_training/cf10_worker_training_queue_v0_1.yaml
+  fresh_assistant_must_distinguish:
+  - governed invariant
+  - current implementation
+  - diagnostic evidence
+  - execution authority
+  - acceptance authority
+telegram_boundary:
+  task50_scope: LOCAL_TELEGRAM_READY_RENDER_ONLY
+  task50_network_transport_authorized: false
+  task50_bot_token_or_chat_id_authorized: false
+  future_real_telegram_transport_requires_separate_bounded_task: true
+adoption_notes:
+- This policy records operator intent and does not itself authorize Worker dispatch, repository publication, lifecycle
+  mutation, or roadmap mutation.
+- The next implementation step should extend/reconcile existing Control Plane worker surfaces rather than create a
+  parallel execution framework.
+- Makefile coverage should be checked when a stable supported operator command becomes available.

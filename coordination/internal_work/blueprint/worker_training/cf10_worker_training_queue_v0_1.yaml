@@ -4,8 +4,8 @@ status: ACTIVE_CF10_TRAINING_QUEUE
 work_id: u180j
 step_id: CF-10
 stable_id: blueprint_internal_worker_zero_stage_pilot
-purpose: Persist the bounded CF-10 internal worker training path as canonical machine-readable project state instead of chat
-  memory.
+purpose: Persist the bounded CF-10 internal worker training path as canonical machine-readable project state instead
+  of chat memory.
 authority:
   queue_is_execution_authority: false
   execution_authority_source: WORK_FRONT
@@ -47,7 +47,8 @@ tasks:
 - task_id: dispatcher_zero_stage_regression_mutation_proof
   order: 10
   complexity: LOW
-  training_goal: Prove read -> bounded edit -> candidate -> validation on one deterministic existing regression-test file.
+  training_goal: Prove read -> bounded edit -> candidate -> validation on one deterministic existing regression-test
+    file.
   prerequisites:
   - a001 retained as immutable blocked attempt evidence
   - worker editing capability is actually exposed
@@ -99,8 +100,8 @@ tasks:
 - task_id: worker_watchdog_observability_self_hardening
   order: 40
   complexity: MEDIUM
-  training_goal: Add bounded worker/watchdog observability for runtime state, timeout or stalled-progress evidence without
-    autonomous remediation.
+  training_goal: Add bounded worker/watchdog observability for runtime state, timeout or stalled-progress evidence
+    without autonomous remediation.
   prerequisites:
   - verification_tier_self_hardening accepted
   acceptance:
@@ -114,8 +115,8 @@ tasks:
 - task_id: local_dispatcher_telegram_operator_surface
   order: 50
   complexity: MEDIUM
-  training_goal: Exercise one bounded local Dispatcher Telegram/operator convenience surface over existing registered facts;
-    no new dispatch authority.
+  training_goal: Exercise one bounded local Dispatcher Telegram/operator convenience surface over existing registered
+    facts; no new dispatch authority.
   prerequisites:
   - worker_watchdog_observability_self_hardening accepted
   acceptance:
@@ -130,8 +131,8 @@ tasks:
 - task_id: human_dashboard_self_hardening
   order: 60
   complexity: MEDIUM
-  training_goal: Build or improve one bounded human-readable status/dashboard projection from existing machine facts without
-    making the projection authoritative.
+  training_goal: Build or improve one bounded human-readable status/dashboard projection from existing machine facts
+    without making the projection authoritative.
   prerequisites:
   - local_dispatcher_telegram_operator_surface accepted
   acceptance:
@@ -145,8 +146,8 @@ tasks:
 - task_id: validation_check_pipeline_profile_and_optimization
   order: 70
   complexity: MEDIUM_HIGH
-  training_goal: Measure validation cost first, then optimize only proven duplicate or independent read-only work while preserving
-    same-or-stronger semantics.
+  training_goal: Measure validation cost first, then optimize only proven duplicate or independent read-only work
+    while preserving same-or-stronger semantics.
   prerequisites:
   - at least two accepted self-hardening worker tasks
   - stable worker result/evidence/recovery path
@@ -164,8 +165,8 @@ tasks:
 - task_id: planning_projection_cursor_sync_audit
   order: 80
   complexity: HIGH
-  training_goal: Reconcile NEXT_HORIZON generation/refresh with event-sourced roadmap reconciliation, detect stale projections
-    automatically and prove deterministic transition/freshness behavior.
+  training_goal: Reconcile NEXT_HORIZON generation/refresh with event-sourced roadmap reconciliation, detect stale
+    projections automatically and prove deterministic transition/freshness behavior.
   prerequisites:
   - validation_check_pipeline_profile_and_optimization accepted
   - roadmap/lifecycle sources remain canonical and in sync
@@ -178,13 +179,54 @@ tasks:
     new_attempt_per_started_retry: true
     manual_projection_edit_allowed: false
   final_control_task: false
+- task_id: project_change_impact_and_freshness_control
+  order: 85
+  complexity: HIGH
+  training_goal: Extend the existing CF-14 Change Impact Resolver direction and current Blueprint dependency/freshness
+    mechanisms into bounded project-change impact and freshness control for standards, templates, documentation, bootstrap
+    inputs and other critical dependent artifacts before automatic task materialization.
+  prerequisites:
+  - planning_projection_cursor_sync_audit accepted
+  - existing execution dependency graph, repository-knowledge freshness, generator/derivation and Makefile functional-map
+    mechanisms reconciled
+  - CF-14 Change Impact Resolver roadmap direction remains current and is treated as the parent architectural direction
+    rather than duplicated
+  acceptance:
+  - changed critical sources or capability facets yield a deterministic bounded affected-dependent set through explainable
+    reverse-dependency logic
+  - existing execution-dependency/repository-knowledge mechanisms are REUSE/EXTEND/ADAPT/REPLACE audited before any
+    NEW relationship framework
+  - machine-checkable dependents are verified automatically where semantics permit deterministic proof
+  - semantic dependents become explicit review-required items rather than being guessed fresh from timestamps, file
+    touch or model assertion
+  - known-stale critical template/standard/bootstrap input cannot be supplied to a new module without resolving or
+    explicitly governing the freshness gap
+  - Makefile functional-map -> reusable Makefile/template/standard -> module-bootstrap impact is demonstrated end-to-end
+  - an unrelated-change control case proves the resolver avoids broad false-positive invalidation
+  - operator receives machine-readable and human-readable impact evidence
+  - no second roadmap, execution-state authority or competing dependency truth store
+  - no automatic dispatch, ACCEPT, cross-module write, release, push or merge authority is introduced
+  - focused and relevant regression validation pass
+  retry_policy:
+    new_attempt_per_started_retry: true
+    scope_widening_requires_new_operator_authorized_work_front: true
+    semantic_freshness_may_not_be_guessed: true
+    parallel_dependency_truth_store_allowed: false
+  planning_ref: coordination/internal_work/blueprint/governance/2026-09-27__blueprint__cf10_task85_project_change_impact_and_freshness_control_v0_1.yaml
+  roadmap_alignment:
+    parent_step: CF-14
+    parent_capability: Change Impact Resolver
+    relationship: CF10_WORKER_SELF_HARDENING_IMPLEMENTATION_PROOF
+    creates_new_roadmap_authority: false
+  final_control_task: false
 - task_id: automatic_task_materialization
   order: 90
   complexity: HIGH
-  training_goal: 'Materialize a bounded candidate from roadmap/lifecycle facts: admissibility/dependencies -> Work Front ->
-    Worker Task Envelope -> Profile/Procedure binding -> explicit dispatch candidate.'
+  training_goal: 'Materialize a bounded candidate from roadmap/lifecycle facts: admissibility/dependencies -> Work
+    Front -> Worker Task Envelope -> Profile/Procedure binding -> explicit dispatch candidate.'
   prerequisites:
   - planning_projection_cursor_sync_audit accepted
+  - project_change_impact_and_freshness_control accepted
   - Work Front, Task Envelope, Execution Profile, Procedure and Dispatcher contracts stable
   acceptance:
   - candidate task derives from authoritative existing facts
@@ -201,8 +243,9 @@ tasks:
 - task_id: project_execution_planning_system_control_task
   order: 100
   complexity: VERY_HIGH
-  training_goal: 'Final CF-10 control task: build/validate the Blueprint-local project execution-planning core over current
-    authoritative roadmap/lifecycle/governance facts, without enriching the global roadmap or dispatching other-module workers.'
+  training_goal: 'Final CF-10 control task: build/validate the Blueprint-local project execution-planning core over
+    current authoritative roadmap/lifecycle/governance facts, without enriching the global roadmap or dispatching
+    other-module workers.'
   prerequisites:
   - automatic_task_materialization accepted
   - worker runtime/retry/recovery/result handling stable
