@@ -16,6 +16,7 @@ default_topics:
 - lifecycle
 - self_knowledge
 - assistant_bootstrap_living
+- module_bootstrap_commission
 - assistant_operating_context
 - module_analysis_resume
 reading_order:
@@ -198,6 +199,37 @@ topics:
     - path: coordination/repository_knowledge/roadmap_enrichment/source_map.yaml
       mode: file
       required: true
+  module_bootstrap_commission:
+    purpose: >-
+      Canonical cold-start commissioning capability for zero-state/new-module workers.
+      Operator entrypoints are `make module-bootstrap-commission-check
+      COMMISSION_REQUEST=<request.yaml>` and `make module-bootstrap-commission
+      COMMISSION_REQUEST=<request.yaml>`. The package is built only from committed,
+      remote-contained Blueprint HEAD, grants no execution/acceptance/release authority,
+      and includes the project-wide roadmap operating contract.
+    sources:
+    - path: coordination/standards/governance/module_bootstrap_commission_contract_v0_1.yaml
+      mode: file
+      required: true
+    - path: coordination/instruction_intake/bootstrap/forprint_roadmap_operating_contract_v0_1.yaml
+      mode: file
+      required: true
+    - path: tools/module_bootstrap/build_module_bootstrap_commission.py
+      mode: file
+      required: true
+    - path: coordination/templates/module_bootstrap/module_bootstrap_manifest.template.yaml
+      mode: file
+      required: true
+    - path: coordination/templates/module_bootstrap/new_module_assistant_commissioning_prompt_v0_1.md
+      mode: file
+      required: true
+    - path: tests/test_module_bootstrap_commission_generator_v0_1.py
+      mode: file
+      required: true
+    - path: Makefile
+      mode: file
+      required: true
+      role: operator_entrypoints
   assistant_operating_context:
     sources:
     - path: coordination/bootstrap/assistant_context_system_specs_v0_1.yaml
