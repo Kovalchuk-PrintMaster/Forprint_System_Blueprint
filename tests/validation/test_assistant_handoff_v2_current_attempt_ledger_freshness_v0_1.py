@@ -27,10 +27,15 @@ def load_runtime():
     return module
 
 
-def hash_source(runtime, payload: dict) -> str:
+def hash_source(_runtime, payload: dict) -> str:
+    # Source-state fixtures must use the exact canonical continuity
+    # fingerprint algorithm. Using the Handoff serializer here previously
+    # masked the production serializer mismatch exposed by a018.
     value = copy.deepcopy(payload)
     value.pop("fingerprint_sha256", None)
-    return runtime._sha_bytes(runtime._canonical_json(value))
+    return continuity.sha256_bytes(
+        continuity._canonical_json_bytes(value)
+    )
 
 
 def source_state(runtime, *, ledger_rel: str | None) -> tuple[dict, dict]:
@@ -277,6 +282,27 @@ def install_exact_started_fixture(monkeypatch, tmp_path: Path):
         attempt_id,
         record_path,
     )
+
+
+def test_source_state_fixture_uses_continuity_canonical_fingerprint() -> None:
+    runtime = load_runtime()
+    frozen, _live = source_state(runtime, ledger_rel=None)
+
+    payload = copy.deepcopy(frozen)
+    stored = payload.pop("fingerprint_sha256")
+
+    canonical = continuity.sha256_bytes(
+        continuity._canonical_json_bytes(payload)
+    )
+    generic_handoff = runtime._sha_bytes(
+        runtime._canonical_json(payload)
+    )
+
+    assert stored == canonical
+    # This is the exact class of mismatch that a018 exposed. The regression
+    # fixture must not silently derive source fingerprints from Handoff's
+    # generic serializer again.
+    assert generic_handoff != canonical
 
 
 def test_exact_current_attempt_started_ledger_is_normalized(

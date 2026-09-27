@@ -584,9 +584,7 @@ def _normalize_task_execution_live_manifest_for_started_attempt(
     import copy as _copy
 
     from scripts.coordination import execution_attempt_ledger_v0_1 as _ledger
-    from scripts.coordination.continuity import (
-        build_source_state as _build_source_state,
-    )
+    from scripts.coordination import continuity as _continuity
     from scripts.coordination.control_plane.context import (
         task_context_adapter as _task_adapter,
     )
@@ -661,7 +659,7 @@ def _normalize_task_execution_live_manifest_for_started_attempt(
     except ValueError:
         return rejected("STARTED_LEDGER_RECORD_OUTSIDE_ROOT")
 
-    live_source = _build_source_state(root)
+    live_source = _continuity.build_source_state(root)
     live_source_fp = live_source.get("fingerprint_sha256")
     if not isinstance(live_source_fp, str) or len(live_source_fp) != 64:
         return rejected("LIVE_CANONICAL_SOURCE_FINGERPRINT_INVALID")
@@ -702,8 +700,13 @@ def _normalize_task_execution_live_manifest_for_started_attempt(
     normalized_source["rename_or_copy_origins"].pop(record_rel, None)
     normalized_source.pop("fingerprint_sha256", None)
 
-    normalized_source_fp = _sha_bytes(
-        _canonical_json(normalized_source)
+    # This payload is a continuity source-state payload, so its
+    # fingerprint MUST use continuity's canonical serializer/hash rather than
+    # Handoff's generic manifest serializer. The two serializers are not byte-
+    # identical; a018 proved that using the Handoff serializer creates a false
+    # NON_LEDGER_CANONICAL_SOURCE_DRIFT_PRESENT result.
+    normalized_source_fp = _continuity.sha256_bytes(
+        _continuity._canonical_json_bytes(normalized_source)
     )
     normalized_source["fingerprint_sha256"] = normalized_source_fp
 
