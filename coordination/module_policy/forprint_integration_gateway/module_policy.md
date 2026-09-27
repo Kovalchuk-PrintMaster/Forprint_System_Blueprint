@@ -15,7 +15,7 @@ hold
 ## Development status
 
 ```text
-paused_after_v0_2
+hold_after_v0_7_offline_foundation
 ```
 
 ## Strategic role

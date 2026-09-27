@@ -1,0 +1,54 @@
+schema_version: forprint_module_knowledge_snapshot_registration_v0_1
+module_id: forprint_integration_gateway
+snapshot_date: '2026-09-27'
+status: complete
+registered_at_utc: '2026-09-27T15:41:37.130904+00:00'
+classification:
+  analysis_layer: L0_baseline_reconstruction_and_knowledge_stabilization
+  methodology_revision: v0.2
+  snapshot_type: historical_current_state_knowledge_evidence
+  action_now: none
+repository_snapshot:
+  repository: Forprint_Integration_Gateway
+  branch: main
+  head: 38e66dd653787eb0fb4ad49643e1de258924f73a
+  remote_ref: origin/main
+  remote_head: 38e66dd653787eb0fb4ad49643e1de258924f73a
+  remote_synced_at_registration: true
+durable_snapshot:
+  snapshot_manifest_path: coordination/repository_knowledge/module_snapshots/forprint_integration_gateway/2026-09-27/snapshot_manifest.yaml
+  snapshot_manifest_sha256: 5b4a8b5c525785a941ef8e0d744a6974b4c6d78b7377a6ad5dee9f4b34ef1117
+  human_snapshot_path: coordination/reports/analysis/2026-09-27__forprint_integration_gateway__module_snapshot_v0_1.md
+  roadmap_rebuild_input_path: coordination/reports/analysis/2026-09-27__forprint_integration_gateway__roadmap_rebuild_input_v0_1.yaml
+  durable_evidence_file_count: null
+  durable_evidence_total_bytes: null
+  durable_evidence_aggregate_sha256: null
+blueprint_roadmap_reconciliation:
+  branch: audit/blueprint-inventory-refresh-2026-07-29
+  baseline_commit: 6c13ec4a177bd82a83f8e1564d507c41b3bb0063
+  remote_contained: true
+  roadmap_mutated_by_registration: false
+  machine_mutated_by_registration: false
+reconciliation_summary:
+  durable_l0_finding_count: 30
+  business_ownership_boundary: aligned
+  runtime_activation: hold_until_real_runtime_handoff_need
+  module_policy_refinement: paused_after_v0_2->hold_after_v0_7_offline_foundation
+  historical_contract_rewrite_applied: false
+  machine_mutation_applied: false
+  execution_authority_changes: 0
+  release_authority_changes: 0
+cleanup_state:
+  module_snapshot_commit: 38e66dd653787eb0fb4ad49643e1de258924f73a
+  module_snapshot_remote_contained: true
+  blueprint_registration_committed_and_pushed: false
+  tmp_safe_to_remove: false
+  reason: awaiting Blueprint registration/policy commit and push
+authority:
+  implementation_authority_created: false
+  roadmap_mutation_authority_created: false
+  machine_mutation_authority_created: false
+  execution_authority_created: false
+  acceptance_authority_created: false
+  release_authority_created: false
+next_action: COMMIT_PUSH_BLUEPRINT_REGISTRATION_AND_POLICY_REFINEMENT
