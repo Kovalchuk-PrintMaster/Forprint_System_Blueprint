@@ -7,7 +7,7 @@ metadata:
   module_working_name: ForPrint Logistics Service
   current_step_id: logistics_service_authority_lineage_and_module_bootstrap_v0_1
   roadmap_version: logistics_service_commercial_delivery_automation_v0_3
-  updated_at: '2026-08-21'
+  updated_at: '2026-09-27'
   planning_horizon:
     rule: minimum_5_target_8_unbounded_meaningful_future_steps
     minimum_future_steps: 5
@@ -19,7 +19,7 @@ metadata:
   implementation_type: operational_integration_service
   current_stage: provider-neutral commercial delivery automation foundation
   purpose: 'Establish Logistics Service as the owner of delivery provider boundaries, shipment drafts, tracking
-    truth, provider payloads, logistics address book and logistics event history for ForPrint operational workflows.
+    truth, provider payloads, shipment-time recipient/address snapshots and logistics event history for ForPrint operational workflows.
 
     '
   strategic_boundary:
@@ -31,7 +31,8 @@ metadata:
     owns:
       - logistics providers catalog
       - provider adapter boundaries
-      - logistics address book / recipient references
+      - shipment-time recipient/address snapshots
+      - provider-neutral recipient resolution boundary
       - shipment drafts
       - shipment requests
       - shipment payload previews
@@ -67,8 +68,10 @@ metadata:
       provider.
 
       '
-    test_data_policy: 'A small local test address book may be created for 10-15 frequent recipients, but it is non-canonical
-      and exists only to test logistics flows until a canonical client/account owner is ready.
+    test_data_policy: 'A small local test address book may remain only as non-canonical test data. Canonical client/order
+      truth and canonical logistics_addresses remain external to Logistics; the current Blueprint policy assigns those
+      address records to Operations Control Registry. Logistics owns shipment-time snapshots and provider/workflow use
+      of resolved addresses.
 
       '
     telegram_bot_policy: 'Telegram Bot may become a channel UI and notification surface for logistics workflows,
@@ -1700,6 +1703,20 @@ roadmap:
       inventory_completion: coordination/internal_work/blueprint/module_inventory/logistics_service/2026-09-05__logistics_service__inventory_completion_evidence_v0_1.yaml
       implementation_lineage: coordination/internal_work/blueprint/module_inventory/logistics_service/2026-09-05__logistics_service__implementation_lineage_baseline_v0_1.yaml
       first_wave_reconciliation_input: coordination/internal_work/blueprint/module_inventory/logistics_service/2026-09-05__logistics_service__first_wave_roadmap_reconciliation_input_v0_1.yaml
+      l0_module_snapshot_commit: d6e5eff8cfe4d272facc00b54007adead0a0dc78
+      l0_module_snapshot_manifest: coordination/repository_knowledge/module_snapshots/forprint_logistics_service/2026-09-27/snapshot_manifest.yaml
+      l0_human_snapshot: coordination/reports/analysis/2026-09-27__forprint_logistics_service__module_snapshot_v0_1.md
+      l0_roadmap_rebuild_input: coordination/reports/analysis/2026-09-27__forprint_logistics_service__roadmap_rebuild_input_v0_1.yaml
+      l0_snapshot_registration: coordination/repository_knowledge/module_knowledge_stabilization/snapshots/2026-09-27__forprint_logistics_service__snapshot_registration_v0_1.yaml
+      fresh_context_repair_commits: 2f3b04845abbc241c573f2d47675438bda12ea10 + 67bec29e3b1a58dd2a859c57bc178601fb23de91
+      l0_required_surface_coverage: 8/8
+    l0_reconciliation:
+      semantic_analysis: complete
+      disposition: ADAPT_AND_RECONCILE_NOT_REIMPLEMENT
+      module_snapshot_remote_contained: true
+      step_status_changed_by_l0_registration: false
+      acceptance_remains_separate_governed_decision: true
+      automatic_next_prompt_release: false
     summary: Install the missing fresh-context AGENTS/index/implementation-lineage/document-authority substrate
       before further Logistics business implementation. Preserve tested compatibility and existing behavior; do
       not delete/archive or widen provider/runtime authority.
