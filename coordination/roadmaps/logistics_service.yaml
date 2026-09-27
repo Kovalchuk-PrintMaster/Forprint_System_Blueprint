@@ -5,7 +5,7 @@ authority: canonical_planning_not_release_or_execution_authority
 metadata:
   module: logistics_service
   module_working_name: ForPrint Logistics Service
-  current_step_id: logistics_service_authority_lineage_and_module_bootstrap_v0_1
+  current_step_id: logistics_service_local_persistence_and_migration_boundary_v0_1
   roadmap_version: logistics_service_commercial_delivery_automation_v0_3
   updated_at: '2026-09-27'
   planning_horizon:
@@ -293,7 +293,7 @@ roadmap:
       - type: module_step
         module: logistics_service
         step_id: logistics_service_authority_lineage_and_module_bootstrap_v0_1
-        status: pending
+        status: accepted
     evidence: {}
     summary: Implement module-local SQLite persistence for operational logistics state behind replaceable repository
       boundaries. Preserve deterministic migrations and an explicit future central-database migration path.
@@ -1687,7 +1687,7 @@ roadmap:
   - sequence: 33
     step_id: logistics_service_authority_lineage_and_module_bootstrap_v0_1
     title: Authority, implementation lineage and fresh-context module bootstrap
-    status: planned
+    status: accepted
     priority: critical
     owner_module: logistics_service
     depends_on:
@@ -1710,12 +1710,21 @@ roadmap:
       l0_snapshot_registration: coordination/repository_knowledge/module_knowledge_stabilization/snapshots/2026-09-27__forprint_logistics_service__snapshot_registration_v0_1.yaml
       fresh_context_repair_commits: 2f3b04845abbc241c573f2d47675438bda12ea10 + 67bec29e3b1a58dd2a859c57bc178601fb23de91
       l0_required_surface_coverage: 8/8
+      acceptance_review_result: PASS_7_OF_7
+      acceptance_review_criteria: AC-001,AC-002,AC-003,AC-004,AC-005,AC-900,AC-901
+      acceptance_review_module_head: 136d5bc9407fd1401adae782de578e82d9eab765
+      acceptance_review_blueprint_head: 5418d5d1e453ebc098cc7cd1c23538d14dc712ef
+      acceptance_oracle_sha256_verified: 2515bfd21707569fd18f59438bea554c677b3d00b12241305537b9169583f9ab
+      human_owner_decision: ACCEPT
+      human_owner_decision_date: '2026-09-27'
+      automatic_acceptance: false
+      automatic_next_prompt_release: false
     l0_reconciliation:
       semantic_analysis: complete
       disposition: ADAPT_AND_RECONCILE_NOT_REIMPLEMENT
       module_snapshot_remote_contained: true
       step_status_changed_by_l0_registration: false
-      acceptance_remains_separate_governed_decision: true
+      acceptance_completed_as_separate_governed_decision: true
       automatic_next_prompt_release: false
     summary: Install the missing fresh-context AGENTS/index/implementation-lineage/document-authority substrate
       before further Logistics business implementation. Preserve tested compatibility and existing behavior; do
@@ -1723,23 +1732,23 @@ roadmap:
     substeps:
       - substep_id: logistics_service_authority_lineage_and_module_bootstrap_v0_1__01
         title: Create root AGENTS.md and canonical fresh-context read/start path
-        status: planned
+        status: accepted
         blocking: true
       - substep_id: logistics_service_authority_lineage_and_module_bootstrap_v0_1__02
         title: Create deterministic module inventory/index substrate and check mode
-        status: planned
+        status: accepted
         blocking: true
       - substep_id: logistics_service_authority_lineage_and_module_bootstrap_v0_1__03
         title: Classify implementation lineage and supported-legacy compatibility families
-        status: planned
+        status: accepted
         blocking: true
       - substep_id: logistics_service_authority_lineage_and_module_bootstrap_v0_1__04
         title: Normalize documentation authority and H9/AUT boundary
-        status: planned
+        status: accepted
         blocking: true
       - substep_id: logistics_service_authority_lineage_and_module_bootstrap_v0_1__05
         title: Run fresh-context, regression and safety verification
-        status: planned
+        status: accepted
         blocking: true
     expected_outputs:
       - root AGENTS.md
