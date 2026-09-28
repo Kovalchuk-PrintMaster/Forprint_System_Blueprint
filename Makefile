@@ -998,6 +998,24 @@ governed-worker-cycle-authorize-dispatch:
 	@test -n "$(GOVERNED_WORKER_ATTEMPT)" || { echo "FAILED: GOVERNED_WORKER_ATTEMPT is required"; exit 1; }
 	$(PYTHON) -m scripts.coordination.control_plane.governed_worker_cycle authorize-dispatch --root . --runtime-root "$(GOVERNED_WORKER_RUNTIME_ROOT)" --attempt-id "$(GOVERNED_WORKER_ATTEMPT)" --confirm-dispatch-authorization
 
+
+# =============================================================================
+# 08B CF-10 Worker Runtime invocation bridge
+# =============================================================================
+# Block scope: Authority-neutral provider invocation construction after
+# explicit dispatch; no process start or publication authority.
+
+# Target: cf10-worker-runtime-invocation-adapter-check
+# Purpose: Validate the authority-neutral CF-10 execution-side Worker Runtime invocation bridge.
+# Safety: READ-ONLY â€” validation only; no Worker process start, attempt append, promotion, commit, push, merge, release or auto-ACCEPT.
+# Inputs: None.
+# Scope: RELATED â€” runtime invocation adapter and focused regression only.
+# Result: Adapter compilation and focused tests pass or the target exits non-zero.
+.PHONY: cf10-worker-runtime-invocation-adapter-check
+cf10-worker-runtime-invocation-adapter-check:
+	$(PYTHON) -m py_compile scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/worker_runtime/test_cf10_worker_runtime_invocation_adapter_v0_1.py
+
 # =============================================================================
 # 08 Context / launch / approval / worker control surfaces
 # =============================================================================

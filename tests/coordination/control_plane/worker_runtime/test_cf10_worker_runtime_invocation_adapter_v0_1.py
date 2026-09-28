@@ -1,0 +1,434 @@
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+import pytest
+import yaml
+
+from scripts.coordination.control_plane.worker_runtime import invocation_adapter as adapter
+
+
+def _context() -> dict:
+    return {
+        "task_id": "cf10-fixture-task-v0-1",
+        "module_id": "forprint_system_blueprint",
+        "authority": {
+            "context_grants_authority": False,
+            "execution_authority_source": "WORK_FRONT",
+            "dispatch_authority_conferred": False,
+            "release_authority_conferred": False,
+            "foreign_write_authority_conferred": False,
+        },
+        "task_envelope": {
+            "schema_version": "forprint_worker_task_envelope_v0_1",
+            "task_id": "cf10-fixture-task-v0-1",
+            "module_id": "forprint_system_blueprint",
+            "source": {
+                "type": "MANUAL_INTERNAL",
+                "artifact_ref": (
+                    "coordination/internal_work/blueprint/worker_tasks/"
+                    "cf10_fixture_task_v0_1.yaml"
+                ),
+            },
+            "work": {
+                "work_id": "u180j",
+                "work_front_id": "wf-cf10-fixture-v0-1",
+            },
+            "objective": "Exercise the generic runtime invocation bridge.",
+            "instructions": [
+                "Modify only the canonical fixture target.",
+                "Run focused validation.",
+            ],
+            "acceptance": ["Focused validation passes."],
+            "stop_conditions": ["Authority widening is required."],
+            "execution_profile": {
+                "profile_id": "light-maintenance",
+                "revision": "r1",
+            },
+            "procedure": {
+                "procedure_id": "governed_canonical_mutation",
+                "revision": "0.1.0",
+            },
+            "authority": {
+                "execution_authority_source": "WORK_FRONT",
+                "task_envelope_grants_authority": False,
+                "widening_requested": False,
+            },
+        },
+    }
+
+
+def _decision(workspace: Path, *, provider: str = "github_copilot_cli") -> dict:
+    return {
+        "schema_version": "forprint_cf10_internal_explicit_dispatch_decision_v0_1",
+        "decision_id": "d" * 64,
+        "decision": "ALLOW_EXACT_CF10_TRAINING_WORKER_LAUNCH",
+        "binding": {
+            "work_id": "u180j",
+            "worker_id": "worker-01",
+            "attempt_id": "cf10-u180j-a999",
+            "task_prompt_id": "cf10-fixture-task-v0-1",
+            "training_task_id": "fixture",
+            "training_order": 999,
+            "source_state_fingerprint": "a" * 64,
+            "work_front_id": "wf-cf10-fixture-v0-1",
+            "work_front_ref": "coordination/work_fronts/cf10_fixture_v0_1.yaml",
+            "profile_ref": "light-maintenance@r1",
+            "procedure_id": "governed_canonical_mutation",
+            "runtime_provider": provider,
+            "runtime_model": "auto",
+            "workspace_repo": str(workspace),
+        },
+        "assistant_ack_validated": True,
+        "explicit_dispatch_decision_recorded": True,
+        "worker_process_launch_allowed": True,
+        "canonical_attempt_ledger_append_allowed": True,
+        "external_dispatch_allowed": False,
+        "release_allowed": False,
+        "push_allowed": False,
+        "merge_allowed": False,
+        "foreign_repository_write_allowed": False,
+        "automatic_accept_allowed": False,
+        "grants_broad_dispatch_authority": False,
+    }
+
+
+def _runtime_config() -> dict:
+    return {
+        "module_id": "forprint_system_blueprint",
+        "provider_adapter": "CONSOLE_COMMAND",
+        "working_directory": "ATTEMPT_WORKSPACE_REPO",
+        "network_policy": "ALLOW",
+        "timeout_seconds": 900,
+        "command": {
+            "provider_id": "github_copilot_cli",
+            "runtime_id": "github_copilot_cli",
+            "executable": "/usr/local/bin/copilot",
+            "base_argv": ["/usr/local/bin/copilot"],
+            "representation": "ARGV_NO_SHELL",
+            "shell": False,
+            "prompt_transport": "provider_adapter_owned",
+        },
+        "budget": {
+            "currency": "USD",
+            "max_cost": 0.0,
+            "provider_specific": {"max_ai_credits": 30},
+        },
+        "tool_policy": {
+            "automatic_accept_allowed": False,
+            "canonical_repository_write_allowed": False,
+            "command_execution_required": "validation_only",
+            "exact_runtime_argv_deferred_to_launch_adapter": True,
+            "foreign_repository_write_allowed": False,
+            "git_commit_allowed": False,
+            "git_push_allowed": False,
+            "merge_allowed": False,
+            "release_allowed": False,
+            "workspace_read_required": True,
+            "workspace_write_required": "task_scope_bound",
+        },
+    }
+
+
+def _runtime(provider: str = "github_copilot_cli") -> dict:
+    return {
+        "provider_id": provider,
+        "runtime_id": provider,
+        "model_id": "auto",
+        "executable": "/usr/local/bin/copilot",
+        "command_representation": "ARGV_NO_SHELL",
+        "working_directory": "ATTEMPT_WORKSPACE_REPO",
+        "timeout_seconds": 900,
+        "network_policy": "ALLOW",
+        "budget": {"provider_specific": {"max_ai_credits": 30}},
+        "authority_granted": False,
+    }
+
+
+def _arrange(tmp_path: Path, monkeypatch):
+    attempt = tmp_path / "attempt"
+    workspace = attempt / "workspace" / "repo"
+    workspace.mkdir(parents=True)
+
+    monkeypatch.setattr(
+        adapter.registry,
+        "load_module_runtime_config",
+        lambda _root: _runtime_config(),
+    )
+    monkeypatch.setattr(
+        adapter.registry,
+        "resolve_default_runtime",
+        lambda _root: _runtime(),
+    )
+
+    original_is_file = Path.is_file
+    monkeypatch.setattr(
+        adapter.Path,
+        "is_file",
+        lambda self: (
+            True
+            if str(self) == "/usr/local/bin/copilot"
+            else original_is_file(self)
+        ),
+    )
+    return attempt, workspace
+
+
+def test_builds_provider_owned_argv_without_starting_process(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    attempt, workspace = _arrange(tmp_path, monkeypatch)
+
+    result = adapter.build_launch_invocation(
+        root=tmp_path,
+        task_context=_context(),
+        explicit_dispatch_decision=_decision(workspace),
+        attempt_root=attempt,
+    )
+
+    assert result["provider_id"] == "github_copilot_cli"
+    assert result["argv"][0] == "/usr/local/bin/copilot"
+    assert result["argv"][-2:] == ["-C", str(workspace)]
+    assert result["argv"][result["argv"].index("--model") + 1] == "auto"
+    assert result["argv"][result["argv"].index("--max-ai-credits") + 1] == "30"
+    assert result["effects"]["worker_process_started"] is False
+    assert result["effects"]["filesystem_write_performed"] is False
+    assert result["authority"]["adapter_grants_authority"] is False
+
+
+def test_prompt_is_task_generic_and_uses_normalized_envelope() -> None:
+    context = _context()
+    decision = _decision(Path("/tmp/workspace"))
+
+    prompt = adapter.render_worker_prompt(
+        task_context=context,
+        explicit_dispatch_decision=decision,
+    )
+
+    assert "cf10-fixture-task-v0-1" in prompt
+    assert "Exercise the generic runtime invocation bridge." in prompt
+    assert "cf10_fixture_task_v0_1.yaml" in prompt
+    assert "cf10_fixture_v0_1.yaml" in prompt
+    assert "Chat text is not execution authority." in prompt
+    assert "Task50" not in prompt
+    assert "a019" not in prompt
+
+
+def test_binding_drift_fails_closed(tmp_path: Path, monkeypatch) -> None:
+    attempt, workspace = _arrange(tmp_path, monkeypatch)
+    decision = _decision(workspace)
+    decision["binding"]["work_front_id"] = "wf-wrong"
+
+    with pytest.raises(
+        adapter.WorkerRuntimeInvocationError,
+        match="binding drift",
+    ):
+        adapter.build_launch_invocation(
+            root=tmp_path,
+            task_context=_context(),
+            explicit_dispatch_decision=decision,
+            attempt_root=attempt,
+        )
+
+
+def test_authority_widening_fails_closed(tmp_path: Path, monkeypatch) -> None:
+    attempt, workspace = _arrange(tmp_path, monkeypatch)
+    decision = _decision(workspace)
+    decision["automatic_accept_allowed"] = True
+
+    with pytest.raises(
+        adapter.WorkerRuntimeInvocationError,
+        match="widened forbidden authority",
+    ):
+        adapter.build_launch_invocation(
+            root=tmp_path,
+            task_context=_context(),
+            explicit_dispatch_decision=decision,
+            attempt_root=attempt,
+        )
+
+
+def test_missing_explicit_launch_authority_fails_closed(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    attempt, workspace = _arrange(tmp_path, monkeypatch)
+    decision = _decision(workspace)
+    decision["worker_process_launch_allowed"] = False
+
+    with pytest.raises(
+        adapter.WorkerRuntimeInvocationError,
+        match="does not authorize Worker process launch",
+    ):
+        adapter.build_launch_invocation(
+            root=tmp_path,
+            task_context=_context(),
+            explicit_dispatch_decision=decision,
+            attempt_root=attempt,
+        )
+
+
+def test_provider_drift_fails_closed(tmp_path: Path, monkeypatch) -> None:
+    attempt, workspace = _arrange(tmp_path, monkeypatch)
+    monkeypatch.setattr(
+        adapter.registry,
+        "resolve_default_runtime",
+        lambda _root: _runtime("other_provider"),
+    )
+
+    with pytest.raises(
+        adapter.WorkerRuntimeInvocationError,
+        match="dispatch/runtime provider drift",
+    ):
+        adapter.build_launch_invocation(
+            root=tmp_path,
+            task_context=_context(),
+            explicit_dispatch_decision=_decision(workspace),
+            attempt_root=attempt,
+        )
+
+
+def test_unimplemented_future_provider_is_not_guessed(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    attempt = tmp_path / "attempt"
+    workspace = attempt / "workspace" / "repo"
+    workspace.mkdir(parents=True)
+
+    config = _runtime_config()
+    config["command"]["provider_id"] = "openai_codex_cli"
+    config["command"]["runtime_id"] = "openai_codex_cli"
+    monkeypatch.setattr(
+        adapter.registry,
+        "load_module_runtime_config",
+        lambda _root: config,
+    )
+    monkeypatch.setattr(
+        adapter.registry,
+        "resolve_default_runtime",
+        lambda _root: _runtime("openai_codex_cli"),
+    )
+    monkeypatch.setattr(adapter.Path, "is_file", lambda self: True)
+
+    with pytest.raises(
+        adapter.WorkerRuntimeInvocationError,
+        match="provider adapter not implemented",
+    ):
+        adapter.build_launch_invocation(
+            root=tmp_path,
+            task_context=_context(),
+            explicit_dispatch_decision=_decision(
+                workspace,
+                provider="openai_codex_cli",
+            ),
+            attempt_root=attempt,
+        )
+
+
+def test_workspace_binding_is_exact(tmp_path: Path, monkeypatch) -> None:
+    attempt, workspace = _arrange(tmp_path, monkeypatch)
+    decision = _decision(workspace)
+    decision["binding"]["workspace_repo"] = str(tmp_path / "wrong")
+
+    with pytest.raises(
+        adapter.WorkerRuntimeInvocationError,
+        match="binding drift",
+    ):
+        adapter.build_launch_invocation(
+            root=tmp_path,
+            task_context=_context(),
+            explicit_dispatch_decision=decision,
+            attempt_root=attempt,
+        )
+
+
+def test_runtime_tool_policy_cannot_enable_publication(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    attempt, workspace = _arrange(tmp_path, monkeypatch)
+    config = _runtime_config()
+    config["tool_policy"]["git_push_allowed"] = True
+    monkeypatch.setattr(
+        adapter.registry,
+        "load_module_runtime_config",
+        lambda _root: config,
+    )
+
+    with pytest.raises(
+        adapter.WorkerRuntimeInvocationError,
+        match="tool policy widened authority",
+    ):
+        adapter.build_launch_invocation(
+            root=tmp_path,
+            task_context=_context(),
+            explicit_dispatch_decision=_decision(workspace),
+            attempt_root=attempt,
+        )
+
+def test_durable_invocation_evidence_omits_prompt_and_full_argv(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    attempt, workspace = _arrange(tmp_path, monkeypatch)
+    invocation = adapter.build_launch_invocation(
+        root=tmp_path,
+        task_context=_context(),
+        explicit_dispatch_decision=_decision(workspace),
+        attempt_root=attempt,
+    )
+
+    evidence = adapter.build_invocation_evidence(invocation)
+
+    # Durable evidence may contain paths.prompt, but never the runtime prompt
+    # text or full argv as top-level serialized command material.
+    assert "prompt" not in evidence
+    assert "argv" not in evidence
+    assert evidence["prompt_sha256"] == invocation["prompt_sha256"]
+    assert evidence["argv_sha256"] == invocation["argv_sha256"]
+    assert evidence["paths"]["prompt"].endswith("worker_prompt.txt")
+    assert evidence["provider_policy"]["available_tools"] == [
+        "view",
+        "edit",
+        "apply_patch",
+    ]
+    assert evidence["provider_policy"]["permission_mode"] == (
+        "ALLOW_ALL_WITHIN_AVAILABLE_TOOL_UNIVERSE"
+    )
+    assert evidence["provider_policy"]["bash_available"] is False
+    assert evidence["provider_policy"]["web_available"] is False
+    assert evidence["provider_policy"]["builtin_mcps_disabled"] is True
+    assert evidence["serialization_boundary"] == {
+        "prompt_text_serialized": False,
+        "full_argv_serialized": False,
+        "secret_values_serialized": False,
+    }
+
+
+def test_sanitized_evidence_contains_paths_but_not_runtime_command_material(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    attempt, workspace = _arrange(tmp_path, monkeypatch)
+    invocation = adapter.build_launch_invocation(
+        root=tmp_path,
+        task_context=_context(),
+        explicit_dispatch_decision=_decision(workspace),
+        attempt_root=attempt,
+    )
+
+    evidence = adapter.build_invocation_evidence(invocation)
+    rendered = yaml.safe_dump(
+        evidence,
+        sort_keys=False,
+        allow_unicode=True,
+    )
+
+    assert invocation["prompt"] not in rendered
+    assert json.dumps(invocation["argv"], ensure_ascii=False) not in rendered
+    assert "NORMALIZED TASK ENVELOPE" not in rendered
+    assert "--available-tools" not in rendered
+    assert "worker_prompt.txt" in rendered
