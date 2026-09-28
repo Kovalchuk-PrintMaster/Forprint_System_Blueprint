@@ -955,6 +955,49 @@ completion-finalize-check:
 # 12A Completion intake / finalization / next work FINISH
 
 
+# -----------------------------------------------------------------------------
+# 08A Governed Worker Cycle / candidate promotion
+# -----------------------------------------------------------------------------
+# Purpose: One operator-facing corridor over existing CF-10 task resolution,
+# workspace, ACK/dispatch preparation and candidate promotion mechanics.
+# Authority: derived workflow only; Work Front remains execution authority.
+# Safety: no target below performs automatic Worker launch, acceptance, commit,
+# push, merge or release.
+
+GOVERNED_WORKER_TASK ?=
+GOVERNED_WORKER_ATTEMPT ?=
+GOVERNED_WORKER_RUNTIME_ROOT ?= /srv/software_development/forprint-worker-runtime
+
+.PHONY: governed-worker-cycle-check
+governed-worker-cycle-check:
+	$(PYTHON) -m py_compile scripts/coordination/control_plane/governed_worker_cycle.py scripts/coordination/control_plane/candidate_promotion.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/test_cf10_governed_worker_cycle_v0_1.py tests/coordination/control_plane/test_worker_candidate_promotion_v0_1.py
+	@git diff --check -- coordination/work_fronts/cf10_governed_worker_cycle_v0_1.yaml scripts/coordination/control_plane/governed_worker_cycle.py scripts/coordination/control_plane/candidate_promotion.py tests/coordination/control_plane/test_cf10_governed_worker_cycle_v0_1.py tests/coordination/control_plane/test_worker_candidate_promotion_v0_1.py coordination/standards/automation/worker_candidate_promotion_contract_v0_1.yaml Makefile
+
+.PHONY: governed-worker-cycle-status
+governed-worker-cycle-status:
+	@test -n "$(GOVERNED_WORKER_TASK)" || { echo "FAILED: GOVERNED_WORKER_TASK is required"; exit 1; }
+	@test -n "$(GOVERNED_WORKER_ATTEMPT)" || { echo "FAILED: GOVERNED_WORKER_ATTEMPT is required"; exit 1; }
+	$(PYTHON) -m scripts.coordination.control_plane.governed_worker_cycle status --root . --runtime-root "$(GOVERNED_WORKER_RUNTIME_ROOT)" --task-prompt-id "$(GOVERNED_WORKER_TASK)" --attempt-id "$(GOVERNED_WORKER_ATTEMPT)"
+
+.PHONY: governed-worker-cycle-prepare
+governed-worker-cycle-prepare:
+	@test -n "$(GOVERNED_WORKER_TASK)" || { echo "FAILED: GOVERNED_WORKER_TASK is required"; exit 1; }
+	@test -n "$(GOVERNED_WORKER_ATTEMPT)" || { echo "FAILED: GOVERNED_WORKER_ATTEMPT is required"; exit 1; }
+	$(PYTHON) -m scripts.coordination.control_plane.governed_worker_cycle prepare --root . --runtime-root "$(GOVERNED_WORKER_RUNTIME_ROOT)" --task-prompt-id "$(GOVERNED_WORKER_TASK)" --attempt-id "$(GOVERNED_WORKER_ATTEMPT)"
+
+.PHONY: governed-worker-cycle-ack
+governed-worker-cycle-ack:
+	@test "$(CONFIRM_ACK)" = "1" || { echo "FAILED: CONFIRM_ACK=1 is required"; exit 1; }
+	@test -n "$(GOVERNED_WORKER_ATTEMPT)" || { echo "FAILED: GOVERNED_WORKER_ATTEMPT is required"; exit 1; }
+	$(PYTHON) -m scripts.coordination.control_plane.governed_worker_cycle ack --root . --runtime-root "$(GOVERNED_WORKER_RUNTIME_ROOT)" --attempt-id "$(GOVERNED_WORKER_ATTEMPT)" --confirm-ack
+
+.PHONY: governed-worker-cycle-authorize-dispatch
+governed-worker-cycle-authorize-dispatch:
+	@test "$(CONFIRM_DISPATCH)" = "1" || { echo "FAILED: CONFIRM_DISPATCH=1 is required"; exit 1; }
+	@test -n "$(GOVERNED_WORKER_ATTEMPT)" || { echo "FAILED: GOVERNED_WORKER_ATTEMPT is required"; exit 1; }
+	$(PYTHON) -m scripts.coordination.control_plane.governed_worker_cycle authorize-dispatch --root . --runtime-root "$(GOVERNED_WORKER_RUNTIME_ROOT)" --attempt-id "$(GOVERNED_WORKER_ATTEMPT)" --confirm-dispatch-authorization
+
 # =============================================================================
 # 08 Context / launch / approval / worker control surfaces
 # =============================================================================

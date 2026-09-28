@@ -1,0 +1,97 @@
+work_front_id: wf-cf10-governed-worker-cycle-v0-1
+objective: >-
+  Establish one thin governed Worker-cycle corridor over the existing CF-10
+  Control Plane so future assistants select a task/attempt and reuse canonical
+  preparation, workspace, Handoff, ledger, validation and promotion semantics
+  instead of inventing per-attempt orchestration scripts.
+scope:
+- coordination/work_fronts/cf10_governed_worker_cycle_v0_1.yaml
+- scripts/coordination/control_plane/candidate_promotion.py
+- scripts/coordination/control_plane/governed_worker_cycle.py
+- tests/coordination/control_plane/test_worker_candidate_promotion_v0_1.py
+- tests/coordination/control_plane/test_cf10_governed_worker_cycle_v0_1.py
+- coordination/standards/automation/worker_candidate_promotion_contract_v0_1.yaml
+- Makefile
+exclusions:
+- Do not replace or duplicate cf10_training_dispatch.py.
+- Do not replace or duplicate workspace provisioning/baseline/delta mechanics.
+- Do not replace or duplicate worker_runtime launcher/provider registry.
+- Do not modify Handoff v2 runtime semantics.
+- Do not modify Execution Attempt Ledger semantics or immutable attempt history.
+- Do not launch a Worker as part of this implementation slice.
+- Do not automatically dispatch, retry, accept, promote, stage, commit, push,
+  merge or release.
+- Do not mutate lifecycle, roadmap, queue ordering or Task60 content.
+- Do not write another repository or grant cross-module authority.
+- Do not treat a derived worker-cycle projection as execution authority.
+provenance:
+  source_refs:
+  - roadmap:control_foundation_near_horizon/CF-10
+  - lifecycle:u180j/WORK_ACTIVATED/sequence-67
+  - task50_publication:f755816c98caf9a28faef9a079a0cf721d8f3991
+  - scripts/coordination/control_plane/cf10_training_dispatch.py
+  - scripts/coordination/control_plane/workspace/
+  - scripts/coordination/control_plane/worker_runtime/launcher.py
+  - scripts/coordination/assistant_handoff_v2_runtime_v0_1.py
+  - scripts/coordination/execution_attempt_ledger_v0_1.py
+  - coordination/standards/automation/worker_candidate_promotion_contract_v0_1.yaml
+  chat_is_authority: false
+dependencies:
+- Task50 is published and remote-contained.
+- Canonical CF-10 training dispatch adapter is available.
+- Canonical isolated workspace baseline/delta layer is available.
+- Handoff v2 result/freshness validation is available.
+- Immutable Execution Attempt Ledger is available.
+- Candidate Promotion contract remains OPERATOR_CONTROLLED_CF10.
+outputs:
+- One reusable candidate promotion runtime supporting CREATE, MODIFY and DELETE
+  semantics relative to the frozen source HEAD.
+- Exact-artifact candidate promotion with target-level freshness and reversible
+  preimage recovery.
+- One thin governed Worker-cycle state projection with deterministic
+  NEXT_BOUNDARY semantics and dependency/contradiction checks.
+- One preparation entrypoint that reuses canonical task resolution, source-state,
+  workspace provision/seal and training pre-dispatch preparation.
+- Explicit assistant-ACK and explicit-dispatch authorization entrypoints that
+  continue to delegate to cf10_training_dispatch.
+- Operator-facing Makefile commands for validation, status, prepare, ACK and
+  dispatch authorization.
+- Focused tests converting the Task50 promotion lessons into regressions.
+acceptance:
+- No second execution authority is introduced.
+- Worker-cycle projection is derived and non-authoritative.
+- Existing canonical dispatch/workspace/Handoff/ledger APIs are reused.
+- Promotion contract required checks remain enforced.
+- Handoff composite fingerprint is never equated to continuity source fingerprint.
+- Promotion supports source-existing modification, source-absent creation and
+  source-existing deletion without relying on git diff to package new files.
+- Canonical target freshness is checked against source HEAD before every promotion.
+- Promotion requires explicit operator review.
+- Promotion writes only exact authorized changed paths.
+- Failed post-apply validation restores the exact pre-promotion state.
+- No staging, commit, push, merge, release or automatic ACCEPT is performed.
+- Focused tests pass.
+- git diff --check passes.
+- Makefile exposes the supported operator workflow.
+stop_conditions:
+- Existing canonical APIs would need semantic weakening.
+- A new authority source would be required.
+- Handoff, ledger or roadmap semantics would need to be bypassed.
+- Automatic acceptance/publication authority would be required.
+- A path outside this Work Front becomes necessary.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false
+capability_reuse:
+  search_performed: true
+  disposition: EXTEND
+  target_refs:
+  - scripts/coordination/control_plane/cf10_training_dispatch.py
+  - scripts/coordination/control_plane/workspace/
+  - scripts/coordination/control_plane/worker_runtime/launcher.py
+  - scripts/coordination/assistant_handoff_v2_runtime_v0_1.py
+  - scripts/coordination/execution_attempt_ledger_v0_1.py
+  - coordination/standards/automation/worker_candidate_promotion_contract_v0_1.yaml

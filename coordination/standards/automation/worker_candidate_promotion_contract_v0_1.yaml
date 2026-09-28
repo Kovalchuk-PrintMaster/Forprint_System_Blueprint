@@ -1,10 +1,10 @@
 schema_version: forprint_worker_candidate_promotion_contract_v0_1
 contract_id: worker_candidate_promotion_contract
 revision: 0.1.0
-status: ACTIVE_CF10_FOUNDATION_SLICE_1
+status: ACTIVE_CF10_PROMOTION_RUNTIME_V0_1
 owner: forprint_system_blueprint
-purpose: Define the boundary between an isolated worker candidate and the canonical repository. A worker returns
-  candidate evidence and never directly promotes, commits, pushes, merges, releases or ACCEPTs its own result.
+purpose: Define the boundary between an isolated worker candidate and the canonical repository. A worker returns candidate
+  evidence and never directly promotes, commits, pushes, merges, releases or ACCEPTs its own result.
 authority_semantics:
   worker_can_promote: false
   worker_can_commit_canonical: false
@@ -38,3 +38,18 @@ reuse:
 slice_1:
   contract_only: true
   promotion_runtime_implemented: false
+slice_2:
+  runtime_implemented: true
+  runtime: scripts/coordination/control_plane/candidate_promotion.py
+  upper_workflow: scripts/coordination/control_plane/governed_worker_cycle.py
+  candidate_input_mode: EXACT_CANDIDATE_ARTIFACTS
+  new_file_semantics: ABSENT_AT_SOURCE_HEAD_CREATE
+  delete_semantics: EXISTING_AT_SOURCE_HEAD_DELETE
+  target_level_source_freshness_required: true
+  handoff_composite_and_continuity_fingerprints_are_distinct: true
+  operator_review_required: true
+  automatic_accept: false
+  automatic_commit: false
+  automatic_push: false
+  automatic_merge: false
+  automatic_release: false
