@@ -1,0 +1,36 @@
+schema_version: forprint_execution_attempt_record_v0_1
+attempt_id: cf10-u180j-a013
+work_front_id: wf-cf10-local-dispatcher-telegram-operator-surface-v0-1
+recorded_at: '2026-09-27T12:13:08.226435Z'
+actor_or_worker_ref: worker-01/provider:github_copilot_cli
+where: /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a013/workspace/repo
+why: CF-10 local Dispatcher Telegram/operator surface training task launch.
+source_fingerprint: 95cef6cf8cf49e5ed800e56486c504e11a2422fe0b42aecb230afab652d168e6
+profile_ref_or_revision: light-maintenance@r1
+pack_hash_or_context_hash: b3329cbcdebbc03781bfb64852ddee4d67f61f48fde0885defca62efcc49953d
+launch_or_invocation_ref: /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a013/input/cf10_a013_provider_invocation_v0_1.yaml
+attempt_stage: BLOCKED
+result_state: BLOCKED
+result_refs:
+- worker_process_result_sha256:a36afa0bfc8871ae3c29c311ea37ea2e4decdcf760ad913ffb2c48de711f2e2d
+- worker_delta_sha256:3f2650d16ffc0d202569f02213963be115f3824e48ae455b17a7ea4aff88e107
+- candidate_focused_pytest_stdout_sha256:edea1fe2e925f38d64cba1ee0f8ba3f25b2723ff28e7e65063c9b7b3e2414e63
+- handoff_v2_infrastructure_defect_sha256:79dbd395af21d3c95356e023b4735210cf490f5f58b16f13fe3535871a6dac8c
+validator_outcome: NOT_RUN
+validator_evidence_refs:
+- candidate_focused_pytest_stdout_sha256:edea1fe2e925f38d64cba1ee0f8ba3f25b2723ff28e7e65063c9b7b3e2414e63
+- worker_delta_sha256:3f2650d16ffc0d202569f02213963be115f3824e48ae455b17a7ea4aff88e107
+- handoff_v2_infrastructure_defect_sha256:79dbd395af21d3c95356e023b4735210cf490f5f58b16f13fe3535871a6dac8c
+failure_or_retry_ref: handoff_v2_infrastructure_defect_sha256:79dbd395af21d3c95356e023b4735210cf490f5f58b16f13fe3535871a6dac8c
+resume:
+  latest_accepted_ref: null
+  resume_coordinates: []
+  replay_forbidden_refs:
+  - attempt:cf10-u180j-a001
+  - attempt:cf10-u180j-a002
+  - attempt:cf10-u180j-a003
+  - attempt:cf10-u180j-a004
+  - attempt:cf10-u180j-a007
+  - attempt:cf10-u180j-a009
+  - attempt:cf10-u180j-a011
+  - attempt:cf10-u180j-a012
