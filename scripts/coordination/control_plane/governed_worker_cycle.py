@@ -819,10 +819,10 @@ def launch_authorized_worker_cycle(
     )
 
     facts = live_facts(
-        root,
-        runtime_root,
-        task_prompt_id,
-        attempt_id,
+        root=root,
+        runtime_root=runtime_root,
+        task_prompt_id=task_prompt_id,
+        attempt_id=attempt_id,
         worker_id=worker_id,
     )
     projection = derive_cycle_projection(facts)

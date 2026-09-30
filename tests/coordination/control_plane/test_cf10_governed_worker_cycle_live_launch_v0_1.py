@@ -52,6 +52,51 @@ def _started(attempt_id=ATTEMPT_ID):
     }
 
 
+def test_launch_uses_keyword_only_live_facts_contract(monkeypatch):
+    captured = {}
+
+    def keyword_only_live_facts(
+        *,
+        root,
+        runtime_root,
+        task_prompt_id,
+        attempt_id,
+        worker_id="worker-01",
+    ):
+        captured.update(
+            {
+                "root": root,
+                "runtime_root": runtime_root,
+                "task_prompt_id": task_prompt_id,
+                "attempt_id": attempt_id,
+                "worker_id": worker_id,
+            }
+        )
+        raise RuntimeError("keyword-only live_facts contract reached")
+
+    monkeypatch.setattr(gwc, "live_facts", keyword_only_live_facts)
+
+    with pytest.raises(
+        RuntimeError,
+        match="keyword-only live_facts contract reached",
+    ):
+        gwc.launch_authorized_worker_cycle(
+            root=".",
+            runtime_root="/tmp/runtime",
+            task_prompt_id="task",
+            attempt_id=ATTEMPT_ID,
+            started_record_data=_started(),
+        )
+
+    assert captured == {
+        "root": ".",
+        "runtime_root": "/tmp/runtime",
+        "task_prompt_id": "task",
+        "attempt_id": ATTEMPT_ID,
+        "worker_id": "worker-01",
+    }
+
+
 def test_launch_requires_ready_projection(monkeypatch):
     monkeypatch.setattr(gwc, "live_facts", lambda *args, **kwargs: {})
     monkeypatch.setattr(
