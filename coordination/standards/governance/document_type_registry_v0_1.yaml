@@ -325,6 +325,63 @@ types:
           - python scripts/validation/validate_portfolio_module_roadmap_approval_matrix_v0_1.py
           - make roadmap-detail-check
           - python scripts/validation/validate_document_surface_registry_v0_1.py
+      - subclass_id: execution_control_plane_program
+        path_pattern: coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/execution_control_plane_program_v0_1.yaml
+        schema_version: forprint_execution_control_plane_program_v0_1
+        format: yaml
+        authority_class: CANONICAL_PLANNING
+        required_top_level:
+        - schema_version
+        - program_id
+        - title
+        - status
+        - date
+        - authority
+        - owner
+        - principles
+        - actor_model
+        - authority_separation
+        - current_sequence
+        - first_contour
+        - workflow_model
+        - operator_console
+        - recovery
+        - sandbox_and_artifacts
+        - deferred_horizon
+        - implementation_accounting
+        - reentry_rule
+        - source_lineage
+        - boundaries
+        migration_state: STRICT
+        mutation_method: controlled Blueprint planning update via FORPRINT MUTATION COMPILER; activation, worker dispatch, release,
+          commit and push remain separate reviewed decisions
+        validation:
+        - make roadmap-detail-check
+        - python scripts/validation/validate_document_surface_registry_v0_1.py
+      - subclass_id: cf10_worker_self_hardening_backlog
+        path_pattern: coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/cf10_worker_self_hardening_backlog_v0_1.yaml
+        schema_version: forprint_cf10_worker_self_hardening_backlog_v0_1
+        format: yaml
+        authority_class: CANONICAL_PLANNING
+        required_top_level:
+        - schema_version
+        - backlog_id
+        - status
+        - date
+        - owner
+        - roadmap_step
+        - purpose
+        - activation_policy
+        - tiers
+        - tasks
+        - deferred_not_worker_autostart
+        - closeout_rule
+        migration_state: STRICT
+        mutation_method: controlled Blueprint planning update via FORPRINT MUTATION COMPILER; activation, worker dispatch, release,
+          commit and push remain separate reviewed decisions
+        validation:
+        - make roadmap-detail-check
+        - python scripts/validation/validate_document_surface_registry_v0_1.py
       - subclass_id: operator_console_control_plane_program
         path_pattern: coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.yaml
         schema_version: forprint_operator_console_program_v0_1

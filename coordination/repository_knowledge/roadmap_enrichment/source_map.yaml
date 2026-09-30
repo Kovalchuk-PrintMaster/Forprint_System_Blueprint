@@ -1630,6 +1630,39 @@ sources:
     - priority_and_decision_gate
     - dependency_mapping
     - implementation_invariants
+- id: execution_control_plane_program_v0_1
+  path: coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/execution_control_plane_program_v0_1.md
+  role: full_execution_control_plane_architecture_and_phased_program
+  authority: planning_context_not_execution_or_activation_authority
+  freshness: current_2026_09_30_reconcile_with_live_cf10_before_each_implementation_contour
+  use_for:
+  - execution_control_plane_target_architecture
+  - cf10_first_contour_boundary
+  - three_actor_execution_model
+  - stable_workflow_entrypoint_direction
+  - partial_implementation_accounting
+  - cf12_deferred_horizon_reentry
+- id: execution_control_plane_program_machine_v0_1
+  path: coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/execution_control_plane_program_v0_1.yaml
+  role: machine_readable_execution_control_plane_program
+  authority: planning_context_not_execution_or_activation_authority
+  freshness: current_2026_09_30_reconcile_with_live_cf10_before_each_implementation_contour
+  use_for:
+  - machine_readable_first_contour
+  - actor_and_lease_invariants
+  - implementation_state_accounting
+  - deferred_capability_visibility
+  - console_backend_dependency
+- id: cf10_worker_self_hardening_backlog_v0_1
+  path: coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/cf10_worker_self_hardening_backlog_v0_1.yaml
+  role: bounded_post_first_launch_worker_self_hardening_candidates
+  authority: planning_backlog_not_activation_or_dispatch_authority
+  freshness: reconcile_before_each_worker_assignment
+  use_for:
+  - progressive_worker_training
+  - reusable_workflow_hardening
+  - task_complexity_progression
+  - acceptance_and_dependency_lookup
 source_role_rules:
 - rule: canonical_source_beats_generated_projection
 - rule: git_and_current_authority_beat_stale_handoff_or_chat

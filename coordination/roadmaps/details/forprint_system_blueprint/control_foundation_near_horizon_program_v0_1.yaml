@@ -324,6 +324,14 @@ steps:
     improves the environment used by later workers.
   - 'Use validation_check_pipeline_profile_and_optimization as a preferred bounded post-first-attempt training task: measure full-suite and targeted-suite wall-clock time, critical path, repeated Git/repository scans, subprocess counts and pytest collection/startup before changing execution; then optimize only proven duplicate or independent read-only work without weakening validation semantics. This is CF-14-aligned self-hardening and is not the first-ever worker task.'
   - 'Use planning_projection_cursor_sync_audit as another preferred bounded post-first-attempt training task: reconcile continuity NEXT_HORIZON generation/refresh triggers with event-sourced roadmap reconciliation, detect stale projections automatically, preserve generated-only/manual-edit-forbidden semantics, and add deterministic transition/freshness tests before claiming closure.'
+  - 'execution_control_plane_first_contour_v0_1: Treat execution_control_plane_program_v0_1 as the approved architecture-depth package; implement only the bounded first contour in CF-10 and preserve the remaining target as visible planned/deferred capability.'
+  - 'Keep the current governed-worker Slice B2 bounded: complete its existing live-launch orchestration boundary without importing the wider Execution Control Plane scope into that frozen runtime write-set.'
+  - 'After B2 proves a supported live worker cycle, evolve the CF-10 execution foundation through one shared model: execution identity/source/actor, module lease, heartbeat/liveness, current step and mini-step, minimal semantic event journal, checkpoint reference, status projection, and suspend/resume/complete/release lifecycle.'
+  - 'Use one execution truth for internal_worker, operator_assistant and human_terminal; internal_worker is the first operational reference adapter, while the other actor adapters may remain incomplete until separately activated.'
+  - 'Expose recurring execution operations through stable workflow entrypoints backed by canonical workflow logic; Makefile, future CLI and Operator Console remain thin operator surfaces rather than independent implementations.'
+  - 'After the first stable worker attempts, dispatch bounded self-hardening tasks from cf10_worker_self_hardening_backlog_v0_1, beginning with observable/read-mostly workflow discovery and certification work and increasing complexity only from evidence.'
+  - 'Apply FAILURE -> REPAIR THE REUSABLE WORKFLOW, NOT ONLY THE CURRENT SESSION: recurring argument/order/interface/recovery defects require bounded workflow/helper repair plus regression evidence before closeout where practical.'
+  - 'Record first-contour completion as partial capability progress, not global Execution Control Plane DONE; keep implemented versus planned-not-implemented state explicit.'
   acceptance_signal:
     key: BLUEPRINT_INTERNAL_ZERO_STAGE_PILOT_STABLE
     pass_value: true
@@ -356,6 +364,9 @@ steps:
   - "Track semantic review last-completed, due, severity and overdue state."
   - "Maintain a persistent non-executable Architecture/Improvement Horizon for deferred candidates with stable IDs, WATCH/ASSESS/TRIAL/READY_FOR_DECISION/ADOPTED/REJECTED/SUPERSEDED states, rationale, evidence references, revisit triggers and explicit roadmap_authority=false until deliberate promotion."
   - "Define machine-readable Review Obligations with time, milestone/wave, event, metric/health, dependency-change and strategic triggers plus required evidence, completion criteria and UPCOMING/DUE/OVERDUE/BLOCKED/SATISFIED/SUPERSEDED state."
+  - "execution_control_plane_deferred_horizon_v0_1: Keep the non-first-contour Execution Control Plane capability visible in the Architecture/Capability Horizon until deliberately promoted; deferred does not mean forgotten."
+  - "Track deferred candidates including advanced idle supervision, unattributed writable-activity handling, evidence-driven automatic mini-step completion, full operator_assistant and human_terminal adapters, rich Console controls, Telegram decisions, Inspector/crash-test integration, automatic commit/push workflows, advanced artifact UI, secrets brokering, network policy and a full automated Integration Gate."
+  - "When re-entering a deferred Execution Control Plane capability, read the full target architecture, inspect implemented-state evidence and current project reality, then apply REUSE/EXTEND/ADAPT/REPLACE/NEW before defining the next bounded contour."
 - order: 13
   id: CF-13
   stable_id: deterministic_machine_discoverability_and_module_golden_path

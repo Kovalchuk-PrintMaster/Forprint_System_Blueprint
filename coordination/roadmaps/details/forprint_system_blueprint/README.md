@@ -108,3 +108,28 @@ The later broad readiness audit is now CF-19. It reviews the earlier CF-10 evide
 
 Planning files themselves grant no dispatch, release, automatic ACCEPT, foreign-repository-write or autonomy authority.
 <!-- control-foundation-near-horizon-v0-1:end -->
+
+<!-- execution-control-plane-program-v0-1:start -->
+## Execution Control Plane / stable workflow program — reconciled 2026-09-30
+
+Detailed architecture and sequencing:
+
+- `execution_control_plane/execution_control_plane_program_v0_1.md`
+- `execution_control_plane/execution_control_plane_program_v0_1.yaml`
+- `execution_control_plane/cf10_worker_self_hardening_backlog_v0_1.yaml`
+
+CF-10 owns the **bounded first implementation contour** and uses the internal Worker lifecycle
+as the first reference implementation. The current governed-worker Slice B2 remains a separate
+bounded runtime step and is not expanded by this planning integration.
+
+After the first stable Worker attempts, suitable bounded self-hardening work is pulled from the
+machine-readable backlog so the Worker progressively improves reusable workflow infrastructure
+rather than each assistant rediscovering commands, order, status and recovery behavior.
+
+CF-12 keeps the intentionally deferred long-horizon capabilities visible until deliberate
+promotion. The Operator Console consumes Control Plane projections and actions; it is not state
+authority.
+
+These planning files grant no dispatch, release, automatic ACCEPT, canonical remote push,
+foreign-repository write, or production activation authority.
+<!-- execution-control-plane-program-v0-1:end -->

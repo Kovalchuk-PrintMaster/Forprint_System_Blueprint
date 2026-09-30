@@ -2045,3 +2045,72 @@ intents:
     roadmap: ''
     source_refs:
       - coordination/bootstrap/module_analysis_lifecycle_methodology_v0_2.md
+
+  - intent_id: HI-FP-EXECUTION-CONTROL-20260930-001
+    status: AGREED
+    text: >-
+      ForPrint should gradually acquire a persistent Execution Control Plane that knows declared
+      work and reconciles it with durable evidence, instead of reconstructing operational state
+      afterward from Git history, dirty files, old scripts or individual assistant memory.
+    context: >-
+      Git, tests, files, heartbeats, workflow results and artifacts are evidence; they are not by
+      themselves sufficient semantic execution truth.
+    roadmap: execution_control_plane_program_v0_1
+    source_refs:
+      - coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/execution_control_plane_program_v0_1.md
+      - coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/execution_control_plane_program_v0_1.yaml
+
+  - intent_id: HI-FP-STABLE-WORKFLOW-20260930-001
+    status: AGREED
+    text: >-
+      Human Owner and future assistants should use stable supported workflow entrypoints instead
+      of rediscovering script paths, argument combinations and invocation order in each session;
+      Makefile, future CLI and Operator Console should call the same reusable backend workflow.
+    context: >-
+      When a recurring workflow fails because its reusable interface, ordering, projection,
+      helper or recovery behavior is defective, repair that reusable workflow and add regression
+      evidence where practical rather than fixing only the current session.
+    roadmap: execution_control_plane_program_v0_1
+    source_refs:
+      - coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/execution_control_plane_program_v0_1.md
+
+  - intent_id: HI-FP-EXECUTION-ACTORS-20260930-001
+    status: AGREED
+    text: >-
+      Internal Worker, Operator Assistant and human-terminal execution should share one execution
+      state model, module-lease semantics, checkpoint/status model and durable execution identity
+      rather than becoming three separate operational realities.
+    context: >-
+      human_terminal explicitly covers the current bounded workflow where ChatGPT prepares a
+      command or script, Human Owner executes it on the server and returns evidence.
+    roadmap: execution_control_plane_program_v0_1
+    source_refs:
+      - coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/execution_control_plane_program_v0_1.yaml
+
+  - intent_id: HI-FP-EXECUTION-PHASING-20260930-001
+    status: AGREED
+    text: >-
+      Describe the full Execution Control Plane architecture now, but implement only a bounded
+      minimum first; completing that minimum must be recorded as partial capability progress while
+      all approved deferred architecture remains visible for later deliberate promotion.
+    context: >-
+      CF-10 owns the first contour; CF-12 carries intentionally deferred long-horizon capability.
+      Deferred does not mean forgotten.
+    roadmap: execution_control_plane_program_v0_1
+    source_refs:
+      - coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/execution_control_plane_program_v0_1.md
+      - coordination/roadmaps/details/forprint_system_blueprint/control_foundation_near_horizon_program_v0_1.yaml
+
+  - intent_id: HI-FP-WORKER-SELF-HARDENING-20260930-001
+    status: AGREED
+    text: >-
+      After the first stable governed Worker attempts, progressively assign the Worker bounded,
+      observable Blueprint self-hardening tasks so it improves the workflow/control environment
+      used by later workers; start with lower-risk discovery/certification tasks and increase
+      architectural complexity only from measured evidence.
+    context: >-
+      The self-hardening backlog is a governed source of candidate work, not automatic activation
+      authority, and it must not expand the currently frozen Slice B2 implementation scope.
+    roadmap: execution_control_plane_program_v0_1
+    source_refs:
+      - coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/cf10_worker_self_hardening_backlog_v0_1.yaml

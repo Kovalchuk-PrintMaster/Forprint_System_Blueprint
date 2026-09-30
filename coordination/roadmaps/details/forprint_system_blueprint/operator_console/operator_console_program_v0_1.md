@@ -222,7 +222,7 @@ infrastructure toward an actor-neutral execution contract.
 
 Expected CF10 capabilities:
 
-- actor-neutral execution fabric supporting `internal_worker` and `operator_assistant`;
+- actor-neutral execution fabric supporting `internal_worker`, `operator_assistant` and `human_terminal`;
 - exclusive module ownership/lease;
 - controlled interrupt/checkpoint/release;
 - worker sandbox generalization;
@@ -238,6 +238,35 @@ If a dependency is not available when OC-01 reaches it:
 3. choose explicitly between wait, bounded adapter/mock, or minimal temporary implementation;
 4. do not silently create a competing permanent subsystem.
 
+
+<!-- execution-control-plane-reconciliation-v0-1:start -->
+### 6.1 Execution Control Plane reconciliation — 2026-09-30
+
+The wider backend dependency is now specified by:
+
+- `../execution_control_plane/execution_control_plane_program_v0_1.md`
+- `../execution_control_plane/execution_control_plane_program_v0_1.yaml`
+- `../execution_control_plane/cf10_worker_self_hardening_backlog_v0_1.yaml`
+
+The backend execution model is intentionally shared by three actor types:
+
+- `internal_worker`;
+- `operator_assistant`;
+- `human_terminal`.
+
+`human_terminal` represents the current bounded operating mode in which an assistant prepares a
+controlled command/script, the Human Owner executes it in the terminal, and structured evidence is
+returned. This is an execution mode, not a separate project reality.
+
+The Console remains a client of Control Plane projections. It must not infer module ownership,
+mini-step completion or execution state independently from repository dirtiness or UI-local flags.
+
+The near-term CF-10 backend contour is deliberately smaller than the full Console horizon:
+execution record/source/actor, exclusive module lease, heartbeat/liveness, current step/mini-step,
+minimal semantic events, checkpoint reference, status projection and
+suspend/resume/complete/release. Later Console features consume that foundation as they are
+deliberately promoted.
+<!-- execution-control-plane-reconciliation-v0-1:end -->
 ## 7. Tooling evolution
 
 Sandbox experimentation is encouraged.

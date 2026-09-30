@@ -38,6 +38,7 @@ architecture:
   actor_types:
     - internal_worker
     - operator_assistant
+    - human_terminal
 
 invariants:
   - one_module_repository_one_active_writable_actor
@@ -105,6 +106,14 @@ cf10_dependencies:
   reconciliation_required: true
   expected_capabilities:
     - actor_neutral_execution_fabric
+    - execution_record_and_source
+    - shared_three_actor_execution_state
+    - stable_workflow_entrypoints
+    - workflow_registry_and_health
+    - step_execution_ledger_or_equivalent
+    - heartbeat_liveness
+    - semantic_event_journal
+    - status_projection
     - exclusive_module_lease_or_equivalent
     - controlled_interrupt_checkpoint_release
     - sandbox_workspace_lifecycle
@@ -179,3 +188,5 @@ references:
   development_environment_policy: coordination/standards/development_environment_policy.md
   bootstrap_navigation: coordination/bootstrap/START_HERE.md
   roadmap_enrichment_source_map: coordination/repository_knowledge/roadmap_enrichment/source_map.yaml
+  execution_control_plane_program: coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/execution_control_plane_program_v0_1.yaml
+  worker_self_hardening_backlog: coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/cf10_worker_self_hardening_backlog_v0_1.yaml

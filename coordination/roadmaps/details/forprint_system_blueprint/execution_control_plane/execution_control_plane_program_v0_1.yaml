@@ -1,0 +1,215 @@
+schema_version: forprint_execution_control_plane_program_v0_1
+program_id: execution_control_plane_program_v0_1
+title: ForPrint Execution Control Plane
+status: TARGET_DEFINED_FIRST_CONTOUR_PLANNED
+date: '2026-09-30'
+authority: PLANNING_CONTEXT_NOT_EXECUTION_DISPATCH_RELEASE_OR_ACTIVATION_AUTHORITY
+owner:
+  planning: human_owner_plus_forprint_system_blueprint
+  runtime_owner: reconcile_from_live_cf10_before_implementation
+
+principles:
+  git_is_evidence_not_execution_truth: true
+  observers_do_not_invent_semantic_state: true
+  reuse_policy:
+    - REUSE
+    - EXTEND
+    - ADAPT
+    - REPLACE
+    - NEW
+  one_module_repository_one_active_writable_actor: true
+  unknown_dirty_state_auto_commit_forbidden: true
+  stable_operator_surfaces_share_backend: true
+  recurring_failure_repairs_reusable_workflow: true
+
+actor_model:
+  shared_execution_truth: true
+  actor_types:
+    - internal_worker
+    - operator_assistant
+    - human_terminal
+  first_operational_reference_actor: internal_worker
+  human_terminal_semantics: assistant_prepares_bounded_operation_human_executes_terminal_evidence_returns
+
+authority_separation:
+  roadmap: desired_capability_sequence_and_dependencies
+  roadmap_detail: current_execution_meaning_and_architecture
+  execution_control_plane: current_declared_execution_state
+  execution_ledger_and_event_journal: execution_progress_and_semantic_transitions
+  git_tests_files_workflows_artifacts: observed_technical_evidence
+  operator_console: client_and_control_surface_not_state_authority
+
+current_sequence:
+  slice_b2:
+    disposition: KEEP_BOUNDED_NO_SCOPE_EXPANSION
+    purpose: prove_governed_worker_live_launch_orchestration
+  after_b2_review:
+    - first_stable_live_worker_attempts
+    - bounded_execution_control_plane_first_contour
+    - progressive_worker_self_hardening
+  worker_self_hardening_backlog:
+    path: coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/cf10_worker_self_hardening_backlog_v0_1.yaml
+    activation_authority_created: false
+
+first_contour:
+  roadmap_owner_step: CF-10
+  objective: smallest_useful_durable_execution_control_foundation
+  capabilities:
+    - execution_record
+    - execution_source_reference
+    - actor_type
+    - roadmap_step_and_substep_reference
+    - exclusive_module_lease
+    - heartbeat_and_last_seen
+    - current_execution_state
+    - current_mini_step_state
+    - minimal_semantic_event_journal
+    - checkpoint_reference
+    - status_projection
+    - suspend_resume_complete_release
+  minimum_events:
+    - EXECUTION_CREATED
+    - MODULE_LEASE_ACQUIRED
+    - MINI_STEP_ACTIVATED
+    - CHECKPOINT_CREATED
+    - EXECUTION_SUSPENDED
+    - EXECUTION_RESUMED
+    - EXECUTION_COMPLETED
+    - MODULE_LEASE_RELEASED
+    - EXECUTION_FAILED
+  minimum_reconciliation_questions:
+    - execution_record_internally_consistent
+    - module_lease_agrees_with_active_execution
+    - active_execution_has_current_mini_step
+    - heartbeat_recent
+    - suspended_execution_resumable
+    - completed_execution_does_not_retain_lease
+  acceptance_direction:
+    - supported_execution_has_stable_entrypoint
+    - durable_execution_identity_created
+    - simultaneous_writable_actor_collision_prevented
+    - current_execution_and_mini_step_queryable
+    - heartbeat_liveness_available
+    - basic_semantic_events_durable
+    - checkpoint_reference_available
+    - suspend_resume_supported
+    - complete_releases_module
+    - restart_state_interpretable
+    - operator_surface_exposes_supported_lifecycle
+    - core_state_transitions_tested
+
+workflow_model:
+  stable_entrypoint_required: true
+  makefile_is_operator_functional_map: true
+  console_and_makefile_duplicate_business_logic_forbidden: true
+  registry_direction:
+    fields:
+      - workflow_id
+      - owner
+      - status
+      - entrypoint
+      - input_schema
+      - prerequisites
+      - authority_sources
+      - phases
+      - state_detection
+      - idempotency
+      - checkpointing
+      - validators
+      - result_schema
+      - failure_classes
+      - resume_semantics
+      - make_target
+      - console_action
+  health_states:
+    - DECLARED
+    - IMPLEMENTED
+    - VERIFIED
+    - DEGRADED
+    - DEPRECATED
+
+operator_console:
+  role: client_projection_and_structured_control_surface
+  state_authority: false
+  required_backend_projection:
+    - registered_modules
+    - module_free_busy
+    - active_actor
+    - execution_or_session_id
+    - roadmap_step_and_substep
+    - execution_state
+    - checkpoint_state
+    - interrupt_or_access_request_state
+    - verified_workflows
+    - result_and_artifact_availability
+
+recovery:
+  abrupt_power_loss_is_real_operating_condition: true
+  stale_heartbeat_does_not_imply_free: true
+  unexpected_interruption_state: INTERRUPTED_UNEXPECTEDLY
+  terminal_recovery_actions:
+    - RESUME
+    - ABORT_AND_SEAL
+
+sandbox_and_artifacts:
+  modern_tooling_inside_isolation_encouraged: true
+  environment_delta_evidence_required_for_material_additions: true
+  artifact_payload_may_expire: true
+  artifact_provenance_should_persist: true
+
+deferred_horizon:
+  roadmap_owner_step: CF-12
+  status: DESCRIBED_NOT_AUTOMATICALLY_ACTIVATED
+  capabilities:
+    - advanced_idle_supervision
+    - unattributed_writable_activity_handling
+    - automatic_mini_step_completion_from_evidence
+    - full_operator_assistant_adapter
+    - full_human_terminal_adapter
+    - rich_operator_console_controls
+    - telegram_decisions_and_approvals
+    - automatic_commit_push_workflows
+    - artifact_provenance_ui
+    - conversation_archive_ui
+    - semantic_conversation_search
+    - inspector_integration
+    - crash_test_runtime_validation_integration
+    - advanced_storage_pressure_management
+    - secrets_broker
+    - network_policy
+    - full_automated_integration_gate
+
+implementation_accounting:
+  global_done_after_first_contour_forbidden: true
+  desired_future_state_model:
+    status: PARTIALLY_IMPLEMENTED
+    implemented: []
+    planned_not_implemented: []
+  evidence_required_before_marking_implemented: true
+
+reentry_rule:
+  - read_full_target_architecture
+  - read_implemented_state_evidence
+  - inspect_current_project_reality
+  - compare_old_assumptions_with_current_capabilities
+  - apply_REUSE_EXTEND_ADAPT_REPLACE_NEW
+  - define_next_bounded_contour
+
+source_lineage:
+  - source: 29.09.26_cf10_operator_console_execution_fabric_intake_v0_1.zip
+    role: actor_neutral_execution_fabric_and_console_backend_intent
+  - source: 30.09.26_f10_execution_work_flow_reliability_and_console_backend_v0_2
+    role: stable_workflow_and_three_actor_reliability_intake
+  - source: 30.09.26_f10_add_control_palne_workwlow.txt
+    role: human_owner_architecture_depth_addendum
+  - source: coordination/roadmaps/details/forprint_system_blueprint/control_foundation_near_horizon_program_v0_1.yaml
+    role: live_cf10_cf12_roadmap_context
+  - source: coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.yaml
+    role: existing_operator_console_planning_context
+
+boundaries:
+  automatic_activation: false
+  worker_started_by_this_program: false
+  production_rollout_authorized: false
+  canonical_remote_push_authorized: false
+  foreign_repository_write_authorized: false

@@ -1,0 +1,256 @@
+schema_version: forprint_cf10_worker_self_hardening_backlog_v0_1
+backlog_id: cf10_worker_self_hardening_backlog_v0_1
+status: PLANNING_BACKLOG_NOT_ACTIVATION_AUTHORITY
+date: '2026-09-30'
+owner: forprint_system_blueprint
+roadmap_step: CF-10
+purpose: >-
+  Provide bounded, observable post-first-launch self-hardening candidates so the internal Worker
+  progressively improves reusable Blueprint workflow/control infrastructure. Each item still
+  requires execution-ready reconciliation and explicit activation.
+
+activation_policy:
+  automatic_dispatch: false
+  first_worker_task_from_this_backlog: only_after_successful_governed_live_worker_attempt
+  do_not_expand_current_slice_b2: true
+  complexity_progression_from_evidence: true
+  one_active_writable_actor_per_module: true
+  failure_rule: repair_reusable_workflow_not_only_current_session
+  before_each_task:
+    - inspect_current_live_implementation
+    - apply_REUSE_EXTEND_ADAPT_REPLACE_NEW
+    - confirm_dependencies_and_write_set
+    - define_acceptance_and_validation
+    - acquire_normal_execution_authority
+
+tiers:
+  - tier_id: SH-T0
+    name: observable_and_read_mostly
+    purpose: prove_worker_can_inspect_and improve discoverability with low mutation risk
+  - tier_id: SH-T1
+    name: bounded_reusable_workflow_hardening
+    purpose: repair and certify small reusable workflow/control surfaces
+  - tier_id: SH-T2
+    name: stateful_execution_control
+    purpose: implement or reconcile first-contour stateful control-plane capabilities
+  - tier_id: SH-T3
+    name: recovery_and_actor_neutral_orchestration
+    purpose: extend proven state model into interruption, recovery and additional actor adapters
+
+tasks:
+  - task_id: CF10-SH-01
+    tier: SH-T0
+    title: reconcile_workflow_inventory_and_registry_contract
+    state: CANDIDATE_NOT_ACTIVATED
+    goal: >-
+      Inventory recurring CF10 workflow entrypoints and map them to existing canonical scripts,
+      prerequisites, state detection, validators, result contracts and operator surfaces before
+      creating new registry structures.
+    mutation_profile: read_mostly_then_small_planning_or_registry_delta
+    acceptance:
+      - reusable_existing_workflows_classified
+      - duplicate_or_missing_entrypoints_identified
+      - REUSE_EXTEND_ADAPT_REPLACE_NEW_decisions_recorded
+      - no_parallel_runtime_created
+
+  - task_id: CF10-SH-02
+    tier: SH-T0
+    title: workflow_health_and_certification_baseline
+    state: CANDIDATE_NOT_ACTIVATED
+    depends_on:
+      - CF10-SH-01
+    goal: >-
+      Establish DECLARED/IMPLEMENTED/VERIFIED/DEGRADED/DEPRECATED evidence for selected supported
+      workflows, beginning with observable happy-path/failure/rerun/operator-surface checks.
+    acceptance:
+      - status_is_evidence_based
+      - verified_does_not_mean_target_merely_exists
+      - degraded_reason_is_machine_readable
+
+  - task_id: CF10-SH-03
+    tier: SH-T1
+    title: stable_operator_entrypoint_convergence
+    state: CANDIDATE_NOT_ACTIVATED
+    depends_on:
+      - CF10-SH-01
+    goal: >-
+      Reconcile recurring Human Owner operations behind stable workflow entrypoints so Makefile,
+      future CLI and future Console call the same backend rather than encoding separate logic.
+    acceptance:
+      - stable_entrypoint_exists_for_selected_workflow
+      - operator_surface_is_thin_wrapper
+      - regression_covers_repaired_interface_or_order_defect_where_practical
+      - Makefile_coverage_checked
+
+  - task_id: CF10-SH-04
+    tier: SH-T1
+    title: structured_result_and_failure_receipts
+    state: CANDIDATE_NOT_ACTIVATED
+    goal: >-
+      Normalize selected governed workflow results into machine-readable success/failure receipts
+      suitable for status, recovery and later Console projection.
+    acceptance:
+      - happy_path_result_structured
+      - failure_class_structured
+      - evidence_paths_explicit
+      - rerun_or_resume_semantics_documented
+
+  - task_id: CF10-SH-05
+    tier: SH-T2
+    title: execution_record_and_three_actor_contract
+    state: CANDIDATE_NOT_ACTIVATED
+    depends_on:
+      - CF10-SH-03
+      - CF10-SH-04
+    goal: >-
+      Reconcile the minimum durable execution record and shared actor model for internal_worker,
+      operator_assistant and human_terminal while keeping internal_worker as the first operational
+      reference adapter.
+    acceptance:
+      - durable_execution_identity
+      - execution_source_reference
+      - actor_type
+      - module_and_step_substep_references
+      - current_state_queryable
+      - no_duplicate_parallel_execution_truth
+
+  - task_id: CF10-SH-06
+    tier: SH-T2
+    title: exclusive_module_lease_reconciliation
+    state: CANDIDATE_NOT_ACTIVATED
+    depends_on:
+      - CF10-SH-05
+    goal: >-
+      Reconcile module occupancy with the shared execution record so one module repository cannot
+      have simultaneous active writable actors.
+    acceptance:
+      - acquire_release_semantics_explicit
+      - active_execution_and_lease_consistent
+      - ownership_stealing_forbidden
+      - stale_lease_enters_reconciliation_not_automatic_FREE
+
+  - task_id: CF10-SH-07
+    tier: SH-T2
+    title: heartbeat_liveness_and_status_projection
+    state: CANDIDATE_NOT_ACTIVATED
+    depends_on:
+      - CF10-SH-05
+      - CF10-SH-06
+    goal: >-
+      Add/reconcile explicit liveness distinct from repository activity and publish a
+      machine-readable execution/module status projection.
+    acceptance:
+      - heartbeat_or_last_seen_explicit
+      - liveness_not_derived_only_from_git_activity
+      - module_actor_execution_step_checkpoint_projectable
+      - dispatcher_and_future_console_can_share_projection
+
+  - task_id: CF10-SH-08
+    tier: SH-T2
+    title: minimal_semantic_event_journal
+    state: CANDIDATE_NOT_ACTIVATED
+    depends_on:
+      - CF10-SH-05
+    goal: >-
+      Reuse or extend existing event schemas to record the minimum semantic execution transitions
+      without logging every shell command as project-significant state.
+    acceptance:
+      - minimum_event_vocabulary_reconciled_with_existing_schema
+      - append_or_durable_semantics_proven
+      - event_does_not_silently_invent_completion
+      - status_reconstruction_supported
+
+  - task_id: CF10-SH-09
+    tier: SH-T2
+    title: checkpoint_suspend_resume_complete_release
+    state: CANDIDATE_NOT_ACTIVATED
+    depends_on:
+      - CF10-SH-06
+      - CF10-SH-07
+      - CF10-SH-08
+    goal: >-
+      Reconcile checkpoint reference and lifecycle transitions so execution can suspend, resume,
+      complete and release module ownership through one governed backend.
+    acceptance:
+      - checkpoint_reference_durable
+      - suspended_execution_resumable
+      - completion_releases_lease
+      - unknown_dirty_state_not_auto_committed
+      - state_transition_tests_present
+
+  - task_id: CF10-SH-10
+    tier: SH-T3
+    title: unexpected_interruption_and_power_loss_recovery
+    state: CANDIDATE_NOT_ACTIVATED
+    depends_on:
+      - CF10-SH-09
+    goal: >-
+      Reconcile stale-heartbeat unexpected interruption with durable checkpoint/workspace/Git/test
+      evidence and support RESUME or ABORT_AND_SEAL.
+    acceptance:
+      - interrupted_unexpectedly_state_explicit
+      - stale_does_not_equal_free
+      - recovery_context_durable
+      - resume_and_abort_seal_paths_tested
+
+  - task_id: CF10-SH-11
+    tier: SH-T3
+    title: operator_assistant_and_human_terminal_adapters
+    state: CANDIDATE_NOT_ACTIVATED
+    depends_on:
+      - CF10-SH-09
+    goal: >-
+      Adapt the proven execution model to additional actor modes without creating separate lease,
+      checkpoint, event or status realities.
+    acceptance:
+      - shared_execution_state_model_preserved
+      - human_terminal_bounded_command_flow_correlatable
+      - operator_assistant_transfer_respects_interrupt_checkpoint_release
+      - no_actor_specific_duplicate_control_plane
+
+  - task_id: CF10-SH-12
+    tier: SH-T3
+    title: operator_console_backend_projection
+    state: CANDIDATE_NOT_ACTIVATED
+    depends_on:
+      - CF10-SH-07
+      - CF10-SH-09
+    goal: >-
+      Expose the proven Control Plane status/actions needed by Operator Console while keeping the
+      UI non-authoritative.
+    acceptance:
+      - console_reads_shared_projection
+      - console_actions_map_to_shared_workflow_ids
+      - ui_local_busy_or_complete_flags_not_authority
+
+  - task_id: CF10-SH-13
+    tier: SH-T1
+    title: environment_delta_and_artifact_provenance
+    state: CANDIDATE_NOT_ACTIVATED
+    goal: >-
+      Capture material sandbox tooling changes and durable artifact provenance so useful tools can
+      be promoted deliberately and temporary payload deletion does not erase reproducibility.
+    acceptance:
+      - material_environment_delta_recordable
+      - recurring_tool_promotion_candidate_path_defined
+      - artifact_hash_identity_and_producer_context_preserved
+      - payload_retention_separate_from_provenance_retention
+
+deferred_not_worker_autostart:
+  roadmap_step: CF-12
+  items:
+    - advanced_idle_supervision
+    - unattributed_writable_activity_handling
+    - automatic_mini_step_completion
+    - automatic_commit_push
+    - full_telegram_controls
+    - inspector_and_crash_test_integration
+    - advanced_storage_pressure_management
+    - secrets_broker
+    - network_policy
+    - full_automated_integration_gate
+
+closeout_rule:
+  backlog_completion_does_not_equal_execution_control_plane_global_done: true
+  record_each_implemented_capability_from_live_evidence: true
+  keep_remaining_approved_target_visible: true
