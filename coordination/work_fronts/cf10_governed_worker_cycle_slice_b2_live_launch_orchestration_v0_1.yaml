@@ -1,0 +1,102 @@
+work_front_id: wf-cf10-governed-worker-cycle-slice-b2-live-launch-orchestration-v0-1
+objective: Wire already-authorized CF10 Governed Worker Cycle launch-ready state to the canonical invocation adapter
+  and process launcher. The B2 slice must preserve fail-closed STARTED-ledger timing, exact attempt identity, sanitized
+  launch evidence, and all existing operator review/publication boundaries without widening dispatch or release authority.
+scope:
+- Makefile
+- coordination/work_fronts/cf10_governed_worker_cycle_slice_b2_live_launch_orchestration_v0_1.yaml
+- scripts/coordination/control_plane/governed_worker_cycle.py
+- tests/coordination/control_plane/test_cf10_governed_worker_cycle_live_launch_v0_1.py
+exclusions:
+- Do not modify scripts/coordination/control_plane/worker_runtime/invocation_adapter.py.
+- Do not modify scripts/coordination/control_plane/worker_runtime/launcher.py.
+- Do not modify scripts/coordination/control_plane/worker_runtime/registry.py.
+- Do not modify scripts/coordination/build_worker_invocation.py.
+- Do not modify scripts/coordination/control_plane/cf10_training_dispatch.py.
+- Do not modify Assistant Handoff v2 runtime or contracts.
+- Do not modify Execution Attempt Ledger runtime or contracts.
+- Do not change lifecycle or roadmap state.
+- Do not start any real Worker process during implementation or validation.
+- Do not append any real canonical Execution Attempt Ledger record during implementation or validation.
+- Do not promote any candidate into the canonical repository.
+- Do not stage, commit, push, merge, release or automatically ACCEPT.
+- Do not write any foreign repository.
+- Do not widen authority beyond the exact CF-10 B2 Work Front.
+- Do not infer commands or behavior for providers that are not configured.
+provenance:
+  source_refs:
+  - roadmap:control_foundation_near_horizon/CF-10
+  - work_id:u180j
+  - commit:29b71c96265f71a83f93f832990a89b0e03af996
+  - coordination/work_fronts/cf10_governed_worker_cycle_v0_1.yaml
+  - config/worker_runtime.yaml
+  - coordination/registry/worker_runtime_adapters_v0_1.yaml
+  - scripts/coordination/control_plane/worker_runtime/registry.py
+  - scripts/coordination/control_plane/worker_runtime/launcher.py
+  - scripts/coordination/build_worker_invocation.py
+  - scripts/coordination/control_plane/context/task_context_adapter.py
+  - scripts/coordination/control_plane/cf10_training_dispatch.py
+  - coordination/work_fronts/cf10_governed_worker_cycle_slice_b1_runtime_bridge_v0_1.yaml
+  - coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/execution_control_plane_program_v0_1.yaml
+  - coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/cf10_worker_self_hardening_backlog_v0_1.yaml
+  - scripts/coordination/control_plane/governed_worker_cycle.py
+  - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+  - scripts/coordination/execution_attempt_ledger_v0_1.py
+  chat_is_authority: false
+dependencies:
+- Published Slice A governed worker cycle state/projection remains reusable.
+- Published Slice B1 invocation adapter remains authority-neutral and provider-specific argv stays isolated there.
+- Canonical process launcher remains the sole process-start primitive.
+- Canonical Execution Attempt Ledger exposes validate_record_data and append_record.
+- CF10 training dispatch exposes assert_attempt_unused.
+- Execution Control Plane planning keeps B2 bounded and Console non-authoritative.
+- The current B2 write-set is clean before mutation.
+outputs:
+- One explicit B2 Work Front with exactly four writable paths.
+- One launch_authorized_worker_cycle composition in governed_worker_cycle.py.
+- One focused live-launch regression test module.
+- One Makefile operator check for B2 live-launch orchestration.
+- Sanitized launch evidence with no durable raw prompt/argv leakage.
+acceptance:
+- Launch orchestration refuses any projection state other than READY_FOR_WORKER_LAUNCH.
+- STARTED record identity must match the exact attempt id and contain STARTED semantics.
+- STARTED record is validated before process start.
+- The canonical attempt-unused guard runs before STARTED append.
+- STARTED is appended exactly once through the launcher on_started callback.
+- A spawn failure before on_started produces no attempt-ledger append.
+- The invocation plan exposes exactly one canonical launcher mapping.
+- Provider-specific argv construction remains owned by the B1 invocation adapter.
+- Returned process evidence strips raw argv, prompt, secret and environment fields.
+- Candidate promotion, automatic ACCEPT, staging, commit, push, merge and release remain false.
+- Canonical Work Front validation passes.
+- Focused B2 tests, Slice A regression, Slice B1 regression, ledger regression and git diff --check pass.
+stop_conditions:
+- B1 reference Work Front identity or exact scope has drifted.
+- Required canonical launch, ledger or attempt-guard APIs are missing.
+- B2 would require a path outside the exact four-path scope.
+- B2 would require changing invocation-adapter or launcher semantics.
+- A real Worker launch or real attempt-ledger append would occur during implementation validation.
+- Authority widening, automatic acceptance or publication would be required.
+- Any protected pre-existing dirty path changes.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false
+capability_reuse:
+  search_performed: true
+  searched_surfaces:
+  - coordination/work_fronts/
+  - scripts/coordination/control_plane/
+  - scripts/coordination/control_plane/worker_runtime/
+  - scripts/coordination/execution_attempt_ledger_v0_1.py
+  - tests/coordination/control_plane/
+  - Makefile
+  disposition: EXTEND
+  target_refs:
+  - scripts/coordination/control_plane/governed_worker_cycle.py
+  - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+  - scripts/coordination/control_plane/worker_runtime/launcher.py
+  - scripts/coordination/execution_attempt_ledger_v0_1.py
+  - scripts/coordination/control_plane/cf10_training_dispatch.py

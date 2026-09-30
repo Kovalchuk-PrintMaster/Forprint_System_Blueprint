@@ -666,3 +666,298 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
+# CF10_GOVERNED_WORKER_CYCLE_SLICE_B2_LIVE_LAUNCH_START
+def _b2_call_supported_kwargs(func, values):
+    import inspect
+
+    signature = inspect.signature(func)
+    parameters = signature.parameters
+    accepts_var_kwargs = any(
+        item.kind is inspect.Parameter.VAR_KEYWORD
+        for item in parameters.values()
+    )
+
+    kwargs = dict(values) if accepts_var_kwargs else {
+        name: value
+        for name, value in values.items()
+        if name in parameters
+        and parameters[name].kind is not inspect.Parameter.POSITIONAL_ONLY
+    }
+
+    missing = []
+    for name, parameter in parameters.items():
+        if parameter.kind in (
+            inspect.Parameter.VAR_POSITIONAL,
+            inspect.Parameter.VAR_KEYWORD,
+        ):
+            continue
+        if parameter.default is not inspect.Parameter.empty:
+            continue
+        if parameter.kind is inspect.Parameter.POSITIONAL_ONLY or name not in kwargs:
+            missing.append(name)
+
+    if missing:
+        raise RuntimeError(
+            "CF10 B2 missing required integration arguments for "
+            f"{getattr(func, '__name__', repr(func))}: {missing}"
+        )
+
+    return func(**kwargs)
+
+
+def _b2_build_started_record(*, attempt_id, record_data):
+    import copy
+
+    if not isinstance(record_data, dict):
+        raise TypeError("started record_data must be a mapping")
+
+    record = copy.deepcopy(record_data)
+    observed = (
+        record.get("attempt_id")
+        or record.get("execution_attempt_id")
+        or record.get("id")
+    )
+
+    if observed is not None and observed != attempt_id:
+        raise RuntimeError(
+            "STARTED record attempt identity mismatch: "
+            f"expected={attempt_id!r} observed={observed!r}"
+        )
+
+    if observed is None:
+        record["attempt_id"] = attempt_id
+
+    if record.get("attempt_stage") != "STARTED":
+        raise RuntimeError(
+            "STARTED record attempt_stage must be STARTED"
+        )
+    if record.get("result_state") != "PENDING":
+        raise RuntimeError(
+            "STARTED record result_state must be PENDING"
+        )
+
+    return record
+
+
+def _b2_find_launch_mapping(value):
+    required = {
+        "argv",
+        "cwd",
+        "stdout_path",
+        "stderr_path",
+        "timeout_seconds",
+    }
+    matches = []
+
+    def walk(node):
+        if isinstance(node, dict):
+            if required.issubset(node):
+                matches.append(node)
+            for child in node.values():
+                walk(child)
+        elif isinstance(node, (list, tuple)):
+            for child in node:
+                walk(child)
+
+    walk(value)
+
+    unique = []
+    seen = set()
+    for item in matches:
+        marker = id(item)
+        if marker not in seen:
+            seen.add(marker)
+            unique.append(item)
+
+    if len(unique) != 1:
+        raise RuntimeError(
+            "Invocation plan must expose exactly one launcher mapping; "
+            f"observed={len(unique)}"
+        )
+
+    return unique[0]
+
+
+def _b2_sanitize_process_result(value):
+    if not isinstance(value, dict):
+        return {"result_type": type(value).__name__}
+
+    denied = {
+        "argv",
+        "full_argv",
+        "prompt",
+        "prompt_text",
+        "secret",
+        "secret_value",
+        "secrets",
+        "environment",
+        "env",
+    }
+    return {
+        key: item
+        for key, item in value.items()
+        if str(key).lower() not in denied
+    }
+
+
+def launch_authorized_worker_cycle(
+    *,
+    root,
+    runtime_root,
+    task_prompt_id,
+    attempt_id,
+    started_record_data,
+    worker_id="worker-01",
+    invocation_context=None,
+):
+    from scripts.coordination import execution_attempt_ledger_v0_1
+    from scripts.coordination.control_plane import cf10_training_dispatch
+    from scripts.coordination.control_plane.worker_runtime import (
+        invocation_adapter,
+        launcher,
+    )
+
+    facts = live_facts(
+        root,
+        runtime_root,
+        task_prompt_id,
+        attempt_id,
+        worker_id=worker_id,
+    )
+    projection = derive_cycle_projection(facts)
+
+    if projection.get("state") != "READY_FOR_WORKER_LAUNCH":
+        raise RuntimeError(
+            "CF10 governed Worker Cycle is not launch-ready: "
+            f"state={projection.get('state')!r}"
+        )
+
+    context = {
+        "root": root,
+        "runtime_root": runtime_root,
+        "task_prompt_id": task_prompt_id,
+        "attempt_id": attempt_id,
+        "worker_id": worker_id,
+        "facts": facts,
+        "cycle_facts": facts,
+        "projection": projection,
+        "cycle_projection": projection,
+    }
+    if invocation_context:
+        extra_context = dict(invocation_context)
+        collisions = sorted(set(extra_context) & set(context))
+        if collisions:
+            raise RuntimeError(
+                "invocation_context cannot override canonical cycle keys: "
+                f"{collisions}"
+            )
+        context.update(extra_context)
+
+    builder = getattr(invocation_adapter, "build_launch_invocation", None)
+    if builder is None:
+        builder = getattr(invocation_adapter, "build_invocation", None)
+    if builder is None:
+        raise RuntimeError(
+            "canonical invocation adapter has no public launch builder"
+        )
+
+    invocation_plan = _b2_call_supported_kwargs(builder, context)
+
+    evidence_builder = getattr(
+        invocation_adapter,
+        "build_invocation_evidence",
+        None,
+    )
+    if evidence_builder is None:
+        raise RuntimeError(
+            "canonical invocation adapter has no evidence builder"
+        )
+
+    evidence_context = dict(context)
+    evidence_context.update(
+        {
+            "invocation": invocation_plan,
+            "invocation_plan": invocation_plan,
+            "plan": invocation_plan,
+            "document": invocation_plan,
+        }
+    )
+    invocation_evidence = _b2_call_supported_kwargs(
+        evidence_builder,
+        evidence_context,
+    )
+
+    started_record = _b2_build_started_record(
+        attempt_id=attempt_id,
+        record_data=started_record_data,
+    )
+
+    ledger_contract = execution_attempt_ledger_v0_1.load_contract(
+        Path(root).resolve()
+    )
+    validation_errors = execution_attempt_ledger_v0_1.validate_record_data(
+        started_record,
+        ledger_contract,
+    )
+    if validation_errors:
+        raise RuntimeError(
+            "STARTED record failed canonical ledger validation: "
+            + "; ".join(validation_errors)
+        )
+
+    launch_values = dict(_b2_find_launch_mapping(invocation_plan))
+    launch_values.pop("on_started", None)
+    callback_state = {"started_record_appended": False}
+
+    def on_started(*_args, **_kwargs):
+        if callback_state["started_record_appended"]:
+            raise RuntimeError(
+                "STARTED ledger append attempted more than once"
+            )
+
+        _b2_call_supported_kwargs(
+            cf10_training_dispatch.assert_attempt_unused,
+            {
+                "root": root,
+                "attempt_id": attempt_id,
+                "worker_id": worker_id,
+            },
+        )
+
+        _b2_call_supported_kwargs(
+            execution_attempt_ledger_v0_1.append_record,
+            {
+                "root": root,
+                "record": started_record,
+                "data": started_record,
+                "record_data": started_record,
+            },
+        )
+        callback_state["started_record_appended"] = True
+
+    launch_values["on_started"] = on_started
+    process_result = launcher.launch_process(**launch_values)
+
+    if not callback_state["started_record_appended"]:
+        raise RuntimeError(
+            "Worker process returned without STARTED ledger append"
+        )
+
+    return {
+        "state": "OBSERVE_WORKER",
+        "attempt_id": attempt_id,
+        "task_prompt_id": task_prompt_id,
+        "worker_id": worker_id,
+        "started_record_appended": True,
+        "invocation_evidence": invocation_evidence,
+        "process_result": _b2_sanitize_process_result(process_result),
+        "candidate_promotion_allowed": False,
+        "automatic_accept_allowed": False,
+        "staging_allowed": False,
+        "commit_allowed": False,
+        "push_allowed": False,
+        "merge_allowed": False,
+        "release_allowed": False,
+    }
+# CF10_GOVERNED_WORKER_CYCLE_SLICE_B2_LIVE_LAUNCH_END

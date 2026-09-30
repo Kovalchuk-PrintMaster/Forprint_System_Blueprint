@@ -3131,3 +3131,9 @@ assistant-handoff-v2-freshness-resume-check:
 	$(BLUEPRINT_PYTHON) scripts/validation/validate_assistant_handoff_v2_freshness_resume_v0_1.py --root .
 	$(BLUEPRINT_PYTHON) -m pytest -q tests/validation/test_assistant_handoff_v2_freshness_resume_v0_1.py
 # assistant-handoff-v2-s4-freshness-resume-v0-1:end
+
+# CF10_GOVERNED_WORKER_CYCLE_SLICE_B2_MAKE_START
+.PHONY: governed-worker-cycle-live-launch-check
+governed-worker-cycle-live-launch-check:
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/test_cf10_governed_worker_cycle_live_launch_v0_1.py
+# CF10_GOVERNED_WORKER_CYCLE_SLICE_B2_MAKE_END
