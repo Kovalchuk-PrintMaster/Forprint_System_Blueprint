@@ -33,13 +33,15 @@ def _ready(monkeypatch):
 
 def _plan():
     return {
-        "provider": "github_copilot_cli",
-        "launch": {
-            "argv": ["copilot", "-p", "sensitive-prompt"],
-            "cwd": "/tmp/cf10-worker",
-            "stdout_path": "/tmp/cf10-worker.stdout",
-            "stderr_path": "/tmp/cf10-worker.stderr",
-            "timeout_seconds": 30,
+        "schema_version": "forprint_worker_runtime_launch_invocation_v0_1",
+        "argv": ["copilot", "-p", "sensitive-prompt"],
+        "workspace_repo": "/tmp/cf10-worker",
+        "timeout_seconds": 30,
+        "heartbeat_seconds": 15,
+        "stall_threshold_seconds": 120.0,
+        "paths": {
+            "stdout": "/tmp/cf10-worker.stdout",
+            "stderr": "/tmp/cf10-worker.stderr",
         },
     }
 
@@ -444,12 +446,26 @@ def test_duplicate_on_started_is_rejected(monkeypatch):
     assert result["started_record_appended"] is True
 
 
-def test_invocation_plan_requires_exactly_one_launcher_mapping(monkeypatch):
-    _ready(monkeypatch)
-    bad = {
-        "a": _plan()["launch"],
-        "b": _plan()["launch"],
+def test_canonical_b1_plan_maps_to_launcher_kwargs():
+    plan = _plan()
+
+    launch = gwc._b2_find_launch_mapping(plan)
+
+    assert launch == {
+        "argv": plan["argv"],
+        "cwd": plan["workspace_repo"],
+        "stdout_path": plan["paths"]["stdout"],
+        "stderr_path": plan["paths"]["stderr"],
+        "timeout_seconds": 30,
+        "heartbeat_seconds": 15,
+        "stall_threshold_seconds": 120.0,
     }
+
+
+def test_canonical_b1_plan_requires_launcher_paths(monkeypatch):
+    _ready(monkeypatch)
+    bad = _plan()
+    del bad["paths"]["stdout"]
 
     monkeypatch.setattr(
         invocation_adapter,
@@ -469,7 +485,7 @@ def test_invocation_plan_requires_exactly_one_launcher_mapping(monkeypatch):
 
     with pytest.raises(
         RuntimeError,
-        match="exactly one launcher mapping",
+        match="missing launcher fields",
     ):
         gwc.launch_authorized_worker_cycle(
             root=".",

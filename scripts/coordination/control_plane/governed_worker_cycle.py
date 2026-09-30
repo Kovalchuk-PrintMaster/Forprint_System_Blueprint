@@ -741,42 +741,52 @@ def _b2_build_started_record(*, attempt_id, record_data):
 
 
 def _b2_find_launch_mapping(value):
-    required = {
-        "argv",
-        "cwd",
-        "stdout_path",
-        "stderr_path",
-        "timeout_seconds",
-    }
-    matches = []
+    if not isinstance(value, dict):
+        raise RuntimeError("canonical B1 invocation plan must be a mapping")
 
-    def walk(node):
-        if isinstance(node, dict):
-            if required.issubset(node):
-                matches.append(node)
-            for child in node.values():
-                walk(child)
-        elif isinstance(node, (list, tuple)):
-            for child in node:
-                walk(child)
-
-    walk(value)
-
-    unique = []
-    seen = set()
-    for item in matches:
-        marker = id(item)
-        if marker not in seen:
-            seen.add(marker)
-            unique.append(item)
-
-    if len(unique) != 1:
+    paths = value.get("paths")
+    if not isinstance(paths, dict):
         raise RuntimeError(
-            "Invocation plan must expose exactly one launcher mapping; "
-            f"observed={len(unique)}"
+            "canonical B1 invocation plan paths mapping missing"
         )
 
-    return unique[0]
+    required_top = (
+        "argv",
+        "workspace_repo",
+        "timeout_seconds",
+    )
+    missing_top = [
+        key for key in required_top
+        if value.get(key) is None
+    ]
+    required_paths = ("stdout", "stderr")
+    missing_paths = [
+        key for key in required_paths
+        if not isinstance(paths.get(key), str) or not paths.get(key)
+    ]
+
+    if missing_top or missing_paths:
+        raise RuntimeError(
+            "canonical B1 invocation plan missing launcher fields: "
+            f"top={missing_top} paths={missing_paths}"
+        )
+
+    launch = {
+        "argv": value["argv"],
+        "cwd": value["workspace_repo"],
+        "stdout_path": paths["stdout"],
+        "stderr_path": paths["stderr"],
+        "timeout_seconds": value["timeout_seconds"],
+    }
+
+    if value.get("heartbeat_seconds") is not None:
+        launch["heartbeat_seconds"] = value["heartbeat_seconds"]
+    if value.get("stall_threshold_seconds") is not None:
+        launch["stall_threshold_seconds"] = value[
+            "stall_threshold_seconds"
+        ]
+
+    return launch
 
 
 def _b2_sanitize_process_result(value):
