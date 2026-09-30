@@ -27,6 +27,35 @@ from pathlib import Path
 
 CONTRACT = "coordination/standards/automation/non_mutating_check_contract_v0_1.yaml"
 
+ISOLATED_CHECK_PREREQUISITE_BUILDERS = (
+    "scripts/indexing/build_generator_inventory.py",
+    "scripts/indexing/build_execution_dependency_graph.py",
+    "scripts/indexing/build_blueprint_index.py",
+    "scripts/indexing/build_blueprint_knowledge_index.py",
+    "scripts/indexing/build_blueprint_specialized_indexes.py",
+)
+
+ISOLATED_CHECK_PREREQUISITE_COMMANDS = (
+    (
+        "scripts/coordination/roadmap_execution_reconciliation.py",
+        "--root",
+        ".",
+        "sync",
+    ),
+    (
+        "scripts/coordination/blueprint_continuity_adapter_v0_1.py",
+        "--root",
+        ".",
+        "--refresh",
+    ),
+    (
+        "scripts/coordination/roadmap_execution_reconciliation.py",
+        "--root",
+        ".",
+        "sync",
+    ),
+)
+
 TOP_LEVEL_NON_MIRRORED_ROOTS = {
     ".git",
     ".venv_blueprint",
@@ -195,12 +224,54 @@ def prepare_repository_mirror(source: Path, destination: Path) -> None:
         mirror_venv.symlink_to(original_venv, target_is_directory=True)
 
 
+def materialize_isolated_check_prerequisites(
+    workspace: Path,
+    target: str,
+) -> tuple[str, ...]:
+    """Materialize non-authoritative generated prerequisites in isolation only.
+
+    The durable source repository remains untouched. These builders run only for
+    the broad check-core target and only inside its disposable repository mirror.
+    Missing builders are skipped so older/smaller fixtures remain valid.
+    """
+
+    if target != "check-core":
+        return ()
+
+    materialized: list[str] = []
+    for rel in ISOLATED_CHECK_PREREQUISITE_BUILDERS:
+        script = workspace / rel
+        if not script.is_file():
+            continue
+        _run(workspace, sys.executable, rel)
+        materialized.append(rel)
+
+    for command in ISOLATED_CHECK_PREREQUISITE_COMMANDS:
+        script = workspace / command[0]
+        if not script.is_file():
+            continue
+        _run(workspace, sys.executable, *command)
+        materialized.append(" ".join(command))
+
+    return tuple(materialized)
+
+
 def _resolve_module_root(root: Path, raw: str | None) -> Path | None:
+    # MODULE_ROOT may explicitly point back to Blueprint itself (for example '.').
+    # That is not a sibling module and must not trigger a second clone into the
+    # already-created disposable Blueprint workspace.
     if not raw:
         return None
+
+    root = root.resolve()
     candidate = Path(raw)
     if not candidate.is_absolute():
-        candidate = (root / candidate).resolve()
+        candidate = root / candidate
+    candidate = candidate.resolve()
+
+    if candidate == root:
+        return None
+
     return candidate
 
 
@@ -253,6 +324,10 @@ def run_isolated_check(
                 )
 
         prepare_repository_mirror(root, workspace)
+        materialized_prerequisites = materialize_isolated_check_prerequisites(
+            workspace,
+            target,
+        )
 
         if module_root is not None and module_root.is_dir():
             isolated_module = temp_parent / module_root.name
@@ -302,6 +377,11 @@ def run_isolated_check(
 
         print("NON_MUTATING_CHECK=PASS")
         print(f"ISOLATED_TARGET={target}")
+        if materialized_prerequisites:
+            print(
+                "ISOLATED_PREREQUISITES="
+                + ",".join(materialized_prerequisites)
+            )
         print("SOURCE_BLUEPRINT_PRESERVED=true")
         if before_module is not None:
             print("SOURCE_MODULE_PRESERVED=true")
