@@ -374,6 +374,52 @@ what requires cross-project reconciliation, and what is only supporting evidence
 
 No implementation during packet review.
 
+<!-- legacy-capability-harvest-v0-1:start -->
+### 6.5.1 Legacy Capability Harvest
+
+Legacy discovery must answer two independent questions:
+
+1. Is this implementation/document/runtime path current and used?
+2. Does it preserve a capability, workflow or strategic idea that is absent from the
+   current roadmap even if the old implementation itself is obsolete?
+
+When a legacy/superseded surface contains a potentially valuable missing capability, mark it:
+
+`LEGACY_CAPABILITY_RECONSIDERATION`
+
+Preferred dispositions after Blueprint/Human review:
+
+- `ABSORBED_BY_CURRENT_CAPABILITY`
+- `NO_LONGER_RELEVANT`
+- `ROADMAP_CANDIDATE`
+- `LONG_HORIZON_CANDIDATE`
+- `NEEDS_DOMAIN_REVIEW`
+
+Do not keep obsolete code merely to preserve the idea. Preserve the useful capability
+through roadmap/strategic knowledge, then let normal lifecycle/retirement policy govern the
+old implementation.
+
+This check is **repeatable**, not an L0-only one-time action. Apply it where relevant during:
+
+- L0/L1/L2 analysis;
+- recovery/reconstruction audits;
+- major refactors;
+- module re-bootstrap;
+- later periodic drift reassessment.
+
+Inventory closeout should report at minimum:
+
+- legacy/superseded surfaces found;
+- retirement candidates;
+- historical-only items;
+- legacy capability reconsideration candidates;
+- which candidates are already covered by newer implementation;
+- which candidates remain genuinely absent from the current roadmap;
+- unresolved candidates requiring Blueprint/Human review.
+
+No physical cleanup occurs during discovery.
+<!-- legacy-capability-harvest-v0-1:end -->
+
 ### 6.6 L0-E — Comprehensive module audit
 
 After all packets, synthesize one audit covering at minimum:

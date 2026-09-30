@@ -552,3 +552,47 @@ Bootstrap verification should accept `command -v rg` plus `rg --version`.
 Critical control-plane logic should retain a Python-native fallback when absence of `rg`
 is not itself a semantic or safety failure.
 <!-- ripgrep-bootstrap-tool-v0-1:end -->
+
+<!-- sandbox-tooling-evolution-v0-1:start -->
+## Sandbox tooling evolution
+
+ForPrint development environments must not become artificially weak because an assistant
+avoids proposing or installing a modern development tool that is absent from the initial
+environment.
+
+Inside an approved isolated DEV/sandbox workspace, use of additional development tools is
+encouraged when it materially improves:
+
+- correctness;
+- development speed;
+- repository-scale inspection;
+- observability;
+- visual verification;
+- test quality;
+- maintainability.
+
+Examples include repository search utilities, browser/visual tooling, bounded analysis
+libraries and module-appropriate local development dependencies.
+
+Material additions should be captured as an **Environment Delta** with at least:
+
+- tool/dependency identity;
+- installation scope;
+- reason for use;
+- whether it is one-off experimentation or a candidate recurring capability.
+
+Repeatedly useful tooling should be reviewed for promotion into an appropriate canonical
+surface:
+
+- global developer profile;
+- module development profile;
+- module-bootstrap capability;
+- tooling/capability registry or equivalent discoverable index.
+
+Fresh assistants and workers should have a deterministic way to discover existing tools and
+supported Makefile/operator workflows rather than rediscovering the environment from zero.
+
+This policy does not grant sandbox access to production secrets, host-root mutation,
+canonical Git remote push or external mutable systems. Those remain separate capability /
+authority boundaries.
+<!-- sandbox-tooling-evolution-v0-1:end -->

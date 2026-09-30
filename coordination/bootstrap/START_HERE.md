@@ -292,3 +292,37 @@ Layer 0 is defined and piloted. Deeper layers are intentionally provisional.
 
 Temporary analysis under `tmp/` is not durable closeout.
 <!-- module-analysis-lifecycle-methodology-v0-2:end -->
+
+<!-- operator-console-program-v0-1:start -->
+## Operator Console / Control Plane current planning direction — 2026-09-29
+
+The Human Owner has introduced a second current high-priority planning direction:
+
+1. continue systematic module inventory / primary roadmap reconciliation; and
+2. establish the ForPrint Operator Console / Operator Control Plane program.
+
+These are currently **co-equal high-priority directions**. This bootstrap note does not
+choose which receives the next execution slot.
+
+Read:
+
+- `coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.md`
+- `coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.yaml`
+
+The immediate Console target is `OC-01` (Minimum Working Console), but it is **planned,
+not activated**. After planning/CF10 reconciliation the Human Owner explicitly chooses
+between starting OC-01 and finishing remaining module inventory first.
+
+Important invariants:
+
+- one module repository has at most one active writable actor;
+- current actor classes are `internal_worker` and `operator_assistant`;
+- ownership transfer uses controlled interrupt/checkpoint/release;
+- Console UI is not module-state authority;
+- reuse CF10 execution/sandbox/control-plane capability before creating parallel mechanisms;
+- sandbox experimentation with useful modern development tools is encouraged;
+- ambiguous ownership/policy decisions escalate rather than being invented locally.
+
+This planning direction grants no dispatch, release, lifecycle, commit, push, merge or
+foreign-write authority.
+<!-- operator-console-program-v0-1:end -->

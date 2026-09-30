@@ -1,0 +1,181 @@
+schema_version: forprint_operator_console_program_v0_1
+program_id: operator_console_control_plane_program_v0_1
+title: ForPrint Operator Console / Operator Control Plane
+status: CURRENT_PLANNING_CONTEXT_NOT_EXECUTION_AUTHORITY
+date: '2026-09-29'
+
+authority:
+  owner: human_owner_plus_blueprint_planning
+  execution_authority_created: false
+  dispatch_authority_created: false
+  release_authority_created: false
+  automatic_activation: false
+
+priority:
+  class: CO_EQUAL_CURRENT_HIGH_PRIORITY
+  peers:
+    - module_inventory_and_primary_roadmap_reconciliation
+  next_execution_slot_decision:
+    authority: human_owner
+    state: UNDECIDED_AFTER_RECONCILIATION
+
+ownership:
+  current_host: forprint_system_blueprint
+  current_host_role: incubator_host
+  permanent_blueprint_domain_capability: false
+  relocatable: true
+  future_owner: unresolved
+  candidate_future_owners:
+    - dedicated_control_plane
+    - forprint_system_administration
+    - crm_operator_surface
+
+architecture:
+  ui_component: operator_console
+  durable_backend_component: operator_control_plane_execution_fabric
+  ui_is_state_authority: false
+  module_state_authority: dispatcher_or_control_plane
+  actor_types:
+    - internal_worker
+    - operator_assistant
+
+invariants:
+  - one_module_repository_one_active_writable_actor
+  - no_ownership_stealing
+  - interrupt_checkpoint_release_before_transfer
+  - internal_worker_cannot_preempt_human_interactive_session
+  - reuse_extend_adapt_replace_new_before_new
+  - sandbox_experimentation_encouraged
+  - boundary_crossing_has_stronger_control_than_sandbox_actions
+  - ambiguity_escalates_to_blueprint_then_human_owner
+  - active_workspace_not_auto_deleted_by_age
+  - artifact_payload_may_expire_but_provenance_persists
+
+steps:
+  - step_id: OC-01
+    name: minimum_working_console_vertical_slice
+    state: PLANNED_NOT_ACTIVATED
+    goal: >-
+      Deliver one useful remote operator surface with live module availability,
+      exclusive operator session acquisition, isolated workspace, assistant/execution
+      interaction, artifact exchange and clean release.
+    required_capabilities:
+      - module_registry_and_status_projection
+      - exclusive_module_acquire_release
+      - operator_assistant_actor_identity
+      - isolated_operator_workspace
+      - assistant_execution_bridge
+      - artifact_exchange
+      - clean_release
+    acceptance:
+      - canonical_repo_not_exposed_to_uncontrolled_writes
+      - simultaneous_writable_actor_collision_prevented
+      - meaningful_remote_bounded_session_possible
+      - outputs_reviewable_and_preservable
+      - module_cleanly_releasable
+    explicitly_deferred_allowed:
+      - full_secrets_broker
+      - advanced_network_policy_engine
+      - automated_integration_gate
+      - rich_artifact_registry_ui
+      - full_telegram_approval_broker
+      - complete_recovery_automation
+      - all_interrupt_priority_controls
+      - advanced_garbage_collection
+
+  - step_id: OC-02
+    name: advanced_operator_control_surface
+    state: FUTURE_TARGET_NOT_ACTIVATED
+    capabilities:
+      - controlled_priority_interrupt
+      - suspend_resume
+      - access_request_flow
+      - chat_review_supervised_dev_full_dev_modes
+      - environment_delta
+      - tool_capability_registry
+      - local_git_checkpoints
+      - durable_artifact_provenance
+      - notification_and_approval_flows
+      - heartbeat_checkpoint_recovery
+      - storage_pressure_retention_hysteresis
+      - bounded_change_package
+      - clean_integration_worktree_and_governance_gate
+
+cf10_dependencies:
+  reconciliation_required: true
+  expected_capabilities:
+    - actor_neutral_execution_fabric
+    - exclusive_module_lease_or_equivalent
+    - controlled_interrupt_checkpoint_release
+    - sandbox_workspace_lifecycle
+    - recovery_checkpoint_model
+    - artifact_and_status_metadata
+    - execution_tool_capability_projection
+  missing_dependency_behavior:
+    - mark_dependency_not_ready
+    - inspect_live_cf10_state
+    - choose_wait_adapter_mock_or_minimal_temporary_surface_explicitly
+    - do_not_create_competing_permanent_subsystem_silently
+
+sandbox_tooling:
+  policy: modern_tooling_encouraged_when_materially_useful
+  environment_delta_required: true
+  promotion_targets:
+    - global_developer_profile
+    - module_development_profile
+    - bootstrap_capability_pack
+    - tool_capability_registry
+
+recovery:
+  abrupt_power_loss_is_real_operating_condition: true
+  durable_checkpoint_direction: required
+  resume_from_recent_durable_state: target
+
+retention:
+  dimensions:
+    - age
+    - storage_pressure
+  active_workspace_auto_delete_by_age: false
+  discussed_noncanonical_examples:
+    storage_budget_gb: 100
+    stale_inactive_horizon_months: 6
+
+artifact_provenance:
+  payload_may_expire: true
+  provenance_should_persist: true
+  desired_fields:
+    - execution_id
+    - module_id
+    - actor
+    - base_head
+    - source_inputs
+    - generation_recipe
+    - filename
+    - type
+    - sha256
+    - retention_class
+
+implementation_flexibility:
+  baseline_is_not_rigid_mechanical_template: true
+  reuse_policy:
+    - REUSE
+    - EXTEND
+    - ADAPT
+    - REPLACE
+    - NEW
+  better_compatible_solution_should_be_surfaced: true
+  ownership_or_policy_change_requires_clarification: true
+
+decision_gate:
+  after_planning_and_cf10_reconciliation:
+    options:
+      - START_OC_01
+      - FINISH_MODULE_INVENTORY_THEN_START_OC_01
+    authority: human_owner
+
+references:
+  human_intent: coordination/human_intent/modules/forprint_system_blueprint.yaml
+  methodology: coordination/bootstrap/module_analysis_lifecycle_methodology_v0_2.md
+  development_environment_policy: coordination/standards/development_environment_policy.md
+  bootstrap_navigation: coordination/bootstrap/START_HERE.md
+  roadmap_enrichment_source_map: coordination/repository_knowledge/roadmap_enrichment/source_map.yaml

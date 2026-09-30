@@ -1609,6 +1609,27 @@ sources:
   use_for:
   - avoid_premature_design_freeze
   - future_architecture_review
+- id: operator_console_program_v0_1
+  path: coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.md
+  role: current_operator_console_control_plane_planning_program
+  authority: planning_context_not_execution_or_activation_authority
+  freshness: current_2026_09_29_reconcile_with_live_cf10_before_implementation
+  use_for:
+    - operator_console_minimum_working_vertical_slice
+    - operator_control_plane_architecture
+    - exclusive_module_actor_ownership
+    - cf10_execution_fabric_dependency_reconciliation
+    - sandbox_tooling_and_recovery_direction
+- id: operator_console_program_machine_v0_1
+  path: coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.yaml
+  role: machine_readable_operator_console_program
+  authority: planning_context_not_execution_or_activation_authority
+  freshness: current_2026_09_29_reconcile_with_live_cf10_before_implementation
+  use_for:
+    - machine_readable_console_steps
+    - priority_and_decision_gate
+    - dependency_mapping
+    - implementation_invariants
 source_role_rules:
 - rule: canonical_source_beats_generated_projection
 - rule: git_and_current_authority_beat_stale_handoff_or_chat

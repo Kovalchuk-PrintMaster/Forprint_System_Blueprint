@@ -42,7 +42,7 @@ Current initial ledger snapshot: `index.yaml`.
 
 These links are the canonical navigation surface for the per-module human-intent ledgers.
 
-- [ForPrint System Blueprint](modules/forprint_system_blueprint.yaml) — 199 captured human-intent entries.
+- [ForPrint System Blueprint](modules/forprint_system_blueprint.yaml) — 206 captured human-intent entries.
 - [Calculator Engine](modules/calculator_engine.yaml) — 33 captured human-intent entries.
 - [ForPrint Operations Assistant](modules/forprint_operations_assistant.yaml) — 20 captured human-intent entries.
 - [ForPrint Operations Control Registry](modules/forprint_operations_control_registry.yaml) — 20 captured human-intent entries.

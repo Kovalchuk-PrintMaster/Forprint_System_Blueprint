@@ -325,6 +325,37 @@ types:
           - python scripts/validation/validate_portfolio_module_roadmap_approval_matrix_v0_1.py
           - make roadmap-detail-check
           - python scripts/validation/validate_document_surface_registry_v0_1.py
+      - subclass_id: operator_console_control_plane_program
+        path_pattern: coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.yaml
+        schema_version: forprint_operator_console_program_v0_1
+        format: yaml
+        authority_class: CANONICAL_PLANNING
+        required_top_level:
+        - schema_version
+        - program_id
+        - title
+        - status
+        - date
+        - authority
+        - priority
+        - ownership
+        - architecture
+        - invariants
+        - steps
+        - cf10_dependencies
+        - sandbox_tooling
+        - recovery
+        - retention
+        - artifact_provenance
+        - implementation_flexibility
+        - decision_gate
+        - references
+        migration_state: STRICT
+        mutation_method: controlled Blueprint planning update via FORPRINT MUTATION COMPILER; activation, worker dispatch, release,
+          commit and push remain separate reviewed decisions
+        validation:
+        - make roadmap-detail-check
+        - python scripts/validation/validate_document_surface_registry_v0_1.py
       - subclass_id: control_foundation_near_horizon_program
         path_pattern: coordination/roadmaps/details/forprint_system_blueprint/control_foundation_near_horizon_program_v0_1.yaml
         schema_version: forprint_control_foundation_near_horizon_program_v0_1
