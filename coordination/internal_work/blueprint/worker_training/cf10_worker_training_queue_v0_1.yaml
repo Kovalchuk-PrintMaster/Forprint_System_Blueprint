@@ -265,4 +265,90 @@ tasks:
     scope_widening_requires_new_operator_authorized_work_front: true
     global_portfolio_planning_authority_on_retry: false
     other_module_dispatch_on_retry: false
+  role: control_core_prerequisite
+  final_control_task: false
+- task_id: candidate_promotion_and_separate_acceptance
+  order: 110
+  complexity: HIGH
+  training_goal: Extend the governed candidate lifecycle so meaningful Worker output is independently reviewed before promotion, with acceptance, promotion and publication remaining separate decisions.
+  prerequisites:
+  - project_execution_planning_system_control_task accepted
+  - existing worker candidate promotion contract remains canonical
+  - current-state refresh completed before materialization
+  acceptance:
+  - review mode is explicit as DIRECT_PREVIEW, EVIDENCE_REVIEW or MACHINE_VALIDATED
+  - REWORK creates a new attempt linked to the prior candidate and never reopens a terminal attempt
+  - ACCEPT does not itself imply publication
+  - promotion remains bounded to the accepted exact candidate/write set
+  - no automatic ACCEPT, commit, push, release or next Work Front activation
+  retry_policy:
+    new_attempt_per_started_retry: true
+    terminal_attempt_reopen_allowed: false
+    automatic_accept_on_retry: false
+  final_control_task: false
+- task_id: resolved_execution_context_and_readiness_capsule
+  order: 130
+  complexity: HIGH
+  training_goal: Extend execution readiness into a current-state-refreshed task capsule with deterministic environment, source-freeze, dirty-overlap, dependency, validation, authority and stop-condition evidence before dispatch.
+  prerequisites:
+  - candidate_promotion_and_separate_acceptance accepted
+  - Task120 semantics recovered and reconciled if canonical Phase B dependency ordering still requires Task120
+  - current readiness/context/workspace contracts reconciled before NEW mechanisms
+  acceptance:
+  - task context is refreshed against current project state immediately before materialization
+  - branch, HEAD, upstream, source fingerprint and declared dirty paths are observed from live state rather than guessed by chat
+  - pre-existing unrelated dirty paths are protected and exact write-set overlap is classified deterministically
+  - environment/runtime/tool/access and disk-budget prerequisites are explicit
+  - unresolved authoritative source, dependency, acceptance or validation requirement yields execution_ready=false
+  - known-stale critical context is not silently supplied to Worker
+  - no global clean-worktree requirement is invented
+  retry_policy:
+    new_attempt_per_started_retry: true
+    stale_context_must_be_rebuilt: true
+    scope_widening_requires_new_operator_authorized_work_front: true
+  final_control_task: false
+- task_id: progression_gate_readiness_validation_and_manual_checkpoint
+  order: 140
+  complexity: HIGH
+  training_goal: Govern automatic micro-progression inside one authorized task while preserving explicit human/operator gates for meaningful review, next Work Front dispatch and authority changes.
+  prerequisites:
+  - resolved_execution_context_and_readiness_capsule accepted
+  - Task120 semantics recovered and reconciled if canonical Phase B dependency ordering still requires Task120
+  - Task50 Telegram operator surface remains non-authoritative
+  - Task60 human dashboard remains derived and non-authoritative
+  acceptance:
+  - automatic progression is limited to explicitly governed intra-task micro-transitions
+  - automatic next Work Front dispatch remains false by default
+  - meaningful completion/review checkpoints emit operator-visible notification/report evidence
+  - validation ladder and verification debt are represented explicitly
+  - deferred verification cannot disappear silently
+  - manual acceptance packet can batch meaningful review without collapsing acceptance into validation
+  - no cross-module write, automatic ACCEPT, release, push or merge authority is introduced
+  retry_policy:
+    new_attempt_per_started_retry: true
+    automatic_next_task_dispatch: false
+    automatic_accept_on_retry: false
+  final_control_task: false
+- task_id: cf10_final_stability_and_exit_proof
+  order: 150
+  complexity: VERY_HIGH
+  training_goal: Prove the final CF-10 governed Worker experience across current-state refresh, bounded execution, validation, review, promotion, publication boundaries, structured failure/recovery and operator-visible control without broad autonomy.
+  prerequisites:
+  - progression_gate_readiness_validation_and_manual_checkpoint accepted
+  - all CF10 self-hardening work required for exit is accepted or explicitly deferred with governed evidence
+  - canonical Worker runtime/retry/recovery/result path is stable
+  - Task120 semantics are resolved or an explicit operator-approved Phase B reconciliation proves it is not required for exit
+  acceptance:
+  - one supported operator workflow can drive an authorized bounded Worker task through the intended lifecycle without chat acting as runtime implementation
+  - structured failure evidence and deterministic recovery/resume are demonstrated
+  - candidate review occurs before promotion where meaningful
+  - promotion and publication remain separate governed boundaries
+  - human-readable projections agree with canonical machine facts
+  - automatic next Work Front dispatch remains false unless separately authorized by future policy
+  - no cross-module write or broad portfolio execution authority is silently introduced
+  - final evidence is sufficient for explicit human CF10 closure review
+  retry_policy:
+    new_attempt_per_started_retry: true
+    exit_claim_requires_fresh_evidence: true
+    authority_widening_requires_separate_operator_decision: true
   final_control_task: true
