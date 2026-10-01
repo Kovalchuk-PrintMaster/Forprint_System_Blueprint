@@ -173,6 +173,9 @@ help:
 	@echo "  make control-plane-status LAUNCH_REQUEST=<launch> WORKER_INVOCATION=<invocation> [APPROVAL_DECISION=<approval>]"
 	@echo "  make oc01-session-projection-check"
 	@echo "  make oc01-session-status OC01_SESSION_LAUNCH_REQUEST=<launch> OC01_SESSION_WORKER_INVOCATION=<invocation> OC01_SESSION_ACTOR_TYPE=<internal_worker|operator_assistant|human_terminal> OC01_SESSION_ACTOR_ID=<actor> [OC01_SESSION_WORKSPACE_MANIFEST=<manifest>]"
+	@echo "  make oc01-protected-terminal-capabilities"
+	@echo "  make oc01-protected-terminal-plan OC01_TERMINAL_CAPABILITY=<capability> OC01_TERMINAL_CWD=<repo-root> OC01_TERMINAL_SESSION_PROJECTION=<projection> OC01_TERMINAL_CONFIRM=1"
+	@echo "  make oc01-protected-terminal-run OC01_TERMINAL_CAPABILITY=<capability> OC01_TERMINAL_CWD=<repo-root> OC01_TERMINAL_SESSION_PROJECTION=<projection> OC01_TERMINAL_CONFIRM=1"
 	@echo "  make completion-control-plane-check"
 	@echo "  make document-ledger-preview MODULE=forprint_library DOCUMENT=coordination/global_policy/forprint_project_doctrine.md"
 	@echo "  make document-ledger-update MODULE=forprint_library DOCUMENT=coordination/global_policy/forprint_project_doctrine.md STATUS=acknowledged"
@@ -3167,3 +3170,46 @@ oc01-session-status:
 	@set -- --launch-request "$(OC01_SESSION_LAUNCH_REQUEST)" --worker-invocation "$(OC01_SESSION_WORKER_INVOCATION)" --actor-type "$(OC01_SESSION_ACTOR_TYPE)" --actor-id "$(OC01_SESSION_ACTOR_ID)" --print; \
 	if [ -n "$(OC01_SESSION_WORKSPACE_MANIFEST)" ]; then set -- "$$@" --workspace-manifest "$(OC01_SESSION_WORKSPACE_MANIFEST)"; fi; \
 	$(PYTHON) -m scripts.coordination.control_plane.operator_console.session_projection "$$@"
+
+# =============================================================================
+# OC-01 MINI-2 / Protected Terminal Gateway
+# =============================================================================
+# Purpose: bounded registered ARGV_NO_SHELL terminal capabilities over the
+# existing shared Worker Runtime launcher.
+# Safety: default-off; READ_ONLY only; no arbitrary shell text.
+OC01_TERMINAL_CAPABILITY ?=
+OC01_TERMINAL_CWD ?=
+OC01_TERMINAL_SESSION_PROJECTION ?=
+OC01_TERMINAL_TIMEOUT ?= 30
+OC01_TERMINAL_EVIDENCE_DIR ?=
+OC01_TERMINAL_CONFIRM ?= 0
+
+.PHONY: oc01-protected-terminal-check
+oc01-protected-terminal-check:
+	$(PYTHON) -m py_compile scripts/coordination/control_plane/operator_console/protected_terminal.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/operator_console/test_oc01_protected_terminal_gateway_v0_1.py
+	@git diff --check -- coordination/work_fronts/oc01_mini_protected_terminal_gateway_v0_1.yaml scripts/coordination/control_plane/operator_console/protected_terminal.py tests/coordination/control_plane/operator_console/test_oc01_protected_terminal_gateway_v0_1.py Makefile
+
+.PHONY: oc01-protected-terminal-capabilities
+oc01-protected-terminal-capabilities:
+	$(PYTHON) -m scripts.coordination.control_plane.operator_console.protected_terminal capabilities
+
+.PHONY: oc01-protected-terminal-plan
+oc01-protected-terminal-plan:
+	@test -n "$(OC01_TERMINAL_CAPABILITY)" || { echo "ERROR: OC01_TERMINAL_CAPABILITY is required"; false; }
+	@test -n "$(OC01_TERMINAL_CWD)" || { echo "ERROR: OC01_TERMINAL_CWD is required"; false; }
+	@test -n "$(OC01_TERMINAL_SESSION_PROJECTION)" || { echo "ERROR: OC01_TERMINAL_SESSION_PROJECTION is required"; false; }
+	@test "$(OC01_TERMINAL_CONFIRM)" = "1" || { echo "ERROR: OC01_TERMINAL_CONFIRM=1 is required"; false; }
+	@set -- plan --capability "$(OC01_TERMINAL_CAPABILITY)" --cwd "$(OC01_TERMINAL_CWD)" --session-projection "$(OC01_TERMINAL_SESSION_PROJECTION)" --timeout-seconds "$(OC01_TERMINAL_TIMEOUT)" --confirm-enable; \
+	if [ -n "$(OC01_TERMINAL_EVIDENCE_DIR)" ]; then set -- "$$@" --evidence-dir "$(OC01_TERMINAL_EVIDENCE_DIR)"; fi; \
+	$(PYTHON) -m scripts.coordination.control_plane.operator_console.protected_terminal "$$@"
+
+.PHONY: oc01-protected-terminal-run
+oc01-protected-terminal-run:
+	@test -n "$(OC01_TERMINAL_CAPABILITY)" || { echo "ERROR: OC01_TERMINAL_CAPABILITY is required"; false; }
+	@test -n "$(OC01_TERMINAL_CWD)" || { echo "ERROR: OC01_TERMINAL_CWD is required"; false; }
+	@test -n "$(OC01_TERMINAL_SESSION_PROJECTION)" || { echo "ERROR: OC01_TERMINAL_SESSION_PROJECTION is required"; false; }
+	@test "$(OC01_TERMINAL_CONFIRM)" = "1" || { echo "ERROR: OC01_TERMINAL_CONFIRM=1 is required"; false; }
+	@set -- run --capability "$(OC01_TERMINAL_CAPABILITY)" --cwd "$(OC01_TERMINAL_CWD)" --session-projection "$(OC01_TERMINAL_SESSION_PROJECTION)" --timeout-seconds "$(OC01_TERMINAL_TIMEOUT)" --confirm-enable; \
+	if [ -n "$(OC01_TERMINAL_EVIDENCE_DIR)" ]; then set -- "$$@" --evidence-dir "$(OC01_TERMINAL_EVIDENCE_DIR)"; fi; \
+	$(PYTHON) -m scripts.coordination.control_plane.operator_console.protected_terminal "$$@"

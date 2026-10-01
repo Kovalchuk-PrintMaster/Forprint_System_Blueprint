@@ -1,0 +1,114 @@
+work_front_id: wf-oc01-mini-protected-terminal-gateway-v0-1
+schema_version: forprint_work_front_v0_1
+layer: WORK_FRONT
+roadmap_step: OC-01
+contour: OC01-MINI-2
+name: protected_terminal_gateway
+
+objective: >-
+  Add a default-off, capability-shaped Protected Terminal gateway over existing
+  Control Plane ARGV_NO_SHELL and process-launch primitives. The gateway must
+  never accept arbitrary shell text, must not create a second process runtime,
+  and must not widen canonical write, dispatch, promotion or release authority.
+
+authority:
+  work_front_is_execution_authority: true
+  execution_authority_scope: OC01_MINI_2_BOUNDED_IMPLEMENTATION_ONLY
+  gateway:
+    originates_execution_authority: false
+    originates_dispatch_authority: false
+    originates_lease_authority: false
+    originates_canonical_write_authority: false
+    originates_acceptance_authority: false
+    originates_release_authority: false
+
+reuse_adapt_new:
+  argv_no_shell_execution:
+    disposition: REUSE
+    source: scripts/coordination/control_plane/worker_runtime/launcher.py
+  timeout_and_output_capture:
+    disposition: REUSE
+    source: scripts/coordination/control_plane/worker_runtime/launcher.py
+  actor_session_projection:
+    disposition: REUSE
+    source: scripts/coordination/control_plane/operator_console/session_projection.py
+  tool_policy_pattern:
+    disposition: ADAPT
+    source: scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+  protected_terminal_capability_gateway:
+    disposition: NEW
+    rationale: >-
+      No standalone capability-shaped terminal gateway exists. OC01 needs a thin
+      consumer boundary mapping known capability IDs to fixed argv while preserving
+      the shared launcher and existing authority model.
+  live_process_cancel:
+    disposition: EXTEND_EXISTING_SHARED_LAUNCHER
+    state: DEPENDENCY_PENDING_CF10
+    oc01_parallel_process_runtime_forbidden: true
+
+gateway_contract:
+  default_enabled: false
+  command_representation: ARGV_NO_SHELL
+  arbitrary_command_text_allowed: false
+  shell_metacharacter_interpretation: false
+  capability_classes:
+    READ_ONLY:
+      execution_allowed_when_explicitly_enabled: true
+    SAFE_WRITE:
+      structurally_recognized: true
+      execution_allowed_now: false
+      blocker: EXCLUSIVE_MODULE_LEASE_NOT_PROVEN
+  initial_capabilities:
+    - repo_status
+    - repo_head
+    - repo_diff_check
+  actors:
+    - operator_assistant
+    - human_terminal
+  cancellation:
+    state: DEPENDENCY_PENDING_CF10
+
+exact_write_set:
+  - coordination/work_fronts/oc01_mini_protected_terminal_gateway_v0_1.yaml
+  - scripts/coordination/control_plane/operator_console/protected_terminal.py
+  - tests/coordination/control_plane/operator_console/test_oc01_protected_terminal_gateway_v0_1.py
+  - Makefile
+
+must_not_modify:
+  - scripts/coordination/control_plane/worker_runtime/launcher.py
+  - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+  - scripts/coordination/control_plane/worker_runtime/registry.py
+  - scripts/coordination/control_plane/telegram_operator.py
+  - scripts/coordination/control_plane/governed_worker_cycle.py
+  - unrelated dirty paths
+
+acceptance:
+  - gateway is disabled unless explicitly enabled
+  - arbitrary command text is not accepted by the public API
+  - capability IDs map to fixed argv and execute through existing shell-false launcher
+  - READ_ONLY capabilities can run against exact Git repository root scope
+  - SAFE_WRITE is blocked while exclusive lease remains unproven
+  - actor context must come from OC01-MINI-1 projection
+  - gateway never originates authority
+  - timeout and stdout/stderr evidence come from the shared launcher
+  - cancellation remains explicitly dependency-pending
+  - Makefile exposes check, capabilities, plan and run commands
+  - focused tests pass
+  - work-front contract passes
+  - git diff check passes
+
+non_goals:
+  - unrestricted shell
+  - canonical repository write
+  - module lease implementation
+  - parallel process runtime
+  - commit
+  - push
+  - merge
+  - release
+  - candidate promotion
+  - live cancel implementation
+  - OC01-MINI-3 activation
+
+source_design_freeze:
+  path: coordination/internal_work/blueprint/operator_console/2026-10-01__oc01_mini_design_freeze_v0_1.yaml
