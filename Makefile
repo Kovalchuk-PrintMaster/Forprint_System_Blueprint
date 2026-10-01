@@ -171,6 +171,8 @@ help:
 	@echo "  make control-plane-runtime-check"
 	@echo "  make control-plane-step LAUNCH_REQUEST=<launch> WORKER_INVOCATION=<invocation> [APPROVAL_DECISION=<approval>]"
 	@echo "  make control-plane-status LAUNCH_REQUEST=<launch> WORKER_INVOCATION=<invocation> [APPROVAL_DECISION=<approval>]"
+	@echo "  make oc01-session-projection-check"
+	@echo "  make oc01-session-status OC01_SESSION_LAUNCH_REQUEST=<launch> OC01_SESSION_WORKER_INVOCATION=<invocation> OC01_SESSION_ACTOR_TYPE=<internal_worker|operator_assistant|human_terminal> OC01_SESSION_ACTOR_ID=<actor> [OC01_SESSION_WORKSPACE_MANIFEST=<manifest>]"
 	@echo "  make completion-control-plane-check"
 	@echo "  make document-ledger-preview MODULE=forprint_library DOCUMENT=coordination/global_policy/forprint_project_doctrine.md"
 	@echo "  make document-ledger-update MODULE=forprint_library DOCUMENT=coordination/global_policy/forprint_project_doctrine.md STATUS=acknowledged"
@@ -3137,3 +3139,31 @@ assistant-handoff-v2-freshness-resume-check:
 governed-worker-cycle-live-launch-check:
 	$(PYTHON) -m pytest -q tests/coordination/control_plane/test_cf10_governed_worker_cycle_live_launch_v0_1.py
 # CF10_GOVERNED_WORKER_CYCLE_SLICE_B2_MAKE_END
+
+
+# =============================================================================
+# OC-01 MINI-1 / dependency projection and session boundary
+# =============================================================================
+# Purpose: read-only Operator Console projection over Control Plane evidence.
+# Authority: no execution/dispatch/session/lease/acceptance/release/write authority.
+OC01_SESSION_LAUNCH_REQUEST ?=
+OC01_SESSION_WORKER_INVOCATION ?=
+OC01_SESSION_WORKSPACE_MANIFEST ?=
+OC01_SESSION_ACTOR_TYPE ?=
+OC01_SESSION_ACTOR_ID ?=
+
+.PHONY: oc01-session-projection-check
+oc01-session-projection-check:
+	$(PYTHON) -m py_compile scripts/coordination/control_plane/operator_console/session_projection.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/operator_console/test_oc01_session_projection_v0_1.py
+	@git diff --check -- coordination/work_fronts/oc01_mini_dependency_projection_session_boundary_v0_1.yaml scripts/coordination/control_plane/operator_console/__init__.py scripts/coordination/control_plane/operator_console/session_projection.py tests/coordination/control_plane/operator_console/test_oc01_session_projection_v0_1.py Makefile
+
+.PHONY: oc01-session-status
+oc01-session-status:
+	@test -n "$(OC01_SESSION_LAUNCH_REQUEST)" || { echo "ERROR: OC01_SESSION_LAUNCH_REQUEST is required"; false; }
+	@test -n "$(OC01_SESSION_WORKER_INVOCATION)" || { echo "ERROR: OC01_SESSION_WORKER_INVOCATION is required"; false; }
+	@test -n "$(OC01_SESSION_ACTOR_TYPE)" || { echo "ERROR: OC01_SESSION_ACTOR_TYPE is required"; false; }
+	@test -n "$(OC01_SESSION_ACTOR_ID)" || { echo "ERROR: OC01_SESSION_ACTOR_ID is required"; false; }
+	@set -- --launch-request "$(OC01_SESSION_LAUNCH_REQUEST)" --worker-invocation "$(OC01_SESSION_WORKER_INVOCATION)" --actor-type "$(OC01_SESSION_ACTOR_TYPE)" --actor-id "$(OC01_SESSION_ACTOR_ID)" --print; \
+	if [ -n "$(OC01_SESSION_WORKSPACE_MANIFEST)" ]; then set -- "$$@" --workspace-manifest "$(OC01_SESSION_WORKSPACE_MANIFEST)"; fi; \
+	$(PYTHON) -m scripts.coordination.control_plane.operator_console.session_projection "$$@"

@@ -1,0 +1,71 @@
+work_front_id: wf-oc01-mini-dependency-projection-session-boundary-v0-1
+schema_version: forprint_work_front_v0_1
+layer: WORK_FRONT
+roadmap_step: OC-01
+contour: OC01-MINI-1
+name: dependency_projection_and_session_boundary
+objective: >-
+  Add a read-only Operator Console consumer projection over existing Control Plane
+  launch/invocation/workspace evidence without creating a second execution truth,
+  session authority, lease authority, workspace engine or promotion engine.
+authority:
+  work_front_is_execution_authority: true
+  execution_authority_scope: OC01_MINI_1_BOUNDED_IMPLEMENTATION_ONLY
+  projected_surface:
+    state_authority: false
+    execution_authority: false
+    dispatch_authority: false
+    lease_authority: false
+    acceptance_authority: false
+    release_authority: false
+    canonical_write_authority: false
+canonical_dependencies:
+  execution_identity: {disposition: REUSE, state: REUSE_READY}
+  isolated_workspace_binding: {disposition: REUSE, state: REUSE_READY}
+  heartbeat_configuration_and_launcher_observations:
+    disposition: REUSE_PROJECT
+    state: AVAILABLE_NON_AUTHORITATIVE_EVIDENCE
+  canonical_session: {disposition: REUSE_WHEN_AVAILABLE, state: DEPENDENCY_PENDING_CF10}
+  exclusive_module_lease: {disposition: REUSE_WHEN_AVAILABLE, state: DEPENDENCY_PENDING_CF10}
+  checkpoint_resume: {disposition: REUSE_EXTEND, state: PARTIAL_REUSE_DEPENDENCY_PENDING_CF10}
+actor_model:
+  allowed_actor_types: [internal_worker, operator_assistant, human_terminal]
+  rule: >-
+    Actor type is consumer context only and never grants execution, dispatch,
+    lease, acceptance, release, promotion or canonical-write authority.
+exact_write_set:
+  - coordination/work_fronts/oc01_mini_dependency_projection_session_boundary_v0_1.yaml
+  - scripts/coordination/control_plane/operator_console/__init__.py
+  - scripts/coordination/control_plane/operator_console/session_projection.py
+  - tests/coordination/control_plane/operator_console/test_oc01_session_projection_v0_1.py
+  - Makefile
+must_not_modify:
+  - scripts/coordination/control_plane/runtime.py
+  - scripts/coordination/control_plane/monitor.py
+  - scripts/coordination/control_plane/human_dashboard.py
+  - scripts/coordination/control_plane/governed_worker_cycle.py
+  - scripts/coordination/control_plane/candidate_promotion.py
+  - scripts/coordination/control_plane/workspace/
+  - CF10 pending planning-integration surfaces
+  - pre-existing unrelated dirty paths
+acceptance:
+  - deterministic projection from equivalent source inputs
+  - all actor types remain authority-neutral
+  - missing canonical session and lease remain dependency-pending
+  - optional workspace manifest binding is validated
+  - heartbeat configuration is non-authoritative evidence only
+  - canonical write readiness remains false while lease is not proven
+  - Makefile exposes check and status commands
+  - focused tests pass
+  - git diff check passes
+non_goals:
+  - implement canonical session ownership
+  - implement module lease acquisition or release
+  - start a worker
+  - mutate Control Plane runtime state
+  - mutate module repositories
+  - implement Protected Terminal command execution
+  - activate OC01-MINI-2
+  - activate OC01-FULL
+source_design_freeze:
+  path: coordination/internal_work/blueprint/operator_console/2026-10-01__oc01_mini_design_freeze_v0_1.yaml
