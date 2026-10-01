@@ -368,3 +368,23 @@ chooses:
 - **B — finish remaining module inventory first, then start OC-01**.
 
 No automatic activation follows from this document.
+
+<!-- oc01-two-contour-delivery-2026-10-01:start -->
+## OC-01 delivery refinement — MINI and FULL
+
+`OC-01` remains one compact roadmap step. Delivery is split into two progressive contours:
+
+- **OC-01-MINI — Minimum Operational Console**: already includes both core modes —
+  governed Protected Terminal and isolated Assistant Dev Sandbox — plus checkpoint/seal and
+  controlled Sandbox → Canonical promotion. MINI is a working vertical slice, not a mock UI.
+- **OC-01-FULL — Full Operator Console v1**: extends the proven MINI with richer terminal
+  profiles, durable/resumable sandboxes, hardened promotion/recovery/audit, full three-actor
+  handoff and a mature phone/laptop operator surface.
+
+The ordered implementation procedure lives in:
+
+`coordination/self_coordination/prompt_queue/draft/2026-10-01__forprint_system_blueprint__oc01_mini_full_operator_console_implementation_v0_1.md`
+
+This refinement does not activate execution. Activation remains a separate explicit Human
+Owner decision.
+<!-- oc01-two-contour-delivery-2026-10-01:end -->

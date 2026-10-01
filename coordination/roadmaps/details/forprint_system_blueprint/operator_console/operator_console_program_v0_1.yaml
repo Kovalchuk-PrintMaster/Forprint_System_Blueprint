@@ -54,6 +54,45 @@ invariants:
 
 steps:
   - step_id: OC-01
+    delivery_refinement_id: oc01_two_contour_delivery_2026_10_01
+    delivery_model: two_contour_progressive_delivery
+    detailed_implementation_prompt: coordination/self_coordination/prompt_queue/draft/2026-10-01__forprint_system_blueprint__oc01_mini_full_operator_console_implementation_v0_1.md
+    activation_rule: human_owner_separate_explicit_decision
+    implementation_contours:
+      - contour_id: OC-01-MINI
+        title: Minimum Operational Console
+        intent: >-
+          Deliver the smallest genuinely useful Operator Console with both governed Protected
+          Terminal work and isolated Assistant Dev Sandbox work.
+        required_capabilities:
+          - actor-neutral execution/session state and exclusive module lease
+          - Protected Terminal Gateway with read-only and bounded capability-shaped safe-write profiles
+          - scoped command execution with stdout/stderr/exit-code evidence and denial outside policy
+          - Assistant Dev Sandbox created from exact BASE_HEAD in isolated writable workspace
+          - sandbox edits/tests/local commits where useful plus Environment Delta evidence
+          - durable checkpoint, pause/resume, seal and deterministic result package
+          - Sandbox-to-Canonical promotion preview with base-head/conflict/exact-write-set validation
+          - explicitly authorized bounded promotion/apply path without implicit remote push
+          - minimum phone/laptop Console surface for state, terminal, sandbox, checkpoint and promotion
+          - one real Protected Terminal proof and one real Sandbox-to-Canonical proof
+        completion_meaning: useful_minimum_proven_partial_oc01
+      - contour_id: OC-01-FULL
+        title: Full Operator Console v1
+        extends: OC-01-MINI
+        intent: >-
+          Complete the approved OC-01 target after MINI is proven while preserving the same lease,
+          authority, provenance, recovery and sandbox/canonical boundaries.
+        required_capabilities:
+          - richer terminal capability profiles, approvals, streaming and explainable command provenance
+          - long-lived resumable sandboxes with deterministic recovery and retained checkpoints
+          - stronger artifact/commit/diff/test/environment/dependency provenance
+          - hardened promotion transaction with conflict handling and rollback evidence
+          - complete controlled handoff among internal_worker, operator_assistant and human_terminal
+          - mature phone/laptop controls, event history, alerts, health and recovery views
+          - bounded task continuation while Human Owner is away from the local terminal
+          - full OC-01 end-to-end acceptance and operator documentation
+        completion_meaning: oc01_target_complete
+
     name: minimum_working_console_vertical_slice
     state: PLANNED_NOT_ACTIVATED
     goal: >-

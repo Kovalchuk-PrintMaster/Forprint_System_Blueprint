@@ -103,10 +103,16 @@ candidates:
 - candidate_id: HZN-014
   title: Capability-mediated governed domain data access
   status: ASSESS
-  core_idea: Assistants should receive authorized domain capabilities over canonical data products rather than broad database
-    access; runtime authorization may depend on identity, capability, purpose, context and data scope.
-  revisit_trigger: Before assistants or external channels receive live access to Operational, Accounting, Library or other
-    domain data.
+  core_idea: >-
+    Assistants should receive authorized domain capabilities over canonical data products
+    rather than broad database access; runtime authorization may depend on identity,
+    capability, purpose, context and data scope. External customer-facing AI assistants are
+    included in this strategic direction; MCP is a protocol/transport candidate only and is
+    not selected over HTTP, RPC or another future interface.
+  revisit_trigger: >-
+    Reassess after the ForPrint ecosystem has first stable working results and during
+    deliberate strategic-goal review, and in all cases before assistants or external channels
+    receive live access to Operational, Accounting, Library or other domain data.
 - candidate_id: HZN-015
   title: Graph-first project knowledge and generated architecture views
   status: ASSESS

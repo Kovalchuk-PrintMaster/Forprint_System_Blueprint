@@ -34,3 +34,23 @@ A Horizon candidate has **no execution or roadmap authority**. It may become com
 - HZN-016 — Staged CI/CD as governance enforcement — WATCH
 
 Machine-readable companion: `coordination/global_policy/architecture_improvement_horizon_v0_1.yaml`.
+
+<!-- hzn014-external-ai-mcp-context-2026-10-01:start -->
+### 2026-10-01 context refinement for HZN-014
+
+The Human Owner identified external customer-facing AI assistants as a potentially valuable
+future consumer of governed ForPrint capabilities: product discovery, calculation, technical
+requirements, logistics and later customer actions.
+
+`MCP` is currently a useful protocol example, **not a selected transport**. The existing
+strategic decision remains capability-mediated access through canonical domain owners and
+governed integration boundaries. `MCP / HTTP / RPC / other` stays deliberately open under
+`ESR-20260926-GAP-007`.
+
+No executable roadmap item, implementation backlog or activation is created by this note.
+Revisit after the ecosystem has first stable working results and the Human Owner deliberately
+returns to strategic-goal review.
+
+Conversation evidence:
+`coordination/internal_work/blueprint/strategic_evidence/2026-10-01__external_ai_mcp_capability_access_conversation_evidence_v0_1.md`
+<!-- hzn014-external-ai-mcp-context-2026-10-01:end -->

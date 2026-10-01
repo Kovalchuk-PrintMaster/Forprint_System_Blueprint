@@ -2114,3 +2114,38 @@ intents:
     roadmap: execution_control_plane_program_v0_1
     source_refs:
       - coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/cf10_worker_self_hardening_backlog_v0_1.yaml
+  - intent_id: HI-FP-OPERATOR-CONSOLE-PHASING-20261001-001
+    status: AGREED
+    text: >-
+      Keep OC-01 as one compact roadmap step but deliver it through two explicit progressive
+      contours, OC-01-MINI and OC-01-FULL. Both contours preserve governed Protected Terminal
+      access and isolated Assistant Dev Sandbox work; detailed ordered implementation belongs
+      in the implementation prompt rather than expanding the roadmap into a long checklist.
+    context: >-
+      MINI must already be genuinely useful from phone/laptop and prove one terminal cycle plus
+      one sandbox-to-canonical cycle. FULL extends the proven vertical slice with richer profiles,
+      resumable sandbox lifecycle, hardened promotion/recovery/audit and mature operator controls.
+      Activation remains a separate Human Owner decision.
+    roadmap: operator_console_control_plane_program_v0_1
+    source_refs:
+      - coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.yaml
+      - coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.md
+      - coordination/self_coordination/prompt_queue/draft/2026-10-01__forprint_system_blueprint__oc01_mini_full_operator_console_implementation_v0_1.md
+  - intent_id: HI-FP-EXTERNAL-AI-CAPABILITY-20261001-001
+    status: AGREED
+    text: >-
+      External customer-facing AI assistants may later become consumers of governed ForPrint
+      domain capabilities for product discovery, calculation, technical requirements, logistics
+      and related services; this refines existing HZN-014 rather than creating a new executable
+      roadmap item.
+    context: >-
+      MCP is a current protocol example only. Preserve ESR-20260926-GAP-007: MCP, HTTP, RPC or
+      another transport remains intentionally unfrozen. Revisit after the ecosystem has first
+      stable working results and during deliberate strategic-goal review. Current implementation
+      focus remains Operator Console.
+    roadmap: ''
+    source_refs:
+      - coordination/global_policy/architecture_improvement_horizon_v0_1.yaml
+      - coordination/global_policy/architecture_improvement_horizon_v0_1.md
+      - coordination/internal_work/blueprint/evening_reviews/2026-09-26/forprint_evening_strategic_review_2026-09-26_v0_1/18_open_gaps_and_deferred_design_v0_1.yaml
+      - coordination/internal_work/blueprint/strategic_evidence/2026-10-01__external_ai_mcp_capability_access_conversation_evidence_v0_1.md
