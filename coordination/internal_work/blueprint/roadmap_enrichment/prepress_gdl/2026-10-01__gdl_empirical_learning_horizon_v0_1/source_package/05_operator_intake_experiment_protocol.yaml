@@ -1,0 +1,57 @@
+schema_version: forprint_gdl_operator_intake_experiment_protocol_v0_1
+status: BLUEPRINT_REVIEW_CANDIDATE
+goal: >
+  Make it possible for a normal manager/operator with no design or programming expertise
+  to run a controlled manual intake experiment in a fresh AI chat and produce a sufficiently
+  structured Creator prompt while preserving uncertainty and customer authorization.
+actor_model:
+  operator:
+    expected_skills: [customer_communication]
+    not_required: [design_skill, programming, prompt_engineering, GDL_architecture_knowledge]
+  assistant:
+    responsibilities:
+      - understand_product_loader
+      - collect_known_information
+      - detect_missing_information
+      - generate_operator_ready_customer_messages
+      - preserve_unknowns
+      - record_explicit_customer_permissions
+      - stop_reasking_when_customer_grants_creative_discretion
+      - create_creator_prompt_when_minimum_input_is_sufficient
+      - produce_empirical_case_metadata
+generic_flow:
+  - operator_loads_product_instruction_in_fresh_chat
+  - assistant_asks_for_all_current_information
+  - operator_provides_raw_customer_request_and_assets_summary
+  - assistant_normalizes_known_information
+  - assistant_identifies_missing_or_ambiguous_information
+  - assistant_generates_copy_ready_customer_question_message
+  - operator_returns_customer_reply
+  - assistant_updates_known_unknown_and_authorized_discretion_state
+  - repeat_only_if_material_information_is_still_needed
+  - assistant_builds_creator_prompt
+  - creator_result_is_observed
+  - operator_and_customer_outcomes_are_recorded
+  - case_is_added_to_empirical_learning_base
+customer_message_policy:
+  messages_should_be: [short, plain_language, copy_ready, nontechnical, limited_to_material_questions]
+  avoid:
+    - exposing_internal_architecture_terms
+    - asking_questions_already_answered
+    - forcing_customer_to_make_design_decisions_they_explicitly_delegate
+    - implying_guaranteed_visual_outcome_when_information_is_sparse
+uncertainty_policy:
+  never_invent_missing_brand_facts: true
+  allow_explicit_creative_discretion: true
+  record_customer_authorization_for_discretion: true
+  distinguish: [unknown, optional, customer_declined_to_specify, customer_authorized_creator_discretion]
+initial_experiment_products: [menu, business_card, flyer]
+success_observations:
+  - could_operator_follow_flow_without_design_expertise
+  - number_of_customer_question_rounds
+  - number_of_questions_per_round
+  - customer_confusion_observed
+  - creator_prompt_completeness
+  - creator_first_attempt_quality
+  - accepted_attempt
+  - operator_manual_rewrite_required

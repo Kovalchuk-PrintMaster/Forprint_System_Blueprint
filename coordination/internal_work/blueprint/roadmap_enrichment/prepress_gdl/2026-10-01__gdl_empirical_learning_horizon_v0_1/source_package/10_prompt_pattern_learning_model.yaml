@@ -1,0 +1,30 @@
+schema_version: forprint_gdl_prompt_pattern_learning_model_v0_1
+status: STRATEGIC_MODEL_NOT_EXECUTION_AUTHORITY
+goal: >
+  Learn which prompt structures and workflow fragments correlate with fewer revisions,
+  easier operator use and better accepted results, without prematurely reducing quality
+  to a single opaque score.
+candidate_prompt_sections:
+  - purpose
+  - product_context
+  - geometry
+  - content
+  - asset_roles
+  - hierarchy
+  - style
+  - constraints
+  - negative_constraints
+  - ambiguity_handling
+  - output_expectation
+  - editable_structure_expectation
+observation_examples:
+  positive_candidate: [explicit_geometry, explicit_asset_roles, explicit_hierarchy, clear_negative_constraints, concise_output_expectations]
+  negative_candidate: [vague_aesthetic_language, conflicting_requirements, asking_for_too_many_output_representations, overconstraining_creator_without_product_reason]
+important_rule: These are hypotheses to test, not current global truths.
+future_prompt_composer_model:
+  components: [product_pattern, task_pattern, proven_prompt_fragments, customer_specific_content, output_contract, current_creator_capabilities]
+  excludes: [known_antipatterns, irrelevant_questions, unsupported_output_requirements]
+evidence_threshold_policy:
+  one_case_may_generate_hypothesis: true
+  one_case_must_not_auto_generate_global_policy: true
+  repeated_pattern_or_human_owner_decision_required_for_promotion: true

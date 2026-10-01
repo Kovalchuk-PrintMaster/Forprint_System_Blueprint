@@ -53,7 +53,7 @@ These links are the canonical navigation surface for the per-module human-intent
 - [Website](modules/website.yaml) — 8 captured human-intent entries.
 - [Mobile App](modules/mobile_app.yaml) — 6 captured human-intent entries.
 - [ForPrint Library](modules/forprint_library.yaml) — 20 captured human-intent entries.
-- [ForPrint Prepress Hub](modules/forprint_prepress_hub.yaml) — 23 captured human-intent entries.
+- [ForPrint Prepress Hub](modules/forprint_prepress_hub.yaml) — 25 captured human-intent entries.
 - [Warehouse Service](modules/warehouse_service.yaml) — 11 captured human-intent entries.
 - [Production Runtime Inspector](modules/production_runtime_inspector.yaml) — 12 captured human-intent entries.
 - [ForPrint Project Inspector](modules/forprint_project_inspector.yaml) — 28 captured human-intent entries.

@@ -1,0 +1,86 @@
+schema_version: forprint_gdl_creator_interaction_case_candidate_v0_1
+document_status: BLUEPRINT_REVIEW_CANDIDATE
+purpose: >
+  Candidate semantic shape for a single real or sanitized Creator interaction case.
+  Blueprint may adapt ownership, naming and field boundaries before authorizing execution.
+case_identity:
+  case_id: required
+  observed_at: required
+  customer_ref: optional_non_pii_reference
+  order_ref: optional_reference
+  external_job_storage_ref: optional_reference
+product:
+  family: required
+  subtype: optional
+  format: optional
+  attributes: {}
+task:
+  category: required
+  objective: required
+  stage: optional
+  complexity_notes: []
+input_context:
+  source_types: []
+  reference_count: optional
+  initial_quality_observations: []
+  customer_constraints: []
+  explicit_customer_permissions: []
+  unresolved_input_questions: []
+intake:
+  method: manual_or_future_automated
+  loader_or_playbook_id: optional
+  dialogue_revision: optional
+  question_count: optional
+  operator_difficulty: optional
+  notable_intake_observations: []
+creator_prompt:
+  prompt_id: required
+  prompt_version: required
+  prompt_text_ref: required
+  derived_from_patterns: []
+  explicit_constraints: []
+  expected_output_structure: []
+creator_context:
+  creator_class: required
+  provider: optional
+  model: optional
+  provider_specific_details_required: false
+result:
+  result_revision: required
+  external_artifact_ref: optional
+  output_roles: []
+  output_format_observations: []
+  creator_notes: []
+outcome:
+  operator_acceptance: {allowed: [accepted, accepted_with_reservations, rejected, unknown]}
+  customer_acceptance: {allowed: [accepted, revision_requested, rejected, unknown]}
+  customer_explicit_satisfaction: {allowed: [positive, neutral, negative, not_observed]}
+  first_attempt_accepted: optional_boolean
+  accepted_attempt: optional_positive_integer
+  revision_count: optional_nonnegative_integer
+  manual_intervention_required: optional_boolean
+quality_observations:
+  strengths: []
+  weaknesses: []
+  failure_modes: []
+  ambiguities: []
+workflow_observations:
+  preprocessing_used: []
+  postprocessing_used: []
+  local_tools_used: []
+  human_interventions: []
+lessons:
+  reusable_prompt_patterns: []
+  prompt_antipatterns: []
+  candidate_local_automation: []
+  creator_strength_candidates: []
+  creator_weakness_candidates: []
+  future_questions: []
+artifact_policy:
+  repository_contains_heavy_artifact: false
+  external_reference_preferred: true
+  pii_allowed_in_git: false
+authority:
+  case_is_evidence_not_policy: true
+  one_case_must_not_auto_create_global_rule: true
+  empirical_pattern_requires_multiple_cases_or_explicit_human_owner_judgment: true

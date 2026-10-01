@@ -1,0 +1,48 @@
+schema_version: forprint_prepress_to_blueprint_request_v0_1
+request_id: PREPRESS-GDL-EMPIRICAL-LEARNING-AND-HORIZON-REGISTRATION-20261001-v0_1
+source_module: forprint_prepress_hub
+target_module: forprint_system_blueprint
+request_type: ROADMAP_HORIZON_AND_FIRST_CONTOUR_REGISTRATION
+authority_boundary:
+  system_blueprint_access_from_prepress: READ_ONLY_STRICT
+  prepress_mutates_blueprint: false
+  request_itself_activates_execution: false
+requested_blueprint_work:
+  - review_package_for_architectural_consistency
+  - reconcile_with_current_Human_Intent_and_roadmap
+  - detect_existing_equivalents_or_ownership_collisions
+  - register_accepted_long_horizon_contours_separately
+  - preserve_human_readable_descriptions
+  - establish_or_reuse_queue_semantics
+  - ensure_only_one_next_executable_prompt_is_released
+  - require_pre_activation_reconciliation_for_later_items
+  - recognize_future_contour_amendment_flow
+  - publish_first_executable_prompt_for_Prepress_after_reconciliation
+requested_first_prompt:
+  contour_id: prepress_gdl_creator_empirical_learning_foundation_v0_1
+  expected_character: strategic_empirical_foundation
+  must_include:
+    - empirical_case_capture
+    - manual_operator_intake_experiment_protocol
+    - initial_simple_product_examples
+    - customer_and_operator_outcome_distinctions
+    - external_artifact_reference_without_heavy_git_storage
+    - privacy_boundary
+    - tests
+    - Makefile_workflow
+    - governance
+    - strict_Blueprint_read_only_boundary
+later_queue_behavior:
+  publish_all_as_executable_now: false
+  register_as_planned_horizon: true
+  release_one_at_a_time: true
+  reconcile_before_each_release: true
+  allow_human_owner_amendments_before_release: true
+Blueprint_response_requested:
+  - registration_summary
+  - accepted_rejected_or_modified_contours
+  - dependency_or_ownership_corrections
+  - queue_state
+  - first_executable_prompt_identity
+  - first_executable_prompt_publication_evidence
+  - unresolved_questions_if_any

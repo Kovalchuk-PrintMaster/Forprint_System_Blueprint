@@ -1,0 +1,24 @@
+schema_version: forprint_gdl_human_readable_documentation_policy_v0_1
+status: BLUEPRINT_POLICY_REQUEST_CANDIDATE
+requirement: >
+  Every registered future GDL contour should have a human-readable description in addition
+  to any machine-readable canonical representation.
+human_readable_document_should_explain:
+  - what_problem_is_being_solved
+  - why_this_contour_exists
+  - expected_operator_or_business_value
+  - relation_to_previous_contours
+  - authorized_scope
+  - explicit_non_goals
+  - acceptance_meaning
+  - evidence_that_may_change_it_before_activation
+  - what_the_Human_Owner_should_be_able_to_review_quickly
+machine_readable_document_should_support:
+  - Blueprint_registration
+  - dependency_tracking
+  - queue_state
+  - reconciliation
+  - worker_prompt_generation
+  - validation
+  - automation
+principle: Machine-readable planning must not make the roadmap opaque to the Human Owner.

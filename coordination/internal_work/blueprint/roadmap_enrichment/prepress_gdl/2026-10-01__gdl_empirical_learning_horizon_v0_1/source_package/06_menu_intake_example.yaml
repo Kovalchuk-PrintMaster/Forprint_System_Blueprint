@@ -1,0 +1,40 @@
+schema_version: forprint_gdl_manual_intake_example_v0_1
+example_id: menu_minimal_request_v0_1
+status: SANITIZED_EXAMPLE_NOT_PRODUCTION_POLICY
+product_family: menu
+starting_message:
+  operator: "Клієнт хоче меню."
+assistant_behavior:
+  first_action: >
+    Ask the operator for everything already known before generating a long questionnaire.
+  if_nothing_else_known:
+    customer_message_example: >
+      Щоб підготувати перший варіант меню, надішліть, будь ласка, що вже є:
+      назву/тип закладу та кухні, логотип (якщо є), текст меню або перелік позицій
+      із цінами, бажаний формат/розмір, фото страв або інтер'єру (якщо є), а також
+      1–3 приклади стилю, який вам подобається. Якщо частини матеріалів поки немає,
+      просто напишіть про це — ми уточнимо, що можна залишити на наш розсуд.
+possible_customer_reply:
+  text: >
+    Новий невеликий ресторан. Логотипа ще немає, фотографій теж немає.
+    Текст страв і ціни дам. По стилю нічого не хочу вирішувати, зробіть на свій розсуд.
+normalized_observation:
+  known: [venue_is_new, menu_text_and_prices_will_be_available]
+  unavailable: [logo, photos, style_references]
+  explicit_permission: [creative_style_discretion_granted]
+  still_material_to_ask:
+    - cuisine_or_positioning
+    - intended_menu_format_or_physical_use
+    - language_requirements
+    - approximate_page_or_panel_scope_if_relevant
+important_rule: >
+  Once the customer explicitly grants creative discretion, the assistant must not keep
+  forcing aesthetic-choice questions merely to fill a template. It should ask only
+  remaining material questions needed to avoid an unusable result.
+empirical_value:
+  observe:
+    - whether_manager_understands_questions
+    - whether_customer_replies_easily
+    - whether_question_rounds_are_excessive
+    - whether_creator_prompt_is_sufficient
+    - whether_first_creator_result_is_accepted

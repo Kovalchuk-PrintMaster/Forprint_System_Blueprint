@@ -1,0 +1,36 @@
+schema_version: forprint_blueprint_gdl_registration_response_v0_1
+request_id: PREPRESS-GDL-EMPIRICAL-LEARNING-AND-HORIZON-REGISTRATION-20261001-v0_1
+status: APPROVED_WITH_RECONCILIATION
+registration_summary:
+  source_package_preserved: true
+  future_contour_count: 10
+  only_first_contour_prepared_as_executable: true
+  later_contours_remain_non_executable: true
+  pre_activation_reconciliation_required: true
+  human_readable_companion_preserved: true
+accepted_rejected_or_modified_contours:
+  sequence_1: ACCEPTED_WITH_REUSE_OF_EXISTING_EMPIRICAL_PLANNING_EVIDENCE_AND_SCOPE_RECONCILIATION
+  sequence_2: PLANNED_REQUIRES_RECONCILIATION_AND_EMPIRICAL_FOUNDATION_DEPENDENCY
+  sequence_3: PLANNED_REQUIRES_EMPIRICAL_EVIDENCE
+  sequence_4: PLANNED_REQUIRES_EMPIRICAL_EVIDENCE
+  sequence_5_to_10: HORIZON_ONLY_NOT_EXECUTABLE
+dependency_or_ownership_corrections:
+- Prepress commit 2039f48 empirical-learning planning/evidence is a required REUSE/EXTEND
+  baseline; its presence is not a blocker and does not itself constitute GDL runtime
+  implementation authority.
+- Do not rebuild existing Product Playbook / Guided Intake / Creator Handoff foundations.
+- Creator Result Package remains Prepress-owned GDL work but is downstream of empirical
+  learning and fresh Blueprint reconciliation.
+- Blueprint retains queue/reconciliation/publication ownership; Prepress remains read-only
+  toward Blueprint.
+- Creator/provider remains a replaceable execution role; no provider is selected by
+  this registration.
+queue_state:
+  only_next_prompt: prepress_gdl_creator_empirical_learning_foundation_v0_1
+  intended_module_execution_status: ready_for_module_pull
+  later_contours_executable: false
+first_executable_prompt_identity:
+  prompt_id: prepress_gdl_creator_empirical_learning_foundation_v0_1
+  prompt_path: coordination/outgoing_prompts/forprint_prepress_hub/approved/2026-10-01__forprint_prepress_hub__gdl_creator_empirical_learning_foundation_v0_1.md
+  publication_evidence: PENDING_EXACT_REVIEW_COMMIT_PUSH
+unresolved_questions_if_any: []

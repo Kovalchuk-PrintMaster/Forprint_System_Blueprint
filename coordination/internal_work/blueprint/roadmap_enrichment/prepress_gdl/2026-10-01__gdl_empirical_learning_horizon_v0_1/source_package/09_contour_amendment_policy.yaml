@@ -1,0 +1,26 @@
+schema_version: forprint_gdl_contour_amendment_policy_v0_1
+status: BLUEPRINT_POLICY_REQUEST_CANDIDATE
+purpose: >
+  Allow new empirical findings or Human Owner decisions discovered while earlier contours
+  are running to refine a later planned contour before Blueprint releases it to the worker.
+proposed_prepress_surface:
+  concept: future_contour_amendments
+  ownership: forprint_prepress_hub
+  authority: proposal_only_not_Blueprint_mutation
+amendment_fields:
+  amendment_id: required
+  target_contour_id: required
+  observed_at: required
+  source:
+    allowed: [human_owner, empirical_case, repeated_empirical_pattern, completed_contour, architecture_reconciliation]
+  change_type:
+    allowed: [add_requirement, remove_requirement, refine_requirement, reorder_dependency, add_deferral, propose_supersede]
+  rationale: required
+  evidence_refs: []
+  status: {initial: PROPOSED_FOR_BLUEPRINT_RECONCILIATION}
+release_rule: >
+  Before releasing a queued contour, Blueprint should check for pending amendments and
+  reconcile them into the executable prompt or explicitly reject/defer them with rationale.
+safety:
+  amendment_does_not_self_activate_contour: true
+  amendment_does_not_mutate_Blueprint_from_Prepress: true
