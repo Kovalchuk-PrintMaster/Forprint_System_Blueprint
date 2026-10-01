@@ -1,0 +1,214 @@
+schema_version: forprint_oc01_mini_design_freeze_v0_1
+freeze_id: oc01_mini_design_freeze_v0_1
+created_for: OC-01-MINI
+date: '2026-10-01'
+status: DESIGN_FROZEN_FOR_OC01_MINI_ONLY
+authority:
+  human_owner_decision: START_OC_01
+  activation_scope: OC01_MINI_STAGE0_AND_BOUNDED_IMPLEMENTATION
+  oc01_full_activated: false
+  execution_authority_created_by_this_document: false
+  dispatch_authority_created_by_this_document: false
+  release_authority_created_by_this_document: false
+  canonical_remote_push_authorized: false
+source_snapshot:
+  blueprint_head: 82939818a1ed9e1942878b179141081a0718cc64
+  blueprint_upstream: 82939818a1ed9e1942878b179141081a0718cc64
+  preexisting_dirty_paths:
+  - GENTS.md
+  - coordination/continuity/execution_attempts/cf10-u180j-a022__23bcbf08f192.yaml
+  - coordination/continuity/execution_attempts/cf10-u180j-a022__b437bc3cee6c.yaml
+  - coordination/global_policy/current_execution_focus.md
+  - coordination/standards/automation/index.yaml
+  - indexes/governance.yaml
+  - indexes/roadmaps.yaml
+  - scripts/coordination/control_plane/human_dashboard.py
+  - tests/coordination/control_plane/test_cf10_human_dashboard_self_hardening_v0_1.py
+  preexisting_dirty_paths_are_protected: true
+freeze_scope:
+  owner_contour: OC-01-MINI
+  oc01_mini_scope_frozen: true
+  oc01_acceptance_boundary_frozen: true
+  oc01_consumer_contracts_frozen: true
+  cf10_internal_implementation_frozen: false
+  cf10_write_set_frozen_by_oc01: false
+  cf10_self_hardening_frozen: false
+  oc01_full_frozen_or_activated: false
+parallel_work_policy:
+  cf10_may_continue_parallel_self_hardening: true
+  oc01_may_continue_against_reconciled_dependency_interfaces: true
+  simultaneous_independent_canonical_writable_actors: false
+  rule: ONE_MODULE_REPOSITORY_ONE_ACTIVE_WRITABLE_ACTOR
+  allowed_parallelism:
+  - CF10 isolated worker/candidate workspace
+  - OC01 read-only reconciliation and design work
+  - non-overlapping evidence production
+  before_oc01_canonical_mutation:
+  - refresh live CF10 dependency state
+  - confirm current writable actor ownership
+  - freeze exact per-slice OC01 write set
+  - prove no overlap with active CF10 canonical write set
+  - preserve all unrelated dirty work
+architecture_invariants:
+  operator_console_is_state_authority: false
+  execution_control_plane_is_reused: true
+  parallel_execution_truth_forbidden: true
+  parallel_module_lease_system_forbidden: true
+  parallel_candidate_promotion_engine_forbidden: true
+  parallel_workspace_engine_forbidden: true
+  makefile_cli_console_share_backend: true
+  unknown_dirty_state_auto_commit_forbidden: true
+reuse_matrix:
+- capability: execution_identity_and_attempt_evidence
+  classification: REUSE
+  state: REUSE_READY
+  owner: CF10_EXECUTION_CONTROL_PLANE
+- capability: internal_worker_runtime
+  classification: REUSE
+  state: REUSE_READY
+  owner: CF10_EXECUTION_CONTROL_PLANE
+- capability: operator_assistant_and_human_terminal_actor_adapters
+  classification: ADAPT
+  state: DEPENDENCY_PENDING_CF10_OR_BOUNDED_OC01_ADAPTER
+  owner: SHARED_EXECUTION_MODEL_CF10_BACKEND_OC01_CONSUMER
+- capability: exclusive_module_lease
+  classification: REUSE_WHEN_AVAILABLE
+  state: DEPENDENCY_PENDING_CF10
+  owner: CF10_EXECUTION_CONTROL_PLANE
+  oc01_must_not_create_competing_permanent_lease_system: true
+- capability: isolated_workspace_and_base_head_binding
+  classification: REUSE
+  state: REUSE_READY
+  owner: CF10_EXECUTION_CONTROL_PLANE
+- capability: workspace_delta_and_environment_evidence
+  classification: REUSE_EXTEND
+  state: PARTIAL_REUSE
+  owner: CF10_EXECUTION_CONTROL_PLANE
+- capability: checkpoint_suspend_resume
+  classification: REUSE_EXTEND
+  state: PARTIAL_REUSE_DEPENDENCY_PENDING_CF10
+  owner: CF10_EXECUTION_CONTROL_PLANE
+- capability: candidate_promotion_runtime
+  classification: REUSE
+  state: REUSE_READY_OPERATOR_CONTROLLED
+  owner: CF10_EXECUTION_CONTROL_PLANE
+- capability: promotion_preview_for_console
+  classification: EXTEND
+  state: OC01_CONSUMER_PROJECTION_REQUIRED
+  owner: OC01_MINI
+- capability: argv_no_shell_execution_timeout_and_tool_policy
+  classification: REUSE
+  state: REUSE_READY_AS_TERMINAL_FOUNDATION
+  owner: CF10_EXECUTION_CONTROL_PLANE
+- capability: protected_terminal_gateway
+  classification: NEW_ADAPTER_OVER_REUSED_BACKEND
+  state: OC01_IMPLEMENTATION_REQUIRED
+  owner: OC01_MINI
+- capability: human_dashboard_and_status_projection
+  classification: EXTEND
+  state: PARTIAL_REUSE
+  owner: OC01_MINI_CONSUMER_OVER_CF10_PROJECTION
+- capability: minimum_console_api_web_surface
+  classification: NEW
+  state: OC01_IMPLEMENTATION_REQUIRED
+  owner: OC01_MINI
+- capability: sealed_result_package
+  classification: EXTEND
+  state: PARTIAL_REUSE_FROM_WORKER_RESULT_DELTA_VALIDATION_EVIDENCE
+  owner: OC01_MINI_WITH_CF10_EVIDENCE_INPUTS
+oc01_mini_owned_scope:
+- Protected Terminal consumer/gateway semantics
+- read-only and bounded capability-shaped terminal profiles
+- terminal policy evaluation boundary
+- stdout/stderr/exit-code/timeout evidence projection
+- operator_assistant and human_terminal integration boundary
+- Assistant Dev Sandbox operator workflow over existing isolated workspace
+- checkpoint/seal/result visibility
+- promotion preview and explicit bounded apply control surface
+- minimum phone/laptop operator surface
+- OC01-MINI acceptance proofs
+cf10_consumed_interfaces:
+- execution identity
+- attempt/result evidence
+- shared actor model
+- isolated workspace
+- BASE_HEAD binding
+- worker runtime invocation
+- heartbeat/liveness when available
+- checkpoint/resume semantics when available
+- candidate promotion
+- validation evidence
+- status/event projections
+- exclusive module lease when available
+dependency_policy:
+  allowed_states:
+  - REUSE_READY
+  - REUSE_NEEDS_ADAPTER
+  - DEPENDENCY_PENDING
+  - TEMPORARY_BOUNDED_SURFACE_REQUIRED
+  missing_dependency_behavior:
+  - mark dependency not ready
+  - inspect current live CF10 state
+  - choose wait, adapter, mock, or minimal temporary surface explicitly
+  - do not silently create competing permanent subsystem
+drift_policy:
+  cf10_implementation_detail_only: CONTINUE
+  cf10_compatible_interface_extension: REFRESH_DEPENDENCY_SNAPSHOT_AND_CONTINUE
+  cf10_required_interface_change: PAUSE_AFFECTED_OC01_SLICE_AND_RECONCILE
+  cf10_authority_or_ownership_change: STOP_AND_ESCALATE_TO_BLUEPRINT_AND_HUMAN_OWNER
+implementation_order:
+- slice: OC01-MINI-1
+  name: dependency_projection_and_session_boundary
+  rule: consume existing CF10 truth; do not create parallel execution truth
+- slice: OC01-MINI-2
+  name: protected_terminal_gateway
+  rule: reuse ARGV_NO_SHELL, timeout and tool-policy primitives; add bounded capability gateway
+- slice: OC01-MINI-3
+  name: assistant_dev_sandbox_operator_workflow
+  rule: reuse isolated workspace and BASE_HEAD mechanics
+- slice: OC01-MINI-4
+  name: sealed_result_and_checkpoint_projection
+  rule: reuse worker delta, validation and available resume/recovery evidence
+- slice: OC01-MINI-5
+  name: sandbox_to_canonical_promotion_surface
+  rule: reuse candidate promotion; add preview/control surface only
+- slice: OC01-MINI-6
+  name: minimum_console_api_and_phone_laptop_ui
+  rule: thin surface over canonical backend
+- slice: OC01-MINI-7
+  name: protected_terminal_real_proof
+  rule: bounded end-to-end proof without manual SSH command copying
+- slice: OC01-MINI-8
+  name: sandbox_to_canonical_real_proof
+  rule: bounded end-to-end sandbox, seal, preview, explicit promotion and validation proof
+acceptance_boundary:
+  required:
+  - canonical repo is not exposed to uncontrolled writes
+  - simultaneous writable actor collision is prevented
+  - Protected Terminal proof passes
+  - Assistant Dev Sandbox proof passes
+  - promotion remains explicit and bounded
+  - no implicit remote push
+  - Console consumes Control Plane truth rather than inventing state
+  - all OC01 stable operator workflows are represented in supported operator entrypoints
+  completion_meaning: USEFUL_MINIMUM_PROVEN_PARTIAL_OC01
+  must_not_claim: OC01_FULL_COMPLETE
+explicit_non_goals:
+- freeze CF10 internals
+- complete CF10 self-hardening backlog
+- replace CF10 runtime
+- replace CF10 workspace engine
+- replace candidate promotion runtime
+- create second execution truth
+- create second module lease authority
+- full secrets broker
+- advanced network policy engine
+- automatic integration gate
+- automatic commit/push/release
+- OC01-FULL implementation
+per_slice_write_policy:
+  design_freeze_write_set:
+  - coordination/internal_work/blueprint/operator_console/2026-10-01__oc01_mini_design_freeze_v0_1.yaml
+  future_implementation_write_set: MUST_BE_FROZEN_PER_SLICE_AFTER_LIVE_CF10_REFRESH
+  unrelated_dirty_work_must_be_preserved: true
+  stage_exact_paths_only: true
