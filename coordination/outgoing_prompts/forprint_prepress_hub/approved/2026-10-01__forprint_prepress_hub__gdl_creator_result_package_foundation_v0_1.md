@@ -1,4 +1,4 @@
-# ForPrint Prepress Hub â€” GDL Creator Result Package Foundation v0.1
+# ForPrint Prepress Hub — GDL Creator Result Package Foundation v0.1
 
 ## Prompt identity
 
