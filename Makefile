@@ -187,6 +187,8 @@ help:
 	@echo "  make oc01-console-check"
 	@echo "  make oc01-console-snapshot [OC01_CONSOLE_SESSION_PROJECTION=<path>] [OC01_CONSOLE_SANDBOX_MANIFEST=<path>]"
 	@echo "  make oc01-console-serve [OC01_CONSOLE_HOST=127.0.0.1] [OC01_CONSOLE_PORT=8099] [OC01_CONSOLE_ALLOW_REMOTE=0]"
+	@echo "  make oc01-protected-terminal-real-proof-check"
+	@echo "  make oc01-protected-terminal-real-proof OC01_MINI7_PROOF_RUNTIME_ROOT=<outside-repo-runtime>"
 	@echo "  make completion-control-plane-check"
 	@echo "  make document-ledger-preview MODULE=forprint_library DOCUMENT=coordination/global_policy/forprint_project_doctrine.md"
 	@echo "  make document-ledger-update MODULE=forprint_library DOCUMENT=coordination/global_policy/forprint_project_doctrine.md STATUS=acknowledged"
@@ -3396,3 +3398,27 @@ oc01-console-serve:
 	@set -- --canonical-root "$(OC01_CONSOLE_CANONICAL_ROOT)" --runtime-root "$(OC01_CONSOLE_RUNTIME_ROOT)" serve --host "$(OC01_CONSOLE_HOST)" --port "$(OC01_CONSOLE_PORT)"; \
 	if [ "$(OC01_CONSOLE_ALLOW_REMOTE)" = "1" ]; then set -- "$$@" --allow-remote-bind; fi; \
 	$(PYTHON) -m scripts.coordination.control_plane.operator_console.console_api "$$@"
+
+
+# =============================================================================
+# OC-01 MINI-7 / real Protected Terminal proof
+# =============================================================================
+# Reuses Console API -> Protected Terminal -> shared worker launcher.
+# Proof executes READ_ONLY registered capabilities only and writes evidence outside repo.
+OC01_MINI7_PROOF_CANONICAL_ROOT ?= .
+OC01_MINI7_PROOF_RUNTIME_ROOT ?= /tmp/forprint-oc01/proofs/mini7/manual
+OC01_MINI7_PROOF_ACTOR_ID ?= oc01-mini7-human-terminal-proof
+OC01_MINI7_PROOF_TIMEOUT ?= 30
+
+.PHONY: oc01-protected-terminal-real-proof-check
+oc01-protected-terminal-real-proof-check:
+	$(PYTHON) -m py_compile scripts/coordination/control_plane/operator_console/protected_terminal_proof.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/operator_console/test_oc01_protected_terminal_real_proof_v0_1.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/operator_console/test_oc01_protected_terminal_gateway_v0_1.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/operator_console/test_oc01_console_api_v0_1.py
+	@git diff --check -- coordination/work_fronts/oc01_mini_protected_terminal_real_proof_v0_1.yaml scripts/coordination/control_plane/operator_console/protected_terminal_proof.py tests/coordination/control_plane/operator_console/test_oc01_protected_terminal_real_proof_v0_1.py coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.yaml coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/execution_control_plane_program_v0_1.yaml Makefile
+
+.PHONY: oc01-protected-terminal-real-proof
+oc01-protected-terminal-real-proof:
+	@test -n "$(OC01_MINI7_PROOF_RUNTIME_ROOT)" || { echo "ERROR: OC01_MINI7_PROOF_RUNTIME_ROOT is required"; false; }
+	$(PYTHON) -m scripts.coordination.control_plane.operator_console.protected_terminal_proof --canonical-repo "$(OC01_MINI7_PROOF_CANONICAL_ROOT)" --runtime-root "$(OC01_MINI7_PROOF_RUNTIME_ROOT)" --actor-id "$(OC01_MINI7_PROOF_ACTOR_ID)" --timeout-seconds "$(OC01_MINI7_PROOF_TIMEOUT)"

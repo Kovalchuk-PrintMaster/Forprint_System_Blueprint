@@ -238,7 +238,7 @@ rollout_bundle_reconciliation_2026_10_02:
     authority: false
   old_bundle_phase0:
     disposition: HISTORICAL_ONLY
-  OC01_current_consumer_slice: OC01-MINI-6
+  OC01_current_consumer_slice: OC01-MINI-7
 # execution-control-plane-rollout-bundle-reconciliation-2026-10-02:end
 
 oc01_mini4_projection_contract_2026_10_02:
@@ -291,7 +291,8 @@ oc01_mini5_promotion_surface_contract_2026_10_02:
   next_boundary: OC01-MINI-6
 
 oc01_mini6_console_surface_contract_2026_10_02:
-  status: ACTIVE_IMPLEMENTATION
+  status: PUBLISHED
+  publication_commit: e4873e5fcf09c1bacc9fabfe235131dae22c761c
   consumer: operator_console
   architecture:
     thin_surface_over_canonical_backend: true
@@ -323,3 +324,33 @@ oc01_mini6_console_surface_contract_2026_10_02:
     merge_authority: false
     release_authority: false
   next_boundary: OC01-MINI-7
+
+oc01_mini7_protected_terminal_real_proof_contract_2026_10_02:
+  status: PROOF_PASS_READY_FOR_PUBLICATION
+  consumer: operator_console
+  proof:
+    flow: CONSOLE_API_DISPATCH_TO_EXISTING_PROTECTED_TERMINAL_GATEWAY
+    capability_count: 3
+    capabilities:
+      - repo_head
+      - repo_status
+      - repo_diff_check
+    manual_ssh_command_copying_required: false
+    evidence_location_class: EXTERNAL_RUNTIME_ARTIFACT
+    evidence_sha256: 69a4ba9935725070699dc04bf8f535d03437fa9935ecfe42d8143dc23d176c85
+    canonical_state_unchanged: true
+  reused_backends:
+    - session_projection
+    - protected_terminal
+    - console_api_terminal_bridge
+    - worker_runtime_launcher
+  authority:
+    execution_state_authority: false
+    dispatch_authority: false
+    lease_authority: false
+    canonical_write_authority: false
+    commit_authority: false
+    push_authority: false
+    merge_authority: false
+    release_authority: false
+  next_boundary: OC01-MINI-8
