@@ -236,7 +236,7 @@ oc01_current_implementation_state_2026_10_02:
     name: forprint_execution_control_plane_console_rollout_bundle_v0_1.zip
     sha256: 8421cb7ab31e34171ae55c7f675ec32f5cf0154f80f5d908b5cd2e36128bd881
     reconciliation_record: EMBEDDED_IN_EXISTING_CANONICAL_ROADMAP_OWNERS
-  status: ACTIVE_IMPLEMENTATION_PARTIAL
+  status: USEFUL_MINIMUM_PROVEN_PARTIAL_OC01
   implemented:
     OC01-MINI-1:
       state: PUBLISHED
@@ -268,7 +268,8 @@ oc01_current_implementation_state_2026_10_02:
       evidence_location_class: EXTERNAL_RUNTIME_ARTIFACT
       evidence_sha256: 69a4ba9935725070699dc04bf8f535d03437fa9935ecfe42d8143dc23d176c85
     OC01-MINI-8:
-      state: PROOF_PASS_READY_FOR_PUBLICATION
+      state: PUBLISHED
+      commit: 89afbb3b4f3f06c664979de788bfd9bb117c789a
       capability: sandbox_to_canonical_real_proof
       real_proof: PASS
       promoted_probe: coordination/internal_work/blueprint/operator_console/proofs/oc01_mini8_real_promotion_probe_v0_1.txt
@@ -278,6 +279,15 @@ oc01_current_implementation_state_2026_10_02:
       evidence_sha256: f8b517dcd5d7c2be9b5ee16c8a0a572f24050c7274058d49052da82c08554efb
       completion_candidate_after_publication: USEFUL_MINIMUM_PROVEN_PARTIAL_OC01
       must_not_claim: OC01_FULL_COMPLETE
+  mini_closeout:
+    mini_sequence_complete: true
+    mini_slice_count: 8
+    completion_state: USEFUL_MINIMUM_PROVEN_PARTIAL_OC01
+    oc01_full_complete: false
+    oc01_full_activated: false
+    closeout_source_head: 89afbb3b4f3f06c664979de788bfd9bb117c789a
+    cf10_canonical_write_reentry_allowed_after_closeout_publication: true
+    cf10_must_reconcile_from_closeout_head: true
   current_boundaries:
     console_is_state_authority: false
     canonical_write_from_sandbox: false

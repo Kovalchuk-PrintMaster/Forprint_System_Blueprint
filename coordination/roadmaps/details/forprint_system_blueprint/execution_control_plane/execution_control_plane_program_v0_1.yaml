@@ -239,6 +239,10 @@ rollout_bundle_reconciliation_2026_10_02:
   old_bundle_phase0:
     disposition: HISTORICAL_ONLY
   OC01_current_consumer_slice: OC01-MINI-8
+  OC01_mini_sequence_complete: true
+  OC01_mini_completion_state: USEFUL_MINIMUM_PROVEN_PARTIAL_OC01
+  OC01_full_complete: false
+  OC01_full_activated: false
 # execution-control-plane-rollout-bundle-reconciliation-2026-10-02:end
 
 oc01_mini4_projection_contract_2026_10_02:
@@ -357,7 +361,8 @@ oc01_mini7_protected_terminal_real_proof_contract_2026_10_02:
   next_boundary: OC01-MINI-8
 
 oc01_mini8_sandbox_to_canonical_real_proof_contract_2026_10_02:
-  status: PROOF_PASS_READY_FOR_PUBLICATION
+  status: PUBLISHED
+  publication_commit: 89afbb3b4f3f06c664979de788bfd9bb117c789a
   consumer: operator_console
   proof:
     flow: SANDBOX_TO_CHECKPOINT_TO_SEALED_RESULT_TO_PREVIEW_TO_EXPLICIT_CF10_PROMOTION_TO_VALIDATION
@@ -399,3 +404,28 @@ oc01_mini8_sandbox_to_canonical_real_proof_contract_2026_10_02:
     release_performed: false
   completion_candidate_after_publication: USEFUL_MINIMUM_PROVEN_PARTIAL_OC01
   must_not_claim: OC01_FULL_COMPLETE
+
+oc01_mini_closeout_2026_10_02:
+  status: COMPLETION_RECORDED
+  closeout_source_head: 89afbb3b4f3f06c664979de788bfd9bb117c789a
+  mini_sequence_complete: true
+  mini_slice_count: 8
+  completion_state: USEFUL_MINIMUM_PROVEN_PARTIAL_OC01
+  oc01_full_complete: false
+  oc01_full_activated: false
+  acceptance:
+    protected_terminal_real_proof: PASS
+    sandbox_to_canonical_real_proof: PASS
+    promotion_explicit_and_bounded: PASS
+    implicit_remote_push: false
+    console_state_authority: false
+    stable_operator_entrypoint_coverage: PASS
+  residual_dependencies:
+    local_sandbox_commits: DEPENDENCY_PENDING_CF10
+    canonical_pause_resume_action: DEPENDENCY_PENDING_CF10
+    remote_transport_authentication_tls: EXTERNAL_REQUIRED
+  handoff:
+    oc01_mini_canonical_write_corridor_closed: true
+    cf10_canonical_write_reentry_allowed: true
+    cf10_must_reconcile_from_closeout_head: true
+    oc01_full_requires_separate_human_activation: true

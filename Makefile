@@ -191,6 +191,7 @@ help:
 	@echo "  make oc01-protected-terminal-real-proof OC01_MINI7_PROOF_RUNTIME_ROOT=<outside-repo-runtime>"
 	@echo "  make oc01-sandbox-to-canonical-real-proof-check"
 	@echo "  make oc01-sandbox-to-canonical-real-proof OC01_MINI8_PROOF_RUNTIME_ROOT=<outside-repo-runtime> OC01_MINI8_PROOF_BASE_HEAD=<sha> OC01_MINI8_PROMOTION_AUTHORIZATION=APPLY_EXACT_OC01_PROMOTION"
+	@echo "  make oc01-mini-closeout-check"
 	@echo "  make completion-control-plane-check"
 	@echo "  make document-ledger-preview MODULE=forprint_library DOCUMENT=coordination/global_policy/forprint_project_doctrine.md"
 	@echo "  make document-ledger-update MODULE=forprint_library DOCUMENT=coordination/global_policy/forprint_project_doctrine.md STATUS=acknowledged"
@@ -3452,3 +3453,16 @@ oc01-sandbox-to-canonical-real-proof:
 	@test -n "$(OC01_MINI8_PROOF_BASE_HEAD)" || { echo "ERROR: OC01_MINI8_PROOF_BASE_HEAD is required"; false; }
 	@test "$(OC01_MINI8_PROMOTION_AUTHORIZATION)" = "APPLY_EXACT_OC01_PROMOTION" || { echo "ERROR: exact explicit promotion authorization is required"; false; }
 	$(PYTHON) -m scripts.coordination.control_plane.operator_console.sandbox_to_canonical_proof --canonical-repo "$(OC01_MINI8_PROOF_CANONICAL_ROOT)" --runtime-root "$(OC01_MINI8_PROOF_RUNTIME_ROOT)" --base-head "$(OC01_MINI8_PROOF_BASE_HEAD)" --authorization "$(OC01_MINI8_PROMOTION_AUTHORIZATION)"
+
+
+# =============================================================================
+# OC-01-MINI closeout
+# =============================================================================
+# Verifies the complete MINI-1..8 publication chain and acceptance boundary.
+# This check is read-only; it does not activate OC-01-FULL.
+.PHONY: oc01-mini-closeout-check
+oc01-mini-closeout-check:
+	$(PYTHON) -m py_compile scripts/coordination/control_plane/operator_console/mini_closeout.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/operator_console/test_oc01_mini_closeout_v0_1.py
+	$(PYTHON) -m scripts.coordination.control_plane.operator_console.mini_closeout --root .
+	@git diff --check -- coordination/internal_work/blueprint/operator_console/2026-10-02__oc01_mini_closeout_v0_1.md scripts/coordination/control_plane/operator_console/mini_closeout.py tests/coordination/control_plane/operator_console/test_oc01_mini_closeout_v0_1.py coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.yaml coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/execution_control_plane_program_v0_1.yaml Makefile
