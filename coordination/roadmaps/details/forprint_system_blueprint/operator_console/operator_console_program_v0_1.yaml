@@ -253,8 +253,12 @@ oc01_current_implementation_state_2026_10_02:
       commit: e50bdc08af0ee634f0f8d51693de465f060ec713
       capability: sealed_result_and_checkpoint_projection
     OC01-MINI-5:
-      state: ACTIVE_IMPLEMENTATION
+      state: PUBLISHED
+      commit: f6612467eaa047e3b2558120f594edd133e6209e
       capability: sandbox_to_canonical_promotion_surface
+    OC01-MINI-6:
+      state: ACTIVE_IMPLEMENTATION
+      capability: minimum_console_api_and_phone_laptop_ui
   current_boundaries:
     console_is_state_authority: false
     canonical_write_from_sandbox: false
@@ -267,6 +271,11 @@ oc01_current_implementation_state_2026_10_02:
     promotion_preview: IMPLEMENTED_REUSES_CF10_ENGINE
     promotion_apply_requires_exact_preview_hash: true
     implicit_remote_push: false
+    minimum_console_api: IMPLEMENTED_THIN_STANDARD_LIBRARY_SURFACE
+    phone_laptop_ui: IMPLEMENTED_MINIMUM_RESPONSIVE_SURFACE
+    console_http_default_bind: LOOPBACK
+    console_remote_transport_security: EXTERNAL_REQUIRED
+    console_state_authority: false
   rollout_bundle_reuse:
     stable_workflow_entrypoints: EXTEND
     minimum_working_console: REUSE_EXTEND

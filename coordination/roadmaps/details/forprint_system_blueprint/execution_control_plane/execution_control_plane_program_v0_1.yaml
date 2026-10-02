@@ -238,7 +238,7 @@ rollout_bundle_reconciliation_2026_10_02:
     authority: false
   old_bundle_phase0:
     disposition: HISTORICAL_ONLY
-  OC01_current_consumer_slice: OC01-MINI-5
+  OC01_current_consumer_slice: OC01-MINI-6
 # execution-control-plane-rollout-bundle-reconciliation-2026-10-02:end
 
 oc01_mini4_projection_contract_2026_10_02:
@@ -264,7 +264,8 @@ oc01_mini4_projection_contract_2026_10_02:
   next_boundary: OC01-MINI-5
 
 oc01_mini5_promotion_surface_contract_2026_10_02:
-  status: ACTIVE_IMPLEMENTATION
+  status: PUBLISHED
+  publication_commit: f6612467eaa047e3b2558120f594edd133e6209e
   consumer: operator_console
   shared_truth_reused:
     - candidate_promotion_plan
@@ -288,3 +289,37 @@ oc01_mini5_promotion_surface_contract_2026_10_02:
     shared_plan_revalidated_immediately_before_apply: true
     shared_apply_engine_reused: true
   next_boundary: OC01-MINI-6
+
+oc01_mini6_console_surface_contract_2026_10_02:
+  status: ACTIVE_IMPLEMENTATION
+  consumer: operator_console
+  architecture:
+    thin_surface_over_canonical_backend: true
+    http_implementation: python_standard_library
+    external_http_dependency_added: false
+    duplicate_control_plane_created: false
+  reused_backends:
+    - session_projection
+    - protected_terminal
+    - assistant_dev_sandbox
+    - sealed_result
+    - promotion_surface
+  new_surface:
+    - scoped_json_api
+    - responsive_phone_laptop_html
+  transport:
+    default_bind: 127.0.0.1
+    remote_bind_requires_explicit_flag: true
+    authentication_provided_by_mini6: false
+    tls_provided_by_mini6: false
+    remote_access_requires_external_trusted_transport: true
+  authority:
+    execution_state_authority: false
+    dispatch_authority: false
+    lease_authority: false
+    promotion_authority: false
+    commit_authority: false
+    push_authority: false
+    merge_authority: false
+    release_authority: false
+  next_boundary: OC01-MINI-7

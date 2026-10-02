@@ -184,6 +184,9 @@ help:
 	@echo "  make oc01-sandbox-result-status OC01_RESULT_MANIFEST=<manifest>"
 	@echo "  make oc01-promotion-preview OC01_PROMOTION_CANDIDATE_ROOT=<workspace> OC01_PROMOTION_SEALED_RESULT=<sealed> OC01_PROMOTION_WORK_FRONT=<front> OC01_PROMOTION_ORIGIN_HANDOFF=<origin> OC01_PROMOTION_HANDOFF_RESULT=<result> OC01_PROMOTION_PROFILE_REF=<profile@rev> OC01_PROMOTION_PROCEDURE_ID=<procedure> OC01_PROMOTION_PREVIEW=<outside-repo-preview>"
 	@echo "  make oc01-promotion-apply OC01_PROMOTION_CANDIDATE_ROOT=<workspace> OC01_PROMOTION_PREVIEW=<preview> OC01_PROMOTION_RECOVERY_ROOT=<outside-repo-recovery> OC01_PROMOTION_EVIDENCE=<outside-repo-evidence> OC01_PROMOTION_AUTHORIZATION=APPLY_EXACT_OC01_PROMOTION OC01_PROMOTION_EXPECTED_PREVIEW_SHA256=<sha256>"
+	@echo "  make oc01-console-check"
+	@echo "  make oc01-console-snapshot [OC01_CONSOLE_SESSION_PROJECTION=<path>] [OC01_CONSOLE_SANDBOX_MANIFEST=<path>]"
+	@echo "  make oc01-console-serve [OC01_CONSOLE_HOST=127.0.0.1] [OC01_CONSOLE_PORT=8099] [OC01_CONSOLE_ALLOW_REMOTE=0]"
 	@echo "  make completion-control-plane-check"
 	@echo "  make document-ledger-preview MODULE=forprint_library DOCUMENT=coordination/global_policy/forprint_project_doctrine.md"
 	@echo "  make document-ledger-update MODULE=forprint_library DOCUMENT=coordination/global_policy/forprint_project_doctrine.md STATUS=acknowledged"
@@ -3355,3 +3358,41 @@ oc01-promotion-apply:
 	@test -n "$(OC01_PROMOTION_AUTHORIZATION)" || { echo "ERROR: OC01_PROMOTION_AUTHORIZATION is required"; false; }
 	@test -n "$(OC01_PROMOTION_EXPECTED_PREVIEW_SHA256)" || { echo "ERROR: OC01_PROMOTION_EXPECTED_PREVIEW_SHA256 is required"; false; }
 	$(PYTHON) -m scripts.coordination.control_plane.operator_console.promotion_surface apply --preview "$(OC01_PROMOTION_PREVIEW)" --root "$(OC01_PROMOTION_ROOT)" --candidate-root "$(OC01_PROMOTION_CANDIDATE_ROOT)" --recovery-root "$(OC01_PROMOTION_RECOVERY_ROOT)" --evidence "$(OC01_PROMOTION_EVIDENCE)" --authorization "$(OC01_PROMOTION_AUTHORIZATION)" --expected-preview-sha256 "$(OC01_PROMOTION_EXPECTED_PREVIEW_SHA256)"
+
+
+# =============================================================================
+# OC-01 MINI-6 / minimum Console API + phone/laptop UI
+# =============================================================================
+# Thin standard-library HTTP/JSON + responsive HTML surface over published OC01 backends.
+# Default bind is loopback. Remote bind is explicit and still requires trusted external transport.
+OC01_CONSOLE_CANONICAL_ROOT ?= .
+OC01_CONSOLE_RUNTIME_ROOT ?= /tmp/forprint-oc01/operator_console
+OC01_CONSOLE_HOST ?= 127.0.0.1
+OC01_CONSOLE_PORT ?= 8099
+OC01_CONSOLE_ALLOW_REMOTE ?= 0
+OC01_CONSOLE_SESSION_PROJECTION ?=
+OC01_CONSOLE_SANDBOX_MANIFEST ?=
+OC01_CONSOLE_RESULT_MANIFEST ?=
+OC01_CONSOLE_PROMOTION_PREVIEW ?=
+
+.PHONY: oc01-console-check
+oc01-console-check:
+	$(PYTHON) -m py_compile scripts/coordination/control_plane/operator_console/console_api.py scripts/coordination/control_plane/operator_console/console_ui.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/operator_console/test_oc01_console_api_v0_1.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/operator_console/test_oc01_console_ui_v0_1.py
+	@git diff --check -- coordination/work_fronts/oc01_mini_minimum_console_api_and_phone_laptop_ui_v0_1.yaml scripts/coordination/control_plane/operator_console/console_api.py scripts/coordination/control_plane/operator_console/console_ui.py tests/coordination/control_plane/operator_console/test_oc01_console_api_v0_1.py tests/coordination/control_plane/operator_console/test_oc01_console_ui_v0_1.py coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.yaml coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/execution_control_plane_program_v0_1.yaml Makefile
+
+.PHONY: oc01-console-snapshot
+oc01-console-snapshot:
+	@set -- --canonical-root "$(OC01_CONSOLE_CANONICAL_ROOT)" --runtime-root "$(OC01_CONSOLE_RUNTIME_ROOT)" snapshot; \
+	if [ -n "$(OC01_CONSOLE_SESSION_PROJECTION)" ]; then set -- "$$@" --session-projection "$(OC01_CONSOLE_SESSION_PROJECTION)"; fi; \
+	if [ -n "$(OC01_CONSOLE_SANDBOX_MANIFEST)" ]; then set -- "$$@" --sandbox-manifest "$(OC01_CONSOLE_SANDBOX_MANIFEST)"; fi; \
+	if [ -n "$(OC01_CONSOLE_RESULT_MANIFEST)" ]; then set -- "$$@" --result-manifest "$(OC01_CONSOLE_RESULT_MANIFEST)"; fi; \
+	if [ -n "$(OC01_CONSOLE_PROMOTION_PREVIEW)" ]; then set -- "$$@" --promotion-preview "$(OC01_CONSOLE_PROMOTION_PREVIEW)"; fi; \
+	$(PYTHON) -m scripts.coordination.control_plane.operator_console.console_api "$$@"
+
+.PHONY: oc01-console-serve
+oc01-console-serve:
+	@set -- --canonical-root "$(OC01_CONSOLE_CANONICAL_ROOT)" --runtime-root "$(OC01_CONSOLE_RUNTIME_ROOT)" serve --host "$(OC01_CONSOLE_HOST)" --port "$(OC01_CONSOLE_PORT)"; \
+	if [ "$(OC01_CONSOLE_ALLOW_REMOTE)" = "1" ]; then set -- "$$@" --allow-remote-bind; fi; \
+	$(PYTHON) -m scripts.coordination.control_plane.operator_console.console_api "$$@"
