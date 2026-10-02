@@ -13,6 +13,7 @@ from scripts.coordination.control_plane.operator_console.session_projection impo
 )
 from scripts.coordination.control_plane.workspace.provision import (
     WorkspaceProvisionError,
+    capture_worker_baseline,
     load_workspace_plan_from_manifest,
     plan_workspace,
     provision_workspace,
@@ -20,7 +21,8 @@ from scripts.coordination.control_plane.workspace.provision import (
 
 SCHEMA_VERSION = "forprint_oc01_assistant_dev_sandbox_v0_1"
 LOCAL_COMMIT_STATE = "DEPENDENCY_PENDING_CF10"
-CHECKPOINT_STATE = "NEXT_SLICE_OC01_MINI_4"
+CHECKPOINT_STATE = "PROJECTION_AVAILABLE_NO_PAUSE_RESUME_AUTHORITY"
+RESULT_SEAL_STATE = "SUPPORTED"
 PROMOTION_STATE = "NEXT_SLICE_OC01_MINI_5"
 
 
@@ -222,8 +224,9 @@ def sandbox_status(
             "open": "SUPPORTED",
             "status": "SUPPORTED",
             "local_commits": LOCAL_COMMIT_STATE,
-            "checkpoint_pause_resume": CHECKPOINT_STATE,
-            "result_seal": CHECKPOINT_STATE,
+            "checkpoint_projection": CHECKPOINT_STATE,
+            "canonical_pause_resume": "DEPENDENCY_PENDING_CF10",
+            "result_seal": RESULT_SEAL_STATE,
             "canonical_promotion": PROMOTION_STATE,
         },
         "authority": {
@@ -272,6 +275,7 @@ def create_sandbox(
 
     try:
         provision_workspace(plan)
+        worker_baseline = capture_worker_baseline(plan)
     except WorkspaceProvisionError as exc:
         raise AssistantDevSandboxError(str(exc)) from exc
 
@@ -280,6 +284,14 @@ def create_sandbox(
         session_projection=session_projection,
     )
     status["state"] = "CREATED"
+    status["worker_baseline"] = {
+        "captured": True,
+        "schema_version": worker_baseline.get("schema_version"),
+        "baseline_fingerprint_sha256": worker_baseline.get(
+            "baseline_fingerprint_sha256"
+        ),
+        "evidence_path": worker_baseline.get("evidence_path"),
+    }
     return status
 
 

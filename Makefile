@@ -179,6 +179,9 @@ help:
 	@echo "  make oc01-assistant-sandbox-create OC01_SANDBOX_ATTEMPT_ID=<id> OC01_SANDBOX_BASE_HEAD=<sha> OC01_SANDBOX_SESSION_PROJECTION=<projection>"
 	@echo "  make oc01-assistant-sandbox-open OC01_SANDBOX_MANIFEST=<manifest> OC01_SANDBOX_SESSION_PROJECTION=<projection>"
 	@echo "  make oc01-assistant-sandbox-status OC01_SANDBOX_MANIFEST=<manifest> OC01_SANDBOX_SESSION_PROJECTION=<projection>"
+	@echo "  make oc01-sandbox-checkpoint OC01_RESULT_MANIFEST=<manifest> OC01_RESULT_SESSION_PROJECTION=<projection> [OC01_RESULT_RESUME_EVIDENCE=<evidence>]"
+	@echo "  make oc01-sandbox-seal-result OC01_RESULT_MANIFEST=<manifest> OC01_RESULT_SESSION_PROJECTION=<projection> OC01_RESULT_VALIDATION_EVIDENCE='pytest:PASS make-check:PASS'"
+	@echo "  make oc01-sandbox-result-status OC01_RESULT_MANIFEST=<manifest>"
 	@echo "  make completion-control-plane-check"
 	@echo "  make document-ledger-preview MODULE=forprint_library DOCUMENT=coordination/global_policy/forprint_project_doctrine.md"
 	@echo "  make document-ledger-update MODULE=forprint_library DOCUMENT=coordination/global_policy/forprint_project_doctrine.md STATUS=acknowledged"
@@ -3257,3 +3260,47 @@ oc01-assistant-sandbox-status:
 	@test -n "$(OC01_SANDBOX_MANIFEST)" || { echo "ERROR: OC01_SANDBOX_MANIFEST is required"; false; }
 	@test -n "$(OC01_SANDBOX_SESSION_PROJECTION)" || { echo "ERROR: OC01_SANDBOX_SESSION_PROJECTION is required"; false; }
 	$(PYTHON) -m scripts.coordination.control_plane.operator_console.assistant_dev_sandbox status --manifest "$(OC01_SANDBOX_MANIFEST)" --session-projection "$(OC01_SANDBOX_SESSION_PROJECTION)"
+
+
+# =============================================================================
+# OC-01 MINI-4 / sealed result and checkpoint projection
+# =============================================================================
+# Purpose: immutable checkpoint projection + deterministic sandbox result package.
+# Reuse: shared CF10 worker baseline/delta. No pause/resume, promotion or Git authority.
+OC01_RESULT_MANIFEST ?=
+OC01_RESULT_SESSION_PROJECTION ?=
+OC01_RESULT_RESUME_EVIDENCE ?=
+OC01_RESULT_VALIDATION_EVIDENCE ?=
+OC01_RESULT_ARTIFACTS ?=
+OC01_RESULT_OPEN_ISSUES ?=
+
+.PHONY: oc01-sealed-result-check
+oc01-sealed-result-check:
+	$(PYTHON) -m py_compile scripts/coordination/control_plane/operator_console/sealed_result.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/operator_console/test_oc01_sealed_result_checkpoint_projection_v0_1.py
+	@git diff --check -- coordination/work_fronts/oc01_mini_sealed_result_and_checkpoint_projection_v0_1.yaml scripts/coordination/control_plane/operator_console/assistant_dev_sandbox.py scripts/coordination/control_plane/operator_console/sealed_result.py tests/coordination/control_plane/operator_console/test_oc01_assistant_dev_sandbox_v0_1.py tests/coordination/control_plane/operator_console/test_oc01_sealed_result_checkpoint_projection_v0_1.py coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.yaml coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/execution_control_plane_program_v0_1.yaml Makefile
+
+.PHONY: oc01-sandbox-checkpoint
+oc01-sandbox-checkpoint:
+	@test -n "$(OC01_RESULT_MANIFEST)" || { echo "ERROR: OC01_RESULT_MANIFEST is required"; false; }
+	@test -n "$(OC01_RESULT_SESSION_PROJECTION)" || { echo "ERROR: OC01_RESULT_SESSION_PROJECTION is required"; false; }
+	@set -- checkpoint --manifest "$(OC01_RESULT_MANIFEST)" --session-projection "$(OC01_RESULT_SESSION_PROJECTION)"; \
+	if [ -n "$(OC01_RESULT_RESUME_EVIDENCE)" ]; then set -- "$$@" --resume-evidence "$(OC01_RESULT_RESUME_EVIDENCE)"; fi; \
+	$(PYTHON) -m scripts.coordination.control_plane.operator_console.sealed_result "$$@"
+
+.PHONY: oc01-sandbox-seal-result
+oc01-sandbox-seal-result:
+	@test -n "$(OC01_RESULT_MANIFEST)" || { echo "ERROR: OC01_RESULT_MANIFEST is required"; false; }
+	@test -n "$(OC01_RESULT_SESSION_PROJECTION)" || { echo "ERROR: OC01_RESULT_SESSION_PROJECTION is required"; false; }
+	@test -n "$(OC01_RESULT_VALIDATION_EVIDENCE)" || { echo "ERROR: OC01_RESULT_VALIDATION_EVIDENCE is required"; false; }
+	@set -- seal --manifest "$(OC01_RESULT_MANIFEST)" --session-projection "$(OC01_RESULT_SESSION_PROJECTION)"; \
+	for item in $(OC01_RESULT_VALIDATION_EVIDENCE); do set -- "$$@" --validation-evidence "$$item"; done; \
+	for item in $(OC01_RESULT_ARTIFACTS); do set -- "$$@" --artifact "$$item"; done; \
+	for item in $(OC01_RESULT_OPEN_ISSUES); do set -- "$$@" --open-issue "$$item"; done; \
+	if [ -n "$(OC01_RESULT_RESUME_EVIDENCE)" ]; then set -- "$$@" --resume-evidence "$(OC01_RESULT_RESUME_EVIDENCE)"; fi; \
+	$(PYTHON) -m scripts.coordination.control_plane.operator_console.sealed_result "$$@"
+
+.PHONY: oc01-sandbox-result-status
+oc01-sandbox-result-status:
+	@test -n "$(OC01_RESULT_MANIFEST)" || { echo "ERROR: OC01_RESULT_MANIFEST is required"; false; }
+	$(PYTHON) -m scripts.coordination.control_plane.operator_console.sealed_result status --manifest "$(OC01_RESULT_MANIFEST)"

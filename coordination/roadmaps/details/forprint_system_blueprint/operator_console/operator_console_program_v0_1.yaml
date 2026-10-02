@@ -245,14 +245,20 @@ oc01_current_implementation_state_2026_10_02:
       state: PUBLISHED
       commit: a7ade7fa797e554e994658a73e3f662c31b7cf91
     OC01-MINI-3:
-      state: ACTIVE_IMPLEMENTATION
+      state: PUBLISHED
+      commit: c5d9cf0e68136f681af27fbc946ec6a466cd1c78
       capability: assistant_dev_sandbox_operator_workflow
+    OC01-MINI-4:
+      state: ACTIVE_IMPLEMENTATION
+      capability: sealed_result_and_checkpoint_projection
   current_boundaries:
     console_is_state_authority: false
     canonical_write_from_sandbox: false
     local_sandbox_commits: DEPENDENCY_PENDING_CF10
-    checkpoint_pause_resume: OC01-MINI-4
-    deterministic_result_seal: OC01-MINI-4
+    checkpoint_projection: IMPLEMENTED_NO_AUTHORITY
+    canonical_pause_resume_action: DEPENDENCY_PENDING_CF10
+    deterministic_result_seal: IMPLEMENTED
+    local_sandbox_commits: DEPENDENCY_PENDING_CF10
     canonical_promotion: OC01-MINI-5
   rollout_bundle_reuse:
     stable_workflow_entrypoints: EXTEND

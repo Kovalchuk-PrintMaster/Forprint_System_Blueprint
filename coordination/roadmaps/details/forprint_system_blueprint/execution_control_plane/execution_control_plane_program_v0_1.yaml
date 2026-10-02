@@ -238,5 +238,26 @@ rollout_bundle_reconciliation_2026_10_02:
     authority: false
   old_bundle_phase0:
     disposition: HISTORICAL_ONLY
-  OC01_current_consumer_slice: OC01-MINI-3
+  OC01_current_consumer_slice: OC01-MINI-4
 # execution-control-plane-rollout-bundle-reconciliation-2026-10-02:end
+
+oc01_mini4_projection_contract_2026_10_02:
+  status: ACTIVE_IMPLEMENTATION
+  consumer: operator_console
+  shared_truth_reused:
+    - worker_baseline
+    - worker_delta
+    - handoff_resume_freshness_evidence
+  oc01_owned_projection:
+    - checkpoint_projection
+    - deterministic_result_package
+  authority:
+    execution_state_authority: false
+    lease_authority: false
+    pause_resume_authority: false
+    canonical_write_authority: false
+    promotion_authority: false
+  dependencies:
+    local_sandbox_commits: DEPENDENCY_PENDING_CF10
+    canonical_pause_resume_action: DEPENDENCY_PENDING_CF10
+  next_boundary: OC01-MINI-5

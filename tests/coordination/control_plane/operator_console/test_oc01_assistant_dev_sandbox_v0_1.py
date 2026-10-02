@@ -231,3 +231,19 @@ def test_canonical_head_drift_is_visible_not_silently_rebased(
     )
     assert status["base"]["canonical_head_drifted_since_base"] is True
     assert status["base"]["current_canonical_head"] != status["base"]["base_head"]
+
+
+def test_create_captures_shared_worker_baseline_mini4(tmp_path: Path) -> None:
+    _, result = create(tmp_path)
+    manifest = Path(result["sandbox"]["manifest"])
+    baseline = manifest.parent / "evidence" / "worker_baseline_v0_1.yaml"
+    assert baseline.is_file()
+    assert result["worker_baseline"]["captured"] is True
+    assert len(result["worker_baseline"]["baseline_fingerprint_sha256"]) == 64
+    assert result["lifecycle"]["checkpoint_projection"] == (
+        "PROJECTION_AVAILABLE_NO_PAUSE_RESUME_AUTHORITY"
+    )
+    assert result["lifecycle"]["canonical_pause_resume"] == (
+        "DEPENDENCY_PENDING_CF10"
+    )
+    assert result["lifecycle"]["result_seal"] == "SUPPORTED"
