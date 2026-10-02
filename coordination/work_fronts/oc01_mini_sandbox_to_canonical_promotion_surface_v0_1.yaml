@@ -1,0 +1,140 @@
+work_front_id: wf-oc01-mini-sandbox-to-canonical-promotion-surface-v0-1
+schema_version: forprint_work_front_v0_1
+layer: WORK_FRONT
+roadmap_step: OC-01
+contour: OC01-MINI-5
+name: sandbox_to_canonical_promotion_surface
+
+objective: >-
+  Add a bounded Operator Console preview/control adapter over the existing CF10
+  candidate promotion engine. Reuse the canonical promotion plan, source freshness,
+  changed-path validation, recovery and rollback mechanics. Bind explicit apply
+  authorization to one immutable preview hash. Do not create a parallel promotion
+  engine and do not add commit, push, merge, release or acceptance authority.
+
+authority:
+  work_front_is_execution_authority: true
+  execution_authority_scope: OC01_MINI_5_BOUNDED_IMPLEMENTATION_ONLY
+  runtime_projection:
+    console_is_state_authority: false
+    promotion_authority: OPERATOR_CONTROLLED_CF10
+    automatic_promotion: false
+    commit_authority: false
+    push_authority: false
+    merge_authority: false
+    release_authority: false
+
+reuse_adapt_new:
+  candidate_promotion_engine:
+    disposition: REUSE
+    source: scripts/coordination/control_plane/candidate_promotion.py
+    mutation_requested: false
+    symbols:
+      - build_candidate_promotion_plan
+      - apply_candidate_promotion
+  source_freshness_gate:
+    disposition: REUSE
+    source: scripts/coordination/control_plane/candidate_promotion.py
+  changed_path_gate:
+    disposition: REUSE
+    source: scripts/coordination/control_plane/candidate_promotion.py
+  recovery_and_rollback:
+    disposition: REUSE
+    source: scripts/coordination/control_plane/candidate_promotion.py
+  sealed_result_input:
+    disposition: ADAPT
+    source: scripts/coordination/control_plane/operator_console/sealed_result.py
+    rationale: >-
+      Validate and bind the immutable OC01 MINI-4 sealed result to the shared
+      CF10 promotion-plan inputs without changing the sealed-result implementation.
+  operator_preview_surface:
+    disposition: NEW
+    rationale: >-
+      Operator Console needs a read-only exact promotion preview with source-head,
+      operations, checks, exact write-set and immutable preview hash.
+  explicit_promotion_control_surface:
+    disposition: NEW
+    rationale: >-
+      Operator Console needs an explicit apply control that revalidates the shared
+      plan immediately before delegation and binds authorization to the exact preview.
+
+exact_write_set:
+  - coordination/work_fronts/oc01_mini_sandbox_to_canonical_promotion_surface_v0_1.yaml
+  - scripts/coordination/control_plane/operator_console/promotion_surface.py
+  - tests/coordination/control_plane/operator_console/test_oc01_promotion_surface_v0_1.py
+  - coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.yaml
+  - coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/execution_control_plane_program_v0_1.yaml
+  - Makefile
+
+protected_reuse_only_components:
+  - scripts/coordination/control_plane/candidate_promotion.py
+  - scripts/coordination/control_plane/dispatch_intent.py
+  - scripts/coordination/control_plane/operator_console/sealed_result.py
+  - scripts/coordination/control_plane/operator_console/assistant_dev_sandbox.py
+  - scripts/coordination/control_plane/workspace/provision.py
+  - scripts/coordination/control_plane/governed_worker_cycle.py
+
+preview_contract:
+  schema: forprint_oc01_promotion_preview_v0_1
+  immutable: true
+  must_be_outside_canonical_repo: true
+  shared_plan_rebuilt_by:
+    - build_candidate_promotion_plan
+  binds:
+    - sealed_result_package_sha256
+    - source_head
+    - attempt_id
+    - changed_paths
+    - candidate_root
+    - work_front
+    - origin_handoff_manifest
+    - handoff_result
+    - expected_profile_ref
+    - expected_procedure_id
+    - shared_promotion_plan
+    - shared_promotion_plan_sha256
+
+apply_contract:
+  explicit_authorization_token: APPLY_EXACT_OC01_PROMOTION
+  exact_preview_sha256_required: true
+  revalidate_shared_plan_before_apply: true
+  shared_apply_delegate: apply_candidate_promotion
+  recovery_root_must_be_outside_canonical_repo: true
+  evidence_path_must_be_outside_canonical_repo: true
+  staging_performed_by_surface: false
+  commit_performed_by_surface: false
+  push_performed_by_surface: false
+  merge_performed_by_surface: false
+  release_performed_by_surface: false
+
+acceptance:
+  - preview validates immutable MINI-4 sealed-result hash and authority boundaries
+  - preview delegates all promotion planning to the existing CF10 engine
+  - preview performs no canonical mutation
+  - preview output is immutable and outside the canonical repository
+  - apply requires exact preview hash plus explicit authorization token
+  - apply rebuilds and compares the shared promotion plan immediately before mutation
+  - canonical source drift fails closed before apply
+  - apply delegates mutation and rollback to existing CF10 candidate promotion engine
+  - no staging, commit, push, merge, release or automatic acceptance is added
+  - protected reuse-only components remain byte-identical
+  - Makefile exposes preview, apply and validation entrypoints
+  - focused tests and shared candidate-promotion regression pass
+  - work-front, roadmap-detail and document-surface validation pass
+  - git diff check passes
+
+non_goals:
+  - modify candidate_promotion.py
+  - create a second promotion transaction engine
+  - auto-promote a sealed result
+  - stage promoted paths
+  - commit promoted paths
+  - push promoted paths
+  - merge or release
+  - redefine CF10 dispatch, acceptance, publication or release authority
+  - activate OC01-MINI-6
+
+source_design_freeze:
+  slice: OC01-MINI-5
+  name: sandbox_to_canonical_promotion_surface
+  rule: reuse candidate promotion; add preview/control surface only

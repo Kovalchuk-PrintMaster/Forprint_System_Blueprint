@@ -238,11 +238,12 @@ rollout_bundle_reconciliation_2026_10_02:
     authority: false
   old_bundle_phase0:
     disposition: HISTORICAL_ONLY
-  OC01_current_consumer_slice: OC01-MINI-4
+  OC01_current_consumer_slice: OC01-MINI-5
 # execution-control-plane-rollout-bundle-reconciliation-2026-10-02:end
 
 oc01_mini4_projection_contract_2026_10_02:
-  status: ACTIVE_IMPLEMENTATION
+  status: PUBLISHED
+  publication_commit: e50bdc08af0ee634f0f8d51693de465f060ec713
   consumer: operator_console
   shared_truth_reused:
     - worker_baseline
@@ -261,3 +262,29 @@ oc01_mini4_projection_contract_2026_10_02:
     local_sandbox_commits: DEPENDENCY_PENDING_CF10
     canonical_pause_resume_action: DEPENDENCY_PENDING_CF10
   next_boundary: OC01-MINI-5
+
+oc01_mini5_promotion_surface_contract_2026_10_02:
+  status: ACTIVE_IMPLEMENTATION
+  consumer: operator_console
+  shared_truth_reused:
+    - candidate_promotion_plan
+    - source_freshness_validation
+    - changed_path_validation
+    - recovery_and_rollback
+  oc01_owned_surface:
+    - immutable_promotion_preview
+    - explicit_hash_bound_promotion_control
+  authority:
+    execution_state_authority: false
+    promotion_authority_owner: OPERATOR_CONTROLLED_CF10
+    console_promotion_authority: false
+    commit_authority: false
+    push_authority: false
+    merge_authority: false
+    release_authority: false
+  apply_semantics:
+    exact_preview_hash_required: true
+    explicit_authorization_required: true
+    shared_plan_revalidated_immediately_before_apply: true
+    shared_apply_engine_reused: true
+  next_boundary: OC01-MINI-6

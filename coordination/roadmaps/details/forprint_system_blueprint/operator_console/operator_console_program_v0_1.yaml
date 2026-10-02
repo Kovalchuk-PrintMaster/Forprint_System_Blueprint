@@ -249,8 +249,12 @@ oc01_current_implementation_state_2026_10_02:
       commit: c5d9cf0e68136f681af27fbc946ec6a466cd1c78
       capability: assistant_dev_sandbox_operator_workflow
     OC01-MINI-4:
-      state: ACTIVE_IMPLEMENTATION
+      state: PUBLISHED
+      commit: e50bdc08af0ee634f0f8d51693de465f060ec713
       capability: sealed_result_and_checkpoint_projection
+    OC01-MINI-5:
+      state: ACTIVE_IMPLEMENTATION
+      capability: sandbox_to_canonical_promotion_surface
   current_boundaries:
     console_is_state_authority: false
     canonical_write_from_sandbox: false
@@ -259,7 +263,10 @@ oc01_current_implementation_state_2026_10_02:
     canonical_pause_resume_action: DEPENDENCY_PENDING_CF10
     deterministic_result_seal: IMPLEMENTED
     local_sandbox_commits: DEPENDENCY_PENDING_CF10
-    canonical_promotion: OC01-MINI-5
+    canonical_promotion: EXPLICIT_OPERATOR_CONTROLLED_CF10_VIA_OC01_SURFACE
+    promotion_preview: IMPLEMENTED_REUSES_CF10_ENGINE
+    promotion_apply_requires_exact_preview_hash: true
+    implicit_remote_push: false
   rollout_bundle_reuse:
     stable_workflow_entrypoints: EXTEND
     minimum_working_console: REUSE_EXTEND
