@@ -176,6 +176,9 @@ help:
 	@echo "  make oc01-protected-terminal-capabilities"
 	@echo "  make oc01-protected-terminal-plan OC01_TERMINAL_CAPABILITY=<capability> OC01_TERMINAL_CWD=<repo-root> OC01_TERMINAL_SESSION_PROJECTION=<projection> OC01_TERMINAL_CONFIRM=1"
 	@echo "  make oc01-protected-terminal-run OC01_TERMINAL_CAPABILITY=<capability> OC01_TERMINAL_CWD=<repo-root> OC01_TERMINAL_SESSION_PROJECTION=<projection> OC01_TERMINAL_CONFIRM=1"
+	@echo "  make oc01-assistant-sandbox-create OC01_SANDBOX_ATTEMPT_ID=<id> OC01_SANDBOX_BASE_HEAD=<sha> OC01_SANDBOX_SESSION_PROJECTION=<projection>"
+	@echo "  make oc01-assistant-sandbox-open OC01_SANDBOX_MANIFEST=<manifest> OC01_SANDBOX_SESSION_PROJECTION=<projection>"
+	@echo "  make oc01-assistant-sandbox-status OC01_SANDBOX_MANIFEST=<manifest> OC01_SANDBOX_SESSION_PROJECTION=<projection>"
 	@echo "  make completion-control-plane-check"
 	@echo "  make document-ledger-preview MODULE=forprint_library DOCUMENT=coordination/global_policy/forprint_project_doctrine.md"
 	@echo "  make document-ledger-update MODULE=forprint_library DOCUMENT=coordination/global_policy/forprint_project_doctrine.md STATUS=acknowledged"
@@ -3213,3 +3216,44 @@ oc01-protected-terminal-run:
 	@set -- run --capability "$(OC01_TERMINAL_CAPABILITY)" --cwd "$(OC01_TERMINAL_CWD)" --session-projection "$(OC01_TERMINAL_SESSION_PROJECTION)" --timeout-seconds "$(OC01_TERMINAL_TIMEOUT)" --confirm-enable; \
 	if [ -n "$(OC01_TERMINAL_EVIDENCE_DIR)" ]; then set -- "$$@" --evidence-dir "$(OC01_TERMINAL_EVIDENCE_DIR)"; fi; \
 	$(PYTHON) -m scripts.coordination.control_plane.operator_console.protected_terminal "$$@"
+
+
+# =============================================================================
+# OC-01 MINI-3 / Assistant Dev Sandbox operator workflow
+# =============================================================================
+# Purpose: create/open/status an isolated assistant workspace pinned to exact BASE_HEAD.
+# Reuse: scripts/coordination/control_plane/workspace/*
+# Safety: canonical_write_allowed=false; no promotion/push/merge/release.
+OC01_SANDBOX_CANONICAL_REPO ?= .
+OC01_SANDBOX_RUNTIME_ROOT ?= /tmp/forprint-oc01-sandboxes
+OC01_SANDBOX_MODULE_ID ?= forprint_system_blueprint
+OC01_SANDBOX_WORKER_ID ?= operator-assistant
+OC01_SANDBOX_ATTEMPT_ID ?=
+OC01_SANDBOX_BASE_HEAD ?=
+OC01_SANDBOX_SESSION_PROJECTION ?=
+OC01_SANDBOX_MANIFEST ?=
+
+.PHONY: oc01-assistant-sandbox-check
+oc01-assistant-sandbox-check:
+	$(PYTHON) -m py_compile scripts/coordination/control_plane/operator_console/assistant_dev_sandbox.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/operator_console/test_oc01_assistant_dev_sandbox_v0_1.py
+	@git diff --check -- coordination/work_fronts/oc01_mini_assistant_dev_sandbox_operator_workflow_v0_1.yaml scripts/coordination/control_plane/operator_console/assistant_dev_sandbox.py tests/coordination/control_plane/operator_console/test_oc01_assistant_dev_sandbox_v0_1.py coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.yaml coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/execution_control_plane_program_v0_1.yaml Makefile
+
+.PHONY: oc01-assistant-sandbox-create
+oc01-assistant-sandbox-create:
+	@test -n "$(OC01_SANDBOX_ATTEMPT_ID)" || { echo "ERROR: OC01_SANDBOX_ATTEMPT_ID is required"; false; }
+	@test -n "$(OC01_SANDBOX_BASE_HEAD)" || { echo "ERROR: OC01_SANDBOX_BASE_HEAD is required"; false; }
+	@test -n "$(OC01_SANDBOX_SESSION_PROJECTION)" || { echo "ERROR: OC01_SANDBOX_SESSION_PROJECTION is required"; false; }
+	$(PYTHON) -m scripts.coordination.control_plane.operator_console.assistant_dev_sandbox create --canonical-repo "$(OC01_SANDBOX_CANONICAL_REPO)" --runtime-root "$(OC01_SANDBOX_RUNTIME_ROOT)" --module-id "$(OC01_SANDBOX_MODULE_ID)" --worker-id "$(OC01_SANDBOX_WORKER_ID)" --attempt-id "$(OC01_SANDBOX_ATTEMPT_ID)" --base-head "$(OC01_SANDBOX_BASE_HEAD)" --session-projection "$(OC01_SANDBOX_SESSION_PROJECTION)"
+
+.PHONY: oc01-assistant-sandbox-open
+oc01-assistant-sandbox-open:
+	@test -n "$(OC01_SANDBOX_MANIFEST)" || { echo "ERROR: OC01_SANDBOX_MANIFEST is required"; false; }
+	@test -n "$(OC01_SANDBOX_SESSION_PROJECTION)" || { echo "ERROR: OC01_SANDBOX_SESSION_PROJECTION is required"; false; }
+	$(PYTHON) -m scripts.coordination.control_plane.operator_console.assistant_dev_sandbox open --manifest "$(OC01_SANDBOX_MANIFEST)" --session-projection "$(OC01_SANDBOX_SESSION_PROJECTION)"
+
+.PHONY: oc01-assistant-sandbox-status
+oc01-assistant-sandbox-status:
+	@test -n "$(OC01_SANDBOX_MANIFEST)" || { echo "ERROR: OC01_SANDBOX_MANIFEST is required"; false; }
+	@test -n "$(OC01_SANDBOX_SESSION_PROJECTION)" || { echo "ERROR: OC01_SANDBOX_SESSION_PROJECTION is required"; false; }
+	$(PYTHON) -m scripts.coordination.control_plane.operator_console.assistant_dev_sandbox status --manifest "$(OC01_SANDBOX_MANIFEST)" --session-projection "$(OC01_SANDBOX_SESSION_PROJECTION)"

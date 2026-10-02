@@ -289,4 +289,3 @@ def test_execution_evidence_path_inside_repo_is_rejected(
         match="stdout_path must remain outside protected repository scope",
     ):
         execute_terminal_plan(plan)
-

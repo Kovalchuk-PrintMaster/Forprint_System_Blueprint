@@ -17,7 +17,7 @@ priority:
     - module_inventory_and_primary_roadmap_reconciliation
   next_execution_slot_decision:
     authority: human_owner
-    state: UNDECIDED_AFTER_RECONCILIATION
+    state: START_OC_01_CONFIRMED_2026_10_01
 
 ownership:
   current_host: forprint_system_blueprint
@@ -94,7 +94,7 @@ steps:
         completion_meaning: oc01_target_complete
 
     name: minimum_working_console_vertical_slice
-    state: PLANNED_NOT_ACTIVATED
+    state: ACTIVE_IMPLEMENTATION_PARTIAL
     goal: >-
       Deliver one useful remote operator surface with live module availability,
       exclusive operator session acquisition, isolated workspace, assistant/execution
@@ -229,3 +229,36 @@ references:
   roadmap_enrichment_source_map: coordination/repository_knowledge/roadmap_enrichment/source_map.yaml
   execution_control_plane_program: coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/execution_control_plane_program_v0_1.yaml
   worker_self_hardening_backlog: coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/cf10_worker_self_hardening_backlog_v0_1.yaml
+
+# oc01-rollout-bundle-reconciliation-2026-10-02:start
+oc01_current_implementation_state_2026_10_02:
+  source_bundle:
+    name: forprint_execution_control_plane_console_rollout_bundle_v0_1.zip
+    sha256: 8421cb7ab31e34171ae55c7f675ec32f5cf0154f80f5d908b5cd2e36128bd881
+    reconciliation_record: EMBEDDED_IN_EXISTING_CANONICAL_ROADMAP_OWNERS
+  status: ACTIVE_IMPLEMENTATION_PARTIAL
+  implemented:
+    OC01-MINI-1:
+      state: PUBLISHED
+      commit: ef4ec7a482b75f9a2e1317a9d09afc5bb5e5d355
+    OC01-MINI-2:
+      state: PUBLISHED
+      commit: a7ade7fa797e554e994658a73e3f662c31b7cf91
+    OC01-MINI-3:
+      state: ACTIVE_IMPLEMENTATION
+      capability: assistant_dev_sandbox_operator_workflow
+  current_boundaries:
+    console_is_state_authority: false
+    canonical_write_from_sandbox: false
+    local_sandbox_commits: DEPENDENCY_PENDING_CF10
+    checkpoint_pause_resume: OC01-MINI-4
+    deterministic_result_seal: OC01-MINI-4
+    canonical_promotion: OC01-MINI-5
+  rollout_bundle_reuse:
+    stable_workflow_entrypoints: EXTEND
+    minimum_working_console: REUSE_EXTEND
+    persistent_transcript: PRESERVE_DIRECTION
+    conversation_archive: FUTURE_EVIDENCE_SURFACE_NOT_AUTHORITY
+    phone_laptop_reconnect: PRESERVE_DIRECTION
+  stale_bundle_phase0_replayed: false
+# oc01-rollout-bundle-reconciliation-2026-10-02:end

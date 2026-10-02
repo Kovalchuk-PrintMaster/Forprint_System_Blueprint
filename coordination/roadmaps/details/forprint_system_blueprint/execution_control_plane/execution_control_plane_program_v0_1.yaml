@@ -213,3 +213,30 @@ boundaries:
   production_rollout_authorized: false
   canonical_remote_push_authorized: false
   foreign_repository_write_authorized: false
+
+# execution-control-plane-rollout-bundle-reconciliation-2026-10-02:start
+rollout_bundle_reconciliation_2026_10_02:
+  source:
+    name: forprint_execution_control_plane_console_rollout_bundle_v0_1.zip
+    sha256: 8421cb7ab31e34171ae55c7f675ec32f5cf0154f80f5d908b5cd2e36128bd881
+  disposition: RECONCILED_INTO_EXISTING_PROGRAM
+  duplicate_control_plane_created: false
+  preserved_direction:
+    - three_actors_one_execution_truth
+    - execution_registry
+    - stable_shared_workflow_backend
+    - step_execution_ledger
+    - module_lease
+    - heartbeat_liveness
+    - semantic_event_journal
+    - checkpoint_resume
+    - workflow_health
+    - conversation_execution_correlation
+    - git_is_evidence_not_execution_truth
+  conversation_archive:
+    state: FUTURE_HORIZON
+    authority: false
+  old_bundle_phase0:
+    disposition: HISTORICAL_ONLY
+  OC01_current_consumer_slice: OC01-MINI-3
+# execution-control-plane-rollout-bundle-reconciliation-2026-10-02:end
