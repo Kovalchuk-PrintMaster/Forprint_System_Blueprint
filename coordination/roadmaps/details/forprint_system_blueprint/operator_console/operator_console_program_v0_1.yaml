@@ -261,11 +261,23 @@ oc01_current_implementation_state_2026_10_02:
       commit: e4873e5fcf09c1bacc9fabfe235131dae22c761c
       capability: minimum_console_api_and_phone_laptop_ui
     OC01-MINI-7:
-      state: PROOF_PASS_READY_FOR_PUBLICATION
+      state: PUBLISHED
+      commit: 9247d2a8750afec0fa30c7320056d9202e0a8cc5
       capability: protected_terminal_real_proof
       real_proof: PASS
       evidence_location_class: EXTERNAL_RUNTIME_ARTIFACT
       evidence_sha256: 69a4ba9935725070699dc04bf8f535d03437fa9935ecfe42d8143dc23d176c85
+    OC01-MINI-8:
+      state: PROOF_PASS_READY_FOR_PUBLICATION
+      capability: sandbox_to_canonical_real_proof
+      real_proof: PASS
+      promoted_probe: coordination/internal_work/blueprint/operator_console/proofs/oc01_mini8_real_promotion_probe_v0_1.txt
+      explicit_promotion: true
+      preview_sha256: ea3d56596034897f68950392c13ae7765bc9c4c36fb89ae3e9ff8c3fda49f85b
+      evidence_location_class: EXTERNAL_RUNTIME_ARTIFACT
+      evidence_sha256: f8b517dcd5d7c2be9b5ee16c8a0a572f24050c7274058d49052da82c08554efb
+      completion_candidate_after_publication: USEFUL_MINIMUM_PROVEN_PARTIAL_OC01
+      must_not_claim: OC01_FULL_COMPLETE
   current_boundaries:
     console_is_state_authority: false
     canonical_write_from_sandbox: false

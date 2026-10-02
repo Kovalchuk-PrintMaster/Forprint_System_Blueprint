@@ -189,6 +189,8 @@ help:
 	@echo "  make oc01-console-serve [OC01_CONSOLE_HOST=127.0.0.1] [OC01_CONSOLE_PORT=8099] [OC01_CONSOLE_ALLOW_REMOTE=0]"
 	@echo "  make oc01-protected-terminal-real-proof-check"
 	@echo "  make oc01-protected-terminal-real-proof OC01_MINI7_PROOF_RUNTIME_ROOT=<outside-repo-runtime>"
+	@echo "  make oc01-sandbox-to-canonical-real-proof-check"
+	@echo "  make oc01-sandbox-to-canonical-real-proof OC01_MINI8_PROOF_RUNTIME_ROOT=<outside-repo-runtime> OC01_MINI8_PROOF_BASE_HEAD=<sha> OC01_MINI8_PROMOTION_AUTHORIZATION=APPLY_EXACT_OC01_PROMOTION"
 	@echo "  make completion-control-plane-check"
 	@echo "  make document-ledger-preview MODULE=forprint_library DOCUMENT=coordination/global_policy/forprint_project_doctrine.md"
 	@echo "  make document-ledger-update MODULE=forprint_library DOCUMENT=coordination/global_policy/forprint_project_doctrine.md STATUS=acknowledged"
@@ -3422,3 +3424,31 @@ oc01-protected-terminal-real-proof-check:
 oc01-protected-terminal-real-proof:
 	@test -n "$(OC01_MINI7_PROOF_RUNTIME_ROOT)" || { echo "ERROR: OC01_MINI7_PROOF_RUNTIME_ROOT is required"; false; }
 	$(PYTHON) -m scripts.coordination.control_plane.operator_console.protected_terminal_proof --canonical-repo "$(OC01_MINI7_PROOF_CANONICAL_ROOT)" --runtime-root "$(OC01_MINI7_PROOF_RUNTIME_ROOT)" --actor-id "$(OC01_MINI7_PROOF_ACTOR_ID)" --timeout-seconds "$(OC01_MINI7_PROOF_TIMEOUT)"
+
+
+# =============================================================================
+# OC-01 MINI-8 / sandbox-to-canonical real promotion proof
+# =============================================================================
+# One-time bounded proof. Creates exactly one dedicated proof target in canonical
+# through the published explicit promotion surface. It does not stage/commit/push.
+OC01_MINI8_PROOF_CANONICAL_ROOT ?= .
+OC01_MINI8_PROOF_RUNTIME_ROOT ?=
+OC01_MINI8_PROOF_BASE_HEAD ?=
+OC01_MINI8_PROMOTION_AUTHORIZATION ?=
+
+.PHONY: oc01-sandbox-to-canonical-real-proof-check
+oc01-sandbox-to-canonical-real-proof-check:
+	$(PYTHON) -m py_compile scripts/coordination/control_plane/operator_console/sandbox_to_canonical_proof.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/operator_console/test_oc01_sandbox_to_canonical_real_proof_v0_1.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/operator_console/test_oc01_assistant_dev_sandbox_v0_1.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/operator_console/test_oc01_sealed_result_checkpoint_projection_v0_1.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/operator_console/test_oc01_promotion_surface_v0_1.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/test_worker_candidate_promotion_v0_1.py
+	@git diff --check -- coordination/work_fronts/oc01_mini_sandbox_to_canonical_real_proof_v0_1.yaml scripts/coordination/control_plane/operator_console/sandbox_to_canonical_proof.py tests/coordination/control_plane/operator_console/test_oc01_sandbox_to_canonical_real_proof_v0_1.py coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.yaml coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/execution_control_plane_program_v0_1.yaml Makefile
+
+.PHONY: oc01-sandbox-to-canonical-real-proof
+oc01-sandbox-to-canonical-real-proof:
+	@test -n "$(OC01_MINI8_PROOF_RUNTIME_ROOT)" || { echo "ERROR: OC01_MINI8_PROOF_RUNTIME_ROOT is required"; false; }
+	@test -n "$(OC01_MINI8_PROOF_BASE_HEAD)" || { echo "ERROR: OC01_MINI8_PROOF_BASE_HEAD is required"; false; }
+	@test "$(OC01_MINI8_PROMOTION_AUTHORIZATION)" = "APPLY_EXACT_OC01_PROMOTION" || { echo "ERROR: exact explicit promotion authorization is required"; false; }
+	$(PYTHON) -m scripts.coordination.control_plane.operator_console.sandbox_to_canonical_proof --canonical-repo "$(OC01_MINI8_PROOF_CANONICAL_ROOT)" --runtime-root "$(OC01_MINI8_PROOF_RUNTIME_ROOT)" --base-head "$(OC01_MINI8_PROOF_BASE_HEAD)" --authorization "$(OC01_MINI8_PROMOTION_AUTHORIZATION)"

@@ -238,7 +238,7 @@ rollout_bundle_reconciliation_2026_10_02:
     authority: false
   old_bundle_phase0:
     disposition: HISTORICAL_ONLY
-  OC01_current_consumer_slice: OC01-MINI-7
+  OC01_current_consumer_slice: OC01-MINI-8
 # execution-control-plane-rollout-bundle-reconciliation-2026-10-02:end
 
 oc01_mini4_projection_contract_2026_10_02:
@@ -326,7 +326,8 @@ oc01_mini6_console_surface_contract_2026_10_02:
   next_boundary: OC01-MINI-7
 
 oc01_mini7_protected_terminal_real_proof_contract_2026_10_02:
-  status: PROOF_PASS_READY_FOR_PUBLICATION
+  status: PUBLISHED
+  publication_commit: 9247d2a8750afec0fa30c7320056d9202e0a8cc5
   consumer: operator_console
   proof:
     flow: CONSOLE_API_DISPATCH_TO_EXISTING_PROTECTED_TERMINAL_GATEWAY
@@ -354,3 +355,47 @@ oc01_mini7_protected_terminal_real_proof_contract_2026_10_02:
     merge_authority: false
     release_authority: false
   next_boundary: OC01-MINI-8
+
+oc01_mini8_sandbox_to_canonical_real_proof_contract_2026_10_02:
+  status: PROOF_PASS_READY_FOR_PUBLICATION
+  consumer: operator_console
+  proof:
+    flow: SANDBOX_TO_CHECKPOINT_TO_SEALED_RESULT_TO_PREVIEW_TO_EXPLICIT_CF10_PROMOTION_TO_VALIDATION
+    exact_base_head: 9247d2a8750afec0fa30c7320056d9202e0a8cc5
+    canonical_probe_path: coordination/internal_work/blueprint/operator_console/proofs/oc01_mini8_real_promotion_probe_v0_1.txt
+    canonical_write_path_count: 1
+    canonical_write_performed: true
+    explicit_promotion: true
+    exact_preview_sha256_required: true
+    preview_sha256: ea3d56596034897f68950392c13ae7765bc9c4c36fb89ae3e9ff8c3fda49f85b
+    evidence_location_class: EXTERNAL_RUNTIME_ARTIFACT
+    evidence_sha256: f8b517dcd5d7c2be9b5ee16c8a0a572f24050c7274058d49052da82c08554efb
+    preexisting_dirty_bytes_unchanged: true
+    head_unchanged_by_promotion: true
+    staging_unchanged_by_promotion: true
+  reused_backends:
+    - assistant_dev_sandbox
+    - workspace_worker_baseline_and_delta
+    - sealed_result_and_checkpoint_projection
+    - promotion_surface
+    - candidate_promotion
+    - source_freshness_validation
+    - changed_path_validation
+    - recovery_and_rollback
+  authority:
+    execution_state_authority: false
+    lease_authority: false
+    sandbox_direct_canonical_write_authority: false
+    promotion_authority_owner: OPERATOR_CONTROLLED_CF10
+    commit_authority: false
+    push_authority: false
+    merge_authority: false
+    release_authority: false
+  actions:
+    staging_performed: false
+    commit_performed: false
+    push_performed: false
+    merge_performed: false
+    release_performed: false
+  completion_candidate_after_publication: USEFUL_MINIMUM_PROVEN_PARTIAL_OC01
+  must_not_claim: OC01_FULL_COMPLETE
