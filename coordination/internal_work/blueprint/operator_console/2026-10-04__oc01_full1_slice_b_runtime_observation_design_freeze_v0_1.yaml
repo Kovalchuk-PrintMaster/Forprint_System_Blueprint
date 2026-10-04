@@ -1,0 +1,132 @@
+schema_version: forprint_oc01_full1_slice_b_runtime_observation_design_freeze_v0_1
+roadmap_step: OC-01
+contour: OC01-FULL-1
+slice: B
+name: protected_terminal_runtime_observation_bridge
+status: FROZEN_FOR_BOUNDED_SLICE_B
+frozen_at: '2026-10-04'
+source_slice_a_completion_commit: 09a84c8a549e07dd0daffcf3741e78af571d1c53
+decision: REUSE_SHARED_LAUNCHER_OBSERVATION_WITHOUT_RUNTIME_FORK
+objective: Extend the existing Protected Terminal READ_ONLY execution path with bounded runtime observation by reusing
+  shared worker_runtime.launcher.launch_process heartbeat/watchdog evidence and retaining sanitized observation facts
+  in the existing external append-only terminal history.
+inventory_correction:
+  timeout_test_detector_false_negative: true
+  actual_test_name: test_launcher_times_out_and_returns_evidence
+  interpretation: Timeout regression coverage exists; the inventory detector searched for the literal substring timeout
+    and missed times_out.
+frozen_dependencies:
+  shared_launcher:
+    path: scripts/coordination/control_plane/worker_runtime/launcher.py
+    sha256: 993301079368394f7c5b3910599fad603b1cf48cf552ab965f05401e1701e30d
+    disposition: REUSE_DO_NOT_MODIFY
+    function: launch_process
+    facts:
+      on_heartbeat_supported: true
+      heartbeat_seconds_supported: true
+      stall_threshold_seconds_supported: true
+      heartbeat_observations_returned: true
+      stall_evidence_returned: true
+      timeout_terminate_kill_path_present: true
+  shared_launcher_tests:
+    path: tests/coordination/control_plane/worker_runtime/test_cf10_worker_process_launcher_v0_1.py
+    sha256: d877e685dc4ab6981a1abd2ea2fea8cac4896f890b26b682fbc4dc7ea8e342b4
+    disposition: READ_ONLY_REGRESSION_DEPENDENCY
+    proven_tests:
+    - test_launcher_starts_argv_without_shell_and_captures_output
+    - test_launcher_callback_failure_terminates_started_process
+    - test_launcher_times_out_and_returns_evidence
+    - test_launcher_reports_active_progress_without_stall
+    - test_launcher_reports_stall_without_remediation
+    - test_launcher_rejects_non_list_argv
+  protected_terminal:
+    path: scripts/coordination/control_plane/operator_console/protected_terminal.py
+    sha256: a714d7d904fdf3011dd155e5566db6cc1c84facb655b09f6a8ae5f4de1b14926
+    disposition: EXTEND
+  protected_terminal_tests:
+    path: tests/coordination/control_plane/operator_console/test_oc01_protected_terminal_gateway_v0_1.py
+    sha256: 5f302a94a08b202bb6ad6d46ef2b5a6e5de19802417a817306dda686853610d6
+    disposition: EXTEND_TESTS_FIRST
+implementation_contract:
+  write_set:
+  - scripts/coordination/control_plane/operator_console/protected_terminal.py
+  - tests/coordination/control_plane/operator_console/test_oc01_protected_terminal_gateway_v0_1.py
+  must_not_modify:
+  - scripts/coordination/control_plane/worker_runtime/launcher.py
+  - tests/coordination/control_plane/worker_runtime/test_cf10_worker_process_launcher_v0_1.py
+  - scripts/coordination/control_plane/operator_console/session_projection.py
+  - scripts/coordination/control_plane/governed_worker_cycle.py
+  - coordination/global_policy/current_execution_focus.md
+  - coordination/standards/automation/index.yaml
+  - indexes/governance.yaml
+  - indexes/roadmaps.yaml
+  - AGENTS.md
+  - Makefile
+  observation_model:
+    type: BOUNDED_RUNTIME_PROGRESS_EVIDENCE
+    not_byte_streaming: true
+    not_shell_streaming: true
+    source: shared launch_process on_heartbeat callback
+    history_storage: existing external append-only Protected Terminal audit history
+    heartbeat_fields_allowlist:
+    - pid
+    - runtime_seconds
+    - stdout_bytes
+    - stderr_bytes
+    - stdout_growth_bytes
+    - stderr_growth_bytes
+    - progress_observed
+    - stall_detected
+    - no_progress_seconds
+    - stall_threshold_seconds
+    stdout_content_retained_in_history: false
+    stderr_content_retained_in_history: false
+  plan_surface:
+    observation_configuration_explicit: true
+    default_behavior: heartbeat observation may be disabled unless explicitly requested
+    heartbeat_seconds: positive integer when runtime observation is enabled
+    stall_threshold_seconds: optional positive number; disabled when omitted
+  runtime_events:
+    heartbeat_event: append sanitized RUNTIME_OBSERVATION audit event from shared callback
+    stall_semantics: stall is observation only; never kill, retry, restart or redispatch
+    timeout_semantics: preserve shared launcher timeout termination; retain timeout distinction in EXECUTION_FINISHED
+      result/history
+acceptance:
+- Tests-first RED is observed for the new Protected Terminal observation surface.
+- Shared launcher and its CF10 regression test file remain byte-for-byte unchanged.
+- Protected Terminal still accepts only registered fixed argv with shell=false.
+- Runtime observation is explicit and does not introduce arbitrary command text.
+- Heartbeat callback facts are sanitized before append-only audit retention.
+- No stdout/stderr content is copied into terminal history; only bounded metadata is retained.
+- Observed progress is not represented as semantic proof that a model is thinking.
+- Stall evidence is observational only and causes no remediation.
+- Timeout remains distinct and uses the existing shared launcher termination path.
+- SAFE_WRITE remains blocked by EXCLUSIVE_MODULE_LEASE_NOT_PROVEN.
+- Live cancel remains DEPENDENCY_PENDING_CF10 and is not implemented by Slice B.
+- No new launcher, dispatcher, daemon or parallel control plane is created.
+- No commit, push, merge, release or promotion authority is granted by the gateway.
+- Focused Protected Terminal tests pass.
+- Existing shared launcher tests pass unchanged.
+- Work-front contract validation passes.
+- git diff --check passes on the exact Slice B write set.
+non_goals:
+- SAFE_WRITE
+- canonical_session_or_lease_implementation
+- live_process_cancel
+- byte_level_live_stdout_streaming
+- arbitrary_shell_or_command_text
+- sensitive_elevation_approval
+- capability_registry_integration
+- worker_runtime_launcher_modification
+- kill_on_stall
+- automatic_retry
+- automatic_redispatch
+- OC01_FULL_2_plus_activation
+completion_boundary:
+  slice_b_can_complete_independently: true
+  oc01_full1_complete_after_slice_b: false
+  remaining_dependency_gated_after_slice_b:
+  - lease_backed_safe_write
+  - live_process_cancel
+  - sensitive_elevated_capability_approval
+  - registry_integration

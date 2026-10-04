@@ -1,0 +1,88 @@
+schema_version: forprint_work_front_v0_1
+work_front_id: wf-oc01-full1-protected-terminal-runtime-observation-bridge-v0-1
+roadmap_step: OC-01
+contour: OC01-FULL-1
+name: protected_terminal_runtime_observation_bridge
+objective: Reuse the existing shared launcher heartbeat/watchdog contract to expose bounded runtime progress observations
+  through Protected Terminal external append-only history without modifying worker runtime or widening authority.
+authority:
+  work_front_is_execution_authority: true
+  chat_is_authority: false
+  execution_authority_scoped_to_this_slice: true
+  dispatch_authority_conferred: false
+  lease_authority_conferred: false
+  release_authority_conferred: false
+  push_authority_conferred: false
+  merge_authority_conferred: false
+  automatic_accept: false
+  widening_requested: false
+capability_reuse:
+  search_performed: true
+  disposition: REUSE_AND_EXTEND_CONSUMER
+  reuse_target: scripts/coordination/control_plane/worker_runtime/launcher.py
+  reuse_function: launch_process
+  launcher_modification_allowed: false
+  new_launcher_allowed: false
+scope:
+- scripts/coordination/control_plane/operator_console/protected_terminal.py
+- tests/coordination/control_plane/operator_console/test_oc01_protected_terminal_gateway_v0_1.py
+read_only_dependencies:
+- scripts/coordination/control_plane/worker_runtime/launcher.py
+- tests/coordination/control_plane/worker_runtime/test_cf10_worker_process_launcher_v0_1.py
+- coordination/internal_work/blueprint/operator_console/2026-10-04__oc01_full1_slice_b_runtime_observation_design_freeze_v0_1.yaml
+exclusions:
+- SAFE_WRITE
+- canonical_session_or_lease_implementation
+- live_process_cancel
+- byte_level_live_stdout_streaming
+- arbitrary_shell_or_command_text
+- sensitive_elevation_approval
+- capability_registry_integration
+- worker_runtime_launcher_modification
+- kill_on_stall
+- automatic_retry
+- automatic_redispatch
+- OC01_FULL_2_plus_activation
+instructions:
+- Modify only the two declared scope files.
+- Reuse worker_runtime.launcher.launch_process; do not fork or wrap it into a second process runtime.
+- Add explicit bounded runtime-observation configuration to Protected Terminal plans.
+- Use the existing on_heartbeat callback to append sanitized observation metadata to external terminal history.
+- Retain only bounded progress/stall metadata, never stdout/stderr content in history.
+- Preserve fixed registered argv, --no-optional-locks, exact repo scope and shell=false.
+- Keep stall observational only and keep timeout behavior owned by the shared launcher.
+- Keep SAFE_WRITE blocked and live cancel dependency-gated.
+- Start with tests and preserve all existing Slice A behavior.
+acceptance:
+- Tests-first RED is observed for the new Protected Terminal observation surface.
+- Shared launcher and its CF10 regression test file remain byte-for-byte unchanged.
+- Protected Terminal still accepts only registered fixed argv with shell=false.
+- Runtime observation is explicit and does not introduce arbitrary command text.
+- Heartbeat callback facts are sanitized before append-only audit retention.
+- No stdout/stderr content is copied into terminal history; only bounded metadata is retained.
+- Observed progress is not represented as semantic proof that a model is thinking.
+- Stall evidence is observational only and causes no remediation.
+- Timeout remains distinct and uses the existing shared launcher termination path.
+- SAFE_WRITE remains blocked by EXCLUSIVE_MODULE_LEASE_NOT_PROVEN.
+- Live cancel remains DEPENDENCY_PENDING_CF10 and is not implemented by Slice B.
+- No new launcher, dispatcher, daemon or parallel control plane is created.
+- No commit, push, merge, release or promotion authority is granted by the gateway.
+- Focused Protected Terminal tests pass.
+- Existing shared launcher tests pass unchanged.
+- Work-front contract validation passes.
+- git diff --check passes on the exact Slice B write set.
+stop_conditions:
+- A modification to shared launcher or its CF10 test file becomes required.
+- A third implementation mutation path becomes required.
+- Byte-level streaming or arbitrary command text becomes necessary.
+- SAFE_WRITE, live cancel, retry, redispatch or authority widening becomes necessary.
+- Existing registered argv/shell=false semantics cannot be preserved.
+- Shared launcher SHA changes before implementation and is not reconciled.
+- Protected Terminal implementation/test SHA changes before implementation and is not reconciled.
+source_design_freeze:
+  path: coordination/internal_work/blueprint/operator_console/2026-10-04__oc01_full1_slice_b_runtime_observation_design_freeze_v0_1.yaml
+activation_boundary:
+  implementation_authorized: true
+  automatic_commit: false
+  automatic_push: false
+  automatic_next_slice_activation: false
