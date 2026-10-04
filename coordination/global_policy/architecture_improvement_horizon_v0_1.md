@@ -54,3 +54,31 @@ returns to strategic-goal review.
 Conversation evidence:
 `coordination/internal_work/blueprint/strategic_evidence/2026-10-01__external_ai_mcp_capability_access_conversation_evidence_v0_1.md`
 <!-- hzn014-external-ai-mcp-context-2026-10-01:end -->
+
+
+<!-- architecture-research-package-reconciliation-2026-10-04:start -->
+## Architecture research package reconciliation â€” 2026-10-04
+
+The 2026-10-04 architecture research package is recorded as design input, not execution
+authority.
+
+Far-horizon / extension-point candidates:
+- capability and reuse registry;
+- capability resolver / module composer;
+- independent oracle architecture, preserving an external evaluator seam;
+- architecture reconciliation engine, preserving declared-vs-discovered state separation;
+- contract and compatibility registry;
+- governed capability policy layer, with direct database access not the default;
+- typed evidence;
+- MCP external-AI adapter over governed capability access.
+
+Near-term semantic refinements only:
+- worker completion must not automatically imply acceptance;
+- bootstrap must remain composable rather than static-template-copy-only;
+- preserve future SINGLE_ANCHOR / MULTI_ANCHOR acceptance topology;
+- preserve governed capability invocation seams.
+
+Explicit non-goals for the current integration:
+no MCP server, no capability-registry service, no contract-registry service,
+no architecture-drift engine, no hidden metrics engine and no full multi-anchor approval engine.
+<!-- architecture-research-package-reconciliation-2026-10-04:end -->

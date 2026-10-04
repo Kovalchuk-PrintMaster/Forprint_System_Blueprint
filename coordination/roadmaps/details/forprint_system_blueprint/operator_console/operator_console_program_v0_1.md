@@ -411,3 +411,22 @@ archives to replay blindly: current canonical OC01 state already contains later 
 evidence. The new 2026-10-03 CF10/OC01 handoff enriches existing execution/coordination rules and
 creates no new execution or roadmap authority.
 <!-- cf10-oc01-parallel-coordination-2026-10-04:end -->
+
+
+<!-- oc01-8-plus-7-roadmap-detail-2026-10-04:start -->
+## OC-01 8+7 delivery refinement â€” reconciled 2026-10-04
+
+The existing two-contour `OC-01-MINI â†’ OC-01-FULL` program remains canonical.
+
+The detailed implementation order is explicitly:
+`MINI-1..MINI-8` followed by `FULL-1..FULL-7`.
+
+MINI is proven only by both real proof cycles:
+Protected Terminal and Assistant Dev Sandbox â†’ controlled promotion.
+FULL then hardens terminal policy, sandbox lifecycle, promotion, three-actor handoff,
+operator UI/diagnostics, recovery proofs and stable operator entrypoints.
+
+Research-package concepts such as MCP, typed evidence, independent oracle, architecture
+reconciliation and capability/contract registries remain horizon/extension-point material
+unless separately activated. No parallel execution/control plane is authorized.
+<!-- oc01-8-plus-7-roadmap-detail-2026-10-04:end -->

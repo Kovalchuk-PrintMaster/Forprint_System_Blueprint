@@ -229,3 +229,50 @@ Report separately:
 - authority verification.
 
 This prompt is detailed implementation planning only. It does not activate itself.
+
+
+<!-- oc01-8-plus-7-reconciliation-2026-10-04:start -->
+## Canonical OC-01 delivery decomposition â€” 8 MINI + 7 FULL
+
+This section reconciles the 2026-10-02/03 Operator Console packages into the existing
+OC-01 prompt. It refines the already-approved MINI/FULL contours; it does not create a
+parallel control plane or new authority.
+
+### OC-01-MINI
+1. `MINI-1` â€” execution/session vertical foundation.
+2. `MINI-2` â€” Protected Terminal Gateway MVP.
+3. `MINI-3` â€” Assistant Dev Sandbox MVP.
+4. `MINI-4` â€” sealed result package.
+5. `MINI-5` â€” Sandbox â†’ Canonical Promotion MVP.
+6. `MINI-6` â€” minimum phone/laptop Console UI.
+7. `MINI-7` â€” real proof A: Protected Terminal.
+8. `MINI-8` â€” real proof B: Assistant Sandbox â†’ controlled promotion.
+
+MINI completion requires both real proof cycles to pass. A UI-only implementation is not
+sufficient evidence.
+
+### OC-01-FULL
+1. `FULL-1` â€” Protected Terminal hardening.
+2. `FULL-2` â€” Sandbox lifecycle hardening.
+3. `FULL-3` â€” Promotion hardening.
+4. `FULL-4` â€” three-actor operational convergence.
+5. `FULL-5` â€” mature Console surface.
+6. `FULL-6` â€” recovery/fault proofs.
+7. `FULL-7` â€” operator docs and stable entrypoints.
+
+FULL extends the proven MINI and preserves the same authority, lease, provenance,
+sandbox/canonical and explicit-promotion boundaries.
+
+### Research-package disposition
+- MCP external AI adapter: FAR_HORIZON; do not implement as part of OC-01.
+- typed evidence: FAR_HORIZON.
+- independent oracle architecture: FAR_HORIZON; preserve evaluator seam only.
+- architecture reconciliation engine: FAR_HORIZON; preserve declared/discovered separation.
+- capability/contract registries: FAR_HORIZON / extension points only.
+- multi-anchor approval engine: FAR_HORIZON.
+- existing lease/actor invariants, UI non-authority and
+  `REUSE â†’ EXTEND â†’ ADAPT â†’ REPLACE â†’ NEW`: reuse existing canonical semantics.
+
+This refinement does not authorize remote push, merge, release, production mutation or
+automatic ownership transfer.
+<!-- oc01-8-plus-7-reconciliation-2026-10-04:end -->

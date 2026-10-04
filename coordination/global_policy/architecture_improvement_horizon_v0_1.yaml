@@ -127,3 +127,40 @@ candidates:
     is not ACCEPTED, MERGED or RELEASED; defer CD until release authority, observability and recovery are mature.
   revisit_trigger: After the first worker/governance baseline is stable and canonical non-mutating checks are clear enough
     to automate.
+
+research_package_reconciliation_2026_10_04:
+  authority: planning_direction_only
+  source_status: RECONCILED_WITH_EXISTING_CANONICAL_STATE
+  far_horizon_candidates:
+    capability_and_reuse_registry: FAR_HORIZON
+    capability_resolver_and_module_composer: FAR_HORIZON
+    independent_oracle_architecture:
+      status: FAR_HORIZON
+      current_action: preserve_external_evaluator_seam
+    architecture_reconciliation_engine:
+      status: FAR_HORIZON
+      current_action: preserve_declared_vs_discovered_state
+    contract_and_compatibility_registry:
+      status: FAR_HORIZON
+      current_action: richer_contract_convention_for_new_important_contracts
+    governed_capability_policy_layer:
+      status: FAR_HORIZON
+      current_action: no_direct_database_access_by_default
+    typed_evidence: FAR_HORIZON
+    mcp_external_ai_adapter:
+      status: FAR_HORIZON_STRATEGIC_CANDIDATE
+      current_action: do_not_roadmap_or_implement_now
+  near_term_semantic_refinements:
+    worker_completion_auto_implies_acceptance: false
+    bootstrap_static_template_copy_only: false
+    preserve_acceptance_topology_extension:
+      - SINGLE_ANCHOR
+      - MULTI_ANCHOR
+    preserve_governed_capability_invocation_seam: true
+  explicit_non_goals_now:
+    - MCP_server
+    - capability_registry_service
+    - contract_registry_service
+    - architecture_drift_engine
+    - hidden_metric_engine
+    - full_multi_anchor_approval_engine
