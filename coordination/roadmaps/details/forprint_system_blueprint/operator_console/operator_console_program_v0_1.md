@@ -388,3 +388,26 @@ The ordered implementation procedure lives in:
 This refinement does not activate execution. Activation remains a separate explicit Human
 Owner decision.
 <!-- oc01-two-contour-delivery-2026-10-01:end -->
+
+<!-- cf10-oc01-parallel-coordination-2026-10-04:start -->
+## CF10 â†” OC01 parallel coordination â€” 2026-10-04
+
+OC01 remains a consumer/control surface over canonical Control Plane capability. Its needs do not
+override CF10 dependency order. CF10 should be reordered only when live dependency evidence shows
+that the current sequence is technically wrong or stale.
+
+CF10 and OC01 do not need to serialize read-only analysis, planning or artifact preparation.
+Canonical/governed writable execution for the same module repository remains exclusive under the
+existing one-active-writable-actor invariant. Exact-path non-overlap reduces handoff cost but does
+not grant simultaneous write authority. After the active writer publishes/releases, refresh
+HEAD/upstream and check exact-path overlap; do not reset, stash or clean unrelated work merely to
+restore an older baseline.
+
+Longer-term ownership should converge toward CF10 evolving shared execution primitives and OC01
+consuming those stable interfaces rather than both editing the same backend implementation.
+
+The 2026-10-02 MCP and 2026-10-03 OC01 roadmap packages are treated as reconciliation inputs, not
+archives to replay blindly: current canonical OC01 state already contains later MINI closeout
+evidence. The new 2026-10-03 CF10/OC01 handoff enriches existing execution/coordination rules and
+creates no new execution or roadmap authority.
+<!-- cf10-oc01-parallel-coordination-2026-10-04:end -->

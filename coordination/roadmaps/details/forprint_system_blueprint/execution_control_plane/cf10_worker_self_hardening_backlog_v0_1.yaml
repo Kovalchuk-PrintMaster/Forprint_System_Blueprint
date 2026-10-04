@@ -18,10 +18,19 @@ activation_policy:
   failure_rule: repair_reusable_workflow_not_only_current_session
   before_each_task:
     - inspect_current_live_implementation
+    - verify_task_still_matches_current_project_reality
+    - inspect_nearest_relevant_contour_for_existing_capability_and_obvious_improvement
     - apply_REUSE_EXTEND_ADAPT_REPLACE_NEW
+    - identify_practical_operator_outcome_when_operator_facing
+    - report_out_of_scope_discoveries_and_improvement_candidates
     - confirm_dependencies_and_write_set
     - define_acceptance_and_validation
     - acquire_normal_execution_authority
+  continuous_improvement_scan_required: true
+  continuous_improvement_scan_scope: nearest_relevant_contour_not_full_project_by_default
+  expanded_sandbox_scope_requires_explicit_profile_or_work_front_permission: true
+  expanded_scope_requires_review_before_canonical_promotion: true
+  expanded_scope_never_grants_automatic_acceptance_or_publication: true
 
 tiers:
   - tier_id: SH-T0
@@ -76,9 +85,14 @@ tasks:
     goal: >-
       Reconcile recurring Human Owner operations behind stable workflow entrypoints so Makefile,
       future CLI and future Console call the same backend rather than encoding separate logic.
+    known_current_candidate_surfaces:
+      - Task60_human_dashboard_renderer_to_supported_operator_entrypoint
+      - Task70_validation_suite_profiling_to_supported_operator_entrypoint_when_profiling_is_implemented
     acceptance:
       - stable_entrypoint_exists_for_selected_workflow
       - operator_surface_is_thin_wrapper
+      - operator_facing_capability_is_discoverable_and_practically_invocable
+      - hidden_internal_script_only_is_not_sufficient_when_human_owner_workflow_is_intended
       - regression_covers_repaired_interface_or_order_defect_where_practical
       - Makefile_coverage_checked
 

@@ -36,6 +36,14 @@ attempt_history:
   next_retry_attempt_id: cf10-u180j-a002
 transition_policy:
   ordering_is_default_training_sequence: true
+  ordering_changes_require_dependency_evidence: true
+  consumer_acceleration_is_not_a_valid_reordering_reason_by_itself: true
+  architectural_task_current_state_refresh_required_before_materialization: true
+  task_relevance_and_capability_reuse_check_required_before_materialization: true
+  bounded_continuous_improvement_scan_required: true
+  expanded_scope_never_implies_automatic_promotion: true
+  operator_facing_completion_should_be_practically_invocable: true
+  task120_semantics_may_not_be_invented: true
   automatic_dispatch: false
   operator_review_between_tasks: true
   failed_started_attempt_requires_new_attempt_id: true
@@ -155,6 +163,8 @@ tasks:
   - before/after reproducible timing and scan/subprocess evidence
   - critical path identified
   - no validation weakening
+  - operator-facing profiling result is available through an existing or newly justified supported entrypoint
+  - Makefile functional-map coverage is checked; Makefile is not categorically excluded when the supported operator workflow belongs there
   - full regression gate passes
   - speed alone is not acceptance
   retry_policy:

@@ -429,3 +429,84 @@ oc01_mini_closeout_2026_10_02:
     cf10_canonical_write_reentry_allowed: true
     cf10_must_reconcile_from_closeout_head: true
     oc01_full_requires_separate_human_activation: true
+
+# cf10-oc01-execution-enrichment-2026-10-04:start
+execution_enrichment_2026_10_04:
+  source:
+    package: 04.10.26_cf10_oc01_integration_handoff_2026-10-03_v0_1.zip
+    sha256: fc9052cf2cfc574c124095af6aa8cbe2962d07acc2860c21d4e900790acfed8d
+    disposition: ENRICH_EXISTING_CANONICAL_EXECUTION_DIRECTION
+  current_state_relevance:
+    required_before_future_architectural_worker_materialization: true
+    inspect_nearest_relevant_contour: true
+    verify_task_still_matches_live_project_reality: true
+    compare_old_assumptions_with_current_capabilities: true
+    reuse_reconciliation_required:
+      - REUSE
+      - EXTEND
+      - ADAPT
+      - REPLACE
+      - NEW
+    full_project_archaeology_required_by_default: false
+  continuous_improvement:
+    persistent_invariant: true
+    dimensions:
+      - efficiency
+      - stability
+      - execution_speed
+      - rationality
+      - reuse
+      - operator_usability
+      - resource_and_economic_efficiency
+    grants_automatic_scope_authority: false
+    grants_automatic_promotion_authority: false
+  adaptive_sandbox_scope:
+    broader_local_experimentation_may_be_enabled_by_profile_or_work_front: true
+    expanded_scope_must_be_reported: true
+    expanded_scope_report_fields:
+      - declared_scope
+      - actual_changed_paths
+      - expanded_paths
+      - reason
+      - expected_benefit
+      - risk_or_dependency
+      - validation_performed
+      - recommended_operator_decision
+    expanded_scope_requires_review_before_canonical_promotion: true
+    operator_decisions:
+      - ACCEPT
+      - REWORK
+      - REJECT
+    terminal_attempt_reopen_allowed: false
+  practical_outcome:
+    operator_facing_capability_requires_supported_usage_surface: true
+    acceptable_surfaces:
+      - Makefile
+      - CLI
+      - API
+      - Operator Console
+      - human_and_machine_readable_report
+    hidden_internal_script_only_is_not_sufficient_when_human_owner_workflow_is_intended: true
+    makefile_may_not_be_categorically_excluded_when_supported_operator_workflow_belongs_there: true
+    console_and_makefile_remain_thin_surfaces_over_shared_backend: true
+  parallel_contour_coordination:
+    read_only_analysis_planning_and_artifact_preparation_may_progress_in_parallel: true
+    one_module_repository_one_active_writable_actor_preserved: true
+    simultaneous_writable_actors_same_module_allowed: false
+    active_intended_write_set_should_be_declared_before_mutation: true
+    exact_path_non_overlap_reduces_handoff_cost_but_does_not_grant_write_authority: true
+    shared_exact_paths_require_explicit_handoff_reconciliation: true
+    after_other_contour_publication_and_release:
+      refresh_head_and_upstream: true
+      check_descendant_relationship: true
+      check_exact_path_overlap: true
+      descendant_head_plus_no_exact_path_overlap_allows_continuation: true
+      reset_or_stash_unrelated_work_for_synchronization: false
+    ownership_direction:
+      cf10: evolve_canonical_execution_primitives
+      oc01: consume_stable_control_plane_interfaces_where_possible
+  roadmap_ordering:
+    logical_dependency_integrity_has_priority_over_consumer_acceleration: true
+    reordering_requires_dependency_evidence: true
+    task120_semantics: UNRESOLVED_DO_NOT_INVENT
+# cf10-oc01-execution-enrichment-2026-10-04:end

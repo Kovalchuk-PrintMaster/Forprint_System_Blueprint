@@ -596,3 +596,22 @@ This policy does not grant sandbox access to production secrets, host-root mutat
 canonical Git remote push or external mutable systems. Those remain separate capability /
 authority boundaries.
 <!-- sandbox-tooling-evolution-v0-1:end -->
+
+<!-- operator-usable-functional-map-2026-10-04:start -->
+## Operator-usable functionality and Makefile coverage
+
+ForPrint treats the Makefile as an operator-facing **functional map**, not merely a convenient
+launcher. When a task creates a supported operator workflow, the task must check whether that
+workflow belongs in the existing Makefile/CLI/Console surface.
+
+A task must not categorically forbid Makefile changes merely to keep its implementation scope
+small. If Makefile integration is genuinely required for the supported operator workflow, it may
+be included through the normal governed write-set/review path.
+
+Conversely, operator surfaces must remain thin wrappers over reusable backend logic; do not encode
+a second implementation in Makefile or Console.
+
+For operator-facing capability, code/tests alone are not always a sufficient practical completion
+signal. Where appropriate, acceptance should make the capability discoverable and invocable through
+a documented Makefile target, CLI, API, Console action or equivalent operator-readable report.
+<!-- operator-usable-functional-map-2026-10-04:end -->

@@ -326,3 +326,27 @@ Important invariants:
 This planning direction grants no dispatch, release, lifecycle, commit, push, merge or
 foreign-write authority.
 <!-- operator-console-program-v0-1:end -->
+
+<!-- cf10-oc01-parallel-write-coordination-2026-10-04:start -->
+## CF10 / OC01 parallel-write and execution-relevance rule â€” 2026-10-04
+
+Before materializing a future architectural Worker task, refresh the nearest relevant live context,
+confirm the task still matches current project reality, and reconcile existing capability using
+`REUSE / EXTEND / ADAPT / REPLACE / NEW`. Do not execute a stale roadmap instruction mechanically
+when current implementation has materially changed.
+
+CF10 and OC01 may progress in parallel for read-only analysis, planning, artifact preparation
+and other work that does not acquire simultaneous writable authority over the same module repository.
+The existing invariant `one module repository = one active writable actor` remains in force.
+Exact-path non-overlap reduces handoff/reconciliation cost but does not itself grant concurrent
+write authority. After the active writable actor publishes/releases, the next actor refreshes
+HEAD/upstream and checks exact-path overlap; descendant + no overlap permits continuation without
+reset/stash/clean of unrelated work.
+
+CF10 dependency order remains based on structural correctness and prerequisite evidence. OC01 needs
+do not by themselves justify pulling a CF10 task earlier.
+
+For operator-facing functionality, check practical usability before closeout. Stable supported
+operator workflows should be visible through Makefile/CLI/API/Console/report surfaces as appropriate,
+using shared backend logic rather than duplicate implementations.
+<!-- cf10-oc01-parallel-write-coordination-2026-10-04:end -->

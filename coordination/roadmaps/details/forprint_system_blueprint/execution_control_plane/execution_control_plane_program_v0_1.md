@@ -303,3 +303,38 @@ This durable planning program reconciles:
 
 The intake archives are source evidence. This normalized program is planning context, not runtime
 authority.
+
+<!-- cf10-oc01-execution-enrichment-2026-10-04:start -->
+## Execution enrichment â€” current-state relevance, practical outcomes and parallel contours
+
+The Human Owner clarified that CF10 must keep developing in **logical dependency order** rather
+than pulling capabilities forward merely to accelerate Operator Console work.
+
+Before a future architectural Worker task is materialized, inspect the nearest relevant live
+contour, confirm that the task still fits current project reality, and apply
+`REUSE â†’ EXTEND â†’ ADAPT â†’ REPLACE â†’ NEW` before introducing another mechanism.
+
+Continuous improvement is a persistent execution invariant: efficiency, stability, speed,
+rationality, reuse, operator usability and resource/economic efficiency should be strengthened
+where the bounded task can safely do so. This does **not** create automatic scope, acceptance,
+promotion, publication or cross-module authority.
+
+An execution profile / Work Front may explicitly permit broader **sandbox** experimentation.
+If the resulting candidate exceeds the declared promotion scope, the Worker must report the
+expanded paths, reason, expected benefit, risks/dependencies and validation evidence. Expanded
+scope stops at explicit `ACCEPT / REWORK / REJECT` review and is never promoted implicitly.
+
+For operator-facing functionality, practical completion should expose an obvious supported
+surface â€” Makefile, CLI, API, Operator Console or an appropriate human/machine-readable report.
+Makefile is the operator functional map; it must not be categorically excluded when the supported
+workflow genuinely belongs there. Makefile/Console remain thin surfaces over shared backend logic.
+
+CF10 and OC01 may proceed in parallel for read-only analysis, planning, artifact preparation and
+other non-writable work. The canonical invariant `one module repository = one active writable actor`
+remains unchanged. Exact-path non-overlap makes the handoff between writable actors cheaper but does
+not grant concurrent write authority. After publication/release, a legitimate descendant HEAD with
+no exact-path overlap permits continuation after refresh/reconciliation rather than reset/stash/clean.
+
+Source handoff SHA-256:
+`fc9052cf2cfc574c124095af6aa8cbe2962d07acc2860c21d4e900790acfed8d`.
+<!-- cf10-oc01-execution-enrichment-2026-10-04:end -->

@@ -313,3 +313,47 @@ oc01_current_implementation_state_2026_10_02:
     phone_laptop_reconnect: PRESERVE_DIRECTION
   stale_bundle_phase0_replayed: false
 # oc01-rollout-bundle-reconciliation-2026-10-02:end
+
+# cf10-oc01-parallel-coordination-2026-10-04:start
+cf10_parallel_coordination_2026_10_04:
+  status: PLANNING_RECONCILED_NO_ACTIVATION
+  ordering_rule:
+    cf10_logical_dependency_order_has_priority_over_oc01_acceleration: true
+    oc01_may_not_force_cf10_reordering: true
+    cf10_reordering_requires_dependency_evidence: true
+  parallel_execution_direction:
+    read_only_analysis_planning_and_artifact_preparation_may_progress_in_parallel: true
+    one_module_repository_one_active_writable_actor_preserved: true
+    simultaneous_writable_actors_same_module_allowed: false
+    exact_path_non_overlap_reduces_handoff_cost_but_does_not_grant_write_authority: true
+    shared_exact_paths_require_explicit_handoff_reconciliation: true
+    after_cf10_or_oc01_publication_and_release:
+      refresh_live_head: true
+      check_descendant_relationship: true
+      check_exact_path_overlap: true
+      descendant_plus_no_overlap_allows_continuation: true
+      reset_stash_clean_unrelated_work_for_synchronization: false
+  ownership_direction:
+    cf10:
+      role: canonical_execution_primitive_owner_and_evolver
+    oc01:
+      role: client_projection_and_structured_control_surface
+      consume_stable_cf10_interfaces_before_editing_shared_primitive_implementation: true
+  package_reconciliation:
+    - package: 04.10.26_forprint_operator_console_mcp_integration_package_2026-10-02.zip
+      sha256: 9a6adfbf5b52c56804bf9ceb63e8e1c6fffce35380c0f12623497d3c37c59562
+      disposition: ALREADY_REPRESENTED_IN_CURRENT_CANONICAL_CONTEXT_DO_NOT_REPLAY
+      note: MCP remains strategic/deferred where already recorded; this integration grants no executable MCP roadmap work.
+    - package: 04.10.26_forprint_operator_console_roadmap_integration_v2_2026_10_03_1.zip
+      sha256: a2396dc03ef1e6e7374c3b5be98f5a9345a001a16e5825af4475f9a9f32346ef
+      disposition: CURRENT_OC01_PROGRAM_ALREADY_CONTAINS_LATER_MINI_CLOSEOUT_STATE_DO_NOT_REPLAY_OLDER_DELTA
+    - package: 04.10.26_cf10_oc01_integration_handoff_2026-10-03_v0_1.zip
+      sha256: fc9052cf2cfc574c124095af6aa8cbe2962d07acc2860c21d4e900790acfed8d
+      disposition: ENRICH_EXISTING_CF10_OC01_COORDINATION
+  authority:
+    execution_authority_created: false
+    dispatch_authority_created: false
+    roadmap_reordering_authority_created: false
+    automatic_promotion_authority_created: false
+    push_merge_release_authority_created: false
+# cf10-oc01-parallel-coordination-2026-10-04:end
