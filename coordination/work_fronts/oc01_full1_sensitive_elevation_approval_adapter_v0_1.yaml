@@ -6,12 +6,12 @@ name: sensitive_elevation_approval_adapter
 objective: Freeze a bounded adaptation of the existing operator approval infrastructure for purpose-scoped sensitive
   capability elevation without creating a parallel approval system or enabling any currently blocked mutation, lease,
   release, or cancellation authority.
-status: DESIGN_FROZEN_IMPLEMENTATION_PENDING_REENTRY
+status: IMPLEMENTATION_AUTHORIZED
 authority:
   work_front_is_execution_authority: true
   chat_is_authority: false
-  execution_authority_scoped_to_design_only: true
-  implementation_authorized: false
+  execution_authority_scoped_to_design_only: false
+  implementation_authorized: true
   dispatch_authority_conferred: false
   lease_authority_conferred: false
   canonical_write_authority_conferred: false
@@ -20,15 +20,19 @@ authority:
   merge_authority_conferred: false
   automatic_accept: false
   widening_requested: false
+  execution_authority_scoped_to_this_slice: true
 capability_reuse:
   search_performed: true
   disposition: ADAPT_EXISTING_APPROVAL_INFRASTRUCTURE_DO_NOT_FORK
   reuse_target: scripts/coordination/build_operator_approval_decision.py
   existing_schema: forprint_operator_approval_decision_v0_1
   new_parallel_approval_system_allowed: false
-scope:
-- coordination/internal_work/blueprint/operator_console/2026-10-04__oc01_full1_slice_c_sensitive_elevation_approval_adapter_design_freeze_v0_1.yaml
-- coordination/work_fronts/oc01_full1_sensitive_elevation_approval_adapter_v0_1.yaml
+scope: &id001
+- scripts/coordination/build_operator_approval_decision.py
+- tests/coordination/test_operator_approval_gateway_v0_1.py
+- scripts/coordination/control_plane/operator_console/protected_terminal.py
+- tests/coordination/control_plane/operator_console/test_oc01_protected_terminal_gateway_v0_1.py
+- Makefile
 future_implementation_candidates_after_reentry:
 - scripts/coordination/build_operator_approval_decision.py
 - tests/coordination/test_operator_approval_gateway_v0_1.py
@@ -41,6 +45,14 @@ read_only_dependencies:
 - scripts/coordination/control_plane/monitor.py
 - tests/coordination/test_console_worker_adapter_v0_1.py
 - tests/coordination/control_plane/test_central_listener_dispatcher_monitor_v0_1.py
+- scripts/coordination/control_plane/governed_worker_cycle.py
+- tests/coordination/control_plane/test_cf10_governed_worker_cycle_v0_1.py
+- coordination/work_fronts/cf10_governed_worker_cycle_v0_1.yaml
+- coordination/global_policy/current_execution_focus.md
+- coordination/standards/automation/index.yaml
+- indexes/governance.yaml
+- indexes/roadmaps.yaml
+- AGENTS.md
 exclusions:
 - SAFE_WRITE enablement
 - canonical session or lease implementation
@@ -84,7 +96,26 @@ source_design_freeze:
   path: coordination/internal_work/blueprint/operator_console/2026-10-04__oc01_full1_slice_c_sensitive_elevation_approval_adapter_design_freeze_v0_1.yaml
 activation_boundary:
   design_frozen: true
-  implementation_authorized: false
+  reentry_gate: PASS
+  exact_write_set_frozen: true
+  implementation_authorized: true
   automatic_commit: false
   automatic_push: false
   automatic_next_slice_activation: false
+exact_write_set:
+  frozen: true
+  path_count: 5
+  paths: *id001
+implementation_contract:
+  reuse_disposition: ADAPT_EXISTING_APPROVAL_INFRASTRUCTURE_DO_NOT_FORK
+  legacy_launch_approval_behavior_preserved: true
+  approval_purpose: SENSITIVE_CAPABILITY_ELEVATION
+  approval_is_evidence_not_authority: true
+  approval_never_grants_lease: true
+  approval_never_bypasses_safe_write_blocker: true
+  safe_write_enabled: false
+  live_cancel_enabled: false
+  registry_integration_enabled: false
+  commit_push_merge_release_promotion_authority: false
+  tests_first_required: true
+  makefile_operator_surface_required: true

@@ -4,7 +4,7 @@ roadmap_step: OC-01
 contour: OC01-FULL-1
 slice: C
 title: Sensitive elevation approval adapter
-status: FROZEN_DESIGN_ONLY_IMPLEMENTATION_PENDING_REENTRY
+status: FROZEN_FOR_BOUNDED_SLICE_C_IMPLEMENTATION
 source_branch: audit/blueprint-inventory-refresh-2026-07-29
 source_head: e92a019536487120d859d9be225477076eec7e8f
 basis:
@@ -17,7 +17,7 @@ basis:
 authority:
   design_freeze_is_execution_authority: false
   work_front_required_for_implementation: true
-  implementation_authorized_now: false
+  implementation_authorized_now: true
   automatic_next_slice_activation: false
   authority_widening: false
 reuse_strategy:
@@ -92,18 +92,43 @@ implementation_candidate_scope_after_reentry:
   - scripts/coordination/control_plane/monitor.py
   - tests/coordination/test_console_worker_adapter_v0_1.py
   - tests/coordination/control_plane/test_central_listener_dispatcher_monitor_v0_1.py
-  makefile_operator_entrypoint: DEFERRED_UNTIL_PARALLEL_CF10_DIRTY_STATE_IS_RESOLVED
-  exact_implementation_write_set_frozen_now: false
+  makefile_operator_entrypoint: IN_SCOPE_REQUIRED
+  exact_implementation_write_set_frozen_now: true
+  exact_implementation_write_set: &id001
+  - scripts/coordination/build_operator_approval_decision.py
+  - tests/coordination/test_operator_approval_gateway_v0_1.py
+  - scripts/coordination/control_plane/operator_console/protected_terminal.py
+  - tests/coordination/control_plane/operator_console/test_oc01_protected_terminal_gateway_v0_1.py
+  - Makefile
+  read_only_dependencies: &id002
+  - scripts/coordination/build_worker_invocation.py
+  - scripts/coordination/control_plane/dispatch_intent.py
+  - scripts/coordination/control_plane/runtime.py
+  - scripts/coordination/control_plane/monitor.py
+  - tests/coordination/test_console_worker_adapter_v0_1.py
+  - tests/coordination/control_plane/test_central_listener_dispatcher_monitor_v0_1.py
+  - scripts/coordination/control_plane/governed_worker_cycle.py
+  - tests/coordination/control_plane/test_cf10_governed_worker_cycle_v0_1.py
+  - coordination/work_fronts/cf10_governed_worker_cycle_v0_1.yaml
+  - coordination/global_policy/current_execution_focus.md
+  - coordination/standards/automation/index.yaml
+  - indexes/governance.yaml
+  - indexes/roadmaps.yaml
+  - AGENTS.md
 reentry_gate_before_implementation:
   required: true
-  requirements:
-  - parallel CF10 dirty contour is reconciled or published
-  - Makefile ownership is clear before any operator entrypoint change
-  - approval source hashes are rechecked
-  - Protected Terminal source/test hashes are rechecked
-  - exact implementation write set is frozen
-  - tests-first RED plan is defined
-  - no new capability is enabled merely by approval presence
+  state: PASS
+  observed_head: f7757a97061e90426cd127650c7e4ccaf50520b0
+  head_equals_upstream: true
+  candidate_paths_clean: true
+  approval_source_hash: 7be057826cd5ae364cc6128d07ce4a14a4408d4f3e066680003ef521b05d1a48
+  approval_test_hash: 07804fde6ca66d156ff61e237fcd18f52db0a00092b8c84bada1750075fac2cb
+  protected_terminal_hash: bfd54a8166216e339933d140c14dc310e55739932deb930bda0a62c80f00e89d
+  protected_terminal_test_hash: 70415b0db0acebea2808790029d659ab5a76fa54027af4a3fea66b389ab39263
+  makefile_hash: 1a2c72886454974eb61ea630441ed295a4aa5c35addfa953126a3ff86cf46557
+  exact_write_set_frozen: true
+  tests_first_plan_defined: true
+  implementation_may_begin_after_activation_publication: true
 frozen_dependency_hashes:
   scripts/coordination/build_operator_approval_decision.py: 7be057826cd5ae364cc6128d07ce4a14a4408d4f3e066680003ef521b05d1a48
   scripts/coordination/build_worker_invocation.py: 468a1c33abef2f2e3d442c6d94b7c277829f94145d4406ac60132b33cbc02a6c
@@ -121,3 +146,76 @@ stop_conditions:
 - implementation would require live cancel
 - implementation would require a second approval pipeline
 - implementation would require mutation of active parallel CF10 files before reentry
+implementation_activation:
+  state: AUTHORIZED_BOUNDED_SLICE_C
+  activation_source_head: f7757a97061e90426cd127650c7e4ccaf50520b0
+  reentry_gate: PASS
+  candidate_paths_clean: true
+  frozen_dependency_hashes_match: true
+  makefile_adaptation_required: true
+  exact_write_set_frozen: true
+  exact_write_set: *id001
+  write_path_count: 5
+  read_only_or_forbidden_paths: *id002
+  tests_first_required: true
+  automatic_commit: false
+  automatic_push: false
+  automatic_next_slice_activation: false
+implementation_contract:
+  objective: Adapt the existing operator approval infrastructure to support purpose-scoped sensitive-capability elevation
+    evidence in Protected Terminal without enabling any currently blocked mutation, lease, cancellation, or release
+    authority.
+  approval_schema_strategy:
+    existing_launch_approval_schema: forprint_operator_approval_decision_v0_1
+    strategy: BACKWARD_COMPATIBLE_PURPOSE_SCOPED_EXTENSION
+    legacy_launch_approval_behavior_must_remain_unchanged: true
+    parallel_approval_schema_or_service_allowed: false
+  sensitive_elevation_binding_required:
+  - approval_purpose=SENSITIVE_CAPABILITY_ELEVATION
+  - capability_id
+  - capability_class
+  - requested_authority_delta
+  - repository_scope
+  - actor_type
+  - actor_id
+  - session_or_execution_binding
+  - expires_at
+  protected_terminal_policy_model:
+    approval_evidence_is_not_authority: true
+    approval_presence_never_enables_capability_by_itself: true
+    current_capability_behavior_must_remain_backward_compatible: true
+    current_safe_write_blocker: EXCLUSIVE_MODULE_LEASE_NOT_PROVEN
+    current_live_cancel_state: DEPENDENCY_PENDING_CF10
+    safe_write_execution_allowed_after_this_slice: false
+    commit_push_merge_release_promotion_allowed_after_this_slice: false
+    arbitrary_shell_allowed: false
+  operator_surface:
+    makefile_change_required: true
+    must_expose_only_supported_bounded_approval_input: true
+    must_not_expose_unrestricted_authority_switch: true
+  tests_first_red_plan:
+  - sensitive elevation approval artifact requires exact purpose and binding fields
+  - expired sensitive elevation approval fails closed
+  - capability_id mismatch fails closed
+  - capability_class mismatch fails closed
+  - repository scope mismatch fails closed
+  - actor mismatch fails closed
+  - session/execution binding mismatch fails closed
+  - approval cannot satisfy canonical lease requirement
+  - approval cannot grant commit/push/merge/release/promotion authority
+  - legacy launch approval tests remain green
+  - existing Protected Terminal default/read-only behavior remains green
+  - Makefile operator surface forwards only the bounded approval artifact input
+  acceptance:
+  - Tests-first RED is observed for the new sensitive-elevation adapter behavior.
+  - All legacy operator approval gateway tests pass unchanged or with backward-compatible assertions.
+  - All existing Protected Terminal gateway tests pass.
+  - Approval evidence is bound to exact capability, repository, actor, session/execution, and expiry.
+  - Approval presence does not itself create authority.
+  - SAFE_WRITE remains blocked by EXCLUSIVE_MODULE_LEASE_NOT_PROVEN.
+  - Live cancel remains DEPENDENCY_PENDING_CF10.
+  - No commit, push, merge, release, promotion, arbitrary shell, or registry integration authority is introduced.
+  - Only the five frozen implementation paths are modified.
+  - Read-only CF10/control-plane dependencies remain byte-for-byte unchanged.
+  - Makefile reflects the supported bounded operator function and no broader authority surface.
+  - git diff --check passes on the exact implementation write set.
