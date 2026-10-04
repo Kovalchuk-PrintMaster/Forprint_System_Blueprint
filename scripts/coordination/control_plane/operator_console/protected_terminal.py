@@ -240,6 +240,51 @@ def _raise_policy_denial(
     )
 
 
+
+def _sanitize_runtime_observation(
+    observation: Mapping[str, Any],
+) -> dict[str, Any]:
+    observation = _mapping(observation, "runtime observation")
+    result: dict[str, Any] = {}
+
+    integer_fields = (
+        "pid",
+        "stdout_bytes",
+        "stderr_bytes",
+        "stdout_growth_bytes",
+        "stderr_growth_bytes",
+    )
+    numeric_fields = (
+        "runtime_seconds",
+        "no_progress_seconds",
+        "stall_threshold_seconds",
+    )
+    boolean_fields = (
+        "progress_observed",
+        "stall_detected",
+    )
+
+    for field in integer_fields:
+        value = observation.get(field)
+        if isinstance(value, int) and not isinstance(value, bool) and value >= 0:
+            result[field] = value
+
+    for field in numeric_fields:
+        value = observation.get(field)
+        if (
+            isinstance(value, (int, float))
+            and not isinstance(value, bool)
+            and value >= 0
+        ):
+            result[field] = value
+
+    for field in boolean_fields:
+        value = observation.get(field)
+        if isinstance(value, bool):
+            result[field] = value
+
+    return result
+
 def load_terminal_history(
     evidence_dir: Path | str,
     *,
@@ -393,6 +438,9 @@ def build_terminal_plan(
     capability_class: str = "READ_ONLY",
     timeout_seconds: int = 30,
     evidence_dir: Path | str | None = None,
+    observe_runtime: bool = False,
+    heartbeat_seconds: int = 15,
+    stall_threshold_seconds: float | None = None,
 ) -> dict[str, Any]:
     if enabled is not True:
         raise ProtectedTerminalError(
@@ -412,6 +460,42 @@ def build_terminal_plan(
             "timeout_seconds must be an integer between 1 and 300",
             code="INVALID_TIMEOUT",
         )
+
+
+    if not isinstance(observe_runtime, bool):
+        raise ProtectedTerminalError(
+            "observe_runtime must be boolean",
+            code="INVALID_RUNTIME_OBSERVATION_FLAG",
+        )
+    if not observe_runtime and (
+        heartbeat_seconds != 15 or stall_threshold_seconds is not None
+    ):
+        raise ProtectedTerminalError(
+            "runtime observation configuration requires observe_runtime",
+            code="RUNTIME_OBSERVATION_NOT_ENABLED",
+        )
+    if observe_runtime:
+        if (
+            not isinstance(heartbeat_seconds, int)
+            or isinstance(heartbeat_seconds, bool)
+            or heartbeat_seconds <= 0
+        ):
+            raise ProtectedTerminalError(
+                "heartbeat_seconds must be a positive integer",
+                code="INVALID_HEARTBEAT_SECONDS",
+            )
+        if (
+            stall_threshold_seconds is not None
+            and (
+                not isinstance(stall_threshold_seconds, (int, float))
+                or isinstance(stall_threshold_seconds, bool)
+                or stall_threshold_seconds <= 0
+            )
+        ):
+            raise ProtectedTerminalError(
+                "stall_threshold_seconds must be positive when set",
+                code="INVALID_STALL_THRESHOLD",
+            )
 
     scope = _validate_git_scope(cwd)
     evidence_root = _resolve_evidence_root(scope, evidence_dir)
@@ -513,6 +597,19 @@ def build_terminal_plan(
             "stdout_path": str(command_dir / "stdout.log"),
             "stderr_path": str(command_dir / "stderr.log"),
         },
+        "runtime_observation": {
+            "enabled": observe_runtime,
+            "mode": "BOUNDED_RUNTIME_PROGRESS_EVIDENCE",
+            "source": "SHARED_LAUNCHER_HEARTBEAT",
+            "heartbeat_seconds": heartbeat_seconds if observe_runtime else None,
+            "stall_threshold_seconds": (
+                stall_threshold_seconds if observe_runtime else None
+            ),
+            "byte_streaming": False,
+            "stdout_content_retained_in_history": False,
+            "stderr_content_retained_in_history": False,
+            "authority_conferred": False,
+        },
         "audit": {
             "mode": "APPEND_ONLY",
             "storage": "OUTSIDE_PROTECTED_REPOSITORY_SCOPE",
@@ -551,6 +648,7 @@ def build_terminal_plan(
         details={
             "profile_id": profile["profile_id"],
             "argv_sha256": _argv_sha256(argv),
+            "runtime_observation_enabled": observe_runtime,
         },
     )
     return plan
@@ -661,6 +759,75 @@ def execute_terminal_plan(plan: Mapping[str, Any]) -> dict[str, Any]:
         raise ProtectedTerminalError("terminal audit root drift")
     evidence_root = history_path.parent
 
+    runtime_observation_value = plan.get("runtime_observation")
+    if runtime_observation_value is None:
+        runtime_observation = {
+            "enabled": False,
+            "mode": "BOUNDED_RUNTIME_PROGRESS_EVIDENCE",
+            "source": "SHARED_LAUNCHER_HEARTBEAT",
+            "heartbeat_seconds": None,
+            "stall_threshold_seconds": None,
+            "byte_streaming": False,
+            "stdout_content_retained_in_history": False,
+            "stderr_content_retained_in_history": False,
+            "authority_conferred": False,
+        }
+    else:
+        runtime_observation = _mapping(
+            runtime_observation_value,
+            "runtime_observation",
+        )
+
+    observation_enabled = runtime_observation.get("enabled") is True
+    if runtime_observation.get("enabled") not in {True, False}:
+        raise ProtectedTerminalError("runtime observation enabled flag drift")
+    if runtime_observation.get("mode") != "BOUNDED_RUNTIME_PROGRESS_EVIDENCE":
+        raise ProtectedTerminalError("runtime observation mode drift")
+    if runtime_observation.get("source") != "SHARED_LAUNCHER_HEARTBEAT":
+        raise ProtectedTerminalError("runtime observation source drift")
+    if runtime_observation.get("byte_streaming") is not False:
+        raise ProtectedTerminalError("byte streaming is forbidden")
+    if runtime_observation.get("stdout_content_retained_in_history") is not False:
+        raise ProtectedTerminalError("stdout content retention is forbidden")
+    if runtime_observation.get("stderr_content_retained_in_history") is not False:
+        raise ProtectedTerminalError("stderr content retention is forbidden")
+    if runtime_observation.get("authority_conferred") is not False:
+        raise ProtectedTerminalError("runtime observation widened authority")
+
+    observation_heartbeat_seconds = runtime_observation.get("heartbeat_seconds")
+    observation_stall_threshold = runtime_observation.get(
+        "stall_threshold_seconds"
+    )
+    if observation_enabled:
+        if (
+            not isinstance(observation_heartbeat_seconds, int)
+            or isinstance(observation_heartbeat_seconds, bool)
+            or observation_heartbeat_seconds <= 0
+        ):
+            raise ProtectedTerminalError(
+                "runtime observation heartbeat_seconds drift"
+            )
+        if (
+            observation_stall_threshold is not None
+            and (
+                not isinstance(observation_stall_threshold, (int, float))
+                or isinstance(observation_stall_threshold, bool)
+                or observation_stall_threshold <= 0
+            )
+        ):
+            raise ProtectedTerminalError(
+                "runtime observation stall_threshold_seconds drift"
+            )
+    else:
+        if observation_heartbeat_seconds is not None:
+            raise ProtectedTerminalError(
+                "disabled runtime observation heartbeat_seconds drift"
+            )
+        if observation_stall_threshold is not None:
+            raise ProtectedTerminalError(
+                "disabled runtime observation stall threshold drift"
+            )
+
     command_id = _required_string(plan.get("command_id"), "command_id")
     _record_audit_event(
         evidence_root,
@@ -676,13 +843,52 @@ def execute_terminal_plan(plan: Mapping[str, Any]) -> dict[str, Any]:
         details={"argv_sha256": execution.get("argv_sha256")},
     )
 
-    result = launch_process(
-        argv=list(argv),
-        cwd=str(execution_cwd),
-        stdout_path=stdout_path,
-        stderr_path=stderr_path,
-        timeout_seconds=execution.get("timeout_seconds"),
-    )
+    observation_event_count = 0
+    observation_callback_errors: list[dict[str, str]] = []
+
+    def _on_runtime_observation(payload: dict[str, Any]) -> None:
+        nonlocal observation_event_count
+        try:
+            details = _sanitize_runtime_observation(payload)
+            _record_audit_event(
+                evidence_root,
+                event_type="RUNTIME_OBSERVATION",
+                decision="OBSERVE",
+                code="BOUNDED_RUNTIME_PROGRESS_EVIDENCE",
+                reason="shared launcher runtime progress observation",
+                actor_type=actor_type,
+                actor_id=actor_id,
+                capability_id=capability_id,
+                cwd=str(execution_cwd),
+                command_id=command_id,
+                details=details,
+            )
+            observation_event_count += 1
+        except Exception as exc:
+            observation_callback_errors.append(
+                {
+                    "error_type": type(exc).__name__,
+                    "message": str(exc)[:200],
+                }
+            )
+
+    launch_kwargs: dict[str, Any] = {
+        "argv": list(argv),
+        "cwd": str(execution_cwd),
+        "stdout_path": stdout_path,
+        "stderr_path": stderr_path,
+        "timeout_seconds": execution.get("timeout_seconds"),
+    }
+    if observation_enabled:
+        launch_kwargs.update(
+            {
+                "on_heartbeat": _on_runtime_observation,
+                "heartbeat_seconds": observation_heartbeat_seconds,
+                "stall_threshold_seconds": observation_stall_threshold,
+            }
+        )
+
+    result = launch_process(**launch_kwargs)
 
     terminal_result = {
         "schema_version": "forprint_oc01_protected_terminal_result_v0_1",
@@ -702,6 +908,28 @@ def execute_terminal_plan(plan: Mapping[str, Any]) -> dict[str, Any]:
         "audit": {
             "history_path": str(history_path),
             "mode": "APPEND_ONLY",
+        },
+        "runtime_observation": {
+            "enabled": observation_enabled,
+            "mode": "BOUNDED_RUNTIME_PROGRESS_EVIDENCE",
+            "source": "SHARED_LAUNCHER_HEARTBEAT",
+            "history_event_count": observation_event_count,
+            "callback_error_count": len(observation_callback_errors),
+            "callback_errors": observation_callback_errors,
+            "stall_detected": (
+                bool(result.get("stall_detected"))
+                if observation_enabled
+                else False
+            ),
+            "timed_out": (
+                bool(result.get("timed_out"))
+                if observation_enabled
+                else False
+            ),
+            "byte_streaming": False,
+            "stdout_content_retained_in_history": False,
+            "stderr_content_retained_in_history": False,
+            "authority_conferred": False,
         },
         "cancel": {
             "state": CANCEL_STATE,
@@ -735,6 +963,16 @@ def execute_terminal_plan(plan: Mapping[str, Any]) -> dict[str, Any]:
             "outcome": result.get("outcome"),
             "stdout_path": result.get("stdout_path"),
             "stderr_path": result.get("stderr_path"),
+            "runtime_observation_enabled": observation_enabled,
+            "runtime_observation_event_count": observation_event_count,
+            "runtime_observation_callback_error_count": len(
+                observation_callback_errors
+            ),
+            "stall_detected": (
+                bool(result.get("stall_detected"))
+                if observation_enabled
+                else False
+            ),
         },
     )
     return terminal_result
@@ -758,6 +996,9 @@ def main() -> int:
         p.add_argument("--timeout-seconds", type=int, default=30)
         p.add_argument("--evidence-dir")
         p.add_argument("--confirm-enable", action="store_true")
+        p.add_argument("--observe-runtime", action="store_true")
+        p.add_argument("--heartbeat-seconds", type=int, default=15)
+        p.add_argument("--stall-threshold-seconds", type=float)
 
     args = parser.parse_args()
 
@@ -796,6 +1037,9 @@ def main() -> int:
         enabled=args.confirm_enable,
         timeout_seconds=args.timeout_seconds,
         evidence_dir=Path(args.evidence_dir) if args.evidence_dir else None,
+        observe_runtime=args.observe_runtime,
+        heartbeat_seconds=args.heartbeat_seconds,
+        stall_threshold_seconds=args.stall_threshold_seconds,
     )
 
     if args.command == "plan":

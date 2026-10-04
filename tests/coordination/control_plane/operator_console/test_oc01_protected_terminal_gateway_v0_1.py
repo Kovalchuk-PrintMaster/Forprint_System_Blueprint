@@ -424,3 +424,300 @@ def test_full1_audit_paths_inside_repo_are_rejected(
         match="history_path must remain outside protected repository scope",
     ):
         execute_terminal_plan(plan)
+
+# OC01-FULL-1 Slice B / bounded runtime observation bridge
+
+import scripts.coordination.control_plane.operator_console.protected_terminal as protected_terminal_module
+
+
+def test_full1_slice_b_runtime_observation_configuration_is_explicit(
+    tmp_path: Path,
+) -> None:
+    repo = git_repo(tmp_path)
+    evidence = tmp_path / "evidence"
+
+    default_plan = build_terminal_plan(
+        capability_id="repo_status",
+        cwd=repo,
+        session_projection=session(),
+        enabled=True,
+        evidence_dir=evidence,
+    )
+    assert default_plan["runtime_observation"] == {
+        "enabled": False,
+        "mode": "BOUNDED_RUNTIME_PROGRESS_EVIDENCE",
+        "source": "SHARED_LAUNCHER_HEARTBEAT",
+        "heartbeat_seconds": None,
+        "stall_threshold_seconds": None,
+        "byte_streaming": False,
+        "stdout_content_retained_in_history": False,
+        "stderr_content_retained_in_history": False,
+        "authority_conferred": False,
+    }
+
+    with pytest.raises(ProtectedTerminalError) as caught:
+        build_terminal_plan(
+            capability_id="repo_status",
+            cwd=repo,
+            session_projection=session(),
+            enabled=True,
+            evidence_dir=evidence,
+            stall_threshold_seconds=2.0,
+        )
+    assert caught.value.code == "RUNTIME_OBSERVATION_NOT_ENABLED"
+
+    with pytest.raises(ProtectedTerminalError) as caught:
+        build_terminal_plan(
+            capability_id="repo_status",
+            cwd=repo,
+            session_projection=session(),
+            enabled=True,
+            evidence_dir=evidence,
+            observe_runtime=True,
+            heartbeat_seconds=0,
+        )
+    assert caught.value.code == "INVALID_HEARTBEAT_SECONDS"
+
+    with pytest.raises(ProtectedTerminalError) as caught:
+        build_terminal_plan(
+            capability_id="repo_status",
+            cwd=repo,
+            session_projection=session(),
+            enabled=True,
+            evidence_dir=evidence,
+            observe_runtime=True,
+            stall_threshold_seconds=0,
+        )
+    assert caught.value.code == "INVALID_STALL_THRESHOLD"
+
+
+def test_full1_slice_b_observation_uses_shared_callback_and_sanitizes_history(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    repo = git_repo(tmp_path)
+    evidence = tmp_path / "evidence"
+
+    def fake_launch_process(**kwargs):
+        assert kwargs["heartbeat_seconds"] == 1
+        assert kwargs["stall_threshold_seconds"] == 2.0
+        callback = kwargs["on_heartbeat"]
+        assert callback is not None
+        callback(
+            {
+                "pid": 101,
+                "runtime_seconds": 1.0,
+                "stdout_bytes": 12,
+                "stderr_bytes": 0,
+                "stdout_growth_bytes": 12,
+                "stderr_growth_bytes": 0,
+                "progress_observed": True,
+                "stall_detected": False,
+                "stdout_chunk": "SECRET_STDOUT_CONTENT",
+                "model_thinking": True,
+            }
+        )
+        callback(
+            {
+                "pid": 101,
+                "runtime_seconds": 3.2,
+                "stdout_bytes": 12,
+                "stderr_bytes": 0,
+                "stdout_growth_bytes": 0,
+                "stderr_growth_bytes": 0,
+                "progress_observed": False,
+                "stall_detected": True,
+                "no_progress_seconds": 2.2,
+                "stall_threshold_seconds": 2.0,
+                "stderr_chunk": "SECRET_STDERR_CONTENT",
+            }
+        )
+        return {
+            "pid": 101,
+            "started_at": "2026-10-04T20:00:00+00:00",
+            "finished_at": "2026-10-04T20:00:04+00:00",
+            "return_code": 0,
+            "timed_out": False,
+            "outcome": "completed_with_stall_evidence",
+            "shell": False,
+            "stdout_path": str(kwargs["stdout_path"]),
+            "stderr_path": str(kwargs["stderr_path"]),
+            "heartbeat_observations": [],
+            "stall_detected": True,
+            "stall_evidence": [],
+        }
+
+    monkeypatch.setattr(
+        protected_terminal_module,
+        "launch_process",
+        fake_launch_process,
+    )
+
+    plan = build_terminal_plan(
+        capability_id="repo_status",
+        cwd=repo,
+        session_projection=session("operator_assistant"),
+        enabled=True,
+        evidence_dir=evidence,
+        observe_runtime=True,
+        heartbeat_seconds=1,
+        stall_threshold_seconds=2.0,
+    )
+    result = execute_terminal_plan(plan)
+    history = load_terminal_history(evidence)
+
+    assert [row["event_type"] for row in history["events"]] == [
+        "PLAN_ALLOWED",
+        "EXECUTION_STARTED",
+        "RUNTIME_OBSERVATION",
+        "RUNTIME_OBSERVATION",
+        "EXECUTION_FINISHED",
+    ]
+
+    observations = [
+        row for row in history["events"]
+        if row["event_type"] == "RUNTIME_OBSERVATION"
+    ]
+    assert len(observations) == 2
+    allowed = {
+        "pid",
+        "runtime_seconds",
+        "stdout_bytes",
+        "stderr_bytes",
+        "stdout_growth_bytes",
+        "stderr_growth_bytes",
+        "progress_observed",
+        "stall_detected",
+        "no_progress_seconds",
+        "stall_threshold_seconds",
+    }
+    for row in observations:
+        assert set(row["details"]) <= allowed
+        assert "stdout_chunk" not in row["details"]
+        assert "stderr_chunk" not in row["details"]
+        assert "model_thinking" not in row["details"]
+        assert row["authority_conferred"] is False
+
+    assert observations[0]["details"]["progress_observed"] is True
+    assert observations[1]["details"]["stall_detected"] is True
+
+    assert result["runtime_observation"]["enabled"] is True
+    assert result["runtime_observation"]["history_event_count"] == 2
+    assert result["runtime_observation"]["stall_detected"] is True
+    assert result["runtime_observation"]["byte_streaming"] is False
+    assert result["authority"]["canonical_write_performed"] is False
+    assert result["cancel"]["available"] is False
+
+
+def test_full1_slice_b_default_execution_does_not_enable_observation_callback(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    repo = git_repo(tmp_path)
+    captured = {}
+
+    def fake_launch_process(**kwargs):
+        captured.update(kwargs)
+        return {
+            "pid": 202,
+            "started_at": "2026-10-04T20:00:00+00:00",
+            "finished_at": "2026-10-04T20:00:01+00:00",
+            "return_code": 0,
+            "timed_out": False,
+            "outcome": "completed",
+            "shell": False,
+            "stdout_path": str(kwargs["stdout_path"]),
+            "stderr_path": str(kwargs["stderr_path"]),
+            "heartbeat_observations": [],
+            "stall_detected": False,
+            "stall_evidence": [],
+        }
+
+    monkeypatch.setattr(
+        protected_terminal_module,
+        "launch_process",
+        fake_launch_process,
+    )
+
+    plan = build_terminal_plan(
+        capability_id="repo_status",
+        cwd=repo,
+        session_projection=session(),
+        enabled=True,
+        evidence_dir=tmp_path / "evidence",
+    )
+    result = execute_terminal_plan(plan)
+
+    assert "on_heartbeat" not in captured
+    assert "heartbeat_seconds" not in captured
+    assert "stall_threshold_seconds" not in captured
+    assert result["runtime_observation"]["enabled"] is False
+    assert result["runtime_observation"]["history_event_count"] == 0
+
+
+def test_full1_slice_b_timeout_remains_distinct_from_stall_observation(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    repo = git_repo(tmp_path)
+    evidence = tmp_path / "evidence"
+
+    def fake_launch_process(**kwargs):
+        callback = kwargs["on_heartbeat"]
+        callback(
+            {
+                "pid": 303,
+                "runtime_seconds": 2.5,
+                "stdout_bytes": 0,
+                "stderr_bytes": 0,
+                "stdout_growth_bytes": 0,
+                "stderr_growth_bytes": 0,
+                "progress_observed": False,
+                "stall_detected": True,
+                "no_progress_seconds": 2.5,
+                "stall_threshold_seconds": 2.0,
+            }
+        )
+        return {
+            "pid": 303,
+            "started_at": "2026-10-04T20:00:00+00:00",
+            "finished_at": "2026-10-04T20:00:03+00:00",
+            "return_code": -15,
+            "timed_out": True,
+            "outcome": "timeout",
+            "shell": False,
+            "stdout_path": str(kwargs["stdout_path"]),
+            "stderr_path": str(kwargs["stderr_path"]),
+            "heartbeat_observations": [],
+            "stall_detected": True,
+            "stall_evidence": [],
+        }
+
+    monkeypatch.setattr(
+        protected_terminal_module,
+        "launch_process",
+        fake_launch_process,
+    )
+
+    plan = build_terminal_plan(
+        capability_id="repo_status",
+        cwd=repo,
+        session_projection=session(),
+        enabled=True,
+        evidence_dir=evidence,
+        observe_runtime=True,
+        heartbeat_seconds=1,
+        stall_threshold_seconds=2.0,
+    )
+    result = execute_terminal_plan(plan)
+    history = load_terminal_history(evidence)
+
+    assert result["timed_out"] is True
+    assert result["outcome"] == "timeout"
+    assert result["runtime_observation"]["stall_detected"] is True
+
+    finished = history["events"][-1]
+    assert finished["event_type"] == "EXECUTION_FINISHED"
+    assert finished["details"]["timed_out"] is True
+    assert finished["details"]["outcome"] == "timeout"
+    assert finished["details"]["stall_detected"] is True
