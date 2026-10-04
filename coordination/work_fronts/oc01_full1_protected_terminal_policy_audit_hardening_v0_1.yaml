@@ -1,0 +1,116 @@
+work_front_id: wf-oc01-full1-protected-terminal-policy-audit-hardening-v0-1
+schema_version: forprint_work_front_v0_1
+layer: WORK_FRONT
+roadmap_step: OC-01
+contour: OC01-FULL-1
+name: protected_terminal_policy_audit_hardening
+objective: Harden the existing OC01 Protected Terminal gateway by extending the proven READ_ONLY path with richer
+  capability/profile metadata, structured explainable policy denial and durable external terminal audit/history.
+  Do not enable SAFE_WRITE or live cancel while canonical session/lease and shared-runtime cancel dependencies remain
+  unproven.
+authority:
+  work_front_is_execution_authority: true
+  execution_authority_scope: OC01_FULL1_PROTECTED_TERMINAL_POLICY_AUDIT_HARDENING_ONLY
+  activation_basis: human_owner_directed_OC01_execution_after_package_integration
+  gateway:
+    originates_execution_authority: false
+    originates_dispatch_authority: false
+    originates_lease_authority: false
+    originates_canonical_write_authority: false
+    originates_acceptance_authority: false
+    originates_release_authority: false
+reuse_adapt_new:
+  protected_terminal_gateway:
+    disposition: EXTEND
+    source: scripts/coordination/control_plane/operator_console/protected_terminal.py
+  argv_no_shell_execution:
+    disposition: REUSE
+    source: scripts/coordination/control_plane/worker_runtime/launcher.py
+  timeout_and_output_capture:
+    disposition: REUSE
+    source: scripts/coordination/control_plane/worker_runtime/launcher.py
+  actor_session_projection:
+    disposition: REUSE
+    source: scripts/coordination/control_plane/operator_console/session_projection.py
+  existing_make_entrypoints:
+    disposition: EXTEND
+    source: Makefile
+  capability_profile_metadata:
+    disposition: EXTEND
+    source: scripts/coordination/control_plane/operator_console/protected_terminal.py
+  structured_policy_denial_receipt:
+    disposition: NEW
+    rationale: Current errors are human-readable but denial is not represented as a durable structured policy decision.
+  terminal_history_audit:
+    disposition: NEW
+    rationale: No durable append-only Protected Terminal history/audit surface exists in the current gateway.
+  lease_backed_safe_write:
+    disposition: DEFER_DEPENDENCY
+    blocker: EXCLUSIVE_MODULE_LEASE_NOT_PROVEN
+  live_process_cancel:
+    disposition: DEFER_DEPENDENCY
+    blocker: DEPENDENCY_PENDING_CF10
+slice_contract:
+  enabled_capability_class: READ_ONLY
+  safe_write_execution_allowed: false
+  live_cancel_allowed: false
+  streaming_required_in_this_slice: false
+  sensitive_elevation_required_in_this_slice: false
+  denial_must_be_side_effect_free: true
+  audit_storage: OUTSIDE_PROTECTED_REPOSITORY_SCOPE
+  audit_mode: APPEND_ONLY
+  confirmation_gate: PRESERVE_EXISTING
+exact_write_set:
+- coordination/internal_work/blueprint/operator_console/2026-10-04__oc01_full1_protected_terminal_hardening_design_freeze_v0_1.yaml
+- coordination/work_fronts/oc01_full1_protected_terminal_policy_audit_hardening_v0_1.yaml
+- scripts/coordination/control_plane/operator_console/protected_terminal.py
+- tests/coordination/control_plane/operator_console/test_oc01_protected_terminal_gateway_v0_1.py
+- Makefile
+must_not_modify:
+- scripts/coordination/control_plane/worker_runtime/launcher.py
+- scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+- scripts/coordination/control_plane/worker_runtime/registry.py
+- scripts/coordination/control_plane/operator_console/session_projection.py
+- scripts/coordination/control_plane/governed_worker_cycle.py
+- coordination/global_policy/current_execution_focus.md
+- coordination/internal_work/blueprint/worker_tasks/index.yaml
+- coordination/standards/automation/index.yaml
+- indexes/governance.yaml
+- indexes/roadmaps.yaml
+- unrelated_dirty_paths
+acceptance:
+- existing READ_ONLY capabilities remain behaviorally compatible
+- capability catalog exposes richer profile/policy metadata without widening authority
+- denied request returns stable structured denial code and human-readable reason
+- denied request produces no command side effect
+- denial receipt is durably retained outside protected repository scope when evidence root is available
+- plan and run outcomes produce append-only terminal history with actor/session/capability/scope provenance
+- history does not create canonical repository writes
+- existing explicit confirmation remains required
+- SAFE_WRITE remains blocked with EXCLUSIVE_MODULE_LEASE_NOT_PROVEN
+- live cancel remains explicit dependency-pending
+- arbitrary command text remains forbidden
+- shared launcher is reused and not forked
+- Makefile remains the stable operator functional map
+- focused tests pass
+- work-front contract passes
+- git diff check passes
+non_goals:
+- unrestricted_shell
+- root_shell
+- lease_implementation
+- parallel_session_or_lease_truth
+- safe_write_enablement
+- live_cancel_implementation
+- streaming_output_implementation
+- sensitive_elevated_command_approval
+- shared_launcher_modification
+- console_ui_redesign
+- commit
+- push
+- merge
+- release
+- candidate_promotion
+- OC01_FULL_2_plus_activation
+source_design_freeze:
+  path: coordination/internal_work/blueprint/operator_console/2026-10-04__oc01_full1_protected_terminal_hardening_design_freeze_v0_1.yaml
