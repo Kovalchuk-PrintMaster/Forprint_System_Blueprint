@@ -293,12 +293,17 @@ def test_refresh_cycle_archives_stale_pre_ack_and_reprepares(
         attempt_id=attempt_id,
     )
 
-    archive = attempt.parent / (
+    archive = Path(result["superseded_runtime_archive"])
+    assert archive == attempt.parent / (
         attempt_id
         + "__predispatch_superseded__"
         + old_head[:7]
+        + "_"
+        + old_fp[:12]
         + "_to_"
         + new_head[:7]
+        + "_"
+        + new_fp[:12]
     )
     assert archive.is_dir()
     assert (
@@ -538,3 +543,210 @@ def test_refresh_cycle_restores_old_runtime_and_preserves_evidence_on_prepare_fa
     assert value["new_source_head"] == new_head
     assert value["assistant_ack_validated"] is False
     assert value["worker_launch_performed"] is False
+def test_refresh_cycle_same_head_dirty_drift_uses_unique_archive_identity(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = tmp_path / "repo"
+    runtime = tmp_path / "runtime"
+    root.mkdir()
+    attempt_id = "cf10-u180j-a103"
+    task_prompt_id = "task-refresh"
+    same_head = "a" * 40
+    old_fp = "1" * 64
+    new_fp = "2" * 64
+    binding = {
+        "task_prompt_id": task_prompt_id,
+        "task_ref": (
+            "coordination/internal_work/blueprint/worker_tasks/task.yaml"
+        ),
+        "work_front_id": "wf-refresh",
+        "work_front_ref": "coordination/work_fronts/wf_refresh.yaml",
+    }
+    attempt = _prepared_refresh_attempt(
+        root=root,
+        runtime_root=runtime,
+        attempt_id=attempt_id,
+        binding=binding,
+        source_head=same_head,
+        source_fp=old_fp,
+    )
+
+    monkeypatch.setattr(
+        cycle.training,
+        "resolve_training_task",
+        lambda **_kwargs: binding,
+    )
+    monkeypatch.setattr(
+        cycle.training,
+        "assert_attempt_unused",
+        lambda **_kwargs: None,
+    )
+    monkeypatch.setattr(
+        cycle.training,
+        "build_training_canonical_ack",
+        lambda **_kwargs: {"ack": "canonical"},
+    )
+    monkeypatch.setattr(
+        cycle,
+        "build_source_state",
+        lambda _root: {
+            "git_head": same_head,
+            "fingerprint_sha256": new_fp,
+            "durable_dirty_paths": ["unrelated/new-file.yaml"],
+        },
+    )
+
+    def fake_prepare_cycle(**_kwargs):
+        refreshed_attempt = (
+            runtime
+            / cycle.MODULE_ID
+            / cycle.WORKER_ID
+            / attempt_id
+        )
+        refreshed_attempt.mkdir(parents=True)
+        return {
+            "source_head": same_head,
+            "source_state_fingerprint": new_fp,
+        }
+
+    monkeypatch.setattr(cycle, "prepare_cycle", fake_prepare_cycle)
+
+    result = cycle.refresh_cycle(
+        root=root,
+        runtime_root=runtime,
+        task_prompt_id=task_prompt_id,
+        attempt_id=attempt_id,
+    )
+
+    archive = Path(result["superseded_runtime_archive"])
+    assert archive.name == (
+        attempt_id
+        + "__predispatch_superseded__"
+        + same_head[:7]
+        + "_"
+        + old_fp[:12]
+        + "_to_"
+        + same_head[:7]
+        + "_"
+        + new_fp[:12]
+    )
+    assert archive.is_dir()
+    evidence = yaml.safe_load(
+        (
+            archive
+            / "evidence/"
+            "governed_worker_cycle_predispatch_supersession_v0_1.yaml"
+        ).read_text(encoding="utf-8")
+    )
+    assert evidence["refresh_ordinal"] == 1
+
+def test_refresh_cycle_archive_collision_gets_monotonic_suffix(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = tmp_path / "repo"
+    runtime = tmp_path / "runtime"
+    root.mkdir()
+    attempt_id = "cf10-u180j-a104"
+    task_prompt_id = "task-refresh"
+    old_head = "a" * 40
+    new_head = "b" * 40
+    old_fp = "1" * 64
+    new_fp = "2" * 64
+    binding = {
+        "task_prompt_id": task_prompt_id,
+        "task_ref": (
+            "coordination/internal_work/blueprint/worker_tasks/task.yaml"
+        ),
+        "work_front_id": "wf-refresh",
+        "work_front_ref": "coordination/work_fronts/wf_refresh.yaml",
+    }
+    attempt = _prepared_refresh_attempt(
+        root=root,
+        runtime_root=runtime,
+        attempt_id=attempt_id,
+        binding=binding,
+        source_head=old_head,
+        source_fp=old_fp,
+    )
+    archive_base = attempt.parent / (
+        attempt_id
+        + "__predispatch_superseded__"
+        + old_head[:7]
+        + "_"
+        + old_fp[:12]
+        + "_to_"
+        + new_head[:7]
+        + "_"
+        + new_fp[:12]
+    )
+    archive_base.mkdir(parents=True)
+
+    monkeypatch.setattr(
+        cycle.training,
+        "resolve_training_task",
+        lambda **_kwargs: binding,
+    )
+    monkeypatch.setattr(
+        cycle.training,
+        "assert_attempt_unused",
+        lambda **_kwargs: None,
+    )
+    monkeypatch.setattr(
+        cycle.training,
+        "build_training_canonical_ack",
+        lambda **_kwargs: {"ack": "canonical"},
+    )
+    monkeypatch.setattr(
+        cycle,
+        "build_source_state",
+        lambda _root: {
+            "git_head": new_head,
+            "fingerprint_sha256": new_fp,
+            "durable_dirty_paths": [],
+        },
+    )
+    monkeypatch.setattr(
+        cycle,
+        "_git_is_ancestor",
+        lambda *_args, **_kwargs: True,
+    )
+    monkeypatch.setattr(
+        cycle,
+        "_git_output",
+        lambda *_args, **_kwargs: "",
+    )
+
+    def fake_prepare_cycle(**_kwargs):
+        refreshed_attempt = (
+            runtime
+            / cycle.MODULE_ID
+            / cycle.WORKER_ID
+            / attempt_id
+        )
+        refreshed_attempt.mkdir(parents=True)
+        return {
+            "source_head": new_head,
+            "source_state_fingerprint": new_fp,
+        }
+
+    monkeypatch.setattr(cycle, "prepare_cycle", fake_prepare_cycle)
+
+    result = cycle.refresh_cycle(
+        root=root,
+        runtime_root=runtime,
+        task_prompt_id=task_prompt_id,
+        attempt_id=attempt_id,
+    )
+
+    archive = Path(result["superseded_runtime_archive"])
+    assert archive == Path(str(archive_base) + "__r02")
+    evidence = yaml.safe_load(
+        (
+            archive
+            / "evidence/"
+            "governed_worker_cycle_predispatch_supersession_v0_1.yaml"
+        ).read_text(encoding="utf-8")
+    )
+    assert evidence["refresh_ordinal"] == 2

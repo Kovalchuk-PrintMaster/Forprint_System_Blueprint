@@ -599,16 +599,23 @@ def refresh_cycle(
             "canonical source changed during refresh preflight"
         )
 
-    archive = attempt.parent / (
+    archive_base = attempt.parent / (
         attempt_id
         + "__predispatch_superseded__"
         + old_head[:7]
+        + "_"
+        + old_fp[:12]
         + "_to_"
         + current_head[:7]
+        + "_"
+        + current_fp[:12]
     )
-    if archive.exists():
-        raise GovernedWorkerCycleError(
-            f"superseded runtime archive already exists: {archive}"
+    archive = archive_base
+    refresh_ordinal = 1
+    while archive.exists():
+        refresh_ordinal += 1
+        archive = Path(
+            str(archive_base) + f"__r{refresh_ordinal:02d}"
         )
 
     supersession = {
@@ -624,6 +631,7 @@ def refresh_cycle(
         "old_source_state_fingerprint": old_fp,
         "new_source_head": current_head,
         "new_source_state_fingerprint": current_fp,
+        "refresh_ordinal": refresh_ordinal,
         "relevant_paths_checked": list(relevant_paths),
         "relevant_committed_drift": changed_paths,
         "relevant_dirty_overlay_unchanged": True,

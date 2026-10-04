@@ -66,8 +66,11 @@ acceptance:
 - Existing canonical dispatch/workspace/Handoff/ledger APIs are reused.
 - Pre-ACK refresh is allowed only while ACK, explicit dispatch, Worker launch
   and canonical attempt-ledger append remain false.
-- Refresh preserves the superseded prepared runtime as immutable evidence and
-  reprovisions through the existing canonical preparation entrypoint.
+- Refresh preserves every superseded prepared runtime as immutable evidence,
+  including repeated same-HEAD source-fingerprint refreshes, and reprovisions
+  through the existing canonical preparation entrypoint.
+- Superseded runtime archive identity includes source-state fingerprints and a
+  monotonic collision suffix so repeated pre-ACK refresh remains reusable.
 - Relevant task, Work Front, execution-corridor or dirty-overlay drift blocks
   same-attempt refresh and requires a new attempt_id.
 - Promotion contract required checks remain enforced.
