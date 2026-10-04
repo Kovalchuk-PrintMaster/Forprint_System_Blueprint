@@ -5,8 +5,8 @@ roadmap_step: OC-01
 contour: OC01-FULL-1
 name: protected_terminal_policy_audit_hardening
 objective: Harden the existing OC01 Protected Terminal gateway by extending the proven READ_ONLY path with richer
-  capability/profile metadata, structured explainable policy denial and durable external terminal audit/history.
-  Do not enable SAFE_WRITE or live cancel while canonical session/lease and shared-runtime cancel dependencies remain
+  capability/profile metadata, structured explainable policy denial and durable external terminal audit/history. Do
+  not enable SAFE_WRITE or live cancel while canonical session/lease and shared-runtime cancel dependencies remain
   unproven.
 authority:
   work_front_is_execution_authority: true
@@ -114,3 +114,54 @@ non_goals:
 - OC01_FULL_2_plus_activation
 source_design_freeze:
   path: coordination/internal_work/blueprint/operator_console/2026-10-04__oc01_full1_protected_terminal_hardening_design_freeze_v0_1.yaml
+status: SLICE_A_RUNTIME_PROVEN
+completion:
+  slice: A
+  state: RUNTIME_PROVEN_PUBLISHED_IMPLEMENTATION
+  completed_at: '2026-10-04'
+  published_implementation_commit: c2cd22a9d27447eff370b562d91729cf86996e75
+  runtime_proof:
+    state: PASS
+    proof_schema_version: forprint_oc01_full1_slice_a_runtime_proof_v0_1
+    proof_yaml_local_path: tmp/oc01_full1_slice_a_runtime_proof_2026_10_04_v0_1.yaml
+    proof_yaml_sha256: b5d6c6aebc40457787ee2fedad94b9be51c9d5dfe3032d85eae56529cef74564
+    proof_md_local_path: tmp/oc01_full1_slice_a_runtime_proof_2026_10_04_v0_1.md
+    proof_md_sha256: c48bdf82df3f3e62c40272d34d23fc748d471585ca705979250d0a17c3737818
+    evidence_location_class: EXTERNAL_EPHEMERAL_RUNTIME
+    canonical_blueprint_repo_used_as_execution_target: false
+  verified_behavior:
+    read_only_runtime_execution: PASS
+    read_only_return_code: 0
+    read_only_shell: false
+    read_only_canonical_write_performed: false
+    safe_write_denial: PASS
+    safe_write_denial_code: EXCLUSIVE_MODULE_LEASE_NOT_PROVEN
+    denial_command_output_created: false
+    denial_authority_conferred: false
+    append_only_history: PASS
+    history_event_count: 4
+    history_event_sequence:
+    - PLAN_ALLOWED
+    - EXECUTION_STARTED
+    - EXECUTION_FINISHED
+    - POLICY_DENIED
+    make_history_entrypoint: PASS
+    canonical_oc01_hashes_unchanged: true
+  implementation_sha256:
+    Makefile: 7355e9f87528f3da77ff7bc109794e834670c3b0c9c89be4f0f9af479fe55244
+    scripts/coordination/control_plane/operator_console/protected_terminal.py: a714d7d904fdf3011dd155e5566db6cc1c84facb655b09f6a8ae5f4de1b14926
+    tests/coordination/control_plane/operator_console/test_oc01_protected_terminal_gateway_v0_1.py: 5f302a94a08b202bb6ad6d46ef2b5a6e5de19802417a817306dda686853610d6
+  dependency_gates_preserved:
+    safe_write_enabled: false
+    safe_write_blocker: EXCLUSIVE_MODULE_LEASE_NOT_PROVEN
+    live_cancel_enabled: false
+    live_cancel_state: DEPENDENCY_PENDING_CF10
+  completion_boundary:
+    slice_a_complete: true
+    oc01_full1_complete: false
+    remaining_full1_dependency_gated:
+    - lease_backed_safe_write
+    - live_process_cancel
+    - streaming_output
+    - sensitive_elevated_capability_approval
+    automatic_next_slice_activation: false
