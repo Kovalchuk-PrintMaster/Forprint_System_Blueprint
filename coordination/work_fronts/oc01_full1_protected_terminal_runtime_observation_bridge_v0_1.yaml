@@ -86,3 +86,78 @@ activation_boundary:
   automatic_commit: false
   automatic_push: false
   automatic_next_slice_activation: false
+status: SLICE_B_RUNTIME_PROVEN
+completion_evidence:
+  completed_at: '2026-10-04'
+  activation_commit: 5834647a0680a1923f4a58a8a8d9faaf9ebc734b
+  published_implementation_commit: 442b4b2af5aae65658a3e4e154f7c5547a2fbb74
+  implementation:
+    tests_first_red_observed: true
+    gateway_test_count: 23
+    gateway_tests_passed: 23
+    shared_launcher_regression_test_count: 6
+    shared_launcher_regression_tests_passed: 6
+    work_front_contract_check: PASS
+    canonical_terminal_check: PASS
+    semantic_review: PASS
+    implementation_write_set:
+    - scripts/coordination/control_plane/operator_console/protected_terminal.py
+    - tests/coordination/control_plane/operator_console/test_oc01_protected_terminal_gateway_v0_1.py
+    module_sha256: bfd54a8166216e339933d140c14dc310e55739932deb930bda0a62c80f00e89d
+    test_sha256: 70415b0db0acebea2808790029d659ab5a76fa54027af4a3fea66b389ab39263
+    shared_launcher_sha256: 993301079368394f7c5b3910599fad603b1cf48cf552ab965f05401e1701e30d
+    shared_launcher_test_sha256: d877e685dc4ab6981a1abd2ea2fea8cac4896f890b26b682fbc4dc7ea8e342b4
+  runtime_proof:
+    state: PASS
+    schema_version: forprint_oc01_full1_slice_b_runtime_proof_v0_2
+    yaml_path: tmp/oc01_full1_slice_b_runtime_proof_2026_10_04_v0_2.yaml
+    yaml_sha256: 78aae38d94965f5ba6c2d426069bb5d9769db51305b3ede878fc6cae5c917752
+    markdown_path: tmp/oc01_full1_slice_b_runtime_proof_2026_10_04_v0_2.md
+    markdown_sha256: 451bd8c832bfe1b73f74f2bf73bd457b0ff05d9fd35f4098e4ed18d4c082ebcc
+    previous_v0_1_failure: HARNESS_WORKLOAD_TOO_FAST_NOT_IMPLEMENTATION_FAILURE
+    default_path_compatibility: PASS
+    default_runtime_observation_event_count: 0
+    calibration_method: REAL_REGISTERED_REPO_DIFF_CHECK
+    selected_payload_mib: 256
+    calibrated_direct_elapsed_seconds: 2.212083
+    real_runtime_observation_event_count: 2
+    protected_terminal_elapsed_seconds: 2.254576
+    progress_observed_true_seen: false
+    stall_detected_true_seen: true
+    progress_stall_metadata_present: true
+    sanitizer_allowlist_enforced: true
+    stdout_sentinel_present: true
+    stdout_sentinel_absent_from_history: true
+    byte_level_streaming: false
+    callback_error_count: 0
+    fake_git_used: false
+    monkeypatch_used: false
+    canonical_blueprint_repo_used_as_execution_target: false
+  dependency_boundaries:
+    safe_write_enabled: false
+    safe_write_blocker: EXCLUSIVE_MODULE_LEASE_NOT_PROVEN
+    live_cancel_enabled: false
+    live_cancel_state: DEPENDENCY_PENDING_CF10
+    sensitive_elevated_capability_approval: DESIGN_REQUIRED_NOT_ACTIVATED
+    registry_integration: NO_RUNTIME_PRIMITIVE_PROVEN
+  authority_and_integrity:
+    authority_widened: false
+    canonical_write_performed: false
+    commit_performed_by_gateway: false
+    push_performed_by_gateway: false
+    merge_performed_by_gateway: false
+    release_performed_by_gateway: false
+    promotion_performed_by_gateway: false
+    canonical_tracked_hashes_unchanged: true
+    canonical_git_status_unchanged: true
+    shared_launcher_unchanged: true
+  completion:
+    slice_b_complete: true
+    slice_b_runtime_proven: true
+    oc01_full1_complete: false
+    remaining:
+    - lease_backed_safe_write
+    - live_process_cancel
+    - sensitive_elevated_capability_approval
+    - registry_integration
+    automatic_next_slice_activation: false
