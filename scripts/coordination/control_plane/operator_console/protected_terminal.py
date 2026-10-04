@@ -6,6 +6,7 @@ import json
 import shutil
 import subprocess
 import tempfile
+from datetime import datetime, timezone
 from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
@@ -35,9 +36,57 @@ READ_ONLY_CAPABILITIES: dict[str, tuple[str, ...]] = {
 }
 
 
-class ProtectedTerminalError(RuntimeError):
-    pass
+READ_ONLY_CAPABILITY_PROFILES: dict[str, dict[str, Any]] = {
+    "repo_status": {
+        "profile_id": "repository_observation",
+        "description": "Read repository status without changing repository state.",
+        "side_effect_class": "NONE_EXPECTED",
+        "repository_mutation_allowed": False,
+        "risk": "LOW",
+        "approval": "EXPLICIT_ENABLE_REQUIRED",
+        "evidence": "STDOUT_STDERR_AND_AUDIT",
+    },
+    "repo_head": {
+        "profile_id": "repository_observation",
+        "description": "Read the current repository HEAD without changing repository state.",
+        "side_effect_class": "NONE_EXPECTED",
+        "repository_mutation_allowed": False,
+        "risk": "LOW",
+        "approval": "EXPLICIT_ENABLE_REQUIRED",
+        "evidence": "STDOUT_STDERR_AND_AUDIT",
+    },
+    "repo_diff_check": {
+        "profile_id": "repository_validation",
+        "description": "Validate repository diff whitespace without changing repository state.",
+        "side_effect_class": "NONE_EXPECTED",
+        "repository_mutation_allowed": False,
+        "risk": "LOW",
+        "approval": "EXPLICIT_ENABLE_REQUIRED",
+        "evidence": "STDOUT_STDERR_AND_AUDIT",
+    },
+}
 
+class ProtectedTerminalError(RuntimeError):
+    def __init__(
+        self,
+        reason: str,
+        *,
+        code: str = "PROTECTED_TERMINAL_DENIED",
+        receipt_path: str | None = None,
+    ) -> None:
+        super().__init__(reason)
+        self.code = code
+        self.reason = reason
+        self.receipt_path = receipt_path
+
+    def as_dict(self) -> dict[str, Any]:
+        return {
+            "schema_version": "forprint_oc01_protected_terminal_denial_v0_1",
+            "decision": "DENY",
+            "code": self.code,
+            "reason": self.reason,
+            "receipt_path": self.receipt_path,
+        }
 
 def _mapping(value: Any, label: str) -> Mapping[str, Any]:
     if not isinstance(value, Mapping):
@@ -54,6 +103,180 @@ def _required_string(value: Any, label: str) -> str:
 def _argv_sha256(argv: list[str]) -> str:
     return hashlib.sha256("\0".join(argv).encode("utf-8")).hexdigest()
 
+
+
+def _utc_now() -> str:
+    return datetime.now(timezone.utc).isoformat()
+
+
+def _event_id(payload: Mapping[str, Any]) -> str:
+    material = json.dumps(
+        dict(payload),
+        sort_keys=True,
+        separators=(",", ":"),
+        ensure_ascii=False,
+    )
+    return "oc01-terminal-event-" + hashlib.sha256(
+        material.encode("utf-8")
+    ).hexdigest()[:20]
+
+
+def _ensure_outside_scope(scope: Path, path: Path, label: str) -> Path:
+    resolved = path.expanduser().resolve()
+    try:
+        resolved.relative_to(scope)
+    except ValueError:
+        return resolved
+    raise ProtectedTerminalError(
+        f"{label} must remain outside protected repository scope",
+        code="EVIDENCE_SCOPE_VIOLATION",
+    )
+
+
+def _resolve_evidence_root(
+    scope: Path,
+    evidence_dir: Path | str | None,
+) -> Path:
+    root = (
+        Path(evidence_dir).expanduser().resolve()
+        if evidence_dir is not None
+        else (
+            Path(tempfile.gettempdir())
+            / "forprint_operator_console"
+            / "protected_terminal"
+        ).resolve()
+    )
+    return _ensure_outside_scope(scope, root, "evidence_dir")
+
+
+def _append_jsonl(path: Path, payload: Mapping[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("a", encoding="utf-8") as handle:
+        handle.write(
+            json.dumps(
+                dict(payload),
+                sort_keys=True,
+                ensure_ascii=False,
+                separators=(",", ":"),
+            )
+            + "\n"
+        )
+
+
+def _record_audit_event(
+    evidence_root: Path,
+    *,
+    event_type: str,
+    decision: str,
+    code: str,
+    reason: str,
+    actor_type: str | None = None,
+    actor_id: str | None = None,
+    capability_id: str | None = None,
+    cwd: str | None = None,
+    command_id: str | None = None,
+    details: Mapping[str, Any] | None = None,
+    denial: bool = False,
+) -> dict[str, Any]:
+    payload: dict[str, Any] = {
+        "schema_version": "forprint_oc01_protected_terminal_audit_event_v0_1",
+        "recorded_at": _utc_now(),
+        "event_type": event_type,
+        "decision": decision,
+        "code": code,
+        "reason": reason,
+        "actor": {
+            "actor_type": actor_type,
+            "actor_id": actor_id,
+        },
+        "capability_id": capability_id,
+        "cwd": cwd,
+        "command_id": command_id,
+        "authority_conferred": False,
+        "details": dict(details or {}),
+    }
+    payload["event_id"] = _event_id(payload)
+    history_path = evidence_root / "terminal_history_v0_1.jsonl"
+    _append_jsonl(history_path, payload)
+    if denial:
+        _append_jsonl(
+            evidence_root / "denial_receipts_v0_1.jsonl",
+            payload,
+        )
+    return payload
+
+
+def _raise_policy_denial(
+    *,
+    code: str,
+    reason: str,
+    evidence_root: Path | None = None,
+    actor_type: str | None = None,
+    actor_id: str | None = None,
+    capability_id: str | None = None,
+    cwd: str | None = None,
+    details: Mapping[str, Any] | None = None,
+) -> None:
+    receipt_path: str | None = None
+    if evidence_root is not None:
+        _record_audit_event(
+            evidence_root,
+            event_type="POLICY_DENIED",
+            decision="DENY",
+            code=code,
+            reason=reason,
+            actor_type=actor_type,
+            actor_id=actor_id,
+            capability_id=capability_id,
+            cwd=cwd,
+            details=details,
+            denial=True,
+        )
+        receipt_path = str(evidence_root / "denial_receipts_v0_1.jsonl")
+    raise ProtectedTerminalError(
+        reason,
+        code=code,
+        receipt_path=receipt_path,
+    )
+
+
+def load_terminal_history(
+    evidence_dir: Path | str,
+    *,
+    limit: int = 50,
+) -> dict[str, Any]:
+    if (
+        not isinstance(limit, int)
+        or isinstance(limit, bool)
+        or limit <= 0
+        or limit > 1000
+    ):
+        raise ProtectedTerminalError(
+            "history limit must be an integer between 1 and 1000",
+            code="INVALID_HISTORY_LIMIT",
+        )
+    root = Path(evidence_dir).expanduser().resolve()
+    path = root / "terminal_history_v0_1.jsonl"
+    events: list[dict[str, Any]] = []
+    if path.is_file():
+        for raw in path.read_text(encoding="utf-8").splitlines():
+            if not raw.strip():
+                continue
+            value = json.loads(raw)
+            if not isinstance(value, dict):
+                raise ProtectedTerminalError(
+                    "terminal history entry must be a mapping",
+                    code="INVALID_HISTORY_RECORD",
+                )
+            events.append(value)
+    selected = events[-limit:]
+    return {
+        "schema_version": "forprint_oc01_protected_terminal_history_v0_1",
+        "history_path": str(path),
+        "event_count": len(events),
+        "returned_count": len(selected),
+        "events": selected,
+    }
 
 def _load_yaml(path: Path, label: str) -> dict[str, Any]:
     if not path.is_file():
@@ -112,6 +335,7 @@ def _validate_git_scope(cwd: Path | str) -> Path:
     return scope
 
 
+
 def list_capabilities() -> dict[str, Any]:
     return {
         "schema_version": SCHEMA_VERSION,
@@ -119,11 +343,22 @@ def list_capabilities() -> dict[str, Any]:
         "command_representation": COMMAND_REPRESENTATION,
         "arbitrary_command_text_allowed": False,
         "shell": False,
+        "policy": {
+            "mode": "REGISTERED_CAPABILITY_ONLY",
+            "default_decision": "DENY",
+            "explicit_enable_required": True,
+            "authority_widening_allowed": False,
+        },
         "capabilities": [
             {
                 "capability_id": capability_id,
                 "class": "READ_ONLY",
                 "execution_state": "AVAILABLE_WHEN_EXPLICITLY_ENABLED",
+                "profile": dict(READ_ONLY_CAPABILITY_PROFILES[capability_id]),
+                "policy": {
+                    "decision": "ALLOW_WHEN_EXPLICITLY_ENABLED",
+                    "code": "REGISTERED_READ_ONLY_CAPABILITY",
+                },
             }
             for capability_id in sorted(READ_ONLY_CAPABILITIES)
         ],
@@ -131,10 +366,20 @@ def list_capabilities() -> dict[str, Any]:
             "class": "SAFE_WRITE",
             "execution_state": "BLOCKED",
             "blocker": "EXCLUSIVE_MODULE_LEASE_NOT_PROVEN",
+            "policy": {
+                "decision": "DENY",
+                "code": "EXCLUSIVE_MODULE_LEASE_NOT_PROVEN",
+            },
         },
         "cancel": {
             "state": CANCEL_STATE,
             "implemented_by_oc01": False,
+        },
+        "audit": {
+            "mode": "APPEND_ONLY",
+            "storage": "OUTSIDE_PROTECTED_REPOSITORY_SCOPE",
+            "history_filename": "terminal_history_v0_1.jsonl",
+            "denial_receipts_filename": "denial_receipts_v0_1.jsonl",
         },
     }
 
@@ -151,22 +396,11 @@ def build_terminal_plan(
 ) -> dict[str, Any]:
     if enabled is not True:
         raise ProtectedTerminalError(
-            "Protected Terminal is default-off; explicit enable is required"
+            "Protected Terminal is default-off; explicit enable is required",
+            code="EXPLICIT_ENABLE_REQUIRED",
         )
 
     actor_type, actor_id = _validate_session_projection(session_projection)
-
-    if capability_class == "SAFE_WRITE":
-        raise ProtectedTerminalError(
-            "SAFE_WRITE blocked: EXCLUSIVE_MODULE_LEASE_NOT_PROVEN"
-        )
-    if capability_class != "READ_ONLY":
-        raise ProtectedTerminalError("unsupported capability class")
-
-    capability_id = _required_string(capability_id, "capability_id")
-    args = READ_ONLY_CAPABILITIES.get(capability_id)
-    if args is None:
-        raise ProtectedTerminalError("unknown Protected Terminal capability")
 
     if (
         not isinstance(timeout_seconds, int)
@@ -175,35 +409,59 @@ def build_terminal_plan(
         or timeout_seconds > 300
     ):
         raise ProtectedTerminalError(
-            "timeout_seconds must be an integer between 1 and 300"
+            "timeout_seconds must be an integer between 1 and 300",
+            code="INVALID_TIMEOUT",
         )
 
     scope = _validate_git_scope(cwd)
+    evidence_root = _resolve_evidence_root(scope, evidence_dir)
+
+    capability_id = _required_string(capability_id, "capability_id")
+    if capability_class == "SAFE_WRITE":
+        _raise_policy_denial(
+            code="EXCLUSIVE_MODULE_LEASE_NOT_PROVEN",
+            reason="SAFE_WRITE blocked: EXCLUSIVE_MODULE_LEASE_NOT_PROVEN",
+            evidence_root=evidence_root,
+            actor_type=actor_type,
+            actor_id=actor_id,
+            capability_id=capability_id,
+            cwd=str(scope),
+            details={
+                "capability_class": "SAFE_WRITE",
+                "safe_write_execution_allowed": False,
+            },
+        )
+    if capability_class != "READ_ONLY":
+        _raise_policy_denial(
+            code="UNSUPPORTED_CAPABILITY_CLASS",
+            reason="unsupported capability class",
+            evidence_root=evidence_root,
+            actor_type=actor_type,
+            actor_id=actor_id,
+            capability_id=capability_id,
+            cwd=str(scope),
+            details={"capability_class": capability_class},
+        )
+
+    args = READ_ONLY_CAPABILITIES.get(capability_id)
+    if args is None:
+        _raise_policy_denial(
+            code="UNKNOWN_CAPABILITY",
+            reason="unknown Protected Terminal capability",
+            evidence_root=evidence_root,
+            actor_type=actor_type,
+            actor_id=actor_id,
+            capability_id=capability_id,
+            cwd=str(scope),
+        )
 
     git_executable = shutil.which("git")
     if not git_executable:
-        raise ProtectedTerminalError("git executable is unavailable")
-    argv = [
-        str(Path(git_executable).resolve()),
-        "--no-optional-locks",
-        *args,
-    ]
-
-    evidence_root = (
-        Path(evidence_dir).expanduser().resolve()
-        if evidence_dir is not None
-        else Path(tempfile.gettempdir()).resolve()
-        / "forprint-oc01"
-        / "protected_terminal"
-    )
-    try:
-        evidence_root.relative_to(scope)
-    except ValueError:
-        pass
-    else:
         raise ProtectedTerminalError(
-            "evidence_dir must remain outside protected repository scope"
+            "git executable is unavailable",
+            code="GIT_EXECUTABLE_UNAVAILABLE",
         )
+    argv = [str(Path(git_executable).resolve()), "--no-optional-locks", *args]
 
     command_id_material = {
         "capability_id": capability_id,
@@ -221,7 +479,8 @@ def build_terminal_plan(
     ).hexdigest()[:16]
 
     command_dir = evidence_root / command_id
-    return {
+    profile = dict(READ_ONLY_CAPABILITY_PROFILES[capability_id])
+    plan = {
         "schema_version": SCHEMA_VERSION,
         "command_id": command_id,
         "enabled": True,
@@ -229,6 +488,14 @@ def build_terminal_plan(
             "capability_id": capability_id,
             "class": "READ_ONLY",
             "exact_scope": str(scope),
+            "profile": profile,
+        },
+        "policy": {
+            "decision": "ALLOW",
+            "code": "REGISTERED_READ_ONLY_CAPABILITY",
+            "default_policy": "DENY",
+            "explicit_enable_confirmed": True,
+            "authority_conferred": False,
         },
         "actor": {
             "actor_type": actor_type,
@@ -246,6 +513,14 @@ def build_terminal_plan(
             "stdout_path": str(command_dir / "stdout.log"),
             "stderr_path": str(command_dir / "stderr.log"),
         },
+        "audit": {
+            "mode": "APPEND_ONLY",
+            "storage": "OUTSIDE_PROTECTED_REPOSITORY_SCOPE",
+            "history_path": str(evidence_root / "terminal_history_v0_1.jsonl"),
+            "denial_receipts_path": str(
+                evidence_root / "denial_receipts_v0_1.jsonl"
+            ),
+        },
         "authority": {
             "gateway_grants_execution_authority": False,
             "gateway_grants_dispatch_authority": False,
@@ -262,6 +537,23 @@ def build_terminal_plan(
             "available": False,
         },
     }
+    _record_audit_event(
+        evidence_root,
+        event_type="PLAN_ALLOWED",
+        decision="ALLOW",
+        code="REGISTERED_READ_ONLY_CAPABILITY",
+        reason="registered read-only capability plan created",
+        actor_type=actor_type,
+        actor_id=actor_id,
+        capability_id=capability_id,
+        cwd=str(scope),
+        command_id=command_id,
+        details={
+            "profile_id": profile["profile_id"],
+            "argv_sha256": _argv_sha256(argv),
+        },
+    )
+    return plan
 
 
 def execute_terminal_plan(plan: Mapping[str, Any]) -> dict[str, Any]:
@@ -273,9 +565,11 @@ def execute_terminal_plan(plan: Mapping[str, Any]) -> dict[str, Any]:
 
     actor = _mapping(plan.get("actor"), "actor")
     actor_type = _required_string(actor.get("actor_type"), "actor_type")
-    _required_string(actor.get("actor_id"), "actor_id")
+    actor_id = _required_string(actor.get("actor_id"), "actor_id")
     if actor_type not in TERMINAL_ACTOR_TYPES:
-        raise ProtectedTerminalError("terminal plan actor type is not allowed")
+        raise ProtectedTerminalError(
+            "terminal plan actor type is not allowed"
+        )
     if actor.get("source") != "OC01_MINI_1_SESSION_PROJECTION":
         raise ProtectedTerminalError("terminal plan actor source drift")
     if actor.get("authority_conferred") is not False:
@@ -295,15 +589,18 @@ def execute_terminal_plan(plan: Mapping[str, Any]) -> dict[str, Any]:
     if not authority or any(value is not False for value in authority.values()):
         raise ProtectedTerminalError("terminal plan authority widened")
 
-    execution = _mapping(plan.get("execution"), "execution")
-    exact_scope = _validate_git_scope(
+    exact_scope = Path(
         _required_string(capability.get("exact_scope"), "exact_scope")
-    )
+    ).expanduser().resolve()
+
+    execution = _mapping(plan.get("execution"), "execution")
     execution_cwd = _validate_git_scope(
         _required_string(execution.get("cwd"), "cwd")
     )
     if execution_cwd != exact_scope:
-        raise ProtectedTerminalError("terminal execution cwd / exact scope drift")
+        raise ProtectedTerminalError(
+            "terminal execution cwd / exact scope drift"
+        )
     if execution.get("command_representation") != COMMAND_REPRESENTATION:
         raise ProtectedTerminalError("command representation drift")
     if execution.get("shell") is not False:
@@ -321,11 +618,7 @@ def execute_terminal_plan(plan: Mapping[str, Any]) -> dict[str, Any]:
     git_executable = shutil.which("git")
     if not git_executable:
         raise ProtectedTerminalError("git executable is unavailable")
-    expected_argv = [
-        str(Path(git_executable).resolve()),
-        "--no-optional-locks",
-        *expected_args,
-    ]
+    expected_argv = [str(Path(git_executable).resolve()), "--no-optional-locks", *expected_args]
     if argv != expected_argv:
         raise ProtectedTerminalError(
             "terminal argv does not match registered capability"
@@ -333,24 +626,55 @@ def execute_terminal_plan(plan: Mapping[str, Any]) -> dict[str, Any]:
     if execution.get("argv_sha256") != _argv_sha256(argv):
         raise ProtectedTerminalError("terminal argv digest mismatch")
 
-    stdout_path = Path(
-        _required_string(execution.get("stdout_path"), "stdout_path")
-    ).expanduser().resolve()
-    stderr_path = Path(
-        _required_string(execution.get("stderr_path"), "stderr_path")
-    ).expanduser().resolve()
-    for label, output_path in (
-        ("stdout_path", stdout_path),
-        ("stderr_path", stderr_path),
-    ):
-        try:
-            output_path.relative_to(exact_scope)
-        except ValueError:
-            pass
-        else:
-            raise ProtectedTerminalError(
-                f"{label} must remain outside protected repository scope"
+    stdout_path = _ensure_outside_scope(
+        execution_cwd,
+        Path(_required_string(execution.get("stdout_path"), "stdout_path")),
+        "stdout_path",
+    )
+    stderr_path = _ensure_outside_scope(
+        execution_cwd,
+        Path(_required_string(execution.get("stderr_path"), "stderr_path")),
+        "stderr_path",
+    )
+
+    audit = _mapping(plan.get("audit"), "audit")
+    if audit.get("mode") != "APPEND_ONLY":
+        raise ProtectedTerminalError("terminal audit mode drift")
+    if audit.get("storage") != "OUTSIDE_PROTECTED_REPOSITORY_SCOPE":
+        raise ProtectedTerminalError("terminal audit storage drift")
+    history_path = _ensure_outside_scope(
+        execution_cwd,
+        Path(_required_string(audit.get("history_path"), "history_path")),
+        "history_path",
+    )
+    denial_receipts_path = _ensure_outside_scope(
+        execution_cwd,
+        Path(
+            _required_string(
+                audit.get("denial_receipts_path"),
+                "denial_receipts_path",
             )
+        ),
+        "denial_receipts_path",
+    )
+    if history_path.parent != denial_receipts_path.parent:
+        raise ProtectedTerminalError("terminal audit root drift")
+    evidence_root = history_path.parent
+
+    command_id = _required_string(plan.get("command_id"), "command_id")
+    _record_audit_event(
+        evidence_root,
+        event_type="EXECUTION_STARTED",
+        decision="ALLOW",
+        code="REGISTERED_READ_ONLY_CAPABILITY",
+        reason="registered read-only capability execution started",
+        actor_type=actor_type,
+        actor_id=actor_id,
+        capability_id=capability_id,
+        cwd=str(execution_cwd),
+        command_id=command_id,
+        details={"argv_sha256": execution.get("argv_sha256")},
+    )
 
     result = launch_process(
         argv=list(argv),
@@ -360,9 +684,9 @@ def execute_terminal_plan(plan: Mapping[str, Any]) -> dict[str, Any]:
         timeout_seconds=execution.get("timeout_seconds"),
     )
 
-    return {
+    terminal_result = {
         "schema_version": "forprint_oc01_protected_terminal_result_v0_1",
-        "command_id": plan.get("command_id"),
+        "command_id": command_id,
         "capability_id": capability_id,
         "actor": plan.get("actor"),
         "cwd": execution.get("cwd"),
@@ -375,6 +699,10 @@ def execute_terminal_plan(plan: Mapping[str, Any]) -> dict[str, Any]:
         "timed_out": result.get("timed_out"),
         "outcome": result.get("outcome"),
         "shell": result.get("shell"),
+        "audit": {
+            "history_path": str(history_path),
+            "mode": "APPEND_ONLY",
+        },
         "cancel": {
             "state": CANCEL_STATE,
             "available": False,
@@ -390,14 +718,37 @@ def execute_terminal_plan(plan: Mapping[str, Any]) -> dict[str, Any]:
             "promotion_performed": False,
         },
     }
-
+    _record_audit_event(
+        evidence_root,
+        event_type="EXECUTION_FINISHED",
+        decision="ALLOW",
+        code="REGISTERED_READ_ONLY_CAPABILITY",
+        reason="registered read-only capability execution finished",
+        actor_type=actor_type,
+        actor_id=actor_id,
+        capability_id=capability_id,
+        cwd=str(execution_cwd),
+        command_id=command_id,
+        details={
+            "return_code": result.get("return_code"),
+            "timed_out": result.get("timed_out"),
+            "outcome": result.get("outcome"),
+            "stdout_path": result.get("stdout_path"),
+            "stderr_path": result.get("stderr_path"),
+        },
+    )
+    return terminal_result
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="OC-01 MINI-2 capability-shaped Protected Terminal gateway"
+        description="OC-01 capability-shaped Protected Terminal gateway"
     )
     sub = parser.add_subparsers(dest="command", required=True)
     sub.add_parser("capabilities")
+
+    history = sub.add_parser("history")
+    history.add_argument("--evidence-dir", required=True)
+    history.add_argument("--limit", type=int, default=50)
 
     for name in ("plan", "run"):
         p = sub.add_parser(name)
@@ -411,12 +762,28 @@ def main() -> int:
     args = parser.parse_args()
 
     if args.command == "capabilities":
-        print(yaml.safe_dump(
-            list_capabilities(),
-            sort_keys=False,
-            allow_unicode=True,
-            width=112,
-        ).rstrip())
+        print(
+            yaml.safe_dump(
+                list_capabilities(),
+                sort_keys=False,
+                allow_unicode=True,
+                width=112,
+            ).rstrip()
+        )
+        return 0
+
+    if args.command == "history":
+        print(
+            yaml.safe_dump(
+                load_terminal_history(
+                    Path(args.evidence_dir),
+                    limit=args.limit,
+                ),
+                sort_keys=False,
+                allow_unicode=True,
+                width=112,
+            ).rstrip()
+        )
         return 0
 
     plan = build_terminal_plan(
@@ -432,23 +799,37 @@ def main() -> int:
     )
 
     if args.command == "plan":
-        print(yaml.safe_dump(
-            plan,
-            sort_keys=False,
-            allow_unicode=True,
-            width=112,
-        ).rstrip())
+        print(
+            yaml.safe_dump(
+                plan,
+                sort_keys=False,
+                allow_unicode=True,
+                width=112,
+            ).rstrip()
+        )
         return 0
 
     result = execute_terminal_plan(plan)
-    print(yaml.safe_dump(
-        result,
-        sort_keys=False,
-        allow_unicode=True,
-        width=112,
-    ).rstrip())
+    print(
+        yaml.safe_dump(
+            result,
+            sort_keys=False,
+            allow_unicode=True,
+            width=112,
+        ).rstrip()
+    )
     return 0
 
-
 if __name__ == "__main__":
-    raise SystemExit(main())
+    try:
+        raise SystemExit(main())
+    except ProtectedTerminalError as exc:
+        print(
+            yaml.safe_dump(
+                exc.as_dict(),
+                sort_keys=False,
+                allow_unicode=True,
+                width=112,
+            ).rstrip()
+        )
+        raise SystemExit(2)

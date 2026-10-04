@@ -176,6 +176,7 @@ help:
 	@echo "  make oc01-protected-terminal-capabilities"
 	@echo "  make oc01-protected-terminal-plan OC01_TERMINAL_CAPABILITY=<capability> OC01_TERMINAL_CWD=<repo-root> OC01_TERMINAL_SESSION_PROJECTION=<projection> OC01_TERMINAL_CONFIRM=1"
 	@echo "  make oc01-protected-terminal-run OC01_TERMINAL_CAPABILITY=<capability> OC01_TERMINAL_CWD=<repo-root> OC01_TERMINAL_SESSION_PROJECTION=<projection> OC01_TERMINAL_CONFIRM=1"
+	@echo "  make oc01-protected-terminal-history OC01_TERMINAL_HISTORY_EVIDENCE_DIR=<outside-repo-evidence> [OC01_TERMINAL_HISTORY_LIMIT=50]"
 	@echo "  make oc01-assistant-sandbox-create OC01_SANDBOX_ATTEMPT_ID=<id> OC01_SANDBOX_BASE_HEAD=<sha> OC01_SANDBOX_SESSION_PROJECTION=<projection>"
 	@echo "  make oc01-assistant-sandbox-open OC01_SANDBOX_MANIFEST=<manifest> OC01_SANDBOX_SESSION_PROJECTION=<projection>"
 	@echo "  make oc01-assistant-sandbox-status OC01_SANDBOX_MANIFEST=<manifest> OC01_SANDBOX_SESSION_PROJECTION=<projection>"
@@ -3230,6 +3231,19 @@ oc01-protected-terminal-run:
 	if [ -n "$(OC01_TERMINAL_EVIDENCE_DIR)" ]; then set -- "$$@" --evidence-dir "$(OC01_TERMINAL_EVIDENCE_DIR)"; fi; \
 	$(PYTHON) -m scripts.coordination.control_plane.operator_console.protected_terminal "$$@"
 
+
+# =============================================================================
+# OC-01 FULL-1 / Protected Terminal policy + audit hardening
+# =============================================================================
+# Purpose: inspect append-only Protected Terminal history retained outside the
+# protected repository. SAFE_WRITE and live cancel remain dependency-gated.
+OC01_TERMINAL_HISTORY_EVIDENCE_DIR ?= $(OC01_TERMINAL_EVIDENCE_DIR)
+OC01_TERMINAL_HISTORY_LIMIT ?= 50
+
+.PHONY: oc01-protected-terminal-history
+oc01-protected-terminal-history:
+	@test -n "$(OC01_TERMINAL_HISTORY_EVIDENCE_DIR)" || { echo "ERROR: OC01_TERMINAL_HISTORY_EVIDENCE_DIR is required"; false; }
+	$(PYTHON) -m scripts.coordination.control_plane.operator_console.protected_terminal history --evidence-dir "$(OC01_TERMINAL_HISTORY_EVIDENCE_DIR)" --limit "$(OC01_TERMINAL_HISTORY_LIMIT)"
 
 # =============================================================================
 # OC-01 MINI-3 / Assistant Dev Sandbox operator workflow

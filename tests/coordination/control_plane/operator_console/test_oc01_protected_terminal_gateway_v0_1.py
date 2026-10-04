@@ -12,6 +12,7 @@ from scripts.coordination.control_plane.operator_console.protected_terminal impo
     build_terminal_plan,
     execute_terminal_plan,
     list_capabilities,
+    load_terminal_history,
 )
 from scripts.coordination.control_plane.operator_console.session_projection import (
     build_session_projection,
@@ -287,5 +288,139 @@ def test_execution_evidence_path_inside_repo_is_rejected(
     with pytest.raises(
         ProtectedTerminalError,
         match="stdout_path must remain outside protected repository scope",
+    ):
+        execute_terminal_plan(plan)
+
+# OC01-FULL-1 / Protected Terminal policy + audit hardening
+
+def test_full1_capability_catalog_exposes_policy_profiles() -> None:
+    data = list_capabilities()
+    rows = {row["capability_id"]: row for row in data["capabilities"]}
+
+    assert data["policy"] == {
+        "mode": "REGISTERED_CAPABILITY_ONLY",
+        "default_decision": "DENY",
+        "explicit_enable_required": True,
+        "authority_widening_allowed": False,
+    }
+    assert rows["repo_status"]["profile"]["profile_id"] == "repository_observation"
+    assert rows["repo_status"]["profile"]["repository_mutation_allowed"] is False
+    assert rows["repo_diff_check"]["profile"]["profile_id"] == "repository_validation"
+    assert data["safe_write"]["policy"] == {
+        "decision": "DENY",
+        "code": "EXCLUSIVE_MODULE_LEASE_NOT_PROVEN",
+    }
+    assert data["audit"]["mode"] == "APPEND_ONLY"
+
+
+def test_full1_safe_write_denial_is_structured_and_retained(
+    tmp_path: Path,
+) -> None:
+    repo = git_repo(tmp_path)
+    evidence = tmp_path / "evidence"
+
+    with pytest.raises(ProtectedTerminalError) as caught:
+        build_terminal_plan(
+            capability_id="future-safe-write",
+            cwd=repo,
+            session_projection=session(),
+            enabled=True,
+            capability_class="SAFE_WRITE",
+            evidence_dir=evidence,
+        )
+
+    assert caught.value.code == "EXCLUSIVE_MODULE_LEASE_NOT_PROVEN"
+    assert caught.value.receipt_path == str(
+        evidence.resolve() / "denial_receipts_v0_1.jsonl"
+    )
+    denial_lines = (
+        evidence / "denial_receipts_v0_1.jsonl"
+    ).read_text(encoding="utf-8").splitlines()
+    assert len(denial_lines) == 1
+
+    history = load_terminal_history(evidence)
+    assert history["event_count"] == 1
+    event = history["events"][0]
+    assert event["event_type"] == "POLICY_DENIED"
+    assert event["decision"] == "DENY"
+    assert event["code"] == "EXCLUSIVE_MODULE_LEASE_NOT_PROVEN"
+    assert event["actor"]["actor_type"] == "human_terminal"
+    assert event["authority_conferred"] is False
+    assert not list(evidence.rglob("stdout.log"))
+    assert not list(evidence.rglob("stderr.log"))
+
+
+def test_full1_unknown_capability_denial_has_stable_code(
+    tmp_path: Path,
+) -> None:
+    repo = git_repo(tmp_path)
+    evidence = tmp_path / "evidence"
+
+    with pytest.raises(ProtectedTerminalError) as caught:
+        build_terminal_plan(
+            capability_id="bash",
+            cwd=repo,
+            session_projection=session("operator_assistant"),
+            enabled=True,
+            evidence_dir=evidence,
+        )
+
+    assert caught.value.code == "UNKNOWN_CAPABILITY"
+    history = load_terminal_history(evidence)
+    assert history["events"][-1]["code"] == "UNKNOWN_CAPABILITY"
+    assert history["events"][-1]["capability_id"] == "bash"
+
+
+def test_full1_plan_and_run_append_durable_history(
+    tmp_path: Path,
+) -> None:
+    repo = git_repo(tmp_path)
+    evidence = tmp_path / "evidence"
+    plan = build_terminal_plan(
+        capability_id="repo_status",
+        cwd=repo,
+        session_projection=session("operator_assistant"),
+        enabled=True,
+        evidence_dir=evidence,
+    )
+
+    first = load_terminal_history(evidence)
+    assert [row["event_type"] for row in first["events"]] == ["PLAN_ALLOWED"]
+
+    result = execute_terminal_plan(plan)
+    history = load_terminal_history(evidence)
+    assert [row["event_type"] for row in history["events"]] == [
+        "PLAN_ALLOWED",
+        "EXECUTION_STARTED",
+        "EXECUTION_FINISHED",
+    ]
+    assert history["events"][-1]["actor"]["actor_type"] == "operator_assistant"
+    assert history["events"][-1]["capability_id"] == "repo_status"
+    assert history["events"][-1]["cwd"] == str(repo)
+    assert result["audit"]["history_path"] == history["history_path"]
+    assert result["authority"]["canonical_write_performed"] is False
+
+    tail = load_terminal_history(evidence, limit=1)
+    assert tail["event_count"] == 3
+    assert tail["returned_count"] == 1
+    assert tail["events"][0]["event_type"] == "EXECUTION_FINISHED"
+
+
+def test_full1_audit_paths_inside_repo_are_rejected(
+    tmp_path: Path,
+) -> None:
+    repo = git_repo(tmp_path)
+    plan = build_terminal_plan(
+        capability_id="repo_status",
+        cwd=repo,
+        session_projection=session(),
+        enabled=True,
+        evidence_dir=tmp_path / "evidence",
+    )
+    plan["audit"]["history_path"] = str(repo / "history.jsonl")
+
+    with pytest.raises(
+        ProtectedTerminalError,
+        match="history_path must remain outside protected repository scope",
     ):
         execute_terminal_plan(plan)
