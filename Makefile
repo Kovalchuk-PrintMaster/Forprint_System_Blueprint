@@ -1008,6 +1008,12 @@ governed-worker-cycle-prepare:
 	@test -n "$(GOVERNED_WORKER_ATTEMPT)" || { echo "FAILED: GOVERNED_WORKER_ATTEMPT is required"; exit 1; }
 	$(PYTHON) -m scripts.coordination.control_plane.governed_worker_cycle prepare --root . --runtime-root "$(GOVERNED_WORKER_RUNTIME_ROOT)" --task-prompt-id "$(GOVERNED_WORKER_TASK)" --attempt-id "$(GOVERNED_WORKER_ATTEMPT)"
 
+.PHONY: governed-worker-cycle-refresh
+governed-worker-cycle-refresh:
+	@test -n "$(GOVERNED_WORKER_TASK)" || { echo "FAILED: GOVERNED_WORKER_TASK is required"; exit 1; }
+	@test -n "$(GOVERNED_WORKER_ATTEMPT)" || { echo "FAILED: GOVERNED_WORKER_ATTEMPT is required"; exit 1; }
+	$(PYTHON) -m scripts.coordination.control_plane.governed_worker_cycle refresh --root . --runtime-root "$(GOVERNED_WORKER_RUNTIME_ROOT)" --task-prompt-id "$(GOVERNED_WORKER_TASK)" --attempt-id "$(GOVERNED_WORKER_ATTEMPT)"
+
 .PHONY: governed-worker-cycle-ack
 governed-worker-cycle-ack:
 	@test "$(CONFIRM_ACK)" = "1" || { echo "FAILED: CONFIRM_ACK=1 is required"; exit 1; }

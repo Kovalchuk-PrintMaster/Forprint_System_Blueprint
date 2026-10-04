@@ -52,15 +52,24 @@ outputs:
   NEXT_BOUNDARY semantics and dependency/contradiction checks.
 - One preparation entrypoint that reuses canonical task resolution, source-state,
   workspace provision/seal and training pre-dispatch preparation.
+- One pre-ACK source-state refresh entrypoint that preserves superseded runtime
+  evidence, reuses the same attempt only while it remains unstarted, and fails
+  closed when task or execution-corridor relevant source changed.
 - Explicit assistant-ACK and explicit-dispatch authorization entrypoints that
   continue to delegate to cf10_training_dispatch.
-- Operator-facing Makefile commands for validation, status, prepare, ACK and
-  dispatch authorization.
+- Operator-facing Makefile commands for validation, status, prepare, refresh,
+  ACK and dispatch authorization.
 - Focused tests converting the Task50 promotion lessons into regressions.
 acceptance:
 - No second execution authority is introduced.
 - Worker-cycle projection is derived and non-authoritative.
 - Existing canonical dispatch/workspace/Handoff/ledger APIs are reused.
+- Pre-ACK refresh is allowed only while ACK, explicit dispatch, Worker launch
+  and canonical attempt-ledger append remain false.
+- Refresh preserves the superseded prepared runtime as immutable evidence and
+  reprovisions through the existing canonical preparation entrypoint.
+- Relevant task, Work Front, execution-corridor or dirty-overlay drift blocks
+  same-attempt refresh and requires a new attempt_id.
 - Promotion contract required checks remain enforced.
 - Handoff composite fingerprint is never equated to continuity source fingerprint.
 - Promotion supports source-existing modification, source-absent creation and

@@ -1,6 +1,19 @@
 from __future__ import annotations
 
+from pathlib import Path
+
+import pytest
+import yaml
+
 from scripts.coordination.control_plane import governed_worker_cycle as cycle
+
+
+def write_yaml(path: Path, value: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        yaml.safe_dump(value, sort_keys=False),
+        encoding="utf-8",
+    )
 
 
 def facts(**overrides):
@@ -133,3 +146,395 @@ def test_impossible_state_fails_closed_to_unknown() -> None:
     assert result["next_boundary"] == (
         "INSPECT_CONTRADICTORY_OR_INSUFFICIENT_EVIDENCE"
     )
+def _prepared_refresh_attempt(
+    *,
+    root: Path,
+    runtime_root: Path,
+    attempt_id: str,
+    binding: dict,
+    source_head: str,
+    source_fp: str,
+) -> Path:
+    attempt = (
+        runtime_root
+        / cycle.MODULE_ID
+        / cycle.WORKER_ID
+        / attempt_id
+    )
+    write_yaml(
+        root / binding["work_front_ref"],
+        {
+            "work_front_id": binding["work_front_id"],
+            "scope": ["target.py"],
+        },
+    )
+    write_yaml(
+        attempt / "manifest.yaml",
+        {
+            "attempt_id": attempt_id,
+            "workspace_state": "PROVISIONED_NOT_DISPATCHED",
+            "assistant_ack_validated": False,
+            "explicit_dispatch_decision_recorded": False,
+            "dispatch_authority_granted": False,
+            "worker_launch_performed": False,
+            "canonical_attempt_ledger_appended": False,
+        },
+    )
+    write_yaml(
+        attempt
+        / "input/governed_worker_cycle_prepared_execution_v0_1.yaml",
+        {
+            "state": "AWAITING_ASSISTANT_ACK",
+            "assistant_ack_validated": False,
+            "attempt_id": attempt_id,
+            "worker_id": cycle.WORKER_ID,
+            "cf10_training_binding": binding,
+        },
+    )
+    write_yaml(
+        attempt / "input/governed_worker_cycle_expected_ack_v0_1.yaml",
+        {"ack": "canonical"},
+    )
+    write_yaml(
+        attempt / "input/governed_worker_cycle_source_state_v0_1.yaml",
+        {
+            "git_head": source_head,
+            "fingerprint_sha256": source_fp,
+            "durable_dirty_paths": [],
+        },
+    )
+    return attempt
+
+
+def test_refresh_cycle_archives_stale_pre_ack_and_reprepares(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = tmp_path / "repo"
+    runtime = tmp_path / "runtime"
+    root.mkdir()
+    attempt_id = "cf10-u180j-a099"
+    task_prompt_id = "task-refresh"
+    old_head = "a" * 40
+    new_head = "b" * 40
+    old_fp = "1" * 64
+    new_fp = "2" * 64
+    binding = {
+        "task_prompt_id": task_prompt_id,
+        "task_ref": (
+            "coordination/internal_work/blueprint/worker_tasks/task.yaml"
+        ),
+        "work_front_id": "wf-refresh",
+        "work_front_ref": "coordination/work_fronts/wf_refresh.yaml",
+    }
+    attempt = _prepared_refresh_attempt(
+        root=root,
+        runtime_root=runtime,
+        attempt_id=attempt_id,
+        binding=binding,
+        source_head=old_head,
+        source_fp=old_fp,
+    )
+
+    monkeypatch.setattr(
+        cycle.training,
+        "resolve_training_task",
+        lambda **_kwargs: binding,
+    )
+    monkeypatch.setattr(
+        cycle.training,
+        "assert_attempt_unused",
+        lambda **_kwargs: None,
+    )
+    monkeypatch.setattr(
+        cycle.training,
+        "build_training_canonical_ack",
+        lambda **_kwargs: {"ack": "canonical"},
+    )
+    monkeypatch.setattr(
+        cycle,
+        "build_source_state",
+        lambda _root: {
+            "git_head": new_head,
+            "fingerprint_sha256": new_fp,
+            "durable_dirty_paths": [],
+        },
+    )
+    monkeypatch.setattr(
+        cycle,
+        "_git_is_ancestor",
+        lambda *_args, **_kwargs: True,
+    )
+    monkeypatch.setattr(
+        cycle,
+        "_git_output",
+        lambda *_args, **_kwargs: "",
+    )
+
+    def fake_prepare_cycle(**_kwargs):
+        refreshed_attempt = (
+            runtime
+            / cycle.MODULE_ID
+            / cycle.WORKER_ID
+            / attempt_id
+        )
+        refreshed_attempt.mkdir(parents=True)
+        return {
+            "source_head": new_head,
+            "source_state_fingerprint": new_fp,
+        }
+
+    monkeypatch.setattr(cycle, "prepare_cycle", fake_prepare_cycle)
+
+    result = cycle.refresh_cycle(
+        root=root,
+        runtime_root=runtime,
+        task_prompt_id=task_prompt_id,
+        attempt_id=attempt_id,
+    )
+
+    archive = attempt.parent / (
+        attempt_id
+        + "__predispatch_superseded__"
+        + old_head[:7]
+        + "_to_"
+        + new_head[:7]
+    )
+    assert archive.is_dir()
+    assert (
+        archive
+        / "evidence/"
+        "governed_worker_cycle_predispatch_supersession_v0_1.yaml"
+    ).is_file()
+    assert result["refresh_performed"] is True
+    assert result["state"] == "AWAITING_ASSISTANT_ACK"
+    assert result["source_head"] == new_head
+    assert result["worker_launch_performed"] is False
+
+
+def test_refresh_cycle_refuses_relevant_committed_drift(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = tmp_path / "repo"
+    runtime = tmp_path / "runtime"
+    root.mkdir()
+    attempt_id = "cf10-u180j-a100"
+    task_prompt_id = "task-refresh"
+    binding = {
+        "task_prompt_id": task_prompt_id,
+        "task_ref": (
+            "coordination/internal_work/blueprint/worker_tasks/task.yaml"
+        ),
+        "work_front_id": "wf-refresh",
+        "work_front_ref": "coordination/work_fronts/wf_refresh.yaml",
+    }
+    attempt = _prepared_refresh_attempt(
+        root=root,
+        runtime_root=runtime,
+        attempt_id=attempt_id,
+        binding=binding,
+        source_head="a" * 40,
+        source_fp="1" * 64,
+    )
+
+    monkeypatch.setattr(
+        cycle.training,
+        "resolve_training_task",
+        lambda **_kwargs: binding,
+    )
+    monkeypatch.setattr(
+        cycle.training,
+        "assert_attempt_unused",
+        lambda **_kwargs: None,
+    )
+    monkeypatch.setattr(
+        cycle.training,
+        "build_training_canonical_ack",
+        lambda **_kwargs: {"ack": "canonical"},
+    )
+    monkeypatch.setattr(
+        cycle,
+        "build_source_state",
+        lambda _root: {
+            "git_head": "b" * 40,
+            "fingerprint_sha256": "2" * 64,
+            "durable_dirty_paths": [],
+        },
+    )
+    monkeypatch.setattr(
+        cycle,
+        "_git_is_ancestor",
+        lambda *_args, **_kwargs: True,
+    )
+    monkeypatch.setattr(
+        cycle,
+        "_git_output",
+        lambda *_args, **_kwargs: "target.py",
+    )
+
+    with pytest.raises(
+        cycle.GovernedWorkerCycleError,
+        match="execution-relevant source changed",
+    ):
+        cycle.refresh_cycle(
+            root=root,
+            runtime_root=runtime,
+            task_prompt_id=task_prompt_id,
+            attempt_id=attempt_id,
+        )
+
+    assert attempt.is_dir()
+    assert not list(
+        attempt.parent.glob(
+            attempt_id + "__predispatch_superseded__*"
+        )
+    )
+
+
+def test_refresh_cycle_refuses_after_ack_artifact(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = tmp_path / "repo"
+    runtime = tmp_path / "runtime"
+    root.mkdir()
+    attempt_id = "cf10-u180j-a101"
+    task_prompt_id = "task-refresh"
+    binding = {
+        "task_prompt_id": task_prompt_id,
+        "task_ref": (
+            "coordination/internal_work/blueprint/worker_tasks/task.yaml"
+        ),
+        "work_front_id": "wf-refresh",
+        "work_front_ref": "coordination/work_fronts/wf_refresh.yaml",
+    }
+    attempt = _prepared_refresh_attempt(
+        root=root,
+        runtime_root=runtime,
+        attempt_id=attempt_id,
+        binding=binding,
+        source_head="a" * 40,
+        source_fp="1" * 64,
+    )
+    write_yaml(
+        attempt / "input/governed_worker_cycle_ready_execution_v0_1.yaml",
+        {"state": "READY_FOR_EXPLICIT_DISPATCH"},
+    )
+
+    monkeypatch.setattr(
+        cycle.training,
+        "resolve_training_task",
+        lambda **_kwargs: binding,
+    )
+    monkeypatch.setattr(
+        cycle.training,
+        "assert_attempt_unused",
+        lambda **_kwargs: None,
+    )
+
+    with pytest.raises(
+        cycle.GovernedWorkerCycleError,
+        match="ACK/dispatch artifact",
+    ):
+        cycle.refresh_cycle(
+            root=root,
+            runtime_root=runtime,
+            task_prompt_id=task_prompt_id,
+            attempt_id=attempt_id,
+        )
+def test_refresh_cycle_restores_old_runtime_and_preserves_evidence_on_prepare_failure(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = tmp_path / "repo"
+    runtime = tmp_path / "runtime"
+    root.mkdir()
+    attempt_id = "cf10-u180j-a102"
+    task_prompt_id = "task-refresh"
+    old_head = "a" * 40
+    new_head = "b" * 40
+    old_fp = "1" * 64
+    new_fp = "2" * 64
+    binding = {
+        "task_prompt_id": task_prompt_id,
+        "task_ref": (
+            "coordination/internal_work/blueprint/worker_tasks/task.yaml"
+        ),
+        "work_front_id": "wf-refresh",
+        "work_front_ref": "coordination/work_fronts/wf_refresh.yaml",
+    }
+    attempt = _prepared_refresh_attempt(
+        root=root,
+        runtime_root=runtime,
+        attempt_id=attempt_id,
+        binding=binding,
+        source_head=old_head,
+        source_fp=old_fp,
+    )
+
+    monkeypatch.setattr(
+        cycle.training,
+        "resolve_training_task",
+        lambda **_kwargs: binding,
+    )
+    monkeypatch.setattr(
+        cycle.training,
+        "assert_attempt_unused",
+        lambda **_kwargs: None,
+    )
+    monkeypatch.setattr(
+        cycle.training,
+        "build_training_canonical_ack",
+        lambda **_kwargs: {"ack": "canonical"},
+    )
+    monkeypatch.setattr(
+        cycle,
+        "build_source_state",
+        lambda _root: {
+            "git_head": new_head,
+            "fingerprint_sha256": new_fp,
+            "durable_dirty_paths": [],
+        },
+    )
+    monkeypatch.setattr(
+        cycle,
+        "_git_is_ancestor",
+        lambda *_args, **_kwargs: True,
+    )
+    monkeypatch.setattr(
+        cycle,
+        "_git_output",
+        lambda *_args, **_kwargs: "",
+    )
+
+    def fail_prepare_cycle(**_kwargs):
+        raise RuntimeError("synthetic prepare failure")
+
+    monkeypatch.setattr(cycle, "prepare_cycle", fail_prepare_cycle)
+
+    with pytest.raises(RuntimeError, match="synthetic prepare failure"):
+        cycle.refresh_cycle(
+            root=root,
+            runtime_root=runtime,
+            task_prompt_id=task_prompt_id,
+            attempt_id=attempt_id,
+        )
+
+    assert attempt.is_dir()
+    assert not list(
+        attempt.parent.glob(
+            attempt_id + "__predispatch_superseded__*"
+        )
+    )
+    evidence = (
+        attempt
+        / "evidence/"
+        "governed_worker_cycle_predispatch_supersession_v0_1.yaml"
+    )
+    assert evidence.is_file()
+    value = yaml.safe_load(evidence.read_text(encoding="utf-8"))
+    assert value["old_source_head"] == old_head
+    assert value["new_source_head"] == new_head
+    assert value["assistant_ack_validated"] is False
+    assert value["worker_launch_performed"] is False

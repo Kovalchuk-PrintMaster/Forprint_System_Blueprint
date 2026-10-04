@@ -11,9 +11,11 @@ and publication bindings are converged behind this same entrypoint.
 
 from __future__ import annotations
 
+from datetime import UTC, datetime
 from pathlib import Path
 import argparse
 import json
+import subprocess
 from typing import Any
 
 import yaml
@@ -209,6 +211,103 @@ def _attempt_root(
     return runtime_root.resolve() / MODULE_ID / worker_id / attempt_id
 
 
+
+def _git_output(root: Path, *args: str) -> str:
+    result = subprocess.run(
+        ["git", *args],
+        cwd=root,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        check=False,
+    )
+    if result.returncode != 0:
+        raise GovernedWorkerCycleError(
+            "git command failed: "
+            + " ".join(args)
+            + "\n"
+            + result.stdout.strip()
+        )
+    return result.stdout.strip()
+
+
+def _git_is_ancestor(root: Path, older: str, newer: str) -> bool:
+    result = subprocess.run(
+        ["git", "merge-base", "--is-ancestor", older, newer],
+        cwd=root,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        check=False,
+    )
+    if result.returncode == 0:
+        return True
+    if result.returncode == 1:
+        return False
+    raise GovernedWorkerCycleError(
+        "git ancestry check failed: " + result.stdout.strip()
+    )
+
+
+def _refresh_relevant_paths(
+    canonical: Path,
+    binding: dict[str, Any],
+) -> tuple[str, ...]:
+    paths = {
+        "coordination/internal_work/blueprint/worker_tasks/index.yaml",
+        "coordination/internal_work/blueprint/worker_training/cf10_worker_training_queue_v0_1.yaml",
+        "coordination/standards/governance/project_constitution_v0_1.yaml",
+        "coordination/module_policy/forprint_system_blueprint/module_policy.md",
+        "coordination/registry/execution_profiles_v0_1.yaml",
+        "coordination/registry/governed_canonical_mutation_procedure_v0_1.yaml",
+        "coordination/standards/automation/assistant_handoff_v2_contract_v0_1.yaml",
+        "coordination/standards/automation/execution_attempt_ledger_contract_v0_1.yaml",
+        "coordination/work_fronts/cf10_governed_worker_cycle_v0_1.yaml",
+        "Makefile",
+        "scripts/coordination/control_plane/governed_worker_cycle.py",
+        "scripts/coordination/control_plane/cf10_training_dispatch.py",
+        "scripts/coordination/control_plane/dispatch_intent.py",
+        "scripts/coordination/control_plane/context",
+        "scripts/coordination/control_plane/workspace",
+        "scripts/coordination/control_plane/worker_runtime",
+        "scripts/coordination/assistant_handoff_v2_runtime_v0_1.py",
+        "scripts/coordination/execution_attempt_ledger_v0_1.py",
+    }
+
+    for key in ("task_ref", "work_front_ref"):
+        value = binding.get(key)
+        if isinstance(value, str) and value:
+            paths.add(value)
+
+    front_ref = binding.get("work_front_ref")
+    if isinstance(front_ref, str) and front_ref:
+        front = _load_yaml(canonical / front_ref, "Work Front")
+        scope = front.get("scope")
+        if isinstance(scope, list):
+            for value in scope:
+                if not isinstance(value, str) or not value:
+                    continue
+                candidate = Path(value)
+                if candidate.is_absolute() or ".." in candidate.parts:
+                    raise GovernedWorkerCycleError(
+                        "Work Front scope contains unsafe refresh path"
+                    )
+                paths.add(candidate.as_posix().rstrip("/"))
+
+    return tuple(sorted(paths))
+
+
+def _path_matches_refresh_scope(
+    path: str,
+    relevant_paths: tuple[str, ...],
+) -> bool:
+    for raw in relevant_paths:
+        base = raw.rstrip("/")
+        if path == base or path.startswith(base + "/"):
+            return True
+    return False
+
+
 def prepare_cycle(
     *,
     root: Path | str,
@@ -301,6 +400,287 @@ def prepare_cycle(
     }
     _write_yaml_new(
         attempt / "evidence/governed_worker_cycle_prepare_result_v0_1.yaml",
+        result,
+    )
+    return result
+
+
+
+def refresh_cycle(
+    *,
+    root: Path | str,
+    runtime_root: Path | str,
+    task_prompt_id: str,
+    attempt_id: str,
+    worker_id: str = WORKER_ID,
+) -> dict[str, Any]:
+    """Refresh a stale pre-ACK workspace while the attempt remains unstarted."""
+    canonical = Path(root).resolve()
+    runtime = Path(runtime_root).resolve()
+
+    binding = training.resolve_training_task(
+        root=canonical,
+        task_prompt_id=task_prompt_id,
+    )
+    training.assert_attempt_unused(
+        root=canonical,
+        attempt_id=attempt_id,
+    )
+
+    attempt = _attempt_root(runtime, attempt_id, worker_id)
+    if not attempt.is_dir():
+        raise GovernedWorkerCycleError(
+            f"prepared attempt runtime missing: {attempt}"
+        )
+
+    input_dir = attempt / "input"
+    manifest = _load_yaml(attempt / "manifest.yaml", "workspace manifest")
+    prepared = _load_yaml(
+        input_dir / "governed_worker_cycle_prepared_execution_v0_1.yaml",
+        "prepared execution",
+    )
+    expected_ack = _load_yaml(
+        input_dir / "governed_worker_cycle_expected_ack_v0_1.yaml",
+        "expected ACK",
+    )
+    old_source = _load_yaml(
+        input_dir / "governed_worker_cycle_source_state_v0_1.yaml",
+        "source state",
+    )
+
+    if manifest.get("attempt_id") != attempt_id:
+        raise GovernedWorkerCycleError("workspace manifest attempt mismatch")
+    if manifest.get("workspace_state") != "PROVISIONED_NOT_DISPATCHED":
+        raise GovernedWorkerCycleError(
+            "refresh requires PROVISIONED_NOT_DISPATCHED workspace"
+        )
+
+    for key in (
+        "assistant_ack_validated",
+        "explicit_dispatch_decision_recorded",
+        "dispatch_authority_granted",
+        "worker_launch_performed",
+        "canonical_attempt_ledger_appended",
+    ):
+        if manifest.get(key) is not False:
+            raise GovernedWorkerCycleError(
+                f"refresh forbidden after pre-dispatch boundary: {key}"
+            )
+
+    if prepared.get("state") != "AWAITING_ASSISTANT_ACK":
+        raise GovernedWorkerCycleError(
+            "refresh requires AWAITING_ASSISTANT_ACK"
+        )
+    if prepared.get("assistant_ack_validated") is not False:
+        raise GovernedWorkerCycleError(
+            "refresh forbidden after Assistant ACK"
+        )
+    if prepared.get("attempt_id") != attempt_id:
+        raise GovernedWorkerCycleError("prepared execution attempt mismatch")
+    if prepared.get("worker_id") != worker_id:
+        raise GovernedWorkerCycleError("prepared execution worker mismatch")
+    if prepared.get("cf10_training_binding") != binding:
+        raise GovernedWorkerCycleError(
+            "prepared task binding changed; use a new attempt_id"
+        )
+
+    for forbidden in (
+        input_dir / "governed_worker_cycle_ready_execution_v0_1.yaml",
+        input_dir
+        / "governed_worker_cycle_explicit_dispatch_decision_v0_1.yaml",
+    ):
+        if forbidden.exists():
+            raise GovernedWorkerCycleError(
+                "refresh forbidden after ACK/dispatch artifact exists"
+            )
+
+    old_head = old_source.get("git_head")
+    old_fp = old_source.get("fingerprint_sha256")
+    if not isinstance(old_head, str) or not old_head:
+        raise GovernedWorkerCycleError("prepared source HEAD missing")
+    if not isinstance(old_fp, str) or len(old_fp) != 64:
+        raise GovernedWorkerCycleError(
+            "prepared source fingerprint invalid"
+        )
+
+    rebuilt_ack = training.build_training_canonical_ack(
+        root=canonical,
+        prepared_execution=prepared,
+        source_state_fingerprint=old_fp,
+        worker_id=worker_id,
+        attempt_id=attempt_id,
+    )
+    if rebuilt_ack != expected_ack:
+        raise GovernedWorkerCycleError(
+            "prepared expected ACK is not canonical"
+        )
+
+    current_source = build_source_state(canonical)
+    current_head = current_source.get("git_head")
+    current_fp = current_source.get("fingerprint_sha256")
+    if not isinstance(current_head, str) or not current_head:
+        raise GovernedWorkerCycleError("current source HEAD missing")
+    if not isinstance(current_fp, str) or len(current_fp) != 64:
+        raise GovernedWorkerCycleError(
+            "current source fingerprint invalid"
+        )
+
+    if current_head == old_head and current_fp == old_fp:
+        return {
+            "schema_version": (
+                "forprint_governed_worker_cycle_refresh_result_v0_1"
+            ),
+            "task_prompt_id": task_prompt_id,
+            "attempt_id": attempt_id,
+            "state": "AWAITING_ASSISTANT_ACK",
+            "next_boundary": "EXPLICIT_ASSISTANT_ACK",
+            "refresh_performed": False,
+            "source_head": current_head,
+            "source_state_fingerprint": current_fp,
+            "assistant_ack_validated": False,
+            "dispatch_authority_granted": False,
+            "worker_launch_performed": False,
+        }
+
+    relevant_paths = _refresh_relevant_paths(canonical, binding)
+    changed_paths: list[str] = []
+    if current_head != old_head:
+        if not _git_is_ancestor(canonical, old_head, current_head):
+            raise GovernedWorkerCycleError(
+                "prepared source HEAD is not an ancestor of current HEAD"
+            )
+        changed = _git_output(
+            canonical,
+            "diff",
+            "--name-only",
+            f"{old_head}..{current_head}",
+            "--",
+            *relevant_paths,
+        )
+        changed_paths = [
+            line for line in changed.splitlines() if line
+        ]
+        if changed_paths:
+            raise GovernedWorkerCycleError(
+                "execution-relevant source changed; use a new attempt_id: "
+                + ",".join(changed_paths)
+            )
+
+    old_dirty = old_source.get("durable_dirty_paths")
+    current_dirty = current_source.get("durable_dirty_paths")
+    if not isinstance(old_dirty, list) or not isinstance(current_dirty, list):
+        raise GovernedWorkerCycleError(
+            "durable dirty path evidence missing"
+        )
+
+    old_relevant_dirty = sorted(
+        path
+        for path in old_dirty
+        if isinstance(path, str)
+        and _path_matches_refresh_scope(path, relevant_paths)
+    )
+    current_relevant_dirty = sorted(
+        path
+        for path in current_dirty
+        if isinstance(path, str)
+        and _path_matches_refresh_scope(path, relevant_paths)
+    )
+    if current_relevant_dirty != old_relevant_dirty:
+        raise GovernedWorkerCycleError(
+            "execution-relevant dirty overlay changed; use a new attempt_id"
+        )
+
+    recheck = build_source_state(canonical)
+    if (
+        recheck.get("git_head") != current_head
+        or recheck.get("fingerprint_sha256") != current_fp
+    ):
+        raise GovernedWorkerCycleError(
+            "canonical source changed during refresh preflight"
+        )
+
+    archive = attempt.parent / (
+        attempt_id
+        + "__predispatch_superseded__"
+        + old_head[:7]
+        + "_to_"
+        + current_head[:7]
+    )
+    if archive.exists():
+        raise GovernedWorkerCycleError(
+            f"superseded runtime archive already exists: {archive}"
+        )
+
+    supersession = {
+        "schema_version": (
+            "forprint_governed_worker_cycle_predispatch_supersession_v0_1"
+        ),
+        "recorded_at": (
+            datetime.now(UTC).isoformat().replace("+00:00", "Z")
+        ),
+        "task_prompt_id": task_prompt_id,
+        "attempt_id": attempt_id,
+        "old_source_head": old_head,
+        "old_source_state_fingerprint": old_fp,
+        "new_source_head": current_head,
+        "new_source_state_fingerprint": current_fp,
+        "relevant_paths_checked": list(relevant_paths),
+        "relevant_committed_drift": changed_paths,
+        "relevant_dirty_overlay_unchanged": True,
+        "assistant_ack_validated": False,
+        "dispatch_authority_granted": False,
+        "worker_launch_performed": False,
+        "canonical_attempt_ledger_appended": False,
+    }
+
+    _write_yaml_new(
+        attempt
+        / "evidence/"
+        "governed_worker_cycle_predispatch_supersession_v0_1.yaml",
+        supersession,
+    )
+
+    attempt.rename(archive)
+    try:
+        refreshed = prepare_cycle(
+            root=canonical,
+            runtime_root=runtime,
+            task_prompt_id=task_prompt_id,
+            attempt_id=attempt_id,
+            worker_id=worker_id,
+        )
+    except Exception:
+        if not attempt.exists() and archive.exists():
+            archive.rename(attempt)
+        raise
+
+    if (
+        refreshed.get("source_head") != current_head
+        or refreshed.get("source_state_fingerprint") != current_fp
+    ):
+        raise GovernedWorkerCycleError(
+            "canonical source changed while refreshed preparation was created"
+        )
+
+    result = {
+        "schema_version": (
+            "forprint_governed_worker_cycle_refresh_result_v0_1"
+        ),
+        "task_prompt_id": task_prompt_id,
+        "attempt_id": attempt_id,
+        "state": "AWAITING_ASSISTANT_ACK",
+        "next_boundary": "EXPLICIT_ASSISTANT_ACK",
+        "refresh_performed": True,
+        "superseded_runtime_archive": str(archive),
+        "source_head": current_head,
+        "source_state_fingerprint": current_fp,
+        "assistant_ack_validated": False,
+        "dispatch_authority_granted": False,
+        "worker_launch_performed": False,
+    }
+    _write_yaml_new(
+        attempt
+        / "evidence/governed_worker_cycle_refresh_result_v0_1.yaml",
         result,
     )
     return result
@@ -599,13 +979,26 @@ def _print_result(value: dict[str, Any], output_format: str) -> None:
             print("ATTEMPT_ID=" + str(value["attempt_id"]))
         if value.get("task_prompt_id"):
             print("TASK_PROMPT_ID=" + str(value["task_prompt_id"]))
+        if "refresh_performed" in value:
+            print(
+                "REFRESH_PERFORMED="
+                + str(value["refresh_performed"]).lower()
+            )
+        if value.get("source_head"):
+            print("SOURCE_HEAD=" + str(value["source_head"]))
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "action",
-        choices=("status", "prepare", "ack", "authorize-dispatch"),
+        choices=(
+            "status",
+            "prepare",
+            "refresh",
+            "ack",
+            "authorize-dispatch",
+        ),
     )
     parser.add_argument("--root", default=".")
     parser.add_argument("--runtime-root", default=str(DEFAULT_RUNTIME_ROOT))
@@ -624,8 +1017,13 @@ def main() -> int:
     root = Path(args.root).resolve()
     runtime_root = Path(args.runtime_root).resolve()
 
-    if args.action in {"status", "prepare"} and not args.task_prompt_id:
-        parser.error("--task-prompt-id is required for status/prepare")
+    if (
+        args.action in {"status", "prepare", "refresh"}
+        and not args.task_prompt_id
+    ):
+        parser.error(
+            "--task-prompt-id is required for status/prepare/refresh"
+        )
 
     if args.action == "status":
         result = status(
@@ -637,6 +1035,14 @@ def main() -> int:
         )
     elif args.action == "prepare":
         result = prepare_cycle(
+            root=root,
+            runtime_root=runtime_root,
+            task_prompt_id=args.task_prompt_id,
+            attempt_id=args.attempt_id,
+            worker_id=args.worker_id,
+        )
+    elif args.action == "refresh":
+        result = refresh_cycle(
             root=root,
             runtime_root=runtime_root,
             task_prompt_id=args.task_prompt_id,
