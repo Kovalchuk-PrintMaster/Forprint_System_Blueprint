@@ -441,7 +441,15 @@ def build_terminal_plan(
     observe_runtime: bool = False,
     heartbeat_seconds: int = 15,
     stall_threshold_seconds: float | None = None,
+    approval_decision_path: Path | str | None = None,
 ) -> dict[str, Any]:
+    # OC01 FULL-1 Slice C GREEN-1:
+    # approval evidence is accepted by the API surface but is
+    # intentionally not consumed as authority yet.
+    if approval_decision_path is not None:
+        raise PermissionError(
+            "SENSITIVE_ELEVATION_APPROVAL_EVIDENCE_NOT_YET_CONSUMED"
+        )
     if enabled is not True:
         raise ProtectedTerminalError(
             "Protected Terminal is default-off; explicit enable is required",

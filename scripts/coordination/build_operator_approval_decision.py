@@ -276,7 +276,55 @@ def build_operator_decision(
     transport: str = "CLI",
     expires_in_minutes: int | None = None,
     now: datetime | None = None,
+    approval_purpose: str | None = None,
+    capability_id: str | None = None,
+    capability_class: str | None = None,
+    requested_authority_delta: str | None = None,
+    repository_scope: str | None = None,
+    actor_type: str | None = None,
+    actor_id: str | None = None,
+    session_or_execution_binding: str | None = None,
 ) -> dict[str, Any]:
+    # OC01 FULL-1 Slice C GREEN-1:
+    # expose the bounded sensitive-elevation contract without
+    # granting or consuming new authority yet.
+    sensitive_values = {
+        "capability_id": capability_id,
+        "capability_class": capability_class,
+        "requested_authority_delta": requested_authority_delta,
+        "repository_scope": repository_scope,
+        "actor_type": actor_type,
+        "actor_id": actor_id,
+        "session_or_execution_binding": session_or_execution_binding,
+    }
+
+    sensitive_requested = (
+        approval_purpose is not None
+        or any(value is not None for value in sensitive_values.values())
+    )
+
+    if sensitive_requested:
+        if approval_purpose != "SENSITIVE_CAPABILITY_ELEVATION":
+            raise ValueError(
+                "sensitive elevation requires "
+                "approval_purpose=SENSITIVE_CAPABILITY_ELEVATION"
+            )
+
+        missing = sorted(
+            name
+            for name, value in sensitive_values.items()
+            if value is None
+            or (isinstance(value, str) and not value.strip())
+        )
+        if missing:
+            raise ValueError(
+                "sensitive elevation binding is incomplete: "
+                + ",".join(missing)
+            )
+
+        raise PermissionError(
+            "SENSITIVE_ELEVATION_BINDING_VALIDATION_NOT_IMPLEMENTED"
+        )
     decision = decision.upper().strip()
     transport = transport.upper().strip()
     if decision not in DECISIONS:

@@ -721,3 +721,12 @@ def test_full1_slice_b_timeout_remains_distinct_from_stall_observation(
     assert finished["details"]["timed_out"] is True
     assert finished["details"]["outcome"] == "timeout"
     assert finished["details"]["stall_detected"] is True
+# OC01 FULL-1 Slice C RED v0.3: Protected Terminal approval evidence input
+def test_full1_slice_c_plan_exposes_approval_artifact_input() -> None:
+    import inspect
+
+    parameters = inspect.signature(build_terminal_plan).parameters
+    assert "approval_decision_path" in parameters, (
+        "Slice C Protected Terminal plan must accept bounded "
+        "approval_decision_path"
+    )

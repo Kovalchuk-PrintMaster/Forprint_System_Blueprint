@@ -234,3 +234,23 @@ def test_request_fingerprint_drift_invalidates_gateway(
     assert evaluation.status == gateway.EVAL_INVALID
     assert gateway.REQUEST_FINGERPRINT_DRIFT in evaluation.reason_codes
     assert evaluation.allowed_decisions == ()
+# OC01 FULL-1 Slice C RED v0.3: bounded sensitive-elevation binding contract
+def test_slice_c_sensitive_elevation_builder_exposes_bounded_binding_contract() -> None:
+    import inspect
+
+    parameters = inspect.signature(gateway.build_operator_decision).parameters
+    required = {
+        "approval_purpose",
+        "capability_id",
+        "capability_class",
+        "requested_authority_delta",
+        "repository_scope",
+        "actor_type",
+        "actor_id",
+        "session_or_execution_binding",
+    }
+    missing = sorted(required - set(parameters))
+    assert not missing, (
+        "Slice C sensitive-elevation API missing parameters: "
+        + ", ".join(missing)
+    )
