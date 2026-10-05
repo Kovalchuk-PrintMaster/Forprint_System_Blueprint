@@ -1,0 +1,184 @@
+schema_version: forprint_cf10_governed_worker_context_delivery_design_freeze_v0_1
+layer: DESIGN_FREEZE
+roadmap_step: CF-10
+contour: CF10_GOVERNED_WORKER_CONTEXT_DELIVERY
+title: governed_worker_context_delivery
+status: FROZEN_FOR_BOUNDED_CONTEXT_DELIVERY_SLICE
+source_head: 5537abd8c3baea21412cd359c9e219c5f7b48a09
+source_branch: audit/blueprint-inventory-refresh-2026-07-29
+roadmap_position:
+  classification: ACTIVE_TASK70_BLOCKER_REPAIR
+  active_task: validation_check_pipeline_profile_and_optimization
+  active_task_prompt_id: cf10-validation-check-pipeline-profile-and-optimization-v0-1
+  blocked_attempt: cf10-u180j-a028
+  worker_invocation_bridge_closeout: 5537abd8c3baea21412cd359c9e219c5f7b48a09
+  roadmap_advancement_performed: false
+  a029_create_or_launch_now: false
+  oc01_reactivated: false
+  reason: Repair the remaining Task70 prerequisite by delivering already-canonical Handoff v2 lifecycle/roadmap context
+    into the exact Worker launch session without granting authority or changing task semantics.
+observed_gap:
+  upstream_handoff_v2_already_contains:
+  - source_state_fingerprint
+  - dependency_health_slice
+  - lifecycle_roadmap_cursor
+  - resume_coordinates
+  - expected_result_schema_revision
+  - base_context.task_execution_context
+  narrowing_point: prepare_cf09_task_execution currently returns only the Handoff manifest hash plus dispatch bindings
+    and does not preserve the lifecycle/roadmap context.
+  launch_point: project-native launch rebuilds a narrow internal task_context and invocation_adapter renders only
+    the normalized Task Envelope.
+  a028_effect: Worker could not verify the live lifecycle cursor/ROADMAP_SYNC context and correctly refused mutation.
+architecture_decision:
+  strategy: HASH_BOUND_NON_AUTHORITATIVE_CONTEXT_PROJECTION
+  reuse_existing_handoff_v2: true
+  modify_handoff_v2_runtime: false
+  modify_handoff_v2_contract: false
+  modify_task_context_schema: false
+  new_authority_source: false
+  projection_source: assistant_handoff_v2 TASK_EXECUTION runtime manifest
+  projection_transport: prepared_execution -> ready_execution -> explicit dispatch digest binding -> governed launch
+    invocation_context -> Worker prompt
+  projection_is_instruction_authority: false
+  work_front_remains_execution_authority: true
+  task_envelope_remains_task_instruction_source: true
+governed_worker_context_projection:
+  schema_version: forprint_governed_worker_context_projection_v0_1
+  required_fields:
+  - handoff_manifest_sha256
+  - handoff_source_state_fingerprint
+  - dependency_health_slice
+  - lifecycle_roadmap_cursor
+  - resume_coordinates
+  - expected_result_schema_revision
+  - execution_bindings
+  - authority
+  execution_bindings:
+  - work_front_or_project_onboard_not_applicable_reason
+  - execution_profile_revision_for_task_execution
+  - governed_procedure_revision_or_not_required_reason
+  authority:
+    context_grants_authority: false
+    dispatch_authority_granted: false
+    release_authority_granted: false
+    cross_repository_write_authority_granted: false
+  projection_sha256: SHA256 over deterministic canonical JSON of the projection without its digest field.
+  worker_prompt_label: GOVERNED EXECUTION CONTEXT — NON-AUTHORITATIVE
+  worker_prompt_must_state:
+  - Work Front remains execution authority.
+  - Task Envelope remains task instruction/context.
+  - Governed execution context is verification context only.
+  - Context cannot widen path, dispatch, git, release, promotion or acceptance authority.
+binding_chain:
+  prepare_cf09_task_execution:
+  - consume RUNTIME_MANIFEST emitted by assistant-handoff-v2-task-execution
+  - require safe repository-relative generated manifest path
+  - load TASK_EXECUTION manifest
+  - verify embedded handoff_manifest_sha256 equals dispatcher-observed hash
+  - recompute Handoff manifest hash with canonical serializer semantics
+  - verify launch_mode TASK_EXECUTION and authority flags false
+  - extract only the frozen context projection
+  - compute governed_worker_context_sha256
+  - return projection + digest inside prepared_execution
+  assistant_ack: No ACK schema widening. Existing ACK remains bound to the exact Handoff manifest hash; ready_execution
+    preserves the prepared projection unchanged.
+  explicit_dispatch:
+  - recompute and validate governed_worker_context_sha256 from ready_execution
+  - bind governed_worker_context_sha256 into decision.binding before decision_id hashing
+  - do not copy full context into the dispatch decision
+  project_native_launch:
+  - recompute prepared projection digest
+  - require exact match to explicit dispatch decision binding
+  - require projection handoff_manifest_sha256 matches prepared_execution manifest hash
+  - pass projection separately as governed_worker_context in invocation_context
+  - do not mutate canonical task_context/task_context_id
+  invocation_adapter:
+  - accept bounded governed_worker_context input
+  - validate context authority flags remain false
+  - render the frozen projection under a clearly non-authoritative prompt section
+  - preserve existing Worker Task, Work Front and runtime authority boundaries
+slice:
+  implementation_write_set:
+  - Makefile
+  - scripts/coordination/control_plane/dispatch_intent.py
+  - scripts/coordination/control_plane/cf10_training_dispatch.py
+  - scripts/coordination/control_plane/governed_worker_cycle.py
+  - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+  - tests/coordination/control_plane/test_cf09_dispatcher_task_execution_preflight_v0_1.py
+  - tests/coordination/control_plane/test_cf10_training_dispatch_v0_1.py
+  - tests/coordination/control_plane/test_cf10_governed_worker_cycle_live_launch_v0_1.py
+  - tests/coordination/control_plane/worker_runtime/test_cf10_worker_runtime_invocation_adapter_v0_1.py
+  tests_first_required: true
+  reuse_make_surface: governed-worker-cycle-check
+  new_dedicated_make_target_allowed: false
+  acceptance:
+  - Handoff v2 runtime and contract remain unchanged
+  - Task Context schema remains unchanged
+  - prepared_execution contains only the bounded governed Worker context projection plus its digest
+  - Handoff runtime manifest content is hash-verified before projection extraction
+  - explicit dispatch decision_id binds governed_worker_context_sha256
+  - launch fails closed on projection digest drift or Handoff manifest binding drift
+  - canonical task_context/task_context_id are not mutated to smuggle context
+  - Worker prompt contains lifecycle_roadmap_cursor including roadmap_sync
+  - Worker prompt contains dependency_health_slice, resume_coordinates and expected_result_schema_revision
+  - Worker prompt labels the projection non-authoritative
+  - context cannot grant dispatch, path, git, release, promotion or acceptance authority
+  - existing Worker Invocation Bridge/MCP validation surface remains unchanged
+  - governed-worker-cycle-check covers the new context-delivery regression
+  - existing CF09/CF10/Worker invocation regressions pass
+  - no Worker attempt a029 is created or launched
+  - OC01 remains paused
+  must_not_modify:
+  - scripts/coordination/assistant_handoff_v2_runtime_v0_1.py
+  - coordination/standards/automation/assistant_handoff_v2_contract_v0_1.yaml
+  - scripts/coordination/control_plane/context/task_context_adapter.py
+  - scripts/coordination/control_plane/worker_runtime/worker_validation_mcp.py
+  - scripts/coordination/control_plane/worker_runtime/structured_command_executor.py
+  - scripts/coordination/control_plane/worker_runtime/launcher.py
+  - coordination/registry/structured_command_capabilities_v0_1.yaml
+  - scripts/validation/run_validation_suite_v0_1.py
+  - coordination/standards/automation/validation_suite_registry_v0_1.yaml
+  - coordination/global_policy/current_execution_focus.md
+  - coordination/standards/automation/index.yaml
+  - indexes/governance.yaml
+  - indexes/roadmaps.yaml
+  - AGENTS.md
+stop_conditions:
+- A path outside the frozen implementation write-set becomes necessary.
+- Handoff v2 runtime or contract modification becomes necessary.
+- Task Context schema modification becomes necessary.
+- A new authority source or authority widening becomes necessary.
+- Full Handoff base_context must be copied into the Worker prompt rather than the bounded projection.
+- Explicit dispatch must carry mutable full context instead of a digest binding.
+- Worker Invocation Bridge/MCP execution semantics must change.
+- Lifecycle/roadmap state must be mutated to prove context delivery.
+- A real Worker retry or attempt-ledger mutation would occur during validation.
+- Concurrent committed or dirty changes intersect the audited dependency cone.
+authority:
+  design_freeze_is_execution_authority: false
+  work_front_required_for_execution: true
+  automatic_retry_authority: false
+  automatic_dispatch_authority: false
+  automatic_promotion_authority: false
+  publication_authority: false
+next_boundary_after_closeout:
+  candidate: cf10-u180j-a029
+  state: ELIGIBLE_FOR_NEW_PREPARE_ONLY_AFTER_SLICE_C_CLOSEOUT
+  automatic_create_or_launch: false
+  oc01_reactivation_allowed: false
+audited_dependency_sha256:
+  coordination/internal_work/blueprint/governance/2026-10-05__blueprint__cf10_worker_invocation_bridge_completion_v0_1.yaml: e65683c235a3d2f258e0f03137cb9159029df3863cd1062c1b684bc27e23f83c
+  coordination/work_fronts/cf10_worker_invocation_bridge_v0_1.yaml: aa41eb7838a15884c44608547938bd7a8a0f7f75ad7d865905eb5b4789041a1a
+  scripts/coordination/assistant_handoff_v2_runtime_v0_1.py: 30588b71017dd24af0f14e0c543b92c6aba5512f5aa44a17c25ec98634bbbcf1
+  coordination/standards/automation/assistant_handoff_v2_contract_v0_1.yaml: bf95f1f7e56c9b26ddbe83a63cf52ca5d81ec2c8ff361c1ffa7a31aa816723b0
+  scripts/coordination/control_plane/context/task_context_adapter.py: 8027cee17531111c7dd833f1b3a9c43a4809136dc7041d5a5b5e652b52d39d19
+  scripts/coordination/control_plane/dispatch_intent.py: 7f23aa903de52da5fc65443ecc42189939575c0073ba33444388dc0d610e1576
+  scripts/coordination/control_plane/cf10_training_dispatch.py: f85f94bb358368070f6b697ebaa27336e42ee71fe3ec924c6c13677d0f508a83
+  scripts/coordination/control_plane/governed_worker_cycle.py: f0bc0bbeb284b5cd7dea909dfda8436a710f308f5e6bdc833035b780938331fb
+  scripts/coordination/control_plane/worker_runtime/invocation_adapter.py: c8c8f2916f9ae3c5396278e3410e94f43ee4c4f734b6eb9fa65614d94c1c5901
+  tests/coordination/control_plane/test_cf09_dispatcher_task_execution_preflight_v0_1.py: f307250e404290064e330c6f528cc420778f491c8089f62b50191f1253023542
+  tests/coordination/control_plane/test_cf10_training_dispatch_v0_1.py: 55e2eff1f4d5df38bdf6225bdfb5e4a15e00afe2227b141c6edda958f6da2143
+  tests/coordination/control_plane/test_cf10_governed_worker_cycle_live_launch_v0_1.py: dd28db892f12f5202328fe34d43f392e67039330d987adb6e81d5d1db6f3efa5
+  tests/coordination/control_plane/worker_runtime/test_cf10_worker_runtime_invocation_adapter_v0_1.py: 11e68ae2ecf0d81fad9fec0fbad83a8b7e5e0c9b153fbda71c73956a90658c64
+  Makefile: fefe3734afb42762f4e5fe7a974c91bb95b097abfc3c30c18c7981996fc91313
