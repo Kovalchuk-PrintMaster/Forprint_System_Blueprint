@@ -1,0 +1,79 @@
+schema_version: forprint_oc01_full1_slice_c_sensitive_elevation_approval_adapter_completion_v0_1
+layer: COMPLETION
+roadmap_step: OC-01
+contour: OC01-FULL-1
+slice: C
+title: Sensitive elevation approval adapter
+status: PASS
+closed_at: '2026-10-05T10:22:17.536784+00:00'
+source_branch: audit/blueprint-inventory-refresh-2026-07-29
+implementation_head: e776d173a87b4377063c10da8f8fc99698292fa6
+sources:
+  design_freeze: coordination/internal_work/blueprint/operator_console/2026-10-04__oc01_full1_slice_c_sensitive_elevation_approval_adapter_design_freeze_v0_1.yaml
+  work_front: coordination/work_fronts/oc01_full1_sensitive_elevation_approval_adapter_v0_1.yaml
+implementation_commits:
+  green_2a_sensitive_approval_binding: 792826a3ce7e93057708a9a83b8f0dc7715edf6d
+  green_2b_protected_terminal_consumption: 626f5d80915e7d04d0c33c198c77a67edbf272e6
+  green_2c_operator_entrypoint: e776d173a87b4377063c10da8f8fc99698292fa6
+implementation_scope:
+  frozen_path_count: 5
+  actual_path_count: 5
+  exact_match: true
+  paths:
+  - Makefile
+  - scripts/coordination/build_operator_approval_decision.py
+  - scripts/coordination/control_plane/operator_console/protected_terminal.py
+  - tests/coordination/control_plane/operator_console/test_oc01_protected_terminal_gateway_v0_1.py
+  - tests/coordination/test_operator_approval_gateway_v0_1.py
+  outside_frozen_write_set_modified_by_slice: false
+verification:
+  combined_slice_c_regression:
+    command: .venv_blueprint/bin/python -m pytest -q tests/coordination/test_operator_approval_gateway_v0_1.py tests/coordination/control_plane/operator_console/test_oc01_protected_terminal_gateway_v0_1.py
+    result: PASS
+    observed_test_count: 45
+  canonical_protected_terminal_check:
+    command: make oc01-protected-terminal-check
+    result: PASS
+    observed_gateway_test_count: 37
+  git_diff_check: REQUIRED_AFTER_CLOSEOUT_MUTATION
+delivered:
+  approval_infrastructure_reused: true
+  parallel_approval_system_created: false
+  approval_purpose: SENSITIVE_CAPABILITY_ELEVATION
+  exact_capability_binding: true
+  exact_capability_class_binding: true
+  exact_repository_scope_binding: true
+  exact_actor_binding: true
+  execution_binding_source: session_projection.execution_identity.attempt_id
+  expiry_validation: true
+  authority_widening_denial: true
+  protected_terminal_consumption: true
+  cli_operator_passthrough: true
+  makefile_operator_passthrough: true
+  terminal_approval_variable: OC01_TERMINAL_APPROVAL_DECISION
+  launch_approval_variable_reused: false
+authority_boundary:
+  approval_is_evidence_not_authority: true
+  approval_grants_lease: false
+  safe_write_enabled: false
+  safe_write_blocker: EXCLUSIVE_MODULE_LEASE_NOT_PROVEN
+  live_cancel_enabled: false
+  live_cancel_state: DEPENDENCY_PENDING_CF10
+  capability_registry_integration_enabled: false
+  commit_authority: false
+  push_authority: false
+  merge_authority: false
+  release_authority: false
+  promotion_authority: false
+  arbitrary_shell_allowed: false
+  command_representation: ARGV_NO_SHELL
+deferred_dependencies:
+- CANONICAL_EXCLUSIVE_MODULE_LEASE
+- LIVE_CANCEL_CF10_DEPENDENCY
+- SHARED_CAPABILITY_REGISTRY_OR_EXECUTOR_ALIGNMENT
+- FUTURE_SAFE_WRITE_DESIGN
+closeout:
+  slice_complete: true
+  automatic_next_slice_activation: false
+  production_code_changes_after_green_2c: false
+  cf10_scope_modified_by_closeout: false
