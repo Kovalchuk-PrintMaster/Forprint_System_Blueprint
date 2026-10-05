@@ -730,3 +730,289 @@ def test_full1_slice_c_plan_exposes_approval_artifact_input() -> None:
         "Slice C Protected Terminal plan must accept bounded "
         "approval_decision_path"
     )
+# OC01 FULL-1 Slice C RED-2B: bounded approval consumption contract
+def _write_slice_c_sensitive_approval(
+    path: Path,
+    *,
+    repo: Path,
+    capability_id: str = "repo_diff_check",
+    capability_class: str = "READ_ONLY",
+    approval_purpose: str = "SENSITIVE_CAPABILITY_ELEVATION",
+    actor_type: str = "human_terminal",
+    actor_id: str = "actor-01",
+    execution_binding: str = "oc01-mini2-attempt",
+    expires_at: str = "2099-01-01T00:00:00+00:00",
+    authority_overrides: dict | None = None,
+) -> Path:
+    import yaml
+
+    authority = {
+        "human_operator_decision": True,
+        "eligible_as_future_worker_dispatch_authority": False,
+        "direct_worker_dispatch_allowed_by_gateway": False,
+        "blueprint_accept": False,
+        "prompt_claim": False,
+        "next_prompt_release": False,
+        "sensitive_elevation_evidence_only": True,
+        "sensitive_elevation_grants_authority": False,
+        "exclusive_module_lease": False,
+        "safe_write": False,
+        "commit_push_merge_release_promotion": False,
+    }
+
+    if authority_overrides:
+        authority.update(authority_overrides)
+
+    document = {
+        "schema_version": "forprint_operator_approval_decision_v0_1",
+        "decision_id": "oc01-sensitive-approval-01",
+        "decision": "APPROVE",
+        "decided_by": "operator",
+        "decided_at": "2026-10-05T08:30:00+00:00",
+        "expires_at": expires_at,
+        "transport": "CLI",
+        "reason": "bounded sensitive capability approved",
+        "approval_purpose": approval_purpose,
+        "capability_id": capability_id,
+        "capability_class": capability_class,
+        "requested_authority_delta": (
+            "BOUNDED_SENSITIVE_EVIDENCE_ONLY"
+        ),
+        "repository_scope": str(repo.resolve()),
+        "actor_type": actor_type,
+        "actor_id": actor_id,
+        "session_or_execution_binding": execution_binding,
+        "authority": authority,
+    }
+
+    path.write_text(
+        yaml.safe_dump(
+            document,
+            sort_keys=False,
+        ),
+        encoding="utf-8",
+    )
+
+    return path
+
+
+def test_slice_c_valid_sensitive_approval_is_consumed_as_evidence_only(
+    tmp_path: Path,
+) -> None:
+    repo = git_repo(tmp_path)
+
+    approval = _write_slice_c_sensitive_approval(
+        tmp_path / "approval.yaml",
+        repo=repo,
+    )
+
+    plan = build_terminal_plan(
+        capability_id="repo_diff_check",
+        cwd=repo,
+        session_projection=session(),
+        enabled=True,
+        approval_decision_path=approval,
+    )
+
+    evidence = plan["sensitive_elevation"]
+
+    assert evidence["evidence_consumed"] is True
+    assert evidence["decision_id"] == "oc01-sensitive-approval-01"
+
+    assert (
+        evidence["approval_purpose"]
+        == "SENSITIVE_CAPABILITY_ELEVATION"
+    )
+
+    assert (
+        evidence["requested_authority_delta"]
+        == "BOUNDED_SENSITIVE_EVIDENCE_ONLY"
+    )
+
+    assert (
+        evidence["session_or_execution_binding"]
+        == "oc01-mini2-attempt"
+    )
+
+    assert evidence["authority_conferred"] is False
+
+    assert all(
+        value is False
+        for value in plan["authority"].values()
+    )
+
+
+@pytest.mark.parametrize(
+    ("override", "expected_code"),
+    [
+        (
+            {
+                "approval_purpose": "WORKER_LAUNCH",
+            },
+            "APPROVAL_PURPOSE_MISMATCH",
+        ),
+        (
+            {
+                "capability_id": "repo_head",
+            },
+            "APPROVAL_CAPABILITY_MISMATCH",
+        ),
+        (
+            {
+                "capability_class": "SAFE_WRITE",
+            },
+            "APPROVAL_CAPABILITY_CLASS_MISMATCH",
+        ),
+        (
+            {
+                "repository_scope":
+                    "/tmp/not-the-protected-repo",
+            },
+            "APPROVAL_REPOSITORY_SCOPE_MISMATCH",
+        ),
+        (
+            {
+                "actor_type": "operator_assistant",
+            },
+            "APPROVAL_ACTOR_MISMATCH",
+        ),
+        (
+            {
+                "actor_id": "different-actor",
+            },
+            "APPROVAL_ACTOR_MISMATCH",
+        ),
+        (
+            {
+                "session_or_execution_binding":
+                    "different-attempt",
+            },
+            "APPROVAL_EXECUTION_BINDING_MISMATCH",
+        ),
+        (
+            {
+                "expires_at":
+                    "2000-01-01T00:00:00+00:00",
+            },
+            "APPROVAL_EXPIRED",
+        ),
+    ],
+)
+def test_slice_c_sensitive_approval_binding_mismatch_fails_closed(
+    tmp_path: Path,
+    override: dict,
+    expected_code: str,
+) -> None:
+    repo = git_repo(tmp_path)
+
+    approval = _write_slice_c_sensitive_approval(
+        tmp_path / "approval.yaml",
+        repo=repo,
+    )
+
+    import yaml
+
+    document = yaml.safe_load(
+        approval.read_text(
+            encoding="utf-8",
+        )
+    )
+
+    if "repository_scope" in override:
+        document["repository_scope"] = (
+            override["repository_scope"]
+        )
+
+    elif "session_or_execution_binding" in override:
+        document["session_or_execution_binding"] = (
+            override["session_or_execution_binding"]
+        )
+
+    elif "expires_at" in override:
+        document["expires_at"] = (
+            override["expires_at"]
+        )
+
+    else:
+        document.update(
+            override
+        )
+
+    approval.write_text(
+        yaml.safe_dump(
+            document,
+            sort_keys=False,
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(
+        ProtectedTerminalError
+    ) as exc:
+        build_terminal_plan(
+            capability_id="repo_diff_check",
+            cwd=repo,
+            session_projection=session(),
+            enabled=True,
+            approval_decision_path=approval,
+        )
+
+    assert exc.value.code == expected_code
+
+
+def test_slice_c_sensitive_approval_cannot_widen_authority(
+    tmp_path: Path,
+) -> None:
+    repo = git_repo(tmp_path)
+
+    approval = _write_slice_c_sensitive_approval(
+        tmp_path / "approval.yaml",
+        repo=repo,
+        authority_overrides={
+            "safe_write": True,
+        },
+    )
+
+    with pytest.raises(
+        ProtectedTerminalError
+    ) as exc:
+        build_terminal_plan(
+            capability_id="repo_diff_check",
+            cwd=repo,
+            session_projection=session(),
+            enabled=True,
+            approval_decision_path=approval,
+        )
+
+    assert (
+        exc.value.code
+        == "APPROVAL_AUTHORITY_WIDENING"
+    )
+
+
+def test_slice_c_sensitive_approval_never_bypasses_safe_write_lease_gate(
+    tmp_path: Path,
+) -> None:
+    repo = git_repo(tmp_path)
+
+    approval = _write_slice_c_sensitive_approval(
+        tmp_path / "approval.yaml",
+        repo=repo,
+    )
+
+    with pytest.raises(
+        ProtectedTerminalError
+    ) as exc:
+        build_terminal_plan(
+            capability_id="future-safe-write",
+            cwd=repo,
+            session_projection=session(),
+            enabled=True,
+            capability_class="SAFE_WRITE",
+            approval_decision_path=approval,
+        )
+
+    assert (
+        exc.value.code
+        == "EXCLUSIVE_MODULE_LEASE_NOT_PROVEN"
+    )

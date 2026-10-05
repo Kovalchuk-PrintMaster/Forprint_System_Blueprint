@@ -359,6 +359,238 @@ def _validate_session_projection(
     return actor_type, actor_id
 
 
+def _validate_sensitive_elevation_approval(
+    *,
+    approval_decision_path: Path | str,
+    capability_id: str,
+    capability_class: str,
+    scope: Path,
+    actor_type: str,
+    actor_id: str,
+    session_projection: Mapping[str, Any],
+) -> dict[str, Any]:
+    approval_path = Path(
+        approval_decision_path
+    ).expanduser().resolve()
+
+    approval = _load_yaml(
+        approval_path,
+        "sensitive elevation approval",
+    )
+
+    def deny(
+        code: str,
+        reason: str,
+    ) -> None:
+        raise ProtectedTerminalError(
+            reason,
+            code=code,
+        )
+
+    if (
+        approval.get("schema_version")
+        != "forprint_operator_approval_decision_v0_1"
+    ):
+        deny(
+            "APPROVAL_SCHEMA_MISMATCH",
+            "sensitive elevation approval schema mismatch",
+        )
+
+    if approval.get("decision") != "APPROVE":
+        deny(
+            "APPROVAL_DECISION_MISMATCH",
+            "sensitive elevation approval decision must be APPROVE",
+        )
+
+    if (
+        approval.get("approval_purpose")
+        != "SENSITIVE_CAPABILITY_ELEVATION"
+    ):
+        deny(
+            "APPROVAL_PURPOSE_MISMATCH",
+            "sensitive elevation approval purpose mismatch",
+        )
+
+    if (
+        approval.get("requested_authority_delta")
+        != "BOUNDED_SENSITIVE_EVIDENCE_ONLY"
+    ):
+        deny(
+            "APPROVAL_AUTHORITY_DELTA_MISMATCH",
+            "sensitive elevation authority delta mismatch",
+        )
+
+    if approval.get("capability_id") != capability_id:
+        deny(
+            "APPROVAL_CAPABILITY_MISMATCH",
+            "sensitive elevation capability_id mismatch",
+        )
+
+    if approval.get("capability_class") != capability_class:
+        deny(
+            "APPROVAL_CAPABILITY_CLASS_MISMATCH",
+            "sensitive elevation capability_class mismatch",
+        )
+
+    approval_scope_raw = approval.get(
+        "repository_scope"
+    )
+
+    if (
+        not isinstance(approval_scope_raw, str)
+        or not approval_scope_raw.strip()
+    ):
+        deny(
+            "APPROVAL_REPOSITORY_SCOPE_MISMATCH",
+            "sensitive elevation repository scope is missing",
+        )
+
+    approval_scope = Path(
+        approval_scope_raw
+    ).expanduser().resolve()
+
+    if approval_scope != scope:
+        deny(
+            "APPROVAL_REPOSITORY_SCOPE_MISMATCH",
+            "sensitive elevation repository scope mismatch",
+        )
+
+    if (
+        approval.get("actor_type") != actor_type
+        or approval.get("actor_id") != actor_id
+    ):
+        deny(
+            "APPROVAL_ACTOR_MISMATCH",
+            "sensitive elevation actor binding mismatch",
+        )
+
+    execution_identity = _mapping(
+        session_projection.get("execution_identity"),
+        "session projection execution identity",
+    )
+
+    attempt_id = _required_string(
+        execution_identity.get("attempt_id"),
+        "execution_identity.attempt_id",
+    )
+
+    if (
+        approval.get("session_or_execution_binding")
+        != attempt_id
+    ):
+        deny(
+            "APPROVAL_EXECUTION_BINDING_MISMATCH",
+            "sensitive elevation execution binding mismatch",
+        )
+
+    expires_raw = approval.get("expires_at")
+
+    try:
+        expires_at = datetime.fromisoformat(
+            str(expires_raw)
+        )
+
+        if expires_at.tzinfo is None:
+            raise ValueError(
+                "approval expiry must be timezone-aware"
+            )
+
+    except Exception:
+        deny(
+            "APPROVAL_EXPIRED",
+            "sensitive elevation approval expiry is invalid",
+        )
+
+    if (
+        datetime.now(timezone.utc)
+        >= expires_at.astimezone(timezone.utc)
+    ):
+        deny(
+            "APPROVAL_EXPIRED",
+            "sensitive elevation approval has expired",
+        )
+
+    authority = _mapping(
+        approval.get("authority"),
+        "sensitive elevation approval authority",
+    )
+
+    if (
+        authority.get("human_operator_decision")
+        is not True
+    ):
+        deny(
+            "APPROVAL_AUTHORITY_WIDENING",
+            "sensitive elevation approval lacks human decision evidence",
+        )
+
+    if (
+        authority.get(
+            "sensitive_elevation_evidence_only"
+        )
+        is not True
+    ):
+        deny(
+            "APPROVAL_AUTHORITY_WIDENING",
+            "sensitive elevation approval is not evidence-only",
+        )
+
+    required_false = (
+        "eligible_as_future_worker_dispatch_authority",
+        "direct_worker_dispatch_allowed_by_gateway",
+        "blueprint_accept",
+        "prompt_claim",
+        "next_prompt_release",
+        "sensitive_elevation_grants_authority",
+        "exclusive_module_lease",
+        "safe_write",
+        "commit_push_merge_release_promotion",
+    )
+
+    widened = [
+        key
+        for key in required_false
+        if authority.get(key) is not False
+    ]
+
+    if widened:
+        deny(
+            "APPROVAL_AUTHORITY_WIDENING",
+            "sensitive elevation approval attempts authority widening: "
+            + ",".join(sorted(widened)),
+        )
+
+    decision_id = _required_string(
+        approval.get("decision_id"),
+        "approval decision_id",
+    )
+
+    return {
+        "evidence_consumed": True,
+        "decision_id": decision_id,
+        "approval_purpose": (
+            "SENSITIVE_CAPABILITY_ELEVATION"
+        ),
+        "capability_id": capability_id,
+        "capability_class": capability_class,
+        "repository_scope": str(scope),
+        "actor_type": actor_type,
+        "actor_id": actor_id,
+        "session_or_execution_binding": attempt_id,
+        "requested_authority_delta": (
+            "BOUNDED_SENSITIVE_EVIDENCE_ONLY"
+        ),
+        "expires_at": expires_at.astimezone(
+            timezone.utc
+        ).isoformat(),
+        "authority_conferred": False,
+        "lease_conferred": False,
+        "safe_write_conferred": False,
+        "promotion_authority_conferred": False,
+        "source_path": str(approval_path),
+    }
+
+
 def _validate_git_scope(cwd: Path | str) -> Path:
     scope = Path(cwd).expanduser().resolve()
     if not scope.is_dir():
@@ -443,13 +675,6 @@ def build_terminal_plan(
     stall_threshold_seconds: float | None = None,
     approval_decision_path: Path | str | None = None,
 ) -> dict[str, Any]:
-    # OC01 FULL-1 Slice C GREEN-1:
-    # approval evidence is accepted by the API surface but is
-    # intentionally not consumed as authority yet.
-    if approval_decision_path is not None:
-        raise PermissionError(
-            "SENSITIVE_ELEVATION_APPROVAL_EVIDENCE_NOT_YET_CONSUMED"
-        )
     if enabled is not True:
         raise ProtectedTerminalError(
             "Protected Terminal is default-off; explicit enable is required",
@@ -547,6 +772,21 @@ def build_terminal_plan(
             cwd=str(scope),
         )
 
+    sensitive_elevation: dict[str, Any] | None = None
+
+    if approval_decision_path is not None:
+        sensitive_elevation = (
+            _validate_sensitive_elevation_approval(
+                approval_decision_path=approval_decision_path,
+                capability_id=capability_id,
+                capability_class=capability_class,
+                scope=scope,
+                actor_type=actor_type,
+                actor_id=actor_id,
+                session_projection=session_projection,
+            )
+        )
+
     git_executable = shutil.which("git")
     if not git_executable:
         raise ProtectedTerminalError(
@@ -562,6 +802,11 @@ def build_terminal_plan(
         "actor_id": actor_id,
         "argv_sha256": _argv_sha256(argv),
     }
+
+    if sensitive_elevation is not None:
+        command_id_material[
+            "sensitive_elevation_decision_id"
+        ] = sensitive_elevation["decision_id"]
     command_id = "oc01-terminal-" + hashlib.sha256(
         json.dumps(
             command_id_material,
@@ -642,6 +887,11 @@ def build_terminal_plan(
             "available": False,
         },
     }
+    if sensitive_elevation is not None:
+        plan["sensitive_elevation"] = (
+            sensitive_elevation
+        )
+
     _record_audit_event(
         evidence_root,
         event_type="PLAN_ALLOWED",
@@ -657,6 +907,15 @@ def build_terminal_plan(
             "profile_id": profile["profile_id"],
             "argv_sha256": _argv_sha256(argv),
             "runtime_observation_enabled": observe_runtime,
+            "sensitive_elevation_evidence_consumed": (
+                sensitive_elevation is not None
+            ),
+            "sensitive_elevation_decision_id": (
+                sensitive_elevation["decision_id"]
+                if sensitive_elevation is not None
+                else None
+            ),
+            "sensitive_elevation_authority_conferred": False,
         },
     )
     return plan
