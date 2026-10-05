@@ -56,6 +56,8 @@ outputs:
 - One launch_authorized_worker_cycle composition in governed_worker_cycle.py.
 - One focused live-launch regression test module.
 - One Makefile operator check for B2 live-launch orchestration.
+- One explicit project-native governed-worker-cycle-launch operator command that
+  reuses the canonical B2 composition instead of chat-owned launch logic.
 - Sanitized launch evidence with no durable raw prompt/argv leakage.
 acceptance:
 - Launch orchestration refuses any projection state other than READY_FOR_WORKER_LAUNCH.
@@ -67,6 +69,9 @@ acceptance:
 - The invocation plan exposes exactly one canonical launcher mapping.
 - Provider-specific argv construction remains owned by the B1 invocation adapter.
 - Returned process evidence strips raw argv, prompt, secret and environment fields.
+- The supported launch command requires explicit operator confirmation, derives
+  task context and STARTED ledger data from canonical attempt/task artifacts,
+  and writes sanitized process evidence for cycle status projection.
 - Candidate promotion, automatic ACCEPT, staging, commit, push, merge and release remain false.
 - Canonical Work Front validation passes.
 - Focused B2 tests, Slice A regression, Slice B1 regression, ledger regression and git diff --check pass.

@@ -4,9 +4,9 @@ The coordinator is an operator-facing workflow layer, not a new execution
 authority. It delegates task resolution/ACK/dispatch preparation to the existing
 CF-10 training adapter and workspace preparation to the existing workspace layer.
 
-v0.1 intentionally stops before Worker process launch and before publication.
-Those remain explicit later corridor boundaries while the reusable launch/result
-and publication bindings are converged behind this same entrypoint.
+v0.1 keeps Worker process launch explicit and operator-confirmed, while
+candidate promotion and publication remain separate later corridor boundaries.
+Reusable launch/result bindings stay behind this same governed entrypoint.
 """
 
 from __future__ import annotations
@@ -22,6 +22,7 @@ import yaml
 
 from scripts.coordination.control_plane import cf10_training_dispatch as training
 from scripts.coordination.control_plane.context.task_context_adapter import (
+    build_internal_task_context,
     build_source_state,
 )
 from scripts.coordination.control_plane.workspace import (
@@ -1050,6 +1051,16 @@ def _print_result(value: dict[str, Any], output_format: str) -> None:
             )
         if value.get("source_head"):
             print("SOURCE_HEAD=" + str(value["source_head"]))
+        if "worker_process_launched" in value:
+            print(
+                "WORKER_PROCESS_LAUNCHED="
+                + str(value["worker_process_launched"]).lower()
+            )
+        if value.get("process_return_code") is not None:
+            print(
+                "PROCESS_RETURN_CODE="
+                + str(value["process_return_code"])
+            )
 
 
 def main() -> int:
@@ -1062,6 +1073,7 @@ def main() -> int:
             "refresh",
             "ack",
             "authorize-dispatch",
+            "launch",
         ),
     )
     parser.add_argument("--root", default=".")
@@ -1071,6 +1083,7 @@ def main() -> int:
     parser.add_argument("--worker-id", default=WORKER_ID)
     parser.add_argument("--confirm-ack", action="store_true")
     parser.add_argument("--confirm-dispatch-authorization", action="store_true")
+    parser.add_argument("--confirm-launch", action="store_true")
     parser.add_argument(
         "--output-format",
         choices=("text", "yaml", "json"),
@@ -1082,11 +1095,11 @@ def main() -> int:
     runtime_root = Path(args.runtime_root).resolve()
 
     if (
-        args.action in {"status", "prepare", "refresh"}
+        args.action in {"status", "prepare", "refresh", "launch"}
         and not args.task_prompt_id
     ):
         parser.error(
-            "--task-prompt-id is required for status/prepare/refresh"
+            "--task-prompt-id is required for status/prepare/refresh/launch"
         )
 
     if args.action == "status":
@@ -1121,7 +1134,7 @@ def main() -> int:
             confirm=args.confirm_ack,
             worker_id=args.worker_id,
         )
-    else:
+    elif args.action == "authorize-dispatch":
         result = authorize_dispatch(
             root=root,
             runtime_root=runtime_root,
@@ -1129,13 +1142,19 @@ def main() -> int:
             confirm=args.confirm_dispatch_authorization,
             worker_id=args.worker_id,
         )
+    else:
+        result = launch_cycle(
+            root=root,
+            runtime_root=runtime_root,
+            task_prompt_id=args.task_prompt_id,
+            attempt_id=args.attempt_id,
+            confirm=args.confirm_launch,
+            worker_id=args.worker_id,
+        )
 
     _print_result(result, args.output_format)
     return 0
 
-
-if __name__ == "__main__":
-    raise SystemExit(main())
 
 # CF10_GOVERNED_WORKER_CYCLE_SLICE_B2_LIVE_LAUNCH_START
 def _b2_call_supported_kwargs(func, values):
@@ -1453,3 +1472,240 @@ def launch_authorized_worker_cycle(
         "release_allowed": False,
     }
 # CF10_GOVERNED_WORKER_CYCLE_SLICE_B2_LIVE_LAUNCH_END
+def _project_native_started_record(
+    *,
+    canonical: Path,
+    attempt: Path,
+    task_prompt_id: str,
+    attempt_id: str,
+    worker_id: str,
+    source_state: dict[str, Any],
+    prepared_execution: dict[str, Any],
+    explicit_dispatch_decision: dict[str, Any],
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    binding = training.resolve_training_task(
+        root=canonical,
+        task_prompt_id=task_prompt_id,
+    )
+    decision_binding = explicit_dispatch_decision.get("binding")
+    if not isinstance(decision_binding, dict):
+        raise GovernedWorkerCycleError(
+            "explicit dispatch decision binding missing"
+        )
+
+    task_context = build_internal_task_context(
+        canonical,
+        task_id=task_prompt_id,
+        module_root=".",
+    )
+    context_state = task_context.get("source_state")
+    if not isinstance(context_state, dict):
+        raise GovernedWorkerCycleError(
+            "project-native task context source_state missing"
+        )
+
+    source_fp = source_state.get("fingerprint_sha256")
+    context_fp = context_state.get("fingerprint_sha256")
+    if (
+        not isinstance(source_fp, str)
+        or len(source_fp) != 64
+        or context_fp != source_fp
+    ):
+        raise GovernedWorkerCycleError(
+            "project-native task context / frozen source fingerprint drift"
+        )
+
+    expected = {
+        "attempt_id": attempt_id,
+        "worker_id": worker_id,
+        "task_prompt_id": task_prompt_id,
+        "work_front_id": binding["work_front_id"],
+        "profile_ref": binding["profile_ref"],
+        "procedure_id": binding["procedure_id"],
+    }
+    observed = {
+        "attempt_id": decision_binding.get("attempt_id"),
+        "worker_id": decision_binding.get("worker_id"),
+        "task_prompt_id": decision_binding.get("task_prompt_id"),
+        "work_front_id": decision_binding.get("work_front_id"),
+        "profile_ref": decision_binding.get("profile_ref"),
+        "procedure_id": decision_binding.get("procedure_id"),
+    }
+    drift = [
+        key
+        for key, expected_value in expected.items()
+        if observed.get(key) != expected_value
+    ]
+    if drift:
+        raise GovernedWorkerCycleError(
+            "explicit dispatch / project-native launch binding drift: "
+            + ",".join(drift)
+        )
+
+    runtime_provider = decision_binding.get("runtime_provider")
+    workspace_repo = decision_binding.get("workspace_repo")
+    if not isinstance(runtime_provider, str) or not runtime_provider:
+        raise GovernedWorkerCycleError(
+            "runtime provider missing from explicit dispatch decision"
+        )
+    if not isinstance(workspace_repo, str) or not workspace_repo:
+        raise GovernedWorkerCycleError(
+            "workspace repo missing from explicit dispatch decision"
+        )
+
+    handoff_hash = prepared_execution.get("handoff_manifest_sha256")
+    if not isinstance(handoff_hash, str) or len(handoff_hash) != 64:
+        raise GovernedWorkerCycleError(
+            "prepared Handoff manifest hash invalid"
+        )
+
+    decision_ref = (
+        attempt
+        / "input/"
+        "governed_worker_cycle_explicit_dispatch_decision_v0_1.yaml"
+    )
+
+    record = {
+        "schema_version": "forprint_execution_attempt_record_v0_1",
+        "attempt_id": attempt_id,
+        "work_front_id": binding["work_front_id"],
+        "recorded_at": datetime.now(UTC).isoformat().replace("+00:00", "Z"),
+        "actor_or_worker_ref": (
+            f"{worker_id}/provider:{runtime_provider}"
+        ),
+        "where": workspace_repo,
+        "why": (
+            "CF-10 governed Worker launch for canonical task "
+            f"{task_prompt_id}."
+        ),
+        "source_fingerprint": source_fp,
+        "profile_ref_or_revision": binding["profile_ref"],
+        "pack_hash_or_context_hash": handoff_hash,
+        "launch_or_invocation_ref": str(decision_ref),
+        "attempt_stage": "STARTED",
+        "result_state": "PENDING",
+        "result_refs": [],
+        "validator_outcome": "NOT_RUN",
+        "validator_evidence_refs": [],
+        "failure_or_retry_ref": None,
+        "resume": {
+            "latest_accepted_ref": None,
+            "resume_coordinates": [],
+            "replay_forbidden_refs": [],
+        },
+    }
+    return record, task_context
+
+
+def launch_cycle(
+    *,
+    root: Path | str,
+    runtime_root: Path | str,
+    task_prompt_id: str,
+    attempt_id: str,
+    confirm: bool,
+    worker_id: str = WORKER_ID,
+) -> dict[str, Any]:
+    """Launch one already-authorized Worker through canonical project surfaces."""
+
+    if confirm is not True:
+        raise GovernedWorkerCycleError(
+            "explicit --confirm-launch is required"
+        )
+
+    canonical = Path(root).resolve()
+    runtime = Path(runtime_root).resolve()
+    attempt = _attempt_root(runtime, attempt_id, worker_id)
+    input_dir = attempt / "input"
+
+    source_state = _load_yaml(
+        input_dir / "governed_worker_cycle_source_state_v0_1.yaml",
+        "source state",
+    )
+    prepared_execution = _load_yaml(
+        input_dir / "governed_worker_cycle_prepared_execution_v0_1.yaml",
+        "prepared execution",
+    )
+    explicit_dispatch_decision = _load_yaml(
+        input_dir
+        / "governed_worker_cycle_explicit_dispatch_decision_v0_1.yaml",
+        "explicit dispatch decision",
+    )
+
+    _assert_frozen_source_state_current(
+        canonical,
+        source_state,
+        boundary="project-native Worker launch",
+    )
+
+    started_record, task_context = _project_native_started_record(
+        canonical=canonical,
+        attempt=attempt,
+        task_prompt_id=task_prompt_id,
+        attempt_id=attempt_id,
+        worker_id=worker_id,
+        source_state=source_state,
+        prepared_execution=prepared_execution,
+        explicit_dispatch_decision=explicit_dispatch_decision,
+    )
+
+    result = launch_authorized_worker_cycle(
+        root=canonical,
+        runtime_root=runtime,
+        task_prompt_id=task_prompt_id,
+        attempt_id=attempt_id,
+        worker_id=worker_id,
+        started_record_data=started_record,
+        invocation_context={
+            "task_context": task_context,
+            "explicit_dispatch_decision": explicit_dispatch_decision,
+            "attempt_root": attempt,
+        },
+    )
+
+    process = result.get("process_result")
+    if not isinstance(process, dict):
+        raise GovernedWorkerCycleError(
+            "sanitized Worker process result missing"
+        )
+
+    evidence = {
+        "schema_version": (
+            "forprint_governed_worker_cycle_worker_process_result_v0_1"
+        ),
+        "attempt_id": attempt_id,
+        "task_prompt_id": task_prompt_id,
+        "worker_id": worker_id,
+        "recorded_at": datetime.now(UTC).isoformat().replace("+00:00", "Z"),
+        "invocation_evidence": result.get("invocation_evidence"),
+        "process": process,
+        "candidate_promotion_allowed": False,
+        "automatic_accept_allowed": False,
+        "staging_allowed": False,
+        "commit_allowed": False,
+        "push_allowed": False,
+        "merge_allowed": False,
+        "release_allowed": False,
+    }
+    evidence_path = (
+        attempt
+        / "evidence/"
+        "governed_worker_cycle_worker_process_result_v0_1.yaml"
+    )
+    _write_yaml_new(evidence_path, evidence)
+
+    projection = status(
+        root=canonical,
+        runtime_root=runtime,
+        task_prompt_id=task_prompt_id,
+        attempt_id=attempt_id,
+        worker_id=worker_id,
+    )
+    projection["worker_process_launched"] = True
+    projection["process_return_code"] = process.get("return_code")
+    projection["process_result_evidence"] = str(evidence_path)
+    return projection
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import pytest
+import yaml
 
 from scripts.coordination import execution_attempt_ledger_v0_1 as ledger
 from scripts.coordination.control_plane import cf10_training_dispatch
@@ -23,6 +24,19 @@ def _ready(monkeypatch):
         gwc,
         "derive_cycle_projection",
         lambda facts: {"state": "READY_FOR_WORKER_LAUNCH"},
+    )
+    monkeypatch.setattr(
+        gwc,
+        "_load_yaml",
+        lambda path, label: {
+            "git_head": "a" * 40,
+            "fingerprint_sha256": "1" * 64,
+        },
+    )
+    monkeypatch.setattr(
+        gwc,
+        "_assert_frozen_source_state_current",
+        lambda *args, **kwargs: {},
     )
     monkeypatch.setattr(
         ledger,
@@ -494,3 +508,159 @@ def test_canonical_b1_plan_requires_launcher_paths(monkeypatch):
             attempt_id=ATTEMPT_ID,
             started_record_data=_started(),
         )
+def test_project_native_launch_cycle_requires_explicit_confirmation(
+    tmp_path,
+) -> None:
+    with pytest.raises(
+        gwc.GovernedWorkerCycleError,
+        match="explicit --confirm-launch is required",
+    ):
+        gwc.launch_cycle(
+            root=tmp_path,
+            runtime_root=tmp_path / "runtime",
+            task_prompt_id="task",
+            attempt_id=ATTEMPT_ID,
+            confirm=False,
+        )
+
+
+def test_project_native_launch_cycle_persists_process_evidence(
+    tmp_path,
+    monkeypatch,
+) -> None:
+    root = tmp_path / "repo"
+    runtime = tmp_path / "runtime"
+    root.mkdir()
+    attempt = (
+        runtime
+        / gwc.MODULE_ID
+        / gwc.WORKER_ID
+        / ATTEMPT_ID
+    )
+    input_dir = attempt / "input"
+    input_dir.mkdir(parents=True)
+    workspace = attempt / "workspace/repo"
+    workspace.mkdir(parents=True)
+
+    source_fp = "1" * 64
+    binding = {
+        "task_prompt_id": "task",
+        "work_front_id": "wf-task",
+        "work_front_ref": "coordination/work_fronts/wf_task.yaml",
+        "profile_ref": "light-maintenance@r1",
+        "procedure_id": "governed_canonical_mutation",
+    }
+    decision = {
+        "binding": {
+            "attempt_id": ATTEMPT_ID,
+            "worker_id": gwc.WORKER_ID,
+            "task_prompt_id": "task",
+            "work_front_id": "wf-task",
+            "profile_ref": "light-maintenance@r1",
+            "procedure_id": "governed_canonical_mutation",
+            "runtime_provider": "github_copilot_cli",
+            "workspace_repo": str(workspace),
+        }
+    }
+
+    for name, value in {
+        "governed_worker_cycle_source_state_v0_1.yaml": {
+            "git_head": "a" * 40,
+            "fingerprint_sha256": source_fp,
+        },
+        "governed_worker_cycle_prepared_execution_v0_1.yaml": {
+            "handoff_manifest_sha256": "2" * 64,
+        },
+        "governed_worker_cycle_explicit_dispatch_decision_v0_1.yaml": decision,
+    }.items():
+        (input_dir / name).write_text(
+            yaml.safe_dump(value, sort_keys=False),
+            encoding="utf-8",
+        )
+
+    monkeypatch.setattr(
+        gwc,
+        "_assert_frozen_source_state_current",
+        lambda *args, **kwargs: {},
+    )
+    monkeypatch.setattr(
+        gwc.training,
+        "resolve_training_task",
+        lambda **_kwargs: binding,
+    )
+    task_context = {
+        "source_state": {"fingerprint_sha256": source_fp},
+        "task_envelope": {"task_id": "task"},
+    }
+    monkeypatch.setattr(
+        gwc,
+        "build_internal_task_context",
+        lambda *_args, **_kwargs: task_context,
+    )
+
+    captured = {}
+
+    def fake_launch(**kwargs):
+        captured.update(kwargs)
+        return {
+            "invocation_evidence": {"argv_sha256": "3" * 64},
+            "process_result": {
+                "process_started": True,
+                "return_code": 0,
+                "timed_out": False,
+            },
+        }
+
+    monkeypatch.setattr(
+        gwc,
+        "launch_authorized_worker_cycle",
+        fake_launch,
+    )
+    monkeypatch.setattr(
+        gwc,
+        "status",
+        lambda **_kwargs: {
+            "state": "VALIDATE_CANDIDATE",
+            "next_boundary": "CANDIDATE_VALIDATION",
+            "attempt_id": ATTEMPT_ID,
+            "task_prompt_id": "task",
+        },
+    )
+
+    result = gwc.launch_cycle(
+        root=root,
+        runtime_root=runtime,
+        task_prompt_id="task",
+        attempt_id=ATTEMPT_ID,
+        confirm=True,
+    )
+
+    started = captured["started_record_data"]
+    assert started["attempt_id"] == ATTEMPT_ID
+    assert started["work_front_id"] == "wf-task"
+    assert started["attempt_stage"] == "STARTED"
+    assert started["result_state"] == "PENDING"
+    assert started["source_fingerprint"] == source_fp
+    assert started["profile_ref_or_revision"] == "light-maintenance@r1"
+    assert captured["invocation_context"]["task_context"] is task_context
+    assert (
+        captured["invocation_context"]["explicit_dispatch_decision"]
+        == decision
+    )
+    assert captured["invocation_context"]["attempt_root"] == attempt
+
+    evidence_path = (
+        attempt
+        / "evidence/"
+        "governed_worker_cycle_worker_process_result_v0_1.yaml"
+    )
+    assert evidence_path.is_file()
+    evidence = yaml.safe_load(
+        evidence_path.read_text(encoding="utf-8")
+    )
+    assert evidence["process"]["process_started"] is True
+    assert evidence["process"]["return_code"] == 0
+    assert evidence["candidate_promotion_allowed"] is False
+    assert result["state"] == "VALIDATE_CANDIDATE"
+    assert result["worker_process_launched"] is True
+    assert result["process_return_code"] == 0

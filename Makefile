@@ -993,7 +993,7 @@ GOVERNED_WORKER_RUNTIME_ROOT ?= /srv/software_development/forprint-worker-runtim
 .PHONY: governed-worker-cycle-check
 governed-worker-cycle-check:
 	$(PYTHON) -m py_compile scripts/coordination/control_plane/governed_worker_cycle.py scripts/coordination/control_plane/candidate_promotion.py
-	$(PYTHON) -m pytest -q tests/coordination/control_plane/test_cf10_governed_worker_cycle_v0_1.py tests/coordination/control_plane/test_worker_candidate_promotion_v0_1.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/test_cf10_governed_worker_cycle_v0_1.py tests/coordination/control_plane/test_cf10_governed_worker_cycle_live_launch_v0_1.py tests/coordination/control_plane/test_worker_candidate_promotion_v0_1.py
 	@git diff --check -- coordination/work_fronts/cf10_governed_worker_cycle_v0_1.yaml scripts/coordination/control_plane/governed_worker_cycle.py scripts/coordination/control_plane/candidate_promotion.py tests/coordination/control_plane/test_cf10_governed_worker_cycle_v0_1.py tests/coordination/control_plane/test_worker_candidate_promotion_v0_1.py coordination/standards/automation/worker_candidate_promotion_contract_v0_1.yaml Makefile
 
 .PHONY: governed-worker-cycle-status
@@ -3164,6 +3164,13 @@ assistant-handoff-v2-freshness-resume-check:
 .PHONY: governed-worker-cycle-live-launch-check
 governed-worker-cycle-live-launch-check:
 	$(PYTHON) -m pytest -q tests/coordination/control_plane/test_cf10_governed_worker_cycle_live_launch_v0_1.py
+
+.PHONY: governed-worker-cycle-launch
+governed-worker-cycle-launch:
+	@test "$(CONFIRM_LAUNCH)" = "1" || { echo "FAILED: CONFIRM_LAUNCH=1 is required"; false; }
+	@test -n "$(GOVERNED_WORKER_TASK)" || { echo "FAILED: GOVERNED_WORKER_TASK is required"; false; }
+	@test -n "$(GOVERNED_WORKER_ATTEMPT)" || { echo "FAILED: GOVERNED_WORKER_ATTEMPT is required"; false; }
+	$(PYTHON) -m scripts.coordination.control_plane.governed_worker_cycle launch --root . --runtime-root "$(GOVERNED_WORKER_RUNTIME_ROOT)" --task-prompt-id "$(GOVERNED_WORKER_TASK)" --attempt-id "$(GOVERNED_WORKER_ATTEMPT)" --confirm-launch
 # CF10_GOVERNED_WORKER_CYCLE_SLICE_B2_MAKE_END
 
 
