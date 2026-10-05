@@ -118,6 +118,8 @@ help:
 	@echo "  make structured-command-executor-list"
 	@echo "  make structured-command-executor-check"
 	@echo "  make structured-command-executor-proof STRUCTURED_COMMAND_EVIDENCE_DIR=<outside-repo-dir> [STRUCTURED_COMMAND_PROOF_SUITE=cf10-worker-pipeline]"
+	@echo "  make cf10-worker-invocation-bridge-check"
+	@echo "  make cf10-worker-invocation-bridge-proof CF10_WORKER_BRIDGE_EVIDENCE_DIR=<outside-repo-dir> [CF10_WORKER_BRIDGE_PROOF_SUITE=cf10-worker-pipeline]"
 	@echo "  make check-report"
 	@echo "  make test-make-command-surface"
 	@echo "  make test-v0-4-coordination"
@@ -1076,16 +1078,37 @@ governed-worker-cycle-authorize-dispatch:
 # Block scope: Authority-neutral provider invocation construction after
 # explicit dispatch; no process start or publication authority.
 
-# Target: cf10-worker-runtime-invocation-adapter-check
-# Purpose: Validate the authority-neutral CF-10 execution-side Worker Runtime invocation bridge.
-# Safety: READ-ONLY â€” validation only; no Worker process start, attempt append, promotion, commit, push, merge, release or auto-ACCEPT.
+CF10_WORKER_BRIDGE_EVIDENCE_DIR ?=
+CF10_WORKER_BRIDGE_PROOF_SUITE ?= cf10-worker-pipeline
+CF10_WORKER_BRIDGE_PROOF_TIER ?= LOCAL_FOCUSED
+
+# Target: cf10-worker-invocation-bridge-check
+# Purpose: Validate the bounded CF-10 Worker validation MCP bridge and provider invocation integration.
+# Safety: READ-ONLY TEST - no real Worker launch, canonical mutation, attempt append, promotion, commit, push, merge, release or auto-ACCEPT.
 # Inputs: None.
-# Scope: RELATED â€” runtime invocation adapter and focused regression only.
-# Result: Adapter compilation and focused tests pass or the target exits non-zero.
+# Scope: RELATED - MCP bridge, invocation adapter, structured executor and shared launcher regressions.
+# Result: Compilation plus focused/regression tests pass or the target exits non-zero.
+.PHONY: cf10-worker-invocation-bridge-check
+cf10-worker-invocation-bridge-check:
+	$(PYTHON) -m py_compile 		scripts/coordination/control_plane/worker_runtime/worker_validation_mcp.py 		scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+	$(PYTHON) -m pytest -q 		tests/coordination/control_plane/worker_runtime/test_cf10_worker_validation_mcp_v0_1.py 		tests/coordination/control_plane/worker_runtime/test_cf10_worker_runtime_invocation_adapter_v0_1.py 		tests/coordination/control_plane/worker_runtime/test_structured_command_executor_v0_1.py 		tests/coordination/control_plane/worker_runtime/test_cf10_worker_process_launcher_v0_1.py
+
+# Target: cf10-worker-runtime-invocation-adapter-check
+# Purpose: Compatibility alias for the canonical Worker Invocation Bridge check.
+# Safety: READ-ONLY TEST - delegates to cf10-worker-invocation-bridge-check.
 .PHONY: cf10-worker-runtime-invocation-adapter-check
-cf10-worker-runtime-invocation-adapter-check:
-	$(PYTHON) -m py_compile scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
-	$(PYTHON) -m pytest -q tests/coordination/control_plane/worker_runtime/test_cf10_worker_runtime_invocation_adapter_v0_1.py
+cf10-worker-runtime-invocation-adapter-check: cf10-worker-invocation-bridge-check
+
+# Target: cf10-worker-invocation-bridge-proof
+# Purpose: Perform a real stdio MCP handshake and run one registered validation suite through the bounded bridge.
+# Safety: READ-ONLY VALIDATION - no Worker attempt, dispatch, promotion or repository mutation; evidence must be outside the repository.
+# Inputs: CF10_WORKER_BRIDGE_EVIDENCE_DIR (required); suite/tier optional and registry-bound.
+# Scope: RELATED - real stdio MCP transport plus validation_suite@0.1.0 over the structured executor.
+# Result: External structured evidence and non-zero exit on handshake/tool/validation failure.
+.PHONY: cf10-worker-invocation-bridge-proof
+cf10-worker-invocation-bridge-proof:
+	@test -n "$(CF10_WORKER_BRIDGE_EVIDENCE_DIR)" || { echo "ERROR: CF10_WORKER_BRIDGE_EVIDENCE_DIR=<outside-repo-dir> is required"; exit 2; }
+	$(PYTHON) scripts/coordination/control_plane/worker_runtime/worker_validation_mcp.py 		--proof 		--root . 		--suite "$(CF10_WORKER_BRIDGE_PROOF_SUITE)" 		--require-tier "$(CF10_WORKER_BRIDGE_PROOF_TIER)" 		--evidence-root "$(CF10_WORKER_BRIDGE_EVIDENCE_DIR)"
 
 # =============================================================================
 # 08 Context / launch / approval / worker control surfaces

@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import sys
 from pathlib import Path
 from typing import Any
 
@@ -22,7 +23,18 @@ class WorkerRuntimeInvocationError(RuntimeError):
 
 
 SUPPORTED_PROVIDER = "github_copilot_cli"
-GITHUB_COPILOT_AVAILABLE_TOOLS = ("view", "edit", "apply_patch")
+WORKER_VALIDATION_MCP_SERVER = "ForPrintValidation"
+WORKER_VALIDATION_MCP_TOOL = "run_validation_suite"
+WORKER_VALIDATION_MCP_SCRIPT = (
+    "scripts/coordination/control_plane/worker_runtime/"
+    "worker_validation_mcp.py"
+)
+GITHUB_COPILOT_AVAILABLE_TOOLS = (
+    "view",
+    "edit",
+    "apply_patch",
+    f"{WORKER_VALIDATION_MCP_SERVER}({WORKER_VALIDATION_MCP_TOOL})",
+)
 DEFAULT_HEARTBEAT_SECONDS = 15
 DEFAULT_STALL_THRESHOLD_SECONDS = 120.0
 
@@ -344,6 +356,68 @@ def build_launch_invocation(
         explicit_dispatch_decision=explicit_dispatch_decision,
     )
 
+    mcp_script = (workspace / WORKER_VALIDATION_MCP_SCRIPT).resolve()
+    if not mcp_script.is_file() or mcp_script.is_symlink():
+        raise WorkerRuntimeInvocationError(
+            "attempt workspace Worker validation MCP server is missing or unsafe"
+        )
+
+    python_executable = sys.executable
+    python_executable_path = Path(python_executable)
+    if (
+        not python_executable_path.is_absolute()
+        or not python_executable_path.is_file()
+    ):
+        raise WorkerRuntimeInvocationError(
+            "current Python runtime for Worker validation MCP is unavailable"
+        )
+
+    attempt_id = _require_string(binding.get("attempt_id"), "attempt_id")
+    decision_id = _require_string(
+        explicit_dispatch_decision.get("decision_id"),
+        "decision_id",
+    )
+    task_id = _require_string(envelope.get("task_id"), "task_id")
+    work_front_id = _require_string(
+        binding.get("work_front_id"),
+        "work_front_id",
+    )
+    structured_evidence_root = (
+        attempt / "evidence" / "structured_command"
+    ).resolve()
+
+    mcp_config = {
+        "mcpServers": {
+            WORKER_VALIDATION_MCP_SERVER: {
+                "type": "local",
+                "command": python_executable,
+                "args": [
+                    str(mcp_script),
+                    "--attempt-id",
+                    attempt_id,
+                    "--task-id",
+                    task_id,
+                    "--work-front-id",
+                    work_front_id,
+                    "--decision-id",
+                    decision_id,
+                    "--workspace-repo",
+                    str(workspace),
+                    "--evidence-root",
+                    str(structured_evidence_root),
+                ],
+                "tools": [WORKER_VALIDATION_MCP_TOOL],
+                "cwd": str(workspace),
+            }
+        }
+    }
+    mcp_config_json = json.dumps(
+        mcp_config,
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+    )
+
     argv = [
         *base_argv,
         "-p",
@@ -351,6 +425,8 @@ def build_launch_invocation(
         "--silent",
         "--model",
         model_id,
+        "--additional-mcp-config",
+        mcp_config_json,
         "--available-tools",
         *GITHUB_COPILOT_AVAILABLE_TOOLS,
         "--allow-all-tools",
@@ -368,13 +444,10 @@ def build_launch_invocation(
 
     result = {
         "schema_version": "forprint_worker_runtime_launch_invocation_v0_1",
-        "attempt_id": _require_string(binding.get("attempt_id"), "attempt_id"),
-        "decision_id": _require_string(
-            explicit_dispatch_decision.get("decision_id"),
-            "decision_id",
-        ),
-        "task_id": _require_string(envelope.get("task_id"), "task_id"),
-        "work_front_id": _require_string(binding.get("work_front_id"), "work_front_id"),
+        "attempt_id": attempt_id,
+        "decision_id": decision_id,
+        "task_id": task_id,
+        "work_front_id": work_front_id,
         "provider_id": provider_id,
         "runtime_id": runtime.get("runtime_id"),
         "model_id": model_id,
@@ -405,6 +478,10 @@ def build_launch_invocation(
             "bash_available": False,
             "web_available": False,
             "builtin_mcps_disabled": True,
+            "additional_mcp_config_source": "SESSION_ONLY_ARGV",
+            "mcp_server_names": [WORKER_VALIDATION_MCP_SERVER],
+            "mcp_transport": "STDIO_LOCAL",
+            "persistent_mcp_config_written": False,
         },
         "authority": {
             "adapter_grants_authority": False,

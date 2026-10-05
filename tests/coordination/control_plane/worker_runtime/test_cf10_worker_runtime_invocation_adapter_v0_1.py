@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import sys
 from pathlib import Path
 
 import pytest
@@ -150,6 +151,13 @@ def _arrange(tmp_path: Path, monkeypatch):
     attempt = tmp_path / "attempt"
     workspace = attempt / "workspace" / "repo"
     workspace.mkdir(parents=True)
+    mcp_script = (
+        workspace
+        / "scripts/coordination/control_plane/worker_runtime/"
+        "worker_validation_mcp.py"
+    )
+    mcp_script.parent.mkdir(parents=True, exist_ok=True)
+    mcp_script.write_text("# invocation fixture\n", encoding="utf-8")
 
     monkeypatch.setattr(
         adapter.registry,
@@ -394,6 +402,7 @@ def test_durable_invocation_evidence_omits_prompt_and_full_argv(
         "view",
         "edit",
         "apply_patch",
+        "ForPrintValidation(run_validation_suite)",
     ]
     assert evidence["provider_policy"]["permission_mode"] == (
         "ALLOW_ALL_WITHIN_AVAILABLE_TOOL_UNIVERSE"
@@ -432,3 +441,81 @@ def test_sanitized_evidence_contains_paths_but_not_runtime_command_material(
     assert "NORMALIZED TASK ENVELOPE" not in rendered
     assert "--available-tools" not in rendered
     assert "worker_prompt.txt" in rendered
+
+# CF10_WORKER_VALIDATION_MCP_BRIDGE_RED_V0_1
+
+
+def test_worker_bridge_injects_session_only_validation_mcp_config(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    attempt, workspace = _arrange(tmp_path, monkeypatch)
+
+    result = adapter.build_launch_invocation(
+        root=tmp_path,
+        task_context=_context(),
+        explicit_dispatch_decision=_decision(workspace),
+        attempt_root=attempt,
+    )
+
+    argv = result["argv"]
+    assert "--additional-mcp-config" in argv, (
+        "RED: invocation adapter does not inject the session-only MCP bridge"
+    )
+
+    raw = argv[argv.index("--additional-mcp-config") + 1]
+    config = json.loads(raw)
+    assert set(config) == {"mcpServers"}
+    assert set(config["mcpServers"]) == {"ForPrintValidation"}
+
+    server = config["mcpServers"]["ForPrintValidation"]
+    assert server["type"] == "local"
+    assert server["cwd"] == str(workspace)
+    assert server["tools"] == ["run_validation_suite"]
+    assert server["command"] == sys.executable
+    assert Path(server["command"]).is_absolute()
+
+    args = server["args"]
+    expected_bindings = {
+        "--attempt-id": "cf10-u180j-a999",
+        "--task-id": "cf10-fixture-task-v0-1",
+        "--work-front-id": "wf-cf10-fixture-v0-1",
+        "--decision-id": "d" * 64,
+        "--workspace-repo": str(workspace),
+        "--evidence-root": str(
+            (attempt / "evidence" / "structured_command").resolve()
+        ),
+    }
+    for flag, expected in expected_bindings.items():
+        assert flag in args
+        assert args[args.index(flag) + 1] == expected
+
+    assert ".mcp.json" not in " ".join(args)
+    assert ".github/mcp.json" not in " ".join(args)
+
+
+def test_worker_bridge_exposes_exact_bounded_tool_universe(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    attempt, workspace = _arrange(tmp_path, monkeypatch)
+
+    result = adapter.build_launch_invocation(
+        root=tmp_path,
+        task_context=_context(),
+        explicit_dispatch_decision=_decision(workspace),
+        attempt_root=attempt,
+    )
+
+    expected = [
+        "view",
+        "edit",
+        "apply_patch",
+        "ForPrintValidation(run_validation_suite)",
+    ]
+    assert result["provider_policy"]["available_tools"] == expected, (
+        "RED: validation MCP tool is not yet in the explicit tool universe"
+    )
+    assert result["provider_policy"]["bash_available"] is False
+    assert result["provider_policy"]["builtin_mcps_disabled"] is True
+    assert "shell" not in result["provider_policy"]["available_tools"]
