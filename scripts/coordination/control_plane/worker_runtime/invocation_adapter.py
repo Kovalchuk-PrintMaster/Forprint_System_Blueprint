@@ -289,7 +289,7 @@ def render_worker_prompt(
             width=112,
         ).rstrip()
         governed_section = (
-            "\nGOVERNED EXECUTION CONTEXT â€” NON-AUTHORITATIVE\n"
+            "\nGOVERNED EXECUTION CONTEXT — NON-AUTHORITATIVE\n"
             "- Work Front remains execution authority.\n"
             "- Task Envelope remains task instruction/context.\n"
             "- Governed execution context is verification context only.\n"

@@ -584,8 +584,7 @@ def test_prompt_renders_hash_bound_non_authoritative_governed_context() -> None:
         governed_worker_context=governed,
     )
 
-    assert "GOVERNED EXECUTION CONTEXT" in prompt
-    assert "NON-AUTHORITATIVE" in prompt
+    assert "GOVERNED EXECUTION CONTEXT — NON-AUTHORITATIVE" in prompt
     assert "IN_SYNC" in prompt
     assert "u180j" in prompt
     assert "dependency_health.yaml" in prompt
