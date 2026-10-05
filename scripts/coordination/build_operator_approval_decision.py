@@ -30,6 +30,7 @@ REQUEST_FINGERPRINT_DRIFT = "LAUNCH_REQUEST_FINGERPRINT_DRIFT"
 LAUNCH_REQUEST_SHA_DRIFT = "LAUNCH_REQUEST_SHA_DRIFT"
 DECISION_NOT_APPROVE = "DECISION_NOT_APPROVE"
 APPROVAL_EXPIRED = "APPROVAL_EXPIRED"
+APPROVAL_PURPOSE_MISMATCH = "APPROVAL_PURPOSE_MISMATCH"
 DECISION_BINDING_DRIFT = "DECISION_BINDING_DRIFT"
 
 
@@ -322,9 +323,42 @@ def build_operator_decision(
                 + ",".join(missing)
             )
 
-        raise PermissionError(
-            "SENSITIVE_ELEVATION_BINDING_VALIDATION_NOT_IMPLEMENTED"
-        )
+        if decision.upper().strip() != "APPROVE":
+            raise ValueError(
+                "sensitive elevation requires decision=APPROVE"
+            )
+
+        if capability_class != "READ_ONLY":
+            raise ValueError(
+                "sensitive elevation capability_class must be READ_ONLY"
+            )
+
+        if (
+            requested_authority_delta
+            != "BOUNDED_SENSITIVE_EVIDENCE_ONLY"
+        ):
+            raise ValueError(
+                "unsupported sensitive elevation authority delta"
+            )
+
+        requested_scope = Path(
+            str(repository_scope)
+        ).resolve()
+
+        if requested_scope != module_root.resolve():
+            raise ValueError(
+                "sensitive elevation repository scope must match "
+                "the exact module repository root"
+            )
+
+        if actor_type not in {
+            "operator_assistant",
+            "human_terminal",
+        }:
+            raise ValueError(
+                "sensitive elevation actor_type must be "
+                "operator_assistant or human_terminal"
+            )
     decision = decision.upper().strip()
     transport = transport.upper().strip()
     if decision not in DECISIONS:
@@ -389,6 +423,22 @@ def build_operator_decision(
         "decided_at": decided_at.isoformat(),
         "transport": transport,
     }
+    if sensitive_requested:
+        stable.update(
+            {
+                "approval_purpose": approval_purpose,
+                "capability_id": capability_id,
+                "capability_class": capability_class,
+                "requested_authority_delta": requested_authority_delta,
+                "repository_scope": repository_scope,
+                "actor_type": actor_type,
+                "actor_id": actor_id,
+                "session_or_execution_binding": (
+                    session_or_execution_binding
+                ),
+            }
+        )
+
     decision_digest = hashlib.sha256(
         json.dumps(
             stable,
@@ -442,13 +492,61 @@ def build_operator_decision(
         "expires_at": expires_at,
         "transport": transport,
         "reason": reason.strip(),
+        "approval_purpose": (
+            approval_purpose
+            if sensitive_requested
+            else None
+        ),
+        "capability_id": (
+            capability_id
+            if sensitive_requested
+            else None
+        ),
+        "capability_class": (
+            capability_class
+            if sensitive_requested
+            else None
+        ),
+        "requested_authority_delta": (
+            requested_authority_delta
+            if sensitive_requested
+            else None
+        ),
+        "repository_scope": (
+            str(Path(str(repository_scope)).resolve())
+            if sensitive_requested
+            else None
+        ),
+        "actor_type": (
+            actor_type
+            if sensitive_requested
+            else None
+        ),
+        "actor_id": (
+            actor_id
+            if sensitive_requested
+            else None
+        ),
+        "session_or_execution_binding": (
+            session_or_execution_binding
+            if sensitive_requested
+            else None
+        ),
         "authority": {
             "human_operator_decision": True,
-            "eligible_as_future_worker_dispatch_authority": decision == "APPROVE",
+            "eligible_as_future_worker_dispatch_authority": (
+                decision == "APPROVE"
+                and not sensitive_requested
+            ),
             "direct_worker_dispatch_allowed_by_gateway": False,
             "blueprint_accept": False,
             "prompt_claim": False,
             "next_prompt_release": False,
+            "sensitive_elevation_evidence_only": sensitive_requested,
+            "sensitive_elevation_grants_authority": False,
+            "exclusive_module_lease": False,
+            "safe_write": False,
+            "commit_push_merge_release_promotion": False,
         },
         "revalidation": {
             "performed_immediately_before_decision": True,
@@ -566,6 +664,14 @@ def validate_approval_for_dispatch(
         reasons.append(DECISION_BINDING_DRIFT)
     if decision.get("decision") != "APPROVE":
         reasons.append(DECISION_NOT_APPROVE)
+
+    approval_purpose = decision.get("approval_purpose")
+    if approval_purpose not in {
+        None,
+        "WORKER_LAUNCH",
+    }:
+        reasons.append(APPROVAL_PURPOSE_MISMATCH)
+
     if decision.get("launch_request_sha256") != _sha256_path(
         launch_request_path.resolve()
     ):
