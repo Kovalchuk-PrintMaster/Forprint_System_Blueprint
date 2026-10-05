@@ -1,0 +1,101 @@
+work_front_id: wf-cf10-shared-structured-command-executor-foundation-v0-1
+objective: Repair the active Task70 validation-execution blocker by implementing one reusable CF10-owned structured
+  command capability executor over the existing shell-false shared launcher. This is blocker repair, not advancement
+  to later CF10 roadmap capabilities.
+scope:
+- coordination/internal_work/blueprint/governance/2026-10-05__blueprint__cf10_shared_structured_command_executor_design_freeze_v0_1.yaml
+- coordination/work_fronts/cf10_shared_structured_command_executor_foundation_v0_1.yaml
+- coordination/registry/structured_command_capabilities_v0_1.yaml
+- scripts/coordination/control_plane/worker_runtime/structured_command_executor.py
+- tests/coordination/control_plane/worker_runtime/test_structured_command_executor_v0_1.py
+- Makefile
+exclusions:
+- Do not modify the shared process launcher.
+- Do not modify OC01 Protected Terminal in this foundation slice.
+- Do not modify the CF10 Worker provider invocation adapter in this foundation slice.
+- Do not expose bash, shell text, arbitrary executable paths, unrestricted argv or arbitrary Make targets.
+- Do not modify the validation-suite registry or isolation runner.
+- Do not enable SAFE_WRITE or canonical repository mutation.
+- Do not create or launch Worker retry a029.
+- Do not implement lifecycle/context delivery in this Work Front.
+- Do not implement canonical session/module lease, governed live cancellation or structured streaming.
+- Do not reactivate OC01.
+- Do not commit, push, merge, release, promote or automatically ACCEPT through the executor.
+- Do not touch unrelated dirty paths.
+provenance:
+  source_refs:
+  - attempt:cf10-u180j-a028
+  - publication:8007618ceaa3dd1c37d89692197dd6af6acf4859
+  - oc01_closeout:93a42fc7b6a196bcde2102a7781fe1f31df4a177
+  - scripts/coordination/control_plane/worker_runtime/launcher.py
+  - scripts/coordination/control_plane/operator_console/protected_terminal.py
+  - scripts/validation/run_validation_suite_v0_1.py
+  - coordination/standards/automation/validation_suite_registry_v0_1.yaml
+  - coordination/internal_work/blueprint/governance/2026-10-05__blueprint__cf10_shared_structured_command_executor_design_freeze_v0_1.yaml
+  chat_is_authority: false
+  human_owner_scope_confirmation_received: true
+  oc01_alignment_classification: AGREE_WITH_INTERFACE_CHANGES
+  roadmap_position: ACTIVE_TASK70_BLOCKER_REPAIR
+dependencies:
+- Task70 is active but blocked by a028 before mutation.
+- A028 is durably published as BLOCKED with exact zero Worker delta.
+- OC01 Slice C is completed and published at 93a42fc7b6a196bcde2102a7781fe1f31df4a177.
+- The shared launcher already provides ARGV_NO_SHELL process execution and bounded runtime evidence.
+- The validation-suite runner already builds typed argv from a canonical registry.
+- OC01 Protected Terminal already proves fixed registered commands over the shared launcher.
+outputs:
+- Canonical structured executable capability registry.
+- Reusable structured-command executor with common request/result contracts.
+- Registered validation_suite capability using schema-bounded suite selection.
+- Compatibility definitions for repo_status, repo_head and repo_diff_check.
+- Stable Makefile check/list/proof surfaces over the shared backend.
+- Focused regression proving shell=false, no raw command input and no authority widening.
+acceptance:
+- registry definitions describe executable capabilities and never grant consumer authority
+- requests accept registered capability identity plus schema-bounded parameters and never raw argv or shell text
+- executor deterministically constructs argv and reuses worker_runtime.launcher.launch_process with shell=false
+- exact cwd and external evidence destination are validated before launch
+- validation_suite accepts only suite ids present in the existing canonical validation-suite registry
+- unknown suite, unknown capability, arbitrary executable, raw argv and raw shell text fail closed
+- repo_status, repo_head and repo_diff_check definitions remain compatible with current OC01 fixed recipes
+- common result binds request/execution identity and exposes stdout/stderr refs, timeout, return code and heartbeat/stall
+  facts
+- no SAFE_WRITE, canonical write, commit, push, merge, release or promotion authority is introduced
+- Makefile exposes stable check/list/proof entrypoints over the shared backend
+- focused executor tests and existing shared launcher regression tests pass
+stop_conditions:
+- Shared launcher modification becomes necessary.
+- OC01 Protected Terminal modification becomes necessary for foundation proof.
+- Worker provider invocation modification becomes necessary for foundation proof.
+- Validation-suite registry or isolation-runner mutation becomes necessary.
+- Arbitrary shell text, unrestricted argv or arbitrary executable selection becomes necessary.
+- SAFE_WRITE or canonical mutation authority becomes necessary.
+- Canonical lease, cancellation or streaming implementation becomes necessary.
+- A path outside the declared scope becomes necessary.
+- Concurrent committed or dirty changes intersect the audited dependency cone.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false
+capability_reuse:
+  search_performed: true
+  searched_surfaces:
+  - scripts/coordination/control_plane/worker_runtime/launcher.py
+  - scripts/coordination/control_plane/worker_runtime/registry.py
+  - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+  - scripts/coordination/control_plane/operator_console/protected_terminal.py
+  - scripts/validation/run_validation_suite_v0_1.py
+  - coordination/standards/automation/validation_suite_registry_v0_1.yaml
+  - tests/coordination/control_plane/worker_runtime/
+  - tests/coordination/control_plane/operator_console/
+  - tests/validation/test_validation_suite_runner_v0_1.py
+  - Makefile
+  disposition: EXTEND
+  target_refs:
+  - scripts/coordination/control_plane/worker_runtime/launcher.py
+  - scripts/validation/run_validation_suite_v0_1.py
+  - scripts/coordination/control_plane/operator_console/protected_terminal.py
+  rationale: Extend the proven shared launcher/typed-argv execution direction with a consumer-neutral registry/request/result
+    layer; do not create a second process runtime.
