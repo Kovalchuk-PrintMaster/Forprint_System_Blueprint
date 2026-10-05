@@ -104,3 +104,14 @@ improvement proposals. It does not authorize implementation by itself.
 Historical predecessor:
 `coordination/bootstrap/module_snapshot_and_roadmap_rebuild_analysis_mode_v0_1.md`.
 <!-- module-analysis-lifecycle-methodology-v0-2:end -->
+
+<!-- fp-project-native-execution-policy-route-v0-1:start -->
+## Project-native execution policy route
+
+Before designing or changing a repeatable workflow, read:
+
+`coordination/global_policy/project_native_execution_policy_v0_1.yaml`
+
+Then prefer existing project-native entrypoints and canonical implementation
+surfaces over chat-owned runtime scripts.
+<!-- fp-project-native-execution-policy-route-v0-1:end -->

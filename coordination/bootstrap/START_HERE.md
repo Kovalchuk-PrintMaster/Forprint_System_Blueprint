@@ -350,3 +350,20 @@ For operator-facing functionality, check practical usability before closeout. St
 operator workflows should be visible through Makefile/CLI/API/Console/report surfaces as appropriate,
 using shared backend logic rather than duplicate implementations.
 <!-- cf10-oc01-parallel-write-coordination-2026-10-04:end -->
+
+<!-- fp-project-native-execution-policy-v0-1:start -->
+## Project-native execution policy
+
+Canonical source: `coordination/global_policy/project_native_execution_policy_v0_1.yaml`.
+
+Operational rule: reusable project logic belongs in the repository. Chat-delivered
+scripts may repair, migrate, validate, or extend that logic, but recurring work
+must run through stable project-native CLI/Make/operator entrypoints.
+
+Before creating new runtime logic use:
+`REUSE -> EXTEND -> ADAPT -> REPLACE -> NEW`.
+
+A fresh assistant must not rely on old chat history to reconstruct how a recurring
+workflow is executed. The context/handoff surface must identify the canonical
+entrypoint and any remaining temporary-script debt.
+<!-- fp-project-native-execution-policy-v0-1:end -->
