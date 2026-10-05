@@ -1,0 +1,141 @@
+schema_version: forprint_cf10_governed_worker_context_delivery_completion_v0_1
+layer: COMPLETION
+roadmap_position: ACTIVE_TASK70_BLOCKER_REPAIR
+slice: CF10_GOVERNED_WORKER_CONTEXT_DELIVERY
+title: CF10 governed Worker context delivery
+status: PASS
+closed_at: '2026-10-05T20:47:09.480293+00:00'
+source_branch: audit/blueprint-inventory-refresh-2026-07-29
+implementation_head: 9ba3c20daa64facb8b3e375cf603d4f99e3be5cf
+sources:
+  design_freeze: coordination/internal_work/blueprint/governance/2026-10-05__blueprint__cf10_governed_worker_context_delivery_design_freeze_v0_1.yaml
+  work_front: coordination/work_fronts/cf10_governed_worker_context_delivery_v0_1.yaml
+  blocked_attempt: attempt:cf10-u180j-a028
+  blocked_attempt_publication: 8007618ceaa3dd1c37d89692197dd6af6acf4859
+  worker_invocation_bridge_closeout: 5537abd8c3baea21412cd359c9e219c5f7b48a09
+implementation:
+  base_commit: 94f51755f5fb84257907fb64c5962715f04348c4
+  label_repair_commit: 9ba3c20daa64facb8b3e375cf603d4f99e3be5cf
+  current_head: 9ba3c20daa64facb8b3e375cf603d4f99e3be5cf
+  frozen_path_count: 9
+  base_commit_path_count: 9
+  repair_commit_path_count: 2
+  effective_path_count: 9
+  exact_frozen_scope_preserved: true
+  repair_is_frozen_subset: true
+  paths:
+  - Makefile
+  - scripts/coordination/control_plane/cf10_training_dispatch.py
+  - scripts/coordination/control_plane/dispatch_intent.py
+  - scripts/coordination/control_plane/governed_worker_cycle.py
+  - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+  - tests/coordination/control_plane/test_cf09_dispatcher_task_execution_preflight_v0_1.py
+  - tests/coordination/control_plane/test_cf10_governed_worker_cycle_live_launch_v0_1.py
+  - tests/coordination/control_plane/test_cf10_training_dispatch_v0_1.py
+  - tests/coordination/control_plane/worker_runtime/test_cf10_worker_runtime_invocation_adapter_v0_1.py
+  repair_paths:
+  - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+  - tests/coordination/control_plane/worker_runtime/test_cf10_worker_runtime_invocation_adapter_v0_1.py
+  outside_frozen_implementation_write_set_modified: false
+  handoff_v2_runtime_modified: false
+  handoff_v2_contract_modified: false
+  task_context_schema_modified: false
+  worker_validation_mcp_modified: false
+  structured_executor_modified: false
+  new_dedicated_make_target_created: false
+  existing_make_surface_extended: governed-worker-cycle-check
+verification:
+  tests_first_red:
+    result: CONFIRMED
+    expected_failure_count: 5
+    existing_pass_count: 41
+  focused_green:
+    result: PASS
+    observed_test_count: 46
+  related_regression:
+    result: PASS
+    observed_test_count: 31
+  canonical_make_check_before_label_repair:
+    target: governed-worker-cycle-check
+    result: PASS
+    observed_test_count: 83
+  prompt_label_repair_red:
+    result: CONFIRMED
+    observed_failure_count: 1
+    production_mutated_during_red: false
+  prompt_label_repair_green:
+    result: PASS
+    observed_test_count: 1
+    canonical_label: GOVERNED EXECUTION CONTEXT — NON-AUTHORITATIVE
+  canonical_make_check_after_label_repair:
+    target: governed-worker-cycle-check
+    result: PASS
+    observed_test_count: 83
+  dependency_health_shape_reconciliation:
+    result: PASS
+    canonical_shape: MAPPING
+    source: assistant_handoff_v2_runtime_v0_1.py selected_dependency_health_members
+  git_diff_check: PASS
+  publication_head_equals_upstream: true
+delivered:
+  strategy: HASH_BOUND_NON_AUTHORITATIVE_CONTEXT_PROJECTION
+  handoff_runtime_manifest_hash_verified: true
+  bounded_projection_extracted: true
+  projection_digest_computed: true
+  projection_digest_bound_into_explicit_dispatch_decision: true
+  full_context_not_copied_into_dispatch_decision: true
+  launch_recomputes_projection_digest: true
+  launch_rejects_digest_drift: true
+  launch_rejects_handoff_binding_drift: true
+  canonical_task_context_mutated_for_delivery: false
+  worker_prompt_contains_lifecycle_roadmap_cursor: true
+  worker_prompt_contains_dependency_health_slice: true
+  worker_prompt_contains_resume_coordinates: true
+  worker_prompt_contains_expected_result_schema_revision: true
+  worker_prompt_label: GOVERNED EXECUTION CONTEXT — NON-AUTHORITATIVE
+  worker_prompt_label_mojibake_present: false
+  work_front_remains_execution_authority: true
+  task_envelope_remains_instruction_context: true
+authority_boundary:
+  context_projection_grants_authority: false
+  work_front_remains_execution_authority: true
+  task_envelope_grants_authority: false
+  dispatch_authority_widened: false
+  path_authority_widened: false
+  git_authority_widened: false
+  release_authority_widened: false
+  promotion_authority_widened: false
+  automatic_accept_authority_widened: false
+  canonical_write_authority_widened: false
+closeout:
+  slice_complete: true
+  completion_artifact_is_execution_authority: false
+  work_front_mutated: false
+  continuity_lifecycle_mutated: false
+  roadmap_execution_state_mutated: false
+  workfront_history_mutated: false
+  a029_created: false
+  a029_launched: false
+  oc01_reactivated: false
+  automatic_next_attempt_activation: false
+next_boundary:
+  candidate: cf10-u180j-a029
+  state: ELIGIBLE_FOR_NEW_PREPARE_AFTER_CLOSEOUT_PUBLICATION
+  prepare_may_be_started_after_closeout_publication: true
+  automatic_prepare: false
+  automatic_dispatch: false
+  automatic_launch: false
+  required_sequence:
+  - prepare new attempt
+  - verify fresh source snapshot and Task70 binding
+  - inspect delivered governed Worker context
+  - explicit Assistant ACK
+  - explicit dispatch authorization
+  - explicit Worker launch confirmation
+  oc01_reactivation_allowed: false
+artifact_integrity:
+  design_freeze_sha256: 39e14f10009b522499142ce47ccf3a7421c68899165a63012385b342679320db
+  work_front_sha256: 84c346f9abd571d72b721515c912a5abcf813f6ea0bfec6b55d14163ae19d380
+  base_implementation_commit: 94f51755f5fb84257907fb64c5962715f04348c4
+  label_repair_commit: 9ba3c20daa64facb8b3e375cf603d4f99e3be5cf
+  current_head: 9ba3c20daa64facb8b3e375cf603d4f99e3be5cf
