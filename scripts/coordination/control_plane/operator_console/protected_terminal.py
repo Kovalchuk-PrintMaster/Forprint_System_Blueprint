@@ -1266,6 +1266,7 @@ def main() -> int:
         p.add_argument("--observe-runtime", action="store_true")
         p.add_argument("--heartbeat-seconds", type=int, default=15)
         p.add_argument("--stall-threshold-seconds", type=float)
+        p.add_argument("--approval-decision")
 
     args = parser.parse_args()
 
@@ -1307,6 +1308,11 @@ def main() -> int:
         observe_runtime=args.observe_runtime,
         heartbeat_seconds=args.heartbeat_seconds,
         stall_threshold_seconds=args.stall_threshold_seconds,
+        approval_decision_path=(
+            Path(args.approval_decision)
+            if args.approval_decision
+            else None
+        ),
     )
 
     if args.command == "plan":

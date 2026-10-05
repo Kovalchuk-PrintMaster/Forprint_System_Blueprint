@@ -174,8 +174,8 @@ help:
 	@echo "  make oc01-session-projection-check"
 	@echo "  make oc01-session-status OC01_SESSION_LAUNCH_REQUEST=<launch> OC01_SESSION_WORKER_INVOCATION=<invocation> OC01_SESSION_ACTOR_TYPE=<internal_worker|operator_assistant|human_terminal> OC01_SESSION_ACTOR_ID=<actor> [OC01_SESSION_WORKSPACE_MANIFEST=<manifest>]"
 	@echo "  make oc01-protected-terminal-capabilities"
-	@echo "  make oc01-protected-terminal-plan OC01_TERMINAL_CAPABILITY=<capability> OC01_TERMINAL_CWD=<repo-root> OC01_TERMINAL_SESSION_PROJECTION=<projection> OC01_TERMINAL_CONFIRM=1"
-	@echo "  make oc01-protected-terminal-run OC01_TERMINAL_CAPABILITY=<capability> OC01_TERMINAL_CWD=<repo-root> OC01_TERMINAL_SESSION_PROJECTION=<projection> OC01_TERMINAL_CONFIRM=1"
+	@echo "  make oc01-protected-terminal-plan OC01_TERMINAL_CAPABILITY=<capability> OC01_TERMINAL_CWD=<repo-root> OC01_TERMINAL_SESSION_PROJECTION=<projection> OC01_TERMINAL_CONFIRM=1 [OC01_TERMINAL_APPROVAL_DECISION=<sensitive-approval>]"
+	@echo "  make oc01-protected-terminal-run OC01_TERMINAL_CAPABILITY=<capability> OC01_TERMINAL_CWD=<repo-root> OC01_TERMINAL_SESSION_PROJECTION=<projection> OC01_TERMINAL_CONFIRM=1 [OC01_TERMINAL_APPROVAL_DECISION=<sensitive-approval>]"
 	@echo "  make oc01-protected-terminal-history OC01_TERMINAL_HISTORY_EVIDENCE_DIR=<outside-repo-evidence> [OC01_TERMINAL_HISTORY_LIMIT=50]"
 	@echo "  make oc01-assistant-sandbox-create OC01_SANDBOX_ATTEMPT_ID=<id> OC01_SANDBOX_BASE_HEAD=<sha> OC01_SANDBOX_SESSION_PROJECTION=<projection>"
 	@echo "  make oc01-assistant-sandbox-open OC01_SANDBOX_MANIFEST=<manifest> OC01_SANDBOX_SESSION_PROJECTION=<projection>"
@@ -3212,6 +3212,7 @@ OC01_TERMINAL_CWD ?=
 OC01_TERMINAL_SESSION_PROJECTION ?=
 OC01_TERMINAL_TIMEOUT ?= 30
 OC01_TERMINAL_EVIDENCE_DIR ?=
+OC01_TERMINAL_APPROVAL_DECISION ?=
 OC01_TERMINAL_CONFIRM ?= 0
 
 .PHONY: oc01-protected-terminal-check
@@ -3232,6 +3233,7 @@ oc01-protected-terminal-plan:
 	@test "$(OC01_TERMINAL_CONFIRM)" = "1" || { echo "ERROR: OC01_TERMINAL_CONFIRM=1 is required"; false; }
 	@set -- plan --capability "$(OC01_TERMINAL_CAPABILITY)" --cwd "$(OC01_TERMINAL_CWD)" --session-projection "$(OC01_TERMINAL_SESSION_PROJECTION)" --timeout-seconds "$(OC01_TERMINAL_TIMEOUT)" --confirm-enable; \
 	if [ -n "$(OC01_TERMINAL_EVIDENCE_DIR)" ]; then set -- "$$@" --evidence-dir "$(OC01_TERMINAL_EVIDENCE_DIR)"; fi; \
+	if [ -n "$(OC01_TERMINAL_APPROVAL_DECISION)" ]; then set -- "$$@" --approval-decision "$(OC01_TERMINAL_APPROVAL_DECISION)"; fi; \
 	$(PYTHON) -m scripts.coordination.control_plane.operator_console.protected_terminal "$$@"
 
 .PHONY: oc01-protected-terminal-run
@@ -3242,6 +3244,7 @@ oc01-protected-terminal-run:
 	@test "$(OC01_TERMINAL_CONFIRM)" = "1" || { echo "ERROR: OC01_TERMINAL_CONFIRM=1 is required"; false; }
 	@set -- run --capability "$(OC01_TERMINAL_CAPABILITY)" --cwd "$(OC01_TERMINAL_CWD)" --session-projection "$(OC01_TERMINAL_SESSION_PROJECTION)" --timeout-seconds "$(OC01_TERMINAL_TIMEOUT)" --confirm-enable; \
 	if [ -n "$(OC01_TERMINAL_EVIDENCE_DIR)" ]; then set -- "$$@" --evidence-dir "$(OC01_TERMINAL_EVIDENCE_DIR)"; fi; \
+	if [ -n "$(OC01_TERMINAL_APPROVAL_DECISION)" ]; then set -- "$$@" --approval-decision "$(OC01_TERMINAL_APPROVAL_DECISION)"; fi; \
 	$(PYTHON) -m scripts.coordination.control_plane.operator_console.protected_terminal "$$@"
 
 

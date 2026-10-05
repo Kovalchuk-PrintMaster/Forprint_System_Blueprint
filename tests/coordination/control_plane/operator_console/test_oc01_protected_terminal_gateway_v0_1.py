@@ -1016,3 +1016,136 @@ def test_slice_c_sensitive_approval_never_bypasses_safe_write_lease_gate(
         exc.value.code
         == "EXCLUSIVE_MODULE_LEASE_NOT_PROVEN"
     )
+# OC01 FULL-1 Slice C RED-2C: canonical operator entrypoint approval pass-through
+def test_slice_c_cli_plan_passes_sensitive_approval_path(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    import sys
+
+    approval = tmp_path / "sensitive-approval.yaml"
+    session_path = tmp_path / "session.yaml"
+    repo = tmp_path / "repo"
+
+    approval.write_text(
+        "decision: APPROVE\n",
+        encoding="utf-8",
+    )
+    session_path.write_text(
+        "schema_version: placeholder\n",
+        encoding="utf-8",
+    )
+    repo.mkdir()
+
+    captured: dict = {}
+
+    def fake_build_terminal_plan(**kwargs):
+        captured.update(kwargs)
+        return {
+            "schema_version":
+                "forprint_oc01_protected_terminal_gateway_v0_1",
+            "test_plan": True,
+        }
+
+    monkeypatch.setattr(
+        protected_terminal_module,
+        "_load_yaml",
+        lambda *_args, **_kwargs: session(),
+    )
+
+    monkeypatch.setattr(
+        protected_terminal_module,
+        "build_terminal_plan",
+        fake_build_terminal_plan,
+    )
+
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "protected_terminal",
+            "plan",
+            "--capability",
+            "repo_diff_check",
+            "--cwd",
+            str(repo),
+            "--session-projection",
+            str(session_path),
+            "--confirm-enable",
+            "--approval-decision",
+            str(approval),
+        ],
+    )
+
+    rc = protected_terminal_module.main()
+
+    assert rc == 0
+
+    assert (
+        Path(captured["approval_decision_path"]).resolve()
+        == approval.resolve()
+    )
+
+
+def test_slice_c_makefile_exposes_distinct_terminal_approval_pass_through(
+) -> None:
+    makefile = Path("Makefile").read_text(
+        encoding="utf-8",
+    )
+
+    assert (
+        "OC01_TERMINAL_APPROVAL_DECISION ?="
+        in makefile
+    ), (
+        "Protected Terminal requires its own approval input variable; "
+        "do not reuse launch APPROVAL_DECISION"
+    )
+
+    def target_body(name: str) -> str:
+        marker = f"{name}:"
+        start = makefile.index(marker)
+        end = makefile.find(
+            "\n.PHONY:",
+            start + len(marker),
+        )
+
+        if end == -1:
+            end = len(makefile)
+
+        return makefile[start:end]
+
+    for target in (
+        "oc01-protected-terminal-plan",
+        "oc01-protected-terminal-run",
+    ):
+        body = target_body(target)
+
+        assert (
+            "$(OC01_TERMINAL_APPROVAL_DECISION)"
+            in body
+        ), (
+            f"{target} must consume "
+            "OC01_TERMINAL_APPROVAL_DECISION"
+        )
+
+        assert "--approval-decision" in body, (
+            f"{target} must pass --approval-decision "
+            "to the Protected Terminal CLI"
+        )
+
+        assert "$(APPROVAL_DECISION)" not in body, (
+            f"{target} must not reuse launch "
+            "APPROVAL_DECISION"
+        )
+
+    assert (
+        "OC01_TERMINAL_APPROVAL_DECISION"
+        in makefile[
+            :makefile.index(
+                "oc01-protected-terminal-check:"
+            )
+        ]
+    ), (
+        "Makefile operator map/help must expose the "
+        "terminal-specific approval input"
+    )
