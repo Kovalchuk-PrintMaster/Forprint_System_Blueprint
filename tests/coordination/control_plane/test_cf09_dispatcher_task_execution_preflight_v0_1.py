@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import importlib.util
 import json
 import subprocess
@@ -36,6 +37,90 @@ def _cp(
     )
 
 
+def _write_task_execution_handoff_fixture(root: Path) -> tuple[Path, str]:
+    manifest = {
+        "schema_version": "forprint_assistant_handoff_v2_runtime_manifest_v0_1",
+        "runtime_revision": "0.1.0",
+        "launch_mode": "TASK_EXECUTION",
+        "authority": {
+            "execution_authority_granted": False,
+            "dispatch_authority_granted": False,
+            "release_authority_granted": False,
+            "cross_repository_write_authority_granted": False,
+        },
+        "dependency_health_slice": {
+            "dependency_health.yaml": {
+                "sha256": "3" * 64,
+                "bytes": 128,
+            }
+        },
+        "source_state_fingerprint": "f" * 64,
+        "lifecycle_roadmap_cursor": {
+            "roadmap_sync": "IN_SYNC",
+            "roadmap_status": "ACTIVE",
+            "open_work": {"u180j": "ACTIVE"},
+            "lifecycle_status_sha256": "1" * 64,
+            "roadmap_status_sha256": "2" * 64,
+        },
+        "resume_coordinates": {
+            "launch_mode": "TASK_EXECUTION",
+            "git_head": "a" * 40,
+            "work_id": "u180j",
+            "work_state": "ACTIVE",
+            "prompt_id": "prompt-cf09-s1",
+            "module_root": ".",
+            "front": "wf-001",
+            "profile_id": "bounded-local@r1",
+            "procedure_id": "procedure-cf09-s1",
+        },
+        "expected_result_schema_revision": "0.1.0",
+        "work_front_or_project_onboard_not_applicable_reason": {
+            "work_front_id": "wf-001",
+            "path": "coordination/work_fronts/wf-001.yaml",
+        },
+        "execution_profile_revision_for_task_execution": {
+            "profile_id": "bounded-local",
+            "revision": "r1",
+        },
+        "governed_procedure_revision_or_not_required_reason": {
+            "procedure_id": "procedure-cf09-s1",
+            "revision": "0.1.0",
+        },
+        "base_context": {
+            "task_execution_context": {
+                "fixture": "must-not-be-copied-wholesale",
+            }
+        },
+    }
+    canonical = (
+        json.dumps(
+            manifest,
+            ensure_ascii=False,
+            sort_keys=True,
+            separators=(",", ":"),
+        )
+        + "\n"
+    ).encode("utf-8")
+    digest = hashlib.sha256(canonical).hexdigest()
+    manifest["handoff_manifest_sha256"] = digest
+
+    relative = Path(
+        "tmp/assistant_handoff_v2_runtime/"
+        "context_delivery_fixture.yaml"
+    )
+    target = root / relative
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(
+        yaml.safe_dump(
+            manifest,
+            sort_keys=False,
+            allow_unicode=True,
+        ),
+        encoding="utf-8",
+    )
+    return relative, digest
+
+
 def _runner(seen):
     def runner(argv, **kwargs):
         seen.append(argv)
@@ -45,13 +130,16 @@ def _runner(seen):
                 "WORK_FRONT_ID=wf-001\n"
                 "WORK_FRONT_PATH=coordination/work_fronts/wf-001.yaml\n"
             )
+        root = Path(kwargs["cwd"])
+        relative, digest = _write_task_execution_handoff_fixture(root)
         return _cp(
             "ASSISTANT_HANDOFF_V2_RUNTIME=PASS\n"
             "LAUNCH_MODE=TASK_EXECUTION\n"
-            "HANDOFF_MANIFEST_SHA256=" + ("a" * 64) + "\n"
+            "HANDOFF_MANIFEST_SHA256=" + digest + "\n"
             "EXECUTION_AUTHORITY_GRANTED=false\n"
             "DISPATCH_AUTHORITY_GRANTED=false\n"
             "WORKER_DISPATCH_PERFORMED=false\n"
+            "RUNTIME_MANIFEST=" + relative.as_posix() + "\n"
         )
 
     return runner
@@ -265,3 +353,53 @@ def test_contract_declares_complete_explicit_binding_boundary() -> None:
         "procedure_id",
         "procedure_not_required_reason",
     ]
+# CF10_GOVERNED_WORKER_CONTEXT_DELIVERY_RED_V0_1
+
+
+def test_prepare_preserves_bounded_hash_bound_handoff_context_projection(
+    tmp_path: Path,
+) -> None:
+    _stub_work_front_runtime(tmp_path)
+
+    result = dispatch_intent.prepare_cf09_task_execution(
+        root=tmp_path,
+        module="forprint_system_blueprint",
+        work_front="wf-001",
+        execution_profile="bounded-local@r1",
+        task_prompt_id="prompt-cf09-s1",
+        task_module_root=".",
+        procedure_id="procedure-cf09-s1",
+        runner=_runner([]),
+    )
+
+    projection = result["governed_worker_context"]
+    assert projection["schema_version"] == (
+        "forprint_governed_worker_context_projection_v0_1"
+    )
+    assert projection["handoff_manifest_sha256"] == result[
+        "handoff_manifest_sha256"
+    ]
+    assert projection["handoff_source_state_fingerprint"] == "f" * 64
+    assert projection["lifecycle_roadmap_cursor"]["roadmap_sync"] == "IN_SYNC"
+    assert projection["lifecycle_roadmap_cursor"]["open_work"] == {
+        "u180j": "ACTIVE"
+    }
+    assert projection["dependency_health_slice"] == {
+        "dependency_health.yaml": {
+            "sha256": "3" * 64,
+            "bytes": 128,
+        }
+    }
+    assert projection["resume_coordinates"]["work_id"] == "u180j"
+    assert projection["expected_result_schema_revision"] == "0.1.0"
+    assert projection["authority"] == {
+        "context_grants_authority": False,
+        "dispatch_authority_granted": False,
+        "release_authority_granted": False,
+        "cross_repository_write_authority_granted": False,
+    }
+    assert "base_context" not in projection
+
+    digest = result["governed_worker_context_sha256"]
+    assert isinstance(digest, str)
+    assert len(digest) == 64

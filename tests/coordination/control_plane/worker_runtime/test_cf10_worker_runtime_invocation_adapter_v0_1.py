@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -519,3 +520,75 @@ def test_worker_bridge_exposes_exact_bounded_tool_universe(
     assert result["provider_policy"]["bash_available"] is False
     assert result["provider_policy"]["builtin_mcps_disabled"] is True
     assert "shell" not in result["provider_policy"]["available_tools"]
+# CF10_GOVERNED_WORKER_CONTEXT_DELIVERY_RED_V0_1
+
+
+def test_prompt_renders_hash_bound_non_authoritative_governed_context() -> None:
+    governed = {
+        "schema_version": "forprint_governed_worker_context_projection_v0_1",
+        "handoff_manifest_sha256": "1" * 64,
+        "handoff_source_state_fingerprint": "2" * 64,
+        "dependency_health_slice": {
+            "dependency_health.yaml": {
+                "sha256": "3" * 64,
+                "bytes": 128,
+            }
+        },
+        "lifecycle_roadmap_cursor": {
+            "roadmap_sync": "IN_SYNC",
+            "roadmap_status": "ACTIVE",
+            "open_work": {"u180j": "ACTIVE"},
+        },
+        "resume_coordinates": {
+            "work_id": "u180j",
+            "work_state": "ACTIVE",
+        },
+        "expected_result_schema_revision": "0.1.0",
+        "execution_bindings": {
+            "work_front_or_project_onboard_not_applicable_reason": {
+                "work_front_id": "wf-cf10-fixture-v0-1",
+            },
+            "execution_profile_revision_for_task_execution": {
+                "profile_id": "light-maintenance",
+                "revision": "r1",
+            },
+            "governed_procedure_revision_or_not_required_reason": {
+                "procedure_id": "governed_canonical_mutation",
+                "revision": "0.1.0",
+            },
+        },
+        "authority": {
+            "context_grants_authority": False,
+            "dispatch_authority_granted": False,
+            "release_authority_granted": False,
+            "cross_repository_write_authority_granted": False,
+        },
+    }
+    canonical = (
+        json.dumps(
+            governed,
+            ensure_ascii=False,
+            sort_keys=True,
+            separators=(",", ":"),
+        )
+        + "\n"
+    ).encode("utf-8")
+    digest = hashlib.sha256(canonical).hexdigest()
+
+    decision = _decision(Path("/tmp/workspace"))
+    decision["binding"]["governed_worker_context_sha256"] = digest
+
+    prompt = adapter.render_worker_prompt(
+        task_context=_context(),
+        explicit_dispatch_decision=decision,
+        governed_worker_context=governed,
+    )
+
+    assert "GOVERNED EXECUTION CONTEXT" in prompt
+    assert "NON-AUTHORITATIVE" in prompt
+    assert "IN_SYNC" in prompt
+    assert "u180j" in prompt
+    assert "dependency_health.yaml" in prompt
+    assert "0.1.0" in prompt
+    assert "Work Front remains execution authority." in prompt
+    assert "verification context only" in prompt

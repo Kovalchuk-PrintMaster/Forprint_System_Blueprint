@@ -48,6 +48,61 @@ def _sha256_file(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def _validated_governed_worker_context_digest(
+    ready_execution: dict[str, Any],
+) -> str:
+    context = ready_execution.get("governed_worker_context")
+    if not isinstance(context, dict):
+        raise CF10TrainingDispatchError(
+            "governed Worker context missing from ready execution"
+        )
+    if context.get("schema_version") != (
+        "forprint_governed_worker_context_projection_v0_1"
+    ):
+        raise CF10TrainingDispatchError(
+            "governed Worker context schema invalid"
+        )
+
+    declared = ready_execution.get("governed_worker_context_sha256")
+    if not isinstance(declared, str) or not SHA256_RE.fullmatch(declared):
+        raise CF10TrainingDispatchError(
+            "governed Worker context digest missing or invalid"
+        )
+    recomputed = dispatch.governed_worker_context_sha256(context)
+    if recomputed != declared:
+        raise CF10TrainingDispatchError(
+            "governed Worker context digest drift"
+        )
+
+    handoff = ready_execution.get("handoff_manifest_sha256")
+    if context.get("handoff_manifest_sha256") != handoff:
+        raise CF10TrainingDispatchError(
+            "governed Worker context Handoff binding drift"
+        )
+
+    authority = context.get("authority")
+    if not isinstance(authority, dict):
+        raise CF10TrainingDispatchError(
+            "governed Worker context authority missing"
+        )
+    required_false = (
+        "context_grants_authority",
+        "dispatch_authority_granted",
+        "release_authority_granted",
+        "cross_repository_write_authority_granted",
+    )
+    widened = [
+        key for key in required_false
+        if authority.get(key) is not False
+    ]
+    if widened:
+        raise CF10TrainingDispatchError(
+            "governed Worker context authority widened: "
+            + ",".join(widened)
+        )
+    return declared
+
+
 def _safe_repo_file(root: Path, base: Path, raw: str, label: str) -> Path:
     if not isinstance(raw, str) or not raw.strip():
         raise CF10TrainingDispatchError(f"{label} must be a non-empty string")
@@ -552,6 +607,10 @@ def authorize_training_explicit_dispatch(
             "forbidden pre-dispatch authority widening: " + ",".join(widened)
         )
 
+    governed_context_sha = _validated_governed_worker_context_digest(
+        ready_execution
+    )
+
     workspace = Path(workspace_repo).expanduser().resolve()
     suffix = Path(
         "forprint_system_blueprint/worker-01/"
@@ -579,6 +638,7 @@ def authorize_training_explicit_dispatch(
         "runtime_provider": runtime_provider,
         "runtime_model": runtime_model,
         "workspace_repo": str(workspace),
+        "governed_worker_context_sha256": governed_context_sha,
     }
     decision_id = hashlib.sha256(
         json.dumps(

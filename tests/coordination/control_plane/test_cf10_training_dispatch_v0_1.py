@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import hashlib
+import json
 from pathlib import Path
 
 import pytest
@@ -9,6 +11,62 @@ from scripts.coordination.control_plane import cf10_training_dispatch as trainin
 
 ROOT = Path(__file__).resolve().parents[3]
 TASK_ID = "cf10-verification-tier-self-hardening-v0-1"
+
+
+def _governed_worker_context() -> dict:
+    return {
+        "schema_version": "forprint_governed_worker_context_projection_v0_1",
+        "handoff_manifest_sha256": "1" * 64,
+        "handoff_source_state_fingerprint": "2" * 64,
+        "dependency_health_slice": {
+            "dependency_health.yaml": {
+                "sha256": "3" * 64,
+                "bytes": 128,
+            }
+        },
+        "lifecycle_roadmap_cursor": {
+            "roadmap_sync": "IN_SYNC",
+            "roadmap_status": "ACTIVE",
+            "open_work": {"u180j": "ACTIVE"},
+        },
+        "resume_coordinates": {
+            "work_id": "u180j",
+            "work_state": "ACTIVE",
+        },
+        "expected_result_schema_revision": "0.1.0",
+        "execution_bindings": {
+            "work_front_or_project_onboard_not_applicable_reason": {
+                "work_front_id": "wf-cf10-fixture-v0-1",
+            },
+            "execution_profile_revision_for_task_execution": {
+                "profile_id": "light-maintenance",
+                "revision": "r1",
+            },
+            "governed_procedure_revision_or_not_required_reason": {
+                "procedure_id": "governed_canonical_mutation",
+                "revision": "0.1.0",
+            },
+        },
+        "authority": {
+            "context_grants_authority": False,
+            "dispatch_authority_granted": False,
+            "release_authority_granted": False,
+            "cross_repository_write_authority_granted": False,
+        },
+    }
+
+
+def _governed_worker_context_sha256(value: dict) -> str:
+    canonical = (
+        json.dumps(
+            value,
+            ensure_ascii=False,
+            sort_keys=True,
+            separators=(",", ":"),
+        )
+        + "\n"
+    ).encode("utf-8")
+    return hashlib.sha256(canonical).hexdigest()
 
 
 def _prepared(binding: dict) -> dict:
@@ -25,6 +83,10 @@ def _prepared(binding: dict) -> dict:
         "procedure_id": binding["procedure_id"],
         "procedure_not_required_reason": None,
         "handoff_manifest_sha256": "1" * 64,
+        "governed_worker_context": _governed_worker_context(),
+        "governed_worker_context_sha256": _governed_worker_context_sha256(
+            _governed_worker_context()
+        ),
         "work_front_gate": {
             "validated": True,
             "work_front_id": binding["work_front_id"],
@@ -268,3 +330,42 @@ def test_explicit_dispatch_binds_exact_task_attempt_workspace_and_runtime(
     assert decision["release_allowed"] is False
     assert decision["automatic_accept_allowed"] is False
     assert decision["grants_broad_dispatch_authority"] is False
+# CF10_GOVERNED_WORKER_CONTEXT_DELIVERY_RED_V0_1
+
+
+def test_explicit_dispatch_binds_governed_worker_context_digest_only(
+    tmp_path: Path,
+) -> None:
+    binding = training.resolve_training_task(root=ROOT, task_prompt_id=TASK_ID)
+    ready = _prepared(binding)
+    ready["state"] = "READY_FOR_EXPLICIT_DISPATCH"
+    ready["assistant_ack_validated"] = True
+
+    store = tmp_path / "empty-ledger-context"
+    store.mkdir()
+    workspace = (
+        tmp_path
+        / "forprint_system_blueprint"
+        / "worker-01"
+        / "cf10-u180j-a004"
+        / "workspace"
+        / "repo"
+    )
+    workspace.mkdir(parents=True)
+
+    decision = training.authorize_training_explicit_dispatch(
+        root=ROOT,
+        ready_execution=ready,
+        worker_id="worker-01",
+        attempt_id="cf10-u180j-a004",
+        source_state_fingerprint="d" * 64,
+        workspace_repo=workspace,
+        runtime_provider="github_copilot_cli",
+        runtime_model="auto",
+        ledger_store_override=store,
+    )
+
+    assert decision["binding"]["governed_worker_context_sha256"] == ready[
+        "governed_worker_context_sha256"
+    ]
+    assert "governed_worker_context" not in decision["binding"]

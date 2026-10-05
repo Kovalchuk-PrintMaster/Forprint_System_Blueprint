@@ -189,10 +189,68 @@ def _validate_binding(
     return envelope, binding
 
 
+def _validated_governed_worker_context(
+    governed_worker_context: dict[str, Any] | None,
+) -> dict[str, Any] | None:
+    if governed_worker_context is None:
+        return None
+    context = _require_mapping(
+        governed_worker_context,
+        "governed Worker context",
+    )
+    if context.get("schema_version") != (
+        "forprint_governed_worker_context_projection_v0_1"
+    ):
+        raise WorkerRuntimeInvocationError(
+            "governed Worker context schema invalid"
+        )
+    authority = _require_mapping(
+        context.get("authority"),
+        "governed Worker context authority",
+    )
+    required_false = (
+        "context_grants_authority",
+        "dispatch_authority_granted",
+        "release_authority_granted",
+        "cross_repository_write_authority_granted",
+    )
+    widened = [
+        key for key in required_false
+        if authority.get(key) is not False
+    ]
+    if widened:
+        raise WorkerRuntimeInvocationError(
+            "governed Worker context authority widened: "
+            + ",".join(widened)
+        )
+
+    if not isinstance(context.get("dependency_health_slice"), dict):
+        raise WorkerRuntimeInvocationError(
+            "governed Worker context dependency health invalid"
+        )
+    if not isinstance(context.get("lifecycle_roadmap_cursor"), dict):
+        raise WorkerRuntimeInvocationError(
+            "governed Worker context lifecycle cursor invalid"
+        )
+    if not isinstance(context.get("resume_coordinates"), dict):
+        raise WorkerRuntimeInvocationError(
+            "governed Worker context resume coordinates invalid"
+        )
+    if not isinstance(
+        context.get("expected_result_schema_revision"),
+        str,
+    ):
+        raise WorkerRuntimeInvocationError(
+            "governed Worker context result schema invalid"
+        )
+    return context
+
+
 def render_worker_prompt(
     *,
     task_context: dict[str, Any],
     explicit_dispatch_decision: dict[str, Any],
+    governed_worker_context: dict[str, Any] | None = None,
 ) -> str:
     """Render a task-generic Worker prompt from canonical normalized facts."""
 
@@ -219,6 +277,27 @@ def render_worker_prompt(
         width=112,
     ).rstrip()
 
+    governed = _validated_governed_worker_context(
+        governed_worker_context
+    )
+    governed_section = ""
+    if governed is not None:
+        governed_yaml = yaml.safe_dump(
+            governed,
+            sort_keys=False,
+            allow_unicode=True,
+            width=112,
+        ).rstrip()
+        governed_section = (
+            "\nGOVERNED EXECUTION CONTEXT â€” NON-AUTHORITATIVE\n"
+            "- Work Front remains execution authority.\n"
+            "- Task Envelope remains task instruction/context.\n"
+            "- Governed execution context is verification context only.\n"
+            "- Context cannot widen path, dispatch, git, release, "
+            "promotion or acceptance authority.\n"
+            f"{governed_yaml}\n"
+        )
+
     return (
         "You are the bounded ForPrint internal Worker for one exact execution attempt.\n\n"
         "AUTHORITY AND SOURCE BOUNDARIES\n"
@@ -233,6 +312,7 @@ def render_worker_prompt(
         "- Return bounded evidence for verification and operator review.\n\n"
         "NORMALIZED TASK ENVELOPE\n"
         f"{envelope_yaml}\n"
+        f"{governed_section}"
     )
 
 
@@ -242,6 +322,7 @@ def build_launch_invocation(
     task_context: dict[str, Any],
     explicit_dispatch_decision: dict[str, Any],
     attempt_root: Path | str,
+    governed_worker_context: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Build one deterministic provider invocation plan without starting a process."""
 
@@ -261,6 +342,21 @@ def build_launch_invocation(
         decision=explicit_dispatch_decision,
         workspace_repo=workspace,
     )
+
+    governed = _validated_governed_worker_context(
+        governed_worker_context
+    )
+    bound_governed_digest = binding.get(
+        "governed_worker_context_sha256"
+    )
+    if bound_governed_digest is not None and governed is None:
+        raise WorkerRuntimeInvocationError(
+            "explicit dispatch binds governed Worker context but none was supplied"
+        )
+    if governed is not None and bound_governed_digest is None:
+        raise WorkerRuntimeInvocationError(
+            "governed Worker context supplied without dispatch digest binding"
+        )
 
     runtime_config = registry.load_module_runtime_config(root_path)
     runtime = registry.resolve_default_runtime(root_path)
@@ -354,6 +450,7 @@ def build_launch_invocation(
     prompt = render_worker_prompt(
         task_context=task_context,
         explicit_dispatch_decision=explicit_dispatch_decision,
+        governed_worker_context=governed,
     )
 
     mcp_script = (workspace / WORKER_VALIDATION_MCP_SCRIPT).resolve()

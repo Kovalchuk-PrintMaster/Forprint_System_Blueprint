@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import hashlib
+import json
+
 import pytest
 import yaml
 
@@ -12,6 +15,62 @@ from scripts.coordination.control_plane.worker_runtime import (
 )
 
 ATTEMPT_ID = "cf10-u180j-test-a001"
+
+
+def _governed_worker_context() -> dict:
+    return {
+        "schema_version": "forprint_governed_worker_context_projection_v0_1",
+        "handoff_manifest_sha256": "2" * 64,
+        "handoff_source_state_fingerprint": "1" * 64,
+        "dependency_health_slice": {
+            "dependency_health.yaml": {
+                "sha256": "3" * 64,
+                "bytes": 128,
+            }
+        },
+        "lifecycle_roadmap_cursor": {
+            "roadmap_sync": "IN_SYNC",
+            "roadmap_status": "ACTIVE",
+            "open_work": {"u180j": "ACTIVE"},
+        },
+        "resume_coordinates": {
+            "work_id": "u180j",
+            "work_state": "ACTIVE",
+        },
+        "expected_result_schema_revision": "0.1.0",
+        "execution_bindings": {
+            "work_front_or_project_onboard_not_applicable_reason": {
+                "work_front_id": "wf-task",
+            },
+            "execution_profile_revision_for_task_execution": {
+                "profile_id": "light-maintenance",
+                "revision": "r1",
+            },
+            "governed_procedure_revision_or_not_required_reason": {
+                "procedure_id": "governed_canonical_mutation",
+                "revision": "0.1.0",
+            },
+        },
+        "authority": {
+            "context_grants_authority": False,
+            "dispatch_authority_granted": False,
+            "release_authority_granted": False,
+            "cross_repository_write_authority_granted": False,
+        },
+    }
+
+
+def _governed_worker_context_sha256(value: dict) -> str:
+    canonical = (
+        json.dumps(
+            value,
+            ensure_ascii=False,
+            sort_keys=True,
+            separators=(",", ":"),
+        )
+        + "\n"
+    ).encode("utf-8")
+    return hashlib.sha256(canonical).hexdigest()
 
 
 def _ready(monkeypatch):
@@ -560,6 +619,11 @@ def test_project_native_launch_cycle_persists_process_evidence(
             "procedure_id": "governed_canonical_mutation",
             "runtime_provider": "github_copilot_cli",
             "workspace_repo": str(workspace),
+            "governed_worker_context_sha256": (
+                _governed_worker_context_sha256(
+                    _governed_worker_context()
+                )
+            ),
         }
     }
 
@@ -570,6 +634,12 @@ def test_project_native_launch_cycle_persists_process_evidence(
         },
         "governed_worker_cycle_prepared_execution_v0_1.yaml": {
             "handoff_manifest_sha256": "2" * 64,
+            "governed_worker_context": _governed_worker_context(),
+            "governed_worker_context_sha256": (
+                _governed_worker_context_sha256(
+                    _governed_worker_context()
+                )
+            ),
         },
         "governed_worker_cycle_explicit_dispatch_decision_v0_1.yaml": decision,
     }.items():
@@ -643,6 +713,9 @@ def test_project_native_launch_cycle_persists_process_evidence(
     assert started["source_fingerprint"] == source_fp
     assert started["profile_ref_or_revision"] == "light-maintenance@r1"
     assert captured["invocation_context"]["task_context"] is task_context
+    assert captured["invocation_context"]["governed_worker_context"] == (
+        _governed_worker_context()
+    )
     assert (
         captured["invocation_context"]["explicit_dispatch_decision"]
         == decision
@@ -664,3 +737,78 @@ def test_project_native_launch_cycle_persists_process_evidence(
     assert result["state"] == "VALIDATE_CANDIDATE"
     assert result["worker_process_launched"] is True
     assert result["process_return_code"] == 0
+# CF10_GOVERNED_WORKER_CONTEXT_DELIVERY_RED_V0_1
+
+
+def test_project_native_launch_rejects_governed_context_digest_drift(
+    tmp_path,
+    monkeypatch,
+) -> None:
+    root = tmp_path / "repo-drift"
+    runtime = tmp_path / "runtime-drift"
+    root.mkdir()
+    attempt = (
+        runtime
+        / gwc.MODULE_ID
+        / gwc.WORKER_ID
+        / ATTEMPT_ID
+    )
+    attempt.mkdir(parents=True)
+
+    source_fp = "1" * 64
+    binding = {
+        "task_prompt_id": "task",
+        "work_front_id": "wf-task",
+        "work_front_ref": "coordination/work_fronts/wf_task.yaml",
+        "profile_ref": "light-maintenance@r1",
+        "procedure_id": "governed_canonical_mutation",
+    }
+    context = _governed_worker_context()
+    context_sha = _governed_worker_context_sha256(context)
+    prepared = {
+        "handoff_manifest_sha256": "2" * 64,
+        "governed_worker_context": context,
+        "governed_worker_context_sha256": context_sha,
+    }
+    decision = {
+        "binding": {
+            "attempt_id": ATTEMPT_ID,
+            "worker_id": gwc.WORKER_ID,
+            "task_prompt_id": "task",
+            "work_front_id": "wf-task",
+            "profile_ref": "light-maintenance@r1",
+            "procedure_id": "governed_canonical_mutation",
+            "runtime_provider": "github_copilot_cli",
+            "workspace_repo": str(attempt / "workspace/repo"),
+            "governed_worker_context_sha256": "9" * 64,
+        }
+    }
+
+    monkeypatch.setattr(
+        gwc.training,
+        "resolve_training_task",
+        lambda **_kwargs: binding,
+    )
+    monkeypatch.setattr(
+        gwc,
+        "build_internal_task_context",
+        lambda *_args, **_kwargs: {
+            "source_state": {"fingerprint_sha256": source_fp},
+            "task_envelope": {"task_id": "task"},
+        },
+    )
+
+    with pytest.raises(
+        gwc.GovernedWorkerCycleError,
+        match="governed Worker context",
+    ):
+        gwc._project_native_started_record(
+            canonical=root,
+            attempt=attempt,
+            task_prompt_id="task",
+            attempt_id=ATTEMPT_ID,
+            worker_id=gwc.WORKER_ID,
+            source_state={"fingerprint_sha256": source_fp},
+            prepared_execution=prepared,
+            explicit_dispatch_decision=decision,
+        )

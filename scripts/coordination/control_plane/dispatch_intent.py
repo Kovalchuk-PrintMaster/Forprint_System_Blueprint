@@ -219,6 +219,154 @@ def _cf09_safe_value(value: str, *, label: str) -> str:
     return normalized
 
 
+_CF09_GOVERNED_WORKER_CONTEXT_SCHEMA = (
+    "forprint_governed_worker_context_projection_v0_1"
+)
+
+
+def governed_worker_context_sha256(value: dict[str, Any]) -> str:
+    """Return the deterministic digest for one bounded Worker context projection."""
+
+    if not isinstance(value, dict):
+        raise ValueError("governed Worker context must be a mapping")
+    canonical = (
+        json.dumps(
+            value,
+            ensure_ascii=False,
+            sort_keys=True,
+            separators=(",", ":"),
+        )
+        + "\n"
+    ).encode("utf-8")
+    return hashlib.sha256(canonical).hexdigest()
+
+
+def _cf09_handoff_manifest_sha256(manifest: dict[str, Any]) -> str:
+    stable = dict(manifest)
+    stable.pop("handoff_manifest_sha256", None)
+    canonical = (
+        json.dumps(
+            stable,
+            ensure_ascii=False,
+            sort_keys=True,
+            separators=(",", ":"),
+        )
+        + "\n"
+    ).encode("utf-8")
+    return hashlib.sha256(canonical).hexdigest()
+
+
+def _cf09_runtime_manifest_path(root: Path, raw: str) -> Path:
+    if not isinstance(raw, str) or not raw.strip():
+        raise RuntimeError("Handoff v2 runtime manifest path missing")
+    relative = Path(raw.strip())
+    if relative.is_absolute() or ".." in relative.parts:
+        raise RuntimeError("Handoff v2 runtime manifest path escapes repository")
+
+    expected_root = (root / "tmp/assistant_handoff_v2_runtime").resolve()
+    path = (root / relative).resolve()
+    try:
+        path.relative_to(expected_root)
+    except ValueError as exc:
+        raise RuntimeError(
+            "Handoff v2 runtime manifest path is outside generated runtime root"
+        ) from exc
+    if not path.is_file() or path.is_symlink():
+        raise RuntimeError("Handoff v2 runtime manifest missing or unsafe")
+    return path
+
+
+def _cf09_extract_governed_worker_context(
+    *,
+    root: Path,
+    runtime_manifest_ref: str,
+    expected_manifest_sha256: str,
+) -> tuple[dict[str, Any], str]:
+    path = _cf09_runtime_manifest_path(root, runtime_manifest_ref)
+    manifest = yaml.safe_load(path.read_text(encoding="utf-8"))
+    if not isinstance(manifest, dict):
+        raise RuntimeError("Handoff v2 runtime manifest must be a mapping")
+
+    if manifest.get("launch_mode") != "TASK_EXECUTION":
+        raise RuntimeError("Handoff v2 runtime manifest launch_mode drift")
+
+    embedded_sha = manifest.get("handoff_manifest_sha256")
+    if embedded_sha != expected_manifest_sha256:
+        raise RuntimeError("Handoff v2 runtime manifest hash binding drift")
+    recomputed_sha = _cf09_handoff_manifest_sha256(manifest)
+    if recomputed_sha != expected_manifest_sha256:
+        raise RuntimeError("Handoff v2 runtime manifest content hash mismatch")
+
+    authority = manifest.get("authority")
+    if not isinstance(authority, dict):
+        raise RuntimeError("Handoff v2 runtime authority block missing")
+    required_false = (
+        "execution_authority_granted",
+        "dispatch_authority_granted",
+        "release_authority_granted",
+        "cross_repository_write_authority_granted",
+    )
+    widened = [
+        key for key in required_false
+        if authority.get(key) is not False
+    ]
+    if widened:
+        raise RuntimeError(
+            "Handoff v2 runtime authority widened: " + ",".join(widened)
+        )
+
+    source_fingerprint = manifest.get("source_state_fingerprint")
+    if not (
+        isinstance(source_fingerprint, str)
+        and len(source_fingerprint) == 64
+        and all(ch in "0123456789abcdef" for ch in source_fingerprint)
+    ):
+        raise RuntimeError("Handoff v2 source_state_fingerprint invalid")
+
+    dependency_health = manifest.get("dependency_health_slice")
+    cursor = manifest.get("lifecycle_roadmap_cursor")
+    resume = manifest.get("resume_coordinates")
+    result_revision = manifest.get("expected_result_schema_revision")
+    if not isinstance(dependency_health, dict):
+        raise RuntimeError("Handoff v2 dependency_health_slice invalid")
+    if not isinstance(cursor, dict):
+        raise RuntimeError("Handoff v2 lifecycle_roadmap_cursor invalid")
+    if not isinstance(resume, dict):
+        raise RuntimeError("Handoff v2 resume_coordinates invalid")
+    if not isinstance(result_revision, str) or not result_revision.strip():
+        raise RuntimeError("Handoff v2 expected_result_schema_revision invalid")
+
+    binding_names = (
+        "work_front_or_project_onboard_not_applicable_reason",
+        "execution_profile_revision_for_task_execution",
+        "governed_procedure_revision_or_not_required_reason",
+    )
+    execution_bindings: dict[str, Any] = {}
+    for name in binding_names:
+        value = manifest.get(name)
+        if not isinstance(value, dict):
+            raise RuntimeError(f"Handoff v2 execution binding invalid: {name}")
+        execution_bindings[name] = value
+
+    projection = {
+        "schema_version": _CF09_GOVERNED_WORKER_CONTEXT_SCHEMA,
+        "handoff_manifest_sha256": expected_manifest_sha256,
+        "handoff_source_state_fingerprint": source_fingerprint,
+        "dependency_health_slice": dependency_health,
+        "lifecycle_roadmap_cursor": cursor,
+        "resume_coordinates": resume,
+        "expected_result_schema_revision": result_revision,
+        "execution_bindings": execution_bindings,
+        "authority": {
+            "context_grants_authority": False,
+            "dispatch_authority_granted": False,
+            "release_authority_granted": False,
+            "cross_repository_write_authority_granted": False,
+        },
+    }
+    return projection, governed_worker_context_sha256(projection)
+
+
 def prepare_cf09_task_execution(
     *,
     root,
@@ -332,6 +480,14 @@ def prepare_cf09_task_execution(
     if not _re.fullmatch(r"[0-9a-f]{64}", manifest_sha):
         raise RuntimeError("Handoff v2 manifest hash missing or invalid")
 
+    governed_context, governed_context_sha = (
+        _cf09_extract_governed_worker_context(
+            root=root_path,
+            runtime_manifest_ref=values.get("RUNTIME_MANIFEST", ""),
+            expected_manifest_sha256=manifest_sha,
+        )
+    )
+
     return {
         "schema_version": "forprint_cf09_dispatcher_pre_execution_envelope_v0_1",
         "mode": "TASK_EXECUTION",
@@ -345,6 +501,8 @@ def prepare_cf09_task_execution(
         "procedure_id": procedure,
         "procedure_not_required_reason": no_procedure_reason,
         "handoff_manifest_sha256": manifest_sha,
+        "governed_worker_context": governed_context,
+        "governed_worker_context_sha256": governed_context_sha,
         "work_front_gate": {
             "validated": True,
             "work_front_id": wf_values.get("WORK_FRONT_ID", front_id),

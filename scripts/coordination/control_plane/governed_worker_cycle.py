@@ -25,6 +25,9 @@ from scripts.coordination.control_plane.context.task_context_adapter import (
     build_internal_task_context,
     build_source_state,
 )
+from scripts.coordination.control_plane.dispatch_intent import (
+    governed_worker_context_sha256,
+)
 from scripts.coordination.control_plane.workspace import (
     plan_workspace,
     provision_workspace,
@@ -1472,6 +1475,78 @@ def launch_authorized_worker_cycle(
         "release_allowed": False,
     }
 # CF10_GOVERNED_WORKER_CYCLE_SLICE_B2_LIVE_LAUNCH_END
+def _validated_project_native_governed_worker_context(
+    *,
+    prepared_execution: dict[str, Any],
+    explicit_dispatch_decision: dict[str, Any],
+) -> dict[str, Any]:
+    context = prepared_execution.get("governed_worker_context")
+    if not isinstance(context, dict):
+        raise GovernedWorkerCycleError(
+            "prepared governed Worker context missing"
+        )
+    if context.get("schema_version") != (
+        "forprint_governed_worker_context_projection_v0_1"
+    ):
+        raise GovernedWorkerCycleError(
+            "prepared governed Worker context schema invalid"
+        )
+
+    prepared_digest = prepared_execution.get(
+        "governed_worker_context_sha256"
+    )
+    if not isinstance(prepared_digest, str) or len(prepared_digest) != 64:
+        raise GovernedWorkerCycleError(
+            "prepared governed Worker context digest invalid"
+        )
+    recomputed = governed_worker_context_sha256(context)
+    if recomputed != prepared_digest:
+        raise GovernedWorkerCycleError(
+            "prepared governed Worker context digest drift"
+        )
+
+    handoff_hash = prepared_execution.get("handoff_manifest_sha256")
+    if context.get("handoff_manifest_sha256") != handoff_hash:
+        raise GovernedWorkerCycleError(
+            "prepared governed Worker context Handoff binding drift"
+        )
+
+    decision_binding = explicit_dispatch_decision.get("binding")
+    if not isinstance(decision_binding, dict):
+        raise GovernedWorkerCycleError(
+            "explicit dispatch decision binding missing"
+        )
+    if (
+        decision_binding.get("governed_worker_context_sha256")
+        != prepared_digest
+    ):
+        raise GovernedWorkerCycleError(
+            "explicit dispatch governed Worker context digest drift"
+        )
+
+    authority = context.get("authority")
+    if not isinstance(authority, dict):
+        raise GovernedWorkerCycleError(
+            "governed Worker context authority missing"
+        )
+    required_false = (
+        "context_grants_authority",
+        "dispatch_authority_granted",
+        "release_authority_granted",
+        "cross_repository_write_authority_granted",
+    )
+    widened = [
+        key for key in required_false
+        if authority.get(key) is not False
+    ]
+    if widened:
+        raise GovernedWorkerCycleError(
+            "governed Worker context authority widened: "
+            + ",".join(widened)
+        )
+    return context
+
+
 def _project_native_started_record(
     *,
     canonical: Path,
@@ -1558,6 +1633,11 @@ def _project_native_started_record(
         raise GovernedWorkerCycleError(
             "prepared Handoff manifest hash invalid"
         )
+
+    _validated_project_native_governed_worker_context(
+        prepared_execution=prepared_execution,
+        explicit_dispatch_decision=explicit_dispatch_decision,
+    )
 
     decision_ref = (
         attempt
@@ -1648,6 +1728,12 @@ def launch_cycle(
         prepared_execution=prepared_execution,
         explicit_dispatch_decision=explicit_dispatch_decision,
     )
+    governed_worker_context = (
+        _validated_project_native_governed_worker_context(
+            prepared_execution=prepared_execution,
+            explicit_dispatch_decision=explicit_dispatch_decision,
+        )
+    )
 
     result = launch_authorized_worker_cycle(
         root=canonical,
@@ -1658,6 +1744,7 @@ def launch_cycle(
         started_record_data=started_record,
         invocation_context={
             "task_context": task_context,
+            "governed_worker_context": governed_worker_context,
             "explicit_dispatch_decision": explicit_dispatch_decision,
             "attempt_root": attempt,
         },
