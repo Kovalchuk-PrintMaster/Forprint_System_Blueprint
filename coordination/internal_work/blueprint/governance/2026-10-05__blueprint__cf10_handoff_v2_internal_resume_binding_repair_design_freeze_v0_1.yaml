@@ -1,0 +1,126 @@
+schema_version: forprint_cf10_handoff_v2_internal_resume_binding_repair_design_freeze_v0_1
+layer: DESIGN_FREEZE
+roadmap_step: CF-10
+contour: CF10_HANDOFF_V2_INTERNAL_RESUME_BINDING_REPAIR
+title: handoff_v2_internal_resume_binding_repair
+status: FROZEN_FOR_BOUNDED_REPAIR
+frozen_at: '2026-10-05T20:59:38.252503+00:00'
+source_head: 804ec4f4188b3b613593534855ed55cea8ade9bc
+source_branch: audit/blueprint-inventory-refresh-2026-07-29
+roadmap_position:
+  classification: ACTIVE_TASK70_BLOCKER_REPAIR
+  active_task: validation_check_pipeline_profile_and_optimization
+  active_task_prompt_id: cf10-validation-check-pipeline-profile-and-optimization-v0-1
+  diagnostic_attempt: cf10-u180j-a029
+  diagnostic_attempt_state: AWAITING_ASSISTANT_ACK
+  a029_ack_allowed: false
+  a029_dispatch_allowed: false
+  a029_launch_allowed: false
+  next_attempt_after_repair: cf10-u180j-a030
+  predecessor_closeout: 804ec4f4188b3b613593534855ed55cea8ade9bc
+observed_defect:
+  task70_binding_work_id: u180j
+  live_cursor_open_work_contains: u180j
+  live_cursor_u180j_state:
+    state: ACTIVE
+    event_id: evt-u180j-activate-20260921t102955259861
+    event_type: WORK_ACTIVATED
+    sequence: 67
+  resume_coordinates_work_id: u180h
+  resume_coordinates_work_state: null
+  root_cause: assistant_handoff_v2_runtime_v0_1.py hardcodes resume_coordinates.work_id to historical u180h
+  why_blocking: TASK_EXECUTION resume coordinates disagree with the exact Task70 work binding and therefore cannot
+    be ACKed as exact context.
+architecture_decision:
+  strategy: REUSE_EXISTING_MANUAL_INTERNAL_TASK_CONTEXT_WORK_ID
+  new_context_subsystem: false
+  new_authority_source: false
+  task_context_schema_modified: false
+  handoff_v2_contract_modified: false
+  freshness_resume_contract_modified: false
+  project_onboard_semantics_modified: false
+  external_task_execution_semantics_modified: false
+  manual_internal_cli_evidence_extended: true
+  manual_internal_cli_new_field: WORK_ID
+  work_id_source: normalized Task Envelope work.work_id
+binding_plan:
+  task_context_adapter:
+  - For MANUAL_INTERNAL --task-context only, emit WORK_ID from context.task_envelope.work.work_id.
+  - Do not grant authority or mutate Task Context schema.
+  - Do not change external build_context_bundle behavior.
+  handoff_v2_runtime:
+  - Capture TASK_CONTEXT_MODE and WORK_ID from delegated task-context evidence.
+  - For TASK_EXECUTION with MANUAL_INTERNAL evidence, require a non-empty WORK_ID and bind resume_coordinates.work_id
+    to it.
+  - Set resume_coordinates.work_state from lifecycle_roadmap_cursor.open_work.get(work_id).
+  - Do not use historical u180h for MANUAL_INTERNAL TASK_EXECUTION.
+  - Preserve PROJECT_ONBOARD behavior.
+  - Preserve external TASK_EXECUTION behavior in this repair slice.
+slice:
+  implementation_write_set:
+  - Makefile
+  - scripts/coordination/control_plane/context/task_context_adapter.py
+  - scripts/coordination/assistant_handoff_v2_runtime_v0_1.py
+  - tests/coordination/control_plane/context/test_cf10_internal_task_context_adapter_v0_1.py
+  - tests/validation/test_assistant_handoff_v2_runtime_v0_1.py
+  - tests/validation/test_assistant_handoff_v2_task_execution_freshness_recompile_v0_1.py
+  implementation_write_set_count: 6
+  tests_first_required: true
+  reuse_make_surface: assistant-handoff-v2-runtime-check
+  new_dedicated_make_target_allowed: false
+  acceptance:
+  - MANUAL_INTERNAL Task Context CLI prints WORK_ID equal to the normalized Task Envelope work.work_id.
+  - Handoff v2 TASK_EXECUTION captures MANUAL_INTERNAL WORK_ID without changing Task Context schema.
+  - For Task70, resume_coordinates.work_id resolves to u180j, not u180h.
+  - For Task70, resume_coordinates.work_state equals the live lifecycle cursor entry for u180j.
+  - PROJECT_ONBOARD remains unchanged and external TASK_EXECUTION behavior is not generalized in this slice.
+  - assistant-handoff-v2-runtime-check covers internal resume binding regression and passes.
+  - No ACK, dispatch, launch, attempt-ledger append or lifecycle mutation for a029.
+  - After publication, retry uses new attempt id cf10-u180j-a030.
+  must_not_modify:
+  - coordination/standards/automation/assistant_handoff_v2_contract_v0_1.yaml
+  - coordination/standards/automation/assistant_handoff_v2_freshness_resume_contract_v0_1.yaml
+  - scripts/coordination/build_context_bundle.py
+  - scripts/coordination/control_plane/context/task_context_adapter.py schema payload
+  - scripts/coordination/control_plane/governed_worker_cycle.py
+  - scripts/coordination/control_plane/cf10_training_dispatch.py
+  - scripts/coordination/control_plane/dispatch_intent.py
+  - scripts/coordination/control_plane/worker_runtime
+  - coordination/global_policy/current_execution_focus.md
+  - coordination/standards/automation/index.yaml
+  - indexes/governance.yaml
+  - indexes/roadmaps.yaml
+  - AGENTS.md
+stop_conditions:
+- External TASK_EXECUTION must be redesigned to supply work_id.
+- Task Context schema/Task Envelope schema must change.
+- Handoff v2 or freshness/resume contract schema must change.
+- A path outside the frozen implementation write-set becomes necessary.
+- A new authority source or authority widening becomes necessary.
+- Lifecycle/roadmap state must be mutated to prove the repair.
+- a029 would be ACKed, dispatched, launched or appended to immutable attempt history.
+- Concurrent changes intersect the frozen implementation/dependency cone.
+authority:
+  design_freeze_is_execution_authority: false
+  work_front_required_for_execution: true
+  automatic_ack_authority: false
+  automatic_dispatch_authority: false
+  automatic_launch_authority: false
+  publication_authority: false
+next_boundary_after_closeout:
+  candidate: cf10-u180j-a030
+  state: ELIGIBLE_FOR_NEW_PREPARE_ONLY_AFTER_REPAIR_CLOSEOUT
+  automatic_create_or_launch: false
+audited_dependency_sha256:
+  coordination/standards/automation/assistant_handoff_v2_contract_v0_1.yaml: bf95f1f7e56c9b26ddbe83a63cf52ca5d81ec2c8ff361c1ffa7a31aa816723b0
+  coordination/standards/automation/assistant_handoff_v2_freshness_resume_contract_v0_1.yaml: 478aa0660d7f07c89c3a897026d4d312fc61d31ae3c2c8116ace8c45b11859e3
+  ? coordination/internal_work/blueprint/governance/2026-10-05__blueprint__cf10_governed_worker_context_delivery_completion_v0_1.yaml
+  : 017fb912d9c1e7308a28d6795ec5ecc9ef8d8fe7850e232b44d0d904922e1f4e
+  coordination/work_fronts/cf10_validation_check_pipeline_profile_and_optimization_v0_1.yaml: 7cade745dda1c9ec7231ce80eebf56f039767af5e2167a4ab8c36b828110de8b
+  coordination/internal_work/blueprint/worker_tasks/cf10_validation_check_pipeline_profile_and_optimization_v0_1.yaml: a015311e7dadb0d8bd723b2dd58402705a5fd838cf508366689ccac94a70004a
+  Makefile: 5bf781c72aa6f82e0b9591eafe48b92df6774b782f53f6ca24b3a0f2cf4cb18f
+  scripts/coordination/control_plane/context/task_context_adapter.py: 8027cee17531111c7dd833f1b3a9c43a4809136dc7041d5a5b5e652b52d39d19
+  scripts/coordination/assistant_handoff_v2_runtime_v0_1.py: 30588b71017dd24af0f14e0c543b92c6aba5512f5aa44a17c25ec98634bbbcf1
+  tests/coordination/control_plane/context/test_cf10_internal_task_context_adapter_v0_1.py: 258a7192f78b332014d93bc78dcfae468896a1f8f30d5e2bc7059424cbb7163b
+  tests/validation/test_assistant_handoff_v2_runtime_v0_1.py: 3a89cccfdab595c945309eaf69c48fb19b01c9bb623b088f9cf748a55277901a
+  tests/validation/test_assistant_handoff_v2_task_execution_freshness_recompile_v0_1.py: 808f1bd2164a80febdacd3aa981fca4246ead99896371fcaa28977edbff4068f
