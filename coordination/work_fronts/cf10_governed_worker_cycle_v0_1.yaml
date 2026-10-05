@@ -57,6 +57,8 @@ outputs:
   closed when task or execution-corridor relevant source changed.
 - Explicit assistant-ACK and explicit-dispatch authorization entrypoints that
   continue to delegate to cf10_training_dispatch.
+- Exact frozen-source freshness assertions at Assistant ACK, explicit dispatch
+  authorization and Worker process launch boundaries.
 - Operator-facing Makefile commands for validation, status, prepare, refresh,
   ACK and dispatch authorization.
 - Focused tests converting the Task50 promotion lessons into regressions.
@@ -73,6 +75,9 @@ acceptance:
   monotonic collision suffix so repeated pre-ACK refresh remains reusable.
 - Relevant task, Work Front, execution-corridor or dirty-overlay drift blocks
   same-attempt refresh and requires a new attempt_id.
+- After preparation, any exact continuity source HEAD or fingerprint drift
+  fails closed at ACK, dispatch authorization and Worker launch; no stale
+  frozen source may cross an authority or process-launch boundary.
 - Promotion contract required checks remain enforced.
 - Handoff composite fingerprint is never equated to continuity source fingerprint.
 - Promotion supports source-existing modification, source-absent creation and

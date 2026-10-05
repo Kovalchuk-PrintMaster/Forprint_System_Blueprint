@@ -750,3 +750,238 @@ def test_refresh_cycle_archive_collision_gets_monotonic_suffix(
         ).read_text(encoding="utf-8")
     )
     assert evidence["refresh_ordinal"] == 2
+def test_source_freshness_assertion_rejects_stale_fingerprint(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    frozen = {
+        "git_head": "a" * 40,
+        "fingerprint_sha256": "1" * 64,
+    }
+    monkeypatch.setattr(
+        cycle,
+        "build_source_state",
+        lambda _root: {
+            "git_head": "a" * 40,
+            "fingerprint_sha256": "2" * 64,
+        },
+    )
+
+    with pytest.raises(
+        cycle.GovernedWorkerCycleError,
+        match="frozen source state is stale",
+    ):
+        cycle._assert_frozen_source_state_current(
+            tmp_path,
+            frozen,
+            boundary="test boundary",
+        )
+
+
+def test_ack_refuses_stale_source_before_validation(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = tmp_path / "repo"
+    runtime = tmp_path / "runtime"
+    root.mkdir()
+    attempt_id = "cf10-u180j-a105"
+    attempt = (
+        runtime
+        / cycle.MODULE_ID
+        / cycle.WORKER_ID
+        / attempt_id
+    )
+    write_yaml(
+        attempt
+        / "input/governed_worker_cycle_prepared_execution_v0_1.yaml",
+        {"attempt_id": attempt_id},
+    )
+    write_yaml(
+        attempt
+        / "input/governed_worker_cycle_expected_ack_v0_1.yaml",
+        {"ack": "canonical"},
+    )
+    write_yaml(
+        attempt
+        / "input/governed_worker_cycle_source_state_v0_1.yaml",
+        {
+            "git_head": "a" * 40,
+            "fingerprint_sha256": "1" * 64,
+        },
+    )
+
+    monkeypatch.setattr(
+        cycle,
+        "build_source_state",
+        lambda _root: {
+            "git_head": "b" * 40,
+            "fingerprint_sha256": "2" * 64,
+        },
+    )
+
+    def should_not_validate(**_kwargs):
+        raise AssertionError("ACK validator must not run for stale source")
+
+    monkeypatch.setattr(
+        cycle.training,
+        "validate_training_assistant_ack",
+        should_not_validate,
+    )
+
+    with pytest.raises(
+        cycle.GovernedWorkerCycleError,
+        match="assistant ACK: frozen source state is stale",
+    ):
+        cycle.confirm_assistant_ack(
+            root=root,
+            runtime_root=runtime,
+            attempt_id=attempt_id,
+            confirm=True,
+        )
+
+    assert not (
+        attempt
+        / "input/governed_worker_cycle_ready_execution_v0_1.yaml"
+    ).exists()
+
+
+def test_authorize_dispatch_refuses_stale_source_before_decision(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = tmp_path / "repo"
+    runtime = tmp_path / "runtime"
+    root.mkdir()
+    attempt_id = "cf10-u180j-a106"
+    attempt = (
+        runtime
+        / cycle.MODULE_ID
+        / cycle.WORKER_ID
+        / attempt_id
+    )
+    write_yaml(
+        attempt
+        / "input/governed_worker_cycle_ready_execution_v0_1.yaml",
+        {"state": "READY_FOR_EXPLICIT_DISPATCH"},
+    )
+    write_yaml(
+        attempt
+        / "input/governed_worker_cycle_source_state_v0_1.yaml",
+        {
+            "git_head": "a" * 40,
+            "fingerprint_sha256": "1" * 64,
+        },
+    )
+    write_yaml(
+        attempt / "manifest.yaml",
+        {
+            "workspace_repo": str(
+                attempt / "workspace/repo"
+            ),
+        },
+    )
+
+    monkeypatch.setattr(
+        cycle,
+        "build_source_state",
+        lambda _root: {
+            "git_head": "b" * 40,
+            "fingerprint_sha256": "2" * 64,
+        },
+    )
+
+    def should_not_authorize(**_kwargs):
+        raise AssertionError(
+            "dispatch authorization must not run for stale source"
+        )
+
+    monkeypatch.setattr(
+        cycle.training,
+        "authorize_training_explicit_dispatch",
+        should_not_authorize,
+    )
+
+    with pytest.raises(
+        cycle.GovernedWorkerCycleError,
+        match=(
+            "explicit dispatch authorization: "
+            "frozen source state is stale"
+        ),
+    ):
+        cycle.authorize_dispatch(
+            root=root,
+            runtime_root=runtime,
+            attempt_id=attempt_id,
+            confirm=True,
+        )
+
+    assert not (
+        attempt
+        / "input/"
+        "governed_worker_cycle_explicit_dispatch_decision_v0_1.yaml"
+    ).exists()
+
+
+def test_launch_refuses_stale_source_before_invocation(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = tmp_path / "repo"
+    runtime = tmp_path / "runtime"
+    root.mkdir()
+    attempt_id = "cf10-u180j-a107"
+    task_prompt_id = "task-refresh"
+    attempt = (
+        runtime
+        / cycle.MODULE_ID
+        / cycle.WORKER_ID
+        / attempt_id
+    )
+    write_yaml(
+        attempt
+        / "input/governed_worker_cycle_source_state_v0_1.yaml",
+        {
+            "git_head": "a" * 40,
+            "fingerprint_sha256": "1" * 64,
+        },
+    )
+
+    monkeypatch.setattr(
+        cycle,
+        "live_facts",
+        lambda **_kwargs: facts(
+            task_resolved=True,
+            workspace_prepared=True,
+            assistant_ack_validated=True,
+            explicit_dispatch_authorized=True,
+        ),
+    )
+    monkeypatch.setattr(
+        cycle,
+        "derive_cycle_projection",
+        lambda _facts: {
+            "state": "READY_FOR_WORKER_LAUNCH",
+            "next_boundary": "WORKER_PROCESS_LAUNCH",
+        },
+    )
+    monkeypatch.setattr(
+        cycle,
+        "build_source_state",
+        lambda _root: {
+            "git_head": "b" * 40,
+            "fingerprint_sha256": "2" * 64,
+        },
+    )
+
+    with pytest.raises(
+        cycle.GovernedWorkerCycleError,
+        match="Worker process launch: frozen source state is stale",
+    ):
+        cycle.launch_authorized_worker_cycle(
+            root=root,
+            runtime_root=runtime,
+            task_prompt_id=task_prompt_id,
+            attempt_id=attempt_id,
+            started_record_data={},
+        )

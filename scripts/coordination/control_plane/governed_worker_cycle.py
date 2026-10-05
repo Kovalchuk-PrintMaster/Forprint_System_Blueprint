@@ -308,6 +308,48 @@ def _path_matches_refresh_scope(
     return False
 
 
+
+def _assert_frozen_source_state_current(
+    canonical: Path,
+    frozen_source_state: dict[str, Any],
+    *,
+    boundary: str,
+) -> dict[str, Any]:
+    frozen_head = frozen_source_state.get("git_head")
+    frozen_fp = frozen_source_state.get("fingerprint_sha256")
+    if not isinstance(frozen_head, str) or not frozen_head:
+        raise GovernedWorkerCycleError(
+            f"{boundary}: frozen source HEAD missing"
+        )
+    if not isinstance(frozen_fp, str) or len(frozen_fp) != 64:
+        raise GovernedWorkerCycleError(
+            f"{boundary}: frozen source fingerprint invalid"
+        )
+
+    current = build_source_state(canonical)
+    current_head = current.get("git_head")
+    current_fp = current.get("fingerprint_sha256")
+    if not isinstance(current_head, str) or not current_head:
+        raise GovernedWorkerCycleError(
+            f"{boundary}: current source HEAD missing"
+        )
+    if not isinstance(current_fp, str) or len(current_fp) != 64:
+        raise GovernedWorkerCycleError(
+            f"{boundary}: current source fingerprint invalid"
+        )
+
+    if current_head != frozen_head or current_fp != frozen_fp:
+        raise GovernedWorkerCycleError(
+            f"{boundary}: frozen source state is stale; "
+            f"frozen_head={frozen_head} current_head={current_head} "
+            f"frozen_fingerprint={frozen_fp} "
+            f"current_fingerprint={current_fp}; "
+            "prepare a new attempt before crossing this boundary"
+        )
+
+    return current
+
+
 def prepare_cycle(
     *,
     root: Path | str,
@@ -717,6 +759,15 @@ def confirm_assistant_ack(
         input_dir / "governed_worker_cycle_expected_ack_v0_1.yaml",
         "expected ACK",
     )
+    source_state = _load_yaml(
+        input_dir / "governed_worker_cycle_source_state_v0_1.yaml",
+        "source state",
+    )
+    _assert_frozen_source_state_current(
+        canonical,
+        source_state,
+        boundary="assistant ACK",
+    )
 
     ready = training.validate_training_assistant_ack(
         root=canonical,
@@ -765,6 +816,11 @@ def authorize_dispatch(
     source_state = _load_yaml(
         input_dir / "governed_worker_cycle_source_state_v0_1.yaml",
         "source state",
+    )
+    _assert_frozen_source_state_current(
+        canonical,
+        source_state,
+        boundary="explicit dispatch authorization",
     )
     manifest = _load_yaml(attempt / "manifest.yaml", "workspace manifest")
 
@@ -1256,6 +1312,18 @@ def launch_authorized_worker_cycle(
             "CF10 governed Worker Cycle is not launch-ready: "
             f"state={projection.get('state')!r}"
         )
+
+    canonical = Path(root).resolve()
+    attempt = _attempt_root(Path(runtime_root), attempt_id, worker_id)
+    source_state = _load_yaml(
+        attempt / "input/governed_worker_cycle_source_state_v0_1.yaml",
+        "source state",
+    )
+    _assert_frozen_source_state_current(
+        canonical,
+        source_state,
+        boundary="Worker process launch",
+    )
 
     context = {
         "root": root,
