@@ -1,0 +1,103 @@
+schema_version: forprint_structured_command_capability_registry_v0_1
+status: current_standard
+authority: forprint_system_blueprint
+registry_grants_authority: false
+command_representation: STRUCTURED_ARGV
+shell: false
+arbitrary_command_text_allowed: false
+capabilities:
+  repo_status:
+    capability_version: 0.1.0
+    description: Read exact Git repository status without repository mutation.
+    builder_kind: FIXED_GIT
+    executable_identity: git
+    fixed_argv:
+    - status
+    - --short
+    - --untracked-files=all
+    parameter_schema:
+      model: EMPTY_OBJECT
+      additional_properties: false
+    allowed_cwd_scope_kind: GIT_REPOSITORY_ROOT
+    timeout_bounds:
+      minimum: 1
+      default: 30
+      maximum: 300
+    side_effect_class: NONE_EXPECTED
+    output_contract: STDOUT_STDERR_EXTERNAL_EVIDENCE
+    heartbeat_policy_support: true
+    cancellation_support_state: NOT_IMPLEMENTED
+    consumer_compatibility:
+    - OC01
+  repo_head:
+    capability_version: 0.1.0
+    description: Read exact Git repository HEAD without repository mutation.
+    builder_kind: FIXED_GIT
+    executable_identity: git
+    fixed_argv:
+    - rev-parse
+    - HEAD
+    parameter_schema:
+      model: EMPTY_OBJECT
+      additional_properties: false
+    allowed_cwd_scope_kind: GIT_REPOSITORY_ROOT
+    timeout_bounds:
+      minimum: 1
+      default: 30
+      maximum: 300
+    side_effect_class: NONE_EXPECTED
+    output_contract: STDOUT_STDERR_EXTERNAL_EVIDENCE
+    heartbeat_policy_support: true
+    cancellation_support_state: NOT_IMPLEMENTED
+    consumer_compatibility:
+    - OC01
+  repo_diff_check:
+    capability_version: 0.1.0
+    description: Run Git diff --check without repository mutation.
+    builder_kind: FIXED_GIT
+    executable_identity: git
+    fixed_argv:
+    - diff
+    - --check
+    parameter_schema:
+      model: EMPTY_OBJECT
+      additional_properties: false
+    allowed_cwd_scope_kind: GIT_REPOSITORY_ROOT
+    timeout_bounds:
+      minimum: 1
+      default: 30
+      maximum: 300
+    side_effect_class: NONE_EXPECTED
+    output_contract: STDOUT_STDERR_EXTERNAL_EVIDENCE
+    heartbeat_policy_support: true
+    cancellation_support_state: NOT_IMPLEMENTED
+    consumer_compatibility:
+    - OC01
+    - CF10
+  validation_suite:
+    capability_version: 0.1.0
+    description: Run one registered validation suite through the existing isolated validation-suite runner.
+    builder_kind: VALIDATION_SUITE
+    executable_identity: python_runtime
+    fixed_argv: null
+    parameter_schema:
+      model: VALIDATION_SUITE_V0_1
+      additional_properties: false
+      required:
+      - suite_id
+      optional:
+      - require_tier
+    allowed_cwd_scope_kind: GIT_REPOSITORY_ROOT
+    timeout_bounds:
+      minimum: 1
+      default: 900
+      maximum: 1200
+    side_effect_class: READ_ONLY_VALIDATION
+    output_contract: STDOUT_STDERR_EXTERNAL_EVIDENCE
+    heartbeat_policy_support: true
+    cancellation_support_state: NOT_IMPLEMENTED
+    consumer_compatibility:
+    - CF10
+    - OC01_FUTURE
+    validation_suite_script: scripts/validation/run_validation_suite_v0_1.py
+    validation_suite_registry: coordination/standards/automation/validation_suite_registry_v0_1.yaml

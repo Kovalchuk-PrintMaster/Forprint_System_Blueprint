@@ -115,6 +115,9 @@ help:
 	@echo "  make markdown-fences"
 	@echo "  make check"
 	@echo "  make validation-suite SUITE=cf10-worker-pipeline"
+	@echo "  make structured-command-executor-list"
+	@echo "  make structured-command-executor-check"
+	@echo "  make structured-command-executor-proof STRUCTURED_COMMAND_EVIDENCE_DIR=<outside-repo-dir> [STRUCTURED_COMMAND_PROOF_SUITE=cf10-worker-pipeline]"
 	@echo "  make check-report"
 	@echo "  make test-make-command-surface"
 	@echo "  make test-v0-4-coordination"
@@ -435,6 +438,46 @@ validation-suite:
 	@test -n "$(SUITE)$$FORPRINT_VALIDATION_SUITE_ID" || { echo "ERROR: SUITE=<registered-suite-id> is required"; exit 2; }
 	@SUITE_ID="$${FORPRINT_VALIDATION_SUITE_ID:-$(SUITE)}"; \
 		$(PYTHON) scripts/validation/run_validation_suite_v0_1.py --suite "$$SUITE_ID"
+
+STRUCTURED_COMMAND_EVIDENCE_DIR ?=
+STRUCTURED_COMMAND_PROOF_SUITE ?= cf10-worker-pipeline
+
+# Target: structured-command-executor-list
+# Purpose: List registered shared structured command capabilities and parameter contracts.
+# Safety: READ-ONLY — registry inspection only; no process launch or repository mutation.
+# Inputs: None.
+# Scope: LOCAL/FOCUSED — shared structured command capability registry.
+# Result: Human-readable YAML capability projection.
+.PHONY: structured-command-executor-list
+structured-command-executor-list:
+	$(PYTHON) scripts/coordination/control_plane/worker_runtime/structured_command_executor.py list --root .
+
+# Target: structured-command-executor-check
+# Purpose: Validate the shared structured command registry/executor and focused launcher regression.
+# Safety: READ-ONLY TEST — no live capability execution, apply, commit, push, merge or release.
+# Inputs: None.
+# Scope: RELATED — shared executor, registry, focused tests and existing launcher regression.
+# Result: Validation exits 0 on success and non-zero on failure.
+.PHONY: structured-command-executor-check
+structured-command-executor-check:
+	$(PYTHON) scripts/coordination/control_plane/worker_runtime/structured_command_executor.py check --root .
+	$(PYTHON) -m pytest -q \
+		tests/coordination/control_plane/worker_runtime/test_structured_command_executor_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_worker_process_launcher_v0_1.py
+
+# Target: structured-command-executor-proof
+# Purpose: Execute one registered validation suite through the shared structured executor and shared launcher.
+# Safety: READ-ONLY VALIDATION — registered validation only; evidence must be outside the repository.
+# Inputs: STRUCTURED_COMMAND_EVIDENCE_DIR (required), STRUCTURED_COMMAND_PROOF_SUITE (optional/defaulted).
+# Scope: RELATED — exact repository root plus one registered validation suite in disposable isolation.
+# Result: External stdout/stderr/result evidence and non-zero exit on validation failure.
+.PHONY: structured-command-executor-proof
+structured-command-executor-proof:
+	@test -n "$(STRUCTURED_COMMAND_EVIDENCE_DIR)" || { echo "ERROR: STRUCTURED_COMMAND_EVIDENCE_DIR=<outside-repo-dir> is required"; exit 2; }
+	$(PYTHON) scripts/coordination/control_plane/worker_runtime/structured_command_executor.py proof \
+		--root . \
+		--suite "$(STRUCTURED_COMMAND_PROOF_SUITE)" \
+		--evidence-dir "$(STRUCTURED_COMMAND_EVIDENCE_DIR)"
 
 # Target: check-core
 # Purpose: Run the broad core Blueprint validation suite used by the main check wrapper.
