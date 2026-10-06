@@ -1,0 +1,26 @@
+schema_version: forprint_execution_attempt_record_v0_1
+attempt_id: cf10-u180j-a030
+work_front_id: wf-cf10-validation-check-pipeline-profile-and-optimization-v0-1
+actor_or_worker_ref: worker-01/provider:github_copilot_cli
+where: /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a030/workspace/repo
+why: CF-10 governed Worker launch for canonical task cf10-validation-check-pipeline-profile-and-optimization-v0-1.
+source_fingerprint: 2a14f334328344dfa626057f6ca98f0f4a85f2a815e7bc85ababd65619bb6aa0
+profile_ref_or_revision: light-maintenance@r1
+pack_hash_or_context_hash: 9969431ae6e42582c0cbe64aa57217c7ccbac5ab8272b31983ef21e5aedb23e4
+launch_or_invocation_ref: /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a030/input/governed_worker_cycle_explicit_dispatch_decision_v0_1.yaml
+recorded_at: '2026-10-06T15:04:54.389362Z'
+attempt_stage: FINISHED
+result_state: FAILED
+result_refs:
+- worker_process_result_sha256:f17bde71b876d309ce81196ea7474ce84f3d4c3cd8218b57a53d14e745fc455e
+- candidate_validation_failure_sha256:5bdbe7df0b9dada536445b5263e5b4abd00bb9c29e58476d373d36c9c24810dd
+- worker_delta:exact_three_changed_paths
+- failure:NORMAL_OPERATOR_SURFACE_REGRESSION
+validator_outcome: FAIL
+validator_evidence_refs:
+- candidate_validation_failure_sha256:5bdbe7df0b9dada536445b5263e5b4abd00bb9c29e58476d373d36c9c24810dd
+failure_or_retry_ref: candidate_validation_failure_sha256:5bdbe7df0b9dada536445b5263e5b4abd00bb9c29e58476d373d36c9c24810dd
+resume:
+  latest_accepted_ref: null
+  resume_coordinates: []
+  replay_forbidden_refs: []
