@@ -133,3 +133,26 @@ authority.
 These planning files grant no dispatch, release, automatic ACCEPT, canonical remote push,
 foreign-repository write, or production activation authority.
 <!-- execution-control-plane-program-v0-1:end -->
+
+<!-- operator-workflow-worker-gateway-human-readable-roadmap-amendment-v0-1:start -->
+## Operator workflow / Worker gateway / human-readable roadmap amendment — 2026-10-06
+
+Accepted owner direction:
+
+- `2026-10-06__operator_workflow_worker_gateway_and_human_readable_roadmap_amendment_v0_1.md`
+
+It records three cross-cutting requirements:
+
+1. move recurring human+assistant bounded change closeout mechanics from chat-generated command blocks
+   into reusable project-native workflow entrypoints;
+2. evolve the first Worker validation MCP proof into a provider-neutral ForPrint Worker Tool Gateway
+   backed by the shared capability registry / structured executor, with thin provider-specific adapters
+   before a second real Worker provider is onboarded;
+3. preserve stable machine IDs while making human-readable titles/purpose mandatory in operator-facing
+   roadmap, work and attempt projections.
+
+This is durable planning guidance only. It does not mutate lifecycle/roadmap execution state, dispatch
+a Worker, widen Git/publication authority, or change the active CF-10 Handoff repair.
+Exact active-roadmap promotion remains a separate reviewed transaction after the current execution
+corridor is stable.
+<!-- operator-workflow-worker-gateway-human-readable-roadmap-amendment-v0-1:end -->
