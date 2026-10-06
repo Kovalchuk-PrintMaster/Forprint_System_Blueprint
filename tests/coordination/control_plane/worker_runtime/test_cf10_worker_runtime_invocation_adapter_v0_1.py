@@ -591,3 +591,80 @@ def test_prompt_renders_hash_bound_non_authoritative_governed_context() -> None:
     assert "0.1.0" in prompt
     assert "Work Front remains execution authority." in prompt
     assert "verification context only" in prompt
+
+
+def test_hash_bound_governed_context_is_explicit_freshness_proof() -> None:
+    governed = {
+        "schema_version": "forprint_governed_worker_context_projection_v0_1",
+        "handoff_manifest_sha256": "1" * 64,
+        "handoff_source_state_fingerprint": "2" * 64,
+        "dependency_health_slice": {
+            "dependency_health.yaml": {
+                "sha256": "3" * 64,
+                "bytes": 128,
+            }
+        },
+        "lifecycle_roadmap_cursor": {
+            "roadmap_sync": "IN_SYNC",
+            "roadmap_status": "ACTIVE",
+            "open_work": {
+                "u180j": {
+                    "state": "ACTIVE",
+                    "event_id": "evt-fixture",
+                    "sequence": 67,
+                }
+            },
+        },
+        "resume_coordinates": {
+            "work_id": "u180j",
+            "git_head": "a" * 40,
+            "work_state": {
+                "state": "ACTIVE",
+            },
+        },
+        "expected_result_schema_revision": "0.1.0",
+        "execution_bindings": {
+            "work_front_or_project_onboard_not_applicable_reason": {
+                "work_front_id": "wf-cf10-fixture-v0-1",
+            },
+            "execution_profile_revision_for_task_execution": {
+                "profile_id": "light-maintenance",
+                "revision": "r1",
+            },
+            "governed_procedure_revision_or_not_required_reason": {
+                "procedure_id": "governed_canonical_mutation",
+                "revision": "0.1.0",
+            },
+        },
+        "authority": {
+            "context_grants_authority": False,
+            "dispatch_authority_granted": False,
+            "release_authority_granted": False,
+            "cross_repository_write_authority_granted": False,
+        },
+    }
+
+    prompt = adapter.render_worker_prompt(
+        task_context=_context(),
+        explicit_dispatch_decision=_decision(Path("/tmp/workspace")),
+        governed_worker_context=governed,
+    )
+
+    assert (
+        "The hash-bound governed context is the attempt-scoped freshness "
+        "verification snapshot." in prompt
+    )
+    assert (
+        "Treat roadmap_sync=IN_SYNC plus the bound ACTIVE work item as "
+        "sufficient freshness proof for this attempt unless the projection "
+        "is internally inconsistent." in prompt
+    )
+    assert (
+        "Do not regenerate lifecycle/roadmap freshness through shell commands."
+        in prompt
+    )
+    assert "verification context only" in prompt
+    assert "Work Front remains execution authority." in prompt
+
+
+# CF10_TASK70_A031_PREREQUISITE_REPAIR_RED_V0_1

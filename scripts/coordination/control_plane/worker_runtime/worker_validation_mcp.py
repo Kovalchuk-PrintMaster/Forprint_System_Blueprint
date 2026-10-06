@@ -2,8 +2,9 @@
 """Bounded CF10 Worker validation MCP bridge.
 
 The MCP surface exposes exactly one read-only validation tool. Worker-supplied
-input is limited to a registered validation suite id and optional verification
-tier. Execution identity, workspace, evidence destination, timeout, capability
+input is limited to a registered validation suite id, optional verification
+tier and typed profiling request. Execution identity, workspace, evidence
+destination, timeout, capability
 identity and authorization are bound at server startup by the invocation
 adapter and cannot be overridden by the Worker.
 """
@@ -32,10 +33,10 @@ from scripts.coordination.control_plane.worker_runtime import (  # noqa: E402
 )
 
 SERVER_NAME = "ForPrintValidation"
-SERVER_VERSION = "0.1.0"
+SERVER_VERSION = "0.2.0"
 TOOL_NAME = "run_validation_suite"
 CAPABILITY_ID = "validation_suite"
-CAPABILITY_VERSION = "0.1.0"
+CAPABILITY_VERSION = "0.2.0"
 CONSUMER_ID = "cf10_worker_validation_mcp"
 TIMEOUT_SECONDS = 900
 MAX_DIAGNOSTIC_BYTES = 4096
@@ -50,6 +51,10 @@ TOOL_INPUT_SCHEMA: dict[str, Any] = {
                 {"type": "null"},
             ],
             "default": None,
+        },
+        "profile": {
+            "type": "boolean",
+            "default": False,
         },
     },
     "required": ["suite_id"],
@@ -180,6 +185,7 @@ def _success_payload(
     required = (
         "execution_id",
         "outcome",
+        "elapsed_seconds",
         "return_code",
         "timed_out",
         "stdout_evidence",
@@ -190,6 +196,16 @@ def _success_payload(
     if missing:
         raise WorkerValidationMCPError(
             "structured executor result missing fields: " + ",".join(missing)
+        )
+
+    elapsed_seconds = result.get("elapsed_seconds")
+    if (
+        not isinstance(elapsed_seconds, (int, float))
+        or isinstance(elapsed_seconds, bool)
+        or elapsed_seconds < 0
+    ):
+        raise WorkerValidationMCPError(
+            "structured executor elapsed_seconds invalid"
         )
 
     authority = result.get("authority")
@@ -217,6 +233,7 @@ def _success_payload(
     return {
         "execution_id": result["execution_id"],
         "outcome": result["outcome"],
+        "elapsed_seconds": elapsed_seconds,
         "return_code": result["return_code"],
         "timed_out": result["timed_out"],
         "stdout_evidence": dict(result["stdout_evidence"]),
@@ -305,7 +322,7 @@ def build_server(
                 )
 
             unknown = sorted(
-                set(arguments) - {"suite_id", "require_tier"}
+                set(arguments) - {"suite_id", "require_tier", "profile"}
             )
             if unknown:
                 raise WorkerValidationMCPError(
@@ -317,9 +334,17 @@ def build_server(
             if require_tier is not None:
                 require_tier = _string(require_tier, "require_tier")
 
+            profile = arguments.get("profile", False)
+            if not isinstance(profile, bool):
+                raise WorkerValidationMCPError(
+                    "profile must be boolean"
+                )
+
             parameters: dict[str, Any] = {"suite_id": suite_id}
             if require_tier is not None:
                 parameters["require_tier"] = require_tier
+            if profile:
+                parameters["profile"] = True
 
             workspace: Path = binding["workspace"]
             evidence: Path = binding["evidence_root"]
@@ -372,6 +397,7 @@ def build_server(
                             {
                                 "execution_id": payload["execution_id"],
                                 "outcome": payload["outcome"],
+                                "elapsed_seconds": payload["elapsed_seconds"],
                                 "return_code": payload["return_code"],
                                 "timed_out": payload["timed_out"],
                                 "evidence_digest": payload["evidence_digest"],

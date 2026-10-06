@@ -383,10 +383,10 @@ def validate_capability_registry_data(
                     f"capability {capability_id} fixed argv must be null"
                 )
             if parameter_schema != {
-                "model": "VALIDATION_SUITE_V0_1",
+                "model": "VALIDATION_SUITE_V0_2",
                 "additional_properties": False,
                 "required": ["suite_id"],
-                "optional": ["require_tier"],
+                "optional": ["require_tier", "profile"],
             }:
                 raise StructuredCommandExecutorError(
                     f"capability {capability_id} parameter schema invalid"
@@ -668,7 +668,9 @@ def _build_argv(
             f"unsupported builder kind: {builder}"
         )
 
-    unknown = sorted(set(parameters) - {"suite_id", "require_tier"})
+    unknown = sorted(
+        set(parameters) - {"suite_id", "require_tier", "profile"}
+    )
     if unknown:
         raise StructuredCommandExecutorError(
             "validation_suite contains unsupported parameters: "
@@ -700,6 +702,12 @@ def _build_argv(
                 f"{require_tier}"
             )
 
+    profile = parameters.get("profile", False)
+    if not isinstance(profile, bool):
+        raise StructuredCommandExecutorError(
+            "validation suite profile must be boolean"
+        )
+
     argv = [
         sys.executable,
         "scripts/validation/run_validation_suite_v0_1.py",
@@ -708,6 +716,8 @@ def _build_argv(
     ]
     if require_tier is not None:
         argv.extend(["--require-tier", require_tier])
+    if profile:
+        argv.append("--profile")
     return argv
 
 
@@ -955,7 +965,7 @@ def _proof_request(
 ) -> dict[str, Any]:
     request: dict[str, Any] = {
         "capability_id": "validation_suite",
-        "capability_version": "0.1.0",
+        "capability_version": "0.2.0",
         "execution_scope": {
             "kind": "GIT_REPOSITORY_ROOT",
             "root": str(root),

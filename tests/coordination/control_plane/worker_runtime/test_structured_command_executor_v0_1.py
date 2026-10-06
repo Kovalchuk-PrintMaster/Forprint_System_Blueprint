@@ -138,6 +138,7 @@ def test_validation_suite_builds_typed_registered_argv(tmp_path: Path) -> None:
     request = _request(
         tmp_path,
         capability_id="validation_suite",
+        capability_version="0.2.0",
         parameters={"suite_id": "cf10-worker-pipeline"},
     )
     plan = executor.build_execution_plan(root=ROOT, request=request)
@@ -156,6 +157,7 @@ def test_validation_suite_unknown_suite_fails_before_launch(tmp_path: Path) -> N
     request = _request(
         tmp_path,
         capability_id="validation_suite",
+        capability_version="0.2.0",
         parameters={"suite_id": "not-registered"},
     )
     with pytest.raises(
@@ -169,6 +171,7 @@ def test_validation_suite_tier_mismatch_fails_before_launch(tmp_path: Path) -> N
     request = _request(
         tmp_path,
         capability_id="validation_suite",
+        capability_version="0.2.0",
         parameters={
             "suite_id": "cf10-worker-pipeline",
             "require_tier": "CORE",
@@ -181,20 +184,67 @@ def test_validation_suite_tier_mismatch_fails_before_launch(tmp_path: Path) -> N
         executor.build_execution_plan(root=ROOT, request=request)
 
 
-def test_validation_suite_rejects_unimplemented_profile_parameter(
+def test_validation_suite_profile_true_appends_exact_typed_flag(
     tmp_path: Path,
 ) -> None:
     request = _request(
         tmp_path,
         capability_id="validation_suite",
+        capability_version="0.2.0",
         parameters={
             "suite_id": "cf10-worker-pipeline",
             "profile": True,
         },
     )
+    plan = executor.build_execution_plan(root=ROOT, request=request)
+
+    assert plan["capability"]["capability_version"] == "0.2.0"
+    assert plan["execution"]["argv"] == [
+        sys.executable,
+        "scripts/validation/run_validation_suite_v0_1.py",
+        "--suite",
+        "cf10-worker-pipeline",
+        "--profile",
+    ]
+
+
+def test_validation_suite_profile_false_preserves_existing_argv(
+    tmp_path: Path,
+) -> None:
+    request = _request(
+        tmp_path,
+        capability_id="validation_suite",
+        capability_version="0.2.0",
+        parameters={
+            "suite_id": "cf10-worker-pipeline",
+            "profile": False,
+        },
+    )
+    plan = executor.build_execution_plan(root=ROOT, request=request)
+
+    assert plan["execution"]["argv"] == [
+        sys.executable,
+        "scripts/validation/run_validation_suite_v0_1.py",
+        "--suite",
+        "cf10-worker-pipeline",
+    ]
+
+
+def test_validation_suite_profile_rejects_non_boolean_before_launch(
+    tmp_path: Path,
+) -> None:
+    request = _request(
+        tmp_path,
+        capability_id="validation_suite",
+        capability_version="0.2.0",
+        parameters={
+            "suite_id": "cf10-worker-pipeline",
+            "profile": "1",
+        },
+    )
     with pytest.raises(
         executor.StructuredCommandExecutorError,
-        match="unsupported parameters",
+        match="profile must be boolean",
     ):
         executor.build_execution_plan(root=ROOT, request=request)
 
@@ -327,6 +377,7 @@ def test_authorization_envelope_binds_execution_parameters(
     request = _request(
         tmp_path,
         capability_id="validation_suite",
+        capability_version="0.2.0",
         parameters={"suite_id": "cf10-worker-pipeline"},
     )
     request["authorization_envelope"]["parameters"] = {
@@ -408,3 +459,6 @@ def test_execution_rejects_launcher_argv_binding_drift(
         match="launcher result binding drift",
     ):
         executor.execute_execution_plan(root=ROOT, plan=plan)
+
+
+# CF10_TASK70_A031_PREREQUISITE_REPAIR_RED_V0_1

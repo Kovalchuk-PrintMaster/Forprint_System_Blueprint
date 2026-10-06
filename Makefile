@@ -1103,7 +1103,7 @@ cf10-worker-runtime-invocation-adapter-check: cf10-worker-invocation-bridge-chec
 # Purpose: Perform a real stdio MCP handshake and run one registered validation suite through the bounded bridge.
 # Safety: READ-ONLY VALIDATION - no Worker attempt, dispatch, promotion or repository mutation; evidence must be outside the repository.
 # Inputs: CF10_WORKER_BRIDGE_EVIDENCE_DIR (required); suite/tier optional and registry-bound.
-# Scope: RELATED - real stdio MCP transport plus validation_suite@0.1.0 over the structured executor.
+# Scope: RELATED - real stdio MCP transport plus validation_suite@0.2.0 over the structured executor.
 # Result: External structured evidence and non-zero exit on handshake/tool/validation failure.
 .PHONY: cf10-worker-invocation-bridge-proof
 cf10-worker-invocation-bridge-proof:

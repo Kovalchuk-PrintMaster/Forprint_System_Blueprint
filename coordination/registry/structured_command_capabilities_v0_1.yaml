@@ -75,18 +75,19 @@ capabilities:
     - OC01
     - CF10
   validation_suite:
-    capability_version: 0.1.0
+    capability_version: 0.2.0
     description: Run one registered validation suite through the existing isolated validation-suite runner.
     builder_kind: VALIDATION_SUITE
     executable_identity: python_runtime
     fixed_argv: null
     parameter_schema:
-      model: VALIDATION_SUITE_V0_1
+      model: VALIDATION_SUITE_V0_2
       additional_properties: false
       required:
       - suite_id
       optional:
       - require_tier
+      - profile
     allowed_cwd_scope_kind: GIT_REPOSITORY_ROOT
     timeout_bounds:
       minimum: 1

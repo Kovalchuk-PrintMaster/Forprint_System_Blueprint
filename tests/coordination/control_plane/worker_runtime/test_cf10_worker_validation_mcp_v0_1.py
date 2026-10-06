@@ -81,6 +81,10 @@ def test_validation_mcp_exposes_exactly_one_bounded_tool(tmp_path: Path) -> None
                 ],
                 "default": None,
             },
+            "profile": {
+                "type": "boolean",
+                "default": False,
+            },
         },
         "required": ["suite_id"],
         "additionalProperties": False,
@@ -116,6 +120,7 @@ def test_validation_mcp_binds_hidden_execution_fields(
         return {
             "execution_id": "structured-exec-redfixture",
             "outcome": "completed",
+            "elapsed_seconds": 12.5,
             "return_code": 0,
             "timed_out": False,
             "stdout_evidence": {
@@ -162,6 +167,7 @@ def test_validation_mcp_binds_hidden_execution_fields(
                 {
                     "suite_id": "cf10-worker-pipeline",
                     "require_tier": "LOCAL_FOCUSED",
+                    "profile": True,
                 },
             ),
         )
@@ -174,10 +180,11 @@ def test_validation_mcp_binds_hidden_execution_fields(
     assert captured["root"] == workspace
     assert captured["execute_root"] == workspace
     assert request["capability_id"] == "validation_suite"
-    assert request["capability_version"] == "0.1.0"
+    assert request["capability_version"] == "0.2.0"
     assert request["parameters"] == {
         "suite_id": "cf10-worker-pipeline",
         "require_tier": "LOCAL_FOCUSED",
+        "profile": True,
     }
     assert request["exact_cwd"] == workspace
     assert request["execution_scope"] == {
@@ -230,6 +237,7 @@ def test_validation_mcp_binds_hidden_execution_fields(
     assert payload is not None
     assert payload["execution_id"] == "structured-exec-redfixture"
     assert payload["outcome"] == "completed"
+    assert payload["elapsed_seconds"] == 12.5
     assert payload["return_code"] == 0
     assert payload["timed_out"] is False
     assert payload["evidence_digest"] == "3" * 64
@@ -272,3 +280,6 @@ def test_validation_mcp_rejects_worker_supplied_hidden_fields(
     assert result.is_error is True
     assert called == []
     assert result.structured_content is None
+
+
+# CF10_TASK70_A031_PREREQUISITE_REPAIR_RED_V0_1
