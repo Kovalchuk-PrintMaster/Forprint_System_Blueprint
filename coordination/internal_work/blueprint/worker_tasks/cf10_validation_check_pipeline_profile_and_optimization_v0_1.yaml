@@ -1,6 +1,6 @@
 schema_version: forprint_blueprint_internal_worker_task_v0_1
 task_id: cf10-validation-check-pipeline-profile-and-optimization-v0-1
-revision: 0.1.1
+revision: 0.1.2
 status: READY_FOR_CONTEXT
 module_id: forprint_system_blueprint
 source:
@@ -24,6 +24,38 @@ instructions:
     because the mandatory normal operator command make validation-suite
     SUITE=cf10-worker-pipeline failed when FORPRINT_VALIDATION_SUITE_ID was unset.
     Failure evidence SHA256: 5bdbe7df0b9dada536445b5263e5b4abd00bb9c29e58476d373d36c9c24810dd.
+  - >-
+    Retry context: subsequent attempt cf10-u180j-a031 stopped BLOCKED before mutation with
+    exact zero Worker delta because the Worker could not express the required profiling
+    execution through its bounded validation tool and did not consume the already-delivered
+    hash-bound governed context as its attempt-scoped freshness proof. The repair is closed
+    and published at b777af40e088dd03abcabc6d160a474075736412; implementation commit
+    8eecce4bb318538c3a41bcce0bd0f41a8d685ccf provides validation_suite@0.2.0,
+    Worker-visible elapsed_seconds and typed profile:boolean transport without widening
+    shell, argv, environment or authority.
+  - >-
+    Before any mutation in the next clean retry, invoke the bounded
+    ForPrintValidation(run_validation_suite) tool for suite_id=cf10-worker-pipeline with
+    require_tier=LOCAL_FOCUSED and profile omitted or false. Preserve the returned
+    execution_id, evidence_digest, return_code and elapsed_seconds as the fresh
+    pre-mutation whole-suite baseline evidence. This normal call must succeed before edits.
+  - >-
+    The repair proof elapsed_seconds=5.753 and evidence digest
+    04a01f57a1e130adaab93b5caf9585cb9210893afcbc8a3b42b3246bfcf34c71 prove only that
+    the repaired execution transport works. They are not Task70 baseline evidence and must
+    not replace the fresh pre-mutation measurement from the new attempt.
+  - >-
+    Consume the hash-bound governed execution context delivered for the attempt as the
+    attempt-scoped freshness verification snapshot. When roadmap_sync=IN_SYNC, the bound
+    work item u180j is ACTIVE and the projection is internally consistent, do not require
+    shell regeneration of lifecycle/roadmap projections and do not mutate lifecycle or
+    roadmap state to prove freshness.
+  - >-
+    After implementing profiling in the permitted Task70 files, invoke the same bounded
+    ForPrintValidation(run_validation_suite) tool with profile=true. The repaired
+    validation_suite@0.2.0 transport maps that typed request only to the canonical runner
+    --profile flag; the Task70 candidate runner remains responsible for implementing and
+    reporting the profiling semantics.
   - >-
     Preserve optional environment-variable semantics under strict shell mode. If set -u or
     equivalent nounset behavior is used, FORPRINT_VALIDATION_SUITE_ID and
@@ -62,9 +94,26 @@ acceptance:
   - >-
     Focused regression coverage exercises the actual Makefile validation-suite target and
     fails if strict-shell optional-variable handling regresses again.
+  - >-
+    A fresh pre-mutation ForPrintValidation(run_validation_suite) call for
+    cf10-worker-pipeline through validation_suite@0.2.0 succeeds with profile omitted or
+    false and returns numeric elapsed_seconds plus immutable execution evidence before any
+    Task70 file is edited.
+  - >-
+    The published repair proof timing is treated only as infrastructure proof and is not
+    substituted for the fresh baseline measurement of the new retry.
+  - >-
+    The hash-bound governed context is consumed as the attempt-scoped freshness proof when
+    roadmap_sync=IN_SYNC, u180j is ACTIVE and the projection is internally consistent;
+    shell regeneration or lifecycle/roadmap mutation is not required.
   - Baseline measurement precedes optimization.
   - Existing normal validation-suite behavior remains available and semantically unchanged.
   - make validation-suite SUITE=cf10-worker-pipeline PROFILE=1 works as a supported operator-facing profiling command.
+  - >-
+    After Task70 profiling implementation, the bounded
+    ForPrintValidation(run_validation_suite) call with profile=true succeeds through
+    validation_suite@0.2.0 and exercises the candidate runner's canonical --profile path
+    without shell or arbitrary argv access.
   - Human-readable per-step/total timing and deterministic machine-readable profile evidence are produced.
   - Critical path is identified from measured evidence.
   - Timing uses a monotonic clock and tests use controlled/fake timing.
