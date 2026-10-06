@@ -228,6 +228,8 @@ def _task_context_evidence(
         "module_root": module_root,
         "module": module,
         "task_context_id": values.get("TASK_CONTEXT_ID"),
+        "task_context_mode": values.get("TASK_CONTEXT_MODE"),
+        "work_id": values.get("WORK_ID"),
         "validation": "PASS",
     }
 
@@ -387,6 +389,21 @@ def compile_runtime_manifest(
         procedure_binding = _procedure_binding(root, procedure_id, procedure_not_required_reason)
         task_context = _task_context_evidence(root, prompt_id, module_root, module)
 
+    resume_work_id = "u180h"
+    resume_work_state = cursor["open_work"].get(resume_work_id)
+    if (
+        launch_mode == "TASK_EXECUTION"
+        and isinstance(task_context, dict)
+        and task_context.get("task_context_mode") == "MANUAL_INTERNAL"
+    ):
+        internal_work_id = task_context.get("work_id")
+        if not isinstance(internal_work_id, str) or not internal_work_id.strip():
+            raise RuntimeErrorV2(
+                "MANUAL_INTERNAL TASK_EXECUTION requires Task Context WORK_ID"
+            )
+        resume_work_id = internal_work_id.strip()
+        resume_work_state = cursor["open_work"].get(resume_work_id)
+
     fingerprint = {
         "head": head,
         "launch_mode": launch_mode,
@@ -420,8 +437,8 @@ def compile_runtime_manifest(
         "resume_coordinates": {
             "launch_mode": launch_mode,
             "git_head": head,
-            "work_id": "u180h",
-            "work_state": cursor["open_work"].get("u180h"),
+            "work_id": resume_work_id,
+            "work_state": resume_work_state,
             "prompt_id": prompt_id,
             "module_root": module_root,
             "front": front,

@@ -373,6 +373,10 @@ def main() -> int:
             print(f"TASK_ID={context['task_id']}")
             print(f"MODULE_ID={context['module_id']}")
             print(
+                "WORK_ID="
+                + str(context["task_envelope"]["work"]["work_id"])
+            )
+            print(
                 "TASK_ARTIFACT="
                 + str(context["task_artifact"]["path"])
             )

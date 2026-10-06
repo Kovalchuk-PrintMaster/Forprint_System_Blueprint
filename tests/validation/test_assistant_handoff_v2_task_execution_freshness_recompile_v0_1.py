@@ -243,3 +243,18 @@ def test_project_onboard_remains_launch_mode_only(monkeypatch) -> None:
 
     assert report["valid"] is True
     assert calls == [("PROJECT_ONBOARD", {})]
+
+
+def test_task_execution_recompile_does_not_replay_resume_work_id() -> None:
+    runtime = load_runtime()
+    origin = task_manifest()
+    origin["resume_coordinates"]["work_id"] = "historical-wrong-work-id"
+    origin["resume_coordinates"]["work_state"] = None
+
+    bindings = runtime._task_execution_recompile_bindings(origin)
+
+    assert "work_id" not in bindings
+    assert "work_state" not in bindings
+    assert bindings["prompt_id"] == (
+        "cf10-local-dispatcher-telegram-operator-surface-v0-1"
+    )

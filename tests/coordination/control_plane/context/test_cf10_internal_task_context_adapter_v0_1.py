@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+import sys
 
 import pytest
 
@@ -79,3 +80,37 @@ def test_external_argv_preserves_existing_builder() -> None:
     assert argv.count("--prompt-id") == 1
     assert "--no-write" in argv
     assert argv[-2:] == ["--module", "logistics_service"] or "--no-write" in argv
+
+
+def test_manual_internal_cli_emits_normalized_work_id(
+    monkeypatch,
+    capsys,
+) -> None:
+    context = adapter.build_internal_task_context(
+        ROOT,
+        task_id=TASK_ID,
+        module_root=".",
+    )
+    expected_work_id = context["task_envelope"]["work"]["work_id"]
+    assert isinstance(expected_work_id, str) and expected_work_id
+
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            str(adapter.__file__),
+            "--task-context",
+            "--prompt-id",
+            TASK_ID,
+            "--module-root",
+            ".",
+            "--module",
+            "forprint_system_blueprint",
+            "--no-write",
+        ],
+    )
+
+    assert adapter.main() == 0
+    stdout = capsys.readouterr().out
+    assert "TASK_CONTEXT_MODE=MANUAL_INTERNAL" in stdout
+    assert f"WORK_ID={expected_work_id}" in stdout

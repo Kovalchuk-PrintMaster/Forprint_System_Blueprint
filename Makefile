@@ -3164,7 +3164,7 @@ assistant-handoff-v2-contract-check:
 
 # assistant-handoff-v2-s2-runtime-v0-1:start
 # Target: assistant-handoff-v2-runtime-check
-# Purpose: Validate Handoff Compiler v2 runtime behavior, including PROJECT_ONBOARD dry run.
+# Purpose: Validate Handoff Compiler v2 runtime behavior, MANUAL_INTERNAL resume binding, freshness recompile, and PROJECT_ONBOARD dry run.
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: CONTROL FOUNDATION — Blueprint continuity/handoff/control contracts.
@@ -3172,7 +3172,10 @@ assistant-handoff-v2-contract-check:
 .PHONY: assistant-handoff-v2-runtime-check
 assistant-handoff-v2-runtime-check:
 	$(BLUEPRINT_PYTHON) scripts/validation/validate_assistant_handoff_v2_runtime_v0_1.py --root .
-	$(BLUEPRINT_PYTHON) -m pytest -q tests/validation/test_assistant_handoff_v2_runtime_v0_1.py
+	$(BLUEPRINT_PYTHON) -m pytest -q \
+		tests/coordination/control_plane/context/test_cf10_internal_task_context_adapter_v0_1.py \
+		tests/validation/test_assistant_handoff_v2_runtime_v0_1.py \
+		tests/validation/test_assistant_handoff_v2_task_execution_freshness_recompile_v0_1.py
 	$(BLUEPRINT_PYTHON) scripts/coordination/assistant_handoff_v2_runtime_v0_1.py --root . --launch-mode PROJECT_ONBOARD --no-write
 
 # Target: assistant-handoff-v2-project-onboard
