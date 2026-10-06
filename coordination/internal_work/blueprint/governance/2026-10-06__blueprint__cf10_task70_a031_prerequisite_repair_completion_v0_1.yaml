@@ -1,0 +1,158 @@
+schema_version: forprint_cf10_task70_a031_prerequisite_repair_completion_v0_1
+layer: COMPLETION
+roadmap_position: ACTIVE_TASK70_BLOCKER_REPAIR
+slice: CF10_TASK70_A031_PREREQUISITE_REPAIR
+title: Task70 Worker profile transport and governed context consumption repair
+status: PASS
+closed_at: '2026-10-06T19:55:10.544657+00:00'
+source_branch: audit/blueprint-inventory-refresh-2026-07-29
+implementation_head: 8eecce4bb318538c3a41bcce0bd0f41a8d685ccf
+sources:
+  design_freeze: coordination/internal_work/blueprint/governance/2026-10-06__blueprint__cf10_task70_a031_prerequisite_repair_design_freeze_v0_1.yaml
+  work_front: coordination/work_fronts/cf10_task70_a031_prerequisite_repair_v0_1.yaml
+  blocked_attempt: cf10-u180j-a031
+  blocked_attempt_publication: 5dbb94261e53cbba5e8a8d33b5c8cedca5cc671e
+  design_freeze_publication: 59c54515a11d65f74beb5a09aa6ebcb6dc5e8527
+  task70: coordination/internal_work/blueprint/worker_tasks/cf10_validation_check_pipeline_profile_and_optimization_v0_1.yaml
+  task70_revision: 0.1.1
+trigger:
+  attempt_id: cf10-u180j-a031
+  terminal_state: BLOCKED
+  worker_delta_exact: true
+  worker_changed_path_count: 0
+  blockers:
+  - PROFILE_EXECUTION_CAPABILITY_UNAVAILABLE
+  - GOVERNED_CONTEXT_CONSUMPTION_MISMATCH
+implementation:
+  commit: 8eecce4bb318538c3a41bcce0bd0f41a8d685ccf
+  frozen_path_count: 8
+  actual_path_count: 8
+  exact_frozen_scope_preserved: true
+  paths:
+  - Makefile
+  - coordination/registry/structured_command_capabilities_v0_1.yaml
+  - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+  - scripts/coordination/control_plane/worker_runtime/structured_command_executor.py
+  - scripts/coordination/control_plane/worker_runtime/worker_validation_mcp.py
+  - tests/coordination/control_plane/worker_runtime/test_cf10_worker_runtime_invocation_adapter_v0_1.py
+  - tests/coordination/control_plane/worker_runtime/test_cf10_worker_validation_mcp_v0_1.py
+  - tests/coordination/control_plane/worker_runtime/test_structured_command_executor_v0_1.py
+  outside_frozen_implementation_write_set_modified: false
+  task70_runner_modified: false
+  validation_suite_registry_modified: false
+  isolation_runner_modified: false
+  governed_worker_cycle_modified: false
+  lifecycle_modified: false
+  roadmap_modified: false
+  attempt_ledger_modified: false
+  new_make_target_created: false
+verification:
+  tests_first_red:
+    result: CONFIRMED
+    expected_failure_count: 9
+    existing_pass_count: 35
+  focused_green:
+    result: PASS
+    observed_test_count: 44
+  structured_command_executor_check:
+    target: structured-command-executor-check
+    result: PASS
+    observed_test_count: 32
+    capability_count: 4
+    shell: false
+    arbitrary_command_text_allowed: false
+    registry_grants_authority: false
+  worker_invocation_bridge_check:
+    target: cf10-worker-invocation-bridge-check
+    result: PASS
+    observed_test_count: 50
+  governed_worker_cycle_check:
+    target: governed-worker-cycle-check
+    result: PASS
+    observed_test_count: 84
+  real_stdio_mcp_proof:
+    result: PASS
+    capability_id: validation_suite
+    capability_version: 0.2.0
+    suite: cf10-worker-pipeline
+    required_tier: LOCAL_FOCUSED
+    registered_step_count: 3
+    pytest_observed_test_count: 39
+    execution_id: structured-exec-c82c5583f5de7a911b99
+    elapsed_seconds: 5.753
+    return_code: 0
+    outcome: completed
+    timed_out: false
+    shell: false
+    authority_widened: false
+    evidence_digest: 04a01f57a1e130adaab93b5caf9585cb9210893afcbc8a3b42b3246bfcf34c71
+    result_file_sha256: 1d6546214a1efdaca2272e8420f6c27b5a6775c52ff7d425d87a4295e9d70a18
+    stdout_sha256: 270ef2ebfc2059c7fb0bd9d8d02681bdb688bff33297e57c36686aa8df3992ed
+    stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  git_diff_check: PASS
+  publication_head_equals_upstream: true
+delivered:
+  validation_suite_capability_version: 0.2.0
+  worker_profile_parameter_added: true
+  worker_profile_parameter_type: boolean
+  profile_false_preserves_existing_argv: true
+  profile_true_appends_exact_flag: --profile
+  arbitrary_argv_passthrough_added: false
+  arbitrary_environment_passthrough_added: false
+  shell_added: false
+  worker_visible_elapsed_seconds: true
+  baseline_elapsed_source: shared_launcher.elapsed_seconds
+  new_profiler_created: false
+  task70_profiling_semantics_implemented_here: false
+  governed_context_attempt_scoped_freshness_guidance_added: true
+  roadmap_sync_in_sync_plus_active_work_is_sufficient_when_consistent: true
+  shell_regeneration_of_lifecycle_roadmap_required: false
+  lifecycle_roadmap_mutation_required_for_freshness: false
+blocker_resolution:
+  PROFILE_EXECUTION_CAPABILITY_UNAVAILABLE: RESOLVED
+  GOVERNED_CONTEXT_CONSUMPTION_MISMATCH: RESOLVED
+authority_boundary:
+  new_authority_source: false
+  structured_executor_grants_authority: false
+  mcp_server_grants_authority: false
+  governed_context_grants_authority: false
+  work_front_remains_execution_authority: true
+  task_envelope_remains_instruction_context: true
+  canonical_write_authority_widened: false
+  commit_authority: false
+  push_authority: false
+  merge_authority: false
+  release_authority: false
+  promotion_authority: false
+  automatic_accept_authority: false
+  automatic_retry_authority: false
+closeout:
+  slice_complete: true
+  completion_artifact_is_execution_authority: false
+  work_front_mutated: false
+  continuity_lifecycle_mutated: false
+  roadmap_execution_state_mutated: false
+  attempt_ledger_mutated: false
+  a032_created: false
+  a032_launched: false
+  oc01_reactivated: false
+  automatic_next_attempt_activation: false
+next_boundary:
+  state: TASK70_RETRY_FEEDBACK_AMENDMENT_REQUIRED
+  task70_target_revision: 0.1.2
+  purpose: Bind the next clean retry to validation_suite@0.2.0, pre-mutation whole-suite elapsed baseline evidence
+    and typed profile=true transport while preserving Task70's exact three-file scope.
+  candidate_after_revision_publication: cf10-u180j-a032
+  human_readable_title: Task70 clean retry after Worker profile transport and governed context consumption repair
+  automatic_prepare: false
+  automatic_ack: false
+  automatic_dispatch: false
+  automatic_launch: false
+  oc01_reactivation_allowed: false
+artifact_integrity:
+  design_freeze_sha256: d1612786480635ea17708c01298d7dc914183118a5c985bbede3efc23a9c82a5
+  work_front_sha256: 748293f9ec238cd7ff7e0e1effa5f0376529fcc0633e7829ee2b9247d7a105cc
+  implementation_commit: 8eecce4bb318538c3a41bcce0bd0f41a8d685ccf
+  runtime_result_sha256: 1d6546214a1efdaca2272e8420f6c27b5a6775c52ff7d425d87a4295e9d70a18
+  runtime_stdout_sha256: 270ef2ebfc2059c7fb0bd9d8d02681bdb688bff33297e57c36686aa8df3992ed
+  runtime_stderr_sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
