@@ -1,0 +1,125 @@
+schema_version: forprint_cf10_handoff_v2_internal_resume_binding_repair_completion_v0_1
+layer: COMPLETION
+roadmap_position: ACTIVE_TASK70_BLOCKER_REPAIR
+slice: CF10_HANDOFF_V2_INTERNAL_RESUME_BINDING_REPAIR
+title: CF10 Handoff v2 internal resume binding repair
+status: PASS
+closed_at: '2026-10-06T13:47:10.869512+00:00'
+source_branch: audit/blueprint-inventory-refresh-2026-07-29
+implementation_head: 271990393ecf6964023263318d11d008b7bafd7c
+sources:
+  design_freeze: coordination/internal_work/blueprint/governance/2026-10-05__blueprint__cf10_handoff_v2_internal_resume_binding_repair_design_freeze_v0_1.yaml
+  work_front: coordination/work_fronts/cf10_handoff_v2_internal_resume_binding_repair_v0_1.yaml
+  diagnostic_attempt: cf10-u180j-a029
+  planning_amendment_for_follow_up: coordination/roadmaps/details/forprint_system_blueprint/2026-10-06__operator_workflow_worker_gateway_and_human_readable_roadmap_amendment_v0_1.md
+implementation:
+  commit: 271990393ecf6964023263318d11d008b7bafd7c
+  frozen_path_count: 6
+  exact_frozen_scope_preserved: true
+  paths:
+  - Makefile
+  - scripts/coordination/assistant_handoff_v2_runtime_v0_1.py
+  - scripts/coordination/control_plane/context/task_context_adapter.py
+  - tests/coordination/control_plane/context/test_cf10_internal_task_context_adapter_v0_1.py
+  - tests/validation/test_assistant_handoff_v2_runtime_v0_1.py
+  - tests/validation/test_assistant_handoff_v2_task_execution_freshness_recompile_v0_1.py
+  task_context_schema_modified: false
+  handoff_v2_contract_modified: false
+  freshness_resume_contract_modified: false
+  external_task_context_builder_modified: false
+  new_dedicated_make_target_created: false
+  existing_make_surface_extended: assistant-handoff-v2-runtime-check
+  outside_frozen_implementation_write_set_modified: false
+verification:
+  tests_first_red:
+    result: CONFIRMED
+    expected_failure_count: 3
+    existing_pass_count: 15
+  focused_green:
+    result: PASS
+    observed_test_count: 18
+  task_context_compiler_check:
+    target: task-context-compiler-check
+    result: PASS
+    observed_test_count: 3
+  handoff_runtime_check:
+    target: assistant-handoff-v2-runtime-check
+    result: PASS
+    observed_test_count: 18
+    project_onboard_no_write: PASS
+    execution_authority_granted: false
+    dispatch_authority_granted: false
+    worker_dispatch_performed: false
+  freshness_resume_check:
+    target: assistant-handoff-v2-freshness-resume-check
+    result: PASS
+    observed_test_count: 8
+    stale_generated_context_fail_closed: true
+    retry_reuses_attempt_id: false
+  git_diff_check: PASS
+  publication_head_equals_upstream: true
+delivered:
+  manual_internal_cli_emits_work_id: true
+  manual_internal_work_id_source: normalized Task Envelope work.work_id
+  handoff_task_context_evidence_captures_mode_and_work_id: true
+  manual_internal_task_execution_requires_non_empty_work_id: true
+  resume_coordinates_work_id_source: MANUAL_INTERNAL Task Context WORK_ID
+  task70_expected_resume_work_id: u180j
+  resume_work_state_source: lifecycle_roadmap_cursor.open_work[work_id]
+  historical_u180h_not_used_for_manual_internal: true
+  project_onboard_semantics_preserved: true
+  external_task_execution_not_generalized: true
+authority_boundary:
+  new_authority_source: false
+  execution_authority_widened: false
+  dispatch_authority_widened: false
+  git_authority_widened: false
+  release_authority_widened: false
+  automatic_accept_authority_widened: false
+diagnostic_attempt:
+  attempt_id: cf10-u180j-a029
+  state: AWAITING_ASSISTANT_ACK
+  assistant_ack_validated: false
+  dispatch_performed: false
+  launch_performed: false
+  reuse_as_live_retry_allowed: false
+closeout:
+  slice_complete: true
+  completion_artifact_is_execution_authority: false
+  work_front_mutated: false
+  continuity_lifecycle_mutated: false
+  roadmap_execution_state_mutated: false
+  attempt_ledger_mutated: false
+  automatic_next_attempt_activation: false
+self_hardening_follow_up:
+  required: true
+  subject: human_assistant_bounded_change_closeout_runner
+  intent: Move recurring status/validation/exact-stage/commit/push/HEAD-upstream verification and completion evidence
+    mechanics into project-native reusable scripts/Make surfaces.
+  first_consumer: human_plus_assistant_engineering
+  worker_authority_implied: false
+  planning_source: coordination/roadmaps/details/forprint_system_blueprint/2026-10-06__operator_workflow_worker_gateway_and_human_readable_roadmap_amendment_v0_1.md
+  implementation_in_this_slice: false
+next_boundary:
+  candidate: cf10-u180j-a030
+  human_readable_title: Clean Task70 retry after Handoff resume-binding repair
+  state: ELIGIBLE_FOR_NEW_PREPARE_AFTER_CLOSEOUT_PUBLICATION
+  automatic_prepare: false
+  automatic_ack: false
+  automatic_dispatch: false
+  automatic_launch: false
+  required_sequence:
+  - publish this completion artifact
+  - prepare new attempt cf10-u180j-a030
+  - verify fresh source snapshot and Task70 binding
+  - verify resume_coordinates.work_id == u180j
+  - verify resume_coordinates.work_state matches live u180j cursor
+  - explicit Assistant ACK
+  - explicit dispatch authorization
+  - explicit Worker launch confirmation
+artifact_integrity:
+  design_freeze_sha256: 806ef0554f7498514ac31d1bb46b3b5527ad1107bd6fd2ce0c6f186d91e97394
+  work_front_sha256: 08f7afe153c954974dbaa47ab0305cdd972ff3ce75d28e124649f0cdf6905a12
+  planning_amendment_sha256: 450a49aa6abfed6d00ed8e2eadb36e9968f94bcd4b89c3581deca05ff38a5f05
+  implementation_commit: 271990393ecf6964023263318d11d008b7bafd7c
+  current_head: 271990393ecf6964023263318d11d008b7bafd7c
