@@ -210,3 +210,46 @@ def test_project_onboard_handoff_contains_exact_bootstrap_living_surfaces():
             "coordination/repository_knowledge/roadmap_enrichment/source_map.yaml",
         ):
             assert rel in reading_order
+
+
+def test_blueprint_project_onboard_includes_aem_priority_context() -> None:
+    import io
+    import zipfile
+    from pathlib import Path
+
+    from scripts.coordination import blueprint_continuity_adapter_v0_1 as adapter
+
+    root = Path(__file__).resolve().parents[2]
+    expected_sources = {
+        "coordination/roadmaps/details/forprint_system_blueprint/"
+        "portfolio_operator_governance_and_project_standardization_program_v0_1.md",
+        "coordination/roadmaps/details/forprint_system_blueprint/"
+        "operator_console/operator_console_program_v0_1.yaml",
+        "coordination/human_intent/deltas/"
+        "2026-10-07__architecture_execution_model_integration__human_intent_delta_v0_1.yaml",
+    }
+
+    configured = {
+        path.as_posix()
+        for path in adapter.BLUEPRINT_PROJECT_ONBOARD_CANONICAL_SOURCES
+    }
+    assert expected_sources <= configured
+
+    blob, _manifest, _name = adapter.expected_archive(root)
+    with zipfile.ZipFile(io.BytesIO(blob)) as archive:
+        names = set(archive.namelist())
+        assert expected_sources <= names
+        aem_context = "\n".join(
+            archive.read(name).decode("utf-8")
+            for name in sorted(expected_sources)
+        )
+
+    required_markers = {
+        "blueprint_architecture_execution_model_integration_v0_1",
+        "AEM-01",
+        "EXECUTION_PRIORITY_SUCCESSOR_NOT_OC_DEPENDENCY",
+        "HI-FP-ARCH-EXECUTION-MODEL-20261007-001",
+        "HI-FP-POST-OC01-AEM-GATE-20261007-001",
+    }
+    for marker in required_markers:
+        assert marker in aem_context

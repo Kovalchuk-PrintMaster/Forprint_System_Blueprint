@@ -40,6 +40,18 @@ BLUEPRINT_PROJECT_ONBOARD_CANONICAL_SOURCES = (
     BLUEPRINT_STRATEGIC_VECTOR_YAML,
     BLUEPRINT_ARCHITECTURE_HORIZON_MD,
     BLUEPRINT_ARCHITECTURE_HORIZON_YAML,
+    Path(
+        "coordination/roadmaps/details/forprint_system_blueprint/"
+        "portfolio_operator_governance_and_project_standardization_program_v0_1.md"
+    ),
+    Path(
+        "coordination/roadmaps/details/forprint_system_blueprint/"
+        "operator_console/operator_console_program_v0_1.yaml"
+    ),
+    Path(
+        "coordination/human_intent/deltas/"
+        "2026-10-07__architecture_execution_model_integration__human_intent_delta_v0_1.yaml"
+    ),
 )
 
 
