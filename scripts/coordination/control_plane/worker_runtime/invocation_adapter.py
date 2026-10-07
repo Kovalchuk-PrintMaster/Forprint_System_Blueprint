@@ -29,11 +29,17 @@ WORKER_VALIDATION_MCP_SCRIPT = (
     "scripts/coordination/control_plane/worker_runtime/"
     "worker_validation_mcp.py"
 )
+GITHUB_COPILOT_MCP_MODEL_TOOL_ID = (
+    f"{WORKER_VALIDATION_MCP_SERVER}-{WORKER_VALIDATION_MCP_TOOL}"
+)
+GITHUB_COPILOT_MCP_PERMISSION_PATTERN = (
+    f"{WORKER_VALIDATION_MCP_SERVER}({WORKER_VALIDATION_MCP_TOOL})"
+)
 GITHUB_COPILOT_AVAILABLE_TOOLS = (
     "view",
     "edit",
     "apply_patch",
-    f"{WORKER_VALIDATION_MCP_SERVER}({WORKER_VALIDATION_MCP_TOOL})",
+    GITHUB_COPILOT_MCP_MODEL_TOOL_ID,
 )
 DEFAULT_HEARTBEAT_SECONDS = 15
 DEFAULT_STALL_THRESHOLD_SECONDS = 120.0
@@ -578,6 +584,9 @@ def build_launch_invocation(
         },
         "provider_policy": {
             "available_tools": list(GITHUB_COPILOT_AVAILABLE_TOOLS),
+            "mcp_permission_patterns": [
+                GITHUB_COPILOT_MCP_PERMISSION_PATTERN
+            ],
             "permission_mode": "ALLOW_ALL_WITHIN_AVAILABLE_TOOL_UNIVERSE",
             "bash_available": False,
             "web_available": False,

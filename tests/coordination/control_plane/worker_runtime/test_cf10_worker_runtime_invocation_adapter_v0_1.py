@@ -403,7 +403,10 @@ def test_durable_invocation_evidence_omits_prompt_and_full_argv(
         "view",
         "edit",
         "apply_patch",
-        "ForPrintValidation(run_validation_suite)",
+        "ForPrintValidation-run_validation_suite",
+    ]
+    assert evidence["provider_policy"]["mcp_permission_patterns"] == [
+        "ForPrintValidation(run_validation_suite)"
     ]
     assert evidence["provider_policy"]["permission_mode"] == (
         "ALLOW_ALL_WITHIN_AVAILABLE_TOOL_UNIVERSE"
@@ -495,6 +498,7 @@ def test_worker_bridge_injects_session_only_validation_mcp_config(
     assert ".github/mcp.json" not in " ".join(args)
 
 
+# CF10_A032_PROVIDER_EXPOSURE_REPAIR_RED_V0_1
 def test_worker_bridge_exposes_exact_bounded_tool_universe(
     tmp_path: Path,
     monkeypatch,
@@ -512,14 +516,36 @@ def test_worker_bridge_exposes_exact_bounded_tool_universe(
         "view",
         "edit",
         "apply_patch",
-        "ForPrintValidation(run_validation_suite)",
+        "ForPrintValidation-run_validation_suite",
     ]
-    assert result["provider_policy"]["available_tools"] == expected, (
-        "RED: validation MCP tool is not yet in the explicit tool universe"
+    provider_policy = result["provider_policy"]
+    assert provider_policy["available_tools"] == expected, (
+        "RED: Copilot --available-tools must expose the provider/model-visible "
+        "sanitized MCP tool id"
     )
-    assert result["provider_policy"]["bash_available"] is False
-    assert result["provider_policy"]["builtin_mcps_disabled"] is True
-    assert "shell" not in result["provider_policy"]["available_tools"]
+    assert provider_policy["mcp_permission_patterns"] == [
+        "ForPrintValidation(run_validation_suite)"
+    ], (
+        "RED: MCP permission-filter identity must remain separately represented "
+        "from model-visible available-tool identity"
+    )
+    assert "ForPrintValidation(run_validation_suite)" not in provider_policy[
+        "available_tools"
+    ]
+
+    argv = result["argv"]
+    available_start = argv.index("--available-tools") + 1
+    available_end = argv.index("--allow-all-tools")
+    assert argv[available_start:available_end] == expected
+    assert "ForPrintValidation(run_validation_suite)" not in argv[
+        available_start:available_end
+    ]
+
+    assert provider_policy["bash_available"] is False
+    assert provider_policy["web_available"] is False
+    assert provider_policy["builtin_mcps_disabled"] is True
+    assert provider_policy["persistent_mcp_config_written"] is False
+    assert "shell" not in provider_policy["available_tools"]
 # CF10_GOVERNED_WORKER_CONTEXT_DELIVERY_RED_V0_1
 
 
