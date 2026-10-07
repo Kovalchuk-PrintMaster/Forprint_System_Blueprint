@@ -1,0 +1,57 @@
+work_front_id: wf-cf10-dirty-preserving-repository-seal-v0-1
+objective: Make the existing Blueprint seal-stage-exact and seal-push operator surfaces safely preserve explicitly
+  declared inherited dirty paths while continuing to prove exact candidate staging and exact publication.
+scope:
+- Makefile
+- scripts/coordination/control_plane/worker_runtime/repository_seal.py
+- tests/coordination/control_plane/worker_runtime/test_cf10_dirty_preserving_repository_seal_v0_1.py
+exclusions:
+- Do not modify seal-staged-review semantics.
+- Do not modify seal-commit semantics.
+- Do not change provider-session proof or Worker runtime semantics.
+- Do not modify Task70.
+- Do not create or launch a033.
+- Do not add automatic commit, push, merge, reset, restore, stash, clean or checkout behavior.
+- Do not mutate declared preserved dirty paths.
+provenance:
+  source_refs:
+  - provider_session_proof_completion_commit:46ceb5b140e53c444be33837fbd1ddf9dd345a53
+  - gap:DIRTY_PRESERVING_SEAL_SURFACE
+  chat_is_authority: false
+dependencies:
+- Project-native provider-session proof slice is closed at 46ceb5b140e53c444be33837fbd1ddf9dd345a53.
+- Current seal-stage-exact and seal-push behavior is canonical evidence of the gap.
+- Five inherited dirty paths are intentionally present and must remain untouched.
+outputs:
+- repository_seal.py with bounded stage-exact and push verification subcommands.
+- Focused tests for clean and dirty-preserving seal contracts.
+- Makefile SEAL_PRESERVE_PATHS variable.
+- seal-stage-exact delegation to the canonical Python capability.
+- seal-push delegation to the canonical Python capability.
+acceptance:
+- Tests-first RED proves current Make surface cannot preserve inherited dirty paths.
+- Focused tests cover clean-worktree backward compatibility.
+- Focused tests cover exact candidate plus protected dirty union.
+- Focused tests reject candidate/preserve overlap.
+- Focused tests reject unexpected extra dirty paths.
+- Focused tests reject unexpected pre-staged protected paths.
+- Focused tests prove staging mutates only the Git index entries for candidate paths.
+- Focused tests prove protected path diff hashes are unchanged across stage.
+- Focused push tests mock network Git boundary and prove exact pre/post protected dirty state.
+- Focused push tests reject branch drift and remote HEAD mismatch.
+- Makefile keeps short operator targets and delegates policy/mechanics to repository_seal.py.
+- Existing seal-staged-review and seal-commit remain unchanged.
+- No unrelated dirty path is reset, restored, cleaned, stashed, staged, committed, or otherwise mutated.
+- A033 remains uncreated and unlaunched.
+stop_conditions:
+- Implementation requires a path outside the exact three-file write set.
+- Implementation requires changing Git commit semantics.
+- Implementation requires automatic commit or automatic push from stage-exact.
+- Implementation requires reset, restore, checkout, stash, clean, or mutation of preserved paths.
+- Implementation requires Task70 or lifecycle/roadmap mutation.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false

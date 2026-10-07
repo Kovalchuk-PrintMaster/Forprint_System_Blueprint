@@ -1,0 +1,114 @@
+schema_version: forprint_cf10_dirty_preserving_repository_seal_design_freeze_v0_1
+layer: DESIGN_FREEZE
+roadmap_position: PRE_A033_PROJECT_NATIVE_OPERATOR_HARDENING
+slice: CF10_DIRTY_PRESERVING_REPOSITORY_SEAL
+title: Project-native dirty-preserving exact repository seal hardening
+status: FROZEN_FOR_BOUNDED_IMPLEMENTATION
+source_branch: audit/blueprint-inventory-refresh-2026-07-29
+source_head: 46ceb5b140e53c444be33837fbd1ddf9dd345a53
+trigger:
+  source_completion: coordination/internal_work/blueprint/governance/2026-10-07__blueprint__cf10_project_native_provider_session_proof_completion_v0_1.yaml
+  source_completion_commit: 46ceb5b140e53c444be33837fbd1ddf9dd345a53
+  gap: DIRTY_PRESERVING_SEAL_SURFACE
+  a033_create_or_launch_now: false
+diagnosis:
+  seal_stage_exact_current_contract: Requires the complete observed dirty surface to equal SEAL_PATHS, so an exact
+    candidate cannot be staged while unrelated inherited dirty paths remain.
+  seal_push_current_contract: Requires git status --short to be empty after push, so a valid push fails whenever declared
+    inherited/protected dirty paths intentionally remain.
+  seal_staged_review_broken: false
+  seal_commit_broken: false
+architecture_decision:
+  strategy: CANONICAL_PYTHON_SEAL_CAPABILITY_WITH_MAKE_OPERATOR_SURFACE
+  new_module: scripts/coordination/control_plane/worker_runtime/repository_seal.py
+  preserve_existing_target_names: true
+  targets_extended:
+  - seal-stage-exact
+  - seal-push
+  targets_unchanged_semantically:
+  - seal-staged-review
+  - seal-commit
+  new_optional_variable: SEAL_PRESERVE_PATHS
+  backward_compatibility: When SEAL_PRESERVE_PATHS is empty, seal-stage-exact and seal-push retain the existing clean-worktree
+    contract.
+  makefile_role: SHORT_OPERATOR_ENTRYPOINT_ONLY
+  validation_logic_owner: repository_seal.py
+implementation_slice:
+  implementation_write_set:
+  - Makefile
+  - scripts/coordination/control_plane/worker_runtime/repository_seal.py
+  - tests/coordination/control_plane/worker_runtime/test_cf10_dirty_preserving_repository_seal_v0_1.py
+  implementation_path_count: 3
+  tests_first_required: true
+  must_not_modify:
+  - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+  - scripts/coordination/control_plane/worker_runtime/provider_session_proof.py
+  - scripts/coordination/control_plane/worker_runtime/worker_validation_mcp.py
+  - scripts/coordination/control_plane/worker_runtime/structured_command_executor.py
+  - scripts/coordination/control_plane/governed_worker_cycle.py
+  - coordination/internal_work/blueprint/worker_tasks/cf10_validation_check_pipeline_profile_and_optimization_v0_1.yaml
+  - AGENTS.md
+  - coordination/global_policy/current_execution_focus.md
+  - coordination/standards/automation/index.yaml
+  - indexes/governance.yaml
+  - indexes/roadmaps.yaml
+stage_contract:
+  candidate_input: SEAL_PATHS
+  preserved_dirty_input: SEAL_PRESERVE_PATHS optional
+  requirements:
+  - SEAL_PATHS is non-empty.
+  - Candidate paths and preserved paths are normalized repository-relative paths.
+  - Candidate and preserved path sets are disjoint.
+  - Observed dirty surface equals exactly candidate union preserved.
+  - No pre-existing staged path exists outside candidate set.
+  - Preserved paths remain unstaged.
+  - Only candidate paths are passed to git add.
+  - Exact staged path set after staging equals candidate set.
+  - Preserved dirty path state remains present after staging.
+  - No reset, restore, checkout, clean, stash, or mutation of preserved paths is allowed.
+push_contract:
+  branch_input: SEAL_BRANCH
+  preserved_dirty_input: SEAL_PRESERVE_PATHS optional
+  requirements:
+  - Current branch exactly equals SEAL_BRANCH.
+  - No staged changes exist before push.
+  - Observed pre-push dirty path set equals exactly SEAL_PRESERVE_PATHS.
+  - Push only the current named branch to origin.
+  - Remote branch HEAD after push equals local HEAD.
+  - Observed post-push dirty path set still equals exactly SEAL_PRESERVE_PATHS.
+  - Preserved path unstaged diff hashes are unchanged across push.
+  - No merge, rebase, reset, checkout, stash, clean, or mutation of preserved paths is allowed.
+  - With empty SEAL_PRESERVE_PATHS, post-push worktree must remain clean as before.
+acceptance:
+- Tests-first RED proves current Make surface cannot preserve inherited dirty paths.
+- Focused tests cover clean-worktree backward compatibility.
+- Focused tests cover exact candidate plus protected dirty union.
+- Focused tests reject candidate/preserve overlap.
+- Focused tests reject unexpected extra dirty paths.
+- Focused tests reject unexpected pre-staged protected paths.
+- Focused tests prove staging mutates only the Git index entries for candidate paths.
+- Focused tests prove protected path diff hashes are unchanged across stage.
+- Focused push tests mock network Git boundary and prove exact pre/post protected dirty state.
+- Focused push tests reject branch drift and remote HEAD mismatch.
+- Makefile keeps short operator targets and delegates policy/mechanics to repository_seal.py.
+- Existing seal-staged-review and seal-commit remain unchanged.
+- No unrelated dirty path is reset, restored, cleaned, stashed, staged, committed, or otherwise mutated.
+- A033 remains uncreated and unlaunched.
+stop_conditions:
+- Implementation requires a path outside the exact three-file write set.
+- Implementation requires changing Git commit semantics.
+- Implementation requires automatic commit or automatic push from stage-exact.
+- Implementation requires reset, restore, checkout, stash, clean, or mutation of preserved paths.
+- Implementation requires Task70 or lifecycle/roadmap mutation.
+authority:
+  new_authority_source: false
+  repository_seal_module_is_policy_authority: false
+  operator_explicit_inputs_required: true
+  automatic_commit_authority: false
+  automatic_push_authority: false
+  automatic_retry_authority: false
+  automatic_merge_authority: false
+next_boundary_after_closeout:
+  state: A033_PREPARATION_ALLOWED
+  automatic_a033_prepare: false
+  automatic_a033_launch: false
