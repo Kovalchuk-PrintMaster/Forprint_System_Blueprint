@@ -1,0 +1,174 @@
+schema_version: forprint_cf10_a032_project_native_provider_exposure_repair_completion_v0_1
+layer: COMPLETION
+roadmap_position: ACTIVE_TASK70_BLOCKER_REPAIR
+slice: CF10_A032_PROJECT_NATIVE_PROVIDER_EXPOSURE_REPAIR
+title: Project-native Copilot MCP provider exposure repair after Task70 attempt a032
+status: PASS
+closed_at: '2026-10-07T10:49:02.673377+00:00'
+source_branch: audit/blueprint-inventory-refresh-2026-07-29
+implementation_head: b8a90d02163baa458fefca143f658e1011a3f9c5
+sources:
+  design_freeze: coordination/internal_work/blueprint/governance/2026-10-06__blueprint__cf10_a032_project_native_provider_exposure_repair_design_freeze_v0_1.yaml
+  work_front: coordination/work_fronts/cf10_a032_project_native_provider_exposure_repair_v0_1.yaml
+  blocked_attempt: cf10-u180j-a032
+  freeze_and_attempt_publication: 643984dd395c5c816fda2f89b92cf95f04b5096d
+  implementation_publication: b8a90d02163baa458fefca143f658e1011a3f9c5
+  task70: coordination/internal_work/blueprint/worker_tasks/cf10_validation_check_pipeline_profile_and_optimization_v0_1.yaml
+  task70_revision: 0.1.2
+trigger:
+  attempt_id: cf10-u180j-a032
+  terminal_state: BLOCKED
+  worker_delta_exact: true
+  worker_changed_path_count: 0
+  worker_delta_basis: FROZEN_PRE_WORKER_BASELINE
+  inherited_dirty_paths:
+  - AGENTS.md
+  - coordination/global_policy/current_execution_focus.md
+  - coordination/standards/automation/index.yaml
+  blocker: AVAILABLE_TOOLS_MCP_IDENTIFIER_CONTRACT_DEFECT
+implementation:
+  commit: b8a90d02163baa458fefca143f658e1011a3f9c5
+  frozen_path_count: 2
+  actual_path_count: 2
+  exact_frozen_scope_preserved: true
+  paths:
+  - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+  - tests/coordination/control_plane/worker_runtime/test_cf10_worker_runtime_invocation_adapter_v0_1.py
+  outside_frozen_implementation_write_set_modified: false
+  task70_implementation_modified: false
+  structured_executor_modified: false
+  worker_validation_mcp_modified: false
+  validation_suite_registry_modified: false
+  governed_worker_cycle_modified: false
+  lifecycle_modified: false
+  roadmap_modified: false
+  attempt_ledger_modified_during_implementation: false
+  persistent_mcp_config_written: false
+verification:
+  tests_first_red:
+    result: CONFIRMED
+    expected_failure_count: 2
+    production_mutated_before_red: false
+  focused_green:
+    result: PASS
+    observed_test_count: 15
+  worker_invocation_bridge_check:
+    target: cf10-worker-invocation-bridge-check
+    result: PASS
+    observed_test_count: 50
+  governed_worker_cycle_check:
+    target: governed-worker-cycle-check
+    result: PASS
+    observed_test_count: 84
+  real_provider_session_proof:
+    result: PASS
+    provider_id: github_copilot_cli
+    provider_cli_observed_version: 1.0.88
+    model_visible_tool_id: ForPrintValidation-run_validation_suite
+    permission_filter_pattern: ForPrintValidation(run_validation_suite)
+    capability_id: validation_suite
+    capability_version: 0.2.0
+    suite_id: cf10-worker-pipeline
+    required_tier: LOCAL_FOCUSED
+    profile: false
+    execution_id: structured-exec-3654df2301dd40c2b165
+    elapsed_seconds: 5.253
+    return_code: 0
+    timed_out: false
+    shell: false
+    repository_status_unchanged: true
+    persistent_mcp_config_written: false
+    authority_widened: false
+    evidence_digest: 7cc23b619ce29d64fcc30d07ad6305d65cca80d096a6be34ba1ac806de6a90f3
+    result_file_sha256: f337894fc295608a5741b4da3d17edc563fcad41cfa319ef2a07f486cec10a27
+    stdout_sha256: dddec6e34641782b66421d843737cc130f4b7ecd44e166ff4438653adc509abc
+    evidence_root: /srv/software_development/forprint-worker-runtime/proofs/cf10_a032_repaired_project_native_provider_exposure_proof_v0_3
+    result_path: /srv/software_development/forprint-worker-runtime/proofs/cf10_a032_repaired_project_native_provider_exposure_proof_v0_3/structured_execution/structured-exec-3654df2301dd40c2b165/execution_result_v0_1.yaml
+  negative_provider_proofs:
+    accepted_as_completion_evidence: false
+    v0_1:
+      result: REJECTED
+      reason: provider returned without a structured MCP validation execution
+    v0_2:
+      result: REJECTED
+      reason: proof harness resolved the venv interpreter symlink to system Python; MCP server failed before initialize
+        because package mcp was unavailable
+      production_defect: false
+  git_diff_check: PASS
+  publication_head_equals_upstream: true
+delivered:
+  provider_model_visible_identity_separated: true
+  provider_model_visible_tool_id: ForPrintValidation-run_validation_suite
+  provider_permission_identity_separated: true
+  provider_permission_pattern: ForPrintValidation(run_validation_suite)
+  available_tools_uses_model_visible_identity: true
+  permission_identity_serialized_separately_in_provider_policy: true
+  session_only_additional_mcp_config_preserved: true
+  validation_suite_capability_version: 0.2.0
+  validation_suite_capability_semantics_changed: false
+  bounded_tool_universe_preserved: true
+  shell_added: false
+  arbitrary_argv_added: false
+  arbitrary_environment_added: false
+  authority_widened: false
+blocker_resolution:
+  AVAILABLE_TOOLS_MCP_IDENTIFIER_CONTRACT_DEFECT: RESOLVED
+authority_boundary:
+  new_authority_source: false
+  provider_adapter_is_policy_authority: false
+  mcp_server_grants_authority: false
+  capability_registry_grants_authority: false
+  work_front_remains_execution_authority: true
+  canonical_write_authority_widened: false
+  commit_authority: false
+  push_authority: false
+  merge_authority: false
+  release_authority: false
+  promotion_authority: false
+  automatic_retry_authority: false
+project_native_workflow_gap:
+  status: OPEN_MANDATORY_HARDENING
+  chat_tmp_helper_proliferation_must_stop: true
+  observed_gaps:
+  - gap: REAL_PROVIDER_SESSION_PROOF_NOT_PROJECT_NATIVE
+    current_state: cf10-worker-invocation-bridge-proof proves stdio MCP transport but does not prove provider/model-visible
+      MCP invocation through Copilot
+    required_project_change: add a tested project-native provider-session proof capability and Make target
+  - gap: SEAL_EXACT_CANNOT_PRESERVE_INHERITED_DIRTY_PATHS
+    current_state: seal-stage-exact requires the complete dirty surface to equal SEAL_PATHS and seal-push requires
+      a clean worktree after push
+    required_project_change: add tested bounded seal/stage/push surfaces that preserve explicitly unrelated inherited
+      dirty paths while verifying exact staged scope
+  dispatcher_requirement: future dispatcher execution must invoke short canonical project commands; it must not depend
+    on chat-resident tmp helper logic
+  hardening_required_before_a033: true
+closeout:
+  slice_complete: true
+  completion_artifact_is_execution_authority: false
+  work_front_mutated: false
+  continuity_lifecycle_mutated: false
+  roadmap_execution_state_mutated: false
+  a033_created: false
+  a033_launched: false
+  automatic_next_attempt_activation: false
+next_boundary:
+  state: PROJECT_NATIVE_OPERATOR_EXECUTION_HARDENING_REQUIRED
+  purpose: Canonicalize the now-proven real provider-session proof and dirty-preserving exact seal workflow inside
+    the repository before preparing Task70 attempt a033.
+  required_outputs:
+  - project-native real provider-session proof script/capability
+  - Makefile target for real provider-session proof
+  - tests for provider-session proof
+  - project-native dirty-preserving exact stage/review/push surface
+  - Makefile operator entries and tests for that seal surface
+  candidate_after_hardening: cf10-u180j-a033
+  automatic_prepare: false
+  automatic_ack: false
+  automatic_dispatch: false
+  automatic_launch: false
+artifact_integrity:
+  freeze_and_attempt_publication_commit: 643984dd395c5c816fda2f89b92cf95f04b5096d
+  implementation_commit: b8a90d02163baa458fefca143f658e1011a3f9c5
+  runtime_result_sha256: f337894fc295608a5741b4da3d17edc563fcad41cfa319ef2a07f486cec10a27
+  runtime_stdout_sha256: dddec6e34641782b66421d843737cc130f4b7ecd44e166ff4438653adc509abc
+  runtime_evidence_digest: 7cc23b619ce29d64fcc30d07ad6305d65cca80d096a6be34ba1ac806de6a90f3
