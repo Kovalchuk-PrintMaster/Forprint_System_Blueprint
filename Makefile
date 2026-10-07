@@ -120,6 +120,8 @@ help:
 	@echo "  make structured-command-executor-proof STRUCTURED_COMMAND_EVIDENCE_DIR=<outside-repo-dir> [STRUCTURED_COMMAND_PROOF_SUITE=cf10-worker-pipeline]"
 	@echo "  make cf10-worker-invocation-bridge-check"
 	@echo "  make cf10-worker-invocation-bridge-proof CF10_WORKER_BRIDGE_EVIDENCE_DIR=<outside-repo-dir> [CF10_WORKER_BRIDGE_PROOF_SUITE=cf10-worker-pipeline]"
+	@echo "  make cf10-worker-provider-session-proof-check"
+	@echo "  make cf10-worker-provider-session-proof CF10_WORKER_PROVIDER_PROOF_RUNTIME_ROOT=<outside-repo-dir> [CF10_WORKER_PROVIDER_PROOF_SUITE=cf10-worker-pipeline] [CF10_WORKER_PROVIDER_PROOF_TIER=LOCAL_FOCUSED]"
 	@echo "  make check-report"
 	@echo "  make test-make-command-surface"
 	@echo "  make test-v0-4-coordination"
@@ -1075,12 +1077,15 @@ governed-worker-cycle-authorize-dispatch:
 # =============================================================================
 # 08B CF-10 Worker Runtime invocation bridge
 # =============================================================================
-# Block scope: Authority-neutral provider invocation construction after
-# explicit dispatch; no process start or publication authority.
+# Block scope: Authority-neutral provider invocation construction plus bounded
+# provider/MCP proof; no Worker attempt or publication authority.
 
 CF10_WORKER_BRIDGE_EVIDENCE_DIR ?=
 CF10_WORKER_BRIDGE_PROOF_SUITE ?= cf10-worker-pipeline
 CF10_WORKER_BRIDGE_PROOF_TIER ?= LOCAL_FOCUSED
+CF10_WORKER_PROVIDER_PROOF_RUNTIME_ROOT ?=
+CF10_WORKER_PROVIDER_PROOF_SUITE ?= cf10-worker-pipeline
+CF10_WORKER_PROVIDER_PROOF_TIER ?= LOCAL_FOCUSED
 
 # Target: cf10-worker-invocation-bridge-check
 # Purpose: Validate the bounded CF-10 Worker validation MCP bridge and provider invocation integration.
@@ -1109,6 +1114,29 @@ cf10-worker-runtime-invocation-adapter-check: cf10-worker-invocation-bridge-chec
 cf10-worker-invocation-bridge-proof:
 	@test -n "$(CF10_WORKER_BRIDGE_EVIDENCE_DIR)" || { echo "ERROR: CF10_WORKER_BRIDGE_EVIDENCE_DIR=<outside-repo-dir> is required"; exit 2; }
 	$(PYTHON) scripts/coordination/control_plane/worker_runtime/worker_validation_mcp.py 		--proof 		--root . 		--suite "$(CF10_WORKER_BRIDGE_PROOF_SUITE)" 		--require-tier "$(CF10_WORKER_BRIDGE_PROOF_TIER)" 		--evidence-root "$(CF10_WORKER_BRIDGE_EVIDENCE_DIR)"
+
+
+# Target: cf10-worker-provider-session-proof-check
+# Purpose: Validate the project-native real provider-session proof capability.
+# Safety: READ-ONLY TEST - no real provider launch and no repository mutation.
+# Inputs: None.
+# Scope: RELATED - provider proof module, focused tests and Make operator surface.
+# Result: Production module compiles and focused provider-proof tests pass.
+.PHONY: cf10-worker-provider-session-proof-check
+cf10-worker-provider-session-proof-check:
+	$(PYTHON) -m py_compile scripts/coordination/control_plane/worker_runtime/provider_session_proof.py
+	$(PYTHON) -m pytest -q tests/coordination/control_plane/worker_runtime/test_cf10_worker_provider_session_proof_v0_1.py
+
+# Target: cf10-worker-provider-session-proof
+# Purpose: Run one real GitHub Copilot -> ForPrintValidation MCP provider-session proof.
+# Safety: READ-ONLY VALIDATION - no Worker attempt, canonical mutation, staging, commit, push, merge, release or promotion.
+# Inputs: CF10_WORKER_PROVIDER_PROOF_RUNTIME_ROOT (required); suite/tier optional and registry-bound.
+# Scope: RELATED - configured provider, session-only MCP transport and validation_suite@0.2.0.
+# Result: Immutable evidence outside the repository and non-zero exit on provider/MCP/validation failure.
+.PHONY: cf10-worker-provider-session-proof
+cf10-worker-provider-session-proof:
+	@test -n "$(CF10_WORKER_PROVIDER_PROOF_RUNTIME_ROOT)" || { echo "ERROR: CF10_WORKER_PROVIDER_PROOF_RUNTIME_ROOT=<outside-repo-dir> is required"; exit 2; }
+	$(PYTHON) scripts/coordination/control_plane/worker_runtime/provider_session_proof.py --canonical-repo . --runtime-root "$(CF10_WORKER_PROVIDER_PROOF_RUNTIME_ROOT)" --suite "$(CF10_WORKER_PROVIDER_PROOF_SUITE)" --require-tier "$(CF10_WORKER_PROVIDER_PROOF_TIER)"
 
 # =============================================================================
 # 08 Context / launch / approval / worker control surfaces
