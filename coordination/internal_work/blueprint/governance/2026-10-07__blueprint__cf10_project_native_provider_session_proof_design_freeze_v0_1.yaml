@@ -1,0 +1,99 @@
+schema_version: forprint_cf10_project_native_provider_session_proof_design_freeze_v0_1
+layer: DESIGN_FREEZE
+roadmap_position: PRE_A033_PROJECT_NATIVE_OPERATOR_HARDENING
+slice: CF10_PROJECT_NATIVE_PROVIDER_SESSION_PROOF
+title: Project-native GitHub Copilot provider-session MCP proof capability
+status: FROZEN_FOR_BOUNDED_IMPLEMENTATION
+source_branch: audit/blueprint-inventory-refresh-2026-07-29
+source_head: 02c42bf05be0c7002376a5642ae36e4f408838e0
+trigger:
+  source_completion: coordination/internal_work/blueprint/governance/2026-10-07__blueprint__cf10_a032_project_native_provider_exposure_repair_completion_v0_1.yaml
+  source_completion_commit: 02c42bf05be0c7002376a5642ae36e4f408838e0
+  reason: REAL_PROVIDER_SESSION_PROOF_NOT_PROJECT_NATIVE
+  a033_create_or_launch_now: false
+architecture_decision:
+  strategy: CANONICALIZE_PROVEN_PROVIDER_PROOF_MECHANICS
+  provider: github_copilot_cli
+  proof_is_worker_attempt: false
+  proof_grants_dispatch_authority: false
+  proof_grants_release_authority: false
+  reuse_invocation_adapter_provider_identity_constants: true
+  reuse_runtime_registry: true
+  reuse_session_only_worker_validation_mcp: true
+  reuse_validation_suite_capability: validation_suite@0.2.0
+  persistent_mcp_config: false
+  shell: false
+implementation_slice:
+  implementation_write_set:
+  - Makefile
+  - scripts/coordination/control_plane/worker_runtime/provider_session_proof.py
+  - tests/coordination/control_plane/worker_runtime/test_cf10_worker_provider_session_proof_v0_1.py
+  implementation_path_count: 3
+  tests_first_required: true
+  make_targets:
+  - cf10-worker-provider-session-proof-check
+  - cf10-worker-provider-session-proof
+  must_not_modify:
+  - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+  - scripts/coordination/control_plane/worker_runtime/worker_validation_mcp.py
+  - scripts/coordination/control_plane/worker_runtime/structured_command_executor.py
+  - scripts/coordination/control_plane/governed_worker_cycle.py
+  - coordination/registry/structured_command_capabilities_v0_1.yaml
+  - coordination/standards/automation/validation_suite_registry_v0_1.yaml
+  - coordination/internal_work/blueprint/worker_tasks/cf10_validation_check_pipeline_profile_and_optimization_v0_1.yaml
+  - coordination/global_policy/current_execution_focus.md
+  - coordination/standards/automation/index.yaml
+  - indexes/governance.yaml
+  - indexes/roadmaps.yaml
+  - AGENTS.md
+proof_contract:
+  runtime_root: required outside canonical repository
+  evidence_mode: immutable
+  provider_runtime_source: config/worker_runtime.yaml plus worker runtime registry
+  model_visible_tool_id_source: invocation_adapter.GITHUB_COPILOT_MCP_MODEL_TOOL_ID
+  permission_pattern_source: invocation_adapter.GITHUB_COPILOT_MCP_PERMISSION_PATTERN
+  mcp_python_interpreter: exact sys.executable without symlink resolution
+  mcp_import_preflight_required: true
+  provider_available_tool_universe:
+  - ForPrintValidation-run_validation_suite
+  provider_permission: ForPrintValidation(run_validation_suite)
+  allow_all_tools: false
+  no_ask_user: true
+  session_only_additional_mcp_config: true
+  exact_tool_call_count: 1
+  suite_default: cf10-worker-pipeline
+  tier_default: LOCAL_FOCUSED
+  profile_default: false
+acceptance:
+- Focused tests are RED before implementation and GREEN after implementation.
+- The proof uses the configured READY GitHub Copilot CLI provider through ARGV_NO_SHELL.
+- The exact venv interpreter is preserved and can import mcp before provider launch.
+- The provider-visible MCP id and permission selector remain separate identities.
+- The provider proof exposes only the single validation MCP tool and grants only its exact permission selector.
+- Exactly one structured execution result is produced for the proof.
+- The structured result proves validation_suite@0.2.0, return_code=0, timed_out=false and shell=false.
+- Hash-bound stdout evidence proves VALIDATION_SUITE_ID=cf10-worker-pipeline, LOCAL_FOCUSED tier and suite PASS.
+- The canonical repository snapshot is unchanged before and after the proof.
+- No persistent .mcp.json or .github/mcp.json is written.
+- No Worker attempt, attempt ledger record, dispatch decision, promotion, commit, push, merge or release is created
+  by the proof.
+- Makefile exposes a short operator command for check and real proof execution.
+- A033 remains uncreated and unlaunched.
+stop_conditions:
+- Implementation requires a path outside the exact three-file write set.
+- Implementation requires changing invocation_adapter provider semantics.
+- Implementation requires changing MCP capability semantics.
+- Implementation requires shell or persistent MCP configuration.
+- Implementation requires creating a Worker attempt or mutating lifecycle/roadmap state.
+authority:
+  design_freeze_is_execution_authority: false
+  work_front_required_for_execution: true
+  canonical_write_authority_widened: false
+  automatic_dispatch_authority: false
+  automatic_retry_authority: false
+  automatic_promotion_authority: false
+  publication_authority: false
+next_boundary_after_closeout:
+  state: DIRTY_PRESERVING_SEAL_HARDENING_REQUIRED
+  a033_allowed_after_this_slice_alone: false
+  reason: The second mandatory project-native gap must still be closed before Task70 retry a033.

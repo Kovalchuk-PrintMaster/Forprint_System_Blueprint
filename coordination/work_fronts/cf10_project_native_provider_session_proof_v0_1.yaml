@@ -1,0 +1,60 @@
+work_front_id: wf-cf10-project-native-provider-session-proof-v0-1
+objective: Canonicalize the proven real GitHub Copilot -> ForPrintValidation MCP provider-session proof as a tested
+  project-native capability and Make operator surface.
+scope:
+- Makefile
+- scripts/coordination/control_plane/worker_runtime/provider_session_proof.py
+- tests/coordination/control_plane/worker_runtime/test_cf10_worker_provider_session_proof_v0_1.py
+exclusions:
+- Do not modify invocation_adapter.py.
+- Do not modify worker_validation_mcp.py or structured_command_executor.py.
+- Do not modify Task70 implementation or validation-suite registry.
+- Do not create or launch a033.
+- Do not add shell, arbitrary argv or persistent MCP configuration.
+- Do not implement dirty-preserving seal hardening in this slice.
+provenance:
+  source_refs:
+  - completion_commit:02c42bf05be0c7002376a5642ae36e4f408838e0
+  - implementation_commit:b8a90d02163baa458fefca143f658e1011a3f9c5
+  - provider_proof_execution:structured-exec-3654df2301dd40c2b165
+  - provider_proof_evidence_digest:7cc23b619ce29d64fcc30d07ad6305d65cca80d096a6be34ba1ac806de6a90f3
+  - capability:validation_suite@0.2.0
+  chat_is_authority: false
+dependencies:
+- a032 provider exposure repair is closed and published at 02c42bf05be0c7002376a5642ae36e4f408838e0.
+- The repaired provider identity split is canonical and must be consumed, not reimplemented.
+- The existing validation_suite@0.2.0 MCP path is canonical and must be reused unchanged.
+- The previous real provider-session proof is diagnostic precedent only; the new implementation must live in the repository.
+outputs:
+- Project-native provider_session_proof.py.
+- Focused tests for proof construction, immutable evidence, exact interpreter preservation, real-provider mocking
+  boundary and repository-state preservation.
+- Make target cf10-worker-provider-session-proof-check.
+- Make target cf10-worker-provider-session-proof with required outside-repository runtime root.
+acceptance:
+- Focused tests are RED before implementation and GREEN after implementation.
+- The proof uses the configured READY GitHub Copilot CLI provider through ARGV_NO_SHELL.
+- The exact venv interpreter is preserved and can import mcp before provider launch.
+- The provider-visible MCP id and permission selector remain separate identities.
+- The provider proof exposes only the single validation MCP tool and grants only its exact permission selector.
+- Exactly one structured execution result is produced for the proof.
+- The structured result proves validation_suite@0.2.0, return_code=0, timed_out=false and shell=false.
+- Hash-bound stdout evidence proves VALIDATION_SUITE_ID=cf10-worker-pipeline, LOCAL_FOCUSED tier and suite PASS.
+- The canonical repository snapshot is unchanged before and after the proof.
+- No persistent .mcp.json or .github/mcp.json is written.
+- No Worker attempt, attempt ledger record, dispatch decision, promotion, commit, push, merge or release is created
+  by the proof.
+- Makefile exposes a short operator command for check and real proof execution.
+- A033 remains uncreated and unlaunched.
+stop_conditions:
+- Implementation requires a path outside the exact three-file write set.
+- Implementation requires changing invocation_adapter provider semantics.
+- Implementation requires changing MCP capability semantics.
+- Implementation requires shell or persistent MCP configuration.
+- Implementation requires creating a Worker attempt or mutating lifecycle/roadmap state.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false
