@@ -287,10 +287,10 @@ help:
 	@echo "  make diff-check"
 	@echo "  make diff-stat DIFF_PATHS='Makefile reports/example.yaml'"
 	@echo "  make diff-show DIFF_PATHS='Makefile reports/example.yaml'"
-	@echo "  make seal-stage-exact SEAL_PATHS='path1 path2'"
+	@echo "  make seal-stage-exact SEAL_PATHS='path1 path2' SEAL_PRESERVE_PATHS='dirty1 dirty2'"
 	@echo "  make seal-staged-review"
 	@echo "  make seal-commit SEAL_COMMIT_MESSAGE='message'"
-	@echo "  make seal-push"
+	@echo "  make seal-push SEAL_PRESERVE_PATHS='dirty1 dirty2'"
 	@echo ""
 	@echo "Cleanup:"
 	@echo "  make clean"
@@ -574,35 +574,20 @@ diff-show:
 	@git diff --no-ext-diff -- $(DIFF_PATHS)
 
 SEAL_PATHS ?=
+SEAL_PRESERVE_PATHS ?=
 SEAL_COMMIT_MESSAGE ?=
 SEAL_BRANCH ?= $(shell git branch --show-current)
 
 # Target: seal-stage-exact
-# Purpose: Stage exactly the paths explicitly supplied for a repository seal operation.
-# Safety: GIT INDEX MUTATION — stages only explicit SEAL_PATHS and fails closed when the observed dirty surface differs.
-# Inputs: SEAL_PATHS (required).
-# Scope: WORKTREE — current Blueprint repository.
-# Result: The documented bounded mutation/artifact operation completes or fails closed with a non-zero exit code.
+# Purpose: Stage exactly SEAL_PATHS while preserving explicitly declared inherited dirty paths.
+# Safety: GIT INDEX MUTATION — stages candidate paths only; preserved paths remain untouched and unstaged.
+# Inputs: SEAL_PATHS (required); SEAL_PRESERVE_PATHS (optional).
+# Scope: WORKTREE — exact candidate plus declared preserved dirty surface.
+# Result: Exact candidate is staged or operation fails closed.
 .PHONY: seal-stage-exact
 seal-stage-exact:
 	@test -n "$(SEAL_PATHS)" || { echo "ERROR: SEAL_PATHS is required"; exit 1; }
-	@set -eu; \
-	expected="$$(printf '%s\n' $(SEAL_PATHS) | LC_ALL=C sort -u)"; \
-	actual="$$( { git diff --name-only --no-renames; git diff --cached --name-only --no-renames; git ls-files --others --exclude-standard; } | LC_ALL=C sort -u)"; \
-	if [ "$$actual" != "$$expected" ]; then \
-		echo "ERROR: dirty surface differs from SEAL_PATHS"; \
-		echo "EXPECTED:"; printf '%s\n' "$$expected"; \
-		echo "ACTUAL:"; printf '%s\n' "$$actual"; \
-		exit 1; \
-	fi; \
-	git add -- $(SEAL_PATHS); \
-	staged="$$(git diff --cached --name-only --no-renames | LC_ALL=C sort -u)"; \
-	if [ "$$staged" != "$$expected" ]; then \
-		echo "ERROR: staged surface mismatch"; \
-		exit 1; \
-	fi; \
-	echo "STAGED_PATH_COUNT=$$(printf '%s\n' "$$staged" | wc -l)"; \
-	printf '%s\n' "$$staged"
+	@$(PYTHON) scripts/coordination/control_plane/worker_runtime/repository_seal.py stage-exact --candidate-paths "$(SEAL_PATHS)" --preserve-paths "$(SEAL_PRESERVE_PATHS)"
 
 # Target: seal-staged-review
 # Purpose: Review the exact staged seal candidate before commit.
@@ -630,27 +615,15 @@ seal-commit:
 	@git commit -m "$(SEAL_COMMIT_MESSAGE)"
 
 # Target: seal-push
-# Purpose: Push the current seal branch and verify local and remote HEAD agreement.
-# Safety: NETWORK/GIT MUTATION — explicit push of the current seal branch; verifies local/remote HEAD and performs no merge.
-# Inputs: SEAL_BRANCH (required).
-# Scope: WORKTREE — current Blueprint repository.
-# Result: The documented bounded mutation/artifact operation completes or fails closed with a non-zero exit code.
+# Purpose: Push the current seal branch while preserving explicitly declared inherited dirty paths.
+# Safety: NETWORK/GIT MUTATION — pushes only SEAL_BRANCH; no merge and no preserved-path mutation.
+# Inputs: SEAL_BRANCH; SEAL_PRESERVE_PATHS (optional).
+# Scope: WORKTREE/REMOTE — current branch plus declared preserved dirty surface.
+# Result: Local/remote HEAD equality is proven or operation fails closed.
 .PHONY: seal-push
 seal-push:
 	@test -n "$(SEAL_BRANCH)" || { echo "ERROR: SEAL_BRANCH is empty"; exit 1; }
-	@set -eu; \
-	current_branch="$$(git branch --show-current)"; \
-	test "$$current_branch" = "$(SEAL_BRANCH)" || { echo "ERROR: current branch mismatch: $$current_branch"; exit 1; }; \
-	local_head="$$(git rev-parse HEAD)"; \
-	git push origin "$(SEAL_BRANCH)"; \
-	remote_head="$$(git ls-remote --heads origin "$(SEAL_BRANCH)" | awk 'NR==1 {print $$1}')"; \
-	echo "LOCAL_HEAD:"; echo "$$local_head"; \
-	echo "REMOTE_HEAD:"; echo "$$remote_head"; \
-	test -n "$$remote_head" || { echo "ERROR: remote branch not found"; exit 1; }; \
-	test "$$local_head" = "$$remote_head" || { echo "ERROR: LOCAL_HEAD != REMOTE_HEAD"; exit 1; }; \
-	worktree="$$(git status --short)"; \
-	echo "WORKTREE:"; printf '%s\n' "$$worktree"; \
-	test -z "$$worktree" || { echo "ERROR: worktree not clean after push"; exit 1; }
+	@$(PYTHON) scripts/coordination/control_plane/worker_runtime/repository_seal.py push --branch "$(SEAL_BRANCH)" --preserve-paths "$(SEAL_PRESERVE_PATHS)"
 
 
 # =============================================================================
