@@ -1,0 +1,113 @@
+schema_version: forprint_cf10_worker_result_return_boundary_hardening_completion_v0_1
+layer: GOVERNANCE_COMPLETION
+status: PASS
+completed_at: '2026-10-07'
+slice:
+  id: CF10_WORKER_RESULT_RETURN_BOUNDARY
+  work_front_id: wf-cf10-worker-result-return-boundary-v0-1
+  objective: Require one valid attempt-bound Handoff v2 Worker result before candidate validation; fail closed when
+    the Worker process finishes without a valid result envelope.
+design_authority:
+  freeze:
+    path: coordination/internal_work/blueprint/governance/2026-10-07__blueprint__cf10_worker_result_return_boundary_design_freeze_v0_1.yaml
+    sha256: 22ebdcf4a431fa8923460650589e9d5543dd1aac248ea092d20d0ccc4b95d27f
+    publication_commit: 836166c1b878190e55ca758ab7c4f3d23b2f26cb
+  regression_scope_amendment:
+    path: coordination/internal_work/blueprint/governance/2026-10-07__blueprint__cf10_worker_result_return_boundary_design_freeze_amendment_v0_1.yaml
+    sha256: 41be1b094ffcee8ff50ed71831a75482500dfc478370202c2514919b9fabf2f8
+    publication_commit: cf695495c3c20e7ce7b497038ae3824ce0a56279
+implementation:
+  publication_commit: 440a12a7a8e830d003fff198383ddef5d24aec4e
+  published: true
+  path_count: 7
+  paths:
+  - Makefile
+  - scripts/coordination/control_plane/governed_worker_cycle.py
+  - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+  - scripts/coordination/control_plane/worker_runtime/worker_result_return.py
+  - tests/coordination/control_plane/test_cf10_governed_worker_cycle_live_launch_v0_1.py
+  - tests/coordination/control_plane/test_cf10_governed_worker_cycle_result_return_v0_1.py
+  - tests/coordination/control_plane/worker_runtime/test_cf10_worker_result_return_v0_1.py
+  capabilities:
+    provider_stdout_exact_handoff_frame_required: true
+    frame_begin: FORPRINT_HANDOFF_V2_RESULT_BEGIN
+    frame_end: FORPRINT_HANDOFF_V2_RESULT_END
+    exactly_one_frame_required: true
+    non_whitespace_outside_frame_forbidden: true
+    existing_handoff_v2_result_contract_reused: true
+    existing_handoff_v2_result_validator_reused: true
+    attempt_bound_result_materialization: attempt/result/worker_result.yaml
+    result_materialization_create_only: true
+    missing_field_synthesis_forbidden: true
+    prose_to_result_synthesis_forbidden: true
+    rc0_without_valid_result_candidate_ready: false
+    nonzero_or_timeout_candidate_ready: false
+    valid_result_required_for_candidate_validation: true
+    automatic_accept: false
+    automatic_promotion: false
+    automatic_commit: false
+    automatic_push: false
+    automatic_merge: false
+    automatic_release: false
+verification:
+  focused_result_return_suite:
+    result: PASS
+    passed: 26
+    failed: 0
+  live_launch_regression:
+    result: PASS
+    passed: 16
+    failed: 0
+  invocation_adapter_regression:
+    result: PASS
+    passed: 15
+    failed: 0
+  amended_seven_path_diff_check: PASS
+  a033_terminal_record_dry_validation: PASS
+  a033_same_attempt_append_validation: PASS
+  a033_stable_field_drift: 0
+a033_reconciliation:
+  attempt_id: cf10-u180j-a033
+  task_prompt_id: cf10-validation-check-pipeline-profile-and-optimization-v0-1
+  started_record: coordination/continuity/execution_attempts/cf10-u180j-a033__09f17cb10a8d.yaml
+  terminal_record: coordination/continuity/execution_attempts/cf10-u180j-a033__ab1497b1add5.yaml
+  terminal_publication_commit: 3a6a663c11af834a19ea287a5e9c3897dd8bee29
+  attempt_stage: BLOCKED
+  result_state: BLOCKED
+  validator_outcome: FAIL
+  failure_class: RESULT_ENVELOPE_MISSING_AFTER_SUCCESSFUL_PROCESS
+  worker_result_synthesized: false
+  result_directory_present: false
+  candidate_validation_allowed: false
+  candidate_promotion_allowed: false
+  relaunch_same_attempt_allowed: false
+  retry_requires_new_attempt_id: true
+repository_state_after_a033_terminal_publication:
+  head: 3a6a663c11af834a19ea287a5e9c3897dd8bee29
+  head_equals_upstream: true
+  protected_dirty_path_count: 5
+  protected_dirty_paths:
+  - AGENTS.md
+  - coordination/global_policy/current_execution_focus.md
+  - coordination/standards/automation/index.yaml
+  - indexes/governance.yaml
+  - indexes/roadmaps.yaml
+  unexpected_dirty_paths: []
+closure:
+  mandatory_hardening_remaining: false
+  result_return_boundary_hardening_complete: true
+  a033_terminalized: true
+  task70_candidate_preserved_in_a033_runtime_workspace: true
+  a033_replay_forbidden: true
+  next_attempt_id: cf10-u180j-a034
+  next_boundary: A034_PREPARATION_ALLOWED
+  a034_prepared: false
+  a034_launched: false
+  automatic_transition: false
+authority:
+  completion_artifact_grants_execution_authority: false
+  completion_artifact_grants_dispatch_authority: false
+  completion_artifact_grants_acceptance_authority: false
+  completion_artifact_grants_promotion_authority: false
+  completion_artifact_grants_publication_authority: false
+  work_front_remains_execution_authority: true
