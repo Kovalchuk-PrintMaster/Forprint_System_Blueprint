@@ -6,7 +6,7 @@ Generated: 2026-08-31
 remains in structured Blueprint governance, contracts, roadmaps, Human Intent
 ledgers and evidence.
 
-**Human Intent coverage:** 234 / 234 indexed intent IDs.
+**Human Intent coverage:** 577 / 577 indexed intent IDs.
 
 **Statuses:** AGREED = explicitly agreed/reconfirmed; RECOVERED = recovered from
 project/portfolio evidence; PROPOSED/SYNTHETIC = working synthesis; GAP = exact
@@ -29,7 +29,7 @@ represented as **status sync needed** rather than an invented percentage/step.
 
 # Module — forprint_system_blueprint
 
-Intent count: 18
+Intent count: 215
 
 ## AGREED · HI-FP-SYSTEM-BLUEPRINT-001
 
@@ -144,9 +144,1271 @@ Cross-module semantic invariants should become a machine-readable governance sur
 - Context: Examples include phone-not-identity, QR-not-permission and filename-not-source-of-truth.
 - Roadmap: `BP-SEMANTIC-01`
 
+## AGREED · HI-FP-SYSTEM-BLUEPRINT-019
+
+Important operator wording that explains why a roadmap step exists must be preserved as curated verbatim quotes linked to Human Intent and roadmap context.
+
+- Context: Preserve selected exact wording, not a full chat archive.
+- Roadmap: `BP-PORTFOLIO-05`
+
+## AGREED · HI-FP-SYSTEM-BLUEPRINT-020
+
+Every module roadmap must show a visible route to a mature Final Target State split into human-confirmed and synthetic/proposed capabilities.
+
+- Context: If a useful mature purpose cannot be formulated even synthetically, reassess whether the module should exist.
+- Roadmap: `BP-PORTFOLIO-06`
+
+## AGREED · HI-FP-SYSTEM-BLUEPRINT-021
+
+Ordinary module implementation remains held until full-horizon roadmaps, module self-inventory and a dependency/readiness/priority dashboard are sufficiently complete.
+
+- Context: Planning, inventory and Blueprint tooling remain allowed.
+- Roadmap: `BP-PORTFOLIO-07`
+
+## AGREED · HI-FP-SYSTEM-BLUEPRINT-022
+
+Meaningful new capabilities must be checked against project capability/index surfaces before implementation to reduce duplicate code and semantic drift.
+
+- Context: Self-inventory is an architecture control, not only documentation.
+- Roadmap: `BP-SEMANTIC-02`
+
+## AGREED · HI-FP-SYSTEM-BLUEPRINT-023
+
+ForPrint uses one central PostgreSQL operational platform with logical domain schemas, stable shared IDs, controlled writes and reporting projections.
+
+- Context: Physical centralization does not mean shared semantic ownership.
+- Roadmap: `BP-DATA-01`
+
+## AGREED · HI-FP-SYSTEM-BLUEPRINT-024
+
+ForPrint Control Center uses left-side module navigation and top tabs within the selected module workspace.
+
+- Context: Cloud Backup Manager is a reference shell; shared Library UI rules remain authoritative.
+- Roadmap: `BP-UI-01`
+
+## AGREED · HI-FP-SYSTEM-BLUEPRINT-025
+
+Deterministic-to-AI fallbacks should be logged and periodically reviewed for conversion into safe deterministic automation.
+
+- Context: Do not repeatedly pay for the same solvable automation gap.
+- Roadmap: `BP-AUTOMATION-01`
+
+## AGREED · HI-FP-SYSTEM-BLUEPRINT-026
+
+Project cleanliness is a permanent Blueprint architecture objective: recurring current document and machine-surface classes should converge on registered canonical schemas, generator/source relationships and validators instead of accumulating format variants.
+
+- Context: Normalization must preserve semantics and migrate legacy debt in controlled class-by-class batches; new unregistered structural debt should not be allowed to grow.
+- Roadmap: `BP-CLEAN-01`
+
+## AGREED · HI-FP-SYSTEM-BLUEPRINT-027
+
+Evening/morning architecture handoff information must first be absorbed into the Blueprint portfolio, Human Intent and module roadmaps; module assistants are not contacted or started while this internal analysis is still being completed.
+
+- Context: Deepen the personal Blueprint project first; distribution is a later phase.
+- Roadmap: `BP-PORTFOLIO-08`
+
+## AGREED · HI-FP-SYSTEM-BLUEPRINT-028
+
+Assistant task distribution becomes eligible only after full portfolio analysis, roadmap/dependency review and explicit operator approval; planning packages do not themselves authorize execution.
+
+- Context: No prompt activation, module implementation, ACCEPT/RETURN/HOLD, H10 widening, commit or push is implied.
+- Roadmap: `BP-PORTFOLIO-09`
+
+## AGREED · HI-FP-SYSTEM-BLUEPRINT-029
+
+Project cleanliness must be a permanent project-wide policy: Blueprint keeps the single canonical cleanliness rules, every module is responsible for cleanliness of its own repository, and modules must not create competing global standards or uncontrolled document/surface variants.
+
+- Context: Operator explicitly requires the cleanup procedure learned in Blueprint to become a general rule for all modules.
+- Roadmap: `BP-PORTFOLIO-08`
+
+## AGREED · HI-FP-SYSTEM-BLUEPRINT-030
+
+Automated cleanliness capability must be discoverable and status-explicit: existing Blueprint checks are recorded as implemented; missing module-local and cross-repository controls are recorded in portfolio roadmaps before future execution.
+
+- Context: Do not describe planned automation as already implemented; keep implemented evidence and future work separate.
+- Roadmap: `BP-PORTFOLIO-09`
+
+## AGREED · HI-FP-SYSTEM-BLUEPRINT-031
+
+Project Inspector is the cross-repository cleanliness/conformance auditor, while each module retains local semantic ownership and local repository cleanliness responsibility.
+
+- Context: Inspector detects/report drift and duplicates but must not silently rewrite domain truth.
+- Roadmap: `BP-PORTFOLIO-09`
+
+## AGREED · HI-FP-SYSTEM-BLUEPRINT-032
+
+Before future module assistants are started, Blueprint must define and review an AI Execution Safety and Runtime Governance gate covering ingress validation, tool-call validation, egress/data-release control, bounded retries/loops, cost budgets, execution logging and manual escalation.
+
+- Context: A raw Telegram message or arbitrary AI request must not automatically become trusted executable work.
+- Roadmap: `BP-AI-SAFETY-01`
+
+## AGREED · HI-FP-SYSTEM-BLUEPRINT-033
+
+Retry, clarification, inter-module, database, tool, AI/token/cost and time limits must be configurable by operation/risk class rather than one universal fixed retry count.
+
+- Context: Repeated identical invalid calls must terminate or escalate instead of entering an unbounded loop.
+- Roadmap: `BP-AI-SAFETY-02`
+
+## AGREED · HI-FP-SYSTEM-BLUEPRINT-034
+
+Before the next detailed portfolio is approved, older and under-documented modules must be reconciled against their repository inventories so historical capabilities, stale instructions and misowned functionality are not silently carried into the mature architecture.
+
+- Context: Calculator and Telegram are especially important because they existed before most current domain modules.
+- Roadmap: `BP-PORTFOLIO-10`
+
+## AGREED · HI-FP-U92-20260903-009
+
+The mature ecosystem should reduce routine human steering to a small number of control surfaces while modules operate under bounded, reversible managed autonomy.
+
+## AGREED · HI-FP-U92-20260903-013
+
+AI-generated commands are not authorization: side effects must pass a deterministic Execution Policy Gate, IAM/resource policy and capability-shaped tool boundary.
+
+## AGREED · HI-FP-U92-20260903-014
+
+Development, Verification, Release and Runtime are separate execution profiles; runtime deployed code must not self-modify live source or install arbitrary dependencies.
+
+## AGREED · HI-FP-U92-20260903-015
+
+Canonical module maturity should follow M0 portfolio justification → M1 governance/roadmap → M2 development baseline → M3 capability implementation → M4 verification readiness → M5 adversarial/resilience verification → M6 release candidate → M7 staging/shadow/canary → M8 production → M9 managed self-evolution.
+
+## AGREED · HI-FP-U129B-20260905-001
+
+Logistics Service is the reference pilot for reusable module self-knowledge, fresh-worker, coordination and reporting behavior; proven patterns should later be propagated to other canonical modules.
+
+- Context: Modules inherit the behavioral contract, not necessarily Logistics domain internals or byte-for-byte code.
+- Roadmap: `BP-H10-REFERENCE-ROLLOUT`
+
+## AGREED · HI-FP-U129B-20260905-002
+
+The first substantial Logistics execution pool is fully manually gated; every prompt result is reviewed by the operator before the next prompt is released.
+
+- Context: The first pool calibrates quality, continuity and reporting before any automation widening.
+- Roadmap: `BP-H10-POOL-CONTROL`
+
+## AGREED · HI-FP-U129B-20260905-003
+
+Later pools may use full-manual, checkpointed or automated child progression depending on prior-pool review, but every pool always ends at a human review gate.
+
+- Context: Automation level is selected by the operator and never widens itself.
+- Roadmap: `BP-H10-POOL-CONTROL`
+
+## AGREED · HI-FP-U129B-20260905-004
+
+Machine closure of a child prompt inside an approved pool is conformance/progression evidence and must not be silently redefined as Blueprint ACCEPT.
+
+- Context: Preserve explicit human ACCEPT/RETURN/HOLD semantics while enabling future intra-pool automation.
+- Roadmap: `BP-H10-POOL-CONTROL`
+
+## AGREED · HI-FP-U129B-20260905-005
+
+All modules must report prompt completion through one normalized semantic envelope so Blueprint and Inspector can validate them with shared tooling rather than interpreting different prose formats.
+
+- Context: Module internals may differ; completion evidence shape and semantics should be standardized.
+- Roadmap: `BP-H10-UNIFIED-REPORTING`
+
+## AGREED · HI-FP-U129B-20260905-006
+
+The target execution model starts a fresh AI worker for each prompt and reconstructs continuity from repository-owned AGENTS, inventory/index, current authority, current prompt/contract/oracle and previous completion evidence.
+
+- Context: Conversation memory must not be required for safe continuation.
+- Roadmap: `BP-H10-FRESH-WORKER`
+
+## AGREED · HI-FP-U129B-20260905-007
+
+After the first Logistics pool, perform an independent inventory/audit and compare worker claims against repository reality before selecting the next automation level or propagating the reference profile.
+
+- Context: Self-reporting alone is insufficient to decide whether automation is mature.
+- Roadmap: `BP-H10-REFERENCE-ROLLOUT`
+
+## AGREED · HI-FP-U129B-20260905-008
+
+Temporary assistant/operator artifacts must have semantic unique non-overwriting names; cleanup permission is optional and the operator may retain archives for later analysis.
+
+- Context: Artifact identity should survive relocation outside its original tmp session folder.
+- Roadmap: `BP-ASSISTANT-HANDOFF`
+
+## AGREED · HI-FP-U129B-20260905-009
+
+In Ukrainian the AI assistant uses feminine grammatical self-reference and addresses the human operator with masculine grammatical forms.
+
+- Context: Make the convention explicit in AGENTS-linked documentation so it is not repeatedly clarified.
+- Roadmap: `BP-ASSISTANT-INTERACTION`
+
+## AGREED · HI-FP-U131-20260906-001
+
+Module inventory is intended as long-lived implementation memory: it must explain purpose, provenance, lifecycle, lineage, interfaces, dependencies, evidence, duplicates, roadmap role and retirement impact rather than acting as a file list.
+
+- Context: The current Inventory Program is the foundation and should be extended rather than replaced.
+- Roadmap: `BP-H10-INVENTORY-VNEXT`
+
+## AGREED · HI-FP-U131-20260906-002
+
+Blueprint Control Plane evolution runs in parallel with the Logistics pilot and must reuse existing transparency, repository-knowledge freshness, safe-mutation and context-bundle primitives instead of creating competing frameworks.
+
+- Context: The Logistics pilot must not be blocked by broad control-plane modernization unless a concrete safety dependency exists.
+- Roadmap: `BP-H10-CONTROL-PLANE`
+
+## AGREED · HI-FP-U131-20260906-003
+
+Critical current-state projections need explicit freshness and dependency contracts so a source change can deterministically identify which AGENTS, inventory, lineage, index, roadmap or context surfaces became stale.
+
+- Context: Fresh workers should start from a coherent snapshot with freshness proof, not from documents merely assumed current.
+- Roadmap: `BP-H10-FRESHNESS`
+
+## AGREED · HI-FP-U131-20260906-004
+
+Significant implementation surfaces should eventually carry a short language-independent machine-readable metadata passport that identifies semantic role and points to durable inventory/lineage without embedding a full historical log in source code.
+
+- Context: Trivial helpers and generated/support surfaces should not create global metadata bureaucracy.
+- Roadmap: `BP-H10-IMPLEMENTATION-METADATA`
+
+## AGREED · HI-FP-U131-20260906-005
+
+ForPrint should converge gradually on stable shared semantic IDs, aliases, contracts, events and statuses without a mass rename; old implementations may be mapped or migrated on touch while shared semantics become increasingly standardized.
+
+- Context: Semantic identity, implementation name and contract version are separate concepts.
+- Roadmap: `BP-H10-SEMANTIC-CONVERGENCE`
+
+## AGREED · HI-FP-U131-20260906-006
+
+Before creating a significant potentially shared implementation, workers should query the existing Library semantic reference; missing or insufficient semantics should use registration/enrichment proposals and explicit provisional bindings without blocking ordinary local work.
+
+- Context: Cross-module breaking or high-risk interfaces may still require approval before integration.
+- Roadmap: `BP-H10-SEMANTIC-CONVERGENCE`
+
+## AGREED · HI-FP-U131-20260906-007
+
+Project Inspector should use Library semantics, module inventory, implementation metadata and dependency relationships to filter candidates before deep source analysis and report whether matches are canonical, alias-based, provisional or inferred.
+
+- Context: The objective is to reduce AI guessing and focus human attention on ambiguous inferred cases.
+- Roadmap: `BP-H10-INSPECTOR-CONFIDENCE`
+
+## AGREED · HI-FP-U131-20260906-008
+
+Operator reconciliation post_cf06_evening_handoff_reconciliation_v0_1: after CF-07/CF-08/CF-09, run one bounded internal Blueprint manual/shadow worker to validate the governed worker stack; after internal stability, Logistics remains the first external/module pilot; bootstrap must front-load Z-package intake, contradiction reconciliation and human-readable roadmap reporting; broad autonomy, release, push, merge and cross-repository writes remain blocked until later gates.
+
+- Context: The objective is to reduce AI guessing and focus human attention on ambiguous inferred cases.
+- Roadmap: `BP-H10-INSPECTOR-CONFIDENCE`
+
+## RECOVERED · HI-FP-ARCH-20260920-001
+
+Workers may reason beyond their execution scope, but effective mutation authority must be machine-enforced and bounded by project policy, module policy, execution profile and the current work lease.
+
+- Context: Recovered from the 2026-09-20 Blueprint architecture handoff; runtime guardrails must not depend on prompt memory.
+
+## RECOVERED · HI-FP-ARCH-20260920-002
+
+Before introducing a significant architectural capability, Blueprint must audit existing and adjacent mechanisms and record REUSE, EXTEND, ADAPT, REPLACE or NEW; NEW requires explicit search evidence and rationale.
+
+- Context: Recovered from the 2026-09-20 Blueprint architecture handoff; prevents parallel control planes and duplicate frameworks.
+
+## RECOVERED · HI-FP-ARCH-20260920-003
+
+ForPrint should maintain distinct Portfolio/Planning, Implementation/Traceability and Execution/Runtime graph semantics so desired architecture, implementation evidence and actual execution facts are not collapsed into one ambiguous source.
+
+- Context: Recovered from the 2026-09-20 Blueprint architecture handoff.
+
+## RECOVERED · HI-FP-ARCH-20260920-004
+
+Publication is a separate authority boundary from execution completion: WORK_COMPLETED is not MERGED, and canonical Git promotion belongs to a governed publication path rather than Dispatcher or worker self-approval.
+
+- Context: Recovered from the 2026-09-20 Blueprint architecture handoff.
+
+## RECOVERED · HI-FP-ARCH-20260920-005
+
+Reusable capabilities should have lifecycle, lineage, version, release-manifest and consumer-review semantics; publication informs consumers but must not force every consumer to upgrade immediately.
+
+- Context: Recovered from the 2026-09-20 Blueprint architecture handoff.
+
+## AGREED · HI-FP-ARCH-20260920-006
+
+After portfolio knowledge is sufficiently saturated, Blueprint should maintain a dynamic planning/convergence capability that automatically recomputes dependencies, dependency matrices, affected chains, readiness/frontier and other derived planning projections when canonical roadmap knowledge changes.
+
+- Context: Recovered from 2026-09-20 NT-07 and explicitly reconfirmed by the operator on 2026-09-21.
+
+## AGREED · HI-FP-ARCH-20260920-007
+
+Automatic roadmap convergence means automatic recomputation of derived planning knowledge, not automatic strategic reprioritization, work activation, ACCEPT, release, push or merge without separate authority.
+
+- Context: Explicit operator intent for the future portfolio planning engine; preserves planning/execution authority separation.
+
+## AGREED · HI-FP-ARCH-20260920-008
+
+The portfolio planning system should expose machine-readable reports and human dashboards for dependencies, blockers, readiness, plan revisions, freshness, progress and portfolio effects, while keeping dashboards as projections rather than sources of truth.
+
+- Context: Operator requires automatic movement to be observable and reportable; metrics must preserve provenance and uncertainty.
+
+## AGREED · HI-FP-ARCH-20260920-009
+
+Before implementing the portfolio convergence engine, the implementing assistant must re-audit the current Blueprint structure, reconcile existing mechanisms and enrich/refine the task so the solution extends current architecture instead of freezing assumptions from an older handoff.
+
+- Context: Explicit operator requirement on 2026-09-21.
+
+## RECOVERED · HI-FP-ARCH-20260920-010
+
+Indexes, relationship graphs and human-readable architecture/dashboard views should remain complementary projections over canonical sources, with explicit invalidation and rebuild rules rather than competing sources of truth.
+
+- Context: Recovered from the 2026-09-20 Blueprint architecture handoff.
+
+## RECOVERED · HI-FP-ARCH-20260920-011
+
+Planning desired state, actual execution history, execution lease control and desired-vs-actual reconciliation must remain separate responsibilities: Planner, Continuity/Event Store, Dispatcher and Reconciler must not silently take each other's authority.
+
+- Context: Recovered from NT-07 Portfolio Planning/Convergence architecture.
+
+## RECOVERED · HI-FP-ARCH-20260920-012
+
+CPM, CCPM, PERT, Monte Carlo, sensitivity analysis, EVM, Lean/Last Planner, system dynamics and similar external methods are strategic reference mechanisms only until data maturity and deliberate Blueprint promotion justify implementation.
+
+- Context: Recovered from the far-horizon catalog; do not convert the whole catalog into backlog.
+
+## RECOVERED · HI-FP-ARCH-20260919-001
+
+A durable long-running business Process Manager should not be created as a standalone module before auditing existing hosts; the first implementation should be hosted/incubated with its own contracts, state model, tests, adapters and explicit extraction readiness.
+
+- Context: Recovered from the 2026-09-19 architecture handoff; later portfolio planning selected Operations Control Registry as the working host.
+
+## RECOVERED · HI-FP-ARCH-20260919-002
+
+AI in customer/order interpretation is a fallback/helper after deterministic rules, history, classifiers, customer context and clarification; unresolved ambiguity, lack of progress or contradictory evidence should drive escalation to a human.
+
+- Context: Recovered from the 2026-09-19 architecture handoff.
+
+## RECOVERED · HI-FP-ARCH-20260917-001
+
+ForPrint planning must preserve four distinct mechanisms: Roadmap for committed executable work, Strategic Vector for current directional focus, Architecture/Improvement Horizon for non-executable candidates, and Review Obligations for subjects that must be revisited when triggers become due.
+
+- Context: Recovered from the 2026-09-17 evening handoff; these surfaces must not collapse into one planning authority.
+
+## RECOVERED · HI-FP-ARCH-20260917-002
+
+Strategic Vector is a persistent coordination mechanism composed of finite versioned strategic epochs; each epoch has explicit completion or supersession criteria and does not override the executable roadmap.
+
+- Context: Recovered from the 2026-09-17 Strategic Vector lifecycle agreement.
+
+## RECOVERED · HI-FP-ARCH-20260917-003
+
+Architecture/Improvement Horizon must permanently preserve promising ideas without granting roadmap or execution authority and must support WATCH, ASSESS, TRIAL, READY_FOR_DECISION, ADOPTED, REJECTED and SUPERSEDED states.
+
+- Context: Recovered from the 2026-09-17 handoff and later materialized in current global policy.
+
+## RECOVERED · HI-FP-ARCH-20260917-004
+
+The Horizon requires mandatory reassessment at the first sufficiently mature coordinated multi-module operating point and may receive lighter reassessment at major wave boundaries.
+
+- Context: Recovered from the 2026-09-17 handoff; current Horizon global policy already carries this direction.
+
+## RECOVERED · HI-FP-ARCH-20260917-005
+
+Review Obligations must be machine-readable, trigger-driven and evidence-based: a subject remains due until explicit completion criteria and a durable review disposition are satisfied; a reminder alone is insufficient.
+
+- Context: Recovered from the 2026-09-17 Review Obligations design seed and reconciled with planned CF-12.
+- Roadmap: `CF-12`
+
+## RECOVERED · HI-FP-ARCH-20260917-006
+
+Review Obligation triggers should support time, milestone/wave, event, metric/health, dependency-change and strategic conditions, while dashboard/CRM views remain projections and Dispatcher must not self-authorize resulting governance decisions.
+
+- Context: Recovered from the 2026-09-17 design seed and current CF-12 direction.
+- Roadmap: `CF-12`
+
+## RECOVERED · HI-FP-ARCH-20260917-007
+
+Fresh global-assistant bootstrap packages must be generated from live state rather than stale cached snapshots and expose roadmap cursor, lifecycle state, resume coordinates, strategic direction, human-readable current stage and stale-context failure behavior.
+
+- Context: Recovered from the 2026-09-17 next-session agreements.
+
+## RECOVERED · HI-FP-ARCH-20260917-008
+
+Operator-facing status, bootstrap and dashboards must pair opaque machine IDs with human-readable stage or task meaning, short purpose, current state and next meaningful action while retaining IDs/sequences for correlation.
+
+- Context: Recovered from the 2026-09-17 bootstrap reporting rule.
+
+## RECOVERED · HI-FP-ARCH-20260915-001
+
+The path to the first internal Blueprint worker should remain the minimum CF-08 → CF-09 → CF-10 sequence; later convenience and self-hardening work must not be inserted ahead of it unless a true dependency blocks launch.
+
+- Context: Recovered from the 2026-09-15 transition-to-autonomous-workers package and materialized in the current Strategic Vector/Control Foundation.
+- Roadmap: `CF-08/CF-09/CF-10`
+
+## RECOVERED · HI-FP-ARCH-20260915-002
+
+After the first internal Blueprint worker becomes usable, bounded routine Blueprint self-hardening should increasingly move to that worker while the global/chat assistant shifts toward module audits, current-state evidence, target states, roadmaps, provenance, dependencies and portfolio planning.
+
+- Context: Recovered from the 2026-09-15 strategic transition package; this is the origin of the current parallel work split.
+
+## RECOVERED · HI-FP-ARCH-20260915-003
+
+Broad autonomous module rollout must wait for a portfolio model covering module priority, dependency ordering, readiness, balancing/catch-up waves, forward-development waves and an explicitly authorized first coordinated worker wave.
+
+- Context: Recovered from the 2026-09-15 transition package and materialized primarily in CF-17/CF-19.
+- Roadmap: `CF-17/CF-19`
+
+## RECOVERED · HI-FP-ARCH-20260915-004
+
+Early worker retries should be observation-first: looser but bounded, with hard runaway ceilings and detailed telemetry for failure fingerprints, repair actions, retries, restarts and resume coordinates; tighter production thresholds should be derived from measured evidence.
+
+- Context: Recovered from worker_retry_telemetry_ramp_v0_1 and materialized in CF-09/CF-10/CF-15.
+- Roadmap: `CF-09/CF-10/CF-15`
+
+## RECOVERED · HI-FP-ARCH-20260915-005
+
+Established project functionality should progressively move behind registered capabilities/tools with describe/help, validation, authority gating, governed mutation and affected validation; protected direct writes should eventually fail with actionable guidance to the required capability.
+
+- Context: Recovered from the 2026-09-15 Golden Path direction and materialized in CF-13/CF-18/CF-19.
+- Roadmap: `CF-13/CF-18/CF-19`
+
+## RECOVERED · HI-FP-ARCH-20260915-006
+
+Internal worker self-hardening should begin with simple, observable and reversible tasks and increase complexity only after evidence; the first worker does not own global strategy, roadmap authority, broad rollout, release/push/merge or unrestricted cross-repository writes.
+
+- Context: Recovered from internal_worker_self_hardening_backlog_v0_1.
+- Roadmap: `CF-10`
+
+## RECOVERED · HI-FP-EVE-20260915-001
+
+Evening, travel and weekend architecture discussions are first-class project work but their handoff package is non-executable: a later intake must audit current canonical state, classify each item, surface conflicts, map it to existing roadmap/policy and execute only currently due work.
+
+- Context: Recovered from the separate 2026-09-15 evening handoff package.
+
+## RECOVERED · HI-FP-EVE-20260915-002
+
+Critical startup rules for a fresh coordinating assistant must be explicit and immediately visible rather than buried, including current authority, roadmap/workfront/lifecycle, handoff/intake mode, conflict handling, unresolved questions, provenance and human-readable reporting.
+
+- Context: Recovered from bootstrap_strengthening_requirements.md.
+
+## RECOVERED · HI-FP-EVE-20260915-003
+
+Operator-facing roadmap/status reporting should explain finished work, current stage, why it matters and the next meaningful steps in plain language; machine IDs are secondary traceability metadata rather than the primary explanation.
+
+- Context: Recovered from human_readable_operator_reporting.md.
+
+## RECOVERED · HI-FP-EVE-20260915-004
+
+Temporary tmp artifacts are disposable; required execution continuation must live in durable attempt/checkpoint/resume state with failure reason, validation state, retry lineage and final evidence.
+
+- Context: Recovered from runtime_execution_and_verification_requirements.md and later materialized in CF-09/runtime contracts.
+- Roadmap: `CF-09`
+
+## RECOVERED · HI-FP-EVE-20260915-005
+
+Verification should be tiered so small changes can use local/related/module checks while project/full and nightly/deep checks run when warranted; heavy full validation must not be the default after every bounded change.
+
+- Context: Recovered from runtime_execution_and_verification_requirements.md and materialized directionally in CF-14.
+- Roadmap: `CF-14`
+
+## RECOVERED · HI-FP-EVE-20260915-006
+
+Before autonomous workers are trusted in older modules, each module needs a repository-grounded deep audit, stale/conflicting documentation and duplicate/obsolete implementation review, and a human-built knowledge/index baseline.
+
+- Context: Recovered from the 2026-09-15 evening roadmap intake and module rollout strategy.
+
+## RECOVERED · HI-FP-EVE-20260915-007
+
+Dispatcher should eventually have a small dedicated local Telegram operator-control adapter for status, diagnostics, alerts and bounded remote actions; it is separate from the full customer-facing Telegram module.
+
+- Context: Recovered from dispatcher_local_telegram_bot_requirements.md and currently bound to CF-10/CF-15/CF-18 rather than a new roadmap step.
+- Roadmap: `CF-10/CF-15/CF-18`
+
+## RECOVERED · HI-FP-EVE-20260915-008
+
+Privileged remote Dispatcher actions must use explicit audited elevation or break-glass semantics instead of permanent unrestricted authority, and Dispatcher health should be independently supervised with bounded restart/escalation.
+
+- Context: Recovered from dispatcher_local_telegram_bot_requirements.md.
+- Roadmap: `CF-10/CF-15/CF-18`
+
+## RECOVERED · HI-FP-ARCH-20260912-001
+
+Important recurring or authority-sensitive work should execute through versioned Governed Procedure Graphs with conditional steps, hard/observed gates, required contracts, evidence and a Run Manifest rather than relying on prompt memory.
+
+- Context: Recovered from the 2026-09-12 architecture planning session and now represented in CF-07.
+- Roadmap: `CF-07`
+
+## RECOVERED · HI-FP-ARCH-20260912-002
+
+An evening or strategic human intent must not be copied directly into roadmap implementation; it must first search existing capabilities and roadmap items, resolve ownership/dependencies, adapt to real architecture and produce a semantic diff with explicit operator gates for narrowing, removal, breaking changes or major ownership change.
+
+- Context: Recovered from the 2026-09-12 morning-reconciliation design and strengthened later by the Reuse-First / Pre-Implementation Reconciliation Gate.
+
+## RECOVERED · HI-FP-ARCH-20260912-003
+
+Long-lived project memory has three distinct layers: canonical project state, a Decision/Rationale Ledger explaining why and alternatives, and immutable raw conversation evidence referenced by stable identity/hash; raw dialogue is evidence, not authority.
+
+- Context: Recovered from the 2026-09-12 architecture planning session and mapped to CF-11.
+- Roadmap: `CF-11`
+
+## RECOVERED · HI-FP-ARCH-20260912-004
+
+Human Portfolio must be generated from canonical machine state plus rationale/history rather than maintained as an independently edited copy, and should support Current-to-Target, Full Historical and Decision/Change Review views.
+
+- Context: Recovered from the 2026-09-12 portfolio model and mapped to CF-18.
+- Roadmap: `CF-18`
+
+## RECOVERED · HI-FP-ARCH-20260912-005
+
+Cross-module workers may OBSERVE, QUERY and PROPOSE but must not silently FOREIGN MUTATE; improvement proposals are collected centrally, deduplicated and reconciled with roadmap/ownership before they can become project work.
+
+- Context: Recovered from the 2026-09-12 cross-module model and mapped to CF-16.
+- Roadmap: `CF-16`
+
+## RECOVERED · HI-FP-ARCH-20260912-006
+
+A missing provider capability should not automatically stop all consumer work: safe bounded temporary compatibility stubs may create explicit Dependency Debt with provider, required capability, target step and replacement trigger.
+
+- Context: Recovered from the 2026-09-12 wave/dependency discussion and mapped to CF-16.
+- Roadmap: `CF-16`
+
+## RECOVERED · HI-FP-ARCH-20260912-007
+
+Project Health should be one canonical machine snapshot covering module health, knowledge freshness, procedure conformance, graph drift, tests, dependency debt, semantic review obligations, publication state, wave balance and worker/context health; dashboards and alerts are projections over it.
+
+- Context: Recovered from the 2026-09-12 control-plane design and mapped to CF-15.
+- Roadmap: `CF-15`
+
+## RECOVERED · HI-FP-ARCH-20260912-008
+
+Validation should use deterministic local, affected, core and full tiers, with affected tests derived from dependency/validation mappings and Full Check Debt driven by critical surfaces, fan-out, elapsed time, contracts and lifecycle/wave/publication context.
+
+- Context: Recovered from the 2026-09-12 test/status model and mapped to CF-14.
+- Roadmap: `CF-14`
+
+## RECOVERED · HI-FP-ARCH-20260912-009
+
+Every module should become deterministically machine-discoverable through explicit purpose, owner, capabilities, entrypoints, commands, tests, contracts, procedures, dependencies, deprecated surfaces, roadmap/current work and authority; new modules follow the golden path while old modules improve incrementally on touch.
+
+- Context: Recovered from the 2026-09-12 AI-legibility discussion and mapped to CF-13.
+- Roadmap: `CF-13`
+
+## RECOVERED · HI-FP-ARCH-20260912-010
+
+Blueprint AI autonomy must progress by capability rather than one global autonomous flag: Shadow, Copilot, Bounded Operator, Autonomous Routine Coordinator and only later High Autonomy by Capability, with slower promotion for larger blast radius.
+
+- Context: Recovered from the 2026-09-12 Blueprint AI Coordinator model and mapped to CF-19/CF-20.
+- Roadmap: `CF-19/CF-20`
+
+## RECOVERED · HI-FP-ARCH-20260912-011
+
+A Blueprint AI actor must never be able to change the guardrail that constrains it, validate that same change itself and declare PASS; high-impact control-plane guardrails require separation of duties or independent/operator validation.
+
+- Context: Recovered from the 2026-09-12 Blueprint AI safety discussion and mapped to CF-19/CF-20.
+- Roadmap: `CF-19/CF-20`
+
+## RECOVERED · HI-FP-ARCH-20260912-012
+
+Roadmap is desired plan/spec while lifecycle/event evidence is actual execution truth; current/previous/next/complete execution status must be deterministically derived rather than manually duplicated in both surfaces.
+
+- Context: Recovered from roadmap_state_reconciliation_design_v0_1 and materialized as CF-02.
+- Roadmap: `CF-02`
+
+## RECOVERED · HI-FP-ARCH-20260912-013
+
+A Work Front is durable project evidence of what and why work was assigned, while generated assistant packs are disposable projections; repeated executions of one Work Front have separate execution-attempt records with profile, pack/source fingerprints, budget/tool use, result, validator and retry reason.
+
+- Context: Recovered from the 2026-09-12 handoff/work-front discussion and mapped to CF-05.
+- Roadmap: `CF-05`
+
+## RECOVERED · HI-FP-ARCH-20260912-014
+
+Execution profiles must separate reasoning depth, authority and budget, and effective authority follows Project Constitution → Module Policy → Execution Profile → Work Front, where lower layers may narrow but cannot silently widen higher-level authority.
+
+- Context: Recovered from the 2026-09-12 execution-profile discussion and mapped to CF-03/CF-06.
+- Roadmap: `CF-03/CF-06`
+
+## RECOVERED · HI-FP-ARCH-20260912-015
+
+Publication must be a separate governed pipeline from development completion; commits operate on exact allowed path sets rather than broad git add -A on a dirty tree, and push/PR/merge authority increases only through explicit publication gates.
+
+- Context: Recovered from the 2026-09-12 Git/publication discussion and mapped to CF-18.
+- Roadmap: `CF-18`
+
+## RECOVERED · HI-FP-FORENSICS-20260908-001
+
+Blueprint needs a repeatable portfolio-forensics capability that compares each module against the full ForPrint course from mission and policy through target architecture, module role, dependencies and verified actual state to alignment/gap, including contradictions, obsolete implementations and duplicate semantics.
+
+- Context: Recovered from the unique but partial 08.09 dialogue; this is the origin of the machine-readable module X-ray workflow.
+
+## RECOVERED · HI-FP-FORENSICS-20260908-002
+
+Module status must not collapse implementation state, roadmap/planning state, execution permission and dispatch eligibility into one label; semantic freshness is another distinct dimension that may fail even when structural tests pass.
+
+- Context: Recovered from B10/Logistics forensic findings on 08.09 and compatible with later current-state and CF-02 reconciliation semantics.
+- Roadmap: `CF-02`
+
+## RECOVERED · HI-FP-FORENSICS-20260908-003
+
+A final module disposition such as KEEP, RECONCILE, PAUSE, DEPRECATE, REMOVE or ADVANCE must use local repository evidence together with the current project course, ownership, dependencies and relevant cross-repository/runtime evidence; local health alone is insufficient.
+
+- Context: Recovered from the 08.09 portfolio-forensics workflow.
+
+## RECOVERED · HI-FP-FORENSICS-20260908-004
+
+Portfolio forensic coverage and unresolved/unnormalizable findings must remain machine-visible: missing evidence becomes an explicit gap or operator question rather than being guessed away, and any coverage percentage must preserve its denominator or calculation basis.
+
+- Context: Recovered from the 08.09 coverage-dashboard and unresolved-registry requirements.
+
+## RECOVERED · HI-FP-FORENSICS-20260908-005
+
+Canonical authority/source lineage must be reconciled before generated guides, diagrams, status reports or other projections are regenerated; a derived PASS must not conceal stale current-step or broken lineage assumptions.
+
+- Context: Recovered from the 08.09 B10 semantic-review findings.
+
+## RECOVERED · HI-FP-FORENSICS-20260908-006
+
+Forensic collectors must fail closed on repository identity, report nonzero check return codes as FAIL rather than successful capture, and avoid repeating passes that add no new evidence class.
+
+- Context: Recovered from the 08.09 Logistics L2 collector correction and Blueprint collector mislaunch.
+
+## RECOVERED · HI-FP-FORENSICS-20260908-007
+
+Temporary forensic tooling may be disposable, but its logic and workflow must be reconstructible from durable project instructions so a replacement assistant can continue collector → evidence package → analysis → next collector without chat memory.
+
+- Context: Recovered from the 08.09 continuity/tooling requirements.
+
+## RECOVERED · HI-FP-FORENSICS-20260908-008
+
+When domain implementation is healthy but self-knowledge, prompt lifecycle, freshness or control-plane projections are stale, the preferred response is to preserve the healthy business code and reconcile the control plane rather than rewrite the module merely to match stale metadata.
+
+- Context: Recovered from the historical Logistics verdict KEEP_MODULE_AND_RECONCILE_CONTROL_PLANE.
+
+## RECOVERED · HI-FP-DTFB-20260905-001
+
+When multiple historical memory/Human Intent packages describe the same dialogue under different ID schemes, Blueprint should choose the stronger normalized source, preserve older material as residual evidence and merge only semantic deltas rather than duplicate equivalent intents.
+
+- Context: Recovered from the 05.09 v1.0/v1.1 reconciliation decision; complements current roadmap-enrichment source intake.
+
+## RECOVERED · HI-FP-DTFB-20260905-002
+
+Governance closeout is not complete merely because a code or document mutation exists: required rules and descriptions must propagate to the intended project/module instructions, remain discoverable in indexes, and pass relevant health/conformance checks.
+
+- Context: Recovered from the 05.09 self-cleaning/closeout discussion.
+
+## RECOVERED · HI-FP-DTFB-20260905-003
+
+Blueprint publishes released prompts only through Blueprint-owned surfaces; module-side intake pulls/reads them into the module execution flow and must not use the listener as authority to write foreign Blueprint state.
+
+- Context: Recovered from the 05.09 canonical prompt-pull architecture and preserved as repository-boundary provenance.
+
+## RECOVERED · HI-FP-DTFB-20260905-004
+
+One-shot prompt release authorization must return to fail-closed behavior after the bounded release transaction and must not silently widen into standing release authority.
+
+- Context: Recovered from the historical generic-health release hardening; current implementation must be audited if this path is modified.
+
+## RECOVERED · HI-FP-DTFB-20260905-005
+
+Post-release prompt prepared-buffer membership and roadmap Acceptance Oracle binding are distinct concepts: releasing a prompt may remove it from prepared drafts but must not erase the durable acceptance contract for its roadmap work.
+
+- Context: Recovered from the 05.09 Acceptance Oracle edge case.
+
+## RECOVERED · HI-FP-DTFB-20260905-006
+
+Current governance/evidence documents should retain durable inbound semantic references; if a current document becomes orphaned, repair the canonical reference graph rather than weakening the semantic validator to hide the problem.
+
+- Context: Recovered from the 05.09 GENUINE_NO_INBOUND_CURRENT_DOCUMENTS investigation.
+
+## RECOVERED · HI-FP-DTFB-20260905-007
+
+Self-inventory/system-context and portfolio/roadmap snapshots are portable navigation and evidence projections for fresh assistants, not independent current authority and not a substitute for live authority/freshness validation.
+
+- Context: Recovered from the 05.09 snapshot workflow.
+
+## RECOVERED · HI-FP-GENESIS-20260714-001
+
+ForPrint System Blueprint exists to preserve architecture and coordination truth across independently evolving modules; it is not the owner of module domain logic, while Project Inspector independently verifies implementation against declared architecture and evidence.
+
+- Context: Recovered from the 14.07 architecture genesis; later portfolio work matured this Blueprint/Inspector separation.
+
+## RECOVERED · HI-FP-GENESIS-20260714-002
+
+The ecosystem north star is maximum practical automation of routine print-shop work, while later governance must bound autonomy by authority, risk, validation and human exception/strategic control rather than treating automation as unrestricted execution.
+
+- Context: Recovered from the owner's 14.07 foundational automation objective and reconciled with later AI/autonomy governance.
+
+## RECOVERED · HI-FP-GENESIS-20260714-003
+
+Architecture changes should be versioned and machine-discoverable, and meaningful Blueprint changes should trigger review of affected modules and regenerated guidance rather than relying on assistants to remember architecture changes from chat.
+
+- Context: Recovered from the 14.07 manifest/ADR/affected-module/guidance discussion; later reflected in machine discoverability and change-impact work.
+- Roadmap: `CF-13/CF-14`
+
+## RECOVERED · HI-FP-GENESIS-20260714-004
+
+Shared assistant governance should standardize interfaces, required evidence and common rules globally without forcing every module to use one identical internal script or duplicating already established coordination paths.
+
+- Context: Recovered from 14.07 assistant-coordination agreements and consistent with later reuse-first governance.
+
+## RECOVERED · HI-FP-GENESIS-20260714-005
+
+Agreed work must enter durable repository-owned roadmap/queue/completion/reporting surfaces instead of remaining only in conversation memory, and executed prompt drafts should transition out of active draft state rather than accumulate indefinitely.
+
+- Context: Recovered from the 14.07 durable queue, roadmap, completion packet, reporting and prompt-lifecycle discussion.
+
+## RECOVERED · HI-FP-GOV-20260827-001
+
+ForPrint governance must evolve forward: when an older rule obstructs an accepted newer architecture, update, supersede or deprecate the old rule explicitly and preserve authority lineage rather than forcing new design to imitate obsolete constraints.
+
+- Context: Recovered from the 27.08 owner decision; this is controlled governance evolution, not permission to ignore current authority.
+
+## RECOVERED · HI-FP-GOV-20260827-002
+
+Durable project history should preserve significant decisions and rationale while avoiding unnecessary directory and intermediate-revision proliferation; history must remain navigable, with current versus older authority obvious.
+
+- Context: Recovered from the 27.08 project-memory and repository-structure discussion; complements later CF-11 provenance work.
+- Roadmap: `CF-11`
+
+## RECOVERED · HI-FP-GOV-20260827-003
+
+Long or complex assistant scripts should be delivered as files for execution, while terminal instructions should stay short and practical; temporary script identity must remain unambiguous to avoid running stale revisions.
+
+- Context: Recovered from the 27.08 operator workflow and repeated stale-script incidents.
+
+## RECOVERED · HI-FP-GOV-20260827-004
+
+Unrelated dirty worktree state must not become a global blocker for Blueprint automation: execution compatibility is evaluated against bounded required inputs, authority, baseline identity, owned mutation scope and conflict/freshness guards; true parallel execution must use isolated workspaces rather than concurrent writes into one shared dirty checkout.
+
+- Context: Recovered from the 27.08 parallel-work doctrine and reconciled with later execution-lane rules.
+- Roadmap: `CF-10`
+
+## RECOVERED · HI-FP-GOV-20260827-005
+
+Mutation tooling must verify artifact/version identity and expected structure before changing repository state, fail closed on stale or ambiguous inputs, and preserve unrelated work on both success and rollback.
+
+- Context: Recovered from the 27.08 stale-revision and fail-closed mutation incidents; later tooling strengthens this with hashes/preimages/protected surfaces.
+
+## RECOVERED · HI-FP-PREFLIGHT-20260831-001
+
+Deep repository understanding should combine bounded machine inventory with bounded semantic review and persisted coordinator synthesis; machine/external findings remain evidence until authority, conflicts and actionable references are reconciled.
+
+- Context: Recovered from the 31.08 Blueprint self-inventory methodology and now aligned with Roadmap Enrichment / Knowledge Saturation.
+
+## RECOVERED · HI-FP-PREFLIGHT-20260831-002
+
+Generated capability/knowledge indexes should be rebuilt only after contradictory, duplicate or stale semantic sources are reconciled; a cleaner generated projection must not hide unresolved source-authority conflicts.
+
+- Context: Recovered from the 31.08 cleanup/index ordering decision.
+
+## RECOVERED · HI-FP-PREFLIGHT-20260831-003
+
+Portfolio planning should support machine/deep-navigation, balanced technical/operator and extended human-readable representations from shared underlying state, while preserving roadmap binding, Human Intent provenance and visibly non-authoritative synthetic future planning.
+
+- Context: Recovered from the 31.08 three-view portfolio model; later portfolio/Human Intent surfaces mature this direction.
+
+## RECOVERED · HI-FP-PREFLIGHT-20260831-004
+
+Legacy print-file and folder naming may encode real operational semantics; migration must preserve retrieval and captured meaning while moving toward canonical metadata, and historical naming conventions are migration evidence rather than automatic final standards.
+
+- Context: Recovered from the 31.08 legacy file-semantics discussion affecting Prepress, Calculator and Library.
+
+## RECOVERED · HI-FP-PREFLIGHT-20260831-005
+
+A cross-module standard is not adopted merely because its document exists: affected modules need explicit roadmap/prompt adoption work and readiness/conformance evidence before shared activation.
+
+- Context: Recovered from the 31.08 shared-standard rollout discussion and consistent with later dependency/adoption governance.
+
+## RECOVERED · HI-FP-ORIGIN-20260805-001
+
+Repository Knowledge must represent evidence-backed understanding rather than scaffolding or file coverage: material claims should preserve confidence/evidence classification and exact repository baseline provenance, and unknown/conflicting knowledge must stay explicit.
+
+- Context: Recovered from the 05.08 rejection of template-only knowledge and the historical index-vs-understanding gap.
+
+## RECOVERED · HI-FP-ORIGIN-20260805-002
+
+A public command named check or status-check must be read-only; any operation that changes tracked project state, authority, release state or durable coordination data must use explicit mutating command semantics rather than hiding writes behind a check.
+
+- Context: Recovered from the 05.08 Make/command-architecture correction.
+
+## RECOVERED · HI-FP-ORIGIN-20260805-003
+
+Bounded external semantic analysis must remain tied to the exact originating request/workflow and content checksum, and only a validated response is merged back into the owning project workflow; external analysis is evidence, not free-standing authority.
+
+- Context: Recovered from the 05.08 Blueprint self-audit external-assessment roundtrip.
+
+## RECOVERED · HI-FP-ORIGIN-20260805-004
+
+Validation success, readiness and execution or rollout authorization are distinct states: a fully green canonical gate must not silently authorize a pilot, release, external rollout or wider autonomy without the separate authority decision required by current policy.
+
+- Context: Recovered from the 05.08 mutation-builder/pilot boundary and later generalized by Control Foundation authority gates.
+
+## RECOVERED · HI-FP-ORIGIN-20260614-001
+
+Portfolio planning must remain dependency-constrained: Blueprint keeps whole-system and per-module plans aligned, prevents a module from outrunning unavailable upstream contracts or capabilities, and maintains meaningful forward direction without relying on a fixed numeric horizon.
+
+- Context: Recovered from the early source-label 14.06 coordination model and reconciled with later full-horizon roadmaps/dependency intelligence.
+
+## RECOVERED · HI-FP-ORIGIN-20260614-002
+
+If no eligible next workfront exists, assistants must not invent one from chat context: resolve current authority and use roadmap, prepared/draft work and dependency evidence to propose or materialize the documented next step through the governed lifecycle.
+
+- Context: Recovered from the early prompt/roadmap resolver discipline.
+
+## RECOVERED · HI-FP-ORIGIN-20260614-003
+
+Important reports must be semantically consumed rather than merely generated: each meaningful report should feed a decision, gap, follow-up action, review obligation or explicit no-action disposition so reporting does not become busywork.
+
+- Context: Recovered from the owner's early repository self-analysis/report-consumption correction.
+
+## RECOVERED · HI-FP-ORIGIN-20260614-004
+
+Scripts and machine-operable project artifacts should expose machine-readable responsibility metadata such as purpose, dependencies and outputs/effects, and repository audit should compare declared metadata with observed behavior, flag drift and support reviewed batch reconciliation instead of constant manual header editing.
+
+- Context: Recovered from the early machine-readable script metadata and metadata-vs-code drift design; implementation must reuse current discoverability/Inspector mechanisms where possible.
+- Roadmap: `CF-13`
+
+## RECOVERED · HI-FP-ORIGIN-20260614-005
+
+Temporary catalogs, fixtures or synthetic dependency data may be used only when explicitly bounded and non-authoritative; they must never masquerade as canonical domain truth or silently replace the real owning module's data contract.
+
+- Context: Reconciles the early no-virtual-data doctrine with later accepted bounded temporary/local catalogs used for development and testing.
+
+## RECOVERED · HI-FP-CLOSEDLOOP-20260805C-001
+
+Module completion must become machine-discoverable through repository-owned coordination evidence and the normal Blueprint intake command chain; safe progression must not depend on someone notifying the Blueprint assistant in chat.
+
+- Context: Recovered from the 05.08 continuation completion-intake redesign and later matured into completion packet/outbox/intake semantics.
+
+## RECOVERED · HI-FP-CLOSEDLOOP-20260805C-002
+
+Prompt issuance and completion reporting should form one structured exchange contract: prompt requirements, produced artifacts, commands, task-level evidence, final validation state and roadmap bindings must be recognizable to shared tooling.
+
+- Context: Recovered from the owner-defined prompt/report contract in the 05.08 continuation; later normalized completion-envelope work extends it.
+
+## RECOVERED · HI-FP-CLOSEDLOOP-20260805C-003
+
+Roadmap depth and prepared-work buffers are health and planning-risk signals, not execution or acceptance authority; exact historical numeric thresholds may be superseded by current full-horizon planning and should not become hidden hard stops.
+
+- Context: Reconciles the historical 5-8 roadmap steps / 2 draft prompts rule with current portfolio planning.
+
+## RECOVERED · HI-FP-CLOSEDLOOP-20260805C-004
+
+Accepted or closed prompts should leave actionable current/approved surfaces and remain available through completed/archive history and indexes, so current prompt views represent executable work rather than accumulated history.
+
+- Context: Recovered from the v0.4 prompt archive lifecycle.
+
+## RECOVERED · HI-FP-CLOSEDLOOP-20260805C-005
+
+Parallel development should use attributable Git branches, worktrees or explicitly isolated execution workspaces instead of routinely synchronizing temporary full repository copies; reconciliation should return work to canonical Git state.
+
+- Context: Recovered from the owner's 05.08 continuation decision after repeated temp-repository synchronization overhead.
+- Roadmap: `CF-10`
+
+## RECOVERED · HI-FP-HARDENING-20260817-001
+
+When a technical task is already explicitly bounded, finish it or explicitly stop/return it before repeatedly redesigning the roadmap around it; roadmap reconciliation should occur deliberately at meaningful task boundaries.
+
+- Context: Recovered from the 17.08 v0.4.1 hardening discussion.
+
+## RECOVERED · HI-FP-HARDENING-20260817-002
+
+Roadmap planning should be able to represent a stable main task with meaningful subtasks so implementation depth and partial completion remain visible, while supporting a compact main-task view and a detailed task/subtask view from the same canonical state.
+
+- Context: Recovered from the 17.08 roadmap-granularity decision; current schema support requires reuse audit before implementation.
+
+## RECOVERED · HI-FP-HARDENING-20260817-003
+
+Superseded tests, scripts and workflow mechanisms should not permanently block the current platform merely to preserve legacy compatibility; after replacement they may be deprecated, isolated or archived for historical access under controlled governance.
+
+- Context: Recovered from the 17.08 predictability/stability/transparency and legacy-retirement decisions; complements later self-cleaning governance.
+
+## RECOVERED · HI-FP-HARDENING-20260817-004
+
+The operator may express business intent through practical examples, while Blueprint/assistant should translate that intent into technically correct, modular and reusable machine-oriented prompts or specifications rather than copy the examples literally.
+
+- Context: Recovered from the 17.08 prompt-design philosophy.
+
+## RECOVERED · HI-FP-HARDENING-20260817-005
+
+A zero-context bootstrap or handoff must preserve the current position, exact next bounded work, remaining path and final objective so a replacement assistant can reconstruct the whole development line rather than receiving only the next command.
+
+- Context: Recovered from the late 17.08 continuity requirement and later matured into structured bootstrap/Handoff mechanisms.
+- Roadmap: `CF-08`
+
+## RECOVERED · HI-FP-CF02-ORIGIN-20260907-001
+
+When governance or automation introduces new or changed operational command surfaces, persistent generators or standards, the same bounded change must register their execution dependencies, derivation lineage and canonical document/index discoverability rather than leaving hidden operational surfaces.
+
+- Context: Recovered from CF-02 candidate v0.1 findings R01-R03; later current checks indicate these mechanisms were materially developed.
+- Roadmap: `CF-02`
+
+## RECOVERED · HI-FP-CF02-ORIGIN-20260907-002
+
+Future Control Foundation work may be planned while remaining unbound, but lifecycle or work IDs must not be silently pre-assigned beyond the currently authorized scope; identity binding is itself an authority-bearing transition.
+
+- Context: Recovered from CF-02 candidate v0.1 finding R04.
+- Roadmap: `CF-02`
+
+## RECOVERED · HI-FP-CF02-ORIGIN-20260907-003
+
+A newly introduced persistent projection requires explicit bootstrap ordering: register/apply its producer and dependencies, materialize the first projection, then run read-only freshness or synchronization checks and broader validation gates.
+
+- Context: Recovered from CF-02 candidate v0.1 finding R05.
+- Roadmap: `CF-02`
+
+## RECOVERED · HI-FP-CF02-ORIGIN-20260907-004
+
+Focused Control Plane tests must use explicit state/projection inputs or controlled fixtures and must not silently depend on ambient repository-root generated projections; production/runtime checks may still fail closed on stale or missing projections.
+
+- Context: Recovered from CF-02 candidate v0.1 finding R06.
+- Roadmap: `CF-02`
+
+## RECOVERED · HI-FP-CF02-ORIGIN-20260907-005
+
+Legacy execution-state migration must bind to exact immutable pre-migration evidence such as source roadmap identity, accepted step IDs and evidence references; a coarse ordinal boundary alone is insufficient provenance.
+
+- Context: Recovered from CF-02 candidate v0.1 finding R07.
+- Roadmap: `CF-02`
+
+## RECOVERED · HI-FP-RUNTIME-ORIGIN-20260909-001
+
+Automation may progress prompt-to-worker-to-report-to-validation-to-next-work inside an explicitly approved bounded work pool, but completion of a major pool, wave or phase requires explicit human/operator acceptance before authority widens to the next pool.
+
+- Context: Recovered from the 09.09 Logistics pilot operating model and aligned with later Operator Approval/Work Front/Strategic Transition boundaries.
+
+## RECOVERED · HI-FP-RUNTIME-ORIGIN-20260909-002
+
+Blueprint should not routinely repair or normalize another module repository's Git state; module-local workers may prepare the bounded local baseline required for their task, but commit, push or merge authority must come from current higher policy, Execution Profile, Work Front or explicit approval rather than from module locality itself.
+
+- Context: Reconciles the 09.09 module-local preflight decision with later governed publication authority.
+
+## RECOVERED · HI-FP-RUNTIME-ORIGIN-20260909-003
+
+Project startup must have one current canonical authority path, while stable mission/policy is kept separate from historical continuity evidence; historical context is optional evidence rather than default authority, and generated context should be selected by launch mode and task scope.
+
+- Context: Recovered from the 09.09 startup-normalization line and reconciled with later PROJECT_ONBOARD/TASK_EXECUTION Handoff v2 modes.
+- Roadmap: `CF-08`
+
+## RECOVERED · HI-FP-INFRA-ORIGIN-20260910-001
+
+Project mutations should use a project-aware transactional mutation mechanism that validates candidate changes, may repair only bounded mechanically safe defects such as authorized syntax/lint issues, reruns required gates, records evidence and rolls back or fails closed on unsafe, ambiguous or gate-breaking results.
+
+- Context: Recovered from the 09.10 Mutation Compiler line; later current CF apply scripts visibly reuse scripts.coordination.mutation_compiler.
+
+## RECOVERED · HI-FP-INFRA-ORIGIN-20260910-002
+
+Executable scripts, functions and Make targets must not depend on accidental undeclared files, caches, environment residue or ordering; prerequisites must be declared and validated or produced by an explicit supported generator, and critical paths should be testable in clean or sterile environments.
+
+- Context: Recovered from the 09.10 hidden-dependency/clean-room/execution-DAG hardening line.
+
+## RECOVERED · HI-FP-INFRA-ORIGIN-20260910-003
+
+Long-running ForPrint commands and assistant-supplied scripts must expose visible phase/progress or heartbeat output while preserving full durable evidence; operator progress is an observability requirement and does not widen mutation, cleanup, publication or execution authority.
+
+- Context: Recovered from the 09.10 progress-visibility decision and later materialized as a project-wide execution progress contract.
+
+## RECOVERED · HI-FP-INFRA-ORIGIN-20260910-004
+
+Generated knowledge, indexes, mirrors and runtime caches must be faithful and reproducible from declared authoritative inputs and derivation dependencies; drift or order/cache-dependent rebuild differences are defects to detect rather than hidden normal behavior.
+
+- Context: Recovered from the 09.10 faithful-mirror and cache-determinism hardening work.
+
+## RECOVERED · HI-FP-RECOVERY-ORIGIN-20260912-001
+
+When a mutating operation fails after canonical state may already have advanced, recovery must not blindly rerun the original mutator. It must inspect the durable current state and fingerprints, identify the exact completed boundary, and repair only the failed downstream lifecycle/evidence/projection layer without repeating already-applied canonical source mutation.
+
+- Context: Recovered from 12.09 Control Foundation failures/recovery; CF-01 checkpoint-cardinality recovery is the concrete historical example.
+
+## RECOVERED · HI-FP-DIAGNOSTIC-TRUTH-20260914-001
+
+Validation and diagnostic reports must be bound to the source or materialized snapshot they actually describe and must not be treated as current evidence after that provenance becomes stale. Before modifying source/tests, distinguish current-working-tree truth from isolated or non-mutating public-check materialization/report truth; if the current tree is green and the report/snapshot is stale, repair the isolation/materialization/report-freshness layer instead.
+
+- Context: Recovered from the 14.09 controlled-failure hash-pin/stale full-log diagnosis.
+
+## RECOVERED · HI-FP-ARTIFACT-INTEGRITY-20260914-001
+
+A generated script or downloadable artifact must not be executed or accepted as complete until its delivery identity and completeness are verified. Truncated or ambiguous delivery requires regeneration under a distinct artifact identity and verification through checksum, byte/line counts, terminal marker or equivalent completeness evidence.
+
+- Context: Recovered from repeated truncated generated-script deliveries in the 14.09 continuation.
+
+## RECOVERED · HI-FP-OPERATOR-UX-ORIGIN-20260917-001
+
+The Blueprint Makefile is an operator-facing command map, not merely a build file: public targets should be grouped and explain their purpose, safety or mutation semantics, required/default inputs, scope and result, while legacy, compatibility and alternate-purpose targets are explicitly classified without silently changing command behavior.
+
+- Context: Recovered from direct owner requirements in the 17.09 Control Foundation continuation; later materialized in the current Makefile operator guide.
+
+## RECOVERED · HI-FP-PROJECT-CLOSURE-ORIGIN-20260917-001
+
+Focused or local subsystem readiness does not by itself authorize project closure. A full project boundary must still validate relevant cross-module dependencies, generated-state freshness and whole-project gates; if that boundary is red, lifecycle closure, worker dispatch and activation of the next automation phase remain blocked and recovery starts from the actual failed boundary.
+
+- Context: Recovered from CF-09 Dispatcher: 9/9 local readiness still failed full project closure on stale generator inventory.
+- Roadmap: `CF-09`
+
+## RECOVERED · HI-FP-PACKAGING-SCOPE-20260921-001
+
+Assistant, bootstrap and living-knowledge packaging must stay within the explicitly authorized packaging/knowledge scope and must not silently redesign, reorder, reinterpret or mutate roadmap state merely to make a package self-contained; roadmap change requires its own explicit planning/mutation authority.
+
+- Context: Recovered from the 21.09 owner correction that instruction/package work had drifted into roadmap reconstruction.
+
+## RECOVERED · HI-FP-PACKAGE-IDENTITY-20260921-001
+
+Generated assistant/context/handoff packages must expose and validate their semantic identity: package type, target module or explicit portfolio scope, purpose and intended use. Archive/hash validity alone is insufficient; unexpected implicit module routing or a mismatch between requested scope and emitted manifest/filename must fail closed or remain explicitly unresolved.
+
+- Context: Recovered from the wrong-package observation and the unexpected forprint_library project-context archive during Blueprint CF-10 preparation.
+
+## RECOVERED · HI-FP-DURABLE-PACKAGING-20260921-001
+
+Once assistant/bootstrap package behavior or reusable living-knowledge packaging has been validated, its canonical logic, contract and reusable project-facing artifacts should live durably in the repository with provenance rather than existing only as sandbox/tmp output; publication of that knowledge still grants no execution, dispatch, release, commit or roadmap authority.
+
+- Context: Recovered from the 21.09 requirement to promote validated assistant/bootstrap packaging into durable project knowledge.
+
+## AGREED · HI-FP-CONTEXT-DEFAULT-20260922-001
+
+When `make assistant-context-pack` is run from the Blueprint repository without an explicit `MODULE=...`, its default module scope is `forprint_system_blueprint`; an explicit command-line MODULE selects another canonical module. A global/default Makefile MODULE value must not silently route the package to an unrelated module.
+
+- Context: Owner decision on 2026-09-22 after observing an unexpected forprint_library context archive during Blueprint work.
+
+## AGREED · HI-FP-CONTEXT-PARALLEL-WORKSTREAM-20260922-001
+
+The Blueprint assistant context package should carry a bounded, refreshable snapshot of active parallel workstreams so a fresh assistant can quickly understand the current engineering position, completed checkpoints, active write-set, near-term horizon, blockers and safe resume rules without relying on private chat memory. The snapshot is navigation/current-work context only and grants no execution or lifecycle authority.
+
+- Context: Operator handoff decision on 2026-09-22 while CF-10 Internal Worker Engineering and Roadmap Enrichment were being worked in parallel.
+
+## AGREED · HI-FP-MAKEFILE-FUNCTIONAL-MAP-20260922-001
+
+ForPrint Makefile is an operator-facing functional map of the project, not merely a command launcher. Supported functionality that exposes an operator workflow must be represented in the appropriate Makefile section; newly implemented or newly discovered supported workflows trigger Makefile coverage review, and stale targets for functionality that no longer exists must be removed or explicitly reclassified as part of bounded task closeout.
+
+- Context: Owner decision 2026-09-22, reinforced by historical Make transparency/control-surface and operational-command discoverability lineage.
+
+## RECOVERED · HI-FP-LIBRARY-STRUCTURE-20260705-001
+
+ForPrint repositories expected to accumulate many scripts or files should group new content into thematic subdirectories, generally keeping one level of nesting unless deeper structure has clear value; stable legacy layout should not be mass-moved merely for cosmetic consistency.
+
+- Context: Recovered from direct owner Library repository-structure rules in visible turns 89 and 93; current general architecture-hygiene material covers related placement concerns but does not preserve this one-level/thematic rule explicitly.
+
+## RECOVERED · HI-FP-REPORT-DEDUP-20260705-001
+
+Operator-facing validation reports should consolidate semantically identical repeated checks or evidence rows, while retaining separate entries when they prove genuinely different evidence classes or semantics.
+
+- Context: Recovered from the owner reporting correction in visible turn 177; deduplication must not collapse distinct evidence classes.
+
+## RECOVERED · HI-FP-LIBRARY-ADMIN-20260516-001
+
+Routine changes to Library-owned canonical references, rules and versions should be manageable through a strong human-friendly governed administration surface; adding a material, currency or similar reference should not require editing server code.
+
+- Context: Recovered from direct owner turn 1. Current Library planning is ADMIN_FACING but does not preserve this explicit no-routine-server-code administration requirement; implementation ownership still requires reconciliation with shared Control Center/System Administration surfaces.
+
+## RECOVERED · HI-FP-DATA-CONTRACT-CONSISTENCY-20260516-001
+
+ForPrint canonical exchange forms and structured definitions should be tested for cross-module data sufficiency and consistency before publication, so data accepted at intake is also adequate for the downstream accounting, warehouse, production and related processes that consume it.
+
+- Context: Recovered from direct owner turn 1 requirement that every important step be covered by tests checking whether incoming fields are sufficient and mutually consistent across downstream operational uses. Current generic test governance is reused, while semantic ownership is reconciled with Contract Registry/Gateway/domain owners.
+
+## RECOVERED · HI-FP-CONTRACT-DUAL-FORM-20260516-001
+
+External partner integrations should receive a clear human-readable form or specification together with an equivalent machine-readable contract or payload format, with explicit versioning so people and systems share one unambiguous exchange model.
+
+- Context: Recovered from the owner partner-integration example in turn 1: one human-understandable form plus one technical/machine form such as JSON. This is preserved as cross-module intent, not as proof that Library remains the current contract authority.
+
+## RECOVERED · HI-FP-GOV-IDEMPOTENT-GENERATED-20260529-001
+
+Generated coordination snapshots, sync outputs and completion automation must be semantically idempotent: repeating the same verification or generation against unchanged semantic inputs must not create tracked Git differences solely because timestamps or equivalent non-semantic metadata were regenerated.
+
+- Context: Recovered from the Operational Registry historical source. The operator relayed a Blueprint clarification requiring idempotent sync snapshots and completion automation and explicitly called out timestamp-only churn. The source filename is only a 2026-05-29 label; visible history extends through 2026-06-19, so no exact logical date is asserted for this turn.
+
+## RECOVERED · HI-FP-LOGISTICS-REPORT-VISIBILITY-20260610-001
+
+Human-facing module/check reports should provide an immediately scannable table in which each named check has an explicit PASS/WARN/FAIL result with clear green/yellow/red visual semantics; raw log lines remain evidence but should not be the only operator-facing summary.
+
+- Context: Recovered from the long-running Logistics dialogue. The operator explicitly requested a full visual table so successful, warning-level and failed checks can be distinguished immediately. This refines the existing unified-reporting direction without changing machine completion-envelope authority. The source filename is only a 2026-06-10 label and is not treated as the exact logical date of the turn.
+- Roadmap: `BP-H10-UNIFIED-REPORTING`
+
+## AGREED · HI-FP-BLUEPRINT-20260925-DETERMINISTIC-PROMOTION-001
+
+ForPrint should maintain a permanent Deterministic Promotion Loop for every capability that uses an AI/LLM worker: observe real worker handoffs, identify recurring stable patterns, check for existing reusable deterministic capabilities, and move economically/safely formalizable work into deterministic business logic, scripts, contracts, templates or bounded services after owner/contract/roadmap approval; the loop has no terminal DONE state and AI remains available for genuinely generative or ambiguous work.
+
+- Context: Owner confirmation on 2026-09-25 promotes and extends the earlier Managed Assistant Autonomy self-optimization loop into a cross-module architecture requirement.
+- Roadmap: `deterministic_worker_promotion_policy_v0_1`
+
+## AGREED · HI-FP-ARCH-20260926-001
+
+ForPrint planning must keep three horizons distinct: a living practical roadmap for real near-term execution, a more detailed farther practical horizon, and a strategic horizon that preserves long-range theses without turning them directly into executable work.
+
+- Context: Owner clarified the planning model during the 2026-09-25/26 evening review; strategic material must be re-evaluated before future promotion into execution.
+
+## AGREED · HI-FP-ARCH-20260926-002
+
+Internal assistant/developer service improvements such as startup-package quality and current-position projection should accumulate into a bounded improvement pool rather than fragment into immediate micro-tasks.
+
+- Context: These improve project operating infrastructure rather than ForPrint business capability; design must be re-evaluated when a material batch is eventually scheduled.
+
+## AGREED · HI-FP-ARCH-20260926-003
+
+Reliable agent-mediated development should be reasoned about as Direction → Context → Authority → Execution → Verification → Acceptance → Evidence, with Acceptance kept distinct from technical verification.
+
+- Context: The evening review consolidated earlier worker/governance discussions into a long-range execution-control model.
+
+## AGREED · HI-FP-ARCH-20260926-004
+
+ForPrint governance should distinguish the rights to propose, prepare, execute, verify, recommend acceptance, accept, release and escalate; performing work or producing evidence must not automatically grant acceptance authority.
+
+- Context: Accepted as a strategic governability principle; exact decision-right schema remains intentionally unfrozen.
+
+## AGREED · HI-FP-ARCH-20260926-005
+
+ForPrint should eventually govern evolution through explicit generations or epochs so shared behavioral models can be piloted, stabilized, documented and rolled out dependency-aware across modules while legacy behavior is explicitly deprecated or retired.
+
+- Context: Artifact versions may advance at different rates; compatibility with the active generation matters more than equal version numbers.
+
+## AGREED · HI-FP-ARCH-20260926-006
+
+ForPrint must preserve the security distinction that content is not authority, an instruction is not authorization, authorization is not physical capability, and untrusted or informational content cannot directly create privileged execution rights.
+
+- Context: Worker reasoning is useful but is not the sole trust boundary; system enforcement must remain effective even when a worker follows a bad instruction.
+
+## AGREED · HI-FP-ARCH-20260926-007
+
+External-facing modules, especially Telegram Bot, Website, Calculator input surfaces and future public channels, require high-importance module-specific security against malicious inputs and recurring adversarial regression testing rather than a one-time audit.
+
+- Context: Threat families include prompt/instruction injection, malicious embedded content, SQL/command injection, path/schema/MIME abuse, resource exhaustion and later channel-specific attack classes.
+
+## AGREED · HI-FP-ARCH-20260926-008
+
+Cross-module contract assurance should eventually include explicit consumer-declared expectations in addition to provider schemas; provider owns its interface, consumer owns its expectation, and syntactic compatibility alone does not prove semantic correctness.
+
+- Context: Accepted as a strategic direction for future Contract Registry / Integration Gateway maturity.
+
+## AGREED · HI-FP-ARCH-20260926-009
+
+A generic green PASS must not be treated as universal proof of correctness; future verification evidence should be typed and preserve verifier identity/version, oracle provenance/validity, scope, feedback role and evaluation independence.
+
+- Context: Structural, contract, behavioral, governance, security, recovery and other evidence classes remain candidate taxonomy; Acceptance is a separate lifecycle decision.
+
+## AGREED · HI-FP-ARCH-20260926-010
+
+ForPrint should evolve toward a Trustworthy Change lifecycle that separates intent, authorization, execution, verification, integration, acceptance and operational proof, with explicit residual-risk ownership and multi-anchor acceptance for suitable cross-domain changes.
+
+- Context: Exact state-machine details remain strategic design input and are not execution authority.
+
+## AGREED · HI-FP-ARCH-20260926-011
+
+Assistants should not receive broad database access by default; domain owners should expose governed capabilities over canonical data, with invocation-time authorization based on identity, purpose, context and data scope where appropriate.
+
+- Context: The transport technology is intentionally not fixed; the domain-ownership and capability-mediated access principle is the strategic decision.
+
+## AGREED · HI-FP-ARCH-20260926-012
+
+ForPrint project knowledge should prioritize machine-readable indexes and queryable dependency/flow graphs over exhaustive prose, while human documentation concentrates on intent, policy, rationale and ADR-like decision history.
+
+- Context: Use local module truth with central Blueprint projection and generate C4-like or task-specific views when useful; do not create a new documentation/graph module now.
+
+## AGREED · HI-FP-ARCH-20260926-013
+
+CI should later become machine enforcement of stable ForPrint governance checks, while preserving CI PASS ≠ ACCEPTED ≠ MERGED ≠ RELEASED; CD belongs to a later maturity stage after release authority, staging, observability and rollback/recovery are mature.
+
+- Context: Do not prioritize CI/CD implementation before the initial worker/governance baseline and current roadmap rebuild are sufficiently stable.
+
+## AGREED · HI-FP-OPERATOR-CONSOLE-20260929-001
+
+ForPrint should establish an Operator Console as a centralized Human Owner control surface for module work from phone or laptop, while keeping the durable execution, session, ownership, artifact, interrupt and recovery infrastructure in a separate Operator Control Plane / Execution Fabric rather than coupling it permanently to one UI.
+
+- Context: The Console is temporarily a co-equal high-priority planning direction with completion of module inventory because it can materially improve overall project throughput when the Human Owner is away from the local terminal.
+- Roadmap: `operator_console_control_plane_program_v0_1`
+
+## AGREED · HI-FP-OPERATOR-CONSOLE-20260929-002
+
+At most one active writable actor may own a module repository at a time. Internal Worker and Operator Assistant workspaces must not write concurrently to the same module; transfer uses controlled interrupt, durable checkpoint, seal/suspend, release and only then new acquisition.
+
+- Context: Operator Assistant may request Human Owner-authorized interruption of an Internal Worker. Internal Worker may request access to a Human Owner interactive session but must not preempt it automatically.
+- Roadmap: `operator_console_control_plane_program_v0_1`
+
+## AGREED · HI-FP-SANDBOX-TOOLING-20260929-001
+
+Isolated development sandboxes should encourage modern tools and dependencies when they materially improve quality, speed, observability or reliability; sandbox freedom should be broad while canonical repository, host, production secret, remote Git and external mutable-system boundaries remain more strongly controlled.
+
+- Context: This direction responds to observed development friction when assistants repeatedly worked around missing tooling instead of proposing useful tools such as ripgrep or browser/visual inspection support.
+- Roadmap: `operator_console_control_plane_program_v0_1`
+
+## AGREED · HI-FP-SANDBOX-TOOLING-20260929-002
+
+Material tools or dependencies added during sandbox work should be captured as Environment Delta evidence; repeatedly useful additions should be reviewed for promotion into canonical developer/module profiles, bootstrap capabilities or a discoverable Tool/Capability Registry rather than being repeatedly rediscovered.
+
+- Context: Fresh workers and assistants should know what tools and Makefile workflows already exist.
+- Roadmap: `operator_console_control_plane_program_v0_1`
+
+## AGREED · HI-FP-EXECUTION-RECOVERY-20260929-001
+
+Worker and operator-assistant execution must be designed for abrupt power loss through durable checkpoints and recoverable execution context so a restarted process can resume from a recent bounded state rather than reconstructing long work from zero.
+
+- Context: Unexpected server power loss is a real operating condition for the project and must be treated as a reliability requirement, not a theoretical edge case.
+- Roadmap: `operator_console_control_plane_program_v0_1`
+
+## AGREED · HI-FP-ARTIFACT-PROVENANCE-20260929-001
+
+Temporary generated artifact payloads may expire, but durable provenance should preserve enough metadata to identify the producing execution/module/base HEAD, source inputs, generator or recipe, file identity/hash and retention class so important outputs can be understood or recreated later.
+
+- Context: Binary payload retention and durable knowledge retention are separate concerns.
+- Roadmap: `operator_console_control_plane_program_v0_1`
+
+## AGREED · HI-FP-INVENTORY-LEGACY-CAPABILITY-20260929-001
+
+Module inventory and later recurring audits must not classify old code only as used or unused: a legacy implementation may contain a valuable capability idea absent from the current roadmap. Such ideas should be raised for reconsideration and, when useful, preserved in roadmap/strategic planning even if the old code itself is later retired.
+
+- Context: This is a repeatable inventory requirement for L0/L1/L2, recovery audits, major refactors and later drift reassessment rather than a one-time Calculator-specific exception.
+
+## AGREED · HI-FP-EXECUTION-CONTROL-20260930-001
+
+ForPrint should gradually acquire a persistent Execution Control Plane that knows declared work and reconciles it with durable evidence, instead of reconstructing operational state afterward from Git history, dirty files, old scripts or individual assistant memory.
+
+- Context: Git, tests, files, heartbeats, workflow results and artifacts are evidence; they are not by themselves sufficient semantic execution truth.
+- Roadmap: `execution_control_plane_program_v0_1`
+
+## AGREED · HI-FP-STABLE-WORKFLOW-20260930-001
+
+Human Owner and future assistants should use stable supported workflow entrypoints instead of rediscovering script paths, argument combinations and invocation order in each session; Makefile, future CLI and Operator Console should call the same reusable backend workflow.
+
+- Context: When a recurring workflow fails because its reusable interface, ordering, projection, helper or recovery behavior is defective, repair that reusable workflow and add regression evidence where practical rather than fixing only the current session.
+- Roadmap: `execution_control_plane_program_v0_1`
+
+## AGREED · HI-FP-EXECUTION-ACTORS-20260930-001
+
+Internal Worker, Operator Assistant and human-terminal execution should share one execution state model, module-lease semantics, checkpoint/status model and durable execution identity rather than becoming three separate operational realities.
+
+- Context: human_terminal explicitly covers the current bounded workflow where ChatGPT prepares a command or script, Human Owner executes it on the server and returns evidence.
+- Roadmap: `execution_control_plane_program_v0_1`
+
+## AGREED · HI-FP-EXECUTION-PHASING-20260930-001
+
+Describe the full Execution Control Plane architecture now, but implement only a bounded minimum first; completing that minimum must be recorded as partial capability progress while all approved deferred architecture remains visible for later deliberate promotion.
+
+- Context: CF-10 owns the first contour; CF-12 carries intentionally deferred long-horizon capability. Deferred does not mean forgotten.
+- Roadmap: `execution_control_plane_program_v0_1`
+
+## AGREED · HI-FP-WORKER-SELF-HARDENING-20260930-001
+
+After the first stable governed Worker attempts, progressively assign the Worker bounded, observable Blueprint self-hardening tasks so it improves the workflow/control environment used by later workers; start with lower-risk discovery/certification tasks and increase architectural complexity only from measured evidence.
+
+- Context: The self-hardening backlog is a governed source of candidate work, not automatic activation authority, and it must not expand the currently frozen Slice B2 implementation scope.
+- Roadmap: `execution_control_plane_program_v0_1`
+
+## AGREED · HI-FP-OPERATOR-CONSOLE-PHASING-20261001-001
+
+Keep OC-01 as one compact roadmap step but deliver it through two explicit progressive contours, OC-01-MINI and OC-01-FULL. Both contours preserve governed Protected Terminal access and isolated Assistant Dev Sandbox work; detailed ordered implementation belongs in the implementation prompt rather than expanding the roadmap into a long checklist.
+
+- Context: MINI must already be genuinely useful from phone/laptop and prove one terminal cycle plus one sandbox-to-canonical cycle. FULL extends the proven vertical slice with richer profiles, resumable sandbox lifecycle, hardened promotion/recovery/audit and mature operator controls. Activation remains a separate Human Owner decision.
+- Roadmap: `operator_console_control_plane_program_v0_1`
+
+## AGREED · HI-FP-EXTERNAL-AI-CAPABILITY-20261001-001
+
+External customer-facing AI assistants may later become consumers of governed ForPrint domain capabilities for product discovery, calculation, technical requirements, logistics and related services; this refines existing HZN-014 rather than creating a new executable roadmap item.
+
+- Context: MCP is a current protocol example only. Preserve ESR-20260926-GAP-007: MCP, HTTP, RPC or another transport remains intentionally unfrozen. Revisit after the ecosystem has first stable working results and during deliberate strategic-goal review. Current implementation focus remains Operator Console.
+
+## AGREED · HI-FP-ARCH-EXECUTION-MODEL-20261007-001
+
+Before broad module activation, ForPrint must integrate capability, ownership, roadmap decomposition, dependency, interface, workflow, verification and dispatcher models into one traceable Architecture & Execution Model portfolio so assistants and workers can discover existing and planned functionality, dependencies, supported workflows and completion criteria without reconstructing them from chat history.
+
+- Context: Human Owner approved this as the next cross-cutting architecture direction after the current OC-01 work. Existing Blueprint/CF10 primitives must be reused or extended first; rich control metadata should preserve a shallow execution path.
+- Roadmap: `blueprint_architecture_execution_model_integration_v0_1`
+
+## AGREED · HI-FP-POST-OC01-AEM-GATE-20261007-001
+
+When OC-01-FULL reaches its canonical completion meaning, the next relevant portfolio architecture priority is AEM-01 of the Architecture & Execution Model integration initiative; activation remains an explicit Human Owner decision and must not reorder CF10/Control Foundation dependencies, preempt an active bounded writer, or convert the separate OC-02 future target.
+
+- Context: This durable priority pointer prevents the next architecture task from being lost during assistant replacement while keeping roadmap dependency and execution authority separate from prioritization.
+- Roadmap: `blueprint_architecture_execution_model_integration_v0_1`
+
 # Module — calculator_engine
 
-Intent count: 21
+Intent count: 33
 
 ## AGREED · HI-CALCULATOR-ENGINE-001
 
@@ -282,9 +1544,87 @@ Calculator Job Specification is the agreed first Contract Registry lifecycle pil
 - Context: The exact contract remains to be detailed when Calculator target architecture is sufficiently mature.
 - Roadmap: `CALC-CONTRACT-01`
 
+## AGREED · HI-CALCULATOR-ENGINE-022
+
+Exact Calculator references are recovered: sborka.ua is primary; FastPrint Pro and Wolf calc-polygraphy are secondary.
+
+- Context: Comparative reference only; not canonical truth or mandatory clone.
+- Roadmap: `CALC-REF-01`
+
+## AGREED · HI-CALCULATOR-ENGINE-023
+
+Exact constructor references include Vizitka universal creator, FATLINE constructor and Maikoff constructor.
+
+- Context: Use them to study reusable personalized-product constructor patterns.
+- Roadmap: `CALC-REF-02`
+
+## AGREED · HI-CALCULATOR-ENGINE-024
+
+Calculator needs an early visual product/configuration interface so operator usability feedback arrives while rules are still evolving.
+
+- Context: Visual UI is an early development instrument, not end-stage cosmetics.
+- Roadmap: `CALC-UI-01`
+
+## AGREED · HI-CALCULATOR-ENGINE-025
+
+Calculator should support structured outsourcing of jobs to approved print partners when internal capacity/equipment/staff cannot safely fulfill them.
+
+- Context: Partner-specific execution belongs behind provider adapters.
+- Roadmap: `CALC-OUTSOURCE-01`
+
+## AGREED · HI-CALCULATOR-ENGINE-026
+
+If a partner has no usable API, controlled browser automation may be used with evidence, retry bounds and human escalation.
+
+- Context: Credentials remain in centralized secrets infrastructure.
+- Roadmap: `CALC-OUTSOURCE-02`
+
+## AGREED · HI-CALCULATOR-ENGINE-027
+
+Calculator requires a deep historical capability/ownership inventory before the next mature portfolio because early project stages placed cross-domain functionality inside Calculator.
+
+- Context: Candidate capabilities must be classified KEEP/MOVE/MERGE/REWRITE/DEPRECATE/REMOVE rather than deleted blindly.
+- Roadmap: `CALC-INVENTORY-01`
+
+## RECOVERED · HI-CALC-PRICING-20260922-001
+
+Calculator pricing must be data-driven rather than hard-coded in Telegram, Website or application code: prices, tiers, options and modifiers should be editable as governed calculation policy, including segment-specific B2B/B2C calculation/presentation inputs without making Calculator the owner of customer identity.
+
+- Context: Recovered from the long-running Calculator history. Current refinement: CRM/commercial context supplies approved customer/segment references; channels own visual rendering; Calculator owns deterministic pricing effects.
+
+## RECOVERED · HI-CALC-PRICING-20260922-002
+
+Calculator pricing administration should support filtered bulk policy changes over selected product/rule groups with previewable scope rather than requiring manual row-by-row edits for every product variant.
+
+- Context: Recovered from the owner's explicit examples of group-wide percentage adjustments with exclusions and distinct male/female/black-product handling.
+
+## RECOVERED · HI-CALC-APPLICABILITY-20260922-001
+
+Calculator applicability rules should scale by consuming Library-owned canonical product/material references and attributes such as material class and grammage/ranges, then applying calculation eligibility/rule logic without creating a second canonical product/material catalog inside Calculator.
+
+- Context: Historical Calculator used reusable type/category and density-range relationships. Current architecture keeps semantic definitions and user-facing labels in Library while Calculator owns calculation applicability.
+
+## RECOVERED · HI-CALC-ADMIN-20260922-001
+
+Calculator needs a serious operator/admin surface for Calculator-owned pricing and calculation policy—tiers, modifiers, applicability rules, calculation settings and previews—but that surface must remain bounded and must not become the canonical admin for Library catalogs, CRM, Accounting, orders or the whole ForPrint ecosystem.
+
+- Context: Recovered from the historical request for a scalable admin while explicitly reconciling the later Blueprint ownership split that supersedes the earlier whole-project-admin idea.
+
+## RECOVERED · HI-CALC-QUOTE-CONTRACT-20260922-001
+
+Calculator quote intake must fail safely and deterministically on malformed or conflicting requests, preserve request correlation, and define domain-level idempotency so the same key plus equivalent payload can reuse a result while the same key plus a different payload becomes an explicit conflict rather than a second calculation.
+
+- Context: Historical quote/API work exposed both the intended idempotency semantics and a test-state isolation failure. Current runtime transport/retry idempotency must still be reconciled with Integration Gateway ownership.
+
+## RECOVERED · HI-CALC-QUOTE-CONTRACT-20260922-002
+
+Calculator quote results and failures should use stable versioned machine contracts with structured line-item calculation evidence, assumptions/provenance, stable error codes and request correlation, while also supporting human-readable rendering without making any channel-specific presentation the source of calculation truth.
+
+- Context: Recovered from historical human/external quote reports, line-item outputs and schema-versioned error responses; current Contract Registry/Gateway/channel boundaries govern transport and presentation.
+
 # Module — forprint_operations_assistant
 
-Intent count: 16
+Intent count: 20
 
 ## AGREED · HI-FP-OPERATIONS-ASSISTANT-001
 
@@ -387,9 +1727,37 @@ Assistant should expose a simple reprint reporting action from the Job Ticket/QR
 - Context: The resulting reprint semantics belong to OCR/Accounting/Warehouse.
 - Roadmap: `OA-REPRINT-01`
 
+## AGREED · HI-FP-OPERATIONS-ASSISTANT-017
+
+Operations Assistant must provide equipment error/help lookup from parsed and indexed approved equipment documentation, including Ukrainian explanation and source illustrations when present.
+
+- Context: Exact error-code lookup should be preferred when a code exists.
+- Roadmap: `OPS-EQUIP-01`
+
+## AGREED · HI-FP-OPERATIONS-ASSISTANT-018
+
+For production equipment, Operations Assistant must not invent repair procedures or freely search the internet for a repair answer; if approved documentation contains no answer it returns NOT_FOUND and escalates.
+
+- Context: Production-equipment troubleshooting is documentation-grounded only.
+- Roadmap: `OPS-EQUIP-02`
+
+## AGREED · HI-FP-OPERATIONS-ASSISTANT-019
+
+Equipment-problem escalation is role-aware: a normal printer/operator can escalate to the production manager, while an authorized manager may create a service-support request through an approved channel.
+
+- Context: Permissions control who may contact the external service directly.
+- Roadmap: `OPS-EQUIP-03`
+
+## PROPOSED · HI-FP-OPERATIONS-ASSISTANT-020
+
+Indexed manual procedures should progress from text and static figures to ordered step galleries and only later to optional animation where it adds real value.
+
+- Context: Animation is a later usability enhancement, not an early dependency.
+- Roadmap: `OPS-EQUIP-04`
+
 # Module — forprint_operations_control_registry
 
-Intent count: 17
+Intent count: 20
 
 ## AGREED · HI-FP-OPERATIONS-CONTROL-REGISTRY-001
 
@@ -500,9 +1868,28 @@ A scanned stale Job Ticket/QR must warn that the paper revision is old and offer
 - Context: Current order state remains the execution gate.
 - Roadmap: `OCR-TICKET-02`
 
+## AGREED · HI-FP-OPERATIONS-CONTROL-REGISTRY-018
+
+Stable shared Business Partner/person/organization and order/job identifiers should link Calculator, Accounting, Warehouse, Production, Logistics and CRM records.
+
+- Context: Operations Control Registry remains the current operational write/semantic boundary for shared party/order state.
+- Roadmap: `OCR-DATA-01`
+
+## RECOVERED · HI-OCR-ARCH-20260919-001
+
+Historical asset retrieval needs explicit links to authoritative order, job and revision evidence so printed, approved, rejected or superseded status is not inferred from filenames or similarity alone.
+
+- Context: Recovered from the 2026-09-19 historical asset discussion and reconciled with the current OCR target-state direction.
+
+## AGREED · HI-OCR-ARCH-20260919-002
+
+The first durable Process Manager capability is hosted inside Operations Control Registry as a distinct extraction-ready capability that owns process instances, current step, waiting conditions, expected events, timers, deadlines, retry/escalation state and transitions without absorbing foreign domain truth.
+
+- Context: The 2026-09-19 source required a hosted/extractable Process Manager but left the host open; later portfolio reconciliation selected Operations Control Registry as the working host.
+
 # Module — forprint_crm
 
-Intent count: 12
+Intent count: 24
 
 ## AGREED · HI-FP-CRM-001
 
@@ -580,9 +1967,85 @@ CRM should preserve normalized phone identity plus human display formatting and 
 - Context: Legacy folders/filenames may still show spaced phone formatting for operators.
 - Roadmap: `CRM-ID-04`
 
+## AGREED · HI-FP-CRM-013
+
+CRM is a unified operational entry point: one guided interface may compose related actions across multiple owner modules.
+
+- Context: Humans should not manually visit many module tabs for one normal workflow.
+- Roadmap: `CRM-WORKSPACE-01`
+
+## AGREED · HI-FP-CRM-014
+
+CRM should provide configurable role/department dashboards and large-screen wallboards for operational visibility.
+
+- Context: Keep dashboard capability encapsulated in CRM for now and extract later only if objectively justified.
+- Roadmap: `CRM-DASH-01`
+
+## AGREED · HI-FP-CRM-015
+
+CRM may read/present cross-domain truth and submit structured commands, but it does not own Accounting, Warehouse, Production, Logistics or other foreign domain truth.
+
+- Context: Shared PostgreSQL does not remove logical ownership.
+- Roadmap: `CRM-BOUNDARY-01`
+
+## AGREED · HI-FP-CRM-016
+
+Management/CRM views should surface plan-versus-actual variance for time, material, cost/price, reprints, delays and resource blockers.
+
+- Context: Configurable tolerance breaches become visible exceptions.
+- Roadmap: `CRM-DASH-02`
+
+## AGREED · HI-FP-CRM-017
+
+A composite CRM workflow should support onboarding a new supplier/material from partial information and route enrichment/validation to domain owners.
+
+- Context: Enter known information once; gate only critical missing facts before irreversible actions.
+- Roadmap: `CRM-WORKSPACE-02`
+
+## AGREED · HI-FP-CRM-018
+
+CRM should evolve toward Customer/Supplier 360, universal search, cross-module activity timeline, saved role workspaces and exception/task centers.
+
+- Context: These are views/projections, not a competing master database.
+- Roadmap: `CRM-WORKSPACE-03`
+
+## AGREED · HI-FP-U92-20260903-002
+
+Customer Cabinet/Portal and basket/checkout composition belong in the CRM/business-workflow surface while Calculator, IAM, Accounting, Operations and Logistics retain their own semantic truth.
+
+## RECOVERED · HI-CRM-ARCH-20260919-001
+
+Customer intelligence should separate a manager-selected Seed Profile, an evidence-derived Observed Customer Model and the currently applicable Effective Policy; a seed preset is not permanent classification or authority.
+
+- Context: Recovered from the 2026-09-19 evening architecture handoff.
+
+## RECOVERED · HI-CRM-ARCH-20260919-002
+
+Customer behavior learning should distinguish baseline, exception, possible shift, probable shift and new baseline using recency, minimum evidence, hysteresis and contextual segmentation rather than lifetime-majority counting.
+
+- Context: Recovered from the 2026-09-19 evening architecture handoff.
+
+## RECOVERED · HI-CRM-ARCH-20260919-003
+
+Descriptive customer evidence, customer preferences and ForPrint control policy are different layers; observed behavior must not silently grant commercial, financial or operational authority.
+
+- Context: Recovered from the 2026-09-19 evening architecture handoff.
+
+## RECOVERED · HI-CRM-ARCH-20260919-004
+
+Customer health should be a multidimensional trajectory over owner-sourced evidence such as payment health, value, growth, margin, service burden, order clarity, dispute risk, relationship stability and strategic potential.
+
+- Context: Recovered from the 2026-09-19 evening architecture handoff; track movement, not only a static category.
+
+## RECOVERED · HI-CRM-ARCH-20260919-005
+
+Customer-model and policy review should combine event-driven updates with periodic reconciliation and preserve transition history, evidence and reasons instead of overwriting the previous profile state.
+
+- Context: Recovered from the 2026-09-19 evening architecture handoff.
+
 # Module — forprint_accounting_registry_service
 
-Intent count: 10
+Intent count: 13
 
 ## AGREED · HI-FP-ACCOUNTING-REGISTRY-SERVICE-001
 
@@ -646,9 +2109,30 @@ Proof/sample purpose does not automatically mean free; billing policy can be FRE
 - Context: Do not infer finance solely from the legacy proba token.
 - Roadmap: `ACC-PROOF-01`
 
+## AGREED · HI-FP-ACCOUNTING-REGISTRY-011
+
+Accounting should support incoming supplier-document parsing for Excel, PDF, Word and scans/photos with human confirmation when financial facts are uncertain.
+
+- Context: Repeated supplier templates should become increasingly deterministic.
+- Roadmap: `ACC-GOODS-01`
+
+## AGREED · HI-FP-ACCOUNTING-REGISTRY-012
+
+Supplier-specific descriptions/part numbers map to one canonical material while preserving supplier alias/SKU provenance.
+
+- Context: The organization's preferred material identity remains stable.
+- Roadmap: `ACC-GOODS-02`
+
+## AGREED · HI-FP-ACCOUNTING-REGISTRY-013
+
+A mature Accounting roadmap may include bounded preauthorized conditional payment mandates with strict limits, idempotency and audit.
+
+- Context: Early stages require confirmation; auto-payment is later high-risk automation.
+- Roadmap: `ACC-PAYMENT-01`
+
 # Module — forprint_semantic_retrieval_service
 
-Intent count: 9
+Intent count: 12
 
 ## AGREED · HI-FP-SEMANTIC-RETRIEVAL-SERVICE-001
 
@@ -704,9 +2188,30 @@ ACL filtering має відбуватися до disclosure результаті
 
 - Context: Спочатку formal adoption у Blueprint окремим кроком.
 
+## AGREED · HI-FP-SEMANTIC-RETRIEVAL-SERVICE-010
+
+Semantic Retrieval remains a noncanonical review-only candidate until its independent module value is proven.
+
+- Context: Do not promote it automatically because earlier artifacts exist.
+- Roadmap: `SEM-REVIEW-01`
+
+## AGREED · HI-FP-SEMANTIC-RETRIEVAL-SERVICE-011
+
+Semantic retrieval may find fuzzy/semantic candidates such as a likely material or related document, but the relevant domain owner remains responsible for canonical truth and current state.
+
+- Context: Search finds candidates; domain owner decides truth.
+- Roadmap: `SEM-BOUNDARY-01`
+
+## PROPOSED · HI-FP-SEMANTIC-RETRIEVAL-SERVICE-012
+
+Candidate value should be evaluated for multilingual/fuzzy material search and Project Inspector document/procedure similarity discovery before deciding PROMOTE, MERGE or RETIRE.
+
+- Context: Evaluation must compare the service with simpler alias/full-text/search approaches.
+- Roadmap: `SEM-EVAL-01`
+
 # Module — telegram_bot
 
-Intent count: 11
+Intent count: 45
 
 ## RECOVERED · HI-TELEGRAM-BOT-001
 
@@ -778,9 +2283,222 @@ Order-relevant Telegram confirmations should be persisted as structured/auditabl
 - Context: A future retention/privacy policy must govern how much raw conversation is retained.
 - Roadmap: `TG-AUDIT-01`
 
+## AGREED · HI-TELEGRAM-BOT-012
+
+Telegram should support bounded supplier/contact enrichment dialogues that collect missing structured information without repeated manual relaying.
+
+- Context: Confirmed facts are routed to the correct domain owner.
+- Roadmap: `TG-SUPPLIER-01`
+
+## AGREED · HI-TELEGRAM-BOT-013
+
+Telegram roadmap should include voice-message transcription feeding the same structured intent pipeline as text, with future TTS/voice interaction later.
+
+- Context: Voice is a channel modality, not separate business logic.
+- Roadmap: `TG-VOICE-01`
+
+## AGREED · HI-TELEGRAM-BOT-014
+
+Telegram Bot is the primary human communication orchestrator across customers, suppliers, carriers/taxi and other external contacts, while business decisions remain with the appropriate domain modules.
+
+- Context: Telegram communicates domain results rather than becoming the owner of Logistics/Accounting/etc.
+- Roadmap: `TG-ROLE-01`
+
+## AGREED · HI-TELEGRAM-BOT-015
+
+Telegram must support both controlled menu-driven workflows for sensitive/financial interactions and a more natural conversational mode for ordinary communication.
+
+- Context: Sensitive flows use explicit identity/context/permissions and bounded choices.
+- Roadmap: `TG-MODE-01`
+
+## AGREED · HI-TELEGRAM-BOT-016
+
+Before dispatching a task to Calculator, Logistics or another domain module, Telegram must collect the required input set for that module or explicitly route a structured missing-information state.
+
+- Context: Avoid wasteful request/clarification ping-pong caused by obviously incomplete tickets.
+- Roadmap: `TG-TICKET-01`
+
+## AGREED · HI-TELEGRAM-BOT-017
+
+Completed and interrupted conversations must be preserved as traceable conversation episodes linked to participants and business context, while allowing multiple topics to coexist in one physical chat.
+
+- Context: Dialogue history may later be required for quality, disputes, delivery or accounting context.
+- Roadmap: `TG-DIALOGUE-01`
+
+## AGREED · HI-TELEGRAM-BOT-018
+
+Telegram must actively close communication loops such as delivery handoff: notify, monitor expected arrival, warn about paid waiting/timeout when applicable, confirm receipt and escalate contact when necessary.
+
+- Context: Future voice/call adapter may be used for authorized escalation when text is not acknowledged.
+- Roadmap: `TG-FOLLOWUP-01`
+
+## AGREED · HI-TELEGRAM-BOT-019
+
+Telegram requires a deep repository inventory and ownership reconciliation before the next mature portfolio because it is one of the oldest modules and may contain stale or cross-domain instructions/capabilities.
+
+- Context: Conflicting historical instructions must be classified and removed/reassigned only through reviewed migration.
+- Roadmap: `TG-INVENTORY-01`
+
+## AGREED · HI-TELEGRAM-BOT-020
+
+External inbound messages must pass relevance/security/intake validation before they can trigger expensive search, AI dialogue or downstream module work.
+
+- Context: Accidental personal messages, pocket/noise text and suspicious extraction attempts must not become trusted tasks.
+- Roadmap: `TG-INGRESS-01`
+
+## RECOVERED · HI-TG-ARCH-20260919-001
+
+Telegram may adapt tone, structure, length, formality and contextual explanation, but it must not silently alter domain facts such as price, quantity, deadline, status, payment requirement, delivery fact or guarantee.
+
+- Context: Recovered from the 2026-09-19 evening architecture handoff; communication presentation is separate from business truth.
+
+## RECOVERED · HI-TG-ARCH-20260919-002
+
+Cross-module communication should prefer structured inbound domain requests/events and structured outbound communication intents; Telegram combines them with conversation state and communication context to render natural language.
+
+- Context: Recovered from the 2026-09-19 evening architecture handoff.
+
+## RECOVERED · HI-TG-ARCH-20260919-003
+
+Customer-specific terminology, recurring patterns, exceptions and communication preferences may inform Telegram behavior, but customer-specific semantics must not silently become global semantics.
+
+- Context: Recovered from the 2026-09-19 evening architecture handoff.
+
+## RECOVERED · HI-TG-ARCH-20260919-004
+
+Ambiguous or multi-file conversations should converge toward a structured Order Draft through bounded clarification modes; Calculator, Library and other domain services remain the canonical constraint providers.
+
+- Context: Recovered from the 2026-09-19 evening architecture handoff; avoid endless free-text clarification loops.
+
+## RECOVERED · HI-TG-ARCH-20260919-005
+
+Telegram should query a machine-readable historical asset index and deep-compare only a narrowed candidate set; it must not scan the raw customer archive live or own historical asset truth.
+
+- Context: Recovered from the 2026-09-19 evening architecture handoff.
+
+## RECOVERED · HI-TG-ARCH-20260919-006
+
+Long-running process state, waiting conditions, timers, deadlines, retries and transitions must live outside Telegram; Telegram participates through communication intents, acknowledgements and clarification.
+
+- Context: Recovered from the 2026-09-19 evening architecture handoff.
+
+## RECOVERED · HI-TG-DATA-INGEST-20260922-001
+
+Telegram dialogue history should be recoverable from exported customer-chat HTML through a deterministic parser that produces structured semantic input/response examples, merges short same-context messages where appropriate, and does not turn non-text media placeholders into dialogue examples.
+
+- Context: Recovered from the filename-label 07.10 Telegram data-ingest dialogue. The historical 20-column Supabase shape is evidence, not automatically the current schema.
+
+## RECOVERED · HI-TG-DATA-INGEST-20260922-002
+
+Dialogue/corpus ingestion should resolve an existing customer identity reference rather than invent a new client identity from the chat export; current canonical customer identity remains outside Telegram Bot.
+
+- Context: Historical source explicitly maps client_id from an existing clients table. Current architecture refines the owner to CRM/identity surfaces.
+
+## RECOVERED · HI-TG-DATA-INGEST-20260922-003
+
+Before expanding Telegram training data synthetically, use known-good examples that already import successfully to establish the active schema/format contract instead of guessing headers or field shapes.
+
+- Context: Owner explicitly changed the historical workflow to compatibility-first generation after providing known-good CSV samples.
+
+## RECOVERED · HI-TG-DATA-INGEST-20260922-004
+
+Synthetic order_modification coverage should include realistic changes to an existing order such as add/replace/change, references to a previous order, and quantity or detail modifications rather than only new-order requests.
+
+- Context: Recovered directly from the historical synthetic-data expansion request.
+
+## RECOVERED · HI-TG-BEHAVIOR-20260922-001
+
+Telegram intent/classification semantics should explicitly represent sales opportunity, customer refusal and objection-handling states so downstream dialogue logic can choose appropriate selling, clarification or fallback behavior instead of treating all requests as one generic dialogue class.
+
+- Context: Recovered from the internally anchored 2025-10-12 behavior-model dialogue. Exact current taxonomy names remain subject to live classifier/schema reconciliation.
+
+## RECOVERED · HI-TG-ML-20260922-001
+
+Telegram classifier training data should remain modular by behavior/domain rather than be forced into one giant table, so weak domains such as sales, objections or order handling can be improved independently while the training pipeline combines them under a versioned dataset contract.
+
+- Context: Recovered directly from the owner discussion of separate dialogue/sales/objection/order datasets. Dataset registry, weighting and merge mechanics remain to be reconciled.
+
+## RECOVERED · HI-TG-ML-20260922-002
+
+Recurring Telegram classifier evaluation must not rely indefinitely on one static test dataset that can leak into tuning; long-running quality evidence should include fresh unseen cases, provenance/leakage controls and an independent expected-label oracle or review path before automated retraining or promotion decisions.
+
+- Context: Recovered from the owner's explicit concern that DeBERTa can adapt to a repeatedly used test set. External LLM generation is only one historical candidate for fresh cases, not the oracle and not a required provider.
+
+## RECOVERED · HI-TG-HUMAN-TALK-20260922-001
+
+Telegram human-talk response templates should use normalized intent/style/sentiment references and produce short, natural, non-verbatim-repetitive responses with multilingual support for Ukrainian, Russian and English; template priority remains a bounded ranking input rather than business truth.
+
+- Context: Recovered from the filename-label 12.10 human-talk/template dialogue. The owner explicitly moved the schema from textual style/sentiment fields to style_id/sentiment_id foreign-key references, required 1–2 sentence natural responses, uk/ru/en support and priority 0–10.
+
+## RECOVERED · HI-TG-HUMAN-TALK-20260922-002
+
+Telegram template and synthetic-data generation must stay inside the current canonical intent, style and sentiment lookup vocabularies; generated rows must not silently invent new labels or expand the taxonomy without an explicit schema/taxonomy decision.
+
+- Context: The owner supplied explicit lookup tables. Later assistant-generated rows introduced unsupported friendly/playful/aggressive/urgent values; this is preserved as a historical contract-drift defect, not an authorized taxonomy expansion.
+
+## RECOVERED · HI-TG-ML-ENGINEERING-20260922-001
+
+Before retraining Telegram classifiers, datasets should be audited for invalid labels, conflicting duplicate texts, ordinary duplicates, suspicious/low-quality examples, class imbalance and train/validation/test leakage; the resulting split and augmentation lineage should remain explicit.
+
+- Context: Recovered from the October-2025 Telegram ML engineering dialogue after owner-reported style accuracy 0.6394. The owner asked for dataset correction, balancing and detailed review before retraining.
+
+## RECOVERED · HI-TG-ML-ENGINEERING-20260922-002
+
+Telegram intent, style and sentiment classifiers should follow one shared structural discipline across training, classification and evaluation while preserving entity-specific datasets, label contracts, model artifacts, revisions, reports and paths so one classifier domain cannot collide with another.
+
+- Context: Recovered from repeated owner requests to align intent/style/sentiment training and evaluation scripts without collapsing their separate artifact namespaces.
+
+## RECOVERED · HI-TG-ML-ENGINEERING-20260922-003
+
+Existing Telegram classifier label-map files are durable compatibility contracts: training, classify and evaluate code should read rather than silently overwrite them, deliberately support documented name-to-id and id-to-name forms where required, and preserve downstream decoder compatibility.
+
+- Context: Recovered from the owner's explicit label-map preservation rule and historical intent-decoder failures.
+
+## RECOVERED · HI-TG-ML-ENGINEERING-20260922-004
+
+Telegram ML paths and operational settings should be centralized and composed from canonical configuration roots rather than scattered hard-coded strings; config refactors must preserve existing consumers and classifier-domain-specific path constants must prevent intent/style/sentiment artifact collisions.
+
+- Context: Recovered from repeated config.py/.env/path refactoring requests and the historical generic DEBERTA_ARCHIVE_BASE_DIR collision.
+
+## RECOVERED · HI-TG-ML-ENGINEERING-20260922-005
+
+Telegram classifier evaluation should emit both machine-readable metrics/artifacts and human-readable diagnostics, including per-class/confusion evidence where useful, stable artifact identities and explicit paths to created outputs so the operator can inspect results without losing reproducibility.
+
+- Context: Recovered from the owner's requests for readable Excel-oriented evaluation alongside JSON/confusion artifacts and predictable metrics/log filenames.
+
+## RECOVERED · HI-TG-BEHAVIOR-RUNTIME-20260922-001
+
+Telegram behavior should be modeled and reviewed explicitly before production execution logic is allowed to drive architecture; synthetic phrases and scenario fixtures validate behavior specifications but must not silently become the source of production business rules.
+
+- Context: Recovered from the long-running Telegram history where the owner explicitly reset priority from classifier/runtime tuning back to behavior-model design and treated synthetic phrases as behavior fixtures.
+
+## RECOVERED · HI-TG-QUALIFICATION-20260922-001
+
+Telegram may conversationally collect missing customer qualification data such as contact details, activity/product interests and preferred delivery method, but any durable profile update must be expressed as a confirmed write intent to the canonical CRM/identity owner rather than maintained as Telegram-owned customer truth.
+
+- Context: Recovered from historical client-qualification behavior and reconciled with current CRM identity ownership. The exact writable field contract remains to be defined with CRM.
+
+## RECOVERED · HI-TG-BEHAVIOR-REGISTRY-20260922-001
+
+Telegram behavior specifications should have one structured canonical registry and may generate operator-friendly Excel/HTML views with integrity, duplicate and KPI/coverage indicators; generated views must remain derived projections rather than manually maintained competing sources of truth.
+
+- Context: Recovered from the historical behavior-registry workflow where Excel/HTML were requested as default operator artifacts and integrity/KPI/duplicate metadata were part of the registry.
+
+## RECOVERED · HI-TG-BEHAVIOR-RUNTIME-20260922-002
+
+Telegram behavior registries, XLS workbooks, wizard simulators and other design/test artifacts must be clearly classified and separated from production runtime dependencies; scenario simulation should remain modular behind a small dispatcher while production runtime consumes only approved runtime contracts.
+
+- Context: Recovered from the historical ORDER/VENDORS wizard evolution and the owner's explicit separation of XLS/wizard development artifacts from the real Supabase-backed Telegram runtime.
+
+## RECOVERED · HI-TG-TOOLING-20260922-001
+
+Telegram tooling that mutates generated workbooks, registries or other artifacts must verify the artifact-level postcondition after a claimed success; command exit success alone is insufficient when the expected file content or structural change did not actually occur.
+
+- Context: Recovered from a historical false-success candidate where a patcher reported success but the owner observed that the workbook had not changed.
+
 # Module — website
 
-Intent count: 7
+Intent count: 8
 
 ## RECOVERED · HI-WEBSITE-001
 
@@ -824,9 +2542,13 @@ Website не повинен зберігати business truth у frontend state;
 
 - Context: Не жертвувати зрозумілістю заради складного конструктора.
 
+## AGREED · HI-FP-U92-20260903-001
+
+Website is the public Web Presence / SEO Entry Point: public façade, discoverability and routing only; it must not become authentication, pricing, payment, basket or canonical order truth.
+
 # Module — mobile_app
 
-Intent count: 5
+Intent count: 6
 
 ## RECOVERED · HI-MOBILE-APP-001
 
@@ -858,9 +2580,13 @@ MVP може включати catalog/configuration/calculation/order creation/s
 
 - Context: Щоб не з'явилися три різні ForPrint UI.
 
+## AGREED · HI-FP-U92-20260903-003
+
+Native Mobile App remains proposed/paused until customer scale, mobile traffic and native-only value justify implementation; responsive web and Customer Portal are the present priority.
+
 # Module — forprint_library
 
-Intent count: 13
+Intent count: 20
 
 ## RECOVERED · HI-FP-LIBRARY-001
 
@@ -945,9 +2671,57 @@ Library should eventually provide standardized visual/SOP instructions for Job T
 - Context: Human guidance is a Library knowledge responsibility; execution truth remains OCR.
 - Roadmap: `LIB-FILE-05`
 
+## AGREED · HI-FP-LIBRARY-014
+
+Library is publication owner for shared ForPrint UI tokens, themes, reusable components, component catalog, versions and adoption metadata.
+
+- Context: Blueprint governs; consumers compose; Inspector validates.
+- Roadmap: `LIB-UI-01`
+
+## AGREED · HI-FP-LIBRARY-015
+
+Shared indexes should help modules discover reusable technical primitives and semantic definitions before creating competing implementations.
+
+- Context: Domain business rules still belong to domain owners.
+- Roadmap: `LIB-INDEX-01`
+
+## AGREED · HI-LIBRARY-U131-20260906-001
+
+ForPrint Library is the shared semantic and contract reference authority; modules should consult its existing canonical/recommended semantics before creating significant competing shared implementations.
+
+- Context: This extends the Library role already present in module policy; it does not move domain business ownership into Library.
+- Roadmap: `LIB-SEMANTIC-REGISTRY`
+
+## AGREED · HI-LIBRARY-U131-20260906-002
+
+A first registered semantic ID may remain stable while maturity, recommended implementation names, aliases and contract versions evolve.
+
+- Context: Registration does not automatically mean CANONICAL.
+- Roadmap: `LIB-SEMANTIC-REGISTRY`
+
+## AGREED · HI-LIBRARY-U131-20260906-003
+
+Semantic registration should prioritize module-public, cross-module, external-boundary, high-criticality and widely reused surfaces rather than every local helper.
+
+- Context: Interaction scope and criticality are independent signals for standardization review.
+- Roadmap: `LIB-SEMANTIC-REGISTRY`
+
+## AGREED · HI-LIBRARY-U131-20260906-004
+
+Library should batch unresolved semantic registration/enrichment proposals and publish versioned semantic changes; Blueprint remains responsible for rollout timing and adoption mode across affected modules.
+
+- Context: Adoption may be informational, new-code-only, migrate-on-touch, roadmap-required or migration-required.
+- Roadmap: `LIB-SEMANTIC-REGISTRY`
+
+## RECOVERED · HI-LIBRARY-ARCH-20260919-001
+
+Historical/reference asset indexing should use stable asset and revision semantics with provenance; an index/search result is a projection and must not become canonical asset, order or production truth.
+
+- Context: Recovered from the 2026-09-19 historical asset indexing discussion.
+
 # Module — forprint_prepress_hub
 
-Intent count: 9
+Intent count: 25
 
 ## RECOVERED · HI-FP-PREPRESS-HUB-001
 
@@ -1006,9 +2780,109 @@ PDF production metadata may later carry stable production properties as an inter
 - Context: JDF/XJDF/PDF metadata remain future adapter directions.
 - Roadmap: `PP-INTEROP-01`
 
+## AGREED · HI-FP-PREPRESS-HUB-010
+
+Prepress Hub roadmap deepening must be recovery-first: recover all prior detailed operator discussions, project evidence and existing module capabilities before filling only genuine gaps with PROPOSED synthesis.
+
+- Context: The operator previously described this module in substantial detail and does not want that intent replaced by a fresh generic design.
+- Roadmap: `PREPRESS-RECOVERY-01`
+
+## RECOVERED · HI-PREPRESS-ARCH-20260919-001
+
+Prepress should be able to emit machine-readable technical asset facts and fingerprints for historical indexing, including provenance and representative-page evidence, while not becoming the archive, customer-history or search-result authority.
+
+- Context: Recovered from the 2026-09-19 historical asset indexing discussion.
+
+## RECOVERED · HI-PREPRESS-CAPABILITY-20260922-001
+
+Prepress development should be capability-first: first determine which practical file-processing tasks can actually be automated, which native tools already exist and which utilities ForPrint must build; only after that should broader cross-module integration architecture be designed.
+
+- Context: Recovered directly from the 27.06 owner discussion. This refines the broad May zero-platform proposal without discarding the canonical Prepress module itself.
+
+## RECOVERED · HI-PREPRESS-ASSISTANTS-20260922-001
+
+Prepress assistants should remain product-specific where domain behavior differs—such as Photoshop, Illustrator, CorelDRAW and PDF/Acrobat—while reusable low-level file inspection belongs in shared fact-oriented tools that return stable structured technical evidence rather than making production decisions.
+
+- Context: Recovered from the owner's rejection of one abstract Raster Assistant and the accepted shared-tools model. Specialized assistants should reuse common inspection capabilities instead of duplicating them.
+
+## RECOVERED · HI-PREPRESS-CANDIDATES-20260922-001
+
+A single input may legitimately produce several controlled Prepress processing candidates because different tools or strategies can yield different visual quality; candidate ordering must depend on file type, task and risk rather than a universal tool hierarchy, and each candidate should expose preview plus risk/confidence evidence.
+
+- Context: Recovered from the owner's bleed/edge example and explicit requirement to show different processing variants when multiple tools can produce materially different results.
+
+## RECOVERED · HI-PREPRESS-EXECUTION-20260922-001
+
+Prepress execution should be Unix-first whenever deterministic inspection or preparation is practical, while Windows/Photoshop is a bounded quality executor for Photoshop-specific, layered or visually sensitive work; the workstation must not become the central orchestration brain.
+
+- Context: Recovered directly from the owner's request to keep practical work on Unix where possible and use the remote Windows graphics station only when its specialized tooling adds real value.
+
+## RECOVERED · HI-PREPRESS-RASTER-POLICY-20260922-001
+
+Raster preflight should treat effective resolution and aspect suitability as separate checks and use configurable policy thresholds for minimum effective DPI and maximum automatic nonproportional adjustment; outside the allowed policy envelope the workflow must request confirmation or operator review instead of guessing.
+
+- Context: Historical examples mentioned about 25 DPI and 3–5% distortion, but those values are examples/configuration ideas rather than permanent production constants.
+
+## RECOVERED · HI-PREPRESS-RASTER-POLICY-20260922-002
+
+Automatic K-only enhancement of thin dark raster text must be treated as a heuristic candidate with explicit confidence/risk gating and preview/manual fallback; automation must not blindly recolor dark image or design content.
+
+- Context: Recovered from the owner's real print-quality problem and the accepted safety boundary that rasterized text cannot always be distinguished reliably from other dark artwork.
+
+## RECOVERED · HI-PREPRESS-PDF-AUTOMATION-20260922-001
+
+ForPrint should automate client file intake as far as safely possible: accept uploaded/SFTP-style files, validate them against product/prepress rules, apply deterministic low-risk corrections automatically, generate a visual proof for confirmation, ask structured clarification when required, and route cases that cannot be safely automated to manual paid prepress rather than silently guessing.
+
+- Context: Recovered directly from the PDF Assistant primary conversation. This extends current Prepress lifecycle, safe-preview and operator-fallback intent with an explicit online intake/proof/clarification loop.
+
+## RECOVERED · HI-PREPRESS-PDF-ENGINEERING-20260922-001
+
+ForPrint-owned PDF automation should be Python-first for orchestration, rules, adapters and reporting; non-Python/native components such as C++ may be introduced only for bounded functions where a concrete performance or capability gap justifies the added complexity, rather than moving the whole PDF subsystem to another language.
+
+- Context: Recovered from the owner's explicit confirmation of the preferred engineering policy in the PDF Assistant conversation.
+
+## RECOVERED · HI-PREPRESS-PDF-STRATEGY-20260922-001
+
+ForPrint should evaluate and plan a ForPrint-owned PDF Control Layer capable of gradually covering the business-critical callas-like automation needed by the printshop, while keeping external commercial or native PDF engines replaceable rather than making one vendor the owner of ForPrint PDF business logic; the exact scope must be reconciled and approved through Blueprint before implementation.
+
+- Context: Recovered from the owner's request to prepare a machine-oriented Blueprint prompt for an internal callas-like PDF project with roughly a year available for implementation. The source does not authorize a full clone of callas or a specific commercial-engine purchase.
+
+## RECOVERED · HI-PREPRESS-RASTER-PIPELINE-20260922-001
+
+Raster client inputs such as PNG/JPEG and similar formats should be prepared for print through a bounded raster-processing stage, normalized to an appropriate PDF representation, passed through PDF-specific validation, and then handed to Prepress Hub for downstream readiness/production handling; this pipeline should preserve the separation between raster adaptation, PDF validation and overall Prepress orchestration.
+
+- Context: Recovered directly from the Prepress Assistant architecture primary source. Product-specific assistants and Unix/Windows execution separation are corroborating evidence already captured from the 27.06 source.
+
+## RECOVERED · HI-PREPRESS-OPERATOR-SURFACE-20260922-001
+
+Prepress should provide one lightweight operator surface where a file can be drag-dropped or selected, a reusable ordered preset/chain can orchestrate the needed Acrobat/Photoshop/Illustrator or other product-specific processing steps, and the output destination can be defaulted or chosen; this surface is orchestration UX and must not collapse product-specific assistants into one universal domain brain.
+
+- Context: Recovered directly from CRM-source turn 1, which predates the later Prepress sources. Reconciled with the 27.06 owner decision that product-specific assistants remain separate while shared orchestration/tools may compose their work.
+
+## AGREED · HI-FP-PREPRESS-HUB-20260925-VISUALIZATION-DISCOVERY-001
+
+Prepress Hub should treat automated product visualization as a future discovery-heavy capability: compare deterministic 2D mockups, scripted/3D rendering, AI-assisted visualization and hybrid pipelines, prefer deterministic rendering where adequate, and require a fresh technology review at the actual implementation date rather than freezing the 2026 tool stack.
+
+- Context: Owner confirmation on 2026-09-25: implementation may occur much later and must re-evaluate then-current tooling, fidelity, cost, licensing, privacy, local-vs-hosted execution and print-specific limitations.
+- Roadmap: `PREPRESS_VISUALIZATION_DISCOVERY_20260925`
+
+## AGREED · HI-PREPRESS-GDL-EMPIRICAL-LEARNING-20261001-001
+
+Graphic Design Lab should learn from real customer requests, Creator prompts, Creator outputs, revision cycles, operator assessment and customer acceptance before broad design automation expands. Failed prompts and failed results remain learning evidence; one case may create a hypothesis but must not automatically create a global rule.
+
+- Context: The next bounded GDL contour adds a lightweight empirical-learning layer over the already verified Product Playbook, Guided Intake and Creator Handoff foundation. Repository data should be sanitized metadata and references rather than heavy design assets or customer PII.
+- Roadmap: `prepress_gdl_creator_empirical_learning_foundation_v0_1`
+
+## AGREED · HI-PREPRESS-GDL-CONTOUR-GOVERNANCE-20261001-001
+
+Future GDL development should be released one reconciled execution contour at a time. Later contours preserve intent, rationale and dependencies but are not frozen implementation instructions; before every release Blueprint must reconcile current Prepress state, empirical findings, Human Intent and pending amendments.
+
+- Context: Sequence 1 is Creator Empirical Learning Foundation. Creator Result Package remains sequence 2. Evaluation taxonomy and prompt-pattern composition require empirical evidence. No later contour self-activates.
+- Roadmap: `prepress_gdl_empirical_learning_horizon_20261001_v0_1`
+
 # Module — warehouse_service
 
-Intent count: 8
+Intent count: 11
 
 ## AGREED · HI-WAREHOUSE-SERVICE-001
 
@@ -1060,9 +2934,30 @@ Legacy filename material tokens are parser candidates; Warehouse consumes canoni
 - Context: Do not make warehouse stock truth depend on a misspelled filename token.
 - Roadmap: `WH-FILE-01`
 
+## AGREED · HI-WAREHOUSE-SERVICE-009
+
+Warehouse must reserve stock for active orders and calculate projected available stock after reservations, not only physical on-hand quantity.
+
+- Context: Reservation can push projected stock below the replenishment threshold before physical consumption occurs.
+- Roadmap: `WH-STOCK-01`
+
+## AGREED · HI-WAREHOUSE-SERVICE-010
+
+Each controlled material needs a stock policy including at least minimum/reorder threshold and a normal replenishment quantity or target so Warehouse can raise a structured replenishment need.
+
+- Context: Financial feasibility and purchase execution remain separate ownership questions to reconcile.
+- Roadmap: `WH-REPLENISH-01`
+
+## AGREED · HI-WAREHOUSE-SERVICE-011
+
+Warehouse must support controlled write-off/adjustment reasons for damaged, spoiled or otherwise unusable materials while preserving traceability of the stock movement.
+
+- Context: Storage damage and production-related material loss must not disappear from stock without evidence.
+- Roadmap: `WH-ADJUST-01`
+
 # Module — production_runtime_inspector
 
-Intent count: 7
+Intent count: 12
 
 ## AGREED · HI-PRODUCTION-RUNTIME-INSPECTOR-001
 
@@ -1108,9 +3003,41 @@ Similar/replaceable printers may share a capability queue while runtime evidence
 - Context: Planning capability and actual telemetry are separate concerns.
 - Roadmap: `PRI-DEVICE-02`
 
+## AGREED · HI-PRODUCTION-RUNTIME-INSPECTOR-008
+
+Runtime Inspector must observe end-to-end execution traces: process start, module/tool calls, waits, durations, retries, outcomes and dependency blocking.
+
+- Context: Its focus is what the live system actually executed, not repository/project conformance.
+- Roadmap: `RTI-TRACE-01`
+
+## AGREED · HI-PRODUCTION-RUNTIME-INSPECTOR-009
+
+Runtime Inspector must expose repeated-call, retry, wait-time and bottleneck evidence so loops and asymmetric producer/consumer delays can be detected and analyzed.
+
+- Context: Example: one module repeatedly waiting on another should become visible as runtime evidence.
+- Roadmap: `RTI-LOOP-01`
+
+## AGREED · HI-PRODUCTION-RUNTIME-INSPECTOR-010
+
+Runtime governance must track separate configurable budgets for retries, repeated call signatures, inter-module hops, database/tool calls, AI usage/cost and timeout/TTL.
+
+- Context: Configured budget exhaustion must lead to stop/degraded/manual-review behavior rather than endless retries.
+- Roadmap: `RTI-BUDGET-01`
+
+## AGREED · HI-PRODUCTION-RUNTIME-INSPECTOR-011
+
+Runtime observability should minimize sensitive payload exposure; identifiers, contract versions, status, timings, classifications/hashes and error evidence are preferred unless payload access is explicitly authorized.
+
+- Context: Observability must not create a new unrestricted data-leak surface.
+- Roadmap: `RTI-DATA-01`
+
+## PROPOSED · HI-FP-U92-20260903-010
+
+Runtime evidence should include AI/tool calls, repeat patterns, tokens, latency, cost, retries, escalation and budget-runway signals; provisional context checkpoint/handoff thresholds remain policy-tunable rather than hard business truth.
+
 # Module — forprint_project_inspector
 
-Intent count: 18
+Intent count: 28
 
 ## RECOVERED · HI-FP-PROJECT-INSPECTOR-001
 
@@ -1232,9 +3159,79 @@ Inspector should consume a future machine-readable Cross-Module Invariant Regist
 - Context: The registry makes semantic checks more deterministic without giving Inspector semantic ownership.
 - Roadmap: `PI-S3`
 
+## AGREED · HI-FP-PROJECT-INSPECTOR-019
+
+Inspector should detect shared-UI drift, stale component adoption, self-inventory inconsistency, duplicate capability implementations and cross-module semantic divergence.
+
+- Context: Inspector reports/routes; it does not own the underlying semantics.
+- Roadmap: `PI-S11`
+
+## AGREED · HI-FP-PROJECT-INSPECTOR-020
+
+Project Inspector must audit repository cleanliness in Blueprint and other ForPrint repositories, including schema drift, generated-file drift, duplicate capability/semantic surfaces, orphan current documents, naming/folder deviations and uncontrolled temporary artifacts.
+
+- Context: Inspector detects and routes evidence; it does not become semantic owner of another module.
+- Roadmap: `PI-CLEAN-01`
+
+## AGREED · HI-FP-PROJECT-INSPECTOR-021
+
+Project Inspector must detect candidate duplicate/equivalent functions and compare them with common fixtures, edge cases and invalid inputs to expose semantic divergence such as different price/rounding results.
+
+- Context: A candidate duplicate is not automatically the same semantic function; evidence is required.
+- Roadmap: `PI-DUP-01`
+
+## AGREED · HI-FP-PROJECT-INSPECTOR-022
+
+When equivalent functionality exists in multiple modules, Inspector should report implementation quality, ownership and consolidation options but must not automatically merge or replace implementations.
+
+- Context: Target direction is one appropriate canonical owner/contract where semantics are truly shared.
+- Roadmap: `PI-DUP-02`
+
+## AGREED · HI-FP-PROJECT-INSPECTOR-023
+
+Dormant scripts, functions, and documents are review candidates, not automatic deletion candidates; Inspector must use evidence such as usage, ownership, dependencies, documentation, fallback purpose and current roadmap relevance.
+
+- Context: Rare disaster-recovery or safety functionality can be important despite long periods without use.
+- Roadmap: `PI-DORMANT-01`
+
+## AGREED · HI-FP-PROJECT-INSPECTOR-024
+
+Project Inspector must identify orphaned or misowned historical capabilities and route them for KEEP/MOVE/MERGE/REWRITE/DEPRECATE/REMOVE review with evidence.
+
+- Context: Old Calculator/Telegram functionality is a priority area for this audit.
+- Roadmap: `PI-OWNERSHIP-01`
+
+## AGREED · HI-FP-PROJECT-INSPECTOR-025
+
+Project Inspector must support periodic and risk-triggered conformance audits and emit bounded findings with evidence, severity, responsible owner and recommended disposition.
+
+- Context: Cleanliness, duplicate standards, stale instructions and semantic conflicts are ongoing controls.
+- Roadmap: `PI-AUDIT-01`
+
+## AGREED · HI-INSPECTOR-U131-20260906-001
+
+Inspector should resolve a question to shared semantics, filter modules through inventory/index evidence, then filter significant implementations through metadata and dependency relationships before deep source inspection.
+
+- Context: This reduces full-repository semantic guessing.
+- Roadmap: `INSPECTOR-SEMANTIC-QUERY`
+
+## AGREED · HI-INSPECTOR-U131-20260906-002
+
+Inspector findings should distinguish exact canonical matches, known aliases, linked provisional implementations and AI-inferred matches so uncertainty is visible rather than hidden.
+
+- Context: Manual review should concentrate on inferred or conflicting cases.
+- Roadmap: `INSPECTOR-SEMANTIC-CONFIDENCE`
+
+## AGREED · HI-INSPECTOR-U131-20260906-003
+
+Inspector should detect duplicate current implementations without lineage/coexistence justification and later support read-only impact and conformance queries over shared contracts.
+
+- Context: Inspector advises and verifies; it must not silently delete, merge or reassign semantic ownership.
+- Roadmap: `INSPECTOR-INVENTORY-CONFORMANCE`
+
 # Module — forprint_strategic_control_plane
 
-Intent count: 5
+Intent count: 6
 
 ## PROPOSED · HI-FP-STRATEGIC-CONTROL-PLANE-001
 
@@ -1266,9 +3263,13 @@ Strategic Control Plane у зрілому стані може отримати �
 
 - Context: Це відкрите архітектурне питання.
 
+## AGREED · HI-FP-U92-20260903-007
+
+Strategic Control Plane is long-horizon decision intelligence for quantified scenarios, investments and strategic memory; strategic decisions remain human.
+
 # Module — forprint_integration_gateway
 
-Intent count: 7
+Intent count: 12
 
 ## RECOVERED · HI-FP-INTEGRATION-GATEWAY-001
 
@@ -1314,9 +3315,101 @@ Gateway must not silently reinterpret Library/CRM/Accounting semantics when norm
 - Context: If a semantic mapping changes, it requires the appropriate authority/contract revision.
 - Roadmap: `GW-CONTRACT-02`
 
+## AGREED · HI-FP-INTEGRATION-GATEWAY-008
+
+Integration Gateway must provide a canonical inter-module message envelope and validate contract/schema/version compatibility before routing a request or response.
+
+- Context: Internal module implementation can differ; the boundary format must remain controlled.
+- Roadmap: `IG-CONTRACT-01`
+
+## AGREED · HI-FP-INTEGRATION-GATEWAY-009
+
+Invalid or incompatible payloads must be rejected/quarantined with visible evidence rather than silently guessed, reshaped or ignored.
+
+- Context: The operator needs an administrative view of invalid exchanges and why they failed.
+- Roadmap: `IG-VALIDATE-01`
+
+## AGREED · HI-FP-INTEGRATION-GATEWAY-010
+
+Gateway integration control must include idempotency, bounded retries, dead-letter/quarantine behavior and audit/correlation evidence for failed or repeated inter-module exchanges.
+
+- Context: Transport reliability must not create duplicate business operations or hidden infinite loops.
+- Roadmap: `IG-RELIABILITY-01`
+
+## AGREED · HI-FP-INTEGRATION-GATEWAY-011
+
+Gateway validates transport/contract boundaries but does not become universal business-semantic owner; domain modules validate their own semantics and Contract Registry controls contract lifecycle.
+
+- Context: Runtime Inspector observes execution; Project Inspector audits design/conformance.
+- Roadmap: `IG-BOUNDARY-01`
+
+## AGREED · HI-FP-U92-20260903-006
+
+Shared resource concurrency must preserve persistent request state and explicit queue/wait/retry/degraded outcomes; TEMPORARILY_UNAVAILABLE is not equivalent to NOT_FOUND.
+
+# Module — forprint_identity_access_service
+
+Intent count: 8
+
+## AGREED · HI-FP-IDENTITY-ACCESS-001
+
+ForPrint should use one shared Identity & Access Service instead of separate authentication inside Website, Calculator, CRM and Mobile.
+
+- Context: The module existed as a prior candidate and is now explicitly confirmed for formation.
+- Roadmap: `IAM-01`
+
+## AGREED · HI-FP-IDENTITY-ACCESS-002
+
+Identity, authentication and authorization are distinct concerns and must remain explicit in architecture.
+
+- Context: Business relationship truth remains outside credential/session ownership.
+- Roadmap: `IAM-01`
+
+## AGREED · HI-FP-IDENTITY-ACCESS-003
+
+Access control must support role defaults plus explicit per-user permission additions or restrictions.
+
+- Context: A manager can receive extra Production/Logistics access without a duplicate person.
+- Roadmap: `IAM-03`
+
+## AGREED · HI-FP-IDENTITY-ACCESS-004
+
+Phone, email and Telegram are identifiers/contact paths, not immutable primary database keys.
+
+- Context: Use stable internal Account/Person IDs.
+- Roadmap: `IAM-02`
+
+## AGREED · HI-FP-IDENTITY-ACCESS-005
+
+Cross-client/cross-organization access is deny-by-default and requires explicit scoped permission.
+
+- Context: Representing multiple organizations does not grant universal access.
+- Roadmap: `IAM-04`
+
+## PROPOSED · HI-FP-IDENTITY-ACCESS-006
+
+Mature Identity should support sessions/devices, recovery, revocation, MFA/passkeys and auditable security events.
+
+- Context: Synthetic full-horizon capability for owner review.
+- Roadmap: `IAM-05`
+
+## PROPOSED · HI-FP-IDENTITY-ACCESS-007
+
+Mature Identity should provide shared SSO/session semantics across ForPrint web/internal/mobile surfaces.
+
+- Context: Exact protocols remain an implementation decision.
+- Roadmap: `IAM-07`
+
+## AGREED · HI-FP-IDENTITY-ACCESS-008
+
+External provider passwords/API keys are not user identity and belong to centralized secrets infrastructure.
+
+- Context: Identity may authorize access to secret-backed actions but does not own the external secret.
+- Roadmap: `IAM-BOUNDARY-01`
+
 # Module — logistics_service
 
-Intent count: 5
+Intent count: 12
 
 ## RECOVERED · HI-LOGISTICS-SERVICE-001
 
@@ -1348,9 +3441,57 @@ Order cancellation/stop-work і delivery cancellation — пов’язані, �
 
 - Context: Не змішувати production і перевізника.
 
+## AGREED · HI-LOGISTICS-SERVICE-006
+
+Logistics Service roadmap deepening must be recovery-first because substantial prior design evidence already exists; only genuine gaps should be filled with PROPOSED synthesis before the next portfolio review.
+
+- Context: Do not replace the detailed existing Logistics design with a generic rewrite.
+- Roadmap: `LOG-RECOVERY-01`
+
+## AGREED · HI-LOGISTICS-U129B-20260905-001
+
+Logistics is the first reference module for validating module-local self-knowledge, inventory/index maintenance, fresh-worker continuity and standardized completion reporting.
+
+- Context: Successful behavior becomes a reusable portfolio reference after explicit review.
+- Roadmap: `LOG-H10-REFERENCE`
+
+## AGREED · HI-LOGISTICS-U129B-20260905-002
+
+The first substantial Logistics pool requires manual operator review after every prompt before another prompt is released.
+
+- Context: This is the calibration pool for later control-level decisions.
+- Roadmap: `LOG-H10-REFERENCE`
+
+## AGREED · HI-LOGISTICS-U129B-20260905-003
+
+Each Logistics prompt should be executable by a fresh assistant from repository-owned AGENTS, inventory/index, prompt/contract/oracle, roadmap and prior completion evidence without requiring previous chat memory.
+
+- Context: Self-maintaining module knowledge is a prerequisite for reliable automation.
+- Roadmap: `LOG-H10-BOOTSTRAP`
+
+## AGREED · HI-LOGISTICS-U129B-20260905-004
+
+After the first Logistics pool, an independent inventory/audit must verify the actual repository result before automation is widened or the reference profile is propagated.
+
+- Context: Compare claims, inventory, lineage, documentation, tests and repository reality.
+- Roadmap: `LOG-H10-REFERENCE`
+
+## AGREED · HI-LOGISTICS-U131-20260906-001
+
+The Logistics H10 bootstrap should become the first practical reference for stronger module memory and lineage, but it should not be expanded into full retrospective metadata archaeology of every trivial helper before the first pilot pool can start.
+
+- Context: Establish significant implementation self-knowledge first, then grow coverage continuously.
+- Roadmap: `LOG-H10-BOOTSTRAP`
+
+## AGREED · HI-LOGISTICS-ARCH-20260919-001
+
+Logistics retains authoritative shipment-specific workflow/provider/tracking truth while a parent or linked cross-domain Process Manager may consume typed shipment events, waiting conditions and outcomes.
+
+- Context: Recovered from the 2026-09-19 long-running-process discussion and reconciled with the current Logistics target-state direction.
+
 # Module — forprint_system_administration
 
-Intent count: 8
+Intent count: 11
 
 ## AGREED · HI-FP-SYSTEM-ADMINISTRATION-001
 
@@ -1402,6 +3543,24 @@ System Administration owns physical routing/fallback for Job Ticket printing; Op
 
 - Context: Keep human interface separate from infrastructure routing.
 - Roadmap: `SYS-TICKET-01`
+
+## AGREED · HI-FP-SYSTEM-ADMINISTRATION-009
+
+System Administration owns the physical PostgreSQL platform operations and centralized secrets infrastructure.
+
+- Context: Domain modules retain semantic ownership; provider credentials do not live in Telegram/Calculator.
+- Roadmap: `SYS-DATA-01`
+
+## AGREED · HI-FP-SYSTEM-ADMINISTRATION-010
+
+SysAdmin autonomous troubleshooting must follow an explicit allowlist of low-risk supported actions; unlisted or higher-risk physical/system interventions must escalate rather than being improvised.
+
+- Context: Internet-assisted guidance is acceptable only within approved low-risk troubleshooting classes.
+- Roadmap: `SYSADMIN-SAFETY-01`
+
+## AGREED · HI-FP-U92-20260903-004
+
+System Administration should mature as a recovery-first, offline-capable technical operations helper with bounded voice/mobile/Telegram entry through controlled interfaces.
 
 # Module — forprint_contract_registry
 
@@ -1530,7 +3689,7 @@ The mature target includes safe deprecation/migration/retirement and a portfolio
 
 # Module — forprint_marketing_orchestrator
 
-Intent count: 5
+Intent count: 9
 
 ## RECOVERED · HI-FP-MARKETING-ORCHESTRATOR-001
 
@@ -1562,9 +3721,31 @@ Leads і customer response context мають переходити в CRM чер
 
 - Context: Потрібно окреме продуктове рішення.
 
+## AGREED · HI-FP-U92-20260903-008
+
+Marketing Orchestrator is a distinct Brand & Content Operations capability for campaigns, content, brand consistency and governed publication, not CRM/customer truth.
+
+## RECOVERED · HI-MKT-CREATIVE-TOOLCHAIN-20260922-001
+
+For repeated short-video production, ForPrint should normally standardize the operator workflow on one primary video generator at a time so prompt patterns, operator skill and repeatability can accumulate instead of fragmenting effort across several parallel tools; this operating preference must not hard-wire the architecture to one permanent provider.
+
+- Context: Recovered from the owner's explicit July SMM statement that he does not want to work with several generators at once and wants one tool to learn gradually. The preserved source does not contain a final owner acceptance of Google Veo or any other specific provider.
+
+## RECOVERED · HI-MKT-ACQUISITION-20260922-001
+
+A newly launched ForPrint website should not rely on passive organic discovery alone: Marketing should deliberately seed an initial stream of real visitors so demand, usability and conversion behavior can be observed instead of waiting indefinitely for search traffic to appear.
+
+- Context: Recovered directly from the owner's June SMM cold-start problem: a new site may remain effectively invisible and therefore needs deliberate exposure to at least a narrow audience. Exact channel/budget are not fixed here.
+
+## RECOVERED · HI-MKT-ACQUISITION-20260922-002
+
+The first ForPrint acquisition experiments should be targeted and selective rather than broad: start with audiences where a positive response is plausibly higher, including local proximity as a business hypothesis, and measure whether that locality assumption actually improves conversion before treating it as durable policy.
+
+- Context: Recovered from the owner's explicit agreement with a point/selective promo campaign and his reasoning that nearby print customers have a convenience advantage. The source contains no measured ROI proof.
+
 # Module — cloud_backup_manager
 
-Intent count: 5
+Intent count: 6
 
 ## RECOVERED · HI-CLOUD-BACKUP-MANAGER-001
 
@@ -1595,3 +3776,26 @@ Blueprint portfolio має бачити backup readiness як dependency для 
 Human-intent ledger для Backup може зберігати операторські причини safety boundaries, щоб майбутній помічник не зняв їх як 'зайві обмеження'.
 
 - Context: Особливо корисно для restore/mirror режимів.
+
+## AGREED · HI-FP-U92-20260903-005
+
+Cloud Backup Manager has three core responsibilities: off-site backup of prepared domain artifacts, controlled one-way corporate-resource replication, and retention/integrity/recovery evidence.
+
+# Module — verification_lab
+
+Intent count: 3
+
+## AGREED · HI-FP-U92-20260903-011
+
+ForPrint requires a separate Verification Lab that intentionally generates valid, invalid, edge, adversarial, concurrency, fault and recovery tests before production exposure.
+
+## AGREED · HI-FP-U92-20260903-012
+
+Verification Lab is distinct from Project Inspector and Runtime Inspector: Inspector audits conformance, Runtime Inspector observes live facts, Verification Lab actively challenges behavior in an isolated Test Plane.
+
+## AGREED · HI-FP-VERIFICATION-LAB-20260925-CHANGE-AWARE-001
+
+Verification Lab should enrich adversarial coverage primarily when functional evidence changes: inspect bounded change evidence, use AI to design or extend relevant scenarios, convert useful scenarios into versioned deterministic regression corpus, avoid repeatedly regenerating unchanged test strategy, run cheap targeted regression routinely, and perform broader resource-budgeted stress/soak/accumulated-data sweeps periodically in Test Plane/staging.
+
+- Context: This refines existing H07/H08 rather than creating a new testing model. Exact overnight windows remain infrastructure-dependent.
+- Roadmap: `VERIFICATION_LAB_CHANGE_AWARE_ENRICHMENT_20260925`

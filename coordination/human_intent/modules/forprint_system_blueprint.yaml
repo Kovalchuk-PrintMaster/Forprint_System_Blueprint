@@ -1948,184 +1948,138 @@ intents:
     roadmap: ''
   - intent_id: HI-FP-OPERATOR-CONSOLE-20260929-001
     status: AGREED
-    text: >-
-      ForPrint should establish an Operator Console as a centralized Human Owner control
-      surface for module work from phone or laptop, while keeping the durable execution,
-      session, ownership, artifact, interrupt and recovery infrastructure in a separate
-      Operator Control Plane / Execution Fabric rather than coupling it permanently to one UI.
-    context: >-
-      The Console is temporarily a co-equal high-priority planning direction with completion
-      of module inventory because it can materially improve overall project throughput when
-      the Human Owner is away from the local terminal.
+    text: ForPrint should establish an Operator Console as a centralized Human Owner control surface for module
+      work from phone or laptop, while keeping the durable execution, session, ownership, artifact, interrupt and
+      recovery infrastructure in a separate Operator Control Plane / Execution Fabric rather than coupling it permanently
+      to one UI.
+    context: The Console is temporarily a co-equal high-priority planning direction with completion of module inventory
+      because it can materially improve overall project throughput when the Human Owner is away from the local terminal.
     roadmap: operator_console_control_plane_program_v0_1
     source_refs:
       - coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.md
       - coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.yaml
-
   - intent_id: HI-FP-OPERATOR-CONSOLE-20260929-002
     status: AGREED
-    text: >-
-      At most one active writable actor may own a module repository at a time. Internal Worker
-      and Operator Assistant workspaces must not write concurrently to the same module;
-      transfer uses controlled interrupt, durable checkpoint, seal/suspend, release and only
-      then new acquisition.
-    context: >-
-      Operator Assistant may request Human Owner-authorized interruption of an Internal Worker.
-      Internal Worker may request access to a Human Owner interactive session but must not
-      preempt it automatically.
+    text: At most one active writable actor may own a module repository at a time. Internal Worker and Operator
+      Assistant workspaces must not write concurrently to the same module; transfer uses controlled interrupt, durable
+      checkpoint, seal/suspend, release and only then new acquisition.
+    context: Operator Assistant may request Human Owner-authorized interruption of an Internal Worker. Internal
+      Worker may request access to a Human Owner interactive session but must not preempt it automatically.
     roadmap: operator_console_control_plane_program_v0_1
     source_refs:
       - coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.md
-
   - intent_id: HI-FP-SANDBOX-TOOLING-20260929-001
     status: AGREED
-    text: >-
-      Isolated development sandboxes should encourage modern tools and dependencies when they
-      materially improve quality, speed, observability or reliability; sandbox freedom should
-      be broad while canonical repository, host, production secret, remote Git and external
-      mutable-system boundaries remain more strongly controlled.
-    context: >-
-      This direction responds to observed development friction when assistants repeatedly
-      worked around missing tooling instead of proposing useful tools such as ripgrep or
-      browser/visual inspection support.
+    text: Isolated development sandboxes should encourage modern tools and dependencies when they materially improve
+      quality, speed, observability or reliability; sandbox freedom should be broad while canonical repository,
+      host, production secret, remote Git and external mutable-system boundaries remain more strongly controlled.
+    context: This direction responds to observed development friction when assistants repeatedly worked around missing
+      tooling instead of proposing useful tools such as ripgrep or browser/visual inspection support.
     roadmap: operator_console_control_plane_program_v0_1
     source_refs:
       - coordination/standards/development_environment_policy.md
       - coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.md
-
   - intent_id: HI-FP-SANDBOX-TOOLING-20260929-002
     status: AGREED
-    text: >-
-      Material tools or dependencies added during sandbox work should be captured as
-      Environment Delta evidence; repeatedly useful additions should be reviewed for promotion
-      into canonical developer/module profiles, bootstrap capabilities or a discoverable
-      Tool/Capability Registry rather than being repeatedly rediscovered.
-    context: >-
-      Fresh workers and assistants should know what tools and Makefile workflows already exist.
+    text: Material tools or dependencies added during sandbox work should be captured as Environment Delta evidence;
+      repeatedly useful additions should be reviewed for promotion into canonical developer/module profiles, bootstrap
+      capabilities or a discoverable Tool/Capability Registry rather than being repeatedly rediscovered.
+    context: Fresh workers and assistants should know what tools and Makefile workflows already exist.
     roadmap: operator_console_control_plane_program_v0_1
     source_refs:
       - coordination/standards/development_environment_policy.md
-
   - intent_id: HI-FP-EXECUTION-RECOVERY-20260929-001
     status: AGREED
-    text: >-
-      Worker and operator-assistant execution must be designed for abrupt power loss through
-      durable checkpoints and recoverable execution context so a restarted process can resume
-      from a recent bounded state rather than reconstructing long work from zero.
-    context: >-
-      Unexpected server power loss is a real operating condition for the project and must be
-      treated as a reliability requirement, not a theoretical edge case.
+    text: Worker and operator-assistant execution must be designed for abrupt power loss through durable checkpoints
+      and recoverable execution context so a restarted process can resume from a recent bounded state rather than
+      reconstructing long work from zero.
+    context: Unexpected server power loss is a real operating condition for the project and must be treated as a
+      reliability requirement, not a theoretical edge case.
     roadmap: operator_console_control_plane_program_v0_1
     source_refs:
       - coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.md
-
   - intent_id: HI-FP-ARTIFACT-PROVENANCE-20260929-001
     status: AGREED
-    text: >-
-      Temporary generated artifact payloads may expire, but durable provenance should preserve
-      enough metadata to identify the producing execution/module/base HEAD, source inputs,
-      generator or recipe, file identity/hash and retention class so important outputs can be
-      understood or recreated later.
-    context: >-
-      Binary payload retention and durable knowledge retention are separate concerns.
+    text: Temporary generated artifact payloads may expire, but durable provenance should preserve enough metadata
+      to identify the producing execution/module/base HEAD, source inputs, generator or recipe, file identity/hash
+      and retention class so important outputs can be understood or recreated later.
+    context: Binary payload retention and durable knowledge retention are separate concerns.
     roadmap: operator_console_control_plane_program_v0_1
     source_refs:
       - coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.md
-
   - intent_id: HI-FP-INVENTORY-LEGACY-CAPABILITY-20260929-001
     status: AGREED
-    text: >-
-      Module inventory and later recurring audits must not classify old code only as used or
-      unused: a legacy implementation may contain a valuable capability idea absent from the
-      current roadmap. Such ideas should be raised for reconsideration and, when useful,
-      preserved in roadmap/strategic planning even if the old code itself is later retired.
-    context: >-
-      This is a repeatable inventory requirement for L0/L1/L2, recovery audits, major refactors
-      and later drift reassessment rather than a one-time Calculator-specific exception.
+    text: 'Module inventory and later recurring audits must not classify old code only as used or unused: a legacy
+      implementation may contain a valuable capability idea absent from the current roadmap. Such ideas should be
+      raised for reconsideration and, when useful, preserved in roadmap/strategic planning even if the old code
+      itself is later retired.'
+    context: This is a repeatable inventory requirement for L0/L1/L2, recovery audits, major refactors and later
+      drift reassessment rather than a one-time Calculator-specific exception.
     roadmap: ''
     source_refs:
       - coordination/bootstrap/module_analysis_lifecycle_methodology_v0_2.md
-
   - intent_id: HI-FP-EXECUTION-CONTROL-20260930-001
     status: AGREED
-    text: >-
-      ForPrint should gradually acquire a persistent Execution Control Plane that knows declared
-      work and reconciles it with durable evidence, instead of reconstructing operational state
-      afterward from Git history, dirty files, old scripts or individual assistant memory.
-    context: >-
-      Git, tests, files, heartbeats, workflow results and artifacts are evidence; they are not by
-      themselves sufficient semantic execution truth.
+    text: ForPrint should gradually acquire a persistent Execution Control Plane that knows declared work and reconciles
+      it with durable evidence, instead of reconstructing operational state afterward from Git history, dirty files,
+      old scripts or individual assistant memory.
+    context: Git, tests, files, heartbeats, workflow results and artifacts are evidence; they are not by themselves
+      sufficient semantic execution truth.
     roadmap: execution_control_plane_program_v0_1
     source_refs:
       - coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/execution_control_plane_program_v0_1.md
       - coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/execution_control_plane_program_v0_1.yaml
-
   - intent_id: HI-FP-STABLE-WORKFLOW-20260930-001
     status: AGREED
-    text: >-
-      Human Owner and future assistants should use stable supported workflow entrypoints instead
-      of rediscovering script paths, argument combinations and invocation order in each session;
-      Makefile, future CLI and Operator Console should call the same reusable backend workflow.
-    context: >-
-      When a recurring workflow fails because its reusable interface, ordering, projection,
-      helper or recovery behavior is defective, repair that reusable workflow and add regression
-      evidence where practical rather than fixing only the current session.
+    text: Human Owner and future assistants should use stable supported workflow entrypoints instead of rediscovering
+      script paths, argument combinations and invocation order in each session; Makefile, future CLI and Operator
+      Console should call the same reusable backend workflow.
+    context: When a recurring workflow fails because its reusable interface, ordering, projection, helper or recovery
+      behavior is defective, repair that reusable workflow and add regression evidence where practical rather than
+      fixing only the current session.
     roadmap: execution_control_plane_program_v0_1
     source_refs:
       - coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/execution_control_plane_program_v0_1.md
-
   - intent_id: HI-FP-EXECUTION-ACTORS-20260930-001
     status: AGREED
-    text: >-
-      Internal Worker, Operator Assistant and human-terminal execution should share one execution
-      state model, module-lease semantics, checkpoint/status model and durable execution identity
-      rather than becoming three separate operational realities.
-    context: >-
-      human_terminal explicitly covers the current bounded workflow where ChatGPT prepares a
-      command or script, Human Owner executes it on the server and returns evidence.
+    text: Internal Worker, Operator Assistant and human-terminal execution should share one execution state model,
+      module-lease semantics, checkpoint/status model and durable execution identity rather than becoming three
+      separate operational realities.
+    context: human_terminal explicitly covers the current bounded workflow where ChatGPT prepares a command or script,
+      Human Owner executes it on the server and returns evidence.
     roadmap: execution_control_plane_program_v0_1
     source_refs:
       - coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/execution_control_plane_program_v0_1.yaml
-
   - intent_id: HI-FP-EXECUTION-PHASING-20260930-001
     status: AGREED
-    text: >-
-      Describe the full Execution Control Plane architecture now, but implement only a bounded
-      minimum first; completing that minimum must be recorded as partial capability progress while
-      all approved deferred architecture remains visible for later deliberate promotion.
-    context: >-
-      CF-10 owns the first contour; CF-12 carries intentionally deferred long-horizon capability.
-      Deferred does not mean forgotten.
+    text: Describe the full Execution Control Plane architecture now, but implement only a bounded minimum first;
+      completing that minimum must be recorded as partial capability progress while all approved deferred architecture
+      remains visible for later deliberate promotion.
+    context: CF-10 owns the first contour; CF-12 carries intentionally deferred long-horizon capability. Deferred
+      does not mean forgotten.
     roadmap: execution_control_plane_program_v0_1
     source_refs:
       - coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/execution_control_plane_program_v0_1.md
       - coordination/roadmaps/details/forprint_system_blueprint/control_foundation_near_horizon_program_v0_1.yaml
-
   - intent_id: HI-FP-WORKER-SELF-HARDENING-20260930-001
     status: AGREED
-    text: >-
-      After the first stable governed Worker attempts, progressively assign the Worker bounded,
-      observable Blueprint self-hardening tasks so it improves the workflow/control environment
-      used by later workers; start with lower-risk discovery/certification tasks and increase
-      architectural complexity only from measured evidence.
-    context: >-
-      The self-hardening backlog is a governed source of candidate work, not automatic activation
-      authority, and it must not expand the currently frozen Slice B2 implementation scope.
+    text: After the first stable governed Worker attempts, progressively assign the Worker bounded, observable Blueprint
+      self-hardening tasks so it improves the workflow/control environment used by later workers; start with lower-risk
+      discovery/certification tasks and increase architectural complexity only from measured evidence.
+    context: The self-hardening backlog is a governed source of candidate work, not automatic activation authority,
+      and it must not expand the currently frozen Slice B2 implementation scope.
     roadmap: execution_control_plane_program_v0_1
     source_refs:
       - coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/cf10_worker_self_hardening_backlog_v0_1.yaml
   - intent_id: HI-FP-OPERATOR-CONSOLE-PHASING-20261001-001
     status: AGREED
-    text: >-
-      Keep OC-01 as one compact roadmap step but deliver it through two explicit progressive
-      contours, OC-01-MINI and OC-01-FULL. Both contours preserve governed Protected Terminal
-      access and isolated Assistant Dev Sandbox work; detailed ordered implementation belongs
-      in the implementation prompt rather than expanding the roadmap into a long checklist.
-    context: >-
-      MINI must already be genuinely useful from phone/laptop and prove one terminal cycle plus
-      one sandbox-to-canonical cycle. FULL extends the proven vertical slice with richer profiles,
-      resumable sandbox lifecycle, hardened promotion/recovery/audit and mature operator controls.
-      Activation remains a separate Human Owner decision.
+    text: Keep OC-01 as one compact roadmap step but deliver it through two explicit progressive contours, OC-01-MINI
+      and OC-01-FULL. Both contours preserve governed Protected Terminal access and isolated Assistant Dev Sandbox
+      work; detailed ordered implementation belongs in the implementation prompt rather than expanding the roadmap
+      into a long checklist.
+    context: MINI must already be genuinely useful from phone/laptop and prove one terminal cycle plus one sandbox-to-canonical
+      cycle. FULL extends the proven vertical slice with richer profiles, resumable sandbox lifecycle, hardened
+      promotion/recovery/audit and mature operator controls. Activation remains a separate Human Owner decision.
     roadmap: operator_console_control_plane_program_v0_1
     source_refs:
       - coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.yaml
@@ -2133,19 +2087,34 @@ intents:
       - coordination/self_coordination/prompt_queue/draft/2026-10-01__forprint_system_blueprint__oc01_mini_full_operator_console_implementation_v0_1.md
   - intent_id: HI-FP-EXTERNAL-AI-CAPABILITY-20261001-001
     status: AGREED
-    text: >-
-      External customer-facing AI assistants may later become consumers of governed ForPrint
-      domain capabilities for product discovery, calculation, technical requirements, logistics
-      and related services; this refines existing HZN-014 rather than creating a new executable
-      roadmap item.
-    context: >-
-      MCP is a current protocol example only. Preserve ESR-20260926-GAP-007: MCP, HTTP, RPC or
-      another transport remains intentionally unfrozen. Revisit after the ecosystem has first
-      stable working results and during deliberate strategic-goal review. Current implementation
-      focus remains Operator Console.
+    text: External customer-facing AI assistants may later become consumers of governed ForPrint domain capabilities
+      for product discovery, calculation, technical requirements, logistics and related services; this refines existing
+      HZN-014 rather than creating a new executable roadmap item.
+    context: 'MCP is a current protocol example only. Preserve ESR-20260926-GAP-007: MCP, HTTP, RPC or another transport
+      remains intentionally unfrozen. Revisit after the ecosystem has first stable working results and during deliberate
+      strategic-goal review. Current implementation focus remains Operator Console.'
     roadmap: ''
     source_refs:
       - coordination/global_policy/architecture_improvement_horizon_v0_1.yaml
       - coordination/global_policy/architecture_improvement_horizon_v0_1.md
       - coordination/internal_work/blueprint/evening_reviews/2026-09-26/forprint_evening_strategic_review_2026-09-26_v0_1/18_open_gaps_and_deferred_design_v0_1.yaml
       - coordination/internal_work/blueprint/strategic_evidence/2026-10-01__external_ai_mcp_capability_access_conversation_evidence_v0_1.md
+  - intent_id: HI-FP-ARCH-EXECUTION-MODEL-20261007-001
+    status: AGREED
+    text: Before broad module activation, ForPrint must integrate capability, ownership, roadmap decomposition,
+      dependency, interface, workflow, verification and dispatcher models into one traceable Architecture & Execution
+      Model portfolio so assistants and workers can discover existing and planned functionality, dependencies, supported
+      workflows and completion criteria without reconstructing them from chat history.
+    context: Human Owner approved this as the next cross-cutting architecture direction after the current OC-01
+      work. Existing Blueprint/CF10 primitives must be reused or extended first; rich control metadata should preserve
+      a shallow execution path.
+    roadmap: blueprint_architecture_execution_model_integration_v0_1
+  - intent_id: HI-FP-POST-OC01-AEM-GATE-20261007-001
+    status: AGREED
+    text: When OC-01-FULL reaches its canonical completion meaning, the next relevant portfolio architecture priority
+      is AEM-01 of the Architecture & Execution Model integration initiative; activation remains an explicit Human
+      Owner decision and must not reorder CF10/Control Foundation dependencies, preempt an active bounded writer,
+      or convert the separate OC-02 future target.
+    context: This durable priority pointer prevents the next architecture task from being lost during assistant
+      replacement while keeping roadmap dependency and execution authority separate from prioritization.
+    roadmap: blueprint_architecture_execution_model_integration_v0_1

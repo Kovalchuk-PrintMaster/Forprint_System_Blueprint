@@ -430,3 +430,26 @@ Research-package concepts such as MCP, typed evidence, independent oracle, archi
 reconciliation and capability/contract registries remain horizon/extension-point material
 unless separately activated. No parallel execution/control plane is authorized.
 <!-- oc01-8-plus-7-roadmap-detail-2026-10-04:end -->
+
+<!-- post-oc01-aem-priority-2026-10-07:start -->
+## Post-OC01 portfolio priority pointer
+
+After `OC-01-FULL` reaches `completion_meaning: oc01_target_complete`, the next
+relevant **portfolio architecture priority** is the independent initiative:
+
+`blueprint_architecture_execution_model_integration_v0_1`
+
+Entry point: `AEM-01`.
+
+This is an **execution-priority successor, not an OC dependency**:
+
+- it is not `OC-02`;
+- it does not extend the Operator Console scope;
+- it does not auto-activate;
+- it does not reorder CF10 / Control Foundation dependencies;
+- it does not preempt an active bounded writer/work front;
+- activation requires fresh canonical-state reconciliation and an explicit Human Owner decision.
+
+Canonical initiative definition:
+`coordination/roadmaps/details/forprint_system_blueprint/portfolio_operator_governance_and_project_standardization_program_v0_1.md`
+<!-- post-oc01-aem-priority-2026-10-07:end -->

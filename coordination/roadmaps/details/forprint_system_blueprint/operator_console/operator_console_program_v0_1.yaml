@@ -52,6 +52,42 @@ invariants:
   - active_workspace_not_auto_deleted_by_age
   - artifact_payload_may_expire_but_provenance_persists
 
+post_oc01_portfolio_architecture_gate_2026_10_07:
+  marker: PORTFOLIO_ARCHITECTURE_EXECUTION_MODEL_INTEGRATION_V0_1
+  status: PLANNED_NON_EXECUTABLE_POINTER
+  relationship: EXECUTION_PRIORITY_SUCCESSOR_NOT_OC_DEPENDENCY
+  target_initiative_id: blueprint_architecture_execution_model_integration_v0_1
+  target_entry: AEM-01
+  not_part_of_oc_step_chain: true
+  trigger:
+    step_id: OC-01
+    contour_id: OC-01-FULL
+    completion_meaning: oc01_target_complete
+  target_program: coordination/roadmaps/details/forprint_system_blueprint/portfolio_operator_governance_and_project_standardization_program_v0_1.md
+  target_section: Architecture & Execution Model integration initiative
+  human_intent_refs:
+    - HI-FP-ARCH-EXECUTION-MODEL-20261007-001
+    - HI-FP-POST-OC01-AEM-GATE-20261007-001
+  authority:
+    execution_authority_created: false
+    dispatch_authority_created: false
+    release_authority_created: false
+    automatic_activation: false
+    activation_authority: human_owner
+  ordering:
+    immediate_next_portfolio_priority_after_oc01_full: true
+    priority_successor_is_not_roadmap_dependency: true
+    preserve_cf10_control_foundation_dependency_order: true
+    may_not_force_cf10_reordering: true
+    may_not_preempt_active_bounded_writer: true
+    oc02_remains_future_target_not_activated: true
+  reentry_required:
+    - refresh_canonical_head_and_upstream
+    - reconcile_current_project_state
+    - recheck_reuse_extend_adapt_replace_new
+    - recheck_dependencies_and_ownership
+    - explicitly_activate_by_human_owner
+
 steps:
   - step_id: OC-01
     delivery_refinement_id: oc01_two_contour_delivery_2026_10_01

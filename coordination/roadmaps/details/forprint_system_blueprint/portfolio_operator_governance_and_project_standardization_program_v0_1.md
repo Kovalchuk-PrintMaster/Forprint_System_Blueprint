@@ -459,3 +459,271 @@ The program succeeds when the operator and future assistants can answer, with lo
 
 The goal is not maximum automation. The goal is reliable, explainable movement toward a successful
 integrated ForPrint product.
+
+## 15. Architecture & Execution Model integration initiative
+
+Stable planning marker:
+`PORTFOLIO_ARCHITECTURE_EXECUTION_MODEL_INTEGRATION_V0_1`
+
+Stable initiative ID:
+`blueprint_architecture_execution_model_integration_v0_1`
+
+Logical chain: `AEM-01` through `AEM-16`.
+This is an independent portfolio architecture chain, not an `OC-*` continuation.
+
+Status: **PLANNED / NON-EXECUTABLE / HUMAN-ACTIVATED AFTER OC-01 FULL**.
+
+Human Intent:
+- `HI-FP-ARCH-EXECUTION-MODEL-20261007-001`
+- `HI-FP-POST-OC01-AEM-GATE-20261007-001`
+
+### 15.1 Purpose
+
+Before broad module-roadmap activation, integrate the existing ForPrint architecture,
+planning, execution and verification primitives into one traceable project model so
+fresh assistants/workers do not need to reconstruct ownership, dependencies,
+interfaces, supported workflows or completion semantics from chat history and ad-hoc
+repository search.
+
+This initiative is an **integration of existing ForPrint models**, not a competing
+control system or a new top-level roadmap.
+
+Primary native chain:
+
+```text
+business goal
+-> capability
+-> owner module
+-> interface / contract
+-> workflow / procedure graph
+-> roadmap step
+-> bounded work package
+-> substep / criterion
+-> acceptance evidence
+```
+
+The project must be able to traverse the important relations in both directions.
+
+### 15.2 Native-model mapping
+
+This initiative MUST prefer existing project primitives:
+
+- AUT-01 `initiative -> work package -> substep -> criterion`;
+- existing Work Package / Work Front contracts;
+- CF-07 governed Procedure Graph and Run Manifest semantics;
+- execution / acceptance / advance as separate permissions;
+- execution dependency registry and generated dependency graph;
+- current capability/command registries and module-local capability truth;
+- Human Intent ledger and expanded portfolio projection;
+- acceptance oracles, typed evidence and completion reports;
+- Makefile as the truthful operator-facing functional map;
+- Blueprint-generated/queryable projections rather than a new registry service.
+
+Before every implementation decision use:
+
+`REUSE -> EXTEND -> ADAPT -> REPLACE -> NEW`.
+
+`NEW` requires explicit evidence that the required capability is not already
+implemented, planned or owned elsewhere.
+
+### 15.3 Core execution invariant
+
+> **Rich control model, shallow execution path.**
+
+Rich metadata, graphs and contracts may describe execution. They must not create deep
+runtime wrapper chains merely for architectural neatness. Stable project-native
+entrypoints should resolve to bounded direct execution paths.
+
+Reusable execution logic belongs in the project. Chat-generated scripts remain
+appropriate for new implementation, repair, migration, bounded forensic analysis,
+audits and test harnesses; repeated stable operations should be promoted into supported
+project-native workflows.
+
+### 15.4 Planned and implemented capability visibility
+
+The project model must distinguish at least:
+
+- `PLANNED`;
+- `DESIGNED`;
+- `IMPLEMENTATION_READY`;
+- `IMPLEMENTED`;
+- `DEPRECATED`;
+- `RETIRED`.
+
+A worker that discovers an owned `PLANNED` capability must not silently recreate it in
+another module. It must follow dependency/roadmap governance or submit an explicit
+plan-change proposal.
+
+### 15.5 Work-package completeness rule
+
+Roadmap steps remain strategic outcomes. Before execution, applicable work is compiled
+into bounded work packages and logical substeps/criteria.
+
+Required nodes may not disappear silently.
+
+A required node is completion-compatible only when it is:
+
+- passed with evidence;
+- explicitly cancelled by an accepted plan-change record;
+- explicitly superseded by another accepted node/result.
+
+Otherwise the work package is not acceptable and downstream `ADVANCE` remains blocked.
+
+Mini-steps describe logical outcomes, not brittle shell-command transcripts.
+
+### 15.6 Re-evaluation rule
+
+The following sequence applies before **every** initiative mini-step:
+
+1. refresh current canonical state;
+2. inspect relevant project-native primitives;
+3. classify `REUSE / EXTEND / ADAPT / REPLACE / NEW`;
+4. reassess dependencies, ownership and stale assumptions;
+5. improve, split, merge, reorder, supersede or cancel the planned mini-step when
+   current evidence supports a better solution;
+6. record that plan change explicitly.
+
+The mini-step list preserves direction and acceptance intent. It is not an immutable
+implementation prescription. Silent plan drift is forbidden.
+
+### 15.7 Bounded initiative sequence
+
+#### AEM-01 — Current-state reentry and scope freeze
+Outcome: reconcile this planning initiative against the then-current Blueprint.
+Acceptance: current HEAD/state, authority boundaries, host program, execution point and
+non-goals are confirmed; conflicting active architecture work is resolved before mutation.
+
+#### AEM-02 — Existing-primitive inventory
+Outcome: map existing Blueprint/CF10/module/registry/gateway/Inspector primitives.
+Acceptance: each needed function has an explicit `REUSE / EXTEND / ADAPT / REPLACE / NEW`
+disposition; avoidable parallel frameworks are rejected.
+
+#### AEM-03 — Capability map
+Outcome: establish discoverable project capability identity and lifecycle, including
+planned as well as implemented functionality.
+Acceptance: stable capability IDs, owner references and lifecycle states are representable
+without introducing a new capability-registry service.
+
+#### AEM-04 — Responsibility and ownership map
+Outcome: make capability, authoritative-data, transport and execution-authority ownership
+explicit.
+Acceptance: critical cross-module functionality has one clear owner or an explicit GAP;
+parallel truth is forbidden.
+
+#### AEM-05 — Roadmap/capability reconciliation
+Outcome: connect roadmap outcomes to owned capabilities and provider timing.
+Acceptance: executable work does not knowingly implement another module's owned/planned
+capability without an explicit architecture decision.
+
+#### AEM-06 — Roadmap-to-work-package decomposition discipline
+Outcome: standardize how roadmap outcomes become bounded work packages and logical
+substeps/criteria.
+Acceptance: decomposition, plan-change semantics and completeness rules are explicit;
+roadmap detail does not degrade into shell-command choreography.
+
+#### AEM-07 — Dependency and traceability integration
+Outcome: extend existing dependency/graph projections to connect capabilities, modules,
+roadmap steps, interfaces, workflows, prerequisites and evidence.
+Acceptance: provider/consumer and impact traversal is machine-queryable; critical cycles,
+orphans and premature planned-capability consumption are detectable.
+
+#### AEM-08 — Interface/capability discovery and help contract
+Outcome: define how a fresh worker lists, describes and safely invokes public module
+capabilities.
+Acceptance: supported inputs/outputs, side effects, lifecycle, authority requirements,
+errors and help are discoverable without source-code archaeology; registry metadata never
+confers authority.
+
+#### AEM-09 — Workflow / Procedure Graph integration
+Outcome: map reusable project workflows onto governed procedure/state semantics.
+Acceptance: required, conditional, optional, not-applicable, operator-gate, retry, abort,
+pause/resume and failure paths are explicit where applicable; workers need not invent
+business workflow at runtime.
+
+#### AEM-10 — Verification and durable evidence contract
+Outcome: connect work-package completion to acceptance oracles, structured results and
+durable evidence.
+Acceptance: completion does not depend on a one-off chat-only script or parsing arbitrary
+human stdout.
+
+#### AEM-11 — Dispatcher completeness and ADVANCE gate
+Outcome: integrate work-package/procedure completeness into release of subsequent work.
+Acceptance: execution success alone does not imply ACCEPT or ADVANCE; missing required
+nodes/evidence block downstream release.
+
+#### AEM-12 — Project-native execution/help/discovery integration
+Outcome: align reusable workflows, Make/operator surfaces and machine-facing discovery.
+Acceptance: common recurring operations use stable project-native entrypoints; Makefile
+coverage remains truthful; no redundant launcher layer is introduced.
+
+#### AEM-13 — Static architecture validation
+Outcome: add deterministic checks for ownership, dependencies, interfaces, workflow
+references, decomposition coverage, lifecycle/version conflicts and critical GAPs.
+Acceptance: architecture contradictions can be detected before module implementation.
+
+#### AEM-14 — Scenario architecture review protocol
+Outcome: define a lightweight scenario-review protocol over deterministic project evidence.
+Baseline scenarios include delayed provider, unavailable external service, still-planned
+dependency, incomplete work package, incompatible interface, missing approval, busy writer
+and human-decision gate.
+Acceptance: every critical scenario identifies stop point, blocker, recovery owner,
+downstream impact and allowed next action.
+Do not build a simulation service merely to satisfy this step.
+
+#### AEM-15 — Blind-agent architecture review protocol
+Outcome: give an independent context-limited AI only the canonical evidence required for a
+target block and ask whether it can proceed without inventing missing rules.
+Acceptance: unanswered questions become explicit architecture GAP candidates with durable
+review evidence.
+External qualitative review is preferred initially; no embedded AI-review engine is
+authorized by this initiative.
+
+#### AEM-16 — Critical-gap closure and readiness freeze
+Outcome: resolve critical findings and freeze the minimum project architecture/execution
+model required for controlled module activation.
+Acceptance:
+- 100% of relevant capabilities have an owner;
+- 100% of cross-module dependencies have a provider or explicit blocker;
+- 100% of cross-module interactions have a contract or planned contract;
+- 100% of executable roadmap steps have acceptance and decomposition semantics;
+- planned vs implemented capability state is distinguishable;
+- critical unknown dependencies = 0;
+- unowned critical cross-module functionality = 0;
+- unresolved critical scenario-review blockers = 0.
+
+Completion of AEM-16 does not auto-activate module execution. The Human Owner selects the
+next controlled module activation set.
+
+### 15.8 Post-OC01 entry gate
+
+This initiative becomes the **next relevant portfolio architecture priority** only after
+`OC-01-FULL` reaches `completion_meaning: oc01_target_complete`.
+
+That pointer:
+
+- does not auto-activate this initiative;
+- does not rename or replace `OC-02`;
+- does not reorder CF10 / Control Foundation dependencies;
+- does not override a current bounded writer/work front;
+- requires fresh canonical-state reconciliation and explicit Human Owner activation.
+
+### 15.9 Explicit non-goals
+
+This initiative does not authorize:
+
+- a new top-level AEM control program;
+- a Capability Registry Service;
+- a Contract Registry Service;
+- an Architecture Drift Service;
+- a parallel Control Plane;
+- an embedded AI-review engine;
+- broad module activation;
+- autonomous ACCEPT / ADVANCE / push / release;
+- duplication of module-local source-of-truth data in Blueprint.
+
+The target is stronger integration and discoverability of existing project models, not
+another architectural layer.
+
+### 15.10 Canonicalization review GAP state
+
+No unresolved critical architecture GAP is asserted by this planning insertion. New GAPs discovered during `AEM-13`, `AEM-14` or `AEM-15` must be recorded explicitly and block `AEM-16` readiness where critical.
