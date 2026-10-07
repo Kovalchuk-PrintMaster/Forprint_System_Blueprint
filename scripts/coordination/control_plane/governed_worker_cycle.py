@@ -33,6 +33,9 @@ from scripts.coordination.control_plane.workspace import (
     provision_workspace,
     seal_pre_dispatch_workspace,
 )
+from scripts.coordination.control_plane.worker_runtime import (
+    worker_result_return,
+)
 
 
 MODULE_ID = "forprint_system_blueprint"
@@ -130,7 +133,11 @@ def derive_cycle_projection(facts: dict[str, Any]) -> dict[str, Any]:
     contradictions = _contradictions(facts)
     if contradictions:
         state = "UNKNOWN"
-    elif _bool(facts, "blocked") or _bool(facts, "attempt_terminal_failed"):
+    elif (
+        _bool(facts, "blocked")
+        or _bool(facts, "worker_result_return_blocked")
+        or _bool(facts, "attempt_terminal_failed")
+    ):
         state = "BLOCKED"
     elif _bool(facts, "remote_containment_verified"):
         state = "PUBLISHED"
@@ -883,6 +890,8 @@ def live_facts(
         "explicit_dispatch_authorized": False,
         "worker_process_started": False,
         "worker_process_finished": False,
+        "worker_result_return_valid": False,
+        "worker_result_return_blocked": False,
         "candidate_validation_passed": False,
         "handoff_validated": False,
         "attempt_terminal_pass": False,
@@ -939,10 +948,49 @@ def live_facts(
                 process.get("process_started") is True
                 or facts["worker_process_started"]
             )
+            return_code = process.get("return_code")
+            timed_out = process.get("timed_out") is True
             facts["worker_process_finished"] = (
-                process.get("return_code") is not None
-                and process.get("timed_out") is False
+                return_code is not None and not timed_out
             )
+            if timed_out or (
+                return_code is not None and return_code != 0
+            ):
+                facts["worker_result_return_blocked"] = True
+                facts["blocked"] = True
+
+    result_return_path = (
+        attempt
+        / "evidence/governed_worker_cycle_result_return_v0_1.yaml"
+    )
+    if result_return_path.is_file():
+        value = _load_yaml(
+            result_return_path,
+            "Worker result-return evidence",
+        )
+        result_path_raw = value.get("result_path")
+        result_path = (
+            Path(result_path_raw)
+            if isinstance(result_path_raw, str) and result_path_raw
+            else None
+        )
+        result_valid = (
+            value.get("result") == "PASS"
+            and value.get("validation_passed") is True
+            and value.get("blocked") is False
+            and result_path is not None
+            and result_path.is_file()
+            and not result_path.is_symlink()
+        )
+        if result_valid:
+            facts["worker_result_return_valid"] = True
+            facts["worker_result_return_blocked"] = False
+        elif value.get("blocked") is True or value.get("result") == "BLOCKED":
+            facts["worker_result_return_blocked"] = True
+            facts["blocked"] = True
+    elif facts["worker_process_finished"]:
+        facts["worker_result_return_blocked"] = True
+        facts["blocked"] = True
 
     for candidate_path in sorted(
         (attempt / "evidence").glob("*candidate*validation*.yaml")
@@ -1077,6 +1125,7 @@ def main() -> int:
             "ack",
             "authorize-dispatch",
             "launch",
+            "reconcile-result-return",
         ),
     )
     parser.add_argument("--root", default=".")
@@ -1088,6 +1137,10 @@ def main() -> int:
     parser.add_argument("--confirm-dispatch-authorization", action="store_true")
     parser.add_argument("--confirm-launch", action="store_true")
     parser.add_argument(
+        "--confirm-result-return-reconciliation",
+        action="store_true",
+    )
+    parser.add_argument(
         "--output-format",
         choices=("text", "yaml", "json"),
         default="text",
@@ -1098,11 +1151,19 @@ def main() -> int:
     runtime_root = Path(args.runtime_root).resolve()
 
     if (
-        args.action in {"status", "prepare", "refresh", "launch"}
+        args.action
+        in {
+            "status",
+            "prepare",
+            "refresh",
+            "launch",
+            "reconcile-result-return",
+        }
         and not args.task_prompt_id
     ):
         parser.error(
-            "--task-prompt-id is required for status/prepare/refresh/launch"
+            "--task-prompt-id is required for "
+            "status/prepare/refresh/launch/reconcile-result-return"
         )
 
     if args.action == "status":
@@ -1145,13 +1206,22 @@ def main() -> int:
             confirm=args.confirm_dispatch_authorization,
             worker_id=args.worker_id,
         )
-    else:
+    elif args.action == "launch":
         result = launch_cycle(
             root=root,
             runtime_root=runtime_root,
             task_prompt_id=args.task_prompt_id,
             attempt_id=args.attempt_id,
             confirm=args.confirm_launch,
+            worker_id=args.worker_id,
+        )
+    else:
+        result = reconcile_result_return(
+            root=root,
+            runtime_root=runtime_root,
+            task_prompt_id=args.task_prompt_id,
+            attempt_id=args.attempt_id,
+            confirm=args.confirm_result_return_reconciliation,
             worker_id=args.worker_id,
         )
 
@@ -1677,6 +1747,220 @@ def _project_native_started_record(
     return record, task_context
 
 
+def _result_return_failure_class(exc: Exception) -> str:
+    message = str(exc).lower()
+    if "missing result frame" in message:
+        return "RESULT_ENVELOPE_MISSING_AFTER_SUCCESSFUL_PROCESS"
+    return "RESULT_ENVELOPE_INVALID_AFTER_PROCESS"
+
+
+def _terminal_blocked_record(
+    *,
+    started_record: dict[str, Any],
+    failure_class: str,
+    evidence_ref: str,
+) -> dict[str, Any]:
+    record = dict(started_record)
+    record["recorded_at"] = datetime.now(UTC).isoformat().replace(
+        "+00:00",
+        "Z",
+    )
+    record["attempt_stage"] = "BLOCKED"
+    record["result_state"] = "BLOCKED"
+    record["result_refs"] = [evidence_ref]
+    record["validator_outcome"] = "FAIL"
+    record["validator_evidence_refs"] = [
+        failure_class,
+        evidence_ref,
+    ]
+    record["failure_or_retry_ref"] = failure_class
+    record["resume"] = {
+        "latest_accepted_ref": None,
+        "resume_coordinates": [],
+        "replay_forbidden_refs": [],
+    }
+    return record
+
+
+def _append_terminal_blocked_fact(
+    *,
+    canonical: Path,
+    started_record: dict[str, Any],
+    failure_class: str,
+    evidence_ref: str,
+) -> Path:
+    from scripts.coordination import execution_attempt_ledger_v0_1 as ledger
+
+    contract = ledger.load_contract(canonical)
+    record = _terminal_blocked_record(
+        started_record=started_record,
+        failure_class=failure_class,
+        evidence_ref=evidence_ref,
+    )
+    errors = ledger.validate_record_data(record, contract)
+    if errors:
+        raise GovernedWorkerCycleError(
+            "terminal BLOCKED record failed ledger validation: "
+            + "; ".join(errors)
+        )
+    return ledger.append_record(
+        canonical,
+        record,
+    )
+
+
+def reconcile_result_return(
+    *,
+    root: Path | str,
+    runtime_root: Path | str,
+    task_prompt_id: str,
+    attempt_id: str,
+    confirm: bool,
+    worker_id: str = WORKER_ID,
+) -> dict[str, Any]:
+    if confirm is not True:
+        raise GovernedWorkerCycleError(
+            "explicit result-return reconciliation confirmation is required"
+        )
+
+    from scripts.coordination import execution_attempt_ledger_v0_1 as ledger
+
+    canonical = Path(root).resolve()
+    attempt = _attempt_root(
+        Path(runtime_root),
+        attempt_id,
+        worker_id,
+    )
+    result_path = attempt / "result/worker_result.yaml"
+    if result_path.exists() or result_path.is_symlink():
+        raise GovernedWorkerCycleError(
+            "result-return reconciliation refused: "
+            "worker result already exists"
+        )
+
+    binding = training.resolve_training_task(
+        root=canonical,
+        task_prompt_id=task_prompt_id,
+    )
+
+    process_path = (
+        attempt
+        / "evidence/governed_worker_cycle_worker_process_result_v0_1.yaml"
+    )
+    process_evidence = _load_yaml(
+        process_path,
+        "Worker process result",
+    )
+    process = process_evidence.get("process")
+    if not isinstance(process, dict):
+        raise GovernedWorkerCycleError(
+            "Worker process result mapping missing"
+        )
+
+    if (
+        process.get("return_code") == 0
+        and process.get("timed_out") is False
+    ):
+        failure_class = (
+            "RESULT_ENVELOPE_MISSING_AFTER_SUCCESSFUL_PROCESS"
+        )
+    elif process.get("timed_out") is True:
+        failure_class = "WORKER_PROCESS_TIMED_OUT_BEFORE_VALID_RESULT"
+    else:
+        failure_class = "WORKER_PROCESS_FAILED_BEFORE_VALID_RESULT"
+
+    contract = ledger.load_contract(canonical)
+    store = ledger.store_root(canonical, contract, None)
+    records = ledger.records_for_attempt(store, attempt_id)
+    if not records:
+        raise GovernedWorkerCycleError(
+            "result-return reconciliation requires an existing STARTED record"
+        )
+    latest = records[-1]
+    if latest.get("result_state") != "PENDING":
+        raise GovernedWorkerCycleError(
+            "result-return reconciliation refused: "
+            "attempt is already terminal"
+        )
+    if latest.get("attempt_stage") != "STARTED":
+        raise GovernedWorkerCycleError(
+            "result-return reconciliation requires STARTED/PENDING attempt"
+        )
+    if latest.get("work_front_id") != binding.get("work_front_id"):
+        raise GovernedWorkerCycleError(
+            "result-return reconciliation Work Front binding mismatch"
+        )
+
+    evidence_path = (
+        attempt
+        / "evidence/governed_worker_cycle_result_return_v0_1.yaml"
+    )
+    evidence = {
+        "schema_version": (
+            "forprint_governed_worker_cycle_result_return_v0_1"
+        ),
+        "attempt_id": attempt_id,
+        "task_prompt_id": task_prompt_id,
+        "worker_id": worker_id,
+        "recorded_at": datetime.now(UTC).isoformat().replace(
+            "+00:00",
+            "Z",
+        ),
+        "result": "BLOCKED",
+        "validation_passed": False,
+        "result_path": None,
+        "blocked": True,
+        "failure_class": failure_class,
+        "process_result_evidence": str(process_path),
+        "worker_result_synthesized": False,
+        "candidate_validation_allowed": False,
+        "candidate_promotion_allowed": False,
+        "automatic_accept_allowed": False,
+        "commit_allowed": False,
+        "push_allowed": False,
+        "merge_allowed": False,
+        "release_allowed": False,
+    }
+    _write_yaml_new(evidence_path, evidence)
+
+    terminal = _terminal_blocked_record(
+        started_record=latest,
+        failure_class=failure_class,
+        evidence_ref=str(evidence_path),
+    )
+    errors = ledger.validate_record_data(terminal, contract)
+    if errors:
+        raise GovernedWorkerCycleError(
+            "terminal BLOCKED record failed ledger validation: "
+            + "; ".join(errors)
+        )
+    ledger_path = ledger.append_record(
+        canonical,
+        terminal,
+    )
+
+    return {
+        "schema_version": (
+            "forprint_governed_worker_cycle_result_return_reconciliation_v0_1"
+        ),
+        "state": "BLOCKED",
+        "next_boundary": "RECONCILE_BLOCKER",
+        "attempt_id": attempt_id,
+        "task_prompt_id": task_prompt_id,
+        "failure_class": failure_class,
+        "result_return_evidence": str(evidence_path),
+        "terminal_ledger_record": str(ledger_path),
+        "worker_result_synthesized": False,
+        "candidate_validation_allowed": False,
+        "candidate_promotion_allowed": False,
+        "automatic_retry": False,
+        "commit_allowed": False,
+        "push_allowed": False,
+        "merge_allowed": False,
+        "release_allowed": False,
+    }
+
+
 def launch_cycle(
     *,
     root: Path | str,
@@ -1781,6 +2065,140 @@ def launch_cycle(
     )
     _write_yaml_new(evidence_path, evidence)
 
+    result_return_evidence_path = (
+        attempt
+        / "evidence/governed_worker_cycle_result_return_v0_1.yaml"
+    )
+    return_code = process.get("return_code")
+    timed_out = process.get("timed_out") is True
+
+    if return_code == 0 and not timed_out:
+        handoff_hash = prepared_execution.get(
+            "handoff_manifest_sha256"
+        )
+        if not isinstance(handoff_hash, str) or len(handoff_hash) != 64:
+            raise GovernedWorkerCycleError(
+                "prepared Handoff manifest hash invalid at result return"
+            )
+        stdout_path = process.get("stdout_path")
+        if not isinstance(stdout_path, str) or not stdout_path:
+            raise GovernedWorkerCycleError(
+                "Worker process stdout path missing at result return"
+            )
+
+        try:
+            materialized = worker_result_return.materialize_worker_result(
+                root=canonical,
+                attempt_root=attempt,
+                stdout_path=stdout_path,
+                origin_manifest={
+                    "handoff_manifest_sha256": handoff_hash,
+                },
+                expected_attempt_id=attempt_id,
+            )
+            result_return_evidence = {
+                "schema_version": (
+                    "forprint_governed_worker_cycle_result_return_v0_1"
+                ),
+                "attempt_id": attempt_id,
+                "task_prompt_id": task_prompt_id,
+                "worker_id": worker_id,
+                "recorded_at": datetime.now(UTC).isoformat().replace(
+                    "+00:00",
+                    "Z",
+                ),
+                "result": "PASS",
+                "validation_passed": True,
+                "result_path": materialized["result_path"],
+                "blocked": False,
+                "failure_class": None,
+                "worker_result_synthesized": False,
+                "candidate_validation_allowed": True,
+                "candidate_promotion_allowed": False,
+                "automatic_accept_allowed": False,
+                "commit_allowed": False,
+                "push_allowed": False,
+                "merge_allowed": False,
+                "release_allowed": False,
+            }
+        except worker_result_return.WorkerResultReturnError as exc:
+            failure_class = _result_return_failure_class(exc)
+            result_return_evidence = {
+                "schema_version": (
+                    "forprint_governed_worker_cycle_result_return_v0_1"
+                ),
+                "attempt_id": attempt_id,
+                "task_prompt_id": task_prompt_id,
+                "worker_id": worker_id,
+                "recorded_at": datetime.now(UTC).isoformat().replace(
+                    "+00:00",
+                    "Z",
+                ),
+                "result": "BLOCKED",
+                "validation_passed": False,
+                "result_path": None,
+                "blocked": True,
+                "failure_class": failure_class,
+                "error": (
+                    f"{type(exc).__name__}: {exc}"
+                ),
+                "worker_result_synthesized": False,
+                "candidate_validation_allowed": False,
+                "candidate_promotion_allowed": False,
+                "automatic_accept_allowed": False,
+                "commit_allowed": False,
+                "push_allowed": False,
+                "merge_allowed": False,
+                "release_allowed": False,
+            }
+    else:
+        failure_class = (
+            "WORKER_PROCESS_TIMED_OUT_BEFORE_VALID_RESULT"
+            if timed_out
+            else "WORKER_PROCESS_FAILED_BEFORE_VALID_RESULT"
+        )
+        result_return_evidence = {
+            "schema_version": (
+                "forprint_governed_worker_cycle_result_return_v0_1"
+            ),
+            "attempt_id": attempt_id,
+            "task_prompt_id": task_prompt_id,
+            "worker_id": worker_id,
+            "recorded_at": datetime.now(UTC).isoformat().replace(
+                "+00:00",
+                "Z",
+            ),
+            "result": "BLOCKED",
+            "validation_passed": False,
+            "result_path": None,
+            "blocked": True,
+            "failure_class": failure_class,
+            "worker_result_synthesized": False,
+            "candidate_validation_allowed": False,
+            "candidate_promotion_allowed": False,
+            "automatic_accept_allowed": False,
+            "commit_allowed": False,
+            "push_allowed": False,
+            "merge_allowed": False,
+            "release_allowed": False,
+        }
+
+    _write_yaml_new(
+        result_return_evidence_path,
+        result_return_evidence,
+    )
+
+    terminal_ledger_path = None
+    if result_return_evidence.get("blocked") is True:
+        terminal_ledger_path = _append_terminal_blocked_fact(
+            canonical=canonical,
+            started_record=started_record,
+            failure_class=str(
+                result_return_evidence["failure_class"]
+            ),
+            evidence_ref=str(result_return_evidence_path),
+        )
+
     projection = status(
         root=canonical,
         runtime_root=runtime,
@@ -1791,6 +2209,13 @@ def launch_cycle(
     projection["worker_process_launched"] = True
     projection["process_return_code"] = process.get("return_code")
     projection["process_result_evidence"] = str(evidence_path)
+    projection["result_return_evidence"] = str(
+        result_return_evidence_path
+    )
+    if terminal_ledger_path is not None:
+        projection["terminal_ledger_record"] = str(
+            terminal_ledger_path
+        )
     return projection
 
 

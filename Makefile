@@ -1009,6 +1009,7 @@ completion-finalize-check:
 GOVERNED_WORKER_TASK ?=
 GOVERNED_WORKER_ATTEMPT ?=
 GOVERNED_WORKER_RUNTIME_ROOT ?= /srv/software_development/forprint-worker-runtime
+CONFIRM_RESULT_RETURN_RECONCILIATION ?= 0
 
 .PHONY: governed-worker-cycle-check
 governed-worker-cycle-check:
@@ -3242,6 +3243,27 @@ governed-worker-cycle-launch:
 	@test -n "$(GOVERNED_WORKER_ATTEMPT)" || { echo "FAILED: GOVERNED_WORKER_ATTEMPT is required"; false; }
 	$(PYTHON) -m scripts.coordination.control_plane.governed_worker_cycle launch --root . --runtime-root "$(GOVERNED_WORKER_RUNTIME_ROOT)" --task-prompt-id "$(GOVERNED_WORKER_TASK)" --attempt-id "$(GOVERNED_WORKER_ATTEMPT)" --confirm-launch
 # CF10_GOVERNED_WORKER_CYCLE_SLICE_B2_MAKE_END
+
+# CF10_WORKER_RESULT_RETURN_BOUNDARY_V0_1_START
+.PHONY: cf10-worker-result-return-check
+cf10-worker-result-return-check:
+	$(PYTHON) -m py_compile \
+		scripts/coordination/control_plane/worker_runtime/worker_result_return.py \
+		scripts/coordination/control_plane/worker_runtime/invocation_adapter.py \
+		scripts/coordination/control_plane/governed_worker_cycle.py
+	$(PYTHON) -m pytest -q \
+		-p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_worker_result_return_v0_1.py \
+		tests/coordination/control_plane/test_cf10_governed_worker_cycle_result_return_v0_1.py
+
+.PHONY: governed-worker-cycle-reconcile-result-return
+governed-worker-cycle-reconcile-result-return:
+	@test "$(CONFIRM_RESULT_RETURN_RECONCILIATION)" = "1" || { echo "FAILED: CONFIRM_RESULT_RETURN_RECONCILIATION=1 is required"; false; }
+	@test -n "$(GOVERNED_WORKER_TASK)" || { echo "FAILED: GOVERNED_WORKER_TASK is required"; false; }
+	@test -n "$(GOVERNED_WORKER_ATTEMPT)" || { echo "FAILED: GOVERNED_WORKER_ATTEMPT is required"; false; }
+	$(PYTHON) -m scripts.coordination.control_plane.governed_worker_cycle reconcile-result-return --root . --runtime-root "$(GOVERNED_WORKER_RUNTIME_ROOT)" --task-prompt-id "$(GOVERNED_WORKER_TASK)" --attempt-id "$(GOVERNED_WORKER_ATTEMPT)" --confirm-result-return-reconciliation
+# CF10_WORKER_RESULT_RETURN_BOUNDARY_V0_1_END
+
 
 
 # =============================================================================

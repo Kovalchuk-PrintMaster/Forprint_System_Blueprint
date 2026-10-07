@@ -669,6 +669,12 @@ def test_project_native_launch_cycle_persists_process_evidence(
     )
 
     captured = {}
+    stdout_path = attempt / "logs/provider.stdout.log"
+    stdout_path.parent.mkdir(parents=True)
+    stdout_path.write_text(
+        "framed-result-transport-stub\n",
+        encoding="utf-8",
+    )
 
     def fake_launch(**kwargs):
         captured.update(kwargs)
@@ -678,6 +684,7 @@ def test_project_native_launch_cycle_persists_process_evidence(
                 "process_started": True,
                 "return_code": 0,
                 "timed_out": False,
+                "stdout_path": str(stdout_path),
             },
         }
 
@@ -685,6 +692,27 @@ def test_project_native_launch_cycle_persists_process_evidence(
         gwc,
         "launch_authorized_worker_cycle",
         fake_launch,
+    )
+
+    def fake_materialize(**kwargs):
+        assert kwargs["stdout_path"] == str(stdout_path)
+        assert kwargs["expected_attempt_id"] == ATTEMPT_ID
+        result_path = attempt / "result/worker_result.yaml"
+        result_path.parent.mkdir(parents=True)
+        result_path.write_text(
+            "schema_version: forprint_assistant_handoff_v2_result_v0_1\n"
+            f"attempt_id: {ATTEMPT_ID}\n",
+            encoding="utf-8",
+        )
+        return {
+            "result_path": str(result_path),
+            "validation_passed": True,
+        }
+
+    monkeypatch.setattr(
+        gwc.worker_result_return,
+        "materialize_worker_result",
+        fake_materialize,
     )
     monkeypatch.setattr(
         gwc,
