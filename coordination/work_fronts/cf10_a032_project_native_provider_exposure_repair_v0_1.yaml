@@ -1,0 +1,67 @@
+work_front_id: wf-cf10-a032-project-native-provider-exposure-repair-v0-1
+objective: Repair the provider-specific GitHub Copilot MCP exposure identifier defect proven by blocked Task70 attempt
+  a032 and the sanitized model-tool-id probe, without changing validation capability semantics or Task70 profiling
+  scope.
+scope:
+- scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+- tests/coordination/control_plane/worker_runtime/test_cf10_worker_runtime_invocation_adapter_v0_1.py
+exclusions:
+- Do not implement Task70 profiling semantics in this repair.
+- Do not modify Task70 runner, Task70 focused test or validation-suite registry.
+- Do not modify structured_command_executor.py or worker_validation_mcp.py unless a new blocker is proven.
+- Do not create a second MCP server or second validation tool.
+- Do not write persistent provider MCP configuration.
+- Do not refactor the provider-neutral Worker Tool Gateway in this bounded repair.
+- Do not implement generalized GitHub MCP Unicode/truncation/collision sanitization here; the current server/tool
+  names are already provider-safe tokens. If broader sanitization becomes necessary, stop and freeze it separately.
+provenance:
+  source_refs:
+  - attempt:cf10-u180j-a032/BLOCKED
+  - source_head:84ee8f6c32d489dc00e4121a91a56f3f1358e88b
+  - probe_execution:structured-exec-08e50729642c18f5a024
+  - probe_evidence_digest:c8936ae0c37517c4d146303423322714866ac9db8ef92eba807f0203f19e357f
+  - diagnosis:AVAILABLE_TOOLS_MCP_IDENTIFIER_CONTRACT_DEFECT_CONFIRMED
+  - capability:validation_suite@0.2.0
+  chat_is_authority: false
+dependencies:
+- a032 STARTED/PENDING exists as the latest canonical attempt fact before this helper runs.
+- a032 Worker delta derived from the frozen pre-worker baseline has exact zero changed paths; inherited durable dirty
+  paths are not counted as Worker mutations.
+- Sanitized MCP model-tool-id probe passes at the exact 84ee8f6c source boundary.
+- The existing session-only MCP transport and validation_suite@0.2.0 execution path are proven working.
+outputs:
+- Separate provider model-visible MCP tool identity from MCP permission-filter identity.
+- Use ForPrintValidation-run_validation_suite in GitHub Copilot --available-tools for the current bounded validation
+  MCP tool.
+- Preserve ForPrintValidation(run_validation_suite) only as the provider permission selector identity; do not place
+  that selector in the model-visible available-tools universe.
+- Keep the existing session-only --additional-mcp-config transport, MCP server name, registered tool name and validation_suite@0.2.0
+  capability semantics unchanged.
+- 'Keep the exact bounded non-shell tool universe: view, edit, apply_patch, and the single model-visible validation
+  MCP tool.'
+acceptance:
+- Only the two frozen implementation paths change in the implementation slice.
+- Existing Task70 three-file implementation scope is not modified by this repair.
+- validation_suite capability remains version 0.2.0 and its semantics do not change.
+- MCP transport remains session-only through --additional-mcp-config.
+- No persistent .mcp.json or .github/mcp.json is written.
+- No shell, arbitrary argv, arbitrary environment or executable-selection authority is added.
+- Focused invocation-adapter tests pass after tests-first RED evidence.
+- cf10-worker-invocation-bridge-check passes.
+- governed-worker-cycle-check passes.
+- A real provider-session proof using the repaired project-native exposure succeeds and invokes validation_suite@0.2.0
+  without creating a new Worker attempt.
+- A033 is not created or launched during repair implementation or validation.
+- No automatic accept, promotion, commit, push, merge or release is performed by a Worker.
+stop_conditions:
+- A production path outside the exact two-file implementation write-set becomes necessary.
+- The repair requires changing MCP capability semantics rather than provider exposure mechanics.
+- The repair requires shell or persistent MCP configuration.
+- The repair requires Task70 files or lifecycle/roadmap mutation.
+- A real Worker retry is required before repair closeout.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false
