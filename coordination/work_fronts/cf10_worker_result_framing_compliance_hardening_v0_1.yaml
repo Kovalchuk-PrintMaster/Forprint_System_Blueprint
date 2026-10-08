@@ -1,0 +1,79 @@
+work_front_id: wf-cf10-worker-result-framing-compliance-hardening-v0-1
+objective: Harden the existing GitHub Copilot Worker prompt so the entire provider stdout is one exact Handoff v2
+  result frame, with no assistant narration before, between, or after tool-driven work, without weakening the strict
+  result-return parser.
+scope: &id001
+- scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+- tests/coordination/control_plane/worker_runtime/test_cf10_worker_runtime_invocation_adapter_v0_1.py
+exclusions:
+- Do not modify worker_result_return.py or relax exact framing.
+- Do not modify S3 or S4 result/freshness validators.
+- Do not modify governed_worker_cycle.py.
+- Do not modify Task70 candidate files or validation-suite semantics.
+- Do not modify provider/MCP capability semantics or tool exposure.
+- Do not add shell, web, broad tools, persistent MCP config, or authority.
+- Do not revive, replay, rewrite, or materialize a035.
+- Do not create or launch the next Worker attempt in this slice.
+provenance:
+  source_refs:
+  - attempt:cf10-u180j-a035/BLOCKED
+  - publication:6ac6da02cdf623d487d9ed5a1f43238979e67a70
+  - failure_class:RESULT_ENVELOPE_INVALID_AFTER_PROCESS
+  - diagnosis:NON_WHITESPACE_AGENT_NARRATION_BEFORE_RESULT_FRAME
+  - payload_contract:S3_PASS
+  - payload_contract:S4_PASS
+  - worker_delta:EXACT_THREE_PATH_TASK70
+  chat_is_authority: false
+dependencies:
+- a035 STARTED and terminal BLOCKED records are canonically published.
+- a035 provider process returned rc=0 and timed_out=false.
+- a035 framed YAML payload independently passes S3 and S4 validation.
+- a035 exact Worker delta contains only the three Task70 mutation paths.
+- The sole observed result-return blocker is non-whitespace agent narration before FORPRINT_HANDOFF_V2_RESULT_BEGIN.
+- GitHub Copilot CLI silent prompt mode is already used; the observed prefix is agent response content, not stderr.
+outputs:
+- Strengthen the Worker prompt so no assistant-facing natural language may be emitted at any point before the final
+  frame.
+- Require the first non-whitespace provider stdout content to be FORPRINT_HANDOFF_V2_RESULT_BEGIN.
+- Require the last non-whitespace provider stdout content to be FORPRINT_HANDOFF_V2_RESULT_END.
+- Explicitly forbid progress updates, status narration, summaries, tool-call preambles, and tool-call postambles outside
+  the frame.
+- Require failures/limitations to be encoded inside the existing Handoff v2 result frame rather than emitted as prose.
+- Preserve the strict create-only result-return parser unchanged.
+acceptance:
+- Only the two declared implementation paths change.
+- Tests-first RED proves the current prompt lacks whole-session zero-prose requirements.
+- GREEN proves the prompt contains first/last non-whitespace frame boundaries.
+- GREEN proves progress/status/tool narration is forbidden outside the frame.
+- Existing S4 verbatim resume-binding prompt requirements remain intact.
+- Existing invocation-adapter focused tests pass.
+- cf10-worker-invocation-bridge-check passes.
+- cf10-worker-result-return-check passes without parser modification.
+- git diff --check passes for the exact two-path implementation scope.
+- Task70 files and a035 runtime/result/ledger facts remain immutable.
+- No automatic retry, dispatch, acceptance, promotion, commit, push, merge, or release.
+stop_conditions:
+- A production path outside the exact two-file implementation scope becomes necessary.
+- The repair requires weakening or filtering the strict result frame parser.
+- The repair requires changing S3/S4 semantics.
+- The repair requires changing provider/MCP tool capability semantics.
+- A new Worker attempt is required before the repair is published and closed.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false
+capability_reuse:
+  search_performed: true
+  disposition: EXTEND
+  target_refs: *id001
+  read_only_refs:
+  - scripts/coordination/control_plane/worker_runtime/worker_result_return.py
+  - scripts/coordination/control_plane/governed_worker_cycle.py
+  - scripts/coordination/assistant_handoff_v2_result_v0_1.py
+  - scripts/coordination/assistant_handoff_v2_freshness_resume_v0_1.py
+  - config/worker_runtime.yaml
+  rationale: The existing invocation adapter already owns the provider prompt and result-return protocol text. The
+    strict parser correctly rejected a035, so the capability is extended at its prompt owner instead of adding a second
+    transport or weakening validation.
