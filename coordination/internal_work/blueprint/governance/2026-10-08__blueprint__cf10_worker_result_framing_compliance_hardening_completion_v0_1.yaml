@@ -1,0 +1,168 @@
+schema_version: forprint_cf10_worker_result_framing_compliance_hardening_completion_v0_1
+layer: GOVERNANCE_COMPLETION
+status: PASS
+completed_at: '2026-10-08'
+slice:
+  id: CF10_WORKER_RESULT_FRAMING_COMPLIANCE_HARDENING
+  work_front_id: wf-cf10-worker-result-framing-compliance-hardening-v0-1
+  objective: Require the whole GitHub Copilot Worker provider response to remain silent outside one exact Handoff
+    v2 result frame.
+design_authority:
+  work_front:
+    path: coordination/work_fronts/cf10_worker_result_framing_compliance_hardening_v0_1.yaml
+    sha256: e149cc06a79635afb9b5a65912e9a6637499b6ef446d565a4d26c15eb73d72eb
+    publication_commit: 962f8b0013cc8fe2a2c1890aad8a3061fac974ed
+  freeze:
+    path: coordination/internal_work/blueprint/governance/2026-10-08__blueprint__cf10_worker_result_framing_compliance_hardening_design_freeze_v0_1.yaml
+    sha256: 48ac49bed3d84ad9d253520976822a0c6604d79dfba51fbbb96b07e86114dbbd
+    publication_commit: 962f8b0013cc8fe2a2c1890aad8a3061fac974ed
+    status: FROZEN_FOR_BOUNDED_IMPLEMENTATION
+trigger:
+  attempt_id: cf10-u180j-a035
+  task_prompt_id: cf10-validation-check-pipeline-profile-and-optimization-v0-1
+  terminalization_publication_commit: 6ac6da02cdf623d487d9ed5a1f43238979e67a70
+  terminal_state: BLOCKED
+  terminal_failure_class: RESULT_ENVELOPE_INVALID_AFTER_PROCESS
+  provider_return_code: 0
+  provider_timed_out: false
+  frame_begin_count: 1
+  frame_end_count: 1
+  non_whitespace_before_frame: true
+  non_whitespace_after_frame: false
+  prefix_bytes: 380
+  prefix_source: AGENT_RESPONSE_NARRATION
+  stderr_bytes: 0
+  payload_s3: PASS
+  payload_s4: PASS
+  worker_delta_exact: true
+  worker_changed_path_count: 3
+  worker_changed_paths:
+  - Makefile
+  - scripts/validation/run_validation_suite_v0_1.py
+  - tests/validation/test_validation_suite_runner_v0_1.py
+  worker_result_materialized: false
+  same_attempt_replay_allowed: false
+diagnosis:
+  confirmed_defect: Worker assistant-facing progress narration preceded the exact Handoff v2 result frame. The framed
+    payload itself passed S3 and S4 and carried the exact Task70 three-path delta.
+  strict_result_parser_correctly_failed_closed: true
+  strict_parser_defect: false
+  provider_transport_noise: false
+  provider_stderr_noise: false
+  s3_result_contract_defect: false
+  s4_resume_binding_defect: false
+  task70_delta_defect: false
+  prompt_whole_session_framing_compliance_gap: true
+implementation:
+  publication_commit: e4e718bdd720ec894ad762e38bd0623274bc3cab
+  published: true
+  path_count: 2
+  paths:
+  - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+  - tests/coordination/control_plane/worker_runtime/test_cf10_worker_runtime_invocation_adapter_v0_1.py
+  capabilities:
+    whole_session_assistant_narration_forbidden: true
+    progress_updates_forbidden_outside_frame: true
+    status_narration_forbidden_outside_frame: true
+    tool_call_preambles_forbidden_outside_frame: true
+    tool_call_postambles_forbidden_outside_frame: true
+    first_non_whitespace_stdout_bound_to_frame_begin: true
+    last_non_whitespace_stdout_bound_to_frame_end: true
+    failures_and_limitations_required_inside_frame: true
+    strict_result_parser_preserved: true
+    stdout_prefix_stripping_added: false
+    result_rewrite_allowed: false
+    result_synthesis_allowed: false
+    existing_s3_validator_preserved: true
+    existing_s4_validator_preserved: true
+    existing_s4_verbatim_prompt_contract_preserved: true
+    provider_mcp_capability_semantics_changed: false
+    automatic_retry: false
+    automatic_dispatch: false
+    automatic_accept: false
+    automatic_promotion: false
+    automatic_commit: false
+    automatic_push: false
+    automatic_merge: false
+    automatic_release: false
+verification:
+  tests_first_red:
+    framing_prompt_suite:
+      expected_new_failures: 4
+      observed_new_failures: 4
+      production_mutated_before_red: false
+      result: PASS
+    existing_s4_control:
+      passed: 1
+      failed: 0
+      result: PASS
+  focused_green:
+    new_framing_tests:
+      passed: 4
+      failed: 0
+      result: PASS
+    existing_s4_control:
+      passed: 1
+      failed: 0
+      result: PASS
+    full_invocation_adapter_suite:
+      passed: 20
+      failed: 0
+      result: PASS
+  worker_invocation_bridge_check:
+    target: cf10-worker-invocation-bridge-check
+    passed: 55
+    failed: 0
+    result: PASS
+  worker_result_return_check:
+    target: cf10-worker-result-return-check
+    passed: 32
+    failed: 0
+    result: PASS
+  two_path_diff_check: PASS
+  exact_two_path_stage: PASS
+  protected_staged_count: 0
+  forbidden_parser_or_task70_mutation: NONE
+a035_state:
+  attempt_id: cf10-u180j-a035
+  attempt_stage: BLOCKED
+  result_state: BLOCKED
+  validator_outcome: FAIL
+  failure_class: RESULT_ENVELOPE_INVALID_AFTER_PROCESS
+  payload_s3: PASS
+  payload_s4: PASS
+  immutable_runtime_evidence_preserved: true
+  candidate_workspace_preserved: true
+  worker_result_materialized: false
+  worker_relaunch: false
+  same_attempt_replay_forbidden: true
+  new_attempt_required_for_retry: true
+repository_state_before_completion_publication:
+  head: e4e718bdd720ec894ad762e38bd0623274bc3cab
+  head_equals_upstream: true
+  protected_dirty_path_count: 5
+  protected_dirty_paths:
+  - AGENTS.md
+  - coordination/global_policy/current_execution_focus.md
+  - coordination/standards/automation/index.yaml
+  - indexes/governance.yaml
+  - indexes/roadmaps.yaml
+  unexpected_dirty_paths: []
+closure:
+  mandatory_framing_hardening_remaining: false
+  worker_result_framing_hardening_complete: true
+  strict_result_parser_preserved: true
+  task70_mutated: false
+  a035_mutated: false
+  makefile_mutated: false
+  next_boundary: COMPLETION_ARTIFACT_PUBLICATION
+  task70_retry_allowed_after_completion_publication: true
+  retry_requires_new_attempt_id: true
+  automatic_transition: false
+authority:
+  completion_artifact_grants_execution_authority: false
+  completion_artifact_grants_dispatch_authority: false
+  completion_artifact_grants_acceptance_authority: false
+  completion_artifact_grants_promotion_authority: false
+  completion_artifact_grants_publication_authority: false
+  work_front_remains_execution_authority: true
