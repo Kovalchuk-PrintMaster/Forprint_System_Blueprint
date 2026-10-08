@@ -10,6 +10,10 @@ from typing import Any
 
 import yaml
 
+from scripts.coordination.assistant_handoff_v2_freshness_resume_v0_1 import (
+    FAIL_CLASSES as S4_RESUME_FAILURE_CLASSES,
+    validate_resume,
+)
 from scripts.coordination.assistant_handoff_v2_result_v0_1 import (
     validate_result_envelope,
 )
@@ -22,6 +26,56 @@ RESULT_FILENAME = "worker_result.yaml"
 
 class WorkerResultReturnError(RuntimeError):
     pass
+
+
+def _s4_resume_origin(
+    *,
+    governed_worker_context: dict[str, Any] | None,
+    origin_manifest: dict[str, Any],
+) -> dict[str, Any]:
+    if not isinstance(governed_worker_context, dict):
+        raise WorkerResultReturnError(
+            "S4 governed Worker context is required before result materialization"
+        )
+    if governed_worker_context.get("schema_version") != (
+        "forprint_governed_worker_context_projection_v0_1"
+    ):
+        raise WorkerResultReturnError(
+            "S4 governed Worker context schema invalid"
+        )
+
+    origin_hash = origin_manifest.get("handoff_manifest_sha256")
+    context_hash = governed_worker_context.get("handoff_manifest_sha256")
+    if not isinstance(origin_hash, str) or not origin_hash:
+        raise WorkerResultReturnError(
+            "origin Handoff manifest hash missing at S4 resume gate"
+        )
+    if context_hash != origin_hash:
+        raise WorkerResultReturnError(
+            "RESUME_MANIFEST_BINDING_MISMATCH: governed Worker context "
+            "Handoff hash differs from origin manifest"
+        )
+
+    source_fingerprint = governed_worker_context.get(
+        "handoff_source_state_fingerprint"
+    )
+    if not isinstance(source_fingerprint, str) or not source_fingerprint:
+        raise WorkerResultReturnError(
+            "RESUME_COORDINATES_INCOMPLETE: governed Worker context "
+            "source-state fingerprint missing"
+        )
+
+    cursor = governed_worker_context.get("lifecycle_roadmap_cursor")
+    if not isinstance(cursor, dict):
+        raise WorkerResultReturnError(
+            "RESUME_COORDINATES_INCOMPLETE: governed Worker context "
+            "lifecycle/roadmap cursor missing"
+        )
+
+    return {
+        "source_state_fingerprint": source_fingerprint,
+        "lifecycle_roadmap_cursor": cursor,
+    }
 
 
 def extract_framed_result(stdout_text: str) -> dict[str, Any]:
@@ -79,6 +133,7 @@ def materialize_worker_result(
     stdout_path: Path | str,
     origin_manifest: dict[str, Any],
     expected_attempt_id: str,
+    governed_worker_context: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     canonical = Path(root).resolve()
     attempt = Path(attempt_root).expanduser().resolve()
@@ -132,6 +187,21 @@ def materialize_worker_result(
             "Handoff v2 result validation failed: "
             + yaml.safe_dump(
                 {"errors": errors},
+                sort_keys=False,
+                allow_unicode=True,
+            ).strip()
+        )
+
+    s4_origin = _s4_resume_origin(
+        governed_worker_context=governed_worker_context,
+        origin_manifest=origin_manifest,
+    )
+    resume_errors = validate_resume(payload, s4_origin)
+    if resume_errors:
+        raise WorkerResultReturnError(
+            "Handoff v2 S4 resume validation failed: "
+            + yaml.safe_dump(
+                {"errors": resume_errors},
                 sort_keys=False,
                 allow_unicode=True,
             ).strip()

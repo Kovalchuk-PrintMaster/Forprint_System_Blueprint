@@ -158,6 +158,23 @@ def test_materialize_reuses_existing_handoff_validator_and_is_create_only(
         attempt_id="cf10-u180j-a034",
         manifest_hash=manifest_hash,
     )
+    governed = {
+        "schema_version": "forprint_governed_worker_context_projection_v0_1",
+        "handoff_manifest_sha256": manifest_hash,
+        "handoff_source_state_fingerprint": "d" * 64,
+        "lifecycle_roadmap_cursor": {
+            "roadmap_sync": "IN_SYNC",
+            "roadmap_status_sha256": "e" * 64,
+        },
+    }
+    payload["resume_coordinates"] = {
+        "attempt_id": "cf10-u180j-a034",
+        "handoff_manifest_sha256": manifest_hash,
+        "source_state_fingerprint": (
+            governed["handoff_source_state_fingerprint"]
+        ),
+        "lifecycle_roadmap_cursor": governed["lifecycle_roadmap_cursor"],
+    }
     stdout = logs / "stdout.log"
     stdout.write_text(_frame(payload), encoding="utf-8")
 
@@ -181,6 +198,7 @@ def test_materialize_reuses_existing_handoff_validator_and_is_create_only(
         stdout_path=stdout,
         origin_manifest=manifest,
         expected_attempt_id="cf10-u180j-a034",
+        governed_worker_context=governed,
     )
 
     result_path = attempt / "result" / "worker_result.yaml"
@@ -368,3 +386,244 @@ def test_makefile_exposes_short_result_return_operator_surface() -> None:
     assert "governed-worker-cycle-reconcile-result-return:" in text
     assert "reconcile-result-return" in text
     assert "CONFIRM_RESULT_RETURN_RECONCILIATION" in text
+
+
+# CF10_S4_RESUME_BINDING_HARDENING_RED_V0_2
+
+
+def _s4_governed_context(
+    *,
+    manifest_hash: str = "b" * 64,
+    source_fingerprint: str = "2" * 64,
+) -> dict:
+    return {
+        "schema_version": "forprint_governed_worker_context_projection_v0_1",
+        "handoff_manifest_sha256": manifest_hash,
+        "handoff_source_state_fingerprint": source_fingerprint,
+        "dependency_health_slice": {},
+        "lifecycle_roadmap_cursor": {
+            "roadmap_sync": "IN_SYNC",
+            "roadmap_status": (
+                "ROADMAP_STATUS=control_foundation_near_horizon:"
+                "previous=CF-09:current=CF-10:next=CF-11:ready=CF-11"
+            ),
+            "open_work": {
+                "u180j": {
+                    "state": "ACTIVE",
+                    "event_id": "evt-fixture",
+                    "event_type": "WORK_ACTIVATED",
+                    "sequence": 67,
+                }
+            },
+            "lifecycle_status_sha256": "3" * 64,
+            "roadmap_status_sha256": "4" * 64,
+        },
+        "resume_coordinates": {
+            "work_id": "u180j",
+            "git_head": "a" * 40,
+        },
+        "expected_result_schema_revision": "0.1.0",
+        "execution_bindings": {},
+        "authority": {
+            "context_grants_authority": False,
+            "dispatch_authority_granted": False,
+            "release_authority_granted": False,
+            "cross_repository_write_authority_granted": False,
+        },
+    }
+
+
+def _s4_result_payload(
+    context: dict,
+    *,
+    attempt_id: str = "cf10-u180j-a034",
+    status: str = "PARTIAL",
+) -> dict:
+    payload = _valid_result(
+        attempt_id=attempt_id,
+        manifest_hash=context["handoff_manifest_sha256"],
+    )
+    payload["status"] = status
+    payload["resume_coordinates"] = {
+        "attempt_id": attempt_id,
+        "handoff_manifest_sha256": context["handoff_manifest_sha256"],
+        "source_state_fingerprint": (
+            context["handoff_source_state_fingerprint"]
+        ),
+        "lifecycle_roadmap_cursor": context["lifecycle_roadmap_cursor"],
+        "latest_completed_node": "post-worker-validation",
+        "latest_accepted_ref": "structured-exec-fixture",
+        "replay_forbidden_refs": ["structured-exec-fixture"],
+    }
+    return payload
+
+
+def _arrange_s4_materialization(
+    tmp_path: Path,
+    payload: dict,
+) -> tuple[Path, Path, Path]:
+    root = tmp_path / "canonical"
+    root.mkdir()
+    attempt = tmp_path / "runtime" / payload["attempt_id"]
+    logs = attempt / "logs"
+    logs.mkdir(parents=True)
+    stdout = logs / "stdout.log"
+    stdout.write_text(_frame(payload), encoding="utf-8")
+    return root, attempt, stdout
+
+
+def test_materialize_accepts_exact_s4_resume_binding_before_write(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    module = _load_result_return()
+    context = _s4_governed_context()
+    payload = _s4_result_payload(context, status="PASS")
+    root, attempt, stdout = _arrange_s4_materialization(
+        tmp_path,
+        payload,
+    )
+
+    monkeypatch.setattr(
+        module,
+        "validate_result_envelope",
+        lambda result, manifest, *, root: [],
+    )
+
+    materialized = module.materialize_worker_result(
+        root=root,
+        attempt_root=attempt,
+        stdout_path=stdout,
+        origin_manifest={
+            "handoff_manifest_sha256": context["handoff_manifest_sha256"],
+        },
+        expected_attempt_id=payload["attempt_id"],
+        governed_worker_context=context,
+    )
+
+    result_path = attempt / "result" / "worker_result.yaml"
+    assert result_path.is_file()
+    assert materialized["validation_passed"] is True
+    assert materialized["result"] == payload
+
+
+def test_materialize_rejects_a034_style_cursor_hash_drift_before_write(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    module = _load_result_return()
+    context = _s4_governed_context()
+    payload = _s4_result_payload(context)
+    payload["resume_coordinates"]["lifecycle_roadmap_cursor"] = dict(
+        context["lifecycle_roadmap_cursor"]
+    )
+    payload["resume_coordinates"]["lifecycle_roadmap_cursor"][
+        "roadmap_status_sha256"
+    ] = "5" * 64
+
+    root, attempt, stdout = _arrange_s4_materialization(
+        tmp_path,
+        payload,
+    )
+    monkeypatch.setattr(
+        module,
+        "validate_result_envelope",
+        lambda result, manifest, *, root: [],
+    )
+
+    with pytest.raises(
+        module.WorkerResultReturnError,
+        match="STALE_LIFECYCLE_ROADMAP_CURSOR",
+    ):
+        module.materialize_worker_result(
+            root=root,
+            attempt_root=attempt,
+            stdout_path=stdout,
+            origin_manifest={
+                "handoff_manifest_sha256": (
+                    context["handoff_manifest_sha256"]
+                ),
+            },
+            expected_attempt_id=payload["attempt_id"],
+            governed_worker_context=context,
+        )
+
+    assert not (attempt / "result" / "worker_result.yaml").exists()
+
+
+def test_materialize_rejects_source_fingerprint_drift_before_write(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    module = _load_result_return()
+    context = _s4_governed_context()
+    payload = _s4_result_payload(context)
+    payload["resume_coordinates"]["source_state_fingerprint"] = "9" * 64
+
+    root, attempt, stdout = _arrange_s4_materialization(
+        tmp_path,
+        payload,
+    )
+    monkeypatch.setattr(
+        module,
+        "validate_result_envelope",
+        lambda result, manifest, *, root: [],
+    )
+
+    with pytest.raises(
+        module.WorkerResultReturnError,
+        match="STALE_SOURCE_STATE_FINGERPRINT",
+    ):
+        module.materialize_worker_result(
+            root=root,
+            attempt_root=attempt,
+            stdout_path=stdout,
+            origin_manifest={
+                "handoff_manifest_sha256": (
+                    context["handoff_manifest_sha256"]
+                ),
+            },
+            expected_attempt_id=payload["attempt_id"],
+            governed_worker_context=context,
+        )
+
+    assert not (attempt / "result" / "worker_result.yaml").exists()
+
+
+def test_materialize_rejects_incomplete_partial_resume_before_write(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    module = _load_result_return()
+    context = _s4_governed_context()
+    payload = _s4_result_payload(context)
+    payload["resume_coordinates"].pop("latest_accepted_ref")
+
+    root, attempt, stdout = _arrange_s4_materialization(
+        tmp_path,
+        payload,
+    )
+    monkeypatch.setattr(
+        module,
+        "validate_result_envelope",
+        lambda result, manifest, *, root: [],
+    )
+
+    with pytest.raises(
+        module.WorkerResultReturnError,
+        match="RESUME_COORDINATES_INCOMPLETE",
+    ):
+        module.materialize_worker_result(
+            root=root,
+            attempt_root=attempt,
+            stdout_path=stdout,
+            origin_manifest={
+                "handoff_manifest_sha256": (
+                    context["handoff_manifest_sha256"]
+                ),
+            },
+            expected_attempt_id=payload["attempt_id"],
+            governed_worker_context=context,
+        )
+
+    assert not (attempt / "result" / "worker_result.yaml").exists()

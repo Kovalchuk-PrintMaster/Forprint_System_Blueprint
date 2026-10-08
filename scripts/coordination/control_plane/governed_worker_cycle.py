@@ -1748,9 +1748,15 @@ def _project_native_started_record(
 
 
 def _result_return_failure_class(exc: Exception) -> str:
-    message = str(exc).lower()
+    raw_message = str(exc)
+    message = raw_message.lower()
     if "missing result frame" in message:
         return "RESULT_ENVELOPE_MISSING_AFTER_SUCCESSFUL_PROCESS"
+
+    for failure_class in worker_result_return.S4_RESUME_FAILURE_CLASSES:
+        if failure_class in raw_message:
+            return failure_class
+
     return "RESULT_ENVELOPE_INVALID_AFTER_PROCESS"
 
 
@@ -2095,6 +2101,7 @@ def launch_cycle(
                     "handoff_manifest_sha256": handoff_hash,
                 },
                 expected_attempt_id=attempt_id,
+                governed_worker_context=governed_worker_context,
             )
             result_return_evidence = {
                 "schema_version": (

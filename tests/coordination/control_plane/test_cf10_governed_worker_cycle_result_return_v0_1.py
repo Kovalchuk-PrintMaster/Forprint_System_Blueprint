@@ -500,3 +500,32 @@ def test_reconciliation_refuses_when_valid_result_already_exists(
             attempt_id=ATTEMPT,
             confirm=True,
         )
+
+
+# CF10_S4_RESUME_CYCLE_PASS_THROUGH_RED_V0_2
+
+
+def test_launch_cycle_passes_governed_context_to_result_materializer() -> None:
+    import inspect
+
+    source = inspect.getsource(gwc.launch_cycle)
+    marker = "worker_result_return.materialize_worker_result("
+    assert marker in source
+
+    call = source.split(marker, 1)[1].split(")", 1)[0]
+    compact = call.replace(" ", "").replace("\n", "")
+    assert "governed_worker_context=governed_worker_context" in compact
+
+
+# CF10_S4_FAILURE_CLASS_PRESERVATION_RED_V0_1
+
+
+def test_result_return_preserves_canonical_s4_failure_class() -> None:
+    exc = RuntimeError(
+        "Handoff v2 S4 resume validation failed: "
+        "STALE_LIFECYCLE_ROADMAP_CURSOR"
+    )
+
+    assert gwc._result_return_failure_class(exc) == (
+        "STALE_LIFECYCLE_ROADMAP_CURSOR"
+    )

@@ -694,3 +694,48 @@ def test_hash_bound_governed_context_is_explicit_freshness_proof() -> None:
 
 
 # CF10_TASK70_A031_PREREQUISITE_REPAIR_RED_V0_1
+
+
+# CF10_S4_RESUME_PROMPT_BINDING_RED_V0_2
+
+
+def test_prompt_requires_verbatim_s4_resume_binding() -> None:
+    governed = {
+        "schema_version": "forprint_governed_worker_context_projection_v0_1",
+        "handoff_manifest_sha256": "1" * 64,
+        "handoff_source_state_fingerprint": "2" * 64,
+        "dependency_health_slice": {},
+        "lifecycle_roadmap_cursor": {
+            "roadmap_sync": "IN_SYNC",
+            "roadmap_status_sha256": "3" * 64,
+        },
+        "resume_coordinates": {"work_id": "u180j"},
+        "expected_result_schema_revision": "0.1.0",
+        "execution_bindings": {},
+        "authority": {
+            "context_grants_authority": False,
+            "dispatch_authority_granted": False,
+            "release_authority_granted": False,
+            "cross_repository_write_authority_granted": False,
+        },
+    }
+
+    prompt = adapter.render_worker_prompt(
+        task_context=_context(),
+        explicit_dispatch_decision=_decision(Path("/tmp/workspace")),
+        governed_worker_context=governed,
+    )
+
+    lowered = prompt.lower()
+    assert "resume_coordinates.source_state_fingerprint" in prompt
+    assert "handoff_source_state_fingerprint" in prompt
+    assert "resume_coordinates.lifecycle_roadmap_cursor" in prompt
+    assert "verbatim" in lowered
+    assert "recompute" in lowered
+    assert "latest_completed_node" in prompt
+    assert "latest_accepted_ref" in prompt
+    assert "replay_forbidden_refs" in prompt
+    assert "PARTIAL" in prompt
+    assert "INTERRUPTED" in prompt
+    assert "BLOCKED" in prompt
+    assert "RETRYABLE_FAILURE" in prompt
