@@ -739,3 +739,71 @@ def test_prompt_requires_verbatim_s4_resume_binding() -> None:
     assert "INTERRUPTED" in prompt
     assert "BLOCKED" in prompt
     assert "RETRYABLE_FAILURE" in prompt
+
+
+# CF10_RESULT_FRAMING_COMPLIANCE_RED_V0_1
+
+
+def test_prompt_forbids_whole_session_assistant_narration() -> None:
+    prompt = adapter.render_worker_prompt(
+        task_context=_context(),
+        explicit_dispatch_decision=_decision(Path("/tmp/workspace")),
+    )
+
+    required = (
+        "Do not emit any assistant-facing progress updates, status narration, "
+        "summaries, tool-call preambles, or tool-call postambles at any time."
+    )
+    assert required in prompt, (
+        "RED: a035 emitted agent progress narration before the result frame; "
+        "the Worker prompt does not yet forbid whole-session assistant narration"
+    )
+
+
+def test_prompt_binds_first_non_whitespace_stdout_to_frame_begin() -> None:
+    prompt = adapter.render_worker_prompt(
+        task_context=_context(),
+        explicit_dispatch_decision=_decision(Path("/tmp/workspace")),
+    )
+
+    required = (
+        "The first non-whitespace content written to provider stdout must be "
+        "exactly FORPRINT_HANDOFF_V2_RESULT_BEGIN."
+    )
+    assert required in prompt, (
+        "RED: the prompt names the frame begin marker but does not bind it to "
+        "the first non-whitespace provider stdout content"
+    )
+
+
+def test_prompt_binds_last_non_whitespace_stdout_to_frame_end() -> None:
+    prompt = adapter.render_worker_prompt(
+        task_context=_context(),
+        explicit_dispatch_decision=_decision(Path("/tmp/workspace")),
+    )
+
+    required = (
+        "The last non-whitespace content written to provider stdout must be "
+        "exactly FORPRINT_HANDOFF_V2_RESULT_END."
+    )
+    assert required in prompt, (
+        "RED: the prompt names the frame end marker but does not bind it to "
+        "the last non-whitespace provider stdout content"
+    )
+
+
+def test_prompt_requires_failures_and_limitations_inside_frame() -> None:
+    prompt = adapter.render_worker_prompt(
+        task_context=_context(),
+        explicit_dispatch_decision=_decision(Path("/tmp/workspace")),
+    )
+
+    required = (
+        "Encode all failures, limitations, partial status, and unresolved "
+        "findings inside the framed YAML; never emit them as prose outside "
+        "the frame."
+    )
+    assert required in prompt, (
+        "RED: framing compliance must route failures and limitations into the "
+        "existing Handoff v2 frame instead of assistant prose"
+    )
