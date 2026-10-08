@@ -61,16 +61,19 @@ def _call_params(name: str, arguments: dict) -> mcp_types.CallToolRequestParams:
     )
 
 
-def test_validation_mcp_exposes_exactly_one_bounded_tool(tmp_path: Path) -> None:
+def test_validation_mcp_exposes_exactly_two_bounded_tools(tmp_path: Path) -> None:
     module = _load_module()
     server = module.build_server(**_binding(tmp_path))
 
     result = asyncio.run(_handler(server, "tools/list")(None, None))
-    assert len(result.tools) == 1
 
-    tool = result.tools[0]
-    assert tool.name == "run_validation_suite"
-    assert tool.input_schema == {
+    assert [tool.name for tool in result.tools] == [
+        "run_validation_suite",
+        "run_repo_diff_check",
+    ]
+
+    validation_tool = result.tools[0]
+    assert validation_tool.input_schema == {
         "type": "object",
         "properties": {
             "suite_id": {"type": "string"},
@@ -87,6 +90,13 @@ def test_validation_mcp_exposes_exactly_one_bounded_tool(tmp_path: Path) -> None
             },
         },
         "required": ["suite_id"],
+        "additionalProperties": False,
+    }
+
+    diff_tool = result.tools[1]
+    assert diff_tool.input_schema == {
+        "type": "object",
+        "properties": {},
         "additionalProperties": False,
     }
 
@@ -280,6 +290,153 @@ def test_validation_mcp_rejects_worker_supplied_hidden_fields(
     assert result.is_error is True
     assert called == []
     assert result.structured_content is None
+
+
+# CF10_WORKER_VALIDATION_SURFACE_COMPLETION_RED_V0_1
+
+
+def test_repo_diff_check_tool_reuses_exact_registered_capability(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    module = _load_module()
+    binding = _binding(tmp_path)
+    captured = {}
+
+    stdout = Path(binding["evidence_root"]) / "diff/stdout.log"
+    stderr = Path(binding["evidence_root"]) / "diff/stderr.log"
+    stdout.parent.mkdir(parents=True)
+    stdout.write_text("", encoding="utf-8")
+    stderr.write_text("", encoding="utf-8")
+
+    def fake_build_execution_plan(*, root, request):
+        captured["root"] = str(Path(root).resolve())
+        captured["request"] = request
+        return {
+            "schema_version": "forprint_structured_execution_plan_v0_1",
+            "request": request,
+            "execution_id": "structured-exec-diff-check",
+        }
+
+    def fake_execute_execution_plan(*, root, plan):
+        captured["execute_root"] = str(Path(root).resolve())
+        captured["plan"] = plan
+        return {
+            "execution_id": "structured-exec-diff-check",
+            "outcome": "completed",
+            "elapsed_seconds": 0.1,
+            "return_code": 0,
+            "timed_out": False,
+            "stdout_evidence": {
+                "path": str(stdout),
+                "sha256": "1" * 64,
+                "size_bytes": 0,
+            },
+            "stderr_evidence": {
+                "path": str(stderr),
+                "sha256": "2" * 64,
+                "size_bytes": 0,
+            },
+            "evidence_digest": "3" * 64,
+            "authority": {
+                "executor_grants_authority": False,
+                "canonical_write_allowed": False,
+                "safe_write_allowed": False,
+                "commit_allowed": False,
+                "push_allowed": False,
+                "merge_allowed": False,
+                "release_allowed": False,
+                "promotion_allowed": False,
+                "arbitrary_shell_allowed": False,
+            },
+        }
+
+    monkeypatch.setattr(
+        module.structured_executor,
+        "build_execution_plan",
+        fake_build_execution_plan,
+    )
+    monkeypatch.setattr(
+        module.structured_executor,
+        "execute_execution_plan",
+        fake_execute_execution_plan,
+    )
+
+    server = module.build_server(**binding)
+
+    result = asyncio.run(
+        _handler(server, "tools/call")(
+            None,
+            _call_params(
+                "run_repo_diff_check",
+                {},
+            ),
+        )
+    )
+
+    assert result.is_error is False
+
+    request = captured["request"]
+    workspace = str(Path(binding["workspace_repo"]).resolve())
+    evidence_root = str(Path(binding["evidence_root"]).resolve())
+
+    assert captured["root"] == workspace
+    assert captured["execute_root"] == workspace
+
+    assert request["capability_id"] == "repo_diff_check"
+    assert request["capability_version"] == "0.1.0"
+    assert request["parameters"] == {}
+
+    assert request["exact_cwd"] == workspace
+    assert request["execution_scope"] == {
+        "kind": "GIT_REPOSITORY_ROOT",
+        "root": workspace,
+    }
+
+    assert request["evidence_destination"] == evidence_root
+    assert request["consumer_id"] == "cf10_worker_validation_mcp"
+
+    envelope = request["authorization_envelope"]
+    assert envelope["capability_id"] == "repo_diff_check"
+    assert envelope["capability_version"] == "0.1.0"
+    assert envelope["parameters"] == {}
+    assert envelope["exact_cwd"] == workspace
+
+    assert envelope["authority"]["arbitrary_shell_allowed"] is False
+    assert envelope["authority"]["canonical_write_allowed"] is False
+    assert envelope["authority"]["promotion_allowed"] is False
+
+
+def test_repo_diff_check_rejects_worker_supplied_parameters(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    module = _load_module()
+    called = []
+
+    monkeypatch.setattr(
+        module.structured_executor,
+        "build_execution_plan",
+        lambda **kwargs: called.append(kwargs),
+    )
+
+    server = module.build_server(**_binding(tmp_path))
+
+    result = asyncio.run(
+        _handler(server, "tools/call")(
+            None,
+            _call_params(
+                "run_repo_diff_check",
+                {
+                    "cwd": "/tmp/evil",
+                },
+            ),
+        )
+    )
+
+    assert result.is_error is True
+    assert result.structured_content is None
+    assert called == []
 
 
 # CF10_TASK70_A031_PREREQUISITE_REPAIR_RED_V0_1

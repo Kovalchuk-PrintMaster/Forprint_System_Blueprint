@@ -25,21 +25,34 @@ class WorkerRuntimeInvocationError(RuntimeError):
 SUPPORTED_PROVIDER = "github_copilot_cli"
 WORKER_VALIDATION_MCP_SERVER = "ForPrintValidation"
 WORKER_VALIDATION_MCP_TOOL = "run_validation_suite"
+WORKER_REPO_DIFF_CHECK_MCP_TOOL = "run_repo_diff_check"
 WORKER_VALIDATION_MCP_SCRIPT = (
     "scripts/coordination/control_plane/worker_runtime/"
     "worker_validation_mcp.py"
 )
+
 GITHUB_COPILOT_MCP_MODEL_TOOL_ID = (
     f"{WORKER_VALIDATION_MCP_SERVER}-{WORKER_VALIDATION_MCP_TOOL}"
 )
+GITHUB_COPILOT_REPO_DIFF_MCP_MODEL_TOOL_ID = (
+    f"{WORKER_VALIDATION_MCP_SERVER}-"
+    f"{WORKER_REPO_DIFF_CHECK_MCP_TOOL}"
+)
+
 GITHUB_COPILOT_MCP_PERMISSION_PATTERN = (
     f"{WORKER_VALIDATION_MCP_SERVER}({WORKER_VALIDATION_MCP_TOOL})"
 )
+GITHUB_COPILOT_REPO_DIFF_MCP_PERMISSION_PATTERN = (
+    f"{WORKER_VALIDATION_MCP_SERVER}"
+    f"({WORKER_REPO_DIFF_CHECK_MCP_TOOL})"
+)
+
 GITHUB_COPILOT_AVAILABLE_TOOLS = (
     "view",
     "edit",
     "apply_patch",
     GITHUB_COPILOT_MCP_MODEL_TOOL_ID,
+    GITHUB_COPILOT_REPO_DIFF_MCP_MODEL_TOOL_ID,
 )
 DEFAULT_HEARTBEAT_SECONDS = 15
 DEFAULT_STALL_THRESHOLD_SECONDS = 120.0
@@ -547,7 +560,10 @@ def build_launch_invocation(
                     "--evidence-root",
                     str(structured_evidence_root),
                 ],
-                "tools": [WORKER_VALIDATION_MCP_TOOL],
+                "tools": [
+                    WORKER_VALIDATION_MCP_TOOL,
+                    WORKER_REPO_DIFF_CHECK_MCP_TOOL,
+                ],
                 "cwd": str(workspace),
             }
         }
@@ -616,7 +632,8 @@ def build_launch_invocation(
         "provider_policy": {
             "available_tools": list(GITHUB_COPILOT_AVAILABLE_TOOLS),
             "mcp_permission_patterns": [
-                GITHUB_COPILOT_MCP_PERMISSION_PATTERN
+                GITHUB_COPILOT_MCP_PERMISSION_PATTERN,
+                GITHUB_COPILOT_REPO_DIFF_MCP_PERMISSION_PATTERN,
             ],
             "permission_mode": "ALLOW_ALL_WITHIN_AVAILABLE_TOOL_UNIVERSE",
             "bash_available": False,

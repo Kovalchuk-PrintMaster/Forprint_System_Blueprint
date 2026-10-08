@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 """Bounded CF10 Worker validation MCP bridge.
 
-The MCP surface exposes exactly one read-only validation tool. Worker-supplied
-input is limited to a registered validation suite id, optional verification
-tier and typed profiling request. Execution identity, workspace, evidence
-destination, timeout, capability
-identity and authorization are bound at server startup by the invocation
-adapter and cannot be overridden by the Worker.
+The MCP surface exposes exactly two bounded read-only validation tools:
+one registered validation-suite runner and one fixed Git diff-check capability.
+Execution identity, workspace, evidence destination, timeout, capability
+identity and authorization are bound by the bridge and cannot be overridden
+by the Worker.
 """
 
 from __future__ import annotations
@@ -37,8 +36,14 @@ SERVER_VERSION = "0.2.0"
 TOOL_NAME = "run_validation_suite"
 CAPABILITY_ID = "validation_suite"
 CAPABILITY_VERSION = "0.2.0"
-CONSUMER_ID = "cf10_worker_validation_mcp"
 TIMEOUT_SECONDS = 900
+
+REPO_DIFF_TOOL_NAME = "run_repo_diff_check"
+REPO_DIFF_CAPABILITY_ID = "repo_diff_check"
+REPO_DIFF_CAPABILITY_VERSION = "0.1.0"
+REPO_DIFF_TIMEOUT_SECONDS = 30
+
+CONSUMER_ID = "cf10_worker_validation_mcp"
 MAX_DIAGNOSTIC_BYTES = 4096
 
 TOOL_INPUT_SCHEMA: dict[str, Any] = {
@@ -58,6 +63,12 @@ TOOL_INPUT_SCHEMA: dict[str, Any] = {
         },
     },
     "required": ["suite_id"],
+    "additionalProperties": False,
+}
+
+REPO_DIFF_TOOL_INPUT_SCHEMA: dict[str, Any] = {
+    "type": "object",
+    "properties": {},
     "additionalProperties": False,
 }
 
@@ -301,7 +312,15 @@ def build_server(
                         "the bounded structured command executor."
                     ),
                     input_schema=TOOL_INPUT_SCHEMA,
-                )
+                ),
+                types.Tool(
+                    name=REPO_DIFF_TOOL_NAME,
+                    description=(
+                        "Run the registered fixed Git diff --check capability "
+                        "in the exact bound Worker workspace."
+                    ),
+                    input_schema=REPO_DIFF_TOOL_INPUT_SCHEMA,
+                ),
             ]
         )
 
@@ -310,85 +329,120 @@ def build_server(
         params: types.CallToolRequestParams,
     ) -> types.CallToolResult:
         try:
-            if params.name != TOOL_NAME:
-                raise WorkerValidationMCPError(
-                    f"unknown tool: {params.name}"
-                )
-
             arguments = params.arguments or {}
             if not isinstance(arguments, dict):
                 raise WorkerValidationMCPError(
                     "tool arguments must be an object"
                 )
 
-            unknown = sorted(
-                set(arguments) - {"suite_id", "require_tier", "profile"}
-            )
-            if unknown:
-                raise WorkerValidationMCPError(
-                    "unsupported Worker parameters: " + ",".join(unknown)
+            if params.name == TOOL_NAME:
+                unknown = sorted(
+                    set(arguments)
+                    - {"suite_id", "require_tier", "profile"}
                 )
+                if unknown:
+                    raise WorkerValidationMCPError(
+                        "unsupported Worker parameters: "
+                        + ",".join(unknown)
+                    )
 
-            suite_id = _string(arguments.get("suite_id"), "suite_id")
-            require_tier = arguments.get("require_tier")
-            if require_tier is not None:
-                require_tier = _string(require_tier, "require_tier")
-
-            profile = arguments.get("profile", False)
-            if not isinstance(profile, bool):
-                raise WorkerValidationMCPError(
-                    "profile must be boolean"
+                suite_id = _string(
+                    arguments.get("suite_id"),
+                    "suite_id",
                 )
+                require_tier = arguments.get("require_tier")
+                if require_tier is not None:
+                    require_tier = _string(
+                        require_tier,
+                        "require_tier",
+                    )
 
-            parameters: dict[str, Any] = {"suite_id": suite_id}
-            if require_tier is not None:
-                parameters["require_tier"] = require_tier
-            if profile:
-                parameters["profile"] = True
+                profile = arguments.get("profile", False)
+                if not isinstance(profile, bool):
+                    raise WorkerValidationMCPError(
+                        "profile must be boolean"
+                    )
+
+                parameters: dict[str, Any] = {
+                    "suite_id": suite_id
+                }
+                if require_tier is not None:
+                    parameters["require_tier"] = require_tier
+                if profile:
+                    parameters["profile"] = True
+
+                capability_id = CAPABILITY_ID
+                capability_version = CAPABILITY_VERSION
+                timeout_seconds = TIMEOUT_SECONDS
+                request_kind = "validation"
+
+            elif params.name == REPO_DIFF_TOOL_NAME:
+                if arguments:
+                    raise WorkerValidationMCPError(
+                        "run_repo_diff_check accepts no Worker parameters"
+                    )
+
+                parameters = {}
+                capability_id = REPO_DIFF_CAPABILITY_ID
+                capability_version = REPO_DIFF_CAPABILITY_VERSION
+                timeout_seconds = REPO_DIFF_TIMEOUT_SECONDS
+                request_kind = "repo-diff-check"
+
+            else:
+                raise WorkerValidationMCPError(
+                    f"unknown tool: {params.name}"
+                )
 
             workspace: Path = binding["workspace"]
             evidence: Path = binding["evidence_root"]
+
             request_id = (
-                f"{binding['attempt_id']}:validation:"
+                f"{binding['attempt_id']}:{request_kind}:"
                 f"{next(request_counter):04d}"
             )
+
             execution_identity = {
                 "attempt_id": binding["attempt_id"],
                 "task_id": binding["task_id"],
                 "work_front_id": binding["work_front_id"],
                 "explicit_dispatch_decision_id": binding["decision_id"],
             }
+
             request: dict[str, Any] = {
-                "capability_id": CAPABILITY_ID,
-                "capability_version": CAPABILITY_VERSION,
+                "capability_id": capability_id,
+                "capability_version": capability_version,
                 "execution_scope": {
                     "kind": "GIT_REPOSITORY_ROOT",
                     "root": str(workspace),
                 },
                 "exact_cwd": str(workspace),
                 "parameters": parameters,
-                "timeout_seconds": TIMEOUT_SECONDS,
+                "timeout_seconds": timeout_seconds,
                 "evidence_destination": str(evidence),
                 "execution_identity": execution_identity,
                 "consumer_id": CONSUMER_ID,
                 "request_id": request_id,
             }
-            request["authorization_envelope"] = _authorization_envelope(
-                request
+
+            request["authorization_envelope"] = (
+                _authorization_envelope(request)
             )
 
             plan = structured_executor.build_execution_plan(
                 root=workspace,
                 request=request,
             )
+
             result = structured_executor.execute_execution_plan(
                 root=workspace,
                 plan=plan,
             )
+
             payload = _success_payload(
                 result,
                 evidence_root=evidence,
             )
+
             return types.CallToolResult(
                 content=[
                     types.TextContent(
@@ -397,10 +451,14 @@ def build_server(
                             {
                                 "execution_id": payload["execution_id"],
                                 "outcome": payload["outcome"],
-                                "elapsed_seconds": payload["elapsed_seconds"],
+                                "elapsed_seconds": payload[
+                                    "elapsed_seconds"
+                                ],
                                 "return_code": payload["return_code"],
                                 "timed_out": payload["timed_out"],
-                                "evidence_digest": payload["evidence_digest"],
+                                "evidence_digest": payload[
+                                    "evidence_digest"
+                                ],
                             },
                             sort_keys=True,
                             separators=(",", ":"),
@@ -410,13 +468,16 @@ def build_server(
                 structured_content=payload,
                 is_error=False,
             )
+
         except (
             OSError,
             ValueError,
             WorkerValidationMCPError,
             structured_executor.StructuredCommandExecutorError,
         ) as exc:
-            return _error_result(f"{type(exc).__name__}: {exc}")
+            return _error_result(
+                f"{type(exc).__name__}: {exc}"
+            )
 
     return Server(
         SERVER_NAME,
@@ -482,14 +543,31 @@ async def _run_proof(
         read_timeout_seconds=1200,
     ) as client:
         listed = await client.list_tools()
-        if [tool.name for tool in listed.tools] != [TOOL_NAME]:
+        expected_names = [
+            TOOL_NAME,
+            REPO_DIFF_TOOL_NAME,
+        ]
+        if [tool.name for tool in listed.tools] != expected_names:
             raise WorkerValidationMCPError(
                 "proof MCP tool universe drift"
             )
-        tool = listed.tools[0]
-        if tool.input_schema != TOOL_INPUT_SCHEMA:
+
+        tools = {
+            tool.name: tool
+            for tool in listed.tools
+        }
+
+        if tools[TOOL_NAME].input_schema != TOOL_INPUT_SCHEMA:
             raise WorkerValidationMCPError(
-                "proof MCP tool schema drift"
+                "proof validation tool schema drift"
+            )
+
+        if (
+            tools[REPO_DIFF_TOOL_NAME].input_schema
+            != REPO_DIFF_TOOL_INPUT_SCHEMA
+        ):
+            raise WorkerValidationMCPError(
+                "proof repo diff tool schema drift"
             )
 
         arguments: dict[str, Any] = {"suite_id": suite_id}

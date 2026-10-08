@@ -404,9 +404,11 @@ def test_durable_invocation_evidence_omits_prompt_and_full_argv(
         "edit",
         "apply_patch",
         "ForPrintValidation-run_validation_suite",
+        "ForPrintValidation-run_repo_diff_check",
     ]
     assert evidence["provider_policy"]["mcp_permission_patterns"] == [
-        "ForPrintValidation(run_validation_suite)"
+        "ForPrintValidation(run_validation_suite)",
+        "ForPrintValidation(run_repo_diff_check)",
     ]
     assert evidence["provider_policy"]["permission_mode"] == (
         "ALLOW_ALL_WITHIN_AVAILABLE_TOOL_UNIVERSE"
@@ -475,7 +477,10 @@ def test_worker_bridge_injects_session_only_validation_mcp_config(
     server = config["mcpServers"]["ForPrintValidation"]
     assert server["type"] == "local"
     assert server["cwd"] == str(workspace)
-    assert server["tools"] == ["run_validation_suite"]
+    assert server["tools"] == [
+        "run_validation_suite",
+        "run_repo_diff_check",
+    ]
     assert server["command"] == sys.executable
     assert Path(server["command"]).is_absolute()
 
@@ -517,6 +522,7 @@ def test_worker_bridge_exposes_exact_bounded_tool_universe(
         "edit",
         "apply_patch",
         "ForPrintValidation-run_validation_suite",
+        "ForPrintValidation-run_repo_diff_check",
     ]
     provider_policy = result["provider_policy"]
     assert provider_policy["available_tools"] == expected, (
@@ -524,12 +530,16 @@ def test_worker_bridge_exposes_exact_bounded_tool_universe(
         "sanitized MCP tool id"
     )
     assert provider_policy["mcp_permission_patterns"] == [
-        "ForPrintValidation(run_validation_suite)"
+        "ForPrintValidation(run_validation_suite)",
+        "ForPrintValidation(run_repo_diff_check)",
     ], (
         "RED: MCP permission-filter identity must remain separately represented "
         "from model-visible available-tool identity"
     )
     assert "ForPrintValidation(run_validation_suite)" not in provider_policy[
+        "available_tools"
+    ]
+    assert "ForPrintValidation(run_repo_diff_check)" not in provider_policy[
         "available_tools"
     ]
 
@@ -538,6 +548,9 @@ def test_worker_bridge_exposes_exact_bounded_tool_universe(
     available_end = argv.index("--allow-all-tools")
     assert argv[available_start:available_end] == expected
     assert "ForPrintValidation(run_validation_suite)" not in argv[
+        available_start:available_end
+    ]
+    assert "ForPrintValidation(run_repo_diff_check)" not in argv[
         available_start:available_end
     ]
 

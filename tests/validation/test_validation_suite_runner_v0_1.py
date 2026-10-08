@@ -99,7 +99,11 @@ def test_cf10_commands_are_typed_argv_without_shell() -> None:
         "scripts/validation/validate_cf10_post_worker_result_collection_v0_1.py",
     ]
     assert commands[2][:4] == [sys.executable, "-m", "pytest", "-q"]
-    assert len(commands[2][4:]) == 4
+    assert len(commands[2][4:]) == 5
+    assert (
+        "tests/validation/test_validation_suite_runner_v0_1.py"
+        in commands[2][4:]
+    )
     assert all(isinstance(command, list) for command in commands)
 
 
