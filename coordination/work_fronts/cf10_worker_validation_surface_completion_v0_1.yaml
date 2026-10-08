@@ -1,0 +1,125 @@
+work_front_id: wf-cf10-worker-validation-surface-completion-v0-1
+objective: 'Complete the bounded CF10 Worker validation surface exposed by ForPrintValidation so a governed Task70
+  Worker can execute all required read-only acceptance checks itself: the registered cf10-worker-pipeline including
+  the focused validation-suite runner tests, plus the already-registered repo_diff_check capability, without arbitrary
+  shell or canonical-write authority.'
+scope: &id001
+- scripts/coordination/control_plane/worker_runtime/worker_validation_mcp.py
+- tests/coordination/control_plane/worker_runtime/test_cf10_worker_validation_mcp_v0_1.py
+- scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+- tests/coordination/control_plane/worker_runtime/test_cf10_worker_runtime_invocation_adapter_v0_1.py
+- coordination/standards/automation/validation_suite_registry_v0_1.yaml
+- tests/validation/test_validation_suite_runner_v0_1.py
+exclusions:
+- Do not modify Makefile.
+- Do not modify scripts/validation/run_validation_suite_v0_1.py.
+- Do not modify coordination/registry/structured_command_capabilities_v0_1.yaml; repo_diff_check@0.1.0 already exists
+  and is CF10-compatible.
+- Do not add arbitrary shell execution.
+- Do not add web access or builtin MCPs.
+- Do not add persistent MCP configuration.
+- Do not modify Worker result-return, S3, S4, candidate-promotion or Execution Attempt Ledger semantics.
+- Do not rewrite, replay, promote or otherwise mutate cf10-u180j-a036.
+- Do not create or launch the next Worker attempt in this slice.
+- Do not mutate lifecycle or roadmap state.
+- Do not touch inherited protected dirty paths.
+- Do not grant automatic acceptance, promotion, commit, push, merge or release authority.
+provenance:
+  source_refs:
+  - roadmap:control_foundation_near_horizon/CF-10
+  - work_id:u180j
+  - source_head:ab3831e8b7dc6a455d49d1714e69658a04ab5938
+  - attempt:cf10-u180j-a036
+  - attempt_started:coordination/continuity/execution_attempts/cf10-u180j-a036__4962d9899dd5.yaml
+  - attempt_terminal:coordination/continuity/execution_attempts/cf10-u180j-a036__76b0dfac7385.yaml
+  - a036_result_status:PARTIAL
+  - a036_result_return:PASS
+  - a036_s3:PASS
+  - a036_s4:PASS
+  - a036_external_candidate_validation:PASS
+  - a036_worker_delta:EXACT_THREE_PATH_TASK70
+  - capability:coordination/registry/structured_command_capabilities_v0_1.yaml#repo_diff_check
+  - validation_suite:coordination/standards/automation/validation_suite_registry_v0_1.yaml#cf10-worker-pipeline
+  chat_is_authority: false
+dependencies:
+- Attempt cf10-u180j-a036 is canonically terminal FINISHED/PARTIAL with validator PASS.
+- A036 provider process returned rc=0 and strict result-return accepted one exact stdout frame.
+- A036 result independently passed Handoff v2 S3 and S4.
+- A036 exact Worker delta contains only Makefile, scripts/validation/run_validation_suite_v0_1.py and tests/validation/test_validation_suite_runner_v0_1.py.
+- External read-only candidate validation proved 15 focused runner tests PASS, normal validation suite PASS, profiled
+  validation suite PASS and git diff --check PASS.
+- A036 remained PARTIAL only because the Worker-visible bounded validation surface could not directly execute focused
+  runner tests or git diff --check.
+- repo_diff_check@0.1.0 already exists as FIXED_GIT, NONE_EXPECTED side effect, CF10-compatible capability.
+- The Worker invocation adapter currently exposes only ForPrintValidation-run_validation_suite to the provider.
+outputs:
+- Extend ForPrintValidation with one exact second tool run_repo_diff_check backed only by the existing repo_diff_check@0.1.0
+  structured capability.
+- Bind run_repo_diff_check to the same attempt identity, exact workspace cwd and external evidence root as run_validation_suite.
+- Expose both exact ForPrintValidation tools through the existing GitHub Copilot invocation adapter available-tool
+  universe.
+- Preserve view/edit/apply_patch as the only existing builtin provider tools and keep bash/web unavailable.
+- Extend cf10-worker-pipeline so its pytest step directly includes tests/validation/test_validation_suite_runner_v0_1.py.
+- Update focused tests to prove the two-tool universe, exact structured capability binding, no hidden Worker-controlled
+  fields and the expanded registered suite.
+acceptance:
+- Only the six declared implementation paths change.
+- Tests-first RED proves ForPrintValidation currently exposes only run_validation_suite.
+- Tests-first RED proves invocation_adapter currently permits only the validation-suite MCP model tool.
+- Tests-first RED proves cf10-worker-pipeline currently omits test_validation_suite_runner_v0_1.py.
+- run_repo_diff_check accepts no Worker-supplied parameters and maps exactly to repo_diff_check@0.1.0.
+- repo_diff_check execution cwd is the exact bound isolated workspace repository.
+- repo_diff_check evidence destination remains outside the Worker workspace.
+- No shell text, arbitrary argv, cwd override, executable override or timeout widening can be supplied by the Worker.
+- Invocation adapter session-only MCP config exposes exactly run_validation_suite and run_repo_diff_check.
+- Provider available-tools evidence contains exactly both bounded ForPrintValidation model-tool IDs in addition to
+  existing view/edit/apply_patch.
+- bash_available remains false.
+- web_available remains false.
+- builtin_mcps_disabled remains true.
+- cf10-worker-pipeline directly runs test_validation_suite_runner_v0_1.py.
+- Focused Worker validation MCP and invocation-adapter tests pass.
+- Focused validation-suite runner tests pass.
+- make cf10-worker-invocation-bridge-check passes.
+- make cf10-worker-provider-session-proof-check passes without starting a real provider session.
+- make validation-suite SUITE=cf10-worker-pipeline passes.
+- make validation-suite SUITE=cf10-worker-pipeline PROFILE=1 passes.
+- git diff --check passes for the exact six-path implementation scope.
+- No live Worker launch, candidate promotion, staging, commit, push, merge or release occurs during implementation
+  validation.
+stop_conditions:
+- A seventh implementation mutation path becomes necessary.
+- The repair requires changing structured_command_capabilities_v0_1.yaml.
+- The repair requires adding arbitrary shell, arbitrary argv or a generic command-execution MCP tool.
+- The repair requires modifying run_validation_suite_v0_1.py or Makefile.
+- The repair requires changing result-return, Handoff S3/S4, promotion or ledger semantics.
+- The repair requires lifecycle, roadmap or protected-dirty-path mutation.
+- A real Worker/provider launch or automatic Task70 retry is required before the repair is published.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false
+capability_reuse:
+  search_performed: true
+  searched_surfaces:
+  - coordination/registry/structured_command_capabilities_v0_1.yaml
+  - scripts/coordination/control_plane/worker_runtime/worker_validation_mcp.py
+  - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+  - coordination/standards/automation/validation_suite_registry_v0_1.yaml
+  - tests/coordination/control_plane/worker_runtime/
+  - tests/validation/
+  - Makefile
+  disposition: EXTEND
+  target_refs: *id001
+  read_only_refs:
+  - coordination/registry/structured_command_capabilities_v0_1.yaml
+  - scripts/coordination/control_plane/worker_runtime/structured_command_executor.py
+  - Makefile
+  - coordination/continuity/execution_attempts/cf10-u180j-a036__4962d9899dd5.yaml
+  - coordination/continuity/execution_attempts/cf10-u180j-a036__76b0dfac7385.yaml
+  rationale: The required diff-check capability already exists as a typed, fixed Git command and is explicitly CF10-compatible.
+    The repair therefore extends the existing Worker validation MCP and provider adapter instead of creating a second
+    executor, shell surface or capability registry entry. The existing validation suite is extended rather than introducing
+    a parallel Task70 suite.
