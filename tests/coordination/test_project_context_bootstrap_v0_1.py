@@ -277,3 +277,177 @@ def test_assistant_bootstrap_living_is_default_project_context_contract():
         (root / row["path"]).is_file()
         for row in rows
     )
+
+
+def test_project_wide_closed_loop_direction_is_default_assistant_context_contract():
+    import yaml
+
+    root = Path(__file__).resolve().parents[2]
+
+    transition_yaml = yaml.safe_load(
+        (
+            root
+            / "coordination/global_policy/strategic_transition_vector_v0_1.yaml"
+        ).read_text(encoding="utf-8")
+    )
+
+    policy_yaml = yaml.safe_load(
+        (
+            root
+            / "coordination/global_policy/"
+              "governed_change_and_acceptance_policy_direction_v0_1.yaml"
+        ).read_text(encoding="utf-8")
+    )
+
+    specs = yaml.safe_load(
+        (
+            root
+            / "coordination/bootstrap/assistant_context_system_specs_v0_1.yaml"
+        ).read_text(encoding="utf-8")
+    )
+
+    index = yaml.safe_load(
+        (
+            root
+            / "coordination/bootstrap/index_v0_1.yaml"
+        ).read_text(encoding="utf-8")
+    )
+
+    direction = transition_yaml["project_wide_closed_loop_direction"]
+
+    assert (
+        direction["normative_scope"]
+        == "all_current_and_future_forprint_modules"
+    )
+
+    assert direction["cf10"]["role"] == "current_proving_ground"
+    assert direction["cf10"]["exclusive_policy_scope"] is False
+    assert direction["permanent_chat_execution_orchestrator"] is False
+
+    assert direction["engineering_entry_rule"] == [
+        "resolve_live_roadmap_and_current_state",
+        "inventory_nearest_existing_capability",
+        "REUSE",
+        "EXTEND",
+        "ADAPT",
+        "REPLACE",
+        "NEW_only_when_required",
+    ]
+
+    closed_loop = policy_yaml["project_wide_closed_loop_execution"]
+
+    assert (
+        closed_loop["normative_scope"]
+        == "all_current_and_future_forprint_modules"
+    )
+
+    assert (
+        closed_loop["lifecycle_closure"]["test_pass_alone_is_sufficient"]
+        is False
+    )
+
+    assert (
+        closed_loop["automation"]["silently_expands_authority"]
+        is False
+    )
+
+    assert closed_loop["cf10"]["exclusive_scope"] is False
+
+    assert (
+        closed_loop["future_dispatcher"]["current_authority"]
+        == "none"
+    )
+
+    context = specs["project_wide_closed_loop_context"]
+
+    assert (
+        context["normative_scope"]
+        == "all_current_and_future_forprint_modules"
+    )
+
+    assert (
+        context["rules"]["live_sources_win_for_current_position"]
+        is True
+    )
+
+    assert (
+        context["rules"]["static_current_truth_snapshot_required"]
+        is False
+    )
+
+    assert (
+        context["rules"]["cf10_is_current_proving_ground_not_policy_scope"]
+        is True
+    )
+
+    assert context["rules"]["reuse_order"] == [
+        "REUSE",
+        "EXTEND",
+        "ADAPT",
+        "REPLACE",
+        "NEW",
+    ]
+
+    assert "assistant_operating_context" in index["default_topics"]
+    assert "release" in index["default_topics"]
+
+    assistant_sources = {
+        row["path"]: row
+        for row in index["topics"]["assistant_operating_context"]["sources"]
+    }
+
+    required_direct = {
+        "coordination/global_policy/strategic_transition_vector_v0_1.md",
+        "coordination/global_policy/strategic_transition_vector_v0_1.yaml",
+        "coordination/global_policy/governed_change_and_acceptance_policy_direction_v0_1.md",
+        "coordination/global_policy/governed_change_and_acceptance_policy_direction_v0_1.yaml",
+        "coordination/roadmap_execution/projections/ROADMAP_EXECUTION_STATUS.yaml",
+        "coordination/roadmap_execution/projections/ROADMAP_RECONCILIATION_STATUS.yaml",
+    }
+
+    assert required_direct.issubset(assistant_sources)
+
+    assert all(
+        assistant_sources[path]["required"] is True
+        for path in required_direct
+    )
+
+    assert (
+        "coordination/bootstrap/"
+        "parallel_workstream_current_snapshot_v0_1.yaml"
+        not in assistant_sources
+    )
+
+    release_sources = {
+        row["path"]: row
+        for row in index["topics"]["release"]["sources"]
+    }
+
+    focus = "coordination/global_policy/current_execution_focus.md"
+
+    assert focus in release_sources
+    assert release_sources[focus]["required"] is True
+
+    transition_md = (
+        root
+        / "coordination/global_policy/strategic_transition_vector_v0_1.md"
+    ).read_text(encoding="utf-8")
+
+    governed_md = (
+        root
+        / "coordination/global_policy/"
+          "governed_change_and_acceptance_policy_direction_v0_1.md"
+    ).read_text(encoding="utf-8")
+
+    assert "ForPrint-project-wide" in transition_md
+    assert "REUSE → EXTEND → ADAPT → REPLACE → NEW" in transition_md
+
+    assert (
+        "Project-wide closed-loop execution policy direction"
+        in governed_md
+    )
+
+    assert (
+        "test suite is evidence, not lifecycle closure"
+        in governed_md
+    )

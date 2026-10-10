@@ -262,10 +262,30 @@ topics:
     - path: coordination/repository_knowledge/dialogue_master_memory/2026-09-21_v3_7/navigation/START_HERE.md
       mode: file
       required: true
-    - path: coordination/bootstrap/parallel_workstream_current_snapshot_v0_1.yaml
+    - path: coordination/global_policy/strategic_transition_vector_v0_1.md
       mode: file
-      required: false
-      role: optional_local_refreshable_navigation
+      required: true
+      role: project_wide_closed_loop_transition_direction
+    - path: coordination/global_policy/strategic_transition_vector_v0_1.yaml
+      mode: file
+      required: true
+      role: project_wide_closed_loop_transition_machine_companion
+    - path: coordination/global_policy/governed_change_and_acceptance_policy_direction_v0_1.md
+      mode: file
+      required: true
+      role: persistent_project_wide_closed_loop_policy_direction
+    - path: coordination/global_policy/governed_change_and_acceptance_policy_direction_v0_1.yaml
+      mode: file
+      required: true
+      role: persistent_project_wide_closed_loop_policy_machine_companion
+    - path: coordination/roadmap_execution/projections/ROADMAP_EXECUTION_STATUS.yaml
+      mode: file
+      required: true
+      role: live_roadmap_execution_position
+    - path: coordination/roadmap_execution/projections/ROADMAP_RECONCILIATION_STATUS.yaml
+      mode: file
+      required: true
+      role: live_roadmap_reconciliation_position
   module_analysis_resume:
     purpose: Resolve completed/partial/not-started module-analysis status before selecting the next module in the knowledge-stabilization
       sequence.

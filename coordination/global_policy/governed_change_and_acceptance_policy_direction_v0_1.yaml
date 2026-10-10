@@ -15,3 +15,69 @@ acceptance:
   wave_boundary: human_required
   automatic_next_wave: false
 lifecycle: persistent_beyond_transition_vector
+
+project_wide_closed_loop_execution:
+  normative_scope: all_current_and_future_forprint_modules
+
+  objective: >
+    repository_owned_tested_resumable_machine_readable_closed_execution_loops
+
+  module_loop:
+    - resolve_live_current_state_and_roadmap
+    - select_next_admissible_work
+    - inventory_existing_capabilities
+    - REUSE
+    - EXTEND
+    - ADAPT
+    - REPLACE
+    - NEW_only_when_required
+    - prepare
+    - satisfy_required_authority_gate
+    - execute_through_project_native_entrypoint
+    - receive_strict_machine_readable_result_or_handoff
+    - validate_affected_surface
+    - reconcile_declared_and_observed_mutation_provenance
+    - persist_governed_terminal_evidence
+    - derive_next_admissible_action
+    - continue_automatically_only_within_granted_authority
+    - stop_or_escalate_on_blocker_failure_ambiguity_or_authority_boundary
+
+  lifecycle_closure:
+    test_pass_alone_is_sufficient: false
+    machine_readable_terminal_state_required: true
+    evidence_required: true
+    unresolved_blockers_required: true
+    next_admissible_action_required: true
+
+  canonicality:
+    primary:
+      - ownership
+      - authority
+      - contracts
+      - provenance
+      - safety_invariants
+
+    existing_implementation_is_untouchable: false
+    evidence_backed_modernize_adapt_replace_retire_allowed: true
+
+  automation:
+    reduces_repetitive_operator_work: true
+    silently_expands_authority: false
+
+  protected_boundaries:
+    - acceptance
+    - roadmap_advancement
+    - promotion
+    - cross_repository_mutation
+    - commit_push_merge
+    - release
+    - irreversible_or_high_authority_action
+
+  cf10:
+    role: current_proving_ground_for_reusable_execution_primitives
+    exclusive_scope: false
+
+  future_dispatcher:
+    layer: cross_module
+    prerequisites: reliable_individual_module_closed_loops
+    current_authority: none

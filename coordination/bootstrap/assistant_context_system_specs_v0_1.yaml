@@ -86,15 +86,45 @@ important_current_navigation:
 - coordination/repository_knowledge/dialogue_master_memory/2026-09-21_v3_7/navigation/START_HERE.md
 freshness_note: This is a routing/specification layer. Current lifecycle/workfront/runtime facts must still be re-read
   from live canonical sources before action.
-parallel_workstream_snapshot:
-  path: coordination/bootstrap/parallel_workstream_current_snapshot_v0_1.yaml
-  status: OPTIONAL_LOCAL_REFRESHABLE_NAVIGATION
+project_wide_closed_loop_context:
   authority: none_navigation_only
-  role: bounded_refreshable_current_workstream_navigation
-  freshness_rule: if present, treat as a point-in-time navigation aid only; live Git/lifecycle/roadmap/attempt evidence
-    wins
-  required_in_clean_checkout: false
-  publication_policy: do_not_track_head_bound_current_snapshot; rebuild locally when useful from live canonical sources
+
+  normative_scope: all_current_and_future_forprint_modules
+
+  purpose: >
+    Ensure a fresh assistant receives both the persistent project-wide
+    closed-loop execution direction and live roadmap/current-state evidence
+    before broad planning or mutation.
+
+  policy_sources:
+    - coordination/global_policy/strategic_transition_vector_v0_1.md
+    - coordination/global_policy/strategic_transition_vector_v0_1.yaml
+    - coordination/global_policy/governed_change_and_acceptance_policy_direction_v0_1.md
+    - coordination/global_policy/governed_change_and_acceptance_policy_direction_v0_1.yaml
+
+  live_current_state_sources:
+    - coordination/global_policy/current_execution_focus.md
+    - coordination/roadmap_execution/projections/ROADMAP_EXECUTION_STATUS.yaml
+    - coordination/roadmap_execution/projections/ROADMAP_RECONCILIATION_STATUS.yaml
+
+  rules:
+    live_sources_win_for_current_position: true
+    static_current_truth_snapshot_required: false
+    cf10_is_current_proving_ground_not_policy_scope: true
+    roadmap_first_before_new_work: true
+
+    reuse_order:
+      - REUSE
+      - EXTEND
+      - ADAPT
+      - REPLACE
+      - NEW
+
+    assistant_context_grants_execution_authority: false
+    assistant_context_grants_dispatch_authority: false
+    assistant_context_grants_acceptance_authority: false
+    assistant_context_grants_roadmap_advancement_authority: false
+    assistant_context_grants_release_authority: false
 module_snapshot_and_roadmap_rebuild_mode:
   protocol: coordination/bootstrap/module_snapshot_and_roadmap_rebuild_analysis_mode_v0_1.md
   applies_to:
