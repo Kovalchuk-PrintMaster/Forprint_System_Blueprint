@@ -1,0 +1,85 @@
+schema_version: forprint_assistant_handoff_v2_result_v0_1
+handoff_manifest_sha256: 784b267515a7bfdecbc921e1fbd2868871d35b983f5531497b00f1e6c3f20af5
+attempt_id: cf10-u180j-a040
+status: COMPLETED
+changed_paths:
+- Makefile
+- scripts/validation/run_validation_suite_v0_1.py
+- tests/validation/test_validation_suite_runner_v0_1.py
+validation_evidence:
+- kind: pre_mutation_baseline
+  execution_id: structured-exec-416f8a72458bc60e8828
+  evidence_digest: 95010a969a817c57858999628cdc1f26d7fb466fdba17f3db1a0a9d70063fda7
+  return_code: 0
+  elapsed_seconds: 4.502
+  suite_id: cf10-worker-pipeline
+  verification_tier: LOCAL_FOCUSED
+  command_shape:
+  - scripts/validation/validate_cf10_worker_delta_governance_reconciliation_v0_1.py
+  - scripts/validation/validate_cf10_post_worker_result_collection_v0_1.py
+  - pytest -q tests/validation/test_cf10_worker_delta_governance_reconciliation_v0_1.py tests/coordination/control_plane/test_cf10_post_worker_result_collection_v0_1.py
+    tests/coordination/control_plane/workspace/test_cf10_workspace_provisioning_v0_1.py tests/coordination/control_plane/test_cf09_dispatcher_attempt_result_integration_v0_1.py
+    tests/validation/test_validation_suite_runner_v0_1.py
+- kind: profiling_validation
+  execution_id: structured-exec-751fe64d279492b40bc9
+  evidence_digest: 4e27070c3458e6e22cf1960eeaec45692cb0e48c085ae384831a63d0f24a9057
+  return_code: 0
+  elapsed_seconds: 4.252
+  profile_total_elapsed_seconds: 1.623438291000184
+  critical_step: cf10-worker-pipeline-focused-tests
+  steps:
+  - step_id: cf10-worker-delta-governance
+    kind: python_script
+    elapsed_seconds: 0.07592681300002369
+    return_code: 0
+  - step_id: cf10-post-worker-result-collection
+    kind: python_script
+    elapsed_seconds: 0.07587745400041968
+    return_code: 0
+  - step_id: cf10-worker-pipeline-focused-tests
+    kind: pytest
+    elapsed_seconds: 1.471434039000087
+    return_code: 0
+  focused_tests_passed: 54
+- kind: normal_validation
+  execution_id: structured-exec-692cf40b280e0abdc248
+  evidence_digest: 2bdba13e351aae45b835981a1b8df7e23eb22372bb369747fd781c55d0d3829c
+  return_code: 0
+  elapsed_seconds: 4.252
+  profile: false
+- kind: make_operator_surface_regression
+  result: PASS
+  details: Invoked the real Makefile validation-suite target with both optional environment variables absent, covering
+    PROFILE=0 and PROFILE=1; asserted runner arguments using a test stub.
+- kind: profiling_failure_semantics_regression
+  result: PASS
+  details: Controlled-clock tests assert per-step and total timing, critical-step selection, partial evidence, non-zero
+    failure propagation, and fail-fast execution.
+- kind: diff_check
+  execution_id: structured-exec-b9303de8c778fa1f2bc5
+  evidence_digest: 0b7e9b5b1134b0a3aa51b24820140ed878311f16ccac21b129c57a1749de8086
+  return_code: 0
+- kind: profiling_test_iterations
+  details: Two initial profiled test-suite runs failed on test fixture setup/assertions; corrected the fixture command
+    definitions and controlled timings, then the profiling suite passed with 54 tests.
+- kind: optimization_assessment
+  result: NO_SAFE_OPTIMIZATION
+  details: The focused pytest step was the measured critical path. No optimization within the three-file scope was
+    evidenced as safe without changing validation execution or proof semantics.
+self_repair_attempts: []
+resume_coordinates:
+  attempt_id: cf10-u180j-a040
+  handoff_manifest_sha256: 784b267515a7bfdecbc921e1fbd2868871d35b983f5531497b00f1e6c3f20af5
+  source_state_fingerprint: 90dd0a3891e298f24c3fb59458c4e8fb35ad5c658fd185ac7f0ce0010257ccf5
+  lifecycle_roadmap_cursor:
+    roadmap_sync: IN_SYNC
+    roadmap_status: ROADMAP_STATUS=control_foundation_near_horizon:previous=CF-09:current=CF-10:next=CF-11:ready=CF-11
+    open_work:
+      u180j:
+        state: ACTIVE
+        event_id: evt-u180j-activate-20260921t102955259861
+        event_type: WORK_ACTIVATED
+        sequence: 67
+    lifecycle_status_sha256: bf6fc3158f1607ef3be280618615cfe5f7865c385660022363e0483c01931c08
+    roadmap_status_sha256: 6aa036e2f9e0fd1561d8a7692cc6225d966128ac0835b379e09c5ced1983749e
+unresolved_findings: []
