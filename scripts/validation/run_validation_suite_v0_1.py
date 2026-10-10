@@ -4,10 +4,12 @@
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import re
 import subprocess
 import sys
+import time
 from pathlib import Path
 from typing import Any
 
@@ -32,6 +34,7 @@ SUITE_ID_RE = re.compile(r"^[a-z0-9][a-z0-9-]*$")
 STEP_ID_RE = re.compile(r"^[a-z0-9][a-z0-9-]*$")
 ISOLATION_ENV = "FORPRINT_NON_MUTATING_CHECK_ISOLATED"
 SUITE_BINDING_ENV = "FORPRINT_VALIDATION_SUITE_ID"
+PROFILE_ENV = "FORPRINT_VALIDATION_SUITE_PROFILE"
 
 
 class SuiteError(RuntimeError):
@@ -239,6 +242,7 @@ def execute_registered_suite(
     root: Path,
     suite_id: str,
     require_tier: str | None = None,
+    profile: bool = False,
 ) -> int:
     """Execute a registered suite only inside the bound isolated mirror."""
 
@@ -265,12 +269,17 @@ def execute_registered_suite(
             )
     commands = build_suite_commands(suite=suite, python_executable=sys.executable)
 
+    profiling = profile or os.environ.get(PROFILE_ENV, "0") == "1"
+    suite_started = time.monotonic() if profiling else 0.0
+    profile_steps: list[dict[str, Any]] = []
+
     print(f"VALIDATION_SUITE_ID={suite_id}")
     print(f"VALIDATION_SUITE_VERIFICATION_TIER={resolved_tier}")
     print(f"VALIDATION_SUITE_STEP_COUNT={len(commands)}")
-    for index, command in enumerate(commands, start=1):
+    for index, (step, command) in enumerate(zip(suite["steps"], commands), start=1):
         print(f"VALIDATION_SUITE_STEP={index}/{len(commands)}")
         print("$ " + " ".join(command))
+        step_started = time.monotonic() if profiling else 0.0
         cp = subprocess.run(
             command,
             cwd=root,
@@ -279,17 +288,71 @@ def execute_registered_suite(
             stderr=subprocess.STDOUT,
             check=False,
         )
+        elapsed = time.monotonic() - step_started if profiling else 0.0
         if cp.stdout:
             sys.stdout.write(cp.stdout)
+        if profiling:
+            profile_steps.append(
+                {
+                    "step_id": step["id"],
+                    "kind": step["kind"],
+                    "elapsed_seconds": elapsed,
+                    "return_code": cp.returncode,
+                }
+            )
+            print(
+                f"VALIDATION_SUITE_STEP_TIME={step['id']} "
+                f"elapsed_seconds={elapsed:.6f}",
+                file=sys.stderr,
+            )
         if cp.returncode:
             print(
                 f"VALIDATION_SUITE=FAIL suite={suite_id} step={index} rc={cp.returncode}",
                 file=sys.stderr,
             )
+            if profiling:
+                _print_profile_summary(
+                    suite_id=suite_id,
+                    verification_tier=resolved_tier,
+                    steps=profile_steps,
+                    total_elapsed=time.monotonic() - suite_started,
+                )
             return cp.returncode
 
     print(f"VALIDATION_SUITE=PASS suite={suite_id}")
+    if profiling:
+        _print_profile_summary(
+            suite_id=suite_id,
+            verification_tier=resolved_tier,
+            steps=profile_steps,
+            total_elapsed=time.monotonic() - suite_started,
+        )
     return 0
+
+
+def _print_profile_summary(
+    *,
+    suite_id: str,
+    verification_tier: str,
+    steps: list[dict[str, Any]],
+    total_elapsed: float,
+) -> None:
+    critical_step = max(steps, key=lambda step: step["elapsed_seconds"])["step_id"]
+    print(
+        f"VALIDATION_SUITE_TOTAL_TIME=elapsed_seconds={total_elapsed:.6f}",
+        file=sys.stderr,
+    )
+    summary = {
+        "suite_id": suite_id,
+        "verification_tier": verification_tier,
+        "steps": steps,
+        "total_elapsed_seconds": total_elapsed,
+        "critical_step": critical_step,
+    }
+    print(
+        "VALIDATION_SUITE_PROFILE_JSON="
+        + json.dumps(summary, sort_keys=True, separators=(",", ":"))
+    )
 
 
 def _resolve_module_root(root: Path, raw: str | None) -> Path | None:
@@ -308,6 +371,7 @@ def run_suite(
     module_root: Path | None,
     keep_workspace: bool,
     require_tier: str | None = None,
+    profile: bool = False,
 ) -> int:
     """Validate binding then run the suite through existing isolation."""
 
@@ -334,10 +398,13 @@ def run_suite(
             root=root,
             suite_id=suite_id,
             require_tier=require_tier,
+            profile=profile,
         )
 
     previous_binding = os.environ.get(SUITE_BINDING_ENV)
+    previous_profile = os.environ.get(PROFILE_ENV)
     os.environ[SUITE_BINDING_ENV] = suite_id
+    os.environ[PROFILE_ENV] = "1" if profile else "0"
     try:
         return run_isolated_check(
             root=root,
@@ -350,6 +417,10 @@ def run_suite(
             os.environ.pop(SUITE_BINDING_ENV, None)
         else:
             os.environ[SUITE_BINDING_ENV] = previous_binding
+        if previous_profile is None:
+            os.environ.pop(PROFILE_ENV, None)
+        else:
+            os.environ[PROFILE_ENV] = previous_profile
 
 
 def main() -> int:
@@ -359,6 +430,7 @@ def main() -> int:
     parser.add_argument("--module-root", default=None)
     parser.add_argument("--keep-workspace", action="store_true")
     parser.add_argument("--require-tier", choices=sorted(ALLOWED_VERIFICATION_TIERS))
+    parser.add_argument("--profile", action="store_true")
     args = parser.parse_args()
 
     root = Path(args.root).resolve() if args.root else Path(__file__).resolve().parents[2]
@@ -371,6 +443,7 @@ def main() -> int:
             module_root=module_root,
             keep_workspace=args.keep_workspace,
             require_tier=args.require_tier,
+            profile=args.profile,
         )
     except (SuiteError, IsolationError) as exc:
         print(f"VALIDATION_SUITE=FAIL {exc}", file=sys.stderr)

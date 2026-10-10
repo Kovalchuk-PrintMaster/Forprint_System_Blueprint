@@ -434,14 +434,22 @@ check:
 # Target: validation-suite
 # Purpose: Run one registered focused validation suite through the reusable isolated suite runner.
 # Safety: READ-ONLY — validation executes in disposable isolation; no apply/commit/push/module writes.
-# Inputs: SUITE (required registered validation suite id).
+# Inputs: SUITE (required registered validation suite id), PROFILE (optional; 0/1).
 # Scope: LOCAL/FOCUSED — selected registered validation suite only.
 # Result: Validation exits 0 on success and non-zero on failure; durable source state remains unchanged.
+# Profiling example: make validation-suite SUITE=cf10-worker-pipeline PROFILE=1
 .PHONY: validation-suite
 validation-suite:
-	@test -n "$(SUITE)$$FORPRINT_VALIDATION_SUITE_ID" || { echo "ERROR: SUITE=<registered-suite-id> is required"; exit 2; }
-	@SUITE_ID="$${FORPRINT_VALIDATION_SUITE_ID:-$(SUITE)}"; \
-		$(PYTHON) scripts/validation/run_validation_suite_v0_1.py --suite "$$SUITE_ID"
+	@set -eu; \
+		SUITE_ID="$${FORPRINT_VALIDATION_SUITE_ID:-$(SUITE)}"; \
+		PROFILE_VALUE="$${FORPRINT_VALIDATION_SUITE_PROFILE:-$(or $(PROFILE),0)}"; \
+		test -n "$$SUITE_ID" || { echo "ERROR: SUITE=<registered-suite-id> is required"; exit 2; }; \
+		case "$$PROFILE_VALUE" in \
+			0) PROFILE_ARGS= ;; \
+			1) PROFILE_ARGS=--profile ;; \
+			*) echo "ERROR: PROFILE must be 0 or 1"; exit 2 ;; \
+		esac; \
+		$(PYTHON) scripts/validation/run_validation_suite_v0_1.py --suite "$$SUITE_ID" $$PROFILE_ARGS
 
 STRUCTURED_COMMAND_EVIDENCE_DIR ?=
 STRUCTURED_COMMAND_PROOF_SUITE ?= cf10-worker-pipeline
