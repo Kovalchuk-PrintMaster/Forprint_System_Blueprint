@@ -1,0 +1,33 @@
+schema_version: forprint_execution_attempt_record_v0_1
+attempt_id: cf10-u180j-a040
+work_front_id: wf-cf10-validation-check-pipeline-profile-and-optimization-v0-1
+recorded_at: '2026-10-10T12:31:04.464972Z'
+actor_or_worker_ref: worker-01/provider:github_copilot_cli
+where: /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a040/workspace/repo
+why: CF-10 governed Worker launch for canonical task cf10-validation-check-pipeline-profile-and-optimization-v0-1.
+source_fingerprint: f2e07322ec3519ca3df6e2c7c3d8aa72ac1e4511263716ec6710e40b71450c07
+profile_ref_or_revision: light-maintenance@r1
+pack_hash_or_context_hash: 784b267515a7bfdecbc921e1fbd2868871d35b983f5531497b00f1e6c3f20af5
+launch_or_invocation_ref: /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a040/input/governed_worker_cycle_explicit_dispatch_decision_v0_1.yaml
+attempt_stage: FINISHED
+result_state: SUCCEEDED
+result_refs:
+- /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a040/result/worker_result.yaml
+validator_outcome: PASS
+validator_evidence_refs:
+- /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a040/evidence/governed_worker_cycle_result_return_v0_1.yaml
+- /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a040/manifest.yaml
+- /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a040/input/governed_worker_cycle_origin_handoff_manifest_v0_1.yaml
+failure_or_retry_ref: null
+resume:
+  latest_accepted_ref: /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a040/result/worker_result.yaml
+  resume_coordinates:
+  - '{"attempt_id": "cf10-u180j-a040", "handoff_manifest_sha256": "784b267515a7bfdecbc921e1fbd2868871d35b983f5531497b00f1e6c3f20af5",
+    "lifecycle_roadmap_cursor": {"lifecycle_status_sha256": "bf6fc3158f1607ef3be280618615cfe5f7865c385660022363e0483c01931c08",
+    "open_work": {"u180j": {"event_id": "evt-u180j-activate-20260921t102955259861",
+    "event_type": "WORK_ACTIVATED", "sequence": 67, "state": "ACTIVE"}}, "roadmap_status":
+    "ROADMAP_STATUS=control_foundation_near_horizon:previous=CF-09:current=CF-10:next=CF-11:ready=CF-11",
+    "roadmap_status_sha256": "6aa036e2f9e0fd1561d8a7692cc6225d966128ac0835b379e09c5ced1983749e",
+    "roadmap_sync": "IN_SYNC"}, "source_state_fingerprint": "90dd0a3891e298f24c3fb59458c4e8fb35ad5c658fd185ac7f0ce0010257ccf5"}'
+  replay_forbidden_refs:
+  - /srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-u180j-a040/result/worker_result.yaml

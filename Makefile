@@ -3596,3 +3596,15 @@ oc01-mini-closeout-check:
 	$(PYTHON) -m pytest -q tests/coordination/control_plane/operator_console/test_oc01_mini_closeout_v0_1.py
 	$(PYTHON) -m scripts.coordination.control_plane.operator_console.mini_closeout --root .
 	@git diff --check -- coordination/internal_work/blueprint/operator_console/2026-10-02__oc01_mini_closeout_v0_1.md scripts/coordination/control_plane/operator_console/mini_closeout.py tests/coordination/control_plane/operator_console/test_oc01_mini_closeout_v0_1.py coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.yaml coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/execution_control_plane_program_v0_1.yaml Makefile
+
+# CF10_POST_COMMIT_WORKER_RESULT_ACCEPTANCE_V0_1_START
+.PHONY: cf10-post-commit-acceptance-preview cf10-post-commit-acceptance-decide cf10-post-commit-acceptance-check
+CF10_ACCEPTANCE_REQUEST ?= tmp/cf10_a040_acceptance_request_v0_1.yaml
+cf10-post-commit-acceptance-preview:
+	.venv_blueprint/bin/python -B -m scripts.coordination.control_plane.post_commit_worker_acceptance preview --root . --request "$(CF10_ACCEPTANCE_REQUEST)"
+cf10-post-commit-acceptance-decide:
+	@test -n "$(CF10_DECISION)" && test -n "$(CF10_DECISION_ID)" && test -n "$(CF10_OPERATOR_REF)" && test -n "$(CF10_DECISION_CONFIRM)" || (echo 'Explicit CF10_DECISION, CF10_DECISION_ID, CF10_OPERATOR_REF and CF10_DECISION_CONFIRM required'; exit 2)
+	.venv_blueprint/bin/python -B -m scripts.coordination.control_plane.post_commit_worker_acceptance decide --root . --request "$(CF10_ACCEPTANCE_REQUEST)" --decision "$(CF10_DECISION)" --decision-id "$(CF10_DECISION_ID)" --operator-ref "$(CF10_OPERATOR_REF)" --confirm "$(CF10_DECISION_CONFIRM)"
+cf10-post-commit-acceptance-check:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_post_commit_worker_acceptance_v0_1.py
+# CF10_POST_COMMIT_WORKER_RESULT_ACCEPTANCE_V0_1_END

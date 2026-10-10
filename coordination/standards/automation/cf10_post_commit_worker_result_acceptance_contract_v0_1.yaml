@@ -1,0 +1,76 @@
+schema_version: forprint_cf10_post_commit_worker_result_acceptance_contract_v0_1
+contract_id: cf10_post_commit_worker_result_acceptance
+status: CANDIDATE_FOR_BLUEPRINT_REVIEW
+owner: forprint_system_blueprint
+purpose: >-
+  Govern a distinct explicit operator decision about an already integrated and
+  committed exact Worker delta. This historical/recovery corridor never replays
+  canonical candidate promotion. Normal future Work Fronts must retain the
+  original operator review before promotion/commit lifecycle.
+request_schema: forprint_cf10_post_commit_acceptance_request_v0_1
+preview_schema: forprint_cf10_post_commit_acceptance_preview_v0_1
+decision_schema: forprint_cf10_post_commit_worker_operator_decision_v0_1
+authority_boundaries:
+  operator_confirmation_required: true
+  automatic_accept: false
+  replay_candidate_promotion: false
+  automatic_commit: false
+  automatic_push: false
+  rewrite_attempt_ledger: false
+  foreign_repository_write: false
+  authority_from_chat: false
+  derived_preview_grants_authority: false
+  acceptance_is_publication: false
+  acceptance_is_prompt_lifecycle_accept: false
+accepted_decisions:
+  - ACCEPT
+  - RETURN
+  - HOLD
+record_semantics:
+  storage: coordination/continuity/worker_result_decisions
+  role: append_only_operator_decision_separate_from_attempt_ledger
+  explicit_confirmation_format: '<DECISION>:<ATTEMPT_ID>:<COMMIT_SHA_FIRST_12>'
+  terminal_decisions:
+    - ACCEPT
+    - RETURN
+  hold_is_nonterminal: true
+  hold_supersession: explicit_decision_id_binding_required
+  replay_same_decision_id: read_only_idempotent_if_identical
+  conflicting_decision_id: BLOCKED
+  atomic_create_exclusive: true
+required_proof:
+  - canonical_git_HEAD_equals_reviewed_commit
+  - source_head_is_exact_parent_of_reviewed_commit
+  - reviewed_commit_paths_equal_worker_result_changed_paths
+  - source_head_plus_exact_approved_patch_reconstructs_committed_blobs
+  - commit_blobs_match_source_head_plus_exact_patch_reconstruction
+  - original_operator_review_preimage_and_postimage_verified_against_worker_workspace
+  - inherited_dirty_preimage_bound_to_worker_frozen_baseline_snapshot
+  - clean_review_preimage_postimage_match_parent_and_commit
+  - Worker_Result_COMPLETED_and_strict_Handoff_manifest_binding
+  - terminal_ledger_FINISHED_SUCCEEDED_PASS
+  - exact_result_return_PASS_and_no_authority_widening
+  - work_front_id_and_changed_path_scope
+  - original_immutable_evidence_sha256_bindings
+  - worker_baseline_manifest_and_candidate_workspace_sha256_bindings
+  - separate_explicit_operator_decision_and_confirmation
+output_boundaries:
+  preview: no_repository_mutation
+  decide: one_new_append_only_decision_record_only
+  canonical_promotion: NOT_PERFORMED
+  staging: NOT_PERFORMED
+  commit: NOT_PERFORMED
+  push: NOT_PERFORMED
+  merge: NOT_PERFORMED
+  release: NOT_PERFORMED
+  durable_publication: NOT_ATTESTED
+stop_conditions:
+  - evidence_path_missing_or_mismatch
+  - Work_Front_not_found_or_scope_widening
+  - changed_path_or_patch_mismatch
+  - canonical_HEAD_changed_since_review
+  - result_or_terminal_ledger_inconsistent
+  - operator_confirmation_missing_or_mismatched
+  - second_conflicting_operator_decision
+  - replay_candidate_promotion_required
+  - source_or_destination_symlink_escape

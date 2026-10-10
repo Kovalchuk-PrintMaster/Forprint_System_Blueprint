@@ -1,0 +1,77 @@
+work_front_id: wf-cf10-post-commit-worker-result-acceptance-v0-1
+objective: >-
+  Implement a reusable bounded CF-10 operator decision corridor for exact already
+  committed Worker results, without redoing candidate promotion or conflating
+  acceptance with publication; maintain separately versioned append-only evidence.
+scope:
+- coordination/work_fronts/cf10_post_commit_worker_result_acceptance_v0_1.yaml
+- coordination/standards/automation/cf10_post_commit_worker_result_acceptance_contract_v0_1.yaml
+- scripts/coordination/control_plane/post_commit_worker_acceptance.py
+- tests/coordination/control_plane/test_cf10_post_commit_worker_acceptance_v0_1.py
+- Makefile
+- coordination/continuity/worker_result_decisions
+exclusions:
+- Never rewrite cf10-u180j-a040 Worker Result, Handoff or Execution Attempt Ledger.
+- Never retroactively mark candidate_promotion.py as executed for a040.
+- Never stage, commit, push, merge, release or auto ACCEPT.
+- Do not reuse ACCEPT_AND_ADVANCE or Q4 prompt ACCEPT to mimic Worker acceptance.
+- Do not modify historical a039 or its ledger in this Work Front.
+- Do not change existing dirty worktree content outside the declared scope.
+- Do not change CF10 S4 strict validation contracts or broaden Worker authority.
+outputs:
+- Versioned read-only evidence-based operator decision preview.
+- Explicit ACCEPT/RETURN/HOLD CLI entrypoint for already committed exact Worker deltas.
+- Append-only operator decision evidence separate from attempt history and publication.
+- Focused tests covering source freshness, patch binding, replay and authority gates.
+- Make targets for preview, explicit decision and tests.
+acceptance:
+- Work Front contract validation PASS.
+- No repository mutation for preview or failed decision.
+- One explicit decision creates at most one immutable new evidence record.
+- No synthetic acceptance is produced from Worker PASS or a local Git commit.
+- Exact file content is independently reconstructed from source parent and approved patch.
+- Dirty worktree outside the declared scope remains unchanged.
+- Operator decision never stages, commits, pushes, promotes or releases.
+- Existing CF-10 tests remain passing.
+stop_conditions:
+- Implementing this corridor requires a candidate promotion replay or history rewrite.
+- Any change outside declared Work Front scope is required.
+- The acceptance cannot be attributed to explicit operator input.
+- Required Work Front, result-return or terminal evidence is missing.
+- Tests or contract checks fail.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false
+capability_reuse:
+  search_performed: true
+  disposition: EXTEND
+  target_refs:
+  - scripts/coordination/control_plane/candidate_promotion.py
+  - scripts/coordination/control_plane/governed_worker_cycle.py
+  - scripts/coordination/execution_attempt_ledger_v0_1.py
+  searched_surfaces:
+  - scripts/coordination/control_plane/candidate_promotion.py
+  - scripts/coordination/control_plane/governed_worker_cycle.py
+  - scripts/coordination/execution_attempt_ledger_v0_1.py
+  - coordination/standards/automation/worker_candidate_promotion_contract_v0_1.yaml
+  - coordination/standards/governance/accept_and_advance_protocol_v0_1.md
+  - coordination/standards/governance/immutable_prompt_adjustment_and_decision_v0_1.md
+  - coordination/standards/automation/work_front_contract_v0_1.yaml
+provenance:
+  source_refs:
+  - roadmap:control_foundation_near_horizon/CF-10
+  - work_id:u180j
+  - attempt:cf10-u180j-a040
+  - local_commit:21b01fad19a5c11359e7f85e9a7059a53768300d
+  - approved_patch_sha256:4dddadeb39ab95f074178e7600cdc7a77b27da0df70c4f04dfc6f5feff990356
+  - checkpoint:EXACT_STAGED_DIFF_REVIEW_PASS
+  - governance_gap:post_commit_worker_result_acceptance
+  chat_is_authority: false
+dependencies:
+- Existing Worker terminal ledger and original Handoff v2 remain immutable.
+- Source HEAD and exact Worker patch are available for independent Git index proof.
+- Operator review evidence includes verified preimage and postimage hashes.
+- Explicit later human decision is required to create any acceptance record.
