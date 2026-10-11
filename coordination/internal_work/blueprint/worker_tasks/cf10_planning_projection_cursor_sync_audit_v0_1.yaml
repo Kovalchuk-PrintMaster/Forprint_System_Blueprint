@@ -1,0 +1,102 @@
+schema_version: forprint_blueprint_internal_worker_task_v0_1
+task_id: cf10-planning-projection-cursor-sync-audit-v0-1
+revision: 0.1.0
+status: READY_FOR_CONTEXT
+module_id: forprint_system_blueprint
+source:
+  type: MANUAL_INTERNAL
+  generation_mode: MANUAL
+  created_by: operator_assistant
+  raw_chat_is_authority: false
+  automatic_generation: false
+work:
+  work_id: u180j
+  work_front_id: wf-cf10-planning-projection-cursor-sync-audit-v0-1
+objective: Prove current-state NEXT_HORIZON and event-sourced roadmap projection freshness/transition semantics through
+  isolated deterministic tests, reusing current reconciliation and continuity compilers. Repair only an evidenced
+  in-scope adapter defect, otherwise return ALREADY_VERIFIED with proof.
+instructions:
+- 'Before execution: verify current Task80 Work Front exact identity and scope, Task70 a040 terminal Worker PASS plus
+  operator ACCEPT, u180j ACTIVE at canonical event sequence, roadmap IN_SYNC, and current source and dirty-state bindings.
+  These are prerequisites, not dispatch authority.'
+- Perform bounded current-state relevance / reuse scan immediately before any edit. Inventory roadmap_execution_reconciliation.compute/check,
+  blueprint_continuity_adapter.next_horizon/check_projections, build_continuity_projections, assistant handoff compiler,
+  existing tests and registry dependencies; classify each Task80 acceptance item ALREADY_VERIFIED / TEST_GAP / BEHAVIOR_GAP
+  / BLOCKED.
+- 'Use published Work Front as the only execution scope. The four permitted Worker write paths are: scripts/coordination/blueprint_continuity_adapter_v0_1.py,
+  tests/validation/test_continuity_projections_v0_1.py, tests/validation/test_roadmap_execution_reconciliation_v0_1.py,
+  tests/validation/test_assistant_handoff_compiler_v0_1.py. Prefer tests only. Modify blueprint_continuity_adapter_v0_1.py
+  only if a new deterministic failing test demonstrates a real adapter behavior gap.'
+- Construct synthetic roadmap-source changes and synthetic continuity event transitions only in isolated fixture copies.
+  For unchanged sources, verify exact deterministic projection/horizon output; after synthetic changes, prove persisted
+  generated projections are stale until explicitly refreshed, then converge to PASS.
+- Prove that next_horizon reads current event-sourced roadmap cursor with correct source_latest_event_sequence, source_roadmap_sha256,
+  current_step, next_step, next_ready_step, ready_candidates, action ordering and 5..10 action bounds. It must reject
+  non-IN_SYNC roadmap conditions rather than infer planning authority.
+- Prove that check_projections is read-only and that explicit refresh is the only permitted generated projection writer.
+  Compare before/after bytes of canonical events, roadmap source and generated fixture outputs during read-only check;
+  no silent repair/refresh in check mode.
+- Prove generated projection envelopes retain authority=none, generated_only=true, manual_edit_forbidden=true, and
+  no auto-activation, dispatch, promotion, commit, push, merge or release rights.
+- Prove assistant Handoff compilation uses current derived NEXT_HORIZON, not an old persisted NEXT_HORIZON.yaml; stale
+  canonical inputs or conflicting cursor must yield bounded FAIL/BLOCKED rather than a fabricated current operational
+  plan.
+- Use the actual existing supported validation and permitted testing tools. Do not assume arbitrary shell/provider
+  tool access; if the necessary deterministic tests cannot run through allowed tools, report BLOCKED with a precise
+  unmet capability instead of bypassing authorization.
+- Run the exact relevant tests for continuity projections, roadmap execution reconciliation and assistant handoff
+  compilation, plus existing project-native validation gates where permitted. Preserve failing test logs, original
+  fail semantics and exact changed-path SHA-256 evidence.
+- If no behavior defect is shown, do not produce a cosmetic code patch. ALREADY_VERIFIED/NO_PRODUCTION_CHANGE with
+  reproducible test proof is an acceptable result and still requires human review.
+- Keep any tests in the four declared paths. Do not edit Makefile, training queue, indexes, roadmap spec, generator/derivation
+  registry, lifecycle/event store, execution ledger, Work Front, result protocols or existing unrelated dirty paths.
+- 'Never modify canonical repository files as Worker: use only the governed isolated candidate workspace. Return valid
+  attempt-bound machine-readable Handoff/Worker Result with source fingerprint, tests, paths, hashes, blockers and
+  follow-up actions. Worker may not commit or push.'
+acceptance:
+- All current Work Front acceptance conditions are addressed with concrete source/test evidence, not inferred from
+  a prior PASS alone.
+- Worker result explicitly includes current-state REUSE/EXTEND inventory, exact tests, any unmet gaps and a bounded
+  follow-up disposition.
+- Isolated regression proves stale-on-roadmap change and stale-on-event transition; exact non-mutating check then
+  explicitly authorized refresh converges to PASS.
+- NEXT_HORIZON derives cursor/event sequence/roadmap SHA and correct ordered action list with valid bounds; conflict/stale
+  states fail closed.
+- Assistant Handoff uses recomputed current horizon; does not silently trust persisted stale NEXT_HORIZON.
+- No second planning generator or truth store, no manual projection editing, and generated-only/non-authoritative
+  semantics persist.
+- Only four explicitly scoped paths are modified by Worker; no adapter production patch without a failing semantic
+  test.
+- All relevant existing and new tests pass using permitted tools; resulting candidate diff passes git diff --check.
+- If already fully verified, return NO_PRODUCTION_CHANGE and proof; no invented change or fake success.
+- No unrelated dirty bytes changed; no GDL/Prepress Hub modification; no lifecycle or dispatch/acceptance/publication
+  authority added.
+stop_conditions:
+- Any missing or contradictory Task70 acceptance, Work Front, roadmap or lifecycle binding.
+- Frozen source/dirty snapshot differs, or another active writable actor owns the module repository.
+- Required test demands mutating live roadmap/events or changes a forbidden path.
+- Any proposed fix is out-of-scope or would auto-refresh on a read-only check, invent execution authority or duplicate
+  a runtime.
+- A required project-native test or bounded tool is unavailable, with no safe authorized route.
+- Worker cannot return valid attempt-bound machine-readable result/Handoff or cannot establish its source bindings.
+execution_profile:
+  profile_id: light-maintenance
+  revision: r1
+procedure:
+  procedure_id: governed_canonical_mutation
+  revision: 0.1.0
+workspace:
+  isolated_workspace_required: true
+  candidate_only: true
+  canonical_write_allowed: false
+authority:
+  execution_authority_source: WORK_FRONT
+  task_artifact_grants_authority: false
+  dispatch_authority: false
+  release_authority: false
+  push_authority: false
+  merge_authority: false
+  foreign_write_authority: false
+  automatic_accept: false
+  widening_requested: false
