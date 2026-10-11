@@ -1,0 +1,371 @@
+schema_version: forprint_cf10_owner_discussion_handoff_v0_1
+handoff_id: cf10-owner-discussion-reconciliation-20261011-v0-1
+subject: 'CF10 discussion sections 7 and 8: shared execution model, gray zones, deferred SH and recovery'
+recorded_date: '2026-10-11'
+authority: OWNER_AGREED_DIRECTION_NONEXECUTABLE_NO_EXECUTION_AUTHORITY
+status: OWNER_AGREED_DIRECTION_RECORDED_PENDING_IMPLEMENTATION
+source_context:
+  repository: Kovalchuk-PrintMaster/Forprint_System_Blueprint
+  pinned_git_revision: 6b12971c8653b2d6f14df73983ce6e88e50730ec
+  source_document: ForPrint_CF10_Detailed_Roadmap_and_Discussion_Guide_2026-10-10.pdf
+  source_sections:
+  - '7'
+  - '8'
+  - '9'
+  - '10'
+  historical_snapshot_date: '2026-10-10'
+principal_invariants:
+  chat_does_not_grant_execution: true
+  no_auto_dispatch: true
+  no_auto_accept: true
+  no_auto_promote: true
+  no_auto_commit: true
+  no_auto_push: true
+  no_auto_merge: true
+  no_auto_release: true
+  one_active_canonical_writable_actor_per_module_repository: true
+  immutability_of_historic_attempts_and_decisions: true
+  external_worker_adapter_does_not_grant_authority: true
+  generated_projections_are_non_authoritative: true
+  no_new_parallel_runtime_or_truth_store: true
+  preserve_unrelated_dirty_bytes: true
+accepted_architectural_decisions:
+- id: D01
+  topic: Shared Execution Fabric / Tool Gateway / OC-01
+  discussion_decision_status: AGREED_DIRECTION_NOT_IMPLEMENTATION
+  decision:
+  - Єдина execution truth і спільний backend для internal_worker, operator_assistant та human_terminal.
+  - Makefile є картою функцій, CLI/API та OC-01 — тонкими клієнтами, Provider Tool Gateway — обмеженим адаптером.
+  - 'Worker Tool Gateway != наявний Integration Gateway: перший обмежує доступ AI до capability-shaped tools; другий
+    відповідає за обмін/інтеграції між модулями.'
+  - Capability Registry описує дозволені функції, Authorization Envelope — права окремої спроби, Structured Command
+    Executor — фактичне виконання.
+  - Жоден провайдер Copilot/Codex не визначає власні повноваження; мінімальні provider adapters, спільний канонічний
+    контроль.
+  required_follow_up:
+  - Звірити поточний runtime, інтерфейси OC-01-MINI, власників CF10/CF13/CF18 та відсутність дублювання.
+  - Розділяти доступний нині MINI і майбутній FULL; не приписувати цьому чату прямий SSH-доступ.
+  governance_owner: CF10 shared runtime; CF13 capability/provider-neutral contracts; CF18 operator tooling; OC01 user-facing
+    client
+  relevant_existing_paths:
+  - coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/execution_control_plane_program_v0_1.yaml
+  - coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.yaml
+  forbidden_actions:
+  - second execution truth store
+  - new Tool Gateway service without demonstrated need
+  - unguarded chat-to-shell execution
+  - cross-module writes without authority
+  evidence_required_for_technical_closure:
+  - actual shared backend evidenced
+  - actor-specific adapters tested
+  - authorization and isolation tests
+  follow_up_phase: architecture_alignment
+- id: D02
+  topic: Durable bounded mini-step/checkpoint protocol
+  discussion_decision_status: AGREED_DIRECTION_NOT_IMPLEMENTATION
+  decision:
+  - До запуску сформувати bounded mini-step plan зі stable IDs, очікуваними результатами й валідаціями.
+  - 'Після кожного завершеного мінікроку програмно формувати стандартний пакет: attempt, mini-step, source HEAD/fingerprint,
+    exact delta, logs/validators, evidence hashes, resume coordinates.'
+  - Runtime/Dispatcher, а не інтуїція Worker, забезпечує transfer, durable persistence і verified ACK; наступний mini-step
+    не починається до ACK.
+  - Якщо адаптер не підтримує проміжний yield — окремий bounded Worker invocation на мінікрок із тією самою логічною
+    лінією й fenced workspace/lease.
+  - Persisted evidence, operator-accepted work та publication — різні статуси.
+  required_follow_up:
+  - Перевірити підтримувану схему yield/invocation, durable ACK, checkpoint і fencing на чинних adapter/runtime.
+  - Впроваджувати в основному CF10 contour без створення паралельного pipeline.
+  governance_owner: CF10 Runtime/Dispatcher; SH09/10 dependencies and Task140/150 proof
+  relevant_existing_paths:
+  - coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/cf10_worker_self_hardening_backlog_v0_1.yaml
+  forbidden_actions:
+  - worker-discretionary checkpoint timing
+  - next mini-step before durable ACK
+  - automatic acceptance
+  - blind retry of a consumed attempt
+  evidence_required_for_technical_closure:
+  - crash-between-mini-steps test
+  - durable retrieval after workspace loss
+  - stale lease fenced
+  - strict ACK enforcement
+  follow_up_phase: implementation_as_dependencies_require
+- id: D03
+  topic: Historical a039 own-ledger drift
+  discussion_decision_status: AGREED_DIRECTION_NOT_IMPLEMENTATION
+  decision:
+  - Вважати вузьким історичним orchestration/reconciliation defect candidate, а не доказом неправильного Worker-result.
+  - 'Read-only перевірити source drift: frozen vs current fingerprint/HEAD, STARTED/PENDING ledger, Worker Return,
+    Handoff і наявні термінальні записи.'
+  - Закрити лише допустимим append-only reconcile/terminal result; не приписувати не доведений PASS.
+  required_follow_up:
+  - На s01 встановити фактичні незмінні докази a039, за потреби додати один законний terminal record і мінімальні
+    regression tests.
+  governance_owner: CF10 Execution Attempt Ledger governance
+  relevant_existing_paths:
+  - coordination/continuity/execution_attempts
+  - scripts/coordination/control_plane/governed_worker_cycle.py
+  forbidden_actions:
+  - rewrite historic ledger
+  - invent PASS
+  - relaunch a039 merely to explain history
+  evidence_required_for_technical_closure:
+  - read-only evidence map
+  - append-only terminalization if admissible
+  - regression of own-ledger-fingerprint classification
+  follow_up_phase: bounded_reconciliation
+- id: D04
+  topic: Duplicate launch and source fingerprint mismatch
+  discussion_decision_status: AGREED_DIRECTION_NOT_IMPLEMENTATION
+  decision:
+  - Відокремлювати повторну команду launch тієї самої attempt від нового свідомого виконання.
+  - Перед перевіркою freshness для старту встановлювати factual attempt state; already launched -> machine-readable
+    denial/status, no new process.
+  - 'Дві одночасні команди не можуть отримати право запуску: atomic claim / execution fencing.'
+  - Для нового запуску потрібен новий attempt_id; genuine stale source і надалі fail-closed.
+  - 'Expected operational denials: короткий status, reason, next action; справжній traceback — технічний доказ.'
+  required_follow_up:
+  - Звірити наявний локальний код та тести, виконати вузький repair тільки якщо дефект ще існує.
+  governance_owner: CF10 Worker Cycle / launcher
+  relevant_existing_paths:
+  - scripts/coordination/control_plane/governed_worker_cycle.py
+  forbidden_actions:
+  - same-attempt worker process replay
+  - disable source fingerprint protection
+  - swallow unknown internal errors
+  evidence_required_for_technical_closure:
+  - repeated launch test
+  - concurrent launch race test
+  - genuine drift test
+  - structured operator error test
+  follow_up_phase: bounded_reconciliation
+- id: D05
+  topic: Dirty 20 paths and concurrent workstream boundaries
+  discussion_decision_status: AGREED_DIRECTION_NOT_IMPLEMENTATION
+  decision:
+  - 20 paths є історичним reported snapshot, не підтвердженим поточним станом сервера.
+  - Preserve all unrelated dirty bytes, index and HEAD; exact file attribution by owner/workfront; no broad staging.
+  - Declared read_set/write_set and source revisions for independent work; read concurrency allowed.
+  - До явної зміни політики — one module/repository one active writable actor in canonical workspace.
+  - OC01/Worker may prepare in isolated sandboxes; any canonical promotion serial, explicit and validated.
+  required_follow_up:
+  - 'Один read-only inventory на s01: git status, exact hashes, grouping by owner, collision map.'
+  - Тільки затверджені exact commits; conflicting or unowned paths quarantined for review without discard.
+  governance_owner: CF10 shared execution and module lease; OC01 client
+  relevant_existing_paths:
+  - coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/execution_control_plane_program_v0_1.yaml
+  - coordination/roadmaps/details/forprint_system_blueprint/operator_console/operator_console_program_v0_1.yaml
+  forbidden_actions:
+  - git add -A
+  - git reset --hard
+  - git clean
+  - blind stash
+  - same canonical repo multiple writable actors
+  evidence_required_for_technical_closure:
+  - preexisting bytes preserved
+  - write-set intersection verified
+  - lease/actor conflict denied
+  - source-dependency freshness checked
+  follow_up_phase: bounded_reconciliation
+- id: D06
+  topic: a040 publication evidence attestation
+  discussion_decision_status: AGREED_DIRECTION_NOT_IMPLEMENTATION
+  decision:
+  - a040 terminal PASS, independent historical operator ACCEPT and Git-visible commits are distinct events.
+  - Original post-commit ACCEPT has publication_state=NOT_ATTESTED by design; immutable decision must remain unchanged.
+  - If no valid publication attestation exists, append one hash-bound attestation verifying exact commits on intended
+    remote branch and links to decision/evidence.
+  required_follow_up:
+  - 'Before writing: discover existing attestation mechanism and check remote branch reachability, exact commit IDs
+    and durable evidence.'
+  - Append-only evidence record if justified; no redundant push.
+  governance_owner: CF10 governance publication boundary
+  relevant_existing_paths:
+  - coordination/continuity/worker_result_decisions/cf10-u180j-a040-postcommit-accept-20261010__0c4744a32719.yaml
+  - coordination/continuity/worker_evidence/cf10-u180j-a040/manifest.yaml
+  forbidden_actions:
+  - modify immutable operator ACCEPT
+  - assert remote branch publication on commit existence alone
+  - repeat push without approval
+  evidence_required_for_technical_closure:
+  - remote branch ancestor/reachability check
+  - hash-bound decision reference
+  - separate attestation verified
+  follow_up_phase: bounded_reconciliation
+- id: D07
+  topic: Task80 roadmap projection cursor freshness
+  discussion_decision_status: AGREED_DIRECTION_NOT_IMPLEMENTATION
+  decision:
+  - Roadmap Specification and immutable Continuity Events are authoritative; generated NEXT_HORIZON/status YAML are
+    projections only.
+  - Preflight PASS and matching package hash do not prove freshness against newest event and current roadmap spec.
+  - Task80 must compare observed roadmap SHA and last accepted event identity/sequence, detect stale generated projection,
+    refresh safely.
+  - Plan/semantic conflicts remain blocked for operator review, not auto-rewritten or auto-activated.
+  required_follow_up:
+  - Validate Task80 existing mechanisms and live readiness, then implement bounded freshness/transition deterministic
+    tests in authorized Work Front.
+  governance_owner: CF10 Task80; CF02 reconciliation ownership
+  relevant_existing_paths:
+  - coordination/internal_work/blueprint/worker_training/cf10_worker_training_queue_v0_1.yaml
+  - coordination/roadmaps/details/forprint_system_blueprint/control_foundation_near_horizon_program_v0_1.yaml
+  forbidden_actions:
+  - manual generated YAML edits
+  - projection as authority
+  - automatic next-task dispatch
+  evidence_required_for_technical_closure:
+  - fresh no-op
+  - new event -> stale then refresh
+  - roadmap semantic change -> review
+  - conflict/unknown -> fail closed
+  follow_up_phase: task80_when_authorized
+- id: D08
+  topic: Global current-state relevance and adaptive implementation
+  discussion_decision_status: AGREED_DIRECTION_NOT_IMPLEMENTATION
+  decision:
+  - Обов’язкова передзапускова оцінка відповідності завдання нинішнім цілям, кодовій базі, правилам, архітектурі,
+    залежностям, available tools.
+  - Застаріла roadmap instruction не виконується буквально, якщо є перевірені актуальніші способи/реалізовані можливості.
+  - Класифікація REUSE -> EXTEND -> ADAPT -> REPLACE -> NEW, with explicit disposition and evidence.
+  - Minor implementation improvement remains within approved scope/acceptance; semantic/scope/authority change requires
+    human governance.
+  - Relevance review пропорційний ризику та nearest relevant contour; on material changes revalidate before dispatch.
+  required_follow_up:
+  - Extend existing policy/readiness gates rather than create second planner; bind current sources and decision to
+    each new Work Front.
+  - Evaluate external Python/tools only with compatibility/security/reproducibility proof.
+  governance_owner: Global policy + CF04 Work Front gate; Task85/CF14 dependency impact
+  relevant_existing_paths:
+  - coordination/global_policy/project_native_execution_policy_v0_1.yaml
+  - coordination/internal_work/blueprint/worker_training/cf10_worker_training_queue_v0_1.yaml
+  forbidden_actions:
+  - literal execution of stale instructions
+  - unapproved scope increase
+  - unbounded ecosystem scan
+  - new dependency merely for novelty
+  evidence_required_for_technical_closure:
+  - relevance disposition report
+  - current policy/source binding
+  - reuse evidence
+  - operator escalation for semantic change
+  follow_up_phase: global_policy_alignment_then_tasks
+- id: D09
+  topic: Task70 ACCEPT vs next Task80 eligibility
+  discussion_decision_status: AGREED_DIRECTION_NOT_IMPLEMENTATION
+  decision:
+  - Training Queue controls default order/dependencies, not completion/execution authority.
+  - a040 terminal Worker Result PASS and historical post-commit ACCEPT are verified, but do not independently activate
+    Task80.
+  - Read-only reconciliation must match stable Task70 identity, Work Front, accepted result, any required canonical
+    completion/lifecycle record, current roadmap sync and Task80 dependencies.
+  - No duplicate registry; produce machine-readable READY_FOR_MATERIALIZATION or precise blocked reasons.
+  - Even READY does not imply Worker launch authority.
+  required_follow_up:
+  - 'Before Task80: perform current s01 facts projection; if canonical completion absent, only approved append-only
+    closure operation.'
+  - Prepare Task80 Work Front only after eligibility/relevance checks.
+  governance_owner: CF10 task progression; canonical continuity/lifecycle
+  relevant_existing_paths:
+  - coordination/internal_work/blueprint/worker_training/cf10_worker_training_queue_v0_1.yaml
+  - coordination/continuity/execution_attempts/cf10-u180j-a040__818354d50735.yaml
+  forbidden_actions:
+  - repeat a040
+  - manually flip queued task to DONE
+  - make queue authoritative
+  - auto launch Task80
+  evidence_required_for_technical_closure:
+  - validated Task70->Work Front->ACCEPT/required completion binding
+  - live roadmap IN_SYNC
+  - Task80 prerequisites verified
+  follow_up_phase: before_task80_materialization
+- id: D10
+  topic: Defer consolidated SH01..SH13 review
+  discussion_decision_status: AGREED_DIRECTION_NOT_IMPLEMENTATION
+  decision:
+  - Зберегти 13 SH як PLANNING_BACKLOG_NOT_ACTIVATION_AUTHORITY; не запускати їх зараз паралельною чергою.
+  - Повторний consolidated review після достатнього розвитку основного CF10 contour, до Task150 для exit-critical
+    guarantees.
+  - 'Для кожного кандидата evidence-based classification: ALREADY_VERIFIED / PARTIAL / ADAPT / SUPERSEDED / STILL_REQUIRED
+    / DEFER_WITH_RATIONALE.'
+  - Critical safety/recovery requirements виконуються раніше в основному Work Front, якщо вони потрібні до продовження.
+  - Жоден SH не вважається complete тільки через дату/наявність файлу.
+  required_follow_up:
+  - Узгодити roadmap position/review checkpoint без створення конкуруючої execution queue.
+  - Коли настане review — mapping існуючих capabilities, tests, owners, dependencies, only residual work fronts.
+  governance_owner: CF10 governance roadmap; SH candidate backlog
+  relevant_existing_paths:
+  - coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/cf10_worker_self_hardening_backlog_v0_1.yaml
+  forbidden_actions:
+  - automatic SH activation
+  - mechanical 13-task execution
+  - postpone exit-critical guarantees beyond Task150
+  - duplicate runtime
+  evidence_required_for_technical_closure:
+  - future SH-by-SH evidence matrix
+  - residual work owners
+  - formal justified deferrals
+  - Task150 dependencies resolved
+  follow_up_phase: deferred_consolidated_review_before_task150
+- id: D11
+  topic: Crash recovery agreed architecture, real proof pending
+  discussion_decision_status: AGREED_DIRECTION_NOT_IMPLEMENTATION
+  decision:
+  - Basic ledger/Handoff/Result evidence exists; full sudden interruption/power-loss restart not yet proven.
+  - Recovery must use last durable ACKed mini-step and sealed evidence, not chat replay or arbitrary rerun.
+  - Stale heartbeat does not free lease; fenced resume or ABORT_AND_SEAL under governed ownership.
+  - Minimum proof includes durable artifact recovery, workspace/state reconstitution, no concurrent old actor.
+  - Task150 must contain end-to-end crash/restart evidence; earlier safety gating applies whenever needed.
+  required_follow_up:
+  - Inspect actual checkpoint/lease/recovery capabilities before implementation.
+  - Test real/simulated crash boundaries with durable facts and fresh runtime proof.
+  governance_owner: CF10 Runtime; SH09/10 residual requirements; Task150 acceptance
+  relevant_existing_paths:
+  - coordination/roadmaps/details/forprint_system_blueprint/execution_control_plane/cf10_worker_self_hardening_backlog_v0_1.yaml
+  - coordination/internal_work/blueprint/worker_training/cf10_worker_training_queue_v0_1.yaml
+  forbidden_actions:
+  - claim crash-safe from ordinary PASS
+  - auto release stale lease
+  - auto relaunch historic attempt
+  - drop checkpoint provenance
+  evidence_required_for_technical_closure:
+  - interruption/restart test
+  - accepted mini-step recovered
+  - old actor fenced
+  - resume or abort seal tested
+  follow_up_phase: before_final_exit_and_as_early_dependencies_require
+carry_forward_not_redecided:
+- id: CF10_TASK120_ORIGIN
+  topic: Task120 original Phase B semantics
+  status: NO_NEW_DECISION_IN_THIS_HANDOFF
+  rule: Do not invent Task120 semantics or claim it resolved on basis of this package. Read earlier owner decision
+    / canonical source; preserve any prior approved outcome.
+  integration_action: During canonical integration inspect whether Task120 was independently resolved; if missing,
+    recover source or request a separate owner decision before affected Task130/140/150 dependency boundaries.
+  source: ForPrint_CF10_Detailed_Roadmap_and_Discussion_Guide_2026-10-10.pdf pp.9,13
+  must_not:
+  - invent a new Task120
+  - silently delete existing dependency
+  - mark Task120 resolved without canonical proof
+integration_contract:
+  target_repository: Kovalchuk-PrintMaster/Forprint_System_Blueprint
+  suggested_new_append_only_record: coordination/internal_work/blueprint/governance/2026-10-11__blueprint__cf10_owner_discussion_reconciliation_v0_1.yaml
+  proposal_only: false
+  write_permission_included: false
+  required_order:
+  - live read-only inspection
+  - existing capability/policy ownership reconciliation
+  - exact bounded proposal diff
+  - tests and negative cases
+  - explicit operator approval for staging/commit/push
+  source_refs_are_not_live_proof: true
+  no_auto_activation_of_SH_tasks: true
+  run_task80_only_after_readiness_and_new_authority: true
+  runtime_implementation_not_proven_by_this_record: true
+
+canonical_recording:
+  kind: APPEND_ONLY_OWNER_ARCHITECTURE_DIRECTION
+  source_package: ForPrint_CF10_Discussion_Decisions_Handoff_2026-10-11_v0_1
+  source_package_sha256: 3b566d16e4817e16aa003ed3398c436157fd34654884b8120fe441aa17e60702
+  original_candidate_sha256: 0925dd00882b3ebcc0b613621ce6ef2b2e7cd272a17ef08ae068c2e7fba1294a
+  technical_implementation_performed: false
+  roadmap_mutation_performed: false
+  runtime_authority_granted: false
