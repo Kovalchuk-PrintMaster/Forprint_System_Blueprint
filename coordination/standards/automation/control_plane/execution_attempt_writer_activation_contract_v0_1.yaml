@@ -1,0 +1,62 @@
+schema_version: forprint_execution_attempt_writer_activation_contract_v0_1
+purpose: operator_governed_activation_of_shared_execution_attempt_ledger_lock
+status: PROJECT_CODE_CANDIDATE_NOT_ACTIVATED
+interface:
+  cli_module: scripts.coordination.execution_attempt_writer_activation_v0_1
+  make_targets:
+    readiness: shared-ledger-writer-readiness
+    approval_check: shared-ledger-writer-approval-check
+    activation_boundary: shared-ledger-writer-activation-check
+    independent_activation_readback: shared-ledger-writer-activation-verify
+    tests: shared-ledger-writer-activation-tests
+system_inputs:
+  external_operator_trust: /etc/forprint/execution_attempt_writer_activation/trust_root_v0_1.json
+  external_coverage: /etc/forprint/execution_attempt_writer_activation/writer_coverage_v0_1.json
+  external_candidate: /etc/forprint/execution_attempt_writer_activation/protocol_candidate_v0_1.yaml
+  external_signed_decision: /etc/forprint/execution_attempt_writer_activation/signed_decision_v0_1.json
+  external_live_protocol: /etc/forprint/execution_attempt_writer_protocol_v0_1.yaml
+  global_writer_lock_directory: /run/forprint
+approval:
+  scheme: Ed25519
+  signature_domain: FORPRINT/LEDGER_WRITER/ACTIVATION/v0.1
+  decision_purpose: FORPRINT_LEDGER_WRITER_PROTOCOL_ACTIVATION_V0_1
+  independent_root_owned_policy_required: true
+  bound_fields:
+    - protocol_sha256
+    - coverage_sha256
+    - publication_commit
+    - publication_remote
+    - publication_ref
+    - signer_id
+    - issued_at
+    - expires_at
+    - nonce
+  max_approval_lifetime_seconds: 86400
+publication:
+  externally_pinned_remote_and_ref: true
+  matching_remote_commit_and_local_head_required: true
+  published_blob_sha256_pins_required: true
+  active_writer_deployment_coverage_review_required: true
+  unknown_or_unreviewed_writer_process: BLOCKED
+activation:
+  code_self_enrollment: FORBIDDEN
+  cli_writes_etc_or_run: false
+  independent_operator_must_provision_external_protocol: true
+  activation_check_is_non_mutating_handoff: true
+  verify_requires_exact_candidate_bytes: true
+  inactive_legacy_writers_must_be_drained_or_restarted: true
+  private_key_creation_by_repo: FORBIDDEN
+independent_of:
+  - B4_work_front_closeout_acceptance_trust_root
+  - worker_launch_approval
+  - CF10_a042
+  - canonical_closeout_record
+  - Git_commit_or_push
+stop_conditions:
+  - missing_external_trust_root_or_invalid_permissions
+  - unsigned_or_expired_decision
+  - publication_commit_or_blob_not_confirmed_at_pinned_remote_ref
+  - unreviewed_or_unenrolled_writer_process
+  - candidate_and_enforced_protocol_byte_mismatch
+  - lock_directory_unsafe_or_unavailable
+  - source_postimage_drift

@@ -3608,3 +3608,52 @@ cf10-post-commit-acceptance-decide:
 cf10-post-commit-acceptance-check:
 	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_post_commit_worker_acceptance_v0_1.py
 # CF10_POST_COMMIT_WORKER_RESULT_ACCEPTANCE_V0_1_END
+
+# Blueprint governed Work Front closeout planning (candidate; review before adoption)
+.PHONY: work-front-closeout-plan work-front-closeout-check
+work-front-closeout-plan:
+	$(PYTHON) -m scripts.coordination.work_front_closeout_v0_1 --root . --front "$(FRONT)" --evidence "$(EVIDENCE)" --action plan --plan-name "$(or $(PLAN_NAME),work_front_closeout_plan_v0_1.json)" $(if $(FORBID_ATTEMPT),--forbid-attempt-id "$(FORBID_ATTEMPT)",)
+work-front-closeout-check:
+	$(PYTHON) -m scripts.coordination.work_front_closeout_v0_1 --root . --front "$(FRONT)" --evidence "$(EVIDENCE)" --action check --plan-name "$(or $(PLAN_NAME),work_front_closeout_plan_v0_1.json)" $(if $(FORBID_ATTEMPT),--forbid-attempt-id "$(FORBID_ATTEMPT)",)
+
+# Blueprint governed Work Front closeout B4 (no authority bootstrap)
+CLOSEOUT_B4_REQUEST ?=
+CLOSEOUT_B4_DECISION ?=
+CLOSEOUT_B4_MANIFEST ?=
+CLOSEOUT_B4_BASELINE ?=
+CLOSEOUT_B4_RECORD ?=
+.PHONY: work-front-closeout-prepare work-front-closeout-candidate-check work-front-closeout-authority-check work-front-closeout-publication-check work-front-closeout-apply work-front-closeout-verify
+CLOSEOUT_B4_PLAN_NAME ?=
+CLOSEOUT_B4_CANDIDATE_NAME ?=
+work-front-closeout-prepare:
+	$(PYTHON) -B -m scripts.coordination.work_front_closeout_apply_v0_1 prepare --root . --plan-name "$(CLOSEOUT_B4_PLAN_NAME)" --candidate-name "$(CLOSEOUT_B4_CANDIDATE_NAME)"
+work-front-closeout-candidate-check:
+	$(PYTHON) -B -m scripts.coordination.work_front_closeout_apply_v0_1 check-candidate --root . --plan-name "$(CLOSEOUT_B4_PLAN_NAME)" --candidate-name "$(CLOSEOUT_B4_CANDIDATE_NAME)"
+work-front-closeout-authority-check:
+	$(PYTHON) -B -m scripts.coordination.work_front_closeout_apply_v0_1 check-authority --root . --request "$(CLOSEOUT_B4_REQUEST)" --decision "$(CLOSEOUT_B4_DECISION)"
+work-front-closeout-publication-check:
+	$(PYTHON) -B -m scripts.coordination.work_front_closeout_apply_v0_1 check-publication --root . --request "$(CLOSEOUT_B4_REQUEST)" --decision "$(CLOSEOUT_B4_DECISION)" --manifest "$(CLOSEOUT_B4_MANIFEST)"
+work-front-closeout-apply:
+	$(PYTHON) -B -m scripts.coordination.work_front_closeout_apply_v0_1 apply --root . --request "$(CLOSEOUT_B4_REQUEST)" --decision "$(CLOSEOUT_B4_DECISION)" --manifest "$(CLOSEOUT_B4_MANIFEST)" --baseline "$(CLOSEOUT_B4_BASELINE)"
+work-front-closeout-verify:
+	$(PYTHON) -B -m scripts.coordination.work_front_closeout_apply_v0_1 verify --root . --request "$(CLOSEOUT_B4_REQUEST)" --record "$(CLOSEOUT_B4_RECORD)"
+
+# Prospective CF-10 shared canonical ledger writer protocol (no activation).
+.PHONY: shared-ledger-writer-protocol-check
+shared-ledger-writer-protocol-check:
+	$(PYTHON) -m py_compile scripts/coordination/execution_attempt_writer_lock_v0_1.py scripts/coordination/execution_attempt_ledger_v0_1.py scripts/coordination/work_front_closeout_apply_v0_1.py
+	$(PYTHON) -m pytest -q tests/coordination/test_shared_execution_attempt_writer_lock_v0_1.py
+
+# CF-10 independently authorized ledger-writer activation gates (READ ONLY).
+# No target here provisions /etc, /run, signs, commits, pushes, or starts a Worker.
+.PHONY: shared-ledger-writer-readiness shared-ledger-writer-approval-check shared-ledger-writer-activation-check shared-ledger-writer-activation-verify shared-ledger-writer-activation-tests
+shared-ledger-writer-readiness:
+	$(PYTHON) -B -m scripts.coordination.execution_attempt_writer_activation_v0_1 readiness --root .
+shared-ledger-writer-approval-check:
+	$(PYTHON) -B -m scripts.coordination.execution_attempt_writer_activation_v0_1 approval-check --root .
+shared-ledger-writer-activation-check:
+	$(PYTHON) -B -m scripts.coordination.execution_attempt_writer_activation_v0_1 activation-check --root .
+shared-ledger-writer-activation-verify:
+	$(PYTHON) -B -m scripts.coordination.execution_attempt_writer_activation_v0_1 verify --root .
+shared-ledger-writer-activation-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/test_execution_attempt_writer_activation_v0_1.py

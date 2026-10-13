@@ -148,3 +148,22 @@ attempt_history_semantics:
     new_attempt_id_required: true
     retry_reference_satisfied_by_any_record_for_attempt: true
   historical_migration_required: false
+
+# Proposed prospective shared-writer synchronization extension; activation is
+# independent of this repository and does not grant closeout authority.
+shared_writer_protocol_v0_1:
+  schema_version: forprint_execution_attempt_writer_protocol_v0_1
+  mode: operator_provisioned_enforced_or_legacy_absent
+  independent_root_owned_config: /etc/forprint/execution_attempt_writer_protocol_v0_1.yaml
+  approved_lock_directory: /run/forprint
+  canonical_store_only: true
+  protected_boundary: scan_validate_create
+  same_lock_required_for_closeout_apply: true
+  external_config_absent:
+    append_behavior: legacy_unlocked
+    closeout_apply: blocked
+  external_config_invalid:
+    append_behavior: blocked
+    closeout_apply: blocked
+  config_status_is_not_authority: true
+  migration_requires_operator_approval: true

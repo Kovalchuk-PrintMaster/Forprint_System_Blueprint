@@ -1,0 +1,84 @@
+work_front_id: wf-blueprint-shared-execution-attempt-writer-activation-v0-1
+objective: >-
+  Extend the installed shared execution attempt ledger writer protocol with a
+  reusable project-owned, non-mutating operator activation gate: readiness,
+  independently signed approval verification, exact activation handoff, and
+  independently provisioned protocol readback. External ENFORCED provisioning
+  remains a separate operator-authorized system administration action.
+scope:
+  - coordination/work_fronts/blueprint_shared_execution_attempt_writer_activation_v0_1.yaml
+  - coordination/standards/automation/control_plane/execution_attempt_writer_activation_contract_v0_1.yaml
+  - scripts/coordination/execution_attempt_writer_activation_v0_1.py
+  - tests/coordination/test_execution_attempt_writer_activation_v0_1.py
+  - Makefile
+exclusions:
+  - Do not create, modify or enroll external /etc/forprint policy, trust root, signing keys or /run/forprint lock.
+  - Do not stage, commit, push, publish, merge, dispatch, launch a042 or run closeout-apply.
+  - Do not change existing execution attempt records, runtime roots or Telegram Bot staging.
+  - Never treat chat approval, a CLI flag, unsigned evidence or passing tests as external activation authority.
+  - Do not silently enable ENFORCED before every observed canonical writer process is covered.
+provenance:
+  source_refs:
+    - source_archive:cf10_shared_ledger_writer_sources_v0_1.tar.gz
+    - shared_writer_installed:44-focused-tests-PASS+14-ledger-regressions-PASS
+    - exact_postimages:seven-sha256-PASS
+    - git_head_reviewed:ff3b9853e104d5e3c8b7a9cfe5b8aa6aecf27bf5
+    - no_a042_repository_ledger_entry:verified-2026-10-13
+  chat_is_authority: false
+dependencies:
+  - Installed shared writer helper must match exact reviewed postimage and retain external opt-in semantics.
+  - Operators independently select signer identity, root-owned trust source and approved publication remote/ref.
+  - Signed external coverage attests all current and resident canonical writer entrypoints; live process inventory is not derivable from source archive.
+  - Independent administrator provisions matching root-owned candidate/decision and later ENFORCED protocol only after a separate explicit decision.
+outputs:
+  - Governed Work Front and machine-readable operator activation contract.
+  - Read-only Make/CLI readiness, signed-approval check, activation boundary and post-activation verify.
+  - Ed25519 domain-separated independent approval binding exact candidate bytes, deployment coverage and published source revision.
+  - Tests for missing trust, stale source, invalid signature, tampered config, unreviewed writer, unpublished commit and positive fixtures.
+  - No key generation, signing, /etc or /run writes, Worker execution, Git mutation or canonical closeout.
+acceptance:
+  - Exact five-path project source patch and project Work Front contract validation PASS.
+  - Source preimages and seven existing installed writer postimages unchanged except additive Make target.
+  - Tests-first fixture import RED, GREEN tests and installed ledger/B4 regression tests PASS.
+  - External approval and real rollout missing yields readiness BLOCKED; it cannot be implicitly satisfied from chat.
+  - Signed decision from independent root-pinned Ed25519 signer required, short-lived and bound to exact protocol/coverage SHA, remote/ref/commit.
+  - Actual remote ref, checked-out commit and exact three published source blobs verified before operator provisioning handoff.
+  - Post-activation verify refuses candidate/live policy byte mismatch, unsafe lock paths or missing runtime directory.
+  - Operational activation is separately approved and performed outside project Make/CLI; no automatic activation.
+  - Git HEAD, protected staged Telegram snapshot, unrelated dirty tree, historical ledger and CF-10 attempts unchanged by review.
+stop_conditions:
+  - Source preimage or protected staging drift.
+  - Any proof of signer identity/complete writer deployment coverage missing or unverifiable.
+  - Unsafe trust root, noncanonical evidence, wrong signing purpose or expired decision.
+  - Unpublished local code, unverified remote/ref or mismatch in canonical writer module hashes.
+  - Review or test execution attempts live external provisioning or writes to historical ledger.
+authority:
+  layer: WORK_FRONT
+  permissions:
+    - read
+    - write_blueprint
+  widening_requested: false
+  prospective_only: true
+  live_worker_launch_authorized: false
+  automatic_materialization_authorized: false
+capability_reuse:
+  search_performed: true
+  searched_surfaces:
+    - scripts/coordination/execution_attempt_ledger_v0_1.py
+    - scripts/coordination/execution_attempt_writer_lock_v0_1.py
+    - scripts/coordination/work_front_closeout_apply_v0_1.py
+    - scripts/coordination/work_front_closeout_authority_v0_1.py
+    - coordination/work_fronts/blueprint_shared_execution_attempt_writer_protocol_v0_1.yaml
+    - coordination/standards/automation/execution_attempt_ledger_contract_v0_1.yaml
+  disposition: EXTEND
+  target_refs:
+    - scripts/coordination/execution_attempt_writer_lock_v0_1.py
+    - scripts/coordination/work_front_closeout_authority_v0_1.py
+  read_only_refs:
+    - coordination/continuity/execution_attempts/
+    - coordination/continuity/projections/
+    - coordination/work_fronts/blueprint_shared_execution_attempt_writer_protocol_v0_1.yaml
+  rationale: >-
+    Reuse installed canonical writer critical section, existing external policy
+    boundary and B4 independent signing patterns without creating an additional
+    direct ledger writer or enabling closeout authority.

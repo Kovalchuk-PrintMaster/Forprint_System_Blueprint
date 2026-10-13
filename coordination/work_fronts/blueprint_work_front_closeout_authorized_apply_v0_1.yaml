@@ -1,0 +1,115 @@
+work_front_id: wf-blueprint-work-front-closeout-authorized-apply-v0-1
+objective: Implement one reusable project-owned closeout workflow after the existing plan/check and B1/B2/B3 review
+  surfaces. Bind an independently authenticated, domain-separated operator acceptance decision, verified published
+  implementation blobs, and fresh protected ledger/runtime evidence to one exact create-only internal_work completion
+  record; never close whole CF-10.
+scope:
+- coordination/work_fronts/blueprint_work_front_closeout_authorized_apply_v0_1.yaml
+- coordination/standards/automation/control_plane/work_front_closeout_authority_contract_v0_1.yaml
+- scripts/coordination/work_front_closeout_authority_v0_1.py
+- scripts/coordination/work_front_closeout_publication_v0_1.py
+- scripts/coordination/work_front_closeout_apply_v0_1.py
+- tests/coordination/test_work_front_closeout_authority_v0_1.py
+- tests/coordination/test_work_front_closeout_publication_v0_1.py
+- tests/coordination/test_work_front_closeout_apply_v0_1.py
+- Makefile
+exclusions:
+- Do not mutate Stage 4C implementation, Stage1/B1/B2/B3 evidence or request, Work Front validator, worker result,
+  S4/Handoff validators, or launch approval gateway.
+- No permissions derived from chat, unsigned YAML/JSON, CLI --approve, operator name string, or passing tests.
+- Existing launch-request operator approval is not valid authority for closeout; a separate approved trust root and
+  domain-separated signature verification are required.
+- Do not fabricate publication provenance from dirty HEAD or local commit alone; verify published ref and exact evidence-bound
+  Git blobs.
+- No writing of continuity WORK_CLOSED, roadmap/projection state, historical attempts, runtime ledger, or Telegram
+  Bot staging.
+- No automatic stage/commit/push/merge/release or Worker dispatch; no a042 preparation/launch.
+- Canonical completion target may be created only by an independently authorized exact-destination apply, in a later
+  separately approved operator run.
+provenance:
+  source_refs:
+  - b3_request:cf10_stage4c_operator_review_request_v0_1.json#sha256=b92fc0435fbc17a350606dd066e988693b49c1d6ac9c61067d551c0fc954ca8c
+  - b2_review:cf10_closeout_b2_authority_review_v0_2.json#sha256=2a071b186008b6f445aaa1fbb46ad65872e1a0221fa008c656b1940eb8cc1c01
+  - stage4c_plan:cf10_stage4c_closeout_plan_post_install_v0_1.json#sha256=1889436377469cac5c48389a83f76a0285870a800f9f68b3424678bded7c10e7
+  - stage4c_candidate:cf10_stage4c_completion_candidate_prepublication_v0_1.json#sha256=4c6d9188d5f88b5bef89efd1b8381af564573ba29c8f9c0f14e80dfba814f1fb
+  - governance_precedents:2026-10-05,2026-10-07,2026-10-08 internal_work completion records
+  - source_head_at_prepublication_review:ff3b9853e104d5e3c8b7a9cfe5b8aa6aecf27bf5
+  - work_id:u180j
+  - attempt:cf10-u180j-a041/BLOCKED
+  chat_is_authority: false
+dependencies:
+- Installed scripts/coordination/work_front_closeout_v0_1.py plan/check must remain intact.
+- B3 request must verify canonical byte identity and hash, full pending acceptance set, and destination ownership.
+- Select independently verifiable closeout operator identity/trust root through an explicit operator-controlled governance
+  decision; never auto-enroll a provided public key.
+- Select publication target remote/ref and approved source branch policy through an explicit independent governance
+  decision.
+- Verify immutable a041 hashes and a042 absence from repository and required runtime roots, with a fresh audit at
+  the apply boundary.
+- Frozen dirty-tree plan may not be recomputed from post-publication HEAD as if it were the original approval; require
+  a separately verified publication-transition binding.
+outputs:
+- Versioned closeout authority contract specifying exact purpose, request identity, trust root and anti-replay rules.
+- Project CLI for independently verifying operator-signed acceptance attestations for all criteria.
+- Project CLI for publication commit, remote-ref and evidence-file exact Git blob verification.
+- Fail-closed create-only apply with output schema validator, constrained destination, protected ledger/runtime recheck,
+  and deterministic receipt.
+- Make targets work-front-closeout-prepare/check-authority/check-publication/apply/verify; plan/check remain compatible.
+- Tests-first RED then GREEN negative tests and end-to-end isolated positive proof; Stage4C canonical closeout runs
+  separately after explicit operator authorization.
+acceptance:
+- Work Front validator PASS for exact scope; tests-first RED/GREEN and source preimage reviewed, especially protected
+  dirty Makefile.
+- No approval accepted without a verified independent signature bound to exact B3 request SHA, request ID, destination,
+  workfront, acceptance criteria, publication and audit binding.
+- Decision signatures are domain separated from WORKER_LAUNCH and cannot be used for dispatch, duplicate closeout,
+  or another request.
+- Missing or unknown trusted operator policy blocks apply; never create keys or grant identity automatically.
+- Publication verified from real commit object and independently observed remote ref, with exact Git blob bytes matching
+  evidence-bound implementation paths.
+- Prepublication dirty-tree source identity preserved as evidence; postpublication transition records exact changed
+  paths and cannot silently expand approved scope.
+- Historical terminal a041 remains immutable and forbidden a042 absence is rechecked at final protected write boundary.
+- Canonical record create-only; symlink/path traversal, existing or conflicting destination, stale approval, changed
+  repo/index, or unavailable audit fail closed.
+- Stage4C completion record is NON_AUTHORITY evidence only; CF10/u180j stays ACTIVE, no continuity WORK_CLOSED or
+  roadmap/projection modifications.
+- No automatic staging, commit, push, release, worker launch, or change to Telegram staging; postflight source integrity
+  and regression tests PASS.
+stop_conditions:
+- Approval trust root, operator identity, or signature verification cannot be established from independently authorized
+  sources.
+- Published branch/ref rules cannot be verified, implementation blobs drift, or historical dirty working tree cannot
+  be safely reconciled.
+- Any ledger or selected runtime root cannot be fully audited or protected from concurrent writes at commit boundary.
+- B3 request, B2 report, Stage4C Work Front, completion evidence or plan bytes differ from frozen approved bindings.
+- Canonical destination is occupied, path unsafe, or document schema validation unavailable.
+- Any test or code path attempts implicit authority, worker dispatch, Stage4C reimplementation, or automatic Git actions.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false
+  prospective_only: true
+  live_worker_launch_authorized: false
+  automatic_materialization_authorized: false
+capability_reuse:
+  search_performed: true
+  searched_surfaces:
+  - scripts/coordination/work_front_closeout_v0_1.py
+  - scripts/coordination/build_operator_approval_decision.py
+  - scripts/validation/validate_operator_approval_gateway_v0_1.py
+  - coordination/standards/automation/continuity_contract_v0_1.yaml
+  - coordination/standards/automation/execution_attempt_ledger_contract_v0_1.yaml
+  - coordination/internal_work/blueprint/governance/*completion_v0_1.yaml
+  disposition: EXTEND
+  target_refs:
+  - scripts/coordination/work_front_closeout_v0_1.py
+  - scripts/coordination/build_operator_approval_decision.py
+  read_only_refs:
+  - coordination/continuity/execution_attempts/
+  - coordination/continuity/projections/
+  - coordination/work_fronts/cf10_s4_trusted_transport_binding_v0_1.yaml
+  rationale: Reuse stage1 plan/check and historical completion evidence while isolating closeout signing and publication
+    from Worker launch authorities.
