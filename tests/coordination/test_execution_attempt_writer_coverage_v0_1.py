@@ -478,3 +478,74 @@ def test_technical_ready_still_never_authorizes_activation(monkeypatch, tmp_path
     check = m.check_plan(tmp_path, path, writer_release_root=tmp_path / "writer")
     assert check['deployment_coverage_verified'] is False
     assert check['status'] == 'READY_FOR_INDEPENDENT_REVIEW'
+
+
+def test_indirect_append_reference_bound_module(tmp_path):
+    source = tmp_path / 'scripts/coordination/indirect.py'
+    source.parent.mkdir(parents=True)
+    source.write_text(
+        'from scripts.coordination import execution_attempt_ledger_v0_1 as ledger\n'
+        'def on_started():\n'
+        '    return call_with_supported_kwargs(\n'
+        '        ledger.append_record, {"record": {}})\n'
+    )
+    rows, errors = m.scan_call_sites(tmp_path)
+    assert errors == []
+    assert rows == [{"file": 'scripts/coordination/indirect.py', "line": 4,
+                     "classification": 'EXECUTION_LEDGER_INDIRECT_APPEND_REFERENCE'}]
+
+
+def test_indirect_append_reference_nested_import_conservative(tmp_path):
+    source = tmp_path / 'scripts/coordination/nested.py'
+    source.parent.mkdir(parents=True)
+    source.write_text(
+        'def start():\n'
+        '    from scripts.coordination import execution_attempt_ledger_v0_1\n'
+        '    def callback():\n'
+        '        return invoke(execution_attempt_ledger_v0_1.append_record, {})\n'
+        '    return callback\n'
+    )
+    rows, errors = m.scan_call_sites(tmp_path)
+    assert errors == []
+    assert rows == [{"file": 'scripts/coordination/nested.py', "line": 4,
+                     "classification": 'STATIC_INDIRECT_APPEND_REFERENCE_REQUIRES_REVIEW'}]
+
+
+def test_indirect_history_reference_is_not_ledger(tmp_path):
+    source = tmp_path / 'scripts/coordination/history_use.py'
+    source.parent.mkdir(parents=True)
+    source.write_text(
+        'from scripts.coordination import workfront_history_v0_1 as history\n'
+        'def run():\n'
+        '    return invoke(history.append_record, {})\n'
+    )
+    rows, errors = m.scan_call_sites(tmp_path)
+    assert errors == [] and rows == []
+
+
+def test_indirect_unknown_writer_reference_kept_for_review(tmp_path):
+    source = tmp_path / 'scripts/coordination/unknown.py'
+    source.parent.mkdir(parents=True)
+    source.write_text('def run(obj):\n    return invoke(obj.append_record)\n')
+    rows, errors = m.scan_call_sites(tmp_path)
+    assert errors == []
+    assert rows == [{"file": 'scripts/coordination/unknown.py', "line": 2,
+                     "classification": 'STATIC_INDIRECT_APPEND_REFERENCE_REQUIRES_REVIEW'}]
+
+
+def test_indirect_scan_does_not_duplicate_direct_call(tmp_path):
+    source = tmp_path / 'scripts/coordination/direct.py'
+    source.parent.mkdir(parents=True)
+    source.write_text(
+        'from scripts.coordination import execution_attempt_ledger_v0_1 as ledger\n'
+        'def run():\n'
+        '    return invoke(ledger.append_record({}, {}))\n'
+    )
+    rows, errors = m.scan_call_sites(tmp_path)
+    assert errors == []
+    assert rows == [{"file": 'scripts/coordination/direct.py', "line": 3,
+                     "classification": 'EXECUTION_LEDGER_IMPORT_BOUND'}]
+
+
+def test_indirect_append_gate_requires_distinct_future_publication():
+    assert m.GATE_REF == 'refs/heads/cf10/writer-coverage-indirect-append-v0-4'

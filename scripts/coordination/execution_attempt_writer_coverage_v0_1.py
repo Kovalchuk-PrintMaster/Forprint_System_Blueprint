@@ -26,7 +26,7 @@ PUBLISHED_REF = "refs/heads/cf10/closeout-writer-activation-v0-1"
 # This ref must be independently published before a real plan can be READY.
 # Its commit is read from BOTH the gate checkout and this exact remote ref;
 # independent attestation must pin the resulting immutable commit SHA.
-GATE_REF = "refs/heads/cf10/writer-coverage-dual-release-v0-3"
+GATE_REF = "refs/heads/cf10/writer-coverage-indirect-append-v0-4"
 GATE_SOURCE_FILES = (
     "scripts/coordination/execution_attempt_writer_coverage_v0_1.py",
     "scripts/coordination/execution_attempt_writer_activation_v0_1.py",
@@ -281,6 +281,24 @@ def append_call_binding(tree: ast.Module, call: ast.Call, rel: str,
     return None
 
 
+def append_indirect_reference_binding(tree: ast.Module, target: ast.expr, rel: str,
+                                      shadowed: set[str]) -> str | None:
+    """Keep append functions passed to other calls visible to independent review.
+
+    This is a static reference candidate, not proof that a callback executes.
+    Existing history binding exclusions are preserved.
+    """
+    if not isinstance(target, (ast.Name, ast.Attribute)):
+        return None
+    binding = append_call_binding(tree, ast.Call(func=target, args=[], keywords=[]),
+                                  rel, shadowed)
+    if binding is None:
+        return None
+    if binding in ('EXECUTION_LEDGER_IMPORT_BOUND', 'EXECUTION_LEDGER_IMPORTED_APPEND'):
+        return 'EXECUTION_LEDGER_INDIRECT_APPEND_REFERENCE'
+    return 'STATIC_INDIRECT_APPEND_REFERENCE_REQUIRES_REVIEW'
+
+
 def scan_call_sites(root: Path) -> tuple[list[dict], list[str]]:
     """Import-aware AST candidates, never an exhaustive dynamic writer proof."""
     directory = root / SCRIPT_ROOT
@@ -315,6 +333,14 @@ def scan_call_sites(root: Path) -> tuple[list[dict], list[str]]:
                 if classification is not None:
                     candidates.append({'file': rel, 'line': node.lineno,
                                        'classification': classification})
+                # Also capture ledger append functions passed by reference,
+                # e.g. _b2_call_supported_kwargs(ledger.append_record, {...}).
+                # A direct append_record(...) call is already recorded above.
+                for value in [*node.args, *(keyword.value for keyword in node.keywords)]:
+                    indirect = append_indirect_reference_binding(tree, value, rel, shadowed)
+                    if indirect is not None:
+                        candidates.append({'file': rel, 'line': value.lineno,
+                                           'classification': indirect})
     return sorted(candidates, key=lambda row: (row['file'], row['line'])), sorted(problems)
 
 
