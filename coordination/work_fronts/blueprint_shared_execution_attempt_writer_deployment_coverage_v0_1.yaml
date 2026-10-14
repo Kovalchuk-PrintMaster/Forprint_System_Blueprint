@@ -1,0 +1,75 @@
+work_front_id: wf-blueprint-shared-execution-attempt-writer-deployment-coverage-v0-1
+objective: >-
+  Extend the installed shared writer Activation Gate with repeatable project-owned
+  non-authorizing deployment evidence collection, publication binding, known
+  writer discovery and independent operator attestation readback. Technical
+  observations never self-certify complete deployment coverage.
+scope:
+  - coordination/work_fronts/blueprint_shared_execution_attempt_writer_deployment_coverage_v0_1.yaml
+  - coordination/standards/automation/control_plane/execution_attempt_writer_deployment_coverage_contract_v0_1.yaml
+  - scripts/coordination/execution_attempt_writer_coverage_v0_1.py
+  - tests/coordination/test_execution_attempt_writer_coverage_v0_1.py
+  - Makefile
+exclusions:
+  - Never create or alter root-controlled /etc/forprint or /run/forprint.
+  - Never create external VERIFIED coverage from technical observations alone.
+  - Never commit, push, merge, reset, dispatch, launch a042 or apply canonical closeout.
+  - Do not modify CF10 Stage4C runtime, Telegram, existing ledger or other Work Front code.
+  - Do not grant human signing, approval, release or production activation authority.
+provenance:
+  source_refs:
+    - published_branch:cf10/closeout-writer-activation-v0-1
+    - published_commit:628dd60542c9eefce9db001086ff80fd848e182d
+    - published_release_review:75-focused-tests-PASS-ledger-regressions-PASS
+    - writer_activation_gate:installed-PASS_NON_AUTHORIZING
+  chat_is_authority: false
+dependencies:
+  - Published release must match pinned Git commit, remote/ref and source blobs.
+  - Independent operator must account for direct, indirect, short-lived and remote writer processes.
+  - External coverage must be root-controlled, schema-valid and tied to technical evidence SHA.
+  - Existing Activation Gate remains the final signed-authorization readback boundary.
+outputs:
+  - Make/CLI coverage plan, check and verify commands.
+  - Canonical project tmp JSON evidence with exact publication binding and observed writer candidates.
+  - Tests exercising unknown coverage, process drift, publication drift, path limits and external attestation.
+  - No automatic ENFORCED and no Git or canonical ledger mutation.
+acceptance:
+  - Exact five-path patch and Work Front contract validation PASS.
+  - New tests and existing Activation Gate / Writer regressions PASS in isolation.
+  - Plan reads pinned published sources and records known writers and unknown launch surfaces.
+  - Check blocks stale technical evidence and never returns VERIFIED.
+  - Verify requires independent root-controlled coverage tied to exact evidence SHA.
+  - Main Blueprint checkout and external runtime are unchanged by review.
+stop_conditions:
+  - Published ref, HEAD, source hashes or writer entrypoint drift.
+  - Unreadable scan surfaces, unreviewed writers or stale process inventory.
+  - Missing or untrusted external attestation.
+  - Any attempt to self-enable lock, sign, stage, commit, push or close Work Front.
+authority:
+  layer: WORK_FRONT
+  permissions:
+    - read
+    - write_blueprint
+  widening_requested: false
+  prospective_only: true
+  live_worker_launch_authorized: false
+  automatic_materialization_authorized: false
+capability_reuse:
+  search_performed: true
+  searched_surfaces:
+    - scripts/coordination/execution_attempt_writer_activation_v0_1.py
+    - scripts/coordination/execution_attempt_writer_lock_v0_1.py
+    - scripts/coordination/execution_attempt_ledger_v0_1.py
+    - scripts/coordination/control_plane/governed_worker_cycle.py
+    - scripts/coordination/control_plane/dispatch_intent.py
+    - coordination/standards/automation/control_plane/execution_attempt_writer_activation_contract_v0_1.yaml
+  disposition: EXTEND
+  target_refs:
+    - scripts/coordination/execution_attempt_writer_activation_v0_1.py
+  read_only_refs:
+    - /etc/forprint/execution_attempt_writer_activation/writer_coverage_v0_1.json
+    - coordination/continuity/execution_attempts/
+    - coordination/work_fronts/blueprint_shared_execution_attempt_writer_activation_v0_1.yaml
+  rationale: >-
+    Reuse published Activation Gate cryptographic and coverage boundary while
+    adding repeatable technical evidence; no new authority issuer or ledger writer.

@@ -1,0 +1,50 @@
+schema_version: forprint_execution_attempt_writer_deployment_coverage_contract_v0_1
+purpose: technical_evidence_for_independently_reviewed_writer_deployment
+status: PROJECT_CANDIDATE_NON_AUTHORIZING
+extends: forprint_execution_attempt_writer_activation_contract_v0_1
+publication_pins:
+  commit: 628dd60542c9eefce9db001086ff80fd848e182d
+  remote: git@github.com:Kovalchuk-PrintMaster/Forprint_System_Blueprint.git
+  ref: refs/heads/cf10/closeout-writer-activation-v0-1
+required_writer_entrypoints:
+  - scripts/coordination/control_plane/governed_worker_cycle.py
+  - scripts/coordination/control_plane/dispatch_intent.py
+  - scripts/coordination/execution_attempt_ledger_v0_1.py
+cli:
+  module: scripts.coordination.execution_attempt_writer_coverage_v0_1
+  commands:
+    plan: shared-ledger-writer-coverage-plan
+    check: shared-ledger-writer-coverage-check
+    verify: shared-ledger-writer-coverage-verify
+technical_evidence:
+  schema_version: forprint_execution_attempt_writer_deployment_evidence_v0_1
+  destination: project_tmp_only
+  write_policy: create_only
+  output_status: READY_FOR_INDEPENDENT_REVIEW_or_BLOCKED
+  sources:
+    - pinned_published_ref_and_blob_sha256
+    - static_append_record_callsite_candidates
+    - host_process_cmdline_observation
+    - system_cron_and_systemd_filesystem_observation
+  guaranteed_complete_inventory: false
+  dynamic_and_external_writers_still_require_review: true
+external_attestation:
+  path: /etc/forprint/execution_attempt_writer_activation/writer_coverage_v0_1.json
+  trusted_root_owned_readback: true
+  required_technical_evidence_sha256_binding: true
+  independently_verified_coverage_flags_required: true
+  independent_operator_review_ref_required: true
+  readback_grants_activation: false
+forbidden:
+  - self_certification_as_VERIFIED
+  - system_config_or_lock_provisioning
+  - signing_or_generation_of_trust_root
+  - automatic_drain_restart_or_worker_launch
+  - writing_execution_attempt_ledger
+  - git_add_commit_push_merge_or_reset
+  - canonical_closeout_apply
+boundaries:
+  technical_review_ready_is_not_coverage_verified: true
+  unknown_processes_or_schedulers_do_not_imply_absence: true
+  no_a042_authorization: true
+  b4_closeout_authority_independent: true
