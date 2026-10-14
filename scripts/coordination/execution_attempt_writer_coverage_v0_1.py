@@ -18,11 +18,24 @@ from typing import Callable
 
 from scripts.coordination import execution_attempt_writer_activation_v0_1 as gate
 
-SCHEMA = "forprint_execution_attempt_writer_deployment_evidence_v0_1"
+SCHEMA = "forprint_execution_attempt_writer_deployment_evidence_v0_2"
 CONTRACT = "coordination/standards/automation/control_plane/execution_attempt_writer_deployment_coverage_contract_v0_1.yaml"
 PUBLISHED_COMMIT = "628dd60542c9eefce9db001086ff80fd848e182d"
 PUBLISHED_REMOTE = "git@github.com:Kovalchuk-PrintMaster/Forprint_System_Blueprint.git"
 PUBLISHED_REF = "refs/heads/cf10/closeout-writer-activation-v0-1"
+# This ref must be independently published before a real plan can be READY.
+# Its commit is read from BOTH the gate checkout and this exact remote ref;
+# independent attestation must pin the resulting immutable commit SHA.
+GATE_REF = "refs/heads/cf10/writer-coverage-dual-release-v0-3"
+GATE_SOURCE_FILES = (
+    "scripts/coordination/execution_attempt_writer_coverage_v0_1.py",
+    "scripts/coordination/execution_attempt_writer_activation_v0_1.py",
+    "scripts/coordination/execution_attempt_writer_lock_v0_1.py",
+    "tests/coordination/test_execution_attempt_writer_coverage_v0_1.py",
+    "coordination/standards/automation/control_plane/execution_attempt_writer_deployment_coverage_contract_v0_1.yaml",
+    "coordination/work_fronts/blueprint_shared_execution_attempt_writer_deployment_coverage_v0_1.yaml",
+    "Makefile",
+)
 REQUIRED = (
     "scripts/coordination/control_plane/governed_worker_cycle.py",
     "scripts/coordination/control_plane/dispatch_intent.py",
@@ -113,38 +126,94 @@ def git(root: Path, *args: str) -> str:
     return git_bytes(root, *args).decode().strip()
 
 
-def release_checks(root: Path, remote_probe: Callable[[str, str], str] | None = None) -> list[str]:
+def _pinned_root(root: Path, role: str) -> None:
+    if root.is_symlink() or not root.is_dir() or git(root, "rev-parse", "--show-toplevel") != str(root.resolve()):
+        raise CoverageBlocked("UNSAFE_OR_NESTED_" + role + "_CHECKOUT")
+
+
+def _remote_commit(root: Path, remote: str, ref: str,
+                   probe: Callable[[str, str], str] | None) -> str:
+    if probe is not None:
+        result = probe(remote, ref)
+    else:
+        lines = git(root, "ls-remote", "--exit-code", remote, ref).splitlines()
+        parts = lines[0].split("\t") if len(lines) == 1 else []
+        result = parts[0] if len(parts) == 2 and parts[1] == ref else ""
+    if not isinstance(result, str) or not re.fullmatch(r"[a-f0-9]{40}", result):
+        raise CoverageBlocked("REMOTE_REF_UNTRUSTED_OR_UNAVAILABLE:" + ref)
+    return result
+
+
+def publication_bindings(gate_root: Path, writer_release_root: Path) -> dict:
+    """Local identities; release_checks independently verifies remotes and blobs."""
+    def digests(root: Path, paths) -> dict[str, str]:
+        result = {}
+        for rel in sorted(set(paths)):
+            file = root / rel
+            if not file.is_file() or file.is_symlink():
+                raise CoverageBlocked("PUBLICATION_SOURCE_UNSAFE_OR_MISSING:" + rel)
+            result[rel] = sha(file.read_bytes())
+        return result
+    return {
+        "gate_publication": {
+            "commit": git(gate_root, "rev-parse", "HEAD"),
+            "remote": PUBLISHED_REMOTE, "ref": GATE_REF,
+            "source_sha256": digests(gate_root, GATE_SOURCE_FILES),
+        },
+        "writer_publication": {
+            "commit": PUBLISHED_COMMIT,
+            "remote": PUBLISHED_REMOTE, "ref": PUBLISHED_REF,
+            "source_sha256": digests(writer_release_root, (*REQUIRED, *gate.SOURCES)),
+        },
+    }
+
+
+def release_checks(gate_root: Path, writer_release_root: Path,
+                   remote_probe: Callable[[str, str], str] | None = None) -> list[str]:
+    """Independently verify two checkouts. Never equate local HEAD with publication.
+
+    The coverage checker and its tests must match a *published* Git tree on
+    its own gate ref, while writer sources are pinned to the immutable 628dd...
+    release. No mutable status flag can substitute for either comparison.
+    """
     errors = []
     try:
-        if git(root, "rev-parse", "HEAD") != PUBLISHED_COMMIT:
-            errors.append("CHECKOUT_NOT_PINNED_RELEASE")
-        if git(root, "remote", "get-url", "origin") != PUBLISHED_REMOTE:
-            errors.append("GIT_REMOTE_URL_NOT_PINNED")
-        if remote_probe is None:
-            result = git(root, "ls-remote", "--exit-code", PUBLISHED_REMOTE, PUBLISHED_REF)
-            parts = result.splitlines()
-            observed = parts[0].split("\t") if len(parts) == 1 else []
-            remote_commit = observed[0] if len(observed) == 2 and observed[1] == PUBLISHED_REF else ""
-        else:
-            remote_commit = remote_probe(PUBLISHED_REMOTE, PUBLISHED_REF)
-        if remote_commit != PUBLISHED_COMMIT:
-            errors.append("PUBLISHED_REF_DRIFT")
+        _pinned_root(gate_root, "GATE")
+        _pinned_root(writer_release_root, "WRITER")
+        if gate_root.resolve() == writer_release_root.resolve():
+            errors.append("GATE_AND_WRITER_ROOT_MUST_DIFFER")
+        if git(gate_root, "remote", "get-url", "origin") != PUBLISHED_REMOTE:
+            errors.append("GATE_REMOTE_URL_NOT_PINNED")
+        if git(writer_release_root, "remote", "get-url", "origin") != PUBLISHED_REMOTE:
+            errors.append("WRITER_REMOTE_URL_NOT_PINNED")
+        gate_commit = git(gate_root, "rev-parse", "HEAD")
+        if _remote_commit(gate_root, PUBLISHED_REMOTE, GATE_REF, remote_probe) != gate_commit:
+            errors.append("GATE_REF_NOT_EQUAL_CHECKOUT_HEAD")
+        if git(writer_release_root, "rev-parse", "HEAD") != PUBLISHED_COMMIT:
+            errors.append("WRITER_CHECKOUT_NOT_PINNED_RELEASE")
+        if _remote_commit(writer_release_root, PUBLISHED_REMOTE, PUBLISHED_REF, remote_probe) != PUBLISHED_COMMIT:
+            errors.append("WRITER_PUBLISHED_REF_DRIFT")
+        for rel in GATE_SOURCE_FILES:
+            live = gate_root / rel
+            if not live.is_file() or live.is_symlink():
+                errors.append("GATE_SOURCE_MISSING_OR_SYMLINK:" + rel)
+                continue
+            if sha(live.read_bytes()) != sha(git_bytes(gate_root, "show", f"{gate_commit}:{rel}")):
+                errors.append("GATE_SOURCE_NOT_PUBLISHED:" + rel)
         for rel, expected in gate.SOURCES.items():
-            path = root / rel
+            path = writer_release_root / rel
             if not path.is_file() or path.is_symlink() or sha(path.read_bytes()) != expected:
-                errors.append("PINNED_SOURCE_DRIFT:" + rel)
-            if sha(git_bytes(root, "show", f"{PUBLISHED_COMMIT}:{rel}")) != expected:
-                errors.append("PINNED_PUBLISHED_BLOB_DRIFT:" + rel)
-        # All three must also exist in the published Git tree and match worktree bytes.
+                errors.append("PINNED_WRITER_SOURCE_DRIFT:" + rel)
+            if sha(git_bytes(writer_release_root, "show", f"{PUBLISHED_COMMIT}:{rel}")) != expected:
+                errors.append("WRITER_PUBLISHED_BLOB_DRIFT:" + rel)
         for rel in REQUIRED:
-            path = root / rel
+            path = writer_release_root / rel
             if not path.is_file() or path.is_symlink():
-                errors.append("REQUIRED_ENTRYPOINT_MISSING:" + rel)
-            else:
-                if sha(path.read_bytes()) != sha(git_bytes(root, "show", f"{PUBLISHED_COMMIT}:{rel}")):
-                    errors.append("REQUIRED_ENTRYPOINT_WORKTREE_DRIFT:" + rel)
+                errors.append("WRITER_ENTRYPOINT_MISSING:" + rel)
+            elif sha(path.read_bytes()) != sha(git_bytes(writer_release_root, "show", f"{PUBLISHED_COMMIT}:{rel}")):
+                errors.append("WRITER_ENTRYPOINT_WORKTREE_DRIFT:" + rel)
     except (CoverageBlocked, OSError, UnicodeError) as exc:
-        errors.append("PUBLICATION_PROBE_INCOMPLETE:" + str(exc))
+        errors.append("DUAL_PUBLICATION_PROBE_INCOMPLETE:" + str(exc))
     return sorted(set(errors))
 
 
@@ -346,12 +415,22 @@ def scan_schedules(roots: tuple[Path, ...] = SCHEDULE_ROOTS) -> tuple[list[dict]
     return sorted(matches, key=lambda x: x['path']), sorted(set(errors))
 
 
-def build_plan(root: Path, *, remote_probe=None,
+def build_plan(root: Path, *, writer_release_root: Path,
+               remote_probe=None,
                process_root: Path = Path("/proc"),
                schedule_roots: tuple[Path, ...] = SCHEDULE_ROOTS) -> dict:
     root = root.absolute()
-    errors = release_checks(root, remote_probe)
-    callsites, code_errors = scan_call_sites(root)
+    writer_release_root = writer_release_root.absolute()
+    try:
+        bindings = publication_bindings(root, writer_release_root)
+    except (CoverageBlocked, OSError) as exc:
+        bindings = {"gate_publication": None, "writer_publication": None}
+        identity_errors = ["PUBLICATION_IDENTITY_UNAVAILABLE:" + str(exc)]
+    else:
+        identity_errors = []
+    errors = identity_errors + release_checks(root, writer_release_root, remote_probe)
+    # Inspect writer code, not the independently published verifier implementation.
+    callsites, code_errors = scan_call_sites(writer_release_root)
     processes, process_errors = scan_processes(process_root)
     schedules, schedule_errors = scan_schedules(schedule_roots)
     # Symlinked systemd aliases are not proof of an executable writer; keep them
@@ -363,7 +442,7 @@ def build_plan(root: Path, *, remote_probe=None,
     return {
         "schema_version": SCHEMA,
         "status": "BLOCKED" if blockers else "READY_FOR_INDEPENDENT_REVIEW",
-        "publication": {"commit": PUBLISHED_COMMIT, "remote": PUBLISHED_REMOTE, "ref": PUBLISHED_REF},
+        **bindings,
         "known_writer_entrypoints": list(REQUIRED),
         "static_callsite_candidates": callsites,
         "observed_writer_processes": processes,
@@ -410,7 +489,7 @@ def write_plan(root: Path, path: Path, doc: dict) -> tuple[Path, str]:
     return out, sha(content)
 
 
-def check_plan(root: Path, path: Path, *, remote_probe=None) -> dict:
+def check_plan(root: Path, path: Path, *, writer_release_root: Path, remote_probe=None) -> dict:
     file = path if path.is_absolute() else root / path
     expected_parent = (root / "tmp").resolve()
     if file.is_symlink() or file.parent.resolve() != expected_parent or not file.is_file():
@@ -423,17 +502,23 @@ def check_plan(root: Path, path: Path, *, remote_probe=None) -> dict:
         raise CoverageBlocked("PLAN_UNREADABLE_OR_INVALID") from exc
     if not isinstance(doc, dict) or canon(doc) != raw or doc.get("schema_version") != SCHEMA:
         raise CoverageBlocked("PLAN_NOT_CANONICAL")
-    if doc.get("publication") != {"commit": PUBLISHED_COMMIT, "remote": PUBLISHED_REMOTE, "ref": PUBLISHED_REF}:
-        raise CoverageBlocked("PLAN_PUBLICATION_BINDING_DRIFT")
+    try:
+        bindings = publication_bindings(root, writer_release_root)
+    except (CoverageBlocked, OSError) as exc:
+        raise CoverageBlocked("DUAL_PUBLICATION_IDENTITY_UNAVAILABLE") from exc
+    if doc.get("gate_publication") != bindings["gate_publication"]:
+        raise CoverageBlocked("PLAN_GATE_PUBLICATION_BINDING_DRIFT")
+    if doc.get("writer_publication") != bindings["writer_publication"]:
+        raise CoverageBlocked("PLAN_WRITER_PUBLICATION_BINDING_DRIFT")
     if doc.get("known_writer_entrypoints") != list(REQUIRED):
         raise CoverageBlocked("PLAN_WRITER_SET_DRIFT")
     if doc.get("deployment_coverage_verified") is not False or doc.get("independent_operator_review_required") is not True:
         raise CoverageBlocked("PLAN_FALSE_AUTHORITY")
     if doc.get("external_provisioning_performed") is not False or doc.get("git_mutation_performed") is not False:
         raise CoverageBlocked("PLAN_FALSE_MUTATION_CLAIM")
-    blockers = release_checks(root, remote_probe)
+    blockers = release_checks(root, writer_release_root, remote_probe)
     # Dynamic observations are evidence, not a one-time permission token.
-    current_callsites, source_errors = scan_call_sites(root)
+    current_callsites, source_errors = scan_call_sites(writer_release_root)
     current_processes, process_errors = scan_processes()
     current_schedules, schedule_errors = scan_schedules()
     if doc.get("static_callsite_candidates") != current_callsites:
@@ -456,8 +541,8 @@ def check_plan(root: Path, path: Path, *, remote_probe=None) -> dict:
     }
 
 
-def verify_coverage(root: Path, path: Path, *, remote_probe=None) -> dict:
-    checked = check_plan(root, path, remote_probe=remote_probe)
+def verify_coverage(root: Path, path: Path, *, writer_release_root: Path, remote_probe=None) -> dict:
+    checked = check_plan(root, path, writer_release_root=writer_release_root, remote_probe=remote_probe)
     errors = list(checked["blockers"])
     if checked["status"] != "READY_FOR_INDEPENDENT_REVIEW":
         errors.append("TECHNICAL_PLAN_NOT_READY")
@@ -465,6 +550,10 @@ def verify_coverage(root: Path, path: Path, *, remote_probe=None) -> dict:
         doc, _ = gate.trusted_json(gate.COVERAGE_FILE)
         gate.validate_coverage(doc)
         required_bindings = {
+            # Older writer-publication bindings remain required by Activation Gate.
+            "gate_publication_commit": git(root, "rev-parse", "HEAD"),
+            "gate_publication_remote": PUBLISHED_REMOTE,
+            "gate_publication_ref": GATE_REF,
             "publication_commit": PUBLISHED_COMMIT,
             "publication_remote": PUBLISHED_REMOTE,
             "publication_ref": PUBLISHED_REF,
@@ -475,7 +564,7 @@ def verify_coverage(root: Path, path: Path, *, remote_probe=None) -> dict:
                 errors.append("EXTERNAL_COVERAGE_BINDING_DRIFT:" + name)
         if not set(REQUIRED).issubset(set(doc.get("writer_entrypoints", []))):
             errors.append("EXTERNAL_COVERAGE_MISSING_WRITER")
-    except (gate.ActivationBlocked, OSError) as exc:
+    except (gate.ActivationBlocked, CoverageBlocked, OSError) as exc:
         errors.append("INDEPENDENT_COVERAGE_UNAVAILABLE:" + str(exc))
     return {
         "stage": "verify", "status": "BLOCKED" if errors else "INDEPENDENTLY_ATTESTED_NON_AUTHORIZING",
@@ -489,23 +578,36 @@ def verify_coverage(root: Path, path: Path, *, remote_probe=None) -> dict:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("stage", choices=("plan", "check", "verify"))
-    parser.add_argument("--root", type=Path, default=Path("."))
+    parser.add_argument("--root", type=Path, default=Path("."), help="Coverage Gate checkout")
+    parser.add_argument("--writer-release-root", type=Path, required=True,
+                        help="Separate checkout of pinned published writer release")
     parser.add_argument("--report", type=Path, required=True)
     args = parser.parse_args(argv)
     root = args.root.resolve()
+    # An empty Make variable must fail closed, never silently resolve to cwd.
+    if str(args.writer_release_root) in ("", ".") or not str(args.writer_release_root).strip():
+        print(json.dumps({"status": "BLOCKED", "reason": "WRITER_RELEASE_ROOT_REQUIRED"}))
+        return 2
+    writer_root = args.writer_release_root.resolve()
+    if writer_root == root:
+        print(json.dumps({"status": "BLOCKED", "reason": "GATE_AND_WRITER_ROOT_MUST_DIFFER"}))
+        return 2
+    if Path(__file__).resolve() != (root / "scripts/coordination/execution_attempt_writer_coverage_v0_1.py").resolve():
+        print(json.dumps({"status": "BLOCKED", "reason": "COVERAGE_CODE_NOT_FROM_GATE_ROOT"}))
+        return 2
     try:
         if args.stage == "plan":
-            result = build_plan(root)
+            result = build_plan(root, writer_release_root=writer_root)
             path, checksum = write_plan(root, args.report, result)
             print(json.dumps({"stage": "plan", "status": result["status"],
                               "evidence_path": str(path), "evidence_sha256": checksum,
                               "technical_blockers": result["technical_blockers"],
                               "deployment_coverage_verified": False}, indent=2, sort_keys=True))
         elif args.stage == "check":
-            result = check_plan(root, args.report)
+            result = check_plan(root, args.report, writer_release_root=writer_root)
             print(json.dumps(result, indent=2, sort_keys=True))
         else:
-            result = verify_coverage(root, args.report)
+            result = verify_coverage(root, args.report, writer_release_root=writer_root)
             print(json.dumps(result, indent=2, sort_keys=True))
         # plan is exploratory, not an operational authorization.
         return 0 if args.stage == "plan" or result["status"] in (

@@ -20,10 +20,15 @@ provenance:
   source_refs:
     - published_branch:cf10/closeout-writer-activation-v0-1
     - published_commit:628dd60542c9eefce9db001086ff80fd848e182d
+    - gate_parent_commit:25c5a39e28df00ae4285f6d50f35b572c45c1256
+    - proposed_gate_ref:refs/heads/cf10/writer-coverage-dual-release-v0-3
     - published_release_review:75-focused-tests-PASS-ledger-regressions-PASS
     - writer_activation_gate:installed-PASS_NON_AUTHORIZING
   chat_is_authority: false
 dependencies:
+  - Gate checker must match its independently published Git HEAD, exact gate ref and source blobs.
+  - Writer release must be a separate checkout pinned to 628dd605 and its exact GitHub ref/blobs.
+  - Historical v0.1 plans cannot be used as dual-release evidence.
   - Published release must match pinned Git commit, remote/ref and source blobs.
   - Independent operator must account for direct, indirect, short-lived and remote writer processes.
   - External coverage must be root-controlled, schema-valid and tied to technical evidence SHA.
@@ -36,6 +41,7 @@ outputs:
 acceptance:
   - Exact five-path patch and Work Front contract validation PASS.
   - New tests and existing Activation Gate / Writer regressions PASS in isolation.
+  - Plan verifies both gate and writer checkouts independently and scans writer sources only.
   - Plan reads pinned published sources and records known writers and unknown launch surfaces.
   - Check blocks stale technical evidence and never returns VERIFIED.
   - Verify requires independent root-controlled coverage tied to exact evidence SHA.

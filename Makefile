@@ -3659,11 +3659,14 @@ shared-ledger-writer-activation-tests:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/test_execution_attempt_writer_activation_v0_1.py
 
 # CF-10 shared writer deployment coverage: technical evidence, NEVER activation.
-COVERAGE_EVIDENCE ?= tmp/cf10_shared_writer_coverage_v0_1.json
+COVERAGE_EVIDENCE ?= tmp/cf10_shared_writer_coverage_v0_2.json
+# Must explicitly point to a separately published, pinned 628dd605 writer checkout.
+# Empty path is rejected by CLI; a Make dry-run does not require configuration.
+COVERAGE_WRITER_RELEASE_ROOT ?=
 .PHONY: shared-ledger-writer-coverage-plan shared-ledger-writer-coverage-check shared-ledger-writer-coverage-verify
 shared-ledger-writer-coverage-plan:
-	$(PYTHON) -B -m scripts.coordination.execution_attempt_writer_coverage_v0_1 plan --root . --report "$(COVERAGE_EVIDENCE)"
+	$(PYTHON) -B -m scripts.coordination.execution_attempt_writer_coverage_v0_1 plan --root . --writer-release-root "$(COVERAGE_WRITER_RELEASE_ROOT)" --report "$(COVERAGE_EVIDENCE)"
 shared-ledger-writer-coverage-check:
-	$(PYTHON) -B -m scripts.coordination.execution_attempt_writer_coverage_v0_1 check --root . --report "$(COVERAGE_EVIDENCE)"
+	$(PYTHON) -B -m scripts.coordination.execution_attempt_writer_coverage_v0_1 check --root . --writer-release-root "$(COVERAGE_WRITER_RELEASE_ROOT)" --report "$(COVERAGE_EVIDENCE)"
 shared-ledger-writer-coverage-verify:
-	$(PYTHON) -B -m scripts.coordination.execution_attempt_writer_coverage_v0_1 verify --root . --report "$(COVERAGE_EVIDENCE)"
+	$(PYTHON) -B -m scripts.coordination.execution_attempt_writer_coverage_v0_1 verify --root . --writer-release-root "$(COVERAGE_WRITER_RELEASE_ROOT)" --report "$(COVERAGE_EVIDENCE)"

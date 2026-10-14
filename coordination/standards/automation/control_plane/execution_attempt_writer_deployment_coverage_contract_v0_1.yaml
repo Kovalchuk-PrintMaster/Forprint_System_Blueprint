@@ -1,7 +1,18 @@
 schema_version: forprint_execution_attempt_writer_deployment_coverage_contract_v0_1
 purpose: technical_evidence_for_independently_reviewed_writer_deployment
-status: PROJECT_CANDIDATE_NON_AUTHORIZING
+status: DUAL_RELEASE_CANDIDATE_NON_AUTHORIZING
 extends: forprint_execution_attempt_writer_activation_contract_v0_1
+gate_publication:
+  remote: git@github.com:Kovalchuk-PrintMaster/Forprint_System_Blueprint.git
+  ref: refs/heads/cf10/writer-coverage-dual-release-v0-3
+  commit: published_remote_ref_must_match_gate_checkout_HEAD
+  source_verification: exact_git_tree_blobs_for_gate_CLI_contract_tests_WorkFront_Makefile
+  independently_attested_sha_required: true
+writer_release:
+  supplied_via: COVERAGE_WRITER_RELEASE_ROOT
+  must_be_separate_checkout: true
+  immutable_commit: 628dd60542c9eefce9db001086ff80fd848e182d
+  source_verification: gate_SOURCE_pins_plus_required_writer_entrypoint_git_blobs
 publication_pins:
   commit: 628dd60542c9eefce9db001086ff80fd848e182d
   remote: git@github.com:Kovalchuk-PrintMaster/Forprint_System_Blueprint.git
@@ -17,7 +28,7 @@ cli:
     check: shared-ledger-writer-coverage-check
     verify: shared-ledger-writer-coverage-verify
 technical_evidence:
-  schema_version: forprint_execution_attempt_writer_deployment_evidence_v0_1
+  schema_version: forprint_execution_attempt_writer_deployment_evidence_v0_2
   destination: project_tmp_only
   write_policy: create_only
   output_status: READY_FOR_INDEPENDENT_REVIEW_or_BLOCKED
@@ -32,10 +43,15 @@ external_attestation:
   path: /etc/forprint/execution_attempt_writer_activation/writer_coverage_v0_1.json
   trusted_root_owned_readback: true
   required_technical_evidence_sha256_binding: true
+  required_gate_publication_commit_remote_ref_binding: true
+  required_writer_publication_commit_remote_ref_binding: true
   independently_verified_coverage_flags_required: true
   independent_operator_review_ref_required: true
   readback_grants_activation: false
 forbidden:
+  - implicit_writer_release_root_or_local_HEAD_fallback
+  - accepting_unpublished_gate_checkout_as_trusted
+  - accepting_legacy_v0_1_evidence_as_dual_release
   - self_certification_as_VERIFIED
   - system_config_or_lock_provisioning
   - signing_or_generation_of_trust_root
