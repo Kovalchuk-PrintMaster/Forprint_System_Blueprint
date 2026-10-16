@@ -1,0 +1,25 @@
+schema_version: forprint_module_deep_review_context_addendum_v0_1
+status: REVIEW_CANDIDATE_NOT_CANONICAL
+owner: forprint_system_blueprint
+scope: portfolio_module_analysis_and_roadmap_reconstruction
+purpose: "Навігація для нових помічниць: поглиблена інвентаризація без ремонту і з погоджувальною роздруківкою"
+methodology_baseline: coordination/bootstrap/module_analysis_lifecycle_methodology_v0_2.md
+methodology_pointer: coordination/bootstrap/module_analysis_methodology_current.yaml
+working_pilot_guide: coordination/repository_knowledge/module_knowledge_stabilization/field_guides/2026-10-16__deep_module_roadmap_review_pilot_v0_1.md
+stop_gate: coordination/repository_knowledge/module_knowledge_stabilization/field_guides/2026-10-16__analysis_stop_and_owner_review_gates_v0_1.yaml
+first_pilot_review_checkpoint: coordination/repository_knowledge/module_roadmap_review_pilots/telegram_bot/2026-10-16_D01/00_START_HERE.md
+assistant_start_here: coordination/repository_knowledge/module_roadmap_review_pilots/telegram_bot/2026-10-16_D01/08_NEXT_ASSISTANT_HANDOFF.md
+not_an_execution_work_front: true
+canonical_roadmap_modified: false
+owner_review_completed: false
+context_package_contract:
+  entrypoint: make assistant-context-pack MODULE=forprint_system_blueprint
+  builder_source: scripts/coordination/build_project_context_archive.py
+  inclusion_of_new_guide_must_be_checked_live: true
+  pointer_inclusion_does_not_imply_full_file_inclusion: true
+  context_pack_never_grants_authority: true
+publication_gate:
+  - scoped_review_of_new_paths_and_navigation_pointer
+  - live_generated_context_archive_semantic_readback
+  - owner_review_of_review_checkpoint
+  - separate_authorized_staging_commit_and_remote_containment

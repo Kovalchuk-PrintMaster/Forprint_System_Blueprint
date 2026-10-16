@@ -1,0 +1,82 @@
+schema_version: forprint_telegram_research_checkpoint_d01_v0_1
+date: '2026-10-16'
+status: REVIEW_ONLY_OWNER_DECISION_PENDING
+source: operator_logs_plus_uploaded_packages
+blueprint_reference_commit: bfeb799098c94fedcfc3d6b6a34af9323aeeb4f9
+telegram_pin: 7ada688636d579156199d3863a92362c7849dbff
+canonical_roadmap_mutated: false
+implementation_approved: false
+evidence_counts:
+  historical_steps: 21
+  l0_capabilities: 42
+  implemented_unverified: 30
+  unknown_with_validation_path: 12
+  candidate_work_packages: 52
+  dependency_edges_unverified: 10
+  review_decision_cards: 19
+  source_original_dftb_verified: 0
+  source_original_dftb_total: 6
+checks:
+- id: R002
+  observation: 10/10 tests; 66/66 anchored source files; SHA 66/66
+  type: operator_log
+  nonclaim: does not prove functional activation
+- id: R003
+  observation: 9/9 tests; AST 61/61; 339 symbols; 236 calls; 223 Python paths beyond L0
+  type: operator_log
+  nonclaim: not 223 new features
+- id: R004
+  observation: 223 extra Python paths; 220 AST parses; 3 parse holds; 689 symbols
+  type: uploaded_derived_evidence
+  nonclaim: parse issues not production failure
+- id: R005
+  observation: 33 legacy; 8 entrypoint; 12 historical document readbacks
+  type: uploaded_derived_evidence
+  nonclaim: entrypoint not proven active
+- id: R006
+  observation: legacy 33 triage; evidence reconciled; 42 capabilities not promoted
+  type: derived_analysis
+  nonclaim: disposition candidates only
+- id: R007_1
+  observation: 16/16 tests; 2/2 candidate r001 SHA; DFTB 0/6
+  type: operator_log
+  nonclaim: historical originals not verified
+- id: R008
+  observation: bounded host 226 processes; 0 Telegram repo matches; 0 candidate systemd units
+  type: uploaded_derived_evidence
+  nonclaim: not proof no deployment elsewhere
+- id: R009
+  observation: 11/11 tests operator PASS; r003 convergence
+  type: operator_log
+  nonclaim: not canonical approval
+- id: R010
+  observation: r004 REVIEW_ONLY; local package tests described; server sha/unzip failed due missing archive
+  type: operator_log_and_package
+  nonclaim: no valid s01 PASS, prior unconditional success echo invalid
+- id: D01
+  observation: 29-page printable PDF and DOCX; 19 owner decision prompts
+  type: generated_review_material
+  nonclaim: owner has not approved
+roadmap_goals:
+- safe_communication_channel
+- structured_intake_and_clarification
+- verified_canonical_owner_interactions
+- actor_scoped_state_and_recovery
+- files_media_governance
+- human_escalation_and_proactive_messages
+- AI_with_confidence_and_fallback
+- observability_security_tested_rollout_and_steady_state
+known_non_owned:
+- canonical_customer_registry
+- canonical_order_state
+- pricing_and_calculation
+- accounting_and_payments
+- logistics_execution
+- master_catalog
+open_authority:
+- six_historical_originals_unverified
+- active_entrypoint_unknown
+- provider_contracts_unverified
+- Telegram_final_owner_review_pending
+- R010_s01_validation_missing
+planning_layer: REVIEW_ONLY_NOT_EXECUTION_AUTHORITY
