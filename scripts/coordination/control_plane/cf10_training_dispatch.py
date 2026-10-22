@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import copy
 import hashlib
 import json
 import re
@@ -25,6 +26,20 @@ WORK_FRONT_ROOT = Path("coordination/work_fronts")
 
 ATTEMPT_RE = re.compile(r"^cf10-u180j-a([0-9]{3,})$")
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
+
+# CF10_STAGE4CP0_RESULT_TRANSPORT_AUTHORITY_V0_1
+RESULT_TRANSPORT_POLICY_REF = (
+    "coordination/registry/cf10_worker_result_transport_policy_v0_1.yaml"
+)
+RESULT_TRANSPORT_POLICY_SCHEMA = (
+    "forprint_cf10_worker_result_transport_policy_v0_1"
+)
+RESULT_TRANSPORT_SELECTION_SCHEMA = (
+    "forprint_cf10_result_transport_selection_v0_1"
+)
+LEGACY_RESULT_TRANSPORT = "handoff-v2-full"
+DRAFT_RESULT_TRANSPORT = "worker-completion-draft-v0-1"
+_RESULT_TRANSPORTS = [LEGACY_RESULT_TRANSPORT, DRAFT_RESULT_TRANSPORT]
 
 
 class CF10TrainingDispatchError(RuntimeError):
@@ -321,6 +336,158 @@ def assert_attempt_unused(
         )
 
 
+# CF10_STAGE4CP0_POLICY_AND_SELECTION_PROOF_V0_1_START
+
+def _transport_exact_string(value: Any, label: str) -> str:
+    if (
+        not isinstance(value, str)
+        or not value
+        or value != value.strip()
+        or any(ord(c) < 32 for c in value)
+        or "*" in value
+        or "?" in value
+    ):
+        raise CF10TrainingDispatchError(f"invalid result transport {label}")
+    return value
+
+
+def _transport_task_identity(binding: dict[str, Any]) -> dict[str, str]:
+    if not isinstance(binding, dict):
+        raise CF10TrainingDispatchError("result transport task binding must be a mapping")
+    task = _transport_exact_string(binding.get("task_prompt_id"), "task_prompt_id")
+    front_id = _transport_exact_string(binding.get("work_front_id"), "work_front_id")
+    front_ref = _transport_exact_string(binding.get("work_front_ref"), "work_front_ref")
+    relative = Path(front_ref)
+    if (
+        relative.is_absolute()
+        or ".." in relative.parts
+        or relative.as_posix() != front_ref
+        or not front_ref.startswith("coordination/work_fronts/")
+        or not front_ref.endswith(".yaml")
+    ):
+        raise CF10TrainingDispatchError("result transport Work Front reference invalid")
+    return {
+        "task_prompt_id": task,
+        "work_front_id": front_id,
+        "work_front_ref": front_ref,
+    }
+
+
+def validate_result_transport_policy_data(value: Any) -> dict[str, Any]:
+    if not isinstance(value, dict):
+        raise CF10TrainingDispatchError("transport policy must be a mapping")
+    keys = {
+        "schema_version", "status", "revision", "grants_authority",
+        "default_transport", "allowed_transports", "opt_in_bindings",
+    }
+    if set(value) != keys:
+        raise CF10TrainingDispatchError("transport policy fields drift")
+    if value["schema_version"] != RESULT_TRANSPORT_POLICY_SCHEMA:
+        raise CF10TrainingDispatchError("transport policy schema mismatch")
+    if value["status"] != "current_standard":
+        raise CF10TrainingDispatchError("transport policy not current")
+    if value["revision"] != "0.1.0":
+        raise CF10TrainingDispatchError("transport policy revision mismatch")
+    if value["grants_authority"] is not False:
+        raise CF10TrainingDispatchError("transport policy grants forbidden authority")
+    if value["default_transport"] != LEGACY_RESULT_TRANSPORT:
+        raise CF10TrainingDispatchError("transport policy default must remain legacy")
+    if value["allowed_transports"] != _RESULT_TRANSPORTS:
+        raise CF10TrainingDispatchError("transport policy allowed values drift")
+    bindings = value["opt_in_bindings"]
+    if not isinstance(bindings, list):
+        raise CF10TrainingDispatchError("transport policy opt-in must be a list")
+    seen: set[tuple[str, str, str]] = set()
+    for entry in bindings:
+        if not isinstance(entry, dict) or set(entry) != {
+            "task_prompt_id", "work_front_id", "work_front_ref", "transport"
+        }:
+            raise CF10TrainingDispatchError("transport opt-in fields invalid")
+        identity = _transport_task_identity(entry)
+        if entry["transport"] != DRAFT_RESULT_TRANSPORT:
+            raise CF10TrainingDispatchError("transport opt-in must select known draft")
+        identifier = tuple(identity[k] for k in (
+            "task_prompt_id", "work_front_id", "work_front_ref"
+        ))
+        if identifier in seen:
+            raise CF10TrainingDispatchError("transport opt-in duplicate binding")
+        seen.add(identifier)
+    return value
+
+
+def _load_result_transport_policy(root: Path) -> tuple[dict[str, Any], str]:
+    path = Path(root).resolve() / RESULT_TRANSPORT_POLICY_REF
+    if not path.is_file() or path.is_symlink():
+        raise CF10TrainingDispatchError("transport policy missing or unsafe")
+    raw = path.read_bytes()
+    digest = hashlib.sha256(raw).hexdigest()
+    try:
+        class NoDuplicateKeysLoader(yaml.SafeLoader):
+            pass
+
+        def no_duplicates(loader: yaml.SafeLoader, node: yaml.nodes.MappingNode) -> dict:
+            pairs: dict[Any, Any] = {}
+            for key_node, value_node in node.value:
+                key = loader.construct_object(key_node, deep=True)
+                if not isinstance(key, str) or key in pairs:
+                    raise CF10TrainingDispatchError("transport policy duplicate/invalid key")
+                pairs[key] = loader.construct_object(value_node, deep=True)
+            return pairs
+
+        NoDuplicateKeysLoader.add_constructor(
+            yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, no_duplicates,
+        )
+        value = yaml.load(raw.decode("utf-8"), Loader=NoDuplicateKeysLoader)
+    except (yaml.YAMLError, UnicodeDecodeError) as exc:
+        raise CF10TrainingDispatchError("transport policy YAML invalid") from exc
+    return validate_result_transport_policy_data(value), digest
+
+
+def resolve_result_transport_selection(
+    *, root: Path, task_binding: dict[str, Any],
+) -> dict[str, Any]:
+    identity = _transport_task_identity(task_binding)
+    policy, digest = _load_result_transport_policy(root)
+    selected = LEGACY_RESULT_TRANSPORT
+    for entry in policy["opt_in_bindings"]:
+        ref = {k: entry[k] for k in identity}
+        overlap = [key for key in identity if identity[key] == ref[key]]
+        if len(overlap) == len(identity):
+            selected = DRAFT_RESULT_TRANSPORT
+        elif overlap:
+            raise CF10TrainingDispatchError("partial transport opt-in identity drift")
+    return {
+        "schema_version": RESULT_TRANSPORT_SELECTION_SCHEMA,
+        "transport": selected,
+        "policy_ref": RESULT_TRANSPORT_POLICY_REF,
+        "policy_sha256": digest,
+        "policy_revision": policy["revision"],
+        **identity,
+    }
+
+
+def _verify_execution_transport_selection(
+    *, root: Path, execution: dict[str, Any], binding: dict[str, Any],
+) -> dict[str, Any] | None:
+    marker = execution.get("result_transport_policy_sha256")
+    selection = execution.get("result_transport_selection")
+    marker_present = "result_transport_policy_sha256" in execution
+    selection_present = "result_transport_selection" in execution
+    if not marker_present and not selection_present:
+        # Historical legacy prepared records contain no selector or provenance.
+        return None
+    if not marker_present or not selection_present:
+        raise CF10TrainingDispatchError("declared result transport selection incomplete")
+    expected = resolve_result_transport_selection(root=root, task_binding=binding)
+    if not isinstance(selection, dict) or selection != expected:
+        raise CF10TrainingDispatchError("result transport selection binding drift")
+    if marker != expected["policy_sha256"]:
+        raise CF10TrainingDispatchError("result transport policy provenance drift")
+    return expected
+
+# CF10_STAGE4CP0_POLICY_AND_SELECTION_PROOF_V0_1_END
+
+
 def prepare_training_pre_dispatch(
     *,
     root: Path,
@@ -383,6 +550,10 @@ def prepare_training_pre_dispatch(
 
     result = dict(prepared)
     result["cf10_training_binding"] = binding
+    # Preserve selected transport and raw policy byte digest across ACK and dispatch.
+    selection = resolve_result_transport_selection(root=root, task_binding=binding)
+    result["result_transport_selection"] = copy.deepcopy(selection)
+    result["result_transport_policy_sha256"] = selection["policy_sha256"]
     result["worker_id"] = worker_id
     result["attempt_id"] = attempt_id
     result["workspace_required_before_dispatch"] = True
@@ -488,6 +659,14 @@ def validate_training_assistant_ack(
     assistant_ack: dict[str, Any],
     expected_ack: dict[str, Any],
 ) -> dict[str, Any]:
+    # The existing ACK validator remains the authority gate; transport is
+    # checked against the exact prepared binding before and after that gate.
+    binding = prepared_execution.get("cf10_training_binding")
+    if not isinstance(binding, dict):
+        raise CF10TrainingDispatchError("prepared training binding missing")
+    frozen_selection = _verify_execution_transport_selection(
+        root=root, execution=prepared_execution, binding=binding,
+    )
     ready = dispatch.validate_cf09_assistant_ack(
         root=root,
         prepared_execution=prepared_execution,
@@ -495,6 +674,15 @@ def validate_training_assistant_ack(
         expected_ack=expected_ack,
         expected_ack_source="DISPATCHER_CANONICAL_BINDING",
     )
+    if frozen_selection is None:
+        if "result_transport_selection" in ready or "result_transport_policy_sha256" in ready:
+            raise CF10TrainingDispatchError("unbound result transport introduced by ACK")
+    else:
+        if ready.get("result_transport_selection") != frozen_selection:
+            raise CF10TrainingDispatchError("ACK result transport selection drift")
+        if ready.get("result_transport_policy_sha256") != frozen_selection["policy_sha256"]:
+            raise CF10TrainingDispatchError("ACK result transport policy digest drift")
+        ready["result_transport_selection"] = copy.deepcopy(frozen_selection)
     if ready.get("state") != "READY_FOR_EXPLICIT_DISPATCH":
         raise CF10TrainingDispatchError(
             "validated training ACK did not reach READY_FOR_EXPLICIT_DISPATCH"
@@ -607,6 +795,11 @@ def authorize_training_explicit_dispatch(
             "forbidden pre-dispatch authority widening: " + ",".join(widened)
         )
 
+    # The explicit decision hash must cover the exact transport and policy
+    # source selected during the prepared stage; never use Worker stdout/env.
+    frozen_transport_selection = _verify_execution_transport_selection(
+        root=root, execution=ready_execution, binding=binding,
+    )
     governed_context_sha = _validated_governed_worker_context_digest(
         ready_execution
     )
@@ -640,6 +833,10 @@ def authorize_training_explicit_dispatch(
         "workspace_repo": str(workspace),
         "governed_worker_context_sha256": governed_context_sha,
     }
+    if frozen_transport_selection is not None:
+        decision_binding["result_transport_selection"] = copy.deepcopy(
+            frozen_transport_selection
+        )
     decision_id = hashlib.sha256(
         json.dumps(
             decision_binding,
