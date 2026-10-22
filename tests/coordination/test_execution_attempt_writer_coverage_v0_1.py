@@ -45,7 +45,7 @@ def test_required_entrypoints_match_activation_contract():
         "scripts/coordination/control_plane/governed_worker_cycle.py",
         "scripts/coordination/control_plane/dispatch_intent.py",
         "scripts/coordination/execution_attempt_ledger_v0_1.py"}
-    assert m.PUBLISHED_COMMIT == '628dd60542c9eefce9db001086ff80fd848e182d'
+    assert m.PUBLISHED_COMMIT == 'd5d1495c0a1ab25367c146b0f5379b015e03dd85'
 
 
 def test_ast_static_writer_candidates(tmp_path):

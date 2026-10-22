@@ -3660,7 +3660,7 @@ shared-ledger-writer-activation-tests:
 
 # CF-10 shared writer deployment coverage: technical evidence, NEVER activation.
 COVERAGE_EVIDENCE ?= tmp/cf10_shared_writer_coverage_v0_2.json
-# Must explicitly point to a separately published, pinned 628dd605 writer checkout.
+# Must explicitly point to a separately published, pinned d5d1495 writer checkout.
 # Empty path is rejected by CLI; a Make dry-run does not require configuration.
 COVERAGE_WRITER_RELEASE_ROOT ?=
 .PHONY: shared-ledger-writer-coverage-plan shared-ledger-writer-coverage-check shared-ledger-writer-coverage-verify

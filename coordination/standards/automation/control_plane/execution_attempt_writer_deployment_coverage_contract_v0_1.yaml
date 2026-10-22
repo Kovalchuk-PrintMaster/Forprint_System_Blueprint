@@ -4,17 +4,17 @@ status: DUAL_RELEASE_CANDIDATE_NON_AUTHORIZING
 extends: forprint_execution_attempt_writer_activation_contract_v0_1
 gate_publication:
   remote: git@github.com:Kovalchuk-PrintMaster/Forprint_System_Blueprint.git
-  ref: refs/heads/cf10/writer-coverage-dual-release-v0-3
+  ref: refs/heads/cf10/writer-coverage-indirect-append-v0-4
   commit: published_remote_ref_must_match_gate_checkout_HEAD
   source_verification: exact_git_tree_blobs_for_gate_CLI_contract_tests_WorkFront_Makefile
   independently_attested_sha_required: true
 writer_release:
   supplied_via: COVERAGE_WRITER_RELEASE_ROOT
   must_be_separate_checkout: true
-  immutable_commit: 628dd60542c9eefce9db001086ff80fd848e182d
+  immutable_commit: d5d1495c0a1ab25367c146b0f5379b015e03dd85
   source_verification: gate_SOURCE_pins_plus_required_writer_entrypoint_git_blobs
 publication_pins:
-  commit: 628dd60542c9eefce9db001086ff80fd848e182d
+  commit: d5d1495c0a1ab25367c146b0f5379b015e03dd85
   remote: git@github.com:Kovalchuk-PrintMaster/Forprint_System_Blueprint.git
   ref: refs/heads/cf10/closeout-writer-activation-v0-1
 required_writer_entrypoints:

@@ -20,7 +20,7 @@ from scripts.coordination import execution_attempt_writer_activation_v0_1 as gat
 
 SCHEMA = "forprint_execution_attempt_writer_deployment_evidence_v0_2"
 CONTRACT = "coordination/standards/automation/control_plane/execution_attempt_writer_deployment_coverage_contract_v0_1.yaml"
-PUBLISHED_COMMIT = "628dd60542c9eefce9db001086ff80fd848e182d"
+PUBLISHED_COMMIT = "d5d1495c0a1ab25367c146b0f5379b015e03dd85"
 PUBLISHED_REMOTE = "git@github.com:Kovalchuk-PrintMaster/Forprint_System_Blueprint.git"
 PUBLISHED_REF = "refs/heads/cf10/closeout-writer-activation-v0-1"
 # This ref must be independently published before a real plan can be READY.
