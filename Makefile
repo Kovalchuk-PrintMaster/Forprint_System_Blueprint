@@ -3660,6 +3660,21 @@ shared-ledger-writer-protocol-check:
 	$(PYTHON) -m py_compile scripts/coordination/execution_attempt_writer_lock_v0_1.py scripts/coordination/execution_attempt_ledger_v0_1.py scripts/coordination/work_front_closeout_apply_v0_1.py
 	$(PYTHON) -m pytest -q tests/coordination/test_shared_execution_attempt_writer_lock_v0_1.py
 
+# CF-10 independently authorized ledger-writer activation gates (READ ONLY).
+# No target here provisions /etc, /run, signs, commits, pushes, or starts a Worker.
+.PHONY: shared-ledger-writer-readiness shared-ledger-writer-approval-check shared-ledger-writer-activation-check shared-ledger-writer-activation-verify shared-ledger-writer-activation-tests
+shared-ledger-writer-readiness:
+	$(PYTHON) -B -m scripts.coordination.execution_attempt_writer_activation_v0_1 readiness --root .
+shared-ledger-writer-approval-check:
+	$(PYTHON) -B -m scripts.coordination.execution_attempt_writer_activation_v0_1 approval-check --root .
+shared-ledger-writer-activation-check:
+	$(PYTHON) -B -m scripts.coordination.execution_attempt_writer_activation_v0_1 activation-check --root .
+shared-ledger-writer-activation-verify:
+	$(PYTHON) -B -m scripts.coordination.execution_attempt_writer_activation_v0_1 verify --root .
+shared-ledger-writer-activation-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/test_execution_attempt_writer_activation_v0_1.py
+
+
 # CF10_S01_OPERATOR_RUNTIME_BINDING_V0_1_START
 # Operator corridor only. This prerequisite does NOT intercept direct Python or
 # non-Make ledger writes; independent ENFORCED global lock remains required.
