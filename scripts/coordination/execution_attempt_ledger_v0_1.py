@@ -5,6 +5,7 @@ import hashlib
 import json
 import re
 from datetime import datetime
+from contextlib import nullcontext
 from pathlib import Path
 from typing import Any
 
@@ -324,46 +325,55 @@ def append_record(
     store_override: Path | None = None,
 ) -> Path:
     contract = load_contract(root)
-    errors = validate_record_data(record, contract)
-    if errors:
-        raise ValueError("; ".join(errors))
+    from scripts.coordination import execution_attempt_writer_lock_v0_1 as shared_writer
 
     store = store_root(root, contract, store_override)
-    store.mkdir(parents=True, exist_ok=True)
-    records = iter_records(store)
-    attempt_id = record["attempt_id"]
+    canonical_store = (Path(root) / contract["storage"]["default_root"]).resolve()
+    # Cannot bypass the shared lock with a store_override alias of canonical.
+    is_canonical = store.resolve() == canonical_store
+    guard = shared_writer.guarded_canonical_append() if is_canonical else nullcontext()
+    with guard:
+        locked_contract = load_contract(root)
+        if locked_contract != contract:
+            raise ValueError("attempt ledger contract changed during append")
+        errors = validate_record_data(record, locked_contract)
+        if errors:
+            raise ValueError("; ".join(errors))
+        store.mkdir(parents=True, exist_ok=True)
+        records = iter_records(store)
+        attempt_id = record["attempt_id"]
 
-    digest = record_digest(record)
-    if any(record_digest(existing) == digest for existing in records):
-        raise FileExistsError(
-            f"record already exists for attempt_id: {attempt_id}"
-        )
-
-    same_attempt_records = [
-        existing
-        for existing in records
-        if existing.get("attempt_id") == attempt_id
-    ]
-    if same_attempt_records:
-        latest = latest_attempt_record(store, attempt_id)
-        if latest is None:
-            raise ValueError(
-                f"attempt history unexpectedly empty: {attempt_id}"
+        digest = record_digest(record)
+        if any(record_digest(existing) == digest for existing in records):
+            raise FileExistsError(
+                f"record already exists for attempt_id: {attempt_id}"
             )
-        _validate_same_attempt_append(record, latest, contract)
 
-    retry_of = record.get("retry_of_attempt_id")
-    if retry_of is not None and not any(
-        existing.get("attempt_id") == retry_of for existing in records
-    ):
-        raise ValueError(f"retry_of_attempt_id not found: {retry_of}")
+        same_attempt_records = [
+            existing
+            for existing in records
+            if existing.get("attempt_id") == attempt_id
+        ]
+        if same_attempt_records:
+            latest = latest_attempt_record(store, attempt_id)
+            if latest is None:
+                raise ValueError(
+                    f"attempt history unexpectedly empty: {attempt_id}"
+                )
+            _validate_same_attempt_append(record, latest, contract)
 
-    path = store / f"{attempt_id}__{digest[:12]}.yaml"
-    payload = yaml.safe_dump(record, sort_keys=False, allow_unicode=True)
-    with path.open("x", encoding="utf-8") as handle:
-        handle.write(payload)
-        handle.flush()
-    return path
+        retry_of = record.get("retry_of_attempt_id")
+        if retry_of is not None and not any(
+            existing.get("attempt_id") == retry_of for existing in records
+        ):
+            raise ValueError(f"retry_of_attempt_id not found: {retry_of}")
+
+        path = store / f"{attempt_id}__{digest[:12]}.yaml"
+        payload = yaml.safe_dump(record, sort_keys=False, allow_unicode=True)
+        with path.open("x", encoding="utf-8") as handle:
+            handle.write(payload)
+            handle.flush()
+        return path
 
 def main() -> int:
     parser = argparse.ArgumentParser()

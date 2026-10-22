@@ -1,0 +1,76 @@
+work_front_id: wf-blueprint-work-front-closeout-cli-v0-1
+objective: >-
+  Reuse the existing Work Front validator and historical Blueprint governance completion
+  records to introduce one generic, operator-invoked, non-authoritative closeout plan/check
+  surface. Preserve canonical lifecycle-event/roadmap ownership. No canonical completion
+  write is authorized by this first implementation slice.
+scope:
+  - coordination/work_fronts/blueprint_work_front_closeout_cli_v0_1.yaml
+  - scripts/coordination/work_front_closeout_v0_1.py
+  - tests/coordination/test_work_front_closeout_v0_1.py
+  - Makefile
+exclusions:
+  - Do not modify Stage 4C implementation files, original Work Front, result composer, worker_result_return or historical attempts.
+  - No changes to live Worker provider settings, dispatch, accepted worker results, existing roadmap state or event/projection state.
+  - No canonical governance completion record publication in this slice; plans only under tmp/.
+  - No change to existing work_front_v0_1.py authority model or any strict validator.
+  - No staging, commit, push, merge, release, acceptance or dispatch without separate operator authorization.
+provenance:
+  source_refs:
+    - completion:2026-10-05__blueprint__cf10_worker_invocation_bridge_completion_v0_1.yaml
+    - completion:2026-10-07__blueprint__cf10_worker_result_return_boundary_hardening_completion_v0_1.yaml
+    - completion:2026-10-08__blueprint__cf10_worker_result_framing_compliance_hardening_completion_v0_1.yaml
+    - evidence:tmp/cf10_stage4c_completion_evidence_v0_1.json
+    - contract:coordination/standards/automation/roadmap_execution_reconciliation_contract_v0_1.yaml
+  chat_is_authority: false
+dependencies:
+  - Work Front validation must be reused from scripts/coordination/work_front_v0_1.py.
+  - Existing evidence must be hash-bound to source files, logs and a stable staged Git diff.
+  - The operator must approve any later canonical publisher design separately.
+outputs:
+  - One project-owned CLI with actions plan and check; plan is create-only under tmp/.
+  - Deterministic normalized JSON containing front/evidence/log/source hashes and an explicit acceptance checklist.
+  - Read-only forbidden-attempt check and exact dirty/source snapshot for later review.
+  - Optional Makefile plan/check aliases once separately approved.
+  - Regression tests covering SHA drift, scope/path traversal, approval widening, forbidden attempts and nonmutation.
+acceptance:
+  - Tests-first RED and GREEN verified on live Blueprint environment before treating tool as operational.
+  - Project Work Front validation and authority narrowing preserved without modified existing validators.
+  - Hash-bound Stage 4C evidence and logs accepted only when source/preimage, HEAD and staging match.
+  - Stale/tampered evidence, missing logs, unbound front, unexpected staging and forbidden future attempt fail closed.
+  - Plan/check never write outside tmp/; idempotent create-only planning, with no historical/roadmap/projection mutation.
+  - Every free-text Work Front acceptance condition remains explicitly pending operator review.
+  - Existing completion records and lifecycle event store remain independent; no whole-CF10 closure inferred.
+  - All relevant existing suites plus work-front-contract-check are PASS and unrelated git state remains intact.
+stop_conditions:
+  - A required source or exact authority boundary is unknown.
+  - Canonical document-type/registration validation would require unapproved changes outside scope.
+  - Any operator approval or publication state is inferred from a passing local test.
+  - Any test mutation touches historical ledger, Stage 4C production files, Telegram staging, or roadmap.
+  - Source/file/HEAD/index drift, missing verification log or unknown evidence status.
+authority:
+  layer: WORK_FRONT
+  permissions:
+    - read
+    - write_blueprint
+  widening_requested: false
+  prospective_only: true
+  live_worker_launch_authorized: false
+capability_reuse:
+  search_performed: true
+  searched_surfaces:
+    - scripts/coordination/work_front_v0_1.py
+    - scripts/coordination/roadmap_execution_reconciliation.py
+    - coordination/internal_work/blueprint/governance/*completion_v0_1.yaml
+    - scripts/coordination/control_plane/operator_console/mini_closeout.py
+    - Makefile
+  disposition: EXTEND
+  target_refs:
+    - scripts/coordination/work_front_v0_1.py
+    - scripts/coordination/roadmap_execution_reconciliation.py
+  read_only_refs:
+    - coordination/continuity/projections/CURRENT_WORKFRONT.yaml
+    - coordination/standards/automation/continuity_contract_v0_1.yaml
+  rationale: >-
+    Reuse previously proven authority and reconciliation surfaces instead of creating
+    an independent lifecycle, acceptance registry or shell-driven closeout controller.

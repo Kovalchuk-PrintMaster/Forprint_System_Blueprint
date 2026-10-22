@@ -1,0 +1,86 @@
+work_front_id: wf-blueprint-shared-execution-attempt-writer-protocol-v0-1
+objective: >-
+  Reuse the canonical Execution Attempt Ledger append_record() boundary to
+  serialize repository ledger scan/validate/create against a B4 closeout read
+  under one independently provisioned, root-controlled flock. Preserve
+  legacy append when the external protocol is not provisioned, and keep B4
+  closeout blocked until the real protocol is independently approved and
+  identically bound to the approved Closeout policy. No live activation here.
+scope:
+  - coordination/work_fronts/blueprint_shared_execution_attempt_writer_protocol_v0_1.yaml
+  - coordination/standards/automation/execution_attempt_ledger_contract_v0_1.yaml
+  - scripts/coordination/execution_attempt_writer_lock_v0_1.py
+  - scripts/coordination/execution_attempt_ledger_v0_1.py
+  - scripts/coordination/work_front_closeout_apply_v0_1.py
+  - tests/coordination/test_shared_execution_attempt_writer_lock_v0_1.py
+  - Makefile
+exclusions:
+  - Do not provision /etc/forprint or /run/forprint; only an independent system administrator may enable the writer protocol.
+  - Do not edit execution attempts, STARTED/terminal facts, Worker Cycle, CF-09 dispatch, B4 signing/publication modules, trust root, runtime or Telegram staged files.
+  - No additional writer entrypoint may bypass the canonical ledger.append_record API and claim to be synchronized.
+  - No automatically granted approval for Closeout, Worker dispatch, release, staging, commit or push.
+  - No alternative store_override may be silently represented as part of the canonical ledger scope.
+provenance:
+  source_refs:
+    - source_archive:cf10_shared_ledger_writer_sources_v0_1.tar.gz
+    - reviewed_head:ff3b9853e104d5e3c8b7a9cfe5b8aa6aecf27bf5
+    - cf10_attempt:cf10-u180j-a041/BLOCKED
+    - b4_work_front:wf-blueprint-work-front-closeout-authorized-apply-v0-1
+    - b4_status:INSTALLED_VERIFIED_NON_AUTHORIZING
+  chat_is_authority: false
+dependencies:
+  - Review exact current dirty preimages, protected staged Telegram snapshot, and all existing execution attempt ledger call sites before implementing.
+  - Confirm all canonical repository attempt records are created through execution_attempt_ledger_v0_1.append_record and audit any other writer outside the supplied snapshot before external ENFORCED activation.
+  - Independently approve and provision a root-owned external protocol and lock directory; repository code cannot enroll or activate itself.
+  - Operator approves the exact shared lock identity and pins the external protocol SHA in the independently controlled B4 closeout trust root.
+outputs:
+  - Prospective versioned shared-writer contract and reviewed implementation patch.
+  - Centralized opt-in writer critical section around ledger scan/validate/append; if external configuration exists but is invalid, fail closed.
+  - B4 lock readback rejects absent/mismatched external writer protocol or missing external-policy SHA pin.
+  - Dedicated tests for legacy absence, unsafe config, cross-process lock contention, same-attempt terminal races and canonical store aliases.
+  - Project-owned make shared-ledger-writer-protocol-check target, with no automatic external provisioning.
+  - Machine-readable evidence for baseline and tests; no live activation.
+acceptance:
+  - Exact seven-path patch, Work Front validator PASS, tests-first RED/GREEN and regression tests PASS on s01.
+  - All existing dirty hunks outside approved additive patch preserved and unrelated staging identical.
+  - External config absent keeps legacy canonical append behavior but leaves B4 closeout BLOCKED.
+  - External config present and malformed or unsafe blocks canonical append and B4; no silent downgrade.
+  - With external ENFORCED fixture, canonical append and B4 use the identical lock path and lock across validation and create-only write.
+  - Concurrent terminal append of the same attempt cannot both succeed; running Closeout audit excludes concurrent canonical append.
+  - No current terminal attempt rewritten and no a042 preparation, launch, dispatch or ledger append.
+  - Production activation and global-writer coverage require a separate operator-controlled decision and audit; GREEN tests alone cannot authorize it.
+stop_conditions:
+  - Canonical write entrypoints outside the audited append_record API are discovered and not reconciled.
+  - External writer protocol path or lock identity could be supplied by untrusted CLI, environment, chat or Worker output.
+  - Reproducible test/regression failure, source preimage drift, or protected dirty-staging mismatch.
+  - Patch or testing attempts to create/write /etc or /run or execute a live Worker.
+  - B4 could accept a shared lock without independently pinned protocol bytes or real writer cooperation.
+authority:
+  layer: WORK_FRONT
+  permissions:
+    - read
+    - write_blueprint
+  widening_requested: false
+  prospective_only: true
+  live_worker_launch_authorized: false
+  automatic_materialization_authorized: false
+capability_reuse:
+  search_performed: true
+  searched_surfaces:
+    - scripts/coordination/execution_attempt_ledger_v0_1.py
+    - scripts/coordination/control_plane/governed_worker_cycle.py
+    - scripts/coordination/control_plane/dispatch_intent.py
+    - scripts/coordination/control_plane/post_commit_worker_acceptance.py
+    - scripts/coordination/work_front_closeout_apply_v0_1.py
+    - coordination/standards/automation/execution_attempt_ledger_contract_v0_1.yaml
+  disposition: EXTEND
+  target_refs:
+    - scripts/coordination/execution_attempt_ledger_v0_1.py
+    - scripts/coordination/work_front_closeout_apply_v0_1.py
+  read_only_refs:
+    - coordination/continuity/execution_attempts/
+    - coordination/continuity/projections/
+    - coordination/work_fronts/blueprint_work_front_closeout_authorized_apply_v0_1.yaml
+  rationale: >-
+    A single append_record() boundary allows all audited current canonical writers to cooperate with closeout.
+    External activation and approval remain under independent operator control.
