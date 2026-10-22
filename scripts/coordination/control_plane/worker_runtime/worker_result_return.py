@@ -8,6 +8,9 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
+import json
+import math
+
 import yaml
 
 from scripts.coordination.assistant_handoff_v2_freshness_resume_v0_1 import (
@@ -16,6 +19,10 @@ from scripts.coordination.assistant_handoff_v2_freshness_resume_v0_1 import (
 )
 from scripts.coordination.assistant_handoff_v2_result_v0_1 import (
     validate_result_envelope,
+)
+from scripts.coordination.control_plane.worker_runtime.s4_result_composer_v0_1 import (
+    S4ResultComposerError,
+    compose_s4_result_candidate,
 )
 
 
@@ -26,6 +33,66 @@ RESULT_FILENAME = "worker_result.yaml"
 
 class WorkerResultReturnError(RuntimeError):
     pass
+
+
+# CF10_STAGE4B_EXPLICIT_COMPLETION_DRAFT_TRANSPORT_V0_1
+LEGACY_RESULT_TRANSPORT = "handoff-v2-full"
+DRAFT_RESULT_TRANSPORT = "worker-completion-draft-v0-1"
+DRAFT_FRAME_BEGIN = "FORPRINT_WORKER_COMPLETION_DRAFT_V0_1_BEGIN"
+DRAFT_FRAME_END = "FORPRINT_WORKER_COMPLETION_DRAFT_V0_1_END"
+DRAFT_MAX_BYTES = 65536
+
+
+def _reject_duplicate_json_keys(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    result: dict[str, Any] = {}
+    for key, value in pairs:
+        if key in result:
+            raise WorkerResultReturnError("duplicate JSON object key: " + key)
+        result[key] = value
+    return result
+
+
+def _reject_json_constant(value: str) -> Any:
+    raise WorkerResultReturnError("non-finite JSON constant forbidden: " + value)
+
+
+def _finite_json_float(value: str) -> float:
+    parsed = float(value)
+    if not math.isfinite(parsed):
+        raise WorkerResultReturnError("non-finite JSON number forbidden")
+    return parsed
+
+
+def extract_framed_worker_completion_draft(stdout_text: str) -> dict[str, Any]:
+    """Extract exactly one size-bounded, strict JSON completion-only mapping."""
+    if not isinstance(stdout_text, str):
+        raise WorkerResultReturnError("draft provider stdout must be text")
+    if len(stdout_text.encode("utf-8")) > DRAFT_MAX_BYTES:
+        raise WorkerResultReturnError("draft stdout exceeds byte limit")
+    if (stdout_text.count(DRAFT_FRAME_BEGIN) != 1
+            or stdout_text.count(DRAFT_FRAME_END) != 1):
+        raise WorkerResultReturnError("exactly one completion draft frame is required")
+    if FRAME_BEGIN in stdout_text or FRAME_END in stdout_text:
+        raise WorkerResultReturnError("mixed legacy and draft result frames forbidden")
+    begin_at = stdout_text.find(DRAFT_FRAME_BEGIN)
+    end_at = stdout_text.find(DRAFT_FRAME_END)
+    if end_at < begin_at + len(DRAFT_FRAME_BEGIN):
+        raise WorkerResultReturnError("draft frame ordering invalid")
+    if stdout_text[:begin_at].strip() or stdout_text[end_at + len(DRAFT_FRAME_END):].strip():
+        raise WorkerResultReturnError("non-whitespace outside draft frame forbidden")
+    body = stdout_text[begin_at + len(DRAFT_FRAME_BEGIN):end_at]
+    try:
+        data = json.loads(
+            body,
+            object_pairs_hook=_reject_duplicate_json_keys,
+            parse_constant=_reject_json_constant,
+            parse_float=_finite_json_float,
+        )
+    except (json.JSONDecodeError, ValueError, TypeError, OverflowError) as exc:
+        raise WorkerResultReturnError("completion draft JSON invalid: " + str(exc)) from exc
+    if not isinstance(data, dict):
+        raise WorkerResultReturnError("completion draft must be a JSON object")
+    return data
 
 
 def _s4_resume_origin(
@@ -134,6 +201,7 @@ def materialize_worker_result(
     origin_manifest: dict[str, Any],
     expected_attempt_id: str,
     governed_worker_context: dict[str, Any] | None = None,
+    result_transport: str = LEGACY_RESULT_TRANSPORT,
 ) -> dict[str, Any]:
     canonical = Path(root).resolve()
     attempt = Path(attempt_root).expanduser().resolve()
@@ -169,9 +237,30 @@ def materialize_worker_result(
             "worker result already exists; overwrite is forbidden"
         )
 
-    payload = extract_framed_result(
-        stdout.read_text(encoding="utf-8")
-    )
+    # Transport is selected only by the trusted caller, never by Worker output.
+    if result_transport == LEGACY_RESULT_TRANSPORT:
+        payload = extract_framed_result(
+            stdout.read_text(encoding="utf-8")
+        )
+    elif result_transport == DRAFT_RESULT_TRANSPORT:
+        try:
+            completion = extract_framed_worker_completion_draft(
+                stdout.read_text(encoding="utf-8")
+            )
+            payload = compose_s4_result_candidate(
+                origin_manifest=origin_manifest,
+                governed_worker_context=governed_worker_context,
+                expected_attempt_id=expected_attempt_id,
+                worker_completion=completion,
+            )
+        except S4ResultComposerError as exc:
+            raise WorkerResultReturnError(
+                "completion draft / frozen S4 origin rejected: " + str(exc)
+            ) from exc
+    else:
+        raise WorkerResultReturnError(
+            "unsupported trusted result_transport: " + repr(result_transport)
+        )
     if payload.get("attempt_id") != expected_attempt_id:
         raise WorkerResultReturnError(
             "result attempt binding mismatch"
@@ -227,7 +316,7 @@ def materialize_worker_result(
             "worker result already exists; overwrite is forbidden"
         ) from exc
 
-    return {
+    projection = {
         "schema_version": (
             "forprint_worker_result_return_materialization_v0_1"
         ),
@@ -239,3 +328,6 @@ def materialize_worker_result(
         "candidate_promoted": False,
         "canonical_write_performed": False,
     }
+    if result_transport == DRAFT_RESULT_TRANSPORT:
+        projection["result_source"] = "FROZEN_ORIGIN_COMPOSED_WORKER_DRAFT"
+    return projection
