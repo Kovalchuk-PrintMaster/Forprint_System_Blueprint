@@ -462,3 +462,24 @@ def test_execution_rejects_launcher_argv_binding_drift(
 
 
 # CF10_TASK70_A031_PREREQUISITE_REPAIR_RED_V0_1
+
+
+# CF10_STAGE3_WORKER_GIT_READONLY_RED_V0_1
+def test_cf10_stage3_repo_head_status_declares_bounded_cf10_consumer() -> None:
+    registry = executor.load_capability_registry(ROOT)
+    expected = {
+        "repo_head": ["rev-parse", "HEAD"],
+        "repo_status": ["status", "--short", "--untracked-files=all"],
+    }
+    for capability_id, fixed_argv in expected.items():
+        cap = registry["capabilities"][capability_id]
+        assert cap["consumer_compatibility"] == ["OC01", "CF10"]
+        assert cap["capability_version"] == "0.1.0"
+        assert cap["builder_kind"] == "FIXED_GIT"
+        assert cap["fixed_argv"] == fixed_argv
+        assert cap["parameter_schema"] == {
+            "model": "EMPTY_OBJECT", "additional_properties": False,
+        }
+        assert cap["side_effect_class"] == "NONE_EXPECTED"
+    assert registry["shell"] is False
+    assert registry["registry_grants_authority"] is False

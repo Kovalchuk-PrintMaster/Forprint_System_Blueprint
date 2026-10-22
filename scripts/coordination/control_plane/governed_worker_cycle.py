@@ -12,6 +12,7 @@ Reusable launch/result bindings stay behind this same governed entrypoint.
 from __future__ import annotations
 
 from datetime import UTC, datetime
+import hashlib
 from pathlib import Path
 import argparse
 import json
@@ -214,6 +215,116 @@ def _write_yaml_new(path: Path, value: dict[str, Any]) -> None:
     )
 
 
+# CF10_ORIGINAL_HANDOFF_MANIFEST_PERSISTENCE_V0_1_START
+_ORIGINAL_HANDOFF_INPUT_NAME = (
+    "governed_worker_cycle_origin_handoff_manifest_v0_1.yaml"
+)
+
+
+def _load_verified_original_handoff_manifest(
+    *,
+    attempt: Path,
+    prepared_execution: dict[str, Any],
+    source_state: dict[str, Any],
+) -> dict[str, Any]:
+    """Verify immutable origin bytes against producer digest and context.
+
+    Handoff's source_state_fingerprint and continuity fingerprint_sha256 are
+    intentionally NOT compared: these have different canonical serializers.
+    """
+    from scripts.coordination.control_plane import dispatch_intent
+
+    origin_path = attempt / "input" / _ORIGINAL_HANDOFF_INPUT_NAME
+    origin = _advance_bound_yaml(origin_path, attempt, "original Handoff manifest")
+    expected = prepared_execution.get("handoff_manifest_sha256")
+    if not isinstance(expected, str) or len(expected) != 64:
+        raise GovernedWorkerCycleError("ORIGIN_PREPARED_HASH_INVALID")
+    if origin.get("handoff_manifest_sha256") != expected:
+        raise GovernedWorkerCycleError("ORIGIN_PREPARED_HASH_DRIFT")
+    if dispatch_intent._cf09_handoff_manifest_sha256(origin) != expected:
+        raise GovernedWorkerCycleError("ORIGIN_MANIFEST_CONTENT_HASH_DRIFT")
+    if origin.get("launch_mode") != "TASK_EXECUTION":
+        raise GovernedWorkerCycleError("ORIGIN_LAUNCH_MODE_INVALID")
+    governed = prepared_execution.get("governed_worker_context")
+    governed_digest = prepared_execution.get("governed_worker_context_sha256")
+    if not isinstance(governed, dict) or not isinstance(governed_digest, str):
+        raise GovernedWorkerCycleError("ORIGIN_GOVERNED_CONTEXT_MISSING")
+    if governed_worker_context_sha256(governed) != governed_digest:
+        raise GovernedWorkerCycleError("ORIGIN_GOVERNED_CONTEXT_DRIFT")
+    if governed.get("handoff_manifest_sha256") != expected:
+        raise GovernedWorkerCycleError("ORIGIN_CONTEXT_MANIFEST_HASH_DRIFT")
+    if origin.get("source_state_fingerprint") != governed.get(
+        "handoff_source_state_fingerprint"
+    ):
+        raise GovernedWorkerCycleError("ORIGIN_HANDOFF_SOURCE_BINDING_DRIFT")
+    if origin.get("lifecycle_roadmap_cursor") != governed.get(
+        "lifecycle_roadmap_cursor"
+    ):
+        raise GovernedWorkerCycleError("ORIGIN_HANDOFF_CURSOR_DRIFT")
+    if origin.get("resume_coordinates") != governed.get("resume_coordinates"):
+        raise GovernedWorkerCycleError("ORIGIN_HANDOFF_RESUME_DRIFT")
+    source_head = source_state.get("git_head")
+    origin_resume = origin.get("resume_coordinates")
+    if (not isinstance(origin_resume, dict) or
+            not isinstance(source_head, str) or
+            origin_resume.get("git_head") != source_head):
+        raise GovernedWorkerCycleError("ORIGIN_CANONICAL_GIT_HEAD_DRIFT")
+    return origin
+
+
+def _persist_original_handoff_manifest(
+    *,
+    canonical: Path,
+    attempt: Path,
+    prepared_execution: dict[str, Any],
+    source_state: dict[str, Any],
+) -> Path:
+    """Freeze the genuine CF-09-produced manifest before any Worker dispatch."""
+    from scripts.coordination.control_plane import dispatch_intent
+
+    runtime_ref = prepared_execution.get("origin_handoff_runtime_manifest_ref")
+    if not isinstance(runtime_ref, str) or not runtime_ref:
+        raise GovernedWorkerCycleError("ORIGIN_PRODUCER_RUNTIME_REF_MISSING")
+    expected = prepared_execution.get("handoff_manifest_sha256")
+    if not isinstance(expected, str) or len(expected) != 64:
+        raise GovernedWorkerCycleError("ORIGIN_PRODUCER_HASH_INVALID")
+    producer_path = dispatch_intent._cf09_runtime_manifest_path(canonical, runtime_ref)
+    projection, projection_sha = dispatch_intent._cf09_extract_governed_worker_context(
+        root=canonical,
+        runtime_manifest_ref=runtime_ref,
+        expected_manifest_sha256=expected,
+    )
+    if (projection != prepared_execution.get("governed_worker_context") or
+            projection_sha != prepared_execution.get("governed_worker_context_sha256")):
+        raise GovernedWorkerCycleError("ORIGIN_PRODUCER_GOVERNED_CONTEXT_DRIFT")
+    origin = _load_yaml(producer_path, "CF-09 produced Handoff manifest")
+    original_bytes = producer_path.read_bytes()
+    # Recheck the exact bytes after the producer validation; do not trust a
+    # source that changed between extracting its context and copying it.
+    if yaml.safe_load(original_bytes) != origin or (
+        dispatch_intent._cf09_handoff_manifest_sha256(origin) != expected
+    ):
+        raise GovernedWorkerCycleError("ORIGIN_PRODUCER_CHANGED_BEFORE_SNAPSHOT")
+    destination = attempt / "input" / _ORIGINAL_HANDOFF_INPUT_NAME
+    if destination.parent.is_symlink() or destination.is_symlink():
+        raise GovernedWorkerCycleError("ORIGIN_SNAPSHOT_PATH_IS_SYMLINK")
+    if destination.exists():
+        raise GovernedWorkerCycleError("refusing to overwrite origin snapshot")
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    # Copy the REAL producer bytes, not a reconstructed or reserialized YAML.
+    with destination.open("xb") as handle:
+        handle.write(original_bytes)
+        handle.flush()
+    _load_verified_original_handoff_manifest(
+        attempt=attempt,
+        prepared_execution=prepared_execution,
+        source_state=source_state,
+    )
+    return destination
+
+# CF10_ORIGINAL_HANDOFF_MANIFEST_PERSISTENCE_V0_1_END
+
+
 def _attempt_root(
     runtime_root: Path,
     attempt_id: str,
@@ -406,6 +517,15 @@ def prepare_cycle(
         task_prompt_id=task_prompt_id,
         worker_id=worker_id,
         attempt_id=attempt_id,
+    )
+
+    # Immutable original is captured BEFORE ACK or Worker launch.
+    attempt = _attempt_root(runtime, attempt_id, worker_id)
+    _persist_original_handoff_manifest(
+        canonical=canonical,
+        attempt=attempt,
+        prepared_execution=prepared,
+        source_state=source_state,
     )
 
     expected_ack = training.build_training_canonical_ack(
@@ -1114,6 +1234,531 @@ def _print_result(value: dict[str, Any], output_format: str) -> None:
             )
 
 
+
+# CF10_GENERIC_POST_WORKER_ADVANCE_V0_1_START
+
+def _advance_response(*, attempt_id: str, task_prompt_id: str,
+                      state: str, reason: str | None = None,
+                      ledger_record: str | None = None) -> dict[str, Any]:
+    """Non-authoritative operator result; no implied acceptance or release."""
+    return {
+        "schema_version": "forprint_governed_worker_cycle_advance_v0_1",
+        "attempt_id": attempt_id,
+        "task_prompt_id": task_prompt_id,
+        "state": state,
+        "next_boundary": (
+            "OPERATOR_REVIEW" if state == "AWAITING_OPERATOR_REVIEW"
+            else "RECONCILE_BLOCKER"
+        ),
+        "failure_class": reason,
+        "terminal_ledger_record": ledger_record,
+        "candidate_promoted": False,
+        "automatic_accept": False,
+        "worker_process_launched": False,
+        "commit_performed": False,
+        "push_performed": False,
+        "release_performed": False,
+        "derived_non_authoritative": True,
+    }
+
+
+def _advance_bound_yaml(path: Path, attempt: Path, label: str) -> dict[str, Any]:
+    """Allow only regular, bound evidence files; never follow symlink ancestors."""
+    if not attempt.is_dir() or attempt.is_symlink():
+        raise GovernedWorkerCycleError("ATTEMPT_RUNTIME_MISSING_OR_SYMLINK")
+    current = path
+    while current != attempt:
+        if current.is_symlink():
+            raise GovernedWorkerCycleError(f"{label} symlink forbidden")
+        if attempt not in current.parents:
+            raise GovernedWorkerCycleError(f"{label} escapes attempt root")
+        current = current.parent
+    return _load_yaml(path, label)
+
+
+def _advance_publish_evidence(
+    *, attempt: Path, attempt_id: str, task_prompt_id: str,
+    result_path: Path, result_hash: str, ledger_ref: str,
+) -> None:
+    """Materialize only projections already proved by a terminal ledger fact."""
+    candidates = (
+        (
+            attempt / "evidence/governed_worker_cycle_candidate_validation_v0_1.yaml",
+            {
+                "schema_version": "forprint_governed_worker_cycle_candidate_validation_v0_1",
+                "attempt_id": attempt_id,
+                "task_prompt_id": task_prompt_id,
+                "result": "PASS",
+                "validation_passed": True,
+                "handoff_manifest_sha256": result_hash,
+                "worker_result_path": str(result_path),
+                "terminal_ledger_ref": ledger_ref,
+                "candidate_promoted": False,
+                "source_of_truth": False,
+            },
+        ),
+        (
+            attempt / "result/governed_worker_cycle_handoff_v2_result_v0_1.yaml",
+            {
+                "schema_version": "forprint_governed_worker_cycle_handoff_finalization_v0_1",
+                "attempt_id": attempt_id,
+                "task_prompt_id": task_prompt_id,
+                "status": "PASS",
+                "handoff_manifest_sha256": result_hash,
+                "worker_result_path": str(result_path),
+                "terminal_ledger_ref": ledger_ref,
+                "candidate_promoted": False,
+                "source_of_truth": False,
+            },
+        ),
+    )
+    # Validate the complete projection set before creating either artifact.
+    # A contradiction in the second file must not cause partial publication
+    # of the first. New files retain the existing write-once semantics.
+    missing = []
+    for path, document in candidates:
+        if path.exists() or path.is_symlink():
+            existing = _advance_bound_yaml(path, attempt, "closeout projection")
+            if existing != document:
+                raise GovernedWorkerCycleError(
+                    "EXISTING_CLOSEOUT_PROJECTION_CONTRADICTS_LEDGER"
+                )
+        else:
+            missing.append((path, document))
+    for path, document in missing:
+        _write_yaml_new(path, document)
+
+
+
+
+def _assert_post_worker_source_state_current(
+    canonical: Path,
+    frozen_source_state: dict[str, Any],
+    *,
+    attempt_id: str,
+    records: list[dict[str, Any]],
+    store: Path,
+) -> dict[str, Any]:
+    """Allow only authenticated, new *own* immutable attempt ledger records.
+
+    The normal full source-state guard remains strict at every other lifecycle
+    boundary. This narrowly treats a canonical STARTED/PENDING fact (and its
+    FINISHED/SUCCEEDED/PASS successor on reentry) as owned execution evidence,
+    while comparing every other frozen source field and path without exclusions.
+    """
+    boundary = 'post-worker candidate validation'
+    try:
+        return _assert_frozen_source_state_current(
+            canonical, frozen_source_state, boundary=boundary,
+        )
+    except GovernedWorkerCycleError as exc:
+        if 'frozen source state is stale' not in str(exc):
+            raise
+
+    from scripts.coordination import execution_attempt_ledger_v0_1 as ledger
+
+    canonical = canonical.resolve()
+    contract = ledger.load_contract(canonical)
+    expected_store = ledger.store_root(canonical, contract, None)
+    if store.resolve() != expected_store.resolve():
+        raise GovernedWorkerCycleError('POST_WORKER_LEDGER_STORE_DRIFT')
+    try:
+        store_relative = store.relative_to(canonical)
+    except ValueError as exc:
+        raise GovernedWorkerCycleError('POST_WORKER_LEDGER_OUTSIDE_CANONICAL') from exc
+    if any(part.is_symlink() for part in (
+        canonical / Path(*store_relative.parts[:index])
+        for index in range(1, len(store_relative.parts) + 1)
+    )):
+        raise GovernedWorkerCycleError('POST_WORKER_LEDGER_SYMLINK_FORBIDDEN')
+
+    if len(records) not in (1, 2):
+        raise GovernedWorkerCycleError('POST_WORKER_LEDGER_HISTORY_COUNT_INVALID')
+    first = records[0]
+    if (
+        first.get('attempt_id') != attempt_id
+        or first.get('attempt_stage') != 'STARTED'
+        or first.get('result_state') != 'PENDING'
+        or first.get('validator_outcome') != 'NOT_RUN'
+        or first.get('source_fingerprint') != frozen_source_state.get('fingerprint_sha256')
+    ):
+        raise GovernedWorkerCycleError('POST_WORKER_START_LEDGER_INVALID')
+    if len(records) == 2 and any((
+        records[1].get('attempt_id') != attempt_id,
+        records[1].get('attempt_stage') != 'FINISHED',
+        records[1].get('result_state') != 'SUCCEEDED',
+        records[1].get('validator_outcome') != 'PASS',
+    )):
+        raise GovernedWorkerCycleError('POST_WORKER_TERMINAL_LEDGER_INVALID')
+
+    owned_paths: set[str] = set()
+    for record in records:
+        if ledger.validate_record_data(record, contract):
+            raise GovernedWorkerCycleError('POST_WORKER_LEDGER_CONTRACT_INVALID')
+        digest = ledger.record_digest(record)
+        path = store / f'{attempt_id}__{digest[:12]}.yaml'
+        if path.is_symlink() or not path.is_file():
+            raise GovernedWorkerCycleError('POST_WORKER_LEDGER_DIGEST_PATH_MISSING')
+        if yaml.safe_load(path.read_text(encoding='utf-8')) != record:
+            raise GovernedWorkerCycleError('POST_WORKER_LEDGER_CONTENT_MISMATCH')
+        owned_paths.add(path.relative_to(canonical).as_posix())
+
+    current = build_source_state(canonical)
+    frozen_paths = frozen_source_state.get('durable_dirty_paths')
+    current_paths = current.get('durable_dirty_paths')
+    if not isinstance(frozen_paths, list) or not isinstance(current_paths, list):
+        raise GovernedWorkerCycleError('POST_WORKER_SOURCE_PATH_SHAPE_INVALID')
+    added = set(current_paths) - set(frozen_paths)
+    if not owned_paths or added != owned_paths:
+        raise GovernedWorkerCycleError(
+            'POST_WORKER_NON_LEDGER_SOURCE_DRIFT:added=' + repr(sorted(added))
+        )
+    if any(path in frozen_paths for path in owned_paths):
+        raise GovernedWorkerCycleError('POST_WORKER_OWNED_LEDGER_NOT_NEW')
+
+    # SHA-256 legitimately changes when a new file is added. Everything that
+    # was already present at prepare MUST compare exactly, including the full
+    # content fingerprints of protected and unrelated dirty paths.
+    normalized = dict(current)
+    normalized.pop('fingerprint_sha256', None)
+    normalized['durable_dirty_paths'] = [
+        path for path in current_paths if path not in owned_paths
+    ]
+    for key in ('dirty_path_status', 'dirty_path_content_or_symlink_fingerprint'):
+        value = current.get(key)
+        if not isinstance(value, dict):
+            raise GovernedWorkerCycleError('POST_WORKER_SOURCE_MAP_INVALID:' + key)
+        normalized[key] = {
+            path: entry for path, entry in value.items() if path not in owned_paths
+        }
+    frozen_normalized = dict(frozen_source_state)
+    frozen_normalized.pop('fingerprint_sha256', None)
+    if normalized != frozen_normalized:
+        raise GovernedWorkerCycleError('POST_WORKER_NON_LEDGER_SOURCE_DRIFT')
+    return current
+
+
+def advance_cycle(
+    *, root: Path | str, runtime_root: Path | str,
+    task_prompt_id: str, attempt_id: str,
+    worker_id: str = WORKER_ID,
+) -> dict[str, Any]:
+    """Advance one already-launched attempt without broadening authority.
+
+    An immutable, *original* complete Handoff manifest must exist at
+    attempt/input/governed_worker_cycle_origin_handoff_manifest_v0_1.yaml.
+    Never reconstruct this from a later checkout or a digest. Historical
+    attempts lacking it stop with an explicit blocker and are not mutated.
+    """
+    from datetime import timedelta
+    from scripts.coordination import execution_attempt_ledger_v0_1 as ledger
+    from scripts.coordination.control_plane import dispatch_intent
+    from scripts.coordination.control_plane.workspace.provision import (
+        derive_worker_delta_from_manifest,
+    )
+    from scripts.coordination import work_front_v0_1
+
+    canonical = Path(root).resolve()
+    attempt = _attempt_root(Path(runtime_root), attempt_id, worker_id)
+
+    def blocked(reason: str) -> dict[str, Any]:
+        return _advance_response(
+            attempt_id=attempt_id,
+            task_prompt_id=task_prompt_id,
+            state="BLOCKED",
+            reason=reason,
+        )
+
+    # Fail closed without touching the canonical ledger or attempt runtime.
+    if (
+        not attempt_id
+        or not task_prompt_id
+        or not worker_id
+        or not attempt.is_dir()
+        or attempt.is_symlink()
+    ):
+        return blocked("ATTEMPT_RUNTIME_MISSING")
+
+    try:
+        process = _advance_bound_yaml(
+            attempt / "evidence/governed_worker_cycle_worker_process_result_v0_1.yaml",
+            attempt, "Worker process evidence",
+        )
+        if any(process.get(key) != val for key, val in (
+            ("attempt_id", attempt_id),
+            ("task_prompt_id", task_prompt_id),
+            ("worker_id", worker_id),
+        )):
+            return blocked("WORKER_PROCESS_BINDING_MISMATCH")
+        process_data = process.get("process")
+        if not isinstance(process_data, dict) or (
+            process_data.get("return_code") != 0
+            or process_data.get("timed_out") is not False
+        ):
+            return blocked("WORKER_PROCESS_NOT_SUCCESSFUL")
+
+        return_evidence = _advance_bound_yaml(
+            attempt / "evidence/governed_worker_cycle_result_return_v0_1.yaml",
+            attempt, "result-return evidence",
+        )
+        if any(return_evidence.get(key) != val for key, val in (
+            ("attempt_id", attempt_id),
+            ("task_prompt_id", task_prompt_id),
+            ("worker_id", worker_id),
+            ("result", "PASS"),
+            ("validation_passed", True),
+            ("blocked", False),
+            ("worker_result_synthesized", False),
+            ("candidate_validation_allowed", True),
+        )):
+            return blocked("RESULT_RETURN_BINDING_OR_VALIDATION_FAILED")
+        result_path = attempt / "result/worker_result.yaml"
+        if return_evidence.get("result_path") != str(result_path):
+            return blocked("RESULT_RETURN_PATH_MISMATCH")
+        result = _advance_bound_yaml(result_path, attempt, "Worker Handoff result")
+        if result.get("attempt_id") != attempt_id:
+            return blocked("RESULT_ATTEMPT_BINDING_MISMATCH")
+        if result.get("status") not in ("PASS", "COMPLETED"):
+            return blocked("WORKER_RESULT_NOT_SUCCESSFUL")
+
+        # This is a canonical attempt fact, not a work-front execution grant.
+        contract = ledger.load_contract(canonical)
+        store = ledger.store_root(canonical, contract, None)
+        records = ledger.records_for_attempt(store, attempt_id)
+        if not records:
+            return blocked("STARTED_ATTEMPT_LEDGER_RECORD_MISSING")
+        first, latest = records[0], records[-1]
+        if first.get("attempt_stage") != "STARTED" or first.get("result_state") != "PENDING":
+            return blocked("ATTEMPT_START_FACT_INVALID")
+
+        binding = training.resolve_training_task(
+            root=canonical, task_prompt_id=task_prompt_id,
+        )
+        decision = _advance_bound_yaml(
+            attempt / "input/governed_worker_cycle_explicit_dispatch_decision_v0_1.yaml",
+            attempt, "explicit dispatch decision",
+        )
+        decision_binding = decision.get("binding")
+        if not isinstance(decision_binding, dict):
+            return blocked("DISPATCH_BINDING_MISSING")
+        for key, expected in (
+            ("attempt_id", attempt_id),
+            ("task_prompt_id", task_prompt_id),
+            ("worker_id", worker_id),
+            ("work_front_id", binding.get("work_front_id")),
+        ):
+            if decision_binding.get(key) != expected:
+                return blocked("DISPATCH_BINDING_MISMATCH:" + key)
+        if first.get("work_front_id") != binding.get("work_front_id"):
+            return blocked("LEDGER_WORK_FRONT_BINDING_MISMATCH")
+        if any(decision.get(key) is not True for key in (
+            "explicit_dispatch_decision_recorded",
+            "worker_process_launch_allowed",
+            "canonical_attempt_ledger_append_allowed",
+        )):
+            return blocked("DISPATCH_AUTHORITY_EVIDENCE_MISSING")
+        if any(decision.get(key) is not False for key in (
+            "external_dispatch_allowed", "release_allowed", "push_allowed",
+            "merge_allowed", "foreign_repository_write_allowed",
+            "automatic_accept_allowed",
+        )):
+            return blocked("DISPATCH_AUTHORITY_WIDENED")
+
+        front_ref = binding.get("work_front_ref")
+        if not isinstance(front_ref, str) or not front_ref:
+            return blocked("TASK_WORK_FRONT_REF_MISSING")
+        front_result = work_front_v0_1.validate_work_front(canonical, front_ref)
+        if front_result.get("work_front_id") != first.get("work_front_id"):
+            return blocked("WORK_FRONT_ID_DRIFT")
+        front = work_front_v0_1.load_work_front(canonical, front_ref)
+        scope = front.get("scope")
+        if not isinstance(scope, list):
+            return blocked("WORK_FRONT_SCOPE_MISSING")
+
+        source_state = _advance_bound_yaml(
+            attempt / "input/governed_worker_cycle_source_state_v0_1.yaml",
+            attempt, "frozen source state",
+        )
+        if first.get("source_fingerprint") != source_state.get("fingerprint_sha256"):
+            return blocked("LEDGER_SOURCE_FINGERPRINT_MISMATCH")
+        _assert_post_worker_source_state_current(
+            canonical, source_state,
+            attempt_id=attempt_id, records=records, store=store,
+        )
+        terminal_already_present = latest.get("result_state") != "PENDING"
+        if terminal_already_present and not (
+            len(records) == 2
+            and latest.get("attempt_stage") == "FINISHED"
+            and latest.get("result_state") == "SUCCEEDED"
+            and latest.get("validator_outcome") == "PASS"
+        ):
+            return blocked("ATTEMPT_ALREADY_TERMINAL_NON_SUCCESS")
+        if not terminal_already_present and (
+            len(records) != 1 or latest.get("attempt_stage") != "STARTED"
+        ):
+            return blocked("ATTEMPT_HISTORY_NOT_START_PENDING")
+
+        prepared = _advance_bound_yaml(
+            attempt / "input/governed_worker_cycle_prepared_execution_v0_1.yaml",
+            attempt, "prepared execution",
+        )
+        origin_path = (
+            attempt / "input/governed_worker_cycle_origin_handoff_manifest_v0_1.yaml"
+        )
+        if not origin_path.is_file() or origin_path.is_symlink():
+            return blocked("ORIGINAL_HANDOFF_MANIFEST_NOT_PERSISTED")
+        origin_manifest = _load_verified_original_handoff_manifest(
+            attempt=attempt,
+            prepared_execution=prepared,
+            source_state=source_state,
+        )
+        manifest_hash = result.get("handoff_manifest_sha256")
+        if not isinstance(manifest_hash, str) or len(manifest_hash) != 64:
+            return blocked("HANDOFF_MANIFEST_HASH_INVALID")
+        if any(value != manifest_hash for value in (
+            prepared.get("handoff_manifest_sha256"),
+            origin_manifest.get("handoff_manifest_sha256"),
+            first.get("pack_hash_or_context_hash"),
+        )):
+            return blocked("ORIGIN_PREPARED_RESULT_LEDGER_HASH_DRIFT")
+        context = _validated_project_native_governed_worker_context(
+            prepared_execution=prepared,
+            explicit_dispatch_decision=decision,
+        )
+        s4_origin = worker_result_return._s4_resume_origin(
+            governed_worker_context=context,
+            origin_manifest=origin_manifest,
+        )
+        if worker_result_return.validate_resume(result, s4_origin):
+            return blocked("S4_RESUME_REVALIDATION_FAILED")
+        if worker_result_return.validate_result_envelope(
+            result, origin_manifest, root=canonical,
+        ):
+            return blocked("STRICT_HANDOFF_RESULT_ENVELOPE_INVALID")
+
+        delta = derive_worker_delta_from_manifest(attempt / "manifest.yaml")
+        if delta.get("attempt_id") != attempt_id or delta.get("worker_delta_exact") is not True:
+            return blocked("EXACT_WORKER_DELTA_INVALID")
+        workspace_value = decision_binding.get("workspace_repo")
+        if not isinstance(workspace_value, str) or (
+            Path(workspace_value).resolve() != (attempt / "workspace/repo").resolve()
+        ):
+            return blocked("WORKSPACE_BINDING_MISMATCH")
+        if Path(delta.get("workspace_repo", "")).resolve() != Path(workspace_value).resolve():
+            return blocked("WORKER_DELTA_WORKSPACE_DRIFT")
+        changed = delta.get("changed_paths")
+        if not isinstance(changed, list) or sorted(changed) != sorted(result.get("changed_paths", [])):
+            return blocked("WORKER_DELTA_CHANGED_PATHS_DRIFT")
+        if not set(changed).issubset(set(scope)):
+            return blocked("WORK_FRONT_SCOPE_VIOLATION")
+        verification = dispatch_intent._cf09_verify_worker_delta_report(
+            validated_result=result,
+            attempt_record=latest,
+            worker_delta_report=delta,
+        )
+        if verification.get("valid") is not True:
+            return blocked("CANONICAL_WORKER_DELTA_VERIFICATION_FAILED")
+
+        # The existing full Handoff freshness validator runs INSIDE the CF09/10
+        # finalizer before the terminal ledger append. No synthetic origin.
+        timestamp = datetime.now(UTC)
+        latest_time = datetime.fromisoformat(latest["recorded_at"].replace("Z", "+00:00"))
+        if timestamp <= latest_time:
+            timestamp = latest_time + timedelta(microseconds=1)
+        terminal = dict(latest)
+        terminal.update({
+            "recorded_at": timestamp.isoformat().replace("+00:00", "Z"),
+            "attempt_stage": "FINISHED",
+            "result_state": "SUCCEEDED",
+            "result_refs": [str(result_path)],
+            "validator_outcome": "PASS",
+            "validator_evidence_refs": [
+                str(attempt / "evidence/governed_worker_cycle_result_return_v0_1.yaml"),
+                str(attempt / "manifest.yaml"),
+                str(origin_path),
+            ],
+            "failure_or_retry_ref": None,
+            "resume": {
+                "latest_accepted_ref": str(result_path),
+                "resume_coordinates": [json.dumps(
+                    result.get("resume_coordinates"),
+                    sort_keys=True, ensure_ascii=False,
+                )],
+                "replay_forbidden_refs": [str(result_path)],
+            },
+        })
+        if terminal_already_present:
+            if str(result_path) not in latest.get("result_refs", []):
+                return blocked("TERMINAL_RESULT_REF_MISMATCH")
+            # The canonical finalizer might have committed the terminal fact
+            # immediately before a crash. On replay, recover only projections
+            # derived from that exact immutable record; never append a second
+            # terminal record or re-run finalization.
+            terminal_digest = ledger.record_digest(latest)
+            terminal_path = store / f"{attempt_id}__{terminal_digest[:12]}.yaml"
+            if not terminal_path.is_file() or terminal_path.is_symlink():
+                return blocked("CANONICAL_TERMINAL_LEDGER_REF_MISSING")
+            if yaml.safe_load(terminal_path.read_text(encoding="utf-8")) != latest:
+                return blocked("CANONICAL_TERMINAL_LEDGER_REF_CONTRADICTS_RECORD")
+            _advance_publish_evidence(
+                attempt=attempt,
+                attempt_id=attempt_id,
+                task_prompt_id=task_prompt_id,
+                result_path=result_path,
+                result_hash=manifest_hash,
+                ledger_ref=str(terminal_path),
+            )
+            return _advance_response(
+                attempt_id=attempt_id,
+                task_prompt_id=task_prompt_id,
+                state="AWAITING_OPERATOR_REVIEW",
+                ledger_record="ALREADY_TERMINAL_IMMUTABLE",
+            )
+        if ledger.validate_record_data(terminal, contract):
+            return blocked("TERMINAL_LEDGER_CONTRACT_INVALID")
+        final = dispatch_intent.finalize_cf10_workspace_result_artifact(
+            root=canonical,
+            explicit_dispatch_decision=decision,
+            result_artifact_path=result_path,
+            origin_manifest=origin_manifest,
+            attempt_record=terminal,
+            attempt_number=1,
+        )
+        if (
+            final.get("state") != "ATTEMPT_RECORDED"
+            or final.get("canonical_attempt_record_written") is not True
+            or (final.get("result_validation") or {}).get("valid") is not True
+            or (final.get("worker_delta_verification") or {}).get("valid") is not True
+        ):
+            return blocked("STRICT_FINALIZER_REJECTED_CANDIDATE")
+        ledger_ref = str(final.get("canonical_attempt_record_path", ""))
+        rows = ledger.records_for_attempt(store, attempt_id)
+        if (
+            len(rows) != 2
+            or rows[-1].get("result_state") != "SUCCEEDED"
+            or rows[-1].get("validator_outcome") != "PASS"
+        ):
+            return blocked("CANONICAL_TERMINAL_LEDGER_NOT_CONFIRMED")
+        _advance_publish_evidence(
+            attempt=attempt,
+            attempt_id=attempt_id,
+            task_prompt_id=task_prompt_id,
+            result_path=result_path,
+            result_hash=manifest_hash,
+            ledger_ref=ledger_ref,
+        )
+        return _advance_response(
+            attempt_id=attempt_id,
+            task_prompt_id=task_prompt_id,
+            state="AWAITING_OPERATOR_REVIEW",
+            ledger_record=ledger_ref,
+        )
+    except (OSError, ValueError, KeyError, TypeError, RuntimeError, yaml.YAMLError) as exc:
+        return blocked(f"{type(exc).__name__}:{exc}")
+
+# CF10_GENERIC_POST_WORKER_ADVANCE_V0_1_END
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -1126,6 +1771,7 @@ def main() -> int:
             "authorize-dispatch",
             "launch",
             "reconcile-result-return",
+            "advance",
         ),
     )
     parser.add_argument("--root", default=".")
@@ -1158,6 +1804,7 @@ def main() -> int:
             "refresh",
             "launch",
             "reconcile-result-return",
+            "advance",
         }
         and not args.task_prompt_id
     ):
@@ -1215,7 +1862,7 @@ def main() -> int:
             confirm=args.confirm_launch,
             worker_id=args.worker_id,
         )
-    else:
+    elif args.action == "reconcile-result-return":
         result = reconcile_result_return(
             root=root,
             runtime_root=runtime_root,
@@ -1224,8 +1871,16 @@ def main() -> int:
             confirm=args.confirm_result_return_reconciliation,
             worker_id=args.worker_id,
         )
+    else:
+        result = advance_cycle(
+            root=root, runtime_root=runtime_root,
+            task_prompt_id=args.task_prompt_id,
+            attempt_id=args.attempt_id, worker_id=args.worker_id,
+        )
 
     _print_result(result, args.output_format)
+    if args.action == "advance" and result.get("state") == "BLOCKED":
+        return 2
     return 0
 
 
@@ -1545,6 +2200,97 @@ def launch_authorized_worker_cycle(
         "release_allowed": False,
     }
 # CF10_GOVERNED_WORKER_CYCLE_SLICE_B2_LIVE_LAUNCH_END
+# CF10_STAGE4C_TRUSTED_TRANSPORT_BINDING_V0_1_START
+
+def _resolve_stage4c_trusted_transport(
+    *,
+    root: Path,
+    prepared_execution: dict[str, Any],
+    explicit_dispatch_decision: dict[str, Any],
+    expected_task_prompt_id: str,
+    expected_attempt_id: str,
+) -> str:
+    """Verify exact P0 provenance before process launch or STARTED ledger append.
+
+    Selector absence in *both* historical records retains legacy behavior.
+    For declared selections, the decision hash and original prepared policy
+    binding must agree; Worker output is never consulted.
+    """
+    prepared = prepared_execution
+    decision = explicit_dispatch_decision
+    if not isinstance(prepared, dict) or not isinstance(decision, dict):
+        raise GovernedWorkerCycleError("Stage 4C execution evidence invalid")
+    task_binding = prepared.get("cf10_training_binding")
+    bound = decision.get("binding")
+    if not isinstance(task_binding, dict) or not isinstance(bound, dict):
+        # Historical fixtures may omit the training binding, but no declared
+        # selection is permitted without a fully validated P0 identity.
+        if (
+            "result_transport_selection" in prepared
+            or "result_transport_policy_sha256" in prepared
+            or (isinstance(bound, dict) and "result_transport_selection" in bound)
+            # A real explicit dispatch carries a decision ID and schema. Missing
+            # training/decision binding must never downgrade such a record to
+            # historical legacy. Minimal no-ID fixtures retain old behavior;
+            # the actual runtime adapter refuses to launch without decision_id.
+            or "decision_id" in decision
+            or "schema_version" in decision
+        ):
+            raise GovernedWorkerCycleError("Stage 4C task binding unavailable")
+        return training.LEGACY_RESULT_TRANSPORT
+
+    if task_binding.get("task_prompt_id") != expected_task_prompt_id or (
+        bound.get("task_prompt_id") != expected_task_prompt_id
+    ) or bound.get("attempt_id") != expected_attempt_id:
+        raise GovernedWorkerCycleError("Stage 4C task/attempt identity drift")
+    if prepared.get("attempt_id") != expected_attempt_id:
+        raise GovernedWorkerCycleError("Stage 4C prepared attempt identity drift")
+    for field in (
+        "work_front_id", "work_front_ref", "profile_ref", "procedure_id",
+        "training_task_id", "training_order",
+    ):
+        if bound.get(field) != task_binding.get(field):
+            raise GovernedWorkerCycleError("Stage 4C prepared/dispatch drift: " + field)
+
+    prepared_present = (
+        "result_transport_selection" in prepared
+        or "result_transport_policy_sha256" in prepared
+    )
+    dispatch_present = "result_transport_selection" in bound
+    if prepared_present != dispatch_present:
+        raise GovernedWorkerCycleError("Stage 4C selector presence contradiction")
+
+    expected_id = hashlib.sha256(json.dumps(
+        bound, sort_keys=True, separators=(",", ":"),
+    ).encode("utf-8")).hexdigest()
+    if decision.get("decision_id") != expected_id:
+        raise GovernedWorkerCycleError("Stage 4C decision_id binding digest drift")
+
+    if not prepared_present:
+        # Explicit, hash-consistent historical absence stays legacy; no draft
+        # activation may be inferred from ambient policy or Worker content.
+        return training.LEGACY_RESULT_TRANSPORT
+
+    try:
+        selected = training._verify_execution_transport_selection(
+            root=Path(root).resolve(), execution=prepared, binding=task_binding,
+        )
+    except training.CF10TrainingDispatchError as exc:
+        raise GovernedWorkerCycleError(
+            "Stage 4C transport policy provenance rejected: " + str(exc)
+        ) from exc
+    if not isinstance(selected, dict) or bound.get("result_transport_selection") != selected:
+        raise GovernedWorkerCycleError("Stage 4C dispatch transport selector drift")
+    transport = selected.get("transport")
+    if transport not in (
+        training.LEGACY_RESULT_TRANSPORT, training.DRAFT_RESULT_TRANSPORT,
+    ):
+        raise GovernedWorkerCycleError("Stage 4C transport unsupported")
+    return transport
+
+# CF10_STAGE4C_TRUSTED_TRANSPORT_BINDING_V0_1_END
+
+
 def _validated_project_native_governed_worker_context(
     *,
     prepared_execution: dict[str, Any],
@@ -2007,6 +2753,19 @@ def launch_cycle(
         source_state,
         boundary="project-native Worker launch",
     )
+    origin_manifest = _load_verified_original_handoff_manifest(
+        attempt=attempt,
+        prepared_execution=prepared_execution,
+        source_state=source_state,
+    )
+
+    trusted_result_transport = _resolve_stage4c_trusted_transport(
+        root=canonical,
+        prepared_execution=prepared_execution,
+        explicit_dispatch_decision=explicit_dispatch_decision,
+        expected_task_prompt_id=task_prompt_id,
+        expected_attempt_id=attempt_id,
+    )
 
     started_record, task_context = _project_native_started_record(
         canonical=canonical,
@@ -2036,6 +2795,7 @@ def launch_cycle(
             "task_context": task_context,
             "governed_worker_context": governed_worker_context,
             "explicit_dispatch_decision": explicit_dispatch_decision,
+            "result_transport": trusted_result_transport,
             "attempt_root": attempt,
         },
     )
@@ -2097,11 +2857,10 @@ def launch_cycle(
                 root=canonical,
                 attempt_root=attempt,
                 stdout_path=stdout_path,
-                origin_manifest={
-                    "handoff_manifest_sha256": handoff_hash,
-                },
+                origin_manifest=origin_manifest,
                 expected_attempt_id=attempt_id,
                 governed_worker_context=governed_worker_context,
+                result_transport=trusted_result_transport,
             )
             result_return_evidence = {
                 "schema_version": (
@@ -2189,6 +2948,14 @@ def launch_cycle(
             "merge_allowed": False,
             "release_allowed": False,
         }
+
+    # Stage 4C records only already-authorized selection provenance; no new
+    # authority flags, result fields or immutable Worker evidence are forged.
+    if "result_transport_selection" in prepared_execution:
+        result_return_evidence["result_transport"] = trusted_result_transport
+        result_return_evidence["result_transport_policy_sha256"] = (
+            prepared_execution["result_transport_policy_sha256"]
+        )
 
     _write_yaml_new(
         result_return_evidence_path,

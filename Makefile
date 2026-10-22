@@ -3272,6 +3272,22 @@ governed-worker-cycle-reconcile-result-return:
 	$(PYTHON) -m scripts.coordination.control_plane.governed_worker_cycle reconcile-result-return --root . --runtime-root "$(GOVERNED_WORKER_RUNTIME_ROOT)" --task-prompt-id "$(GOVERNED_WORKER_TASK)" --attempt-id "$(GOVERNED_WORKER_ATTEMPT)" --confirm-result-return-reconciliation
 # CF10_WORKER_RESULT_RETURN_BOUNDARY_V0_1_END
 
+# CF10_GENERIC_POST_WORKER_ADVANCE_V0_1_START
+# Target: governed-worker-cycle-advance
+# Purpose: advance exact already-authorized Worker result to terminal operator review.
+# Authority: original Handoff/S4 and canonical ledger; no dispatch or publication.
+.PHONY: governed-worker-cycle-advance
+governed-worker-cycle-advance:
+	@test -n "$(GOVERNED_WORKER_TASK)" || { echo "ERROR: GOVERNED_WORKER_TASK required"; exit 2; }
+	@test -n "$(GOVERNED_WORKER_ATTEMPT)" || { echo "ERROR: GOVERNED_WORKER_ATTEMPT required"; exit 2; }
+	$(PYTHON) -m scripts.coordination.control_plane.governed_worker_cycle advance --root . --runtime-root "$(GOVERNED_WORKER_RUNTIME_ROOT)" --task-prompt-id "$(GOVERNED_WORKER_TASK)" --attempt-id "$(GOVERNED_WORKER_ATTEMPT)" --output-format yaml
+
+.PHONY: governed-worker-cycle-advance-check
+governed-worker-cycle-advance-check:
+	$(PYTHON) -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_governed_worker_cycle_advance_v0_1.py
+# CF10_GENERIC_POST_WORKER_ADVANCE_V0_1_END
+
+
 
 
 # =============================================================================
@@ -3643,3 +3659,22 @@ work-front-closeout-verify:
 shared-ledger-writer-protocol-check:
 	$(PYTHON) -m py_compile scripts/coordination/execution_attempt_writer_lock_v0_1.py scripts/coordination/execution_attempt_ledger_v0_1.py scripts/coordination/work_front_closeout_apply_v0_1.py
 	$(PYTHON) -m pytest -q tests/coordination/test_shared_execution_attempt_writer_lock_v0_1.py
+
+# CF10_S01_OPERATOR_RUNTIME_BINDING_V0_1_START
+# Operator corridor only. This prerequisite does NOT intercept direct Python or
+# non-Make ledger writes; independent ENFORCED global lock remains required.
+CF10_S01_GATE_ROOT ?= $(CURDIR)/tmp/cf10_indirect_callback_publication_candidate_f352719_v0_4/repo
+CF10_S01_WRITER_ROOT ?= $(CURDIR)/tmp/cf10_publication_candidate_mac335r4/repo
+CF10_S01_COVERAGE_EVIDENCE ?= $(CF10_S01_GATE_ROOT)/tmp/cf10_shared_writer_dual_release_coverage_v0_4_published.json
+CF10_S01_COVERAGE_SHA256 ?= c5ad50d0db6b7062bc1de03d58715a964524db0a10047407f7cfad38f6598f0c
+.PHONY: cf10-s01-runtime-binding-inspect cf10-s01-runtime-launch-preflight
+cf10-s01-runtime-binding-inspect:
+	$(PYTHON) -B -m scripts.coordination.control_plane.s01_writer_runtime_binding_v0_1 inspect --deployment-root . --gate-root "$(CF10_S01_GATE_ROOT)" --writer-root "$(CF10_S01_WRITER_ROOT)" --coverage-evidence "$(CF10_S01_COVERAGE_EVIDENCE)" --coverage-sha256 "$(CF10_S01_COVERAGE_SHA256)"
+cf10-s01-runtime-launch-preflight:
+	$(PYTHON) -B -m scripts.coordination.control_plane.s01_writer_runtime_binding_v0_2 launch-preflight --deployment-root . --gate-root "$(CF10_S01_GATE_ROOT)" --writer-root "$(CF10_S01_WRITER_ROOT)" --coverage-evidence "$(CF10_S01_COVERAGE_EVIDENCE)" --coverage-sha256 "$(CF10_S01_COVERAGE_SHA256)"
+# Preserve original commands and confirmation checks. All write-capable
+# operator targets acquire an additional fail-closed prerequisite.
+governed-worker-cycle-launch: cf10-s01-runtime-launch-preflight
+governed-worker-cycle-reconcile-result-return: cf10-s01-runtime-launch-preflight
+governed-worker-cycle-advance: cf10-s01-runtime-launch-preflight
+# CF10_S01_OPERATOR_RUNTIME_BINDING_V0_1_END

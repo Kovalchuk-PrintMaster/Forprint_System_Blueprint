@@ -43,6 +43,15 @@ REPO_DIFF_CAPABILITY_ID = "repo_diff_check"
 REPO_DIFF_CAPABILITY_VERSION = "0.1.0"
 REPO_DIFF_TIMEOUT_SECONDS = 30
 
+# CF10_STAGE3_FIXED_GIT_READ_ONLY_V0_1
+REPO_HEAD_TOOL_NAME = "run_repo_head"
+REPO_STATUS_TOOL_NAME = "run_repo_status"
+REPO_GIT_VERSION = "0.1.0"
+REPO_GIT_TIMEOUT_SECONDS = 30
+REPO_GIT_EMPTY_INPUT_SCHEMA: dict[str, Any] = {
+    "type": "object", "properties": {}, "additionalProperties": False,
+}
+
 CONSUMER_ID = "cf10_worker_validation_mcp"
 MAX_DIAGNOSTIC_BYTES = 4096
 
@@ -321,6 +330,16 @@ def build_server(
                     ),
                     input_schema=REPO_DIFF_TOOL_INPUT_SCHEMA,
                 ),
+                types.Tool(
+                    name=REPO_HEAD_TOOL_NAME,
+                    description="Read fixed Git HEAD from the bound Worker workspace.",
+                    input_schema=REPO_GIT_EMPTY_INPUT_SCHEMA,
+                ),
+                types.Tool(
+                    name=REPO_STATUS_TOOL_NAME,
+                    description="Read fixed Git status from the bound Worker workspace.",
+                    input_schema=REPO_GIT_EMPTY_INPUT_SCHEMA,
+                ),
             ]
         )
 
@@ -387,6 +406,21 @@ def build_server(
                 capability_version = REPO_DIFF_CAPABILITY_VERSION
                 timeout_seconds = REPO_DIFF_TIMEOUT_SECONDS
                 request_kind = "repo-diff-check"
+
+            elif params.name in (REPO_HEAD_TOOL_NAME, REPO_STATUS_TOOL_NAME):
+                if arguments:
+                    raise WorkerValidationMCPError(
+                        f"{params.name} accepts no Worker parameters"
+                    )
+                parameters = {}
+                if params.name == REPO_HEAD_TOOL_NAME:
+                    capability_id = "repo_head"
+                    request_kind = "repo-head"
+                else:
+                    capability_id = "repo_status"
+                    request_kind = "repo-status"
+                capability_version = REPO_GIT_VERSION
+                timeout_seconds = REPO_GIT_TIMEOUT_SECONDS
 
             else:
                 raise WorkerValidationMCPError(

@@ -26,6 +26,9 @@ SUPPORTED_PROVIDER = "github_copilot_cli"
 WORKER_VALIDATION_MCP_SERVER = "ForPrintValidation"
 WORKER_VALIDATION_MCP_TOOL = "run_validation_suite"
 WORKER_REPO_DIFF_CHECK_MCP_TOOL = "run_repo_diff_check"
+# CF10_STAGE3_FIXED_GIT_READ_ONLY_TOOLS_V0_1
+WORKER_REPO_HEAD_MCP_TOOL = "run_repo_head"
+WORKER_REPO_STATUS_MCP_TOOL = "run_repo_status"
 WORKER_VALIDATION_MCP_SCRIPT = (
     "scripts/coordination/control_plane/worker_runtime/"
     "worker_validation_mcp.py"
@@ -38,6 +41,12 @@ GITHUB_COPILOT_REPO_DIFF_MCP_MODEL_TOOL_ID = (
     f"{WORKER_VALIDATION_MCP_SERVER}-"
     f"{WORKER_REPO_DIFF_CHECK_MCP_TOOL}"
 )
+GITHUB_COPILOT_REPO_HEAD_MCP_MODEL_TOOL_ID = (
+    f"{WORKER_VALIDATION_MCP_SERVER}-{WORKER_REPO_HEAD_MCP_TOOL}"
+)
+GITHUB_COPILOT_REPO_STATUS_MCP_MODEL_TOOL_ID = (
+    f"{WORKER_VALIDATION_MCP_SERVER}-{WORKER_REPO_STATUS_MCP_TOOL}"
+)
 
 GITHUB_COPILOT_MCP_PERMISSION_PATTERN = (
     f"{WORKER_VALIDATION_MCP_SERVER}({WORKER_VALIDATION_MCP_TOOL})"
@@ -46,6 +55,12 @@ GITHUB_COPILOT_REPO_DIFF_MCP_PERMISSION_PATTERN = (
     f"{WORKER_VALIDATION_MCP_SERVER}"
     f"({WORKER_REPO_DIFF_CHECK_MCP_TOOL})"
 )
+GITHUB_COPILOT_REPO_HEAD_MCP_PERMISSION_PATTERN = (
+    f"{WORKER_VALIDATION_MCP_SERVER}({WORKER_REPO_HEAD_MCP_TOOL})"
+)
+GITHUB_COPILOT_REPO_STATUS_MCP_PERMISSION_PATTERN = (
+    f"{WORKER_VALIDATION_MCP_SERVER}({WORKER_REPO_STATUS_MCP_TOOL})"
+)
 
 GITHUB_COPILOT_AVAILABLE_TOOLS = (
     "view",
@@ -53,6 +68,8 @@ GITHUB_COPILOT_AVAILABLE_TOOLS = (
     "apply_patch",
     GITHUB_COPILOT_MCP_MODEL_TOOL_ID,
     GITHUB_COPILOT_REPO_DIFF_MCP_MODEL_TOOL_ID,
+    GITHUB_COPILOT_REPO_HEAD_MCP_MODEL_TOOL_ID,
+    GITHUB_COPILOT_REPO_STATUS_MCP_MODEL_TOOL_ID,
 )
 DEFAULT_HEARTBEAT_SECONDS = 15
 DEFAULT_STALL_THRESHOLD_SECONDS = 120.0
@@ -265,11 +282,83 @@ def _validated_governed_worker_context(
     return context
 
 
+
+# CF10_S4_LITERAL_RESUME_CAPSULE_V0_1_START
+
+def render_literal_s4_resume_binding(
+    *,
+    governed_worker_context: dict[str, Any],
+    attempt_id: str,
+) -> str:
+    """Render authoritative S4 base fields as literal YAML for the Worker.
+
+    This does NOT generate a Worker result or change validator semantics.
+    All hash/cursor values come from the already-validated governed context.
+    """
+    governed = _validated_governed_worker_context(governed_worker_context)
+    if governed is None:
+        raise WorkerRuntimeInvocationError("S4 literal binding requires governed context")
+    cursor = _require_mapping(
+        governed.get("lifecycle_roadmap_cursor"),
+        "governed S4 lifecycle_roadmap_cursor",
+    )
+    frozen_resume = {
+        "attempt_id": _require_string(attempt_id, "S4 attempt_id"),
+        "handoff_manifest_sha256": _require_string(
+            governed.get("handoff_manifest_sha256"), "S4 handoff hash"
+        ),
+        "source_state_fingerprint": _require_string(
+            governed.get("handoff_source_state_fingerprint"), "S4 source fingerprint"
+        ),
+        "lifecycle_roadmap_cursor": cursor,
+    }
+    return yaml.safe_dump(
+        {"resume_coordinates": frozen_resume},
+        sort_keys=False,
+        allow_unicode=True,
+        width=110,
+    ).rstrip()
+
+# CF10_S4_LITERAL_RESUME_CAPSULE_V0_1_END
+
+# CF10_STAGE4C_TRUSTED_TRANSPORT_BINDING_V0_1
+LEGACY_RESULT_TRANSPORT = "handoff-v2-full"
+DRAFT_RESULT_TRANSPORT = "worker-completion-draft-v0-1"
+
+
+def _assert_selected_transport(decision: dict[str, Any], result_transport: str) -> None:
+    """Require the trusted caller's mode to agree with the hash-bound decision."""
+    if result_transport not in (LEGACY_RESULT_TRANSPORT, DRAFT_RESULT_TRANSPORT):
+        raise WorkerRuntimeInvocationError("unsupported trusted result_transport")
+    binding = _require_mapping(decision.get("binding"), "explicit dispatch binding")
+    if "result_transport_selection" not in binding:
+        if result_transport != LEGACY_RESULT_TRANSPORT:
+            raise WorkerRuntimeInvocationError("unbound draft result transport refused")
+        return  # preserve historical legacy fixture/result behavior
+    selector = _require_mapping(
+        binding["result_transport_selection"], "bound result transport selection",
+    )
+    if selector.get("schema_version") != "forprint_cf10_result_transport_selection_v0_1":
+        raise WorkerRuntimeInvocationError("transport selector schema mismatch")
+    if selector.get("transport") != result_transport:
+        raise WorkerRuntimeInvocationError("invocation/result transport selection disagreement")
+    for field in ("task_prompt_id", "work_front_id", "work_front_ref"):
+        if selector.get(field) != binding.get(field):
+            raise WorkerRuntimeInvocationError("transport selector identity drift: " + field)
+    if not isinstance(selector.get("policy_sha256"), str) or len(selector["policy_sha256"]) != 64:
+        raise WorkerRuntimeInvocationError("transport policy SHA invalid")
+    expected_id = hashlib.sha256(json.dumps(
+        binding, sort_keys=True, separators=(",", ":"),
+    ).encode("utf-8")).hexdigest()
+    if decision.get("decision_id") != expected_id:
+        raise WorkerRuntimeInvocationError("bound transport decision hash mismatch")
+
 def render_worker_prompt(
     *,
     task_context: dict[str, Any],
     explicit_dispatch_decision: dict[str, Any],
     governed_worker_context: dict[str, Any] | None = None,
+    result_transport: str = LEGACY_RESULT_TRANSPORT,
 ) -> str:
     """Render a task-generic Worker prompt from canonical normalized facts."""
 
@@ -278,6 +367,7 @@ def render_worker_prompt(
         explicit_dispatch_decision.get("binding"),
         "explicit dispatch binding",
     )
+    _assert_selected_transport(explicit_dispatch_decision, result_transport)
     source = _require_mapping(envelope.get("source"), "task envelope source")
 
     task_artifact_ref = _require_string(
@@ -299,6 +389,45 @@ def render_worker_prompt(
     governed = _validated_governed_worker_context(
         governed_worker_context
     )
+    if result_transport == DRAFT_RESULT_TRANSPORT:
+        if governed is None:
+            raise WorkerRuntimeInvocationError("draft result requires bound governed context")
+        # The draft is Worker-owned facts only: no origin SHA, full Handoff or S4
+        # literal is model-transcribed. Stage 4A composes authoritative coordinates.
+        return (
+            "You are the bounded ForPrint internal Worker for one exact execution attempt.\n\n"
+            "AUTHORITY AND SOURCE BOUNDARIES\n"
+            "- Chat text is not execution authority.\n"
+            f"- Canonical Worker Task artifact: {task_artifact_ref}\n"
+            f"- Canonical Work Front: {work_front_ref}\n"
+            "- The Work Front remains execution authority.\n"
+            "- The normalized Task Envelope below is instruction/context, not authority.\n"
+            "- Do not widen scope or authority.\n"
+            "- Modify only paths permitted by the canonical Task and Work Front.\n"
+            "- Do not accept/promote/commit/push/merge/release.\n"
+            "- Return bounded evidence for verification and operator review.\n\n"
+            "MANDATORY MACHINE-READABLE RESULT RETURN PROTOCOL\n"
+            "- Emit exactly one strict JSON Worker completion draft, and no other stdout text.\n"
+            "- Begin the first non-whitespace content with exactly "
+            "FORPRINT_WORKER_COMPLETION_DRAFT_V0_1_BEGIN.\n"
+            "- End the last non-whitespace content with exactly "
+            "FORPRINT_WORKER_COMPLETION_DRAFT_V0_1_END.\n"
+            "- Between those markers emit exactly one JSON object containing only "
+            "status, changed_paths, validation_evidence, self_repair_attempts, "
+            "unresolved_findings, and optional partial_resume.\n"
+            "- For PARTIAL/INTERRUPTED/BLOCKED/RETRYABLE_FAILURE include partial_resume "
+            "with exactly latest_completed_node, latest_accepted_ref, replay_forbidden_refs.\n"
+            "- No unknown fields, duplicate JSON keys, or commentary outside the frame.\n"
+            "- Do not supply attempt_id, manifest SHA, roadmap cursor, "
+            "source_state_fingerprint, resume_coordinates or origin data.\n"
+            "- The original validated attempt context, not Worker stdout, will be "
+            "used by the independent result composer and strict validators.\n"
+            "- Do not invent missing facts or evidence.\n"
+            "- Result transport grants no acceptance, promotion, Git, retry or release authority.\n\n"
+            "NORMALIZED TASK ENVELOPE\n"
+            f"{envelope_yaml}\n"
+        )
+
     governed_section = ""
     if governed is not None:
         governed_yaml = yaml.safe_dump(
@@ -307,6 +436,10 @@ def render_worker_prompt(
             allow_unicode=True,
             width=112,
         ).rstrip()
+        literal_resume = render_literal_s4_resume_binding(
+            governed_worker_context=governed,
+            attempt_id=_require_string(binding.get("attempt_id"), "dispatch attempt_id"),
+        )
         governed_section = (
             "\nGOVERNED EXECUTION CONTEXT — NON-AUTHORITATIVE\n"
             "- Work Front remains execution authority.\n"
@@ -322,6 +455,15 @@ def render_worker_prompt(
             "- Context cannot widen path, dispatch, git, release, "
             "promotion or acceptance authority.\n"
             f"{governed_yaml}\n"
+            "\nS4 RESULT RESUME BINDING — LITERAL COPY START\n"
+            f"{literal_resume}\n"
+            "S4 RESULT RESUME BINDING — LITERAL COPY END\n"
+            "- Copy the entire literal resume_coordinates mapping above unchanged "
+            "into the Handoff v2 result; add partial/resumable fields only when required.\n"
+            "- Never recalculate roadmap_status_sha256 from files, the Git workspace, "
+            "fresh roadmap status, or any command; the frozen digest is origin-bound.\n"
+            "- Future advisory suggestions require separate governed, versioned "
+            "artifacts; no additional Worker stdout is allowed.\n"
         )
 
     return (
@@ -380,6 +522,7 @@ def build_launch_invocation(
     explicit_dispatch_decision: dict[str, Any],
     attempt_root: Path | str,
     governed_worker_context: dict[str, Any] | None = None,
+    result_transport: str = LEGACY_RESULT_TRANSPORT,
 ) -> dict[str, Any]:
     """Build one deterministic provider invocation plan without starting a process."""
 
@@ -399,6 +542,7 @@ def build_launch_invocation(
         decision=explicit_dispatch_decision,
         workspace_repo=workspace,
     )
+    _assert_selected_transport(explicit_dispatch_decision, result_transport)
 
     governed = _validated_governed_worker_context(
         governed_worker_context
@@ -508,6 +652,7 @@ def build_launch_invocation(
         task_context=task_context,
         explicit_dispatch_decision=explicit_dispatch_decision,
         governed_worker_context=governed,
+        result_transport=result_transport,
     )
 
     mcp_script = (workspace / WORKER_VALIDATION_MCP_SCRIPT).resolve()
@@ -563,6 +708,8 @@ def build_launch_invocation(
                 "tools": [
                     WORKER_VALIDATION_MCP_TOOL,
                     WORKER_REPO_DIFF_CHECK_MCP_TOOL,
+                    WORKER_REPO_HEAD_MCP_TOOL,
+                    WORKER_REPO_STATUS_MCP_TOOL,
                 ],
                 "cwd": str(workspace),
             }
@@ -634,6 +781,8 @@ def build_launch_invocation(
             "mcp_permission_patterns": [
                 GITHUB_COPILOT_MCP_PERMISSION_PATTERN,
                 GITHUB_COPILOT_REPO_DIFF_MCP_PERMISSION_PATTERN,
+                GITHUB_COPILOT_REPO_HEAD_MCP_PERMISSION_PATTERN,
+                GITHUB_COPILOT_REPO_STATUS_MCP_PERMISSION_PATTERN,
             ],
             "permission_mode": "ALLOW_ALL_WITHIN_AVAILABLE_TOOL_UNIVERSE",
             "bash_available": False,

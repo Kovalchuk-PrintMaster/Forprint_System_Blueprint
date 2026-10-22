@@ -1,0 +1,69 @@
+work_front_id: wf-cf10-original-handoff-manifest-persistence-v0-1
+objective: Bind the verified CF-09 Handoff TASK_EXECUTION runtime origin to the CF-10 isolated attempt
+  during prepare; validate immutable provenance at launch, result return and post-worker advance without
+  relaxing S3/S4.
+scope:
+- scripts/coordination/control_plane/dispatch_intent.py
+- scripts/coordination/control_plane/governed_worker_cycle.py
+- tests/coordination/control_plane/test_cf10_governed_worker_cycle_advance_v0_1.py
+- tests/coordination/control_plane/test_cf10_governed_worker_cycle_live_launch_v0_1.py
+- coordination/work_fronts/cf10_original_handoff_manifest_persistence_v0_1.yaml
+exclusions:
+- No historical attempt repair or fabricated origin manifest.
+- No changes to Handoff S3/S4, ledger, Work Front or promotion contracts.
+- No Task70-specialized implementation or OC-01 dependency.
+- No protected dirty path edits or changes to runtime or attempt ledgers.
+- No worker launch, assistant ACK, automatic dispatch, acceptance, staging, commit, push, merge or release.
+- Existing mock integration tests must remain clearly labeled; mocked finalizer is not a genuine E2E proof.
+provenance:
+  source_refs:
+  - roadmap:control_foundation_near_horizon/CF-10
+  - work_front:coordination/work_fronts/cf10_generic_post_worker_closeout_v0_1.yaml
+  - producer:scripts/coordination/control_plane/dispatch_intent.py
+  - consumer:scripts/coordination/control_plane/governed_worker_cycle.py
+  - source_head:f4e84adfb3c30c61beb4e8eeda31495fb14dbe8c
+  chat_is_authority: false
+dependencies:
+- Existing CF-09-generated Handoff runtime manifest is SHA-256 verified in _cf09_extract_governed_worker_context.
+- Existing project-native CF-10 prepare, launch, result-return, and advance operations.
+- Existing 9 advance tests and 60 related regression tests pass before this patch.
+- No retroactive snapshotting of cf10-u180j-a037 or other launched attempts.
+outputs:
+- Exact validated CF-09 Handoff runtime producer ref in the pre-execution envelope.
+- Exclusive-write immutable complete origin Handoff manifest under new CF-10 attempt input.
+- Content-hash and governed-context revalidation before Worker launch, result return and advance.
+- Focused positive and negative origin provenance tests and existing regression suite.
+acceptance:
+- Canonical Work Front validator passes for this exact bounded scope.
+- Original manifest is persisted before ACK or Worker execution; no reconstruction from a later checkout.
+- Replayed, missing, tampered or escaped origins fail closed before launch/finalization.
+- Handoff and continuity source fingerprints are NOT treated as identical.
+- Strict Handoff S3/S4 and append-only attempt ledger contracts remain unchanged.
+- Focused provenance, advance, launch, result return, CF-09 finalizer regression tests pass.
+- Positive full end-to-end proof remains separate until verified with real generated manifest and canonical
+  finalizer.
+stop_conditions:
+- Any required mutation is outside the exact scope.
+- The producer cannot supply a validated reference to the same full manifest.
+- Contract or governance validation fails.
+- Any historical attempt, protected path, ledger or Worker runtime needs modification.
+- Tests fail or a S3/S4 validation weakening is needed.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false
+capability_reuse:
+  search_performed: true
+  searched_surfaces:
+  - scripts/coordination/control_plane/dispatch_intent.py
+  - scripts/coordination/control_plane/governed_worker_cycle.py
+  - scripts/coordination/assistant_handoff_v2_runtime_v0_1.py
+  - scripts/coordination/assistant_handoff_v2_result_v0_1.py
+  - scripts/coordination/assistant_handoff_v2_freshness_resume_v0_1.py
+  - scripts/coordination/control_plane/worker_runtime/worker_result_return.py
+  disposition: EXTEND
+  target_refs:
+  - scripts/coordination/control_plane/dispatch_intent.py
+  - scripts/coordination/control_plane/governed_worker_cycle.py

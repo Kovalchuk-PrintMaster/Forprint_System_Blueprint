@@ -501,6 +501,9 @@ def prepare_cf09_task_execution(
         "procedure_id": procedure,
         "procedure_not_required_reason": no_procedure_reason,
         "handoff_manifest_sha256": manifest_sha,
+        # Exact CF-09-validated producer ref, not a guessed/rebuilt origin.
+        # It confers neither dispatch nor publication authority.
+        "origin_handoff_runtime_manifest_ref": values.get("RUNTIME_MANIFEST", ""),
         "governed_worker_context": governed_context,
         "governed_worker_context_sha256": governed_context_sha,
         "work_front_gate": {

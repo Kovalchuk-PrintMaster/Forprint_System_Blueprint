@@ -1,0 +1,85 @@
+work_front_id: wf-cf10-generic-post-worker-closeout-v0-1
+objective: 'Complete the reusable project-native CF-10 post-worker lifecycle, connecting strict result-return evidence,
+  candidate validation, Handoff finalization, append-only terminalization and operator reporting through one governed
+  CLI operation.
+
+  '
+scope:
+- scripts/coordination/control_plane/governed_worker_cycle.py
+- tests/coordination/control_plane/test_cf10_governed_worker_cycle_advance_v0_1.py
+- Makefile
+- coordination/work_fronts/cf10_generic_post_worker_closeout_v0_1.yaml
+exclusions:
+- No historical attempt mutation or retroactive authority.
+- No Worker result rewriting or synthetic evidence.
+- No Handoff S3/S4 schema or validation weakening.
+- No Execution Attempt Ledger contract changes.
+- No candidate promotion semantic changes.
+- No Task70-specific lifecycle implementation.
+- No OC-01 dependency.
+- No automatic acceptance, staging, commit, push, merge or release.
+- Do not modify inherited protected dirty paths.
+outputs:
+- Project-native advance command for authorized post-worker transitions.
+- Exact candidate validation using existing immutable evidence.
+- Terminal attempt recording through the canonical append-only ledger.
+- Machine-readable operator report and next required boundary.
+- Idempotent re-entry without duplicate terminal records.
+acceptance:
+- Existing 74-test baseline remains passing.
+- Tests-first RED confirms advance is not implemented.
+- Exact attempt, result, source baseline and write-set are enforced.
+- Missing or contradictory validation evidence fails closed.
+- Valid candidate reaches AWAITING_OPERATOR_REVIEW after terminalization.
+- Repeated advance does not duplicate ledger records.
+- No promotion or publication occurs automatically.
+stop_conditions:
+- Changes require widening the declared write-set.
+- Changes require rewriting existing immutable attempt artifacts.
+- A ledger, Handoff or promotion contract change becomes necessary.
+- A protected dirty path would be modified.
+- Any automatic acceptance or publication authority is required.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false
+capability_reuse:
+  search_performed: true
+  disposition: EXTEND
+  target_refs:
+  - scripts/coordination/control_plane/governed_worker_cycle.py
+  - scripts/coordination/control_plane/dispatch_intent.py
+  - scripts/coordination/control_plane/worker_runtime/worker_result_return.py
+  - scripts/coordination/control_plane/workspace/provision.py
+  - scripts/coordination/execution_attempt_ledger_v0_1.py
+  searched_surfaces:
+  - scripts/coordination/control_plane/governed_worker_cycle.py
+  - scripts/coordination/control_plane/dispatch_intent.py
+  - scripts/coordination/control_plane/candidate_promotion.py
+  - scripts/coordination/control_plane/worker_runtime/worker_result_return.py
+  - scripts/coordination/control_plane/workspace/provision.py
+  - scripts/coordination/assistant_handoff_v2_runtime_v0_1.py
+  - scripts/coordination/execution_attempt_ledger_v0_1.py
+  - scripts/coordination/acceptance_oracle_v0_1.py
+  - scripts/coordination/work_front_v0_1.py
+  - Makefile
+provenance:
+  source_refs:
+  - roadmap:control_foundation_near_horizon/CF-10
+  - work_id:u180j
+  - source_head:f4e84adfb3c30c61beb4e8eeda31495fb14dbe8c
+  - attempt:cf10-u180j-a037
+  - baseline:cf10-post-worker-74-tests-pass
+  - work_front:coordination/work_fronts/cf10_governed_worker_cycle_v0_1.yaml
+  chat_is_authority: false
+dependencies:
+- Existing project-native governed_worker_cycle CLI is available.
+- Strict immutable result-return and S4 resume validation are implemented.
+- Baseline-aware Worker delta derivation is implemented.
+- Canonical append-only Execution Attempt Ledger is available.
+- Existing CF-10 post-worker baseline passed 74 focused regression tests.
+- Historical attempt a037 remains outside mutation scope.
+- No additional execution or dispatch authority is conferred.
+- A genuinely persisted original Handoff manifest is required for full freshness validation; missing historical originals fail closed.

@@ -1,0 +1,130 @@
+work_front_id: wf-cf10-worker-git-readonly-capabilities-v0-1
+objective: Expose the two existing fixed Git read-only capabilities repo_head and repo_status to the CF-10 Worker
+  through the existing structured command executor, attempt-bound ForPrintValidation MCP bridge and session-only
+  Copilot invocation, without shell, arbitrary parameters, added authority, or disturbance of earlier S4 and validation
+  work.
+scope:
+- coordination/work_fronts/cf10_worker_git_readonly_capabilities_v0_1.yaml
+- coordination/registry/structured_command_capabilities_v0_1.yaml
+- scripts/coordination/control_plane/worker_runtime/worker_validation_mcp.py
+- scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+- tests/coordination/control_plane/worker_runtime/test_cf10_worker_validation_mcp_v0_1.py
+- tests/coordination/control_plane/worker_runtime/test_cf10_worker_runtime_invocation_adapter_v0_1.py
+- tests/coordination/control_plane/worker_runtime/test_structured_command_executor_v0_1.py
+exclusions:
+- No modifications outside the seven exact scope paths, including Stage 1/2 files or separate ForPrint modules.
+- No new command executor, raw shell, arbitrary Git arguments, cwd/path override, arbitrary executable selection,
+  web access or builtin MCPs.
+- No changes to S3/S4, Worker result-return, original Handoff evidence, lifecycle ledger, candidate promotion
+  or automated execution authority.
+- No mutation of existing S4 literal capsule implementation or previously established invocation and validation
+  behavior.
+- No overwrite or replacement of any pre-existing dirty path; additive changes within existing dirty paths require
+  explicit separate operator approval after per-path SHA and exact diff-hunk review.
+- No changes to existing repo_diff_check or validation_suite definitions, and no removal of OC01 compatibility.
+- No worker prepare, ACK, dispatch, launch, result replay, acceptance, stage, commit, push, merge, release or
+  promotion.
+- No modification of historical execution attempts a037-a041, and no fabrication of origin or Worker evidence.
+provenance:
+  source_refs:
+  - roadmap:control_foundation_near_horizon/CF-10
+  - work_id:u180j
+  - work_front:coordination/work_fronts/cf10_worker_planning_validation_suite_v0_1.yaml
+  - work_front:coordination/work_fronts/cf10_validation_suite_isolated_projection_prerequisites_v0_1.yaml
+  - attempt:cf10-u180j-a041/BLOCKED
+  - capability_registry:coordination/registry/structured_command_capabilities_v0_1.yaml#repo_head
+  - capability_registry:coordination/registry/structured_command_capabilities_v0_1.yaml#repo_status
+  - current_source_head_observed:ff3b9853e104d5e3c8b7a9cfe5b8aa6aecf27bf5
+  - 'Git-staged parallel paths observed on 2026-10-11: Telegram Bot snapshot registration and snapshots index'
+  chat_is_authority: false
+dependencies:
+- Stage 1 blueprint-continuity-planning suite is registered and passed 33 tests.
+- Stage 2 explicit isolated prerequisites passed all four mirror-only steps, 33 planning tests, 64 cf10-worker-pipeline
+  tests and 35 focused validation/isolation tests.
+- Current terminal a041 remains immutable BLOCKED; Worker a042 must not launch as part of this Work Front.
+- Existing repo_head@0.1.0 and repo_status@0.1.0 are fixed Git, shell=false, EMPTY_OBJECT, NONE_EXPECTED, scoped
+  to exact Git root with external evidence.
+- Both capabilities currently declare OC01 compatibility only; registry metadata alone does not grant Worker execution
+  authority.
+- ForPrintValidation currently exposes exactly run_validation_suite and run_repo_diff_check; Copilot tool universe
+  and session-only MCP config expose those exact two.
+- Invocation adapter contains pre-existing S4 literal resume capsule dirty work, and validation MCP tests contain
+  existing Stage 1 additions; both must be frozen before any bounded implementation.
+- Before first mutation capture source HEAD, staged/unstaged path lists, per-path sha256 snapshots of seven scoped
+  paths, existing untracked work and protected S4 hunk; stop on concurrent drift.
+- Only an operator-approved, additive scoped edit to the pre-existing dirty invocation_adapter.py may be attempted;
+  Work Front validation alone is not approval.
+outputs:
+- CF10 added to consumer_compatibility only for the existing fixed repo_head and repo_status entries, retaining
+  OC01.
+- Exactly two new zero-argument MCP tools run_repo_head and run_repo_status using existing registered capabilities,
+  attempt identity, exact isolated workspace cwd and external evidence root.
+- Provider session-only MCP config, model-visible tool identifiers and separate permission patterns expose exactly
+  four bounded MCP tools alongside existing view/edit/apply_patch.
+- Exact positive and negative focused regressions for both tool requests, fixed argv and no Worker-supplied hidden
+  execution fields.
+- Machine-readable verified evidence of source-preserving test execution, with separate acknowledgment that workspace
+  HEAD/status are not independent canonical source-state proof.
+- No new Worker attempt or authority widening.
+acceptance:
+- Canonical Work Front validation passes and explicit protected-dirty-path operator gate precedes invocation adapter
+  edit.
+- Tests-first RED fails specifically because repo_head/repo_status are not CF10 model-visible tools; regression
+  GREEN passes after exact bounded changes.
+- repo_head and repo_status remain fixed Git at 0.1.0 with git --no-optional-locks, shell=false, EMPTY_OBJECT,
+  read-only and no new executable arguments.
+- CF10 consumer compatibility is declared without removing OC01 or adding authority to the registry.
+- Each new MCP tool rejects any arguments, including cwd, executable, timeout, argv, git command, shell, evidence
+  path, or identity override.
+- Structured command requests are bound to exact attempt_id/task_id/work_front_id/dispatch decision, workspace
+  Git root and external evidence root.
+- All tools/list, Copilot --available-tools, mcpServers tools and provider policy IDs match the exact four-tool
+  allowlist.
+- Existing view/edit/apply_patch, run_validation_suite, run_repo_diff_check and S4 literal capsule behavior remain
+  unchanged.
+- Existing focused structured command, MCP, invocation adapter tests pass, together with two registered CF10 validation
+  suites.
+- No protected path contents change outside explicitly reviewed additive hunks; SHA manifests and per-path diff
+  evidence are generated before and after and separately reviewed.
+- No staging, historical ledger mutation, worker process launch, canonical write or release happens.
+stop_conditions:
+- New changes overlap a pre-existing dirty S4 capsule or any Stage 1/2 work beyond the approved isolated hunks.
+- No explicit operator approval for an additive edit to dirty invocation_adapter.py after hash/hunk inspection.
+- Any relevant source HEAD, staged index, protected dirty path hash or scoped test baseline drifts unexpectedly.
+- The existing structured command executor, provider runtime contract, or S4 validator would need modification.
+- A caller-controlled Git argv, shell, cwd, timeout, evidence path or identity becomes necessary.
+- The tests cannot prove zero-parameter registration and exact workspace binding or fail closed on tampering.
+- Any path outside exact seven-path scope must be modified.
+- Any live launch, ledger append, promotion, auto-staging, commit, push, merge or release is required.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false
+  prospective_only: true
+  pre_existing_dirty_path_additive_patch_requires_separate_operator_gate: true
+  live_worker_launch_authorized: false
+capability_reuse:
+  search_performed: true
+  searched_surfaces:
+  - coordination/registry/structured_command_capabilities_v0_1.yaml
+  - scripts/coordination/control_plane/worker_runtime/structured_command_executor.py
+  - scripts/coordination/control_plane/worker_runtime/worker_validation_mcp.py
+  - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+  - tests/coordination/control_plane/worker_runtime/test_structured_command_executor_v0_1.py
+  - tests/coordination/control_plane/worker_runtime/test_cf10_worker_validation_mcp_v0_1.py
+  - tests/coordination/control_plane/worker_runtime/test_cf10_worker_runtime_invocation_adapter_v0_1.py
+  disposition: EXTEND
+  target_refs:
+  - coordination/registry/structured_command_capabilities_v0_1.yaml
+  - scripts/coordination/control_plane/worker_runtime/worker_validation_mcp.py
+  - scripts/coordination/control_plane/worker_runtime/invocation_adapter.py
+  - tests/coordination/control_plane/worker_runtime/test_cf10_worker_validation_mcp_v0_1.py
+  - tests/coordination/control_plane/worker_runtime/test_cf10_worker_runtime_invocation_adapter_v0_1.py
+  - tests/coordination/control_plane/worker_runtime/test_structured_command_executor_v0_1.py
+  read_only_refs:
+  - scripts/coordination/control_plane/worker_runtime/structured_command_executor.py
+  - scripts/coordination/control_plane/worker_runtime/launcher.py
+  rationale: Reuse fixed Git recipes and existing two-tool ForPrintValidation bridge; extend only consumer compatibility
+    and permitted exposed tool names under a separate frozen pre-existing dirty patch gate.

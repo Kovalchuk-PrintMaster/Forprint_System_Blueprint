@@ -653,6 +653,13 @@ def test_project_native_launch_cycle_persists_process_evidence(
         "_assert_frozen_source_state_current",
         lambda *args, **kwargs: {},
     )
+    # This mocked launch verifies wiring only; genuine origin checking has
+    # separate filesystem-based tests in the advance test module.
+    monkeypatch.setattr(
+        gwc,
+        "_load_verified_original_handoff_manifest",
+        lambda **kwargs: {"handoff_manifest_sha256": "2" * 64},
+    )
     monkeypatch.setattr(
         gwc.training,
         "resolve_training_task",

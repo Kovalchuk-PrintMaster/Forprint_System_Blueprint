@@ -405,10 +405,14 @@ def test_durable_invocation_evidence_omits_prompt_and_full_argv(
         "apply_patch",
         "ForPrintValidation-run_validation_suite",
         "ForPrintValidation-run_repo_diff_check",
+        "ForPrintValidation-run_repo_head",
+        "ForPrintValidation-run_repo_status",
     ]
     assert evidence["provider_policy"]["mcp_permission_patterns"] == [
         "ForPrintValidation(run_validation_suite)",
         "ForPrintValidation(run_repo_diff_check)",
+        "ForPrintValidation(run_repo_head)",
+        "ForPrintValidation(run_repo_status)",
     ]
     assert evidence["provider_policy"]["permission_mode"] == (
         "ALLOW_ALL_WITHIN_AVAILABLE_TOOL_UNIVERSE"
@@ -480,6 +484,8 @@ def test_worker_bridge_injects_session_only_validation_mcp_config(
     assert server["tools"] == [
         "run_validation_suite",
         "run_repo_diff_check",
+        "run_repo_head",
+        "run_repo_status",
     ]
     assert server["command"] == sys.executable
     assert Path(server["command"]).is_absolute()
@@ -523,6 +529,8 @@ def test_worker_bridge_exposes_exact_bounded_tool_universe(
         "apply_patch",
         "ForPrintValidation-run_validation_suite",
         "ForPrintValidation-run_repo_diff_check",
+        "ForPrintValidation-run_repo_head",
+        "ForPrintValidation-run_repo_status",
     ]
     provider_policy = result["provider_policy"]
     assert provider_policy["available_tools"] == expected, (
@@ -532,6 +540,8 @@ def test_worker_bridge_exposes_exact_bounded_tool_universe(
     assert provider_policy["mcp_permission_patterns"] == [
         "ForPrintValidation(run_validation_suite)",
         "ForPrintValidation(run_repo_diff_check)",
+        "ForPrintValidation(run_repo_head)",
+        "ForPrintValidation(run_repo_status)",
     ], (
         "RED: MCP permission-filter identity must remain separately represented "
         "from model-visible available-tool identity"
@@ -820,3 +830,59 @@ def test_prompt_requires_failures_and_limitations_inside_frame() -> None:
         "RED: framing compliance must route failures and limitations into the "
         "existing Handoff v2 frame instead of assistant prose"
     )
+
+
+# CF10_STAGE3_WORKER_GIT_READONLY_RED_V0_1
+def test_cf10_stage3_mcp_exposes_exact_four_bounded_tools(tmp_path: Path) -> None:
+    import asyncio
+    from scripts.coordination.control_plane.worker_runtime import worker_validation_mcp
+
+    workspace = tmp_path / "attempt/workspace/repo"
+    evidence = tmp_path / "attempt/evidence/structured_command"
+    workspace.mkdir(parents=True)
+    evidence.mkdir(parents=True)
+    server = worker_validation_mcp.build_server(
+        attempt_id="cf10-u180j-red-a999",
+        task_id="cf10-fixture-task-v0-1",
+        work_front_id="wf-cf10-fixture-v0-1",
+        decision_id="d" * 64,
+        workspace_repo=str(workspace.resolve()),
+        evidence_root=str(evidence.resolve()),
+    )
+    handler = server.get_request_handler("tools/list")
+    assert handler is not None
+    tools = asyncio.run(handler.handler(None, None)).tools
+    assert [tool.name for tool in tools] == [
+        "run_validation_suite", "run_repo_diff_check", "run_repo_head", "run_repo_status",
+    ]
+    for tool in tools[2:]:
+        assert tool.input_schema == {
+            "type": "object", "properties": {}, "additionalProperties": False,
+        }
+
+
+def test_cf10_stage3_copilot_exposes_only_four_bounded_mcp_tools(
+    tmp_path: Path, monkeypatch,
+) -> None:
+    attempt, workspace = _arrange(tmp_path, monkeypatch)
+    invocation = adapter.build_launch_invocation(
+        root=tmp_path,
+        task_context=_context(),
+        explicit_dispatch_decision=_decision(workspace),
+        attempt_root=attempt,
+    )
+    names = ["run_validation_suite", "run_repo_diff_check", "run_repo_head", "run_repo_status"]
+    argv = invocation["argv"]
+    config = json.loads(argv[argv.index("--additional-mcp-config") + 1])
+    assert config["mcpServers"]["ForPrintValidation"]["tools"] == names
+    expected_available = ["view", "edit", "apply_patch"] + [
+        "ForPrintValidation-" + name for name in names
+    ]
+    assert invocation["provider_policy"]["available_tools"] == expected_available
+    assert invocation["provider_policy"]["mcp_permission_patterns"] == [
+        "ForPrintValidation(" + name + ")" for name in names
+    ]
+    assert argv[argv.index("--available-tools") + 1:argv.index("--allow-all-tools")] == expected_available
+    assert invocation["provider_policy"]["bash_available"] is False
+    assert invocation["provider_policy"]["web_available"] is False
+    assert invocation["provider_policy"]["builtin_mcps_disabled"] is True
