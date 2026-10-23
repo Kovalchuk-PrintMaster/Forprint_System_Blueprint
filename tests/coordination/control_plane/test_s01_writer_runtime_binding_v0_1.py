@@ -162,3 +162,8 @@ def test_missing_writer_source_never_accepted(monkeypatch, tmp_path):
     d, g, w, e = fixture_roots(tmp_path, monkeypatch)
     (d / m.TRACKED_WRITERS[0]).unlink()
     assert 'ACTIVE_WORKTREE_WRITER_SOURCE_DRIFT' in m.launch_preflight(call(d, g, w, e))['blockers']
+
+
+def test_current_published_release_pins():
+    assert m.GATE_COMMIT == '3d90143a240439d33833463d38ab0fb3497eac8f'
+    assert m.WRITER_COMMIT == 'd5d1495c0a1ab25367c146b0f5379b015e03dd85'

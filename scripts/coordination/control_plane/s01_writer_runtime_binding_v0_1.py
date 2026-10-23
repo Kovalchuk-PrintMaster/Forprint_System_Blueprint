@@ -25,8 +25,8 @@ from typing import Any
 
 SCHEMA = "cf10_s01_writer_runtime_binding_v0_1"
 DEPLOYMENT_PATH = Path("/srv/software_development/forprint-project/forprint_system_blueprint")
-GATE_COMMIT = "136088ead1e96624daaf5ef20abf59edf0e6c7ed"
-WRITER_COMMIT = "628dd60542c9eefce9db001086ff80fd848e182d"
+GATE_COMMIT = "3d90143a240439d33833463d38ab0fb3497eac8f"
+WRITER_COMMIT = "d5d1495c0a1ab25367c146b0f5379b015e03dd85"
 GATE_REF = "refs/heads/cf10/writer-coverage-indirect-append-v0-4"
 WRITER_REF = "refs/heads/cf10/closeout-writer-activation-v0-1"
 REMOTE = "git@github.com:Kovalchuk-PrintMaster/Forprint_System_Blueprint.git"
