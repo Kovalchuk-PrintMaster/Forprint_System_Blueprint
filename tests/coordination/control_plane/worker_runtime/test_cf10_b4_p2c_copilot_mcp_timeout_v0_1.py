@@ -110,3 +110,54 @@ def test_budget_guard_blocks_old_900s_runtime(tmp_path, monkeypatch):
             root=tmp_path, task_context=fixtures._context(),
             explicit_dispatch_decision=fixtures._decision(workspace), attempt_root=attempt,
         )
+
+
+# B4-P2E: GitHub Copilot CLI 1.0.88 refuses --max-ai-credits < 30.
+# The guard belongs at invocation construction, before any provider process starts.
+@pytest.mark.parametrize("credits", [None, True, False, -1, 0, 1, 5, 29, "30", 30.0])
+def test_b4_p2e_copilot_credits_below_floor_rejected(tmp_path, monkeypatch, credits):
+    fixtures = _helper_module()
+    attempt, workspace = fixtures._arrange(tmp_path, monkeypatch)
+    cfg = fixtures._runtime_config()
+    cfg["schema_version"] = "forprint_module_worker_runtime_v0_1"
+    cfg["timeout_seconds"] = 1200
+    cfg["copilot_mcp"] = dict(POLICY)
+    cfg["budget"]["provider_specific"]["max_ai_credits"] = credits
+    runtime = fixtures._runtime()
+    runtime["timeout_seconds"] = 1200
+    monkeypatch.setattr(adapter.registry, "load_module_runtime_config", lambda root: cfg)
+    monkeypatch.setattr(adapter.registry, "resolve_default_runtime", lambda root: runtime)
+    with pytest.raises(adapter.WorkerRuntimeInvocationError, match="must be at least 30"):
+        adapter.build_launch_invocation(
+            root=tmp_path, task_context=fixtures._context(),
+            explicit_dispatch_decision=fixtures._decision(workspace), attempt_root=attempt,
+        )
+
+
+@pytest.mark.parametrize("credits", [30, 31, 100])
+def test_b4_p2e_copilot_credits_at_or_above_floor_accepted(tmp_path, monkeypatch, credits):
+    fixtures = _helper_module()
+    attempt, workspace = fixtures._arrange(tmp_path, monkeypatch)
+    cfg = fixtures._runtime_config()
+    cfg["schema_version"] = "forprint_module_worker_runtime_v0_1"
+    cfg["timeout_seconds"] = 1200
+    cfg["copilot_mcp"] = dict(POLICY)
+    cfg["budget"]["provider_specific"]["max_ai_credits"] = credits
+    runtime = fixtures._runtime()
+    runtime["timeout_seconds"] = 1200
+    monkeypatch.setattr(adapter.registry, "load_module_runtime_config", lambda root: cfg)
+    monkeypatch.setattr(adapter.registry, "resolve_default_runtime", lambda root: runtime)
+    invocation = adapter.build_launch_invocation(
+        root=tmp_path, task_context=fixtures._context(),
+        explicit_dispatch_decision=fixtures._decision(workspace), attempt_root=attempt,
+    )
+    args = invocation["argv"]
+    assert args[args.index("--max-ai-credits") + 1] == str(credits)
+    assert invocation["effects"]["worker_process_started"] is False
+
+
+def test_b4_p2e_actual_runtime_budget_is_30_and_not_auto_authority():
+    c = yaml.safe_load((ROOT / "config/worker_runtime.yaml").read_text())
+    assert c["budget"]["provider_specific"]["max_ai_credits"] == 30
+    assert adapter.COPILOT_CLI_MIN_AI_CREDITS == 30
+    assert c["tool_policy"]["automatic_accept_allowed"] is False

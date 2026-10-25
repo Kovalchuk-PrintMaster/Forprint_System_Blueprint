@@ -24,6 +24,9 @@ class WorkerRuntimeInvocationError(RuntimeError):
 
 
 SUPPORTED_PROVIDER = "github_copilot_cli"
+# Copilot CLI 1.0.88 rejects --max-ai-credits values below 30.
+# Keep aligned with the supported provider CLI; this is an argument floor, not a spend target.
+COPILOT_CLI_MIN_AI_CREDITS = 30
 WORKER_VALIDATION_MCP_SERVER = "ForPrintValidation"
 WORKER_VALIDATION_MCP_TOOL = "run_validation_suite"
 WORKER_REPO_DIFF_CHECK_MCP_TOOL = "run_repo_diff_check"
@@ -715,9 +718,12 @@ def build_launch_invocation(
     if (
         not isinstance(max_ai_credits, int)
         or isinstance(max_ai_credits, bool)
-        or max_ai_credits <= 0
+        or max_ai_credits < COPILOT_CLI_MIN_AI_CREDITS
     ):
-        raise WorkerRuntimeInvocationError("max_ai_credits must be positive")
+        raise WorkerRuntimeInvocationError(
+            f"max_ai_credits must be at least {COPILOT_CLI_MIN_AI_CREDITS} "
+            "for GitHub Copilot CLI"
+        )
 
     timeout_seconds = runtime.get("timeout_seconds")
     if (

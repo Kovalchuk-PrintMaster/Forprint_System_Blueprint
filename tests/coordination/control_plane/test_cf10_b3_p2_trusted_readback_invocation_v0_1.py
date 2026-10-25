@@ -132,7 +132,7 @@ def _plan(monkeypatch,tmp_path,*,enabled=False,present=True):
              'automatic_accept_allowed','canonical_repository_write_allowed',
              'foreign_repository_write_allowed','git_commit_allowed',
              'git_push_allowed','merge_allowed','release_allowed')}},
-        'budget':{'provider_specific':{'max_ai_credits':5}},
+        'budget':{'provider_specific':{'max_ai_credits':30}},
     }
     runtime={
         'command_representation':'ARGV_NO_SHELL','working_directory':'ATTEMPT_WORKSPACE_REPO',
