@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Bounded CF10 Worker validation MCP bridge.
 
-The MCP surface exposes exactly two bounded read-only validation tools:
-one registered validation-suite runner and one fixed Git diff-check capability.
+The default MCP surface exposes four bounded tools; optional readback is
+read-only and disabled unless explicitly enabled by the trusted caller.
 Execution identity, workspace, evidence destination, timeout, capability
 identity and authorization are bound by the bridge and cannot be overridden
 by the Worker.
@@ -30,6 +30,9 @@ if str(PROJECT_ROOT) not in sys.path:
 from scripts.coordination.control_plane.worker_runtime import (  # noqa: E402
     structured_command_executor as structured_executor,
 )
+from scripts.coordination.control_plane.worker_runtime.completed_validation_discovery_v0_1 import (  # noqa: E402
+    discover_completed_validation_evidence,
+)
 
 SERVER_NAME = "ForPrintValidation"
 SERVER_VERSION = "0.2.0"
@@ -49,6 +52,12 @@ REPO_STATUS_TOOL_NAME = "run_repo_status"
 REPO_GIT_VERSION = "0.1.0"
 REPO_GIT_TIMEOUT_SECONDS = 30
 REPO_GIT_EMPTY_INPUT_SCHEMA: dict[str, Any] = {
+    "type": "object", "properties": {}, "additionalProperties": False,
+}
+
+# B2: hidden unless the trusted runtime enables this informational tool.
+COMPLETED_VALIDATION_READBACK_TOOL_NAME = "read_completed_validation_evidence"
+COMPLETED_VALIDATION_READBACK_SCHEMA = {
     "type": "object", "properties": {}, "additionalProperties": False,
 }
 
@@ -295,8 +304,11 @@ def build_server(
     decision_id: str,
     workspace_repo: str,
     evidence_root: str,
+    enable_completed_readback: bool = False,
 ) -> Server:
     """Build one attempt-bound low-level MCP server."""
+    if type(enable_completed_readback) is not bool:
+        raise WorkerValidationMCPError("readback opt-in must be a trusted boolean")
 
     binding = _validate_startup_binding(
         attempt_id=attempt_id,
@@ -312,8 +324,7 @@ def build_server(
         _ctx: ServerRequestContext,
         _params: types.PaginatedRequestParams | None,
     ) -> types.ListToolsResult:
-        return types.ListToolsResult(
-            tools=[
+        tools = [
                 types.Tool(
                     name=TOOL_NAME,
                     description=(
@@ -340,8 +351,15 @@ def build_server(
                     description="Read fixed Git status from the bound Worker workspace.",
                     input_schema=REPO_GIT_EMPTY_INPUT_SCHEMA,
                 ),
-            ]
-        )
+        ]
+        if enable_completed_readback:
+            tools.append(types.Tool(
+                name=COMPLETED_VALIDATION_READBACK_TOOL_NAME,
+                description=("Read only same-attempt verified completed validation "
+                             "evidence; grants no replay, acceptance or authority."),
+                input_schema=COMPLETED_VALIDATION_READBACK_SCHEMA,
+            ))
+        return types.ListToolsResult(tools=tools)
 
     async def handle_call_tool(
         _ctx: ServerRequestContext,
@@ -352,6 +370,30 @@ def build_server(
             if not isinstance(arguments, dict):
                 raise WorkerValidationMCPError(
                     "tool arguments must be an object"
+                )
+
+            if params.name == COMPLETED_VALIDATION_READBACK_TOOL_NAME:
+                if not enable_completed_readback:
+                    raise WorkerValidationMCPError("completed readback is not enabled")
+                if arguments:
+                    raise WorkerValidationMCPError("completed readback accepts no Worker parameters")
+                workspace: Path = binding["workspace"]
+                attempt = workspace.parent.parent
+                evidence: Path = binding["evidence_root"]
+                if workspace != attempt / "workspace" / "repo" or evidence != attempt / "evidence" / "structured_command":
+                    raise WorkerValidationMCPError("completed readback runtime layout mismatch")
+                report = discover_completed_validation_evidence(
+                    attempt_root=str(attempt),
+                    expected_task_id=binding["task_id"],
+                    expected_work_front_id=binding["work_front_id"],
+                    expected_decision_id=binding["decision_id"],
+                    expected_workspace=str(workspace),
+                )
+                return types.CallToolResult(
+                    content=[types.TextContent(type="text", text=json.dumps(
+                        report, sort_keys=True, separators=(",", ":"),
+                    ))],
+                    structured_content=report, is_error=False,
                 )
 
             if params.name == TOOL_NAME:
@@ -655,6 +697,7 @@ def main() -> int:
     parser.add_argument("--decision-id")
     parser.add_argument("--workspace-repo")
     parser.add_argument("--evidence-root")
+    parser.add_argument("--enable-completed-readback", action="store_true")
     args = parser.parse_args()
 
     try:
@@ -723,6 +766,7 @@ def main() -> int:
             decision_id=args.decision_id,
             workspace_repo=args.workspace_repo,
             evidence_root=args.evidence_root,
+            enable_completed_readback=args.enable_completed_readback,
         )
     except WorkerValidationMCPError as exc:
         print(
