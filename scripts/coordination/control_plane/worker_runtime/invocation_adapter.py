@@ -82,6 +82,39 @@ GITHUB_COPILOT_AVAILABLE_TOOLS = (
 DEFAULT_HEARTBEAT_SECONDS = 15
 DEFAULT_STALL_THRESHOLD_SECONDS = 120.0
 
+# B4-P2C: session-only Copilot MCP timeout is separate from the Worker deadline.
+# The current registered validation bridge has a 900-second inner budget.
+_CF10_VALIDATION_BRIDGE_TIMEOUT_MS = 900_000
+_COPILOT_MCP_TIMEOUT_MAX_MS = 1_200_000
+
+
+def _resolve_copilot_mcp_tool_timeout_ms(
+    *, runtime_config: dict[str, Any], worker_timeout_seconds: int,
+) -> int | None:
+    policy = runtime_config.get("copilot_mcp")
+    if policy is None:
+        # Legacy lightweight test fixtures omit the canonical schema_version.
+        # A real canonical module runtime must never silently fall back to 30s.
+        if runtime_config.get("schema_version") == "forprint_module_worker_runtime_v0_1":
+            raise WorkerRuntimeInvocationError("canonical Copilot MCP timeout policy missing")
+        return None
+    if not isinstance(policy, dict) or set(policy) != {
+        "tool_timeout_ms", "minimum_worker_finish_reserve_seconds",
+    }:
+        raise WorkerRuntimeInvocationError("invalid Copilot MCP timeout policy")
+    ms = policy["tool_timeout_ms"]
+    reserve = policy["minimum_worker_finish_reserve_seconds"]
+    if (type(ms) is not int or not
+            _CF10_VALIDATION_BRIDGE_TIMEOUT_MS < ms <= _COPILOT_MCP_TIMEOUT_MAX_MS):
+        raise WorkerRuntimeInvocationError("Copilot MCP timeout must exceed validation bridge budget")
+    if type(reserve) is not int or reserve < 120:
+        raise WorkerRuntimeInvocationError("Worker result finish reserve too small")
+    if runtime_config.get("timeout_seconds") != worker_timeout_seconds:
+        raise WorkerRuntimeInvocationError("Copilot MCP and Worker timeout config drift")
+    if worker_timeout_seconds * 1000 - ms < reserve * 1000:
+        raise WorkerRuntimeInvocationError("Copilot MCP timeout leaves insufficient Worker result reserve")
+    return ms
+
 _FORBIDDEN_DECISION_AUTHORITY = (
     "external_dispatch_allowed",
     "release_allowed",
@@ -694,6 +727,10 @@ def build_launch_invocation(
     ):
         raise WorkerRuntimeInvocationError("runtime timeout_seconds invalid")
 
+    mcp_tool_timeout_ms = _resolve_copilot_mcp_tool_timeout_ms(
+        runtime_config=runtime_config, worker_timeout_seconds=timeout_seconds,
+    )
+
     prompt = render_worker_prompt(
         task_context=task_context,
         explicit_dispatch_decision=explicit_dispatch_decision,
@@ -760,6 +797,7 @@ def build_launch_invocation(
                     *([WORKER_COMPLETED_READBACK_MCP_TOOL] if readback_enabled else []),
                 ],
                 "cwd": str(workspace),
+                **({"timeout": mcp_tool_timeout_ms} if mcp_tool_timeout_ms is not None else {}),
             }
         }
     }
@@ -844,6 +882,7 @@ def build_launch_invocation(
             "additional_mcp_config_source": "SESSION_ONLY_ARGV",
             "mcp_server_names": [WORKER_VALIDATION_MCP_SERVER],
             "mcp_transport": "STDIO_LOCAL",
+            "mcp_server_tool_timeout_ms": mcp_tool_timeout_ms,
             "persistent_mcp_config_written": False,
         },
         "authority": {
