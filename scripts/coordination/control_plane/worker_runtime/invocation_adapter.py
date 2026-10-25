@@ -16,6 +16,7 @@ from typing import Any
 import yaml
 
 from scripts.coordination.control_plane.worker_runtime import registry
+from scripts.coordination.control_plane import validation_evidence_readback_selection_v0_1 as readback
 
 
 class WorkerRuntimeInvocationError(RuntimeError):
@@ -29,6 +30,7 @@ WORKER_REPO_DIFF_CHECK_MCP_TOOL = "run_repo_diff_check"
 # CF10_STAGE3_FIXED_GIT_READ_ONLY_TOOLS_V0_1
 WORKER_REPO_HEAD_MCP_TOOL = "run_repo_head"
 WORKER_REPO_STATUS_MCP_TOOL = "run_repo_status"
+WORKER_COMPLETED_READBACK_MCP_TOOL = "read_completed_validation_evidence"
 WORKER_VALIDATION_MCP_SCRIPT = (
     "scripts/coordination/control_plane/worker_runtime/"
     "worker_validation_mcp.py"
@@ -47,6 +49,9 @@ GITHUB_COPILOT_REPO_HEAD_MCP_MODEL_TOOL_ID = (
 GITHUB_COPILOT_REPO_STATUS_MCP_MODEL_TOOL_ID = (
     f"{WORKER_VALIDATION_MCP_SERVER}-{WORKER_REPO_STATUS_MCP_TOOL}"
 )
+GITHUB_COPILOT_READBACK_MCP_MODEL_TOOL_ID = (
+    f"{WORKER_VALIDATION_MCP_SERVER}-{WORKER_COMPLETED_READBACK_MCP_TOOL}"
+)
 
 GITHUB_COPILOT_MCP_PERMISSION_PATTERN = (
     f"{WORKER_VALIDATION_MCP_SERVER}({WORKER_VALIDATION_MCP_TOOL})"
@@ -60,6 +65,9 @@ GITHUB_COPILOT_REPO_HEAD_MCP_PERMISSION_PATTERN = (
 )
 GITHUB_COPILOT_REPO_STATUS_MCP_PERMISSION_PATTERN = (
     f"{WORKER_VALIDATION_MCP_SERVER}({WORKER_REPO_STATUS_MCP_TOOL})"
+)
+GITHUB_COPILOT_READBACK_MCP_PERMISSION_PATTERN = (
+    f"{WORKER_VALIDATION_MCP_SERVER}({WORKER_COMPLETED_READBACK_MCP_TOOL})"
 )
 
 GITHUB_COPILOT_AVAILABLE_TOOLS = (
@@ -515,6 +523,38 @@ def render_worker_prompt(
     )
 
 
+# CF10_B3_P2_INDEPENDENT_INVOCATION_GUARD_V0_1_START
+
+def _verify_b3_readback_invocation(
+    *, root: Path, decision: dict[str, Any],
+    trusted_selection: dict[str, Any] | None,
+) -> bool:
+    """Re-verify P0 policy bytes + dispatch digest in provider adapter itself."""
+    binding = _require_mapping(decision.get("binding"), "readback dispatch binding")
+    declared = "validation_readback_selection" in binding
+    if not declared:
+        if trusted_selection is not None:
+            raise WorkerRuntimeInvocationError("unbound B3 readback selection refused")
+        return False
+    if not isinstance(trusted_selection, dict):
+        raise WorkerRuntimeInvocationError("bound B3 readback requires trusted prelaunch selection")
+    expected_id = hashlib.sha256(json.dumps(
+        binding, sort_keys=True, separators=(",", ":"),
+    ).encode("utf-8")).hexdigest()
+    if decision.get("decision_id") != expected_id:
+        raise WorkerRuntimeInvocationError("B3 readback dispatch digest mismatch")
+    try:
+        current = readback.resolve_selection(root=root, task_binding=binding)
+    except readback.ReadbackSelectionError as exc:
+        raise WorkerRuntimeInvocationError("B3 readback policy verification rejected: " + str(exc)) from exc
+    if (current != trusted_selection
+            or binding["validation_readback_selection"] != current):
+        raise WorkerRuntimeInvocationError("B3 readback trusted policy/dispatch drift")
+    return current["enabled"] is True
+
+# CF10_B3_P2_INDEPENDENT_INVOCATION_GUARD_V0_1_END
+
+
 def build_launch_invocation(
     *,
     root: Path | str,
@@ -523,6 +563,7 @@ def build_launch_invocation(
     attempt_root: Path | str,
     governed_worker_context: dict[str, Any] | None = None,
     result_transport: str = LEGACY_RESULT_TRANSPORT,
+    validation_readback_selection: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Build one deterministic provider invocation plan without starting a process."""
 
@@ -543,6 +584,11 @@ def build_launch_invocation(
         workspace_repo=workspace,
     )
     _assert_selected_transport(explicit_dispatch_decision, result_transport)
+    readback_enabled = _verify_b3_readback_invocation(
+        root=root_path,
+        decision=explicit_dispatch_decision,
+        trusted_selection=validation_readback_selection,
+    )
 
     governed = _validated_governed_worker_context(
         governed_worker_context
@@ -704,12 +750,14 @@ def build_launch_invocation(
                     str(workspace),
                     "--evidence-root",
                     str(structured_evidence_root),
+                    *(["--enable-completed-readback"] if readback_enabled else []),
                 ],
                 "tools": [
                     WORKER_VALIDATION_MCP_TOOL,
                     WORKER_REPO_DIFF_CHECK_MCP_TOOL,
                     WORKER_REPO_HEAD_MCP_TOOL,
                     WORKER_REPO_STATUS_MCP_TOOL,
+                    *([WORKER_COMPLETED_READBACK_MCP_TOOL] if readback_enabled else []),
                 ],
                 "cwd": str(workspace),
             }
@@ -733,6 +781,7 @@ def build_launch_invocation(
         mcp_config_json,
         "--available-tools",
         *GITHUB_COPILOT_AVAILABLE_TOOLS,
+        *([GITHUB_COPILOT_READBACK_MCP_MODEL_TOOL_ID] if readback_enabled else []),
         "--allow-all-tools",
         "--disable-builtin-mcps",
         "--max-ai-credits",
@@ -777,12 +826,16 @@ def build_launch_invocation(
             ),
         },
         "provider_policy": {
-            "available_tools": list(GITHUB_COPILOT_AVAILABLE_TOOLS),
+            "available_tools": [
+                *GITHUB_COPILOT_AVAILABLE_TOOLS,
+                *([GITHUB_COPILOT_READBACK_MCP_MODEL_TOOL_ID] if readback_enabled else []),
+            ],
             "mcp_permission_patterns": [
                 GITHUB_COPILOT_MCP_PERMISSION_PATTERN,
                 GITHUB_COPILOT_REPO_DIFF_MCP_PERMISSION_PATTERN,
                 GITHUB_COPILOT_REPO_HEAD_MCP_PERMISSION_PATTERN,
                 GITHUB_COPILOT_REPO_STATUS_MCP_PERMISSION_PATTERN,
+                *([GITHUB_COPILOT_READBACK_MCP_PERMISSION_PATTERN] if readback_enabled else []),
             ],
             "permission_mode": "ALLOW_ALL_WITHIN_AVAILABLE_TOOL_UNIVERSE",
             "bash_available": False,

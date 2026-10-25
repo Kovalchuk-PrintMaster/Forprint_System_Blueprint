@@ -2200,6 +2200,62 @@ def launch_authorized_worker_cycle(
         "release_allowed": False,
     }
 # CF10_GOVERNED_WORKER_CYCLE_SLICE_B2_LIVE_LAUNCH_END
+# CF10_B3_P2_INDEPENDENT_PRELAUNCH_READBACK_V0_1_START
+
+def _resolve_b3_trusted_readback(
+    *, root: Path, prepared_execution: dict[str, Any],
+    explicit_dispatch_decision: dict[str, Any],
+    expected_task_prompt_id: str, expected_attempt_id: str,
+) -> dict[str, Any] | None:
+    """Verify frozen P0/ACK/dispatch readback selection before Worker STARTED.
+
+    Historical selectors absent in both records remain OFF. No environment,
+    Worker output, CLI override or forged/rehash-only dispatch may opt in.
+    """
+    prepared = prepared_execution
+    decision = explicit_dispatch_decision
+    if not isinstance(prepared, dict) or not isinstance(decision, dict):
+        raise GovernedWorkerCycleError("B3 readback evidence must be mappings")
+    bound = decision.get("binding")
+    task_binding = prepared.get("cf10_training_binding")
+    fields = ("validation_readback_selection", "validation_readback_policy_sha256")
+    declared = any(key in prepared for key in fields)
+    bound_declared = isinstance(bound, dict) and "validation_readback_selection" in bound
+    if not declared and not bound_declared:
+        return None  # pre-B3 historical records: default four tools
+    if not isinstance(task_binding, dict) or not isinstance(bound, dict):
+        raise GovernedWorkerCycleError("B3 readback task/dispatch binding unavailable")
+    if (prepared.get("attempt_id") != expected_attempt_id
+            or bound.get("attempt_id") != expected_attempt_id
+            or task_binding.get("task_prompt_id") != expected_task_prompt_id
+            or bound.get("task_prompt_id") != expected_task_prompt_id):
+        raise GovernedWorkerCycleError("B3 readback task/attempt identity drift")
+    for field in ("task_prompt_id", "work_front_id", "work_front_ref",
+                  "profile_ref", "procedure_id", "training_task_id", "training_order"):
+        if task_binding.get(field) != bound.get(field):
+            raise GovernedWorkerCycleError("B3 readback dispatch identity drift: " + field)
+    expected_id = hashlib.sha256(json.dumps(
+        bound, sort_keys=True, separators=(",", ":"),
+    ).encode("utf-8")).hexdigest()
+    if decision.get("decision_id") != expected_id:
+        raise GovernedWorkerCycleError("B3 readback decision digest drift")
+    if not declared or not bound_declared:
+        raise GovernedWorkerCycleError("B3 readback selection presence contradiction")
+    try:
+        selected = training.readback.verify_frozen_selection(
+            root=Path(root).resolve(), execution=prepared, task_binding=task_binding,
+        )
+    except training.readback.ReadbackSelectionError as exc:
+        raise GovernedWorkerCycleError("B3 readback provenance rejected: " + str(exc)) from exc
+    if not isinstance(selected, dict) or bound["validation_readback_selection"] != selected:
+        raise GovernedWorkerCycleError("B3 readback dispatch selector mismatch")
+    if type(selected.get("enabled")) is not bool:
+        raise GovernedWorkerCycleError("B3 readback selector enabled invalid")
+    return selected
+
+# CF10_B3_P2_INDEPENDENT_PRELAUNCH_READBACK_V0_1_END
+
+
 # CF10_STAGE4C_TRUSTED_TRANSPORT_BINDING_V0_1_START
 
 def _resolve_stage4c_trusted_transport(
@@ -2767,6 +2823,15 @@ def launch_cycle(
         expected_attempt_id=attempt_id,
     )
 
+    # Independent B3 gate: any bad selector fails before STARTED ledger append.
+    trusted_readback_selection = _resolve_b3_trusted_readback(
+        root=canonical,
+        prepared_execution=prepared_execution,
+        explicit_dispatch_decision=explicit_dispatch_decision,
+        expected_task_prompt_id=task_prompt_id,
+        expected_attempt_id=attempt_id,
+    )
+
     started_record, task_context = _project_native_started_record(
         canonical=canonical,
         attempt=attempt,
@@ -2796,6 +2861,7 @@ def launch_cycle(
             "governed_worker_context": governed_worker_context,
             "explicit_dispatch_decision": explicit_dispatch_decision,
             "result_transport": trusted_result_transport,
+            "validation_readback_selection": trusted_readback_selection,
             "attempt_root": attempt,
         },
     )
