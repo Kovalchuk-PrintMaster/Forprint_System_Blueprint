@@ -11,6 +11,7 @@ import yaml
 
 from scripts.coordination import execution_attempt_ledger_v0_1 as attempt_ledger
 from scripts.coordination.control_plane import dispatch_intent as dispatch
+from scripts.coordination.control_plane import validation_evidence_readback_selection_v0_1 as readback
 
 TRAINING_QUEUE = Path(
     "coordination/internal_work/blueprint/worker_training/"
@@ -554,6 +555,12 @@ def prepare_training_pre_dispatch(
     selection = resolve_result_transport_selection(root=root, task_binding=binding)
     result["result_transport_selection"] = copy.deepcopy(selection)
     result["result_transport_policy_sha256"] = selection["policy_sha256"]
+    # B3 P0/P1: separate, non-authorizing validation evidence readback selector.
+    # The default policy has no opt-ins; this alone never adds an MCP tool.
+    readback_selection = readback.resolve_if_registered(root=root, task_binding=binding)
+    if readback_selection is not None:
+        result["validation_readback_selection"] = copy.deepcopy(readback_selection)
+        result["validation_readback_policy_sha256"] = readback_selection["policy_sha256"]
     result["worker_id"] = worker_id
     result["attempt_id"] = attempt_id
     result["workspace_required_before_dispatch"] = True
@@ -667,6 +674,9 @@ def validate_training_assistant_ack(
     frozen_selection = _verify_execution_transport_selection(
         root=root, execution=prepared_execution, binding=binding,
     )
+    frozen_readback = readback.verify_frozen_selection(
+        root=root, execution=prepared_execution, task_binding=binding,
+    )
     ready = dispatch.validate_cf09_assistant_ack(
         root=root,
         prepared_execution=prepared_execution,
@@ -683,6 +693,16 @@ def validate_training_assistant_ack(
         if ready.get("result_transport_policy_sha256") != frozen_selection["policy_sha256"]:
             raise CF10TrainingDispatchError("ACK result transport policy digest drift")
         ready["result_transport_selection"] = copy.deepcopy(frozen_selection)
+    # Do not allow ACK to add or change a previously frozen readback selector.
+    if frozen_readback is None:
+        if ("validation_readback_selection" in ready
+                or "validation_readback_policy_sha256" in ready):
+            raise CF10TrainingDispatchError("ACK inserted an unbound readback selector")
+    else:
+        if (ready.get("validation_readback_selection") != frozen_readback
+                or ready.get("validation_readback_policy_sha256") != frozen_readback["policy_sha256"]):
+            raise CF10TrainingDispatchError("ACK readback selector/provenance drift")
+        ready["validation_readback_selection"] = copy.deepcopy(frozen_readback)
     if ready.get("state") != "READY_FOR_EXPLICIT_DISPATCH":
         raise CF10TrainingDispatchError(
             "validated training ACK did not reach READY_FOR_EXPLICIT_DISPATCH"
@@ -800,6 +820,9 @@ def authorize_training_explicit_dispatch(
     frozen_transport_selection = _verify_execution_transport_selection(
         root=root, execution=ready_execution, binding=binding,
     )
+    frozen_readback = readback.verify_frozen_selection(
+        root=root, execution=ready_execution, task_binding=binding,
+    )
     governed_context_sha = _validated_governed_worker_context_digest(
         ready_execution
     )
@@ -836,6 +859,10 @@ def authorize_training_explicit_dispatch(
     if frozen_transport_selection is not None:
         decision_binding["result_transport_selection"] = copy.deepcopy(
             frozen_transport_selection
+        )
+    if frozen_readback is not None:
+        decision_binding["validation_readback_selection"] = copy.deepcopy(
+            frozen_readback
         )
     decision_id = hashlib.sha256(
         json.dumps(
