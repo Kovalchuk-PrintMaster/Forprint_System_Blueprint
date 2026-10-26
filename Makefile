@@ -3693,3 +3693,13 @@ governed-worker-cycle-launch: cf10-s01-runtime-launch-preflight
 governed-worker-cycle-reconcile-result-return: cf10-s01-runtime-launch-preflight
 governed-worker-cycle-advance: cf10-s01-runtime-launch-preflight
 # CF10_S01_OPERATOR_RUNTIME_BINDING_V0_1_END
+
+# CF10_S1_DERIVED_OPERATOR_REPORT_V0_2_START
+# Read-only governed attempt reporting. Does not grant ACCEPT, promotion, commit or push.
+.PHONY: cf10-attempt-report cf10-attempt-report-check
+cf10-attempt-report:
+	@test -n "$(GOVERNED_WORKER_TASK)" && test -n "$(GOVERNED_WORKER_ATTEMPT)" && test -n "$(CF10_ATTEMPT_REPORT_OUTPUT)" || { echo 'ERROR: task, attempt and output required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_attempt_operator_report_v0_2 --root . --runtime-root "$(GOVERNED_WORKER_RUNTIME_ROOT)" --task-prompt-id "$(GOVERNED_WORKER_TASK)" --attempt-id "$(GOVERNED_WORKER_ATTEMPT)" --output-dir "$(CF10_ATTEMPT_REPORT_OUTPUT)"
+cf10-attempt-report-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_attempt_operator_report_v0_2.py
+# CF10_S1_DERIVED_OPERATOR_REPORT_V0_2_END
