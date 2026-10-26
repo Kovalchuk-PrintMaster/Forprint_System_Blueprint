@@ -25,7 +25,7 @@ def _helper_module():
 def test_canonical_budget_and_default_off_policy():
     c = yaml.safe_load((ROOT / "config/worker_runtime.yaml").read_text())
     assert c["schema_version"] == "forprint_module_worker_runtime_v0_1"
-    assert c["timeout_seconds"] == 1200
+    assert c["timeout_seconds"] == 1800
     assert c["copilot_mcp"] == POLICY
     assert 900 * 1000 < POLICY["tool_timeout_ms"]
     assert POLICY["tool_timeout_ms"] + 180 * 1000 <= c["timeout_seconds"] * 1000
