@@ -1,0 +1,36 @@
+schema_version: cf10_zero_delta_review_status_contract_candidate_v0_1
+owner: forprint_system_blueprint
+status: CANDIDATE_FOR_OPERATOR_REVIEW
+purpose: >-
+  Add a derived, read-only operator-review overlay, based on S2B and the current
+  zero-delta proof; do not conflate the new state with the canonical governed
+  promotion corridor.
+statuses:
+  undecided: AWAITING_EXPLICIT_ZERO_DELTA_REVIEW
+  accepted: ZERO_DELTA_OPERATOR_ACCEPTED
+  held: ZERO_DELTA_OPERATOR_HELD
+  returned: ZERO_DELTA_OPERATOR_RETURNED
+binding_rules:
+  - evaluate_current_S2B_preview_first
+  - decision_must_be_single_record_at_exact_canonical_path
+  - decision_sha256_must_match_S2B_readback
+  - decision_identity_and_evidence_bindings_must_match_latest_live_S2B_preview
+  - require_current_workspace_only_temporal_scope
+  - reject_any_promotion_publication_or_commit_claims
+  - never_infer_historical_exit_attestation
+boundaries:
+  automatic_accept: false
+  automatic_commit: false
+  automatic_push: false
+  automatic_release: false
+  next_dispatch_authorized: false
+  roadmap_lifecycle_closed: false
+  no_status_mutation: true
+  no_ledger_mutation: true
+  no_decision_write: true
+known_limitations:
+  - current_workspace_proof_may_become_unavailable_or_change; then fail_closed
+  - legacy governed_worker_cycle.status remains AWAITING_OPERATOR_REVIEW after decision
+  - HOLD_supersession_policy_not_implemented_in_S2B_v0_1
+  - S1_consolidated_report_not_yet_upgraded_to_show_this_overlay
+  - future_governed_policy_may_define_a_single_combined_review_projection

@@ -3716,3 +3716,12 @@ cf10-zero-delta-review-decide:
 	@test -n "$(GOVERNED_WORKER_TASK)" && test -n "$(GOVERNED_WORKER_ATTEMPT)" && test -n "$(CF10_DECISION)" && test -n "$(CF10_DECISION_ID)" && test -n "$(CF10_OPERATOR_REF)" && test -n "$(CF10_DECISION_CONFIRM)" && test -n "$(CF10_TEMPORAL_ACK)" || (echo 'Explicit task, attempt, decision, decision-id, operator, confirmation and temporal acknowledgment required'; exit 2)
 	$(PYTHON) -B -m scripts.coordination.control_plane.cf10_zero_delta_operator_review_v0_1 decide --root . --runtime-root "$(CF10_ZERO_DELTA_RUNTIME_ROOT)" --proof-file "$(CF10_ZERO_DELTA_PROOF)" --task "$(GOVERNED_WORKER_TASK)" --attempt-id "$(GOVERNED_WORKER_ATTEMPT)" --decision "$(CF10_DECISION)" --decision-id "$(CF10_DECISION_ID)" --operator-ref "$(CF10_OPERATOR_REF)" --confirm "$(CF10_DECISION_CONFIRM)" --temporal-ack "$(CF10_TEMPORAL_ACK)"
 # CF10_S2B_ZERO_DELTA_OPERATOR_REVIEW_V0_1_END
+
+# CF10_S2C_ZERO_DELTA_REVIEW_STATUS_V0_1_START
+.PHONY: cf10-zero-delta-status-preview cf10-zero-delta-status-check
+cf10-zero-delta-status-preview:
+	@test -n "$(GOVERNED_WORKER_TASK)" && test -n "$(GOVERNED_WORKER_ATTEMPT)" && test -n "$(CF10_S2C_PROOF_FILE)" || { echo "ERROR: GOVERNED_WORKER_TASK, GOVERNED_WORKER_ATTEMPT, CF10_S2C_PROOF_FILE required"; exit 2; }
+	$(PYTHON) -B -m scripts.coordination.control_plane.cf10_zero_delta_status_projection_v0_1 preview --root . --runtime-root "$(GOVERNED_WORKER_RUNTIME_ROOT)" --proof-file "$(CF10_S2C_PROOF_FILE)" --task "$(GOVERNED_WORKER_TASK)" --attempt-id "$(GOVERNED_WORKER_ATTEMPT)"
+cf10-zero-delta-status-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_zero_delta_status_projection_v0_1.py
+# CF10_S2C_ZERO_DELTA_REVIEW_STATUS_V0_1_END
