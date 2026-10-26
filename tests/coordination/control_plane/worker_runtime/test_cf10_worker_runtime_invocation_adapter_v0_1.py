@@ -886,3 +886,134 @@ def test_cf10_stage3_copilot_exposes_only_four_bounded_mcp_tools(
     assert invocation["provider_policy"]["bash_available"] is False
     assert invocation["provider_policy"]["web_available"] is False
     assert invocation["provider_policy"]["builtin_mcps_disabled"] is True
+
+
+# CF10_A046_FROZEN_BASELINE_CAPSULE_TESTS_V0_1
+def _a046_frozen_fixture(tmp_path: Path, monkeypatch):
+    """Minimal attempt inputs; existing exact-delta verifier stays authoritative."""
+    from scripts.coordination.control_plane.workspace import provision
+
+    attempt, workspace = _arrange(tmp_path, monkeypatch)
+    (attempt / "input").mkdir()
+    (attempt / "evidence").mkdir()
+    frozen_fp, baseline_fp, head = "a" * 64, "b" * 64, "c" * 40
+    dirty = ["tests/example_inherited.py", "scripts/unrelated_inherited.py"]
+    baseline_path = attempt / "evidence/worker_baseline_v0_1.yaml"
+    frozen = {
+        "git_head": head,
+        "fingerprint_sha256": frozen_fp,
+        "durable_dirty_paths": dirty,
+    }
+    manifest = {
+        "source_head": head,
+        "source_state_fingerprint": frozen_fp,
+        "worker_baseline_fingerprint_sha256": baseline_fp,
+        "worker_baseline_evidence": str(baseline_path),
+        "workspace_equivalence_validated": True,
+        "source_state_frozen": True,
+        "worker_baseline_captured": True,
+    }
+    baseline = {
+        "source_head": head,
+        "baseline_fingerprint_sha256": baseline_fp,
+        "workspace_repo": str(workspace),
+        "durable_dirty_paths": dirty,
+        "baseline_dirty_paths": dirty,
+    }
+    for path, data in (
+        (attempt / "manifest.yaml", manifest),
+        (attempt / "input/governed_worker_cycle_source_state_v0_1.yaml", frozen),
+        (baseline_path, baseline),
+    ):
+        path.write_text(yaml.safe_dump(data), encoding="utf-8")
+    front = tmp_path / "coordination/work_fronts/cf10_fixture_v0_1.yaml"
+    front.parent.mkdir(parents=True)
+    front.write_text(yaml.safe_dump({"provenance": {"source_refs": []}}), encoding="utf-8")
+    monkeypatch.setattr(provision, "derive_worker_delta_from_manifest", lambda _: {
+        "worker_delta_exact": True,
+        "workspace_repo": str(workspace),
+        "source_head": head,
+        "baseline_fingerprint_sha256": baseline_fp,
+        "changed_paths": [],
+        "inherited_dirty_paths": dirty,
+    })
+    return attempt, workspace, dirty, front
+
+
+def test_a046_frozen_evidence_is_pre_worker_not_new_delta(tmp_path, monkeypatch):
+    attempt, workspace, dirty, front = _a046_frozen_fixture(tmp_path, monkeypatch)
+    out = adapter.build_launch_invocation(
+        root=tmp_path,
+        task_context=_context(),
+        explicit_dispatch_decision=_decision(workspace),
+        attempt_root=attempt,
+    )
+    assert "FROZEN PRE-WORKER WORKSPACE EVIDENCE" in out["prompt"]
+    assert "Initial exact Worker delta: []" in out["prompt"]
+    assert json.dumps(dirty, ensure_ascii=True, separators=(",", ":")) in out["prompt"]
+    assert "they are new Worker edits" not in out["prompt"]
+    assert out["prompt_sha256"] == hashlib.sha256(out["prompt"].encode("utf-8")).hexdigest()
+    assert out["effects"]["worker_process_started"] is False
+
+
+def test_a046_frozen_evidence_rejects_baseline_binding_drift(tmp_path, monkeypatch):
+    attempt, workspace, _, _ = _a046_frozen_fixture(tmp_path, monkeypatch)
+    path = attempt / "manifest.yaml"
+    manifest = yaml.safe_load(path.read_text())
+    manifest["worker_baseline_fingerprint_sha256"] = "f" * 64
+    path.write_text(yaml.safe_dump(manifest), encoding="utf-8")
+    with pytest.raises(adapter.WorkerRuntimeInvocationError, match="source/baseline binding drift"):
+        adapter.build_launch_invocation(
+            root=tmp_path, task_context=_context(),
+            explicit_dispatch_decision=_decision(workspace), attempt_root=attempt,
+        )
+
+
+def test_a046_frozen_evidence_rejects_prelaunch_workspace_changes(tmp_path, monkeypatch):
+    from scripts.coordination.control_plane.workspace import provision
+    attempt, workspace, dirty, _ = _a046_frozen_fixture(tmp_path, monkeypatch)
+    monkeypatch.setattr(provision, "derive_worker_delta_from_manifest", lambda _: {
+        "worker_delta_exact": True,
+        "workspace_repo": str(workspace),
+        "source_head": "c" * 40,
+        "baseline_fingerprint_sha256": "b" * 64,
+        "changed_paths": [dirty[0]],
+        "inherited_dirty_paths": dirty,
+    })
+    with pytest.raises(adapter.WorkerRuntimeInvocationError, match="initial workspace delta drift"):
+        adapter.build_launch_invocation(
+            root=tmp_path, task_context=_context(),
+            explicit_dispatch_decision=_decision(workspace), attempt_root=attempt,
+        )
+
+
+def test_a046_frozen_evidence_checks_prior_accept_exact_hashes(tmp_path, monkeypatch):
+    attempt, workspace, _, front = _a046_frozen_fixture(tmp_path, monkeypatch)
+    accepted = "cf10-u180j-a040"
+    rel = "coordination/continuity/worker_result_decisions/a040-accept.yaml"
+    decision_path = tmp_path / rel
+    decision_path.parent.mkdir(parents=True)
+    terminal = tmp_path / "coordination/continuity/execution_attempts/a040-terminal.yaml"
+    result = attempt.parent / accepted / "result/worker_result.yaml"
+    returned = attempt.parent / accepted / "evidence/governed_worker_cycle_result_return_v0_1.yaml"
+    artifacts = {}
+    for kind, path in (("terminal_ledger", terminal), ("worker_result", result), ("result_return", returned)):
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text("verified fixture " + kind, encoding="utf-8")
+        artifacts[kind] = {"path": str(path), "sha256": hashlib.sha256(path.read_bytes()).hexdigest()}
+    decision_path.write_text(yaml.safe_dump({
+        "decision": "ACCEPT", "attempt_id": accepted, "evidence_bindings": artifacts,
+    }), encoding="utf-8")
+    front.write_text(yaml.safe_dump({"provenance": {"source_refs": [
+        "accepted_attempt:" + accepted, "operator_decision:" + rel,
+    ]}}), encoding="utf-8")
+    args = dict(root=tmp_path, task_context=_context(),
+                explicit_dispatch_decision=_decision(workspace), attempt_root=attempt)
+    capsule = adapter.build_launch_invocation(**args)["prompt"]
+    assert "Prior operator ACCEPT verified" in capsule
+    assert accepted in capsule
+    result.write_text("tampered", encoding="utf-8")
+    with pytest.raises(adapter.WorkerRuntimeInvocationError, match="prior ACCEPT evidence drift"):
+        adapter.build_launch_invocation(**args)
+
+# CF10_A046_FROZEN_BASELINE_CAPSULE_TESTS_V0_1_END

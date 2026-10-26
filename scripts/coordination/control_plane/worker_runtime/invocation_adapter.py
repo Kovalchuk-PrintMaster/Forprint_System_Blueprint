@@ -591,6 +591,157 @@ def _verify_b3_readback_invocation(
 # CF10_B3_P2_INDEPENDENT_INVOCATION_GUARD_V0_1_END
 
 
+# CF10_A046_FROZEN_BASELINE_CAPSULE_MINIMAL_V0_1
+# READ-ONLY provenance delivery; no new execution, acceptance, or mutation authority.
+def _verified_frozen_launch_context(
+    *, root: Path, attempt: Path, workspace: Path, binding: dict[str, Any],
+) -> str:
+    """Report *pre-worker* facts, reusing exact baseline-delta verification.
+
+    Historical invocation fixtures do not carry a workspace manifest. In a real
+    governed launch, the manifest is mandatory before this adapter is called.
+    A partially present manifest/baseline always fails closed.
+    """
+    manifest_path = attempt / "manifest.yaml"
+    if not manifest_path.exists() and not manifest_path.is_symlink():
+        return ""  # non-governed historical invocation fixtures only
+
+    def read_yaml(path: Path, what: str) -> dict[str, Any]:
+        if not path.is_file() or path.is_symlink():
+            raise WorkerRuntimeInvocationError("frozen capsule unsafe/missing " + what)
+        data = yaml.safe_load(path.read_text(encoding="utf-8"))
+        if not isinstance(data, dict):
+            raise WorkerRuntimeInvocationError("frozen capsule malformed " + what)
+        return data
+
+    manifest = read_yaml(manifest_path, "manifest")
+    frozen = read_yaml(
+        attempt / "input/governed_worker_cycle_source_state_v0_1.yaml",
+        "frozen source",
+    )
+    baseline_path = attempt / "evidence/worker_baseline_v0_1.yaml"
+    baseline = read_yaml(baseline_path, "worker baseline")
+    head = frozen.get("git_head")
+    fingerprint = frozen.get("fingerprint_sha256")
+    baseline_fp = baseline.get("baseline_fingerprint_sha256")
+    if (
+        not isinstance(head, str) or len(head) != 40
+        or not isinstance(fingerprint, str) or len(fingerprint) != 64
+        or not isinstance(baseline_fp, str) or len(baseline_fp) != 64
+        or manifest.get("source_head") != head
+        or baseline.get("source_head") != head
+        or manifest.get("source_state_fingerprint") != fingerprint
+        or manifest.get("worker_baseline_fingerprint_sha256") != baseline_fp
+        or manifest.get("worker_baseline_evidence") != str(baseline_path)
+        or manifest.get("workspace_equivalence_validated") is not True
+        or manifest.get("source_state_frozen") is not True
+        or manifest.get("worker_baseline_captured") is not True
+        or baseline.get("workspace_repo") != str(workspace)
+        or baseline.get("durable_dirty_paths") != frozen.get("durable_dirty_paths")
+    ):
+        raise WorkerRuntimeInvocationError("frozen capsule source/baseline binding drift")
+
+    # Existing project-native verifier checks the content-addressed baseline,
+    # workspace HEAD and every inherited dirty-path snapshot independently.
+    from scripts.coordination.control_plane.workspace.provision import (
+        derive_worker_delta_from_manifest,
+    )
+    delta = derive_worker_delta_from_manifest(manifest_path)
+    dirty = baseline.get("baseline_dirty_paths")
+    if (
+        delta.get("worker_delta_exact") is not True
+        or delta.get("workspace_repo") != str(workspace)
+        or delta.get("source_head") != head
+        or delta.get("baseline_fingerprint_sha256") != baseline_fp
+        or delta.get("changed_paths") != []
+        or not isinstance(dirty, list)
+        or delta.get("inherited_dirty_paths") != dirty
+        or not all(isinstance(item, str) for item in dirty)
+    ):
+        raise WorkerRuntimeInvocationError("frozen capsule initial workspace delta drift")
+
+    lines = [
+        "\nFROZEN PRE-WORKER WORKSPACE EVIDENCE — READ-ONLY, NON-AUTHORITATIVE",
+        "- These facts were checked by Control Plane BEFORE starting this Worker.",
+        "- This is inherited baseline state, NOT changes attributed to this Worker.",
+        f"- Frozen canonical Git HEAD: {head}",
+        f"- Frozen canonical source fingerprint: {fingerprint}",
+        f"- Captured worker baseline fingerprint: {baseline_fp}",
+        f"- Initial exact Worker delta: [] (verified before process start)",
+        f"- Inherited dirty path count: {len(dirty)}",
+        "- Inherited dirty paths (JSON-escaped path strings):",
+        json.dumps(dirty, ensure_ascii=True, separators=(",", ":")),
+        "- Git status alone shows inherited edits; do not label them new Worker edits.",
+        "- Independent post-worker verification still determines actual Worker delta.",
+        "- Do not modify unrelated inherited paths, change scope or infer ACCEPT.",
+    ]
+
+    # Optional source-backed dependency proof. No task/attempt ID is hardcoded.
+    front_ref = binding.get("work_front_ref")
+    if not isinstance(front_ref, str) or not (
+        front_ref.startswith("coordination/work_fronts/")
+        and front_ref.endswith(".yaml")
+        and ".." not in Path(front_ref).parts
+    ):
+        raise WorkerRuntimeInvocationError("frozen capsule Work Front reference invalid")
+    front = read_yaml(root / front_ref, "Work Front")
+    provenance = front.get("provenance")
+    if not isinstance(provenance, dict):
+        raise WorkerRuntimeInvocationError("frozen capsule Work Front provenance missing")
+    source_refs = provenance.get("source_refs")
+    if not isinstance(source_refs, list):
+        raise WorkerRuntimeInvocationError("frozen capsule source refs invalid")
+    op_refs = [x[len("operator_decision:"):] for x in source_refs
+               if isinstance(x, str) and x.startswith("operator_decision:")]
+    accepted_refs = [x[len("accepted_attempt:"):] for x in source_refs
+                     if isinstance(x, str) and x.startswith("accepted_attempt:")]
+    if op_refs:
+        if len(op_refs) != 1 or len(accepted_refs) != 1:
+            raise WorkerRuntimeInvocationError("frozen capsule ACCEPT binding ambiguous")
+        ref, accepted = op_refs[0], accepted_refs[0]
+        if not (ref.startswith("coordination/continuity/worker_result_decisions/")
+                and ref.endswith(".yaml") and ".." not in Path(ref).parts
+                and accepted.startswith("cf10-") and "/" not in accepted
+                and ".." not in accepted):
+            raise WorkerRuntimeInvocationError("frozen capsule ACCEPT reference unsafe")
+        decision = read_yaml(root / ref, "prior operator decision")
+        if decision.get("decision") != "ACCEPT" or decision.get("attempt_id") != accepted:
+            raise WorkerRuntimeInvocationError("frozen capsule prior ACCEPT mismatched")
+        artifacts = decision.get("evidence_bindings")
+        if not isinstance(artifacts, dict):
+            raise WorkerRuntimeInvocationError("frozen capsule prior ACCEPT bindings missing")
+        expected_paths = {
+            "terminal_ledger": root / "coordination/continuity/execution_attempts" /
+                Path(str(artifacts.get("terminal_ledger", {}).get("path", ""))).name,
+            "worker_result": attempt.parent / accepted / "result/worker_result.yaml",
+            "result_return": attempt.parent / accepted /
+                "evidence/governed_worker_cycle_result_return_v0_1.yaml",
+        }
+        for kind, expected_path in expected_paths.items():
+            item = artifacts.get(kind)
+            if not isinstance(item, dict) or item.get("path") != str(expected_path):
+                raise WorkerRuntimeInvocationError("frozen capsule prior ACCEPT path drift:" + kind)
+            digest = item.get("sha256")
+            if not isinstance(digest, str) or len(digest) != 64:
+                raise WorkerRuntimeInvocationError("frozen capsule prior ACCEPT digest missing:" + kind)
+            if not expected_path.is_file() or expected_path.is_symlink():
+                raise WorkerRuntimeInvocationError("frozen capsule prior ACCEPT evidence missing:" + kind)
+            if hashlib.sha256(expected_path.read_bytes()).hexdigest() != digest:
+                raise WorkerRuntimeInvocationError("frozen capsule prior ACCEPT evidence drift:" + kind)
+        lines += [
+            "- Prior operator ACCEPT verified via canonical decision and 3 SHA256-bound artifacts:",
+            json.dumps({"attempt_id": accepted, "decision_ref": ref},
+                       ensure_ascii=True, sort_keys=True),
+            "- This confirms the *prior* attempt only; it grants no current ACCEPT.",
+        ]
+    value = "\n".join(lines) + "\n"
+    if len(value.encode("utf-8")) > 32768:
+        raise WorkerRuntimeInvocationError("frozen capsule evidence exceeds prompt budget")
+    return value
+
+# CF10_A046_FROZEN_BASELINE_CAPSULE_MINIMAL_V0_1_END
+
+
 def build_launch_invocation(
     *,
     root: Path | str,
@@ -742,6 +893,9 @@ def build_launch_invocation(
         explicit_dispatch_decision=explicit_dispatch_decision,
         governed_worker_context=governed,
         result_transport=result_transport,
+    )
+    prompt += _verified_frozen_launch_context(
+        root=root_path, attempt=attempt, workspace=workspace, binding=binding,
     )
 
     mcp_script = (workspace / WORKER_VALIDATION_MCP_SCRIPT).resolve()
