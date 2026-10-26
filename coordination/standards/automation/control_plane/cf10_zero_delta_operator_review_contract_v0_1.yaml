@@ -1,0 +1,56 @@
+schema_version: cf10_s2b_zero_delta_operator_review_contract_candidate_v0_1
+status: IMPLEMENTATION_CANDIDATE_OPERATOR_GATE_REQUIRED
+owner: forprint_system_blueprint
+linked_milestones:
+  s1_commit: 1394daf
+  a047_attempt: cf10-u180j-a047
+  s2a_proof_schema: cf10_s2_independent_workspace_proof_v0_1
+purpose: Govern explicit operator decision for an already-terminal zero-delta Worker attempt, without using post-commit acceptance.
+authority:
+  automatic_accept: false
+  automatic_promotion: false
+  automatic_commit: false
+  automatic_push: false
+  automatic_release: false
+  operator_decision_requires_fresh_preview: true
+  operator_confirmation_required: true
+  accept_current_workspace_only_not_exit_attestation: true
+implementation_proposal:
+  preview:
+    side_effects: NONE
+    proof_checks:
+      - S2A proof SHA256 source bindings
+      - Current state recomputed by native derive_worker_delta_from_manifest
+      - S1 report consistency
+      - One FINISHED/SUCCEEDED/PASS terminal ledger
+      - Work Front exact identity and valid scope
+      - Handoff hash and resume attempt
+      - No decision conflicts
+  decide:
+    side_effects: SINGLE_APPEND_ONLY_DECISION_RECORD
+    accepted_decisions: [ACCEPT, HOLD, RETURN]
+    exact_location: coordination/continuity/worker_result_decisions/<attempt_id>__zero_delta_operator_decision_v0_1.yaml
+    confirmation_format: '<DECISION>:<ATTEMPT_ID>:<REVIEW_BINDING_SHA256_FIRST_12>'
+    temporal_ack: CURRENT_WORKSPACE_ONLY_NOT_HISTORICAL_EXIT
+    same_decision_replay: READ_ONLY_IF_IDENTICAL
+    conflicts: FAIL_CLOSED
+    supersession: NOT_SUPPORTED_IN_V0_1
+  lifecycle_projection:
+    governed_worker_cycle_status_modified: false
+    decision_is_not_promotion: true
+    follow_up: S2C_ZERO_DELTA_STATUS_CONVERGENCE_REVIEW
+known_limitations:
+  - S2A independently proves current workspace state, not immutable worker-exit state.
+  - No new historical attestation can be retroactively asserted.
+  - Operator must explicitly weigh time-scoped evidence before ACCEPT.
+  - Existing governed status may remain AWAITING_OPERATOR_REVIEW after decision until separate status reconciliation.
+  - A047 read-only live preview succeeded after the S2A proof layout repair.
+  - Decide must remain separately authorized; the installed CLI is not an ACCEPT.
+canonical_installation_candidate:
+  exact_paths:
+    - scripts/coordination/control_plane/cf10_zero_delta_operator_review_v0_1.py
+    - tests/coordination/control_plane/test_cf10_zero_delta_operator_review_v0_1.py
+    - coordination/standards/automation/control_plane/cf10_zero_delta_operator_review_contract_v0_1.yaml
+    - Makefile
+  require_prior_review: true
+  do_not_install_without_operator_gating: true

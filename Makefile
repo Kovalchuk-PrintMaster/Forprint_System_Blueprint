@@ -3703,3 +3703,16 @@ cf10-attempt-report:
 cf10-attempt-report-check:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_attempt_operator_report_v0_2.py
 # CF10_S1_DERIVED_OPERATOR_REPORT_V0_2_END
+# CF10_S2B_ZERO_DELTA_OPERATOR_REVIEW_V0_1_START
+.PHONY: cf10-zero-delta-review-preview cf10-zero-delta-review-check cf10-zero-delta-review-decide
+CF10_ZERO_DELTA_RUNTIME_ROOT ?= /srv/software_development/forprint-worker-runtime
+CF10_ZERO_DELTA_PROOF ?= tmp/cf10_s2_a047_independent_workspace_proof_v0_1/independent_proof.json
+cf10-zero-delta-review-preview:
+	@test -n "$(GOVERNED_WORKER_TASK)" && test -n "$(GOVERNED_WORKER_ATTEMPT)" || (echo 'Task and attempt are required'; exit 2)
+	$(PYTHON) -B -m scripts.coordination.control_plane.cf10_zero_delta_operator_review_v0_1 preview --root . --runtime-root "$(CF10_ZERO_DELTA_RUNTIME_ROOT)" --proof-file "$(CF10_ZERO_DELTA_PROOF)" --task "$(GOVERNED_WORKER_TASK)" --attempt-id "$(GOVERNED_WORKER_ATTEMPT)"
+cf10-zero-delta-review-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_zero_delta_operator_review_v0_1.py
+cf10-zero-delta-review-decide:
+	@test -n "$(GOVERNED_WORKER_TASK)" && test -n "$(GOVERNED_WORKER_ATTEMPT)" && test -n "$(CF10_DECISION)" && test -n "$(CF10_DECISION_ID)" && test -n "$(CF10_OPERATOR_REF)" && test -n "$(CF10_DECISION_CONFIRM)" && test -n "$(CF10_TEMPORAL_ACK)" || (echo 'Explicit task, attempt, decision, decision-id, operator, confirmation and temporal acknowledgment required'; exit 2)
+	$(PYTHON) -B -m scripts.coordination.control_plane.cf10_zero_delta_operator_review_v0_1 decide --root . --runtime-root "$(CF10_ZERO_DELTA_RUNTIME_ROOT)" --proof-file "$(CF10_ZERO_DELTA_PROOF)" --task "$(GOVERNED_WORKER_TASK)" --attempt-id "$(GOVERNED_WORKER_ATTEMPT)" --decision "$(CF10_DECISION)" --decision-id "$(CF10_DECISION_ID)" --operator-ref "$(CF10_OPERATOR_REF)" --confirm "$(CF10_DECISION_CONFIRM)" --temporal-ack "$(CF10_TEMPORAL_ACK)"
+# CF10_S2B_ZERO_DELTA_OPERATOR_REVIEW_V0_1_END
