@@ -3762,3 +3762,11 @@ cf10-prelaunch-check:
 cf10-prelaunch-tests:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_prelaunch_audit_v0_2.py
 # CF10_PROJECT_NATIVE_PRELAUNCH_AUDIT_V0_2_END
+
+# CF10_CANONICAL_INVOCATION_REHEARSAL_V0_1_START
+# Extends project-native cf10-prelaunch-check; this target only runs offline tests.
+.PHONY: cf10-invocation-rehearsal-tests
+cf10-invocation-rehearsal-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_invocation_rehearsal_v0_1.py
+cf10-prelaunch-tests: cf10-invocation-rehearsal-tests
+# CF10_CANONICAL_INVOCATION_REHEARSAL_V0_1_END

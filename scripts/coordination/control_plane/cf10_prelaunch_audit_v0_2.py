@@ -185,6 +185,10 @@ def inspect(root: Path, runtime: Path, task: str, attempt_id: str,
             add('attempt_status','BLOCKED',type(exc).__name__+': '+str(exc))
     else:
         add('attempt_status','NOT_YET_TESTABLE', 'No attempt created; this is intentional in analysis phase')
+    # Full canonical invocation rehearsal only after explicit dispatch evidence exists.
+    # Never synthesize authority or start a Worker; sanitized status enters the ZIP.
+    from scripts.coordination.control_plane import cf10_invocation_rehearsal_v0_1 as rehearsal
+    checks.append(rehearsal.inspect(root, runtime, task, attempt_id))
     decision_path = Path(DECISION)
     try:
         d = load_json(decision_path)
