@@ -1,0 +1,150 @@
+work_front_id: wf-cf10-project-change-impact-and-freshness-control-v0-1
+objective: 'Task 85, CF-10/u180j: extend the existing Blueprint/CF-14 change impact and freshness mechanisms for
+  critical project standards, templates and module bootstrap consumption. Start with bounded REUSE/EXTEND audit;
+  implement only independently evidenced missing behavior within the exact nine-path Worker write set, otherwise
+  return a justified no-production-change/blocker result.'
+scope:
+- coordination/registry/execution_dependency_registry_v0_1.yaml
+- scripts/coordination/render_blueprint_canonical_state_freshness_impact.py
+- scripts/coordination/control_plane/context/bootstrap_task_context.py
+- scripts/coordination/resolve_project_change_impact_v0_1.py
+- tests/test_render_blueprint_canonical_state_freshness_impact.py
+- tests/coordination/control_plane/context/test_bootstrap_task_context_mode_v0_1.py
+- tests/validation/test_execution_dependency_contract_v0_1.py
+- tests/coordination/test_project_change_impact_v0_1.py
+- Makefile
+exclusions:
+- Work Front is an exact allowlist, not a request to modify every listed file. All mutations occur solely in isolated
+  Worker candidate workspace.
+- No new competing roadmap authority, execution dependency truth store, broad relationship framework, autonomous
+  dispatcher, or cross-module migration.
+- Do not modify live event store, attempt ledger, prior Worker Result, AGENTS.md, generator inventory, existing
+  Work Fronts or training queue from the Worker.
+- Do not automatically refresh canonical generated projections or overwrite dirty/untracked files. Current historical
+  checkpoint delta must remain explicitly visible, not waived.
+- Do not create a NEW impact resolver if existing functionality can be extended in-scope. New resolver path is conditional
+  on specific documented gap proof.
+- Do not edit separate module repositories, actual reusable template/standard files outside exact scope, or critical
+  external resources. Missing required path means STOP and request scope review.
+- Do not infer semantic freshness from timestamps, file touch, hashes alone or LLM assertion. No automatic ACCEPT/dispatch/commit/push/merge/release/publication.
+- This task is a bounded CF-10 training implementation proof of CF-14 direction, not full project-wide CF-14 rollout.
+provenance:
+  source_refs:
+  - roadmap:control_foundation_near_horizon/CF-10
+  - parent_roadmap:control_foundation_near_horizon/CF-14/Change_Impact_Resolver
+  - lifecycle:u180j/WORK_ACTIVATED/sequence-67
+  - training_queue:coordination/internal_work/blueprint/worker_training/cf10_worker_training_queue_v0_1.yaml
+  - training_task:project_change_impact_and_freshness_control
+  - planning_ref:coordination/internal_work/blueprint/governance/2026-09-27__blueprint__cf10_task85_project_change_impact_and_freshness_control_v0_1.yaml
+  - accepted_attempt:cf10-u180j-a047
+  - operator_decision:coordination/continuity/worker_result_decisions/cf10-u180j-a047__zero_delta_operator_decision_v0_1.yaml
+  - accepted_decision_record_sha256:dd98e2ec5fc24e7e0dee0f040f362ad2fb88fb079594d1e12215cf7c724e5769
+  - acceptance_publication_commit:994f314
+  - bounded_workflow_commit:75e8428
+  - source_baseline_head:75e8428
+  - make:execution-dependency-check
+  - make:canonical-state-freshness-impact-check
+  - make:generator-contract-check
+  - make:roadmap-sync-check
+  chat_is_authority: false
+dependencies:
+- Task80 worker cf10-u180j-a047 operator ACCEPT record is immutable, exact SHA verified, and S3 status is ZERO_DELTA_OPERATOR_ACCEPTED;
+  historical worker-exit snapshot attestation remains false.
+- CF-10 work u180j remains ACTIVE at latest canonical lifecycle event sequence 67; global NEXT_STEP CF-11 does not
+  mean CF-10 is closed.
+- Roadmap reconciliation IN_SYNC, execution dependency check PASS, generator contract check PASS, current AGENTS
+  freshness check PASS after existing in-flight working-tree U111 update; all must be retested immediately before
+  preparation.
+- Continuity projection check PASS, but latest historical checkpoint remains unreconciled (material delta); capture
+  fresh live HEAD+dirty fingerprint and do not hide or equate checkpoint to live baseline.
+- Current worktree contains protected unrelated dirty paths, including AGENTS.md, Candidate and other Work Fronts.
+  Exact source and dirty-state overlap gate is mandatory; pristine Git is NOT required.
+- CF-14 architecture remains parent; first map existing dependency graph/registry, canonical-state impact resolver,
+  generator registry, bootstrap context/gates and Makefile operator map to all Task85 acceptance criteria.
+- Index/Work Front/Task materialization alone grants NO dispatcher launch or operator ACCEPT. New attempt identity
+  and explicit independent dispatch authorization are required.
+outputs:
+- One current-state REUSE/EXTEND/ADAPT/REPLACE/NEW matrix by existing capability, authoritative owner, source path,
+  tests, and precise gap; justify any NEW path.
+- Bounded and explainable reverse-affected dependency result for a controlled critical-source/capability change,
+  using existing curated dependency authority.
+- Machine-checkable dependent proved by deterministic isolated test; semantic dependent marked REVIEW_REQUIRED with
+  source/revision evidence and no false freshness claims.
+- Controlled Makefile operator functionality -> reusable standard/template -> bootstrap consumer example using isolated
+  fixtures (no write to real external standard/template).
+- One unrelated-change fixture with no broad invalidation; one stale-critical bootstrap fixture blocked with reason
+  and required remediation/review evidence.
+- Machine-readable and human-readable operator-facing impact evidence; explicit durable review bind with source/dependent
+  digests where review legitimately resolves.
+- Focused regression and project-native validation results, exact candidate changed-path listing and SHA256 hashes,
+  and full attempt-bound Worker Result/Handoff.
+- When scope is insufficient or existing functions already cover requirements, return BLOCKED or ALREADY_VERIFIED
+  with evidence; never manufacture code delta.
+acceptance:
+- Dependency and current-state checks and a fresh source freeze pass before execution; protected pre-existing dirty
+  paths and one-writer invariant preserved.
+- Every Task85 criterion in registered training queue and planning file is reconciled with source/test evidence
+  before implementation; CF-14 parent direction reused.
+- Registered changed critical source/facet produces precise explainable bounded reverse-affected set without a second
+  dependency authority.
+- At least one deterministic automatic verification, one semantic REVIEW_REQUIRED outcome, and explicit evidence
+  of review resolution if review completed.
+- Known-stale critical bootstrap/template/standard input is rejected by a project-native consumer gate; no unrelated
+  broad hard-block.
+- Makefile change impact example and unrelated control fixture both pass; functional map checked where a new operator
+  entrypoint is genuinely needed.
+- Candidate write set is a subset of the nine explicit scope paths; NEW resolver not allowed without documented
+  reuse-gap proof.
+- Focused tests and relevant regression pass, diff --check pass, exact hashes and tests included in Handoff.
+- No canonical Worker write, automatic acceptance, promotion, dispatch, next Work Front activation, Git push or
+  release.
+stop_conditions:
+- Task80 ACCEPT evidence/ledger or S3 overlay is missing, contradictory or unbound; Task85 prerequisite not ready.
+- Latest roadmaps/projections are stale or source HEAD/dirty fingerprint changes after freeze without explicit new
+  preparation.
+- An in-flight different canonical writer overlaps exact scope, including Makefile or other protected paths.
+- An essential impact relationship, consumer gate or deterministic test requires writing outside scope; STOP for
+  controlled amendment.
+- The proposed mechanism duplicates the existing dependency registry/graph or claims semantic freshness without
+  evidence.
+- New changes need live module bootstrap/export execution, mutation of another repository, or forbidden authority
+  expansion.
+- Validated Handoff/Worker Result is absent or result transport/evidence cannot bind to exact attempt.
+authority:
+  layer: WORK_FRONT
+  permissions:
+  - read
+  - write_blueprint
+  widening_requested: false
+capability_reuse:
+  search_performed: true
+  disposition: EXTEND
+  target_refs:
+  - coordination/registry/execution_dependency_registry_v0_1.yaml
+  - scripts/coordination/render_blueprint_canonical_state_freshness_impact.py
+  - scripts/coordination/control_plane/context/bootstrap_task_context.py
+  read_only_refs:
+  - coordination/registry/generator_derivation_registry_v0_1.yaml
+  - indexes/execution_dependency_graph.yaml
+  - scripts/indexing/build_execution_dependency_graph.py
+  - scripts/coordination/explain_execution_dependency.py
+  - coordination/standards/make_command_standard.md
+  - scripts/coordination/build_context_bundle.py
+  - scripts/coordination/preflight_logistics_h10_bootstrap_prompt_v0_1.py
+  - coordination/internal_work/blueprint/governance/2026-09-27__blueprint__cf10_task85_project_change_impact_and_freshness_control_v0_1.yaml
+  - coordination/internal_work/blueprint/worker_training/cf10_worker_training_queue_v0_1.yaml
+  searched_surfaces:
+  - coordination/registry/execution_dependency_registry_v0_1.yaml
+  - scripts/indexing/build_execution_dependency_graph.py
+  - scripts/coordination/explain_execution_dependency.py
+  - scripts/coordination/render_blueprint_canonical_state_freshness_impact.py
+  - scripts/coordination/control_plane/context/bootstrap_task_context.py
+  - scripts/coordination/build_context_bundle.py
+  - scripts/coordination/preflight_logistics_h10_bootstrap_prompt_v0_1.py
+  - coordination/registry/generator_derivation_registry_v0_1.yaml
+  - machine/impact_rules.yaml
+  - Makefile
+  rationale: Reuse existing validated dependency graph, existing canonical-state freshness impact renderer, and
+    existing bootstrap context gate; create no parallel truth store. An exact-scope optional resolver implementation
+    is justified only after deterministic evidence of a genuine gap. Work Front preparation review must re-audit
+    source state before dispatch.
