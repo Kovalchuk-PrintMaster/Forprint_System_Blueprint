@@ -593,6 +593,111 @@ def _verify_b3_readback_invocation(
 
 # CF10_A046_FROZEN_BASELINE_CAPSULE_MINIMAL_V0_1
 # READ-ONLY provenance delivery; no new execution, acceptance, or mutation authority.
+def _verify_prior_zero_delta_accept(
+    *, root: Path, attempt: Path, accepted: str, decision_path: Path,
+    decision: dict[str, Any], bindings: dict[str, Any], source_refs: list[Any],
+) -> None:
+    """Check the *historical* zero-delta ACCEPT contract, never current authority.
+
+    Zero-delta S3 decisions use flat SHA256 fields; ordinary post-commit ACCEPT
+    uses per-artifact {path, sha256}. Require an exact signed-off decision byte
+    digest in Work Front provenance, an unambiguous terminal ledger fact, and
+    byte-identical Worker Result, Result Return, baseline and Handoff files.
+    No evidence is generated, rewritten, accepted, promoted or published here.
+    """
+    def fail(why: str) -> None:
+        raise WorkerRuntimeInvocationError("frozen capsule zero-delta ACCEPT " + why)
+
+    def digest_ok(value: Any) -> bool:
+        return (isinstance(value, str) and len(value) == 64
+                and all(c in "0123456789abcdef" for c in value))
+
+    record_hashes = [x.split(":", 1)[1] for x in source_refs
+                     if isinstance(x, str)
+                     and x.startswith("accepted_decision_record_sha256:")]
+    if len(record_hashes) != 1 or not digest_ok(record_hashes[0]):
+        fail("decision provenance digest missing or ambiguous")
+    if (not decision_path.is_file() or decision_path.is_symlink()
+            or hashlib.sha256(decision_path.read_bytes()).hexdigest() != record_hashes[0]):
+        fail("decision provenance digest drift")
+
+    if (decision.get("record_role") != "zero_delta_operator_decision_not_promotion_or_publication"
+            or decision.get("zero_delta_confirmed_current_workspace") is not True
+            or decision.get("historical_exit_attestation") is not False
+            or decision.get("canonical_promotion_performed") is not False
+            or decision.get("commit_performed") is not False
+            or decision.get("push_performed") is not False
+            or decision.get("publication_state") != "NOT_ATTESTED"):
+        fail("status or historical scope contradiction")
+    if (bindings.get("attempt_id") != accepted
+            or bindings.get("task_prompt_id") != decision.get("task_prompt_id")
+            or bindings.get("work_front_id") != decision.get("work_front_id")
+            or bindings.get("temporal_scope") != "CURRENT_WORKSPACE_AT_REVIEW_NOT_HISTORICAL_EXIT"):
+        fail("attempt, Work Front or temporal scope binding drift")
+
+    required_hashes = (
+        "proof_sha256", "terminal_sha256", "worker_result_sha256",
+        "result_return_sha256", "manifest_sha256", "baseline_sha256",
+        "origin_handoff_sha256", "work_front_sha256",
+    )
+    if (not all(digest_ok(bindings.get(k)) for k in required_hashes)
+            or not isinstance(bindings.get("source_head"), str)
+            or len(bindings["source_head"]) != 40
+            or not all(c in "0123456789abcdef" for c in bindings["source_head"])):
+        fail("required evidence digest or source HEAD malformed")
+
+    canonical_store = root / "coordination/continuity/execution_attempts"
+    candidates = []
+    for path in sorted(canonical_store.glob(accepted + "__*.yaml")):
+        if path.is_symlink():
+            fail("unsafe terminal ledger path")
+        if (path.is_file()
+                and hashlib.sha256(path.read_bytes()).hexdigest()
+                == bindings["terminal_sha256"]):
+            candidates.append(path)
+    if len(candidates) != 1:
+        fail("terminal ledger missing, duplicated or digest drift")
+    terminal = yaml.safe_load(candidates[0].read_text(encoding="utf-8"))
+    if (not isinstance(terminal, dict)
+            or terminal.get("attempt_id") != accepted
+            or terminal.get("attempt_stage") != "FINISHED"
+            or terminal.get("result_state") != "SUCCEEDED"
+            or terminal.get("validator_outcome") != "PASS"):
+        fail("terminal ledger state mismatch")
+
+    prior = attempt.parent / accepted
+    evidence_files = {
+        "worker_result_sha256": prior / "result/worker_result.yaml",
+        "result_return_sha256": prior / "evidence/governed_worker_cycle_result_return_v0_1.yaml",
+        "manifest_sha256": prior / "manifest.yaml",
+        "baseline_sha256": prior / "evidence/worker_baseline_v0_1.yaml",
+        "origin_handoff_sha256": prior / "input/governed_worker_cycle_origin_handoff_manifest_v0_1.yaml",
+    }
+    for key, path in evidence_files.items():
+        if not path.is_file() or path.is_symlink():
+            fail("missing/unsafe evidence:" + key)
+        if hashlib.sha256(path.read_bytes()).hexdigest() != bindings[key]:
+            fail("evidence digest drift:" + key)
+    source_file = prior / "input/governed_worker_cycle_source_state_v0_1.yaml"
+    if not source_file.is_file() or source_file.is_symlink():
+        fail("frozen source missing/unsafe")
+    prior_source = yaml.safe_load(source_file.read_text(encoding="utf-8"))
+    if (not isinstance(prior_source, dict)
+            or prior_source.get("git_head") != bindings["source_head"]):
+        fail("frozen source HEAD binding drift")
+
+    returned = yaml.safe_load(evidence_files["result_return_sha256"].read_text(encoding="utf-8"))
+    if (not isinstance(returned, dict)
+            or returned.get("attempt_id") != accepted
+            or returned.get("result") != "PASS"
+            or returned.get("validation_passed") is not True):
+        fail("result-return state mismatch")
+
+    # No claim of historical process-exit attestation: that flag is false in
+    # the accepted S3 zero-delta contract. Unresolved proof/review references
+    # are NOT silently interpreted as separate file-path attestations.
+
+
 def _verified_frozen_launch_context(
     *, root: Path, attempt: Path, workspace: Path, binding: dict[str, Any],
 ) -> str:
@@ -710,26 +815,35 @@ def _verified_frozen_launch_context(
         artifacts = decision.get("evidence_bindings")
         if not isinstance(artifacts, dict):
             raise WorkerRuntimeInvocationError("frozen capsule prior ACCEPT bindings missing")
-        expected_paths = {
-            "terminal_ledger": root / "coordination/continuity/execution_attempts" /
-                Path(str(artifacts.get("terminal_ledger", {}).get("path", ""))).name,
-            "worker_result": attempt.parent / accepted / "result/worker_result.yaml",
-            "result_return": attempt.parent / accepted /
-                "evidence/governed_worker_cycle_result_return_v0_1.yaml",
-        }
-        for kind, expected_path in expected_paths.items():
-            item = artifacts.get(kind)
-            if not isinstance(item, dict) or item.get("path") != str(expected_path):
-                raise WorkerRuntimeInvocationError("frozen capsule prior ACCEPT path drift:" + kind)
-            digest = item.get("sha256")
-            if not isinstance(digest, str) or len(digest) != 64:
-                raise WorkerRuntimeInvocationError("frozen capsule prior ACCEPT digest missing:" + kind)
-            if not expected_path.is_file() or expected_path.is_symlink():
-                raise WorkerRuntimeInvocationError("frozen capsule prior ACCEPT evidence missing:" + kind)
-            if hashlib.sha256(expected_path.read_bytes()).hexdigest() != digest:
-                raise WorkerRuntimeInvocationError("frozen capsule prior ACCEPT evidence drift:" + kind)
+        if decision.get("schema_version") == "cf10_zero_delta_operator_decision_v0_1":
+            _verify_prior_zero_delta_accept(
+                root=root, attempt=attempt, accepted=accepted,
+                decision_path=root / ref, decision=decision,
+                bindings=artifacts, source_refs=source_refs,
+            )
+            prior_proof_label = "Prior operator zero-delta ACCEPT (current-workspace scope) verified via exact accepted evidence:"
+        else:
+            expected_paths = {
+                "terminal_ledger": root / "coordination/continuity/execution_attempts" /
+                    Path(str(artifacts.get("terminal_ledger", {}).get("path", ""))).name,
+                "worker_result": attempt.parent / accepted / "result/worker_result.yaml",
+                "result_return": attempt.parent / accepted /
+                    "evidence/governed_worker_cycle_result_return_v0_1.yaml",
+            }
+            for kind, expected_path in expected_paths.items():
+                item = artifacts.get(kind)
+                if not isinstance(item, dict) or item.get("path") != str(expected_path):
+                    raise WorkerRuntimeInvocationError("frozen capsule prior ACCEPT path drift:" + kind)
+                digest = item.get("sha256")
+                if not isinstance(digest, str) or len(digest) != 64:
+                    raise WorkerRuntimeInvocationError("frozen capsule prior ACCEPT digest missing:" + kind)
+                if not expected_path.is_file() or expected_path.is_symlink():
+                    raise WorkerRuntimeInvocationError("frozen capsule prior ACCEPT evidence missing:" + kind)
+                if hashlib.sha256(expected_path.read_bytes()).hexdigest() != digest:
+                    raise WorkerRuntimeInvocationError("frozen capsule prior ACCEPT evidence drift:" + kind)
+            prior_proof_label = "Prior operator ACCEPT verified via canonical decision and 3 SHA256-bound artifacts:"
         lines += [
-            "- Prior operator ACCEPT verified via canonical decision and 3 SHA256-bound artifacts:",
+            "- " + prior_proof_label,
             json.dumps({"attempt_id": accepted, "decision_ref": ref},
                        ensure_ascii=True, sort_keys=True),
             "- This confirms the *prior* attempt only; it grants no current ACCEPT.",

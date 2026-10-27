@@ -1016,4 +1016,162 @@ def test_a046_frozen_evidence_checks_prior_accept_exact_hashes(tmp_path, monkeyp
     with pytest.raises(adapter.WorkerRuntimeInvocationError, match="prior ACCEPT evidence drift"):
         adapter.build_launch_invocation(**args)
 
+# CF10_A048_ZERO_DELTA_ACCEPT_CONTRACT_REPAIR_R001_TESTS
+
+def _a048_zero_delta_prior_fixture(tmp_path: Path, monkeypatch):
+    attempt, workspace, _, front = _a046_frozen_fixture(tmp_path, monkeypatch)
+    accepted = "cf10-u180j-a047"
+    old = attempt.parent / accepted
+    old.mkdir(parents=True)
+
+    def write(rel: Path, data: dict):
+        rel.parent.mkdir(parents=True, exist_ok=True)
+        rel.write_text(yaml.safe_dump(data), encoding="utf-8")
+        return hashlib.sha256(rel.read_bytes()).hexdigest()
+
+    head = "7" * 40
+    store = tmp_path / "coordination/continuity/execution_attempts"
+    terminal = store / (accepted + "__term.yaml")
+    terminal_sha = write(terminal, {
+        "attempt_id": accepted, "attempt_stage": "FINISHED",
+        "result_state": "SUCCEEDED", "validator_outcome": "PASS",
+    })
+    result_sha = write(old / "result/worker_result.yaml", {"attempt_id": accepted})
+    returned_sha = write(
+        old / "evidence/governed_worker_cycle_result_return_v0_1.yaml",
+        {"attempt_id": accepted, "result": "PASS", "validation_passed": True},
+    )
+    manifest_sha = write(old / "manifest.yaml", {"attempt_id": accepted})
+    baseline_sha = write(
+        old / "evidence/worker_baseline_v0_1.yaml", {"source_head": head},
+    )
+    origin_sha = write(
+        old / "input/governed_worker_cycle_origin_handoff_manifest_v0_1.yaml",
+        {"attempt_id": accepted},
+    )
+    write(old / "input/governed_worker_cycle_source_state_v0_1.yaml", {"git_head": head})
+    bindings = {
+        "attempt_id": accepted,
+        "task_prompt_id": "cf10-prior-zero-delta-v0-1",
+        "work_front_id": "wf-cf10-prior-zero-delta-v0-1",
+        "source_head": head,
+        "temporal_scope": "CURRENT_WORKSPACE_AT_REVIEW_NOT_HISTORICAL_EXIT",
+        "proof_sha256": "a" * 64,
+        "work_front_sha256": "b" * 64,
+        "terminal_sha256": terminal_sha,
+        "worker_result_sha256": result_sha,
+        "result_return_sha256": returned_sha,
+        "manifest_sha256": manifest_sha,
+        "baseline_sha256": baseline_sha,
+        "origin_handoff_sha256": origin_sha,
+    }
+    decision = {
+        "schema_version": "cf10_zero_delta_operator_decision_v0_1",
+        "record_role": "zero_delta_operator_decision_not_promotion_or_publication",
+        "decision": "ACCEPT", "attempt_id": accepted,
+        "task_prompt_id": bindings["task_prompt_id"],
+        "work_front_id": bindings["work_front_id"],
+        "evidence_bindings": bindings,
+        "zero_delta_confirmed_current_workspace": True,
+        "historical_exit_attestation": False,
+        "canonical_promotion_performed": False,
+        "commit_performed": False, "push_performed": False,
+        "publication_state": "NOT_ATTESTED",
+    }
+    rel = "coordination/continuity/worker_result_decisions/a047-zero-delta.yaml"
+    decision_path = tmp_path / rel
+    decision_sha = write(decision_path, decision)
+    front.write_text(yaml.safe_dump({"provenance": {"source_refs": [
+        "accepted_attempt:" + accepted,
+        "operator_decision:" + rel,
+        "accepted_decision_record_sha256:" + decision_sha,
+    ]}}), encoding="utf-8")
+    args = dict(root=tmp_path, task_context=_context(),
+                explicit_dispatch_decision=_decision(workspace), attempt_root=attempt)
+    return args, decision_path, front, terminal, old
+
+
+def test_a048_zero_delta_accept_flat_evidence_validates_without_authority(tmp_path, monkeypatch):
+    args, _, _, _, _ = _a048_zero_delta_prior_fixture(tmp_path, monkeypatch)
+    result = adapter.build_launch_invocation(**args)
+    assert "zero-delta ACCEPT (current-workspace scope)" in result["prompt"]
+    assert "grants no current ACCEPT" in result["prompt"]
+    assert result["effects"]["worker_process_started"] is False
+
+
+def test_a048_zero_delta_accept_rejects_tampered_prior_result(tmp_path, monkeypatch):
+    args, _, _, _, old = _a048_zero_delta_prior_fixture(tmp_path, monkeypatch)
+    (old / "result/worker_result.yaml").write_text("tampered", encoding="utf-8")
+    with pytest.raises(adapter.WorkerRuntimeInvocationError, match="evidence digest drift:worker_result_sha256"):
+        adapter.build_launch_invocation(**args)
+
+
+def test_a048_zero_delta_accept_rejects_missing_terminal(tmp_path, monkeypatch):
+    args, _, _, terminal, _ = _a048_zero_delta_prior_fixture(tmp_path, monkeypatch)
+    terminal.unlink()
+    with pytest.raises(adapter.WorkerRuntimeInvocationError, match="terminal ledger missing"):
+        adapter.build_launch_invocation(**args)
+
+
+def test_a048_zero_delta_accept_rejects_terminal_state_drift(tmp_path, monkeypatch):
+    args, decision_path, front, terminal, _ = _a048_zero_delta_prior_fixture(tmp_path, monkeypatch)
+    # Even with recomputed terminal SHA and a freshly rebound (malicious) decision,
+    # a failed or incomplete ledger must never count as accepted.
+    doc = yaml.safe_load(terminal.read_text())
+    doc["result_state"] = "FAILED"
+    terminal.write_text(yaml.safe_dump(doc), encoding="utf-8")
+    decision = yaml.safe_load(decision_path.read_text())
+    decision["evidence_bindings"]["terminal_sha256"] = hashlib.sha256(terminal.read_bytes()).hexdigest()
+    decision_path.write_text(yaml.safe_dump(decision), encoding="utf-8")
+    source_refs = yaml.safe_load(front.read_text())["provenance"]["source_refs"]
+    source_refs[-1] = "accepted_decision_record_sha256:" + hashlib.sha256(decision_path.read_bytes()).hexdigest()
+    front.write_text(yaml.safe_dump({"provenance": {"source_refs": source_refs}}), encoding="utf-8")
+    with pytest.raises(adapter.WorkerRuntimeInvocationError, match="terminal ledger state mismatch"):
+        adapter.build_launch_invocation(**args)
+
+
+def test_a048_zero_delta_accept_rejects_decision_digest_drift(tmp_path, monkeypatch):
+    args, decision_path, _, _, _ = _a048_zero_delta_prior_fixture(tmp_path, monkeypatch)
+    decision_path.write_text(decision_path.read_text() + "# unreviewed edit\n", encoding="utf-8")
+    with pytest.raises(adapter.WorkerRuntimeInvocationError, match="decision provenance digest drift"):
+        adapter.build_launch_invocation(**args)
+
+
+def test_a048_zero_delta_accept_rejects_missing_provenance_digest(tmp_path, monkeypatch):
+    args, _, front, _, _ = _a048_zero_delta_prior_fixture(tmp_path, monkeypatch)
+    provenance = yaml.safe_load(front.read_text())
+    provenance["provenance"]["source_refs"] = [x for x in provenance["provenance"]["source_refs"]
+        if not x.startswith("accepted_decision_record_sha256:")]
+    front.write_text(yaml.safe_dump(provenance), encoding="utf-8")
+    with pytest.raises(adapter.WorkerRuntimeInvocationError, match="decision provenance digest missing"):
+        adapter.build_launch_invocation(**args)
+
+
+def test_a048_zero_delta_accept_rejects_historical_exit_claim(tmp_path, monkeypatch):
+    args, decision_path, front, _, _ = _a048_zero_delta_prior_fixture(tmp_path, monkeypatch)
+    decision = yaml.safe_load(decision_path.read_text())
+    decision["historical_exit_attestation"] = True
+    decision_path.write_text(yaml.safe_dump(decision), encoding="utf-8")
+    front_doc = yaml.safe_load(front.read_text())
+    front_doc["provenance"]["source_refs"][-1] = ("accepted_decision_record_sha256:"
+        + hashlib.sha256(decision_path.read_bytes()).hexdigest())
+    front.write_text(yaml.safe_dump(front_doc), encoding="utf-8")
+    with pytest.raises(adapter.WorkerRuntimeInvocationError, match="status or historical scope contradiction"):
+        adapter.build_launch_invocation(**args)
+
+
+def test_a048_zero_delta_accept_rejects_wrong_accepted_attempt(tmp_path, monkeypatch):
+    args, decision_path, front, _, _ = _a048_zero_delta_prior_fixture(tmp_path, monkeypatch)
+    decision = yaml.safe_load(decision_path.read_text())
+    decision["evidence_bindings"]["attempt_id"] = "cf10-u180j-a046"
+    decision_path.write_text(yaml.safe_dump(decision), encoding="utf-8")
+    front_doc = yaml.safe_load(front.read_text())
+    front_doc["provenance"]["source_refs"][-1] = ("accepted_decision_record_sha256:"
+        + hashlib.sha256(decision_path.read_bytes()).hexdigest())
+    front.write_text(yaml.safe_dump(front_doc), encoding="utf-8")
+    with pytest.raises(adapter.WorkerRuntimeInvocationError, match="attempt, Work Front or temporal scope binding drift"):
+        adapter.build_launch_invocation(**args)
+
+# CF10_A048_ZERO_DELTA_ACCEPT_CONTRACT_REPAIR_R001_TESTS_END
+
 # CF10_A046_FROZEN_BASELINE_CAPSULE_TESTS_V0_1_END
