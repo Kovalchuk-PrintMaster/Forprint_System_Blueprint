@@ -1,0 +1,54 @@
+schema_version: cf10_tmp_tooling_migration_registry_v0_1
+status: REVIEW_REQUIRED_NON_AUTHORIZING
+canonical_owner: forprint_system_blueprint
+policy:
+  executable_project_code_must_be_versioned: true
+  tmp_is_report_cache_or_immutable_historical_evidence_only: true
+  external_signer_stays_outside_worker_authority: true
+  no_automatic_renewal_dispatch_launch_or_publication: true
+entries:
+  - id: cf10_prelaunch_readiness_audit
+    previous_location: tmp/cf10_prelaunch_tool_v0_1/cf10_prelaunch_audit_v0_1.py
+    disposition: ADAPT_PROJECT_NATIVE
+    target: scripts/coordination/control_plane/cf10_prelaunch_audit_v0_2.py
+    execution_policy: PROJECT_MAKE_READONLY_WITH_REPORT_TMP_OUTPUT
+    status: CANDIDATE_INSTALLATION_REQUIRES_REVIEW_AND_COMMIT
+  - id: a048_zero_delta_accept_repair
+    previous_location: tmp/cf10_a048_zero_delta_repair_validation_r001/repo
+    disposition: ALREADY_CANONICAL
+    reference_commit: fc85dc6193b79c90bb17aad6cb909970047870cc
+    status: PUBLISHED_AND_TESTED
+  - id: project_native_s1_s2b_s2c_s3
+    previous_location: tmp/cf10_s1_*,tmp/cf10_s2b_*,tmp/cf10_s2c_*,tmp/cf10_s3_*
+    disposition: REUSE_EXISTING_PROJECT_MODULES
+    targets:
+      - scripts/coordination/control_plane/cf10_attempt_operator_report_v0_2.py
+      - scripts/coordination/control_plane/cf10_zero_delta_operator_review_v0_1.py
+      - scripts/coordination/control_plane/cf10_zero_delta_status_projection_v0_1.py
+      - scripts/coordination/control_plane/cf10_s3_worker_workflow_v0_1.py
+    status: SOURCE_EXISTENCE_VERIFIED_RUNTIME_BEHAVIOR_NOT_REATTESTED
+  - id: s01_gate_writer_checkouts
+    previous_location: tmp/cf10_gate_rollover_7odYLfVr,tmp/cf10_release_merge_CZXUoA9p
+    disposition: REQUIRES_SEPARATE_RELEASE_AND_PROVENANCE_MIGRATION
+    project_configuration: Makefile:CF10_S01_GATE_ROOT,CF10_S01_WRITER_ROOT,CF10_S01_COVERAGE_EVIDENCE
+    status: BLOCKED_UNTIL_INDEPENDENT_PROVENANCE_REBIND
+  - id: r005_r006_r007_external_operator_renewals
+    previous_location: tmp/cf10_s01_operator_head_renewal_r005_20261026,tmp/cf10_s01_operator_head_renewal_r006_20261027,tmp/cf10_s01_operator_head_renewal_r007_20261027
+    disposition: EXTERNAL_ROOT_OPERATOR_WORKFLOW_SEPARATE_OWNER
+    status: REQUIRES_NON_TMP_SOURCE_AND_EVIDENCE_REBIND_AND_NEW_HEAD
+    reason: r007_pins_fc85dc6_and_immutable_predecessor_and_historical_tmp_paths
+    executable_from_blueprint_make: false
+    signer_must_not_be_promoted_into_worker: true
+  - id: prepared_attempt_runtime
+    previous_location: /srv/software_development/forprint-worker-runtime
+    disposition: RUNTIME_OUTSIDE_BLUEPRINT_TMP
+    status: KEEP_SEPARATE
+  - id: legacy_coverage_reports
+    previous_location: tmp/cf10_gate_rollover_7odYLfVr/tmp/cf10_writer_coverage_gate3d90143_170494.json
+    disposition: HISTORICAL_IMMUTABLE_EVIDENCE
+    status: DO_NOT_REWRITE_OR_DELETE
+acceptance:
+  - full_prelaunch_audit_is_project_native_and_outputs_only_reports_in_tmp
+  - make_check_is_non_authorizing_and_cannot_start_worker
+  - all_nonmigrated_tmp_dependencies_are_explicitly_reported
+  - signed_renewal_on_new_git_head_requires_separate_reissue

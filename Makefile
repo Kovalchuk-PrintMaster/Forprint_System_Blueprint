@@ -3747,3 +3747,18 @@ cf10-worker-s3-report:
 cf10-worker-s3-check:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_s3_worker_workflow_v0_1.py
 # CF10_S3_BOUNDED_POSTWORKER_WORKFLOW_V0_1_END
+
+# CF10_PROJECT_NATIVE_PRELAUNCH_AUDIT_V0_2_START
+# Non-authorizing; never prepares/dispatches/starts Worker or signs /etc.
+# Executable source is tracked in the repository; tmp is reports only.
+CF10_PRELAUNCH_EXPECTED_HEAD ?=
+CF10_PRELAUNCH_ATTEMPT ?=
+CF10_PRELAUNCH_TASK ?= cf10-project-change-impact-and-freshness-control-v0-1
+CF10_PRELAUNCH_REPORT_PARENT ?= tmp/cf10_prelaunch_audits
+.PHONY: cf10-prelaunch-check cf10-prelaunch-tests
+cf10-prelaunch-check:
+	@test -n "$(CF10_PRELAUNCH_EXPECTED_HEAD)" && test -n "$(CF10_PRELAUNCH_ATTEMPT)" || { echo 'ERROR: CF10_PRELAUNCH_EXPECTED_HEAD and CF10_PRELAUNCH_ATTEMPT required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_prelaunch_audit_v0_2 --root . --runtime-root "$(GOVERNED_WORKER_RUNTIME_ROOT)" --expected-head "$(CF10_PRELAUNCH_EXPECTED_HEAD)" --task-id "$(CF10_PRELAUNCH_TASK)" --attempt-id "$(CF10_PRELAUNCH_ATTEMPT)" --output-parent "$(CF10_PRELAUNCH_REPORT_PARENT)"
+cf10-prelaunch-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_prelaunch_audit_v0_2.py
+# CF10_PROJECT_NATIVE_PRELAUNCH_AUDIT_V0_2_END
