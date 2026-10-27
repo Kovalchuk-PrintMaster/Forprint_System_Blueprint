@@ -1,0 +1,39 @@
+schema_version: cf10_s3_bounded_workflow_contract_v0_1
+status: IMPLEMENTATION_CANDIDATE_NOT_AUTONOMOUS_DISPATCH
+owner: forprint_system_blueprint
+scope: POST_WORKER_CONTINUATION_ONLY
+purpose: Reuse existing governed status, post-worker advance, S1 report and S2C zero-delta overlay under one bounded CLI entrypoint.
+actions:
+  status: {mutation: NONE, outcome: STRUCTURED_STATUS_AND_NEXT_ACTION}
+  run: {mutation: EXISTING_GOVERNED_MAKE_ADVANCE_ONLY_WHEN_ELIGIBLE, max_transitions: 1}
+  resume: {mutation: EXISTING_GOVERNED_MAKE_ADVANCE_ONLY_WHEN_ELIGIBLE, max_transitions: 1}
+  report: {mutation: NEW_TMP_S1_REPORT_ONLY, requires_valid_terminal: true}
+reuse:
+  state: scripts/coordination/control_plane/governed_worker_cycle.py
+  terminalization: 'make governed-worker-cycle-advance (preserves s01 preflight prerequisite)'
+  operator_report: scripts/coordination/control_plane/cf10_attempt_operator_report_v0_2.py
+  zero_delta_overlay: scripts/coordination/control_plane/cf10_zero_delta_status_projection_v0_1.py
+no_authority:
+  - no_new_work_front
+  - no_automatic_worker_launch
+  - no_automatic_dispatch
+  - no_automatic_operator_accept
+  - no_candidate_promotion
+  - no_commit_or_push
+  - no_publication_or_release
+  - no_roadmap_lifecycle_closure
+  - no_direct_bypass_of_existing_make_preflight
+reentry:
+  - already_terminal_never_calls_advance
+  - incomplete_result_return_blocks_advancement
+  - failed_advance_is_not_interpreted_as_success
+  - one_transition_maximum_per_run_invocation
+  - post_advance_status_reread_required
+non_goals:
+  - full_s3_end_to_end_dispatch_or_launch_orchestration
+  - cross_task_autonomy
+  - tool_discovery_framework
+  - retries_or_automatic_repair
+  - historical_worker_exit_attestation
+  - Task85_planning_and_freshness_changes
+next_roadmap: CF10_Task85_current_state_refresh_and_materialization_review

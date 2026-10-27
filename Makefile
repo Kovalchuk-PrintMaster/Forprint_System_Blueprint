@@ -3725,3 +3725,25 @@ cf10-zero-delta-status-preview:
 cf10-zero-delta-status-check:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_zero_delta_status_projection_v0_1.py
 # CF10_S2C_ZERO_DELTA_REVIEW_STATUS_V0_1_END
+# CF10_S3_BOUNDED_POSTWORKER_WORKFLOW_V0_1_START
+# Post-worker only; all mutating advancement delegates to governed-worker-cycle-advance.
+# No new dispatch, acceptance, promotion, push or publication authority.
+.PHONY: cf10-worker-s3-status cf10-worker-s3-run cf10-worker-s3-resume cf10-worker-s3-report cf10-worker-s3-check
+CF10_S3_PROOF_FILE ?=
+CF10_S3_REPORT_DIR ?=
+CF10_S3_ARGS = --root . --runtime-root "$(GOVERNED_WORKER_RUNTIME_ROOT)" --task "$(GOVERNED_WORKER_TASK)" --attempt-id "$(GOVERNED_WORKER_ATTEMPT)" $(if $(CF10_S3_PROOF_FILE),--proof-file "$(CF10_S3_PROOF_FILE)",) --python "$(PYTHON)"
+cf10-worker-s3-status:
+	@test -n "$(GOVERNED_WORKER_TASK)" && test -n "$(GOVERNED_WORKER_ATTEMPT)" || { echo 'S3 task and attempt are required'; exit 2; }
+	$(PYTHON) -B -m scripts.coordination.control_plane.cf10_s3_worker_workflow_v0_1 status $(CF10_S3_ARGS)
+cf10-worker-s3-run:
+	@test -n "$(GOVERNED_WORKER_TASK)" && test -n "$(GOVERNED_WORKER_ATTEMPT)" || { echo 'S3 task and attempt are required'; exit 2; }
+	$(PYTHON) -B -m scripts.coordination.control_plane.cf10_s3_worker_workflow_v0_1 run $(CF10_S3_ARGS)
+cf10-worker-s3-resume:
+	@test -n "$(GOVERNED_WORKER_TASK)" && test -n "$(GOVERNED_WORKER_ATTEMPT)" || { echo 'S3 task and attempt are required'; exit 2; }
+	$(PYTHON) -B -m scripts.coordination.control_plane.cf10_s3_worker_workflow_v0_1 resume $(CF10_S3_ARGS)
+cf10-worker-s3-report:
+	@test -n "$(GOVERNED_WORKER_TASK)" && test -n "$(GOVERNED_WORKER_ATTEMPT)" && test -n "$(CF10_S3_REPORT_DIR)" || { echo 'S3 task, attempt and report dir are required'; exit 2; }
+	$(PYTHON) -B -m scripts.coordination.control_plane.cf10_s3_worker_workflow_v0_1 report $(CF10_S3_ARGS) --output-dir "$(CF10_S3_REPORT_DIR)"
+cf10-worker-s3-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_s3_worker_workflow_v0_1.py
+# CF10_S3_BOUNDED_POSTWORKER_WORKFLOW_V0_1_END
