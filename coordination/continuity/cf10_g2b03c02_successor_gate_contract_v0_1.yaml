@@ -1,0 +1,49 @@
+schema_version: cf10_g2b03c02_successor_gate_contract_v0_1
+owner: forprint_system_blueprint
+phase: G2B_03C_02
+status: SOURCE_CANDIDATE_NON_AUTHORIZING
+prerequisite:
+  published_source_head: b0d952403c4688b8ea9ea7df06e1d06e744c3d6f
+  g2b03c01_design_review: DESIGN_REVIEW_READY_NON_AUTHORIZING
+  g2b03a_external_provenance: PROVENANCE_CANDIDATE_VERIFIED_NON_AUTHORIZING
+  approved_candidate_path: /srv/software_development/forprint-releases/cf10/evidence/cf10_writer_coverage_gate3d90143_170494.json
+  historical_coverage_sha256: 15bb96b3fdb87186d8337dfa17391bfd5a5a951e2faae34c8c671734d4027b71
+purpose: Separate successor Gate candidate with read-only live s01 runtime observation
+reuse:
+  - cf10_g2b03c_successor_readiness_v0_1
+  - cf10_g2b03_successor_provenance_v0_1
+  - cf10_g2b01_inventory_v0_1
+  - cf10_stable_release_roots_v0_1
+  - s01_writer_runtime_binding_v0_1 observation primitives only (not legacy build_review)
+checks:
+  - current canonical git HEAD and source publication
+  - pinned Gate/Writer release identity
+  - exact external coverage digest path and provenance
+  - s01 host and deployment identity
+  - canonical ledger and parent DAC
+  - local filesystem mount and process observability
+  - four known writer sources compared with pinned Writer checkout
+  - reject unverifiable dynamic writer coverage and independently attested approval
+hard_boundaries:
+  no_legacy_gate_tmp_binding_shortcut: true
+  no_auto_authority_from_live_observation: true
+  no_independent_signed_decision_read: true
+  no_signature_validation_or_renewal: true
+  no_legacy_gate_writer_execution: true
+  no_writer_restarts_or_drain: true
+  no_install_or_mutation_external_candidate: true
+  no_change_pinned_releases_or_quarantine: true
+  no_ledger_append_or_worker_launch: true
+  no_evidence_vault_backup_or_restore_claim: true
+  no_dynamic_coverage_verified_claim: true
+negative_fixtures:
+  - wrong_head
+  - bad_sha_or_candidate_path
+  - unsafe_ledger_dac_or_symlink
+  - network_mount
+  - unreadable_process
+  - bad_release_pin
+  - false_signed_or_expired_signature_claim
+  - incomplete_writer_inventory
+  - report_symlink
+next: G2B03C03_VERSIONED_RUNTIME_BINDING_AND_INDEPENDENT_ATTESTATION_DESIGN
