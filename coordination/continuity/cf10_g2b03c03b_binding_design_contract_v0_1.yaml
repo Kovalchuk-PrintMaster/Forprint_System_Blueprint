@@ -1,0 +1,39 @@
+schema_version: cf10_g2b03c03b_binding_design_contract_v0_1
+owner: forprint_system_blueprint
+phase: G2B_03C_03B
+status: SOURCE_AND_FOCUSED_SYNTHETIC_B3_REVIEW_NON_AUTHORIZING
+prerequisite:
+  expected_canonical_head: c9fe8d390fe952b7000107ee13161cdd7d9e9656
+  g2b03c03a: WRITER_DELTA_COMPATIBILITY_REVIEW_REQUIRED_NON_AUTHORIZING
+  classified_delta: B3_INSERTION_ONLY_COMPATIBILITY_REVIEW_REQUIRED
+  g2b03c02: LIVE_OBSERVATION_REVIEW_REQUIRED_NON_AUTHORIZING
+scope:
+  - rerun_existing_published_B3_P0P1_and_P2_regression_fixtures_in_project_scratch
+  - verify_exact_published_source_and_test_bytes_before_and_after_fixture
+  - retain_report_and_bounded_private_test_logs_with_SHA256SUMS
+  - produce_versioned_runtime_binding_v0_3_design_requirements
+reuse:
+  - cf10_g2b03c03a_writer_delta_v0_1
+  - cf10_g2b03c02_successor_gate_v0_1
+  - cf10_g2b01_inventory_v0_1
+  - test_cf10_b3_readback_selector_p0p1_v0_1
+  - test_cf10_b3_p2_trusted_readback_invocation_v0_1
+binding_design:
+  new_candidate_module: s01_writer_runtime_binding_v0_3.py
+  no_legacy_gate_tmp_dependency: true
+  external_coverage_exact_sha_and_path: required
+  source_git_and_dual_release_pins: required
+  independent_current_writer_enrollment_and_runtime_evidence: required
+  independent_activation_signature_current_head_source_hash_expiry: required
+  make_launch_quarantine_change: separate_future_operator_acceptance
+hard_boundaries:
+  no_legacy_pinned_gate_or_writer_execution: true
+  no_real_worker_invocation: true
+  no_ledger_append_or_process_restart: true
+  no_signed_decision_read_or_renewal: true
+  no_runtime_binding_installed: true
+  no_quarantine_change: true
+  no_evidence_or_vault_mutation: true
+  focused_pytest_pass_not_runtime_attestation: true
+  no_automatic_authority: true
+next: G2B03C03C_VERSIONED_RUNTIME_BINDING_SOURCE_CANDIDATE

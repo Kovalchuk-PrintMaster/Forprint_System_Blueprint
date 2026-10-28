@@ -3988,3 +3988,12 @@ cf10-g2b03c03a-review:
 cf10-g2b03c03a-tests:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/control_plane -p 'test_cf10_g2b03c03a_writer_delta_v0_1.py' -q
 # CF10_G2B03C03A_WRITER_DELTA_REVIEW_V0_1_END
+# CF10_G2B03C03B_BINDING_DESIGN_V0_1_START
+CF10_G2B03C03B_EXPECTED_HEAD ?=
+.PHONY: cf10-g2b03c03b-review cf10-g2b03c03b-tests
+cf10-g2b03c03b-review:
+	@test -n "$(CF10_G2B03C03B_EXPECTED_HEAD)" || { echo 'ERROR: explicit frozen canonical HEAD required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_g2b03c03b_binding_design_v0_1 --root . --expected-head "$(CF10_G2B03C03B_EXPECTED_HEAD)"
+cf10-g2b03c03b-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/control_plane -p 'test_cf10_g2b03c03b_binding_design_v0_1.py' -q
+# CF10_G2B03C03B_BINDING_DESIGN_V0_1_END
