@@ -1,0 +1,45 @@
+schema_version: cf10_g2a_stable_release_roots_contract_v0_1
+owner: forprint_system_blueprint
+status: PROJECT_NATIVE_CANDIDATE_NOT_YET_INSTALLED
+purpose: >
+  Eliminate operational dependence on temporary historical Gate and Writer
+  checkouts without granting ledger or Worker execution authority.
+pinned_release_sources:
+  gate:
+    git_commit: 3d90143a240439d33833463d38ab0fb3497eac8f
+    ref: refs/heads/cf10/writer-coverage-indirect-append-v0-4
+    git_blob_oid: 06a7b4eeb757254c0f098be393780f950a266407
+    proposed_root: /srv/software_development/forprint-releases/cf10/gate/3d90143a240439d33833463d38ab0fb3497eac8f
+  writer:
+    git_commit: d5d1495c0a1ab25367c146b0f5379b015e03dd85
+    ref: refs/heads/cf10/closeout-writer-activation-v0-1
+    git_blob_oid: e098c6dc8c15192d33b3c0560830b2bb37a0f338
+    proposed_root: /srv/software_development/forprint-releases/cf10/writer/d5d1495c0a1ab25367c146b0f5379b015e03dd85
+technical_scope:
+  - git_commit_sha_and_blob_oid_provenance
+  - read_only_stable_checkout_inventory
+  - explicitly_confirmed_root_only_stable_clone_provisioning
+  - generated_non_authoritative_report_zip
+provisioning_safety:
+  no_overwrite: true
+  no_auto_delete_partial_clone: true
+  no_symlink_ancestors: true
+  published_canonical_head_required: true
+  strict_root_s01_explicit_confirm: true
+  requires_q1_quarantine: true
+  no_historical_evidence_migration: true
+authority:
+  grants_ledger_write: false
+  grants_worker_launch: false
+  grants_dispatch: false
+  grants_acceptance: false
+  grants_signed_renewal: false
+  grants_release: false
+  changes_make_launch_gate: false
+next_boundary: G2B_INDEPENDENT_COVERAGE_EVIDENCE_PROVENANCE_AND_OPERATOR_SIGNED_REBIND
+unresolved:
+  - independent_gate_verifier_and_writer_verifier_must_still_verify_pinned_releases
+  - historical_coverage_evidence_remains_at_original_immutable_sha_bound_path
+  - s01_writer_runtime_binding_v0_1_requires_gate_root_specific_historical_evidence_location
+  - external_signer_and_new_canonical_head_must_be_reviewed_separately
+  - do_not_clean_old_historical_checkout_or_proofs_before_completed_g2b

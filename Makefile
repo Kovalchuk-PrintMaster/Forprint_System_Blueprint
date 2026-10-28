@@ -3807,3 +3807,23 @@ cf10-make-surface-policy-tests:
 cf10-make-surface-notice:
 	@cat coordination/continuity/cf10_make_surface_deprecation_notice_v0_1.md
 # CF10_MAKE_SURFACE_MIGRATION_Q1_END
+
+# CF10_G2A_STABLE_RELEASE_ROOTS_V0_1_START
+# Project-owned code, external root-owned source copies, no grant of Worker authority.
+# Q1 live Make launch gate remains QUARANTINED until independent G2b acceptance.
+CF10_G2A_EXPECTED_HEAD ?=
+CF10_G2A_OPERATOR_CONFIRM ?=
+.PHONY: cf10-g2a-release-inspect cf10-g2a-release-provision cf10-g2a-release-tests
+cf10-g2a-release-inspect:
+	@test -n "$(CF10_G2A_EXPECTED_HEAD)" || { echo 'ERROR: CF10_G2A_EXPECTED_HEAD required'; exit 2; }
+	@mkdir -p generated
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_stable_release_roots_v0_1 inspect --root . --expected-head "$(CF10_G2A_EXPECTED_HEAD)"
+cf10-g2a-release-provision:
+	@test -n "$(CF10_G2A_EXPECTED_HEAD)" || { echo 'ERROR: CF10_G2A_EXPECTED_HEAD required'; exit 2; }
+	@test "$(CF10_G2A_OPERATOR_CONFIRM)" = 'PROVISION_PINNED_G2A_RELEASES' || { echo 'ERROR: independent explicit root operator confirmation required'; exit 2; }
+	@test "$$(id -u)" = 0 || { echo 'ERROR: root operator required'; exit 2; }
+	@mkdir -p generated
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_stable_release_roots_v0_1 provision --root . --expected-head "$(CF10_G2A_EXPECTED_HEAD)" --confirm-provision
+cf10-g2a-release-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_stable_release_roots_v0_1.py
+# CF10_G2A_STABLE_RELEASE_ROOTS_V0_1_END
