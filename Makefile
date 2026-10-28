@@ -3997,3 +3997,19 @@ cf10-g2b03c03b-review:
 cf10-g2b03c03b-tests:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/control_plane -p 'test_cf10_g2b03c03b_binding_design_v0_1.py' -q
 # CF10_G2B03C03B_BINDING_DESIGN_V0_1_END
+# CF10_G2B03C03C_VERSIONED_RUNTIME_BINDING_SOURCE_V0_1_START
+# Candidate-only: inspect or blocked preflight. NOT connected to the Worker launch chain.
+CF10_G2B03C03C_EXPECTED_HEAD ?=
+CF10_G2B03C03C_B3_REPORT ?=
+CF10_G2B03C03C_B3_SHA256 ?=
+CF10_G2B03C03C_ARGS = --root . --expected-head "$(CF10_G2B03C03C_EXPECTED_HEAD)" --b3-report "$(CF10_G2B03C03C_B3_REPORT)" --b3-sha256 "$(CF10_G2B03C03C_B3_SHA256)"
+.PHONY: cf10-g2b03c03c-inspect cf10-g2b03c03c-launch-preflight cf10-g2b03c03c-tests
+cf10-g2b03c03c-inspect:
+	@test -n "$(CF10_G2B03C03C_EXPECTED_HEAD)" && test -n "$(CF10_G2B03C03C_B3_REPORT)" && test -n "$(CF10_G2B03C03C_B3_SHA256)" || { echo 'ERROR: live head and exact prior report/digest required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.s01_writer_runtime_binding_v0_3 inspect $(CF10_G2B03C03C_ARGS)
+cf10-g2b03c03c-launch-preflight:
+	@test -n "$(CF10_G2B03C03C_EXPECTED_HEAD)" && test -n "$(CF10_G2B03C03C_B3_REPORT)" && test -n "$(CF10_G2B03C03C_B3_SHA256)" || { echo 'ERROR: live head and exact prior report/digest required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.s01_writer_runtime_binding_v0_3 launch-preflight $(CF10_G2B03C03C_ARGS)
+cf10-g2b03c03c-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/control_plane -p 'test_s01_writer_runtime_binding_v0_3.py' -q
+# CF10_G2B03C03C_VERSIONED_RUNTIME_BINDING_SOURCE_V0_1_END

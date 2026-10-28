@@ -1,0 +1,44 @@
+schema_version: cf10_g2b03c03c_runtime_binding_contract_v0_1
+owner: forprint_system_blueprint
+phase: G2B_03C_03C
+status: VERSIONED_SOURCE_CANDIDATE_NON_AUTHORIZING
+source_predecessor_head: 9c314020359da15ad93392422eeb42e405b5cbb0
+predecessor_review:
+  frozen_report: tmp/cf10_g2b03c03b_review_20261028T135332890726Z/report.json
+  sha256: 74d069eae81fea583375fede6d320b3ba23fbc337b73b03b788236a2e3dc3a3b
+  reported_b3_regression_passed: 62
+new_module: scripts/coordination/control_plane/s01_writer_runtime_binding_v0_3.py
+purpose: A separate read-only s01 runtime binding candidate without the legacy gate_root/tmp evidence constraint
+reuse:
+  - cf10_g2b03c02_successor_gate_v0_1.audit
+  - cf10_g2b03c03a_writer_delta_v0_1.compare_published_sources_and_classify
+  - cf10_g2b03c03b_binding_design_v0_1.published_fixture_report
+  - cf10_g2b01_inventory_v0_1.exact_published_file
+  - cf10_stable_release_roots_v0_1.RELEASES
+  - s01_writer_runtime_binding_v0_2.signed_source_digests_only
+source_guards:
+  - require_published_canonical_head
+  - require_exact_predecessor_report_sha256_and_private_root_owned_directory
+  - require_report_and_regression_logs_SHA256SUMS
+  - require_b3_tested_source_bytes_unchanged_except_new_Makefile_surface
+  - require_exact_writer_delta_three_B3_insertions
+  - require_current_s01_runtime_observation_via_successor_Gate
+  - require_existing_pinned_Gate_Writer_identities_and_stable_external_coverage
+  - include_live_runtime_source_digests_for_future_independent_signer
+launch_preflight:
+  status: BLOCKED_NON_AUTHORIZING
+  positive_authorization_path_in_v0_3: false
+  blockers:
+    - INDEPENDENT_SIGNED_RUNTIME_AND_DYNAMIC_WRITER_COVERAGE_REQUIRED
+    - MAKE_QUARANTINE_NOT_RELEASED
+hard_boundaries:
+  no_old_gate_tmp_binding: true
+  no_legacy_gate_or_writer_execution: true
+  no_signed_payload_read_or_signing: true
+  no_writer_enrollment_or_drain_claim: true
+  no_runtime_dynamic_coverage_attestation_claim: true
+  no_ledger_or_worker_operation: true
+  no_external_evidence_or_vault_mutation: true
+  no_pinned_release_or_quarantine_change: true
+  no_launch_or_ledger_authority: true
+next: G2B03C04_INDEPENDENT_DYNAMIC_COVERAGE_AND_SIGNED_AUTHORITY_DESIGN
