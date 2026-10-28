@@ -89,7 +89,8 @@ def stable_path(kind: str, base: Path = BASE) -> Path:
         raise ReviewBlocked('UNKNOWN_RELEASE_KIND')
     return base / kind / RELEASES[kind]['head']
 
-def root_identity(canonical: Path, expected: str, *, network: bool = True) -> dict[str, Any]:
+def root_identity(canonical: Path, expected: str, *, network: bool = True,
+                  allow_missing_local_pins: bool = False) -> dict[str, Any]:
     if not SHA40.fullmatch(expected) or canonical.is_symlink() or not canonical.is_dir():
         raise ReviewBlocked('CANONICAL_ROOT_OR_HEAD_UNSAFE')
     if utf(git(canonical, 'rev-parse', '--show-toplevel')) != str(canonical.resolve()):
@@ -115,17 +116,82 @@ def root_identity(canonical: Path, expected: str, *, network: bool = True) -> di
         remote = utf(git(canonical, 'ls-remote', '--exit-code', 'origin', 'refs/heads/' + BRANCH))
         if remote != expected + '\trefs/heads/' + BRANCH:
             raise ReviewBlocked('CANONICAL_REMOTE_HEAD_DRIFT')
+    missing = []
+    # Validate the publication ref first. A remote ref is provenance, not authority.
     for kind, pin in RELEASES.items():
-        git(canonical, 'cat-file', '-e', pin['head'] + '^{commit}')
-        raw = git(canonical, 'show', pin['head'] + ':' + pin['source'])
-        if blob_oid(raw) != pin['git_blob_oid']:
-            raise ReviewBlocked('PINNED_GIT_BLOB_DRIFT:' + kind)
         if network:
             remote = utf(git(canonical, 'ls-remote', '--exit-code', 'origin', pin['ref']))
             if remote != pin['head'] + '\t' + pin['ref']:
                 raise ReviewBlocked('RELEASE_REMOTE_REF_DRIFT:' + kind)
+        try:
+            git(canonical, 'cat-file', '-e', pin['head'] + '^{commit}')
+        except ReviewBlocked as exc:
+            if allow_missing_local_pins and 'GIT_BLOCKED:cat-file:RC=128' in str(exc):
+                missing.append(kind)
+                continue
+            raise ReviewBlocked('PINNED_RELEASE_OBJECT_MISSING_OR_INVALID:' + kind) from exc
+        raw = git(canonical, 'show', pin['head'] + ':' + pin['source'])
+        if blob_oid(raw) != pin['git_blob_oid']:
+            raise ReviewBlocked('PINNED_GIT_BLOB_DRIFT:' + kind)
+    if missing and not allow_missing_local_pins:
+        raise ReviewBlocked('PINNED_RELEASE_OBJECTS_MISSING:' + ','.join(missing))
     return {'canonical_head': head, 'branch': BRANCH, 'remote_verified': network,
-            'pinned_git_objects_verified': True}
+            'pinned_git_objects_verified': not missing,
+            'pinned_git_objects_missing': missing}
+
+
+PINNED_REF_PREFIX = 'refs/forprint/cf10/pinned/'
+
+
+def pinned_ref(kind: str) -> str:
+    if kind not in RELEASES:
+        raise ReviewBlocked('UNKNOWN_RELEASE_KIND')
+    return PINNED_REF_PREFIX + kind
+
+
+def optional_git_ref(root: Path, ref: str) -> str | None:
+    p = subprocess.run(['git', 'rev-parse', '--verify', '--quiet', ref],
+                       cwd=root, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                       timeout=30, check=False)
+    if p.returncode == 1 and not p.stdout:
+        return None
+    if p.returncode != 0:
+        raise ReviewBlocked('PINNED_LOCAL_REF_UNREADABLE')
+    return utf(p.stdout)
+
+
+def recover_pinned_source_objects(canonical: Path, expected_head: str) -> list[str]:
+    """Operator-only .git hydration: exact remote refs -> immutable local pin refs.
+
+    Does not alter HEAD, branch, index, tracked files or signed authority.
+    Called only within explicitly confirmed G2a provisioning.
+    """
+    before = root_identity(canonical, expected_head, network=True,
+                           allow_missing_local_pins=True)
+    # All remote publication refs have already been compared with pinned SHAs.
+    refs = {kind: optional_git_ref(canonical, pinned_ref(kind)) for kind in RELEASES}
+    for kind, existing in refs.items():
+        if existing is not None and existing != RELEASES[kind]['head']:
+            raise ReviewBlocked('PINNED_LOCAL_REF_DRIFT:' + kind)
+    imported = []
+    for kind, pin in RELEASES.items():
+        if refs[kind] is None:
+            git(canonical, 'fetch', '--no-tags', '--no-write-fetch-head',
+                '--no-recurse-submodules', 'origin', pin['ref'] + ':' + pinned_ref(kind),
+                timeout=180)
+            imported.append(kind)
+        if optional_git_ref(canonical, pinned_ref(kind)) != pin['head']:
+            raise ReviewBlocked('PINNED_LOCAL_REF_POSTFETCH_DRIFT:' + kind)
+        git(canonical, 'cat-file', '-e', pin['head'] + '^{commit}')
+        raw = git(canonical, 'show', pin['head'] + ':' + pin['source'])
+        if blob_oid(raw) != pin['git_blob_oid']:
+            raise ReviewBlocked('PINNED_LOCAL_BLOB_POSTFETCH_DRIFT:' + kind)
+    # Ensure source frozen state did not change while importing objects.
+    after = root_identity(canonical, expected_head, network=True)
+    if before['canonical_head'] != after['canonical_head']:
+        raise ReviewBlocked('CANONICAL_HEAD_CHANGED_DURING_HYDRATION')
+    return imported
+
 
 def inspect_release(path: Path, kind: str, *, base: Path = BASE) -> dict[str, Any]:
     pin = RELEASES[kind]
@@ -202,7 +268,7 @@ def provision(canonical: Path, expected_head: str, *, confirm: bool,
         raise ReviewBlocked('EXPLICIT_RELEASE_PROVISION_CONFIRMATION_REQUIRED')
     if os.geteuid() != 0 or hostname != 's01':
         raise ReviewBlocked('ROOT_OPERATOR_ON_S01_REQUIRED')
-    root_identity(canonical, expected_head, network=True)
+    imported = recover_pinned_source_objects(canonical, expected_head)
     before = review(canonical, expected_head, network=True, base=base)
     if before['checks']['canonical']['status'] != 'PASS' or any(
        r['status'] == 'BLOCKED' for r in before['checks'].values()):
@@ -230,6 +296,14 @@ def provision(canonical: Path, expected_head: str, *, confirm: bool,
         if proc.returncode:
             raise ReviewBlocked('PINNED_CLONE_FAILED:' + kind)
         git(target, 'remote', 'set-url', 'origin', ORIGIN)
+        # Clone-from-canonical copies heads but not arbitrary pinned refs.
+        # Transfer the verified historical commit explicitly from canonical.
+        git(target, 'fetch', '--no-tags', '--no-write-fetch-head',
+            '--no-recurse-submodules', str(canonical), pinned_ref(kind), timeout=180)
+        git(target, 'cat-file', '-e', RELEASES[kind]['head'] + '^{commit}')
+        raw = git(target, 'show', RELEASES[kind]['head'] + ':' + RELEASES[kind]['source'])
+        if blob_oid(raw) != RELEASES[kind]['git_blob_oid']:
+            raise ReviewBlocked('PINNED_TRANSFER_BLOB_DRIFT:' + kind)
         git(target, 'checkout', '--detach', RELEASES[kind]['head'])
         os.chmod(target, 0o750)
         if inspect_release(target, kind, base=base)['status'] != 'PASS':
@@ -239,6 +313,7 @@ def provision(canonical: Path, expected_head: str, *, confirm: bool,
     if after['state'] != 'STABLE_RELEASES_READY_FOR_INDEPENDENT_REBIND_NON_AUTHORIZING':
         raise ReviewBlocked('POSTPROVISION_REVIEW_NOT_READY')
     after['operator_provisioned_release_kinds'] = created
+    after['operator_imported_pinned_sources'] = imported
     after['provisioning_only_no_authority'] = True
     return after
 
