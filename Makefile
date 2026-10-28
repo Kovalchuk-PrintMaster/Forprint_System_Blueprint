@@ -4037,3 +4037,15 @@ cf10-g2b03c04b-review:
 cf10-g2b03c04b-tests:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/control_plane -p 'test_cf10_g2b03c04b_dynamic_coverage_proof_contract_v0_1.py' -q
 # CF10_G2B03C04B_DYNAMIC_COVERAGE_PROOF_CONTRACT_V0_1_END
+# CF10_G2B03C04C_INDEPENDENT_EVIDENCE_READBACK_V0_1_START
+# Frozen 04B source/process evidence readback and proof intake only. No attestation or authority.
+CF10_G2B03C04C_EXPECTED_HEAD ?=
+CF10_G2B03C04C_REPORT ?=
+CF10_G2B03C04C_SHA256 ?=
+.PHONY: cf10-g2b03c04c-review cf10-g2b03c04c-tests
+cf10-g2b03c04c-review:
+	@test -n "$(CF10_G2B03C04C_EXPECTED_HEAD)" && test -n "$(CF10_G2B03C04C_REPORT)" && test -n "$(CF10_G2B03C04C_SHA256)" || { echo 'ERROR: exact current HEAD, frozen 04B report path and SHA required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_g2b03c04c_coverage_evidence_readback_v0_1 --root . --expected-head "$(CF10_G2B03C04C_EXPECTED_HEAD)" --frozen-report "$(CF10_G2B03C04C_REPORT)" --frozen-sha256 "$(CF10_G2B03C04C_SHA256)"
+cf10-g2b03c04c-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/control_plane -p 'test_cf10_g2b03c04c_coverage_evidence_readback_v0_1.py' -q
+# CF10_G2B03C04C_INDEPENDENT_EVIDENCE_READBACK_V0_1_END

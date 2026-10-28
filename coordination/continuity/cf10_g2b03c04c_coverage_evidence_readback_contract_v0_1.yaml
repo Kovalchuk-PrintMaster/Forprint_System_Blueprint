@@ -1,0 +1,34 @@
+schema_version: cf10_g2b03c04c_coverage_evidence_readback_contract_v0_1
+owner: forprint_system_blueprint
+phase: G2B_03C_04C
+status: INDEPENDENT_READBACK_AND_OPERATOR_PROOF_INTAKE_NON_AUTHORIZING
+source_predecessor_head: 0c07e3ab83f9dd838a9bf19eb6e25f708f812028
+frozen_04b:
+  report: tmp/cf10_g2b03c04b_coverage_20261028T141615684389Z/report.json
+  sha256: 0e786e2b98a2e632f4393150e3e8473c6062d00f6f491b7cb46fcdb2fa7c9ba2
+  static_append_candidates: 4
+  recognized_processes_at_capture: 0
+  required_proofs_attested: 0
+purpose: Confirm frozen 04B evidence integrity, independently refresh source/process observations, prepare exact operator proof intake
+reuse:
+  - cf10_g2b03c04b_dynamic_coverage_proof_contract_v0_1.review
+  - cf10_g2b01_inventory_v0_1.exact_published_file
+  - s01_writer_runtime_binding_v0_1.scan_proc
+  - cf10_g2b03c04b_dynamic_coverage_proof_contract_v0_1.PROOF_REQUIREMENTS
+source_boundaries:
+  - current HEAD pinned and exact self published bytes
+  - root private frozen 04B report, summary and SHA256SUMS
+  - exact 04B report SHA256 externally recorded
+  - static candidate equality and source SHA unchanged
+  - fresh /proc observation may change but never proves enrollment
+  - all eight proof rows retained as NOT_SUBMITTED
+hard_boundaries:
+  no_positive_dynamic_coverage_attestation: true
+  no_external_signed_payload_or_private_key_read: true
+  no_writer_enrollment_restarts_or_process_control: true
+  no_legacy_gate_writer_execution: true
+  no_provisioning_or_quarantine_mutation: true
+  no_ledger_or_worker_run: true
+  no_evidence_vault_mutation: true
+  no_authority_grant: true
+next: G2B03C04D_OPERATOR_SOURCE_COVERAGE_AND_ENROLLMENT_EVIDENCE_COLLECTION
