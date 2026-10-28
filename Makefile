@@ -3910,3 +3910,15 @@ cf10-g2b01-inventory:
 cf10-g2b01-inventory-tests:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/control_plane -p 'test_cf10_g2b01_inventory_v0_1.py' -q
 # CF10_G2B01_EVIDENCE_INVENTORY_V0_1_END
+
+# CF10_G2B02_SUCCESSOR_GATE_BINDING_PLAN_V0_1_START
+# Source-only audit; static published verifier review, no execution/rebind/signing.
+CF10_G2B02_EXPECTED_HEAD ?=
+CF10_G2B02_HISTORICAL_COVERAGE ?=
+.PHONY: cf10-g2b02-plan cf10-g2b02-plan-tests
+cf10-g2b02-plan:
+	@test -n "$(CF10_G2B02_EXPECTED_HEAD)" || { echo 'ERROR: explicit pinned source HEAD required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_g2b02_binding_plan_v0_1 --root . --expected-head "$(CF10_G2B02_EXPECTED_HEAD)" $(if $(CF10_G2B02_HISTORICAL_COVERAGE),--historical-coverage "$(CF10_G2B02_HISTORICAL_COVERAGE)",)
+cf10-g2b02-plan-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/control_plane -p 'test_cf10_g2b02_binding_plan_v0_1.py' -q
+# CF10_G2B02_SUCCESSOR_GATE_BINDING_PLAN_V0_1_END
