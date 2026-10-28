@@ -39,7 +39,7 @@ class AuditTests(unittest.TestCase):
         cli(self.root,'checkout','-q','-b',mod.BRANCH)
         cli(self.root,'config','user.name','Synthetic')
         cli(self.root,'config','user.email','synthetic@example.invalid')
-        (self.root/'tmp').mkdir()
+        (self.root/'tmp').mkdir(); (self.root/'generated').mkdir()
         (self.root/'Makefile').write_text('ALL=ready\n')
         (self.root/'README.md').write_text('synthetic\n')
         cli(self.root,'add','Makefile','README.md');cli(self.root,'commit','-qm','base')
@@ -105,15 +105,15 @@ class AuditTests(unittest.TestCase):
         self.assertEqual(x['state'],'BLOCKED')
         self.assertIn('INSIDE_TMP',x['detail'])
 
-    def test_save_reports_only_under_repo_tmp(self):
+    def test_save_reports_only_under_generated_area(self):
         report={'status':'REVIEW_REQUIRED_NON_AUTHORIZING','checks':[],
                 'authority':{'granted':False}}
-        z=mod.save(self.root,Path('tmp/proposals'),report)
+        z=mod.save(self.root,Path('generated/proposals'),report)
         self.assertTrue(z.is_file())
         with ZipFile(z) as f:
             self.assertEqual(sorted(f.namelist()),['SHA256SUMS','report.json','summary.txt'])
             self.assertIn('AUTHORITY_GRANTED=false',f.read('summary.txt').decode())
-        with self.assertRaisesRegex(ValueError,'OUTSIDE_PROJECT_TMP'):
+        with self.assertRaisesRegex(ValueError,'OUTSIDE_GENERATED_AREA'):
             mod.save(self.root,Path('other-reports'),report)
 
     def test_no_implicit_authority(self):
@@ -126,7 +126,7 @@ class AuditTests(unittest.TestCase):
         self.assertEqual(mod.blob_oid(b'hello\n'),hashlib.sha1(b'blob 6\x00hello\n').hexdigest())
 
     def test_untrusted_mode_and_symlink(self):
-        p=self.root/'tmp'/'link';p.symlink_to(self.root/'README.md')
+        p=self.root/'generated'/'link';p.symlink_to(self.root/'README.md')
         with self.assertRaises(ValueError):mod.read_regular(p)
 
 if __name__=='__main__':unittest.main()

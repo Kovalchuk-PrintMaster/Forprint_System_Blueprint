@@ -1,0 +1,42 @@
+schema_version: cf10_make_surface_rebind_registry_v0_1
+status: QUARANTINE_PENDING_INDEPENDENT_RELEASE_REBIND
+canonical_owner: forprint_system_blueprint
+source_head: f23adc29a6f781ac56b37abe8288765717147168
+policy:
+  executable_code_source: versioned_repository
+  generated_report_area: generated
+  operator_decision_source: root_controlled_independent
+  silent_legacy_fallback: false
+  automatic_worker_launch: false
+  automatic_acceptance: false
+  automatic_git_publication: false
+change_groups:
+  - name: project_generated_reports
+    disposition: RETARGET_NONAUTHORITATIVE_REPORTS
+    status: DERIVED_ONLY_NOT_AUTHORITY
+  - name: service_runtime_roots
+    disposition: MOVE_DEFAULT_TO_DEDICATED_RUNTIME_OUTSIDE_SCRATCH
+    status: OPERATOR_MUST_REVIEW_RUNTIME_PERSISTENCE_AND_OWNERSHIP
+  - name: historical_operator_evidence_paths
+    disposition: REMOVE_HARDCODED_SCRATCH_DEFAULTS
+    status: EXPLICIT_PATH_REQUIRED_NOT_AUTO_REBOUND
+  - name: gate_writer_release_checkouts
+    disposition: QUARANTINE_MAKE_GATE_UNTIL_INDEPENDENT_REBIND
+    stable_gate_commit: 3d90143a240439d33833463d38ab0fb3497eac8f
+    stable_writer_commit: d5d1495c0a1ab25367c146b0f5379b015e03dd85
+    status: LAUNCH_NOT_AUTHORIZED
+  - name: operator_renewal
+    disposition: EXTERNAL_ROOT_OPERATOR_ONLY
+    status: NEW_HEAD_SIGNATURE_REQUIRED
+recovery:
+  original_makefile_available_via_git: true
+  no_copy_or_delete_of_historical_evidence: true
+  no_root_policy_mutation: true
+  no_worker_attempt_mutation: true
+acceptance:
+  - managed_paths_exactly_reviewed_before_commit
+  - makefile_has_no_scratch_directory_tokens
+  - release_gate_is_fail_closed
+  - all_generated_outputs_non_authoritative
+  - focused_and_governance_tests_pass
+  - operator_explicit_commit_push_confirmation

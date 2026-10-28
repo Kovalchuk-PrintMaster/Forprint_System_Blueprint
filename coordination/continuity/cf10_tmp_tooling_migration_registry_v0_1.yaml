@@ -11,14 +11,14 @@ entries:
     previous_location: tmp/cf10_prelaunch_tool_v0_1/cf10_prelaunch_audit_v0_1.py
     disposition: ADAPT_PROJECT_NATIVE
     target: scripts/coordination/control_plane/cf10_prelaunch_audit_v0_2.py
-    execution_policy: PROJECT_MAKE_READONLY_WITH_REPORT_TMP_OUTPUT
+    execution_policy: PROJECT_MAKE_READONLY_WITH_GENERATED_REPORTS
     status: PUBLISHED_AND_TESTED_AT_169c693f7349186d4699476deb526399a6f5addd
   - id: cf10_canonical_invocation_rehearsal
     previous_location: NONE_PROJECT_NATIVE_NEW_CODE
     disposition: IMPLEMENT_CANONICAL_READONLY_BUILDER_REHEARSAL
     target: scripts/coordination/control_plane/cf10_invocation_rehearsal_v0_1.py
     integrated_into: scripts/coordination/control_plane/cf10_prelaunch_audit_v0_2.py
-    execution_policy: PROJECT_MAKE_READONLY_AND_REPORT_TMP_ONLY
+    execution_policy: PROJECT_MAKE_READONLY_WITH_GENERATED_REPORTS
     status: PUBLISHED_AND_TESTED_AT_dc194b4c46846bdc5a767cdd499bfd05ba99a40b
     restriction: real_invocation_requires_existing_prepared_and_explicitly_dispatched_attempt
     launcher_and_started_ledger_append_forbidden: true
@@ -41,7 +41,7 @@ entries:
     disposition: VERIFY_PINNED_IMMUTABLE_GIT_OBJECTS_NOT_TMP_CHECKOUT_EXECUTION
     target: scripts/coordination/control_plane/cf10_gate_writer_release_audit_v0_1.py
     make_target: cf10-gate-writer-release-audit
-    status: PROJECT_NATIVE_SOURCE_AUDIT_REQUIRES_LIVE_PROVENANCE_REVIEW
+    status: PUBLISHED_AND_TESTED_AT_f23adc29a6f781ac56b37abe8288765717147168_REBIND_PENDING
     authority: NON_AUTHORIZING
     restrictions:
       - historical_git_commits_must_match_remote_refs_and_exact_blob_oids
@@ -60,6 +60,10 @@ entries:
     reason: r007_pins_fc85dc6_and_immutable_predecessor_and_historical_tmp_paths
     executable_from_blueprint_make: false
     signer_must_not_be_promoted_into_worker: true
+  - id: cf10_make_surface_quarantine_q1
+    disposition: PROJECT_NATIVE_SOURCE_MIGRATION_AND_GATE_QUARANTINE
+    register: coordination/continuity/cf10_make_surface_rebind_registry_v0_1.yaml
+    status: PENDING_EXTERNAL_REBIND_NO_AUTOMATIC_ACTIVATION
   - id: prepared_attempt_runtime
     previous_location: /srv/software_development/forprint-worker-runtime
     disposition: RUNTIME_OUTSIDE_BLUEPRINT_TMP
@@ -69,7 +73,7 @@ entries:
     disposition: HISTORICAL_IMMUTABLE_EVIDENCE
     status: DO_NOT_REWRITE_OR_DELETE
 acceptance:
-  - full_prelaunch_audit_is_project_native_and_outputs_only_reports_in_tmp
+  - full_prelaunch_audit_is_project_native_and_outputs_only_reports_in_generated
   - make_check_is_non_authorizing_and_cannot_start_worker
   - all_nonmigrated_tmp_dependencies_are_explicitly_reported
   - signed_renewal_on_new_git_head_requires_separate_reissue

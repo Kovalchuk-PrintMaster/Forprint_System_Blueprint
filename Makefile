@@ -1,3 +1,8 @@
+# CF10 MAKE SURFACE Q1: INDEPENDENT RELEASE REBIND REQUIRED
+# Historical release code and evidence require independent provenance and signed renewal.
+# The old launch-path commands remain fail-closed until reviewed release rebind.
+# All diagnostic reports are non-authoritative; no automatic launch or approval.
+
 # ForPrint System Blueprint Makefile
 #
 # This file is the executable command surface for the Blueprint repository.
@@ -17,7 +22,7 @@
 # =============================================================================
 # Every public target below has a five-field command contract:
 #   Purpose — what the command actually does.
-#   Safety  — whether it is read-only, report/tmp-only, or mutating.
+#   Safety  — whether it is read-only, report/generated-artifact-only, or mutating.
 #   Inputs  — operator variables read by the target; required inputs are marked.
 #   Scope   — how broad the command is.
 #   Result  — what appears on success and how failure is surfaced.
@@ -163,7 +168,7 @@ help:
 	@echo "  make context-bundle-print MODULE=forprint_library SCOPE=bootstrap LIMIT=10"
 	@echo "  make task-context-compiler-check"
 	@echo "  make task-context-check MODULE=logistics_service TASK_PROMPT_ID=<prompt-id> TASK_MODULE_ROOT=<module-repo>"
-	@echo "  make task-context-compile MODULE=logistics_service TASK_PROMPT_ID=<prompt-id> TASK_MODULE_ROOT=<module-repo> TASK_CONTEXT_OUTPUT_DIR=tmp/task_context_bundles"
+	@echo "  make task-context-compile MODULE=logistics_service TASK_PROMPT_ID=<prompt-id> TASK_MODULE_ROOT=<module-repo> TASK_CONTEXT_OUTPUT_DIR=generated/task_context_bundles"
 	@echo "  make task-context-print MODULE=logistics_service TASK_PROMPT_ID=<prompt-id> TASK_MODULE_ROOT=<module-repo>"
 	@echo "  make launch-request-gate-check"
 	@echo "  make launch-request-evaluate TASK_MODULE_ROOT=<module-repo> TASK_CONTEXT_ARCHIVE=<archive> [DEPENDENCY_READINESS=<snapshot>]"
@@ -241,9 +246,9 @@ help:
 	@echo "  make completion-outbox-v0-4-validate COMPLETION_OUTBOX_V0_4=<outbox-path>"
 	@echo "  make completion-discovery-intake-v0-4"
 	@echo "  make review-roadmap-queue-transaction-v0-4"
-	@echo "  make review-roadmap-queue-transaction-v0-4 REVIEW_TRANSACTION_REQUEST=tmp/<request>.yaml"
-	@echo "  make review-roadmap-queue-transaction-v0-4 REVIEW_TRANSACTION_REQUEST=tmp/<request>.yaml REVIEW_TRANSACTION_APPLY=1 REVIEW_OPERATOR_CONFIRMATION=<decision-id>"
-	@echo "  make accept-and-advance ACCEPT_AND_ADVANCE_REQUEST=tmp/<request>.yaml ACCEPT_AND_ADVANCE_APPLY=1 ACCEPT_AND_ADVANCE_CONFIRMATION=<operation-id>"
+	@echo "  make review-roadmap-queue-transaction-v0-4 REVIEW_TRANSACTION_REQUEST=<request.yaml>"
+	@echo "  make review-roadmap-queue-transaction-v0-4 REVIEW_TRANSACTION_REQUEST=<request.yaml> REVIEW_TRANSACTION_APPLY=1 REVIEW_OPERATOR_CONFIRMATION=<decision-id>"
+	@echo "  make accept-and-advance ACCEPT_AND_ADVANCE_REQUEST=<request.yaml> ACCEPT_AND_ADVANCE_APPLY=1 ACCEPT_AND_ADVANCE_CONFIRMATION=<operation-id>"
 	@echo "  make next-prompt-selection-activation-v0-4"
 	@echo "  make tracking-events-reference-v0-4-preflight"
 	@echo "  make tracking-events-reference-v0-4-build"
@@ -323,7 +328,7 @@ install:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: LOCAL/FOCUSED — target-specific repository surface.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: lint
 lint:
 	$(PYTHON) -m ruff check scripts tests tools
@@ -354,7 +359,7 @@ format:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: FULL — broad repository validation/test surface.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: test
 test:
 	$(PYTHON) -m pytest -q
@@ -365,7 +370,7 @@ test:
 # Safety: READ-ONLY TEST — tests only; no apply/commit/push/module writes.
 # Inputs: None.
 # Scope: LOCAL/FOCUSED — target-specific repository surface.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: test-make-command-surface
 test-make-command-surface:
 	@$(BLUEPRINT_PYTHON) -m pytest -q \
@@ -378,7 +383,7 @@ test-make-command-surface:
 # Safety: READ-ONLY TEST — tests only; no module writes, operator decisions, rollout, or promotion.
 # Inputs: None.
 # Scope: COORDINATION — focused coordination protocol surface.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: test-v0-4-coordination
 test-v0-4-coordination:
 	@$(BLUEPRINT_PYTHON) -m pytest -q \
@@ -406,7 +411,7 @@ test-v0-4-coordination:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: LOCAL/FOCUSED — target-specific repository surface.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: validate
 validate:
 	$(PYTHON) scripts/validate_blueprint.py
@@ -416,7 +421,7 @@ validate:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: LOCAL/FOCUSED — target-specific repository surface.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: markdown-fences
 markdown-fences:
 	$(PYTHON) scripts/validation/validate_markdown_fences.py
@@ -426,7 +431,7 @@ markdown-fences:
 # Safety: READ-ONLY — main non-mutating repository validation wrapper; no fix/apply/commit/push behavior.
 # Inputs: MODULE_ROOT (optional/defaulted).
 # Scope: FULL — broad repository validation/test surface.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: check
 check:
 	$(PYTHON) scripts/validation/run_non_mutating_make_check.py --target check-core --module-root "$(MODULE_ROOT)"
@@ -496,7 +501,7 @@ structured-command-executor-proof:
 # Safety: READ-ONLY — broad core validation suite; no fix/apply/commit/push behavior.
 # Inputs: None.
 # Scope: CORE — core Blueprint governance/control-plane checks and direct dependencies.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: check-core
 check-core: generator-inventory-check generator-contract-check execution-dependency-check roadmap-sync-check assistant-handoff-check continuity-projections-check continuity-lifecycle-check continuity-transfer-check continuity-event-store-check continuity-contract-check continuity-micro-roadmap-check check-module-registry-consistency check-self-coordination-consistency check-repository-knowledge-snapshots check-inventory-status-consistency check-repository-knowledge-freshness check-rci-semantic-enrichment check-redm-dependency-enrichment check-semantic-coverage-closure check-repository-knowledge-reconciliation check-inventory-acceptance-evidence-index check-inventory-acceptance-dry-run check-prompt-execution-observability surface-normalization-check human-intent-check root-roadmap-check roadmap-detail-check skip-inventory-check safe-mutation-check asset-retirement-check module-cleanliness-pack-check module-current-state-check canonical-state-freshness-impact-check module-memory-schema-check task-context-compiler-check launch-request-gate-check operator-approval-gateway-check console-worker-adapter-check control-plane-runtime-check completion-control-plane-check bootstrap-task-context-check project-constitution-check work-front-contract-check cf05-history-ledger-check execution-profile-registry-check assistant-handoff-v2-contract-check assistant-handoff-v2-runtime-check assistant-handoff-v2-result-check assistant-handoff-v2-freshness-resume-check
 	$(PYTHON) scripts/run_blueprint_checks.py
@@ -506,7 +511,7 @@ check-core: generator-inventory-check generator-contract-check execution-depende
 # Safety: REPORT WRITE ONLY — runs validation and may write documented report artifacts; does not mutate coordination authority or Git state.
 # Inputs: None.
 # Scope: FULL — broad repository validation/test surface.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: check-report
 check-report:
 	$(PYTHON) scripts/run_blueprint_checks.py
@@ -516,7 +521,7 @@ check-report:
 # Safety: REPORT WRITE ONLY — runs validation with extended diagnostics and may write documented report artifacts; does not mutate coordination authority or Git state.
 # Inputs: None.
 # Scope: FULL — broad repository validation/test surface.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: check-report-full
 check-report-full:
 	$(PYTHON) scripts/run_blueprint_checks.py --full-log
@@ -526,7 +531,7 @@ check-report-full:
 # Safety: SOURCE MUTATION — applies only the formatter/linter fixes documented by the target.
 # Inputs: None.
 # Scope: RELATED — target contract plus its direct validation dependencies.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: check-fix
 check-fix:
 	$(MAKE) lint-fix
@@ -553,7 +558,7 @@ worktree-status:
 # Safety: READ-ONLY — validates current diffs only; never stages, commits, pushes, restores, or writes.
 # Inputs: None.
 # Scope: WORKTREE — current Blueprint repository.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: diff-check
 diff-check:
 	@git diff --check
@@ -667,7 +672,7 @@ diagrams:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: RELATED — target contract plus its direct validation dependencies.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: diagrams-check
 diagrams-check:
 	$(PYTHON) scripts/validation/validate_diagrams_index.py
@@ -802,7 +807,7 @@ prompt-release:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: MODULE/QUEUE — selected module, prompt, packet, or queue record.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: prompt-queue-validate
 prompt-queue-validate:
 	$(PYTHON) scripts/coordination/validate_prompt_queue.py
@@ -871,7 +876,7 @@ completion-revision-status:
 # Safety: READ-ONLY — validates Blueprint revision lifecycle only.
 # Inputs: None.
 # Scope: MODULE/QUEUE — selected module, prompt, packet, or queue record.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 completion-revision-check:
 	$(PYTHON) scripts/coordination/completion_revision_status.py --root "." --output-format yaml
 
@@ -881,7 +886,7 @@ completion-revision-check:
 # Safety: READ-ONLY WITH NETWORK READ — may use git ls-remote to verify published evidence; writes neither Blueprint nor module repositories.
 # Inputs: MODULE (required), MODULE_ROOT (required), PACKET (required), COMPLETION_COMMIT (required), REMOTE (optional/defaulted), BRANCH (optional/defaulted), ALLOW_CANDIDATE_REFERENCE (optional/defaulted).
 # Scope: MODULE/QUEUE — selected module, prompt, packet, or queue record.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: completion-intake-check
 completion-intake-check:
 	@set -eu; \
@@ -995,7 +1000,7 @@ next-work-suggestion:
 # Safety: READ-ONLY — validates post-decision queue/roadmap state; does not finalize or write completion state.
 # Inputs: MODULE (optional/defaulted).
 # Scope: MODULE/QUEUE — selected module, prompt, packet, or queue record.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: completion-finalize-check
 completion-finalize-check:
 	$(PYTHON) scripts/coordination/validate_prompt_queue.py --root "."
@@ -1187,14 +1192,14 @@ context-bundle-print:
 
 TASK_PROMPT_ID ?=
 TASK_MODULE_ROOT ?=
-TASK_CONTEXT_OUTPUT_DIR ?= tmp/task_context_bundles
+TASK_CONTEXT_OUTPUT_DIR ?= generated/task_context_bundles
 
 # Target: task-context-compiler-check
 # Purpose: Validate the task-context compiler contract and its tests.
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: SCOPED CONTEXT — selected module/task/artifact only.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: task-context-compiler-check
 task-context-compiler-check:
 	$(PYTHON) scripts/validation/validate_task_context_compiler_v0_1.py
@@ -1205,7 +1210,7 @@ task-context-compiler-check:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: TASK_PROMPT_ID (required), TASK_MODULE_ROOT (required), MODULE (optional/defaulted).
 # Scope: SCOPED CONTEXT — selected module/task/artifact only.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: task-context-check
 task-context-check:
 	@test -n "$(TASK_PROMPT_ID)" || { echo "FAILED: TASK_PROMPT_ID is required"; exit 1; }
@@ -1238,14 +1243,14 @@ task-context-print:
 
 
 DEPENDENCY_READINESS ?=
-LAUNCH_REQUEST_OUTPUT_DIR ?= tmp/control_plane/launch_requests
+LAUNCH_REQUEST_OUTPUT_DIR ?= /srv/software_development/forprint-control-plane-runtime/launch_requests
 
 # Target: launch-request-gate-check
 # Purpose: Validate the launch-request gate contract and tests.
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: SCOPED CONTEXT — selected module/task/artifact only.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: launch-request-gate-check
 launch-request-gate-check:
 	$(PYTHON) scripts/validation/validate_launch_request_fresh_context_gate_v0_1.py
@@ -1275,7 +1280,7 @@ launch-request-build:
 	@test -n "$(TASK_CONTEXT_ARCHIVE)" || { echo "FAILED: TASK_CONTEXT_ARCHIVE is required"; exit 1; }
 	$(PYTHON) scripts/coordination/build_launch_request.py --module-root "$(TASK_MODULE_ROOT)" --task-context-archive "$(TASK_CONTEXT_ARCHIVE)" $(if $(DEPENDENCY_READINESS),--dependency-readiness "$(DEPENDENCY_READINESS)",) --output-dir "$(LAUNCH_REQUEST_OUTPUT_DIR)"
 
-OPERATOR_APPROVAL_OUTPUT_DIR ?= tmp/control_plane/operator_approval_decisions
+OPERATOR_APPROVAL_OUTPUT_DIR ?= /srv/software_development/forprint-control-plane-runtime/operator_approval_decisions
 OPERATOR_DECISION ?=
 OPERATOR_ACTOR ?=
 OPERATOR_REASON ?=
@@ -1287,7 +1292,7 @@ APPROVAL_DECISION ?=
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: SCOPED CONTEXT — selected module/task/artifact only.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: operator-approval-gateway-check
 operator-approval-gateway-check:
 	$(PYTHON) scripts/validation/validate_operator_approval_gateway_v0_1.py
@@ -1325,7 +1330,7 @@ operator-approval-decide:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: TASK_MODULE_ROOT (required), LAUNCH_REQUEST (required), APPROVAL_DECISION (required).
 # Scope: SCOPED CONTEXT — selected module/task/artifact only.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: operator-approval-validate
 operator-approval-validate:
 	@test -n "$(TASK_MODULE_ROOT)" || { echo "FAILED: TASK_MODULE_ROOT is required"; exit 1; }
@@ -1334,15 +1339,15 @@ operator-approval-validate:
 	$(PYTHON) scripts/coordination/build_operator_approval_decision.py --module-root "$(TASK_MODULE_ROOT)" --launch-request "$(LAUNCH_REQUEST)" --validate-decision "$(APPROVAL_DECISION)"
 
 WORKER_RUNTIME ?=
-WORKER_INVOCATION_OUTPUT_DIR ?= tmp/control_plane/worker_invocations
-WORKER_COMPLETION_ROOT ?= tmp/control_plane/worker_runs
+WORKER_INVOCATION_OUTPUT_DIR ?= /srv/software_development/forprint-control-plane-runtime/worker_invocations
+WORKER_COMPLETION_ROOT ?= /srv/software_development/forprint-control-plane-runtime/worker_runs
 
 # Target: console-worker-adapter-check
 # Purpose: Validate the console worker adapter contract and tests.
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: RELATED — target contract plus its direct validation dependencies.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: console-worker-adapter-check
 console-worker-adapter-check:
 	$(PYTHON) scripts/validation/validate_console_worker_adapter_v0_1.py
@@ -1375,7 +1380,7 @@ worker-invocation-build:
 	$(PYTHON) scripts/coordination/build_worker_invocation.py --module-root "$(TASK_MODULE_ROOT)" --launch-request "$(LAUNCH_REQUEST)" --runtime "$(WORKER_RUNTIME)" $(if $(APPROVAL_DECISION),--approval-decision "$(APPROVAL_DECISION)",) --completion-root "$(WORKER_COMPLETION_ROOT)" --output-dir "$(WORKER_INVOCATION_OUTPUT_DIR)"
 
 
-CONTROL_PLANE_RUNTIME_DIR ?= tmp/control_plane/runtime
+CONTROL_PLANE_RUNTIME_DIR ?= /srv/software_development/forprint-control-plane-runtime/runtime
 WORKER_INVOCATION ?=
 CONTROL_PLANE_EVENT_ROOT ?=
 CONTROL_PLANE_ACTIVE_EXECUTION ?=
@@ -1385,7 +1390,7 @@ CONTROL_PLANE_ACTIVE_EXECUTION ?=
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: RELATED — target contract plus its direct validation dependencies.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: control-plane-runtime-check
 control-plane-runtime-check:
 	$(PYTHON) scripts/validation/control_plane/validate_central_listener_dispatcher_monitor_v0_1.py
@@ -1421,7 +1426,7 @@ control-plane-status:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: MODULE/QUEUE — selected module, prompt, packet, or queue record.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: completion-control-plane-check
 completion-control-plane-check:
 	$(PYTHON) scripts/validation/control_plane/completion/validate_completion_intake_inspector_conformance_v0_1.py
@@ -1432,7 +1437,7 @@ completion-control-plane-check:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: RELATED — target contract plus its direct validation dependencies.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: bootstrap-task-context-check
 bootstrap-task-context-check:
 	$(PYTHON) scripts/validation/control_plane/context/validate_bootstrap_task_context_mode_v0_1.py
@@ -1443,7 +1448,7 @@ bootstrap-task-context-check:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: RELATED — target contract plus its direct validation dependencies.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: module-readiness-levels-check
 module-readiness-levels-check:
 	$(PYTHON) scripts/validation/control_plane/readiness/validate_module_readiness_levels_v0_1.py
@@ -1454,7 +1459,7 @@ module-readiness-levels-check:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: RELATED — target contract plus its direct validation dependencies.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: bootstrap-worker-runtime-check
 bootstrap-worker-runtime-check:
 	$(PYTHON) scripts/validation/control_plane/worker_runtime/validate_bootstrap_worker_runtime_profile_v0_1.py
@@ -1465,7 +1470,7 @@ bootstrap-worker-runtime-check:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: RELATED — target contract plus its direct validation dependencies.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: inspector-reviewer-registry-check
 inspector-reviewer-registry-check:
 	$(PYTHON) scripts/validation/control_plane/inspection/validate_inspector_reviewer_registry_v0_1.py
@@ -1476,7 +1481,7 @@ inspector-reviewer-registry-check:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: RELATED — target contract plus its direct validation dependencies.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: module-bootstrap-prompt-check
 module-bootstrap-prompt-check:
 	$(PYTHON) scripts/validation/control_plane/context/validate_module_bootstrap_prompt_requirements_v0_1.py
@@ -1488,7 +1493,7 @@ module-bootstrap-prompt-check:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: PROJECT_ONBOARD — whole-project onboarding context bounded by the handoff contract.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: project-context-bootstrap-check
 project-context-bootstrap-check:
 	$(PYTHON) scripts/validation/validate_project_context_bootstrap_v0_1.py
@@ -1497,22 +1502,22 @@ project-context-bootstrap-check:
 
 # Target: module-roadmap-reconciliation-check
 # Purpose: Validate module roadmap reconciliation behavior.
-# Safety: READ-ONLY WITH REPORT/TMP OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
+# Safety: READ-ONLY WITH REPORT/generated-artifact OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
 # Inputs: None.
 # Scope: RELATED — target contract plus its direct validation dependencies.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: module-roadmap-reconciliation-check
 module-roadmap-reconciliation-check:
 	$(PYTHON) scripts/validation/validate_module_roadmap_reconciliation_v0_1.py
 	$(PYTHON) -m pytest -q tests/coordination/test_module_roadmap_reconciliation_v0_1.py
-	$(PYTHON) scripts/coordination/build_module_roadmap_reconciliation.py --root . --module logistics_service --output tmp/module_roadmap_reconciliation_check/logistics_service.yaml
+	$(PYTHON) scripts/coordination/build_module_roadmap_reconciliation.py --root . --module logistics_service --output generated/module_roadmap_reconciliation_check/logistics_service.yaml
 
 # Target: logistics-semantic-roadmap-reconciliation-check
 # Purpose: Validate Logistics semantic roadmap reconciliation behavior.
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: RELATED — target contract plus its direct validation dependencies.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: logistics-semantic-roadmap-reconciliation-check
 logistics-semantic-roadmap-reconciliation-check:
 	$(PYTHON) scripts/validation/validate_logistics_semantic_roadmap_reconciliation_v0_1.py
@@ -1523,7 +1528,7 @@ logistics-semantic-roadmap-reconciliation-check:
 # Safety: GENERATED-ARTIFACT WRITE — writes only the documented generated/report/package surface; no release/commit/push authority.
 # Inputs: None.
 # Scope: RELATED — target contract plus its direct validation dependencies.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: module-preparation-registry-check
 module-preparation-registry-check:
 	$(PYTHON) scripts/coordination/control_plane/preparation/build_module_preparation_registry.py --root . --registry-output coordination/internal_work/blueprint/module_preparation/module_preparation_registry_v0_1.yaml --queue-output coordination/internal_work/blueprint/module_preparation/module_preparation_queue_v0_1.yaml
@@ -1599,7 +1604,7 @@ document-ledger-update:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: ROADMAP (optional/defaulted), MODULE (optional/defaulted).
 # Scope: MODULE/ROADMAP — selected MODULE/ROADMAP or configured summary set.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: roadmap-validate
 roadmap-validate:
 	@if [ -n "$(ROADMAP)" ]; then \
@@ -1643,7 +1648,7 @@ roadmap-detail:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: ORACLE (optional/defaulted), ORACLE_SHA256 (optional/defaulted).
 # Scope: RELATED — target contract plus its direct validation dependencies.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: acceptance-oracle-validate
 acceptance-oracle-validate:
 	@$(PYTHON) scripts/coordination/acceptance_oracle_v0_1.py --root . --oracle "$(ORACLE)" $(if $(ORACLE_SHA256),--sha256 "$(ORACLE_SHA256)",)
@@ -1689,7 +1694,7 @@ standards:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: RELATED — target contract plus its direct validation dependencies.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: standards-check
 standards-check: standards
 
@@ -1729,7 +1734,7 @@ completion-packet-template:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: COORDINATION — focused coordination protocol surface.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: coordination-check
 coordination-check:
 	$(PYTHON) scripts/check_coordination_metadata.py --module-root .
@@ -1759,7 +1764,7 @@ module-policy-generate:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: MODULE — selected MODULE.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: module-policy-check
 module-policy-check:
 	$(PYTHON) scripts/generate_module_policy_docs.py --check
@@ -1779,7 +1784,7 @@ module-governance-audit:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: MODULE — selected MODULE.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: module-governance-audit-check
 module-governance-audit-check:
 	$(PYTHON) scripts/audit_module_governance.py --no-write
@@ -1823,7 +1828,7 @@ module-workflow-list:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: RELATED — target contract plus its direct validation dependencies.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: module-workflow-check
 module-workflow-check:
 	$(PYTHON) -m scripts.coordination.modules.module_workflow_cli --root "." check
@@ -1929,7 +1934,7 @@ blueprint-governance-status:
 	@$(BLUEPRINT_PYTHON) scripts/coordination/render_blueprint_governance_status.py --repo-root "." --format "$(GOVERNANCE_STATUS_FORMAT)"
 
 
-# These targets may write only declared generated reports/tmp evidence.
+# These targets may write only declared generated reports/generated-artifact evidence.
 # They are invoked by the repository gate and must never mutate source records.
 
 
@@ -1940,10 +1945,10 @@ blueprint-governance-status:
 
 # Target: check-module-registry-consistency
 # Purpose: Validate module-registry consistency against current repository knowledge.
-# Safety: READ-ONLY WITH REPORT/TMP OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
+# Safety: READ-ONLY WITH REPORT/generated-artifact OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
 # Inputs: None.
 # Scope: RELATED — target contract plus its direct validation dependencies.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: check-module-registry-consistency
 check-module-registry-consistency:
 	@mkdir -p reports
@@ -1972,10 +1977,10 @@ prompts-status:
 
 # Target: check-self-coordination-consistency
 # Purpose: Validate self-coordination artifacts for internal consistency.
-# Safety: READ-ONLY WITH REPORT/TMP OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
+# Safety: READ-ONLY WITH REPORT/generated-artifact OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
 # Inputs: None.
 # Scope: RELATED — target contract plus its direct validation dependencies.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: check-self-coordination-consistency
 check-self-coordination-consistency:
 	@mkdir -p reports
@@ -1993,21 +1998,21 @@ inventory-status:
 
 # Target: check-repository-knowledge-snapshots
 # Purpose: Validate repository-knowledge snapshot artifacts.
-# Safety: READ-ONLY WITH REPORT/TMP OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
+# Safety: READ-ONLY WITH REPORT/generated-artifact OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
 # Inputs: None.
 # Scope: PROJECT KNOWLEDGE — repository-knowledge/inventory surfaces.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: check-repository-knowledge-snapshots
 check-repository-knowledge-snapshots:
-	@mkdir -p reports tmp/repository_knowledge_snapshot_comparisons
-	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_repository_knowledge_snapshot_comparisons.py --manifest coordination/repository_knowledge/snapshot_comparison_gate_v0_1.yaml --repo-root . --work-dir tmp/repository_knowledge_snapshot_comparisons --output reports/repository_knowledge_snapshot_comparison_report.yaml
+	@mkdir -p reports generated/repository_knowledge_snapshot_comparisons
+	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_repository_knowledge_snapshot_comparisons.py --manifest coordination/repository_knowledge/snapshot_comparison_gate_v0_1.yaml --repo-root . --work-dir generated/repository_knowledge_snapshot_comparisons --output reports/repository_knowledge_snapshot_comparison_report.yaml
 
 # Target: check-inventory-status-consistency
 # Purpose: Validate consistency between repository inventory and reported status.
-# Safety: READ-ONLY WITH REPORT/TMP OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
+# Safety: READ-ONLY WITH REPORT/generated-artifact OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
 # Inputs: None.
 # Scope: PROJECT KNOWLEDGE — repository-knowledge/inventory surfaces.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: check-inventory-status-consistency
 check-inventory-status-consistency:
 	@mkdir -p reports
@@ -2015,10 +2020,10 @@ check-inventory-status-consistency:
 
 # Target: check-repository-knowledge-freshness
 # Purpose: Validate freshness of repository-knowledge artifacts.
-# Safety: READ-ONLY WITH REPORT/TMP OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
+# Safety: READ-ONLY WITH REPORT/generated-artifact OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
 # Inputs: None.
 # Scope: PROJECT KNOWLEDGE — repository-knowledge/inventory surfaces.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: check-repository-knowledge-freshness
 check-repository-knowledge-freshness:
 	@mkdir -p reports
@@ -2026,22 +2031,22 @@ check-repository-knowledge-freshness:
 
 # Target: repository-knowledge-freshness-status
 # Purpose: Render repository-knowledge freshness status.
-# Safety: READ-ONLY WITH REPORT/TMP OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
+# Safety: READ-ONLY WITH REPORT/generated-artifact OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
 # Inputs: None.
 # Scope: PROJECT KNOWLEDGE — repository-knowledge/inventory surfaces.
 # Result: Human-readable status/content is printed to stdout; command returns non-zero on invalid required input.
 .PHONY: repository-knowledge-freshness-status
 repository-knowledge-freshness-status:
-	@mkdir -p tmp
-	@$(BLUEPRINT_PYTHON) scripts/coordination/assess_repository_knowledge_freshness.py --manifest coordination/repository_knowledge/snapshot_comparison_gate_v0_1.yaml --repo-root . --output tmp/repository_knowledge_freshness_status.yaml
-	@$(BLUEPRINT_PYTHON) scripts/coordination/render_repository_knowledge_freshness_status.py --report tmp/repository_knowledge_freshness_status.yaml
+	@mkdir -p generated
+	@$(BLUEPRINT_PYTHON) scripts/coordination/assess_repository_knowledge_freshness.py --manifest coordination/repository_knowledge/snapshot_comparison_gate_v0_1.yaml --repo-root . --output generated/repository_knowledge_freshness_status.yaml
+	@$(BLUEPRINT_PYTHON) scripts/coordination/render_repository_knowledge_freshness_status.py --report generated/repository_knowledge_freshness_status.yaml
 
 # Target: check-rci-semantic-enrichment
 # Purpose: Validate semantic enrichment of the repository capability inventory.
-# Safety: READ-ONLY WITH REPORT/TMP OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
+# Safety: READ-ONLY WITH REPORT/generated-artifact OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
 # Inputs: None.
 # Scope: PROJECT KNOWLEDGE — repository-knowledge/inventory surfaces.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: check-rci-semantic-enrichment
 check-rci-semantic-enrichment:
 	@mkdir -p reports
@@ -2049,10 +2054,10 @@ check-rci-semantic-enrichment:
 
 # Target: check-redm-dependency-enrichment
 # Purpose: Validate dependency enrichment of the repository execution dependency map.
-# Safety: READ-ONLY WITH REPORT/TMP OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
+# Safety: READ-ONLY WITH REPORT/generated-artifact OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
 # Inputs: None.
 # Scope: PROJECT KNOWLEDGE — repository-knowledge/inventory surfaces.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: check-redm-dependency-enrichment
 check-redm-dependency-enrichment:
 	@mkdir -p reports
@@ -2060,10 +2065,10 @@ check-redm-dependency-enrichment:
 
 # Target: check-semantic-coverage-closure
 # Purpose: Validate semantic coverage closure across current repository knowledge.
-# Safety: READ-ONLY WITH REPORT/TMP OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
+# Safety: READ-ONLY WITH REPORT/generated-artifact OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
 # Inputs: None.
 # Scope: RELATED — target contract plus its direct validation dependencies.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: check-semantic-coverage-closure
 check-semantic-coverage-closure: check-rci-semantic-enrichment check-redm-dependency-enrichment check-repository-knowledge-freshness
 	@mkdir -p reports
@@ -2071,7 +2076,7 @@ check-semantic-coverage-closure: check-rci-semantic-enrichment check-redm-depend
 
 # Target: semantic-coverage-status
 # Purpose: Render semantic coverage status and outstanding gaps.
-# Safety: READ-ONLY WITH REPORT/TMP OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
+# Safety: READ-ONLY WITH REPORT/generated-artifact OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
 # Inputs: MODULE (optional/defaulted).
 # Scope: PROJECT KNOWLEDGE — repository-knowledge/inventory surfaces.
 # Result: Human-readable status/content is printed to stdout; command returns non-zero on invalid required input.
@@ -2083,10 +2088,10 @@ semantic-coverage-status:
 
 # Target: check-repository-knowledge-reconciliation
 # Purpose: Validate reconciliation between repository-knowledge artifacts and coordination direction.
-# Safety: READ-ONLY WITH REPORT/TMP OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
+# Safety: READ-ONLY WITH REPORT/generated-artifact OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
 # Inputs: None.
 # Scope: PROJECT KNOWLEDGE — repository-knowledge/inventory surfaces.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: check-repository-knowledge-reconciliation
 check-repository-knowledge-reconciliation: check-semantic-coverage-closure check-rci-semantic-enrichment check-redm-dependency-enrichment
 	@mkdir -p reports
@@ -2094,7 +2099,7 @@ check-repository-knowledge-reconciliation: check-semantic-coverage-closure check
 
 # Target: repository-knowledge-reconciliation-status
 # Purpose: Render repository-knowledge reconciliation status.
-# Safety: READ-ONLY WITH REPORT/TMP OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
+# Safety: READ-ONLY WITH REPORT/generated-artifact OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
 # Inputs: MODULE (optional/defaulted).
 # Scope: PROJECT KNOWLEDGE — repository-knowledge/inventory surfaces.
 # Result: Human-readable status/content is printed to stdout; command returns non-zero on invalid required input.
@@ -2106,10 +2111,10 @@ repository-knowledge-reconciliation-status:
 
 # Target: check-inventory-acceptance-evidence-index
 # Purpose: Validate the inventory acceptance evidence index and prerequisite semantic evidence.
-# Safety: READ-ONLY WITH REPORT/TMP OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
+# Safety: READ-ONLY WITH REPORT/generated-artifact OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
 # Inputs: None.
 # Scope: PROJECT KNOWLEDGE — repository-knowledge/inventory surfaces.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: check-inventory-acceptance-evidence-index
 check-inventory-acceptance-evidence-index: check-rci-semantic-enrichment check-redm-dependency-enrichment check-semantic-coverage-closure check-repository-knowledge-reconciliation
 	@mkdir -p reports
@@ -2117,7 +2122,7 @@ check-inventory-acceptance-evidence-index: check-rci-semantic-enrichment check-r
 
 # Target: inventory-acceptance-evidence-status
 # Purpose: Render inventory acceptance evidence status.
-# Safety: READ-ONLY WITH REPORT/TMP OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
+# Safety: READ-ONLY WITH REPORT/generated-artifact OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
 # Inputs: MODULE (optional/defaulted).
 # Scope: PROJECT KNOWLEDGE — repository-knowledge/inventory surfaces.
 # Result: Human-readable status/content is printed to stdout; command returns non-zero on invalid required input.
@@ -2129,10 +2134,10 @@ inventory-acceptance-evidence-status:
 
 # Target: check-inventory-acceptance-dry-run
 # Purpose: Run the read-only inventory acceptance dry run with prerequisite evidence checks.
-# Safety: READ-ONLY WITH REPORT/TMP OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
+# Safety: READ-ONLY WITH REPORT/generated-artifact OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
 # Inputs: None.
 # Scope: PROJECT KNOWLEDGE — repository-knowledge/inventory surfaces.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: check-inventory-acceptance-dry-run
 check-inventory-acceptance-dry-run: check-inventory-acceptance-evidence-index check-semantic-coverage-closure check-repository-knowledge-reconciliation
 	@mkdir -p reports
@@ -2140,7 +2145,7 @@ check-inventory-acceptance-dry-run: check-inventory-acceptance-evidence-index ch
 
 # Target: inventory-acceptance-dry-run-status
 # Purpose: Render the current inventory acceptance dry-run status.
-# Safety: READ-ONLY WITH REPORT/TMP OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
+# Safety: READ-ONLY WITH REPORT/generated-artifact OUTPUT — may refresh diagnostic/generated evidence, but does not change execution authority.
 # Inputs: MODULE (optional/defaulted).
 # Scope: PROJECT KNOWLEDGE — repository-knowledge/inventory surfaces.
 # Result: Human-readable status/content is printed to stdout; command returns non-zero on invalid required input.
@@ -2178,7 +2183,7 @@ coordination-pulse:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: PROMPT_CONTRACT_V0_4 (optional/defaulted).
 # Scope: MODULE/QUEUE — selected module, prompt, packet, or queue record.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: prompt-contract-v0-4-validate
 prompt-contract-v0-4-validate:
 	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_prompt_contract_v0_4.py --root . --contract "$(PROMPT_CONTRACT_V0_4)"
@@ -2188,7 +2193,7 @@ prompt-contract-v0-4-validate:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: COMPLETION_PACKET_V0_4 (optional/defaulted).
 # Scope: MODULE/QUEUE — selected module, prompt, packet, or queue record.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: completion-packet-v0-4-validate
 completion-packet-v0-4-validate:
 	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_completion_packet_v0_4.py --root . --packet "$(COMPLETION_PACKET_V0_4)" --template-mode
@@ -2198,7 +2203,7 @@ completion-packet-v0-4-validate:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: COMPLETION_OUTBOX_V0_4 (optional/defaulted), COORDINATION_SOURCE_REGISTRY_V0_4 (optional/defaulted).
 # Scope: MODULE/QUEUE — selected module, prompt, packet, or queue record.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: completion-outbox-v0-4-validate
 completion-outbox-v0-4-validate:
 	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_completion_outbox_v0_4.py "$(COMPLETION_OUTBOX_V0_4)" --root . --registry "$(COORDINATION_SOURCE_REGISTRY_V0_4)" --template
@@ -2264,7 +2269,7 @@ ACCEPT_AND_ADVANCE_FORMAT ?= text
 accept-and-advance:
 	@set -eu; \
 	if [ -z "$(ACCEPT_AND_ADVANCE_REQUEST)" ]; then \
-		echo "ERROR: ACCEPT_AND_ADVANCE_REQUEST=tmp/<request>.yaml is required"; \
+		echo "ERROR: ACCEPT_AND_ADVANCE_REQUEST=<request.yaml> is required"; \
 		exit 2; \
 	fi; \
 	case "$(ACCEPT_AND_ADVANCE_APPLY)" in \
@@ -2286,7 +2291,7 @@ accept-and-advance:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: COORDINATION — focused coordination protocol surface.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: test-v0-4-1-h5
 test-v0-4-1-h5:
 	@$(BLUEPRINT_PYTHON) -m pytest -q tests/validation/test_v0_4_1_accept_and_advance.py
@@ -2302,7 +2307,7 @@ next-prompt-selection-activation-v0-4:
 	@$(BLUEPRINT_PYTHON) scripts/coordination/next_prompt_selection_activation_v0_4.py --root . --live-status
 
 
-TRACKING_EVENTS_REFERENCE_BUNDLE ?= tmp/step27_tracking_events_reference_sources.txt
+TRACKING_EVENTS_REFERENCE_BUNDLE ?= generated/step27_tracking_events_reference_sources.txt
 TRACKING_EVENTS_SOURCE_PROMPT ?= coordination/prompt_contracts/logistics_service/logistics_service_tracking_events_v0_1/source_prompt_snapshot.md
 TRACKING_EVENTS_V0_3_CONTRACT ?= coordination/prompt_contracts/logistics_service/logistics_service_tracking_events_v0_1.yaml
 PROMPT_CONTRACT_V0_4_STANDARD ?= coordination/standards/governance/module_prompt_contract_v0_4.yaml
@@ -2311,7 +2316,7 @@ PROMPT_CONTRACT_V0_4_SELF_REFERENCE ?= coordination/prompt_contracts/forprint_sy
 
 # Target: tracking-events-reference-v0-4-preflight
 # Purpose: Build a temporary read-only-source bundle for Tracking Events v0.4 reference review.
-# Safety: TMP-ONLY WRITE — reads governed sources and writes only the temporary reference review bundle.
+# Safety: generated-artifact-ONLY WRITE — reads governed sources and writes only the temporary reference review bundle.
 # Inputs: PROMPT_CONTRACT_V0_4_STANDARD (optional/defaulted), PROMPT_CONTRACT_V0_4_EXAMPLE (optional/defaulted), PROMPT_CONTRACT_V0_4_SELF_REFERENCE (optional/defaulted), TRACKING_EVENTS_V0_3_CONTRACT (optional/defaulted), TRACKING_EVENTS_SOURCE_PROMPT (optional/defaulted), TRACKING_EVENTS_REFERENCE_BUNDLE (optional/defaulted).
 # Scope: COORDINATION — focused coordination protocol surface.
 # Result: The documented bounded mutation/artifact operation completes or fails closed with a non-zero exit code.
@@ -2325,7 +2330,7 @@ tracking-events-reference-v0-4-preflight:
 	mkdir -p "$$(dirname "$(TRACKING_EVENTS_REFERENCE_BUNDLE)")"; \
 	{ \
 		echo "ForPrint STEP27 Tracking Events v0.4 reference source bundle"; \
-		echo "mode: read-only-source / tmp-output"; \
+		echo "mode: read-only-source / generated-report"; \
 		echo "HEAD: $$(git rev-parse HEAD)"; \
 		echo "BRANCH: $$(git branch --show-current)"; \
 		echo; \
@@ -2363,7 +2368,7 @@ tracking-events-reference-v0-4-build:
 # Safety: READ-ONLY — validates the reference contract only; no Packet/Outbox creation, lifecycle decision, promotion, commit, or push.
 # Inputs: TRACKING_EVENTS_V0_4_CONTRACT (optional/defaulted).
 # Scope: COORDINATION — focused coordination protocol surface.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: tracking-events-reference-v0-4-validate
 tracking-events-reference-v0-4-validate:
 	@$(BLUEPRINT_PYTHON) scripts/coordination/validate_prompt_contract_v0_4.py --root . --contract "$(TRACKING_EVENTS_V0_4_CONTRACT)"
@@ -2426,7 +2431,7 @@ PROMPT_EXECUTION_EVENT_REGISTRY ?= coordination/registry/coordination_source_reg
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: PROMPT_EXECUTION_EVENT_REGISTRY (optional/defaulted), PROMPT_EXECUTION_EVENT_V0_1 (optional/defaulted).
 # Scope: MODULE/QUEUE — selected module, prompt, packet, or queue record.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: prompt-execution-event-v0-1-template-validate
 prompt-execution-event-v0-1-template-validate:
 	@$(BLUEPRINT_PYTHON) scripts/coordination/prompt_execution_events_v0_1.py validate --root . --registry "$(PROMPT_EXECUTION_EVENT_REGISTRY)" --event "$(PROMPT_EXECUTION_EVENT_V0_1)" --template
@@ -2436,7 +2441,7 @@ prompt-execution-event-v0-1-template-validate:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: EVENT (required), PROMPT_EXECUTION_EVENT_REGISTRY (optional/defaulted), PROMPT_EXECUTION_EVENT_MODULE_ROOT (optional/defaulted).
 # Scope: MODULE/QUEUE — selected module, prompt, packet, or queue record.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: prompt-execution-event-v0-1-validate
 prompt-execution-event-v0-1-validate:
 	@if [ -z "$(EVENT)" ]; then echo "FAILED: provide EVENT=<module-relative event path>"; exit 2; fi
@@ -2468,7 +2473,7 @@ prompt-execution-status:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: PROMPT_EXECUTION_EVENT_V0_1 (optional/defaulted).
 # Scope: COORDINATION — focused coordination protocol surface.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: test-v0-4-1-h3
 test-v0-4-1-h3:
 	@$(BLUEPRINT_PYTHON) scripts/coordination/prompt_execution_events_v0_1.py validate --root . --event "$(PROMPT_EXECUTION_EVENT_V0_1)" --template
@@ -2480,7 +2485,7 @@ test-v0-4-1-h3:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: RELATED — target contract plus its direct validation dependencies.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: check-prompt-execution-observability
 check-prompt-execution-observability:
 	@$(BLUEPRINT_PYTHON) scripts/coordination/coordination_pulse.py --root . --output-format yaml >/dev/null
@@ -2492,7 +2497,7 @@ check-prompt-execution-observability:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: COORDINATION — focused coordination protocol surface.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: test-v0-4-1-h4
 test-v0-4-1-h4:
 	@$(BLUEPRINT_PYTHON) -m pytest -q tests/validation/test_v0_4_1_module_coordination_sync.py
@@ -2561,7 +2566,7 @@ execution-preflight-v0-1:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: COORDINATION — focused coordination protocol surface.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: test-v0-4-1-b1-p1
 test-v0-4-1-b1-p1:
 	@$(BLUEPRINT_PYTHON) -m pytest -q tests/validation/test_v0_4_1_execution_baseline_and_drift_control.py tests/validation/test_v0_4_immutable_prompt_contract.py
@@ -2572,7 +2577,7 @@ test-v0-4-1-b1-p1:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: PROMPT_EXECUTION_EVENT_V0_1 (optional/defaulted), COMPLETION_PACKET_V0_4 (optional/defaulted).
 # Scope: COORDINATION — focused coordination protocol surface.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: test-v0-4-1-b1-p2
 test-v0-4-1-b1-p2:
 	@$(BLUEPRINT_PYTHON) -m pytest -q tests/validation/test_v0_4_1_prompt_execution_events.py tests/validation/test_v0_4_completion_packet.py tests/validation/test_v0_4_1_b1_p2_authoritative_binding.py
@@ -2603,7 +2608,7 @@ portfolio-readiness-dashboard:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: RELATED — target contract plus its direct validation dependencies.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: surface-normalization-check
 surface-normalization-check:
 	.venv_blueprint/bin/python scripts/validation/validate_document_surface_registry_v0_1.py
@@ -2614,7 +2619,7 @@ surface-normalization-check:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: RELATED — target contract plus its direct validation dependencies.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: human-intent-check
 human-intent-check:
 	.venv_blueprint/bin/python scripts/validation/validate_human_intent_surfaces_v0_1.py
@@ -2624,7 +2629,7 @@ human-intent-check:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: RELATED — target contract plus its direct validation dependencies.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: root-roadmap-check
 root-roadmap-check:
 	.venv_blueprint/bin/python scripts/validation/validate_root_module_roadmap_surfaces_v0_1.py
@@ -2634,7 +2639,7 @@ root-roadmap-check:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: MODULE/ROADMAP — selected MODULE/ROADMAP or configured summary set.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: roadmap-rebuild-seed-check
 roadmap-rebuild-seed-check:
 	.venv_blueprint/bin/python scripts/validation/validate_portfolio_rebuild_seed_surfaces_v0_1.py
@@ -2644,7 +2649,7 @@ roadmap-rebuild-seed-check:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: CONTROL FOUNDATION — Blueprint continuity/handoff/control contracts.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: continuity-surface-check
 continuity-surface-check:
 	.venv_blueprint/bin/python scripts/validation/validate_continuity_roadmap_detail_surfaces_v0_1.py
@@ -2654,7 +2659,7 @@ continuity-surface-check:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: MODULE/ROADMAP — selected MODULE/ROADMAP or configured summary set.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: roadmap-detail-check
 roadmap-detail-check:
 	.venv_blueprint/bin/python scripts/validation/validate_roadmap_detail_surfaces_v0_2.py
@@ -2664,7 +2669,7 @@ roadmap-detail-check:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: RELATED — target contract plus its direct validation dependencies.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: skip-inventory-check
 skip-inventory-check:
 	.venv_blueprint/bin/python scripts/validation/validate_pytest_skip_inventory_v0_1.py
@@ -2674,7 +2679,7 @@ skip-inventory-check:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: RELATED — target contract plus its direct validation dependencies.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: safe-mutation-check
 safe-mutation-check:
 	.venv_blueprint/bin/python scripts/validation/validate_safe_mutation_pipeline_v0_1.py
@@ -2684,7 +2689,7 @@ safe-mutation-check:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: RELATED — target contract plus its direct validation dependencies.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: asset-retirement-check
 asset-retirement-check:
 	.venv_blueprint/bin/python scripts/validation/validate_asset_retirement_registry_v0_1.py
@@ -2694,7 +2699,7 @@ asset-retirement-check:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: RELATED — target contract plus its direct validation dependencies.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: module-cleanliness-pack-check
 module-cleanliness-pack-check:
 	.venv_blueprint/bin/python scripts/validation/validate_module_cleanliness_conformance_pack_v0_1.py
@@ -2704,7 +2709,7 @@ module-cleanliness-pack-check:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: RELATED — target contract plus its direct validation dependencies.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: module-current-state-check
 module-current-state-check:
 	.venv_blueprint/bin/python scripts/validation/validate_module_current_state_evidence_v0_1.py
@@ -2715,7 +2720,7 @@ module-current-state-check:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: RELATED — target contract plus its direct validation dependencies.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: canonical-state-freshness-impact-check
 canonical-state-freshness-impact-check:
 	@$(BLUEPRINT_PYTHON) scripts/validation/validate_blueprint_canonical_state_freshness_impact_v0_1.py
@@ -2736,7 +2741,7 @@ canonical-state-freshness-impact-status:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: RELATED — target contract plus its direct validation dependencies.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: module-memory-schema-check
 module-memory-schema-check:
 	@$(BLUEPRINT_PYTHON) scripts/validation/validate_module_memory_schema_v0_1.py
@@ -2774,7 +2779,7 @@ generator-inventory:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: DERIVATION/EXECUTION — generator, dependency, or progress-control surfaces.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: generator-inventory-check
 generator-inventory-check:
 	$(PYTHON) scripts/indexing/build_generator_inventory.py --check
@@ -2784,7 +2789,7 @@ generator-inventory-check:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: DERIVATION/EXECUTION — generator, dependency, or progress-control surfaces.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: generator-contract-check
 generator-contract-check:
 	$(PYTHON) scripts/indexing/validate_generator_derivation_registry.py
@@ -2806,7 +2811,7 @@ execution-dependency-graph:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: DERIVATION/EXECUTION — generator, dependency, or progress-control surfaces.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: execution-dependency-graph-check
 execution-dependency-graph-check:
 	$(PYTHON) scripts/indexing/build_execution_dependency_graph.py --check
@@ -2816,7 +2821,7 @@ execution-dependency-graph-check:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: DERIVATION/EXECUTION — generator, dependency, or progress-control surfaces.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: execution-dependency-check
 execution-dependency-check: execution-dependency-graph-check
 	$(PYTHON) scripts/validation/validate_execution_dependency_contract.py
@@ -2846,7 +2851,7 @@ export FORPRINT_PROGRESS_CHILD_OUTPUT
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: DERIVATION/EXECUTION — generator, dependency, or progress-control surfaces.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: execution-progress-check
 execution-progress-check:
 	$(PYTHON) scripts/validation/validate_execution_progress_visibility_v0_1.py
@@ -2883,7 +2888,7 @@ roadmap-sync:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: CONTROL FOUNDATION — Blueprint continuity/handoff/control contracts.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: roadmap-sync-check
 roadmap-sync-check:
 	$(PYTHON) scripts/coordination/roadmap_execution_reconciliation.py --root . check
@@ -2895,7 +2900,7 @@ roadmap-sync-check:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: CONTROL FOUNDATION — Blueprint continuity/handoff/control contracts.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: assistant-handoff-check
 assistant-handoff-check:
 	$(MAKE) roadmap-sync-check
@@ -2922,8 +2927,8 @@ module-bootstrap-commission-check:
 
 # Target: module-bootstrap-commission
 # Purpose: Build a MODULE_BOOTSTRAP_COMMISSION archive for a zero-state/new-module worker.
-# Safety: GENERATED-ARTIFACT WRITE — writes under tmp/ by default; never mutates canonical Blueprint/module source or Git refs.
-# Inputs: COMMISSION_REQUEST=<request.yaml>; optional BOOTSTRAP_COMMISSION_OUTPUT_DIR=<tmp/output>.
+# Safety: GENERATED-ARTIFACT WRITE — writes under generated-artifact/ by default; never mutates canonical Blueprint/module source or Git refs.
+# Inputs: COMMISSION_REQUEST=<request.yaml>; optional BOOTSTRAP_COMMISSION_OUTPUT_DIR=<generated-artifact/output>.
 # Scope: LOCAL/FOCUSED — one requested module bootstrap commission.
 # Result: Archive contains committed Blueprint evidence, clean-root/continuity policy, templates and cold-start acceptance.
 .PHONY: module-bootstrap-commission
@@ -2949,7 +2954,7 @@ assistant-pack:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: CONTROL FOUNDATION — Blueprint continuity/handoff/control contracts.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: continuity-lifecycle-check
 continuity-lifecycle-check:
 	$(PYTHON) scripts/validation/validate_continuity_lifecycle_v0_1.py
@@ -2960,7 +2965,7 @@ continuity-lifecycle-check:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: CONTROL FOUNDATION — Blueprint continuity/handoff/control contracts.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: continuity-transfer-check
 continuity-transfer-check:
 	$(PYTHON) scripts/validation/validate_module_continuity_transfer_v0_1.py
@@ -2991,7 +2996,7 @@ continuity-projections-refresh:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: CONTROL FOUNDATION — Blueprint continuity/handoff/control contracts.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: continuity-projections-check
 continuity-projections-check:
 	$(PYTHON) scripts/coordination/blueprint_continuity_adapter_v0_1.py --root . --check
@@ -3003,7 +3008,7 @@ continuity-projections-check:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: CONTROL FOUNDATION — Blueprint continuity/handoff/control contracts.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: continuity-event-store-check
 continuity-event-store-check:
 	$(PYTHON) scripts/validation/validate_continuity_event_store_v0_1.py
@@ -3034,7 +3039,7 @@ continuity-checkpoint:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: CONTROL FOUNDATION — Blueprint continuity/handoff/control contracts.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: continuity-contract-check
 continuity-contract-check:
 	$(PYTHON) scripts/validation/validate_continuity_contract_v0_1.py
@@ -3045,7 +3050,7 @@ continuity-contract-check:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: CONTROL FOUNDATION — Blueprint continuity/handoff/control contracts.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: continuity-micro-roadmap-check
 continuity-micro-roadmap-check:
 	$(PYTHON) scripts/validation/validate_continuity_micro_roadmap_v0_1.py
@@ -3055,7 +3060,7 @@ continuity-micro-roadmap-check:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: CONTROL FOUNDATION — Blueprint continuity/handoff/control contracts.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: project-constitution-check
 project-constitution-check:
 	.venv_blueprint/bin/python scripts/validation/validate_project_constitution_v0_1.py
@@ -3064,7 +3069,7 @@ project-constitution-check:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: TASK/WORK-FRONT — explicitly selected execution package/profile/front.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: work-front-contract-check
 work-front-contract-check:
 	$(PYTHON) scripts/validation/validate_work_front_contract_v0_1.py
@@ -3075,7 +3080,7 @@ work-front-contract-check:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: FRONT (required), ACTION (optional/defaulted).
 # Scope: TASK/WORK-FRONT — explicitly selected execution package/profile/front.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: work-front-check
 work-front-check:
 	@test -n "$(FRONT)" || (echo "WORK_FRONT_CHECK=FAIL"; echo "ERROR=FRONT_REQUIRED"; exit 2)
@@ -3100,7 +3105,7 @@ work-front-assistant-pack-gate:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: RELATED — target contract plus its direct validation dependencies.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: workfront-history-check
 workfront-history-check:
 	$(PYTHON) scripts/validation/validate_workfront_history_v0_1.py
@@ -3111,7 +3116,7 @@ workfront-history-check:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: RELATED — target contract plus its direct validation dependencies.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: execution-attempt-ledger-check
 execution-attempt-ledger-check:
 	$(PYTHON) scripts/validation/validate_execution_attempt_ledger_v0_1.py
@@ -3122,7 +3127,7 @@ execution-attempt-ledger-check:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: CONTROL FOUNDATION — Blueprint continuity/handoff/control contracts.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: cf05-history-ledger-check
 cf05-history-ledger-check: workfront-history-check execution-attempt-ledger-check
 
@@ -3131,7 +3136,7 @@ cf05-history-ledger-check: workfront-history-check execution-attempt-ledger-chec
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: TASK/WORK-FRONT — explicitly selected execution package/profile/front.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: execution-profile-registry-check
 execution-profile-registry-check:
 	$(PYTHON) scripts/validation/validate_execution_profile_registry_v0_1.py
@@ -3153,7 +3158,7 @@ execution-profile-list:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: CONTROL FOUNDATION — Blueprint continuity/handoff/control contracts.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: governed-procedure-graph-check
 governed-procedure-graph-check:
 	$(PYTHON) scripts/validation/validate_governed_procedure_graph_v0_1.py
@@ -3165,7 +3170,7 @@ governed-procedure-graph-check:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: CONTROL FOUNDATION — Blueprint continuity/handoff/control contracts.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: assistant-handoff-v2-contract-check
 assistant-handoff-v2-contract-check:
 	$(BLUEPRINT_PYTHON) scripts/validation/validate_assistant_handoff_v2_contract_v0_1.py --root .
@@ -3178,7 +3183,7 @@ assistant-handoff-v2-contract-check:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: CONTROL FOUNDATION — Blueprint continuity/handoff/control contracts.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: assistant-handoff-v2-runtime-check
 assistant-handoff-v2-runtime-check:
 	$(BLUEPRINT_PYTHON) scripts/validation/validate_assistant_handoff_v2_runtime_v0_1.py --root .
@@ -3219,7 +3224,7 @@ assistant-handoff-v2-task-execution:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: CONTROL FOUNDATION — Blueprint continuity/handoff/control contracts.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: assistant-handoff-v2-result-check
 assistant-handoff-v2-result-check:
 	$(BLUEPRINT_PYTHON) scripts/validation/validate_assistant_handoff_v2_result_v0_1.py --root .
@@ -3232,7 +3237,7 @@ assistant-handoff-v2-result-check:
 # Safety: READ-ONLY — does not intentionally mutate canonical project state, Git refs, or external systems.
 # Inputs: None.
 # Scope: CONTROL FOUNDATION — Blueprint continuity/handoff/control contracts.
-# Result: Validation exits 0 on success and non-zero on failure; any report/tmp output is diagnostic evidence only.
+# Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: assistant-handoff-v2-freshness-resume-check
 assistant-handoff-v2-freshness-resume-check:
 	$(BLUEPRINT_PYTHON) scripts/validation/validate_assistant_handoff_v2_freshness_resume_v0_1.py --root .
@@ -3384,7 +3389,7 @@ oc01-protected-terminal-history:
 # Reuse: scripts/coordination/control_plane/workspace/*
 # Safety: canonical_write_allowed=false; no promotion/push/merge/release.
 OC01_SANDBOX_CANONICAL_REPO ?= .
-OC01_SANDBOX_RUNTIME_ROOT ?= /tmp/forprint-oc01-sandboxes
+OC01_SANDBOX_RUNTIME_ROOT ?= /srv/software_development/forprint-oc01-runtime/sandboxes
 OC01_SANDBOX_MODULE_ID ?= forprint_system_blueprint
 OC01_SANDBOX_WORKER_ID ?= operator-assistant
 OC01_SANDBOX_ATTEMPT_ID ?=
@@ -3517,7 +3522,7 @@ oc01-promotion-apply:
 # Thin standard-library HTTP/JSON + responsive HTML surface over published OC01 backends.
 # Default bind is loopback. Remote bind is explicit and still requires trusted external transport.
 OC01_CONSOLE_CANONICAL_ROOT ?= .
-OC01_CONSOLE_RUNTIME_ROOT ?= /tmp/forprint-oc01/operator_console
+OC01_CONSOLE_RUNTIME_ROOT ?= /srv/software_development/forprint-oc01-runtime/operator_console
 OC01_CONSOLE_HOST ?= 127.0.0.1
 OC01_CONSOLE_PORT ?= 8099
 OC01_CONSOLE_ALLOW_REMOTE ?= 0
@@ -3555,7 +3560,7 @@ oc01-console-serve:
 # Reuses Console API -> Protected Terminal -> shared worker launcher.
 # Proof executes READ_ONLY registered capabilities only and writes evidence outside repo.
 OC01_MINI7_PROOF_CANONICAL_ROOT ?= .
-OC01_MINI7_PROOF_RUNTIME_ROOT ?= /tmp/forprint-oc01/proofs/mini7/manual
+OC01_MINI7_PROOF_RUNTIME_ROOT ?= /srv/software_development/forprint-oc01-runtime/proofs/mini7/manual
 OC01_MINI7_PROOF_ACTOR_ID ?= oc01-mini7-human-terminal-proof
 OC01_MINI7_PROOF_TIMEOUT ?= 30
 
@@ -3615,10 +3620,12 @@ oc01-mini-closeout-check:
 
 # CF10_POST_COMMIT_WORKER_RESULT_ACCEPTANCE_V0_1_START
 .PHONY: cf10-post-commit-acceptance-preview cf10-post-commit-acceptance-decide cf10-post-commit-acceptance-check
-CF10_ACCEPTANCE_REQUEST ?= tmp/cf10_a040_acceptance_request_v0_1.yaml
+CF10_ACCEPTANCE_REQUEST ?=
 cf10-post-commit-acceptance-preview:
+	@test -n "$(CF10_ACCEPTANCE_REQUEST)" || { echo "CF10_ACCEPTANCE_REQUEST_REQUIRED_EXPLICIT_PATH"; exit 2; }
 	.venv_blueprint/bin/python -B -m scripts.coordination.control_plane.post_commit_worker_acceptance preview --root . --request "$(CF10_ACCEPTANCE_REQUEST)"
 cf10-post-commit-acceptance-decide:
+	@test -n "$(CF10_ACCEPTANCE_REQUEST)" || { echo "CF10_ACCEPTANCE_REQUEST_REQUIRED_EXPLICIT_PATH"; exit 2; }
 	@test -n "$(CF10_DECISION)" && test -n "$(CF10_DECISION_ID)" && test -n "$(CF10_OPERATOR_REF)" && test -n "$(CF10_DECISION_CONFIRM)" || (echo 'Explicit CF10_DECISION, CF10_DECISION_ID, CF10_OPERATOR_REF and CF10_DECISION_CONFIRM required'; exit 2)
 	.venv_blueprint/bin/python -B -m scripts.coordination.control_plane.post_commit_worker_acceptance decide --root . --request "$(CF10_ACCEPTANCE_REQUEST)" --decision "$(CF10_DECISION)" --decision-id "$(CF10_DECISION_ID)" --operator-ref "$(CF10_OPERATOR_REF)" --confirm "$(CF10_DECISION_CONFIRM)"
 cf10-post-commit-acceptance-check:
@@ -3678,15 +3685,15 @@ shared-ledger-writer-activation-tests:
 # CF10_S01_OPERATOR_RUNTIME_BINDING_V0_1_START
 # Operator corridor only. This prerequisite does NOT intercept direct Python or
 # non-Make ledger writes; independent ENFORCED global lock remains required.
-CF10_S01_GATE_ROOT ?= $(CURDIR)/tmp/cf10_gate_rollover_7odYLfVr
-CF10_S01_WRITER_ROOT ?= $(CURDIR)/tmp/cf10_release_merge_CZXUoA9p
-CF10_S01_COVERAGE_EVIDENCE ?= $(CF10_S01_GATE_ROOT)/tmp/cf10_writer_coverage_gate3d90143_170494.json
+CF10_S01_GATE_ROOT ?= /srv/software_development/forprint-releases/cf10/gate/3d90143a240439d33833463d38ab0fb3497eac8f
+CF10_S01_WRITER_ROOT ?= /srv/software_development/forprint-releases/cf10/writer/d5d1495c0a1ab25367c146b0f5379b015e03dd85
+CF10_S01_COVERAGE_EVIDENCE ?= /srv/software_development/forprint-releases/cf10/evidence/cf10_writer_coverage_gate3d90143_170494.json
 CF10_S01_COVERAGE_SHA256 ?= 15bb96b3fdb87186d8337dfa17391bfd5a5a951e2faae34c8c671734d4027b71
 .PHONY: cf10-s01-runtime-binding-inspect cf10-s01-runtime-launch-preflight
 cf10-s01-runtime-binding-inspect:
-	$(PYTHON) -B -m scripts.coordination.control_plane.s01_writer_runtime_binding_v0_1 inspect --deployment-root . --gate-root "$(CF10_S01_GATE_ROOT)" --writer-root "$(CF10_S01_WRITER_ROOT)" --coverage-evidence "$(CF10_S01_COVERAGE_EVIDENCE)" --coverage-sha256 "$(CF10_S01_COVERAGE_SHA256)"
+	@echo "CF10_MAKE_RELEASE_BINDING=QUARANTINED_NEEDS_INDEPENDENT_REBIND"; exit 2
 cf10-s01-runtime-launch-preflight:
-	$(PYTHON) -B -m scripts.coordination.control_plane.s01_writer_runtime_binding_v0_2 launch-preflight --deployment-root . --gate-root "$(CF10_S01_GATE_ROOT)" --writer-root "$(CF10_S01_WRITER_ROOT)" --coverage-evidence "$(CF10_S01_COVERAGE_EVIDENCE)" --coverage-sha256 "$(CF10_S01_COVERAGE_SHA256)"
+	@echo "CF10_MAKE_RELEASE_BINDING=QUARANTINED_NEEDS_INDEPENDENT_REBIND"; exit 2
 # Preserve original commands and confirmation checks. All write-capable
 # operator targets acquire an additional fail-closed prerequisite.
 governed-worker-cycle-launch: cf10-s01-runtime-launch-preflight
@@ -3706,13 +3713,15 @@ cf10-attempt-report-check:
 # CF10_S2B_ZERO_DELTA_OPERATOR_REVIEW_V0_1_START
 .PHONY: cf10-zero-delta-review-preview cf10-zero-delta-review-check cf10-zero-delta-review-decide
 CF10_ZERO_DELTA_RUNTIME_ROOT ?= /srv/software_development/forprint-worker-runtime
-CF10_ZERO_DELTA_PROOF ?= tmp/cf10_s2_a047_independent_workspace_proof_v0_1/independent_proof.json
+CF10_ZERO_DELTA_PROOF ?=
 cf10-zero-delta-review-preview:
+	@test -n "$(CF10_ZERO_DELTA_PROOF)" || { echo "CF10_ZERO_DELTA_PROOF_REQUIRED_EXPLICIT_PATH"; exit 2; }
 	@test -n "$(GOVERNED_WORKER_TASK)" && test -n "$(GOVERNED_WORKER_ATTEMPT)" || (echo 'Task and attempt are required'; exit 2)
 	$(PYTHON) -B -m scripts.coordination.control_plane.cf10_zero_delta_operator_review_v0_1 preview --root . --runtime-root "$(CF10_ZERO_DELTA_RUNTIME_ROOT)" --proof-file "$(CF10_ZERO_DELTA_PROOF)" --task "$(GOVERNED_WORKER_TASK)" --attempt-id "$(GOVERNED_WORKER_ATTEMPT)"
 cf10-zero-delta-review-check:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_zero_delta_operator_review_v0_1.py
 cf10-zero-delta-review-decide:
+	@test -n "$(CF10_ZERO_DELTA_PROOF)" || { echo "CF10_ZERO_DELTA_PROOF_REQUIRED_EXPLICIT_PATH"; exit 2; }
 	@test -n "$(GOVERNED_WORKER_TASK)" && test -n "$(GOVERNED_WORKER_ATTEMPT)" && test -n "$(CF10_DECISION)" && test -n "$(CF10_DECISION_ID)" && test -n "$(CF10_OPERATOR_REF)" && test -n "$(CF10_DECISION_CONFIRM)" && test -n "$(CF10_TEMPORAL_ACK)" || (echo 'Explicit task, attempt, decision, decision-id, operator, confirmation and temporal acknowledgment required'; exit 2)
 	$(PYTHON) -B -m scripts.coordination.control_plane.cf10_zero_delta_operator_review_v0_1 decide --root . --runtime-root "$(CF10_ZERO_DELTA_RUNTIME_ROOT)" --proof-file "$(CF10_ZERO_DELTA_PROOF)" --task "$(GOVERNED_WORKER_TASK)" --attempt-id "$(GOVERNED_WORKER_ATTEMPT)" --decision "$(CF10_DECISION)" --decision-id "$(CF10_DECISION_ID)" --operator-ref "$(CF10_OPERATOR_REF)" --confirm "$(CF10_DECISION_CONFIRM)" --temporal-ack "$(CF10_TEMPORAL_ACK)"
 # CF10_S2B_ZERO_DELTA_OPERATOR_REVIEW_V0_1_END
@@ -3750,13 +3759,14 @@ cf10-worker-s3-check:
 
 # CF10_PROJECT_NATIVE_PRELAUNCH_AUDIT_V0_2_START
 # Non-authorizing; never prepares/dispatches/starts Worker or signs /etc.
-# Executable source is tracked in the repository; tmp is reports only.
+# Executable source is tracked in the repository; generated-artifact is reports only.
 CF10_PRELAUNCH_EXPECTED_HEAD ?=
 CF10_PRELAUNCH_ATTEMPT ?=
 CF10_PRELAUNCH_TASK ?= cf10-project-change-impact-and-freshness-control-v0-1
-CF10_PRELAUNCH_REPORT_PARENT ?= tmp/cf10_prelaunch_audits
+CF10_PRELAUNCH_REPORT_PARENT ?= generated/cf10_prelaunch_audits
 .PHONY: cf10-prelaunch-check cf10-prelaunch-tests
 cf10-prelaunch-check:
+	@mkdir -p generated
 	@test -n "$(CF10_PRELAUNCH_EXPECTED_HEAD)" && test -n "$(CF10_PRELAUNCH_ATTEMPT)" || { echo 'ERROR: CF10_PRELAUNCH_EXPECTED_HEAD and CF10_PRELAUNCH_ATTEMPT required'; exit 2; }
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_prelaunch_audit_v0_2 --root . --runtime-root "$(GOVERNED_WORKER_RUNTIME_ROOT)" --expected-head "$(CF10_PRELAUNCH_EXPECTED_HEAD)" --task-id "$(CF10_PRELAUNCH_TASK)" --attempt-id "$(CF10_PRELAUNCH_ATTEMPT)" --output-parent "$(CF10_PRELAUNCH_REPORT_PARENT)"
 cf10-prelaunch-tests:
@@ -3777,11 +3787,23 @@ cf10-prelaunch-tests: cf10-invocation-rehearsal-tests
 CF10_GATE_WRITER_AUDIT_HEAD ?=
 CF10_GATE_WRITER_STABLE_GATE_ROOT ?=
 CF10_GATE_WRITER_STABLE_WRITER_ROOT ?=
-CF10_GATE_WRITER_AUDIT_REPORT_PARENT ?= tmp/cf10_gate_writer_release_audits
+CF10_GATE_WRITER_AUDIT_REPORT_PARENT ?= generated/cf10_gate_writer_release_audits
 .PHONY: cf10-gate-writer-release-audit cf10-gate-writer-release-audit-tests
 cf10-gate-writer-release-audit:
+	@mkdir -p generated
 	@test -n "$(CF10_GATE_WRITER_AUDIT_HEAD)" || { echo 'ERROR: CF10_GATE_WRITER_AUDIT_HEAD required'; exit 2; }
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_gate_writer_release_audit_v0_1 --root . --expected-head "$(CF10_GATE_WRITER_AUDIT_HEAD)" $(if $(CF10_GATE_WRITER_STABLE_GATE_ROOT),--stable-gate-root "$(CF10_GATE_WRITER_STABLE_GATE_ROOT)",) $(if $(CF10_GATE_WRITER_STABLE_WRITER_ROOT),--stable-writer-root "$(CF10_GATE_WRITER_STABLE_WRITER_ROOT)",) --output-parent "$(CF10_GATE_WRITER_AUDIT_REPORT_PARENT)"
 cf10-gate-writer-release-audit-tests:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_gate_writer_release_audit_v0_1.py
 # CF10_GATE_WRITER_IMMUTABLE_RELEASE_SOURCE_AUDIT_V0_1_END
+
+# CF10_MAKE_SURFACE_MIGRATION_Q1_START
+# One stable, project-native policy surface; launch remains independently quarantined.
+.PHONY: cf10-make-surface-policy-check cf10-make-surface-policy-tests cf10-make-surface-notice
+cf10-make-surface-policy-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.validation.validate_make_surface_no_scratch_v0_1 --root .
+cf10-make-surface-policy-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/validation/test_cf10_make_surface_no_scratch_v0_1.py
+cf10-make-surface-notice:
+	@cat coordination/continuity/cf10_make_surface_deprecation_notice_v0_1.md
+# CF10_MAKE_SURFACE_MIGRATION_Q1_END

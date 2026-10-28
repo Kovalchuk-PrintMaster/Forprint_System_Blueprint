@@ -33,7 +33,7 @@ class OfflineTests(unittest.TestCase):
         context = tempfile.TemporaryDirectory()
         self.addCleanup(context.cleanup)
         root = Path(context.name)/'repo'
-        (root/'tmp').mkdir(parents=True)
+        (root/'generated').mkdir(parents=True)
         return root
 
     def report(self):
@@ -42,7 +42,7 @@ class OfflineTests(unittest.TestCase):
     def test_report_zip_has_only_sanitized_sections(self):
         root=self.temp_root()
         checks=[audit.result('a','PASS')]
-        zip_path, summary = audit.save(root,Path('tmp/audits'),self.report(),checks)
+        zip_path, summary = audit.save(root,Path('generated/audits'),self.report(),checks)
         self.assertIn('AUTHORITY_GRANTED=false',summary)
         with ZipFile(zip_path) as z:
             self.assertEqual(sorted(z.namelist()),['SHA256SUMS','checks.json','report.json','summary.txt'])
@@ -58,9 +58,9 @@ class OfflineTests(unittest.TestCase):
 
     def test_no_output_symlink(self):
         root=self.temp_root()
-        (root/'tmp'/'out').symlink_to(root/'tmp',target_is_directory=True)
+        (root/'generated'/'out').symlink_to(root/'generated',target_is_directory=True)
         with self.assertRaises(RuntimeError):
-            audit.save(root,Path('tmp/out'),self.report(),[])
+            audit.save(root,Path('generated/out'),self.report(),[])
 
     def test_prior_verifier_exception_does_not_create_authority(self):
         self.assertEqual(audit.result('prior_accept','BLOCKED', 'invalid')['status'],'BLOCKED')

@@ -238,13 +238,13 @@ def summarize(checks):
 
 
 def save(root, parent, report, checks):
-    base=(root/'tmp').resolve()
+    base=(root/'generated').resolve()
     target=parent if parent.is_absolute() else root/parent
     # resolve(strict=False) and parent traversal fail closed
     if target.resolve() != base and base not in target.resolve().parents:
-        raise RuntimeError('output must stay within repository tmp')
-    if (root/'tmp').is_symlink() or not (root/'tmp').is_dir():
-        raise RuntimeError('canonical tmp unsafe or missing')
+        raise RuntimeError('output must stay within repository generated area')
+    if (root/'generated').is_symlink() or not (root/'generated').is_dir():
+        raise RuntimeError('generated area unsafe or missing')
     relative = target.relative_to(root)
     current = root
     for part in relative.parts:
@@ -289,7 +289,7 @@ def main():
     p.add_argument('--expected-head',required=True)
     p.add_argument('--task-id',default=TASK85)
     p.add_argument('--attempt-id',required=True)
-    p.add_argument('--output-parent',default='tmp/cf10_prelaunch_audits',type=Path)
+    p.add_argument('--output-parent',default='generated/cf10_prelaunch_audits',type=Path)
     p.add_argument('--no-remote',action='store_true')
     a=p.parse_args()
     if not SHA40.fullmatch(a.expected_head) or not ID.fullmatch(a.attempt_id):p.error('invalid SHA/attempt')

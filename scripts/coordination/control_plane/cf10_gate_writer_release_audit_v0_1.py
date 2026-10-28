@@ -178,14 +178,14 @@ def summary(rows: list[dict[str,str]]) -> tuple[str, dict[str,int]]:
 
 
 def save(root: Path, output_dir: Path, report: dict[str,Any]) -> Path:
-    base = root / 'tmp'
+    base = root / 'generated'
     if base.is_symlink() or not base.is_dir():
-        raise ValueError('PROJECT_TMP_NOT_AVAILABLE')
+        raise ValueError('PROJECT_GENERATED_AREA_NOT_AVAILABLE')
     dest_parent = output_dir if output_dir.is_absolute() else root / output_dir
     # resolve before writing; prevent a report from escaping project-controlled tmp.
     dest_parent = dest_parent.resolve()
     if base.resolve() not in dest_parent.parents:
-        raise ValueError('REPORT_PARENT_OUTSIDE_PROJECT_TMP')
+        raise ValueError('REPORT_PARENT_OUTSIDE_GENERATED_AREA')
     for node in [dest_parent, *dest_parent.parents]:
         if node == root or node == base:
             break
@@ -219,7 +219,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument('--stable-gate-root',type=Path)
     p.add_argument('--stable-writer-root',type=Path)
     p.add_argument('--no-remote',action='store_true')
-    p.add_argument('--output-parent',default='tmp/cf10_gate_writer_release_audits',type=Path)
+    p.add_argument('--output-parent',default='generated/cf10_gate_writer_release_audits',type=Path)
     a = p.parse_args(argv)
     root = a.root.absolute()
     rows = audit(root, a.expected_head, a.stable_gate_root, a.stable_writer_root,
