@@ -1,0 +1,46 @@
+schema_version: cf10_g2b03c_successor_readiness_contract_v0_1
+owner: forprint_system_blueprint
+phase: G2B_03C_01
+status: READ_ONLY_DESIGN_AUDIT_NON_AUTHORIZING
+prerequisite:
+  published_source_head: c57dae308336052ee1709d10419c7577f502e787
+  g2b03b_operator_cycle: COMPLETED_NON_AUTHORIZING
+  g2b03a_candidate_status: PROVENANCE_CANDIDATE_VERIFIED_NON_AUTHORIZING
+  historical_sha256: 15bb96b3fdb87186d8337dfa17391bfd5a5a951e2faae34c8c671734d4027b71
+  approved_external_candidate_path: /srv/software_development/forprint-releases/cf10/evidence/cf10_writer_coverage_gate3d90143_170494.json
+purpose: Verify reusable predecessor evidence and classify unresolved dependencies before a successor Gate implementation
+reuse_existing:
+  - cf10_g2b01_inventory_v0_1
+  - cf10_g2b02_binding_plan_v0_1
+  - cf10_g2b03_successor_provenance_v0_1
+  - cf10_stable_release_roots_v0_1
+verified_legacy_constraints:
+  - original_gate_checker_restricts_plan_to_gate_root_tmp
+  - runtime_v0_1_restricts_coverage_path_to_gate_root_tmp
+  - runtime_v0_2_delegates_to_v0_1
+  - writer_activation_requires_independent_coverage_and_signed_decision
+next_design_contract:
+  - separate_published_successor_gate_verifier_version
+  - stable_external_candidate_digest_schema_and_pin_verification
+  - observed_live_s01_writer_process_and_runtime_coverage
+  - versioned_runtime_binding_without_legacy_gate_root_tmp_shortcut
+  - gate_and_writer_release_identity_and_git_remote_readback
+  - signed_operator_approval_current_head_runtime_sources_and_expiry
+  - negative_fixtures_wrong_sha_symlink_unsafe_dac_bad_pins_wrong_head_expired_signature
+  - separate_operator_acceptance_before_quarantine_change
+hard_boundaries:
+  no_pinned_gate_or_writer_execution: true
+  no_runtime_process_probe: true
+  no_signed_payload_read: true
+  no_signature_check_or_renewal: true
+  no_historical_evidence_change: true
+  no_external_coverage_change: true
+  no_evidence_rebind_or_gate_activation: true
+  no_ledger_mutation_or_worker_launch: true
+  no_changes_to_make_launch_quarantine: true
+  no_evidence_vault_backup_claim: true
+report:
+  location: project_tmp_create_only
+  names: [report.json, summary.txt, SHA256SUMS]
+  design_readiness_is_not_runtime_authorization: true
+next: G2B03C02_SUCCESSOR_GATE_IMPLEMENTATION_AND_NEGATIVE_FIXTURES

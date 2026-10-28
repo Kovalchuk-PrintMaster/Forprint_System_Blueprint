@@ -3959,3 +3959,12 @@ cf10-g2b03b-verify:
 cf10-g2b03b-tests:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/control_plane -p 'test_cf10_g2b03b_coverage_candidate_v0_1.py' -q
 # CF10_G2B03B_EXTERNAL_COVERAGE_CANDIDATE_V0_1_END
+# CF10_G2B03C_SUCCESSOR_GATE_READINESS_V0_1_START
+CF10_G2B03C_EXPECTED_HEAD ?=
+.PHONY: cf10-g2b03c-review cf10-g2b03c-tests
+cf10-g2b03c-review:
+	@test -n "$(CF10_G2B03C_EXPECTED_HEAD)" || { echo 'ERROR: explicit canonical expected head required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_g2b03c_successor_readiness_v0_1 --root . --expected-head "$(CF10_G2B03C_EXPECTED_HEAD)"
+cf10-g2b03c-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/control_plane -p 'test_cf10_g2b03c_successor_readiness_v0_1.py' -q
+# CF10_G2B03C_SUCCESSOR_GATE_READINESS_V0_1_END
