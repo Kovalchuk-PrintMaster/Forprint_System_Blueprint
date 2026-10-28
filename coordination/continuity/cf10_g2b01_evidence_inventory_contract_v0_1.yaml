@@ -1,0 +1,39 @@
+schema_version: cf10_g2b01_evidence_inventory_contract_v0_1
+owner: forprint_system_blueprint
+phase: G2B_01
+status: SOURCE_CANDIDATE_NON_AUTHORIZING
+published_base_head: 62c07f3889f2fda43cbaed3ad6fc6dcc4fae9bb0
+scope:
+  - pinned_gate_and_writer_release_roots_readonly
+  - original_gate_tmp_coverage_candidate_and_expected_sha256
+  - stable_coverage_candidate_and_expected_sha256
+  - canonical_quarantine_and_source_immutability
+  - source_code_legacy_gate_tmp_coverage_assumption
+  - external_signed_decision_metadata_not_payload_or_signature_verification
+  - registered_a01_g2a_evidence_integrity_not_coverage_rebind
+historical_coverage:
+  sha256: 15bb96b3fdb87186d8337dfa17391bfd5a5a951e2faae34c8c671734d4027b71
+  observed_legacy_candidate: tmp/cf10_gate_rollover_7odYLfVr/tmp/cf10_writer_coverage_gate3d90143_170494.json
+  stable_candidate: /srv/software_development/forprint-releases/cf10/evidence/cf10_writer_coverage_gate3d90143_170494.json
+  note: Candidates are observation paths, NOT accepted bindings. Originals must stay intact.
+vault:
+  evidence_id: cf10-g2a-stable-releases-f37abe98-20261028
+  role: immutable_source_release_report_only
+  not_accepted_as: coverage_evidence_or_operator_signed_approval
+backup:
+  state: PENDING_EXTERNAL_INTEGRATION
+  destructive_cleanup_allowed: false
+output:
+  location: project_scratch_via_versioned_cli_not_make_literal
+  trust: DERIVED_NON_AUTHORIZING_OPERATOR_REVIEW
+  backup_guaranteed: false
+controls:
+  no_execution_of_independent_gate_verifier: true
+  no_signed_payload_read: true
+  no_git_write_or_fetch: true
+  no_runtime_or_ledger_mutation: true
+  no_worker_launch: true
+  no_writer_authority: true
+  no_evidence_copy_or_rebind: true
+  no_vault_registration: true
+next_boundary: G2B_02_INDEPENDENT_EVIDENCE_REBIND_REVIEW

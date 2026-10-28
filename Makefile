@@ -3898,3 +3898,15 @@ evidence-vault-backup-status:
 evidence-vault-backup-handoff-tests:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/evidence_management -p 'test_backup_handoff_status_v0_1.py' -q
 # FORPRINT_EVIDENCE_BACKUP_HANDOFF_V01_END
+
+# CF10_G2B01_EVIDENCE_INVENTORY_V0_1_START
+# Non-authorizing inventory; reports are scratch-only and never ledger/launch evidence.
+CF10_G2B01_EXPECTED_HEAD ?=
+CF10_G2B01_HISTORICAL_COVERAGE ?=
+.PHONY: cf10-g2b01-inventory cf10-g2b01-inventory-tests
+cf10-g2b01-inventory:
+	@test -n "$(CF10_G2B01_EXPECTED_HEAD)" || { echo 'ERROR: explicit frozen source HEAD required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_g2b01_inventory_v0_1 --root . --expected-head "$(CF10_G2B01_EXPECTED_HEAD)" $(if $(CF10_G2B01_HISTORICAL_COVERAGE),--historical-coverage "$(CF10_G2B01_HISTORICAL_COVERAGE)",)
+cf10-g2b01-inventory-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/control_plane -p 'test_cf10_g2b01_inventory_v0_1.py' -q
+# CF10_G2B01_EVIDENCE_INVENTORY_V0_1_END
