@@ -3934,3 +3934,28 @@ cf10-g2b03a-provenance-check:
 cf10-g2b03a-tests:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/control_plane -p 'test_cf10_g2b03_successor_provenance_v0_1.py' -q
 # CF10_G2B03A_SUCCESSOR_PROVENANCE_V0_1_END
+
+# CF10_G2B03B_EXTERNAL_COVERAGE_CANDIDATE_V0_1_START
+# Source- and path-pinned candidate only. No rebind, signed authority, Worker or Writer activation.
+CF10_G2B03B_EXPECTED_HEAD ?=
+CF10_G2B03B_SOURCE ?=
+CF10_G2B03B_SOURCE_ROOT ?=
+CF10_G2B03B_TARGET ?=
+CF10_G2B03B_TARGET_ROOT ?=
+CF10_G2B03B_SHA256 ?=
+CF10_G2B03B_CONFIRM ?=
+CF10_G2B03B_ARGS = --root . --expected-head "$(CF10_G2B03B_EXPECTED_HEAD)" --source "$(CF10_G2B03B_SOURCE)" --source-root "$(CF10_G2B03B_SOURCE_ROOT)" --target "$(CF10_G2B03B_TARGET)" --target-root "$(CF10_G2B03B_TARGET_ROOT)" --sha256 "$(CF10_G2B03B_SHA256)"
+.PHONY: cf10-g2b03b-inspect cf10-g2b03b-provision cf10-g2b03b-verify cf10-g2b03b-tests
+cf10-g2b03b-inspect:
+	@test -n "$(CF10_G2B03B_EXPECTED_HEAD)" && test -n "$(CF10_G2B03B_SOURCE)" && test -n "$(CF10_G2B03B_SOURCE_ROOT)" && test -n "$(CF10_G2B03B_TARGET)" && test -n "$(CF10_G2B03B_TARGET_ROOT)" && test -n "$(CF10_G2B03B_SHA256)" || { echo 'ERROR: live pinned evidence inputs required; no guessed defaults'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_g2b03b_coverage_candidate_v0_1 inspect $(CF10_G2B03B_ARGS)
+cf10-g2b03b-provision:
+	@test "$(CF10_G2B03B_CONFIRM)" = 'PROVISION_CF10_G2B03B_COVERAGE_V01' || { echo 'ERROR: explicit root operator confirmation required'; exit 2; }
+	@$(MAKE) --no-print-directory cf10-g2b03b-inspect CF10_G2B03B_EXPECTED_HEAD="$(CF10_G2B03B_EXPECTED_HEAD)" CF10_G2B03B_SOURCE="$(CF10_G2B03B_SOURCE)" CF10_G2B03B_SOURCE_ROOT="$(CF10_G2B03B_SOURCE_ROOT)" CF10_G2B03B_TARGET="$(CF10_G2B03B_TARGET)" CF10_G2B03B_TARGET_ROOT="$(CF10_G2B03B_TARGET_ROOT)" CF10_G2B03B_SHA256="$(CF10_G2B03B_SHA256)"
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_g2b03b_coverage_candidate_v0_1 provision $(CF10_G2B03B_ARGS) --confirm "$(CF10_G2B03B_CONFIRM)"
+cf10-g2b03b-verify:
+	@test -n "$(CF10_G2B03B_EXPECTED_HEAD)" && test -n "$(CF10_G2B03B_SOURCE)" && test -n "$(CF10_G2B03B_SOURCE_ROOT)" && test -n "$(CF10_G2B03B_TARGET)" && test -n "$(CF10_G2B03B_TARGET_ROOT)" && test -n "$(CF10_G2B03B_SHA256)" || { echo 'ERROR: live pinned evidence inputs required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_g2b03b_coverage_candidate_v0_1 verify $(CF10_G2B03B_ARGS)
+cf10-g2b03b-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/control_plane -p 'test_cf10_g2b03b_coverage_candidate_v0_1.py' -q
+# CF10_G2B03B_EXTERNAL_COVERAGE_CANDIDATE_V0_1_END
