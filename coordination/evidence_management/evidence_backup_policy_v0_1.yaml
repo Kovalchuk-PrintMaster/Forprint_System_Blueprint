@@ -1,0 +1,37 @@
+schema_version: forprint_evidence_a02_backup_policy_v0_1
+owner: forprint_system_blueprint
+scope: LOCAL_EVIDENCE_VAULT_A01_BACKUP_SNAPSHOT_AND_ISOLATED_RESTORE
+status: PILOT_NON_AUTHORIZING
+primary_vault: /srv/software_development/forprint-evidence-store
+backup_destination: EXPLICIT_OPERATOR_SELECTED_EXISTING_PRIVATE_MOUNT
+provision_backup_mount: false
+modify_existing_backup_services: false
+requirements:
+  - absolute_paths_without_symlinks
+  - root_operator_s01
+  - separate_mount_and_filesystem_device_from_primary_vault
+  - private_root_owned_backup_directory_mode_0700
+  - full_hash_inventory_and_manifest_journal_object_crosschecks
+  - operator_confirmed_snapshot_and_restore
+  - new_unique_snapshot_directory_no_overwrite
+  - externally_retained_manifest_sha256_for_verification
+  - isolated_restore_even_when_primary_vault_is_missing
+  - retain_partial_snapshots_for_review_no_auto_cleanup
+nonclaims:
+  independent_failure_domain_proven: false
+  offhost_copy_verified: false
+  disaster_recovery_proven: false
+  signed_authority_renewed: false
+  worker_launch_authorized: false
+  historical_evidence_rebound: false
+backup_retention:
+  snapshot_auto_delete: false
+  snapshot_overwrite: false
+  restore_test_auto_delete: false
+  minimum_retention: UNTIL_OPERATOR_APPROVES_DISPOSITION_AFTER_VERIFIED_OFFSITE_BACKUP
+next_boundary:
+  - backup_destination_selected_and_approved_by_operator
+  - first_real_snapshot_plus_sha_anchor
+  - isolated_restore_test_on_s01
+  - independent_offhost_failure_domain_and_restore_attestation
+  - historical_evidence_rebind_g2b_separate_work_front

@@ -3858,3 +3858,30 @@ evidence-vault-retrieve:
 	@test "$(EVIDENCE_VAULT_CONFIRM)" = 'EXPORT_FORPRINT_EVIDENCE_V01' || { echo 'ERROR: explicit export confirmation required'; exit 2; }
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.evidence_management.vault_v0_1 retrieve --evidence-id "$(EVIDENCE_VAULT_ID)" --destination "$(EVIDENCE_VAULT_DESTINATION)" --confirm "$(EVIDENCE_VAULT_CONFIRM)"
 # FORPRINT_EVIDENCE_VAULT_A01_END
+
+# FORPRINT_EVIDENCE_VAULT_A02_START
+# Backup target must be selected by operator and separately mounted.
+# Separate filesystem is not by itself proof of off-host disaster recovery.
+EVIDENCE_A02_BACKUP_ROOT ?=
+EVIDENCE_A02_SNAPSHOT_ID ?=
+EVIDENCE_A02_MANIFEST_SHA256 ?=
+EVIDENCE_A02_RESTORE_ROOT ?=
+EVIDENCE_A02_CONFIRM ?=
+.PHONY: evidence-vault-a02-tests evidence-vault-a02-inspect evidence-vault-a02-target-check evidence-vault-a02-snapshot evidence-vault-a02-verify-snapshot evidence-vault-a02-restore-test
+evidence-vault-a02-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/evidence_management -p 'test_*.py' -q
+evidence-vault-a02-inspect:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.evidence_management.backup_v0_1 inspect-source
+evidence-vault-a02-target-check:
+	@test -n "$(EVIDENCE_A02_BACKUP_ROOT)" || { echo 'ERROR: operator must explicitly select backup root'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.evidence_management.backup_v0_1 check-target --backup-root "$(EVIDENCE_A02_BACKUP_ROOT)"
+evidence-vault-a02-snapshot:
+	@test -n "$(EVIDENCE_A02_BACKUP_ROOT)" && test "$(EVIDENCE_A02_CONFIRM)" = 'CREATE_FORPRINT_EVIDENCE_A02_SNAPSHOT' || { echo 'ERROR: backup root and explicit A02 operator confirmation required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.evidence_management.backup_v0_1 snapshot --backup-root "$(EVIDENCE_A02_BACKUP_ROOT)" --confirm "$(EVIDENCE_A02_CONFIRM)"
+evidence-vault-a02-verify-snapshot:
+	@test -n "$(EVIDENCE_A02_BACKUP_ROOT)" && test -n "$(EVIDENCE_A02_SNAPSHOT_ID)" && test -n "$(EVIDENCE_A02_MANIFEST_SHA256)" || { echo 'ERROR: backup root, snapshot ID and externally recorded manifest SHA required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.evidence_management.backup_v0_1 verify-snapshot --backup-root "$(EVIDENCE_A02_BACKUP_ROOT)" --snapshot-id "$(EVIDENCE_A02_SNAPSHOT_ID)" --manifest-sha256 "$(EVIDENCE_A02_MANIFEST_SHA256)"
+evidence-vault-a02-restore-test:
+	@test -n "$(EVIDENCE_A02_BACKUP_ROOT)" && test -n "$(EVIDENCE_A02_SNAPSHOT_ID)" && test -n "$(EVIDENCE_A02_MANIFEST_SHA256)" && test -n "$(EVIDENCE_A02_RESTORE_ROOT)" && test "$(EVIDENCE_A02_CONFIRM)" = 'RESTORE_TEST_FORPRINT_EVIDENCE_A02' || { echo 'ERROR: backup root, snapshot, anchor, new restore root and operator confirmation required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.evidence_management.backup_v0_1 restore-test --backup-root "$(EVIDENCE_A02_BACKUP_ROOT)" --snapshot-id "$(EVIDENCE_A02_SNAPSHOT_ID)" --manifest-sha256 "$(EVIDENCE_A02_MANIFEST_SHA256)" --restore-root "$(EVIDENCE_A02_RESTORE_ROOT)" --confirm "$(EVIDENCE_A02_CONFIRM)"
+# FORPRINT_EVIDENCE_VAULT_A02_END
