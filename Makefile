@@ -3770,3 +3770,18 @@ cf10-invocation-rehearsal-tests:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_invocation_rehearsal_v0_1.py
 cf10-prelaunch-tests: cf10-invocation-rehearsal-tests
 # CF10_CANONICAL_INVOCATION_REHEARSAL_V0_1_END
+
+# CF10_GATE_WRITER_IMMUTABLE_RELEASE_SOURCE_AUDIT_V0_1_START
+# Provenance evidence only: reads pinned Git blobs/remote, never grants Writer authority.
+# Existing live launch gate and its independent historical readback are unchanged.
+CF10_GATE_WRITER_AUDIT_HEAD ?=
+CF10_GATE_WRITER_STABLE_GATE_ROOT ?=
+CF10_GATE_WRITER_STABLE_WRITER_ROOT ?=
+CF10_GATE_WRITER_AUDIT_REPORT_PARENT ?= tmp/cf10_gate_writer_release_audits
+.PHONY: cf10-gate-writer-release-audit cf10-gate-writer-release-audit-tests
+cf10-gate-writer-release-audit:
+	@test -n "$(CF10_GATE_WRITER_AUDIT_HEAD)" || { echo 'ERROR: CF10_GATE_WRITER_AUDIT_HEAD required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_gate_writer_release_audit_v0_1 --root . --expected-head "$(CF10_GATE_WRITER_AUDIT_HEAD)" $(if $(CF10_GATE_WRITER_STABLE_GATE_ROOT),--stable-gate-root "$(CF10_GATE_WRITER_STABLE_GATE_ROOT)",) $(if $(CF10_GATE_WRITER_STABLE_WRITER_ROOT),--stable-writer-root "$(CF10_GATE_WRITER_STABLE_WRITER_ROOT)",) --output-parent "$(CF10_GATE_WRITER_AUDIT_REPORT_PARENT)"
+cf10-gate-writer-release-audit-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_gate_writer_release_audit_v0_1.py
+# CF10_GATE_WRITER_IMMUTABLE_RELEASE_SOURCE_AUDIT_V0_1_END

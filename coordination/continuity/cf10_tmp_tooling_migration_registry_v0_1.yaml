@@ -19,7 +19,7 @@ entries:
     target: scripts/coordination/control_plane/cf10_invocation_rehearsal_v0_1.py
     integrated_into: scripts/coordination/control_plane/cf10_prelaunch_audit_v0_2.py
     execution_policy: PROJECT_MAKE_READONLY_AND_REPORT_TMP_ONLY
-    status: CANDIDATE_FOR_ISOLATED_VALIDATION_AND_PUBLISH
+    status: PUBLISHED_AND_TESTED_AT_dc194b4c46846bdc5a767cdd499bfd05ba99a40b
     restriction: real_invocation_requires_existing_prepared_and_explicitly_dispatched_attempt
     launcher_and_started_ledger_append_forbidden: true
   - id: a048_zero_delta_accept_repair
@@ -36,6 +36,18 @@ entries:
       - scripts/coordination/control_plane/cf10_zero_delta_status_projection_v0_1.py
       - scripts/coordination/control_plane/cf10_s3_worker_workflow_v0_1.py
     status: SOURCE_EXISTENCE_VERIFIED_RUNTIME_BEHAVIOR_NOT_REATTESTED
+  - id: cf10_gate_writer_git_release_source_audit
+    previous_location: NONE_PROJECT_NATIVE_NEW_CODE
+    disposition: VERIFY_PINNED_IMMUTABLE_GIT_OBJECTS_NOT_TMP_CHECKOUT_EXECUTION
+    target: scripts/coordination/control_plane/cf10_gate_writer_release_audit_v0_1.py
+    make_target: cf10-gate-writer-release-audit
+    status: PROJECT_NATIVE_SOURCE_AUDIT_REQUIRES_LIVE_PROVENANCE_REVIEW
+    authority: NON_AUTHORIZING
+    restrictions:
+      - historical_git_commits_must_match_remote_refs_and_exact_blob_oids
+      - independent_historical_gate_and_writer_verifiers_not_replaced_by_main_checkout
+      - no_automatic_root_release_provisioning_or_coverage_reattestation
+      - no_make_launch_wiring_change_until_external_operator_rebind
   - id: s01_gate_writer_checkouts
     previous_location: tmp/cf10_gate_rollover_7odYLfVr,tmp/cf10_release_merge_CZXUoA9p
     disposition: REQUIRES_SEPARATE_RELEASE_AND_PROVENANCE_MIGRATION
