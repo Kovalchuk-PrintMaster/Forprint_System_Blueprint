@@ -1,0 +1,41 @@
+schema_version: cf10_g2b03c04d_operator_evidence_survey_contract_v0_1
+owner: forprint_system_blueprint
+phase: G2B_03C_04D
+status: READ_ONLY_OPERATOR_EVIDENCE_SURVEY_NON_AUTHORIZING
+source_predecessor_head: 0c6dfc9fe8ce614739b162a118b0802fc573a4bf
+frozen_04c:
+  report: tmp/cf10_g2b03c04c_readback_20261028T143251400854Z/report.json
+  sha256: 9bbd7691d5e030b2b7e0991f5658a71c1933ec2b32e61653f4a92aed000a1860
+  status: INDEPENDENT_EVIDENCE_READBACK_READY_FOR_OPERATOR_PROOFS_NON_AUTHORIZING
+  required_proofs: 8
+  attestations: 0
+purpose: Collect source-bound actual s01 scheduler, process and ledger metadata and prepare independent operator proof submission
+reuse:
+  - cf10_g2b03c04c_coverage_evidence_readback_v0_1.review
+  - cf10_g2b03c04c_coverage_evidence_readback_v0_1.private_read
+  - cf10_g2b03c04b_dynamic_coverage_proof_contract_v0_1.PROOF_REQUIREMENTS
+  - cf10_g2b01_inventory_v0_1.exact_published_file
+  - s01_writer_runtime_binding_v0_1 path_status mount_status acl_status scan_proc
+read_only_surveys:
+  scheduler_roots: [/etc/systemd/system, /etc/cron.d, /etc/crontab]
+  bounded_no_symlink_following: true
+  explicit_external_services_excluded: [forprint-google-drive-backup, forprint-website-preview]
+  source_and_prior_report_pinned: true
+  schedule_matches_classified_only_as_candidates: true
+  no_statement_that_proc_zero_proves_absence: true
+  complete_scheduler_scope_or_remote_hosts_proven: false
+  independent_writer_enrollment_attested: false
+outputs:
+  location: project_tmp_create_only
+  names: [report.json, schedule_evidence.json, operator_proof_intake_template.json, summary.txt, SHA256SUMS]
+  operator_proof_template: eight_NOT_SUBMITTED_unverified_requirements
+hard_boundaries:
+  no_external_trust_payload_or_secret_read: true
+  no_signature_verification_or_renewal: true
+  no_writer_enrollment_drain_restart_or_service_change: true
+  no_pinned_Gate_or_Writer_execution: true
+  no_ledger_or_worker_mutation: true
+  no_Make_quarantine_change: true
+  no_evidence_vault_or_external_service_change: true
+  no_positive_runtime_or_signature_authority: true
+next: G2B03C04E_INDEPENDENT_OPERATOR_PROOF_SUBMISSION_AND_VERIFIER_ACCEPTANCE_DESIGN

@@ -4049,3 +4049,15 @@ cf10-g2b03c04c-review:
 cf10-g2b03c04c-tests:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/control_plane -p 'test_cf10_g2b03c04c_coverage_evidence_readback_v0_1.py' -q
 # CF10_G2B03C04C_INDEPENDENT_EVIDENCE_READBACK_V0_1_END
+# CF10_G2B03C04D_OPERATOR_EVIDENCE_SURVEY_V0_1_START
+# Read-only scheduler/process/ledger survey. Never a coverage or launch authorization.
+CF10_G2B03C04D_EXPECTED_HEAD ?=
+CF10_G2B03C04D_04C_REPORT ?=
+CF10_G2B03C04D_04C_SHA256 ?=
+.PHONY: cf10-g2b03c04d-capture cf10-g2b03c04d-tests
+cf10-g2b03c04d-capture:
+	@test -n "$(CF10_G2B03C04D_EXPECTED_HEAD)" && test -n "$(CF10_G2B03C04D_04C_REPORT)" && test -n "$(CF10_G2B03C04D_04C_SHA256)" || { echo 'ERROR: canonical HEAD and frozen 04C report/digest required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_g2b03c04d_operator_evidence_survey_v0_1 --root . --expected-head "$(CF10_G2B03C04D_EXPECTED_HEAD)" --frozen-04c-report "$(CF10_G2B03C04D_04C_REPORT)" --frozen-04c-sha256 "$(CF10_G2B03C04D_04C_SHA256)"
+cf10-g2b03c04d-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/control_plane -p 'test_cf10_g2b03c04d_operator_evidence_survey_v0_1.py' -q
+# CF10_G2B03C04D_OPERATOR_EVIDENCE_SURVEY_V0_1_END
