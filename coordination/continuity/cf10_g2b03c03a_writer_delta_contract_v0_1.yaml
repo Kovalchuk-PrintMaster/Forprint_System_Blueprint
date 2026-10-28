@@ -1,0 +1,30 @@
+schema_version: cf10_g2b03c03a_writer_delta_contract_v0_1
+owner: forprint_system_blueprint
+phase: G2B_03C_03A
+status: SOURCE_ONLY_REVIEW_NON_AUTHORIZING
+prerequisite:
+  canonical_head: 2e9583d2c95bbd6da5a4761cb4a2010acf1768c4
+  g2b03c02: LIVE_OBSERVATION_REVIEW_REQUIRED_NON_AUTHORIZING
+  expected_finding: DEPLOYMENT_WRITER_DIFF_REQUIRES_REVIEW:scripts/coordination/control_plane/governed_worker_cycle.py
+  pinned_writer_head: d5d1495c0a1ab25367c146b0f5379b015e03dd85
+purpose: Distinguish intentional B3-only insertion from arbitrary writer drift using published source bytes
+reuse:
+  - cf10_g2b03c02_successor_gate_v0_1
+  - cf10_g2b01_inventory_v0_1
+  - cf10_stable_release_roots_v0_1
+method:
+  - compare_current_published_governed_worker_cycle_with_immutable_writer_release
+  - require_every_other_tracked_writer_equal
+  - require_exact_three_insertion_regions_for_B3
+  - report_only_sha256_positions_and_review_flags
+non_authority:
+  positive_diff_classification_is_not_B3_behavioral_validation: true
+  no_independent_dynamic_coverage_attestation: true
+  no_versioned_runtime_binding_implemented: true
+  no_signed_decision_read_or_renewal: true
+  no_pinned_release_modification: true
+  no_writer_gate_unquarantine: true
+  no_worker_or_ledger_execution: true
+  no_evidence_vault_mutation_or_backup_claim: true
+operator_boundary: Independent review of changed B3 behavior and explicit acceptance required before any binding promotion
+next: G2B03C03B_VERSIONED_RUNTIME_BINDING_DESIGN_REVIEW
