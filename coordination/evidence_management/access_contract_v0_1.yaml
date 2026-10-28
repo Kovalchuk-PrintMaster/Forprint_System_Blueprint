@@ -1,0 +1,30 @@
+schema_version: forprint_evidence_access_v0_1
+status: PILOT_LOCAL_ROOT_OPERATOR
+physical_owner: root
+expected_mode:
+  directories: '0700'
+  files: '0600'
+path_policy:
+  no_symlink_ancestors: true
+  fixed_root_only: true
+  reject_preexisting_unrecognized_root: true
+allowed_interfaces:
+  readonly:
+    - inspect
+    - propose
+    - verify
+  explicit_root_operator:
+    - init
+    - register
+    - retrieve
+forbidden:
+  - worker_write_access
+  - auto_acceptance
+  - auto_signing
+  - git_publication
+  - deletion
+  - launch_dispatch
+  - replacing_historical_evidence
+recovery_and_backup:
+  current: NOT_CONFIGURED
+  next_required_milestone: independent_backup_plus_readback_restore_test

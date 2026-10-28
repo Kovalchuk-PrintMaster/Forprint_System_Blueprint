@@ -3827,3 +3827,34 @@ cf10-g2a-release-provision:
 cf10-g2a-release-tests:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_stable_release_roots_v0_1.py
 # CF10_G2A_STABLE_RELEASE_ROOTS_V0_1_END
+
+# FORPRINT_EVIDENCE_VAULT_A01_START
+# Root-owned local evidence storage, never a launch/acceptance/signing authority.
+# The default physical store is bound by the versioned Python module, outside the repo.
+EVIDENCE_VAULT_SOURCE ?=
+EVIDENCE_VAULT_ID ?=
+EVIDENCE_VAULT_DESTINATION ?=
+EVIDENCE_VAULT_CONFIRM ?=
+.PHONY: evidence-vault-tests evidence-vault-inspect evidence-vault-init evidence-vault-propose evidence-vault-register evidence-vault-verify evidence-vault-retrieve
+evidence-vault-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/evidence_management -p 'test_vault_v0_1.py' -q
+evidence-vault-inspect:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.evidence_management.vault_v0_1 inspect
+evidence-vault-init:
+	@test "$(EVIDENCE_VAULT_CONFIRM)" = 'INIT_FORPRINT_EVIDENCE_VAULT_V01' || { echo 'ERROR: explicit root initialization confirmation required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.evidence_management.vault_v0_1 init --confirm "$(EVIDENCE_VAULT_CONFIRM)"
+evidence-vault-propose:
+	@test -n "$(EVIDENCE_VAULT_SOURCE)" || { echo 'ERROR: EVIDENCE_VAULT_SOURCE required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.evidence_management.vault_v0_1 propose --source "$(EVIDENCE_VAULT_SOURCE)"
+evidence-vault-register:
+	@test -n "$(EVIDENCE_VAULT_SOURCE)" && test -n "$(EVIDENCE_VAULT_ID)" || { echo 'ERROR: evidence source and ID required'; exit 2; }
+	@test "$(EVIDENCE_VAULT_CONFIRM)" = 'REGISTER_FORPRINT_G2A_EVIDENCE_V01' || { echo 'ERROR: explicit registration confirmation required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.evidence_management.vault_v0_1 register --source "$(EVIDENCE_VAULT_SOURCE)" --evidence-id "$(EVIDENCE_VAULT_ID)" --confirm "$(EVIDENCE_VAULT_CONFIRM)"
+evidence-vault-verify:
+	@test -n "$(EVIDENCE_VAULT_ID)" || { echo 'ERROR: EVIDENCE_VAULT_ID required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.evidence_management.vault_v0_1 verify --evidence-id "$(EVIDENCE_VAULT_ID)"
+evidence-vault-retrieve:
+	@test -n "$(EVIDENCE_VAULT_ID)" && test -n "$(EVIDENCE_VAULT_DESTINATION)" || { echo 'ERROR: evidence ID and destination required'; exit 2; }
+	@test "$(EVIDENCE_VAULT_CONFIRM)" = 'EXPORT_FORPRINT_EVIDENCE_V01' || { echo 'ERROR: explicit export confirmation required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.evidence_management.vault_v0_1 retrieve --evidence-id "$(EVIDENCE_VAULT_ID)" --destination "$(EVIDENCE_VAULT_DESTINATION)" --confirm "$(EVIDENCE_VAULT_CONFIRM)"
+# FORPRINT_EVIDENCE_VAULT_A01_END

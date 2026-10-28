@@ -1,0 +1,25 @@
+schema_version: forprint_evidence_retention_v0_1
+status: PROPOSED_PILOT_FAIL_CLOSED
+classes:
+  disposable_source_transport:
+    default_ttl_days: 14
+    automatically_eligible_for_deletion: false
+    note: only after successful independent restore/backup review
+  registered_evidence:
+    retention: WHILE_REFERENCED_OR_UNTIL_EXPLICIT_DISPOSITION
+    auto_delete: false
+  quarantine:
+    ttl_days: null
+    auto_delete: false
+  signed_authority_and_canonical_ledger:
+    handled_by: EXTERNAL_OWNERS
+    auto_ingestion: false
+    auto_delete: false
+blockers_to_deletion:
+  - referenced_by_work_front
+  - referenced_by_acceptance
+  - referenced_by_signed_binding
+  - active_attempt_dependency
+  - missing_backup_restore_verification
+  - incomplete_provenance_and_disposition_review
+delete_implementation_in_pilot: NONE

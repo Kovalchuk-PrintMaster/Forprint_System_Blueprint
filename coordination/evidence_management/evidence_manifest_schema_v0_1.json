@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ForPrint Evidence Vault A01 manifest (pilot, non-authorizing)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "evidence_id", "artifact_sha256", "size_bytes", "evidence_type", "source_head", "origin_basename", "owner_module", "scope", "lifecycle_state", "trust_class", "retention_policy", "registered_utc", "authority_granted", "signed_activation_renewed", "backup_verified", "deletion_authorized"],
+  "properties": {
+    "schema_version": {"const": "forprint_evidence_manifest_v0_1"},
+    "evidence_id": {"type": "string", "pattern": "^[a-z0-9](?:[a-z0-9-]{0,94}[a-z0-9])?$"},
+    "artifact_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "size_bytes": {"type": "integer", "minimum": 1},
+    "evidence_type": {"const": "CF10_G2A_STABLE_RELEASE_REVIEW"},
+    "source_head": {"const": "f37abe98045afa8a28f158a017fc3114e1d26499"},
+    "origin_basename": {"type": "string"},
+    "owner_module": {"const": "forprint_system_blueprint"},
+    "scope": {"const": "CF10_G2B_INPUT_CANDIDATE"},
+    "lifecycle_state": {"const": "REGISTERED_NON_AUTHORIZING"},
+    "trust_class": {"const": "TECHNICAL_INTEGRITY_CHECKED_NOT_INDEPENDENTLY_ACCEPTED"},
+    "retention_policy": {"const": "WHILE_REFERENCED_OR_UNTIL_EXPLICIT_DISPOSITION"},
+    "registered_utc": {"type": "string"},
+    "authority_granted": {"const": false},
+    "signed_activation_renewed": {"const": false},
+    "backup_verified": {"const": false},
+    "deletion_authorized": {"const": false}
+  }
+}
