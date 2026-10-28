@@ -3840,6 +3840,7 @@ evidence-vault-tests:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/evidence_management -p 'test_vault_v0_1.py' -q
 evidence-vault-inspect:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.evidence_management.vault_v0_1 inspect
+	@PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.evidence_management.backup_handoff_status_v0_1
 evidence-vault-init:
 	@test "$(EVIDENCE_VAULT_CONFIRM)" = 'INIT_FORPRINT_EVIDENCE_VAULT_V01' || { echo 'ERROR: explicit root initialization confirmation required'; exit 2; }
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.evidence_management.vault_v0_1 init --confirm "$(EVIDENCE_VAULT_CONFIRM)"
@@ -3850,9 +3851,11 @@ evidence-vault-register:
 	@test -n "$(EVIDENCE_VAULT_SOURCE)" && test -n "$(EVIDENCE_VAULT_ID)" || { echo 'ERROR: evidence source and ID required'; exit 2; }
 	@test "$(EVIDENCE_VAULT_CONFIRM)" = 'REGISTER_FORPRINT_G2A_EVIDENCE_V01' || { echo 'ERROR: explicit registration confirmation required'; exit 2; }
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.evidence_management.vault_v0_1 register --source "$(EVIDENCE_VAULT_SOURCE)" --evidence-id "$(EVIDENCE_VAULT_ID)" --confirm "$(EVIDENCE_VAULT_CONFIRM)"
+	@PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.evidence_management.backup_handoff_status_v0_1
 evidence-vault-verify:
 	@test -n "$(EVIDENCE_VAULT_ID)" || { echo 'ERROR: EVIDENCE_VAULT_ID required'; exit 2; }
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.evidence_management.vault_v0_1 verify --evidence-id "$(EVIDENCE_VAULT_ID)"
+	@PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.evidence_management.backup_handoff_status_v0_1
 evidence-vault-retrieve:
 	@test -n "$(EVIDENCE_VAULT_ID)" && test -n "$(EVIDENCE_VAULT_DESTINATION)" || { echo 'ERROR: evidence ID and destination required'; exit 2; }
 	@test "$(EVIDENCE_VAULT_CONFIRM)" = 'EXPORT_FORPRINT_EVIDENCE_V01' || { echo 'ERROR: explicit export confirmation required'; exit 2; }
@@ -3872,6 +3875,7 @@ evidence-vault-a02-tests:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/evidence_management -p 'test_*.py' -q
 evidence-vault-a02-inspect:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.evidence_management.backup_v0_1 inspect-source
+	@PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.evidence_management.backup_handoff_status_v0_1
 evidence-vault-a02-target-check:
 	@test -n "$(EVIDENCE_A02_BACKUP_ROOT)" || { echo 'ERROR: operator must explicitly select backup root'; exit 2; }
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.evidence_management.backup_v0_1 check-target --backup-root "$(EVIDENCE_A02_BACKUP_ROOT)"
@@ -3885,3 +3889,12 @@ evidence-vault-a02-restore-test:
 	@test -n "$(EVIDENCE_A02_BACKUP_ROOT)" && test -n "$(EVIDENCE_A02_SNAPSHOT_ID)" && test -n "$(EVIDENCE_A02_MANIFEST_SHA256)" && test -n "$(EVIDENCE_A02_RESTORE_ROOT)" && test "$(EVIDENCE_A02_CONFIRM)" = 'RESTORE_TEST_FORPRINT_EVIDENCE_A02' || { echo 'ERROR: backup root, snapshot, anchor, new restore root and operator confirmation required'; exit 2; }
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.evidence_management.backup_v0_1 restore-test --backup-root "$(EVIDENCE_A02_BACKUP_ROOT)" --snapshot-id "$(EVIDENCE_A02_SNAPSHOT_ID)" --manifest-sha256 "$(EVIDENCE_A02_MANIFEST_SHA256)" --restore-root "$(EVIDENCE_A02_RESTORE_ROOT)" --confirm "$(EVIDENCE_A02_CONFIRM)"
 # FORPRINT_EVIDENCE_VAULT_A02_END
+
+# FORPRINT_EVIDENCE_BACKUP_HANDOFF_V01_START
+# Deferred off-host backup is an explicit backlog item. No service integration.
+.PHONY: evidence-vault-backup-status evidence-vault-backup-handoff-tests
+evidence-vault-backup-status:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.evidence_management.backup_handoff_status_v0_1
+evidence-vault-backup-handoff-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/evidence_management -p 'test_backup_handoff_status_v0_1.py' -q
+# FORPRINT_EVIDENCE_BACKUP_HANDOFF_V01_END

@@ -1,0 +1,53 @@
+schema_version: forprint_evidence_external_backup_handoff_v0_1
+owner: forprint_system_blueprint
+status: PENDING_EXTERNAL_BACKUP_INTEGRATION
+operator_decision_date: '2026-10-28'
+decision: >
+  Continue operating the primary Evidence Vault locally on s01, on /dev/sdd1
+  (ext4, /srv/software_development). Do not provision a same-disk backup
+  or silently connect an existing unrelated backup service.
+source:
+  vault_root: /srv/software_development/forprint-evidence-store
+  server: s01
+  device_observed_at_decision: /dev/sdd1
+  filesystem_observed_at_decision: ext4
+  role: PRIMARY_LOCAL_EVIDENCE_STORE_NOT_A_BACKUP
+future_external_service:
+  owner: INDEPENDENT_BACKUP_SERVICE_TO_BE_DECIDED
+  integration_state: NOT_CONNECTED
+  target: OFF_HOST_CLOUD_COPY_TO_BE_SELECTED
+  trigger: SERVICE_AVAILABLE_AND_SEPARATE_OPERATOR_INTEGRATION_APPROVED
+  required_behavior:
+    - read_only_source_access_to_primary_evidence_vault
+    - transactionally_consistent_snapshot_or_locked_inventory
+    - copy_vault_marker_manifests_journal_and_content_addressed_objects
+    - independently_verify_file_hashes_and_manifest_relationships
+    - no_automatic_acceptance_signature_or_worker_authority
+    - emit_machine_readable_backup_receipt_with_snapshot_identifier_and_destination
+    - perform_separate_off_host_restore_and_readback_proof
+    - log_retention_and_operator_review_without_uncontrolled_deletion
+  required_acceptance_evidence:
+    - external_service_identity_and_configuration_review
+    - backup_receipt_and_content_digest_inventory
+    - verified_off_host_destination
+    - independently_recovered_and_verified_restore
+  explicit_exclusions:
+    - existing_forprint_google_drive_backup_service_is_not_modified_or_auto_integrated
+    - no_worker_launch_or_writer_activation
+    - no_same_disk_copy_claimed_as_disaster_recovery
+monitoring:
+  standard_commands:
+    - evidence-vault-inspect
+    - evidence-vault-register
+    - evidence-vault-verify
+    - evidence-vault-a02-inspect
+    - evidence-vault-backup-status
+  pending_warning: EVIDENCE_VAULT_BACKUP=PENDING_EXTERNAL_INTEGRATION
+  warning_exit_status: 0
+  warning_must_not_fake_backup_pass: true
+current_proof:
+  local_evidence_register_verify_retrieve: PASS_A01_OPERATOR_PILOT
+  cloud_backup_verified: false
+  independent_restore_verified: false
+  backup_service_connected: false
+next_boundary: INDEPENDENT_BACKUP_SERVICE_INTEGRATION_WITH_OFF_HOST_RESTORE_PROOF
