@@ -1,0 +1,44 @@
+schema_version: cf10_g2b03c04b_dynamic_coverage_proof_contract_v0_1
+owner: forprint_system_blueprint
+phase: G2B_03C_04B
+status: EVIDENCE_PROOF_CONTRACT_NON_AUTHORIZING
+source_predecessor_head: af03ad2a7aec0f709a77a5259daeabf3cd8bcca8
+purpose: Map independently required current dynamic Writer coverage evidence without claiming verification
+prerequisites:
+  g2b03c04a_status: ATTESTATION_BOUNDARY_GAPS_RECORDED_NON_AUTHORIZING
+  b3_report: tmp/cf10_g2b03c03b_review_20261028T135332890726Z/report.json
+  b3_sha256: 74d069eae81fea583375fede6d320b3ba23fbc337b73b03b788236a2e3dc3a3b
+  historical_coverage_sha256: 15bb96b3fdb87186d8337dfa17391bfd5a5a951e2faae34c8c671734d4027b71
+reuses:
+  - cf10_g2b03c04a_attestation_boundary_v0_1.review
+  - cf10_g2b01_inventory_v0_1.exact_published_file
+  - s01_writer_runtime_binding_v0_1.scan_proc
+  - s01_writer_runtime_binding_v0_1.TRACKED_WRITERS
+read_only_observations:
+  - bounded AST candidates in four exact-published writer modules
+  - fresh recognized-process count from /proc, no cmdline export
+  - root-controlled external trust file metadata only, not payloads
+  - canonical HEAD and source publication before and after observations
+independent_missing_evidence:
+  - all current writer entrypoints including indirect callbacks
+  - all active and short-lived writer processes enrolled
+  - root operator-reviewed running writer drain or restart
+  - manual CLI Make timers systemd containers SSH and remote writer scope
+  - effective DAC ACL mount and canonical ledger lock proof
+  - independent successor verifier publication and runtime readback
+  - signature binding to current head source hashes expiry nonce and review
+  - separate accepted runtime binding and Make quarantine release
+hard_boundaries:
+  no_external_authority_payload_read: true
+  no_signed_decision_or_renewal: true
+  no_pinned_Gate_Writer_execution: true
+  no_process_mutation_or_worker_launch: true
+  no_ledger_append_or_gate_activation: true
+  no_coverage_or_vault_mutation: true
+  no_claim_of_complete_dynamic_writer_proof: true
+  no_authority_grant: true
+report:
+  location: project_tmp_create_only
+  names: [report.json, summary.txt, SHA256SUMS]
+  proof_requirements_satisfied: 0
+next: G2B03C04C_INDEPENDENT_DYNAMIC_WRITER_COVERAGE_VERIFIER_AND_ATTESTATION_REVIEW
