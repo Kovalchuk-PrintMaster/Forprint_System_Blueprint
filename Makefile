@@ -4061,3 +4061,17 @@ cf10-g2b03c04d-capture:
 cf10-g2b03c04d-tests:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/control_plane -p 'test_cf10_g2b03c04d_operator_evidence_survey_v0_1.py' -q
 # CF10_G2B03C04D_OPERATOR_EVIDENCE_SURVEY_V0_1_END
+# CF10_G2B03C04E_OPERATOR_PROOF_SUBMISSION_INTEGRITY_V0_1_START
+# Source-bound voluntary proof submission; hash integrity never equals independent attestation.
+CF10_G2B03C04E_EXPECTED_HEAD ?=
+CF10_G2B03C04E_04D_REPORT ?=
+CF10_G2B03C04E_04D_SHA256 ?=
+CF10_G2B03C04E_SUBMISSION_INDEX ?=
+CF10_G2B03C04E_SUBMISSION_SHA256 ?=
+.PHONY: cf10-g2b03c04e-review cf10-g2b03c04e-tests
+cf10-g2b03c04e-review:
+	@test -n "$(CF10_G2B03C04E_EXPECTED_HEAD)" && test -n "$(CF10_G2B03C04E_04D_REPORT)" && test -n "$(CF10_G2B03C04E_04D_SHA256)" || { echo 'ERROR: canonical HEAD and exact frozen 04D report/digest required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_g2b03c04e_proof_submission_review_v0_1 --root . --expected-head "$(CF10_G2B03C04E_EXPECTED_HEAD)" --frozen-04d-report "$(CF10_G2B03C04E_04D_REPORT)" --frozen-04d-sha256 "$(CF10_G2B03C04E_04D_SHA256)" $(if $(CF10_G2B03C04E_SUBMISSION_INDEX),--submission-index "$(CF10_G2B03C04E_SUBMISSION_INDEX)",) $(if $(CF10_G2B03C04E_SUBMISSION_SHA256),--submission-sha256 "$(CF10_G2B03C04E_SUBMISSION_SHA256)",)
+cf10-g2b03c04e-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/control_plane -p 'test_cf10_g2b03c04e_proof_submission_review_v0_1.py' -q
+# CF10_G2B03C04E_OPERATOR_PROOF_SUBMISSION_INTEGRITY_V0_1_END

@@ -1,0 +1,44 @@
+schema_version: cf10_g2b03c04e_operator_proof_submission_contract_v0_1
+owner: forprint_system_blueprint
+phase: G2B_03C_04E
+status: EXTERNAL_OPERATOR_EVIDENCE_INTEGRITY_INTAKE_NON_AUTHORIZING
+source_predecessor_head: de0113cb4f04fe25276d8a804a2f4ef045cef102
+frozen_04d:
+  report: tmp/cf10_g2b03c04d_survey_20261028T150642485450Z/report.json
+  sha256: a13ad684607d00615265b091c5bb97943ed50ed296faeffe0d576df5b632cbb7
+  proof_requirements: 8
+  independent_attestations: 0
+purpose: Accept only explicitly submitted project-private proof artifacts for integrity review, not for authority
+reused:
+  - cf10_g2b03c04d_operator_evidence_survey_v0_1 frozen manifest and template
+  - cf10_g2b03c04b_dynamic_coverage_proof_contract_v0_1.PROOF_REQUIREMENTS
+  - cf10_g2b01_inventory_v0_1.exact_published_file
+  - s01_writer_runtime_binding_v0_1 git-head readback
+submission:
+  optional: true
+  exact_index_path: tmp/cf10_g2b03c04e_submissions_v01/index.json
+  exact_evidence_root: tmp/cf10_g2b03c04e_submissions_v01/evidence
+  max_evidence_files: 8
+  per_file_size_limit_bytes: 2000000
+  file_owner: root
+  file_mode: '0600'
+  index_digest_supplied_separately: true
+  proof_content_interpreted_or_accepted: false
+  independent_signer_or_review_authority_attested: false
+  external_authority_files_read: false
+  historical_evidence_never_promoted: true
+outputs:
+  location: project_tmp_create_only
+  files: [report.json, submission_index_template.json, summary.txt, SHA256SUMS]
+  proof_attestations_must_remain_zero: true
+  startup_or_ledger_authority_must_remain_false: true
+hard_boundaries:
+  no_signed_payload_or_private_key_access: true
+  no_external_evidence_provisioning: true
+  no_authority_grant_from_matching_digest: true
+  no_gate_writer_launch_or_ledger_write: true
+  no_runtime_production_activation: true
+  no_quarantine_release: true
+  no_evidence_vault_change: true
+  external_backup_and_preview_services_out_of_scope: true
+next: G2B03C04F_INDEPENDENT_EXTERNAL_PROOF_CONTENT_AND_ATTESTATION_VERIFICATION
