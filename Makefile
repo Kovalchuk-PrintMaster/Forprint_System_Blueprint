@@ -3922,3 +3922,15 @@ cf10-g2b02-plan:
 cf10-g2b02-plan-tests:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/control_plane -p 'test_cf10_g2b02_binding_plan_v0_1.py' -q
 # CF10_G2B02_SUCCESSOR_GATE_BINDING_PLAN_V0_1_END
+
+# CF10_G2B03A_SUCCESSOR_PROVENANCE_V0_1_START
+# Read-only external evidence provenance candidate; never an execution/signature authority.
+CF10_G2B03A_EXPECTED_HEAD ?=
+CF10_G2B03A_HISTORICAL_COVERAGE ?=
+.PHONY: cf10-g2b03a-provenance-check cf10-g2b03a-tests
+cf10-g2b03a-provenance-check:
+	@test -n "$(CF10_G2B03A_EXPECTED_HEAD)" || { echo 'ERROR: explicit source HEAD required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_g2b03_successor_provenance_v0_1 --root . --expected-head "$(CF10_G2B03A_EXPECTED_HEAD)" $(if $(CF10_G2B03A_HISTORICAL_COVERAGE),--historical-coverage "$(CF10_G2B03A_HISTORICAL_COVERAGE)",)
+cf10-g2b03a-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/control_plane -p 'test_cf10_g2b03_successor_provenance_v0_1.py' -q
+# CF10_G2B03A_SUCCESSOR_PROVENANCE_V0_1_END

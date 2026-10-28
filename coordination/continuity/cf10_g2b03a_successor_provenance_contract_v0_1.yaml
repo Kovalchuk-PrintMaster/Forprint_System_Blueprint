@@ -1,0 +1,29 @@
+schema_version: cf10_g2b03a_successor_provenance_contract_v0_1
+owner: forprint_system_blueprint
+phase: G2B_03A
+state: CANDIDATE_READ_ONLY_NON_AUTHORIZING
+prerequisite_source_head: 0208ded11a206d64a1ca0c39b5bf605bcc22c8f2
+historical_coverage:
+  relative_path: tmp/cf10_gate_rollover_7odYLfVr/tmp/cf10_writer_coverage_gate3d90143_170494.json
+  sha256: 15bb96b3fdb87186d8337dfa17391bfd5a5a951e2faae34c8c671734d4027b71
+  disposition: PRESERVE_IMMUTABLE_AND_DONT_DELETE
+successor_candidate:
+  exact_path: /srv/software_development/forprint-releases/cf10/evidence/cf10_writer_coverage_gate3d90143_170494.json
+  current_operator_observation: MISSING_IN_G2B01
+  creation: NOT_AUTHORIZED_BY_THIS_CANDIDATE
+  required:
+    - exact_historical_sha256_match
+    - exact_external_candidate_path
+    - root_owned_regular_file_0600
+    - root_controlled_non_symlink_ancestors
+    - no_hardlink
+    - published_Gate_and_Writer_identity_pins
+acceptance_boundary:
+  candidate_provenance_pass_is_not_dynamic_runtime_coverage_proof: true
+  never_grants_authority: true
+  no_automatic_evidence_copy_or_rebind: true
+  no_worker_or_ledger_or_signing_activity: true
+  no_changes_to_historical_pinned_Gate_Writer_sources: true
+  no_changes_to_Make_launch_quarantine: true
+  no_external_backup_claim: true
+  next: G2B03B_INDEPENDENT_DYNAMIC_COVERAGE_VERIFIER_AND_RUNTIME_BINDING_REVIEW
