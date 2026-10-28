@@ -4013,3 +4013,15 @@ cf10-g2b03c03c-launch-preflight:
 cf10-g2b03c03c-tests:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/control_plane -p 'test_s01_writer_runtime_binding_v0_3.py' -q
 # CF10_G2B03C03C_VERSIONED_RUNTIME_BINDING_SOURCE_V0_1_END
+# CF10_G2B03C04A_ATTESTATION_BOUNDARY_V0_1_START
+# Metadata-only external trust inventory; never claims signature, coverage or launch authority.
+CF10_G2B03C04A_EXPECTED_HEAD ?=
+CF10_G2B03C04A_B3_REPORT ?=
+CF10_G2B03C04A_B3_SHA256 ?=
+.PHONY: cf10-g2b03c04a-review cf10-g2b03c04a-tests
+cf10-g2b03c04a-review:
+	@test -n "$(CF10_G2B03C04A_EXPECTED_HEAD)" && test -n "$(CF10_G2B03C04A_B3_REPORT)" && test -n "$(CF10_G2B03C04A_B3_SHA256)" || { echo 'ERROR: exact published head and frozen B3 report/digest required'; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_g2b03c04a_attestation_boundary_v0_1 --root . --expected-head "$(CF10_G2B03C04A_EXPECTED_HEAD)" --b3-report "$(CF10_G2B03C04A_B3_REPORT)" --b3-sha256 "$(CF10_G2B03C04A_B3_SHA256)"
+cf10-g2b03c04a-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/control_plane -p 'test_cf10_g2b03c04a_attestation_boundary_v0_1.py' -q
+# CF10_G2B03C04A_ATTESTATION_BOUNDARY_V0_1_END

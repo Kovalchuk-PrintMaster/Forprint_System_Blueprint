@@ -1,0 +1,37 @@
+schema_version: cf10_g2b03c04a_attestation_boundary_contract_v0_1
+owner: forprint_system_blueprint
+phase: G2B_03C_04A
+status: METADATA_ONLY_BOUNDARY_GAP_INVENTORY_NON_AUTHORIZING
+source_predecessor_head: d72357ebf51877ddf4ed5e89623e7f1d90f96913
+purpose: Establish explicit independent proof gaps and observe external authority file metadata only
+predecessor:
+  module: scripts/coordination/control_plane/s01_writer_runtime_binding_v0_3.py
+  status: VERSIONED_BINDING_CANDIDATE_REVIEW_REQUIRED_NON_AUTHORIZING
+  b3_frozen_report: tmp/cf10_g2b03c03b_review_20261028T135332890726Z/report.json
+  b3_frozen_sha256: 74d069eae81fea583375fede6d320b3ba23fbc337b73b03b788236a2e3dc3a3b
+external_metadata_scope:
+  root: /etc/forprint/execution_attempt_writer_activation
+  files: [trust_root_v0_1.json, writer_coverage_v0_1.json, signed_decision_v0_1.json, protocol_candidate_v0_1.yaml]
+  stat_only_no_payload_open: true
+  presence_not_proof_of_valid_signature: true
+  missing_files_do_not_grant_authority: true
+  unsafe_owner_mode_symlink_or_link_count_blocks: true
+required_independent_evidence:
+  - full_current_writer_entrypoint_inventory_and_indirect_paths
+  - all_writer_processes_enrolled_external_proof
+  - running_writer_restart_or_drain_operator_evidence
+  - independent_current_dynamic_coverage_verification
+  - successor_gate_separate_published_source_and_independent_readback
+  - signed_operator_decision_current_head_source_hashes_expiry_and_nonce
+  - independently_attested_versioned_runtime_binding
+  - separate_explicit_make_launch_quarantine_release_acceptance
+hard_boundaries:
+  no_legacy_gate_writer_execution: true
+  no_external_trust_payload_read: true
+  no_signature_verification_or_renewal: true
+  no_process_mutation_or_worker_launch: true
+  no_ledger_append_or_quarantine_change: true
+  no_external_evidence_or_vault_mutation: true
+  no_dynamic_coverage_claim: true
+  no_authority_grant: true
+next: G2B03C04B_INDEPENDENT_DYNAMIC_COVERAGE_ATTESTATION_PROOF_CONTRACT
