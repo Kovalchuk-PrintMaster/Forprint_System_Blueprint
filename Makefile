@@ -4075,3 +4075,16 @@ cf10-g2b03c04e-review:
 cf10-g2b03c04e-tests:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m unittest discover -s tests/coordination/control_plane -p 'test_cf10_g2b03c04e_proof_submission_review_v0_1.py' -q
 # CF10_G2B03C04E_OPERATOR_PROOF_SUBMISSION_INTEGRITY_V0_1_END
+
+
+# NON-AUTHORIZING PROPOSAL ONLY — do not install without owner review.
+# Destination after separate review:
+#   scripts/coordination/control_plane/cf10_offline_batch_review_v0_1.py
+# Note: this v0.1 analyzer is pinned to 2026-10-28 HEAD/report hashes.
+CF10_WRITER_BATCH_ARCHIVE ?=
+CF10_WRITER_BATCH_REPORT_DIR ?=
+.PHONY: cf10-writer-coverage-offline-review
+cf10-writer-coverage-offline-review:
+	@test -n "$(CF10_WRITER_BATCH_ARCHIVE)" || { echo "CF10_WRITER_BATCH_ARCHIVE_REQUIRED"; exit 2; }
+	@test -n "$(CF10_WRITER_BATCH_REPORT_DIR)" || { echo "CF10_WRITER_BATCH_REPORT_DIR_REQUIRED"; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(BLUEPRINT_PYTHON) -B scripts/coordination/control_plane/cf10_offline_batch_review_v0_1.py --archive "$(CF10_WRITER_BATCH_ARCHIVE)" --output-dir "$(CF10_WRITER_BATCH_REPORT_DIR)"
