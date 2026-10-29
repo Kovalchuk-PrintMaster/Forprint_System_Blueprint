@@ -1,0 +1,47 @@
+schema_version: cf10_s01_controlled_launch_corridor_contract_v0_1
+owner: forprint_system_blueprint
+status: READ_ONLY_GAP_PREFLIGHT_NON_AUTHORIZING
+source_base_commit: 85ba070708c138bb8f30be197c1b32fd412a9ef1
+purpose: integrate_signed_predicate_root_state_binding_and_direct_python_launch_route_review
+source_module: scripts/coordination/control_plane/cf10_s01_controlled_launch_corridor_v0_1.py
+preflight_reuses:
+  - cf10_s01_release_gate_candidate_v0_1
+  - cf10_s01_runtime_rebind_v0_2
+  - cf10_s01_root_controlled_single_use_v0_2
+  - governed_worker_cycle.launch_cycle
+  - governed_worker_cycle.launch_authorized_worker_cycle
+checks:
+  - real_existing_signed_predicate_rerun_not_caller_supplied
+  - external_receipt_re_read_and_crypto_reverification
+  - exact_worker_task_attempt_and_receipt_digest_binding
+  - all_eight_independent_proof_bytes_and_acceptance_checked
+  - published_git_head_unchanged_across_reads
+  - root_owned_persistent_state_read_only_preexisting_and_not_consumed
+  - both_python_worker_launch_entrypoints_have_separate_guard_seam
+  - literal_make_quarantine_still_retained
+hard_boundaries:
+  cli_launch_preflight_always_exit_2: true
+  no_live_make_wiring: true
+  no_root_directory_provisioning: true
+  no_single_use_claim_written_or_consumed: true
+  no_worker_spawn: true
+  no_canonical_ledger_write: true
+  no_signing_or_git_publication: true
+  no_authority_granted: true
+  static_ast_checks_are_necessary_not_sufficient: true
+  indirect_and_external_entrypoint_coverage_requires_independent_dynamic_review: true
+known_expected_blockers_on_current_source:
+  - DIRECT_PYTHON_LAUNCH_UNGUARDED:launch_cycle
+  - DIRECT_PYTHON_LAUNCH_UNGUARDED:launch_authorized_worker_cycle
+  - LIVE_MAKE_QUARANTINE_RETAINED
+  - SIGNED_PILOT_PREDICATE_NOT_VERIFIED
+  - ROOT_CONTROLLED_STATE_NOT_VERIFIED
+future_independently_reviewed_live_corridor:
+  - guard_direct_python_entrypoints_and_external_entrypoints_before_any_write
+  - independently_attest_real_writer_and_worker_entrypoint_coverage
+  - privileged_single_process_revalidate_and_claim_then_spawn
+  - signed_exact_pilot_and_publication_authority
+  - persist_crash_ambiguous_consumption_without_retry
+  - reauthorize_exact_final_head_after_code_publication
+  - independent_permission_to_replace_live_make_literal_quarantine
+next_boundary: GUARDED_LAUNCH_ENTRYPOINT_DESIGN_AND_INDEPENDENT_PRODUCTION_ACCEPTANCE

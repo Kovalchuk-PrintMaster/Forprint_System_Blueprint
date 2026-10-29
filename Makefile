@@ -4134,3 +4134,12 @@ cf10-s01-root-single-use-check:
 cf10-s01-root-single-use-inspect:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_s01_root_controlled_single_use_v0_2 inspect
 # CF10_S01_ROOT_CONTROLLED_SINGLE_USE_V02_CANDIDATE_END
+
+# CF10_S01_CONTROLLED_CORRIDOR_READONLY_CANDIDATE_V0_1_START
+# Read-only gap preflight. NO claim, Worker, authority or live release wiring.
+.PHONY: cf10-s01-corridor-review cf10-s01-corridor-check
+cf10-s01-corridor-review:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_s01_controlled_launch_corridor_v0_1 inspect --root . --worker-id "$(CF10_S01_REVIEW_WORKER_ID)" --task-prompt-id "$(CF10_S01_REVIEW_TASK_PROMPT_ID)" --attempt-id "$(CF10_S01_REVIEW_ATTEMPT_ID)"
+cf10-s01-corridor-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_s01_controlled_launch_corridor_v0_1.py
+# CF10_S01_CONTROLLED_CORRIDOR_READONLY_CANDIDATE_V0_1_END
