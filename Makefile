@@ -4124,3 +4124,13 @@ cf10-s01-single-use-guard-check:
 cf10-s01-single-use-guard-inspect:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_s01_single_use_guard_v0_1 inspect
 # CF10_S01_SINGLE_USE_GUARD_CANDIDATE_V0_1_END
+
+# CF10_S01_ROOT_CONTROLLED_SINGLE_USE_V02_CANDIDATE_START
+# Persistent root-owned primitive; tests use isolated tmp fixtures ONLY.
+# Neither target provisions /var/lib nor launches a Worker or modifies ledger.
+.PHONY: cf10-s01-root-single-use-check cf10-s01-root-single-use-inspect
+cf10-s01-root-single-use-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_s01_root_controlled_single_use_v0_2.py
+cf10-s01-root-single-use-inspect:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_s01_root_controlled_single_use_v0_2 inspect
+# CF10_S01_ROOT_CONTROLLED_SINGLE_USE_V02_CANDIDATE_END

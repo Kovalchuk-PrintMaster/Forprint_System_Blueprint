@@ -1,0 +1,51 @@
+schema_version: cf10_s01_root_controlled_single_use_state_contract_v0_2
+owner: forprint_system_blueprint
+status: CANDIDATE_NON_AUTHORIZING_NOT_LIVE_WIRED
+source_base_commit: 6c998b43ee2079b38081d8616e6e5a9789773c85
+purpose: persistent_root_owned_atomic_no_retry_state_primitive_for_one_bounded_pilot
+source_module: scripts/coordination/control_plane/cf10_s01_root_controlled_single_use_v0_2.py
+storage_contract:
+  future_operator_provisioned_root: /var/lib/forprint/cf10_s01_single_use
+  provisioned_by_this_package: false
+  root_owner_uid: 0
+  private_dir_mode: '0700'
+  claim_filename: bounded_pilot_consumed_v0_2.json
+  claim_file_mode: '0600'
+  atomic_creation: O_CREAT_O_EXCL_O_NOFOLLOW
+  durability: fsync_claim_then_fsync_directory_before_any_possible_spawn
+  permanent_single_pilot_slot: true
+  new_receipt_or_attempt_does_not_reset_slot: true
+  no_automatic_claim_cleanup: true
+  state_persists_after_reboot_only_if_independent_mount_and_filesystem_review_passes: true
+  ambiguous_write: permanently_block_reuse_if_marker_exists
+binding_fields:
+  - receipt_sha256
+  - publication_commit
+  - worker_id
+  - task_prompt_id
+  - attempt_id
+security_boundaries:
+  source_is_non_authorizing: true
+  caller_supplied_binding_is_not_authority: true
+  cryptographic_receipt_and_activation_validation_not_done_by_this_primitive: true
+  release_predicate_alone_is_not_launch_authority: true
+  launch_or_spawn_in_this_component: false
+  active_make_quarantine_retained: true
+  /etc_provisioning: false
+  /var/lib_mutation_by_cli: false
+  canonical_ledger_write: false
+  automatic_retry: false
+  commit_push: false
+  positive_live_launch_return_code: false
+required_for_future_live_wiring:
+  - independent_production_writer_coverage_8_of_8_accepted
+  - independent_root_owned_persistent_mount_provision_and_acl_review
+  - independently_signed_activation_bound_to_final_published_head
+  - independently_signed_release_receipt_exact_pilot_scope_and_proof_sha
+  - proof_file_contents_and_underlying_evidence_review
+  - exact_worker_task_attempt_current_head_and_no_active_worker_revalidation
+  - atomic_claim_and_spawn_joined_in_one_operator_owned_launch_process
+  - concurrency_restart_and_direct_python_negative_proofs
+  - crash_before_spawn_and_crash_after_spawn_operator_recovery_procedure
+  - explicit_independent_permission_to_replace_literal_make_quarantine
+next_boundary: OPERATOR_OWNED_LIVE_CORRIDOR_REVIEW_NOT_ACTIVATION
