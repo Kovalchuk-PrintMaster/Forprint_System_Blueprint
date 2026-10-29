@@ -4115,3 +4115,12 @@ cf10-s01-runtime-rebind-v02-launch-preflight:
 cf10-s01-runtime-rebind-v02-tests:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_s01_runtime_rebind_v0_2.py tests/coordination/control_plane/test_cf10_s01_release_gate_candidate_v0_1.py
 # CF10_S01_RUNTIME_REBIND_V02_CANDIDATE_END
+
+# CF10_S01_SINGLE_USE_GUARD_CANDIDATE_V0_1_START
+# Fixture-only, never calls Worker or writes production consume state.
+.PHONY: cf10-s01-single-use-guard-check cf10-s01-single-use-guard-inspect
+cf10-s01-single-use-guard-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_s01_single_use_guard_v0_1.py
+cf10-s01-single-use-guard-inspect:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_s01_single_use_guard_v0_1 inspect
+# CF10_S01_SINGLE_USE_GUARD_CANDIDATE_V0_1_END
