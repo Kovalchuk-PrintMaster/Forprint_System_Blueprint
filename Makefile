@@ -4097,3 +4097,21 @@ cf10-s01-release-gate-candidate-inspect:
 cf10-s01-release-gate-candidate-tests:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_s01_release_gate_candidate_v0_1.py
 # CF10_S01_RELEASE_GATE_CANDIDATE_V01_END
+
+# CF10_S01_RUNTIME_REBIND_V02_CANDIDATE_START
+# Candidate predicate only; NO prerequisites attached to governed-worker-cycle-*.
+# Live cf10-s01-runtime-launch-preflight stays literal QUARANTINED exit 2.
+CF10_S01_PILOT_WORKER ?=
+CF10_S01_PILOT_TASK ?=
+CF10_S01_PILOT_ATTEMPT ?=
+CF10_S01_V02_ARGS = --root . --worker-id "$(CF10_S01_PILOT_WORKER)" --task-prompt-id "$(CF10_S01_PILOT_TASK)" --attempt-id "$(CF10_S01_PILOT_ATTEMPT)"
+.PHONY: cf10-s01-runtime-rebind-v02-inspect cf10-s01-runtime-rebind-v02-predicate-check cf10-s01-runtime-rebind-v02-launch-preflight cf10-s01-runtime-rebind-v02-tests
+cf10-s01-runtime-rebind-v02-inspect:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_s01_runtime_rebind_v0_2 inspect $(CF10_S01_V02_ARGS)
+cf10-s01-runtime-rebind-v02-predicate-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_s01_runtime_rebind_v0_2 predicate-check $(CF10_S01_V02_ARGS)
+cf10-s01-runtime-rebind-v02-launch-preflight:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_s01_runtime_rebind_v0_2 launch-preflight $(CF10_S01_V02_ARGS)
+cf10-s01-runtime-rebind-v02-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_s01_runtime_rebind_v0_2.py tests/coordination/control_plane/test_cf10_s01_release_gate_candidate_v0_1.py
+# CF10_S01_RUNTIME_REBIND_V02_CANDIDATE_END
