@@ -11,6 +11,7 @@ import types
 import unittest
 from unittest.mock import patch
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 PATH=Path(__file__).resolve().parents[3]/'scripts/coordination/control_plane/cf10_g2b03c04c_coverage_evidence_readback_v0_1.py'
 spec=importlib.util.spec_from_file_location('g2b03c04c_test',PATH)
 m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
@@ -40,6 +41,68 @@ class Tests(unittest.TestCase):
     def outcome(self,archived=None,fresh=None,head=HEAD,self_published=True):
         return m.classify(archived=archived or evidence(),fresh=fresh or evidence(),head=head,
                           self_published=self_published,proof_requirements=tuple(PROOFS))
+    def test_current_04b_report_locator(self):
+        root=Path('/srv/software_development/forprint-project/forprint_system_blueprint')
+        r=root/'tmp/cf10_g2b03c04b_coverage_20261029T190103123456Z/report.json'
+        self.assertTrue(m.prior_report_locator_allowed(root,r,'a'*64))
+        self.assertFalse(m.prior_report_locator_allowed(root,r,'wrong-sha'))
+        self.assertFalse(m.prior_report_locator_allowed(root,root/'tmp/fake/report.json','a'*64))
+        self.assertTrue(m.prior_report_locator_allowed(root,root/m.PRIOR_REPORT_REL,m.PRIOR_SHA256))
+
+    def test_04c_replays_exact_b3_reference_from_current_04b(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            current='b'*40
+            report=root/'tmp/cf10_g2b03c04b_coverage_20261029T182900123456Z/report.json'
+            b3=root/'tmp/cf10_g2b03c03b_review_20261029T172009048920Z/report.json'
+            archived=evidence(head=current)
+            archived.update(b3_report_path=str(b3),b3_report_sha256='a'*64)
+            seen=[]
+            def proof_review(*a, **kw):
+                seen.append(kw)
+                return evidence(head=current)
+            inv=types.ModuleType('scripts.coordination.control_plane.cf10_g2b01_inventory_v0_1')
+            inv.exact_published_file=lambda *_:'exact published 04C'
+            runtime=types.ModuleType('scripts.coordination.control_plane.s01_writer_runtime_binding_v0_1')
+            runtime.git=lambda *_: current
+            proof=types.ModuleType(module)
+            proof.PROOF_REQUIREMENTS=tuple(PROOFS)
+            proof.review=proof_review
+            import scripts.coordination.control_plane as cp
+            with patch.object(m,'DEPLOYMENT',root), patch.object(m,'load_prior',return_value=archived), \
+                 patch.object(cp,'cf10_g2b03c04b_dynamic_coverage_proof_contract_v0_1',proof,create=True), \
+                 patch.object(cp,'cf10_g2b01_inventory_v0_1',inv,create=True), \
+                 patch.object(cp,'s01_writer_runtime_binding_v0_1',runtime,create=True):
+                out=m.review(root,current,report=report,report_sha='c'*64)
+            self.assertEqual(len(seen),1)
+            self.assertEqual(seen[0]['b3_report'],b3)
+            self.assertEqual(seen[0]['b3_sha256'],'a'*64)
+            self.assertEqual(out['frozen_04b_report_sha256'],'c'*64)
+            self.assertFalse(out['authority_granted'])
+
+    def test_04c_rejects_previous_head_as_new_current_archive(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);head='b'*40
+            report=root/'tmp/cf10_g2b03c04b_coverage_20261029T182900123456Z/report.json'
+            import scripts.coordination.control_plane as cp
+            inv=types.ModuleType('scripts.coordination.control_plane.cf10_g2b01_inventory_v0_1')
+            inv.exact_published_file=lambda *_:'exact published 04C'
+            with patch.object(m,'DEPLOYMENT',root), patch.object(m,'load_prior',return_value=evidence(head='d'*40)), \
+                 patch.object(cp,'cf10_g2b01_inventory_v0_1',inv,create=True), \
+                 patch.object(cp,'s01_writer_runtime_binding_v0_1',types.ModuleType('runtime'),create=True):
+                with self.assertRaisesRegex(m.EvidenceReadbackBlocked,'CURRENT_04B_REPORT_HEAD_MISMATCH'):
+                    m.review(root,head,report=report,report_sha='c'*64)
+
+    def test_current_04b_current_head_status_non_authorizing(self):
+        current_head='b'*40
+        archived=evidence(head=current_head)
+        fresh=evidence(head=current_head)
+        r=self.outcome(archived=archived,fresh=fresh,head=current_head)
+        self.assertEqual(r['status'],'INDEPENDENT_EVIDENCE_READBACK_READY_FOR_OPERATOR_PROOFS_NON_AUTHORIZING')
+        self.assertEqual(r['frozen_04b_head'],current_head)
+        self.assertFalse(r['authority_granted'])
+        self.assertFalse(r['independent_dynamic_coverage_verified'])
+
     def test_positive_readback_still_all_eight_unattested(self):
         r=self.outcome()
         self.assertEqual(r['status'],'INDEPENDENT_EVIDENCE_READBACK_READY_FOR_OPERATOR_PROOFS_NON_AUTHORIZING')

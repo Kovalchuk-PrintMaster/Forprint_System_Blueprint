@@ -32,6 +32,16 @@ class Tests(unittest.TestCase):
   return m.classify(prior=p,head=HEAD,process=proc,static=s,tracked=(REL,),self_published=True)
  def blocked(self,change,tag):
   x=self.result(change); self.assertEqual(x['status'],'BLOCKED_NON_AUTHORIZING');self.assertIn(tag,x['blockers']);self.assertFalse(x['authority_granted'])
+ def test_current_b3_locator_inherited_from_04a(self):
+  from pathlib import Path
+  from unittest.mock import patch
+  root=Path('/srv/software_development/forprint-project/forprint_system_blueprint')
+  report=root/'tmp/cf10_g2b03c03b_review_20261029T172009048920Z/report.json'
+  # Pure locator check is done in 04A; 04B must call that check, never
+  # retain a second frozen hardcoded 2026-10-28-only gate.
+  self.assertIn('previous.report_locator_allowed',Path(m.__file__).read_text())
+  self.assertNotIn('b3_report!=root/B3_REPORT_REL',Path(m.__file__).read_text())
+
  def test_contract_ready_but_no_writer_proof(self):
   x=self.result();self.assertEqual(x['status'],'DYNAMIC_COVERAGE_PROOF_CONTRACT_MAPPED_NON_AUTHORIZING');self.assertEqual(x['proof_requirements_satisfied'],0)
   self.assertEqual(len(x['proof_requirements']),8)

@@ -31,6 +31,16 @@ class BoundaryTests(unittest.TestCase):
         if mm: mm(d)
         return m.classify(prior=p,head=head,metadata=d,source_published=published)
 
+    def test_current_b3_locator_only_project_native(self):
+        root=Path('/srv/software_development/forprint-project/forprint_system_blueprint')
+        current=root/'tmp/cf10_g2b03c03b_review_20261029T172009048920Z/report.json'
+        self.assertTrue(m.report_locator_allowed(root,current,'a'*64))
+        self.assertFalse(m.report_locator_allowed(root,root/'tmp/other/report.json','a'*64))
+        self.assertFalse(m.report_locator_allowed(root,current,'not-sha'))
+        self.assertFalse(m.report_locator_allowed(root,root/'tmp/cf10_g2b03c03b_review_20261029T172009048920Z/other.json','a'*64))
+        self.assertFalse(m.report_locator_allowed(root,root/'tmp/cf10_g2b03c03b_review_20261029T172009048920Z/../report.json','a'*64))
+        self.assertTrue(m.report_locator_allowed(root,root/m.EXPECTED_B3,m.EXPECTED_B3_SHA))
+
     def test_missing_all_files_is_reportable_but_no_authority(self):
         r=self.result()
         self.assertEqual(r['status'],'ATTESTATION_BOUNDARY_GAPS_RECORDED_NON_AUTHORIZING')

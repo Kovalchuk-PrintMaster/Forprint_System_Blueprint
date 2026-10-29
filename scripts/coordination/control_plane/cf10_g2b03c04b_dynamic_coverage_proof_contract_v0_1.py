@@ -158,7 +158,7 @@ def review(root:Path,head:str,*,b3_report:Path,b3_sha256:str)->dict:
     from scripts.coordination.control_plane import s01_writer_runtime_binding_v0_1 as runtime
     if root!=DEPLOYMENT or root.is_symlink() or not SHA40.fullmatch(head):
         raise ProofContractBlocked('DEPLOYMENT_OR_HEAD_NOT_PINNED')
-    if b3_report!=root/B3_REPORT_REL or b3_sha256!=B3_SHA256:
+    if not previous.report_locator_allowed(root, b3_report, b3_sha256):
         raise ProofContractBlocked('B3_REPORT_PIN_MISMATCH')
     published=inventory.exact_published_file(root,head,SELF_REL)
     if 'launch_allowed' not in published or 'NOT_ATTESTED' not in published:
@@ -170,8 +170,11 @@ def review(root:Path,head:str,*,b3_report:Path,b3_sha256:str)->dict:
     # Re-verify publication and the canonical HEAD after observational calls.
     if inventory.exact_published_file(root,head,SELF_REL)!=published or runtime.git(root,'rev-parse','HEAD')!=head:
         raise ProofContractBlocked('SOURCE_CHANGED_DURING_OBSERVATION')
-    return classify(prior=prior,head=head,process=process,static=static,
+    result=classify(prior=prior,head=head,process=process,static=static,
                     tracked=tuple(runtime.TRACKED_WRITERS),self_published=True)
+    result['b3_report_path']=str(b3_report)
+    result['b3_report_sha256']=b3_sha256
+    return result
 
 
 def save_report(root:Path, doc:dict)->tuple[Path,str]:

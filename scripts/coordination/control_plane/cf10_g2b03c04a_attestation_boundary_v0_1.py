@@ -145,6 +145,21 @@ def classify(*, prior: dict, head: str, metadata: dict, source_published: bool) 
     }
 
 
+def report_locator_allowed(root: Path, report: Path, expected_sha: str) -> bool:
+    """Admit historical exact report OR current project-native B3 envelope.
+
+    The successor binding *separately* verifies exact bytes, manifest, source
+    set, current HEAD and S01 lock. A pathname is never proof of authority.
+    """
+    old = (report == root / EXPECTED_B3 and expected_sha == EXPECTED_B3_SHA)
+    current = (report != root / EXPECTED_B3
+               and report.parent.parent == root / 'tmp'
+               and re.fullmatch(r'cf10_g2b03c03b_review_[0-9]{8}T[0-9]{6,12}Z', report.parent.name) is not None
+               and report.name == 'report.json'
+               and SHA64.fullmatch(expected_sha) is not None)
+    return old or current
+
+
 def review(root: Path, expected_head: str, *, b3_report: Path, b3_sha256: str) -> dict:
     from scripts.coordination.control_plane import cf10_g2b01_inventory_v0_1 as inventory
     from scripts.coordination.control_plane import s01_writer_runtime_binding_v0_3 as binding
@@ -152,8 +167,8 @@ def review(root: Path, expected_head: str, *, b3_report: Path, b3_sha256: str) -
         raise BoundaryBlocked('CANONICAL_DEPLOYMENT_ROOT_NOT_PINNED')
     if not SHA40.fullmatch(expected_head):
         raise BoundaryBlocked('EXPECTED_HEAD_INVALID')
-    if b3_report != root / EXPECTED_B3 or b3_sha256 != EXPECTED_B3_SHA:
-        raise BoundaryBlocked('FROZEN_B3_REPORT_NOT_EXACT')
+    if not report_locator_allowed(root, b3_report, b3_sha256):
+        raise BoundaryBlocked('PROJECT_NATIVE_B3_REPORT_LOCATOR_NOT_ACCEPTED')
     # Source code is exact published content; no newly introduced source shadowing.
     inventory.exact_published_file(root, expected_head, SELF_REL)
     prior = binding.review(root, expected_head, report=b3_report,

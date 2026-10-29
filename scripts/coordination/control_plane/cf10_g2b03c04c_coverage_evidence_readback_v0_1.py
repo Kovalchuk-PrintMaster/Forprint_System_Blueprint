@@ -69,8 +69,18 @@ def private_read(path: Path, *, maximum: int = 2_000_000, allow_empty: bool = Fa
         os.close(fd)
 
 
+def prior_report_locator_allowed(root: Path, path: Path, expected_sha: str) -> bool:
+    old = (path == root / PRIOR_REPORT_REL and expected_sha == PRIOR_SHA256)
+    current = (path != root / PRIOR_REPORT_REL
+               and path.parent.parent == root / 'tmp'
+               and re.fullmatch(r'cf10_g2b03c04b_coverage_[0-9]{8}T[0-9]{6,12}Z', path.parent.name) is not None
+               and path.name == 'report.json'
+               and SHA64.fullmatch(expected_sha) is not None)
+    return old or current
+
+
 def load_prior(root: Path, path: Path, expected_sha: str) -> dict:
-    if path != root / PRIOR_REPORT_REL or expected_sha != PRIOR_SHA256:
+    if not prior_report_locator_allowed(root, path, expected_sha):
         raise EvidenceReadbackBlocked('04B_REPORT_PATH_OR_PIN_MISMATCH')
     raw = private_read(path)
     if sha(raw) != expected_sha:
@@ -97,13 +107,15 @@ def load_prior(root: Path, path: Path, expected_sha: str) -> dict:
 
 
 def classify(*, archived:dict, fresh:dict, head:str, self_published:bool,
-             proof_requirements:tuple | None=None) -> dict:
+             proof_requirements:tuple | None=None, archived_report_sha256: str = PRIOR_SHA256) -> dict:
     if proof_requirements is None:
         from scripts.coordination.control_plane import cf10_g2b03c04b_dynamic_coverage_proof_contract_v0_1 as proof
         proof_requirements = proof.PROOF_REQUIREMENTS
     blockers=[]
     findings=[]
-    if not SHA40.fullmatch(head) or not SHA40.fullmatch(archived.get('source_head','')) or archived.get('source_head') != PRIOR_HEAD:
+    if (not SHA40.fullmatch(head) or
+        not SHA40.fullmatch(archived.get('source_head','')) or
+        archived.get('source_head') not in (PRIOR_HEAD, head)):
         blockers.append('PRIOR_HEAD_NOT_PINNED')
     if self_published is not True:
         blockers.append('SELF_SOURCE_NOT_PUBLISHED')
@@ -146,7 +158,7 @@ def classify(*, archived:dict, fresh:dict, head:str, self_published:bool,
     return {
         'schema_version': SCHEMA,'status':status,'blockers':sorted(set(blockers)),
         'findings':sorted(set(findings)),'source_head':head,
-        'frozen_04b_head':PRIOR_HEAD,'frozen_04b_report_sha256':PRIOR_SHA256,
+        'frozen_04b_head':archived.get('source_head'),'frozen_04b_report_sha256':archived_report_sha256,
         'frozen_static_candidate_count':len(archived_static.get('candidates',[])) if isinstance(archived_static.get('candidates'),list) else None,
         'archived_recognized_processes':archived_proc.get('observed_recognized_count'),
         'fresh_recognized_processes':fresh_proc.get('observed_recognized_count'),
@@ -174,10 +186,23 @@ def review(root:Path,head:str,*,report:Path,report_sha:str)->dict:
         raise EvidenceReadbackBlocked('CANONICAL_ROOT_OR_HEAD_INVALID')
     code = inventory.exact_published_file(root,head,SELF_REL)
     archived = load_prior(root,report,report_sha)
-    fresh = proof.review(root,head,b3_report=root/B3_REL,b3_sha256=B3_SHA256)
+    current_archive = report != root / PRIOR_REPORT_REL
+    if current_archive and archived.get('source_head') != head:
+        raise EvidenceReadbackBlocked('CURRENT_04B_REPORT_HEAD_MISMATCH')
+    if current_archive:
+        raw_b3_path = archived.get('b3_report_path')
+        raw_b3_sha = archived.get('b3_report_sha256')
+        if (not isinstance(raw_b3_path,str) or not isinstance(raw_b3_sha,str)
+                or not SHA64.fullmatch(raw_b3_sha)):
+            raise EvidenceReadbackBlocked('04B_B3_SOURCE_BINDING_MISSING')
+        b3_path = Path(raw_b3_path)
+    else:
+        b3_path,raw_b3_sha = root/B3_REL,B3_SHA256
+    fresh = proof.review(root,head,b3_report=b3_path,b3_sha256=raw_b3_sha)
     if inventory.exact_published_file(root,head,SELF_REL) != code or runtime.git(root,'rev-parse','HEAD') != head:
         raise EvidenceReadbackBlocked('CURRENT_PUBLICATION_CHANGED_DURING_READBACK')
-    return classify(archived=archived,fresh=fresh,head=head,self_published=True)
+    return classify(archived=archived,fresh=fresh,head=head,
+                    self_published=True,archived_report_sha256=report_sha)
 
 
 def save(root:Path,doc:dict)->tuple[Path,str]:
