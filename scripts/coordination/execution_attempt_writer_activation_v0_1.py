@@ -36,7 +36,7 @@ COVERAGE_SCHEMA = 'forprint_execution_attempt_writer_coverage_v0_1'
 DECISION_SCHEMA = 'forprint_execution_attempt_writer_activation_decision_v0_1'
 SOURCES = {
     'scripts/coordination/execution_attempt_ledger_v0_1.py': '7fba536611f4e33fada0144635291ed0f8cf62ed7e3687322a9644ba71b953d5',
-    'scripts/coordination/execution_attempt_writer_lock_v0_1.py': '2abf27ed691c5a51235aae9874b881a6ac2aaf62d9314e32c03aafda030b7372',
+    'scripts/coordination/execution_attempt_writer_lock_v0_1.py': '90ef12604e855914d3d9bb7bc04abdfb0c7515e9ffa489108cef380054f36703',
     'scripts/coordination/work_front_closeout_apply_v0_1.py': 'd7926f2ff944b8fd0b5073ec37650340fbb7787f9c151788cc68182048598d95',
 }
 

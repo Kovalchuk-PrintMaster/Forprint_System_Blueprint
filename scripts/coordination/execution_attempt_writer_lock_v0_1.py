@@ -1,9 +1,9 @@
-"""Opt-in, operator-provisioned shared writer guard for canonical attempt ledger.
+"""Operator-provisioned, fail-closed guard for canonical attempt ledger.
 
-The repository cannot enable itself as a ledger writer protocol. If the external,
-root-controlled configuration is absent, existing append behavior stays unchanged
-and Closeout Apply must fail closed. A present but invalid configuration always
-raises; it never silently falls back to unlocked writes.
+Every canonical append requires an ENFORCED root-controlled external protocol.
+Absent or invalid protocol always blocks canonical writes. Noncanonical, isolated
+store overrides are governed separately by the ledger store-identity check.
+The repository cannot provision its own writer authority.
 """
 from __future__ import annotations
 
@@ -100,10 +100,10 @@ def load_enforced_protocol(*, required: bool = False) -> dict | None:
 @contextlib.contextmanager
 def guarded_canonical_append() -> Iterator[None]:
     """Serialize scan/validate/create across all correctly enrolled writers."""
-    active = load_enforced_protocol()
+    # No legacy unlocked fallback for any canonical append entrypoint.
+    active = load_enforced_protocol(required=True)
     if active is None:
-        yield
-        return
+        raise WriterProtocolError('SHARED_WRITER_PROTOCOL_NOT_PROVISIONED')
     path = active['lock_path']
     fd = os.open(path, os.O_RDWR | os.O_CREAT | getattr(os, 'O_NOFOLLOW', 0)
                  | getattr(os, 'O_CLOEXEC', 0), 0o660)

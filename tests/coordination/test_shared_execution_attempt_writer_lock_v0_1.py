@@ -66,8 +66,16 @@ def _child_append(root, row, messages):
         messages.put(('BLOCKED', type(exc).__name__))
 
 
-def test_absent_config_legacy_append_and_duplicate_rejection(repo):
+def test_absent_config_blocks_canonical_append_before_store_creation(repo):
     root, _, _ = repo
+    with pytest.raises(lock.WriterProtocolError, match='SHARED_WRITER_PROTOCOL_NOT_PROVISIONED'):
+        ledger.append_record(root, record())
+    assert not (root / 'coordination/continuity/execution_attempts').exists()
+
+
+def test_enforced_config_still_rejects_duplicate_record(repo):
+    root, policy, directory = repo
+    enable(policy, directory)
     row = record()
     assert ledger.append_record(root, row).is_file()
     with pytest.raises(FileExistsError):
