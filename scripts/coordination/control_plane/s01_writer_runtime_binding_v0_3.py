@@ -27,6 +27,11 @@ FROZEN_B3_REPORT = 'tmp/' + REPORT_NAME + '/report.json'
 EXCLUDED_TESTED_SOURCE_CHANGE = {'Makefile'}
 SELF_REL = 'scripts/coordination/control_plane/s01_writer_runtime_binding_v0_3.py'
 NEXT = 'G2B03C04_INDEPENDENT_DYNAMIC_COVERAGE_AND_SIGNED_AUTHORITY_DESIGN'
+S01_PROFILE = 'B3_PLUS_S01_FAIL_CLOSED_SOURCE_HARDENING_REVIEW_REQUIRED'
+S01_DELTA_STATUS = 'S01_WRITER_HARDENING_COMPATIBILITY_REVIEW_REQUIRED_NON_AUTHORIZING'
+S01_LOCK_REL = 'scripts/coordination/execution_attempt_writer_lock_v0_1.py'
+S01_LOCK_SHA256 = '90ef12604e855914d3d9bb7bc04abdfb0c7515e9ffa489108cef380054f36703'
+S01_PINNED_LOCK_SHA256 = '2abf27ed691c5a51235aae9874b881a6ac2aaf62d9314e32c03aafda030b7372'
 
 class BindingBlocked(RuntimeError):
     pass
@@ -70,11 +75,20 @@ def safe_project_read(path: Path, *, max_bytes: int = 2_000_000, allow_empty: bo
 def load_b3_report(root: Path, report: Path, expected_sha: str) -> dict:
     """Existing G2b03C03B report is historical fixture evidence, not runtime authority."""
     expected = root / FROZEN_B3_REPORT
-    if (report != expected or not SHA64.fullmatch(expected_sha) or
-            expected_sha != EXPECTED_REPORT_SHA):
+    historical = report == expected and expected_sha == EXPECTED_REPORT_SHA
+    # New S01 reports are produced only by the existing project-native 03B
+    # command after the updated sources are published; never reuse a stale
+    # report from the earlier B3-only HEAD as fresh S01 regression evidence.
+    project_tmp = root / 'tmp'
+    current_candidate = (report.parent.parent == project_tmp
+        and report.parent.name.startswith('cf10_g2b03c03b_review_')
+        and report.name == 'report.json' and report != expected)
+    if (not SHA64.fullmatch(expected_sha) or
+            not (historical or current_candidate)):
         raise BindingBlocked('B3_REPORT_EXACT_PATH_OR_EXTERNAL_DIGEST_MISMATCH')
-    folder = expected.parent
-    if not folder.is_dir() or folder.is_symlink() or (folder.stat().st_mode & 0o077):
+    folder = report.parent
+    if (not project_tmp.is_dir() or project_tmp.is_symlink() or
+            not folder.is_dir() or folder.is_symlink() or (folder.stat().st_mode & 0o077)):
         raise BindingBlocked('B3_REPORT_DIRECTORY_UNSAFE')
     if folder.stat().st_uid != 0:
         raise BindingBlocked('B3_REPORT_DIRECTORY_OWNER_UNSAFE')
@@ -131,16 +145,25 @@ def classify(*, head: str, live: dict, delta: dict, b3: dict,
             live.get('source_head') != head or live.get('blockers') != [] or
             live.get('authority_granted') is not False or live.get('dynamic_coverage_verified') is not False):
         blockers.append('SUCCESSOR_GATE_OBSERVATION_NOT_VERIFIED')
-    if (delta.get('status') != 'WRITER_DELTA_COMPATIBILITY_REVIEW_REQUIRED_NON_AUTHORIZING'
+    s01 = delta.get('delta_review',{}).get('classification') == S01_PROFILE
+    expected_delta = S01_DELTA_STATUS if s01 else 'WRITER_DELTA_COMPATIBILITY_REVIEW_REQUIRED_NON_AUTHORIZING'
+    if (delta.get('status') != expected_delta
             or delta.get('source_head') != head or delta.get('blockers') != []
             or delta.get('authority_granted') is not False
-            or delta.get('delta_review',{}).get('classification') != 'B3_INSERTION_ONLY_COMPATIBILITY_REVIEW_REQUIRED'):
+            or (s01 and (delta.get('writer_lock_review',{}).get('status') !=
+                         'KNOWN_FAIL_CLOSED_LOCK_POSTIMAGE_VERIFIED_NON_AUTHORIZING'
+                         or delta['writer_lock_review'].get('current_sha256') != S01_LOCK_SHA256
+                         or delta['writer_lock_review'].get('pinned_sha256') != S01_PINNED_LOCK_SHA256))
+            or (not s01 and delta.get('delta_review',{}).get('classification') !=
+                'B3_INSERTION_ONLY_COMPATIBILITY_REVIEW_REQUIRED')):
         blockers.append('B3_WRITER_DELTA_NOT_VERIFIED')
+    expected_regression_head = head if s01 else PREDECESSOR_HEAD
     if (b3.get('status') != 'B3_REGRESSION_PASS_BINDING_DESIGN_REVIEW_REQUIRED_NON_AUTHORIZING'
-            or b3.get('expected_head') != PREDECESSOR_HEAD
+            or b3.get('expected_head') != expected_regression_head
             or b3.get('blockers') != []
             or b3.get('b3_behavior_independently_attested') is not False
             or b3.get('authority_granted') is not False
+            or (s01 and b3.get('source_compatibility_profile') != 'S01_FAIL_CLOSED')
             or b3.get('focused_synthetic_regression', {}).get('passed_count') != 62
             or b3.get('focused_synthetic_regression', {}).get('returncode') != 0):
         blockers.append('B3_REGRESSION_EVIDENCE_NOT_ACCEPTABLE')
@@ -150,7 +173,8 @@ def classify(*, head: str, live: dict, delta: dict, b3: dict,
         blockers.append('SOURCE_DIGEST_SET_INVALID')
     live_sources=live.get('observed_s01_runtime',{}).get('writer_source_comparison',{})
     diffs = {rel for rel, equal in live_sources.items() if equal is False} if isinstance(live_sources,dict) else set()
-    if diffs != {'scripts/coordination/control_plane/governed_worker_cycle.py'}:
+    expected_diffs = {'scripts/coordination/control_plane/governed_worker_cycle.py', S01_LOCK_REL} if s01 else {'scripts/coordination/control_plane/governed_worker_cycle.py'}
+    if diffs != expected_diffs:
         blockers.append('WRITER_DELTA_SCOPE_CHANGED')
     if mode not in ('inspect','launch-preflight'):
         blockers.append('INVALID_MODE')
@@ -202,8 +226,9 @@ def review(root: Path, head: str, *, report: Path, report_sha: str, mode: str) -
     pinned=releases.git(root,'show',pin+':'+delta_lib.REL)
     if pinned != releases.safe_file(releases.stable_path('writer')/delta_lib.REL):
         raise BindingBlocked('PINNED_WRITER_BYTES_MISMATCH')
-    delta=delta_lib.classify(live,delta_lib.compare_published_sources(current,pinned),
-                             head=head,current_sha=digest(current),pinned_sha=digest(pinned))
+    # Reuse the complete published-source audit; direct classify lacks the
+    # separately verified strict Writer Lock evidence required by S01.
+    delta=delta_lib.audit(root,head)
     signed_sources=legacy.signed_source_digests(root) # Hash-only; no signature or decision read.
     hash_set=dict(signed_sources)
     for rel in (SELF_REL,

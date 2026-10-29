@@ -21,6 +21,16 @@ SCHEMA = 'cf10_g2b03c03a_writer_delta_review_v0_1'
 REL = 'scripts/coordination/control_plane/governed_worker_cycle.py'
 SHA40 = re.compile(r'[a-f0-9]{40}\Z')
 NEXT = 'G2B03C03B_VERSIONED_RUNTIME_BINDING_DESIGN_REVIEW'
+# Published source bytes from the completed S01 fail-closed hardening pilot.
+# These pins are non-authorizing: an exact match requires independent review.
+LOCK_REL = 'scripts/coordination/execution_attempt_writer_lock_v0_1.py'
+S01_GWC_SHA256 = '38a6da01c93f41670782a6064fd78ca42aa98c3445a6ab9474ba585867bf1c74'
+PINNED_GWC_SHA256 = 'f4192fec070d7e0aa090cc5fe9f4a9da9be3cb1770855994294022e35ba95e47'
+S01_LOCK_SHA256 = '90ef12604e855914d3d9bb7bc04abdfb0c7515e9ffa489108cef380054f36703'
+PINNED_LOCK_SHA256 = '2abf27ed691c5a51235aae9874b881a6ac2aaf62d9314e32c03aafda030b7372'
+S01_PROFILE = 'B3_PLUS_S01_FAIL_CLOSED_SOURCE_HARDENING_REVIEW_REQUIRED'
+S01_LOCK_STATUS = 'KNOWN_FAIL_CLOSED_LOCK_POSTIMAGE_VERIFIED_NON_AUTHORIZING'
+
 
 class DeltaBlocked(RuntimeError):
     pass
@@ -61,15 +71,34 @@ def compare_published_sources(current: bytes, pinned: bytes) -> dict:
                   and 45 <= changes[0]['new_lines'] <= 70
                   and 5 <= changes[1]['new_lines'] <= 15
                   and changes[2]['new_lines'] == 1)
-    classification = 'B3_INSERTION_ONLY_COMPATIBILITY_REVIEW_REQUIRED' if recognized else 'UNEXPECTED_WRITER_DELTA_BLOCKED'
+    # Current S01 profile: accept only *exact* published bytes and their old
+    # release bytes, never a general six-hunk or insertion-only wildcard.
+    s01_profile = (
+        digest(current) == S01_GWC_SHA256 and digest(pinned) == PINNED_GWC_SHA256
+        and len(changes) == 6 and all(x['kind'] == 'insert' for x in changes)
+        and sum(x['new_lines'] for x in changes) == 81
+        and 'def require_bounded_s01_launch_authority()' in changes[0]['text']
+        and 'CF10_S01_DIRECT_PYTHON_LAUNCH_QUARANTINED' in changes[0]['text']
+        and 'require_bounded_s01_launch_authority()' in changes[1]['text']
+        and '# CF10_B3_P2_INDEPENDENT_PRELAUNCH_READBACK_V0_1_START' in changes[2]['text']
+        and '# CF10_B3_P2_INDEPENDENT_PRELAUNCH_READBACK_V0_1_END' in changes[2]['text']
+        and 'require_bounded_s01_launch_authority()' in changes[3]['text']
+        and 'trusted_readback_selection = _resolve_b3_trusted_readback(' in changes[4]['text']
+        and '"validation_readback_selection": trusted_readback_selection,' in changes[5]['text']
+    )
+    classification = (S01_PROFILE if s01_profile else
+        'B3_INSERTION_ONLY_COMPATIBILITY_REVIEW_REQUIRED' if recognized else
+        'UNEXPECTED_WRITER_DELTA_BLOCKED')
     # No source text exported (only line positions and hashes).
     for c in changes:
         del c['text']
-    return {'classification':classification,'recognized_b3_augmentation':recognized,'hunks':changes,
+    return {'classification':classification,'recognized_b3_augmentation':recognized or s01_profile,
+            'recognized_s01_hardening':s01_profile,'hunks':changes,
             'new_total_lines':len(b),'pinned_total_lines':len(a)}
 
 
-def classify(live: dict, delta: dict, *, head: str, current_sha: str, pinned_sha: str) -> dict:
+def classify(live: dict, delta: dict, *, head: str, current_sha: str, pinned_sha: str,
+             writer_lock_review: dict | None = None) -> dict:
     blockers = []
     findings = []
     if not SHA40.fullmatch(head) or live.get('source_head') != head:
@@ -83,20 +112,44 @@ def classify(live: dict, delta: dict, *, head: str, current_sha: str, pinned_sha
     compared = runtime.get('writer_source_comparison')
     if not isinstance(tracked,list) or not isinstance(compared,dict) or set(tracked) != set(compared):
         blockers.append('TRACKED_WRITER_INVENTORY_UNVERIFIED')
-    elif set(rel for rel,eq in compared.items() if eq is False) != {REL} or any(x is None for x in compared.values()):
-        blockers.append('WRITER_DIFF_SCOPE_NOT_EXACTLY_GOVERNED_CYCLE')
-    if not isinstance(delta,dict) or delta.get('classification') != 'B3_INSERTION_ONLY_COMPATIBILITY_REVIEW_REQUIRED':
-        blockers.append('WRITER_DELTA_NOT_RECOGNIZED_AS_B3_ONLY')
     else:
+        changed = {rel for rel, eq in compared.items() if eq is False}
+        s01 = isinstance(delta, dict) and delta.get('classification') == S01_PROFILE
+        expected = {REL, LOCK_REL} if s01 else {REL}
+        if changed != expected or any(x is None for x in compared.values()):
+            blockers.append('WRITER_DIFF_SCOPE_NOT_EXACTLY_GOVERNED_CYCLE' if not s01
+                            else 'WRITER_DIFF_SCOPE_NOT_EXACTLY_S01_HARDENING')
+    profile = delta.get('classification') if isinstance(delta, dict) else None
+    if profile == S01_PROFILE:
+        if (current_sha != S01_GWC_SHA256 or pinned_sha != PINNED_GWC_SHA256 or
+                delta.get('recognized_s01_hardening') is not True or
+                delta.get('recognized_b3_augmentation') is not True or
+                len(delta.get('hunks', ())) != 6):
+            blockers.append('S01_GOVERNED_SOURCE_PROFILE_NOT_VERIFIED')
+        if not isinstance(writer_lock_review, dict) or writer_lock_review.get('status') != S01_LOCK_STATUS:
+            blockers.append('S01_STRICT_WRITER_LOCK_SOURCE_NOT_VERIFIED')
+        else:
+            if (writer_lock_review.get('current_sha256') != S01_LOCK_SHA256 or
+                    writer_lock_review.get('pinned_sha256') != PINNED_LOCK_SHA256):
+                blockers.append('S01_WRITER_LOCK_SHA256_BINDING_DRIFT')
+        findings.extend(('S01_DIRECT_PYTHON_GUARD_REQUIRES_INDEPENDENT_REVIEW',
+                         'S01_STRICT_WRITER_LOCK_REQUIRES_INDEPENDENT_REVIEW',
+                         'B3_ADDED_PRELAUNCH_BEHAVIOR_REQUIRES_INDEPENDENT_REVIEW'))
+    elif profile == 'B3_INSERTION_ONLY_COMPATIBILITY_REVIEW_REQUIRED':
         findings.append('B3_ADDED_PRELAUNCH_BEHAVIOR_REQUIRES_INDEPENDENT_REVIEW')
+    else:
+        blockers.append('WRITER_DELTA_NOT_RECOGNIZED_AS_B3_ONLY')
     if not re.fullmatch(r'[a-f0-9]{64}',current_sha) or not re.fullmatch(r'[a-f0-9]{64}',pinned_sha):
         blockers.append('SOURCE_DIGEST_NOT_VERIFIED')
-    status = 'WRITER_DELTA_COMPATIBILITY_REVIEW_REQUIRED_NON_AUTHORIZING' if not blockers else 'BLOCKED_NON_AUTHORIZING'
+    status = ('BLOCKED_NON_AUTHORIZING' if blockers else
+              'S01_WRITER_HARDENING_COMPATIBILITY_REVIEW_REQUIRED_NON_AUTHORIZING'
+              if profile == S01_PROFILE else
+              'WRITER_DELTA_COMPATIBILITY_REVIEW_REQUIRED_NON_AUTHORIZING')
     return {
         'schema_version':SCHEMA,'status':status,'blockers':sorted(set(blockers)),
         'findings':sorted(set(findings)), 'source_head':head,'tracked_writer':REL,
         'current_published_sha256':current_sha,'historical_pinned_sha256':pinned_sha,
-        'delta_review':delta,
+        'delta_review':delta, 'writer_lock_review':writer_lock_review,
         'operator_acceptance':'NOT_PERFORMED',
         'b3_behavior_independently_verified':False,
         'current_runtime_coverage_verified':False,
@@ -124,7 +177,28 @@ def audit(root: Path, head: str) -> dict:
     if pinned != release_file:
         raise DeltaBlocked('PINNED_RELEASE_SOURCE_NOT_EQUAL_GIT')
     compared = compare_published_sources(current,pinned)
-    return classify(live,compared,head=head,current_sha=digest(current),pinned_sha=digest(pinned))
+    lock_review = None
+    if compared['classification'] == S01_PROFILE:
+        # Independent source readback from both immutable published Git blobs
+        # and the physically pinned historical Writer release checkout.
+        now_lock = inv.exact_published_file(root, head, LOCK_REL).encode('utf-8')
+        old_lock = releases.git(root, 'show', pinned_commit + ':' + LOCK_REL)
+        release_lock = releases.safe_file(release_root / LOCK_REL)
+        if old_lock != release_lock:
+            raise DeltaBlocked('PINNED_LOCK_RELEASE_SOURCE_NOT_EQUAL_GIT')
+        current_lock_sha, pinned_lock_sha = digest(now_lock), digest(old_lock)
+        # Reject any unrecognized lock source, even if the governed-cycle source
+        # matches the published S01 profile. No source is read from dirty worktree.
+        if (current_lock_sha != S01_LOCK_SHA256 or pinned_lock_sha != PINNED_LOCK_SHA256 or
+                b'load_enforced_protocol(required=True)' not in now_lock or
+                b'if active is None:\n        raise WriterProtocolError' not in now_lock or
+                b'if active is None:\n        yield' not in old_lock):
+            raise DeltaBlocked('WRITER_LOCK_FAIL_CLOSED_SOURCE_PROFILE_NOT_VERIFIED')
+        lock_review = {'status': S01_LOCK_STATUS, 'current_sha256': current_lock_sha,
+                       'pinned_sha256': pinned_lock_sha,
+                       'independently_attested': False}
+    return classify(live,compared,head=head,current_sha=digest(current),
+                    pinned_sha=digest(pinned),writer_lock_review=lock_review)
 
 
 def write_report(root: Path, result: dict) -> tuple[Path,str]:

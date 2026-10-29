@@ -42,3 +42,12 @@ hard_boundaries:
   no_pinned_release_or_quarantine_change: true
   no_launch_or_ledger_authority: true
 next: G2B03C04_INDEPENDENT_DYNAMIC_COVERAGE_AND_SIGNED_AUTHORITY_DESIGN
+
+s01_hardening_compatibility:
+  legacy_historical_b3_frozen_proof: RETAINED
+  current_s01_b3_proof: EXACT_PROJECT_NATIVE_REPORT_POST_PUBLICATION_REQUIRED
+  current_report_pinned_to_source_head_and_published_test_source_set: true
+  require_same_s01_direct_guard_and_writer_lock_postimages: true
+  allow_arbitrary_writer_delta: false
+  live_preflight_permanently_blocked: true
+  signature_and_dynamic_attestation: NOT_VERIFIED

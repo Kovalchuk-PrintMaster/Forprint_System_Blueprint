@@ -35,6 +35,11 @@ SOURCE_DEPS = (
     'Makefile',
 )
 SOURCE_SET = TESTS + SOURCE_DEPS
+S01_PROFILE = 'B3_PLUS_S01_FAIL_CLOSED_SOURCE_HARDENING_REVIEW_REQUIRED'
+S01_STATUS = 'S01_WRITER_HARDENING_COMPATIBILITY_REVIEW_REQUIRED_NON_AUTHORIZING'
+S01_LOCK_STATUS = 'KNOWN_FAIL_CLOSED_LOCK_POSTIMAGE_VERIFIED_NON_AUTHORIZING'
+S01_LOCK_SHA256 = '90ef12604e855914d3d9bb7bc04abdfb0c7515e9ffa489108cef380054f36703'
+S01_PINNED_LOCK_SHA256 = '2abf27ed691c5a51235aae9874b881a6ac2aaf62d9314e32c03aafda030b7372'
 REQUIRED_BINDING = (
     'current_canonical_head_and_published_source_bytes',
     'exact_root_owned_external_coverage_path_sha256_schema_and_release_pins',
@@ -59,12 +64,24 @@ def classify(delta: dict, fixture: dict, published: dict, *, head: str) -> dict:
     blockers = []
     if not SHA40.fullmatch(head) or delta.get('source_head') != head:
         blockers.append('CANONICAL_HEAD_OR_DELTA_BINDING_DRIFT')
-    if (delta.get('status') != 'WRITER_DELTA_COMPATIBILITY_REVIEW_REQUIRED_NON_AUTHORIZING'
+    dr = delta.get('delta_review', {})
+    is_s01 = isinstance(dr, dict) and dr.get('classification') == S01_PROFILE
+    expected_status = S01_STATUS if is_s01 else 'WRITER_DELTA_COMPATIBILITY_REVIEW_REQUIRED_NON_AUTHORIZING'
+    if (delta.get('status') != expected_status
             or delta.get('blockers') != [] or delta.get('authority_granted') is not False
             or delta.get('b3_behavior_independently_verified') is not False):
         blockers.append('PRIOR_DELTA_REVIEW_UNVERIFIED')
-    dr = delta.get('delta_review', {})
-    if (dr.get('classification') != 'B3_INSERTION_ONLY_COMPATIBILITY_REVIEW_REQUIRED'
+    if is_s01:
+        lock = delta.get('writer_lock_review')
+        if (dr.get('recognized_b3_augmentation') is not True
+                or dr.get('recognized_s01_hardening') is not True
+                or len(dr.get('hunks', [])) != 6
+                or not isinstance(lock, dict) or lock.get('status') != S01_LOCK_STATUS
+                or lock.get('current_sha256') != S01_LOCK_SHA256
+                or lock.get('pinned_sha256') != S01_PINNED_LOCK_SHA256
+                or lock.get('independently_attested') is not False):
+            blockers.append('S01_FAIL_CLOSED_WRITER_PROFILE_NOT_VERIFIED')
+    elif (dr.get('classification') != 'B3_INSERTION_ONLY_COMPATIBILITY_REVIEW_REQUIRED'
             or dr.get('recognized_b3_augmentation') is not True or len(dr.get('hunks', [])) != 3):
         blockers.append('B3_DELTA_PROFILE_UNEXPECTED')
     if set(published) != set(SOURCE_SET) or any(not SHA64.fullmatch(v) for v in published.values()):
@@ -83,6 +100,8 @@ def classify(delta: dict, fixture: dict, published: dict, *, head: str) -> dict:
         'expected_head': head,
         'source_set_sha256': published,
         'preceding_writer_delta': delta.get('delta_review', {}),
+        'source_compatibility_profile': 'S01_FAIL_CLOSED' if is_s01 else 'HISTORICAL_B3_ONLY',
+        's01_writer_lock_review': delta.get('writer_lock_review') if is_s01 else None,
         'focused_synthetic_regression': fixture,
         'required_versioned_binding': list(REQUIRED_BINDING),
         'proposed_module': 's01_writer_runtime_binding_v0_3.py',
@@ -179,7 +198,12 @@ def audit(root: Path, head: str, out: Path, *, fixture_runner=run_fixtures) -> d
     if not SHA40.fullmatch(head):
         raise DesignBlocked('EXPECTED_HEAD_INVALID')
     prior=delta.audit(root,head)
-    if prior.get('status')!='WRITER_DELTA_COMPATIBILITY_REVIEW_REQUIRED_NON_AUTHORIZING':
+    delta_profile = prior.get('delta_review', {}).get('classification')
+    historical = (delta_profile == 'B3_INSERTION_ONLY_COMPATIBILITY_REVIEW_REQUIRED'
+                  and prior.get('status') == 'WRITER_DELTA_COMPATIBILITY_REVIEW_REQUIRED_NON_AUTHORIZING')
+    hardened = (delta_profile == S01_PROFILE and prior.get('status') == S01_STATUS)
+    if (not (historical or hardened) or prior.get('blockers') != []
+            or prior.get('authority_granted') is not False):
         raise DesignBlocked('PRIOR_WRITER_DELTA_NOT_READY')
     stamps=published_set(root,head)
     fixture=fixture_runner(root,out)

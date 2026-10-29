@@ -95,4 +95,50 @@ class ReviewTests(unittest.TestCase):
             root=Path(t);(root/'real').mkdir();(root/'tmp').symlink_to(root/'real')
             with self.assertRaises(m.DeltaBlocked):m.write_report(root,{})
 
+
+    def test_s01_new_profile_needs_exact_source_and_lock_provenance(self):
+        d={'classification':m.S01_PROFILE,'recognized_s01_hardening':True,
+           'recognized_b3_augmentation':True,'hunks':[{} for _ in range(6)]}
+        l=live()
+        l['observed_s01_runtime']['tracked_writers'].append(m.LOCK_REL)
+        l['observed_s01_runtime']['writer_source_comparison'][m.LOCK_REL]=False
+        x=m.classify(l,d,head=HEAD,current_sha=m.S01_GWC_SHA256,
+                     pinned_sha=m.PINNED_GWC_SHA256,
+                     writer_lock_review={'status':m.S01_LOCK_STATUS,
+                       'current_sha256':m.S01_LOCK_SHA256,'pinned_sha256':m.PINNED_LOCK_SHA256})
+        self.assertEqual(x['status'],'S01_WRITER_HARDENING_COMPATIBILITY_REVIEW_REQUIRED_NON_AUTHORIZING')
+        self.assertEqual(len(x['findings']),3)
+        for flag in ('authority_granted','worker_launched','current_runtime_coverage_verified',
+                     'independent_attestation_verified','writer_gate_unquarantined'):
+            self.assertIs(x[flag],False)
+    def test_s01_requires_lock_release_readback(self):
+        d={'classification':m.S01_PROFILE,'recognized_s01_hardening':True,
+           'recognized_b3_augmentation':True,'hunks':[{} for _ in range(6)]}
+        l=live()
+        l['observed_s01_runtime']['tracked_writers'].append(m.LOCK_REL)
+        l['observed_s01_runtime']['writer_source_comparison'][m.LOCK_REL]=False
+        x=m.classify(l,d,head=HEAD,current_sha=m.S01_GWC_SHA256,
+                     pinned_sha=m.PINNED_GWC_SHA256)
+        self.assertIn('S01_STRICT_WRITER_LOCK_SOURCE_NOT_VERIFIED',x['blockers'])
+    def test_s01_extra_modified_writer_is_blocked(self):
+        d={'classification':m.S01_PROFILE,'recognized_s01_hardening':True,
+           'recognized_b3_augmentation':True,'hunks':[{} for _ in range(6)]}
+        l=live()
+        l['observed_s01_runtime']['tracked_writers'] += [m.LOCK_REL]
+        l['observed_s01_runtime']['writer_source_comparison'].update({m.LOCK_REL:False,'ledger.py':False})
+        x=m.classify(l,d,head=HEAD,current_sha=m.S01_GWC_SHA256,
+                     pinned_sha=m.PINNED_GWC_SHA256)
+        self.assertIn('WRITER_DIFF_SCOPE_NOT_EXACTLY_S01_HARDENING',x['blockers'])
+    def test_s01_wrong_current_sha_denied(self):
+        d={'classification':m.S01_PROFILE,'recognized_s01_hardening':True,
+           'recognized_b3_augmentation':True,'hunks':[{} for _ in range(6)]}
+        l=live(); l['observed_s01_runtime']['tracked_writers'].append(m.LOCK_REL)
+        l['observed_s01_runtime']['writer_source_comparison'][m.LOCK_REL]=False
+        x=m.classify(l,d,head=HEAD,current_sha='0'*64,pinned_sha=m.PINNED_GWC_SHA256)
+        self.assertIn('S01_GOVERNED_SOURCE_PROFILE_NOT_VERIFIED',x['blockers'])
+    def test_s01_unknown_source_insertions_remain_blocked(self):
+        new,old=pair()
+        d=m.compare_published_sources(new+b'dangerous_unreviewed_edit\n',old)
+        self.assertEqual(d['classification'],'UNEXPECTED_WRITER_DELTA_BLOCKED')
+
 if __name__=='__main__':unittest.main()
