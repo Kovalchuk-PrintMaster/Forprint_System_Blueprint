@@ -9,6 +9,7 @@ import types
 import unittest
 from unittest.mock import MagicMock, patch
 
+from scripts.coordination import control_plane as control_plane_pkg
 from scripts.coordination.control_plane import cf10_invocation_rehearsal_v0_1 as rehearsal
 from scripts.coordination.control_plane import cf10_prelaunch_audit_v0_2 as audit
 
@@ -81,7 +82,11 @@ class RehearsalTests(unittest.TestCase):
             'scripts.coordination.control_plane.governed_worker_cycle': cycle,
             'scripts.coordination.control_plane.worker_runtime': worker_pkg,
             'scripts.coordination.control_plane.worker_runtime.invocation_adapter': inv,
-        }):
+        }), patch.object(
+            control_plane_pkg, 'governed_worker_cycle', cycle, create=True
+        ), patch.object(
+            control_plane_pkg, 'worker_runtime', worker_pkg, create=True
+        ):
             result = rehearsal.inspect(self.root, self.runtime, TASK, ATTEMPT)
         return result, cycle, inv
 
@@ -137,6 +142,19 @@ class RehearsalTests(unittest.TestCase):
         cycle._resolve_b3_trusted_readback.assert_called_once()
         cycle.launch_cycle.assert_not_called()
         cycle.launch_authorized_worker_cycle.assert_not_called()
+
+    def test_cached_package_attributes_do_not_escape_mocks(self):
+        self.prepare()
+        stale_cycle = types.ModuleType('stale_cycle')
+        stale_cycle._load_yaml = MagicMock(side_effect=AssertionError('STALE_CYCLE_USED'))
+        stale_worker = types.ModuleType('stale_worker')
+        with patch.object(control_plane_pkg, 'governed_worker_cycle', stale_cycle,
+                          create=True), patch.object(control_plane_pkg, 'worker_runtime',
+                                                     stale_worker, create=True):
+            result, cycle, inv = self.run_mocks()
+        self.assertEqual(result['status'], 'PASS')
+        cycle._load_yaml.assert_called()
+        inv.build_launch_invocation.assert_called_once()
 
     def test_canonical_prior_accept_error_blocks(self):
         self.prepare()
