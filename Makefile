@@ -4088,3 +4088,12 @@ cf10-writer-coverage-offline-review:
 	@test -n "$(CF10_WRITER_BATCH_ARCHIVE)" || { echo "CF10_WRITER_BATCH_ARCHIVE_REQUIRED"; exit 2; }
 	@test -n "$(CF10_WRITER_BATCH_REPORT_DIR)" || { echo "CF10_WRITER_BATCH_REPORT_DIR_REQUIRED"; exit 2; }
 	PYTHONDONTWRITEBYTECODE=1 $(BLUEPRINT_PYTHON) -B scripts/coordination/control_plane/cf10_offline_batch_review_v0_1.py --archive "$(CF10_WRITER_BATCH_ARCHIVE)" --output-dir "$(CF10_WRITER_BATCH_REPORT_DIR)"
+
+# CF10_S01_RELEASE_GATE_CANDIDATE_V01_START
+# Non-authorizing candidate; does NOT replace the quarantined launch prerequisite.
+.PHONY: cf10-s01-release-gate-candidate-inspect cf10-s01-release-gate-candidate-tests
+cf10-s01-release-gate-candidate-inspect:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_s01_release_gate_candidate_v0_1 inspect --root .
+cf10-s01-release-gate-candidate-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_s01_release_gate_candidate_v0_1.py
+# CF10_S01_RELEASE_GATE_CANDIDATE_V01_END
