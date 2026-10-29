@@ -8,6 +8,14 @@ import yaml
 from scripts.coordination.control_plane import governed_worker_cycle as cycle
 
 
+
+# CF10_S01_HISTORICAL_UNIT_LOGIC_FIXTURE_V0_1_START
+@pytest.fixture
+def _cf10_legacy_inner_logic_only(monkeypatch):
+    """Test-scope override only; production guard remains fail-closed."""
+    monkeypatch.setattr(cycle, "require_bounded_s01_launch_authority", lambda: None)
+# CF10_S01_HISTORICAL_UNIT_LOGIC_FIXTURE_V0_1_END
+
 def write_yaml(path: Path, value: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(
@@ -923,6 +931,7 @@ def test_authorize_dispatch_refuses_stale_source_before_decision(
     ).exists()
 
 
+@pytest.mark.usefixtures("_cf10_legacy_inner_logic_only")
 def test_launch_refuses_stale_source_before_invocation(
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,

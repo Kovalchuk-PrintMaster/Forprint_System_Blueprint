@@ -43,6 +43,17 @@ MODULE_ID = "forprint_system_blueprint"
 WORKER_ID = "worker-01"
 DEFAULT_RUNTIME_ROOT = Path("/srv/software_development/forprint-worker-runtime")
 
+
+def require_bounded_s01_launch_authority() -> None:
+    """Fail-closed S01 direct Python boundary until independent live rebinding.
+
+    There is intentionally no caller token, environment flag, or test bypass.
+    A positive signed predicate is not authority to consume or spawn. Only an
+    independently reviewed, published corridor update can replace this block.
+    """
+    raise GovernedWorkerCycleError("CF10_S01_DIRECT_PYTHON_LAUNCH_QUARANTINED")
+
+
 STATE_SEQUENCE = (
     "RESOLVE_TASK",
     "PREPARE_WORKSPACE",
@@ -2038,6 +2049,8 @@ def launch_authorized_worker_cycle(
     worker_id="worker-01",
     invocation_context=None,
 ):
+    require_bounded_s01_launch_authority()
+
     from scripts.coordination import execution_attempt_ledger_v0_1
     from scripts.coordination.control_plane import cf10_training_dispatch
     from scripts.coordination.control_plane.worker_runtime import (
@@ -2779,6 +2792,8 @@ def launch_cycle(
     worker_id: str = WORKER_ID,
 ) -> dict[str, Any]:
     """Launch one already-authorized Worker through canonical project surfaces."""
+
+    require_bounded_s01_launch_authority()
 
     if confirm is not True:
         raise GovernedWorkerCycleError(

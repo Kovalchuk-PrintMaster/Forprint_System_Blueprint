@@ -14,6 +14,14 @@ from scripts.coordination.control_plane.worker_runtime import (
     launcher,
 )
 
+
+# CF10_S01_HISTORICAL_UNIT_LOGIC_FIXTURE_V0_1_START
+@pytest.fixture
+def _cf10_legacy_inner_logic_only(monkeypatch):
+    """Test-scope override only; production guard remains fail-closed."""
+    monkeypatch.setattr(gwc, "require_bounded_s01_launch_authority", lambda: None)
+# CF10_S01_HISTORICAL_UNIT_LOGIC_FIXTURE_V0_1_END
+
 ATTEMPT_ID = "cf10-u180j-test-a001"
 
 
@@ -127,6 +135,7 @@ def _started(attempt_id=ATTEMPT_ID):
     }
 
 
+@pytest.mark.usefixtures("_cf10_legacy_inner_logic_only")
 def test_launch_uses_keyword_only_live_facts_contract(monkeypatch):
     captured = {}
 
@@ -172,6 +181,7 @@ def test_launch_uses_keyword_only_live_facts_contract(monkeypatch):
     }
 
 
+@pytest.mark.usefixtures("_cf10_legacy_inner_logic_only")
 def test_launch_requires_ready_projection(monkeypatch):
     monkeypatch.setattr(gwc, "live_facts", lambda *args, **kwargs: {})
     monkeypatch.setattr(
@@ -223,6 +233,7 @@ def test_started_record_requires_pending_result_state():
 
 
 
+@pytest.mark.usefixtures("_cf10_legacy_inner_logic_only")
 def test_invocation_context_cannot_override_canonical_cycle_identity(monkeypatch):
     _ready(monkeypatch)
 
@@ -240,6 +251,7 @@ def test_invocation_context_cannot_override_canonical_cycle_identity(monkeypatch
         )
 
 
+@pytest.mark.usefixtures("_cf10_legacy_inner_logic_only")
 def test_canonical_ledger_validation_errors_block_process_start(monkeypatch):
     _ready(monkeypatch)
     launched = []
@@ -281,6 +293,7 @@ def test_canonical_ledger_validation_errors_block_process_start(monkeypatch):
 
 
 
+@pytest.mark.usefixtures("_cf10_legacy_inner_logic_only")
 def test_live_b1_invocation_signature_is_satisfied(monkeypatch):
     _ready(monkeypatch)
     captured = {}
@@ -359,6 +372,7 @@ def test_live_b1_invocation_signature_is_satisfied(monkeypatch):
 
 
 
+@pytest.mark.usefixtures("_cf10_legacy_inner_logic_only")
 def test_started_is_validated_then_appended_only_on_process_start(monkeypatch):
     _ready(monkeypatch)
     events = []
@@ -428,6 +442,7 @@ def test_started_is_validated_then_appended_only_on_process_start(monkeypatch):
     assert "prompt_text" not in result["process_result"]
 
 
+@pytest.mark.usefixtures("_cf10_legacy_inner_logic_only")
 def test_no_started_append_when_spawn_fails_before_callback(monkeypatch):
     _ready(monkeypatch)
     appended = []
@@ -472,6 +487,7 @@ def test_no_started_append_when_spawn_fails_before_callback(monkeypatch):
     assert appended == []
 
 
+@pytest.mark.usefixtures("_cf10_legacy_inner_logic_only")
 def test_duplicate_on_started_is_rejected(monkeypatch):
     _ready(monkeypatch)
 
@@ -535,6 +551,7 @@ def test_canonical_b1_plan_maps_to_launcher_kwargs():
     }
 
 
+@pytest.mark.usefixtures("_cf10_legacy_inner_logic_only")
 def test_canonical_b1_plan_requires_launcher_paths(monkeypatch):
     _ready(monkeypatch)
     bad = _plan()
@@ -567,6 +584,7 @@ def test_canonical_b1_plan_requires_launcher_paths(monkeypatch):
             attempt_id=ATTEMPT_ID,
             started_record_data=_started(),
         )
+@pytest.mark.usefixtures("_cf10_legacy_inner_logic_only")
 def test_project_native_launch_cycle_requires_explicit_confirmation(
     tmp_path,
 ) -> None:
@@ -583,6 +601,7 @@ def test_project_native_launch_cycle_requires_explicit_confirmation(
         )
 
 
+@pytest.mark.usefixtures("_cf10_legacy_inner_logic_only")
 def test_project_native_launch_cycle_persists_process_evidence(
     tmp_path,
     monkeypatch,
