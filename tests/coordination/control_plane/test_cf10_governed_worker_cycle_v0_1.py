@@ -13,7 +13,7 @@ from scripts.coordination.control_plane import governed_worker_cycle as cycle
 @pytest.fixture
 def _cf10_legacy_inner_logic_only(monkeypatch):
     """Test-scope override only; production guard remains fail-closed."""
-    monkeypatch.setattr(cycle, "require_bounded_s01_launch_authority", lambda: None)
+    monkeypatch.setattr(cycle, "require_bounded_s01_launch_authority", lambda **_kwargs: None)
 # CF10_S01_HISTORICAL_UNIT_LOGIC_FIXTURE_V0_1_END
 
 def write_yaml(path: Path, value: dict) -> None:

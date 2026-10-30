@@ -4152,3 +4152,24 @@ cf10-s01-corridor-review:
 cf10-s01-corridor-check:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_s01_controlled_launch_corridor_v0_1.py
 # CF10_S01_CONTROLLED_CORRIDOR_READONLY_CANDIDATE_V0_1_END
+
+# CF10_SOLE_OWNER_CONSOLE_R016_START
+# Single-owner project-native console. Operator gates use PAM/sudo password.
+# This source stage does NOT authorize Worker launch, bypass signed release,
+# relax canonical writer locking, or grant acceptance/publication authority.
+.PHONY: cf10-run cf10-resume cf10-console-status cf10-console-plan cf10-console-select cf10-console-cleanup
+CF10_OWNER_CONSOLE_CMD = PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.cf10_owner_operator_console_v0_1
+CF10_OWNER_CONSOLE_ARGS = --root "$(CURDIR)" --runtime-root "$(GOVERNED_WORKER_RUNTIME_ROOT)" --task-prompt-id "$(GOVERNED_WORKER_TASK)" --attempt-id "$(GOVERNED_WORKER_ATTEMPT)"
+cf10-run:
+	@$(CF10_OWNER_CONSOLE_CMD) run $(CF10_OWNER_CONSOLE_ARGS)
+cf10-resume:
+	@$(CF10_OWNER_CONSOLE_CMD) resume $(CF10_OWNER_CONSOLE_ARGS)
+cf10-console-status:
+	@$(CF10_OWNER_CONSOLE_CMD) status $(CF10_OWNER_CONSOLE_ARGS)
+cf10-console-plan:
+	@$(CF10_OWNER_CONSOLE_CMD) plan $(CF10_OWNER_CONSOLE_ARGS)
+cf10-console-select:
+	@$(CF10_OWNER_CONSOLE_CMD) select $(CF10_OWNER_CONSOLE_ARGS)
+cf10-console-cleanup:
+	@$(CF10_OWNER_CONSOLE_CMD) cleanup --root "$(CURDIR)" --runtime-root "$(GOVERNED_WORKER_RUNTIME_ROOT)" --days 7
+# CF10_SOLE_OWNER_CONSOLE_R016_END
