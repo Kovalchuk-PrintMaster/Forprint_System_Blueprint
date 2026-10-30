@@ -41,9 +41,17 @@ class SurveyBlocked(RuntimeError):pass
 def sha(raw:bytes)->str:return hashlib.sha256(raw).hexdigest()
 
 
+def report_locator_allowed(root:Path, path:Path, digest:str)->bool:
+    historical = path == root/PRIOR_REL and digest == PRIOR_SHA
+    current = (path != root/PRIOR_REL and path.parent.parent == root/'tmp'
+               and re.fullmatch(r'cf10_g2b03c04c_readback_[0-9]{8}T[0-9]{6,12}Z', path.parent.name) is not None
+               and path.name == 'report.json' and SHA64.fullmatch(digest) is not None)
+    return historical or current
+
+
 def load_predecessor(root:Path, path:Path, digest:str)->dict:
-    """Authenticated 04C report and manifest; no alternate operator input allowed."""
-    if path!=root/PRIOR_REL or digest!=PRIOR_SHA:
+    """Authenticated historical or current exact project-native 04C evidence."""
+    if not report_locator_allowed(root,path,digest):
         raise SurveyBlocked('04C_EVIDENCE_PATH_OR_EXTERNALLY_RECORDED_SHA_MISMATCH')
     from scripts.coordination.control_plane import cf10_g2b03c04c_coverage_evidence_readback_v0_1 as old
     raw=old.private_read(path)
@@ -65,10 +73,10 @@ def load_predecessor(root:Path, path:Path, digest:str)->dict:
     return doc
 
 
-def validate_prior(doc:dict, requirements:tuple)->list[str]:
+def validate_prior(doc:dict, requirements:tuple, expected_head:str=PRIOR_HEAD)->list[str]:
     errors=[]
     if (doc.get('schema_version')!='cf10_g2b03c04c_evidence_readback_v0_1' or
-        doc.get('source_head')!=PRIOR_HEAD or
+        doc.get('source_head')!=expected_head or
         doc.get('status')!='INDEPENDENT_EVIDENCE_READBACK_READY_FOR_OPERATOR_PROOFS_NON_AUTHORIZING' or
         doc.get('blockers')!=[] or doc.get('proofs_submitted')!=0 or
         doc.get('proofs_attested')!=0 or doc.get('authority_granted') is not False or
@@ -153,8 +161,10 @@ def survey_schedule(paths:tuple[Path,...]=SCHEDULE_PATHS)->dict:
             'out_of_scope_services_excluded':list(OUT_OF_SCOPE),'external_authority_payloads_read':False}
 
 
-def classify(*,prior:dict,head:str,requirements:tuple,schedule:dict,live:dict,source_ok:bool)->dict:
-    errors=validate_prior(prior,requirements)
+def classify(*,prior:dict,head:str,requirements:tuple,schedule:dict,live:dict,source_ok:bool,
+             prior_expected_head:str=PRIOR_HEAD, prior_report_sha:str=PRIOR_SHA)->dict:
+    errors=validate_prior(prior,requirements,prior_expected_head)
+    if not SHA64.fullmatch(prior_report_sha):errors.append('PRIOR_REPORT_DIGEST_INVALID')
     if not SHA40.fullmatch(head) or source_ok is not True:errors.append('CURRENT_SOURCE_PUBLICATION_UNVERIFIED')
     if (not isinstance(schedule,dict) or schedule.get('full_scheduler_scope_proven') is not False or
         schedule.get('remote_or_manual_writers_proven') is not False or
@@ -170,7 +180,7 @@ def classify(*,prior:dict,head:str,requirements:tuple,schedule:dict,live:dict,so
         errors.append('LOCAL_RUNTIME_OBSERVATION_UNRELIABLE')
     # Capture only observational facts. This is NOT an independently signed verdict.
     template={'schema_version':'cf10_g2b03c04d_operator_proof_intake_template_v0_1',
-              'source_head':head,'predecessor_report_sha256':PRIOR_SHA,
+              'source_head':head,'predecessor_report_sha256':prior_report_sha,
               'purpose':'INDEPENDENT_OPERATOR_TO_SUBMIT_EXTERNAL_EVIDENCE_NOT_SELF_APPROVAL',
               'requirements':[{'id':item[0],'required_evidence':item[1],
                    'state':'NOT_SUBMITTED','evidence_reference':None,'evidence_sha256':None,
@@ -178,8 +188,8 @@ def classify(*,prior:dict,head:str,requirements:tuple,schedule:dict,live:dict,so
               'submitted_count':0,'accepted_count':0,'authority_granted':False}
     return {'schema_version':SCHEMA,
         'status':'OPERATOR_EVIDENCE_SURVEY_CAPTURED_WITH_GAPS_NON_AUTHORIZING' if not errors else 'BLOCKED_NON_AUTHORIZING',
-        'blockers':sorted(set(errors)),'source_head':head,'prior_head':PRIOR_HEAD,
-        'prior_report_sha256':PRIOR_SHA,'schedule_survey':schedule,'runtime_snapshot':live,
+        'blockers':sorted(set(errors)),'source_head':head,'prior_head':prior_expected_head,
+        'prior_report_sha256':prior_report_sha,'schedule_survey':schedule,'runtime_snapshot':live,
         'proof_rows':len(requirements),'proofs_submitted':0,'proofs_attested':0,
         'proof_template':template,'full_writer_set_proven':False,
         'all_writer_processes_enrolled':False,'writer_drain_restart_verified':False,
@@ -198,9 +208,39 @@ def collect(root:Path,head:str,*,prior_report:Path,prior_sha:str)->dict:
         raise SurveyBlocked('ROOT_OR_HEAD_UNPINNED')
     before=inv.exact_published_file(root,head,SELF_REL)
     prior=load_predecessor(root,prior_report,prior_sha)
-    # Re-run exact 04C validation, including its live 04B observation.
-    fresh=old.review(root,head,report=root/PRIOR_B_REPORT,report_sha=PRIOR_B_SHA)
-    if fresh.get('status')!='INDEPENDENT_EVIDENCE_READBACK_READY_FOR_OPERATOR_PROOFS_NON_AUTHORIZING' or fresh.get('blockers')!=[]:
+    # Re-run current 04C against its exact B04 source. The 04C report records
+    # B04 SHA, but not its folder, so discover ONE matching immutable report
+    # under bounded, private project-native tmp directories. No fallback.
+    current = prior_report != root/PRIOR_REL
+    if current:
+        b3_digest=prior.get('frozen_04b_report_sha256')
+        if not isinstance(b3_digest,str) or SHA64.fullmatch(b3_digest) is None:
+            raise SurveyBlocked('CURRENT_04C_B04_SHA_MISSING')
+        candidates=[]
+        folders=sorted((root/'tmp').glob('cf10_g2b03c04b_coverage_*'))
+        if len(folders)>256:
+            raise SurveyBlocked('CURRENT_B04_DISCOVERY_LIMIT')
+        for directory in folders:
+            if re.fullmatch(r'cf10_g2b03c04b_coverage_[0-9]{8}T[0-9]{6,12}Z', directory.name) is None:
+                continue
+            item=directory/'report.json'
+            try:
+                raw=old.private_read(item)
+            except (OSError,ValueError,RuntimeError):
+                continue
+            if sha(raw)==b3_digest:
+                candidates.append(item)
+        if len(candidates)!=1:
+            raise SurveyBlocked('CURRENT_04C_B04_SOURCE_NOT_UNIQUE')
+        b04_path,b04_sha=candidates[0],b3_digest
+        prior_head=head
+    else:
+        b04_path,b04_sha=root/PRIOR_B_REPORT,PRIOR_B_SHA
+        prior_head=PRIOR_HEAD
+    fresh=old.review(root,head,report=b04_path,report_sha=b04_sha)
+    if (fresh.get('status')!='INDEPENDENT_EVIDENCE_READBACK_READY_FOR_OPERATOR_PROOFS_NON_AUTHORIZING'
+            or fresh.get('blockers')!=[]
+            or (current and fresh.get('frozen_04b_report_sha256')!=b04_sha)):
         raise SurveyBlocked('FRESH_04C_PREDECESSOR_BLOCKED')
     schedule=survey_schedule()
     canonical=root/runtime.CANONICAL_REL
@@ -209,7 +249,8 @@ def collect(root:Path,head:str,*,prior_report:Path,prior_sha:str)->dict:
     if inv.exact_published_file(root,head,SELF_REL)!=before or runtime.git(root,'rev-parse','HEAD')!=head:
         raise SurveyBlocked('SOURCE_CHANGED_DURING_SURVEY')
     return classify(prior=prior,head=head,requirements=proof.PROOF_REQUIREMENTS,
-                    schedule=schedule,live=live,source_ok=True)
+                    schedule=schedule,live=live,source_ok=True,
+                    prior_expected_head=prior_head,prior_report_sha=prior_sha)
 
 
 def write_new(folder:Path,name:str,raw:bytes)->None:

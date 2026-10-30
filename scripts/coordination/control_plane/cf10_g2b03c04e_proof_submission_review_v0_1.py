@@ -77,10 +77,21 @@ def decode_json(raw:bytes, label:str)->dict:
     return out
 
 
-def frozen_04d(root:Path,report:Path,expected_sha:str)->tuple[dict,dict]:
-    """Verify all four immutable 04D artifacts against the pinned survey."""
-    if report != root/FOUR_D_REL or expected_sha != FOUR_D_SHA:
+def report_locator_allowed(root:Path,report:Path,expected_sha:str)->bool:
+    historical=report == root/FOUR_D_REL and expected_sha == FOUR_D_SHA
+    current=(report != root/FOUR_D_REL and report.parent.parent == root/'tmp'
+             and re.fullmatch(r'cf10_g2b03c04d_survey_[0-9]{8}T[0-9]{6,12}Z',report.parent.name) is not None
+             and report.name=='report.json' and SHA64.fullmatch(expected_sha) is not None)
+    return historical or current
+
+
+def frozen_04d(root:Path,report:Path,expected_sha:str,head:str|None=None)->tuple[dict,dict]:
+    """Verify all immutable historical/current project-native 04D artifacts."""
+    if not report_locator_allowed(root,report,expected_sha):
         raise IntakeBlocked('04D_PATH_OR_EXTERNAL_DIGEST_DRIFT')
+    expected_head=FOUR_D_HEAD if report==root/FOUR_D_REL else head
+    if expected_head is None or SHA40.fullmatch(expected_head) is None:
+        raise IntakeBlocked('CURRENT_04D_HEAD_REQUIRED')
     folder=report.parent
     if folder.is_symlink() or not folder.is_dir():raise IntakeBlocked('04D_REPORT_DIR_UNSAFE')
     manifest=safe_read(folder/'SHA256SUMS',max_size=100000).decode('ascii')
@@ -99,7 +110,7 @@ def frozen_04d(root:Path,report:Path,expected_sha:str)->tuple[dict,dict]:
         if name.endswith('.json'):decoded[name]=decode_json(raw,name)
     doc=decoded['report.json']; template=decoded['operator_proof_intake_template.json']; schedule=decoded['schedule_evidence.json']
     if (doc.get('schema_version')!='cf10_g2b03c04d_operator_evidence_survey_v0_1'
-            or doc.get('source_head')!=FOUR_D_HEAD
+            or doc.get('source_head')!=expected_head
             or doc.get('status')!='OPERATOR_EVIDENCE_SURVEY_CAPTURED_WITH_GAPS_NON_AUTHORIZING'
             or doc.get('blockers')!=[] or doc.get('proof_rows')!=8
             or doc.get('proofs_attested')!=0 or doc.get('proofs_submitted')!=0
@@ -111,7 +122,7 @@ def frozen_04d(root:Path,report:Path,expected_sha:str)->tuple[dict,dict]:
         raise IntakeBlocked('04D_SURVEY_SEMANTICS_DRIFT')
     rows=template.get('requirements')
     if (template.get('schema_version')!='cf10_g2b03c04d_operator_proof_intake_template_v0_1'
-            or template.get('source_head')!=FOUR_D_HEAD or template.get('predecessor_report_sha256')!=doc.get('prior_report_sha256')
+            or template.get('source_head')!=expected_head or template.get('predecessor_report_sha256')!=doc.get('prior_report_sha256')
             or template.get('submitted_count')!=0 or template.get('accepted_count')!=0
             or template.get('authority_granted') is not False
             or not isinstance(rows,list) or len(rows)!=8):
@@ -136,11 +147,11 @@ def safe_relative(value:str)->Path:
     return Path(*p.parts)
 
 
-def check_index(index:dict, *, head:str, known_ids:list[str])->list[dict]:
+def check_index(index:dict, *, head:str, known_ids:list[str], frozen_sha:str=FOUR_D_SHA)->list[dict]:
     if set(index)!={'schema_version','source_head','frozen_04d_sha256','submissions'}:
         raise IntakeBlocked('SUBMISSION_SCHEMA_FIELDS_INVALID')
     if (index['schema_version']!=INDEX_SCHEMA or index['source_head']!=head or
-            index['frozen_04d_sha256']!=FOUR_D_SHA or not isinstance(index['submissions'],list) or
+            index['frozen_04d_sha256']!=frozen_sha or not isinstance(index['submissions'],list) or
             len(index['submissions'])>8):
         raise IntakeBlocked('SUBMISSION_HEAD_SCHEMA_OR_LIMIT_DRIFT')
     used_ids=set();used_paths=set()
@@ -156,7 +167,8 @@ def check_index(index:dict, *, head:str, known_ids:list[str])->list[dict]:
     return index['submissions']
 
 
-def optional_submission(root:Path,*,head:str,known_ids:list[str],index_path:Path|None,index_sha:str|None)->tuple[list[dict],str]:
+def optional_submission(root:Path,*,head:str,known_ids:list[str],index_path:Path|None,index_sha:str|None,
+                        frozen_sha:str=FOUR_D_SHA)->tuple[list[dict],str]:
     if index_path is None and index_sha is None:return [],'NOT_PROVIDED'
     if index_path is None or not isinstance(index_sha,str) or not SHA64.fullmatch(index_sha):
         raise IntakeBlocked('SUBMISSION_PATH_AND_EXTERNAL_SHA_REQUIRED_TOGETHER')
@@ -164,7 +176,7 @@ def optional_submission(root:Path,*,head:str,known_ids:list[str],index_path:Path
         raise IntakeBlocked('SUBMISSION_INDEX_NOT_PROJECT_PINNED_PATH')
     raw=safe_read(index_path,max_size=100000)
     if sha(raw)!=index_sha:raise IntakeBlocked('SUBMISSION_INDEX_PIN_HASH_MISMATCH')
-    entries=check_index(decode_json(raw,'SUBMISSION_INDEX'),head=head,known_ids=known_ids)
+    entries=check_index(decode_json(raw,'SUBMISSION_INDEX'),head=head,known_ids=known_ids,frozen_sha=frozen_sha)
     accepted=[]
     for row in entries:
         artifact=root/INDEX_ROOT_REL/safe_relative(row['artifact_rel'])
@@ -176,10 +188,11 @@ def optional_submission(root:Path,*,head:str,known_ids:list[str],index_path:Path
     return accepted,'INDEX_AND_ARTIFACT_BYTES_MATCH_UNVERIFIED_CONTENT'
 
 
-def classify(*,prior:dict,template:dict,head:str,self_published:bool,submissions:list[dict],submission_state:str)->dict:
+def classify(*,prior:dict,template:dict,head:str,self_published:bool,submissions:list[dict],submission_state:str,
+             predecessor_head:str=FOUR_D_HEAD,predecessor_sha:str=FOUR_D_SHA)->dict:
     blockers=[]
     if not SHA40.fullmatch(head) or self_published is not True:blockers.append('SOURCE_HEAD_NOT_EXACT_PUBLISHED')
-    if (prior.get('source_head')!=FOUR_D_HEAD or prior.get('status')!='OPERATOR_EVIDENCE_SURVEY_CAPTURED_WITH_GAPS_NON_AUTHORIZING'
+    if (prior.get('source_head')!=predecessor_head or prior.get('status')!='OPERATOR_EVIDENCE_SURVEY_CAPTURED_WITH_GAPS_NON_AUTHORIZING'
             or prior.get('authority_granted') is not False or prior.get('independent_dynamic_coverage_verified') is not False):
         blockers.append('FROZEN_04D_PREDECESSOR_NOT_VALID')
     rows=template.get('requirements',[])
@@ -197,7 +210,7 @@ def classify(*,prior:dict,template:dict,head:str,self_published:bool,submissions
            'OPERATOR_PROOF_INTAKE_INTEGRITY_REVIEW_NON_AUTHORIZING' if record else
            'OPERATOR_PROOF_INTAKE_READY_AWAITING_EXTERNAL_SUBMISSIONS_NON_AUTHORIZING')
     return {'schema_version':SCHEMA,'status':state,'blockers':sorted(set(blockers)),
-        'source_head':head,'frozen_04d_head':FOUR_D_HEAD,'frozen_04d_sha256':FOUR_D_SHA,
+        'source_head':head,'frozen_04d_head':predecessor_head,'frozen_04d_sha256':predecessor_sha,
         'submission_state':submission_state,'submission_integrity_count':len(record),
         'requirement_count':len(matrix),'matrix':matrix,
         'content_and_authenticity_independently_verified':False,
@@ -215,11 +228,14 @@ def review(root:Path,head:str,report:Path,report_sha:str,index_path:Path|None=No
     if root!=DEPLOYMENT or root.is_symlink() or not SHA40.fullmatch(head):
         raise IntakeBlocked('CANONICAL_DEPLOYMENT_OR_HEAD_INVALID')
     before=inv.exact_published_file(root,head,SELF_REL)
-    prior,template=frozen_04d(root,report,report_sha)
-    evidence,state=optional_submission(root,head=head,known_ids=[x['id'] for x in template['requirements']],index_path=index_path,index_sha=index_sha)
+    prior,template=frozen_04d(root,report,report_sha,head=head)
+    predecessor_head=FOUR_D_HEAD if report==root/FOUR_D_REL else head
+    evidence,state=optional_submission(root,head=head,known_ids=[x['id'] for x in template['requirements']],index_path=index_path,index_sha=index_sha,
+                                       frozen_sha=report_sha)
     if inv.exact_published_file(root,head,SELF_REL)!=before or runtime.git(root,'rev-parse','HEAD')!=head:
         raise IntakeBlocked('CANONICAL_HEAD_OR_SOURCE_CHANGED_DURING_INTAKE')
-    return classify(prior=prior,template=template,head=head,self_published=True,submissions=evidence,submission_state=state)
+    return classify(prior=prior,template=template,head=head,self_published=True,submissions=evidence,submission_state=state,
+                    predecessor_head=predecessor_head,predecessor_sha=report_sha)
 
 
 def save(root:Path,doc:dict)->tuple[Path,str]:
@@ -230,7 +246,7 @@ def save(root:Path,doc:dict)->tuple[Path,str]:
     output.mkdir(mode=0o700)
     encoded=lambda x:(json.dumps(x,sort_keys=True,ensure_ascii=False,indent=2)+'\n').encode()
     template={'schema_version':INDEX_SCHEMA,'source_head':doc['source_head'],
-              'frozen_04d_sha256':FOUR_D_SHA,'submissions':[]}
+              'frozen_04d_sha256':doc['frozen_04d_sha256'],'submissions':[]}
     report=encoded(doc)
     contents={'report.json':report,
               'submission_index_template.json':encoded(template),

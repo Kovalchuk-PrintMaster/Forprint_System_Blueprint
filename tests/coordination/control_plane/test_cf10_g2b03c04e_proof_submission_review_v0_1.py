@@ -162,4 +162,16 @@ class Tests(unittest.TestCase):
    root=Path(t);(root/'real').mkdir();(root/'tmp').symlink_to(root/'real')
    with self.assertRaises(m.IntakeBlocked):m.save(root,self.classify())
 
+ def test_current_project_native_04d_locator_without_authority(self):
+  root=Path('/srv/software_development/forprint-project/forprint_system_blueprint')
+  path=root/'tmp/cf10_g2b03c04d_survey_20261030T102030123456Z/report.json'
+  self.assertTrue(m.report_locator_allowed(root,path,'a'*64))
+  self.assertFalse(m.report_locator_allowed(root,path,'notsha'))
+  self.assertFalse(m.report_locator_allowed(root,root/m.FOUR_D_REL,'a'*64))
+ def test_current_04d_digest_required_in_submission_index(self):
+  x=index();x['frozen_04d_sha256']='f'*64
+  self.assertEqual(m.check_index(x,head=HEAD,known_ids=IDS,frozen_sha='f'*64),[])
+  with self.assertRaises(m.IntakeBlocked):
+   m.check_index(x,head=HEAD,known_ids=IDS,frozen_sha='e'*64)
+
 if __name__=='__main__':unittest.main()

@@ -151,4 +151,15 @@ class TestSurvey(unittest.TestCase):
    root=Path(t);(root/'real').mkdir();(root/'tmp').symlink_to(root/'real')
    with self.assertRaises(m.SurveyBlocked):m.save(root,self.result())
 
+ def test_current_project_native_04c_locator_without_authority(self):
+  root=Path('/srv/software_development/forprint-project/forprint_system_blueprint')
+  path=root/'tmp/cf10_g2b03c04c_readback_20261030T102030123456Z/report.json'
+  self.assertTrue(m.report_locator_allowed(root,path,'a'*64))
+  self.assertFalse(m.report_locator_allowed(root,path,'bad'))
+  self.assertFalse(m.report_locator_allowed(root,root/m.PRIOR_REL,'a'*64))
+ def test_current_04c_head_must_match(self):
+  other=predecessor()
+  other['source_head']='a'*40
+  self.assertIn('FROZEN_04C_PREDECESSOR_NOT_VERIFIED',m.validate_prior(other,REQ,expected_head='b'*40))
+
 if __name__=='__main__':unittest.main()
