@@ -44,14 +44,21 @@ WORKER_ID = "worker-01"
 DEFAULT_RUNTIME_ROOT = Path("/srv/software_development/forprint-worker-runtime")
 
 
-def require_bounded_s01_launch_authority() -> None:
-    """Fail-closed S01 direct Python boundary until independent live rebinding.
+def require_bounded_s01_launch_authority(*, root, task_prompt_id,
+                                         attempt_id, worker_id, route) -> None:
+    """Independent-review candidate: accept ONLY a consumed, signed S01 session.
 
-    There is intentionally no caller token, environment flag, or test bypass.
-    A positive signed predicate is not authority to consume or spawn. Only an
-    independently reviewed, published corridor update can replace this block.
+    No caller token, environment flag, or Make variable can grant a session.
+    A direct Python launch outside the trusted root-only corridor is refused.
     """
-    raise GovernedWorkerCycleError("CF10_S01_DIRECT_PYTHON_LAUNCH_QUARANTINED")
+    try:
+        from scripts.coordination.control_plane import cf10_s01_live_pilot_corridor_v0_1 as corridor
+        corridor.require_live_session(
+            root=root, task_prompt_id=task_prompt_id, attempt_id=attempt_id,
+            worker_id=worker_id, route=route,
+        )
+    except Exception:
+        raise GovernedWorkerCycleError("CF10_S01_DIRECT_PYTHON_LAUNCH_QUARANTINED") from None
 
 
 STATE_SEQUENCE = (
@@ -2049,7 +2056,10 @@ def launch_authorized_worker_cycle(
     worker_id="worker-01",
     invocation_context=None,
 ):
-    require_bounded_s01_launch_authority()
+    require_bounded_s01_launch_authority(
+        root=root, task_prompt_id=task_prompt_id, attempt_id=attempt_id,
+        worker_id=worker_id, route="launch_authorized_worker_cycle",
+    )
 
     from scripts.coordination import execution_attempt_ledger_v0_1
     from scripts.coordination.control_plane import cf10_training_dispatch
@@ -2793,7 +2803,10 @@ def launch_cycle(
 ) -> dict[str, Any]:
     """Launch one already-authorized Worker through canonical project surfaces."""
 
-    require_bounded_s01_launch_authority()
+    require_bounded_s01_launch_authority(
+        root=root, task_prompt_id=task_prompt_id, attempt_id=attempt_id,
+        worker_id=worker_id, route="launch_cycle",
+    )
 
     if confirm is not True:
         raise GovernedWorkerCycleError(

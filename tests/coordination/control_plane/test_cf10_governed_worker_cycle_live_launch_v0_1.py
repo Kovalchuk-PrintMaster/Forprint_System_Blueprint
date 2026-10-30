@@ -19,7 +19,7 @@ from scripts.coordination.control_plane.worker_runtime import (
 @pytest.fixture
 def _cf10_legacy_inner_logic_only(monkeypatch):
     """Test-scope override only; production guard remains fail-closed."""
-    monkeypatch.setattr(gwc, "require_bounded_s01_launch_authority", lambda: None)
+    monkeypatch.setattr(gwc, "require_bounded_s01_launch_authority", lambda **_kwargs: None)
 # CF10_S01_HISTORICAL_UNIT_LOGIC_FIXTURE_V0_1_END
 
 ATTEMPT_ID = "cf10-u180j-test-a001"

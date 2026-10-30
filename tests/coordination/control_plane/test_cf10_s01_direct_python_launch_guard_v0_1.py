@@ -13,8 +13,11 @@ def test_source_pinned_s01_quarantine_is_early_in_both_routes():
     mod=ast.parse(SOURCE.read_text())
     functions={n.name:n for n in mod.body if isinstance(n,ast.FunctionDef)}
     helper=functions['require_bounded_s01_launch_authority']
-    assert isinstance(helper.body[-1],ast.Raise)
+    # New candidate keeps first-action guard in BOTH routes but the helper
+    # consults only the root-controlled, same-process consumed launch session.
     assert not any(isinstance(n,ast.Return) for n in ast.walk(helper))
+    assert any(isinstance(n,ast.Call) and isinstance(n.func,ast.Attribute)
+               and n.func.attr=='require_live_session' for n in ast.walk(helper))
     for name in ('launch_cycle','launch_authorized_worker_cycle'):
         body=functions[name].body
         if isinstance(body[0],ast.Expr) and isinstance(body[0].value,ast.Constant) and isinstance(body[0].value.value,str):body=body[1:]
