@@ -1,0 +1,36 @@
+schema_version: cf10_sole_owner_pam_launch_policy_v0_1
+owner: forprint_system_blueprint
+status: OWNER_APPROVED_EXPLICIT_TERMINAL_PASSWORD
+operation_mode: SINGLE_OWNER_PAM_PROJECT_NATIVE
+scope:
+  server: s01
+  root: /srv/software_development/forprint-project/forprint_system_blueprint
+  runtime_root: /srv/software_development/forprint-worker-runtime
+  worker_id: worker-01
+  branch: audit/blueprint-inventory-refresh-2026-07-29
+  operator_unprivileged_account: s01
+control:
+  interactive_root_tty_required: true
+  system_password_via_runuser_sudo_pam: true
+  nopasswd_sudo_forbidden: true
+  passwords_stored_exported_or_logged: false
+  source_must_equal_published_remote_head: true
+  frozen_attempt_source_required: true
+  canonical_writer_lock_remains_enforced: true
+  root_owned_attempt_claim_fs_required: true
+  claim_before_spawn_no_auto_retry: true
+  per_attempt_claim_not_global_pilot_slot: true
+  direct_python_launch_without_session_denied: true
+  two_canonical_python_boundaries_guarded: true
+  old_signed_corridor_preserved_not_daily_operator_path: true
+  no_separate_activation_release_signature_for_owner_password_route: true
+  operator_password_confirmation_for_ack_dispatch_launch_and_terminal_advance: true
+  worker_result_not_automatically_accepted: true
+  no_automatic_candidate_promotion_or_git_publication: true
+  results_and_ledger_are_canonical_not_disposable: true
+  temporary_reports_under: tmp/cf10_operator_console/reports
+  temporary_report_retention_days: 7
+human_roles:
+  owners: 1
+  independent_human_reviewers_claimed: 0
+  approval_basis: explicit_owner_approval_and_live_system_password

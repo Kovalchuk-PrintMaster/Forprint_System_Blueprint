@@ -1,8 +1,8 @@
 schema_version: cf10_sole_owner_operator_console_contract_v0_1
 owner: forprint_system_blueprint
 goal: one_terminal_single_owner_run_resume
-source_stage: r016
-status: SOURCE_CANDIDATE_LAUNCH_STILL_QUARANTINED
+source_stage: r017
+status: OWNER_PAM_LAUNCH_PROJECT_NATIVE
 existing_canonical_reuse:
   worker_cycle: scripts.coordination.control_plane.governed_worker_cycle
   terminal_subsystem: scripts.coordination.control_plane.operator_console
@@ -21,11 +21,15 @@ safety:
   password_stored_or_exported: false
   owner_identity_from_r015_s01: s01
   direct_worker_launch_bypass: false
-  guarded_worker_launch_wired: false
+  guarded_worker_launch_wired: true
+  root_only_per_attempt_no_retry_claim: true
+  owner_password_session_guard: true
+  old_signed_launch_route_preserved: true
   canonical_ledger_modified_by_console: false
   old_make_quarantine_removed: false
   signer_or_external_authority_mutation: false
   old_single_use_claim_reset: false
+  new_per_attempt_markers_live_in_root_state: true
   automatic_approval_or_publication: false
   task_attempt_selection_is_not_authority: true
   status_and_revalidation_before_every_mutation: true
@@ -33,7 +37,6 @@ safety:
   reports_disposable_under: tmp/cf10_operator_console/reports
   report_retention_days: 7
 next_governed_migration:
-  - independently_accept_single_owner_password_policy
-  - integrate_exact_stage_bound_owner_session_with_authority_gate
-  - validate_no_shortcut_direct_python_or_make
-  - accept_worker_result_and_postworker_checkpoints_separately
+  - verify_live_PAM_interactive_tty_at_first_operator_confirmation
+  - collect_worker_result_and_review_canonical_result_after_attempt
+  - keep_candidate_promotion_and_publication_separately_approved

@@ -86,25 +86,35 @@ def test_operator_positive_calls_auth_once():
     c.decision('ACK',TASK,ATTEMPT,'a'*40,authenticate=auth)
     auth.assert_called_once_with()
 
-def test_pipeline_prepare_then_two_gates_stop_at_launch(tmp_path):
-    sequence=iter(['RESOLVE_TASK','AWAITING_ASSISTANT_ACK','READY_FOR_EXPLICIT_DISPATCH','READY_FOR_WORKER_LAUNCH'])
-    steps=[];auth=Mock()
+def test_pipeline_prepare_two_gates_and_owner_launch(tmp_path,monkeypatch):
+    from scripts.coordination.control_plane import cf10_owner_pam_launch_v0_1 as owner
+    sequence=iter(['RESOLVE_TASK','AWAITING_ASSISTANT_ACK',
+                   'READY_FOR_EXPLICIT_DISPATCH','READY_FOR_WORKER_LAUNCH',
+                   'AWAITING_OPERATOR_REVIEW'])
+    steps=[];auth=Mock();launched=Mock(return_value={'state':'LAUNCH_RETURNED_REQUIRES_WORKER_RESULT_REVIEW'})
+    monkeypatch.setattr(owner,'launch_once',launched)
     def statusfn(*args):return state(next(sequence))
     def stepfn(*args):steps.append(args[-1])
     result=c.transition(tmp_path,tmp_path,TASK,ATTEMPT,'a'*40,
         state_fn=statusfn,step_fn=stepfn,auth_fn=auth)
-    assert result['state']=='READY_FOR_WORKER_LAUNCH'
-    assert 'AUTHORITY_MIGRATION' in result['blocker']
+    assert result['state']=='AWAITING_OPERATOR_REVIEW'
+    assert result['completed']==['prepare','ack','authorize-dispatch','launch']
     assert steps==['prepare','ack','authorize-dispatch']
-    assert auth.call_count==2
+    assert auth.call_count==2  # launch authenticates in the owner corridor, not here
+    launched.assert_called_once()
 
-def test_resume_at_launch_does_not_touch_worker(tmp_path):
+
+def test_resume_at_launch_must_use_owner_corridor(tmp_path,monkeypatch):
+    from scripts.coordination.control_plane import cf10_owner_pam_launch_v0_1 as owner
+    launch=Mock(return_value={'state':'LAUNCH_RETURNED_REQUIRES_WORKER_RESULT_REVIEW'})
+    monkeypatch.setattr(owner,'launch_once',launch)
     step=Mock();auth=Mock()
+    states=iter(['READY_FOR_WORKER_LAUNCH','OBSERVE_WORKER'])
     result=c.transition(tmp_path,tmp_path,TASK,ATTEMPT,'a'*40,
-        state_fn=lambda *args:state('READY_FOR_WORKER_LAUNCH'),step_fn=step,
+        state_fn=lambda *args:state(next(states)),step_fn=step,
         auth_fn=auth)
-    assert result['completed']==[]
-    step.assert_not_called();auth.assert_not_called()
+    assert result['completed']==['launch'] and result['state']=='OBSERVE_WORKER'
+    step.assert_not_called();auth.assert_not_called();launch.assert_called_once()
 
 def test_partial_prepare_not_retried(tmp_path):
     a=tmp_path/'forprint_system_blueprint'/'worker-01'/ATTEMPT
@@ -161,3 +171,31 @@ def test_never_touch_legacy_make_or_signed_keys():
     assert 'launch' not in [x[0] for x in c.GATES.values()]
     assert 'reconcile-result-return' not in [x[0] for x in c.GATES.values()]
     assert 'cf10_s01_live_pilot_corridor' in c.CRITICAL[2]
+
+def test_postworker_advance_password_then_exact_canonical_result(monkeypatch,tmp_path):
+    calls=[];auth=Mock()
+    states=iter(['VALIDATE_CANDIDATE','AWAITING_OPERATOR_REVIEW'])
+    def step(*args):
+        calls.append(args[-1]);return {'state':'AWAITING_OPERATOR_REVIEW'}
+    result=c.transition(tmp_path,tmp_path,TASK,ATTEMPT,'a'*40,
+                        state_fn=lambda *args:state(next(states)),step_fn=step,auth_fn=auth)
+    assert result['state']=='AWAITING_OPERATOR_REVIEW'
+    assert result['completed']==['advance'] and calls==['advance']
+    auth.assert_called_once()
+
+
+def test_postworker_advance_blocked_without_automatic_retry(tmp_path):
+    step=Mock(return_value={'state':'BLOCKED'})
+    auth=Mock()
+    result=c.transition(tmp_path,tmp_path,TASK,ATTEMPT,'a'*40,
+                        state_fn=lambda *args:state('VALIDATE_CANDIDATE'),step_fn=step,auth_fn=auth)
+    assert result['state']=='BLOCKED' and result['blocker']=='CANONICAL_ADVANCE_REVIEW_REQUIRED'
+    assert step.call_count==1 and auth.call_count==1
+
+
+def test_operator_review_not_automatically_accepted(tmp_path):
+    step=Mock();auth=Mock()
+    result=c.transition(tmp_path,tmp_path,TASK,ATTEMPT,'a'*40,
+                        state_fn=lambda *args:state('AWAITING_OPERATOR_REVIEW'),step_fn=step,auth_fn=auth)
+    assert result['state']=='AWAITING_OPERATOR_REVIEW' and result['completed']==[]
+    step.assert_not_called();auth.assert_not_called()

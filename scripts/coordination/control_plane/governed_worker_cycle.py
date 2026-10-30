@@ -46,11 +46,24 @@ DEFAULT_RUNTIME_ROOT = Path("/srv/software_development/forprint-worker-runtime")
 
 def require_bounded_s01_launch_authority(*, root, task_prompt_id,
                                          attempt_id, worker_id, route) -> None:
-    """Independent-review candidate: accept ONLY a consumed, signed S01 session.
+    """Fail-closed canonical launch guard: old signed or exact PAM owner session.
 
-    No caller token, environment flag, or Make variable can grant a session.
-    A direct Python launch outside the trusted root-only corridor is refused.
+    Both paths require root, bound source state and same-process session.
+    A caller flag, environment variable or direct Python invocation is never
+    authority. The old signed corridor is preserved for historical review.
     """
+    try:
+        from scripts.coordination.control_plane import cf10_owner_pam_launch_v0_1 as owner
+        if owner.active():
+            owner.require_owner_session(
+                root=root, task_prompt_id=task_prompt_id, attempt_id=attempt_id,
+                worker_id=worker_id, route=route,
+            )
+            return
+    except ImportError:
+        pass
+    except Exception:
+        raise GovernedWorkerCycleError("CF10_S01_OWNER_LAUNCH_SCOPE_REFUSED") from None
     try:
         from scripts.coordination.control_plane import cf10_s01_live_pilot_corridor_v0_1 as corridor
         corridor.require_live_session(

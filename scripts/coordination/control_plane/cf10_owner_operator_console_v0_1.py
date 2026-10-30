@@ -1,8 +1,8 @@
 """CF-10 single-operator CLI over canonical governed_worker_cycle.
 
-This first source migration automates safe PREPARE/ACK/DISPATCH boundaries and
-keeps production launch and post-worker mutation behind existing canonical
-quarantines. User-approved future policy migration is NOT simulated here.
+The source-stage migration automates PREPARE/ACK/DISPATCH, and its explicit
+sole-owner PAM launch policy uses a root-owned per-attempt no-retry claim.
+All downstream result acceptance and publication stay separately governed.
 """
 from __future__ import annotations
 
@@ -43,9 +43,7 @@ GATES = {
     ),
 }
 STOP = {
-    'READY_FOR_WORKER_LAUNCH': 'WORKER_LAUNCH_REQUIRES_SEPARATE_ACCEPTED_AUTHORITY_MIGRATION',
-    'OBSERVE_WORKER': 'WORKER_PROCESS_STATUS_REVIEW_REQUIRED',
-    'VALIDATE_CANDIDATE': 'POST_WORKER_BOUNDARY_REQUIRES_ACCEPTED_AUTHORITY_MIGRATION',
+        'OBSERVE_WORKER': 'WORKER_PROCESS_STATUS_REVIEW_REQUIRED',
     'FINALIZE_HANDOFF': 'POST_WORKER_BOUNDARY_REQUIRES_ACCEPTED_AUTHORITY_MIGRATION',
     'ATTEMPT_TERMINAL': 'POST_WORKER_BOUNDARY_REQUIRES_ACCEPTED_AUTHORITY_MIGRATION',
     'AWAITING_OPERATOR_REVIEW': 'EXPLICIT_OPERATOR_RESULT_REVIEW_REQUIRED',
@@ -161,6 +159,8 @@ def _step(root: Path, runtime: Path, task: str, attempt: str,
         return cycle.confirm_assistant_ack(**kw, confirm=True)
     if action == 'authorize-dispatch':
         return cycle.authorize_dispatch(**kw, confirm=True)
+    if action == 'advance':
+        return cycle.advance_cycle(**kw, task_prompt_id=task)
     raise ConsoleBlocked('UNSUPPORTED_CANONICAL_STEP')
 
 def authenticate_operator(*, process: Callable[..., Any] = subprocess.run,
@@ -205,7 +205,7 @@ def record(root: Path, task: str, attempt: str, report: dict[str, Any]) -> Path:
         'recorded_at_utc': dt.datetime.now(dt.timezone.utc).isoformat(),
         'authority_granted_by_report': False,
         'password_or_credential_collected': False,
-        'worker_launch_performed_by_console': False,
+        'worker_launch_confirmed_by_console': False,
         **report,
     }
     key = dt.datetime.now(dt.timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
@@ -236,7 +236,7 @@ def cleanup(root: Path, days: int = 7, now: dt.datetime | None = None) -> int:
 def transition(root: Path, runtime: Path, task: str, attempt: str, head: str,
                *, state_fn: Callable = status, step_fn: Callable = _step,
                auth_fn: Callable = authenticate_operator,
-               max_steps: int = 4) -> dict[str, Any]:
+               max_steps: int = 8) -> dict[str, Any]:
     """Bounded progress; never launch, terminalize, accept or repeat a Worker."""
     completed: list[str] = []
     previous: set[str] = set()
@@ -252,6 +252,20 @@ def transition(root: Path, runtime: Path, task: str, attempt: str, head: str,
         print(f'CF10_STATE={state}; NEXT={current.get("next_boundary")}')
         if state in STOP:
             return dict(state=state, blocker=STOP[state], completed=completed)
+        if state == 'READY_FOR_WORKER_LAUNCH':
+            from scripts.coordination.control_plane import cf10_owner_pam_launch_v0_1 as owner
+            outcome = owner.launch_once(root=root, runtime_root=runtime,
+                                        task_prompt_id=task, attempt_id=attempt)
+            completed.append('launch')
+            continue  # only observed canonical state may choose the next transition
+        if state == 'VALIDATE_CANDIDATE':
+            decision('RESULT VALIDATION / TERMINALIZATION: перевірити завершення Worker',
+                     task, attempt, head, authenticate=auth_fn)
+            result = step_fn(root, runtime, task, attempt, 'advance')
+            completed.append('advance')
+            if not isinstance(result, dict) or result.get('state') != 'AWAITING_OPERATOR_REVIEW':
+                return dict(state='BLOCKED', blocker='CANONICAL_ADVANCE_REVIEW_REQUIRED', completed=completed)
+            continue
         if state in ('RESOLVE_TASK', 'PREPARE_WORKSPACE'):
             attempt_folder = runtime / 'forprint_system_blueprint' / WORKER / attempt
             # Do not retry a partial prepare that might have created durable state.
