@@ -252,6 +252,37 @@ def launch_once(*, root: Path, runtime_root: Path, task_prompt_id: str,
         _SESSION.reset(token)
 
 
+def signed_scope_from_document(receipt: object) -> tuple[str, str]:
+    """Pure exact signed-scope shape check, NOT a cryptographic authorization."""
+    from scripts.coordination.control_plane import cf10_s01_runtime_rebind_v0_2 as rebind
+    if not isinstance(receipt, dict) or not isinstance(receipt.get("pilot_scope"), dict):
+        _fail("SIGNED_RELEASE_SCOPE_INVALID")
+    pilot = receipt["pilot_scope"]
+    if pilot.get("worker_id") != WORKER:
+        _fail("SIGNED_RELEASE_SCOPE_INVALID")
+    task, attempt = pilot.get("task_prompt_id"), pilot.get("attempt_id")
+    if not isinstance(task, str) or not isinstance(attempt, str):
+        _fail("SIGNED_RELEASE_SCOPE_INVALID")
+    if rebind.scope_blockers(receipt, worker_id=WORKER,
+                             task_prompt_id=task, attempt_id=attempt):
+        _fail("SIGNED_RELEASE_SCOPE_INVALID")
+    return task, attempt
+
+
+def _root_signed_pilot_scope() -> tuple[str, str]:
+    """Read signed payload from an existing root-controlled trust store.
+
+    The full signature/proofs are checked by launch_once before claim/spawn.
+    Reading scope here NEVER grants an independent authorization.
+    """
+    if os.geteuid() != 0:
+        _fail("ROOT_ONLY_CORRIDOR")
+    from scripts.coordination import execution_attempt_writer_activation_v0_1 as activation
+    from scripts.coordination.control_plane import cf10_s01_runtime_rebind_v0_2 as rebind
+    receipt, _ = activation.trusted_json(rebind.RECEIPT_FILE)
+    return signed_scope_from_document(receipt)
+
+
 def inspect() -> dict:
     return {
         "schema_version": "cf10_s01_live_pilot_corridor_candidate_v0_1",
@@ -273,19 +304,28 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--task-prompt-id", default="")
     p.add_argument("--attempt-id", default="")
     p.add_argument("--confirm-launch", action="store_true")
+    p.add_argument("--from-signed-release", action="store_true")
     args = p.parse_args(argv)
     if args.mode != "launch":
         print(json.dumps(inspect(), indent=2, sort_keys=True))
         return 0 if args.mode == "inspect" else 2
     try:
+        if args.from_signed_release:
+            if args.task_prompt_id or args.attempt_id:
+                _fail("SIGNED_SCOPE_AND_CALLER_SCOPE_CONFLICT")
+            task, attempt = _root_signed_pilot_scope()
+        else:
+            task, attempt = args.task_prompt_id, args.attempt_id
+        if not task or not attempt:
+            _fail("EXACT_PILOT_SCOPE_REQUIRED")
         result = launch_once(root=args.root, runtime_root=args.runtime_root,
-                             task_prompt_id=args.task_prompt_id,
-                             attempt_id=args.attempt_id, confirm=args.confirm_launch)
+                             task_prompt_id=task,
+                             attempt_id=attempt, confirm=args.confirm_launch)
         # Return of launch_cycle is NOT independent proof that a Worker
         # spawned or completed successfully. The canonical immutable result,
         # terminal ledger and operator acceptance establish those facts.
         print(json.dumps({"status": "GOVERNED_CYCLE_RETURNED_REQUIRES_EVIDENCE_REVIEW",
-                          "attempt_id": args.attempt_id,
+                          "attempt_id": attempt,
                           "worker_spawn_confirmed_here": False,
                           "worker_result_accepted_here": False,
                           "result_state": result.get("state")}, sort_keys=True))

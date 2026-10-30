@@ -3701,6 +3701,15 @@ governed-worker-cycle-reconcile-result-return: cf10-s01-runtime-launch-preflight
 governed-worker-cycle-advance: cf10-s01-runtime-launch-preflight
 # CF10_S01_OPERATOR_RUNTIME_BINDING_V0_1_END
 
+# CF10_S01_AUTHORIZED_ONE_SHOT_LAUNCH_V0_1 (source cutover; authority remains external)
+# Source publication is NOT proof acceptance. Runtime requires signed 8/8 release evidence.
+# No Make-supplied task or attempt: load exact scope from root-controlled signed release.
+.PHONY: cf10-s01-governed-one-shot-launch
+cf10-s01-governed-one-shot-launch:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.cf10_s01_live_pilot_corridor_v0_1 launch --root /srv/software_development/forprint-project/forprint_system_blueprint --runtime-root /srv/software_development/forprint-worker-runtime --from-signed-release --confirm-launch
+# CF10_S01_AUTHORIZED_ONE_SHOT_LAUNCH_V0_1_END
+
+
 # CF10_S1_DERIVED_OPERATOR_REPORT_V0_2_START
 # Read-only governed attempt reporting. Does not grant ACCEPT, promotion, commit or push.
 .PHONY: cf10-attempt-report cf10-attempt-report-check
