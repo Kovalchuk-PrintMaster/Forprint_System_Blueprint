@@ -1,0 +1,31 @@
+schema_version: cf10_s01_launch_integration_contract_v0_1
+owner: forprint_system_blueprint
+status: ENGINEERING_CANDIDATE_NON_AUTHORIZING
+source_baseline: 17cae8a12d2e9f5db7fdb46c0e131fd9e97ce715
+purpose: One project-native diagnostic surface for source, activation, release, proof and launch-route blockers
+canonical_reuse:
+  activation: scripts.coordination.execution_attempt_writer_activation_v0_1
+  release: scripts.coordination.control_plane.cf10_s01_release_gate_candidate_v0_1
+  bounded_scope_and_eight_proofs: scripts.coordination.control_plane.cf10_s01_runtime_rebind_v0_2
+  corridor_survey: scripts.coordination.control_plane.cf10_s01_controlled_launch_corridor_v0_1
+  once_only_state: scripts.coordination.control_plane.cf10_s01_root_controlled_single_use_v0_2
+  lifecycle: scripts.coordination.control_plane.cf10_authorization_lifecycle_v0_1
+entrypoint: scripts.coordination.control_plane.cf10_s01_launch_integration_review_v0_1
+make_include: coordination/continuity/cf10_s01_launch_integration_v0_1.mk
+restrictions:
+  never_provision_external_authority: true
+  never_generate_or_renew_signature: true
+  never_consume_single_use_slot: true
+  never_mutate_git_or_ledger: true
+  never_edit_makefile_quarantine: true
+  never_launch_worker: true
+  never_claim_full_dynamic_writer_attestation: true
+  always_fail_closed_on_launch_preflight: true
+required_live_migration_after_independent_review:
+  - preserve_root_controlled_provenance_and_crypto
+  - single_non_bypassable_guard_for_direct_python_and_make
+  - atomic_root_owned_claim_then_single_governed_spawn
+  - crash_and_race_fail_closed
+  - validate_all_eight_independent_coverage_proofs
+  - freeze_final_git_head_before_fresh_signatures
+  - explicit_operator_release_and_workfront_scope
