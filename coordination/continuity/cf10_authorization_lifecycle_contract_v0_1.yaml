@@ -1,0 +1,33 @@
+schema_version: cf10_authorization_lifecycle_contract_v0_1
+owner: forprint_system_blueprint
+status: CANDIDATE_NON_AUTHORIZING
+purpose: 'Single repeatable authorization preflight, renewal request and resumption diagnostics'
+canonical_reuse:
+  writer_activation: scripts.coordination.execution_attempt_writer_activation_v0_1
+  worker_release: scripts.coordination.control_plane.cf10_s01_release_gate_candidate_v0_1
+  shared_lock: scripts.coordination.execution_attempt_writer_lock_v0_1
+  live_make_quarantine: cf10-s01-runtime-launch-preflight
+policy:
+  activation_decision_max_duration_seconds: 86400
+  worker_release_max_duration_seconds: 28800
+  proof_material_reuse_only_after_independent_freshness_assessment: true
+  unchanged_time_window_alone_never_grants_authority: true
+  mismatched_publication_head_requires_new_binding_and_source_review: true
+  never_extend_or_rewrite_an_existing_signature: true
+  new_signed_decisions_require_independent_operator_and_explicit_authority: true
+  never_generate_keys_or_sign_as_worker: true
+  no_automatic_ledger_or_git_writes: true
+  never_remove_make_quarantine: true
+  never_launch_worker: true
+  single_use_scope_requires_independent_worker_task_attempt_review: true
+outputs:
+  request_root: tmp/cf10_authorization_requests
+  request_schema: cf10_authorization_operator_request_v0_1
+  digest_bound_and_idempotent: true
+  sensitive_signed_payloads_exported: false
+  independent_request_is_not_evidence_or_approval: true
+proposal_future_architecture:
+  durable_coverage_attestation: 'Long-lived only by explicit governance policy and source/coverage provenance'
+  short_lived_execution_lease: 'Renew on demand with independent signer, current head, exact task and attempt'
+  human_involvement: 'Required only at governance gates'
+  release_runtime_wiring: 'Separate reviewed migration; never auto-install with this candidate'

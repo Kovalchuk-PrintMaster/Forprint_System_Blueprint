@@ -1,0 +1,33 @@
+schema_version: cf10_g2b03c04f_proof_gap_review_contract_v0_1
+owner: forprint_system_blueprint
+status: CANDIDATE_NON_AUTHORIZING
+purpose: >
+  Recheck frozen current-head 04D/04E content and integrity, preserve
+  existing independent-verification boundary, and prepare eight proof requests.
+predecessors:
+  - cf10_g2b03c04d_operator_evidence_survey_v0_1
+  - cf10_g2b03c04e_proof_submission_review_v0_1
+source_binding:
+  require_git_head: true
+  commit_source_bytes_not_worktree: true
+  explicit_external_sha256_required: true
+output:
+  directory_pattern: tmp/cf10_g2b03c04f_review_<UTC>/
+  files: [report.json, summary.txt, SHA256SUMS]
+  proof_rows: 8
+  proofs_attested: 0
+non_authorizations:
+  - no_external_trust_file_payloads_read
+  - no_signing_or_signature_approval
+  - no_process_restart_or_worker_launch
+  - no_ledger_append
+  - no_gate_or_writer_execution
+  - no_make_quarantine_removal
+  - no_automatic_source_commit_or_push
+  - no_promotion_or_release
+next: 04F_INDEPENDENT_EXTERNAL_PROOF_CONTENT_AND_AUTHORITY_REQUIRED
+operator_rule: >
+  Integrity and metadata do not demonstrate independent attestation.
+  After real submissions are provided, a separately authorized verifier
+  must check source completeness, runtime writer enrollment, DAC/ACL,
+  signature authenticity, expiry, binding, and separate operator acceptance.
