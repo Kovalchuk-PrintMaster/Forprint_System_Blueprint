@@ -4183,3 +4183,8 @@ cf10-console-cleanup:
 blueprint-tmp-independence-check:
 	@PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.validation.blueprint_tmp_independence_check_v0_1 --root .
 	@PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/validation/test_blueprint_tmp_independence_v0_1.py
+
+# CF10 r023: isolated root-receipt/ledger fixture, not a production Worker launch.
+.PHONY: cf10-guarded-transaction-check
+cf10-guarded-transaction-check:
+	.venv_blueprint/bin/python -B scripts/validation/cf10_guarded_transaction_fixture_check_v0_1.py --no-project-tmp
