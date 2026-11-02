@@ -4188,3 +4188,10 @@ blueprint-tmp-independence-check:
 .PHONY: cf10-guarded-transaction-check
 cf10-guarded-transaction-check:
 	.venv_blueprint/bin/python -B scripts/validation/cf10_guarded_transaction_fixture_check_v0_1.py --no-project-tmp
+
+# CF10 r024: root-owned receipt + real disposable systemd + non-authorizing ledger join.
+.PHONY: cf10-r024-systemd-check cf10-r024-systemd-proof
+cf10-r024-systemd-check:
+	.venv_blueprint/bin/python -B scripts/validation/cf10_r024_systemd_proof_v0_1.py --check
+cf10-r024-systemd-proof:
+	.venv_blueprint/bin/python -B scripts/validation/cf10_r024_systemd_proof_v0_1.py --confirm RUN_CF10_R024_DISPOSABLE_SYSTEMD_PROOF
