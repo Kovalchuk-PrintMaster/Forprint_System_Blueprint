@@ -17,6 +17,7 @@ from scripts.coordination.control_plane.worker_runtime import cf10_systemd_launc
 from scripts.coordination.control_plane.worker_runtime import cf10_systemd_terminal_bridge_v0_1 as terminal
 from scripts.coordination.control_plane import cf10_r026_trusted_systemd_readback_v0_1 as kernel
 from scripts.coordination.control_plane.worker_runtime import cf10_systemd_kernel_witness_v0_1 as witness
+from scripts.coordination.control_plane.worker_runtime import cf10_r035_durable_witness_boundary_v0_1 as durable
 
 class CanonicalCutoverBlocked(RuntimeError):
     pass
@@ -87,6 +88,8 @@ def run_once(*,root:Path,runtime_root:Path,task_prompt_id:str,attempt_id:str,
         # If this root-side readback fails, STARTED is NOT appended or released.
         if holder[0] is not None:deny('WITNESS_CALLBACK_REPEATED')
         holder[0]=witness.arm(unit,_trusted_runner)
+        # Immutable root boundary must be fsynced BEFORE ledger STARTED/release.
+        durable.record_pre(spec=spec,unit=unit,witness=holder[0])
         started_callback(record)
 
     try:
@@ -102,6 +105,8 @@ def run_once(*,root:Path,runtime_root:Path,task_prompt_id:str,attempt_id:str,
         outcome=terminal.witnessed_terminal(unit=unit,attempt_root=attempt,
             stdout_path=attempt/'logs'/'stdout.log',stderr_path=attempt/'logs'/'stderr.log',
             witness=holder[0],runner=_trusted_runner,timeout_seconds=spec.timeout_seconds)
+        # Terminal evidence is durable BEFORE returning to the Worker Result path.
+        durable.record_terminal(spec=spec,unit=unit,outcome=outcome)
     finally:
         if holder[0] is not None:holder[0].close()
     if outcome.get('return_code')!=0 or outcome.get('worker_result_accepted') is not False:
