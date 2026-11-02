@@ -4205,3 +4205,8 @@ cf10-r025-recovery-check:
 .PHONY: cf10-r026-systemd-readback-check
 cf10-r026-systemd-readback-check:
 	.venv_blueprint/bin/python -B scripts/validation/cf10_r026_systemd_readback_check_v0_1.py
+
+# CF10 r027: systemd Worker Launcher Modernization; backend implemented but NO live cutover.
+.PHONY: cf10-r027-launcher-modernization-check
+cf10-r027-launcher-modernization-check:
+	.venv_blueprint/bin/python -B scripts/validation/cf10_r027_launcher_modernization_check_v0_1.py
