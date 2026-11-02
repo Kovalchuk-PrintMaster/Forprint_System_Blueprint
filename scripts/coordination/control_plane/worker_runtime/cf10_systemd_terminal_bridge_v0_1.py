@@ -48,9 +48,13 @@ def _log(path:Path,expected:Path)->str:
     p=Path(path)
     if not p.is_absolute() or '..' in p.parts or p.name not in ('stdout.log','stderr.log') or p.parent!=expected:
         deny('LOG_SCOPE')
-    if p.is_symlink() or not p.is_file():deny('LOG_NOT_REGULAR')
+    if p.is_symlink() or p.parent.is_symlink() or not p.is_file():deny('LOG_NOT_REGULAR')
     s=p.lstat()
-    if not stat.S_ISREG(s.st_mode) or s.st_nlink!=1 or s.st_uid not in (0,996):deny('LOG_INODE')
+    d=p.parent.lstat()
+    if (not stat.S_ISDIR(d.st_mode) or d.st_uid!=0 or
+            stat.S_IMODE(d.st_mode)&0o022):deny('LOG_DIRECTORY_UNTRUSTED')
+    if (not stat.S_ISREG(s.st_mode) or s.st_nlink!=1 or s.st_uid not in (0,996)
+            or stat.S_IMODE(s.st_mode)&0o022):deny('LOG_INODE')
     return str(p)
 
 def terminal_once(*,unit:str,attempt_root:Path,stdout_path:Path,stderr_path:Path,
@@ -71,7 +75,10 @@ def terminal_once(*,unit:str,attempt_root:Path,stdout_path:Path,stderr_path:Path
     if active not in ('inactive','failed'):deny('ACTIVE_STATE_UNKNOWN')
     if unit_rows['MainPID'] not in ('0',''):deny('TERMINAL_PID_NOT_REAPED')
     state=cgroup_state(unit)
-    if state not in ('0','removed'):deny('CGROUP_NOT_EMPTY_OR_UNKNOWN')
+    # Missing cgroup is NOT kernel proof of emptiness (r026 invariant).
+    # A trusted observer must have witnessed populated=0; unknown/unloaded
+    # stays in manual reconciliation rather than claiming Worker success.
+    if state != '0':deny('CGROUP_NOT_EMPTY_OR_UNKNOWN')
     if unit_rows['Result']!='success':deny('SYSTEMD_NON_SUCCESS_RESULT')
     if unit_rows['ExecMainStatus']!='0':deny('NONZERO_EXIT_OR_UNKNOWN')
     # A successful systemd result is not proof of a valid Worker Result. It is

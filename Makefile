@@ -4215,3 +4215,8 @@ cf10-r027-launcher-modernization-check:
 .PHONY: cf10-r028-terminal-bridge-check
 cf10-r028-terminal-bridge-check:
 	.venv_blueprint/bin/python -B scripts/validation/cf10_r028_terminal_bridge_check_v0_1.py
+
+# CF10 r029: fail-closed systemd log sinks + kernel terminal consistency
+.PHONY: cf10-r029-output-kernel-check
+cf10-r029-output-kernel-check:
+	.venv_blueprint/bin/python -B scripts/validation/cf10_r029_output_kernel_check_v0_1.py

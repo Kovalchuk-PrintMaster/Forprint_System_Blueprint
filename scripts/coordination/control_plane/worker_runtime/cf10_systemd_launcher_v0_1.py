@@ -87,6 +87,11 @@ def build_command(spec:bound.BoundedInput,plan:dict,manifest:Path)->list[str]:
            'ReadWritePaths':spec.workspace,
            'RuntimeMaxSec':str(spec.timeout_seconds+180)+'s',
            'Restart':'no','Type':'exec'}
+    # Bind stream destinations to the canonical attempt, never to caller strings.
+    logs=RUNTIME/'forprint_system_blueprint'/'worker-01'/spec.attempt_id/'logs'
+    props['StandardOutput']='append:'+str(logs/'stdout.log')
+    props['StandardError']='append:'+str(logs/'stderr.log')
+    props['ReadWritePaths']=spec.workspace+' '+str(logs)
     # Keep the gate within approved runtime, not the source repo's tmp/.
     return [SYSTEMD_RUN,'--no-block','--quiet','--unit='+plan['identity']['unit'],
         '--description=ForPrint CF10 guarded Worker',
@@ -116,6 +121,30 @@ def _verify_held(unit:str,runner):
 def _stop(unit,runner):
     try:runner([SYSTEMCTL,'stop','--',unit])
     except Exception:pass
+
+def _reserve_root_logs(spec:bound.BoundedInput)->None:
+    """Reserve immutable root-owned stream inodes after claim, before systemd-run.
+
+    Worker may write only via systemd-provisioned FDs. Reusing prior logs,
+    links and non-root-controlled directory is prohibited. No tmp/ is used.
+    """
+    attempt=RUNTIME/'forprint_system_blueprint'/'worker-01'/spec.attempt_id
+    directory=attempt/'logs'
+    storage.require_persistent_path(directory,blueprint_root=BLUEPRINT)
+    try:ds=directory.lstat()
+    except FileNotFoundError:deny('LOG_DIRECTORY_MISSING')
+    if (not stat.S_ISDIR(ds.st_mode) or ds.st_uid!=0 or
+            stat.S_IMODE(ds.st_mode)&0o022 or directory.is_symlink()):
+        deny('LOG_DIRECTORY_UNTRUSTED')
+    # No hardlink or symlink endpoint can be redirected by the runner.
+    for name in ('stdout.log','stderr.log'):
+        path=directory/name
+        if path.exists() or path.is_symlink():deny('LOG_ALREADY_PRESENT_NO_OVERWRITE')
+    for name in ('stdout.log','stderr.log'):
+        fd=os.open(name,os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW|os.O_CLOEXEC,0o600,
+                   dir_fd=(dirfd:=os.open(directory,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW|os.O_CLOEXEC)))
+        try:os.fsync(fd);os.fsync(dirfd)
+        finally:os.close(fd);os.close(dirfd)
 
 def _core(*,spec:bound.BoundedInput,plan:dict,started_callback:Callable[[dict],None],
           runner:Callable[[list[str]],subprocess.CompletedProcess],now:Callable[[],float]=time.time,
@@ -155,6 +184,8 @@ def _core(*,spec:bound.BoundedInput,plan:dict,started_callback:Callable[[dict],N
                    handoff_sha256=spec.handoff_sha256)
     receipts.append_observation(private_store=store,attempt_id=spec.attempt_id,
                    expected_head=spec.source_head,event='LAUNCH_REQUESTED')
+    if require_real_roots:
+        _reserve_root_logs(spec)
     nonce=secrets.token_hex(32)
     manifest=gate_dir/('manifest-'+nonce+'.json')
     raw=_manifest(spec,unit,nonce,now())
