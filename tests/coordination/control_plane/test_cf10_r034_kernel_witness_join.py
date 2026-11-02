@@ -179,6 +179,7 @@ def test_terminal_observer_armed_before_ledger(monkeypatch):
     monkeypatch.setattr(route.witness,'arm',arm)
     monkeypatch.setattr(route.durable,'record_pre',lambda **kw:states.append('persist_pre'))
     monkeypatch.setattr(route.durable,'record_terminal',lambda **kw:states.append('persist_terminal'))
+    monkeypatch.setattr(route,'_retire_after_durable_terminal',lambda unit:states.append('retire_after_durable'))
     def launch(**kw):
         kw['started_callback']({'unit':UNIT})
         states.append('release')
@@ -195,5 +196,5 @@ def test_terminal_observer_armed_before_ledger(monkeypatch):
                 'stderr_path':str(backend.RUNTIME/'forprint_system_blueprint/worker-01/cf10-r034-test-a034/logs/stderr.log'),
                 'timeout_seconds':15})
     route.run_once(**args)
-    assert states==['arm','persist_pre','ledger','release','persist_terminal']
+    assert states==['arm','persist_pre','ledger','release','persist_terminal','retire_after_durable']
     assert p.closed

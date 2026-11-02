@@ -1690,6 +1690,29 @@ def advance_cycle(
         if verification.get("valid") is not True:
             return blocked("CANONICAL_WORKER_DELTA_VERIFICATION_FAILED")
 
+        # CF10 r037: independent root receipt / kernel / Handoff candidate
+        # gate BEFORE any new terminal ledger append or finalizer action.
+        # An existing immutable FINISHED fact follows the replay-only branch;
+        # that path never writes a second terminal record.
+        if not terminal_already_present:
+            from scripts.coordination.control_plane import cf10_r037_finalizer_boundary_v0_1 as boundary
+            try:
+                gate = boundary.review(
+                    canonical=canonical, attempt=attempt, attempt_id=attempt_id,
+                    source_state=source_state,
+                    baseline=_advance_bound_yaml(
+                        attempt / "evidence/worker_baseline_v0_1.yaml", attempt,
+                        "Worker baseline"),
+                    origin_manifest=origin_manifest,
+                    governed_context=context, ledger_rows=records,
+                )
+            except Exception as exc:
+                return blocked("R037_INDEPENDENT_RESULT_GUARD:" + type(exc).__name__)
+            if gate.get("status") != (
+                "VERIFIED_RESULT_CANDIDATE_PENDING_CANONICAL_LEDGER_FINALIZER"
+            ):
+                return blocked("R037_RESULT_NOT_VERIFIED_CANDIDATE")
+
         # The existing full Handoff freshness validator runs INSIDE the CF09/10
         # finalizer before the terminal ledger append. No synthetic origin.
         timestamp = datetime.now(UTC)

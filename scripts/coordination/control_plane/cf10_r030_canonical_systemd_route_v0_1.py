@@ -8,6 +8,7 @@ BEFORE any production attempt can be consumed by the operator console.
 """
 from __future__ import annotations
 import os
+import re
 from pathlib import Path
 import stat
 import subprocess
@@ -62,6 +63,29 @@ def _trusted_runner(argv:list[str]):
                           stderr=subprocess.PIPE,timeout=12,check=False,
                           env={'PATH':'/usr/bin:/bin','LANG':'C'})
 
+def _retire_after_durable_terminal(unit:str)->None:
+    """Retire only the exact retained CF10 unit AFTER fsynced terminal evidence.
+
+    Never stop an active/unverified worker: the caller reaches this only
+    after a successful pinned-kernel 1->0 and durable terminal record. A
+    failed stop/readback requires operator reconciliation, never retry.
+    """
+    if not isinstance(unit,str) or not re.fullmatch(r'forprint-cf10-worker-[0-9a-f]{24}\.service',unit):
+        deny('RETIRE_UNIT_IDENTITY')
+    try:
+        result=subprocess.run(['/usr/bin/systemctl','stop','--',unit],
+            stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,stderr=subprocess.PIPE,
+            timeout=12,check=False,env={'PATH':'/usr/bin:/bin','LANG':'C'})
+    except (OSError,subprocess.SubprocessError):
+        deny('RETAINED_UNIT_STOP_UNAVAILABLE')
+    if result.returncode!=0:deny('RETAINED_UNIT_STOP_FAILED')
+    try:observation=backend._show(unit,_trusted_runner)
+    except Exception:deny('RETAINED_UNIT_STOP_READBACK_UNAVAILABLE')
+    if (observation.get('Id')!=unit or observation.get('LoadState')!='not-found'
+            or observation.get('ActiveState')!='inactive'
+            or observation.get('MainPID')!='0'):
+        deny('RETAINED_UNIT_NOT_STOPPED')
+
 def _cgroup_populated(unit:str)->str:
     """Only cgroup.events populated=0 is positive evidence. Missing => UNKNOWN."""
     state=kernel._kernel_snapshot(unit,'/system.slice/'+unit,
@@ -107,6 +131,9 @@ def run_once(*,root:Path,runtime_root:Path,task_prompt_id:str,attempt_id:str,
             witness=holder[0],runner=_trusted_runner,timeout_seconds=spec.timeout_seconds)
         # Terminal evidence is durable BEFORE returning to the Worker Result path.
         durable.record_terminal(spec=spec,unit=unit,outcome=outcome)
+        # Only after durable success may the retained unit be stopped. r036
+        # requires a fresh not-active systemd readback before finalization.
+        _retire_after_durable_terminal(unit)
     finally:
         if holder[0] is not None:holder[0].close()
     if outcome.get('return_code')!=0 or outcome.get('worker_result_accepted') is not False:

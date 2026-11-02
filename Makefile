@@ -4237,3 +4237,7 @@ cf10-r035-durable-recovery-check:
 .PHONY: cf10-r036-independent-result-review-check
 cf10-r036-independent-result-review-check:
 	.venv_blueprint/bin/python -B scripts/validation/cf10_r036_independent_result_review_check_v0_1.py
+
+.PHONY: cf10-r037-finalizer-boundary-check
+cf10-r037-finalizer-boundary-check:
+	.venv_blueprint/bin/python -B scripts/validation/cf10_r037_finalizer_boundary_check_v0_1.py
