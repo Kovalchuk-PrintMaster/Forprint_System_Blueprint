@@ -166,7 +166,8 @@ def test_exact_source_inventory_shape_passes():
     paths={p:(root/p).read_bytes() for p in seam.CRITICAL}
     result=seam.review_source_shapes(paths)
     assert result['owner_claim_before_launch']
-    assert result['legacy_popen_present']
+    assert result['launch_mode'] in ('LEGACY_ROOT_INHERITED_POPEN','SEALED_CANONICAL_SYSTEMD')
+    assert result['legacy_popen_present'] is (result['launch_mode']=='LEGACY_ROOT_INHERITED_POPEN')
     assert result['legacy_launch_callback_after_spawn']
     assert result['worker_cutover_authorized'] is False
 

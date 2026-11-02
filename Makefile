@@ -4220,3 +4220,8 @@ cf10-r028-terminal-bridge-check:
 .PHONY: cf10-r029-output-kernel-check
 cf10-r029-output-kernel-check:
 	.venv_blueprint/bin/python -B scripts/validation/cf10_r029_output_kernel_check_v0_1.py
+
+# CF10 r030: sealed canonical systemd route; never grants worker authority.
+.PHONY: cf10-r030-canonical-systemd-check
+cf10-r030-canonical-systemd-check:
+	.venv_blueprint/bin/python -B scripts/validation/cf10_r030_canonical_systemd_check_v0_1.py

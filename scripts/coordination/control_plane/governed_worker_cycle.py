@@ -2078,8 +2078,8 @@ def launch_authorized_worker_cycle(
     from scripts.coordination.control_plane import cf10_training_dispatch
     from scripts.coordination.control_plane.worker_runtime import (
         invocation_adapter,
-        launcher,
     )
+    from scripts.coordination.control_plane import cf10_r030_canonical_systemd_route_v0_1 as modern_route
 
     facts = live_facts(
         root=root,
@@ -2211,8 +2211,26 @@ def launch_authorized_worker_cycle(
         )
         callback_state["started_record_appended"] = True
 
+    # No production fallback to the root-inherited legacy Popen path.
+    # Inputs come only from already validated frozen/canonical evidence.
     launch_values["on_started"] = on_started
-    process_result = launcher.launch_process(**launch_values)
+    baseline = _load_yaml(
+        attempt / "evidence/worker_baseline_v0_1.yaml", "worker baseline"
+    )
+    trusted_governed = context.get("governed_worker_context")
+    if not isinstance(trusted_governed, dict):
+        raise RuntimeError("canonical governed Worker context missing")
+    process_result = modern_route.run_once(
+        root=canonical,
+        runtime_root=Path(runtime_root),
+        task_prompt_id=task_prompt_id,
+        attempt_id=attempt_id,
+        source_head=source_state.get("git_head"),
+        baseline_sha256=baseline.get("baseline_fingerprint_sha256"),
+        handoff_sha256=trusted_governed.get("handoff_manifest_sha256"),
+        launch_values=launch_values,
+        started_callback=on_started,
+    )
 
     if not callback_state["started_record_appended"]:
         raise RuntimeError(

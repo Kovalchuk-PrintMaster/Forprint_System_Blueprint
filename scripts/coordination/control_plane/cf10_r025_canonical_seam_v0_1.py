@@ -1,7 +1,7 @@
 """CF10 r025: exact canonical seam inventory, no live launch or modification.
 
 This module checks code shape AND exact Git object provenance before subsequent
-cutover work. The old root-inherited Popen remains in place, so release BLOCKED.
+cutover work. Inventory both frozen legacy mode and sealed systemd mode; no release authority.
 """
 from __future__ import annotations
 import ast
@@ -48,9 +48,22 @@ def review_source_shapes(sources:dict[str,bytes])->dict:
     adapter=trees[base+'worker_runtime/invocation_adapter.py']
     spawn_calls=_calls(launcher,'subprocess.Popen')
     callback_calls=_calls(launcher,'on_started')
-    if (len(_calls(auth,'launcher.launch_process'))!=1 or len(spawn_calls)!=1
-            or len(callback_calls)!=1 or spawn_calls[0].lineno>=callback_calls[0].lineno):
-        deny('LEGACY_SPAWN_CALLBACK_ORDER')
+    legacy_calls=_calls(auth,'launcher.launch_process')
+    modern_calls=_calls(auth,'modern_route.run_once')
+    if (len(spawn_calls)!=1 or len(callback_calls)!=1
+            or spawn_calls[0].lineno>=callback_calls[0].lineno):
+        deny('LEGACY_UTILITY_LAUNCHER_CONTRACT')
+    if len(legacy_calls)==1 and len(modern_calls)==0:
+        mode='LEGACY_ROOT_INHERITED_POPEN'
+    elif len(legacy_calls)==0 and len(modern_calls)==1:
+        gate_calls=_calls(owner,'modern_route.assert_cutover_ready')
+        claim_calls=_calls(owner,'_owner_claim')
+        if (len(gate_calls)!=1 or len(claim_calls)!=1
+                or gate_calls[0].lineno>=claim_calls[0].lineno):
+            deny('MODERN_OWNER_PRECLAIM_GATE')
+        mode='SEALED_CANONICAL_SYSTEMD'
+    else:
+        deny('DUAL_LAUNCH_OR_UNKNOWN_BACKEND')
     claim=_calls(owner,'_owner_claim')
     enter=_calls(owner,'cycle.launch_cycle')
     if len(claim)!=1 or len(enter)!=1 or claim[0].lineno>=enter[0].lineno:deny('OWNER_CLAIM_ORDER')
@@ -59,9 +72,10 @@ def review_source_shapes(sources:dict[str,bytes])->dict:
     if not any(isinstance(x,(ast.FunctionDef,ast.AsyncFunctionDef)) and x.name=='build_launch_invocation' for x in ast.walk(adapter)):
         deny('INVOCATION_BUILDER_MISSING')
     return {'schema_version':'cf10_r025_canonical_seam_inventory_v0_1',
-        'owner_claim_before_launch':True,'legacy_popen_present':True,
+        'owner_claim_before_launch':True,'legacy_popen_present':mode=='LEGACY_ROOT_INHERITED_POPEN',
         'legacy_launch_callback_after_spawn':True,
-        'legacy_canonical_launch_unchanged':True,
+        'legacy_canonical_launch_unchanged':mode=='LEGACY_ROOT_INHERITED_POPEN',
+        'launch_mode':mode,'modern_systemd_canonical':mode=='SEALED_CANONICAL_SYSTEMD',
         'worker_cutover_authorized':False,'production_launch_allowed':False,
         'recovery_release_allowed':False,
         'source_sha256':{p:hashlib.sha256(sources[p]).hexdigest() for p in sorted(sources)}}

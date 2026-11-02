@@ -30,8 +30,9 @@ def check(repo=PROJECT):
     from scripts.coordination.control_plane import cf10_r025_canonical_seam_v0_1 as seam
     head=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
     report=seam.inspect_committed(repo,head)
-    if not report['legacy_popen_present'] or report['worker_cutover_authorized']:
-        raise SystemExit('CF10_R025_BLOCKED_LEGACY_SEAM_NOT_FROZEN')
+    if (report['launch_mode'] not in ('LEGACY_ROOT_INHERITED_POPEN','SEALED_CANONICAL_SYSTEMD')
+            or report['worker_cutover_authorized']):
+        raise SystemExit('CF10_R025_BLOCKED_UNVERIFIED_LAUNCH_SEAM')
     suite=repo/'tests/coordination/control_plane'
     paths=[suite/name for name in TESTS]
     if not all(p.is_file() and not p.is_symlink() for p in paths):
@@ -43,7 +44,7 @@ def check(repo=PROJECT):
         rc=subprocess.run(cmd,cwd=repo,env=env,check=False).returncode
         if rc:
             raise SystemExit('CF10_R025_BLOCKED_TESTS_FAILED')
-    print('CF10_R025_CANONICAL_SEAM=PASS_READ_ONLY_LEGACY_POPEN_CONFIRMED')
+    print('CF10_R025_CANONICAL_SEAM=PASS_READ_ONLY_'+report['launch_mode'])
     print('CF10_R025_TESTS=223_PASS_NO_PROJECT_TMP')
     print('CF10_R025_PRODUCTION_CUTOVER=false')
     print('CF10_R025_REAL_SYSTEMD_SERVICE_STARTED=false')

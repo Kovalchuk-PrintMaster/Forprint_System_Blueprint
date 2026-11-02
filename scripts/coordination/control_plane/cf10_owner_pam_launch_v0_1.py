@@ -161,6 +161,10 @@ def launch_once(*, root: Path, runtime_root: Path, task_prompt_id: str,
     from scripts.coordination.control_plane import cf10_s01_root_controlled_single_use_v0_2 as once
     if os.geteuid() != 0 or Path(root).resolve() != PROJECT or Path(runtime_root).resolve() != RUNTIME:
         _fail('OWNER_ROOT_CANONICAL_ROOT_REQUIRED')
+    # Before password and irreversible claim: the production backend must
+    # have completed its separate live release gate. Otherwise consume nothing.
+    from scripts.coordination.control_plane import cf10_r030_canonical_systemd_route_v0_1 as modern_route
+    modern_route.assert_cutover_ready()
     console.ids(task_prompt_id, attempt_id)
     head = _assert_live_source(PROJECT)
     _cycle_preclaim(PROJECT, RUNTIME, task_prompt_id, attempt_id)

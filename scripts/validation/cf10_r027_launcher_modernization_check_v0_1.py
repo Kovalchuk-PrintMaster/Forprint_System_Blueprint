@@ -39,7 +39,9 @@ def check(*,root=PROJECT):
         ast.parse(f.read_bytes(),filename=path)
     head=subprocess.check_output(['git','rev-parse','HEAD'],text=True,cwd=root).strip()
     result=seam.inspect_committed(root,head)
-    if result['legacy_popen_present'] is not True or result['worker_cutover_authorized'] is not False:
+    if (result['launch_mode'] not in ('LEGACY_ROOT_INHERITED_POPEN', 'SEALED_CANONICAL_SYSTEMD')
+            or result['worker_cutover_authorized'] is not False
+            or result['production_launch_allowed'] is not False):
         raise SystemExit('CF10_R027_BLOCKED_CANONICAL_SEAM_DRIFT')
     paths=[root/'tests/coordination/control_plane'/n for n in TESTS]
     if not all(p.is_file() and not p.is_symlink() for p in paths):
@@ -49,8 +51,8 @@ def check(*,root=PROJECT):
         subprocess.run([sys.executable,'-B','-m','pytest','-q','-p','no:cacheprovider',
             '--basetemp='+d+'/pytest',*map(str,paths)],cwd=root,env=env,check=True)
     print('CF10_R027_TESTS=265_PASS_ISOLATED_NO_PROJECT_TMP')
-    print('CF10_R027_SYSTEMD_BACKEND=IMPLEMENTED_NOT_LIVE_WIRED')
-    print('CF10_R027_POPEN=LEGACY_UNCHANGED')
+    print('CF10_R027_SYSTEMD_BACKEND=SEALED_ROUTE_RECOGNIZED_NON_AUTHORIZING')
+    print('CF10_R027_CANONICAL_MODE='+result['launch_mode'])
     print('CF10_R027_PRODUCTION_WORKER_LAUNCHED=false')
     print('CF10_R027_RELEASE_GATE=BLOCKED_PENDING_CANONICAL_CUTOVER_AND_REAL_GATE_PROOF')
 
