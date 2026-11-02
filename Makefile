@@ -4195,3 +4195,8 @@ cf10-r024-systemd-check:
 	.venv_blueprint/bin/python -B scripts/validation/cf10_r024_systemd_proof_v0_1.py --check
 cf10-r024-systemd-proof:
 	.venv_blueprint/bin/python -B scripts/validation/cf10_r024_systemd_proof_v0_1.py --confirm RUN_CF10_R024_DISPOSABLE_SYSTEMD_PROOF
+
+# CF10 r025: read-only canonical cutover seam, post-crash recovery, isolated tests.
+.PHONY: cf10-r025-recovery-check
+cf10-r025-recovery-check:
+	.venv_blueprint/bin/python -B scripts/validation/cf10_r025_integration_gate_v0_1.py
