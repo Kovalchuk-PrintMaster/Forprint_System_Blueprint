@@ -4210,3 +4210,8 @@ cf10-r026-systemd-readback-check:
 .PHONY: cf10-r027-launcher-modernization-check
 cf10-r027-launcher-modernization-check:
 	.venv_blueprint/bin/python -B scripts/validation/cf10_r027_launcher_modernization_check_v0_1.py
+
+# CF10 r028: systemd terminal completion bridge (non-authorizing)
+.PHONY: cf10-r028-terminal-bridge-check
+cf10-r028-terminal-bridge-check:
+	.venv_blueprint/bin/python -B scripts/validation/cf10_r028_terminal_bridge_check_v0_1.py
