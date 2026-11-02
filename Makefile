@@ -4200,3 +4200,8 @@ cf10-r024-systemd-proof:
 .PHONY: cf10-r025-recovery-check
 cf10-r025-recovery-check:
 	.venv_blueprint/bin/python -B scripts/validation/cf10_r025_integration_gate_v0_1.py
+
+# CF10 r026: root-side systemd + cgroup readback; NO launch or release authority.
+.PHONY: cf10-r026-systemd-readback-check
+cf10-r026-systemd-readback-check:
+	.venv_blueprint/bin/python -B scripts/validation/cf10_r026_systemd_readback_check_v0_1.py
