@@ -434,3 +434,11 @@ S4 keeps the existing Handoff v2 family and reuses the Fresh Context Gate, Execu
 
 S4 grants no execution, dispatch, release, lifecycle mutation or cross-repository write authority. It does not append central attempt history and does not route resumes. Dispatcher integration, worker launch, central resume routing and result routing remain CF-09.
 <!-- assistant-handoff-v2-s4-freshness-resume-v0-1:end -->
+
+<!-- BLUEPRINT_TMP_INDEPENDENCE_GLOBAL:start -->
+## Global Blueprint temporary-storage invariant (owner approved 2026-11-01)
+
+`tmp/` is disposable. No production code, canonical Make/CLI, worker process, systemd unit, durable receipt/ledger, credentials, replay/resume or recovery may rely on it. ZIP delivery, staging, one-time diagnostics and disposable tests may use `tmp/`. Durable code lives in Git-tracked source; durable worker state uses the approved existing Worker Runtime root. Release requires `make blueprint-tmp-independence-check` AND separately demonstrated fresh-start/recovery behavior with tmp unavailable in disposable isolation. This check is non-authorizing and cannot replace full coverage. Do not mutate Hestia, `s01` or historical attempts as part of this policy.
+
+Canonical policy: `coordination/global_policy/blueprint_tmp_independence_v0_1.yaml`.
+<!-- BLUEPRINT_TMP_INDEPENDENCE_GLOBAL:end -->

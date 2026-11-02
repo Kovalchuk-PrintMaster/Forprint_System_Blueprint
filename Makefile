@@ -503,7 +503,7 @@ structured-command-executor-proof:
 # Scope: CORE — core Blueprint governance/control-plane checks and direct dependencies.
 # Result: Validation exits 0 on success and non-zero on failure; any report/generated-artifact output is diagnostic evidence only.
 .PHONY: check-core
-check-core: generator-inventory-check generator-contract-check execution-dependency-check roadmap-sync-check assistant-handoff-check continuity-projections-check continuity-lifecycle-check continuity-transfer-check continuity-event-store-check continuity-contract-check continuity-micro-roadmap-check check-module-registry-consistency check-self-coordination-consistency check-repository-knowledge-snapshots check-inventory-status-consistency check-repository-knowledge-freshness check-rci-semantic-enrichment check-redm-dependency-enrichment check-semantic-coverage-closure check-repository-knowledge-reconciliation check-inventory-acceptance-evidence-index check-inventory-acceptance-dry-run check-prompt-execution-observability surface-normalization-check human-intent-check root-roadmap-check roadmap-detail-check skip-inventory-check safe-mutation-check asset-retirement-check module-cleanliness-pack-check module-current-state-check canonical-state-freshness-impact-check module-memory-schema-check task-context-compiler-check launch-request-gate-check operator-approval-gateway-check console-worker-adapter-check control-plane-runtime-check completion-control-plane-check bootstrap-task-context-check project-constitution-check work-front-contract-check cf05-history-ledger-check execution-profile-registry-check assistant-handoff-v2-contract-check assistant-handoff-v2-runtime-check assistant-handoff-v2-result-check assistant-handoff-v2-freshness-resume-check
+check-core: generator-inventory-check generator-contract-check execution-dependency-check roadmap-sync-check assistant-handoff-check continuity-projections-check continuity-lifecycle-check continuity-transfer-check continuity-event-store-check continuity-contract-check continuity-micro-roadmap-check check-module-registry-consistency check-self-coordination-consistency check-repository-knowledge-snapshots check-inventory-status-consistency check-repository-knowledge-freshness check-rci-semantic-enrichment check-redm-dependency-enrichment check-semantic-coverage-closure check-repository-knowledge-reconciliation check-inventory-acceptance-evidence-index check-inventory-acceptance-dry-run check-prompt-execution-observability surface-normalization-check human-intent-check root-roadmap-check roadmap-detail-check skip-inventory-check safe-mutation-check asset-retirement-check module-cleanliness-pack-check module-current-state-check canonical-state-freshness-impact-check module-memory-schema-check task-context-compiler-check launch-request-gate-check operator-approval-gateway-check console-worker-adapter-check control-plane-runtime-check completion-control-plane-check bootstrap-task-context-check project-constitution-check work-front-contract-check cf05-history-ledger-check execution-profile-registry-check assistant-handoff-v2-contract-check assistant-handoff-v2-runtime-check assistant-handoff-v2-result-check assistant-handoff-v2-freshness-resume-check blueprint-tmp-independence-check
 	$(PYTHON) scripts/run_blueprint_checks.py
 
 # Target: check-report
@@ -4173,3 +4173,13 @@ cf10-console-select:
 cf10-console-cleanup:
 	@$(CF10_OWNER_CONSOLE_CMD) cleanup --root "$(CURDIR)" --runtime-root "$(GOVERNED_WORKER_RUNTIME_ROOT)" --days 7
 # CF10_SOLE_OWNER_CONSOLE_R016_END
+
+# Target: blueprint-tmp-independence-check
+# Purpose: Verify the global durable-storage rule and critical canonical runtime defaults.
+# Safety: READ-ONLY — no provisioning, runtime mutation, launch or release authority.
+# Inputs: None. Scope: GLOBAL Blueprint policy; end-to-end cutover remains separately blocked.
+# Result: FAIL-CLOSED policy/path check and focused negative tests.
+.PHONY: blueprint-tmp-independence-check
+blueprint-tmp-independence-check:
+	@PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.validation.blueprint_tmp_independence_check_v0_1 --root .
+	@PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/validation/test_blueprint_tmp_independence_v0_1.py
