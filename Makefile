@@ -4233,3 +4233,7 @@ cf10-r034-kernel-witness-check:
 .PHONY: cf10-r035-durable-recovery-check
 cf10-r035-durable-recovery-check:
 	.venv_blueprint/bin/python -B scripts/validation/cf10_r035_durable_recovery_check_v0_1.py
+
+.PHONY: cf10-r036-independent-result-review-check
+cf10-r036-independent-result-review-check:
+	.venv_blueprint/bin/python -B scripts/validation/cf10_r036_independent_result_review_check_v0_1.py
