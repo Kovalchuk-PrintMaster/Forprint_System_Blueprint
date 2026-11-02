@@ -86,14 +86,14 @@ def build_command(spec:bound.BoundedInput,plan:dict,manifest:Path)->list[str]:
            'WorkingDirectory':spec.workspace,
            'ReadWritePaths':spec.workspace,
            'RuntimeMaxSec':str(spec.timeout_seconds+180)+'s',
-           'Restart':'no','Type':'exec'}
+           'Restart':'no','Type':'exec','ExitType':'cgroup'}
     # Bind stream destinations to the canonical attempt, never to caller strings.
     logs=RUNTIME/'forprint_system_blueprint'/'worker-01'/spec.attempt_id/'logs'
     props['StandardOutput']='append:'+str(logs/'stdout.log')
     props['StandardError']='append:'+str(logs/'stderr.log')
     props['ReadWritePaths']=spec.workspace+' '+str(logs)
     # Keep the gate within approved runtime, not the source repo's tmp/.
-    return [SYSTEMD_RUN,'--no-block','--quiet','--unit='+plan['identity']['unit'],
+    return [SYSTEMD_RUN,'--no-block','--quiet','--remain-after-exit','--unit='+plan['identity']['unit'],
         '--description=ForPrint CF10 guarded Worker',
         *['--property='+k+'='+v for k,v in sorted(props.items())],
         '--',PYTHON,'-I','-B',str(ENTRY),str(manifest)]

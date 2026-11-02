@@ -4225,3 +4225,7 @@ cf10-r029-output-kernel-check:
 .PHONY: cf10-r030-canonical-systemd-check
 cf10-r030-canonical-systemd-check:
 	.venv_blueprint/bin/python -B scripts/validation/cf10_r030_canonical_systemd_check_v0_1.py
+
+.PHONY: cf10-r034-kernel-witness-check
+cf10-r034-kernel-witness-check:
+	.venv_blueprint/bin/python -B scripts/validation/cf10_r034_kernel_witness_join_check_v0_1.py

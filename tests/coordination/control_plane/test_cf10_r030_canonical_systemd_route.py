@@ -115,7 +115,7 @@ def test_started_to_terminal_order():
     fun=next(x for x in tree.body if isinstance(x,ast.FunctionDef) and x.name=='run_once')
     calls=[(x.lineno,ast.unparse(x.func)) for x in ast.walk(fun) if isinstance(x,ast.Call)]
     launch=[n for n,f in calls if f=='backend.launch_after_owner_claim']
-    terminal=[n for n,f in calls if f=='terminal.wait_terminal']
+    terminal=[n for n,f in calls if f=='terminal.witnessed_terminal']
     assert len(launch)==len(terminal)==1 and launch[0]<terminal[0]
 
 

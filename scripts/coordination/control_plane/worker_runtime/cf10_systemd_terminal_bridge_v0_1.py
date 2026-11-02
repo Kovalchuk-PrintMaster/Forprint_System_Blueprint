@@ -109,3 +109,34 @@ def wait_terminal(*,unit:str,attempt_root:Path,stdout_path:Path,stderr_path:Path
         if result is not None:return result
         if clock()>=until:deny('TIMEOUT_MANUAL_RECONCILIATION_REQUIRED')
         sleep(interval)
+
+
+def witnessed_terminal(*,unit:str,attempt_root:Path,stdout_path:Path,
+                       stderr_path:Path,witness,runner:Callable,
+                       timeout_seconds:int)->dict:
+    """Proven terminal result from pinned FD (armed BEFORE release) and retained unit.
+
+    No systemd subprocess state, missing cgroup, or caller data can replace the
+    pinned kernel 1→0 witness. Does not accept Worker Result.
+    """
+    from scripts.coordination.control_plane.worker_runtime import cf10_systemd_kernel_witness_v0_1 as kw
+    if type(witness) is not kw.KernelWitness or witness.unit!=unit or witness.closed:
+        deny('WITNESS_IDENTITY')
+    transition=witness.wait_zero(timeout_seconds=timeout_seconds)
+    if transition.get('transition')!='1_TO_0' or transition.get('invocation_id')!=witness.invocation_id:
+        deny('WITNESS_TRANSITION')
+    terminal=witness.retained_terminal(runner)
+    if terminal.get('unit')!=unit or terminal.get('invocation_id')!=witness.invocation_id:
+        deny('RETAINED_IDENTITY')
+    attempt=Path(attempt_root)
+    if not attempt.is_absolute() or attempt.is_symlink() or not attempt.name.startswith('cf10-'):
+        deny('ATTEMPT_ROOT')
+    logs=attempt/'logs'
+    out=_log(stdout_path,logs)
+    err=_log(stderr_path,logs)
+    return {'return_code':0,'timed_out':False,'outcome':'completed',
+            'stdout_path':out,'stderr_path':err,'systemd_unit':unit,
+            'systemd_invocation_id':witness.invocation_id,
+            'process_started':True,'automatic_retry':False,
+            'worker_result_accepted':False,'release_allowed':False,
+            'quiescence_observation':'PINNED_KERNEL_1_TO_0_RETAINED_SYSTEMD_NON_AUTHORIZING'}

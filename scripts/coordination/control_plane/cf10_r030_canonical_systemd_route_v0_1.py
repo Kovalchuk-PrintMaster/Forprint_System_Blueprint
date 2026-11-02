@@ -16,6 +16,7 @@ from scripts.coordination.control_plane import cf10_supervisor_binding_candidate
 from scripts.coordination.control_plane.worker_runtime import cf10_systemd_launcher_v0_1 as backend
 from scripts.coordination.control_plane.worker_runtime import cf10_systemd_terminal_bridge_v0_1 as terminal
 from scripts.coordination.control_plane import cf10_r026_trusted_systemd_readback_v0_1 as kernel
+from scripts.coordination.control_plane.worker_runtime import cf10_systemd_kernel_witness_v0_1 as witness
 
 class CanonicalCutoverBlocked(RuntimeError):
     pass
@@ -78,19 +79,31 @@ def run_once(*,root:Path,runtime_root:Path,task_prompt_id:str,attempt_id:str,
         task_prompt_id=task_prompt_id,attempt_id=attempt_id,
         source_head=source_head,baseline_sha256=baseline_sha256,
         handoff_sha256=handoff_sha256,launch_values=launch_values)
-    started=backend.launch_after_owner_claim(spec=spec,plan=plan,
-                                             started_callback=started_callback)
-    if (started.get('state')!='SYSTEMD_RELEASED_OBSERVE_WORKER' or
-            started.get('unit')!=plan['identity']['unit'] or
-            started.get('process_started') is not True):
-        deny('RELEASE_OBSERVATION_INCOMPLETE')
-    attempt=backend.RUNTIME/'forprint_system_blueprint'/'worker-01'/attempt_id
-    # A timeout/missing unit/cgroup cannot become an empty success. It is
-    # quarantined for root readback and manual reconciliation; no retry.
-    outcome=terminal.wait_terminal(unit=plan['identity']['unit'],attempt_root=attempt,
-       stdout_path=attempt/'logs'/'stdout.log',stderr_path=attempt/'logs'/'stderr.log',
-       runner=_trusted_runner,cgroup_state=_cgroup_populated,
-       timeout_seconds=spec.timeout_seconds)
+    unit=plan['identity']['unit']
+    holder=[None]
+
+    def start_after_witness(record):
+        # Called while the systemd gate is HELD. No Worker argv can run yet.
+        # If this root-side readback fails, STARTED is NOT appended or released.
+        if holder[0] is not None:deny('WITNESS_CALLBACK_REPEATED')
+        holder[0]=witness.arm(unit,_trusted_runner)
+        started_callback(record)
+
+    try:
+        started=backend.launch_after_owner_claim(spec=spec,plan=plan,
+                                                started_callback=start_after_witness)
+        if (started.get('state')!='SYSTEMD_RELEASED_OBSERVE_WORKER' or
+                started.get('unit')!=unit or started.get('process_started') is not True or
+                holder[0] is None):
+            deny('RELEASE_OBSERVATION_INCOMPLETE')
+        attempt=backend.RUNTIME/'forprint_system_blueprint'/'worker-01'/attempt_id
+        # The witness FD remains open across gate release and worker exit.
+        # Service remains retained for terminal InvocationID / Result readback.
+        outcome=terminal.witnessed_terminal(unit=unit,attempt_root=attempt,
+            stdout_path=attempt/'logs'/'stdout.log',stderr_path=attempt/'logs'/'stderr.log',
+            witness=holder[0],runner=_trusted_runner,timeout_seconds=spec.timeout_seconds)
+    finally:
+        if holder[0] is not None:holder[0].close()
     if outcome.get('return_code')!=0 or outcome.get('worker_result_accepted') is not False:
         deny('TERMINAL_BRIDGE_CONTRACT_DRIFT')
     return outcome
