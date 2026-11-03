@@ -4269,3 +4269,13 @@ cf10-r043-s3-operator-review-check:
 		tests/coordination/control_plane/test_cf10_r041_console_s3_make_bridge.py \
 		tests/coordination/control_plane/test_cf10_r043_operator_review_autoexport.py
 # CF10_R043_S3_OPERATOR_REVIEW_AUTO_EXPORT_END
+
+# CF10_R044_SINGLE_OWNER_PILOT_DESIGN_V0_1_START
+# Safety: READ ONLY review/test; selected owner design is NOT release authority.
+# The legacy signed-release and live Make/systemd quarantine remain unchanged.
+.PHONY: cf10-r044-single-owner-pilot-inspect cf10-r044-single-owner-pilot-check
+cf10-r044-single-owner-pilot-inspect:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_single_owner_pilot_review_v0_1 --mode inspect --root .
+cf10-r044-single-owner-pilot-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_r044_single_owner_pilot_review.py
+# CF10_R044_SINGLE_OWNER_PILOT_DESIGN_V0_1_END

@@ -1,0 +1,58 @@
+schema_version: cf10_single_owner_pilot_design_v0_1
+owner: forprint_system_blueprint
+status: OWNER_SELECTED_DESIGN_NON_AUTHORIZING
+decision_date: '2026-11-03'
+decision: SELECT_SINGLE_OWNER_BOUNDED_PILOT
+scope:
+  module: forprint_system_blueprint
+  worker_id: worker-01
+  first_live_task_family: Task70
+  attempt: NEW_UNCONSUMED_ONLY
+  simultaneous_writable_workers_max: 1
+  broader_modules_allowed: false
+  automatic_next_task: false
+existing_contracts:
+  owner_console: scripts/coordination/control_plane/cf10_owner_operator_console_v0_1.py
+  pam_owner_launch: scripts/coordination/control_plane/cf10_owner_pam_launch_v0_1.py
+  canonical_cycle: scripts/coordination/control_plane/governed_worker_cycle.py
+  systemd_route: scripts/coordination/control_plane/cf10_r030_canonical_systemd_route_v0_1.py
+  terminal_gate: scripts/coordination/control_plane/cf10_r037_finalizer_boundary_v0_1.py
+  legacy_independent_release: scripts/coordination/control_plane/cf10_s01_release_gate_candidate_v0_1.py
+operator_authentication:
+  method: EXISTING_INTERACTIVE_SUDO_PAM
+  confirmation: EXACT_TASK_AND_ATTEMPT_BEFORE_CLAIM
+  reusable_signing_lease_required: false
+  operator_password_stored: false
+  owner_decision_substitutes_independent_human_signer_for_bounded_pilot_only: true
+independent_technical_protections:
+  - source_frozen_and_remote_head_verified
+  - exact_work_front_and_write_set
+  - existing_enforced_writer_lock_and_single_active_writer
+  - root_owned_one_use_claim_before_spawn
+  - sealed_systemd_no_popen_fallback
+  - durable_pre_and_post_terminal_receipts
+  - independent_systemd_kernel_result_readback
+  - strict_worker_result_and_delta_verification
+  - immutable_terminal_ledger_and_no_retry_on_unknown
+  - tmp_deletion_does_not_change_execution_truth
+  - operator_review_before_acceptance_or_promotion
+historical_conflict:
+  existing_policy: EIGHT_INDEPENDENT_PROOFS_AND_DISTINCT_SIGNER
+  selected_alternative: NO_SECOND_HUMAN_SIGNER_FOR_ONE_OWNER_PILOT
+  reconciliation_required: true
+  legacy_live_release_must_remain_unchanged_until_separate_cutover: true
+live_cutover:
+  granted_by_this_design: false
+  make_quarantine_must_remain: true
+  systemd_live_cutover_must_remain_disabled: true
+  separate_runtime_authorization_implementation_required: true
+  distinct_pilot_release_review_required: true
+  no_automatic_worker_retry: true
+  no_automatic_acceptance: true
+  no_automatic_publication: true
+next_engineering_milestones:
+  - SOURCE_GOVERNANCE_RECONCILIATION_AND_NON_AUTHORIZING_CONTRACT
+  - SEPARATE_BOUNDED_PILOT_ADMISSION_WITH_NEGATIVE_TESTS
+  - LIVE_SYSTEMD_AND_TMP_UNAVAILABLE_PROOF
+  - EXPLICIT_SINGLE_ATTEMPT_CUTOVER_APPROVAL
+  - NEW_TASK70_END_TO_END_OPERATOR_REVIEW
