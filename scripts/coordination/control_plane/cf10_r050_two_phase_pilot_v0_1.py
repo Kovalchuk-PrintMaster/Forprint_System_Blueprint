@@ -180,11 +180,11 @@ def requirements() -> dict:
                         'REVALIDATE_FROZEN_INPUT_WRITER_CLAIM_LEDGER_SYSTEMD',
                         'OWNER_PAM_SINGLE_USE_AFTER_SEPARATE_PILOT_CUTOVER'],
         'required_launch_observations': sorted(REQUIRED_LAUNCH_OBSERVATIONS),
-        'preclaim_root_receipt_writer_implemented': False,
+        'preclaim_root_receipt_writer_implemented': True,  # r051 create-only, no launch authority
         'source_bound_pilot_make_backend_activation_implemented': False,
         'production_worker_launched': False,
         'launch_allowed': False,
-        'next_action': 'IMPLEMENT_GUARDED_SOURCE_ROUTE_ONLY_AFTER_POSITIVE_E2E_EVIDENCE',
+        'next_action': 'COMPLETE_EXACT_PILOT_PROOFS_AND_SEPARATE_MAKE_BACKEND_CUTOVER',
     }
 
 

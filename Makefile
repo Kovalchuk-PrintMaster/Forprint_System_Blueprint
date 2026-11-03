@@ -4324,3 +4324,18 @@ cf10-r050-positive-candidate-fixture:
 cf10-r050-two-phase-check:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_r050_two_phase_positive_candidate.py
 # CF10_R050_TWO_PHASE_AND_POSITIVE_CANDIDATE_END
+
+# CF10_R051_ROOT_PRECLAIM_RECEIPT_START
+# The first two entrypoints are explicitly non-authorizing. The issuing command
+# requires root and a manual confirmation phrase; no PAM launch or claim occurs.
+# Task/attempt are shell environment variables (no Make-expanded command input).
+.PHONY: cf10-r051-preclaim-inspect cf10-r051-preclaim-issue cf10-r051-preclaim-check cf10-r051-launch-window-proof-inspect
+cf10-r051-preclaim-inspect:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_r051_root_preclaim_receipt_v0_1 inspect --root . --task-prompt-id "$${CF10_TASK:?Set_CF10_TASK}" --attempt-id "$${CF10_ATTEMPT:?Set_CF10_ATTEMPT}"
+cf10-r051-preclaim-issue:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_r051_root_preclaim_receipt_v0_1 issue --root . --task-prompt-id "$${CF10_TASK:?Set_CF10_TASK}" --attempt-id "$${CF10_ATTEMPT:?Set_CF10_ATTEMPT}" --confirm SEAL_CF10_TASK70_ROOT_PRECLAIM_NONAUTHORIZING
+cf10-r051-launch-window-proof-inspect:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_r046_pilot_cutover_review_v0_1 inspect --root . --phase LAUNCH_WINDOW --task-prompt-id "$${CF10_TASK:?Set_CF10_TASK}" --attempt-id "$${CF10_ATTEMPT:?Set_CF10_ATTEMPT}"
+cf10-r051-preclaim-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_r051_root_preclaim_receipt.py
+# CF10_R051_ROOT_PRECLAIM_RECEIPT_END

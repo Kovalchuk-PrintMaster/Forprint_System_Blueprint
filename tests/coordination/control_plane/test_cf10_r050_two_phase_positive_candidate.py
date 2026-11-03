@@ -140,9 +140,9 @@ def test_second_phase_rejects_untrusted_snapshot():
     assert 'PRECLAIM_SNAPSHOT_INVALID' in out['blockers']
 
 
-def test_requirements_advertises_unimplemented_activation():
+def test_requirements_advertises_root_writer_but_unimplemented_activation():
     x=phase.requirements()
-    assert x['preclaim_root_receipt_writer_implemented'] is False
+    assert x['preclaim_root_receipt_writer_implemented'] is True
     assert x['source_bound_pilot_make_backend_activation_implemented'] is False
     assert x['launch_allowed'] is False
 

@@ -185,7 +185,7 @@ def _json_checked(raw: bytes) -> dict:
     return doc
 
 
-def inspect(*, root: Path, task: str, attempt: str) -> dict:
+def inspect(*, root: Path, task: str, attempt: str, phase: str = 'PRECLAIM') -> dict:
     """Read only source-pinned, root-controlled proof; never create state."""
     problems = []
     checks = {}
@@ -197,10 +197,21 @@ def inspect(*, root: Path, task: str, attempt: str) -> dict:
             from scripts.coordination.control_plane import cf10_owner_operator_console_v0_1 as console
             from scripts.coordination.control_plane import cf10_r045_pilot_admission_v0_1 as admission
             head = console.source_guard(root)
-            prior = admission.collect(root, task, attempt)
-            if prior.get('preclaim_evidence_complete') is not True:
-                problems.append('R045_PRECLAIM_UNVERIFIED')
-            checks['r045'] = prior.get('status', 'UNKNOWN')
+            if phase == 'PRECLAIM':
+                prior = admission.collect(root, task, attempt)
+                if prior.get('preclaim_evidence_complete') is not True:
+                    problems.append('R045_PRECLAIM_UNVERIFIED')
+                checks['r045'] = prior.get('status', 'UNKNOWN')
+            elif phase == 'LAUNCH_WINDOW':
+                # The active Make/backend state differs from PRECLAIM. Rechecking
+                # r045 here is both impossible and semantically incorrect.
+                from scripts.coordination.control_plane import cf10_r051_root_preclaim_receipt_v0_1 as sealed
+                prior = sealed.inspect(root=root, task=task, attempt=attempt, head=head)
+                if prior.get('preclaim_root_receipt_verified') is not True:
+                    problems.append('R051_ROOT_PRECLAIM_UNVERIFIED')
+                checks['r051'] = prior.get('status', 'UNKNOWN')
+            else:
+                problems.append('UNKNOWN_PILOT_REVIEW_PHASE')
         except Exception:
             problems.append('CANONICAL_SOURCE_OR_PRECLAIM_CHECK_FAILED')
     try:
@@ -270,13 +281,14 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument('--root', type=Path, default=Path('.'))
     ap.add_argument('--task-prompt-id', default='')
     ap.add_argument('--attempt-id', default='')
+    ap.add_argument('--phase', choices=('PRECLAIM', 'LAUNCH_WINDOW'), default='PRECLAIM')
     ns = ap.parse_args(argv)
     if ns.action == 'requirements':
         data = {'schema_version': SCHEMA, 'required_proof_types': list(PROOF_TYPES),
                 'release_root': str(TRUSTED_ROOT), 'production_cutover': False,
                 'next_action': 'RUN_DISPOSABLE_PROOFS_AND_SEPARATE_OPERATOR_CUTOVER'}
     else:
-        data = inspect(root=ns.root, task=ns.task_prompt_id, attempt=ns.attempt_id)
+        data = inspect(root=ns.root, task=ns.task_prompt_id, attempt=ns.attempt_id, phase=ns.phase)
     print(json.dumps(data, ensure_ascii=False, indent=2, sort_keys=True))
     return 0 if ns.action == 'requirements' or not data['blockers'] else 2
 
