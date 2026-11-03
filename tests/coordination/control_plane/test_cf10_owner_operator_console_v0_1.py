@@ -172,25 +172,34 @@ def test_never_touch_legacy_make_or_signed_keys():
     assert 'reconcile-result-return' not in [x[0] for x in c.GATES.values()]
     assert 'cf10_s01_live_pilot_corridor' in c.CRITICAL[2]
 
-def test_postworker_advance_password_then_exact_canonical_result(monkeypatch,tmp_path):
-    calls=[];auth=Mock()
-    states=iter(['VALIDATE_CANDIDATE','AWAITING_OPERATOR_REVIEW'])
-    def step(*args):
-        calls.append(args[-1]);return {'state':'AWAITING_OPERATOR_REVIEW'}
+def test_postworker_advance_password_then_s3_make_delegation(tmp_path):
+    auth=Mock();step=Mock();calls=[]
+    states=iter(['VALIDATE_CANDIDATE', 'AWAITING_OPERATOR_REVIEW'])
+    def s3_advance(*args):
+        calls.append(args)
+        return {'execution_performed': True, 'governed_state': 'AWAITING_OPERATOR_REVIEW',
+                'classification': 'OPERATOR_GATE'}
     result=c.transition(tmp_path,tmp_path,TASK,ATTEMPT,'a'*40,
-                        state_fn=lambda *args:state(next(states)),step_fn=step,auth_fn=auth)
+                        state_fn=lambda *args:state(next(states)),step_fn=step,auth_fn=auth,
+                        postworker_inspect_fn=lambda *a: {'governed_state': 'VALIDATE_CANDIDATE',
+                          'classification': 'READY_FOR_BOUND_POSTWORKER_ADVANCE'},
+                        preflight_fn=lambda *a:(True, 'PASS'), postworker_advance_fn=s3_advance)
     assert result['state']=='AWAITING_OPERATOR_REVIEW'
-    assert result['completed']==['advance'] and calls==['advance']
-    auth.assert_called_once()
+    assert result['completed']==['postworker-advance-via-existing-make']
+    assert len(calls)==1 and calls[0][2:]==(TASK, ATTEMPT)
+    auth.assert_called_once();step.assert_not_called()
 
 
 def test_postworker_advance_blocked_without_automatic_retry(tmp_path):
-    step=Mock(return_value={'state':'BLOCKED'})
-    auth=Mock()
+    step=Mock();auth=Mock();run=Mock()
     result=c.transition(tmp_path,tmp_path,TASK,ATTEMPT,'a'*40,
-                        state_fn=lambda *args:state('VALIDATE_CANDIDATE'),step_fn=step,auth_fn=auth)
-    assert result['state']=='BLOCKED' and result['blocker']=='CANONICAL_ADVANCE_REVIEW_REQUIRED'
-    assert step.call_count==1 and auth.call_count==1
+                        state_fn=lambda *args:state('VALIDATE_CANDIDATE'),step_fn=step,auth_fn=auth,
+                        postworker_inspect_fn=lambda *a:{'governed_state':'VALIDATE_CANDIDATE',
+                           'classification':'READY_FOR_BOUND_POSTWORKER_ADVANCE'},
+                        preflight_fn=lambda *a:(False, 'QUARANTINED_NEEDS_INDEPENDENT_REBIND'),
+                        postworker_advance_fn=run)
+    assert result['state']=='BLOCKED' and result['blocker']=='POSTWORKER_MAKE_PREFLIGHT_DENIED'
+    step.assert_not_called();run.assert_not_called();auth.assert_not_called()
 
 
 def test_operator_review_not_automatically_accepted(tmp_path):

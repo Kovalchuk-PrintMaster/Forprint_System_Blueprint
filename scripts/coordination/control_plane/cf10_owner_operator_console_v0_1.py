@@ -34,6 +34,7 @@ CRITICAL = (
     'scripts/coordination/control_plane/cf10_s01_live_pilot_corridor_v0_1.py',
     'scripts/coordination/control_plane/cf10_owner_operator_console_v0_1.py',
     'scripts/coordination/control_plane/cf10_training_dispatch.py',
+    'scripts/coordination/control_plane/cf10_s3_worker_workflow_v0_1.py',
 )
 GATES = {
     'AWAITING_ASSISTANT_ACK': ('ack', '--confirm-ack', 'ACK: підтвердити узгоджений Handoff'),
@@ -43,9 +44,7 @@ GATES = {
     ),
 }
 STOP = {
-        'OBSERVE_WORKER': 'WORKER_PROCESS_STATUS_REVIEW_REQUIRED',
-    'FINALIZE_HANDOFF': 'POST_WORKER_BOUNDARY_REQUIRES_ACCEPTED_AUTHORITY_MIGRATION',
-    'ATTEMPT_TERMINAL': 'POST_WORKER_BOUNDARY_REQUIRES_ACCEPTED_AUTHORITY_MIGRATION',
+    'OBSERVE_WORKER': 'WAIT_FOR_WORKER_RESULT_AND_EXPLICIT_RESUME',
     'AWAITING_OPERATOR_REVIEW': 'EXPLICIT_OPERATOR_RESULT_REVIEW_REQUIRED',
     'PROMOTE_CANDIDATE': 'SEPARATE_PROMOTION_AUTHORITY_REQUIRED',
     'CANONICAL_VALIDATION': 'SEPARATE_CANONICAL_VALIDATION_REQUIRED',
@@ -55,6 +54,11 @@ STOP = {
     'BLOCKED': 'GOVERNED_STATE_BLOCKED_NO_AUTOMATIC_RETRY',
     'UNKNOWN': 'GOVERNED_STATE_UNKNOWN_NO_AUTOMATIC_RETRY',
 }
+
+# The existing S3 adapter owns all post-worker advancement.  This console must
+# never call advance_cycle() itself or interpret a readiness projection as
+# authorization. Make remains the mandatory mutating preflight boundary.
+POST_WORKER_STATES = frozenset({'VALIDATE_CANDIDATE', 'FINALIZE_HANDOFF', 'ATTEMPT_TERMINAL'})
 
 class ConsoleBlocked(RuntimeError):
     pass
@@ -159,9 +163,31 @@ def _step(root: Path, runtime: Path, task: str, attempt: str,
         return cycle.confirm_assistant_ack(**kw, confirm=True)
     if action == 'authorize-dispatch':
         return cycle.authorize_dispatch(**kw, confirm=True)
-    if action == 'advance':
-        return cycle.advance_cycle(**kw, task_prompt_id=task)
     raise ConsoleBlocked('UNSUPPORTED_CANONICAL_STEP')
+
+def _postworker_inspect(root: Path, runtime: Path, task: str, attempt: str) -> dict[str, Any]:
+    """Delegate read-only classification to the existing S3 contract."""
+    from scripts.coordination.control_plane import cf10_s3_worker_workflow_v0_1 as s3
+    return s3.inspect(root, runtime, task, attempt)
+
+
+def _postworker_advance(root: Path, runtime: Path, task: str, attempt: str) -> dict[str, Any]:
+    """S3 rechecks status and routes mutations through Make, never direct Python."""
+    from scripts.coordination.control_plane import cf10_s3_worker_workflow_v0_1 as s3
+    return s3.run_one(root, runtime, task, attempt, None, '.venv_blueprint/bin/python')
+
+
+def _postworker_make_preflight(root: Path) -> tuple[bool, str]:
+    """Read-only gate probe. S3's Make invocation repeats the authoritative gate."""
+    cp = subprocess.run(['make', '-s', 'cf10-s01-runtime-launch-preflight'],
+                        cwd=root, capture_output=True, text=True,
+                        check=False, timeout=60)
+    if cp.returncode:
+        # Strip paths / unwieldy output: the specific gate is preserved verbatim.
+        return False, ('rc=' + str(cp.returncode) + ':' +
+                       (cp.stdout + cp.stderr).strip()[-400:])
+    return True, 'PREFLIGHT_READ_ONLY_PASS_RECHECK_REQUIRED_AT_MAKE_ADVANCE'
+
 
 def authenticate_operator(*, process: Callable[..., Any] = subprocess.run,
                           geteuid: Callable[[], int] = os.geteuid,
@@ -236,8 +262,15 @@ def cleanup(root: Path, days: int = 7, now: dt.datetime | None = None) -> int:
 def transition(root: Path, runtime: Path, task: str, attempt: str, head: str,
                *, state_fn: Callable = status, step_fn: Callable = _step,
                auth_fn: Callable = authenticate_operator,
+               postworker_inspect_fn: Callable = _postworker_inspect,
+               postworker_advance_fn: Callable = _postworker_advance,
+               preflight_fn: Callable = _postworker_make_preflight,
                max_steps: int = 8) -> dict[str, Any]:
-    """Bounded progress; never launch, terminalize, accept or repeat a Worker."""
+    """Bounded progress; post-worker mutation only through S3 -> canonical Make.
+
+    Never retries a single-use Worker, never creates acceptance/promotion and
+    never treats a status projection or successful preflight as authority.
+    """
     completed: list[str] = []
     previous: set[str] = set()
     for _ in range(max_steps):
@@ -251,20 +284,58 @@ def transition(root: Path, runtime: Path, task: str, attempt: str, head: str,
         previous.add(state)
         print(f'CF10_STATE={state}; NEXT={current.get("next_boundary")}')
         if state in STOP:
-            return dict(state=state, blocker=STOP[state], completed=completed)
+            result = dict(state=state, blocker=STOP[state], completed=completed)
+            if state == 'AWAITING_OPERATOR_REVIEW':
+                result['next_action'] = 'CF10_WORKER_S3_REPORT_AND_EXPLICIT_OPERATOR_REVIEW'
+            return result
         if state == 'READY_FOR_WORKER_LAUNCH':
             from scripts.coordination.control_plane import cf10_owner_pam_launch_v0_1 as owner
             outcome = owner.launch_once(root=root, runtime_root=runtime,
                                         task_prompt_id=task, attempt_id=attempt)
             completed.append('launch')
             continue  # only observed canonical state may choose the next transition
-        if state == 'VALIDATE_CANDIDATE':
-            decision('RESULT VALIDATION / TERMINALIZATION: перевірити завершення Worker',
+        if state in POST_WORKER_STATES:
+            # Reuse the exact S3 read-only preconditions. A READY projection is
+            # not itself a grant; the independent Make prerequisite is mandatory.
+            try:
+                candidate = postworker_inspect_fn(root, runtime, task, attempt)
+            except Exception as exc:
+                return dict(state='BLOCKED', blocker='S3_INSPECTION_FAILED:' +
+                            type(exc).__name__, completed=completed)
+            if not isinstance(candidate, dict) or candidate.get('governed_state') != state:
+                return dict(state='BLOCKED', blocker='POSTWORKER_STATUS_CHANGED_OR_INVALID',
+                            completed=completed)
+            if candidate.get('classification') != 'READY_FOR_BOUND_POSTWORKER_ADVANCE':
+                return dict(state='BLOCKED', blocker='POSTWORKER_NOT_READY',
+                            next_action=candidate.get('next_action', 'INSPECT_S3_STATUS'),
+                            postworker_classification=candidate.get('classification'),
+                            blockers=candidate.get('blockers', []), completed=completed)
+            # Probe the same canonical quarantine before asking for PAM password;
+            # S3's later Make call repeats this gate before touching state.
+            try:
+                gate_ok, gate_reason = preflight_fn(root)
+            except Exception as exc:
+                return dict(state='BLOCKED', blocker='POSTWORKER_MAKE_PREFLIGHT_ERROR:' +
+                            type(exc).__name__, completed=completed)
+            if gate_ok is not True:
+                return dict(state='BLOCKED', blocker='POSTWORKER_MAKE_PREFLIGHT_DENIED',
+                            gate_detail=gate_reason,
+                            next_action='INDEPENDENT_AUTHORITY_REBIND_REVIEW',
+                            completed=completed)
+            decision('POST-WORKER: дозволити один канонічний Make advance після S3 перевірки',
                      task, attempt, head, authenticate=auth_fn)
-            result = step_fn(root, runtime, task, attempt, 'advance')
-            completed.append('advance')
-            if not isinstance(result, dict) or result.get('state') != 'AWAITING_OPERATOR_REVIEW':
-                return dict(state='BLOCKED', blocker='CANONICAL_ADVANCE_REVIEW_REQUIRED', completed=completed)
+            try:
+                outcome = postworker_advance_fn(root, runtime, task, attempt)
+            except Exception as exc:
+                return dict(state='BLOCKED', blocker='POSTWORKER_S3_MAKE_ADVANCE_FAILED:' +
+                            type(exc).__name__, next_action='MANUAL_GATE_REVIEW_NO_AUTO_RETRY',
+                            completed=completed)
+            if not isinstance(outcome, dict) or outcome.get('execution_performed') is not True or \
+                    outcome.get('governed_state') != 'AWAITING_OPERATOR_REVIEW' or \
+                    outcome.get('classification') != 'OPERATOR_GATE':
+                return dict(state='BLOCKED', blocker='POSTWORKER_RESULT_UNPROVEN',
+                            next_action='MANUAL_GATE_REVIEW_NO_AUTO_RETRY', completed=completed)
+            completed.append('postworker-advance-via-existing-make')
             continue
         if state in ('RESOLVE_TASK', 'PREPARE_WORKSPACE'):
             attempt_folder = runtime / 'forprint_system_blueprint' / WORKER / attempt
@@ -310,9 +381,22 @@ def main(argv: list[str] | None = None) -> int:
         initial = status(root, runtime, task, attempt)
         report = {'initial_state': initial.get('state'), 'source_head': head}
         if args.command in ('status', 'plan'):
-            print(json.dumps({'task_prompt_id':task, 'attempt_id':attempt,
-                              'state':initial.get('state'), 'next_boundary':initial.get('next_boundary'),
-                              'plan': 'BOUNDED_OWNER_FLOW_NO_LAUNCH'}, ensure_ascii=False, sort_keys=True, indent=2))
+            result = {'task_prompt_id': task, 'attempt_id': attempt,
+                      'state': initial.get('state'), 'next_boundary': initial.get('next_boundary'),
+                      'plan': 'BOUNDED_OWNER_FLOW_NO_LAUNCH', 'execution_performed': False,
+                      'automatic_accept': False, 'automatic_publication': False}
+            if initial.get('state') in POST_WORKER_STATES | {'OBSERVE_WORKER', 'AWAITING_OPERATOR_REVIEW'}:
+                try:
+                    s3 = _postworker_inspect(root, runtime, task, attempt)
+                    result['postworker'] = {'classification': s3.get('classification'),
+                                            'next_action': s3.get('next_action'),
+                                            'blockers': s3.get('blockers', []),
+                                            'governed_state': s3.get('governed_state'),
+                                            'requires_canonical_make_preflight': True}
+                except Exception as exc:
+                    result['postworker'] = {'classification': 'BLOCKED',
+                                            'reason': 'S3_INSPECTION_FAILED:' + type(exc).__name__}
+            print(json.dumps(result, ensure_ascii=False, sort_keys=True, indent=2))
             return 0
         # r016 deliberately does not cross the Worker launch/postworker authority migration.
         outcome = transition(root, runtime, task, attempt, head)

@@ -4241,3 +4241,20 @@ cf10-r036-independent-result-review-check:
 .PHONY: cf10-r037-finalizer-boundary-check
 cf10-r037-finalizer-boundary-check:
 	.venv_blueprint/bin/python -B scripts/validation/cf10_r037_finalizer_boundary_check_v0_1.py
+
+# CF10_R041_CONSOLE_S3_MAKE_BRIDGE_START
+# Target: cf10-r041-console-s3-bridge-check
+# Purpose: Assert Owner Console post-worker bridge delegates through S3 and Make.
+# Safety: READ-ONLY — isolated pytest; does not dispatch, launch, accept or publish.
+# Inputs: None.
+# Scope: RELATED — console + S3 + exact gate contract regression.
+# Result: exit 0 on passing tests; nonzero with exact test failures.
+# Canonical cf10-run/resume delegates to S3, which MUST run the existing
+# governed-worker-cycle-advance target (including its quarantine).
+.PHONY: cf10-r041-console-s3-bridge-check
+cf10-r041-console-s3-bridge-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/test_cf10_owner_operator_console_v0_1.py \
+		tests/coordination/control_plane/test_cf10_s3_worker_workflow_v0_1.py \
+		tests/coordination/control_plane/test_cf10_r041_console_s3_make_bridge.py
+# CF10_R041_CONSOLE_S3_MAKE_BRIDGE_END
