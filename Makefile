@@ -4339,3 +4339,13 @@ cf10-r051-launch-window-proof-inspect:
 cf10-r051-preclaim-check:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_r051_root_preclaim_receipt.py
 # CF10_R051_ROOT_PRECLAIM_RECEIPT_END
+
+# CF10_R052_OWNER_LAUNCH_BOUNDARY_START
+# READ-ONLY requirements + tests. Existing make quarantine and backend cutover
+# remain unchanged. No claim, PAM, production Worker or proof issuance.
+.PHONY: cf10-r052-pilot-launch-requirements cf10-r052-owner-launch-check
+cf10-r052-pilot-launch-requirements:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_r052_owner_launch_guard_v0_1 --mode requirements
+cf10-r052-owner-launch-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_r052_owner_launch_guard.py
+# CF10_R052_OWNER_LAUNCH_BOUNDARY_END

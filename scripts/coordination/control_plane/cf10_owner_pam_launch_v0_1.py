@@ -52,6 +52,7 @@ def _assert_live_source(root: Path) -> str:
     head = console.source_guard(root)
     for rel in ('coordination/continuity/cf10_sole_owner_pam_launch_policy_v0_1.yaml',
                 'scripts/coordination/control_plane/cf10_owner_pam_launch_v0_1.py',
+                'scripts/coordination/control_plane/cf10_r052_owner_launch_guard_v0_1.py',
                 'scripts/coordination/control_plane/cf10_s01_root_controlled_single_use_v0_2.py',
                 'scripts/coordination/execution_attempt_writer_lock_v0_1.py',
                 'scripts/coordination/execution_attempt_ledger_v0_1.py',
@@ -168,6 +169,11 @@ def launch_once(*, root: Path, runtime_root: Path, task_prompt_id: str,
     console.ids(task_prompt_id, attempt_id)
     head = _assert_live_source(PROJECT)
     _cycle_preclaim(PROJECT, RUNTIME, task_prompt_id, attempt_id)
+    # r052 joins real root-owned PRECLAIM/release evidence to the *existing*
+    # PAM/claim corridor. It never mints proof, claim or launch authority.
+    from scripts.coordination.control_plane import cf10_r052_owner_launch_guard_v0_1 as pilot_guard
+    pilot_guard.assert_pre_password(root=PROJECT, runtime_root=RUNTIME,
+                                    task=task_prompt_id, attempt=attempt_id, head=head)
     print(f'CF10 / WORKER LAUNCH\nTask: {task_prompt_id}\nAttempt: {attempt_id}\nHEAD: {head[:12]}', flush=True)
     print('One attempt, no automatic retry. System operator password required.',flush=True)
     console.authenticate_operator()
@@ -184,6 +190,10 @@ def launch_once(*, root: Path, runtime_root: Path, task_prompt_id: str,
             if _assert_live_source(PROJECT) != head:
                 _fail('OWNER_SOURCE_CHANGED_AFTER_PASSWORD')
             _cycle_preclaim(PROJECT, RUNTIME, task_prompt_id, attempt_id)
+            # Recheck root-owned proof bytes under the existing owner lock.
+            # A rejection must happen BEFORE the irreversible one-shot claim.
+            pilot_guard.assert_post_password_pre_claim(root=PROJECT, runtime_root=RUNTIME,
+                                                       task=task_prompt_id, attempt=attempt_id, head=head)
             _owner_claim(PROJECT, task_prompt_id, attempt_id, head)
             session = _Session(task_prompt_id,attempt_id,head)
             token = _SESSION.set(session)
