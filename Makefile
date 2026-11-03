@@ -4289,3 +4289,15 @@ cf10-r045-admission-check:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider \
 		tests/coordination/control_plane/test_cf10_r045_pilot_admission.py
 # CF10_R045_BOUNDED_PILOT_ADMISSION_CANDIDATE_END
+
+# CF10_R046_SINGLE_OWNER_PILOT_PROOF_BOUNDARY_START
+# READ-ONLY technical proof contract; neither issues nor consumes authority.
+# Production Make quarantine and the source-disabled systemd backend remain intact.
+.PHONY: cf10-r046-pilot-proof-requirements cf10-r046-pilot-proof-inspect cf10-r046-pilot-cutover-check
+cf10-r046-pilot-proof-requirements:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_r046_pilot_cutover_review_v0_1 requirements
+cf10-r046-pilot-proof-inspect:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_r046_pilot_cutover_review_v0_1 inspect --root . --task-prompt-id "$(GOVERNED_WORKER_TASK)" --attempt-id "$(GOVERNED_WORKER_ATTEMPT)"
+cf10-r046-pilot-cutover-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_r046_pilot_cutover_review.py
+# CF10_R046_SINGLE_OWNER_PILOT_PROOF_BOUNDARY_END
