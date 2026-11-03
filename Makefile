@@ -4362,3 +4362,21 @@ cf10-r053-route-requirements:
 cf10-r053-dormant-route-check:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_r053_dormant_pilot_bridge.py
 # CF10_R053_DORMANT_SOURCE_BRIDGE_END
+
+# CF10_R054_EXACT_POSTWORKER_GATE_START
+# Scoped to an ALREADY-LAUNCHED Task70 pilot. Legacy launch/reconcile/advance
+# quarantine is unchanged. No preworker launch authority is created here.
+.PHONY: cf10-r054-postworker-check cf10-r054-postworker-requirements
+.PHONY: cf10-s01-pilot-postworker-preflight cf10-s01-pilot-postworker-advance
+cf10-r054-postworker-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/test_cf10_r054_pilot_postworker_gate.py \
+		tests/coordination/control_plane/test_cf10_s3_worker_workflow_v0_1.py \
+		tests/coordination/control_plane/test_cf10_owner_operator_console_v0_1.py
+cf10-r054-postworker-requirements:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.cf10_r054_pilot_postworker_gate_v0_1 --mode requirements
+cf10-s01-pilot-postworker-preflight:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.cf10_r054_pilot_postworker_gate_v0_1 --mode inspect --root . --runtime-root "$(GOVERNED_WORKER_RUNTIME_ROOT)" --task "$(GOVERNED_WORKER_TASK)" --attempt "$(GOVERNED_WORKER_ATTEMPT)"
+cf10-s01-pilot-postworker-advance:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.cf10_r054_pilot_postworker_gate_v0_1 --mode advance --root . --runtime-root "$(GOVERNED_WORKER_RUNTIME_ROOT)" --task "$(GOVERNED_WORKER_TASK)" --attempt "$(GOVERNED_WORKER_ATTEMPT)" --confirm ADVANCE_EXACT_SOURCE_BOUND_TASK70_POSTWORKER_ONCE
+# CF10_R054_EXACT_POSTWORKER_GATE_END

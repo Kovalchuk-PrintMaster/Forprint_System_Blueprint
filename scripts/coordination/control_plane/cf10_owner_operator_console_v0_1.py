@@ -397,7 +397,22 @@ def transition(root: Path, runtime: Path, task: str, attempt: str, head: str,
             # Probe the same canonical quarantine before asking for PAM password;
             # S3's later Make call repeats this gate before touching state.
             try:
-                gate_ok, gate_reason = preflight_fn(root)
+                # Existing Make preflight remains authoritative for all other
+                # tasks. An exact launched Task70 pilot uses its separate
+                # root-proof-and-consumed-claim Make preflight, then S3 repeats
+                # the same check before canonical advancement.
+                from scripts.coordination.control_plane import cf10_r054_pilot_postworker_gate_v0_1 as pilot
+                if root.resolve() == PROJECT and pilot.ready(root=root, runtime=runtime, task=task, attempt=attempt):
+                    cmd = ['make', '-s', 'cf10-s01-pilot-postworker-preflight',
+                           'GOVERNED_WORKER_TASK=' + task,
+                           'GOVERNED_WORKER_ATTEMPT=' + attempt,
+                           'GOVERNED_WORKER_RUNTIME_ROOT=' + str(runtime)]
+                    observed = subprocess.run(cmd, cwd=root, capture_output=True,
+                                              text=True, check=False, timeout=90)
+                    gate_ok = observed.returncode == 0
+                    gate_reason = 'CF10_R054_PILOT_POSTWORKER_MAKE_RC=' + str(observed.returncode)
+                else:
+                    gate_ok, gate_reason = preflight_fn(root)
             except Exception as exc:
                 return dict(state='BLOCKED', blocker='POSTWORKER_MAKE_PREFLIGHT_ERROR:' +
                             type(exc).__name__, completed=completed)

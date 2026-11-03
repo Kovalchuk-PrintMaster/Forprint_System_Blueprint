@@ -48,16 +48,26 @@ def _overlay(root: Path, runtime: Path, proof: Path, task: str, attempt: str) ->
 
 def _advance_via_existing_make(root: Path, runtime: Path, task: str, attempt: str, python: str) -> dict:
     """The Make prerequisite preflight cannot be bypassed by this adapter."""
-    args = ["make", "-s", "governed-worker-cycle-advance",
+    # Native legacy release is still quarantined. A previously launched,
+    # root-claimed Task70 may select a separate source-bound Make target only
+    # after an independent, read-only gate proves exact pilot evidence.
+    # This is never a caller flag or a new dispatch/launch API. The Make target
+    # repeats the gate immediately before canonical advance_cycle.
+    target = "governed-worker-cycle-advance"
+    if root.resolve() == Path('/srv/software_development/forprint-project/forprint_system_blueprint'):
+        from scripts.coordination.control_plane import cf10_r054_pilot_postworker_gate_v0_1 as pilot
+        if pilot.ready(root=root, runtime=runtime, task=task, attempt=attempt):
+            target = "cf10-s01-pilot-postworker-advance"
+    args = ["make", "-s", target,
             "GOVERNED_WORKER_TASK=" + task,
             "GOVERNED_WORKER_ATTEMPT=" + attempt,
             "GOVERNED_WORKER_RUNTIME_ROOT=" + str(runtime),
             "PYTHON=" + python]
     cp = subprocess.run(args, cwd=root, capture_output=True, text=True, check=False, timeout=1200)
     require(cp.returncode == 0, "NATIVE_MAKE_ADVANCE_FAILED:rc=" + str(cp.returncode) + ":" + cp.stderr[-500:])
-    # Make may emit preflight messages before the YAML. Return raw stdout;
-    # the canonical source of state is a fresh status() read, not parsing stdout.
-    return {"delegated_to": "governed-worker-cycle-advance",
+    # Make may emit preflight messages before JSON/YAML. Only a fresh status()
+    # read establishes the state; no captured stdout is execution authority.
+    return {"delegated_to": target,
             "return_code": cp.returncode, "stdout_tail": cp.stdout[-1500:]}
 
 
