@@ -27,9 +27,18 @@ def deny(code: str):
     raise CanonicalCutoverBlocked('CF10_R030_' + code)
 
 def assert_cutover_ready() -> None:
-    """No user-supplied flag or environment variable can enable this route."""
+    """Legacy quarantine; only a private exact post-PAM pilot may pass."""
     if backend.LIVE_CUTOVER_ENABLED is not True:
-        deny('LIVE_SYSTEMD_ROUTE_NOT_RELEASED')
+        from scripts.coordination.control_plane import cf10_owner_pam_launch_v0_1 as owner
+        from scripts.coordination.control_plane import cf10_r055_pilot_launch_corridor_v0_1 as pilot
+        session = owner._SESSION.get()
+        if session is None or session.phase != 'INNER_ENTERED':
+            deny('LIVE_SYSTEMD_ROUTE_NOT_RELEASED')
+        try:
+            pilot.assert_after_owner_claim(root=backend.BLUEPRINT, runtime=backend.RUNTIME,
+                                           task=session.task, attempt=session.attempt, head=session.head)
+        except Exception:
+            deny('EXACT_PILOT_AFTER_CLAIM_GATE_DENIED')
 
 def bind_contract(*, root:Path, runtime_root:Path, task_prompt_id:str,
                   attempt_id:str, source_head:str, baseline_sha256:str,

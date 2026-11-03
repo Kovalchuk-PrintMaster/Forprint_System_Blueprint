@@ -23,6 +23,11 @@ SOURCES = {
     ),
     "scripts/coordination/control_plane/cf10_r030_canonical_systemd_route_v0_1.py": (
         "def assert_cutover_ready()", "LIVE_CUTOVER_ENABLED is not True",
+        "cf10_r055_pilot_launch_corridor_v0_1",
+    ),
+    "scripts/coordination/control_plane/cf10_r055_pilot_launch_corridor_v0_1.py": (
+        "def assert_before_password(", "def assert_after_owner_claim(",
+        "EXACT_RAW_BYTES_BOUND", "OWNER_PAM_INNER_SESSION_REQUIRED",
     ),
     "scripts/coordination/control_plane/worker_runtime/cf10_systemd_launcher_v0_1.py": (
         "LIVE_CUTOVER_ENABLED=False",

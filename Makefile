@@ -4380,3 +4380,21 @@ cf10-s01-pilot-postworker-preflight:
 cf10-s01-pilot-postworker-advance:
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.cf10_r054_pilot_postworker_gate_v0_1 --mode advance --root . --runtime-root "$(GOVERNED_WORKER_RUNTIME_ROOT)" --task "$(GOVERNED_WORKER_TASK)" --attempt "$(GOVERNED_WORKER_ATTEMPT)" --confirm ADVANCE_EXACT_SOURCE_BOUND_TASK70_POSTWORKER_ONCE
 # CF10_R054_EXACT_POSTWORKER_GATE_END
+
+# CF10_R055_PILOT_OWNER_ENTRY_START
+# One exact Task70 already READY for launch; root proof+PAM+one-shot claim
+# remain inside the canonical console, r055 source and backend gates.
+# No target aliases or overrides the legacy quarantine targets.
+.PHONY: cf10-s01-pilot-owner-run cf10-r055-source-corridor-check cf10-r055-source-requirements
+# Export make selectors as environment values, never interpolate them into
+# shell source; r052 and the owner code independently validate their scope.
+cf10-s01-pilot-owner-run: export CF10_TASK = $(GOVERNED_WORKER_TASK)
+cf10-s01-pilot-owner-run: export CF10_ATTEMPT = $(GOVERNED_WORKER_ATTEMPT)
+cf10-s01-pilot-owner-run:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.cf10_r052_owner_launch_guard_v0_1 --mode guarded-preflight
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.cf10_owner_operator_console_v0_1 run --root . --runtime-root /srv/software_development/forprint-worker-runtime --task-prompt-id "$$CF10_TASK" --attempt-id "$$CF10_ATTEMPT"
+cf10-r055-source-corridor-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_r055_pilot_launch_corridor.py
+cf10-r055-source-requirements:
+	@PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_r055_pilot_launch_corridor_v0_1 --mode requirements
+# CF10_R055_PILOT_OWNER_ENTRY_END

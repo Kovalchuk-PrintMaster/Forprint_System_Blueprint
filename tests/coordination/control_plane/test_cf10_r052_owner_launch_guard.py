@@ -91,6 +91,7 @@ def test_owner_guard_ordering_is_before_password_and_claim():
     c=src.index('pilot_guard.assert_post_password_pre_claim(')
     d=src.index('_owner_claim(')
     assert a<b<c<d
+    assert src.index('pilot_route.assert_before_password(')<a
     assert src.index('modern_route.assert_cutover_ready()')<a
 
 

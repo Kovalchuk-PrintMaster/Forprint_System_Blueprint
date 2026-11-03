@@ -106,3 +106,12 @@ def test_next_milestone_order_pinned():
     doc = contract()
     doc["next_engineering_milestones"].reverse()
     assert "NEXT_STEP_CONTRACT_INVALID" in r044.validate_contract(doc)
+
+
+def test_r055_separate_source_review_requires_exact_pilot_and_keeps_non_authority():
+    from scripts.coordination.control_plane import cf10_single_owner_pilot_review_v0_1 as r044
+    report = r044.inspect(ROOT)
+    assert report['status'] == 'OWNER_SELECTED_DESIGN_RELEASE_BLOCKED'
+    assert report['authority_granted'] is False
+    assert report['production_cutover'] is False
+    assert 'scripts/coordination/control_plane/cf10_r055_pilot_launch_corridor_v0_1.py' in report['source_checks']

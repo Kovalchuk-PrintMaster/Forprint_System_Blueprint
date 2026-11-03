@@ -165,7 +165,15 @@ def launch_once(*, root: Path, runtime_root: Path, task_prompt_id: str,
     # Before password and irreversible claim: the production backend must
     # have completed its separate live release gate. Otherwise consume nothing.
     from scripts.coordination.control_plane import cf10_r030_canonical_systemd_route_v0_1 as modern_route
-    modern_route.assert_cutover_ready()
+    # Exact owner pilot uses independently source-pinned r055. Nonpilot callers
+    # keep the historical cutover gate, which still refuses unconditionally.
+    from scripts.coordination.control_plane import cf10_r055_pilot_launch_corridor_v0_1 as pilot_route
+    if task_prompt_id == pilot_route.TASK:
+        head = _assert_live_source(PROJECT)
+        pilot_route.assert_before_password(root=PROJECT, runtime=RUNTIME,
+                                          task=task_prompt_id, attempt=attempt_id, head=head)
+    else:
+        modern_route.assert_cutover_ready()
     console.ids(task_prompt_id, attempt_id)
     head = _assert_live_source(PROJECT)
     _cycle_preclaim(PROJECT, RUNTIME, task_prompt_id, attempt_id)
