@@ -96,7 +96,11 @@ def test_pipeline_prepare_two_gates_and_owner_launch(tmp_path,monkeypatch):
     def statusfn(*args):return state(next(sequence))
     def stepfn(*args):steps.append(args[-1])
     result=c.transition(tmp_path,tmp_path,TASK,ATTEMPT,'a'*40,
-        state_fn=statusfn,step_fn=stepfn,auth_fn=auth)
+        state_fn=statusfn,step_fn=stepfn,auth_fn=auth,
+        postworker_inspect_fn=lambda *a:{'governed_state':'AWAITING_OPERATOR_REVIEW',
+            'classification':'OPERATOR_GATE','evidence_validated_by_s1':True},
+        postworker_report_fn=lambda *a:{'run_action':'S1_REPORT_WRITTEN_IN_TMP',
+            'report_artifact':'/isolated/operator.zip'})
     assert result['state']=='AWAITING_OPERATOR_REVIEW'
     assert result['completed']==['prepare','ack','authorize-dispatch','launch']
     assert steps==['prepare','ack','authorize-dispatch']
@@ -179,10 +183,19 @@ def test_postworker_advance_password_then_s3_make_delegation(tmp_path):
         calls.append(args)
         return {'execution_performed': True, 'governed_state': 'AWAITING_OPERATOR_REVIEW',
                 'classification': 'OPERATOR_GATE'}
+    n={'n':0}
+    def inspect_state(*a):
+        n['n']+=1
+        if n['n']==1:
+            return {'governed_state':'VALIDATE_CANDIDATE',
+                    'classification':'READY_FOR_BOUND_POSTWORKER_ADVANCE'}
+        return {'governed_state':'AWAITING_OPERATOR_REVIEW',
+                'classification':'OPERATOR_GATE','evidence_validated_by_s1':True}
     result=c.transition(tmp_path,tmp_path,TASK,ATTEMPT,'a'*40,
                         state_fn=lambda *args:state(next(states)),step_fn=step,auth_fn=auth,
-                        postworker_inspect_fn=lambda *a: {'governed_state': 'VALIDATE_CANDIDATE',
-                          'classification': 'READY_FOR_BOUND_POSTWORKER_ADVANCE'},
+                        postworker_inspect_fn=inspect_state,
+                        postworker_report_fn=lambda *a:{'run_action':'S1_REPORT_WRITTEN_IN_TMP',
+                            'report_artifact':'/isolated/operator.zip'},
                         preflight_fn=lambda *a:(True, 'PASS'), postworker_advance_fn=s3_advance)
     assert result['state']=='AWAITING_OPERATOR_REVIEW'
     assert result['completed']==['postworker-advance-via-existing-make']
@@ -205,6 +218,10 @@ def test_postworker_advance_blocked_without_automatic_retry(tmp_path):
 def test_operator_review_not_automatically_accepted(tmp_path):
     step=Mock();auth=Mock()
     result=c.transition(tmp_path,tmp_path,TASK,ATTEMPT,'a'*40,
-                        state_fn=lambda *args:state('AWAITING_OPERATOR_REVIEW'),step_fn=step,auth_fn=auth)
+                        state_fn=lambda *args:state('AWAITING_OPERATOR_REVIEW'),step_fn=step,auth_fn=auth,
+                        postworker_inspect_fn=lambda *a:{'governed_state':'AWAITING_OPERATOR_REVIEW',
+                            'classification':'OPERATOR_GATE','evidence_validated_by_s1':True},
+                        postworker_report_fn=lambda *a:{'run_action':'S1_REPORT_WRITTEN_IN_TMP',
+                            'report_artifact':'/isolated/operator.zip'})
     assert result['state']=='AWAITING_OPERATOR_REVIEW' and result['completed']==[]
     step.assert_not_called();auth.assert_not_called()

@@ -4258,3 +4258,14 @@ cf10-r041-console-s3-bridge-check:
 		tests/coordination/control_plane/test_cf10_s3_worker_workflow_v0_1.py \
 		tests/coordination/control_plane/test_cf10_r041_console_s3_make_bridge.py
 # CF10_R041_CONSOLE_S3_MAKE_BRIDGE_END
+
+# CF10_R043_S3_OPERATOR_REVIEW_AUTO_EXPORT_START
+# Source-native regression only; no launch, signed release, or production cutover.
+.PHONY: cf10-r043-s3-operator-review-check
+cf10-r043-s3-operator-review-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/test_cf10_owner_operator_console_v0_1.py \
+		tests/coordination/control_plane/test_cf10_s3_worker_workflow_v0_1.py \
+		tests/coordination/control_plane/test_cf10_r041_console_s3_make_bridge.py \
+		tests/coordination/control_plane/test_cf10_r043_operator_review_autoexport.py
+# CF10_R043_S3_OPERATOR_REVIEW_AUTO_EXPORT_END

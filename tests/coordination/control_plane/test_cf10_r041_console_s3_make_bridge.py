@@ -33,7 +33,13 @@ def cycle(state='VALIDATE_CANDIDATE', **kwargs):
                         state_fn=kwargs.pop('state_fn', lambda *a: projection(state)),
                         auth_fn=kwargs.pop('auth_fn', Mock()),
                         step_fn=kwargs.pop('step_fn', Mock()),
-                        postworker_inspect_fn=kwargs.pop('postworker_inspect_fn', lambda *a: ready(state)),
+                        postworker_inspect_fn=kwargs.pop('postworker_inspect_fn',
+                            lambda *a: ({'governed_state':'AWAITING_OPERATOR_REVIEW',
+                                        'classification':'OPERATOR_GATE', 'evidence_validated_by_s1':True}
+                                       if state == 'AWAITING_OPERATOR_REVIEW' else ready(state))),
+                        postworker_report_fn=kwargs.pop('postworker_report_fn',
+                            lambda *a: {'run_action':'S1_REPORT_WRITTEN_IN_TMP',
+                                        'report_artifact':'/isolated/preview.zip'}),
                         preflight_fn=kwargs.pop('preflight_fn', lambda *a: (False, 'QUARANTINED')),
                         postworker_advance_fn=kwargs.pop('postworker_advance_fn', Mock()),
                         **kwargs)
@@ -120,13 +126,20 @@ def test_s3_advance_stub_invoked_once_after_pam_and_gate():
         order.append('S3_RUN_ONE')
         return {'execution_performed':True,'governed_state':'AWAITING_OPERATOR_REVIEW',
                 'classification':'OPERATOR_GATE'}
+    calls={'n':0}
+    def inspect_after(*a):
+        calls['n']+=1
+        return ready('VALIDATE_CANDIDATE') if calls['n']==1 else {
+            'governed_state':'AWAITING_OPERATOR_REVIEW','classification':'OPERATOR_GATE',
+            'evidence_validated_by_s1':True}
     r=cycle(auth_fn=authorized,
        state_fn=lambda *a:projection(next(sequence)),
+       postworker_inspect_fn=inspect_after,
        preflight_fn=lambda *a:(True,'PASS'),postworker_advance_fn=advanced)
     assert order==['PAM','S3_RUN_ONE']
     assert r['state']=='AWAITING_OPERATOR_REVIEW'
     assert r['completed']==['postworker-advance-via-existing-make']
-    assert r['next_action']=='CF10_WORKER_S3_REPORT_AND_EXPLICIT_OPERATOR_REVIEW'
+    assert r['next_action']=='EXPLICIT_OPERATOR_REVIEW'
 
 
 def test_failed_s3_make_has_no_second_attempt():
@@ -176,7 +189,7 @@ def test_observe_never_mutates_or_prompts():
 def test_report_stop_never_auto_accepts():
     auth=Mock();advance=Mock()
     r=cycle('AWAITING_OPERATOR_REVIEW',auth_fn=auth,postworker_advance_fn=advance)
-    assert r['next_action']=='CF10_WORKER_S3_REPORT_AND_EXPLICIT_OPERATOR_REVIEW'
+    assert r['next_action']=='EXPLICIT_OPERATOR_REVIEW'
     assert r['completed']==[]
     auth.assert_not_called();advance.assert_not_called()
 

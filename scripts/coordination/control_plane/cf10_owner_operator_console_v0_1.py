@@ -12,6 +12,7 @@ import getpass
 import hashlib
 import json
 import os
+import zipfile
 from pathlib import Path
 import re
 import shutil
@@ -177,6 +178,59 @@ def _postworker_advance(root: Path, runtime: Path, task: str, attempt: str) -> d
     return s3.run_one(root, runtime, task, attempt, None, '.venv_blueprint/bin/python')
 
 
+
+def _postworker_report(root: Path, runtime: Path, task: str, attempt: str) -> dict[str, Any]:
+    """Create/reuse a *disposable* verified S1 report through canonical S3.
+
+    The filename binds the exact S1 report bytes; repeat resume with unchanged
+    evidence returns the same ZIP and never touches canonical ledgers. Changed
+    evidence gets a different derived preview, never overwrite or silent repair.
+    """
+    from scripts.coordination.control_plane import cf10_s3_worker_workflow_v0_1 as s3
+    from scripts.coordination.control_plane.cf10_attempt_operator_report_v0_2 import write_preview
+
+    _private_dir(temp_root(root))
+    folder = temp_root(root) / 's1_reviews'
+    _private_dir(folder)
+
+    def write_once(canonical: Path, report: dict, _unused: Path) -> Path:
+        require(canonical.resolve() == root.resolve(), 'S1_REVIEW_ROOT_CHANGED')
+        require(report.get('attempt_id') == attempt and report.get('task_prompt_id') == task,
+                'S1_REVIEW_IDENTITY_MISMATCH')
+        require(report.get('blockers') == [] and report.get('result_classification') != 'BLOCKED',
+                'S1_REVIEW_BLOCKED')
+        body = (json.dumps(report, ensure_ascii=False, sort_keys=True, indent=2) + '\n').encode('utf-8')
+        digest = hashlib.sha256(body).hexdigest()
+        name = f'{attempt}-{digest[:24]}'
+        target = folder / name
+        archive = folder / (name + '.zip')
+        require(not target.is_symlink() and not archive.is_symlink(), 'S1_ARCHIVE_SYMLINK')
+        if archive.exists() or target.exists():
+            require(archive.is_file() and target.is_dir(), 'S1_ARCHIVE_PARTIAL_PRIOR_WRITE')
+            require(archive.stat().st_size <= 2_000_000, 'S1_ARCHIVE_OVERSIZE')
+            try:
+                with zipfile.ZipFile(archive) as z:
+                    expected = {'SHA256SUMS', 'operator_report.json',
+                                'operator_report.yaml', 'operator_report.md'}
+                    require(set(z.namelist()) == expected and z.testzip() is None,
+                            'S1_CACHED_ARCHIVE_CORRUPT_OR_UNEXPECTED')
+                    require(z.read('operator_report.json') == body,
+                            'S1_CACHED_ARCHIVE_CONTENT_CHANGED')
+                    lines = z.read('SHA256SUMS').decode('ascii').splitlines()
+                    for line in lines:
+                        sha, member = line.split('  ', 1)
+                        require(member in expected - {'SHA256SUMS'}, 'S1_CACHED_HASH_NAME')
+                        require(hashlib.sha256(z.read(member)).hexdigest() == sha,
+                                'S1_CACHED_HASH_MISMATCH')
+                    require(len(lines) == 3, 'S1_CACHED_HASH_SET_INCOMPLETE')
+            except (zipfile.BadZipFile, KeyError, UnicodeDecodeError, ValueError) as exc:
+                raise ConsoleBlocked('S1_CACHED_ARCHIVE_UNVERIFIABLE') from exc
+            return archive
+        return write_preview(canonical, report, target)
+
+    return s3.report_attempt(root, runtime, task, attempt, None, folder / 'derived',
+                             write_fn=write_once)
+
 def _postworker_make_preflight(root: Path) -> tuple[bool, str]:
     """Read-only gate probe. S3's Make invocation repeats the authoritative gate."""
     cp = subprocess.run(['make', '-s', 'cf10-s01-runtime-launch-preflight'],
@@ -265,6 +319,7 @@ def transition(root: Path, runtime: Path, task: str, attempt: str, head: str,
                postworker_inspect_fn: Callable = _postworker_inspect,
                postworker_advance_fn: Callable = _postworker_advance,
                preflight_fn: Callable = _postworker_make_preflight,
+               postworker_report_fn: Callable = _postworker_report,
                max_steps: int = 8) -> dict[str, Any]:
     """Bounded progress; post-worker mutation only through S3 -> canonical Make.
 
@@ -283,11 +338,40 @@ def transition(root: Path, runtime: Path, task: str, attempt: str, head: str,
             return dict(state='BLOCKED', blocker='NO_PROGRESS_OR_REPEATED_STATE', completed=completed)
         previous.add(state)
         print(f'CF10_STATE={state}; NEXT={current.get("next_boundary")}')
+        if state == 'AWAITING_OPERATOR_REVIEW':
+            # S3 verifies S1 terminal evidence; no password, worker launch,
+            # canonical finalization, acceptance or promotion takes place here.
+            try:
+                review = postworker_inspect_fn(root, runtime, task, attempt)
+                if not isinstance(review, dict) or review.get('governed_state') != state:
+                    return dict(state='BLOCKED', blocker='S1_REVIEW_STATUS_DRIFT', completed=completed)
+                if (review.get('classification') != 'OPERATOR_GATE' or
+                        review.get('evidence_validated_by_s1') is not True):
+                    return dict(state='BLOCKED', blocker='S1_REVIEW_EVIDENCE_NOT_VALIDATED',
+                                next_action=review.get('next_action', 'REVIEW_S1_BLOCKERS'),
+                                blockers=review.get('blockers', []), completed=completed)
+                report = postworker_report_fn(root, runtime, task, attempt)
+                if (not isinstance(report, dict) or
+                        report.get('run_action') != 'S1_REPORT_WRITTEN_IN_TMP' or
+                        not isinstance(report.get('report_artifact'), str) or
+                        not report['report_artifact']):
+                    return dict(state='BLOCKED', blocker='S1_REVIEW_REPORT_NOT_PROVEN',
+                                next_action='REVIEW_S1_REPORT_MANUALLY', completed=completed)
+            except Exception as exc:
+                return dict(state='BLOCKED', blocker='S1_REVIEW_REPORT_FAILED:' + type(exc).__name__,
+                            next_action='REVIEW_S1_EVIDENCE_NO_WORKER_RETRY', completed=completed)
+            return dict(state=state, blocker=STOP[state], completed=completed,
+                        next_action=review.get('next_action', 'EXPLICIT_OPERATOR_REVIEW'),
+                        report_artifact=report['report_artifact'],
+                        worker_result_status=review.get('worker_result_status'),
+                        changed_paths=review.get('changed_paths'),
+                        operator_decision=review.get('operator_decision'),
+                        s1_result_classification=review.get('s1_result_classification'),
+                        report_role='DERIVED_NON_AUTHORIZING',
+                        automatic_accept=False, automatic_promotion=False,
+                        automatic_publication=False)
         if state in STOP:
-            result = dict(state=state, blocker=STOP[state], completed=completed)
-            if state == 'AWAITING_OPERATOR_REVIEW':
-                result['next_action'] = 'CF10_WORKER_S3_REPORT_AND_EXPLICIT_OPERATOR_REVIEW'
-            return result
+            return dict(state=state, blocker=STOP[state], completed=completed)
         if state == 'READY_FOR_WORKER_LAUNCH':
             from scripts.coordination.control_plane import cf10_owner_pam_launch_v0_1 as owner
             outcome = owner.launch_once(root=root, runtime_root=runtime,
@@ -392,7 +476,7 @@ def main(argv: list[str] | None = None) -> int:
                                             'next_action': s3.get('next_action'),
                                             'blockers': s3.get('blockers', []),
                                             'governed_state': s3.get('governed_state'),
-                                            'requires_canonical_make_preflight': True}
+                                            'requires_canonical_make_preflight': initial.get('state') in POST_WORKER_STATES}
                 except Exception as exc:
                     result['postworker'] = {'classification': 'BLOCKED',
                                             'reason': 'S3_INSPECTION_FAILED:' + type(exc).__name__}
@@ -403,6 +487,8 @@ def main(argv: list[str] | None = None) -> int:
         report.update(outcome)
         print('CF10_CONSOLE_STATUS=' + str(outcome['state']))
         print('CF10_CONSOLE_NEXT=' + str(outcome['blocker']))
+        if outcome.get('report_artifact'):
+            print('CF10_CONSOLE_S1_REVIEW_ZIP=' + str(outcome['report_artifact']))
         if outcome['state'] in ('BLOCKED', 'UNKNOWN'):
             return 2
         return 0
