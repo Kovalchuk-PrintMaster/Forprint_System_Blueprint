@@ -4349,3 +4349,16 @@ cf10-r052-pilot-launch-requirements:
 cf10-r052-owner-launch-check:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_r052_owner_launch_guard.py
 # CF10_R052_OWNER_LAUNCH_BOUNDARY_END
+
+# CF10_R053_DORMANT_SOURCE_BRIDGE_START
+# READ-ONLY proof-bound candidate. The legacy quarantine and all three original
+# launch/reconcile/advance prerequisites above remain intact. This does not
+# schedule, activate, dispatch, launch, accept or authorize a Worker.
+.PHONY: cf10-s01-pilot-launch-preflight cf10-r053-dormant-route-check cf10-r053-route-requirements
+cf10-s01-pilot-launch-preflight:
+	@PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_r052_owner_launch_guard_v0_1 --mode guarded-preflight
+cf10-r053-route-requirements:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_r053_dormant_pilot_bridge_v0_1 --mode requirements
+cf10-r053-dormant-route-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_r053_dormant_pilot_bridge.py
+# CF10_R053_DORMANT_SOURCE_BRIDGE_END

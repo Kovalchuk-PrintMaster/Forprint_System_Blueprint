@@ -231,6 +231,15 @@ def launch_after_owner_claim(*,spec:bound.BoundedInput,plan:dict,
     No environment flag, CLI argument or caller bool can lift this gate.
     """
     if LIVE_CUTOVER_ENABLED is not True:
+        # CF10_SOURCE_BOUND_PILOT_BACKEND_BRANCH_VERIFIED
+        # r053 is a dormant branch only.  Neither successful proof inspection
+        # nor a caller-supplied value can reach _core through this branch.
+        from scripts.coordination.control_plane import cf10_r052_owner_launch_guard_v0_1 as pilot_guard
+        from scripts.coordination.control_plane import cf10_r053_dormant_pilot_bridge_v0_1 as dormant
+        try:
+            dormant.refuse_backend_launch(spec=spec, guard_module=pilot_guard)
+        except dormant.PilotDormantBlocked:
+            deny('PRODUCTION_CUTOVER_NOT_AUTHORIZED')
         deny('PRODUCTION_CUTOVER_NOT_AUTHORIZED')
     # The existing owner/PAM console and one-time claim remain compulsory.
     from scripts.coordination.control_plane import cf10_owner_pam_launch_v0_1 as owner

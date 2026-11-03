@@ -29,6 +29,7 @@ PINNED_FILES = (
     'Makefile',
     'scripts/coordination/control_plane/cf10_owner_pam_launch_v0_1.py',
     'scripts/coordination/control_plane/cf10_r052_owner_launch_guard_v0_1.py',
+    'scripts/coordination/control_plane/cf10_r053_dormant_pilot_bridge_v0_1.py',
     'scripts/coordination/control_plane/cf10_r051_root_preclaim_receipt_v0_1.py',
     'scripts/coordination/control_plane/cf10_r046_pilot_cutover_review_v0_1.py',
     'scripts/coordination/control_plane/cf10_r050_two_phase_pilot_v0_1.py',
@@ -258,9 +259,32 @@ def requirements() -> dict:
 
 def main(argv=None) -> int:
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--mode',choices=('requirements',),required=True)
+    parser.add_argument('--mode',choices=('requirements','guarded-preflight'),required=True)
     ns=parser.parse_args(argv)
-    print(json.dumps(requirements(),ensure_ascii=False,indent=2,sort_keys=True))
+    if ns.mode == 'requirements':
+        print(json.dumps(requirements(),ensure_ascii=False,indent=2,sort_keys=True))
+        return 0
+    # This read-only Make surface reads IDs from the shell environment solely
+    # as selectors. They grant no privilege and are validated by real observers.
+    # A positive result is NOT a live cutover or permission to spawn anything.
+    from scripts.coordination.control_plane import cf10_owner_operator_console_v0_1 as console
+    task = os.environ.get('CF10_TASK','')
+    attempt = os.environ.get('CF10_ATTEMPT','')
+    try:
+        console.ids(task, attempt)
+        head = console.source_guard(PROJECT)
+        assert_pre_password(root=PROJECT, runtime_root=RUNTIME,
+                            task=task, attempt=attempt, head=head)
+    except Exception as exc:
+        print(json.dumps({'schema_version': 'cf10_r053_make_pilot_preflight_v0_1',
+                          'status': 'BLOCKED_READ_ONLY_PILOT_PREFLIGHT',
+                          'launch_allowed': False, 'worker_launched': False,
+                          'blocker_class': type(exc).__name__}, sort_keys=True))
+        return 2
+    print(json.dumps({'schema_version': 'cf10_r053_make_pilot_preflight_v0_1',
+                      'status': 'EVIDENCE_CANDIDATE_NON_AUTHORIZING',
+                      'launch_allowed': False, 'worker_launched': False,
+                      'operator_claim_consumed': False}, sort_keys=True))
     return 0
 
 if __name__=='__main__':
