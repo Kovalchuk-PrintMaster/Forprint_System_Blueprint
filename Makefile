@@ -4279,3 +4279,13 @@ cf10-r044-single-owner-pilot-inspect:
 cf10-r044-single-owner-pilot-check:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_r044_single_owner_pilot_review.py
 # CF10_R044_SINGLE_OWNER_PILOT_DESIGN_V0_1_END
+
+# CF10_R045_BOUNDED_PILOT_ADMISSION_CANDIDATE_START
+# READ-ONLY; no claim, PAM prompt, systemd launch, acceptance or release.
+.PHONY: cf10-r045-admission-inventory cf10-r045-admission-check
+cf10-r045-admission-inventory:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B scripts/coordination/control_plane/cf10_r045_pilot_admission_v0_1.py inventory --root .
+cf10-r045-admission-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/test_cf10_r045_pilot_admission.py
+# CF10_R045_BOUNDED_PILOT_ADMISSION_CANDIDATE_END
