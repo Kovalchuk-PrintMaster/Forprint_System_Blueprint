@@ -4301,3 +4301,12 @@ cf10-r046-pilot-proof-inspect:
 cf10-r046-pilot-cutover-check:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_r046_pilot_cutover_review.py
 # CF10_R046_SINGLE_OWNER_PILOT_PROOF_BOUNDARY_END
+
+# CF10_R047_ROOT_SOURCE_PROVENANCE_START
+# Read-only root-owned raw source binding; no evidence issuance or launch.
+.PHONY: cf10-r047-pilot-proof-lineage-check
+cf10-r047-pilot-proof-lineage-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/test_cf10_r046_pilot_cutover_review.py \
+		tests/coordination/control_plane/test_cf10_r047_pilot_proof_lineage.py
+# CF10_R047_ROOT_SOURCE_PROVENANCE_END

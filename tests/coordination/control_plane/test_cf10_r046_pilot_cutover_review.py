@@ -159,6 +159,10 @@ def test_inspect_verified_proofs_remain_non_authorizing(monkeypatch):
     monkeypatch.setattr(admission,'collect',lambda root,task,attempt:{
         'preclaim_evidence_complete':True,'status':'PRECLAIM_EVIDENCE_CANDIDATE_NON_AUTHORIZING'})
     monkeypatch.setattr(g,'_trusted_folder',lambda _: __import__('os').open('/dev/null',__import__('os').O_RDONLY))
+    # This pre-r047 test exercises r046 release binding only; raw source checks
+    # have their own negative/positive test suite in r047.
+    from scripts.coordination.control_plane import cf10_r047_pilot_proof_lineage_v0_1 as lineage
+    monkeypatch.setattr(lineage, 'verify_sources', lambda **_: [])
     contents={'owner_pilot_release_'+g._attempt_key(ATTEMPT)+'.json': _bytes(r)}
     contents.update({g._proof_name(kind,ATTEMPT):_bytes(doc) for kind,doc in p.items()})
     monkeypatch.setattr(g,'_trusted_file',lambda fd,name: contents[name])

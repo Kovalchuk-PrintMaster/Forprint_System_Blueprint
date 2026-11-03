@@ -223,6 +223,16 @@ def inspect(*, root: Path, task: str, attempt: str) -> dict:
                 if _sha(raw) != binding.get('sha256'):
                     _deny('DURABLE_PROOF_DIGEST_MISMATCH:' + typ)
                 proofs[typ] = _json_checked(raw)
+            # r047: source_evidence_sha256 must reference real, exact root-owned
+            # raw bytes. A declaration of independent review alone is not proof.
+            from scripts.coordination.control_plane import cf10_r047_pilot_proof_lineage_v0_1 as lineage
+            lineage_blockers = lineage.verify_sources(
+                folder_fd=fd, proofs=proofs, head=head, task=task,
+                attempt=attempt, worker=WORKER, read=_trusted_file, decode=_json_checked,
+            )
+            problems.extend(lineage_blockers)
+            checks['r047_source_lineage'] = ('EXACT_RAW_BYTES_BOUND' if not lineage_blockers
+                                              else 'UNPROVEN_OR_BLOCKED')
         finally:
             os.close(fd)
         problems.extend(validate_candidate(release, proofs, head=head, task=task, attempt=attempt))
