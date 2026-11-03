@@ -4310,3 +4310,17 @@ cf10-r047-pilot-proof-lineage-check:
 		tests/coordination/control_plane/test_cf10_r046_pilot_cutover_review.py \
 		tests/coordination/control_plane/test_cf10_r047_pilot_proof_lineage.py
 # CF10_R047_ROOT_SOURCE_PROVENANCE_END
+
+# CF10_R050_TWO_PHASE_AND_POSITIVE_CANDIDATE_START
+# Source-native READ-ONLY/isolated fixture. Does not change the quarantined
+# cf10-s01-runtime-launch-preflight, backend cutover, ledger or launch authority.
+.PHONY: cf10-r050-phase-requirements cf10-r050-positive-candidate-fixture cf10-r050-two-phase-check
+cf10-r050-phase-requirements:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_r050_two_phase_pilot_v0_1 requirements
+cf10-r050-positive-candidate-fixture:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_r050_positive_candidate_fixture_v0_1 --root . --variant positive
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_r050_positive_candidate_fixture_v0_1 --root . --variant missing_terminal
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_r050_positive_candidate_fixture_v0_1 --root . --variant drifted_result
+cf10-r050-two-phase-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_r050_two_phase_positive_candidate.py
+# CF10_R050_TWO_PHASE_AND_POSITIVE_CANDIDATE_END
