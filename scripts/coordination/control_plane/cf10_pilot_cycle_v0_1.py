@@ -110,6 +110,7 @@ def assert_owner_preclaim_runtime(*, root: Path, runtime: Path,
     if _logs_health(runtime, attempt) != 'PASS':
         deny('LOGS_NOT_READY_BEFORE_CLAIM:' + _logs_health(runtime, attempt))
     _assert_static_argv_boundary(attempt, head, runtime)
+    _assert_actual_frozen_invocation(root, runtime, task, attempt, head)
 
 
 def _safe_runtime_parent(path: Path) -> None:
@@ -323,6 +324,87 @@ def _assert_static_argv_boundary(attempt: str, head: str, runtime: Path) -> None
     r013.validate_plan(r013.bind_plan(spec), spec)
 
 
+def _assert_actual_frozen_invocation(root: Path, runtime: Path, task: str,
+                                     attempt: str, head: str) -> None:
+    """Rebuild and validate the ACTUAL frozen Copilot invocation before claim.
+
+    Uses the canonical launch-cycle's read-only Handoff/context/binding helpers.
+    Nothing is written, launched, logged, claimed, or authorized here; sensitive
+    argv/prompt and MCP configuration never enter reports or exception text.
+    The real launch rebuilds this invocation under its own authority gates.
+    """
+    from scripts.coordination.control_plane import governed_worker_cycle as cycle
+    from scripts.coordination.control_plane import cf10_r030_canonical_systemd_route_v0_1 as route
+    from scripts.coordination.control_plane.worker_runtime import invocation_adapter
+    from scripts.coordination import execution_attempt_ledger_v0_1 as ledger
+
+    validate_selector(root, runtime, task, attempt)
+    if _head(root) != head or frozen_head(runtime, attempt) != head:
+        deny('FROZEN_SOURCE_HEAD_MISMATCH_ACTUAL_INVOCATION')
+    attempt_root = runtime / 'forprint_system_blueprint' / WORKER / attempt
+    inp = attempt_root / 'input'
+    try:
+        source = cycle._load_yaml(
+            inp / 'governed_worker_cycle_source_state_v0_1.yaml', 'source state')
+        prepared = cycle._load_yaml(
+            inp / 'governed_worker_cycle_prepared_execution_v0_1.yaml',
+            'prepared execution')
+        decision = cycle._load_yaml(
+            inp / 'governed_worker_cycle_explicit_dispatch_decision_v0_1.yaml',
+            'explicit dispatch decision')
+        cycle._assert_frozen_source_state_current(
+            root, source, boundary='CF10 project-native preclaim invocation')
+        cycle._load_verified_original_handoff_manifest(
+            attempt=attempt_root, prepared_execution=prepared,
+            source_state=source)
+        transport = cycle._resolve_stage4c_trusted_transport(
+            root=root, prepared_execution=prepared,
+            explicit_dispatch_decision=decision,
+            expected_task_prompt_id=task, expected_attempt_id=attempt)
+        readback = cycle._resolve_b3_trusted_readback(
+            root=root, prepared_execution=prepared,
+            explicit_dispatch_decision=decision,
+            expected_task_prompt_id=task, expected_attempt_id=attempt)
+        started, task_context = cycle._project_native_started_record(
+            canonical=root, attempt=attempt_root,
+            task_prompt_id=task, attempt_id=attempt, worker_id=WORKER,
+            source_state=source, prepared_execution=prepared,
+            explicit_dispatch_decision=decision)
+        governed_context = cycle._validated_project_native_governed_worker_context(
+            prepared_execution=prepared, explicit_dispatch_decision=decision)
+        # This is the same provider adapter and exact argument set used by
+        # governed_worker_cycle.launch_cycle; no synthetic/pinned argv fixture.
+        plan = invocation_adapter.build_launch_invocation(
+            root=root, task_context=task_context,
+            explicit_dispatch_decision=decision,
+            attempt_root=attempt_root,
+            governed_worker_context=governed_context,
+            result_transport=transport,
+            validation_readback_selection=readback)
+        if not isinstance(plan, dict) or plan.get('attempt_id') != attempt:
+            deny('ACTUAL_INVOCATION_ATTEMPT_BINDING_INVALID')
+        contract = ledger.load_contract(root)
+        if ledger.validate_record_data(started, contract):
+            deny('ACTUAL_STARTED_LEDGER_CONTRACT_INVALID')
+        baseline = cycle._load_yaml(
+            attempt_root / 'evidence/worker_baseline_v0_1.yaml',
+            'Worker baseline')
+        launch_values = cycle._b2_find_launch_mapping(plan)
+        # The real systemd canonical contract checks actual argv byte limits,
+        # cwd/log paths, hashes and exact source/attempt scope.  No systemd call.
+        route.bind_contract(
+            root=root, runtime_root=runtime, task_prompt_id=task,
+            attempt_id=attempt, source_head=head,
+            baseline_sha256=baseline.get('baseline_fingerprint_sha256'),
+            handoff_sha256=prepared.get('handoff_manifest_sha256'),
+            launch_values=launch_values)
+    except PilotBlocked:
+        raise
+    except Exception as exc:
+        # No raw exception text: it can contain the provider prompt/MCP JSON.
+        deny('ACTUAL_FROZEN_INVOCATION_PREFLIGHT_FAILED:' + type(exc).__name__)
+
+
 def advance(root: Path, runtime: Path, task: str, attempt: str,
             *, launch_once: bool = False) -> dict[str, Any]:
     """Bounded authority-aware progress. Never retries an already consumed claim."""
@@ -368,6 +450,7 @@ def advance(root: Path, runtime: Path, task: str, attempt: str,
             if not _preclaim_absent(attempt):
                 deny('PRECLAIM_OCCUPIED_OR_UNTRUSTED_NO_REWRITE')
             _assert_static_argv_boundary(attempt, head, runtime)
+            _assert_actual_frozen_invocation(root, runtime, task, attempt, head)
             _run_make(root, runtime, task, attempt, 'cf10-r051-preclaim-issue')
             completed.append('preclaim')
         elif action == 'EXPLICIT_CANONICAL_PAM_LAUNCH':

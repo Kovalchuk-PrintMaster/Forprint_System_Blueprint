@@ -124,10 +124,13 @@ class PilotCycleDecisionTests(unittest.TestCase):
               patch.object(mod, 'frozen_head', return_value='a'*40),
               patch.object(mod, '_root_store_health', return_value='PASS'),
               patch.object(mod, '_logs_health', return_value='PASS'),
-              patch.object(mod, '_assert_static_argv_boundary') as static):
+              patch.object(mod, '_assert_static_argv_boundary') as static,
+              patch.object(mod, '_assert_actual_frozen_invocation') as actual):
             mod.assert_owner_preclaim_runtime(root=mod.PROJECT, runtime=mod.RUNTIME,
                 task=mod.TASK, attempt='cf10-u180j-a053', head='a'*40)
             static.assert_called_once()
+            actual.assert_called_once_with(mod.PROJECT, mod.RUNTIME, mod.TASK,
+                                          'cf10-u180j-a053', 'a'*40)
 
     def test_proof_gate_blocks_without_make_mutation(self):
         example=self.row(proof='BLOCKED_PROOF')
@@ -157,6 +160,94 @@ class PilotCycleDecisionTests(unittest.TestCase):
         command, = run.call_args.args
         self.assertEqual(command, ['make', '-s', 'cf10-resume'])
         self.assertNotIn('shell', run.call_args.kwargs)
+
+
+
+class PilotActualInvocationTests(unittest.TestCase):
+    """The production preclaim uses real canonical provider-plan APIs, never a fixture argv."""
+
+    def _exercise(self, *, started_errors=None, invocation_error=None, bind_error=None):
+        from scripts.coordination.control_plane import governed_worker_cycle as cycle
+        from scripts.coordination.control_plane import cf10_r030_canonical_systemd_route_v0_1 as route
+        from scripts.coordination.control_plane.worker_runtime import invocation_adapter as adapter
+        from scripts.coordination import execution_attempt_ledger_v0_1 as ledger
+        from unittest.mock import Mock
+        attempt='cf10-u180j-a053'
+        head='a'*40
+        frozen={'git_head':head}
+        prepared={'handoff_manifest_sha256':'c'*64}
+        decision={'binding':{'attempt_id':attempt}}
+        plan={'attempt_id':attempt, 'argv':['/usr/bin/true','-p','prompt\nline'],
+              'workspace_repo':str(mod.RUNTIME/'forprint_system_blueprint'/mod.WORKER/attempt/'workspace/repo'),
+              'paths':{'stdout':'stdout','stderr':'stderr'},'timeout_seconds':60}
+        inp=[frozen,prepared,decision,{'baseline_fingerprint_sha256':'b'*64}]
+        loader=Mock(side_effect=inp)
+        build=Mock(return_value=plan, side_effect=invocation_error)
+        binding=Mock(side_effect=bind_error)
+        validate=Mock(return_value=started_errors or [])
+        with (patch.object(mod,'_head',return_value=head),
+              patch.object(mod,'frozen_head',return_value=head),
+              patch.object(cycle,'_load_yaml',loader),
+              patch.object(cycle,'_assert_frozen_source_state_current'),
+              patch.object(cycle,'_load_verified_original_handoff_manifest'),
+              patch.object(cycle,'_resolve_stage4c_trusted_transport',return_value='transport'),
+              patch.object(cycle,'_resolve_b3_trusted_readback',return_value=None),
+              patch.object(cycle,'_project_native_started_record',return_value=({'attempt_id':attempt},'ctx')),
+              patch.object(cycle,'_validated_project_native_governed_worker_context',return_value={'safe':True}),
+              patch.object(cycle,'_b2_find_launch_mapping',return_value={'argv':plan['argv']}),
+              patch.object(adapter,'build_launch_invocation',build),
+              patch.object(ledger,'load_contract',return_value='contract'),
+              patch.object(ledger,'validate_record_data',validate),
+              patch.object(route,'bind_contract',binding)):
+            if invocation_error or bind_error or started_errors:
+                with self.assertRaises(mod.PilotBlocked):
+                    mod._assert_actual_frozen_invocation(mod.PROJECT,mod.RUNTIME,mod.TASK,attempt,head)
+            else:
+                mod._assert_actual_frozen_invocation(mod.PROJECT,mod.RUNTIME,mod.TASK,attempt,head)
+            return build,binding,loader,validate
+
+    def test_exact_frozen_context_reaches_real_builder_and_systemd_contract(self):
+        builder,binding,loader,validate=self._exercise()
+        self.assertEqual(loader.call_count,4)
+        self.assertEqual(builder.call_count,1)
+        kw=builder.call_args.kwargs
+        self.assertEqual(kw['attempt_root'],mod.RUNTIME/'forprint_system_blueprint'/mod.WORKER/'cf10-u180j-a053')
+        self.assertEqual(kw['result_transport'],'transport')
+        self.assertEqual(binding.call_count,1)
+        self.assertEqual(binding.call_args.kwargs['source_head'],'a'*40)
+        validate.assert_called_once()
+
+    def test_provider_failure_blocks_before_claim_without_leaking_prompt(self):
+        build,binding,_,_=self._exercise(invocation_error=RuntimeError('SECRET-PROMPT'))
+        build.assert_called_once();binding.assert_not_called()
+
+    def test_ledger_schema_blocks_before_binding(self):
+        _,binding,_,_=self._exercise(started_errors=['INVALID'])
+        binding.assert_not_called()
+
+    def test_backend_contract_failure_blocks_before_claim(self):
+        _,binding,_,_=self._exercise(bind_error=RuntimeError('SECRET-ARGV'))
+        binding.assert_called_once()
+
+
+    def test_actual_plan_failure_prevents_preclaim_issue_make(self):
+        from scripts.coordination.control_plane import cf10_owner_operator_console_v0_1 as console
+        snapshot={'source_head':'a'*40, 'frozen_source_current':True,
+                  'state':'READY_FOR_WORKER_LAUNCH','claim':'UNCONSUMED',
+                  'ledger_records':0, 'root_receipt_store':'PASS','logs':'PASS',
+                  'preclaim':'BLOCKED_PRECLAIM_ROOT_RECEIPT','proof':'UNKNOWN'}
+        with (patch.object(mod.os,'geteuid',return_value=0),
+              patch.object(mod.os,'isatty',return_value=True),
+              patch.object(mod,'snapshot',return_value=snapshot),
+              patch.object(mod,'_preclaim_absent',return_value=True),
+              patch.object(mod,'_assert_static_argv_boundary'),
+              patch.object(mod,'_assert_actual_frozen_invocation',side_effect=mod.PilotBlocked('BAD_ACTUAL_ARGV')),
+              patch.object(mod,'_run_make') as make,
+              patch.object(console,'source_guard',return_value='a'*40)):
+            with self.assertRaisesRegex(mod.PilotBlocked,'BAD_ACTUAL_ARGV'):
+                mod.advance(mod.PROJECT,mod.RUNTIME,mod.TASK,
+                            'cf10-u180j-a053',launch_once=False)
+        make.assert_not_called()
 
 if __name__ == '__main__':
     unittest.main()
