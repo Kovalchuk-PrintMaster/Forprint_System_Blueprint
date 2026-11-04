@@ -25,7 +25,9 @@ PROJECT = Path('/srv/software_development/forprint-project/forprint_system_bluep
 RUNTIME = Path('/srv/software_development/forprint-worker-runtime')
 BRANCH = 'audit/blueprint-inventory-refresh-2026-07-29'
 WORKER = 'worker-01'
-OPERATOR_ACCOUNT = 's01'  # from r015 intake; deliberately not an arbitrary caller flag
+OPERATOR_ACCOUNT = 'forprint-operator'  # dedicated ForPrint owner; never the host/login account s01
+RUNNER_ACCOUNT = 'forprint-runner'
+IDENTITY_POLICY_REL = 'coordination/continuity/cf10_operator_identity_policy_v0_1.yaml'
 ID_RE = re.compile(r'[A-Za-z0-9][A-Za-z0-9_.-]{0,159}\Z')
 ATTEMPT_RE = re.compile(r'cf10-[A-Za-z0-9][A-Za-z0-9_.-]{1,159}\Z')
 ROOT_TMP = Path('tmp/cf10_operator_console')
@@ -36,6 +38,8 @@ CRITICAL = (
     'scripts/coordination/control_plane/cf10_owner_operator_console_v0_1.py',
     'scripts/coordination/control_plane/cf10_training_dispatch.py',
     'scripts/coordination/control_plane/cf10_s3_worker_workflow_v0_1.py',
+    'coordination/continuity/cf10_sole_owner_pam_launch_policy_v0_1.yaml',
+    IDENTITY_POLICY_REL,
 )
 GATES = {
     'AWAITING_ASSISTANT_ACK': ('ack', '--confirm-ack', 'ACK: підтвердити узгоджений Handoff'),
@@ -72,8 +76,43 @@ def _git(root: Path, *args: str) -> str:
     p = subprocess.run(['git', *args], cwd=root, capture_output=True, timeout=25, check=True)
     return p.stdout.decode('utf-8').strip()
 
+def assert_operator_identity_contract(root: Path) -> None:
+    """Fail closed on a host-login or runner account being used for owner PAM.
+
+    The immutable source guard also pins both policy files to the published
+    HEAD.  Password prompts never read credentials or use s01.
+    """
+    import yaml
+    require(OPERATOR_ACCOUNT == 'forprint-operator', 'UNEXPECTED_OPERATOR_ACCOUNT')
+    require(RUNNER_ACCOUNT == 'forprint-runner', 'UNEXPECTED_RUNNER_ACCOUNT')
+    require(OPERATOR_ACCOUNT not in ('s01', 'root', RUNNER_ACCOUNT),
+            'FORBIDDEN_PAM_OPERATOR_ACCOUNT')
+    identity_path = root / IDENTITY_POLICY_REL
+    legacy_path = root / 'coordination/continuity/cf10_sole_owner_pam_launch_policy_v0_1.yaml'
+    for path in (identity_path, legacy_path):
+        require(path.is_file() and not path.is_symlink(),
+                'OPERATOR_IDENTITY_POLICY_UNAVAILABLE')
+    identity = yaml.safe_load(identity_path.read_bytes())
+    legacy = yaml.safe_load(legacy_path.read_bytes())
+    require(isinstance(identity, dict) and
+            identity.get('schema_version') == 'cf10_operator_identity_policy_v0_1' and
+            identity.get('status') == 'OWNER_APPROVED_DEDICATED_IDENTITIES' and
+            isinstance(identity.get('accounts'), dict) and
+            identity['accounts'].get('owner_pam') == OPERATOR_ACCOUNT and
+            identity['accounts'].get('worker_execution') == RUNNER_ACCOUNT and
+            identity['accounts'].get('host_login_not_forprint_operator') == 's01' and
+            identity.get('deny_host_login_for_owner_pam') is True and
+            identity.get('deny_runner_for_owner_pam') is True and
+            identity.get('no_privilege_changes_to_host_login') is True,
+            'OPERATOR_IDENTITY_CONTRACT_MISMATCH')
+    require(isinstance(legacy, dict) and
+            isinstance(legacy.get('scope'), dict) and
+            legacy['scope'].get('operator_unprivileged_account') == OPERATOR_ACCOUNT,
+            'PAM_LEGACY_POLICY_OPERATOR_DRIFT')
+
 def source_guard(root: Path) -> str:
     require(root.resolve() == PROJECT, 'CANONICAL_ROOT_REQUIRED')
+    assert_operator_identity_contract(root)
     require(_git(root, 'branch', '--show-current') == BRANCH, 'WRONG_BRANCH')
     require(not _git(root, 'diff', '--cached', '--name-only'), 'STAGED_CHANGES_PRESENT')
     head = _git(root, 'rev-parse', 'HEAD')

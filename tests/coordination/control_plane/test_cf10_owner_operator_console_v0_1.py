@@ -225,3 +225,60 @@ def test_operator_review_not_automatically_accepted(tmp_path):
                             'report_artifact':'/isolated/operator.zip'})
     assert result['state']=='AWAITING_OPERATOR_REVIEW' and result['completed']==[]
     step.assert_not_called();auth.assert_not_called()
+
+
+def test_owner_pam_identity_is_dedicated_and_never_server_login():
+    from scripts.coordination.control_plane import cf10_owner_operator_console_v0_1 as console
+    assert console.OPERATOR_ACCOUNT == 'forprint-operator'
+    assert console.RUNNER_ACCOUNT == 'forprint-runner'
+    assert console.OPERATOR_ACCOUNT != 's01'
+    assert console.OPERATOR_ACCOUNT != console.RUNNER_ACCOUNT
+    source = Path(console.__file__).read_text()
+    assert "OPERATOR_ACCOUNT = 's01'" not in source
+
+def test_dedicated_identity_contract_matches_canonical_pam_policy():
+    from scripts.coordination.control_plane import cf10_owner_operator_console_v0_1 as console
+    import yaml
+    root = Path(__file__).resolve().parents[3]
+    console.assert_operator_identity_contract(root)
+    p = yaml.safe_load((root/console.IDENTITY_POLICY_REL).read_text())
+    assert p['accounts']['host_login_not_forprint_operator'] == 's01'
+    assert p['no_privilege_changes_to_host_login'] is True
+    assert p['accounts']['owner_pam'] == 'forprint-operator'
+    assert p['accounts']['worker_execution'] == 'forprint-runner'
+
+def test_guard_fails_closed_on_host_login_pam_drift(tmp_path, monkeypatch):
+    from scripts.coordination.control_plane import cf10_owner_operator_console_v0_1 as console
+    import yaml
+    base=tmp_path/'coordination/continuity'
+    base.mkdir(parents=True)
+    identity={'schema_version':'cf10_operator_identity_policy_v0_1',
+        'status':'OWNER_APPROVED_DEDICATED_IDENTITIES',
+        'accounts':{'owner_pam':'s01','worker_execution':'forprint-runner',
+                    'host_login_not_forprint_operator':'s01'},
+        'deny_host_login_for_owner_pam':True,
+        'deny_runner_for_owner_pam':True,
+        'no_privilege_changes_to_host_login':True}
+    (base/'cf10_operator_identity_policy_v0_1.yaml').write_text(yaml.safe_dump(identity))
+    (base/'cf10_sole_owner_pam_launch_policy_v0_1.yaml').write_text(yaml.safe_dump(
+        {'scope':{'operator_unprivileged_account':'forprint-operator'}}))
+    with pytest.raises(console.ConsoleBlocked, match='OPERATOR_IDENTITY_CONTRACT_MISMATCH'):
+        console.assert_operator_identity_contract(tmp_path)
+    identity['accounts']['owner_pam']='forprint-operator'
+    (base/'cf10_operator_identity_policy_v0_1.yaml').write_text(yaml.safe_dump(identity))
+    with pytest.raises(console.ConsoleBlocked, match='PAM_LEGACY_POLICY_OPERATOR_DRIFT'):
+        doc={'scope':{'operator_unprivileged_account':'s01'}}
+        (base/'cf10_sole_owner_pam_launch_policy_v0_1.yaml').write_text(yaml.safe_dump(doc))
+        console.assert_operator_identity_contract(tmp_path)
+
+def test_authentication_commands_target_only_dedicated_operator():
+    from types import SimpleNamespace
+    from scripts.coordination.control_plane import cf10_owner_operator_console_v0_1 as console
+    commands=[]
+    def runner(argv,**_):
+        commands.append(argv)
+        return SimpleNamespace(returncode=1 if len(commands)==1 else 0)
+    console.authenticate_operator(process=runner,geteuid=lambda:0,isatty=lambda fd:True)
+    assert len(commands)==2
+    assert all(argv[:3]==['runuser','-u','forprint-operator'] for argv in commands)
+    assert all('s01' not in argv and 'forprint-runner' not in argv for argv in commands)

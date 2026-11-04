@@ -108,9 +108,13 @@ def test_no_claim_without_password(monkeypatch):
     monkeypatch.setattr(owner.os,'geteuid',lambda:0)
     monkeypatch.setattr(owner,'_assert_live_source',lambda *_:HEAD)
     monkeypatch.setattr(owner,'_cycle_preclaim',lambda *_:None)
+    from scripts.coordination.control_plane import cf10_r055_pilot_launch_corridor_v0_1 as pilot_route
+    from scripts.coordination.control_plane import cf10_r052_owner_launch_guard_v0_1 as pilot_guard
+    monkeypatch.setattr(pilot_route,'assert_before_password',lambda **_:None)
+    monkeypatch.setattr(pilot_guard,'assert_pre_password',lambda **_:None)
     monkeypatch.setattr(console,'authenticate_operator',lambda:(_ for _ in ()).throw(console.ConsoleBlocked('NO_PASSWORD')))
     monkeypatch.setattr(owner,'_owner_claim',lambda *_: called.append('claim'))
-    with pytest.raises(console.ConsoleBlocked):
+    with pytest.raises(console.ConsoleBlocked, match='NO_PASSWORD'):
         owner.launch_once(root=owner.PROJECT,runtime_root=owner.RUNTIME,task_prompt_id=TASK,attempt_id=ATTEMPT)
     assert called==[]
 
@@ -157,6 +161,12 @@ def test_no_root_pam_shortcut_in_owner_module():
 def _patch_successful_owner_launch(monkeypatch,tmp_path,head=HEAD):
     monkeypatch.setattr(owner.os,'geteuid',lambda:0)
     monkeypatch.setattr(owner,'_assert_live_source',lambda *_:head)
+    # Unit fixture: isolate claim and password flow from separately tested r055/r052 guards.
+    from scripts.coordination.control_plane import cf10_r055_pilot_launch_corridor_v0_1 as pilot_route
+    from scripts.coordination.control_plane import cf10_r052_owner_launch_guard_v0_1 as pilot_guard
+    monkeypatch.setattr(pilot_route,'assert_before_password',lambda **_:None)
+    monkeypatch.setattr(pilot_guard,'assert_pre_password',lambda **_:None)
+    monkeypatch.setattr(pilot_guard,'assert_post_password_pre_claim',lambda **_:None)
     monkeypatch.setattr(owner,'_cycle_preclaim',lambda *_:None)
     monkeypatch.setattr(console,'authenticate_operator',Mock())
     tmp_path.chmod(0o700)
@@ -205,7 +215,8 @@ def test_error_after_claim_never_auto_retries(monkeypatch,tmp_path):
 
 def test_source_drift_after_password_before_claim(monkeypatch,tmp_path):
     _patch_successful_owner_launch(monkeypatch,tmp_path)
-    heads=iter([HEAD,'2'*40])
+    # r055 makes an additional source check before the owner's password recheck.
+    heads=iter([HEAD,HEAD,'2'*40])
     monkeypatch.setattr(owner,'_assert_live_source',lambda *_: next(heads))
     launch=Mock();monkeypatch.setattr(cycle,'launch_cycle',launch)
     with pytest.raises(owner.OwnerLaunchBlocked,match='SOURCE_CHANGED_AFTER_PASSWORD'):

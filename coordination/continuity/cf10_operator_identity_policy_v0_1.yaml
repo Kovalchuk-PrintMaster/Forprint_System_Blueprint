@@ -1,0 +1,21 @@
+schema_version: cf10_operator_identity_policy_v0_1
+status: OWNER_APPROVED_DEDICATED_IDENTITIES
+owner: forprint_system_blueprint
+accounts:
+  owner_pam: forprint-operator
+  worker_execution: forprint-runner
+  host_login_not_forprint_operator: s01
+deny_host_login_for_owner_pam: true
+deny_runner_for_owner_pam: true
+no_privilege_changes_to_host_login: true
+constraints:
+  - No ForPrint PAM, sudoers, runuser or Worker authorization targets the host-login account s01.
+  - The dedicated forprint-operator account is the only owner PAM identity.
+  - The forprint-runner account executes Worker tasks with no sudo or interactive login.
+  - Password required, NOPASSWD forbidden; no password in CLI, environment, chat, reports or repositories.
+  - Privilege policy for the dedicated operator requires separate bounded host setup and verification.
+  - Updating the protected policy or source requires a published HEAD and a NEW frozen attempt after dispatch.
+notes:
+  server_name: s01
+  server_name_is_not_an_operator_identity: true
+  supersedes_legacy_s01_from_r015: true
