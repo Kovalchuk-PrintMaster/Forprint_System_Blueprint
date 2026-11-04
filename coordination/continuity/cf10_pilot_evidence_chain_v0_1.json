@@ -1,0 +1,68 @@
+{
+  "schema_version": "cf10_pilot_evidence_chain_v0_1",
+  "status": "SOURCE_NATIVE_REVIEW_AND_CONDITIONAL_ISSUER_NONAUTHORIZING",
+  "task_prompt_id": "cf10-validation-check-pipeline-profile-and-optimization-v0-1",
+  "worker_id": "worker-01",
+  "source_commit_at_design": "ed4d0614fb30e02cc3b437b84b748640125e7a49",
+  "machine_entrypoints": {
+    "history_readonly": "cf10-pilot-evidence-history",
+    "new_attempt_live_readonly": "cf10-pilot-evidence-inspect",
+    "independent_human_issue_only": "cf10-pilot-evidence-issue-once",
+    "contract_tests": "cf10-pilot-evidence-check",
+    "operator_doctor": "cf10-pilot-operator-doctor",
+    "preparation_resume": "cf10-pilot-resume",
+    "explicit_worker_launch": "cf10-pilot-launch-once",
+    "postworker_resume": "cf10-resume"
+  },
+  "historical_provenance": {
+    "source_attempt": "cf10-u180j-a053",
+    "source_head": "e790ed596758c9ebfe101c6d5892d64901a95134",
+    "root_owned_archive": "r073_evidence_<sha256(worker-01\\0cf10-u180j-a053)>",
+    "raw_byte_pin_source": "cf10_r076_historical_evidence_v0_1.py",
+    "old_a050_a051_historical_fixtures": true,
+    "r071_disposable_systemd_real_fixture": true,
+    "r072_disposable_tmp_namespace_and_r036_r037_fixtures": true,
+    "independent_producer_cryptographic_attestation": false,
+    "fresh_r036_r037_production_finalizer_attestation": false,
+    "new_head_equivalence_assumed": false,
+    "proof_source_byte_integrity_equals_producer_authentication": false
+  },
+  "new_attempt_scope": {
+    "attempt_pattern": "cf10-u180j-aNNN",
+    "published_head_equals_frozen_head": true,
+    "separate_preclaim_and_writer_guard": true,
+    "actual_r075_frozen_manifest_preclaim_checked": true,
+    "live_nonrelease_gates_reverified": 13,
+    "r046_r047_exact_attempt_documents": 9,
+    "additional_dossier_and_human_review_records": 2,
+    "original_archive_copied_to_new_attempt_root_scope": true,
+    "root_file_creation": "O_EXCL_0600_FSYNC_NO_OVERWRITE",
+    "operator_confirmation": "CANONICAL_PAM_EXPLICIT_AFTER_DISCLOSED_HISTORICAL_LIMITS",
+    "root_issuance_failure": "FAIL_CLOSED_NO_RETRY_NO_CLEANUP",
+    "proof_candidate_is_automatic_worker_authority": false,
+    "worker_launch_performed_by_issuer": false
+  },
+  "workflow": [
+    "source_release_commit_push",
+    "select_fresh_attempt_on_published_head",
+    "make_cf10_pilot_resume_through_explicit_ack_dispatch_and_preclaim",
+    "make_cf10_pilot_evidence_inspect",
+    "make_cf10_pilot_evidence_issue_once_with_separate_PAM",
+    "make_cf10_pilot_operator_doctor_and_plan",
+    "separate_make_cf10_pilot_launch_once_with_separate_PAM",
+    "read_only_canonical_systemd_ledger_receipt_and_S3_recovery"
+  ],
+  "non_replayable_attempts": ["cf10-u180j-a051", "cf10-u180j-a053"],
+  "a053": {
+    "claim": "CONSUMED_NO_RETRY",
+    "backend_event": "LAUNCH_REQUESTED",
+    "ledger_started_count": 0,
+    "unit_current_absence_is_not_historical_quiescence_proof": true,
+    "disposition": "PERMANENT_QUARANTINE"
+  },
+  "no_global_live_flag_change": true,
+  "no_tmp_runtime_dependency": true,
+  "no_hestia_or_sudoers_change": true,
+  "no_automatic_approval": true,
+  "no_automatic_git_commit_push": true
+}

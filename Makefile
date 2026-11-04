@@ -4442,3 +4442,19 @@ cf10-pilot-operator-doctor:
 cf10-pilot-operator-check:
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_pilot_operator_workflow_v0_1.py tests/coordination/control_plane/test_cf10_r075_manifest_boundaries.py
 # CF10_R075_PERSISTENT_OPERATOR_DOCTOR_END
+
+# CF10_R076_PROJECT_NATIVE_EVIDENCE_ISSUER_START
+# History and exact-attempt proof review, NOT Worker launch or automatic approval.
+.PHONY: cf10-pilot-evidence-history cf10-pilot-evidence-inspect cf10-pilot-evidence-issue-once cf10-pilot-evidence-check
+cf10-pilot-evidence-inspect cf10-pilot-evidence-issue-once: export CF10_PILOT_TASK = $(GOVERNED_WORKER_TASK)
+cf10-pilot-evidence-inspect cf10-pilot-evidence-issue-once: export CF10_PILOT_ATTEMPT = $(GOVERNED_WORKER_ATTEMPT)
+CF10_R076_CMD = PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.cf10_r076_pilot_proof_issuer_v0_1
+cf10-pilot-evidence-history:
+	@$(CF10_R076_CMD) --mode history
+cf10-pilot-evidence-inspect:
+	@$(CF10_R076_CMD) --mode inspect --task "$$CF10_PILOT_TASK" --attempt "$$CF10_PILOT_ATTEMPT"
+cf10-pilot-evidence-issue-once:
+	@$(CF10_R076_CMD) --mode review-and-issue --task "$$CF10_PILOT_TASK" --attempt "$$CF10_PILOT_ATTEMPT" --confirm REVIEW_HISTORICAL_NONCRYPTO_EVIDENCE_ISSUE_EXACT_NONAUTH_PROOFS_NO_WORKER
+cf10-pilot-evidence-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_r076_pilot_proof_issuer.py tests/coordination/control_plane/test_cf10_r075_manifest_boundaries.py tests/coordination/control_plane/test_cf10_pilot_operator_workflow_v0_1.py
+# CF10_R076_PROJECT_NATIVE_EVIDENCE_ISSUER_END
