@@ -4458,3 +4458,14 @@ cf10-pilot-evidence-issue-once:
 cf10-pilot-evidence-check:
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_r076_pilot_proof_issuer.py tests/coordination/control_plane/test_cf10_r075_manifest_boundaries.py tests/coordination/control_plane/test_cf10_pilot_operator_workflow_v0_1.py
 # CF10_R076_PROJECT_NATIVE_EVIDENCE_ISSUER_END
+
+# CF10_R077_PROVIDER_HOME_SANDBOX_START
+# Read-only source-bound HOME contract, NOT a systemd probe, Worker launch or approval.
+.PHONY: cf10-pilot-provider-home-check cf10-pilot-provider-home-tests cf10-pilot-provider-home-probe
+cf10-pilot-provider-home-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.cf10_r077_runner_home_contract_v0_1 --mode inspect
+cf10-pilot-provider-home-tests:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_r077_runner_home_contract_v0_1.py
+cf10-pilot-provider-home-probe:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.cf10_r077_runner_home_contract_v0_1 --mode probe --confirm PROBE_CF10_R077_DISPOSABLE_HOME_NO_WORKER
+# CF10_R077_PROVIDER_HOME_SANDBOX_END

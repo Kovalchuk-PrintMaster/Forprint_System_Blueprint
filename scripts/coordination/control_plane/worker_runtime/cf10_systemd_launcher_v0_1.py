@@ -93,6 +93,8 @@ def build_command(spec:bound.BoundedInput,plan:dict,manifest:Path)->list[str]:
     props['StandardOutput']='append:'+str(logs/'stdout.log')
     props['StandardError']='append:'+str(logs/'stderr.log')
     props['ReadWritePaths']=spec.workspace+' '+str(logs)
+    from scripts.coordination.control_plane import cf10_r077_runner_home_contract_v0_1 as provider_home
+    provider_home.assert_systemd_properties(props,spec.workspace,str(logs))
     # Keep the gate within approved runtime, not the source repo's tmp/.
     return [SYSTEMD_RUN,'--no-block','--quiet','--remain-after-exit','--unit='+plan['identity']['unit'],
         '--description=ForPrint CF10 guarded Worker',
@@ -120,6 +122,9 @@ def assert_frozen_manifest_preclaim(spec:bound.BoundedInput, plan:dict)->dict:
     _root_directory(STORE,0o700)
     _root_directory(GATES,0o711)
     _runner_account()
+    from scripts.coordination.control_plane import cf10_r077_runner_home_contract_v0_1 as provider_home
+    provider_home.assert_runner_home()
+    provider_home.assert_systemd_properties(bound.EXPECTED_PROPERTIES)
     if not ENTRY.is_file() or ENTRY.is_symlink():
         deny('GATE_ENTRY_UNTRUSTED_PRECLAIM')
     build_command(spec,plan,GATES/('manifest-'+nonce+'.json'))
@@ -193,6 +198,8 @@ def _core(*,spec:bound.BoundedInput,plan:dict,started_callback:Callable[[dict],N
         storage.require_runtime_root(spec.runtime_root,blueprint_root=root)
         storage.require_worker_workspace(spec.workspace,blueprint_root=root,attempt_id=spec.attempt_id)
         _runner_account()
+        from scripts.coordination.control_plane import cf10_r077_runner_home_contract_v0_1 as provider_home
+        provider_home.assert_runner_home()
         storage.require_root_receipt_store(store,blueprint_root=root)
         storage.require_persistent_path(gate_dir,blueprint_root=root)
         _root_directory(store,0o700)

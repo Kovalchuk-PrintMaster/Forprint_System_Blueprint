@@ -38,6 +38,8 @@ EXPECTED_PROPERTIES = {
     "AmbientCapabilities": "",
     "SendSIGKILL": "yes",
     "UMask": "0077",
+    "StateDirectory": "forprint-runner",
+    "StateDirectoryMode": "0700",
     "TasksMax": "32",
     "TimeoutStopSec": "10s",
 }
