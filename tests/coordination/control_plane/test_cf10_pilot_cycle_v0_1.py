@@ -170,6 +170,7 @@ class PilotActualInvocationTests(unittest.TestCase):
         from scripts.coordination.control_plane import governed_worker_cycle as cycle
         from scripts.coordination.control_plane import cf10_r030_canonical_systemd_route_v0_1 as route
         from scripts.coordination.control_plane.worker_runtime import invocation_adapter as adapter
+        from scripts.coordination.control_plane.worker_runtime import cf10_systemd_launcher_v0_1 as backend
         from scripts.coordination import execution_attempt_ledger_v0_1 as ledger
         from unittest.mock import Mock
         attempt='cf10-u180j-a053'
@@ -183,7 +184,7 @@ class PilotActualInvocationTests(unittest.TestCase):
         inp=[frozen,prepared,decision,{'baseline_fingerprint_sha256':'b'*64}]
         loader=Mock(side_effect=inp)
         build=Mock(return_value=plan, side_effect=invocation_error)
-        binding=Mock(side_effect=bind_error)
+        binding=Mock(return_value=('pinned-spec', 'pinned-plan'), side_effect=bind_error)
         validate=Mock(return_value=started_errors or [])
         with (patch.object(mod,'_head',return_value=head),
               patch.object(mod,'frozen_head',return_value=head),
@@ -198,7 +199,8 @@ class PilotActualInvocationTests(unittest.TestCase):
               patch.object(adapter,'build_launch_invocation',build),
               patch.object(ledger,'load_contract',return_value='contract'),
               patch.object(ledger,'validate_record_data',validate),
-              patch.object(route,'bind_contract',binding)):
+              patch.object(route,'bind_contract',binding),
+              patch.object(backend,'assert_frozen_manifest_preclaim',return_value={'claim_consumed':False}) as gate):
             if invocation_error or bind_error or started_errors:
                 with self.assertRaises(mod.PilotBlocked):
                     mod._assert_actual_frozen_invocation(mod.PROJECT,mod.RUNTIME,mod.TASK,attempt,head)

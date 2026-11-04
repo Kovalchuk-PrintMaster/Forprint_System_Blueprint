@@ -35,6 +35,7 @@ SYSTEMD_RUN='/usr/bin/systemd-run'
 SYSTEMCTL='/usr/bin/systemctl'
 PYTHON='/usr/bin/python3'
 LIVE_CUTOVER_ENABLED=False  # only flip by source-bound approval + complete release evidence
+MANIFEST_MAX_BYTES=131072  # exact isolated-gate read cap; not Worker authority
 
 class SystemdLaunchBlocked(RuntimeError):pass
 
@@ -52,7 +53,7 @@ def _root_directory(path:Path,mode:int):
         deny('STATE_DIRECTORY_OWNER_MODE')
 
 def _store_file(directory:Path,name:str,data:bytes,mode:int):
-    if '/' in name or name in ('.','..') or not data or len(data)>16384:
+    if '/' in name or name in ('.','..') or not data or len(data)>(MANIFEST_MAX_BYTES if name.startswith('manifest-') and name.endswith('.json') else 16384):
         deny('FILE_SCOPE')
     flags=os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_CLOEXEC|os.O_NOFOLLOW
     fd=os.open(name,flags,mode,dir_fd=(dirfd:=os.open(directory,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW|os.O_CLOEXEC)))
@@ -97,6 +98,36 @@ def build_command(spec:bound.BoundedInput,plan:dict,manifest:Path)->list[str]:
         '--description=ForPrint CF10 guarded Worker',
         *['--property='+k+'='+v for k,v in sorted(props.items())],
         '--',PYTHON,'-I','-B',str(ENTRY),str(manifest)]
+
+def assert_frozen_manifest_preclaim(spec:bound.BoundedInput, plan:dict)->dict:
+    """Read-only post-freeze / pre-PAM gate. Never write manifest or spend claim.
+
+    Source-native R013 may accept a multiline 64 KiB Copilot prompt. This
+    check serializes the ACTUAL frozen command and checks its gate contract
+    before entering the irreversible owner claim boundary.
+    """
+    from scripts.coordination.control_plane.worker_runtime import cf10_systemd_gate_entry_v0_1 as gate
+    bound.validate_plan(plan,spec)
+    gate.validate_manifest_argv(list(spec.argv))
+    if gate.MANIFEST_MAX_BYTES != MANIFEST_MAX_BYTES:
+        deny('MANIFEST_GATE_LIMIT_DRIFT')
+    # A real-time-sized expires_unix field is included; do not leak raw argv.
+    nonce='0'*64
+    data=_manifest(spec,plan['identity']['unit'],nonce,time.time())
+    # One-shot margin covers wall-clock floating point expiry reserialization.
+    if len(data)>MANIFEST_MAX_BYTES-512:
+        deny('FROZEN_MANIFEST_TOO_LARGE_BEFORE_CLAIM')
+    _root_directory(STORE,0o700)
+    _root_directory(GATES,0o711)
+    _runner_account()
+    if not ENTRY.is_file() or ENTRY.is_symlink():
+        deny('GATE_ENTRY_UNTRUSTED_PRECLAIM')
+    build_command(spec,plan,GATES/('manifest-'+nonce+'.json'))
+    return {'contract':'CF10_R075_FROZEN_MANIFEST_GATE',
+            'manifest_bytes':len(data), 'gate_budget_bytes':MANIFEST_MAX_BYTES,
+            'source_argv_checked':True, 'worker_launched':False,
+            'claim_consumed':False, 'manifest_written':False}
+
 
 def _show(unit:str,runner:Callable[[list[str]],subprocess.CompletedProcess]):
     properties=['Id','LoadState','ActiveState','MainPID','ControlGroup','User','Group','KillMode','Result','ExecMainStatus']

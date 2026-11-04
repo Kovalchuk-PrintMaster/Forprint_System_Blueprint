@@ -15,13 +15,15 @@ import time
 
 ROOT=Path('/srv/software_development/forprint-worker-runtime/forprint_system_blueprint/control_plane/launch_gates')
 HEX=re.compile(r'[0-9a-f]{64}\Z')
+MANIFEST_MAX_BYTES=131072
+ARG_VECTOR_MAX_BYTES=98304
 
 class GateBlocked(RuntimeError):
     pass
 
 def _deny(s):raise GateBlocked('CF10_GATE_'+s)
 
-def _safe_file(path:Path, maxlen=16384)->bytes:
+def _safe_file(path:Path, maxlen=MANIFEST_MAX_BYTES)->bytes:
     fd=os.open(path,os.O_RDONLY|os.O_CLOEXEC|os.O_NOFOLLOW|os.O_NONBLOCK)
     try:
         st=os.fstat(fd)
@@ -31,6 +33,28 @@ def _safe_file(path:Path, maxlen=16384)->bytes:
         if len(data)>maxlen:_deny('ROOT_FILE_TOO_LARGE')
         return data
     finally:os.close(fd)
+
+def validate_manifest_argv(argv):
+    """R013-compatible limits for the isolated gate. Do not weaken nonprompt argv."""
+    if not isinstance(argv,list) or not (1 <= len(argv) <= 50):
+        _deny('ARGV')
+    total = 0
+    for i, value in enumerate(argv):
+        if not isinstance(value,str) or not value:
+            _deny('ARGV')
+        previous = argv[i-1] if i > 0 else ''
+        prompt = previous in ('-p','--prompt')
+        mcp = previous == '--additional-mcp-config'
+        cap = 65536 if prompt else (8192 if mcp else 2000)
+        forbidden = ('\0','\r') if prompt else ('\0','\r','\n')
+        encoded = value.encode('utf-8')
+        if len(encoded) > cap or any(x in value for x in forbidden):
+            _deny('ARGV')
+        total += len(encoded) + 1
+    if total > ARG_VECTOR_MAX_BYTES:
+        _deny('ARGV')
+    return True
+
 
 def _read_manifest(path:Path, *, root:Path=ROOT, check_uid=True):
     if not isinstance(path,Path) or path.parent!=root or not re.fullmatch(r'manifest-[0-9a-f]{64}\.json',path.name):
@@ -48,9 +72,7 @@ def _read_manifest(path:Path, *, root:Path=ROOT, check_uid=True):
     if not isinstance(obj,dict) or set(obj)!=keys or obj['schema']!='cf10_systemd_launch_manifest_v0_1':
         _deny('MANIFEST_SCHEMA')
     if not HEX.fullmatch(obj['gate_nonce']):_deny('GATE_NONCE')
-    if not isinstance(obj['argv'],list) or not obj['argv'] or len(obj['argv'])>50 or not all(
-        isinstance(s,str) and 0<len(s)<2000 and not any(c in s for c in ('\0','\r','\n')) for s in obj['argv']):
-        _deny('ARGV')
+    validate_manifest_argv(obj['argv'])
     if hashlib.sha256('\0'.join(obj['argv']).encode()).hexdigest()!=obj['argv_sha256']:_deny('ARGV_DIGEST')
     if not re.fullmatch(r'cf10-[A-Za-z0-9_-]{3,80}-a[0-9]{3,5}',obj['attempt_id']):_deny('ATTEMPT')
     if not re.fullmatch(r'[0-9a-f]{40}',obj['source_head']):_deny('HEAD')

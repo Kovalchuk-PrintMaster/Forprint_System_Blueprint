@@ -392,12 +392,16 @@ def _assert_actual_frozen_invocation(root: Path, runtime: Path, task: str,
         launch_values = cycle._b2_find_launch_mapping(plan)
         # The real systemd canonical contract checks actual argv byte limits,
         # cwd/log paths, hashes and exact source/attempt scope.  No systemd call.
-        route.bind_contract(
+        spec, systemd_plan = route.bind_contract(
             root=root, runtime_root=runtime, task_prompt_id=task,
             attempt_id=attempt, source_head=head,
             baseline_sha256=baseline.get('baseline_fingerprint_sha256'),
             handoff_sha256=prepared.get('handoff_manifest_sha256'),
             launch_values=launch_values)
+        # R075: the actual frozen provider argv MUST pass the isolated systemd
+        # manifest/runner preflight before owner PAM and irreversible O_EXCL claim.
+        from scripts.coordination.control_plane.worker_runtime import cf10_systemd_launcher_v0_1 as backend
+        backend.assert_frozen_manifest_preclaim(spec, systemd_plan)
     except PilotBlocked:
         raise
     except Exception as exc:

@@ -1,0 +1,96 @@
+{
+  "schema_version": "cf10_pilot_operator_chain_v0_1",
+  "scope": {
+    "canonical_root": "/srv/software_development/forprint-project/forprint_system_blueprint",
+    "runtime_root": "/srv/software_development/forprint-worker-runtime",
+    "task_prompt_id": "cf10-validation-check-pipeline-profile-and-optimization-v0-1",
+    "worker_id": "worker-01",
+    "attempt_pattern": "cf10-u180j-aNNN",
+    "legacy_release_unchanged": true,
+    "global_live_cutover_enabled": false
+  },
+  "source_change_requires_new_attempt_if_frozen": true,
+  "temporary_directory_is_runtime_dependency": false,
+  "automatic_retry": false,
+  "worker_launch_auto": false,
+  "automatic_acceptance": false,
+  "automatic_publication": false,
+  "source_native_entrypoints": {
+    "status": "cf10-pilot-status",
+    "plan": "cf10-pilot-plan",
+    "doctor": "cf10-pilot-operator-doctor",
+    "prepare_nonlaunch": "cf10-pilot-resume",
+    "explicit_one_shot_launch": "cf10-pilot-launch-once",
+    "postworker_canonical_resume": "cf10-resume",
+    "proof_readonly": "cf10-r051-launch-window-proof-inspect",
+    "tests": "cf10-pilot-operator-check",
+    "operator_source": "scripts/coordination/control_plane/cf10_pilot_operator_workflow_v0_1.py",
+    "manifest_preclaim": "assert_frozen_manifest_preclaim from backend in pilot cycle"
+  },
+  "durable_evidence_boundaries": {
+    "preclaim": "cf10_r051_root_preclaim_receipt_v0_1.py",
+    "proof_validation": [
+      "cf10_r046_pilot_cutover_review_v0_1.py",
+      "cf10_r047_pilot_proof_lineage_v0_1.py"
+    ],
+    "proof_issue_for_a053": "R073 operator-reviewed, exact-attempt, non-authorizing; do not reuse for new attempt",
+    "historical_a053_evidence": "Existing immutable root-owned R073 dossier and evidence archives; NEVER considered launch authority by itself",
+    "claim": "Root-owned O_EXCL single-use",
+    "frozen_state": "Canonical runtime/workspace outside project tmp",
+    "ledger": "Canonical Execution Attempt Ledger (no synthetic writes)",
+    "postworker": "Existing S3 strict result and finalizer checks"
+  },
+  "recovery_decision_table": [
+    {
+      "condition": "claim consumed, backend LAUNCH_REQUESTED, no ledger STARTED",
+      "action": "PERMANENT_QUARANTINE_AND_READ_ONLY_SYSTEMD_RECEIPT_RECONCILIATION; never retry or reset"
+    },
+    {
+      "condition": "frozen head != published source",
+      "action": "STOP; reconcile and select new attempt; never rebind a consumed or frozen attempt"
+    },
+    {
+      "condition": "claim consumed or status unknown",
+      "action": "STOP; do not retry; inspect root durable receipts and canonical ledger"
+    },
+    {
+      "condition": "READY_FOR_WORKER_LAUNCH and evidence missing",
+      "action": "separate technical evidence review; do not launch"
+    },
+    {
+      "condition": "READY_FOR_WORKER_LAUNCH and all 14 gates pass",
+      "action": "explicit separate owner-PAM make cf10-pilot-launch-once; never automatic"
+    },
+    {
+      "condition": "OBSERVE_WORKER",
+      "action": "read-only status/reconcile; never relaunch"
+    },
+    {
+      "condition": "VALIDATE_CANDIDATE/FINALIZE_HANDOFF/ATTEMPT_TERMINAL/AWAITING_OPERATOR_REVIEW",
+      "action": "S3 cf10-resume and independent operator review; no second launch"
+    }
+  ],
+  "out_of_scope": [
+    "project tmp as production dependency",
+    "Hestia services and /etc/sudoers.d/hestiaweb",
+    "changing sudoers",
+    "automatic evidence release for new attempts",
+    "forging original producer authentication",
+    "Git commit/push without operator acceptance",
+    "Task80 or other Work Fronts"
+  ],
+  "status": "R075_SOURCE_CANDIDATE_A053_CONSUMED_NOT_RETRYABLE",
+  "a053_incident": {
+    "attempt_id": "cf10-u180j-a053",
+    "source_head": "e790ed596758c9ebfe101c6d5892d64901a95134",
+    "claim": "CONSUMED_NO_RETRY",
+    "ledger_records": 0,
+    "backend_event": "LAUNCH_REQUESTED",
+    "systemd_unit_observed": "not-found/inactive/MainPID0",
+    "launch_manifest_bound_count": 0,
+    "stdout_stderr": "root:0600,0 bytes",
+    "disposition": "PERMANENT_NO_RETRY_NO_RESET",
+    "quiescence_inference": "CURRENT_ABSENCE_IS_NOT_PROOF_OF_HISTORICAL_NONEXECUTION"
+  },
+  "release_for_next_attempt": "A053 proof is exact-attempt and old HEAD; new a054 requires fresh published HEAD, new proof review and separate PAM"
+}

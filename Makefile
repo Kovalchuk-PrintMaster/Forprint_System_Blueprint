@@ -4407,7 +4407,7 @@ cf10-pilot-status cf10-pilot-plan cf10-pilot-run cf10-pilot-resume cf10-pilot-la
 cf10-pilot-status cf10-pilot-plan cf10-pilot-run cf10-pilot-resume cf10-pilot-launch-once cf10-pilot-report cf10-pilot-runtime-provision: export CF10_PILOT_ATTEMPT = $(GOVERNED_WORKER_ATTEMPT)
 cf10-pilot-status cf10-pilot-plan cf10-pilot-run cf10-pilot-resume cf10-pilot-launch-once cf10-pilot-report cf10-pilot-runtime-provision: export CF10_PILOT_RUNTIME = $(GOVERNED_WORKER_RUNTIME_ROOT)
 CF10_PILOT_CMD = PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.cf10_pilot_cycle_v0_1
-CF10_PILOT_ARGS = --root . --runtime-root "$$CF10_PILOT_RUNTIME" --task "$$CF10_PILOT_TASK" --attempt "$$CF10_PILOT_ATTEMPT"
+CF10_PILOT_ARGS = --root "$(CURDIR)" --runtime-root "$$CF10_PILOT_RUNTIME" --task "$$CF10_PILOT_TASK" --attempt "$$CF10_PILOT_ATTEMPT"
 cf10-pilot-status:
 	@$(CF10_PILOT_CMD) status $(CF10_PILOT_ARGS)
 cf10-pilot-plan:
@@ -4431,3 +4431,14 @@ cf10-pilot-check:
 		tests/coordination/control_plane/test_cf10_owner_pam_launch_v0_1.py \
 		tests/coordination/control_plane/test_cf10_r055_pilot_launch_corridor.py
 # CF10_R068_PROJECT_NATIVE_PILOT_CYCLE_END
+
+# CF10_R075_PERSISTENT_OPERATOR_DOCTOR_START
+.PHONY: cf10-pilot-operator-doctor cf10-pilot-operator-check
+cf10-pilot-operator-doctor: export CF10_PILOT_TASK = $(GOVERNED_WORKER_TASK)
+cf10-pilot-operator-doctor: export CF10_PILOT_ATTEMPT = $(GOVERNED_WORKER_ATTEMPT)
+cf10-pilot-operator-doctor: export CF10_PILOT_RUNTIME = $(GOVERNED_WORKER_RUNTIME_ROOT)
+cf10-pilot-operator-doctor:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.cf10_pilot_operator_workflow_v0_1 --root "$(CURDIR)" --runtime-root "$$CF10_PILOT_RUNTIME" --task "$$CF10_PILOT_TASK" --attempt "$$CF10_PILOT_ATTEMPT"
+cf10-pilot-operator-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_pilot_operator_workflow_v0_1.py tests/coordination/control_plane/test_cf10_r075_manifest_boundaries.py
+# CF10_R075_PERSISTENT_OPERATOR_DOCTOR_END
