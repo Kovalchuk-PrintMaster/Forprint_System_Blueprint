@@ -103,9 +103,18 @@ def bind_plan(spec: BoundedInput) -> dict:
     if repo != expected or repo == runtime: deny('WORKSPACE_OUTSIDE_ATTEMPT')
     if not isinstance(spec.argv, tuple) or not (1 <= len(spec.argv) <= 50):
         deny('COMMAND_INVALID')
-    for item in spec.argv:
-        if not isinstance(item, str) or not item or len(item) > 2000 or any(c in item for c in ('\x00','\r','\n')):
+    # R068: Copilot -p holds a bounded, multiline provider-owned prompt.
+    # Preserve the strict nonprompt policy and bound total argv bytes as well.
+    for index, item in enumerate(spec.argv):
+        is_prompt = index > 0 and spec.argv[index - 1] in ('-p', '--prompt')
+        is_mcp = index > 0 and spec.argv[index - 1] == '--additional-mcp-config'
+        cap = 65536 if is_prompt else (8192 if is_mcp else 2000)
+        forbidden = ('\x00', '\r') if is_prompt else ('\x00', '\r', '\n')
+        if (not isinstance(item, str) or not item or
+                len(item.encode('utf-8')) > cap or any(c in item for c in forbidden)):
             deny('COMMAND_INVALID')
+    if sum(len(item.encode('utf-8')) + 1 for item in spec.argv) > 98304:
+        deny('COMMAND_INVALID')
     executable = _clean_absolute(spec.argv[0], 'EXECUTABLE_INVALID')
     if not str(executable).startswith(('/usr/bin/', '/usr/local/bin/', '/bin/')):
         deny('EXECUTABLE_NOT_ALLOWLISTED')

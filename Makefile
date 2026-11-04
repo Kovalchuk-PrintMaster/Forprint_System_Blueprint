@@ -4398,3 +4398,36 @@ cf10-r055-source-corridor-check:
 cf10-r055-source-requirements:
 	@PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m scripts.coordination.control_plane.cf10_r055_pilot_launch_corridor_v0_1 --mode requirements
 # CF10_R055_PILOT_OWNER_ENTRY_END
+
+# CF10_R068_PROJECT_NATIVE_PILOT_CYCLE_START
+# Root-TTY guarded operations; no independent proof issuer or new launcher.
+# Use Make variables only as exported DATA, never Make-expanded shell code.
+.PHONY: cf10-pilot-status cf10-pilot-plan cf10-pilot-run cf10-pilot-resume cf10-pilot-launch-once cf10-pilot-report cf10-pilot-runtime-provision cf10-pilot-check
+cf10-pilot-status cf10-pilot-plan cf10-pilot-run cf10-pilot-resume cf10-pilot-launch-once cf10-pilot-report cf10-pilot-runtime-provision: export CF10_PILOT_TASK = $(GOVERNED_WORKER_TASK)
+cf10-pilot-status cf10-pilot-plan cf10-pilot-run cf10-pilot-resume cf10-pilot-launch-once cf10-pilot-report cf10-pilot-runtime-provision: export CF10_PILOT_ATTEMPT = $(GOVERNED_WORKER_ATTEMPT)
+cf10-pilot-status cf10-pilot-plan cf10-pilot-run cf10-pilot-resume cf10-pilot-launch-once cf10-pilot-report cf10-pilot-runtime-provision: export CF10_PILOT_RUNTIME = $(GOVERNED_WORKER_RUNTIME_ROOT)
+CF10_PILOT_CMD = PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.cf10_pilot_cycle_v0_1
+CF10_PILOT_ARGS = --root . --runtime-root "$$CF10_PILOT_RUNTIME" --task "$$CF10_PILOT_TASK" --attempt "$$CF10_PILOT_ATTEMPT"
+cf10-pilot-status:
+	@$(CF10_PILOT_CMD) status $(CF10_PILOT_ARGS)
+cf10-pilot-plan:
+	@$(CF10_PILOT_CMD) plan $(CF10_PILOT_ARGS)
+cf10-pilot-run:
+	@$(CF10_PILOT_CMD) run $(CF10_PILOT_ARGS)
+cf10-pilot-resume:
+	@$(CF10_PILOT_CMD) resume $(CF10_PILOT_ARGS)
+cf10-pilot-launch-once:
+	@$(CF10_PILOT_CMD) resume $(CF10_PILOT_ARGS) --launch-once
+cf10-pilot-report:
+	@$(CF10_PILOT_CMD) report $(CF10_PILOT_ARGS)
+cf10-pilot-runtime-provision:
+	@$(CF10_PILOT_CMD) provision-runtime $(CF10_PILOT_ARGS) --confirm-runtime PROVISION_EXACT_CF10_PILOT_RUNTIME_PRECLAIM
+cf10-pilot-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/test_cf10_r013_cross_boundaries.py \
+		tests/coordination/control_plane/test_cf10_r068_r013_prompt_contract.py \
+		tests/coordination/control_plane/test_cf10_pilot_cycle_v0_1.py \
+		tests/coordination/control_plane/test_cf10_owner_operator_console_v0_1.py \
+		tests/coordination/control_plane/test_cf10_owner_pam_launch_v0_1.py \
+		tests/coordination/control_plane/test_cf10_r055_pilot_launch_corridor.py
+# CF10_R068_PROJECT_NATIVE_PILOT_CYCLE_END

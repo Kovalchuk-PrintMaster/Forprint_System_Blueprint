@@ -108,6 +108,8 @@ def test_no_claim_without_password(monkeypatch):
     monkeypatch.setattr(owner.os,'geteuid',lambda:0)
     monkeypatch.setattr(owner,'_assert_live_source',lambda *_:HEAD)
     monkeypatch.setattr(owner,'_cycle_preclaim',lambda *_:None)
+    from scripts.coordination.control_plane import cf10_pilot_cycle_v0_1 as pilot_cycle
+    monkeypatch.setattr(pilot_cycle, 'assert_owner_preclaim_runtime', lambda **_: None)
     from scripts.coordination.control_plane import cf10_r055_pilot_launch_corridor_v0_1 as pilot_route
     from scripts.coordination.control_plane import cf10_r052_owner_launch_guard_v0_1 as pilot_guard
     monkeypatch.setattr(pilot_route,'assert_before_password',lambda **_:None)
@@ -168,6 +170,8 @@ def _patch_successful_owner_launch(monkeypatch,tmp_path,head=HEAD):
     monkeypatch.setattr(pilot_guard,'assert_pre_password',lambda **_:None)
     monkeypatch.setattr(pilot_guard,'assert_post_password_pre_claim',lambda **_:None)
     monkeypatch.setattr(owner,'_cycle_preclaim',lambda *_:None)
+    from scripts.coordination.control_plane import cf10_pilot_cycle_v0_1 as pilot_cycle
+    monkeypatch.setattr(pilot_cycle, 'assert_owner_preclaim_runtime', lambda **_: None)
     monkeypatch.setattr(console,'authenticate_operator',Mock())
     tmp_path.chmod(0o700)
     monkeypatch.setattr(once,'open_root_owned_state_dir',lambda:os.open(tmp_path,os.O_RDONLY))
