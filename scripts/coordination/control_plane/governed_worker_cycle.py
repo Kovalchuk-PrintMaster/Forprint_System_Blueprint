@@ -510,6 +510,7 @@ def prepare_cycle(
     task_prompt_id: str,
     attempt_id: str,
     worker_id: str = WORKER_ID,
+    operator_provider_preview: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     canonical = Path(root).resolve()
     runtime = Path(runtime_root).resolve()
@@ -527,6 +528,25 @@ def prepare_cycle(
     source_fp = source_state.get("fingerprint_sha256")
     if not isinstance(source_fp, str) or len(source_fp) != 64:
         raise GovernedWorkerCycleError("canonical source fingerprint invalid")
+
+    # R085: validate an explicit operator candidate BEFORE provisioning runtime.
+    # This does not authorize any provider, ACK, dispatch, PAM, claim or launch.
+    if operator_provider_preview is not None:
+        from scripts.coordination.control_plane.worker_runtime import cf10_r084_operator_assignment_plan_v0_1 as operator_plan
+        from scripts.coordination.control_plane.worker_runtime import cf10_r082_frozen_assignment_v0_1 as pilot_freeze
+        if (not isinstance(operator_provider_preview, dict)
+            or operator_provider_preview.get('task_id') != task_prompt_id
+            or operator_provider_preview.get('work_front_id') != binding['work_front_id']
+            or operator_provider_preview.get('attempt_id') != attempt_id
+            or operator_provider_preview.get('worker_id') != worker_id):
+            raise GovernedWorkerCycleError('R085 explicit operator plan identity mismatch')
+        operator_plan.verify_preview(
+            root=canonical, preview=operator_provider_preview,
+            task_binding=binding, source_state=source_state,
+        )
+        if (operator_provider_preview.get('provider_id') != pilot_freeze.CURRENT_PILOT_PROVIDER
+            or operator_provider_preview.get('model_id') != pilot_freeze.CURRENT_PILOT_MODEL):
+            raise GovernedWorkerCycleError('R085 non-Copilot provider prepare blocked')
 
     plan = plan_workspace(
         canonical_repo=canonical,
@@ -557,6 +577,18 @@ def prepare_cycle(
         worker_id=worker_id,attempt_id=attempt_id,source_head=source_state["git_head"],
         source_fingerprint=source_fp,handoff_sha256=prepared["handoff_manifest_sha256"],
     )
+    if operator_provider_preview is not None:
+        # No snapshot from untrusted operator input is used as authorization.
+        # The canonical R082 selection, independently reconstructed after
+        # prepare, MUST match the previously verified R084 candidate exactly.
+        frozen_choice = prepared[provider_freeze.KEY]
+        if (frozen_choice.get('provider_id') != operator_provider_preview['provider_id']
+            or frozen_choice.get('model_id') != operator_provider_preview['model_id']
+            or frozen_choice.get('source_head') != operator_provider_preview['source_head']
+            or frozen_choice.get('source_state_fingerprint_sha256') != source_fp
+            or frozen_choice.get('catalog_candidate') != operator_provider_preview['catalog_candidate']):
+            raise GovernedWorkerCycleError('R085 operator preview / R082 frozen assignment drift')
+        prepared['cf10_operator_assignment_preview_sha256'] = operator_provider_preview['preview_sha256']
 
     # Immutable original is captured BEFORE ACK or Worker launch.
     attempt = _attempt_root(runtime, attempt_id, worker_id)
@@ -610,6 +642,11 @@ def prepare_cycle(
         "commit_performed": False,
         "push_performed": False,
     }
+    if operator_provider_preview is not None:
+        result['operator_preview_sha256'] = operator_provider_preview['preview_sha256']
+        result['operator_provider_id'] = operator_provider_preview['provider_id']
+        result['operator_model_id'] = operator_provider_preview['model_id']
+        result['operator_selection_is_authority'] = False
     _write_yaml_new(
         attempt / "evidence/governed_worker_cycle_prepare_result_v0_1.yaml",
         result,

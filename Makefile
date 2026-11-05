@@ -4539,3 +4539,20 @@ cf10-provider-assignment-plan:
 cf10-provider-assignment-tests:
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_r084_operator_assignment_plan_v0_1.py
 # CF10_R084_OPERATOR_PROVIDER_ASSIGNMENT_PLAN_END
+# CF10_R085_EXPLICIT_OPERATOR_PLAN_TO_PREPARE_START
+# Explicit CLI-selected Copilot prepare, never claim, ACK, dispatch or launch.
+# Variables are passed via environment, never interpolated into shell code.
+.PHONY: cf10-provider-assignment-prepare cf10-provider-assignment-prepare-inspect cf10-provider-assignment-prepare-tests
+cf10-provider-assignment-prepare: export CF10_TASK := $(CF10_TASK)
+cf10-provider-assignment-prepare: export CF10_ATTEMPT := $(CF10_ATTEMPT)
+cf10-provider-assignment-prepare: export CF10_PROVIDER := $(CF10_PROVIDER)
+cf10-provider-assignment-prepare: export CF10_MODEL := $(CF10_MODEL)
+cf10-provider-assignment-prepare: export CF10_WORKER := $(CF10_WORKER)
+cf10-provider-assignment-prepare: export CF10_CONFIRM_PREPARE := $(CF10_CONFIRM_PREPARE)
+cf10-provider-assignment-prepare-inspect:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r085_operator_prepare_bridge_v0_1 --mode inspect
+cf10-provider-assignment-prepare-tests:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_r085_operator_prepare_bridge_v0_1.py
+cf10-provider-assignment-prepare:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r085_operator_prepare_bridge_v0_1 --mode prepare
+# CF10_R085_EXPLICIT_OPERATOR_PLAN_TO_PREPARE_END
