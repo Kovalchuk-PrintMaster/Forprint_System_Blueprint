@@ -4564,3 +4564,11 @@ cf10-operator-provenance-tests:
 cf10-operator-provenance-inspect:
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -c 'from scripts.coordination.control_plane.worker_runtime import cf10_r086_operator_provenance_v0_1 as p; print("CF10_R086_SCHEMA=" + p.SCHEMA); print("CF10_R086_SECOND_PROVIDER_DISPATCH=false"); print("CF10_R086_NO_WORKER_NO_CLAIM=true")'
 # CF10_R086_OPERATOR_PREVIEW_PROVENANCE_END
+# CF10_R087_CODEX_CLI_CANDIDATE_START
+# Source-only read-only ABI candidate; not a READY/dispatch/claim/Worker route.
+.PHONY: cf10-codex-adapter-candidate-check cf10-codex-adapter-candidate-tests
+cf10-codex-adapter-candidate-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r087_codex_cli_candidate_v0_1 --mode inspect
+cf10-codex-adapter-candidate-tests:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_r087_codex_cli_candidate_v0_1.py
+# CF10_R087_CODEX_CLI_CANDIDATE_END

@@ -1,0 +1,47 @@
+{
+  "schema_version": "cf10_r087_codex_cli_adapter_candidate_contract_v0_1",
+  "source_head": "08ab912fe3e73c65841d773cea9c0fc7bdba7fdc",
+  "status": "SOURCE_ONLY_CODEX_CLI_CANDIDATE_NOT_WIRED_NOT_READY",
+  "provider_id": "openai_codex_cli",
+  "upstream": {
+    "r080": "MULTI_READY_CATALOG_CANDIDATE",
+    "r081": "SOURCE_BOUND_COPILOT_ONLY_ROUTER",
+    "r082_r083": "FROZEN_PROVIDER_AND_EPOCH_ANTI_DOWNGRADE",
+    "r084_r086": "EXPLICIT_OPERATOR_PLAN_AND_PROVENANCE"
+  },
+  "candidate_contract": {
+    "command": "codex exec --json --ephemeral --ignore-user-config --ignore-rules --sandbox read-only --model MODEL --cd ATTEMPT_WORKSPACE -",
+    "prompt_passed": "stdin_not_opened_and_prompt_sha256_only",
+    "argv": "pure_ARGV_NO_SHELL_not_invoked",
+    "sandbox": "read-only_candidate_not_write_capable_worker",
+    "result": "untrusted_JSONL_observation_without_Handoff_acceptance",
+    "model": "explicit_only_no_auto",
+    "workspace": "exact_attempt_workspace",
+    "no_live_credentials_or_auth_test": true
+  },
+  "authority": {
+    "registry_ready_modified": false,
+    "r081_live_adapter_router_modified": false,
+    "live_dispatch_modified": false,
+    "automatic_fallback": false,
+    "claim_consumed": false,
+    "pam": false,
+    "systemd": false,
+    "worker_launch": false,
+    "ledger_written": false,
+    "result_accepted": false,
+    "production_cutover": false
+  },
+  "next_gates": [
+    "install_and_pin_real_Codex_CLI_in_independent_worker_runtime",
+    "verify_offline_flags_and_version_under_unprivileged_sandbox",
+    "separate_auth_and_network_review_without_committing_secrets",
+    "read_write_isolation_and_MCP_tool_restrictions",
+    "independent_result_envelope_conversion_and_Handoff_R037_test",
+    "explicit_owner_authorization_before_any_live_provider_switch"
+  ],
+  "sources": [
+    "https://github.com/openai/codex/blob/main/codex-rs/exec/src/cli.rs",
+    "https://github.com/openai/codex/blob/main/sdk/typescript/src/exec.ts"
+  ]
+}
