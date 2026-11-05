@@ -4480,3 +4480,12 @@ cf10-pilot-provider-cli-tests:
 cf10-pilot-provider-cli-smoke:
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.cf10_r078_copilot_cli_smoke_v0_1 --mode probe --confirm PROBE_COPILOT_VERSION_OFFLINE_DISPOSABLE_NO_WORKER
 # CF10_R078_DISPOSABLE_PROVIDER_CLI_BOOT_END
+
+# CF10_R079_PROVIDER_NEUTRAL_CONTRACT_START
+# Pure contract / source audit only; no Worker, claim, dispatch, approval or authority.
+.PHONY: cf10-provider-neutral-contract-check cf10-provider-neutral-architecture-audit
+cf10-provider-neutral-contract-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_provider_neutral_boundary_v0_1.py
+cf10-provider-neutral-architecture-audit:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_provider_neutral_boundary_v0_1 --mode audit --root "$(CURDIR)"
+# CF10_R079_PROVIDER_NEUTRAL_CONTRACT_END
