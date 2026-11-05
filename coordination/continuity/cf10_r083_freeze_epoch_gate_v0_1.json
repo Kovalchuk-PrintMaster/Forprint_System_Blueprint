@@ -1,0 +1,30 @@
+{
+  "schema_version": "cf10_r083_frozen_epoch_gate_contract_v0_1",
+  "base_head": "0282218d998b5d0687323016339081a68724b558",
+  "status": "SOURCE_BOUND_EPOCH_GUARD_PENDING_SERVER_VALIDATION",
+  "purpose": "For R082 descendant source HEADs, require both frozen assignment and dispatch digest; accept missing markers only for verified historical Git ancestors with Copilot/auto",
+  "entrypoints": [
+    "governed_worker_cycle.launch_cycle",
+    "cf10_pilot_cycle._assert_actual_frozen_invocation",
+    "cf10_pilot_cycle.advance before PAM",
+    "cf10_r055._source before password and after claim"
+  ],
+  "ancestor_source_evidence": "git cat-file + merge-base --is-ancestor",
+  "new_source_missing_both_markers": "BLOCKED_NO_LEGACY_DOWNGRADE",
+  "divergent_source": "BLOCKED",
+  "frozen_candidate_tamper": "EXISTING_R082_VERIFY_DECISION_BLOCKED",
+  "legacy_provider": "github_copilot_cli",
+  "legacy_model": "auto",
+  "source_or_attempt_rewrite": false,
+  "worker_or_provider_launch": false,
+  "root_claim_or_ledger_write": false,
+  "new_provider_admission": false,
+  "auto_retry": false,
+  "a054_reuse": false,
+  "r037_production_code_modified": false,
+  "tmp_runtime_dependency": false,
+  "source_integrity_pinned_files": [
+    "cf10_pilot_cycle_v0_1.py",
+    "cf10_r083_frozen_epoch_gate_v0_1.py"
+  ]
+}

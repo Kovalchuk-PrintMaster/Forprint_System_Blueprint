@@ -36,6 +36,8 @@ CRITICAL = (
     'scripts/coordination/control_plane/cf10_r050_two_phase_pilot_v0_1.py',
     'scripts/coordination/control_plane/cf10_r054_pilot_postworker_gate_v0_1.py',
     'scripts/coordination/control_plane/governed_worker_cycle.py',
+    'scripts/coordination/control_plane/cf10_pilot_cycle_v0_1.py',
+    'scripts/coordination/control_plane/worker_runtime/cf10_r083_frozen_epoch_gate_v0_1.py',
     'scripts/coordination/control_plane/cf10_r037_finalizer_boundary_v0_1.py',
     'scripts/coordination/execution_attempt_writer_lock_v0_1.py',
     'scripts/coordination/execution_attempt_ledger_v0_1.py',
@@ -74,6 +76,21 @@ def _source(*, root: Path, runtime: Path, task: str, attempt: str, head: str) ->
             _deny('GIT_SOURCE_UNAVAILABLE')
         if cp.returncode != 0 or cp.stdout != path.read_bytes():
             _deny('SOURCE_BYTES_NOT_EQUAL_PUBLISHED_HEAD')
+    # R083: direct owner/PAM route may not bypass the prepared provider freeze.
+    # This path is invoked before password and again after root owner claim.
+    from scripts.coordination.control_plane import governed_worker_cycle as cycle
+    from scripts.coordination.control_plane.worker_runtime import cf10_r083_frozen_epoch_gate_v0_1 as epoch
+    inp = runtime / 'forprint_system_blueprint' / WORKER / attempt / 'input'
+    try:
+        source = cycle._load_yaml(inp / 'governed_worker_cycle_source_state_v0_1.yaml', 'source state')
+        prepared = cycle._load_yaml(inp / 'governed_worker_cycle_prepared_execution_v0_1.yaml', 'prepared execution')
+        decision = cycle._load_yaml(inp / 'governed_worker_cycle_explicit_dispatch_decision_v0_1.yaml', 'dispatch decision')
+        cycle._assert_frozen_source_state_current(root, source, boundary='R083 owner-PAM provider freeze')
+        epoch.assert_launch_epoch(root=root, source_state=source, prepared=prepared,
+                                  decision=decision, attempt_id=attempt, worker_id=WORKER)
+    except Exception as exc:
+        # Do not expose source, argv, prompts, secrets or frozen content.
+        _deny('PROVIDER_EPOCH_GATE_BLOCKED:' + type(exc).__name__)
 
 
 def assert_before_password(*, root: Path, runtime: Path, task: str, attempt: str, head: str) -> None:

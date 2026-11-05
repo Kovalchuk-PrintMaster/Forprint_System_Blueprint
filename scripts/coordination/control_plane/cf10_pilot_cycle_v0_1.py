@@ -354,6 +354,12 @@ def _assert_actual_frozen_invocation(root: Path, runtime: Path, task: str,
             'explicit dispatch decision')
         cycle._assert_frozen_source_state_current(
             root, source, boundary='CF10 project-native preclaim invocation')
+        # R083: enforce the same immutable provider freeze *before* owner claim.
+        from scripts.coordination.control_plane.worker_runtime import cf10_r083_frozen_epoch_gate_v0_1 as provider_epoch
+        provider_epoch.assert_launch_epoch(
+            root=root, source_state=source, prepared=prepared, decision=decision,
+            attempt_id=attempt, worker_id=WORKER,
+        )
         cycle._load_verified_original_handoff_manifest(
             attempt=attempt_root, prepared_execution=prepared,
             source_state=source)
@@ -459,6 +465,8 @@ def advance(root: Path, runtime: Path, task: str, attempt: str,
             completed.append('preclaim')
         elif action == 'EXPLICIT_CANONICAL_PAM_LAUNCH':
             _assert_static_argv_boundary(attempt, head, runtime)
+            # R083: a resumed preclaim must not skip a read-only epoch recheck.
+            _assert_actual_frozen_invocation(root, runtime, task, attempt, head)
             _run_make(root, runtime, task, attempt, 'cf10-s01-pilot-launch-preflight')
             # Exactly one invocation: a nonzero return never triggers retry.
             _run_make(root, runtime, task, attempt, 'cf10-s01-pilot-owner-run')

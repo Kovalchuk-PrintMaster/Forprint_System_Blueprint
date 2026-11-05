@@ -4516,3 +4516,10 @@ cf10-provider-freeze-tests:
 cf10-provider-freeze-check:
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -c 'from scripts.coordination.control_plane.worker_runtime import cf10_r082_frozen_assignment_v0_1 as f; print("CF10_R082_FREEZE_MODULE=" + f.SCHEMA); print("CF10_R082_SECOND_PROVIDER_DISPATCH=false")'
 # CF10_R082_FROZEN_PROVIDER_ASSIGNMENT_END
+
+# CF10_R083_FREEZE_EPOCH_ANTI_DOWNGRADE_START
+# Strict ancestry-bound R082 provider freeze; no Worker, claim, or authority.
+.PHONY: cf10-provider-freeze-epoch-tests
+cf10-provider-freeze-epoch-tests:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_r083_frozen_epoch_gate_v0_1.py
+# CF10_R083_FREEZE_EPOCH_ANTI_DOWNGRADE_END

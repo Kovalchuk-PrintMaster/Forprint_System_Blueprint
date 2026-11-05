@@ -2927,21 +2927,14 @@ def launch_cycle(
         source_state,
         boundary="project-native Worker launch",
     )
-    # R082: before any invocation, check the same provider selection recorded
-    # during prepare, ACK and the signed explicit dispatch decision.
-    from scripts.coordination.control_plane.worker_runtime import cf10_r082_frozen_assignment_v0_1 as provider_freeze
-    decision_binding = explicit_dispatch_decision.get("binding")
-    if not isinstance(decision_binding, dict):
-        raise GovernedWorkerCycleError("R082 explicit decision binding missing")
-    if (provider_freeze.KEY in prepared_execution
-            or "cf10_frozen_provider_assignment_sha256" in decision_binding):
-        provider_freeze.verify_decision(
-            root=canonical,prepared=prepared_execution,
-            decision=explicit_dispatch_decision,
-            source_head=source_state.get("git_head"),
-            source_fingerprint=source_state.get("fingerprint_sha256"),
-            attempt_id=attempt_id,worker_id=worker_id,
-        )
+    # R083: new source epochs must not silently enter the legacy Copilot
+    # path when both R082 freeze markers are missing. Read-only before launch.
+    from scripts.coordination.control_plane.worker_runtime import cf10_r083_frozen_epoch_gate_v0_1 as provider_epoch
+    provider_epoch.assert_launch_epoch(
+        root=canonical, source_state=source_state,
+        prepared=prepared_execution, decision=explicit_dispatch_decision,
+        attempt_id=attempt_id, worker_id=worker_id,
+    )
     origin_manifest = _load_verified_original_handoff_manifest(
         attempt=attempt,
         prepared_execution=prepared_execution,

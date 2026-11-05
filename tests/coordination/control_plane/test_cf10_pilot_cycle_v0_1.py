@@ -166,11 +166,13 @@ class PilotCycleDecisionTests(unittest.TestCase):
 class PilotActualInvocationTests(unittest.TestCase):
     """The production preclaim uses real canonical provider-plan APIs, never a fixture argv."""
 
-    def _exercise(self, *, started_errors=None, invocation_error=None, bind_error=None):
+    def _exercise(self, *, started_errors=None, invocation_error=None, bind_error=None,
+                  epoch_error=None):
         from scripts.coordination.control_plane import governed_worker_cycle as cycle
         from scripts.coordination.control_plane import cf10_r030_canonical_systemd_route_v0_1 as route
         from scripts.coordination.control_plane.worker_runtime import invocation_adapter as adapter
         from scripts.coordination.control_plane.worker_runtime import cf10_systemd_launcher_v0_1 as backend
+        from scripts.coordination.control_plane.worker_runtime import cf10_r083_frozen_epoch_gate_v0_1 as epoch
         from scripts.coordination import execution_attempt_ledger_v0_1 as ledger
         from unittest.mock import Mock
         attempt='cf10-u180j-a053'
@@ -190,6 +192,12 @@ class PilotActualInvocationTests(unittest.TestCase):
               patch.object(mod,'frozen_head',return_value=head),
               patch.object(cycle,'_load_yaml',loader),
               patch.object(cycle,'_assert_frozen_source_state_current'),
+              # R083B: only this isolated invocation test substitutes the
+              # provider epoch guard. Real R083 epoch guards remain mandatory
+              # in production and are tested separately with negative inputs.
+              patch.object(epoch, 'assert_launch_epoch',
+                           return_value={'launch_authorized':False},
+                           side_effect=epoch_error) as epoch_check,
               patch.object(cycle,'_load_verified_original_handoff_manifest'),
               patch.object(cycle,'_resolve_stage4c_trusted_transport',return_value='transport'),
               patch.object(cycle,'_resolve_b3_trusted_readback',return_value=None),
@@ -201,12 +209,29 @@ class PilotActualInvocationTests(unittest.TestCase):
               patch.object(ledger,'validate_record_data',validate),
               patch.object(route,'bind_contract',binding),
               patch.object(backend,'assert_frozen_manifest_preclaim',return_value={'claim_consumed':False}) as gate):
-            if invocation_error or bind_error or started_errors:
-                with self.assertRaises(mod.PilotBlocked):
+            if invocation_error or bind_error or started_errors or epoch_error:
+                with self.assertRaises(mod.PilotBlocked) as blocked:
                     mod._assert_actual_frozen_invocation(mod.PROJECT,mod.RUNTIME,mod.TASK,attempt,head)
+                if epoch_error:
+                    self.assertIn('ACTUAL_FROZEN_INVOCATION_PREFLIGHT_FAILED:EpochGateBlocked',
+                                  str(blocked.exception))
             else:
                 mod._assert_actual_frozen_invocation(mod.PROJECT,mod.RUNTIME,mod.TASK,attempt,head)
+            epoch_check.assert_called_once_with(
+                root=mod.PROJECT, source_state=frozen, prepared=prepared,
+                decision=decision, attempt_id=attempt, worker_id=mod.WORKER,
+            )
             return build,binding,loader,validate
+
+    def test_epoch_failure_blocks_invocation_and_systemd_before_claim(self):
+        from scripts.coordination.control_plane.worker_runtime import cf10_r083_frozen_epoch_gate_v0_1 as epoch
+        builder,binding,loader,validate=self._exercise(
+            epoch_error=epoch.EpochGateBlocked('CF10_R083_ATTEMPT_WORKER_IDENTITY_DRIFT')
+        )
+        self.assertEqual(loader.call_count,3)
+        builder.assert_not_called()
+        binding.assert_not_called()
+        validate.assert_not_called()
 
     def test_exact_frozen_context_reaches_real_builder_and_systemd_contract(self):
         builder,binding,loader,validate=self._exercise()
