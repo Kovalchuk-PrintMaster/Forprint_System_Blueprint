@@ -4583,3 +4583,15 @@ cf10-codex-offline-tests:
 cf10-codex-offline-version-probe:
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r088_codex_offline_attestation_v0_1 --mode probe
 # CF10_R088_CODEX_OFFLINE_ATTESTATION_END
+# CF10_R089_PINNED_CODEX_BINARY_INTAKE_START
+# Explicit pinned official binary install is NOT invoked by source package installer.
+# No npm/curl|sh, no Worker/claim, no READY, separate R088 offline --version.
+.PHONY: cf10-codex-pinned-install-inspect cf10-codex-pinned-install-tests cf10-codex-pinned-install
+cf10-codex-pinned-install: export CF10_CONFIRM_CODEX_INSTALL := $(CF10_CONFIRM_CODEX_INSTALL)
+cf10-codex-pinned-install-inspect:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r089_codex_pinned_install_v0_1 --mode inspect
+cf10-codex-pinned-install-tests:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_r089_codex_pinned_install_v0_1.py
+cf10-codex-pinned-install:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r089_codex_pinned_install_v0_1 --mode install
+# CF10_R089_PINNED_CODEX_BINARY_INTAKE_END
