@@ -4556,3 +4556,11 @@ cf10-provider-assignment-prepare-tests:
 cf10-provider-assignment-prepare:
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r085_operator_prepare_bridge_v0_1 --mode prepare
 # CF10_R085_EXPLICIT_OPERATOR_PLAN_TO_PREPARE_END
+# CF10_R086_OPERATOR_PREVIEW_PROVENANCE_START
+# Provenance verification only; no Worker, provider auth, claim, dispatch or launch.
+.PHONY: cf10-operator-provenance-tests cf10-operator-provenance-inspect
+cf10-operator-provenance-tests:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_r086_operator_provenance_v0_1.py
+cf10-operator-provenance-inspect:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -c 'from scripts.coordination.control_plane.worker_runtime import cf10_r086_operator_provenance_v0_1 as p; print("CF10_R086_SCHEMA=" + p.SCHEMA); print("CF10_R086_SECOND_PROVIDER_DISPATCH=false"); print("CF10_R086_NO_WORKER_NO_CLAIM=true")'
+# CF10_R086_OPERATOR_PREVIEW_PROVENANCE_END

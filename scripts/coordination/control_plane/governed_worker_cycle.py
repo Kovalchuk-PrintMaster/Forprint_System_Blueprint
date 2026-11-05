@@ -992,6 +992,12 @@ def confirm_assistant_ack(
         source_fingerprint=source_state.get("fingerprint_sha256"),
         attempt_id=attempt_id,worker_id=worker_id,
     )
+    # R086: independently rederive the operator preview SHA before ACK.
+    from scripts.coordination.control_plane.worker_runtime import cf10_r086_operator_provenance_v0_1 as operator_provenance
+    operator_provenance.verify_prepared(
+        root=canonical, prepared=prepared, source_state=source_state,
+        attempt_id=attempt_id, worker_id=worker_id,
+    )
     ready = training.validate_training_assistant_ack(
         root=canonical,
         prepared_execution=prepared,
@@ -1075,6 +1081,12 @@ def authorize_dispatch(
         root=canonical,prepared=ready,decision=decision,
         source_head=source_state.get("git_head"),source_fingerprint=source_fp,
         attempt_id=attempt_id,worker_id=worker_id,
+    )
+    # R086: require the explicitly selected operator SHA in the hashed decision.
+    from scripts.coordination.control_plane.worker_runtime import cf10_r086_operator_provenance_v0_1 as operator_provenance
+    operator_provenance.verify_decision(
+        root=canonical, prepared=ready, decision=decision,
+        source_state=source_state, attempt_id=attempt_id, worker_id=worker_id,
     )
 
     _write_yaml_new(

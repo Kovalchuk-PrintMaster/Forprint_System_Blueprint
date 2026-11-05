@@ -104,6 +104,12 @@ def assert_launch_epoch(
             deny('NEW_FROZEN_ASSIGNMENT_NOT_VERIFIED')
     elif report.get('legacy_copilot_only') is not True or report.get('new_assignment_verified') is not False:
         deny('LEGACY_PROVIDER_NOT_ALLOWED')
+    # R086: also check any explicit R085 operator selection before claim/launch.
+    from scripts.coordination.control_plane.worker_runtime import cf10_r086_operator_provenance_v0_1 as operator_provenance
+    operator_provenance.verify_decision(
+        root=Path(root), prepared=prepared, decision=decision,
+        source_state=source_state, attempt_id=attempt_id, worker_id=worker_id,
+    )
     return {
         'schema_version': SCHEMA,
         'source_epoch': epoch,

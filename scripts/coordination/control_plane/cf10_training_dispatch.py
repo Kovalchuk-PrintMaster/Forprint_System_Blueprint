@@ -708,6 +708,9 @@ def validate_training_assistant_ack(
     from scripts.coordination.control_plane.worker_runtime import cf10_r082_frozen_assignment_v0_1 as provider_freeze
     if ready.get(provider_freeze.KEY) != prepared_execution.get(provider_freeze.KEY):
         raise CF10TrainingDispatchError("R082 provider selection changed during ACK")
+    # R086: the canonical upstream ACK must not lose, add or edit R085 provenance.
+    from scripts.coordination.control_plane.worker_runtime import cf10_r086_operator_provenance_v0_1 as operator_provenance
+    operator_provenance.verify_ack(prepared=prepared_execution, ready=ready)
     if ready.get("state") != "READY_FOR_EXPLICIT_DISPATCH":
         raise CF10TrainingDispatchError(
             "validated training ACK did not reach READY_FOR_EXPLICIT_DISPATCH"
@@ -885,6 +888,16 @@ def authorize_training_explicit_dispatch(
         )
     if frozen is not None:
         decision_binding["cf10_frozen_provider_assignment_sha256"] = verified["frozen_assignment_sha256"]
+    # R086: R085 operator preview is a separate exact provenance binding.
+    if 'cf10_operator_assignment_preview_sha256' in ready_execution:
+        from scripts.coordination.control_plane.worker_runtime import cf10_r086_operator_provenance_v0_1 as operator_provenance
+        operator_sha = operator_provenance.verify_prepared(
+            root=root, prepared=ready_execution,
+            source_state={'git_head': frozen.get('source_head') if frozen else None,
+                          'fingerprint_sha256': source_state_fingerprint},
+            attempt_id=attempt_id, worker_id=worker_id,
+        )
+        decision_binding[operator_provenance.DECISION_KEY] = operator_sha
     decision_id = hashlib.sha256(
         json.dumps(
             decision_binding,

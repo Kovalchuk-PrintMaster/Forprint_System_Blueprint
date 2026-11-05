@@ -1,0 +1,29 @@
+{
+  "schema_version": "cf10_r086_operator_plan_provenance_contract_v0_1",
+  "source_baseline_head": "d1033757787c751664bebef1a43ad7b2a1fee942",
+  "status": "OPERATOR_PLAN_SHA_BOUND_TO_ACK_DISPATCH_AND_PRECLAIM_COPILOT_ONLY",
+  "purpose": "Preserve the source-verified R085 operator selection preview digest throughout R082 freeze, assistant ACK, explicit dispatch decision and R083 preclaim/launch review",
+  "invariants": {
+    "operator_preview_reconstructed_from_trusted_catalog": true,
+    "operator_plan_digest_required_when_explicit": true,
+    "operator_digest_inserted_into_dispatch_decision": true,
+    "missing_or_drifted_digest_denied": true,
+    "no_explicit_operator_marker_uses_original_copilot_path": true,
+    "codex_dispatch_enabled": false,
+    "claude_dispatch_enabled": false,
+    "authorization_granted": false,
+    "worker_launched": false,
+    "claim_consumed": false,
+    "ledger_mutated": false,
+    "automatic_fallback": false,
+    "automatic_retry": false
+  },
+  "scope": "Source contract integration only; no real attempt create, ACK, dispatch or launch during installer",
+  "production_paths": [
+    "scripts/coordination/control_plane/governed_worker_cycle.py",
+    "scripts/coordination/control_plane/cf10_training_dispatch.py",
+    "scripts/coordination/control_plane/worker_runtime/cf10_r083_frozen_epoch_gate_v0_1.py"
+  ],
+  "historical_attempts": "Unmodified; R082/R083 legacy proof and exact source ancestry retain their existing authority boundaries",
+  "tmp": "Disposable ZIP/staging only"
+}
