@@ -1082,26 +1082,35 @@ def build_launch_invocation(
         separators=(",", ":"),
     )
 
-    argv = [
-        *base_argv,
-        "-p",
-        prompt,
-        "--silent",
-        "--model",
-        model_id,
-        "--additional-mcp-config",
-        mcp_config_json,
-        "--available-tools",
-        *GITHUB_COPILOT_AVAILABLE_TOOLS,
-        *([GITHUB_COPILOT_READBACK_MCP_MODEL_TOOL_ID] if readback_enabled else []),
-        "--allow-all-tools",
-        "--disable-builtin-mcps",
-        "--max-ai-credits",
-        str(max_ai_credits),
-        "--no-auto-update",
-        "-C",
-        str(workspace),
-    ]
+    # R081: dispatch remains source-guarded Copilot-only. The vendor-specific
+    # argv/policy renderer is now behind one non-authorizing, fail-closed adapter.
+    from scripts.coordination.control_plane.worker_runtime import cf10_r081_provider_adapter_v0_1 as provider_adapters
+    provider_render = provider_adapters.route_invocation(
+        provider_id=provider_id,
+        binding={
+            "provider_id": provider_id,
+            "model_id": model_id,
+            "workspace": str(workspace),
+        },
+        frozen_task={
+            "base_argv": base_argv,
+            "prompt": prompt,
+            "mcp_config_json": mcp_config_json,
+            "available_tools": GITHUB_COPILOT_AVAILABLE_TOOLS,
+            "readback_tool": GITHUB_COPILOT_READBACK_MCP_MODEL_TOOL_ID if readback_enabled else None,
+            "permission_patterns": (
+                GITHUB_COPILOT_MCP_PERMISSION_PATTERN,
+                GITHUB_COPILOT_REPO_DIFF_MCP_PERMISSION_PATTERN,
+                GITHUB_COPILOT_REPO_HEAD_MCP_PERMISSION_PATTERN,
+                GITHUB_COPILOT_REPO_STATUS_MCP_PERMISSION_PATTERN,
+            ),
+            "readback_permission": GITHUB_COPILOT_READBACK_MCP_PERMISSION_PATTERN if readback_enabled else None,
+            "mcp_server_name": WORKER_VALIDATION_MCP_SERVER,
+            "mcp_timeout_ms": mcp_tool_timeout_ms,
+            "max_ai_credits": max_ai_credits,
+        },
+    )
+    argv = provider_render["argv"]
 
     input_dir = attempt / "input"
     logs_dir = attempt / "logs"
@@ -1137,28 +1146,7 @@ def build_launch_invocation(
                 evidence_dir / "worker_process_result_v0_1.yaml"
             ),
         },
-        "provider_policy": {
-            "available_tools": [
-                *GITHUB_COPILOT_AVAILABLE_TOOLS,
-                *([GITHUB_COPILOT_READBACK_MCP_MODEL_TOOL_ID] if readback_enabled else []),
-            ],
-            "mcp_permission_patterns": [
-                GITHUB_COPILOT_MCP_PERMISSION_PATTERN,
-                GITHUB_COPILOT_REPO_DIFF_MCP_PERMISSION_PATTERN,
-                GITHUB_COPILOT_REPO_HEAD_MCP_PERMISSION_PATTERN,
-                GITHUB_COPILOT_REPO_STATUS_MCP_PERMISSION_PATTERN,
-                *([GITHUB_COPILOT_READBACK_MCP_PERMISSION_PATTERN] if readback_enabled else []),
-            ],
-            "permission_mode": "ALLOW_ALL_WITHIN_AVAILABLE_TOOL_UNIVERSE",
-            "bash_available": False,
-            "web_available": False,
-            "builtin_mcps_disabled": True,
-            "additional_mcp_config_source": "SESSION_ONLY_ARGV",
-            "mcp_server_names": [WORKER_VALIDATION_MCP_SERVER],
-            "mcp_transport": "STDIO_LOCAL",
-            "mcp_server_tool_timeout_ms": mcp_tool_timeout_ms,
-            "persistent_mcp_config_written": False,
-        },
+        "provider_policy": provider_render["provider_policy"],
         "authority": {
             "adapter_grants_authority": False,
             "explicit_dispatch_consumed": True,

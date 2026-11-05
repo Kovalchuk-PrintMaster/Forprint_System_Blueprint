@@ -1,0 +1,44 @@
+{
+  "schema_version": "cf10_r081_copilot_adapter_parity_v0_1",
+  "status": "SOURCE_BOUND_LEGACY_COPILOT_PARITY_BRIDGE_NOT_SECOND_PROVIDER_LAUNCH",
+  "base_head": "d1f25703a2d336ca4fc16f3d585680bbd1721ac2",
+  "objective": "Move Copilot argv and provider_policy rendering behind source-bound ProviderAdapter while preserving canonical frozen command and result contracts",
+  "execution_boundary": {
+    "worker_identity_provider_independent": true,
+    "source_bound_adapter_map": ["github_copilot_cli"],
+    "explicit_provider_binding_required": true,
+    "automatic_fallback": false,
+    "provider_ready_not_dispatch_authority": true,
+    "prepare_ack_dispatch_changed": false,
+    "canonical_worker_result_changed": false,
+    "systemd_sandbox_changed": false,
+    "root_claim_receipts_ledger_changed": false,
+    "finalizer_changed": false,
+    "second_provider_launch_enabled": false,
+    "remote_jobs_enabled": false,
+    "live_copilot_launch_permission_changed": false,
+    "credential_authentication_proven": false
+  },
+  "source": {
+    "patched": ["scripts/coordination/control_plane/worker_runtime/invocation_adapter.py", "Makefile"],
+    "added": ["scripts/coordination/control_plane/worker_runtime/cf10_r081_provider_adapter_v0_1.py", "tests/coordination/control_plane/worker_runtime/test_cf10_r081_provider_adapter_v0_1.py", "coordination/continuity/cf10_r081_copilot_adapter_parity_v0_1.json", "coordination/standards/governance/cf10_r081_copilot_adapter_parity_UA.md"]
+  },
+  "parity_requirements": [
+    "original argv ordering and values byte-exact including newline prompt and MCP JSON",
+    "original invocation argv_sha256 unchanged",
+    "original provider_policy fields and ordering unchanged",
+    "result transport, authority, effects unchanged",
+    "source adapter raises on any unimplemented provider without fallback",
+    "no provider stream normalized into accepted result by adapter"
+  ],
+  "incident": {
+    "attempt": "cf10-u180j-a054",
+    "claim": "CONSUMED_NO_RETRY",
+    "ledger": "STARTED_PENDING",
+    "terminal": "ABSENT",
+    "relaunch": false
+  },
+  "post_migration_next": "R082 freeze explicit provider assignment before dispatch, with simultaneous old-versus-new frozen invocation review; Codex non-authorizing adapter only after version, auth and stream contract evidence",
+  "no_tmp_runtime_dependency": true,
+  "no_hestia_or_sudoers_change": true
+}

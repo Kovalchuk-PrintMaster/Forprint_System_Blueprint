@@ -4498,3 +4498,12 @@ cf10-provider-catalog-check:
 cf10-provider-catalog-tests:
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_r080_catalog_assignment_v0_1.py
 # CF10_R080_MULTI_READY_CATALOG_END
+
+# CF10_R081_COPILOT_ADAPTER_PARITY_START
+# Source-bound provider argv/policy parity; NO second-provider execution.
+.PHONY: cf10-provider-adapter-parity-tests cf10-provider-adapter-parity-audit
+cf10-provider-adapter-parity-tests:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_r081_provider_adapter_v0_1.py
+cf10-provider-adapter-parity-audit:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r081_provider_adapter_v0_1 --mode inspect
+# CF10_R081_COPILOT_ADAPTER_PARITY_END
