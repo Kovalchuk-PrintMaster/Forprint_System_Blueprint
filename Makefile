@@ -4572,3 +4572,14 @@ cf10-codex-adapter-candidate-check:
 cf10-codex-adapter-candidate-tests:
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_r087_codex_cli_candidate_v0_1.py
 # CF10_R087_CODEX_CLI_CANDIDATE_END
+# CF10_R088_CODEX_OFFLINE_ATTESTATION_START
+# Inspect only by default; opt-in isolated systemd --version with explicit confirmation.
+.PHONY: cf10-codex-offline-inspect cf10-codex-offline-tests cf10-codex-offline-version-probe
+cf10-codex-offline-version-probe: export CF10_CONFIRM_CODEX_VERSION_PROBE := $(CF10_CONFIRM_CODEX_VERSION_PROBE)
+cf10-codex-offline-inspect:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r088_codex_offline_attestation_v0_1 --mode inspect
+cf10-codex-offline-tests:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_r088_codex_offline_attestation_v0_1.py
+cf10-codex-offline-version-probe:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r088_codex_offline_attestation_v0_1 --mode probe
+# CF10_R088_CODEX_OFFLINE_ATTESTATION_END
