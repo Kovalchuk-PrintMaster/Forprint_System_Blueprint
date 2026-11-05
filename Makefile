@@ -4469,3 +4469,14 @@ cf10-pilot-provider-home-tests:
 cf10-pilot-provider-home-probe:
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.cf10_r077_runner_home_contract_v0_1 --mode probe --confirm PROBE_CF10_R077_DISPOSABLE_HOME_NO_WORKER
 # CF10_R077_PROVIDER_HOME_SANDBOX_END
+
+# CF10_R078_DISPOSABLE_PROVIDER_CLI_BOOT_START
+# CLI --version only, no Worker, no claim, no credentials, network disabled.
+.PHONY: cf10-pilot-provider-cli-inspect cf10-pilot-provider-cli-tests cf10-pilot-provider-cli-smoke
+cf10-pilot-provider-cli-inspect:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.cf10_r078_copilot_cli_smoke_v0_1 --mode inspect
+cf10-pilot-provider-cli-tests:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/test_cf10_r078_copilot_cli_smoke.py
+cf10-pilot-provider-cli-smoke:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.cf10_r078_copilot_cli_smoke_v0_1 --mode probe --confirm PROBE_COPILOT_VERSION_OFFLINE_DISPOSABLE_NO_WORKER
+# CF10_R078_DISPOSABLE_PROVIDER_CLI_BOOT_END
