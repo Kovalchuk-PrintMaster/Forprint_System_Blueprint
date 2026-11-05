@@ -4595,3 +4595,15 @@ cf10-codex-pinned-install-tests:
 cf10-codex-pinned-install:
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r089_codex_pinned_install_v0_1 --mode install
 # CF10_R089_PINNED_CODEX_BINARY_INTAKE_END
+# CF10_R090_CODEX_BINARY_LINEAGE_AND_OFFLINE_HELP_START
+# Durable read-only binary+receipt lineage; separate opt-in offline exec --help.
+# NEVER runs model/prompts, Worker, auth, claim, READY or live dispatch.
+.PHONY: cf10-codex-lineage-attest cf10-codex-lineage-tests cf10-codex-offline-exec-help-probe
+cf10-codex-offline-exec-help-probe: export CF10_CONFIRM_CODEX_HELP_PROBE := $(CF10_CONFIRM_CODEX_HELP_PROBE)
+cf10-codex-lineage-attest:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r090_codex_binary_lineage_and_help_v0_1 --mode attest
+cf10-codex-lineage-tests:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_r090_codex_binary_lineage_and_help_v0_1.py
+cf10-codex-offline-exec-help-probe:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r090_codex_binary_lineage_and_help_v0_1 --mode help-probe
+# CF10_R090_CODEX_BINARY_LINEAGE_AND_OFFLINE_HELP_END
