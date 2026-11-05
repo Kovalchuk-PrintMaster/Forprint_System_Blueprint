@@ -4507,3 +4507,12 @@ cf10-provider-adapter-parity-tests:
 cf10-provider-adapter-parity-audit:
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r081_provider_adapter_v0_1 --mode inspect
 # CF10_R081_COPILOT_ADAPTER_PARITY_END
+
+# CF10_R082_FROZEN_PROVIDER_ASSIGNMENT_START
+# Provider selected before ACK and bound through dispatch/launch; no new authority.
+.PHONY: cf10-provider-freeze-tests cf10-provider-freeze-check
+cf10-provider-freeze-tests:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_r082_frozen_assignment_v0_1.py
+cf10-provider-freeze-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -c 'from scripts.coordination.control_plane.worker_runtime import cf10_r082_frozen_assignment_v0_1 as f; print("CF10_R082_FREEZE_MODULE=" + f.SCHEMA); print("CF10_R082_SECOND_PROVIDER_DISPATCH=false")'
+# CF10_R082_FROZEN_PROVIDER_ASSIGNMENT_END

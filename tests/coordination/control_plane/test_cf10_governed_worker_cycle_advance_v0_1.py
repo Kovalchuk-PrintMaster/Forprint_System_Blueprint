@@ -448,6 +448,44 @@ def test_authorized_positive_delegates_to_canonical_finalizer_and_is_idempotent(
     monkeypatch.setattr(
         workspace, "derive_worker_delta_from_manifest", lambda manifest: delta,
     )
+    # R082A: this isolated test must first prove that the REAL R037 boundary
+    # refuses a successful-looking Worker result WITHOUT independent evidence.
+    # Do not weaken or mock any production guard to achieve this negative check.
+    without_r037 = invoke_advance(environment)
+    assert without_r037["state"] == "BLOCKED", without_r037
+    assert str(without_r037["failure_class"]).startswith(
+        "R037_INDEPENDENT_RESULT_GUARD:"
+    ), without_r037
+    original_store = ledger.store_root(
+        canonical, ledger.load_contract(canonical), None,
+    )
+    assert len(ledger.records_for_attempt(original_store, ATTEMPT_ID)) == 1
+
+    # This test intentionally isolates the FINALIZER/REPLAY orchestration,
+    # so the separately tested independent R037 gate is explicitly doubled
+    # ONLY for the subsequent positive case (never in application source).
+    # An R037 baseline is still required as a bound evidence argument.
+    from scripts.coordination.control_plane import cf10_r037_finalizer_boundary_v0_1 as r037
+    write_yaml(attempt / "evidence/worker_baseline_v0_1.yaml", {
+        "schema_version": "cf10_r082a_isolated_r037_fixture_v0_1",
+        "attempt_id": ATTEMPT_ID,
+        "candidate_only": True,
+    })
+    r037_calls = []
+
+    def independently_reviewed_fixture(**kwargs):
+        assert kwargs["canonical"] == canonical
+        assert kwargs["attempt"] == attempt
+        assert kwargs["attempt_id"] == ATTEMPT_ID
+        assert len(kwargs["ledger_rows"]) == 1
+        assert kwargs["ledger_rows"][0]["attempt_stage"] == "STARTED"
+        assert kwargs["baseline"]["attempt_id"] == ATTEMPT_ID
+        r037_calls.append(True)
+        return {
+            "status": "VERIFIED_RESULT_CANDIDATE_PENDING_CANONICAL_LEDGER_FINALIZER"
+        }
+
+    monkeypatch.setattr(r037, "review", independently_reviewed_fixture)
     finalizer_calls = []
 
     def canonical_finalizer_double(**kwargs):
@@ -487,6 +525,7 @@ def test_authorized_positive_delegates_to_canonical_finalizer_and_is_idempotent(
     assert second["state"] == "AWAITING_OPERATOR_REVIEW", second
     assert len(ledger.records_for_attempt(store, ATTEMPT_ID)) == 2
     assert len(finalizer_calls) == 1
+    assert r037_calls == [True]
     assert file_snapshot(attempt) == snapshot
 
 

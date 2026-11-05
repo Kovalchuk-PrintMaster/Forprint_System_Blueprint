@@ -703,6 +703,11 @@ def validate_training_assistant_ack(
                 or ready.get("validation_readback_policy_sha256") != frozen_readback["policy_sha256"]):
             raise CF10TrainingDispatchError("ACK readback selector/provenance drift")
         ready["validation_readback_selection"] = copy.deepcopy(frozen_readback)
+    # R082: the upstream ACK validator must preserve the original selection
+    # exactly; a missing or newly injected selector fails closed.
+    from scripts.coordination.control_plane.worker_runtime import cf10_r082_frozen_assignment_v0_1 as provider_freeze
+    if ready.get(provider_freeze.KEY) != prepared_execution.get(provider_freeze.KEY):
+        raise CF10TrainingDispatchError("R082 provider selection changed during ACK")
     if ready.get("state") != "READY_FOR_EXPLICIT_DISPATCH":
         raise CF10TrainingDispatchError(
             "validated training ACK did not reach READY_FOR_EXPLICIT_DISPATCH"
@@ -752,6 +757,20 @@ def authorize_training_explicit_dispatch(
         raise CF10TrainingDispatchError(
             "current CF-10 training model selection must be auto"
         )
+
+    # R082: do not change legacy direct training fixture behavior, but every
+    # new frozen attempt must match the source-bound Copilot pilot selection.
+    from scripts.coordination.control_plane.worker_runtime import cf10_r082_frozen_assignment_v0_1 as provider_freeze
+    frozen = ready_execution.get(provider_freeze.KEY)
+    if frozen is not None:
+        verified = provider_freeze.verify_prepared(
+            root=root,prepared=ready_execution,assignment=frozen,
+            source_head=frozen.get("source_head"),
+            source_fingerprint=source_state_fingerprint,
+            attempt_id=attempt_id,worker_id=worker_id,
+        )
+        if runtime_provider != verified["provider_id"] or runtime_model != verified["model_id"]:
+            raise CF10TrainingDispatchError("R082 explicit runtime differs from frozen provider")
 
     assert_attempt_unused(
         root=root,
@@ -864,6 +883,8 @@ def authorize_training_explicit_dispatch(
         decision_binding["validation_readback_selection"] = copy.deepcopy(
             frozen_readback
         )
+    if frozen is not None:
+        decision_binding["cf10_frozen_provider_assignment_sha256"] = verified["frozen_assignment_sha256"]
     decision_id = hashlib.sha256(
         json.dumps(
             decision_binding,

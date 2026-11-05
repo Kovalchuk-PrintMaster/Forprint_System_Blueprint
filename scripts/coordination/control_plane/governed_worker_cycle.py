@@ -549,6 +549,14 @@ def prepare_cycle(
         worker_id=worker_id,
         attempt_id=attempt_id,
     )
+    # R082: freeze source/catalog/provider tuple before the assistant ACK.
+    # This is a selection fact, never execution authority.
+    from scripts.coordination.control_plane.worker_runtime import cf10_r082_frozen_assignment_v0_1 as provider_freeze
+    prepared[provider_freeze.KEY] = provider_freeze.create(
+        root=canonical,task_id=task_prompt_id,work_front_id=binding["work_front_id"],
+        worker_id=worker_id,attempt_id=attempt_id,source_head=source_state["git_head"],
+        source_fingerprint=source_fp,handoff_sha256=prepared["handoff_manifest_sha256"],
+    )
 
     # Immutable original is captured BEFORE ACK or Worker launch.
     attempt = _attempt_root(runtime, attempt_id, worker_id)
@@ -746,6 +754,13 @@ def refresh_cycle(
             "worker_launch_performed": False,
         }
 
+    # R082: no automatic rebinding of an already selected provider after
+    # source changes. The operator must prepare a new exact attempt.
+    from scripts.coordination.control_plane.worker_runtime import cf10_r082_frozen_assignment_v0_1 as provider_freeze
+    if provider_freeze.KEY in prepared:
+        raise GovernedWorkerCycleError(
+            "R082 frozen provider selection requires a new attempt after source refresh"
+        )
     relevant_paths = _refresh_relevant_paths(canonical, binding)
     changed_paths: list[str] = []
     if current_head != old_head:
@@ -931,6 +946,15 @@ def confirm_assistant_ack(
         boundary="assistant ACK",
     )
 
+    # R082: absence or mutation of a new frozen binding blocks ACK.
+    from scripts.coordination.control_plane.worker_runtime import cf10_r082_frozen_assignment_v0_1 as provider_freeze
+    provider_freeze.verify_prepared(
+        root=canonical,prepared=prepared,
+        assignment=prepared.get(provider_freeze.KEY),
+        source_head=source_state.get("git_head"),
+        source_fingerprint=source_state.get("fingerprint_sha256"),
+        attempt_id=attempt_id,worker_id=worker_id,
+    )
     ready = training.validate_training_assistant_ack(
         root=canonical,
         prepared_execution=prepared,
@@ -993,6 +1017,13 @@ def authorize_dispatch(
     if not isinstance(workspace_repo, str) or not workspace_repo:
         raise GovernedWorkerCycleError("workspace_repo missing from manifest")
 
+    # R082: dispatch may use only the provider/model frozen before ACK.
+    from scripts.coordination.control_plane.worker_runtime import cf10_r082_frozen_assignment_v0_1 as provider_freeze
+    selected = provider_freeze.verify_prepared(
+        root=canonical,prepared=ready,assignment=ready.get(provider_freeze.KEY),
+        source_head=source_state.get("git_head"),source_fingerprint=source_fp,
+        attempt_id=attempt_id,worker_id=worker_id,
+    )
     decision = training.authorize_training_explicit_dispatch(
         root=canonical,
         ready_execution=ready,
@@ -1000,8 +1031,13 @@ def authorize_dispatch(
         attempt_id=attempt_id,
         source_state_fingerprint=source_fp,
         workspace_repo=Path(workspace_repo),
-        runtime_provider="github_copilot_cli",
-        runtime_model="auto",
+        runtime_provider=selected["provider_id"],
+        runtime_model=selected["model_id"],
+    )
+    provider_freeze.verify_decision(
+        root=canonical,prepared=ready,decision=decision,
+        source_head=source_state.get("git_head"),source_fingerprint=source_fp,
+        attempt_id=attempt_id,worker_id=worker_id,
     )
 
     _write_yaml_new(
@@ -2891,6 +2927,21 @@ def launch_cycle(
         source_state,
         boundary="project-native Worker launch",
     )
+    # R082: before any invocation, check the same provider selection recorded
+    # during prepare, ACK and the signed explicit dispatch decision.
+    from scripts.coordination.control_plane.worker_runtime import cf10_r082_frozen_assignment_v0_1 as provider_freeze
+    decision_binding = explicit_dispatch_decision.get("binding")
+    if not isinstance(decision_binding, dict):
+        raise GovernedWorkerCycleError("R082 explicit decision binding missing")
+    if (provider_freeze.KEY in prepared_execution
+            or "cf10_frozen_provider_assignment_sha256" in decision_binding):
+        provider_freeze.verify_decision(
+            root=canonical,prepared=prepared_execution,
+            decision=explicit_dispatch_decision,
+            source_head=source_state.get("git_head"),
+            source_fingerprint=source_state.get("fingerprint_sha256"),
+            attempt_id=attempt_id,worker_id=worker_id,
+        )
     origin_manifest = _load_verified_original_handoff_manifest(
         attempt=attempt,
         prepared_execution=prepared_execution,
