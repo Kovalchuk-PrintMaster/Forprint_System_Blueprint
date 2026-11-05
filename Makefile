@@ -4489,3 +4489,12 @@ cf10-provider-neutral-contract-check:
 cf10-provider-neutral-architecture-audit:
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_provider_neutral_boundary_v0_1 --mode audit --root "$(CURDIR)"
 # CF10_R079_PROVIDER_NEUTRAL_CONTRACT_END
+
+# CF10_R080_MULTI_READY_CATALOG_START
+# Multi-READY catalog and hash-bound attempt selection CANDIDATE only; no dispatch/retry/Worker.
+.PHONY: cf10-provider-catalog-check cf10-provider-catalog-tests
+cf10-provider-catalog-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r080_catalog_assignment_v0_1 --mode inspect --root "$(CURDIR)"
+cf10-provider-catalog-tests:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_r080_catalog_assignment_v0_1.py
+# CF10_R080_MULTI_READY_CATALOG_END

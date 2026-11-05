@@ -126,9 +126,9 @@ def load_runtime_registry(root: Path | str) -> dict[str, Any]:
 
     if len(ids) != len(set(ids)):
         raise RuntimeRegistryError("duplicate provider_id in runtime registry")
-    if ready_count != 1:
+    if ready_count < 1:
         raise RuntimeRegistryError(
-            f"Slice 5A requires exactly one READY provider; observed={ready_count}"
+            f"Runtime catalog requires at least one READY provider; observed={ready_count}"
         )
 
     violations = _scan_secret_values(data)

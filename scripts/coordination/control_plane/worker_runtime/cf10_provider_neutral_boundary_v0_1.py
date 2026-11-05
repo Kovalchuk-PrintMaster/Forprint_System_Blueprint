@@ -220,6 +220,8 @@ def audit_current_source(root: Path) -> dict:
             continue
         if needle in p.read_text(encoding="utf-8"):
             findings.append({"code": code, "state": "OBSERVED_LEGACY_COUPLING", "path": relative})
+        elif code == "registry_single_ready" and "if ready_count < 1:" in p.read_text(encoding="utf-8"):
+            findings.append({"code": code, "state": "MIGRATED_MULTI_READY_CATALOG_NO_DISPATCH_CHANGE", "path": relative})
         else:
             findings.append({"code": code, "state": "REVIEW_REQUIRED_NO_LONGER_MATCHES_EXPECTATION", "path": relative})
     return {
