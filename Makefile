@@ -4523,3 +4523,19 @@ cf10-provider-freeze-check:
 cf10-provider-freeze-epoch-tests:
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_r083_frozen_epoch_gate_v0_1.py
 # CF10_R083_FREEZE_EPOCH_ANTI_DOWNGRADE_END
+
+# CF10_R084_OPERATOR_PROVIDER_ASSIGNMENT_PLAN_START
+# Explicit read-only operator task/provider plan; no prepare/claim/dispatch/Worker.
+.PHONY: cf10-provider-assignment-inspect cf10-provider-assignment-plan cf10-provider-assignment-tests
+cf10-provider-assignment-plan: export CF10_TASK := $(CF10_TASK)
+cf10-provider-assignment-plan: export CF10_ATTEMPT := $(CF10_ATTEMPT)
+cf10-provider-assignment-plan: export CF10_PROVIDER := $(CF10_PROVIDER)
+cf10-provider-assignment-plan: export CF10_MODEL := $(CF10_MODEL)
+cf10-provider-assignment-plan: export CF10_WORKER := $(CF10_WORKER)
+cf10-provider-assignment-inspect:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r084_operator_assignment_plan_v0_1 --mode inspect
+cf10-provider-assignment-plan:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r084_operator_assignment_plan_v0_1 --mode plan
+cf10-provider-assignment-tests:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_r084_operator_assignment_plan_v0_1.py
+# CF10_R084_OPERATOR_PROVIDER_ASSIGNMENT_PLAN_END
