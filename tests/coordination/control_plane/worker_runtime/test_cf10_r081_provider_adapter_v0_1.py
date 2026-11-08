@@ -45,13 +45,17 @@ def historical_policy(t):
 @pytest.mark.parametrize('readback', [False, True])
 @pytest.mark.parametrize('timeout', [None, 960000])
 @pytest.mark.parametrize('model', ['auto', 'gpt-4.1'])
-def test_argv_policy_and_sha256_are_byte_exact_to_legacy(readback,timeout,model):
+def test_argv_is_sandbox_migration_of_legacy_with_no_other_delta(readback,timeout,model):
     binding, task=inputs(readback,timeout);binding['model_id']=model
     result=m.route_invocation(provider_id='github_copilot_cli',binding=binding,frozen_task=task)
     previous=historical_argv(binding,task)
-    assert result['argv']==previous
-    assert result['provider_policy']==historical_policy(task)
-    assert hashlib.sha256('\0'.join(result['argv']).encode()).hexdigest()==hashlib.sha256('\0'.join(previous).encode()).hexdigest()
+    expected=previous[:-2]+['--sandbox']+previous[-2:]
+    assert result['argv']==expected
+    expected_policy={**historical_policy(task),
+                     'sandbox_cli_requested': True,
+                     'sandbox_effective_policy_attested': False}
+    assert result['provider_policy']==expected_policy
+    assert hashlib.sha256('\0'.join(result['argv']).encode()).hexdigest()==hashlib.sha256('\0'.join(expected).encode()).hexdigest()
     assert result['adapter_grants_authority'] is False
     assert result['result_accepted'] is False
     assert result['claim_consumed'] is False

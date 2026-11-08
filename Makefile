@@ -4607,3 +4607,10 @@ cf10-codex-lineage-tests:
 cf10-codex-offline-exec-help-probe:
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r090_codex_binary_lineage_and_help_v0_1 --mode help-probe
 # CF10_R090_CODEX_BINARY_LINEAGE_AND_OFFLINE_HELP_END
+
+# R115 - offline/source-only Copilot preclaim feasibility; no claim or cutover.
+.PHONY: cf10-r115-preclaim-check
+cf10-r115-preclaim-check:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r115_preclaim_executable_profile_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r081_provider_adapter_v0_1.py

@@ -74,8 +74,9 @@ class CopilotCliAdapter:
         timeout = frozen_task.get("mcp_timeout_ms")
         if timeout is not None and (type(timeout) is not int or timeout <= 0):
             deny("MCP_TIMEOUT")
-        # Ordering and scalar types MUST remain byte-identical to historical
-        # invocation_adapter.py. Do not change without a separate migration.
+        # R115 explicitly migrates the old Copilot-only argv by inserting
+        # --sandbox; all other argument bytes and permission rules are retained.
+        # The launcher still requires independent host/session proof.
         argv = [
             *base_argv,
             "-p", prompt,
@@ -85,7 +86,7 @@ class CopilotCliAdapter:
             "--allow-all-tools",
             "--disable-builtin-mcps",
             "--max-ai-credits", str(credits),
-            "--no-auto-update", "-C", workspace,
+            "--no-auto-update", "--sandbox", "-C", workspace,
         ]
         policy = {
             "available_tools": tools,
@@ -99,6 +100,8 @@ class CopilotCliAdapter:
             "mcp_transport": "STDIO_LOCAL",
             "mcp_server_tool_timeout_ms": timeout,
             "persistent_mcp_config_written": False,
+            "sandbox_cli_requested": True,
+            "sandbox_effective_policy_attested": False,
         }
         return {
             "provider_id": COPILOT_ID,

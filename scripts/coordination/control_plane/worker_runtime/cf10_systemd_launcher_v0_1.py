@@ -127,7 +127,13 @@ def assert_frozen_manifest_preclaim(spec:bound.BoundedInput, plan:dict)->dict:
     provider_home.assert_systemd_properties(bound.EXPECTED_PROPERTIES)
     if not ENTRY.is_file() or ENTRY.is_symlink():
         deny('GATE_ENTRY_UNTRUSTED_PRECLAIM')
-    build_command(spec,plan,GATES/('manifest-'+nonce+'.json'))
+    # R115: fail BEFORE owner/PAM claim if the actual pinned provider binary,
+    # frozen sandbox argv or systemd inference route is already impossible.
+    # This is NOT proof of effective sandbox/egress or live admission.
+    from scripts.coordination.control_plane.worker_runtime import cf10_r115_preclaim_executable_profile_v0_1 as r115
+    command=build_command(spec,plan,GATES/('manifest-'+nonce+'.json'))
+    r115.assert_pilot_preclaim(argv=spec.argv,workspace=spec.workspace,
+                              systemd_command=command)
     return {'contract':'CF10_R075_FROZEN_MANIFEST_GATE',
             'manifest_bytes':len(data), 'gate_budget_bytes':MANIFEST_MAX_BYTES,
             'source_argv_checked':True, 'worker_launched':False,
@@ -205,6 +211,12 @@ def _core(*,spec:bound.BoundedInput,plan:dict,started_callback:Callable[[dict],N
         _root_directory(store,0o700)
         _root_directory(gate_dir,0o711)
         if not ENTRY.is_file() or ENTRY.is_symlink():deny('GATE_ENTRY_UNTRUSTED')
+        # Re-evaluate after the upstream owner gate, before the root receipt's
+        # irreversible O_EXCL claim. No fixture or future provider gains authority.
+        from scripts.coordination.control_plane.worker_runtime import cf10_r115_preclaim_executable_profile_v0_1 as r115
+        cmd=build_command(spec,plan,GATES/('manifest-'+'0'*64+'.json'))
+        r115.assert_pilot_preclaim(argv=spec.argv,workspace=spec.workspace,
+                                  systemd_command=cmd)
     else:
         # A disposable isolated scenario only. No attempts under production runtime.
         if gate_dir==GATES or store==STORE or not (gate_dir.is_relative_to(root) and store.is_relative_to(root)):
