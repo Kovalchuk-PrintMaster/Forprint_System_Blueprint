@@ -18,6 +18,13 @@ HEX=re.compile(r'[0-9a-f]{64}\Z')
 MANIFEST_MAX_BYTES=131072
 ARG_VECTOR_MAX_BYTES=98304
 
+# R116: source-frozen Copilot PILOT only. Keep this standalone: systemd invokes
+# this gate with python -I -B and without the repository on sys.path.
+# The R115 preclaim pin MUST match; tests enforce constant synchronization.
+PILOT_EXEC_PATH=Path('/usr/local/bin/forprint-copilot-1.0.107')
+PILOT_EXEC_SHA256='985f0e1b1b3e734bc996324651307a076ae3deae21e3fa9f9af917983ce309c4'
+PILOT_EXEC_BYTES=205458240
+
 class GateBlocked(RuntimeError):
     pass
 
@@ -93,6 +100,64 @@ def _read_manifest(path:Path, *, root:Path=ROOT, check_uid=True):
         _deny('EXECUTABLE')
     return raw,obj
 
+def _pinned_exec_fd(path:Path, sha256:str, expected_bytes:int, *, require_root_parents:bool=True)->int:
+    """Verify exact bytes on an open FD, then retain THAT FD for execve.
+
+    The non-production arguments are for isolated unit testing only. The only
+    caller from the production gate uses source-frozen constants, not manifest
+    data, environment variables, CLI options or Worker-controlled policy.
+    """
+    if not isinstance(path,Path) or not HEX.fullmatch(sha256) or type(expected_bytes) is not int or expected_bytes<=0:
+        _deny('PIN_SPEC_INVALID')
+    if require_root_parents:
+        if path!=PILOT_EXEC_PATH:_deny('PILOT_EXEC_SCOPE')
+        for parent in (Path('/'),Path('/usr'),Path('/usr/local'),Path('/usr/local/bin')):
+            try:s=parent.lstat()
+            except OSError:_deny('PILOT_PARENT_UNAVAILABLE')
+            if (not stat.S_ISDIR(s.st_mode) or s.st_uid!=0 or stat.S_IMODE(s.st_mode)&0o022):
+                _deny('PILOT_PARENT_NOT_ROOT_CONTROLLED')
+    try:fd=os.open(path,os.O_RDONLY|os.O_CLOEXEC|os.O_NOFOLLOW|os.O_NONBLOCK)
+    except OSError:_deny('PILOT_EXEC_UNAVAILABLE_OR_LINKED')
+    try:
+        before=os.fstat(fd)
+        if (not stat.S_ISREG(before.st_mode) or before.st_size!=expected_bytes
+                or not stat.S_IMODE(before.st_mode)&0o100 or stat.S_IMODE(before.st_mode)&0o022
+                or before.st_nlink!=1 or (require_root_parents and before.st_uid!=0)):
+            _deny('PILOT_EXEC_INODE_OR_MODE_DRIFT')
+        sha=hashlib.sha256()
+        remaining=expected_bytes
+        while remaining:
+            chunk=os.read(fd,min(1024*1024,remaining))
+            if not chunk:_deny('PILOT_EXEC_SHORT_READ')
+            sha.update(chunk)
+            remaining-=len(chunk)
+        after=os.fstat(fd)
+        fields=lambda s:(s.st_dev,s.st_ino,s.st_size,s.st_mode,s.st_uid,
+                         s.st_nlink,s.st_mtime_ns,s.st_ctime_ns)
+        if fields(before)!=fields(after):_deny('PILOT_EXEC_INODE_CHANGED_DURING_SHA')
+        if sha.hexdigest()!=sha256:_deny('PILOT_EXEC_SHA256_MISMATCH')
+        os.lseek(fd,0,os.SEEK_SET)
+        return fd
+    except BaseException:
+        os.close(fd)
+        raise
+
+
+def _exec_pinned_pilot(argv:list[str])->None:
+    """No pathname re-resolution: the already verified descriptor is executed.
+
+    An exec failure is fail-closed, never a fallback to os.execv(path) or shell.
+    Passing the existing systemd environment preserves the prior execv behavior.
+    """
+    if argv[0]!=str(PILOT_EXEC_PATH):_deny('PILOT_EXEC_PATH_NOT_FROZEN')
+    fd=_pinned_exec_fd(PILOT_EXEC_PATH,PILOT_EXEC_SHA256,PILOT_EXEC_BYTES)
+    try:
+        os.execve(fd,argv,dict(os.environ))
+        _deny('PILOT_EXEC_RETURNED_UNEXPECTEDLY')
+    finally:
+        os.close(fd)
+
+
 def wait_and_exec(path:Path,*,root:Path=ROOT,poll=0.2):
     """Fail closed on release absent/mismatch; successful release replaces process via execv."""
     raw,doc=_read_manifest(path,root=root)
@@ -107,9 +172,16 @@ def wait_and_exec(path:Path,*,root:Path=ROOT,poll=0.2):
         except ValueError:_deny('RELEASE_JSON')
         if record!={'schema':'cf10_root_release_v0_1','manifest_sha256':digest}:
             _deny('RELEASE_BINDING')
-        # no shell; process stays in same systemd cgroup and UID/GID.
+        # No shell; process stays in the same systemd cgroup and UID/GID.
+        # Production MUST execute the source-pinned, SHA-verified OPEN FILE
+        # DESCRIPTOR, never resolve the executable pathname after verification.
+        # Fixture-only alternative preserves historical non-authorizing tests.
         os.chdir(doc['cwd'])
-        os.execv(doc['argv'][0],doc['argv'])
+        if root==ROOT:
+            _exec_pinned_pilot(doc['argv'])
+        else:
+            os.execv(doc['argv'][0],doc['argv'])
+        _deny('EXEC_RETURNED_UNEXPECTEDLY')
     _deny('RELEASE_NOT_SEEN_BEFORE_DEADLINE')
 
 def main(argv:list[str])->int:

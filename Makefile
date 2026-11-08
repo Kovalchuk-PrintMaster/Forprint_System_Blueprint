@@ -4614,3 +4614,12 @@ cf10-r115-preclaim-check:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider \
 		tests/coordination/control_plane/worker_runtime/test_cf10_r115_preclaim_executable_profile_v0_1.py \
 		tests/coordination/control_plane/worker_runtime/test_cf10_r081_provider_adapter_v0_1.py
+
+# CF10 R116: source-only exec-time Copilot FD/SHA pin regression tests.
+# DOES NOT install a binary, authorize live Worker, claim or change systemd.
+.PHONY: cf10-r116-execfd-pin-tests
+cf10-r116-execfd-pin-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r116_execfd_pin_v0_1.py \
+		tests/coordination/control_plane/test_cf10_r027_modernized_launcher.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r115_preclaim_executable_profile_v0_1.py
