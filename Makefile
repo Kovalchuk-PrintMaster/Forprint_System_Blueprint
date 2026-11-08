@@ -4636,3 +4636,17 @@ cf10-r117-tool-boundary-tests:
 .PHONY: cf10-r118-mcp-identity-tests
 cf10-r118-mcp-identity-tests:
 	.venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_r115_preclaim_executable_profile_v0_1.py tests/coordination/control_plane/worker_runtime/test_cf10_r117_static_tool_boundary_v0_1.py tests/coordination/control_plane/worker_runtime/test_cf10_r118_mcp_execution_identity_v0_1.py
+
+# CF10 R122: immutable Git-blob source capsule in stable root-owned runtime state.
+# Non-authorizing. No Worker/claim/Copilot, no systemd changes or credential read.
+# Publish is a separate deliberate Make/CLI operation; never hooked into live launch.
+.PHONY: cf10-r122-capsule-tests cf10-r122-capsule-inspect cf10-r122-capsule-publish cf10-r122-capsule-verify
+cf10-r122-capsule-tests:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_r122_durable_source_capsule_v0_1.py
+cf10-r122-capsule-inspect:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r122_durable_source_capsule_v0_1 --mode inspect
+cf10-r122-capsule-publish:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r122_durable_source_capsule_v0_1 --mode publish
+cf10-r122-capsule-verify: export CF10_CAPSULE_ID := $(CF10_CAPSULE_ID)
+cf10-r122-capsule-verify:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r122_durable_source_capsule_v0_1 --mode verify
