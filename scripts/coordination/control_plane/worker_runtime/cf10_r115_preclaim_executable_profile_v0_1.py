@@ -9,6 +9,7 @@ No side effects except reading a root-controlled executable. No subprocess.
 from __future__ import annotations
 
 import hashlib
+import json
 import os
 from pathlib import Path
 import stat
@@ -52,6 +53,80 @@ def assert_frozen_argv(argv: Sequence[str], workspace: str) -> None:
     if argv.count('--sandbox') != 1 or argv.count('-C') != 1:
         deny('FROZEN_ARGV_SANDBOX_AMBIGUOUS')
 
+
+
+# R117 S02 is deliberately a STATIC preclaim narrowing, not kernel isolation.
+# New providers and new tools require a reviewed source change, not prompt text.
+PILOT_TOOL_UNIVERSE = frozenset({
+    'view', 'edit', 'apply_patch',
+    'ForPrintValidation-run_validation_suite',
+    'ForPrintValidation-run_repo_diff_check',
+    'ForPrintValidation-run_repo_head',
+    'ForPrintValidation-run_repo_status',
+    'ForPrintValidation-read_completed_validation_evidence',
+})
+PILOT_MCP_SERVER = 'ForPrintValidation'
+
+
+def _unique_json_pairs(pairs):
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            deny('MCP_DUPLICATE_JSON_KEY')
+        result[key] = value
+    return result
+
+
+def assert_static_tool_and_mcp_boundary(argv: Sequence[str], workspace: str) -> None:
+    """Close the prompt/argv tool-widening gap BEFORE owner claim.
+
+    This never authorizes a Worker. It cannot attest the effective native
+    sandbox, protect Copilot in-process tools from credentials, or control the
+    inference network. Existing ForPrintValidation remains the only MCP.
+    """
+    if (not isinstance(argv, (tuple, list)) or len(argv) < 19
+        or argv[0] != str(COPILOT_PILOT_PATH)
+        or argv[1] != '-p' or list(argv[3:5]) != ['--silent', '--model']
+        or argv[6] != '--additional-mcp-config'
+        or argv[8] != '--available-tools'
+        or not isinstance(argv[2], str) or not argv[2]
+        or not isinstance(argv[5], str) or not argv[5]
+        or not isinstance(argv[7], str)
+        or list(argv[-8:-6]) != ['--allow-all-tools', '--disable-builtin-mcps']
+        or argv[-6] != '--max-ai-credits'
+        or list(argv[-4:]) != ['--no-auto-update', '--sandbox', '-C', workspace]):
+        deny('EXACT_COPILOT_PILOT_ARGV_SHAPE_REQUIRED')
+    credits = argv[-5]
+    if not isinstance(credits, str) or not credits.isdecimal() or not 30 <= int(credits) <= 10000:
+        deny('COPILOT_PILOT_CREDIT_BOUND')
+    tools = argv[9:-8]
+    if (not tools or len(tools) > len(PILOT_TOOL_UNIVERSE)
+        or any(not isinstance(x, str) for x in tools)
+        or len(tools) != len(set(tools))
+        or any(x not in PILOT_TOOL_UNIVERSE for x in tools)):
+        deny('COPILOT_TOOL_UNIVERSE_WIDENED')
+    # The non-empty selected tool list may only contain the reviewed built-ins
+    # and the bounded local MCP; no Bash/Web/remote/new provider tools.
+    try:
+        config = json.loads(argv[7], object_pairs_hook=_unique_json_pairs)
+    except (ValueError, TypeError, UnicodeError):
+        deny('COPILOT_MCP_CONFIG_JSON_INVALID')
+    if not isinstance(config, dict) or set(config) != {'mcpServers'}:
+        deny('COPILOT_MCP_CONFIG_ROOT_UNREVIEWED')
+    servers = config['mcpServers']
+    if not isinstance(servers, dict) or set(servers) != {PILOT_MCP_SERVER}:
+        deny('COPILOT_REMOTE_OR_EXTRA_MCP_SERVER')
+    spec = servers[PILOT_MCP_SERVER]
+    if not isinstance(spec, dict):
+        deny('COPILOT_MCP_SERVER_INVALID')
+    remote_keys = {'url','httpUrl','sseUrl','headers','authorization','oauth','endpoint',
+                   'http','sse','remote','http_url','sse_url'}
+    if remote_keys.intersection(spec):
+        deny('COPILOT_REMOTE_MCP_ENDPOINT_PROHIBITED')
+    if spec.get('type', 'stdio') != 'stdio' or spec.get('transport', 'stdio') != 'stdio':
+        deny('COPILOT_MCP_NON_STDIO_TRANSPORT')
+    # No credential assertion: env of this MCP, and all in-process Copilot
+    # file tools, remain an OPEN G2 boundary pending OS/credential evidence.
 
 def _require_root_owned_parent(path: Path) -> None:
     # Directories are root-controlled to prevent swap-out between pin and exec.
@@ -146,6 +221,7 @@ def assert_inference_network_not_impossible(properties: Mapping[str, str]) -> No
 def assert_pilot_preclaim(*, argv: Sequence[str], workspace: str,
                           systemd_command: Sequence[str]) -> dict:
     assert_frozen_argv(argv, workspace)
+    assert_static_tool_and_mcp_boundary(argv, workspace)
     properties = parse_systemd_properties(systemd_command)
     assert_inference_network_not_impossible(properties)
     assert_pinned_binary()
@@ -155,6 +231,9 @@ def assert_pilot_preclaim(*, argv: Sequence[str], workspace: str,
         'pinned_copilot_binary_sha256': COPILOT_PILOT_SHA256,
         'live_worker_authorized': False,
         'effective_sandbox_policy_attested': False,
+        'static_tool_universe_source_bound': True,
+        'local_mcp_single_server_source_bound': True,
+        'credential_cache_kernel_isolated': False,
         'provider_vs_tool_egress_enforced': False,
         'root_broker_epoch_revocation_attested': False,
         'release_to_terminal_ledger_join_attested': False,

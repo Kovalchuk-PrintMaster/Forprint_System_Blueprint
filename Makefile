@@ -4623,3 +4623,11 @@ cf10-r116-execfd-pin-tests:
 		tests/coordination/control_plane/worker_runtime/test_cf10_r116_execfd_pin_v0_1.py \
 		tests/coordination/control_plane/test_cf10_r027_modernized_launcher.py \
 		tests/coordination/control_plane/worker_runtime/test_cf10_r115_preclaim_executable_profile_v0_1.py
+
+# CF10 R117 S02: static single-MCP and tool-universe negative gate only.
+# No effective native sandbox, credential isolation or live admission claimed.
+.PHONY: cf10-r117-tool-boundary-tests
+cf10-r117-tool-boundary-tests:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r117_static_tool_boundary_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r115_preclaim_executable_profile_v0_1.py
