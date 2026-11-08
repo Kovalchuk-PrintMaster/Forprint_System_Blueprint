@@ -9,16 +9,38 @@ from types import SimpleNamespace
 import pytest
 from scripts.coordination.control_plane.worker_runtime import cf10_r115_preclaim_executable_profile_v0_1 as r115
 from scripts.coordination.control_plane.worker_runtime import cf10_r081_provider_adapter_v0_1 as provider
+m = r115
 
 
 WORKSPACE='/srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-test-a115/workspace/repo'
 
 
+def canonical_mcp(workspace, *, readback=False, **overrides):
+    from pathlib import Path
+    attempt=Path(workspace).parents[1].name
+    root=Path(workspace).parents[1]
+    names=['run_validation_suite','run_repo_diff_check','run_repo_head','run_repo_status']
+    if readback:names.append('read_completed_validation_evidence')
+    spec={'type':'local',
+          'command':'/srv/software_development/forprint-project/forprint_system_blueprint/.venv_blueprint/bin/python',
+          'args':[str(Path(workspace)/m.PILOT_MCP_SCRIPT),
+                  '--attempt-id',attempt,
+                  '--task-id','cf10-fixture-task-v0-1',
+                  '--work-front-id','wf-cf10-fixture-v0-1',
+                  '--decision-id','d'*64,
+                  '--workspace-repo',workspace,
+                  '--evidence-root',str(root/'evidence'/'structured_command'),
+                  *(['--enable-completed-readback'] if readback else [])],
+          'tools':names, 'cwd':workspace}
+    spec.update(overrides)
+    return {'mcpServers':{'ForPrintValidation':spec}}
+
 def sample_argv():
     binding={'provider_id':'github_copilot_cli','model_id':'auto','workspace':WORKSPACE}
     task={'base_argv':[str(r115.COPILOT_PILOT_PATH)],'prompt':'TASK',
-          'mcp_config_json':'{"mcpServers":{"ForPrintValidation":{}}}',
-          'available_tools':('view','edit','ForPrintValidation-run_validation_suite'),
+          'mcp_config_json':__import__('json').dumps(canonical_mcp(WORKSPACE)),
+          'available_tools':('view','edit','apply_patch','ForPrintValidation-run_validation_suite',
+                            'ForPrintValidation-run_repo_diff_check','ForPrintValidation-run_repo_head','ForPrintValidation-run_repo_status'),
           'permission_patterns':('ForPrintValidation(run_validation_suite)',),
           'readback_tool':None,'readback_permission':None,
           'mcp_server_name':'ForPrintValidation','max_ai_credits':30,

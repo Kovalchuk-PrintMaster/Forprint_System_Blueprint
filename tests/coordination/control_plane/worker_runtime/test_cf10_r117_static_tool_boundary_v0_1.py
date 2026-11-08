@@ -7,9 +7,32 @@ from scripts.coordination.control_plane.worker_runtime import cf10_r115_preclaim
 WORKSPACE='/srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01/cf10-test-a117/workspace/repo'
 
 
-def command(*,config=None,tools=None):
-    config = config if config is not None else {'mcpServers': {'ForPrintValidation': {'command': '/usr/bin/python3', 'args': ['-B','worker_validation_mcp.py']}}}
-    tools = tools if tools is not None else ['view','edit','apply_patch','ForPrintValidation-run_validation_suite']
+def canonical_mcp(workspace, *, readback=False, **overrides):
+    from pathlib import Path
+    attempt=Path(workspace).parents[1].name
+    root=Path(workspace).parents[1]
+    names=['run_validation_suite','run_repo_diff_check','run_repo_head','run_repo_status']
+    if readback:names.append('read_completed_validation_evidence')
+    spec={'type':'local',
+          'command':'/srv/software_development/forprint-project/forprint_system_blueprint/.venv_blueprint/bin/python',
+          'args':[str(Path(workspace)/m.PILOT_MCP_SCRIPT),
+                  '--attempt-id',attempt,
+                  '--task-id','cf10-fixture-task-v0-1',
+                  '--work-front-id','wf-cf10-fixture-v0-1',
+                  '--decision-id','d'*64,
+                  '--workspace-repo',workspace,
+                  '--evidence-root',str(root/'evidence'/'structured_command'),
+                  *(['--enable-completed-readback'] if readback else [])],
+          'tools':names, 'cwd':workspace}
+    spec.update(overrides)
+    return {'mcpServers':{'ForPrintValidation':spec}}
+
+def command(*,config=None,tools=None,readback=False):
+    config = config if config is not None else canonical_mcp(WORKSPACE,readback=readback)
+    tools = tools if tools is not None else ['view','edit','apply_patch','ForPrintValidation-run_validation_suite',
+       'ForPrintValidation-run_repo_diff_check','ForPrintValidation-run_repo_head',
+       'ForPrintValidation-run_repo_status',
+       *(['ForPrintValidation-read_completed_validation_evidence'] if readback else [])]
     return [str(m.COPILOT_PILOT_PATH),'-p','TASK','--silent','--model','auto',
        '--additional-mcp-config',json.dumps(config,sort_keys=True),
        '--available-tools',*tools,'--allow-all-tools','--disable-builtin-mcps',
@@ -20,7 +43,7 @@ def test_bounded_default_and_readback():
     m.assert_static_tool_and_mcp_boundary(command(),WORKSPACE)
     m.assert_static_tool_and_mcp_boundary(tuple(command()),WORKSPACE)
     more=['view','edit','apply_patch',*[x for x in sorted(m.PILOT_TOOL_UNIVERSE) if x.startswith('ForPrintValidation-')]]
-    m.assert_static_tool_and_mcp_boundary(command(tools=more),WORKSPACE)
+    m.assert_static_tool_and_mcp_boundary(command(readback=True),WORKSPACE)
 
 @pytest.mark.parametrize('name', ['bash','Bash','shell','web','Web','terminal','*','ForPrintValidation-run_anything',
                                     'ForPrintValidation-run_validation_suite*','other_server-run_repo_head'])

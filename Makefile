@@ -4631,3 +4631,8 @@ cf10-r117-tool-boundary-tests:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B -m pytest -q -p no:cacheprovider \
 		tests/coordination/control_plane/worker_runtime/test_cf10_r117_static_tool_boundary_v0_1.py \
 		tests/coordination/control_plane/worker_runtime/test_cf10_r115_preclaim_executable_profile_v0_1.py
+
+# R118 S01: source-only preclaim contract regression; no live Worker/claim.
+.PHONY: cf10-r118-mcp-identity-tests
+cf10-r118-mcp-identity-tests:
+	.venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_r115_preclaim_executable_profile_v0_1.py tests/coordination/control_plane/worker_runtime/test_cf10_r117_static_tool_boundary_v0_1.py tests/coordination/control_plane/worker_runtime/test_cf10_r118_mcp_execution_identity_v0_1.py

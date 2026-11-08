@@ -11,6 +11,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 import stat
 from collections.abc import Mapping, Sequence
@@ -119,14 +120,97 @@ def assert_static_tool_and_mcp_boundary(argv: Sequence[str], workspace: str) -> 
     spec = servers[PILOT_MCP_SERVER]
     if not isinstance(spec, dict):
         deny('COPILOT_MCP_SERVER_INVALID')
-    remote_keys = {'url','httpUrl','sseUrl','headers','authorization','oauth','endpoint',
-                   'http','sse','remote','http_url','sse_url'}
-    if remote_keys.intersection(spec):
-        deny('COPILOT_REMOTE_MCP_ENDPOINT_PROHIBITED')
-    if spec.get('type', 'stdio') != 'stdio' or spec.get('transport', 'stdio') != 'stdio':
-        deny('COPILOT_MCP_NON_STDIO_TRANSPORT')
-    # No credential assertion: env of this MCP, and all in-process Copilot
-    # file tools, remain an OPEN G2 boundary pending OS/credential evidence.
+    assert_local_mcp_execution_identity(spec, workspace, tools)
+
+
+# R118 S01: canonical invocation_adapter.py uses type=local, not type=stdio.
+# Bound both the MODEL-facing MCP identity and the actual local executable,
+# argv, cwd and tools before owner claim. No worker-provided env/overrides.
+PILOT_MCP_SCRIPT = 'scripts/coordination/control_plane/worker_runtime/worker_validation_mcp.py'
+PILOT_MCP_BASE_TOOLS = (
+    'run_validation_suite', 'run_repo_diff_check', 'run_repo_head', 'run_repo_status',
+)
+PILOT_MCP_OPTIONAL_READBACK = 'read_completed_validation_evidence'
+PILOT_MCP_BASE_WORKSPACE = Path(
+    '/srv/software_development/forprint-worker-runtime/forprint_system_blueprint/worker-01')
+PILOT_MCP_ALLOWED_PYTHON = frozenset({
+    '/srv/software_development/forprint-project/forprint_system_blueprint/.venv_blueprint/bin/python',
+    '/srv/software_development/forprint-project/forprint_system_blueprint/.venv_blueprint/bin/python3',
+    '/srv/software_development/forprint-project/forprint_system_blueprint/.venv_blueprint/bin/python3.11',
+    '/usr/bin/python3', '/usr/bin/python3.11',
+})
+
+
+def assert_local_mcp_execution_identity(spec: Mapping, workspace: str,
+                                        selected_tools: Sequence[str]) -> None:
+    """Single canonical STDIO-local ForPrintValidation subprocess identity.
+
+    This is a negative source contract, not proof that Copilot executes the
+    same command, nor OS/isolation or protected credential attestation.
+    """
+    if not isinstance(spec, Mapping) or (set(spec) not in (
+            {'type','command','args','tools','cwd'},
+            {'type','command','args','tools','cwd','timeout'})):
+        deny('MCP_SPEC_KEYS_UNREVIEWED')
+    if spec['type'] != 'local':
+        deny('MCP_CANONICAL_LOCAL_TYPE_REQUIRED')
+    if not isinstance(spec['command'], str) or spec['command'] not in PILOT_MCP_ALLOWED_PYTHON:
+        deny('MCP_INTERPRETER_NOT_SOURCE_BOUND')
+    if not isinstance(workspace, str) or not workspace.startswith('/') or '..' in Path(workspace).parts:
+        deny('MCP_WORKSPACE_SCOPE')
+    try:
+        relative=Path(workspace).relative_to(PILOT_MCP_BASE_WORKSPACE)
+    except ValueError:
+        deny('MCP_WORKSPACE_SCOPE')
+    parts=relative.parts
+    if len(parts)!=3 or parts[1:]!=('workspace','repo') or not re.fullmatch(
+            r'cf10-[A-Za-z0-9_-]{3,80}-a[0-9]{3,5}',parts[0]):
+        deny('MCP_WORKSPACE_ATTEMPT_SCOPE')
+    attempt=parts[0]
+    if spec['cwd']!=workspace:
+        deny('MCP_CWD_NOT_FROZEN')
+    tools=spec['tools']
+    if not isinstance(tools,list) or tools not in (
+            list(PILOT_MCP_BASE_TOOLS),
+            [*PILOT_MCP_BASE_TOOLS,PILOT_MCP_OPTIONAL_READBACK]):
+        deny('MCP_TOOLS_NOT_CANONICAL')
+    selected=list(selected_tools)
+    expected=['view','edit','apply_patch',
+              *[PILOT_MCP_SERVER+'-'+x for x in tools]]
+    if selected != expected:
+        deny('MCP_MODEL_TOOL_LIST_DRIFT')
+    args=spec['args']
+    if not isinstance(args,list) or any(not isinstance(v,str) or not v for v in args):
+        deny('MCP_ARGS_INVALID')
+    fixed=13+(1 if len(tools)==5 else 0)
+    if len(args)!=fixed:
+        deny('MCP_ARGS_SHAPE')
+    if args[0]!=str(Path(workspace)/PILOT_MCP_SCRIPT):
+        deny('MCP_SCRIPT_PATH_NOT_FROZEN')
+    names=['--attempt-id','--task-id','--work-front-id','--decision-id','--workspace-repo','--evidence-root']
+    for i,name in enumerate(names):
+        if args[1+i*2]!=name:
+            deny('MCP_ARGS_FLAGS_NOT_FROZEN')
+    vals={k:args[2+i*2] for i,k in enumerate(names)}
+    if vals['--attempt-id']!=attempt:
+        deny('MCP_ATTEMPT_ID_DRIFT')
+    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.:-]{0,159}',vals['--task-id']):
+        deny('MCP_TASK_ID_FORMAT')
+    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.:-]{0,159}',vals['--work-front-id']):
+        deny('MCP_WORK_FRONT_ID_FORMAT')
+    if not re.fullmatch(r'[0-9a-f]{64}',vals['--decision-id']):
+        deny('MCP_DISPATCH_DECISION_ID_FORMAT')
+    if vals['--workspace-repo']!=workspace:
+        deny('MCP_WORKSPACE_ARG_DRIFT')
+    if vals['--evidence-root']!=str(PILOT_MCP_BASE_WORKSPACE/attempt/'evidence'/'structured_command'):
+        deny('MCP_EVIDENCE_ROOT_DRIFT')
+    if len(tools)==5 and args[-1]!='--enable-completed-readback':
+        deny('MCP_READBACK_FLAG_DRIFT')
+    if 'timeout' in spec and (type(spec['timeout']) is not int or not 900_000<spec['timeout']<=1_200_000):
+        deny('MCP_TIMEOUT_POLICY_DRIFT')
+    # Deliberately no env, envFile, transport, HTTP, extra flags, cwd
+    # override or configurable executable command. Any requires new review.
+
 
 def _require_root_owned_parent(path: Path) -> None:
     # Directories are root-controlled to prevent swap-out between pin and exec.
