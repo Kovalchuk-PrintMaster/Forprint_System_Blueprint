@@ -4676,3 +4676,12 @@ cf10-r126-external-revoke-tests:
 	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
 		tests/coordination/control_plane/worker_runtime/test_cf10_r125_attempt_ipc_contract_v0_1.py \
 		tests/coordination/control_plane/worker_runtime/test_cf10_r126_root_external_revoke_v0_1.py
+
+# CF10 R127: source-only canonical Copilot IPC cutover candidate plus bounded
+# STDIO→root Unix proxy. Existing R115/R118 and LIVE_CUTOVER_ENABLED remain
+# unchanged, no Worker launch, root claim, release or production transition.
+.PHONY: cf10-r127-ipc-cutover-source-tests
+cf10-r127-ipc-cutover-source-tests:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r127_mcp_stdio_ipc_proxy_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r127_canonical_ipc_cutover_candidate_v0_1.py
