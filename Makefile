@@ -4685,3 +4685,13 @@ cf10-r127-ipc-cutover-source-tests:
 	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
 		tests/coordination/control_plane/worker_runtime/test_cf10_r127_mcp_stdio_ipc_proxy_v0_1.py \
 		tests/coordination/control_plane/worker_runtime/test_cf10_r127_canonical_ipc_cutover_candidate_v0_1.py
+
+# CF10 R129: single, source-only synthetic lifecycle convergence review.
+# Never grants release, performs Worker launch, or changes canonical preclaim.
+.PHONY: cf10-r129-lifecycle-tests cf10-r129-lifecycle-source-check
+cf10-r129-lifecycle-tests:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r129_canonical_lifecycle_convergence_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r127_canonical_ipc_cutover_candidate_v0_1.py
+cf10-r129-lifecycle-source-check:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r129_canonical_lifecycle_convergence_v0_1 --mode synthetic-check
