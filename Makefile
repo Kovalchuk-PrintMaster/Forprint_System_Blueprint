@@ -4668,3 +4668,11 @@ cf10-r123-capsule-binding-verify:
 cf10-r125-ipc-contract-tests:
 	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
 		tests/coordination/control_plane/worker_runtime/test_cf10_r125_attempt_ipc_contract_v0_1.py
+
+# CF10 R126: explicit root-only external revoke for disposable R125 IPC lease.
+# Source-only bridge and tests; no Worker launch or production cutover.
+.PHONY: cf10-r126-external-revoke-tests
+cf10-r126-external-revoke-tests:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r125_attempt_ipc_contract_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r126_root_external_revoke_v0_1.py
