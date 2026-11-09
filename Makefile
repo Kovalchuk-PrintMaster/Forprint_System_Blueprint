@@ -4650,3 +4650,14 @@ cf10-r122-capsule-publish:
 cf10-r122-capsule-verify: export CF10_CAPSULE_ID := $(CF10_CAPSULE_ID)
 cf10-r122-capsule-verify:
 	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r122_durable_source_capsule_v0_1 --mode verify
+
+# CF10 R123: non-authorizing crosswalk between canonical invocation/R118
+# preclaim shape and already-published immutable R122 source capsule.
+# Does not activate capsule in Copilot or change systemd, kernel, claims.
+.PHONY: cf10-r123-capsule-binding-tests cf10-r123-capsule-binding-verify
+cf10-r123-capsule-binding-tests:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r122_durable_source_capsule_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r123_capsule_invocation_binding_v0_1.py
+cf10-r123-capsule-binding-verify:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r123_capsule_invocation_binding_v0_1 --mode verify
