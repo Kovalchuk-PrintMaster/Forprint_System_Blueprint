@@ -4661,3 +4661,10 @@ cf10-r123-capsule-binding-tests:
 		tests/coordination/control_plane/worker_runtime/test_cf10_r123_capsule_invocation_binding_v0_1.py
 cf10-r123-capsule-binding-verify:
 	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r123_capsule_invocation_binding_v0_1 --mode verify
+
+# CF10 R125: guarded, non-authorizing attempt-bound IPC candidate, source-only.
+# Disposable real MCP call/revoke proof is an operator-side ZIP lab, not a live launch.
+.PHONY: cf10-r125-ipc-contract-tests
+cf10-r125-ipc-contract-tests:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r125_attempt_ipc_contract_v0_1.py
