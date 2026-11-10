@@ -4745,3 +4745,7 @@ cf10-r138-terminal-handoff-tests:
 		tests/coordination/control_plane/test_cf10_r030_canonical_systemd_route.py
 cf10-r138-terminal-handoff-source-check:
 	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r138_canonical_terminal_handoff_v0_1 --mode source-check
+# CF10 R139: source-only root terminal prerequisite; no Worker, claim or ledger append.
+.PHONY: cf10-r139-finalizer-root-source-check
+cf10-r139-finalizer-root-source-check:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r139_root_terminal_finalizer_gate_v0_1 --mode source-check

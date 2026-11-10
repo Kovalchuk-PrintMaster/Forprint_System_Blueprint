@@ -1798,6 +1798,32 @@ def advance_cycle(
             ):
                 return blocked("R037_RESULT_NOT_VERIFIED_CANDIDATE")
 
+        # R139: no first-time terminal ledger append for a source-only or
+        # worker-reported systemd outcome. The root-only R138 proof must match
+        # the SAME pending STARTED fact and the SAME immutable invocation.
+        # Existing terminal replay above remains read-only and does not append.
+        if not terminal_already_present:
+            from scripts.coordination.control_plane.worker_runtime import (
+                cf10_r139_root_terminal_finalizer_gate_v0_1 as root_terminal_gate,
+            )
+            try:
+                root_gate = root_terminal_gate.review_pending_success(
+                    root=canonical,
+                    attempt_id=attempt_id,
+                    source_head=source_state.get("git_head"),
+                    baseline_sha256=_advance_bound_yaml(
+                        attempt / "evidence/worker_baseline_v0_1.yaml", attempt,
+                        "Worker baseline",
+                    ).get("baseline_fingerprint_sha256"),
+                    handoff_sha256=manifest_hash,
+                    started_record=first,
+                    process_result=process_data,
+                )
+            except Exception as exc:
+                return blocked("R139_ROOT_TERMINAL_GATE:" + type(exc).__name__)
+            if root_gate.get("state") != root_terminal_gate.READY:
+                return blocked("R139_ROOT_TERMINAL_NOT_PROVEN")
+
         # The existing full Handoff freshness validator runs INSIDE the CF09/10
         # finalizer before the terminal ledger append. No synthetic origin.
         timestamp = datetime.now(UTC)
