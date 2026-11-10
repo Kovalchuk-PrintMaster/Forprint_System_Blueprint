@@ -141,7 +141,7 @@ def _revoke_on_hold(*, lease: Path, identity: dict) -> None:
         deny('REVOKE_UNPROVEN_' + type(exc).__name__)
 
 
-def serve_one(*, listener: socket.socket, trusted_mcp: socket.socket,
+def _serve_lab_one(*, listener: socket.socket, trusted_mcp: socket.socket,
               invocation: Mapping, candidate: Mapping, attempt: str,
               epoch: str, head: str, lease: Path,
               timeout_seconds: int = 10) -> dict:
@@ -212,6 +212,109 @@ def serve_one(*, listener: socket.socket, trusted_mcp: socket.socket,
             client.close()
 
 
+
+def serve_one(*, listener: socket.socket, trusted_mcp: socket.socket,
+              invocation: Mapping, candidate: Mapping, attempt: str,
+              epoch: str, head: str, lease: Path,
+              held_review: dict, spec, plan: dict, witness,
+              bridge_pin, child_pin, frozen_source_commit: str,
+              timeout_seconds: int = 10) -> dict:
+    """R144 guarded root-side handoff: POST-release proof BEFORE any IPC frame.
+
+    R141 rereads the same kernel systemd invocation and bridge socket PIDFD;
+    R143 rereads the direct MCP child PIDFD/stdio and all Git object capsule
+    bytes. No report supplied by the Worker can substitute for the checks.
+
+    The only executable session is R140's existing disposable R125 lease API;
+    this wrapper DOES NOT mint a claim or listener, release the held gate,
+    launch a Worker, prove Copilot G1-G3 or append to the terminal ledger.
+    """
+    # First establish a root-controlled lab identity. No arbitrary production
+    # lease or independently supplied "verified" boolean is accepted.
+    identity = _identity(invocation=invocation, candidate=candidate,
+        attempt=attempt, epoch=epoch, head=head, lease=lease)
+    from scripts.coordination.control_plane import cf10_supervisor_binding_candidate_v0_1 as binding
+    from scripts.coordination.control_plane.worker_runtime import (
+        cf10_r141_held_ipc_bridge_origin_v0_1 as r141,
+        cf10_r142_canonical_mcp_child_lineage_v0_1 as r142,
+        cf10_r143_git_mcp_capsule_origin_v0_1 as r143,
+    )
+    try:
+        if (type(frozen_source_commit) is not str or frozen_source_commit != head
+                or type(spec) is not binding.BoundedInput or type(plan) is not dict
+                or type(bridge_pin) is not r141.BridgePin
+                or type(child_pin) is not r142.MCPChildPin
+                or bridge_pin.closed or child_pin.closed
+                or spec.attempt_id != attempt or spec.source_head != head
+                or plan.get('identity',{}).get('unit') != identity['unit']
+                or bridge_pin.unit != identity['unit'] or child_pin.unit != identity['unit']):
+            deny('FROZEN_ORIGIN_IDENTITY')
+        post=r141.review_post_release_bridge(held_review=held_review,
+            spec=spec,plan=plan,witness=witness,
+            bridge_pin=bridge_pin,backend_socket=trusted_mcp)
+        origin=r143.review_post_release_git_child(post_review=post,
+            bridge_pin=bridge_pin,child_pin=child_pin,
+            backend_socket=trusted_mcp,frozen_source_commit=head)
+        joined=origin.get('origin') if type(origin) is dict else None
+        if (origin.get('schema_version') != r143.SCHEMA
+                or origin.get('state') != 'POST_RELEASE_GIT_PINNED_MCP_REVIEW_ONLY'
+                or origin.get('root_release_readback_proven') is not False
+                or type(joined) is not dict
+                or joined.get('source_commit') != head
+                or joined.get('unit') != identity['unit']
+                or joined.get('bridge_pid') != bridge_pin.pid
+                or joined.get('mcp_pid') != child_pin.pid
+                or joined.get('capsule_file_count') != len(r143.CAPSULE_FILES)
+                or joined.get('mcp_process_transport_lineage_proven') is not True
+                or joined.get('git_object_source_verified_by_independent_caller') is not True
+                or not isinstance(joined.get('capsule_manifest_sha256'),str)
+                or len(joined['capsule_manifest_sha256']) != 64
+                or any(joined.get(k) is not False for k in ('live_worker_authorized',
+                    'worker_result_accepted','terminal_ledger_written','g1_g5_closed',
+                    'copilot_process_tree_proven','copilot_egress_attested',
+                    'credential_isolation_attested','automatic_retry'))
+                or any(origin.get(k) is not False for k in ('live_worker_authorized',
+                    'worker_result_accepted','terminal_ledger_written','g1_g5_closed',
+                    'automatic_retry'))):
+            deny('R143_ORIGIN_NOT_EXACT_REVIEW')
+        # The R140 lab relay is invoked only AFTER the live kernel+source
+        # readbacks succeed. Its own R135/revoke checks remain unchanged.
+        result=_serve_lab_one(listener=listener,trusted_mcp=trusted_mcp,
+            invocation=invocation,candidate=candidate,attempt=attempt,
+            epoch=epoch,head=head,lease=lease,timeout_seconds=timeout_seconds)
+        if (type(result) is not dict or result.get('lease_revoked') is not True
+                or result.get('session_read_only_calls') != 1
+                or any(result.get(k) is not False for k in ('live_worker_authorized',
+                    'worker_result_accepted','terminal_ledger_written','g1_g5_closed',
+                    'automatic_retry'))):
+            deny('SESSION_RETURN_NOT_SEALED')
+        return {**result,
+            'schema_version':'cf10_r144_origin_bound_ipc_handoff_v0_1',
+            'state':'LAB_ONE_MCP_CALL_WITH_ROOT_GIT_PIDFD_ORIGIN_REVIEW_ONLY',
+            'backend_lineage_independently_proven':True,
+            'mcp_source_sha256':joined['mcp_blob_sha256'],
+            'capsule_manifest_sha256':joined['capsule_manifest_sha256'],
+            'mcp_pid':child_pin.pid,
+            'root_release_readback_proven':False,
+            'copilot_process_tree_proven':False,
+            'copilot_egress_attested':False,
+            'credential_isolation_attested':False,
+            'kernel_terminal_proven':False,
+            'g1_g5_closed':False,
+            'live_worker_authorized':False,
+            'worker_result_accepted':False,
+            'terminal_ledger_written':False,
+            'automatic_retry':False}
+    except BaseException as exc:
+        # Fail closed even if no client was ever accepted. A revoked lease does
+        # not prove kernel quiescence. R133/KernelWitness still mandatory.
+        try:
+            _revoke_on_hold(lease=lease,identity=identity)
+        except BrokerHold as fence_exc:
+            raise BrokerHold('CF10_R144_HOLD_REVOKE_UNKNOWN_KERNEL_QUARANTINE_REQUIRED') from fence_exc
+        raise BrokerHold('CF10_R144_HOLD_ORIGIN_OR_SESSION_KERNEL_QUARANTINE_REQUIRED') from exc
+
+
 def source_check() -> int:
     from scripts.coordination.control_plane.worker_runtime import cf10_systemd_launcher_v0_1 as backend
     if backend.LIVE_CUTOVER_ENABLED is not False:
@@ -221,7 +324,10 @@ def source_check() -> int:
     if lease_lib.CAPSULE_ID != identity_capsule():
         deny('SOURCE_CAPSULE_DRIFT')
     print('CF10_R140_ROOT_IPC=BOUNDED_LAB_LEASE_ONLY_NO_PRODUCTION_LISTENER')
-    print('CF10_R140_BACKEND_ORIGIN=REQUIRES_INDEPENDENT_CANONICAL_MCP_PROOF')
+    if not callable(serve_one) or not callable(_serve_lab_one) or serve_one is _serve_lab_one:
+        deny('R144_PUBLIC_GUARD_NOT_INSTALLED')
+    print('CF10_R140_BACKEND_ORIGIN=R144_GUARDED_LAB_PREFORWARD_GIT_PIDFD_JOIN')
+    print('CF10_R144_PREFORWARD=REQUIRES_R141_R143_LIVE_KERNEL_GIT_PIDFD_BEFORE_IPC')
     print('CF10_R140_G1_G5=OPEN_NO_LIVE_ADMISSION')
     return 0
 

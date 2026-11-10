@@ -146,7 +146,7 @@ def test_real_local_socket_accept_exactly_one_client_and_no_authority():
                 try:c.connect(str(lease.with_name('mcp.sock')))
                 finally:c.close()
             thread=threading.Thread(target=connect);thread.start();threads.append(thread)
-            report=api.serve_one(listener=listener,trusted_mcp=backend,**kwargs(lease))
+            report=api._serve_lab_one(listener=listener,trusted_mcp=backend,**kwargs(lease))
             assert report['state']=='ONE_READ_ONLY_MCP_SESSION_REVIEW_ONLY'
             assert report['lease_revoked'] is True
             assert report['worker_result_accepted'] is False
@@ -171,7 +171,7 @@ def test_inflight_hold_fences_lease_and_never_returns_result():
             client=socket.socket(socket.AF_UNIX)
             client.connect(str(lease.with_name('mcp.sock')))
             with pytest.raises(api.BrokerHold, match='SESSION_KERNEL_QUARANTINE_REQUIRED'):
-                api.serve_one(listener=listener,trusted_mcp=backend,**kwargs(lease))
+                api._serve_lab_one(listener=listener,trusted_mcp=backend,**kwargs(lease))
             api._revoke_on_hold.assert_called_once()
             client.close()
         finally:
@@ -193,7 +193,7 @@ def test_post_handshake_false_authority_denied_and_revoked():
             client=socket.socket(socket.AF_UNIX)
             client.connect(str(lease.with_name('mcp.sock')))
             with pytest.raises(api.BrokerHold, match='SESSION_KERNEL_QUARANTINE_REQUIRED'):
-                api.serve_one(listener=listener,trusted_mcp=backend,**kwargs(lease))
+                api._serve_lab_one(listener=listener,trusted_mcp=backend,**kwargs(lease))
             api._revoke_on_hold.assert_called_once()
             client.close()
         finally:
@@ -211,7 +211,7 @@ def test_backend_peer_must_be_kernel_verified_before_client_accept():
             for patch in patches:patch.start()
             with mock.patch.object(api.session_lib, 'verify_peer',side_effect=api.session_lib.SessionHold('wrong uid')):
                 with pytest.raises(api.BrokerHold,match='BACKEND_PEER_UNTRUSTED'):
-                    api.serve_one(listener=listener,trusted_mcp=a,**kwargs(lease))
+                    api._serve_lab_one(listener=listener,trusted_mcp=a,**kwargs(lease))
         finally:
             for patch in reversed(patches):patch.stop()
             os.close(fd);listener.close();a.close();b.close()
