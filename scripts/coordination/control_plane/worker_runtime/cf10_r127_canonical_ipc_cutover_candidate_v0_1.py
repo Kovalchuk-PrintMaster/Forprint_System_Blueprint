@@ -155,7 +155,18 @@ def build_review_candidate(*, invocation: Mapping, binding_record: Mapping,
     if not (stat.S_ISSOCK(st.st_mode) and st.st_uid == 0 and st.st_gid == gid
             and stat.S_IMODE(st.st_mode) == 0o660):
         deny('SOCKET_OWNER_MODE')
-    return render_review_candidate(invocation=invocation, binding_record=binding_record,
+    candidate = render_review_candidate(invocation=invocation, binding_record=binding_record,
         verified_binding=proof, verified_lease=lease, source_head=source_head, epoch=epoch,
         socket_path=socket_path, proxy_path=proxy_path, interpreter=interpreter,
         live_cutover_enabled=launcher.LIVE_CUTOVER_ENABLED)
+    # R134: independently cross-check the prospective read-only proxy argv
+    # against the EXISTING R115 canonical invocation, before returning review.
+    # R115's live preclaim remains unchanged and still REJECTS this argv.
+    from scripts.coordination.control_plane.worker_runtime import (
+        cf10_r134_ipc_preclaim_crosswalk_v0_1 as r134,
+    )
+    try:
+        r134.verify_source_only(invocation=invocation, candidate=candidate)
+    except r134.IPCPreclaimHold:
+        deny('R134_PRECLAIM_CROSSWALK')
+    return candidate

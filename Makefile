@@ -4713,3 +4713,13 @@ cf10-r133-post-release-quarantine-tests:
 	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
 		tests/coordination/control_plane/worker_runtime/test_cf10_r133_post_release_quarantine_v0_1.py \
 		tests/coordination/control_plane/test_cf10_r030_canonical_systemd_route.py
+
+# CF10 R134 — IPC candidate versus frozen R115 preclaim; review-only, no claim.
+.PHONY: cf10-r134-ipc-preclaim-tests cf10-r134-ipc-preclaim-source-check
+cf10-r134-ipc-preclaim-tests:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r134_ipc_preclaim_crosswalk_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r127_canonical_ipc_cutover_candidate_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r118_mcp_execution_identity_v0_1.py
+cf10-r134-ipc-preclaim-source-check:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r134_ipc_preclaim_crosswalk_v0_1 --mode source-check
