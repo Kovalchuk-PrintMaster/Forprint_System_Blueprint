@@ -238,6 +238,7 @@ def serve_one(*, listener: socket.socket, trusted_mcp: socket.socket,
         cf10_r141_held_ipc_bridge_origin_v0_1 as r141,
         cf10_r142_canonical_mcp_child_lineage_v0_1 as r142,
         cf10_r143_git_mcp_capsule_origin_v0_1 as r143,
+        cf10_r145_canonical_root_release_readback_v0_1 as r145,
     )
     try:
         if (type(frozen_source_commit) is not str or frozen_source_commit != head
@@ -277,8 +278,26 @@ def serve_one(*, listener: socket.socket, trusted_mcp: socket.socket,
                     'worker_result_accepted','terminal_ledger_written','g1_g5_closed',
                     'automatic_retry'))):
             deny('R143_ORIGIN_NOT_EXACT_REVIEW')
-        # The R140 lab relay is invoked only AFTER the live kernel+source
-        # readbacks succeed. Its own R135/revoke checks remain unchanged.
+        # R145 is an independent final canonical R030 release proof. A frozen
+        # report from the worker or an earlier R141/R143 review cannot stand in
+        # for rereading the root-owned manifest+release pair and pinned kernel.
+        released=r145.review_pre_forward(spec=spec,plan=plan,witness=witness,
+            held_review=held_review)
+        if (type(released) is not dict or released.get('schema_version')!=r145.SCHEMA
+                or released.get('state')!='R030_ROOT_RELEASE_MARKER_AND_PINNED_INVOCATION_REVIEW_ONLY'
+                or released.get('attempt_id')!=attempt or released.get('source_head')!=head
+                or released.get('unit')!=identity['unit']
+                or released.get('systemd_invocation_id')!=witness.invocation_id
+                or released.get('root_owned_manifest_and_release_readback') is not True
+                or any(type(released.get(k)) is not str or not r145.SHA256.fullmatch(released[k])
+                       for k in ('gate_nonce_sha256','manifest_sha256','release_marker_sha256'))
+                or any(released.get(k) is not False for k in ('worker_executed_proven',
+                    'copilot_process_tree_proven','credential_isolation_attested',
+                    'copilot_egress_attested','g1_g5_closed','live_worker_authorized',
+                    'worker_result_accepted','terminal_ledger_written','automatic_retry'))):
+            deny('ROOT_RELEASE_READBACK_NOT_EXACT')
+        # Only AFTER all live R141/R143/R145 readbacks can R140 perform one
+        # disposable R135 session. Still no production listener/cutover.
         result=_serve_lab_one(listener=listener,trusted_mcp=trusted_mcp,
             invocation=invocation,candidate=candidate,attempt=attempt,
             epoch=epoch,head=head,lease=lease,timeout_seconds=timeout_seconds)
@@ -295,7 +314,10 @@ def serve_one(*, listener: socket.socket, trusted_mcp: socket.socket,
             'mcp_source_sha256':joined['mcp_blob_sha256'],
             'capsule_manifest_sha256':joined['capsule_manifest_sha256'],
             'mcp_pid':child_pin.pid,
-            'root_release_readback_proven':False,
+            'root_release_marker_readback_proven':True,
+            'root_release_manifest_sha256':released['manifest_sha256'],
+            'root_release_readback_proven':True,
+            'worker_executed_proven':False,
             'copilot_process_tree_proven':False,
             'copilot_egress_attested':False,
             'credential_isolation_attested':False,
@@ -328,6 +350,10 @@ def source_check() -> int:
         deny('R144_PUBLIC_GUARD_NOT_INSTALLED')
     print('CF10_R140_BACKEND_ORIGIN=R144_GUARDED_LAB_PREFORWARD_GIT_PIDFD_JOIN')
     print('CF10_R144_PREFORWARD=REQUIRES_R141_R143_LIVE_KERNEL_GIT_PIDFD_BEFORE_IPC')
+    from scripts.coordination.control_plane.worker_runtime import cf10_r145_canonical_root_release_readback_v0_1 as r145
+    if not callable(r145.review_pre_forward):deny('R145_RELEASE_READBACK_MISSING')
+    r145.source_check()
+    print('CF10_R145_PREFORWARD=REQUIRES_CANONICAL_R030_ROOT_RELEASE_MARKER')
     print('CF10_R140_G1_G5=OPEN_NO_LIVE_ADMISSION')
     return 0
 

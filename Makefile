@@ -4804,3 +4804,18 @@ cf10-r144-preforward-tests:
 		tests/coordination/control_plane/worker_runtime/test_cf10_r140_root_ipc_broker_adapter_v0_1.py
 cf10-r144-preforward-source-check:
 	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r140_root_ipc_broker_adapter_v0_1 --mode source-check
+
+# CF10 R145 — independently pin R030 root release marker + active kernel
+# invocation before R140 public IPC forwarding. Read-only, lab lease only.
+.PHONY: cf10-r145-release-preforward-tests cf10-r145-release-preforward-source-check
+cf10-r145-release-preforward-tests:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r145_canonical_root_release_readback_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r144_root_ipc_preforward_origin_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r143_git_mcp_capsule_origin_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r142_canonical_mcp_child_lineage_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r141_held_ipc_bridge_origin_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r140_root_ipc_broker_adapter_v0_1.py
+cf10-r145-release-preforward-source-check:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r145_canonical_root_release_readback_v0_1 --mode source-check
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r140_root_ipc_broker_adapter_v0_1 --mode source-check

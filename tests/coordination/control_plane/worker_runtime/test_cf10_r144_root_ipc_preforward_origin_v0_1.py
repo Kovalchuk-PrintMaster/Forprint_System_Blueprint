@@ -18,6 +18,7 @@ from scripts.coordination.control_plane.worker_runtime import (
     cf10_r141_held_ipc_bridge_origin_v0_1 as r141,
     cf10_r142_canonical_mcp_child_lineage_v0_1 as r142,
     cf10_r143_git_mcp_capsule_origin_v0_1 as r143,
+    cf10_r145_canonical_root_release_readback_v0_1 as r145,
 )
 
 HEAD='a'*40
@@ -52,7 +53,7 @@ def fixture_values():
         argv=('/usr/bin/true',),timeout_seconds=30)
     inp=dict(invocation={},candidate={},attempt=ATTEMPT,epoch='epoch-01',
         head=HEAD,lease=LEASE,held_review={},spec=spec,
-        plan={'identity':{'unit':UNIT}},witness=object(),bridge_pin=bridge,
+        plan={'identity':{'unit':UNIT}},witness=mock.Mock(invocation_id='f'*32),bridge_pin=bridge,
         child_pin=child,frozen_source_commit=HEAD,timeout_seconds=3)
     return inp
 
@@ -76,6 +77,21 @@ def proof():
              'g1_g5_closed':False,'automatic_retry':False}}
 
 
+def release_proof():
+    return {'schema_version':r145.SCHEMA,
+        'state':'R030_ROOT_RELEASE_MARKER_AND_PINNED_INVOCATION_REVIEW_ONLY',
+        'attempt_id':ATTEMPT,'source_head':HEAD,'unit':UNIT,
+        'systemd_invocation_id':'f'*32,
+        'root_owned_manifest_and_release_readback':True,
+        'gate_nonce_sha256':'a'*64,'manifest_sha256':'b'*64,
+        'release_marker_sha256':'c'*64,
+        'worker_executed_proven':False,'copilot_process_tree_proven':False,
+        'credential_isolation_attested':False,'copilot_egress_attested':False,
+        'g1_g5_closed':False,'live_worker_authorized':False,
+        'worker_result_accepted':False,'terminal_ledger_written':False,
+        'automatic_retry':False}
+
+
 def relay():
     return {'schema_version':api.SCHEMA,'state':'ONE_READ_ONLY_MCP_SESSION_REVIEW_ONLY',
         'lease_revoked':True,'session_read_only_calls':1,
@@ -84,14 +100,16 @@ def relay():
         'terminal_ledger_written':False,'g1_g5_closed':False,'automatic_retry':False}
 
 
-def call(inputs=None,origin=None,session=None):
+def call(inputs=None,origin=None,session=None,release=None):
     data=fixture_values() if inputs is None else inputs
     original=proof() if origin is None else origin
+    root_release=release_proof() if release is None else release
     with sockets() as pair:  # sockets are real; no process spawned
         client,backend=pair
         with mock.patch.object(api,'_identity',return_value={'unit':UNIT,'attempt_id':ATTEMPT}),\
              mock.patch.object(r141,'review_post_release_bridge',return_value={'state':'post'} ) as bridge_review,\
              mock.patch.object(r143,'review_post_release_git_child',return_value=original) as mcp_review,\
+             mock.patch.object(r145,'review_pre_forward',return_value=root_release) as release_review,\
              mock.patch.object(api,'_serve_lab_one',return_value=relay() if session is None else session) as forward,\
              mock.patch.object(api,'_revoke_on_hold') as revoked:
             try:
@@ -107,10 +125,13 @@ def test_positive_origin_precedes_first_forward():
     assert result['backend_lineage_independently_proven'] is True
     assert result['mcp_pid']==10492
     assert result['capsule_manifest_sha256']=='d'*64
+    assert result['root_release_readback_proven'] is True
+    assert result['root_release_marker_readback_proven'] is True
+    assert result['worker_executed_proven'] is False
     for key in ('live_worker_authorized','worker_result_accepted','terminal_ledger_written',
                 'g1_g5_closed','copilot_process_tree_proven','copilot_egress_attested',
                 'credential_isolation_attested','kernel_terminal_proven',
-                'root_release_readback_proven','automatic_retry'):
+                'automatic_retry'):
         assert result[key] is False
 
 
@@ -197,3 +218,31 @@ def test_root_broker_old_lab_relay_is_private_and_no_second_launcher():
     assert 'launch_after_owner_claim(' not in s
     assert 'append_record(' not in s
     assert 'systemctl start' not in s
+
+
+@pytest.mark.parametrize('field,value',[
+    ('state','UNPROVEN'), ('unit','wrong'), ('attempt_id','cf10-u180j-a901'),
+    ('root_owned_manifest_and_release_readback',False),
+    ('systemd_invocation_id','0'*32),
+    ('manifest_sha256',None),('release_marker_sha256','g'*64),('worker_executed_proven',True),
+    ('live_worker_authorized',True),('credential_isolation_attested',True),
+    ('copilot_egress_attested',True),('g1_g5_closed',True),
+])
+def test_r145_invalid_release_proof_blocks_before_forward(field,value):
+    r=release_proof();r[field]=value
+    result,pre,mcp,fwd,revoked=call(release=r)
+    assert result is None and pre==mcp==1 and fwd==0 and revoked==1
+
+
+def test_r145_release_readback_exception_revokes_before_forward():
+    inp=fixture_values()
+    with sockets() as pair:
+        with mock.patch.object(api,'_identity',return_value={'unit':UNIT}),\
+             mock.patch.object(r141,'review_post_release_bridge',return_value={}),\
+             mock.patch.object(r143,'review_post_release_git_child',return_value=proof()),\
+             mock.patch.object(r145,'review_pre_forward',side_effect=r145.ReleaseHold('missing')),\
+             mock.patch.object(api,'_serve_lab_one') as forward,\
+             mock.patch.object(api,'_revoke_on_hold') as revoked:
+            with pytest.raises(api.BrokerHold,match='ORIGIN_OR_SESSION_KERNEL_QUARANTINE'):
+                api.serve_one(listener=pair[0],trusted_mcp=pair[1],**inp)
+            forward.assert_not_called();revoked.assert_called_once()
