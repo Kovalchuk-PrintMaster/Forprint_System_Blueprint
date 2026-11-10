@@ -4759,3 +4759,13 @@ cf10-r140-root-ipc-tests:
 		tests/coordination/control_plane/worker_runtime/test_cf10_r126_root_external_revoke_v0_1.py
 cf10-r140-root-ipc-source-check:
 	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r140_root_ipc_broker_adapter_v0_1 --mode source-check
+
+# CF10 R141 — two-phase held/released root IPC BRIDGE provenance; no admission.
+.PHONY: cf10-r141-held-ipc-tests cf10-r141-held-ipc-source-check
+cf10-r141-held-ipc-tests:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r141_held_ipc_bridge_origin_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r140_root_ipc_broker_adapter_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r135_ipc_session_fence_v0_1.py
+cf10-r141-held-ipc-source-check:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r141_held_ipc_bridge_origin_v0_1 --mode source-check
