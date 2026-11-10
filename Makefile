@@ -4723,3 +4723,14 @@ cf10-r134-ipc-preclaim-tests:
 		tests/coordination/control_plane/worker_runtime/test_cf10_r118_mcp_execution_identity_v0_1.py
 cf10-r134-ipc-preclaim-source-check:
 	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r134_ipc_preclaim_crosswalk_v0_1 --mode source-check
+
+# CF10 R135 — source-only root IPC session fence, no listener/Worker/release.
+.PHONY: cf10-r135-ipc-session-tests cf10-r135-ipc-session-source-check
+cf10-r135-ipc-session-tests:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r135_ipc_session_fence_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r134_ipc_preclaim_crosswalk_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r127_mcp_stdio_ipc_proxy_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r126_root_external_revoke_v0_1.py
+cf10-r135-ipc-session-source-check:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r135_ipc_session_fence_v0_1 --mode source-check
