@@ -164,6 +164,10 @@ def _extract_r030(monkeypatch, *, terminal_error=False, pre_error=False, callbac
         'witness':SimpleNamespace(arm=arm),
         'durable':SimpleNamespace(record_pre=pre,record_terminal=post),
         'terminal':SimpleNamespace(witnessed_terminal=observed),
+        'handoff':SimpleNamespace(
+            TerminalHandoffHold=type('HandoffHold',(RuntimeError,),{}),
+            review_success=lambda **k: calls.append('review-terminal'),
+            review_cancelled=lambda **k: calls.append('review-cancelled')),
         '_trusted_runner':lambda argv:None,
         '_retire_after_durable_terminal':lambda u:(calls.append('retire'), (_ for _ in ()).throw(RuntimeError('retire-error')) if retire_error else None),
     }
@@ -183,7 +187,7 @@ def test_real_r030_function_orders_pre_ledger_release_terminal(monkeypatch):
     run,calls,w,_=_extract_r030(monkeypatch)
     assert run()['return_code']==0
     assert calls==['held','arm','durable-pre','ledger-started','release',
-                   'terminal-readback','durable-terminal','retire']
+                   'terminal-readback','durable-terminal','review-terminal','retire']
     assert w.closed is True
 
 
@@ -191,7 +195,7 @@ def test_real_r030_post_release_failure_routes_quarantine(monkeypatch):
     run,calls,w,_=_extract_r030(monkeypatch,terminal_error=True)
     with pytest.raises(RuntimeError,match='terminal-error'):
         run()
-    assert calls[-2:]==['terminal-readback','quarantine']
+    assert calls[-3:]==['terminal-readback','quarantine','review-cancelled']
     assert 'durable-terminal' not in calls and 'retire' not in calls
     assert w.closed is True
 
@@ -229,7 +233,7 @@ def test_real_r030_durable_terminal_failure_routes_quarantine(monkeypatch):
     run,calls,w,_=_extract_r030(monkeypatch,post_error=True)
     with pytest.raises(RuntimeError,match='post-error'):
         run()
-    assert calls[-3:] == ['terminal-readback','durable-terminal','quarantine']
+    assert calls[-4:] == ['terminal-readback','durable-terminal','quarantine','review-cancelled']
     assert 'retire' not in calls and w.closed
 
 
@@ -237,7 +241,7 @@ def test_real_r030_retire_failure_does_not_reclassify_success_as_kill(monkeypatc
     run,calls,w,_=_extract_r030(monkeypatch,retire_error=True)
     with pytest.raises(RuntimeError,match='retire-error'):
         run()
-    assert calls[-2:] == ['durable-terminal','retire']
+    assert calls[-3:] == ['durable-terminal','review-terminal','retire']
     assert 'quarantine' not in calls and w.closed
 
 

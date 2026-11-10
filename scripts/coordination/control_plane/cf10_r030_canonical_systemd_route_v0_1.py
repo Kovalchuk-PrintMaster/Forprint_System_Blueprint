@@ -19,6 +19,7 @@ from scripts.coordination.control_plane.worker_runtime import cf10_systemd_termi
 from scripts.coordination.control_plane import cf10_r026_trusted_systemd_readback_v0_1 as kernel
 from scripts.coordination.control_plane.worker_runtime import cf10_systemd_kernel_witness_v0_1 as witness
 from scripts.coordination.control_plane.worker_runtime import cf10_r035_durable_witness_boundary_v0_1 as durable
+from scripts.coordination.control_plane.worker_runtime import cf10_r138_canonical_terminal_handoff_v0_1 as handoff
 
 class CanonicalCutoverBlocked(RuntimeError):
     pass
@@ -146,6 +147,9 @@ def run_once(*,root:Path,runtime_root:Path,task_prompt_id:str,attempt_id:str,
             witness=holder[0],runner=_trusted_runner,timeout_seconds=spec.timeout_seconds)
         durable.record_terminal(spec=spec,unit=unit,outcome=outcome)
         durable_terminal=True
+        # R138 checks historical kernel/claim/STARTED ledger lineage. This is
+        # a read-only review gate, NOT a terminal append/Worker Result verdict.
+        handoff.review_success(spec=spec,unit=unit,outcome=outcome)
         _retire_after_durable_terminal(unit)
     except BaseException:
         if released and not durable_terminal:
@@ -153,9 +157,12 @@ def run_once(*,root:Path,runtime_root:Path,task_prompt_id:str,attempt_id:str,
                 cf10_r133_post_release_quarantine_v0_1 as quarantine,
             )
             try:
-                quarantine.quarantine(attempt_id=attempt_id,source_head=source_head,
+                cancelled=quarantine.quarantine(attempt_id=attempt_id,source_head=source_head,
                     unit=unit,pinned_witness=holder[0],timeout_seconds=spec.timeout_seconds)
-            except quarantine.QuarantineHold as exc:
+                # A killed cgroup is not a valid Worker Result or terminal
+                # ledger fact. Verify R133 review receipts and R035 PRE only.
+                handoff.review_cancelled(spec=spec,unit=unit,outcome=cancelled)
+            except (quarantine.QuarantineHold, handoff.TerminalHandoffHold) as exc:
                 # Do not report successful cancellation or Worker terminal
                 # when systemd/FD/receipt proofs are absent.
                 raise CanonicalCutoverBlocked('CF10_R030_POST_RELEASE_RECONCILE_REQUIRED') from exc

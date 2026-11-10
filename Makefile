@@ -4734,3 +4734,14 @@ cf10-r135-ipc-session-tests:
 		tests/coordination/control_plane/worker_runtime/test_cf10_r126_root_external_revoke_v0_1.py
 cf10-r135-ipc-session-source-check:
 	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r135_ipc_session_fence_v0_1 --mode source-check
+
+# CF10 R138: canonical R030 root terminal / cancellation review-only ledger join.
+# No Worker claim, independent Worker Result acceptance or terminal append.
+.PHONY: cf10-r138-terminal-handoff-tests cf10-r138-terminal-handoff-source-check
+cf10-r138-terminal-handoff-tests:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r138_canonical_terminal_handoff_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r133_post_release_quarantine_v0_1.py \
+		tests/coordination/control_plane/test_cf10_r030_canonical_systemd_route.py
+cf10-r138-terminal-handoff-source-check:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r138_canonical_terminal_handoff_v0_1 --mode source-check
