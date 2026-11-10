@@ -4769,3 +4769,14 @@ cf10-r141-held-ipc-tests:
 		tests/coordination/control_plane/worker_runtime/test_cf10_r135_ipc_session_fence_v0_1.py
 cf10-r141-held-ipc-source-check:
 	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r141_held_ipc_bridge_origin_v0_1 --mode source-check
+
+# CF10 R142 — root-verified MCP child PIDFD + stdio bridge lineage (source-only).
+# No canonical R030 release, Worker, claim, G1-G5 or terminal write.
+.PHONY: cf10-r142-mcp-child-tests cf10-r142-mcp-child-source-check
+cf10-r142-mcp-child-tests:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r142_canonical_mcp_child_lineage_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r141_held_ipc_bridge_origin_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r140_root_ipc_broker_adapter_v0_1.py
+cf10-r142-mcp-child-source-check:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r142_canonical_mcp_child_lineage_v0_1 --mode source-check
