@@ -125,24 +125,41 @@ def run_once(*,root:Path,runtime_root:Path,task_prompt_id:str,attempt_id:str,
         durable.record_pre(spec=spec,unit=unit,witness=holder[0])
         started_callback(record)
 
+    # Post-release errors are NOT ordinary terminal completion. Preserve the
+    # existing R030 happy path, but kill the already released canonical unit
+    # and record REVIEW_REQUIRED if result/kernel/durable proof fails.
+    released=False
+    durable_terminal=False
     try:
         started=backend.launch_after_owner_claim(spec=spec,plan=plan,
                                                 started_callback=start_after_witness)
+        released=True  # the only successful backend return is after gate release
         if (started.get('state')!='SYSTEMD_RELEASED_OBSERVE_WORKER' or
                 started.get('unit')!=unit or started.get('process_started') is not True or
                 holder[0] is None):
             deny('RELEASE_OBSERVATION_INCOMPLETE')
         attempt=backend.RUNTIME/'forprint_system_blueprint'/'worker-01'/attempt_id
-        # The witness FD remains open across gate release and worker exit.
-        # Service remains retained for terminal InvocationID / Result readback.
+        # R030 arms the actual kernel witness in its STARTED callback BEFORE
+        # release. Do not duplicate the arm in the backend (R132 corrected).
         outcome=terminal.witnessed_terminal(unit=unit,attempt_root=attempt,
             stdout_path=attempt/'logs'/'stdout.log',stderr_path=attempt/'logs'/'stderr.log',
             witness=holder[0],runner=_trusted_runner,timeout_seconds=spec.timeout_seconds)
-        # Terminal evidence is durable BEFORE returning to the Worker Result path.
         durable.record_terminal(spec=spec,unit=unit,outcome=outcome)
-        # Only after durable success may the retained unit be stopped. r036
-        # requires a fresh not-active systemd readback before finalization.
+        durable_terminal=True
         _retire_after_durable_terminal(unit)
+    except BaseException:
+        if released and not durable_terminal:
+            from scripts.coordination.control_plane.worker_runtime import (
+                cf10_r133_post_release_quarantine_v0_1 as quarantine,
+            )
+            try:
+                quarantine.quarantine(attempt_id=attempt_id,source_head=source_head,
+                    unit=unit,pinned_witness=holder[0],timeout_seconds=spec.timeout_seconds)
+            except quarantine.QuarantineHold as exc:
+                # Do not report successful cancellation or Worker terminal
+                # when systemd/FD/receipt proofs are absent.
+                raise CanonicalCutoverBlocked('CF10_R030_POST_RELEASE_RECONCILE_REQUIRED') from exc
+        raise  # After successful cancellation, original failure is still fatal.
     finally:
         if holder[0] is not None:holder[0].close()
     if outcome.get('return_code')!=0 or outcome.get('worker_result_accepted') is not False:

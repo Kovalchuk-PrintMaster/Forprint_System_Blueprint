@@ -4705,3 +4705,11 @@ cf10-r131-terminal-tests:
 		tests/coordination/control_plane/worker_runtime/test_cf10_r129_canonical_lifecycle_convergence_v0_1.py
 cf10-r131-terminal-source-check:
 	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r131_terminal_review_fence_v0_1 --mode source-check
+
+# CF10 R133: post-release exact systemd kill + pinned kernel quarantine (source-only tests).
+# Does not bypass the existing Owner/PAM gate or authorize any Worker.
+.PHONY: cf10-r133-post-release-quarantine-tests
+cf10-r133-post-release-quarantine-tests:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r133_post_release_quarantine_v0_1.py \
+		tests/coordination/control_plane/test_cf10_r030_canonical_systemd_route.py
