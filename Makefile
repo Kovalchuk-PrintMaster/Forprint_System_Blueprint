@@ -4695,3 +4695,13 @@ cf10-r129-lifecycle-tests:
 		tests/coordination/control_plane/worker_runtime/test_cf10_r127_canonical_ipc_cutover_candidate_v0_1.py
 cf10-r129-lifecycle-source-check:
 	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r129_canonical_lifecycle_convergence_v0_1 --mode synthetic-check
+
+# CF10 R131: root-owned revoke and genuine canonical KernelWitness terminal
+# reconciliation precondition, review-only. No live Worker, claim or ledger write.
+.PHONY: cf10-r131-terminal-tests cf10-r131-terminal-source-check
+cf10-r131-terminal-tests:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r131_terminal_review_fence_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r129_canonical_lifecycle_convergence_v0_1.py
+cf10-r131-terminal-source-check:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r131_terminal_review_fence_v0_1 --mode source-check
