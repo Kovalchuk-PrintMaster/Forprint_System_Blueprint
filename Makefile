@@ -4749,3 +4749,13 @@ cf10-r138-terminal-handoff-source-check:
 .PHONY: cf10-r139-finalizer-root-source-check
 cf10-r139-finalizer-root-source-check:
 	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r139_root_terminal_finalizer_gate_v0_1 --mode source-check
+
+# CF10 R140 — bounded root IPC adapter for single R125 lab lease; no live Worker.
+.PHONY: cf10-r140-root-ipc-tests cf10-r140-root-ipc-source-check
+cf10-r140-root-ipc-tests:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r140_root_ipc_broker_adapter_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r135_ipc_session_fence_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r126_root_external_revoke_v0_1.py
+cf10-r140-root-ipc-source-check:
+	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r140_root_ipc_broker_adapter_v0_1 --mode source-check
