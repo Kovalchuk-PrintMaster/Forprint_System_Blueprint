@@ -4880,3 +4880,9 @@ cf10-batch-j-composed-copilot-proxy-source-check:
 cf10-batch-k-dispatcher-runtime-rehearsal-check:
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_batch_k_dispatcher_runtime_join_v0_1 --mode source-check
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_batch_k_dispatcher_runtime_join_v0_1.py
+
+# CF10 Large Batch L: retained-unit kernel terminal proof; disposable only.
+.PHONY: cf10-batch-l-retained-kernel-terminal-source-check
+cf10-batch-l-retained-kernel-terminal-source-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_batch_l_retained_kernel_terminal_contract_v0_1 --mode source-check
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_batch_l_retained_kernel_terminal_contract_v0_1.py
