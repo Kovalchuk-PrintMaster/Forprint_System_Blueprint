@@ -4851,3 +4851,13 @@ cf10-batch-f-sandbox-source-check:
 cf10-batch-g-inference-bridge-source-check:
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_batch_g_inference_bridge_contract_v0_1 --mode source-check
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_batch_g_inference_bridge_contract_v0_1.py
+
+# CF10 Large Batch H: executable disposable localhost CONNECT -> Unix IPC ->
+# authenticated synthetic TLS fixture. Source-level check only; s01 systemd
+# acceptance is guarded by one-shot installer, never by this target.
+.PHONY: cf10-batch-h-loopback-tls-source-check
+cf10-batch-h-loopback-tls-source-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_batch_h_loopback_tls_transport_contract_v0_1 --mode source-check
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_batch_h_loopback_tls_transport_contract_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_batch_g_inference_bridge_contract_v0_1.py
