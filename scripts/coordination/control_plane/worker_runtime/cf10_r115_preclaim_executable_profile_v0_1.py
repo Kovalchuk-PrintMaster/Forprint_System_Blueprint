@@ -212,6 +212,87 @@ def assert_local_mcp_execution_identity(spec: Mapping, workspace: str,
     # override or configurable executable command. Any requires new review.
 
 
+
+# Batch D: one strictly read-only model-facing IPC shape for future cutover.
+# This MUST NOT be mistaken for an admitted preclaim or a credential/egress
+# attestation. R115.assert_pilot_preclaim still blocks this exact argv.
+IPC_MODEL_TOOL = 'ForPrintValidation-run_repo_head'
+IPC_PROXY_REL = 'scripts/coordination/control_plane/worker_runtime/cf10_r127_mcp_stdio_ipc_proxy_v0_1.py'
+IPC_PROXY_ABS = '/srv/software_development/forprint-project/forprint_system_blueprint/' + IPC_PROXY_REL
+IPC_SOCKET_RE = re.compile(r'/run/forprint-cf10-r125-[0-9a-f]{16}/mcp\.sock\Z')
+IPC_EPOCH_RE = re.compile(r'[A-Za-z0-9_.:-]{1,80}\Z')
+IPC_HEAD_RE = re.compile(r'[0-9a-f]{40}\Z')
+
+
+def assert_guarded_ipc_preview(argv: Sequence[str], workspace: str) -> dict:
+    """Review EXACT prospective R127 proxy argv, without launch authority.
+
+    Does not open socket, check a root lease, attest Copilot's built-in tools,
+    separate inference egress, or spend a Worker claim. Only R030 may launch
+    after an independently governed future cutover; this helper never may.
+    """
+    assert_frozen_argv(argv, workspace)
+    if (len(argv) != 18 or list(argv[:2]) != [str(COPILOT_PILOT_PATH), '-p']
+        or not isinstance(argv[2], str) or not argv[2]
+        or list(argv[3:7]) != ['--silent','--model',argv[5],'--additional-mcp-config']
+        or not isinstance(argv[5],str) or not argv[5]
+        or argv[8] != '--available-tools'
+        or list(argv[9:-8]) != [IPC_MODEL_TOOL]
+        or list(argv[-8:-6]) != ['--allow-all-tools','--disable-builtin-mcps']
+        or argv[-6] != '--max-ai-credits'
+        or not argv[-5].isdecimal() or not 30 <= int(argv[-5]) <= 10000
+        or list(argv[-4:]) != ['--no-auto-update','--sandbox','-C',workspace]):
+        deny('IPC_PREVIEW_EXACT_ARGV_TOOL_MODE')
+    if type(argv[7]) is not str:
+        deny('IPC_PREVIEW_JSON_TYPE')
+    try:
+        data = json.loads(argv[7], object_pairs_hook=_unique_json_pairs)
+    except (ValueError, TypeError, UnicodeError):
+        deny('IPC_PREVIEW_JSON')
+    if (type(data) is not dict or set(data) != {'mcpServers'}
+        or type(data['mcpServers']) is not dict
+        or set(data['mcpServers']) != {'ForPrintValidation'}):
+        deny('IPC_PREVIEW_MCP_SERVERS')
+    spec = data['mcpServers']['ForPrintValidation']
+    if (type(spec) is not dict or set(spec) != {'type','command','args','cwd','tools'}
+        or spec['type'] != 'local' or type(spec['command']) is not str
+        or spec['command'] not in PILOT_MCP_ALLOWED_PYTHON
+        or spec['cwd'] != workspace or spec['tools'] != ['run_repo_head']):
+        deny('IPC_PREVIEW_EXECUTABLE_OR_TOOLS')
+    args=spec['args']
+    if (type(args) is not list or len(args) != 11 or any(type(v) is not str for v in args)
+        or args[0] != IPC_PROXY_ABS
+        or args[1::2] != ['--socket','--attempt-id','--epoch','--source-head','--capsule-id']
+        or not IPC_SOCKET_RE.fullmatch(args[2])
+        or not IPC_EPOCH_RE.fullmatch(args[6])
+        or not IPC_HEAD_RE.fullmatch(args[8])):
+        deny('IPC_PREVIEW_PROXY_ARGUMENTS')
+    try:
+        relative = Path(workspace).relative_to(PILOT_MCP_BASE_WORKSPACE)
+    except (TypeError,ValueError):
+        deny('IPC_PREVIEW_WORKSPACE')
+    if (len(relative.parts) != 3 or relative.parts[1:] != ('workspace','repo')
+        or not re.fullmatch(r'cf10-[A-Za-z0-9_-]{3,80}-a[0-9]{3,5}',relative.parts[0])
+        or args[4] != relative.parts[0]):
+        deny('IPC_PREVIEW_ATTEMPT_BINDING')
+    from scripts.coordination.control_plane.worker_runtime import cf10_r127_canonical_ipc_cutover_candidate_v0_1 as r127
+    if args[10] != r127.CAPSULE_ID:
+        deny('IPC_PREVIEW_CAPSULE')
+    canonical=json.dumps(data,sort_keys=True,separators=(',', ':'),ensure_ascii=True)
+    if argv[7] != canonical:
+        deny('IPC_PREVIEW_NONCANONICAL_CONFIG')
+    return {
+        'schema_version':'cf10_r115_guarded_ipc_preview_v0_1',
+        'state':'EXACT_SOURCE_IPC_PREVIEW_REVIEW_ONLY',
+        'attempt_id':args[4], 'source_head':args[8], 'epoch':args[6],
+        'argv_sha256':hashlib.sha256('\0'.join(argv).encode('utf8')).hexdigest(),
+        'mcp_config_sha256':hashlib.sha256(canonical.encode('ascii')).hexdigest(),
+        'model_tool':IPC_MODEL_TOOL,
+        'live_worker_authorized':False, 'claim_consumed':False,
+        'kernel_witness_attested':False, 'credentials_isolated':False,
+        'egress_attested':False, 'terminal_ledger_written':False,
+    }
+
 def _require_root_owned_parent(path: Path) -> None:
     # Directories are root-controlled to prevent swap-out between pin and exec.
     for p in (Path('/usr'), Path('/usr/local'), Path('/usr/local/bin')):
@@ -305,6 +386,11 @@ def assert_inference_network_not_impossible(properties: Mapping[str, str]) -> No
 def assert_pilot_preclaim(*, argv: Sequence[str], workspace: str,
                           systemd_command: Sequence[str]) -> dict:
     assert_frozen_argv(argv, workspace)
+    # Future IPC-mode source shape may be reviewed, but never silently admitted
+    # by the legacy R115 production preclaim. This check runs before any claim.
+    if len(argv) > 9 and argv[9] == IPC_MODEL_TOOL:
+        assert_guarded_ipc_preview(argv, workspace)
+        deny('IPC_REVIEW_ONLY_G1_G5_OPEN_NO_LIVE_PRECLAIM')
     assert_static_tool_and_mcp_boundary(argv, workspace)
     properties = parse_systemd_properties(systemd_command)
     assert_inference_network_not_impossible(properties)

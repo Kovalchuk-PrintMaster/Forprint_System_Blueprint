@@ -97,8 +97,14 @@ def verify_source_only(*, invocation: Mapping, candidate: Mapping) -> dict:
         deny('PREVIEW_TOOL_OR_PROVIDER_DRIFT')
     try:
         r115.assert_frozen_argv(preview_argv, workspace)
+        inspected=r115.assert_guarded_ipc_preview(preview_argv, workspace)
     except (r115.R115PreclaimBlocked, ValueError, TypeError):
-        deny('PREVIEW_FROZEN_ARGV')
+        deny('PREVIEW_R115_EXACT_IPC_SHAPE')
+    if (inspected['attempt_id'] != c['attempt_id'] or
+            inspected['source_head'] != c['source_head'] or
+            inspected['epoch'] != c['epoch'] or
+            inspected['argv_sha256'] != _sha_argv(preview_argv)):
+        deny('PREVIEW_R115_IDENTITY')
     # Mandatory hold: changing the future candidate MUST NOT silently bypass
     # the current production R115 reject-on-drift policy.
     try:
@@ -119,6 +125,8 @@ def verify_source_only(*, invocation: Mapping, candidate: Mapping) -> dict:
         'review_only_argv_sha256': _sha_argv(preview_argv),
         'model_tools': [ALLOWED_MODEL_TOOL],
         'legacy_r115_rejects_prospective_argv': True,
+        'r115_guarded_ipc_preview_exact':True,
+        'r115_guarded_ipc_mcp_config_sha256':inspected['mcp_config_sha256'],
         'root_lease_attested': False,
         'credential_egress_attested': False,
         'copilot_sandbox_attested': False,

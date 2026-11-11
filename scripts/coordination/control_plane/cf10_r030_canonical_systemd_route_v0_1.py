@@ -9,6 +9,7 @@ BEFORE any production attempt can be consumed by the operator console.
 from __future__ import annotations
 import os
 import re
+import hashlib
 from pathlib import Path
 import stat
 import subprocess
@@ -64,6 +65,54 @@ def bind_contract(*, root:Path, runtime_root:Path, task_prompt_id:str,
     plan=binding.bind_plan(spec)
     binding.validate_plan(plan,spec)
     return spec,plan
+
+def review_guarded_ipc_handoff(*,spec:binding.BoundedInput,plan:dict,
+                               invocation:dict,candidate:dict)->dict:
+    """Canonical R030 source-only preclaim seam for a *future* IPC mode.
+
+    Shares the existing canonical R013 plan and R134 R115/R127 crosswalk;
+    cannot open root broker, call owner/PAM, consume a claim, or start systemd.
+    Production run_once() remains the sole launch route and remains gated.
+    """
+    if backend.LIVE_CUTOVER_ENABLED is not False:
+        deny('IPC_REVIEW_LIVE_SWITCH_UNEXPECTED')
+    if type(spec) is not binding.BoundedInput or type(plan) is not dict:
+        deny('IPC_REVIEW_INPUTS')
+    try:
+        binding.validate_plan(plan,spec)
+    except (binding.BoundaryBlocked,TypeError,ValueError,KeyError):
+        deny('IPC_REVIEW_R013_PLAN')
+    if (type(invocation) is not dict or type(candidate) is not dict or
+        invocation.get('attempt_id') != spec.attempt_id or
+        invocation.get('task_id') != spec.task_prompt_id or
+        invocation.get('workspace_repo') != spec.workspace or
+        invocation.get('argv') != list(spec.argv) or
+        candidate.get('source_head') != spec.source_head or
+        candidate.get('attempt_id') != spec.attempt_id or
+        plan['identity']['argv_sha256'] != hashlib.sha256('\0'.join(spec.argv).encode()).hexdigest()):
+        deny('IPC_REVIEW_FROZEN_ATTEMPT_DRIFT')
+    from scripts.coordination.control_plane.worker_runtime import (
+        cf10_r134_ipc_preclaim_crosswalk_v0_1 as crosswalk,
+    )
+    try:
+        checked=crosswalk.verify_source_only(invocation=invocation,candidate=candidate)
+    except (crosswalk.IPCPreclaimHold,ValueError,TypeError,KeyError):
+        deny('IPC_REVIEW_R134_CROSSWALK')
+    if checked['candidate_sha256'] != candidate['candidate_sha256']:
+        deny('IPC_REVIEW_CANDIDATE_DIGEST')
+    return {
+        'schema_version':'cf10_r030_guarded_ipc_handoff_review_v0_1',
+        'state':'CANONICAL_R030_IPC_REVIEW_ONLY_BEFORE_CLAIM',
+        'attempt_id':spec.attempt_id,'source_head':spec.source_head,
+        'unit':plan['identity']['unit'],
+        'canonical_argv_sha256':plan['identity']['argv_sha256'],
+        'candidate_sha256':checked['candidate_sha256'],
+        'crosswalk_report_sha256':checked['report_sha256'],
+        'model_tools':['ForPrintValidation-run_repo_head'],
+        'live_worker_authorized':False, 'claim_consumed':False,
+        'worker_started':False, 'terminal_ledger_written':False,
+        'g1_g5_closed':False,'automatic_retry':False,
+    }
 
 def _trusted_runner(argv:list[str]):
     if (not isinstance(argv,list) or len(argv)<3 or

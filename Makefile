@@ -4819,3 +4819,12 @@ cf10-r145-release-preforward-tests:
 cf10-r145-release-preforward-source-check:
 	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r145_canonical_root_release_readback_v0_1 --mode source-check
 	PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_r140_root_ipc_broker_adapter_v0_1 --mode source-check
+
+# CF10 Batch D — source-only canonical R115→R134→R030 IPC preclaim crosswalk.
+# No Worker, claim, systemd, production admission, or runtime state.
+.PHONY: cf10-batch-d-ipc-preclaim-review
+cf10-batch-d-ipc-preclaim-review:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_batch_d_canonical_ipc_preclaim_bridge_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r134_ipc_preclaim_crosswalk_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r129_canonical_lifecycle_convergence_v0_1.py
