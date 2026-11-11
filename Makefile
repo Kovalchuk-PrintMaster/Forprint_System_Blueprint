@@ -4861,3 +4861,10 @@ cf10-batch-h-loopback-tls-source-check:
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
 		tests/coordination/control_plane/worker_runtime/test_cf10_batch_h_loopback_tls_transport_contract_v0_1.py \
 		tests/coordination/control_plane/worker_runtime/test_cf10_batch_g_inference_bridge_contract_v0_1.py
+
+# CF10 Large Batch I: pinned real Copilot executable offline sandbox compatibility.
+# No provider auth, live task, claim, network or ledger changes.
+.PHONY: cf10-batch-i-offline-copilot-source-check
+cf10-batch-i-offline-copilot-source-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_batch_i_offline_copilot_compatibility_v0_1 --mode source-check
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_batch_i_offline_copilot_compatibility_v0_1.py
