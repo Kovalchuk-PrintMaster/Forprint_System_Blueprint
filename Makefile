@@ -4844,3 +4844,10 @@ cf10-batch-e-runtime-cutover-check:
 cf10-batch-f-sandbox-source-check:
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_batch_f_disposable_sandbox_contract_v0_1 --mode source-check
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_batch_f_disposable_sandbox_contract_v0_1.py
+
+# CF10 Large Batch G: bounded disposable AF_UNIX fixture request/response.
+# Source-level checks only; actual one-shot lab is run only by guarded installer.
+.PHONY: cf10-batch-g-inference-bridge-source-check
+cf10-batch-g-inference-bridge-source-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_batch_g_inference_bridge_contract_v0_1 --mode source-check
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_batch_g_inference_bridge_contract_v0_1.py
