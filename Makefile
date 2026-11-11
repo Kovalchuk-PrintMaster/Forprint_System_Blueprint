@@ -4892,3 +4892,9 @@ cf10-batch-l-retained-kernel-terminal-source-check:
 cf10-root-egress-contract-check:
 	@PYTHONDONTWRITEBYTECODE=1 python3 -B -m unittest discover -s tests/coordination/control_plane/worker_runtime -p 'test_cf10_root_egress_attachment_contract_v0_1.py'
 	@PYTHONDONTWRITEBYTECODE=1 python3 -B scripts/coordination/control_plane/worker_runtime/cf10_root_egress_attachment_contract_v0_1.py --mode source-check
+
+# CF10 BATCH U INFERENCE CUTOVER READINESS CONTRACT v0.1
+.PHONY: cf10-inference-cutover-readiness-check
+cf10-inference-cutover-readiness-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_inference_cutover_readiness_v0_1.py
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B scripts/coordination/control_plane/worker_runtime/cf10_inference_cutover_readiness_v0_1.py --mode source-check
