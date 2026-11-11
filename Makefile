@@ -4886,3 +4886,9 @@ cf10-batch-k-dispatcher-runtime-rehearsal-check:
 cf10-batch-l-retained-kernel-terminal-source-check:
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_batch_l_retained_kernel_terminal_contract_v0_1 --mode source-check
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_batch_l_retained_kernel_terminal_contract_v0_1.py
+
+# CF10 BATCH O SOURCE-ONLY EGRESS ATTACHMENT CONTRACT v0.1
+.PHONY: cf10-root-egress-contract-check
+cf10-root-egress-contract-check:
+	@PYTHONDONTWRITEBYTECODE=1 python3 -B -m unittest discover -s tests/coordination/control_plane/worker_runtime -p 'test_cf10_root_egress_attachment_contract_v0_1.py'
+	@PYTHONDONTWRITEBYTECODE=1 python3 -B scripts/coordination/control_plane/worker_runtime/cf10_root_egress_attachment_contract_v0_1.py --mode source-check
