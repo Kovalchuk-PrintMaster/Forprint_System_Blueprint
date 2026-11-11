@@ -4868,3 +4868,9 @@ cf10-batch-h-loopback-tls-source-check:
 cf10-batch-i-offline-copilot-source-check:
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_batch_i_offline_copilot_compatibility_v0_1 --mode source-check
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_batch_i_offline_copilot_compatibility_v0_1.py
+
+# CF10 Large Batch J: composed real Copilot offline --version and synthetic HTTPS in same disposable unit.
+.PHONY: cf10-batch-j-composed-copilot-proxy-source-check
+cf10-batch-j-composed-copilot-proxy-source-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_batch_j_composed_copilot_proxy_contract_v0_1 --mode source-check
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_batch_j_composed_copilot_proxy_contract_v0_1.py
