@@ -4905,3 +4905,9 @@ cf10-bounded-egress-terminal-check:
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_inference_egress_session_v0_1.py tests/coordination/control_plane/worker_runtime/test_cf10_terminal_proof_fence_v0_1.py
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_inference_egress_session_v0_1 --mode source-check
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_terminal_proof_fence_v0_1 --mode source-check
+
+# CF10 BATCH X BOUND CONNECT TO ROOT TLS FIXTURE v0.1
+.PHONY: cf10-bound-tls-join-check
+cf10-bound-tls-join-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_egress_transport_join_v0_1.py
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_egress_transport_join_v0_1 --mode source-check
