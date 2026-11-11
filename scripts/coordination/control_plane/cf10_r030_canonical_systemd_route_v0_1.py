@@ -100,7 +100,7 @@ def review_guarded_ipc_handoff(*,spec:binding.BoundedInput,plan:dict,
         deny('IPC_REVIEW_R134_CROSSWALK')
     if checked['candidate_sha256'] != candidate['candidate_sha256']:
         deny('IPC_REVIEW_CANDIDATE_DIGEST')
-    return {
+    report = {
         'schema_version':'cf10_r030_guarded_ipc_handoff_review_v0_1',
         'state':'CANONICAL_R030_IPC_REVIEW_ONLY_BEFORE_CLAIM',
         'attempt_id':spec.attempt_id,'source_head':spec.source_head,
@@ -113,6 +113,20 @@ def review_guarded_ipc_handoff(*,spec:binding.BoundedInput,plan:dict,
         'worker_started':False, 'terminal_ledger_written':False,
         'g1_g5_closed':False,'automatic_retry':False,
     }
+    # Batch E: source-bound whole-process isolation review in the EXISTING
+    # R030 preclaim seam. Do not add a second launcher, claim or broker.
+    from scripts.coordination.control_plane.worker_runtime import (
+        cf10_batch_e_runtime_cutover_contract_v0_1 as runtime_cutover,
+    )
+    try:
+        isolation = runtime_cutover.review(spec=spec,plan=plan,
+            invocation=invocation,candidate=candidate,preclaim=report)
+    except runtime_cutover.RuntimeCutoverHold:
+        deny('IPC_RUNTIME_CUTOVER_HOLD')
+    report['runtime_cutover_report_sha256']=isolation['report_sha256']
+    report['runtime_cutover_state']=isolation['status']
+    report['whole_process_isolation_gates_open']=isolation['open_gates']
+    return report
 
 def _trusted_runner(argv:list[str]):
     if (not isinstance(argv,list) or len(argv)<3 or

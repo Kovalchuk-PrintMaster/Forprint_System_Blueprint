@@ -4828,3 +4828,13 @@ cf10-batch-d-ipc-preclaim-review:
 		tests/coordination/control_plane/worker_runtime/test_cf10_batch_d_canonical_ipc_preclaim_bridge_v0_1.py \
 		tests/coordination/control_plane/worker_runtime/test_cf10_r134_ipc_preclaim_crosswalk_v0_1.py \
 		tests/coordination/control_plane/worker_runtime/test_cf10_r129_canonical_lifecycle_convergence_v0_1.py
+
+# CF10 Large Batch E — whole-process runtime cutover join with canonical R030
+# preclaim. Source-only / no production admission, Copilot, systemd or claim.
+.PHONY: cf10-batch-e-runtime-cutover-check
+cf10-batch-e-runtime-cutover-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider \
+		tests/coordination/control_plane/worker_runtime/test_cf10_batch_e_runtime_cutover_contract_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_batch_d_canonical_ipc_preclaim_bridge_v0_1.py \
+		tests/coordination/control_plane/worker_runtime/test_cf10_r134_ipc_preclaim_crosswalk_v0_1.py
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_batch_e_runtime_cutover_contract_v0_1 --mode source-check
