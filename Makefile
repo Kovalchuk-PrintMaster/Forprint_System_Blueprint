@@ -4997,3 +4997,12 @@ cf10-pinned-copilot-isolated-home-check:
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_ah_pinned_copilot_offline_v0_1 --mode source-check
 cf10-pinned-copilot-isolated-home-run-once:
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_ah_pinned_copilot_offline_v0_1 --mode run-once
+
+# CF10 Batch AI: root-only pre-admission, NON-authorizing survey
+.PHONY: cf10-first-inference-pre-admission-check cf10-first-inference-root-readiness-survey-once
+cf10-first-inference-pre-admission-check:
+	@.venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_ai_pre_admission_v0_1.py
+	@.venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_ai_root_copilot_survey_v0_1 --mode source-check
+
+cf10-first-inference-root-readiness-survey-once:
+	@.venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_ai_root_copilot_survey_v0_1 --mode root-survey
