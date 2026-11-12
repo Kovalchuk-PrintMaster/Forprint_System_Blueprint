@@ -49,9 +49,15 @@ def send(sock:socket.socket,record:dict)->None:
     sock.sendall(encode(record))
 
 
-def sanitized_env()->dict[str,str]:
-    return {'PATH':'/usr/bin:/bin','HOME':'/nonexistent','LANG':'C','LC_ALL':'C',
-            'PYTHONDONTWRITEBYTECODE':'1','GIT_TERMINAL_PROMPT':'0'}
+def sanitized_env(*,unit:str|None=None)->dict[str,str]:
+    env={'PATH':'/usr/bin:/bin','HOME':'/nonexistent','LANG':'C','LC_ALL':'C',
+         'PYTHONDONTWRITEBYTECODE':'1','GIT_TERMINAL_PROMPT':'0'}
+    if unit is not None:
+        if type(unit) is not str or UNIT.fullmatch(unit) is None:
+            raise ValueError('disposable unit scope')
+        # Metadata only. The root-side controller creates and pins this path.
+        env['CF10_DISPOSABLE_HOME']='/run/'+unit.removesuffix('.service')+'/offline-home'
+    return env
 
 
 def validate_args(argv:list[str])->tuple[str,str,str,str,str,str]:
@@ -77,7 +83,7 @@ def run(argv:list[str])->int:
                 return 77
             cmd=['/usr/bin/python3','-I','-B',childfile,unit,worker_path,nonce,task]
             with subprocess.Popen(cmd,stdin=subprocess.DEVNULL,stdout=subprocess.DEVNULL,
-                   stderr=subprocess.DEVNULL,env=sanitized_env(),cwd='/',close_fds=True) as proc:
+                   stderr=subprocess.DEVNULL,env=sanitized_env(unit=unit),cwd='/',close_fds=True) as proc:
                 send(sock,{'schema':SCHEMA,'event':'WORKER_SPAWNED','unit':unit,'pid':proc.pid})
                 if recv(sock)!={'schema':SCHEMA,'event':'FINALIZE_AFTER_PINNED_ZERO',
                                  'unit':unit,'pid':proc.pid}:

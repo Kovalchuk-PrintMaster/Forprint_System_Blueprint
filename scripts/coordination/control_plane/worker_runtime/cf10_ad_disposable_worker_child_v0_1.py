@@ -61,6 +61,27 @@ class OfflineProbeFailure(ValueError):
            'stderr_sha256':hashlib.sha256(b2[:4096]).hexdigest()}
         super().__init__(code)
 
+def scoped_offline_home()->str|None:
+    """Only one disposable /run path, never the runner's actual home."""
+    raw=os.environ.get('CF10_DISPOSABLE_HOME')
+    if raw is None:
+        return None  # backwards-compatible isolated unit tests only
+    if type(raw) is not str or re.fullmatch(
+        r'/run/forprint-cf10-batchad-[a-f0-9]{16}/offline-home',raw) is None:
+        raise OfflineProbeFailure('PROBE_INTERNAL')
+    try:
+        st=os.lstat(raw)
+        parent=os.lstat(os.path.dirname(raw))
+    except OSError as exc:
+        raise OfflineProbeFailure('EXEC_OSERROR',os_errno=exc.errno) from None
+    import stat
+    if (not stat.S_ISDIR(st.st_mode) or st.st_uid!=996 or st.st_gid!=992 or
+            stat.S_IMODE(st.st_mode)!=0o700 or
+            not stat.S_ISDIR(parent.st_mode) or parent.st_uid!=0 or parent.st_gid!=992 or
+            stat.S_IMODE(parent.st_mode)!=0o750):
+        raise OfflineProbeFailure('PROBE_INTERNAL')
+    return raw
+
 def offline_version_probe(*, runner=subprocess.run):
     """Non-authorizing offline executable smoke in worker cgroup.
 
@@ -68,8 +89,17 @@ def offline_version_probe(*, runner=subprocess.run):
     even narrower env to the real CLI. This is NOT a provider authentication
     or inference check and deliberately cannot take arbitrary arguments.
     """
-    env={'PATH':'/usr/bin:/bin','HOME':'/nonexistent','XDG_CONFIG_HOME':'/nonexistent',
-         'LANG':'C','LC_ALL':'C','GIT_TERMINAL_PROMPT':'0','NO_COLOR':'1'}
+    home=scoped_offline_home()
+    env={'PATH':'/usr/bin:/bin','HOME':home or '/nonexistent',
+         'XDG_CONFIG_HOME':home+'/.config' if home else '/nonexistent',
+         'LANG':'C','LC_ALL':'C','GIT_TERMINAL_PROMPT':'0','NO_COLOR':'1',
+         'DO_NOT_TRACK':'1'}
+    if home:
+        env['COPILOT_HOME']=home+'/.copilot'
+        env['XDG_CACHE_HOME']=home+'/.cache'
+        env['COPILOT_CACHE_HOME']=home+'/.cache/copilot'
+        env['XDG_DATA_HOME']=home+'/.local/share'
+
     if any(k in env for k in ('COPILOT_GITHUB_TOKEN','GH_TOKEN','GITHUB_TOKEN',
                               'OPENAI_API_KEY','ANTHROPIC_API_KEY',
                               'COPILOT_PROVIDER_API_KEY')):

@@ -195,6 +195,26 @@ def disposable_nonce_for_run(value:str|None)->tuple[str,bool]:
         deny('DISPOSABLE_NONCE_FORMAT')
     return value,True
 
+def provision_offline_home(path:Path)->Path:
+    """Root-owned /run unit namespace; runner owns exactly its isolated HOME."""
+    import stat
+    if (path.parent!=RUN_ROOT or not re.fullmatch(
+            r'forprint-cf10-batchad-[a-f0-9]{16}',path.name) or
+            path.is_symlink() or not path.is_dir()):deny('HOME_PARENT_SCOPE')
+    pst=path.lstat()
+    if (pst.st_uid!=0 or pst.st_gid!=992 or stat.S_IMODE(pst.st_mode)!=0o750):
+        deny('HOME_PARENT_PERMISSIONS')
+    home=path/'offline-home'
+    if home.exists() or home.is_symlink():deny('HOME_ALREADY_EXISTS')
+    home.mkdir(mode=0o700)
+    os.chown(home,996,992)
+    os.chmod(home,0o700)
+    hst=home.lstat()
+    if (home.is_symlink() or hst.st_uid!=996 or hst.st_gid!=992 or
+            stat.S_IMODE(hst.st_mode)!=0o700 or not stat.S_ISDIR(hst.st_mode)):
+        deny('HOME_INODE_MISMATCH')
+    return home
+
 def run_once(*, disposable_nonce:str|None=None, offline_copilot_probe:bool=False)->dict:
     if type(offline_copilot_probe) is not bool:deny('OFFLINE_MODE_TYPE')
     if os.geteuid()!=0:deny('ROOT_REQUIRED')
@@ -225,6 +245,7 @@ def run_once(*, disposable_nonce:str|None=None, offline_copilot_probe:bool=False
         'authority':{'production_worker':False,'provider_auth_used':False,
           'external_egress':False,'canonical_claim_consumed':False,'automatic_retry':False}}
     try:
+        offline_home=provision_offline_home(path) if offline_copilot_probe else None
         props=['User=forprint-runner','Group=forprint-runner','Type=exec',
            'ExitType=cgroup','RemainAfterExit=yes','Restart=no','Delegate=yes',
            'RuntimeMaxSec=110s','PrivateNetwork=yes','IPAddressDeny=any',
@@ -234,6 +255,11 @@ def run_once(*, disposable_nonce:str|None=None, offline_copilot_probe:bool=False
            'CapabilityBoundingSet=','AmbientCapabilities=','KillMode=control-group',
            'StandardOutput=null','StandardError=null','WorkingDirectory=/',
            'InaccessiblePaths=/var/lib/forprint-runner']
+        if offline_home is not None:
+            # ProtectSystem=strict remains enabled: only this temp home writable.
+            props.append('ReadWritePaths='+str(offline_home))
+            # Keep any incidental CLI temporary files off the host /tmp.
+            props.append('PrivateTmp=yes')
         args=['/usr/bin/systemd-run','--no-block','--quiet','--remain-after-exit',
               '--unit='+unit,*['--property='+v for v in props],
               '/usr/bin/python3','-I','-B',str(path/'anchor.py'),unit,
@@ -376,9 +402,19 @@ def cleanup_run(path:Path):
          path.is_symlink() or not path.is_dir() or path.lstat().st_uid!=0):deny('CLEANUP_SCOPE')
     expected={'anchor.py','child.py','anchor.sock','control.sock'}
     found={p.name for p in path.iterdir()}
-    if found!=expected:deny('CLEANUP_FILES')
+    if found not in (expected,expected|{'offline-home'}):deny('CLEANUP_FILES')
+    # Cleanup only after the exact systemd unit is observed stopped/reaped.
+    if 'offline-home' in found:
+        home=path/'offline-home'
+        import stat
+        st=home.lstat()
+        if (home.is_symlink() or not stat.S_ISDIR(st.st_mode) or
+                st.st_uid!=996 or st.st_gid!=992 or
+                stat.S_IMODE(st.st_mode)!=0o700):deny('CLEANUP_HOME_INODE')
+        if not shutil.rmtree.avoids_symlink_attacks:deny('CLEANUP_NO_FD_SAFE_RMTREE')
+        shutil.rmtree(home)
     for p in path.iterdir():
-        if p.is_dir() or p.is_symlink():deny('CLEANUP_NODE')
+        if p.is_dir() or p.is_symlink() or p.name not in expected:deny('CLEANUP_NODE')
         p.unlink()
     path.rmdir()
 

@@ -4989,3 +4989,11 @@ cf10-pinned-copilot-offline-diagnostics-check:
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_ah_pinned_copilot_offline_v0_1 --mode source-check
 cf10-pinned-copilot-offline-diagnostics-run-once:
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_ah_pinned_copilot_offline_v0_1 --mode run-once
+
+# CF10 Batch AH r006: PINNED COPILOT --VERSION WITH ISOLATED /run HOME (DISPOSABLE)
+.PHONY: cf10-pinned-copilot-isolated-home-check cf10-pinned-copilot-isolated-home-run-once
+cf10-pinned-copilot-isolated-home-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_ah_r006_isolated_offline_home_v0_1.py tests/coordination/control_plane/worker_runtime/test_cf10_ah_r005_offline_diagnostics_v0_1.py tests/coordination/control_plane/worker_runtime/test_cf10_ah_pinned_copilot_offline_v0_1.py
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_ah_pinned_copilot_offline_v0_1 --mode source-check
+cf10-pinned-copilot-isolated-home-run-once:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_ah_pinned_copilot_offline_v0_1 --mode run-once
