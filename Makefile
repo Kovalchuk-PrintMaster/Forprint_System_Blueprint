@@ -4931,3 +4931,15 @@ cf10-first-worker-security-inventory-check:
 cf10-first-worker-crossplane-gate-check:
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_ab_kernel_anchor_v0_1.py tests/coordination/control_plane/worker_runtime/test_cf10_ab_crossplane_gate_v0_1.py
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_first_worker_crossplane_gate_v0_1 --mode source-check
+
+# CF10 AD: FIRST PHYSICAL DISPOSABLE WORKER RESULT + KERNEL TERMINAL
+# WARNING: not a production Worker dispatch; G1-G5 remain open.
+.PHONY: cf10-first-disposable-physical-worker-check cf10-first-disposable-physical-worker-run-once
+cf10-first-disposable-physical-worker-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_ad_disposable_worker_rehearsal_v0_1.py
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_ad_disposable_worker_rehearsal_v0_1 --mode source-check
+
+# Only run from the guarded, one-shot Batch AD root controller after preflight.
+# Creates one disposable non-production unit; no Worker claim or provider token.
+cf10-first-disposable-physical-worker-run-once:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_ad_disposable_worker_rehearsal_v0_1 --mode run-once
