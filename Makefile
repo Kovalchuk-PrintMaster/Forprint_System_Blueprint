@@ -4953,3 +4953,13 @@ cf10-disposable-delegated-worker-check:
 # Only from guarded one-shot AE controller after source checkpoint; no claims/tokens.
 cf10-disposable-delegated-worker-run-once:
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_ae_delegated_kernel_rehearsal_v0_1 --mode run-once
+
+# CF10 BATCH AF: CANONICAL DISPATCHER API DRY DECISION TO PHYSICAL DISPOSABLE WORKER (NON-AUTHORIZING)
+.PHONY: cf10-disposable-dispatcher-physical-join-check
+cf10-disposable-dispatcher-physical-join-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_af_dispatcher_physical_join_v0_1.py
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_af_dispatcher_physical_join_v0_1 --mode source-check
+
+.PHONY: cf10-disposable-dispatcher-physical-join-run-once
+cf10-disposable-dispatcher-physical-join-run-once:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_af_dispatcher_physical_join_v0_1 --mode run-once
