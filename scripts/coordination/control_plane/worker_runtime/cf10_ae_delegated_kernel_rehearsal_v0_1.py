@@ -187,11 +187,20 @@ def _read_delegate(rows:dict,unit:str,anchor_pid:int)->dict:
 def _canonical():
     return ad.inspect_canonical()
 
-def run_once()->dict:
+def disposable_nonce_for_run(value:str|None)->tuple[str,bool]:
+    """Non-authorizing lab injection; never accepted as owner release/claim."""
+    if value is None:
+        return secrets.token_hex(32),False
+    if type(value) is not str or re.fullmatch(r'[0-9a-f]{64}',value) is None:
+        deny('DISPOSABLE_NONCE_FORMAT')
+    return value,True
+
+def run_once(*, disposable_nonce:str|None=None)->dict:
     if os.geteuid()!=0:deny('ROOT_REQUIRED')
+    # Validate the lab binding BEFORE creating a systemd unit or /run files.
+    nonce,external_nonce=disposable_nonce_for_run(disposable_nonce)
     task=_canonical()
     unit='forprint-cf10-batchad-'+secrets.token_hex(8)+'.service'
-    nonce=secrets.token_hex(32)
     path=RUN_ROOT/unit.removesuffix('.service')
     ad.runtime_dir(path)
     # The service only executes durable Git-tracked AE source copied to /run.
@@ -203,6 +212,8 @@ def run_once()->dict:
     worker_listener=_socket(path/'control.sock')
     fd=None;leaffd=None;groupfd=None;leaf_made=False;unit_started=False
     report={'schema':SCHEMA,'status':'HOLD_UNSTARTED','unit':unit,'canonical_binding':task,
+        'nonce_binding':{'disposable_external_nonce_used':external_nonce,
+             'nonce_sha256':hashlib.sha256(nonce.encode('ascii')).hexdigest()},
         'stage':'PREPARED','gates_open':list(GATES),
         'authority':{'production_worker':False,'provider_auth_used':False,
           'external_egress':False,'canonical_claim_consumed':False,'automatic_retry':False}}

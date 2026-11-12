@@ -4963,3 +4963,13 @@ cf10-disposable-dispatcher-physical-join-check:
 .PHONY: cf10-disposable-dispatcher-physical-join-run-once
 cf10-disposable-dispatcher-physical-join-run-once:
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_af_dispatcher_physical_join_v0_1 --mode run-once
+
+# CF10 BATCH AG: CANONICAL DISPATCHER DECISION NONCE -> PHYSICAL AE WORKER (LAB ONLY)
+.PHONY: cf10-disposable-bound-dispatcher-worker-check
+cf10-disposable-bound-dispatcher-worker-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_ag_bound_dispatcher_worker_v0_1.py tests/coordination/control_plane/worker_runtime/test_cf10_ae_delegated_kernel_rehearsal_v0_1.py
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_ag_bound_dispatcher_worker_v0_1 --mode source-check
+
+.PHONY: cf10-disposable-bound-dispatcher-worker-run-once
+cf10-disposable-bound-dispatcher-worker-run-once:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_ag_bound_dispatcher_worker_v0_1 --mode run-once
