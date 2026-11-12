@@ -10,6 +10,7 @@ import os
 import re
 import socket
 import sys
+import subprocess
 
 VERSION='cf10_ad_disposable_worker_child_v0_1'
 UNIT=re.compile(r'forprint-cf10-batchad-[a-f0-9]{16}\.service\Z')
@@ -41,6 +42,36 @@ def unique(pairs):
         result[k]=v
     return result
 
+def offline_version_probe(*, runner=subprocess.run):
+    """Non-authorizing offline executable smoke in worker cgroup.
+
+    The child inherits a scrubbed environment from AE's anchor, but passes an
+    even narrower env to the real CLI. This is NOT a provider authentication
+    or inference check and deliberately cannot take arbitrary arguments.
+    """
+    env={'PATH':'/usr/bin:/bin','HOME':'/nonexistent','XDG_CONFIG_HOME':'/nonexistent',
+         'LANG':'C','LC_ALL':'C','GIT_TERMINAL_PROMPT':'0','NO_COLOR':'1'}
+    if any(k in env for k in ('COPILOT_GITHUB_TOKEN','GH_TOKEN','GITHUB_TOKEN',
+                              'OPENAI_API_KEY','ANTHROPIC_API_KEY',
+                              'COPILOT_PROVIDER_API_KEY')):
+        raise ValueError('secret env')
+    cmd=['/usr/local/bin/forprint-copilot-1.0.107','--version']
+    cp=runner(cmd,stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,
+              stderr=subprocess.PIPE,cwd='/',env=env,timeout=18,check=False)
+    if (type(cp.returncode) is not int or cp.returncode!=0 or
+            type(cp.stdout) is not bytes or type(cp.stderr) is not bytes or
+            len(cp.stdout)>4096 or len(cp.stderr)>4096 or b'\x00' in cp.stdout+cp.stderr):
+        raise ValueError('offline version command failed or oversized')
+    text=(cp.stdout+b'\n'+cp.stderr).decode('utf-8','strict')
+    if '1.0.107' not in text:
+        raise ValueError('pinned version not observed')
+    return {'exit_code':0,'stdout_sha256':hashlib.sha256(cp.stdout).hexdigest(),
+       'stderr_sha256':hashlib.sha256(cp.stderr).hexdigest(),
+       'stdout_bytes':len(cp.stdout),'stderr_bytes':len(cp.stderr),
+       'version_1_0_107_observed':True,'argv_mode':'PINNED_COPILOT_VERSION_ONLY',
+       'credentials_passed':False,'provider_inference':False}
+
+
 def worker_digest(task,nonce):
     return hashlib.sha256(('CF10_AD_SYNTHETIC_RESULT\0'+task+'\0'+nonce).encode('ascii')).hexdigest()
 
@@ -58,9 +89,22 @@ def main(argv):
             send(sock,{'schema':VERSION,'phase':'HELD','unit':unit,
                        'task_id':task,'nonce_sha256':hashlib.sha256(nonce.encode()).hexdigest()})
             frame=recv(sock)
-            if frame!={'schema':VERSION,'phase':'RELEASE_ONE_DISPOSABLE',
-                       'unit':unit,'nonce':nonce,'task_id':task}:
+            legacy={'schema':VERSION,'phase':'RELEASE_ONE_DISPOSABLE',
+                       'unit':unit,'nonce':nonce,'task_id':task}
+            offline={**legacy,'offline_copilot_version':True}
+            if frame!=legacy and frame!=offline:
                 return 74
+            if frame==offline:
+                try:probe=offline_version_probe()
+                except (OSError,ValueError,UnicodeError,TypeError,subprocess.TimeoutExpired):
+                    return 77
+                send(sock,{'schema':VERSION,'phase':'COPILOT_OFFLINE_VERSION_PROOF',
+                    'unit':unit,'nonce_sha256':hashlib.sha256(nonce.encode()).hexdigest(),
+                    **probe})
+                ack=recv(sock)
+                if ack!={'schema':VERSION,'phase':'OFFLINE_PROOF_ACCEPTED',
+                          'unit':unit,'nonce_sha256':hashlib.sha256(nonce.encode()).hexdigest()}:
+                    return 78
             send(sock,{'schema':VERSION,'phase':'RESULT','unit':unit,'task_id':task,
                        'result_kind':'SYNTHETIC_READONLY_NON_AI',
                        'result_sha256':worker_digest(task,nonce)})

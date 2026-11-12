@@ -226,8 +226,9 @@ def _phase(label:str,action,**kwargs):
     except BaseException as exc:deny(label+'_'+type(exc).__name__)
 
 def run_with_apis(*,training,ae,root:Path,scratch:Path,attempt_id:str,
-                  source_fingerprint:str=FINGERPRINT)->dict:
+                  source_fingerprint:str=FINGERPRINT, offline_copilot_probe:bool=False)->dict:
     """Injected APIs facilitate offline tests, not a production entrypoint."""
+    if type(offline_copilot_probe) is not bool:deny('OFFLINE_PROBE_TYPE')
     if not ATTEMPT.fullmatch(attempt_id) or scratch.is_symlink() or not scratch.is_dir():deny('RUN_INPUT')
     ledger=scratch/'empty-ledger';ledger.mkdir(mode=0o700)
     workspace=scratch/'forprint_system_blueprint'/'worker-01'/attempt_id/'workspace'/'repo'
@@ -256,7 +257,8 @@ def run_with_apis(*,training,ae,root:Path,scratch:Path,attempt_id:str,
     # canonical TASK and launches exactly ONE separate disposable systemd unit.
     salt_hex=secrets.token_hex(32)
     nonce=disposable_nonce(preview['preview_identity_sha256'],salt_hex)
-    physical=_phase('PHYSICAL_AE',ae.run_once,disposable_nonce=nonce)
+    physical=_phase('PHYSICAL_AE',ae.run_once,disposable_nonce=nonce,
+                   **({'offline_copilot_probe':True} if offline_copilot_probe else {}))
     if physical.get('status')!='PASS_DISPOSABLE_DELEGATED_WORKER_IPC_KERNEL_TERMINAL':
         stage=physical.get('stage','UNKNOWN')
         if type(stage) is not str or not re.fullmatch(r'[A-Z0-9_]{1,80}',stage):stage='UNKNOWN'

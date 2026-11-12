@@ -4973,3 +4973,11 @@ cf10-disposable-bound-dispatcher-worker-check:
 .PHONY: cf10-disposable-bound-dispatcher-worker-run-once
 cf10-disposable-bound-dispatcher-worker-run-once:
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_ag_bound_dispatcher_worker_v0_1 --mode run-once
+
+# CF10 AH: PINNED REAL COPILOT VERSION INSIDE DISPOSABLE GOVERNED PHYSICAL WORKER
+.PHONY: cf10-pinned-copilot-offline-physical-check cf10-pinned-copilot-offline-physical-run-once
+cf10-pinned-copilot-offline-physical-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_ah_pinned_copilot_offline_v0_1.py
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_ah_pinned_copilot_offline_v0_1 --mode source-check
+cf10-pinned-copilot-offline-physical-run-once:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_ah_pinned_copilot_offline_v0_1 --mode run-once

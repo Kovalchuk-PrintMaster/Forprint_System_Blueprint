@@ -195,8 +195,15 @@ def disposable_nonce_for_run(value:str|None)->tuple[str,bool]:
         deny('DISPOSABLE_NONCE_FORMAT')
     return value,True
 
-def run_once(*, disposable_nonce:str|None=None)->dict:
+def run_once(*, disposable_nonce:str|None=None, offline_copilot_probe:bool=False)->dict:
+    if type(offline_copilot_probe) is not bool:deny('OFFLINE_MODE_TYPE')
     if os.geteuid()!=0:deny('ROOT_REQUIRED')
+    if offline_copilot_probe:
+        # Root pin is verified before any disposable process starts. The
+        # provider will execute only an offline version command without auth.
+        from scripts.coordination.control_plane.worker_runtime import (
+            cf10_r115_preclaim_executable_profile_v0_1 as r115)
+        r115.assert_pinned_binary()
     # Validate the lab binding BEFORE creating a systemd unit or /run files.
     nonce,external_nonce=disposable_nonce_for_run(disposable_nonce)
     task=_canonical()
@@ -271,8 +278,20 @@ def run_once(*, disposable_nonce:str|None=None)->dict:
                     fd,leaffd,groupfd=delegate_child(unit,worker_pid,anchor_pid)
                     leaf_made=True
                     report['stage']='DELEGATED_WORKER_CGROUP_POPULATED_1'
-                    ad.frame_out(wconn,{'schema':child.VERSION,'phase':'RELEASE_ONE_DISPOSABLE',
-                           'unit':unit,'nonce':nonce,'task_id':child.TASK})
+                    release={'schema':child.VERSION,'phase':'RELEASE_ONE_DISPOSABLE',
+                           'unit':unit,'nonce':nonce,'task_id':child.TASK}
+                    if offline_copilot_probe:
+                        release['offline_copilot_version']=True
+                    ad.frame_out(wconn,release)
+                    if offline_copilot_probe:
+                        from scripts.coordination.control_plane.worker_runtime import (
+                            cf10_ah_pinned_copilot_offline_v0_1 as offline)
+                        probe=ad.frame_in(wconn)
+                        report['copilot_offline']=offline.verify_probe(probe,unit=unit,nonce=nonce)
+                        report['stage']='PINNED_COPILOT_OFFLINE_VERSION_VERIFIED'
+                        ad.frame_out(wconn,{'schema':child.VERSION,
+                            'phase':'OFFLINE_PROOF_ACCEPTED','unit':unit,
+                            'nonce_sha256':hashlib.sha256(nonce.encode()).hexdigest()})
                     result_frame=ad.frame_in(wconn)
                     result_check=ad.check_phase(held_frame,result_frame,unit=unit,nonce=nonce)
                     report['result']=result_check;report['stage']='SYNTHETIC_RESULT_VERIFIED'
@@ -307,6 +326,8 @@ def run_once(*, disposable_nonce:str|None=None)->dict:
                 held=held_frame,result=result_frame,proof=proof,retained=retained,
                 stop=final,unit=unit,invocation_id=invocation_id,nonce=nonce)
         report['stage']='STOPPED_AND_TERMINAL_VERIFIED'
+        if offline_copilot_probe and report.get('copilot_offline',{}).get('offline_cli_verified') is not True:
+            deny('OFFLINE_PROOF_MISSING_AFTER_TERMINAL')
         report['status']='PASS_DISPOSABLE_DELEGATED_WORKER_IPC_KERNEL_TERMINAL'
         return report
     except BaseException as exc:
