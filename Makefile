@@ -4943,3 +4943,13 @@ cf10-first-disposable-physical-worker-check:
 # Creates one disposable non-production unit; no Worker claim or provider token.
 cf10-first-disposable-physical-worker-run-once:
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_ad_disposable_worker_rehearsal_v0_1 --mode run-once
+
+# CF10 AE: delegated anchored child-cgroup proof, disposable only, no live Worker
+.PHONY: cf10-disposable-delegated-worker-check cf10-disposable-delegated-worker-run-once
+cf10-disposable-delegated-worker-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_ae_delegated_kernel_rehearsal_v0_1.py
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_ae_delegated_kernel_rehearsal_v0_1 --mode source-check
+
+# Only from guarded one-shot AE controller after source checkpoint; no claims/tokens.
+cf10-disposable-delegated-worker-run-once:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_ae_delegated_kernel_rehearsal_v0_1 --mode run-once
