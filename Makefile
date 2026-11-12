@@ -4918,3 +4918,10 @@ cf10-first-worker-critical-path-check:
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_first_worker_critical_path_v0_1.py tests/coordination/control_plane/worker_runtime/test_cf10_first_worker_operator_doctor_v0_1.py
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_first_worker_critical_path_v0_1 --mode source-check
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_first_worker_operator_doctor_v0_1 --mode inspect
+
+# CF10 AA FIRST WORKER SECURITY HARDENING + TRACKED SOURCE AUDIT (NO LIVE AUTHORITY)
+.PHONY: cf10-first-worker-security-inventory-check
+cf10-first-worker-security-inventory-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_first_worker_secure_metadata_v0_1.py tests/coordination/control_plane/worker_runtime/test_cf10_repository_risk_inventory_v0_1.py tests/coordination/control_plane/worker_runtime/test_cf10_first_worker_operator_doctor_v0_1.py tests/coordination/control_plane/worker_runtime/test_cf10_first_worker_critical_path_v0_1.py
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_first_worker_secure_metadata_v0_1 --mode source-check
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_repository_risk_inventory_v0_1 --root . --brief

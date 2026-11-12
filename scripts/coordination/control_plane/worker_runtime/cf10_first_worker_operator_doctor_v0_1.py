@@ -14,6 +14,7 @@ from pathlib import Path
 import re
 import stat
 from scripts.coordination.control_plane.worker_runtime import cf10_first_worker_critical_path_v0_1 as critical
+from scripts.coordination.control_plane.worker_runtime import cf10_first_worker_secure_metadata_v0_1 as secure
 
 SCHEMA='cf10_first_worker_operator_doctor_v0_1'
 BINARY=Path('/usr/local/bin/forprint-copilot-1.0.107')
@@ -24,56 +25,25 @@ class DoctorHold(ValueError):pass
 
 def deny(reason):raise DoctorHold('CF10_Y_DOCTOR_HOLD_'+reason)
 
-def _digest_file(path:Path)->str:
-    h=hashlib.sha256()
-    with path.open('rb') as source:
-        for data in iter(lambda:source.read(1_048_576),b''):h.update(data)
-    return h.hexdigest()
-
 def inspect_binary(path:Path=BINARY)->dict:
-    """lstat/readback, root-owned pinned exact binary; never invoke it."""
-    path=Path(path)
-    if not path.is_absolute() or path.is_symlink():deny('BINARY_PATH')
-    try:st=path.lstat()
-    except OSError:deny('BINARY_MISSING')
-    if (not stat.S_ISREG(st.st_mode) or st.st_uid!=0 or
-        stat.S_IMODE(st.st_mode)!=0o755 or not 0<st.st_size<=MAX_SIZE):
-        deny('BINARY_OWNER_MODE_SIZE')
-    digest=_digest_file(path)
-    if digest!=critical.BIN_SHA:deny('BINARY_PIN_DRIFT')
-    after=path.lstat()
-    if (st.st_dev,st.st_ino,st.st_size,st.st_mtime_ns)!=(after.st_dev,after.st_ino,after.st_size,after.st_mtime_ns):
-        deny('BINARY_CHANGED_DURING_HASH')
-    return {'binary_sha256':digest,'pinned':True,'root_owned':True,'mode':'0755',
+    """Reuse canonical R115 pinned-FD executable attestation, no second verifier."""
+    from scripts.coordination.control_plane.worker_runtime import cf10_r115_preclaim_executable_profile_v0_1 as r115
+    if Path(path)!=BINARY or r115.COPILOT_PILOT_PATH!=BINARY or r115.COPILOT_PILOT_SHA256!=critical.BIN_SHA:
+        deny('BINARY_NONCANONICAL_PIN')
+    try:
+        r115.assert_pinned_binary()
+    except r115.R115PreclaimBlocked:
+        deny('BINARY_R115_PIN_HOLD')
+    return {'binary_sha256':critical.BIN_SHA,'pinned':True,'root_owned':True,'mode':'0755',
             'executable_invoked':False}
 
 def inspect_auth_handle(path:Path|None)->dict:
-    """Metadata-only check of an optional, *already provisioned* root-only file.
-
-    Strictly no reads. Never copies or logs path or content; not an auth proof.
-    """
-    if path is None:
-        return {'source':'UNCONFIGURED','root_owns_material':False,
-            'group_or_world_access':False,'material_read':False,
-            'passed_to_cli_env':False,'passed_to_child_tools':False,
-            'credential_exchange_attested':False}
-    path=Path(path)
-    if (not path.is_absolute() or len(str(path))>400 or
-        '/tmp/' in str(path) or str(path).startswith('/tmp') or
-        str(path).startswith(str(ROOT)) or '..' in path.parts):
-        deny('HANDLE_PATH_SCOPE')
-    try:st=path.lstat(); pst=path.parent.lstat()
-    except OSError:deny('HANDLE_MISSING')
-    if (not stat.S_ISREG(st.st_mode) or st.st_nlink!=1 or
-        st.st_uid!=0 or st.st_gid!=0 or stat.S_IMODE(st.st_mode)!=0o600 or
-        not 0<st.st_size<16384 or
-        not stat.S_ISDIR(pst.st_mode) or pst.st_uid!=0 or
-        (stat.S_IMODE(pst.st_mode)&0o077)!=0 or path.is_symlink()):
-        deny('HANDLE_PERMISSIONS')
-    return {'source':'ROOT_EXTERNAL_HANDLE_REVIEW_ONLY','root_owns_material':True,
-            'group_or_world_access':False,'material_read':False,
-            'passed_to_cli_env':False,'passed_to_child_tools':False,
-            'credential_exchange_attested':False}
+    """Metadata-only nofollow ancestor walk, no file reads or authentication claim."""
+    try:
+        return secure.inspect_credential_metadata(Path(path) if path is not None else None,
+                    project_root=ROOT)
+    except secure.MetadataHold:
+        deny('HANDLE_METADATA_UNVERIFIED')
 
 def report(*,source_head:str,binary:dict,auth:dict,token_environment_names:list[str]=None)->dict:
     if token_environment_names is None:token_environment_names=[]
@@ -109,7 +79,7 @@ def main(argv=None):
     args=parser.parse_args(argv)
     # Never print / parse credential contents. One optional already-provisioned path.
     # The harness must scrub token env names before calling this program.
-    present=sorted(n for n in critical.SECRET_KEYS if os.environ.get(n))
+    present=sorted(n for n in critical.SECRET_KEYS if n in os.environ)
     if present:
         print('CF10_Y_DOCTOR=HOLD_AUTH_ENV_PRESENT_VALUES_NOT_READ')
         return 3

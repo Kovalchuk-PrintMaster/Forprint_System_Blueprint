@@ -17,18 +17,18 @@ def test_forbidden_handle_paths(path):
     with pytest.raises(d.DoctorHold):d.inspect_auth_handle(Path(path))
 
 def _mock_handle(monkeypatch, mode=0o600):
-    import stat as statlib
-    from types import SimpleNamespace
+    # Preserve historic report-level tests; low-level nofollow behavior has
+    # separate real-directory tests in test_cf10_first_worker_secure_metadata.
     path=Path('/var/lib/forprint-credentials/y-test-token')
-    def fake_lstat(self):
-        if self==path:
-            return SimpleNamespace(st_mode=statlib.S_IFREG | mode,st_uid=0,st_gid=0,
-                                   st_nlink=1,st_size=50)
-        if self==path.parent:
-            return SimpleNamespace(st_mode=statlib.S_IFDIR | 0o700,st_uid=0)
-        raise FileNotFoundError()
-    monkeypatch.setattr(Path,'lstat',fake_lstat)
-    monkeypatch.setattr(Path,'is_symlink',lambda self:False)
+    def fake_secure(p, *, project_root):
+        assert p==path
+        if mode != 0o600:
+            raise d.secure.MetadataHold('CF10_AA_METADATA_HOLD_HANDLE_OWNER_MODE_TYPE_SIZE')
+        return {'source':'ROOT_EXTERNAL_HANDLE_REVIEW_ONLY','root_owns_material':True,
+                'group_or_world_access':False,'material_read':False,
+                'passed_to_cli_env':False,'passed_to_child_tools':False,
+                'credential_exchange_attested':False}
+    monkeypatch.setattr(d.secure, 'inspect_credential_metadata', fake_secure)
     return path
 
 def test_private_handle_metadata_only(monkeypatch):
