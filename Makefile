@@ -4925,3 +4925,9 @@ cf10-first-worker-security-inventory-check:
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_first_worker_secure_metadata_v0_1.py tests/coordination/control_plane/worker_runtime/test_cf10_repository_risk_inventory_v0_1.py tests/coordination/control_plane/worker_runtime/test_cf10_first_worker_operator_doctor_v0_1.py tests/coordination/control_plane/worker_runtime/test_cf10_first_worker_critical_path_v0_1.py
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_first_worker_secure_metadata_v0_1 --mode source-check
 	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_repository_risk_inventory_v0_1 --root . --brief
+
+# CF10 BATCH AB: CANONICAL CROSS-PLANE + KERNEL DIRECTORY FD ANCHOR (NON-AUTHORIZING)
+.PHONY: cf10-first-worker-crossplane-gate-check
+cf10-first-worker-crossplane-gate-check:
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m pytest -q -p no:cacheprovider tests/coordination/control_plane/worker_runtime/test_cf10_ab_kernel_anchor_v0_1.py tests/coordination/control_plane/worker_runtime/test_cf10_ab_crossplane_gate_v0_1.py
+	@PYTHONDONTWRITEBYTECODE=1 .venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_first_worker_crossplane_gate_v0_1 --mode source-check

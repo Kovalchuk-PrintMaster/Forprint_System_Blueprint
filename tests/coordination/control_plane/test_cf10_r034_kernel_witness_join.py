@@ -179,6 +179,9 @@ def test_terminal_observer_armed_before_ledger(monkeypatch):
     monkeypatch.setattr(route.witness,'arm',arm)
     monkeypatch.setattr(route.durable,'record_pre',lambda **kw:states.append('persist_pre'))
     monkeypatch.setattr(route.durable,'record_terminal',lambda **kw:states.append('persist_terminal'))
+    # R138 has become an explicit canonical readback gate after durable terminal.
+    # This isolated positive fixture must mock that boundary, not real receipts.
+    monkeypatch.setattr(route.handoff,'review_success',lambda **kw:states.append('r138_review'))
     monkeypatch.setattr(route,'_retire_after_durable_terminal',lambda unit:states.append('retire_after_durable'))
     def launch(**kw):
         kw['started_callback']({'unit':UNIT})
@@ -196,5 +199,49 @@ def test_terminal_observer_armed_before_ledger(monkeypatch):
                 'stderr_path':str(backend.RUNTIME/'forprint_system_blueprint/worker-01/cf10-r034-test-a034/logs/stderr.log'),
                 'timeout_seconds':15})
     route.run_once(**args)
-    assert states==['arm','persist_pre','ledger','release','persist_terminal','retire_after_durable']
+    assert states==['arm','persist_pre','ledger','release','persist_terminal','r138_review','retire_after_durable']
     assert p.closed
+
+
+def test_r138_review_failure_prevents_retirement(monkeypatch):
+    """After durable terminal, a failed R138 review must stop retirement."""
+    from scripts.coordination.control_plane import cf10_supervisor_binding_candidate_v0_1 as bound
+    calls=[]
+    class Probe:
+        closed=False
+        def close(self):
+            self.closed=True
+            calls.append('witness_closed')
+    pinned=Probe()
+    monkeypatch.setattr(route,'assert_cutover_ready',lambda:None)
+    monkeypatch.setattr(route.os,'geteuid',lambda:0)
+    monkeypatch.setattr(route.witness,'arm',lambda *_:pinned)
+    monkeypatch.setattr(route.durable,'record_pre',lambda **_:calls.append('pre'))
+    monkeypatch.setattr(route.durable,'record_terminal',lambda **_:calls.append('terminal'))
+    def refuse(**kw):
+        calls.append('r138_denied')
+        raise RuntimeError('R138_REVIEW_BLOCKED_FIXTURE')
+    monkeypatch.setattr(route.handoff,'review_success',refuse)
+    monkeypatch.setattr(route,'_retire_after_durable_terminal',
+                        lambda _: (_ for _ in ()).throw(AssertionError('RETIRED_BEFORE_REVIEW')))
+    def launch(**kw):
+        kw['started_callback']({'unit':UNIT})
+        calls.append('release')
+        return {'state':'SYSTEMD_RELEASED_OBSERVE_WORKER',
+                'unit':bound.unit_for('cf10-r034-test-a034','a'*40),
+                'process_started':True}
+    monkeypatch.setattr(backend,'launch_after_owner_claim',launch)
+    monkeypatch.setattr(route.terminal,'witnessed_terminal',
+                        lambda **_:dict(return_code=0,worker_result_accepted=False))
+    attempt='cf10-r034-test-a034'
+    root=backend.RUNTIME/'forprint_system_blueprint'/'worker-01'/attempt
+    args=dict(root=backend.BLUEPRINT,runtime_root=backend.RUNTIME,task_prompt_id='test-r034',
+              attempt_id=attempt,source_head='a'*40,baseline_sha256='b'*64,
+              handoff_sha256='c'*64,started_callback=lambda _:calls.append('ledger'),
+              launch_values={'argv':['/usr/bin/true'],'cwd':str(root/'workspace/repo'),
+                 'stdout_path':str(root/'logs/stdout.log'),
+                 'stderr_path':str(root/'logs/stderr.log'),'timeout_seconds':15})
+    with pytest.raises(RuntimeError, match='R138_REVIEW_BLOCKED_FIXTURE'):
+        route.run_once(**args)
+    assert calls==['pre','ledger','release','terminal','r138_denied','witness_closed']
+    assert pinned.closed is True
