@@ -62,6 +62,37 @@ def verify_probe(proof:Mapping,*,unit:str,nonce:str)->dict:
             'credentials_used':False,'external_egress':False,'gates_open':list(GATES)}
 
 
+def verify_failure(frame:Mapping,*,unit:str,nonce:str)->dict:
+    """Exact allowlisted offline failure; no CLI stdout/stderr or auth material."""
+    from scripts.coordination.control_plane.worker_runtime import (
+        cf10_ad_disposable_worker_child_v0_1 as child)
+    keys={'schema','phase','unit','nonce_sha256','failure_code','return_code','os_errno',
+          'stdout_bytes','stderr_bytes','stdout_sha256','stderr_sha256'}
+    if not isinstance(frame,Mapping) or set(frame)!=keys:deny('FAILURE_SCHEMA')
+    if (not isinstance(unit,str) or UNIT.fullmatch(unit) is None or
+        type(nonce) is not str or SHA64.fullmatch(nonce) is None or
+        frame['schema']!=PROBE or frame['phase']!='COPILOT_OFFLINE_VERSION_HOLD' or
+        frame['unit']!=unit or frame['nonce_sha256']!=hashlib.sha256(nonce.encode()).hexdigest()):
+        deny('FAILURE_BINDING')
+    if type(frame['failure_code']) is not str or frame['failure_code'] not in child.OfflineProbeFailure.CODES:
+        deny('FAILURE_CODE')
+    code=frame['return_code'];errno=frame['os_errno']
+    if code is not None and (type(code) is not int or not -255<=code<=255):deny('FAILURE_RETURN')
+    if errno is not None and (type(errno) is not int or not 1<=errno<=4095):deny('FAILURE_ERRNO')
+    for key in ('stdout_bytes','stderr_bytes'):
+        if type(frame[key]) is not int or not 0<=frame[key]<=65535:deny('FAILURE_BYTES')
+    for key in ('stdout_sha256','stderr_sha256'):
+        if type(frame[key]) is not str or SHA64.fullmatch(frame[key]) is None:deny('FAILURE_HASH')
+    # Null fields are allowed, but mode-specific data cannot impersonate success.
+    if frame['failure_code']=='NONZERO_EXIT' and (code is None or code==0):deny('FAILURE_EXIT_MISSING')
+    if frame['failure_code']=='EXEC_OSERROR' and errno is None:deny('FAILURE_ERRNO_MISSING')
+    return {'schema':SCHEMA,'offline_cli_verified':False,'failure_code':frame['failure_code'],
+      'return_code':code,'os_errno':errno,
+      'stdout_bytes':frame['stdout_bytes'],'stderr_bytes':frame['stderr_bytes'],
+      'stdout_sha256':frame['stdout_sha256'],'stderr_sha256':frame['stderr_sha256'],
+      'no_output_content_exposed':True,'credentials_used':False,'provider_inference':False,
+      'failure_is_not_terminal_success':True}
+
 def attest(*,preview:Mapping,physical:Mapping,joined:Mapping)->dict:
     if not isinstance(preview,Mapping) or not isinstance(physical,Mapping) or not isinstance(joined,Mapping):
         deny('JOIN_INPUT')
@@ -149,6 +180,9 @@ def run_once()->dict:
             physical_seen['stage']=row.get('stage')
             physical_seen['runtime_cleanup']=row.get('runtime_cleanup')
             physical_seen['error_kind']=row.get('error',{}).get('kind')
+            # AE reports only validated codes, numeric errno/exit status and hashes.
+            if isinstance(row.get('copilot_offline_diagnostic'),dict):
+                physical_seen['copilot_offline_diagnostic']=row['copilot_offline_diagnostic']
             return row
     try:
         attempt='cf10-u180j-a'+str(100000000+secrets.randbelow(900000000))

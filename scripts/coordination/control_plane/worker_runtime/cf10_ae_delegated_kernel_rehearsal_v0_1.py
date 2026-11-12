@@ -286,7 +286,15 @@ def run_once(*, disposable_nonce:str|None=None, offline_copilot_probe:bool=False
                     if offline_copilot_probe:
                         from scripts.coordination.control_plane.worker_runtime import (
                             cf10_ah_pinned_copilot_offline_v0_1 as offline)
-                        probe=ad.frame_in(wconn)
+                        try:probe=ad.frame_in(wconn)
+                        except ad.RehearsalHold:
+                            report['stage']='PINNED_COPILOT_OFFLINE_FRAME_UNAVAILABLE'
+                            raise
+                        if isinstance(probe,Mapping) and probe.get('phase')=='COPILOT_OFFLINE_VERSION_HOLD':
+                            report['copilot_offline_diagnostic']=offline.verify_failure(
+                                probe,unit=unit,nonce=nonce)
+                            report['stage']='PINNED_COPILOT_OFFLINE_CHILD_REPORTED_HOLD'
+                            deny('OFFLINE_VERSION_CHILD_REPORTED_HOLD')
                         report['copilot_offline']=offline.verify_probe(probe,unit=unit,nonce=nonce)
                         report['stage']='PINNED_COPILOT_OFFLINE_VERSION_VERIFIED'
                         ad.frame_out(wconn,{'schema':child.VERSION,
