@@ -1,0 +1,38 @@
+name: CF10 canonical E2E source regression
+
+on:
+  push:
+    branches:
+      - audit/blueprint-inventory-refresh-2026-07-29
+    paths:
+      - 'scripts/coordination/control_plane/**'
+      - 'tests/coordination/control_plane/worker_runtime/test_cf10_canonical_e2e_regression_v0_1.py'
+      - 'Makefile'
+      - '.github/workflows/cf10-canonical-e2e-source-regression.yml'
+  pull_request:
+    paths:
+      - 'scripts/coordination/control_plane/**'
+      - 'tests/coordination/control_plane/worker_runtime/test_cf10_canonical_e2e_regression_v0_1.py'
+      - 'Makefile'
+      - '.github/workflows/cf10-canonical-e2e-source-regression.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  source-regression:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - name: Checkout source (no credentials persisted)
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Source-only negative tests + sealed canonical E2E
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: make cf10-canonical-e2e-check

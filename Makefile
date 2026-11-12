@@ -5006,3 +5006,12 @@ cf10-first-inference-pre-admission-check:
 
 cf10-first-inference-root-readiness-survey-once:
 	@.venv_blueprint/bin/python -B -m scripts.coordination.control_plane.worker_runtime.cf10_ai_root_copilot_survey_v0_1 --mode root-survey
+
+# CF10_CANONICAL_E2E_REGRESSION_R001_START
+# One public Make target for all source-only tests; optional crossplane CLI
+# is read-only and independently callable (no new execution route).
+.PHONY: cf10-canonical-e2e-check
+cf10-canonical-e2e-check:
+	@PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests/coordination/control_plane/worker_runtime -p 'test_cf10_canonical_e2e_regression_v0_1.py' -v
+	@PYTHONDONTWRITEBYTECODE=1 python3 -m scripts.coordination.control_plane.worker_runtime.cf10_canonical_e2e_regression_v0_1 --root . --mode source-only
+# CF10_CANONICAL_E2E_REGRESSION_R001_END
